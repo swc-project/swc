@@ -34,11 +34,6 @@ define!({
         pub important: Option<Span>,
     }
 
-    pub struct SelectorList {
-        pub span: Span,
-        pub children: Vec<ComplexSelector>,
-    }
-
     pub struct StyleRule {
         pub span: Span,
         pub selectors: SelectorList,
@@ -177,38 +172,34 @@ define!({
         pub raw: JsWord,
     }
 
+    pub struct SelectorList {
+        pub span: Span,
+        pub children: Vec<ComplexSelector>,
+    }
+
     pub struct ComplexSelector {
         pub span: Span,
         pub children: Vec<ComplexSelectorChildren>,
     }
 
-    pub struct CompoundSelector {
-        pub span: Span,
-        pub nesting_selector: Option<NestingSelector>,
-        pub combinator: Option<SelectorCombinator>,
-        pub type_selector: Option<TypeSelector>,
-        pub subclass_selectors: Vec<SubclassSelector>,
-    }
-
-    pub struct TypeSelector {
     pub enum ComplexSelectorChildren {
         CompoundSelector(CompoundSelector),
         Combinator(Combinator),
     }
 
-     pub struct CompoundSelector {
+    pub struct CompoundSelector {
         pub span: Span,
-        pub has_nest_prefix: bool,
-        pub type_selector: Option<NamespacedName>,
+        pub nesting_selector: Option<NestingSelector>,
+        pub type_selector: Option<TypeSelector>,
         pub subclass_selectors: Vec<SubclassSelector>,
     }
 
     pub struct Combinator {
         pub span: Span,
-        pub value: CombinatorValue
+        pub value: CombinatorValue,
     }
 
-    pub struct NamespacedName {
+    pub struct TypeSelector {
         pub span: Span,
         pub prefix: Option<Text>,
         pub name: Text,

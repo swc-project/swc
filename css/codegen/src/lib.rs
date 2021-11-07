@@ -689,21 +689,29 @@ where
     }
 
     #[emitter]
-    fn emit_nesting_selector(&mut self, _: &NestingSelector) -> Result {
-        punct!(self, "&");
+    fn emit_complex_selector_children(&mut self, n: &ComplexSelectorChildren) -> Result {
+        match n {
+            ComplexSelectorChildren::CompoundSelector(n) => emit!(self, n),
+            ComplexSelectorChildren::Combinator(n) => emit!(self, n),
+        }
     }
 
     #[emitter]
     fn emit_compound_selector(&mut self, n: &CompoundSelector) -> Result {
         emit!(&mut *self.with_ctx(self.ctx), n.nesting_selector);
-
-        if let Some(combinator) = &n.combinator {
-            self.wr.write_punct(None, combinator.as_str())?;
-        }
-
         emit!(&mut *self.with_ctx(self.ctx), n.type_selector);
 
         self.emit_list(&n.subclass_selectors, ListFormat::NotDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_combinator(&mut self, n: &Combinator) -> Result {
+        self.wr.write_punct(None, n.value.as_str())?;
+    }
+
+    #[emitter]
+    fn emit_nesting_selector(&mut self, _: &NestingSelector) -> Result {
+        punct!(self, "&");
     }
 
     #[emitter]

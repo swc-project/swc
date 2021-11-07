@@ -30,10 +30,7 @@ pub struct CompoundSelector {
     pub span: Span,
     /// "&"
     pub nesting_selector: Option<NestingSelector>,
-    pub combinator: Option<SelectorCombinator>,
     pub type_selector: Option<TypeSelector>,
-    pub has_nest_prefix: bool,
-    pub type_selector: Option<NamespacedName>,
     pub subclass_selectors: Vec<SubclassSelector>,
 }
 
@@ -41,7 +38,6 @@ pub struct CompoundSelector {
 pub struct Combinator {
     pub span: Span,
     pub value: CombinatorValue,
-    // pub raw: JsWord
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]

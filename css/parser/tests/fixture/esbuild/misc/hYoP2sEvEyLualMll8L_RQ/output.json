@@ -44,8 +44,6 @@
                     "ctxt": 0
                   }
                 },
-                "combinator": null,
-                "hasNestPrefix": true,
                 "typeSelector": {
                   "type": "TypeSelector",
                   "span": {

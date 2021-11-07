@@ -14,9 +14,7 @@ where
     pub(super) fn parse_selectors(&mut self) -> PResult<SelectorList> {
         self.input.skip_ws()?;
 
-        let start_pos = self.input.cur_span()?.lo;
         let child = self.parse_complex_selector()?;
-        let mut last_pos = child.span.clone().hi;
         let mut children = vec![child];
 
         loop {
@@ -30,9 +28,21 @@ where
 
             let child = self.parse_complex_selector()?;
 
-            last_pos = child.span.clone().hi;
             children.push(child);
         }
+
+        let start_pos = match children.first() {
+            Some(ComplexSelector { span, .. }) => span.lo,
+            _ => {
+                unreachable!();
+            }
+        };
+        let last_pos = match children.last() {
+            Some(ComplexSelector { span, .. }) => span.hi,
+            _ => {
+                unreachable!();
+            }
+        };
 
         Ok(SelectorList {
             span: Span::new(start_pos, last_pos, Default::default()),
@@ -41,15 +51,11 @@ where
     }
 
     fn parse_complex_selector(&mut self) -> PResult<ComplexSelector> {
-        let start_pos = self.input.cur_span()?.lo;
         let child = ComplexSelectorChildren::CompoundSelector(self.parse_compound_selector()?);
         let mut children = vec![child];
-        let mut last_pos;
 
         loop {
             let span = self.input.cur_span()?;
-
-            last_pos = self.input.last_pos()?;
 
             self.input.skip_ws()?;
 
@@ -58,7 +64,7 @@ where
             }
 
             let mut combinator = self.parse_combinator()?;
-            
+
             if combinator.value == CombinatorValue::Descendant {
                 combinator.span = span;
             } else {
@@ -71,6 +77,19 @@ where
 
             children.push(ComplexSelectorChildren::CompoundSelector(child));
         }
+
+        let start_pos = match children.first() {
+            Some(ComplexSelectorChildren::CompoundSelector(child)) => child.span.lo,
+            _ => {
+                unreachable!();
+            }
+        };
+        let last_pos = match children.last() {
+            Some(ComplexSelectorChildren::CompoundSelector(child)) => child.span.hi,
+            _ => {
+                unreachable!();
+            }
+        };
 
         Ok(ComplexSelector {
             span: Span::new(start_pos, last_pos, Default::default()),
@@ -544,8 +563,6 @@ where
         Ok(CompoundSelector {
             span,
             nesting_selector,
-            combinator: None,
-            has_nest_prefix,
             type_selector,
             subclass_selectors,
         })

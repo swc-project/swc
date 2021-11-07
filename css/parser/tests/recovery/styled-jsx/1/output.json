@@ -37,8 +37,6 @@
                   "ctxt": 0
                 },
                 "nestingSelector": null,
-                "combinator": null,
-                "hasNestPrefix": false,
                 "typeSelector": null,
                 "subclassSelectors": [
                   {
@@ -200,8 +198,6 @@
                   "ctxt": 0
                 },
                 "nestingSelector": null,
-                "combinator": null,
-                "hasNestPrefix": false,
                 "typeSelector": null,
                 "subclassSelectors": [
                   {
@@ -241,8 +237,6 @@
                   "ctxt": 0
                 },
                 "nestingSelector": null,
-                "combinator": null,
-                "hasNestPrefix": false,
                 "typeSelector": null,
                 "subclassSelectors": [
                   {
@@ -550,8 +544,6 @@
                       "ctxt": 0
                     },
                     "nestingSelector": null,
-                    "combinator": null,
-                    "hasNestPrefix": false,
                     "typeSelector": null,
                     "subclassSelectors": [
                       {
@@ -591,8 +583,6 @@
                       "ctxt": 0
                     },
                     "nestingSelector": null,
-                    "combinator": null,
-                    "hasNestPrefix": false,
                     "typeSelector": null,
                     "subclassSelectors": [
                       {
@@ -809,8 +799,6 @@
                       "ctxt": 0
                     },
                     "nestingSelector": null,
-                    "combinator": null,
-                    "hasNestPrefix": false,
                     "typeSelector": null,
                     "subclassSelectors": [
                       {
@@ -850,8 +838,6 @@
                       "ctxt": 0
                     },
                     "nestingSelector": null,
-                    "combinator": null,
-                    "hasNestPrefix": false,
                     "typeSelector": null,
                     "subclassSelectors": [
                       {
