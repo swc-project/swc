@@ -25,6 +25,7 @@
 //! AST -> Normal AST`
 
 use abi_stable::{
+    reexports::True,
     std_types::{RBox, RVec},
     StableAbi,
 };
@@ -51,6 +52,24 @@ where
     #[inline]
     fn into_stable(self) -> Self::Stable {
         RBox::new((*self).into_stable())
+    }
+}
+
+impl<T> UnstableAst for Option<T>
+where
+    T: UnstableAst,
+    T::Stable: StableAbi<IsNonZeroType = True>,
+{
+    type Stable = Option<T::Stable>;
+
+    #[inline]
+    fn from_stable(n: Self::Stable) -> Self {
+        n.map(T::from_stable)
+    }
+
+    #[inline]
+    fn into_stable(self) -> Self::Stable {
+        self.map(T::into_stable)
     }
 }
 
