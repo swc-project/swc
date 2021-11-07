@@ -24,7 +24,10 @@
 //! `Normal AST -> Plugin AST -> Normal AST -> plugin -> Normal AST -> Plugin
 //! AST -> Normal AST`
 
-use abi_stable::StableAbi;
+use abi_stable::{
+    std_types::{RBox, RVec},
+    StableAbi,
+};
 
 pub trait UnstableAst {
     type Stable: StableAbi;
@@ -32,4 +35,38 @@ pub trait UnstableAst {
     fn from_stable(n: Self::Stable) -> Self;
 
     fn into_stable(self) -> Self::Stable;
+}
+
+impl<T> UnstableAst for Box<T>
+where
+    T: UnstableAst,
+{
+    type Stable = RBox<T::Stable>;
+
+    #[inline]
+    fn from_stable(n: Self::Stable) -> Self {
+        Box::new(T::from_stable(RBox::into_inner(n)))
+    }
+
+    #[inline]
+    fn into_stable(self) -> Self::Stable {
+        RBox::new((*self).into_stable())
+    }
+}
+
+impl<T> UnstableAst for Vec<T>
+where
+    T: UnstableAst,
+{
+    type Stable = RVec<T::Stable>;
+
+    #[inline]
+    fn from_stable(n: Self::Stable) -> Self {
+        n.into_iter().map(|v| T::from_stable(v)).collect()
+    }
+
+    #[inline]
+    fn into_stable(self) -> Self::Stable {
+        self.into_iter().map(|v| v.into_stable()).collect()
+    }
 }
