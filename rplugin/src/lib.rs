@@ -1,8 +1,3 @@
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        let result = 2 + 2;
-        assert_eq!(result, 4);
-    }
-}
+//! AST processing plugin system.
+//!
+//! Designed as a general crate, to support using it from other libraries too.
