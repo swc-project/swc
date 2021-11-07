@@ -217,8 +217,8 @@ define!({
         Attr(AttrSelector),
 
         PseudoClass(PseudoClassSelector),
-        
-         PseudoElement(PseudoElementSelector),
+
+        PseudoElement(PseudoElementSelector),
 
         At(AtSelector),
     }
