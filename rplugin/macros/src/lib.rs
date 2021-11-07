@@ -74,9 +74,28 @@ fn patch_field_type(ty: &Type) -> Type {
             Vars {
                 ty: patch_field_type(ty),
             },
-            (abi_stable::RBox<ty>)
+            (abi_stable::std_types::RBox<ty>)
         )
         .parse();
+    }
+
+    if let Some(ty) = get_generic(ty, "Vec") {
+        return q!(
+            Vars {
+                ty: patch_field_type(ty),
+            },
+            (abi_stable::std_types::RVec<ty>)
+        )
+        .parse();
+    }
+
+    match ty {
+        Type::Path(p) => {
+            if p.path.is_ident("String") {
+                return q!((abi_stable::std_types::RString)).parse();
+            }
+        }
+        _ => {}
     }
 
     ty.clone()
