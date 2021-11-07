@@ -27,6 +27,10 @@ pub fn ast_for_plugin(
 
             Item::Enum(s) => {
                 add_stable_abi(&mut s.attrs);
+
+                for v in s.variants.iter_mut() {
+                    patch_fields(&mut v.fields);
+                }
             }
 
             _ => {
@@ -81,10 +85,11 @@ fn patch_field_type(ty: &Type) -> Type {
 fn get_generic<'a>(ty: &'a Type, wrapper_name: &str) -> Option<&'a Type> {
     match ty {
         Type::Path(ty) => {
-            if !ty.path.is_ident(wrapper_name) {
+            let ident = ty.path.segments.first().unwrap();
+
+            if ident.ident != wrapper_name {
                 return None;
             }
-            let ident = ty.path.segments.first().unwrap();
 
             match &ident.arguments {
                 syn::PathArguments::None => None,
