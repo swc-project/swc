@@ -2,7 +2,7 @@ extern crate proc_macro;
 
 use pmutil::{q, Quote, ToTokensExt};
 use swc_macros_common::call_site;
-use syn::{parse, Attribute, Item, ItemImpl, ItemMod, ItemStruct, Lit, Path, Type};
+use syn::{parse, Attribute, Fields, Item, ItemImpl, ItemMod, ItemStruct, Lit, Path, Type};
 
 #[proc_macro_attribute]
 pub fn ast_for_plugin(
@@ -20,6 +20,7 @@ pub fn ast_for_plugin(
         match &mut item {
             Item::Struct(s) => {
                 add_stable_abi(&mut s.attrs);
+                patch_fields(&mut s.fields);
                 // q.push_tokens(&make_unstable_ast_impl_for_struct(&
                 // normal_crate_path, &s));
             }
@@ -42,6 +43,22 @@ pub fn ast_for_plugin(
     }
     .dump()
     .into()
+}
+
+fn patch_fields(f: &mut Fields) {
+    match f {
+        Fields::Named(f) => {
+            f.named.iter_mut().for_each(|f| {
+                f.ty = patch_field_type(&f.ty);
+            });
+        }
+        Fields::Unnamed(f) => {
+            f.unnamed.iter_mut().for_each(|f| {
+                f.ty = patch_field_type(&f.ty);
+            });
+        }
+        Fields::Unit => panic!("#[ast_for_plugin] does not support unit field"),
+    }
 }
 
 // fn make_unstable_ast_impl_for_struct(normal_crate_path: &Path, src:
