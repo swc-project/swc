@@ -124,3 +124,4 @@ macro_rules! as_is {
 as_is!(bool);
 as_is!(usize, u8, u16, u32, u64);
 as_is!(isize, i8, i16, i32, i64);
+as_is!(f32, f64);
