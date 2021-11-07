@@ -10,7 +10,6 @@ members = [
   "plugin/runner",
   "plugin/testing",
   "rplugin",
-  "rplugin/macros",
   "wasm",
 ]
 

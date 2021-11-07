@@ -12,3 +12,4 @@ version = "0.1.0"
 
 [dependencies]
 abi_stable = "0.10.3"
+rplugin_macros = {version = "0.1", path = "./macros/"}
