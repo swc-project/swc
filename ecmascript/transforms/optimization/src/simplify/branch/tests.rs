@@ -541,7 +541,7 @@ fn test_optimize_switch_4() {
         "foo();",
     );
     test(
-        "switch (true) {\ncase true:\n  foo();\n  break;\ncase false:\n  bar();\n break; 
+        "switch (true) {\ncase true:\n  foo();\n  break;\ncase false:\n  bar();\n break;
             default: foobar(); break; \n}",
         "foo();",
     );
@@ -1779,7 +1779,7 @@ fn issue_1825() {
         function p(){
             throw new Error('Something');
         }
-        
+
         while ((p(), 1)) {
             console.log('Hello world');
         }

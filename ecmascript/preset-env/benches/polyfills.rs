@@ -57,9 +57,9 @@ console.log(y[0]); // 21
 var buffer = new ArrayBuffer(16);
 var z = new Float32Array(buffer, 0, 4);
 
-// From an iterable 
-var iterable = function*(){ yield* [1,2,3]; }(); 
-var float32 = new Float32Array(iterable); 
+// From an iterable
+var iterable = function*(){ yield* [1,2,3]; }();
+var float32 = new Float32Array(iterable);
 // Float32Array[1, 2, 3]
 "#;
 

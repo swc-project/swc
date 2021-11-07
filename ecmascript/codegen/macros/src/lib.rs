@@ -44,8 +44,8 @@ fn expand(i: ImplItemMethod) -> ImplItemMethod {
                     }
                 })
                 .expect(
-                    "#[emitter] methods should have signature of 
-fn (&mut self, node: Node) -> Result; 
+                    "#[emitter] methods should have signature of
+fn (&mut self, node: Node) -> Result;
     ",
                 )
         };

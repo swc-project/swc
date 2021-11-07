@@ -174,7 +174,7 @@ mod tests {
         function isUndef(type) {
             return type === 'undefined';
         }
-        
+
         var isWeb = !isUndef(typeof window) && 'onload' in window;
         exports.isWeb = isWeb;
         var isNode = !isUndef(typeof process) && !!(process.versions && process.versions.node);
@@ -186,7 +186,7 @@ mod tests {
         function isUndef(type) {
         return type === 'undefined';
         }
-        
+
         var isWeb =
         !isUndef(typeof window === 'undefined' ? 'undefined' : _typeof(window)) &&
         'onload' in window;

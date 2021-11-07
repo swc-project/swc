@@ -218,7 +218,7 @@ fn partial_1() {
     PartialInliner::expect(
         "
             const color = 'red'
-            
+
             export const foo = css`
             div {
                 color: ${color};
@@ -274,7 +274,7 @@ fn partial_3() {
         const animationDuration = '200ms'
         const animationName = 'my-cool-animation'
         const obj = { display: 'block' }
-        
+
         export const s1 = css`
             p.${color} {
                 color: ${otherColor};
@@ -290,13 +290,13 @@ fn partial_3() {
         const animationDuration = '200ms'
         const animationName = 'my-cool-animation'
         const obj = { display: 'block' }
-        
+
         export const s1 = css`
             p.red {
                 color: green;
                 display: block;
             }
-        `    
+        `
         ",
     );
 }
@@ -313,7 +313,7 @@ fn partial_4() {
         const animationDuration = '200ms'
         const animationName = 'my-cool-animation'
         const obj = { display: 'block' }
-        
+
         export const s2 = css`
             p.${color} {
                 color: ${darken(color)};
@@ -328,7 +328,7 @@ fn partial_4() {
         const animationDuration = '200ms'
         const animationName = 'my-cool-animation'
         const obj = { display: 'block' }
-        
+
         export const s2 = css`
         p.red {
             color: 'red';
@@ -350,7 +350,7 @@ fn partial_5() {
         const animationDuration = '200ms'
         const animationName = 'my-cool-animation'
         const obj = { display: 'block' }
-        
+
         export const s3 = css`
             p.${color} {
                 color: ${darken(color) + 2};
@@ -365,7 +365,7 @@ fn partial_5() {
         const animationDuration = '200ms'
         const animationName = 'my-cool-animation'
         const obj = { display: 'block' }
-        
+
         export const s3 = css`
             p.red {
                 color: 'red2';
@@ -386,7 +386,7 @@ fn partial_6() {
         const animationDuration = '200ms'
         const animationName = 'my-cool-animation'
         const obj = { display: 'block' }
-        
+
         export const s4 = css`
             @media (min-width: ${mediumScreen}) {
                 p {
@@ -409,7 +409,7 @@ fn partial_6() {
         const animationDuration = '200ms'
         const animationName = 'my-cool-animation'
         const obj = { display: 'block' }
-        
+
         export const s4 = css`
             @media (min-width: 680px) {
                 p {
@@ -438,7 +438,7 @@ fn partial_7() {
         const animationDuration = '200ms'
         const animationName = 'my-cool-animation'
         const obj = { display: 'block' }
-        
+
         export default ({ display }) => (
             css`
                 span {
@@ -455,7 +455,7 @@ fn partial_7() {
         const animationDuration = '200ms'
         const animationName = 'my-cool-animation'
         const obj = { display: 'block' }
-        
+
         export default ({ display }) => (
             css`
                 span {

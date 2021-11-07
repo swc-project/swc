@@ -30,7 +30,7 @@ test_exec!(
 const write = (text) => {
   console.log(text)
 }
-write(1) 
+write(1)
 write('2')
 write`3`"
 );
@@ -922,8 +922,8 @@ test!(
       };
       return data;
     }
-  
-    const myVar = T(_templateObject());    
+
+    const myVar = T(_templateObject());
     ",
     ok_if_code_eq
 );
