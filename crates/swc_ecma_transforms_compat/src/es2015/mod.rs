@@ -26,7 +26,7 @@ pub mod regenerator;
 mod shorthand_property;
 pub mod spread;
 mod sticky_regex;
-mod template_literal;
+pub mod template_literal;
 mod typeof_symbol;
 
 fn exprs() -> impl Fold {
@@ -47,7 +47,7 @@ where
 {
     chain!(
         block_scoped_functions(),
-        template_literal(),
+        template_literal(c.template_literal),
         new_target(),
         classes(comments),
         spread(c.spread),
@@ -81,6 +81,9 @@ pub struct Config {
 
     #[serde(default)]
     pub regenerator: regenerator::Config,
+
+    #[serde(default)]
+    pub template_literal: template_literal::Config,
 }
 
 #[cfg(test)]

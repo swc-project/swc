@@ -123,7 +123,15 @@ where
 
     // ES2015
     let pass = add!(pass, BlockScopedFunctions, es2015::block_scoped_functions());
-    let pass = add!(pass, TemplateLiterals, es2015::template_literal(), true);
+    let pass = add!(
+        pass,
+        TemplateLiterals,
+        es2015::template_literal(es2015::template_literal::Config {
+            ignore_to_primitive: loose,
+            mutable_template: loose
+        }),
+        true
+    );
     let pass = add!(pass, Classes, es2015::classes(comments));
     let pass = add!(
         pass,

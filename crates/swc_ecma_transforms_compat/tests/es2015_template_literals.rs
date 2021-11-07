@@ -7,8 +7,8 @@ fn syntax() -> Syntax {
     Default::default()
 }
 
-fn tr(_: ()) -> impl Fold {
-    template_literal()
+fn tr(config: template_literal::Config) -> impl Fold {
+    template_literal(config)
 }
 
 test_exec!(
@@ -996,4 +996,399 @@ test_exec!(
     }
     expect(typeof obj.foo`template`).toEqual('object')
     "
+);
+
+test!(
+    syntax(),
+    |_| tr(template_literal::Config {
+        ignore_to_primitive: true,
+        mutable_template: false
+    }),
+    loose_escape_quotes,
+    r#"var t = `'${foo}' "${bar}"`;"#,
+    r#"var t = "'" + foo + "' \"" + bar + "\"";"#
+);
+
+test!(
+    syntax(),
+    |_| tr(template_literal::Config {
+        ignore_to_primitive: true,
+        mutable_template: false
+    }),
+    loose_expression_first,
+    r#"
+var foo = 5;
+var bar = 10;
+var baz = 15;
+
+var example = `${"a"}`;
+var example2 = `${1}`;
+var example3 = 1 + `${foo}${bar}${baz}`;
+var example4 = 1 + `${foo}bar${baz}`;
+var example5 = `${""}`;"#,
+    r#"
+var foo = 5;
+var bar = 10;
+var baz = 15;
+var example = "a";
+var example2 = "" + 1;
+var example3 = 1 + ("" + foo + bar + baz);
+var example4 = 1 + (foo + "bar" + baz);
+var example5 = "";"#
+);
+
+test!(
+    syntax(),
+    |_| tr(template_literal::Config {
+        ignore_to_primitive: true,
+        mutable_template: false
+    }),
+    loose_function,
+    r#"var foo = `test ${_.test(foo)} ${bar}`;"#,
+    r#"var foo = "test " + _.test(foo) + " " + bar;"#
+);
+
+test!(
+    syntax(),
+    |_| tr(template_literal::Config {
+        ignore_to_primitive: true,
+        mutable_template: false
+    }),
+    loose_literals,
+    r#"var foo = `${1}${f}oo${true}${b}ar${0}${baz}`;"#,
+    r#"var foo = "" + 1 + f + "oo" + true + b + "ar" + 0 + baz;"#
+);
+
+test!(
+    syntax(),
+    |_| tr(template_literal::Config {
+        ignore_to_primitive: true,
+        mutable_template: false
+    }),
+    loose_multi_line,
+    r#"
+var o = `wow
+this is
+actually multiline!`;
+    "#,
+    r#"var o = "wow\nthis is\nactually multiline!";"#
+);
+
+test!(
+    syntax(),
+    |_| tr(template_literal::Config {
+        ignore_to_primitive: true,
+        mutable_template: false
+    }),
+    loose_multiple,
+    r#"var foo = `test ${foo} ${bar}`;"#,
+    r#"var foo = "test " + foo + " " + bar;"#
+);
+
+test!(
+    syntax(),
+    |_| tr(template_literal::Config {
+        ignore_to_primitive: true,
+        mutable_template: false
+    }),
+    loose_none,
+    r#"var foo = `test`;"#,
+    r#"var foo = "test";"#
+);
+
+test!(
+    syntax(),
+    |_| tr(template_literal::Config {
+        ignore_to_primitive: true,
+        mutable_template: false
+    }),
+    loose_only,
+    r#"var foo = `${test}`;"#,
+    r#"var foo = "" + test;"#
+);
+
+test!(
+    syntax(),
+    |_| tr(template_literal::Config {
+        ignore_to_primitive: true,
+        mutable_template: false
+    }),
+    loose_single,
+    r#"var foo = `test ${foo}`;"#,
+    r#"var foo = "test " + foo;"#
+);
+
+test!(
+    syntax(),
+    |_| tr(template_literal::Config {
+        ignore_to_primitive: true,
+        mutable_template: false
+    }),
+    loose_statement,
+    r#"var foo = `test ${foo + bar}`;"#,
+    r#"var foo = "test " + (foo + bar);"#
+);
+
+test_exec!(
+    syntax(),
+    |_| tr(template_literal::Config {
+        ignore_to_primitive: true,
+        mutable_template: false
+    }),
+    loose_order,
+    "
+    const calls = [];
+
+    `
+      ${
+        calls.push(1),
+        {
+          [Symbol.toPrimitive](){
+            calls.push(2);
+            return 'foo';
+          }
+        }
+      }
+      ${
+        calls.push(3),
+        {
+          [Symbol.toPrimitive](){
+            calls.push(4);
+            return 'bar';
+          }
+        }
+      }
+    `;
+    
+    expect(calls).toEqual([1, 2, 3, 4]);
+  "
+);
+
+test_exec!(
+    syntax(),
+    |_| tr(template_literal::Config {
+        ignore_to_primitive: true,
+        mutable_template: false
+    }),
+    loose_order_2,
+    "
+    const calls = [];
+
+    `
+      ${{
+        [Symbol.toPrimitive]() {
+          calls.push(1);
+          return 'foo';
+        }
+      }}
+      ${1 +
+        {
+          valueOf() {
+            calls.push(2);
+            return 2;
+          }
+        }}
+    `;
+    
+    expect(calls).toEqual([1, 2]);
+  "
+);
+
+test_exec!(
+    syntax(),
+    |_| tr(template_literal::Config {
+        ignore_to_primitive: true,
+        mutable_template: false
+    }),
+    loose_symbol,
+    "const fn = () => `${Symbol()}`;
+
+  expect(fn).toThrow(TypeError);"
+);
+
+test!(
+    syntax(),
+    |_| tr(template_literal::Config {
+        ignore_to_primitive: false,
+        mutable_template: true
+    }),
+    loose_no_tag,
+    "`foo ${bar} baz`;",
+    "'foo '.concat(bar, ' baz');"
+);
+
+test!(
+    syntax(),
+    |_| tr(template_literal::Config {
+        ignore_to_primitive: false,
+        mutable_template: true
+    }),
+    loose_tag,
+    r#"
+var foo = bar`wow\na${ 42 }b ${_.foobar()}`;
+var bar = bar`wow\nab${ 42 } ${_.foobar()}`;
+var bar = bar`wow\naB${ 42 } ${_.baz()}`;
+    "#,
+    r#"
+function _templateObject() {
+    const data = _taggedTemplateLiteralLoose([
+        "wow\na",
+        "b ",
+        ""
+    ], [
+        "wow\\na",
+        "b ",
+        ""
+    ]);
+    _templateObject = function() {
+        return data;
+    };
+    return data;
+}
+function _templateObject1() {
+    const data = _taggedTemplateLiteralLoose([
+        "wow\nab",
+        " ",
+        ""
+    ], [
+        "wow\\nab",
+        " ",
+        ""
+    ]);
+    _templateObject1 = function() {
+        return data;
+    };
+    return data;
+}
+function _templateObject2() {
+    const data = _taggedTemplateLiteralLoose([
+        "wow\naB",
+        " ",
+        ""
+    ], [
+        "wow\\naB",
+        " ",
+        ""
+    ]);
+    _templateObject2 = function() {
+        return data;
+    };
+    return data;
+}
+var foo = bar(_templateObject(), 42, _.foobar());
+var bar = bar(_templateObject1(), 42, _.foobar());
+var bar = bar(_templateObject2(), 42, _.baz());
+    "#
+);
+
+test!(
+    // TODO: Fix parser
+    ignore,
+    syntax(),
+    |_| tr(Default::default()),
+    loose_template_revision,
+    r#"tag`\unicode and \u{55}`;
+tag`\01`;
+tag`\xg${0}right`;
+tag`left${0}\xg`;
+tag`left${0}\xg${1}right`;
+tag`left${0}\u000g${1}right`;
+tag`left${0}\u{-0}${1}right`;
+function a() {
+var undefined = 4;
+tag`\01`;
+}"#,
+    r#"
+function _templateObject8() {
+const data = _taggedTemplateLiteralLoose([void 0], ["\\01"]);
+
+_templateObject8 = function () {
+  return data;
+};
+
+return data;
+}
+
+function _templateObject7() {
+const data = _taggedTemplateLiteralLoose(["left", void 0, "right"], ["left", "\\u{-0}", "right"]);
+
+_templateObject7 = function () {
+  return data;
+};
+
+return data;
+}
+
+function _templateObject6() {
+const data = _taggedTemplateLiteralLoose(["left", void 0, "right"], ["left", "\\u000g", "right"]);
+
+_templateObject6 = function () {
+  return data;
+};
+
+return data;
+}
+
+function _templateObject5() {
+const data = _taggedTemplateLiteralLoose(["left", void 0, "right"], ["left", "\\xg", "right"]);
+
+_templateObject5 = function () {
+  return data;
+};
+
+return data;
+}
+
+function _templateObject4() {
+const data = _taggedTemplateLiteralLoose(["left", void 0], ["left", "\\xg"]);
+
+_templateObject4 = function () {
+  return data;
+};
+
+return data;
+}
+
+function _templateObject3() {
+const data = _taggedTemplateLiteralLoose([void 0, "right"], ["\\xg", "right"]);
+
+_templateObject3 = function () {
+  return data;
+};
+
+return data;
+}
+
+function _templateObject2() {
+const data = _taggedTemplateLiteralLoose([void 0], ["\\01"]);
+
+_templateObject2 = function () {
+  return data;
+};
+
+return data;
+}
+
+function _templateObject() {
+const data = _taggedTemplateLiteralLoose([void 0], ["\\unicode and \\u{55}"]);
+
+_templateObject = function () {
+  return data;
+};
+
+return data;
+}
+
+tag(_templateObject());
+tag(_templateObject2());
+tag(_templateObject3(), 0);
+tag(_templateObject4(), 0);
+tag(_templateObject5(), 0, 1);
+tag(_templateObject6(), 0, 1);
+tag(_templateObject7(), 0, 1);
+
+function a() {
+var undefined = 4;
+tag(_templateObject8());
+}"#
 );

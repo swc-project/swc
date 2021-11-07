@@ -221,6 +221,10 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                                 loose: self.loose
                             },
                             regenerator: self.regenerator,
+                            template_literal: compat::es2015::template_literal::Config {
+                                ignore_to_primitive: self.loose,
+                                mutable_template: self.loose
+                            }
                         }
                     ),
                     should_enable(self.target, EsVersion::Es2015)

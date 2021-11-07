@@ -5390,7 +5390,7 @@ test_exec!(
     syntax(),
     |_| chain!(
         class_properties(class_properties::Config { loose: false }),
-        template_literal()
+        template_literal(Default::default())
     ),
     issue_1742_2,
     "

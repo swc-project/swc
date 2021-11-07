@@ -1,3 +1,4 @@
+use serde::Deserialize;
 use std::{iter, mem};
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, BytePos, Spanned, DUMMY_SP};
@@ -9,13 +10,24 @@ use swc_ecma_utils::{
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
-pub fn template_literal() -> impl Fold + VisitMut {
-    as_folder(TemplateLiteral::default())
+pub fn template_literal(c: Config) -> impl Fold + VisitMut {
+    as_folder(TemplateLiteral {
+        c,
+        ..Default::default()
+    })
 }
 
 #[derive(Default)]
 struct TemplateLiteral {
     added: Vec<Stmt>,
+    c: Config,
+}
+
+#[derive(Debug, Clone, Copy, Default, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Config {
+    pub ignore_to_primitive: bool,
+    pub mutable_template: bool,
 }
 
 impl Parallel for TemplateLiteral {
@@ -43,8 +55,6 @@ impl VisitMut for TemplateLiteral {
                 ..
             }) => {
                 assert_eq!(quasis.len(), exprs.len() + 1);
-
-                // TODO: Optimize
 
                 // This makes result of addition string
                 let mut obj: Box<Expr> = Box::new(
@@ -108,12 +118,6 @@ impl VisitMut for TemplateLiteral {
                         exprs.next().unwrap()
                     };
 
-                    // obj = box Expr::Bin(BinExpr {
-                    //     span: expr.span(),
-                    //     left: obj,
-                    //     op: op!(bin, "+"),
-                    //     right: expr.into(),
-                    // });
                     let expr_span = expr.span();
 
                     // We can optimize if expression is a literal or ident
@@ -164,65 +168,89 @@ impl VisitMut for TemplateLiteral {
                         }
 
                         if !is_empty {
-                            args.push(ExprOrSpread { expr, spread: None });
+                            args.push(expr);
                         }
 
                         if last && !args.is_empty() {
-                            obj = Box::new(Expr::Call(CallExpr {
-                                span: span.with_hi(expr_span.hi() + BytePos(1)),
-                                callee: ExprOrSuper::Expr(Box::new(Expr::Member(MemberExpr {
-                                    span: DUMMY_SP,
-                                    obj: ExprOrSuper::Expr(obj),
-                                    prop: Box::new(Expr::Ident(Ident::new(
-                                        js_word!("concat"),
-                                        expr_span,
-                                    ))),
+                            obj = if self.c.ignore_to_primitive {
+                                let args = mem::replace(&mut args, vec![]);
+                                for arg in args {
+                                    obj = Box::new(Expr::Bin(BinExpr {
+                                        span: span.with_hi(expr_span.hi() + BytePos(1)),
+                                        op: BinaryOp::Add,
+                                        left: obj,
+                                        right: arg,
+                                    }))
+                                }
+                                obj
+                            } else {
+                                Box::new(Expr::Call(CallExpr {
+                                    span: span.with_hi(expr_span.hi() + BytePos(1)),
+                                    callee: ExprOrSuper::Expr(Box::new(Expr::Member(MemberExpr {
+                                        span: DUMMY_SP,
+                                        obj: ExprOrSuper::Expr(obj),
+                                        prop: Box::new(Expr::Ident(Ident::new(
+                                            js_word!("concat"),
+                                            expr_span,
+                                        ))),
 
-                                    computed: false,
-                                }))),
-                                args: mem::replace(&mut args, vec![]),
-                                type_args: Default::default(),
-                            }));
+                                        computed: false,
+                                    }))),
+                                    args: mem::replace(&mut args, vec![])
+                                        .into_iter()
+                                        .map(|expr| ExprOrSpread { expr, spread: None })
+                                        .collect(),
+                                    type_args: Default::default(),
+                                }))
+                            }
                         }
                     } else {
                         if !args.is_empty() {
-                            obj = Box::new(Expr::Call(CallExpr {
-                                span: span.with_hi(expr_span.hi() + BytePos(1)),
-                                callee: ExprOrSuper::Expr(Box::new(Expr::Member(MemberExpr {
-                                    span: DUMMY_SP,
-                                    obj: ExprOrSuper::Expr(obj),
-                                    prop: Box::new(Expr::Ident(Ident::new(
-                                        js_word!("concat"),
-                                        expr_span,
-                                    ))),
+                            obj = if self.c.ignore_to_primitive {
+                                let args = mem::replace(&mut args, vec![]);
+                                let len = args.len();
+                                for arg in args {
+                                    // for `${asd}a`
+                                    if let Expr::Lit(Lit::Str(str)) = obj.as_ref() {
+                                        if str.value.len() == 0 && len == 2 {
+                                            obj = arg;
+                                            continue;
+                                        }
+                                    }
+                                    obj = Box::new(Expr::Bin(BinExpr {
+                                        span: span.with_hi(expr_span.hi() + BytePos(1)),
+                                        op: BinaryOp::Add,
+                                        left: obj,
+                                        right: arg,
+                                    }))
+                                }
+                                obj
+                            } else {
+                                Box::new(Expr::Call(CallExpr {
+                                    span: span.with_hi(expr_span.hi() + BytePos(1)),
+                                    callee: ExprOrSuper::Expr(Box::new(Expr::Member(MemberExpr {
+                                        span: DUMMY_SP,
+                                        obj: ExprOrSuper::Expr(obj),
+                                        prop: Box::new(Expr::Ident(Ident::new(
+                                            js_word!("concat"),
+                                            expr_span,
+                                        ))),
 
-                                    computed: false,
-                                }))),
-                                args: mem::replace(&mut args, vec![]),
-                                type_args: Default::default(),
-                            }));
+                                        computed: false,
+                                    }))),
+                                    args: mem::replace(&mut args, vec![])
+                                        .into_iter()
+                                        .map(|expr| ExprOrSpread { expr, spread: None })
+                                        .collect(),
+                                    type_args: Default::default(),
+                                }))
+                            };
                         }
                         debug_assert!(args.is_empty());
 
-                        args.push(ExprOrSpread { expr, spread: None });
+                        args.push(expr);
                     }
                 }
-
-                //                if !args.is_empty() {
-                //                    obj = box validate!(Expr::Call(CallExpr {
-                //                        span: span.with_hi(expr_span.hi() + BytePos(1)),
-                //                        callee: ExprOrSuper::Expr(box Expr::Member(MemberExpr
-                // {                            span: DUMMY_SP,
-                //                            obj: ExprOrSuper::Expr(validate!(obj)),
-                //                            prop: box
-                // Expr::Ident(Ident::new(js_word!("concat"), expr_span)),
-                //
-                //                            computed: false,
-                //                        })),
-                //                        args: mem::replace(&mut args, vec![]),
-                //                        type_args: Default::default(),
-                //                    }));
-                //                }
 
                 *e = *obj
             }
@@ -253,10 +281,14 @@ impl VisitMut for TemplateLiteral {
                                 definite: false,
                                 init: Some(Box::new(Expr::Call(CallExpr {
                                     span: DUMMY_SP,
-                                    callee: helper!(
-                                        tagged_template_literal,
-                                        "taggedTemplateLiteral"
-                                    ),
+                                    callee: if self.c.mutable_template {
+                                        helper!(
+                                            tagged_template_literal_loose,
+                                            "taggedTemplateLiteralLoose"
+                                        )
+                                    } else {
+                                        helper!(tagged_template_literal, "taggedTemplateLiteral")
+                                    },
                                     args: {
                                         let has_escape = quasis.iter().any(|s| {
                                             s.cooked.as_ref().map(|s| s.has_escape).unwrap_or(true)
