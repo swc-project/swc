@@ -1,15 +1,18 @@
 extern crate proc_macro;
 
-use pmutil::{q, Quote, ToTokensExt};
-use swc_macros_common::call_site;
-use syn::{parse, Attribute, Fields, Item, ItemImpl, ItemMod, ItemStruct, Lit, Path, Type};
+use pmutil::{q, ToTokensExt};
+use swc_macros_common::{call_site, prelude::VariantBinder};
+use syn::{
+    parse, Arm, Attribute, Expr, ExprMatch, ExprStruct, FieldValue, Fields, Index, Item, ItemImpl,
+    ItemMod, ItemStruct, Lit, Member, Path, Type,
+};
 
 #[proc_macro_attribute]
 pub fn ast_for_plugin(
     input: proc_macro::TokenStream,
     module: proc_macro::TokenStream,
 ) -> proc_macro::TokenStream {
-    let normal_crate_path: Lit = parse(input).expect("failed to parse argument as path");
+    let normal_crate_path: Path = parse(input).expect("failed to parse argument as path");
 
     let module: ItemMod = parse(module).expect("failed to parse input as a module");
     let content = module.content.expect("module should have content").1;
@@ -21,8 +24,11 @@ pub fn ast_for_plugin(
             Item::Struct(s) => {
                 add_stable_abi(&mut s.attrs);
                 patch_fields(&mut s.fields);
-                // q.push_tokens(&make_unstable_ast_impl_for_struct(&
-                // normal_crate_path, &s));
+
+                mod_items.push(Item::Impl(make_unstable_ast_impl_for_struct(
+                    &normal_crate_path,
+                    &s,
+                )));
             }
 
             Item::Enum(s) => {
@@ -64,9 +70,6 @@ fn patch_fields(f: &mut Fields) {
         Fields::Unit => panic!("#[ast_for_plugin] does not support unit field"),
     }
 }
-
-// fn make_unstable_ast_impl_for_struct(normal_crate_path: &Path, src:
-// &ItemStruct) -> ItemImpl {}
 
 fn patch_field_type(ty: &Type) -> Type {
     if let Some(ty) = get_generic(&ty, "Box") {
@@ -136,4 +139,125 @@ fn add_stable_abi(attrs: &mut Vec<Attribute>) {
     .parse::<ItemStruct>();
 
     attrs.extend(s.attrs)
+}
+
+fn make_unstable_ast_impl_for_struct(normal_crate_path: &Path, src: &ItemStruct) -> ItemImpl {
+    let binder = VariantBinder::new(None, &src.ident, &src.fields, &src.attrs);
+
+    q!(
+        Vars {
+            normal_crate_path,
+            Type: &src.ident,
+            from_unstable_body: make_from_unstable_impl_body(&binder),
+            into_unstable_body: make_into_unstable_impl_body(&binder),
+        },
+        {
+            impl rplugin::StableAst for Type {
+                type Unstable = normal_crate_path::Type;
+
+                fn from_unstable(unstable_node: Self::Unstable) -> Self {
+                    from_unstable_body
+                }
+
+                fn into_unstable(self) -> Self::Unstable {
+                    into_unstable_body
+                }
+            }
+        }
+    )
+    .parse()
+}
+
+fn make_from_unstable_impl_body(f: &VariantBinder) -> Expr {
+    let (pat, fields) = f.bind("_", None, None);
+
+    let fields = fields
+        .into_iter()
+        .map(|f| {
+            // Call from_unstable for each field
+            FieldValue {
+                attrs: Default::default(),
+                member: f
+                    .field()
+                    .ident
+                    .clone()
+                    .map(Member::Named)
+                    .unwrap_or_else(|| Member::Unnamed(Index::from(f.idx()))),
+                colon_token: Some(call_site()),
+                expr: q!(Vars { name: &f.name() }, {
+                    rplugin::StableAst::from_unstable(name)
+                })
+                .parse(),
+            }
+        })
+        .collect();
+
+    Expr::Match(ExprMatch {
+        attrs: Default::default(),
+        match_token: call_site(),
+        expr: q!((unstable_node)).parse(),
+        brace_token: call_site(),
+        arms: vec![Arm {
+            attrs: Default::default(),
+            pat,
+            guard: Default::default(),
+            fat_arrow_token: call_site(),
+            body: Box::new(Expr::Struct(ExprStruct {
+                attrs: Default::default(),
+                path: f.qual_path(),
+                fields,
+                dot2_token: None,
+                brace_token: call_site(),
+                rest: None,
+            })),
+            comma: Some(call_site()),
+        }],
+    })
+}
+
+fn make_into_unstable_impl_body(f: &VariantBinder) -> Expr {
+    let (pat, fields) = f.bind("_", None, None);
+
+    let fields = fields
+        .into_iter()
+        .map(|f| {
+            // Call from_unstable for each field
+            FieldValue {
+                attrs: Default::default(),
+                member: f
+                    .field()
+                    .ident
+                    .clone()
+                    .map(Member::Named)
+                    .unwrap_or_else(|| Member::Unnamed(Index::from(f.idx()))),
+                colon_token: Some(call_site()),
+                expr: q!(Vars { name: &f.name() }, {
+                    rplugin::StableAst::into_unstable(name)
+                })
+                .parse(),
+            }
+        })
+        .collect();
+
+    Expr::Match(ExprMatch {
+        attrs: Default::default(),
+        match_token: call_site(),
+        expr: q!((self)).parse(),
+        brace_token: call_site(),
+        arms: vec![Arm {
+            attrs: Default::default(),
+            pat,
+            guard: Default::default(),
+            fat_arrow_token: call_site(),
+            body: Box::new(Expr::Struct(ExprStruct {
+                attrs: Default::default(),
+                path: f.qual_path(),
+                fields,
+                dot2_token: None,
+                brace_token: call_site(),
+                rest: None,
+            })),
+            comma: Some(call_site()),
+        }],
+    })
 }

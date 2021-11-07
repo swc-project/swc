@@ -13,7 +13,7 @@ pub enum Lit {
     Number(usize),
 }
 
-#[rplugin::ast_for_plugin("crate")]
+#[rplugin::ast_for_plugin(crate)]
 mod plugin {
 
     pub struct BinExpr {
