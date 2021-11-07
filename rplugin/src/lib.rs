@@ -96,13 +96,15 @@ where
 
 macro_rules! as_is {
     ($T:ty) => {
+        /// This is as-is
         impl UnstableAst for $T {
             type Stable = $T;
-
+            #[inline(always)]
             fn from_stable(n: Self::Stable) -> Self {
                 n
             }
 
+            #[inline(always)]
             fn into_stable(self) -> Self::Stable {
                 self
             }
