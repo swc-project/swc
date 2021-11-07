@@ -221,9 +221,14 @@ impl Fold for Actual {
                         Pat::Expr(pat_expr) => match &**pat_expr {
                             Expr::Member(MemberExpr {
                                 obj: ExprOrSuper::Expr(ex),
+                                computed: false,
                                 ..
                             }) => match &**ex {
-                                Expr::Member(MemberExpr { prop, .. }) => match &**prop {
+                                Expr::Member(MemberExpr {
+                                    prop,
+                                    computed: false,
+                                    ..
+                                }) => match &**prop {
                                     Expr::Ident(ident) => {
                                         self.in_prototype_assignment = *ident.sym == *"prototype";
                                     }
