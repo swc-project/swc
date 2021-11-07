@@ -29,6 +29,7 @@ use abi_stable::{
     std_types::{RBox, RVec},
     StableAbi,
 };
+pub use rplugin_macros::ast_for_plugin;
 
 /// Implemented for normal AST nodes.
 ///
