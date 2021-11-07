@@ -748,6 +748,12 @@ where
         return Err(Error::new(span, ErrorKind::InvalidSelector));
     }
 
+    fn parse_pseudo_element_selector(&mut self) -> PResult<PseudoSelector> {
+        expect!(self, ":"); // `:`
+
+        self.parse_pseudo_class_selector()
+    }
+
     fn parse_compound_selector(&mut self) -> PResult<CompoundSelector> {
         let span = self.input.cur_span()?;
         let start_pos = span.lo;
@@ -793,24 +799,20 @@ where
                     if peeked_is!(self, ":") {
                         while is!(self, ":") {
                             let start = self.input.cur_span()?.lo;
+                            let mut pseudo_element = self.parse_pseudo_element_selector()?;
 
-                            let is_element = peeked_is!(self, ":");
-                            if is_element {
-                                bump!(self);
-                            }
+                            pseudo_element.span.lo = start;
+                            pseudo_element.is_element = true;
 
-                            let mut pseudo = self.parse_pseudo_class_selector()?;
-                            pseudo.span.lo = start;
-                            pseudo.is_element = is_element;
-                            subclass_selectors.push(SubclassSelector::Pseudo(pseudo));
+                            subclass_selectors.push(SubclassSelector::Pseudo(pseudo_element));
                         }
 
                         break 'subclass_selectors;
                     }
 
-                    let pseudo = self.parse_pseudo_class_selector()?;
+                    let pseudo_class = self.parse_pseudo_class_selector()?;
 
-                    subclass_selectors.push(SubclassSelector::Pseudo(pseudo));
+                    subclass_selectors.push(SubclassSelector::Pseudo(pseudo_class));
                 }
 
                 Token::AtKeyword { .. } if self.ctx.allow_at_selector => {
