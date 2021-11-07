@@ -679,7 +679,7 @@ mod tests {
     fn issue_1058() {
         let (i, ret) = parse(input(
             r#"
-            * 
+            *
             * @param list - LinkedList<T>
             * @example <caption>Linkedlists.compareWith</caption>
             * import { LinkedList } from './js_test/linkedlist.ts'
@@ -766,7 +766,7 @@ mod tests {
     #[test]
     fn skip_1() {
         let i = skip(input(
-            "   
+            "
         *
         * @yields ",
         ));

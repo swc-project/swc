@@ -50,7 +50,7 @@ fn regex_expr() -> Box<Expr> {
 fn regex_single_line_comment() {
     assert_eq_ignore_span!(
         expr(
-            r#"re = // ... 
+            r#"re = // ...
             /w+/"#
         ),
         regex_expr()
@@ -65,7 +65,7 @@ fn regex_multi_line_comment() {
 fn regex_multi_line_comment_with_lines() {
     assert_eq_ignore_span!(
         expr(
-            r#"re = 
+            r#"re =
             /*
              ...
              */

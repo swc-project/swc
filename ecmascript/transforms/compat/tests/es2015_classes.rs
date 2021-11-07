@@ -115,7 +115,7 @@ class Hello{
     return {
       toString () {
         return 'hello';
-      } 
+      }
     };
   }
 }
@@ -2547,7 +2547,7 @@ var Test = function Test() {
 
 var Foo =
 /*#__PURE__*/
-function (Bar) {  
+function (Bar) {
   'use strict';
 
   _inherits(Foo, Bar);
@@ -2564,7 +2564,7 @@ function (Bar) {
 }(Bar);
 
 var ConstructorScoping = function ConstructorScoping() {
-  'use strict';  
+  'use strict';
 
   _classCallCheck(this, ConstructorScoping);
   var bar;
@@ -2619,7 +2619,7 @@ var MyCtrl2 = function MyCtrl2(a) {
   "a";
   "b";
   'use strict';
-  
+
   _classCallCheck(this, MyCtrl2);
   foo;
 };

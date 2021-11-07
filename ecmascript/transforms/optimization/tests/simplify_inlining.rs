@@ -103,7 +103,7 @@ identical!(
     switch ('a') {
       case 'a':
             break;
-      default: 
+      default:
             x = 1;
             break;
     }
@@ -157,7 +157,7 @@ to!(
 ",
     "let y;
     {
-        let y;  
+        let y;
         x;
     }
     y;"
@@ -2157,7 +2157,7 @@ test!(
         resolve: any;
         reject: any;
     }
-      
+
     export function d(): D {
         let methods;
         const promise = new Promise((resolve, reject) => {
@@ -2192,7 +2192,7 @@ test!(
         resolve: any;
         reject: any;
     }
-    
+
     function d(): D {
         let methods;
         const promise = new Promise((resolve, reject) => {
@@ -2203,16 +2203,16 @@ test!(
 
     class A {
         private s: D = d();
-      
+
         a() {
             this.s.resolve();
         }
-      
+
         b() {
             this.s = d();
         }
     }
-      
+
     new A();
     ",
     "
@@ -2262,7 +2262,7 @@ const STATUS_TEXT = new Map([
     [
         Status.SwitchingProtocols,
         "Switching Protocols"
-    ] 
+    ]
 ]);
     "#,
     r#"
@@ -2281,7 +2281,7 @@ const STATUS_TEXT = new Map([
             Status1.SwitchingProtocols,
             "Switching Protocols"
         ]
-    ]);    
+    ]);
     "#
 );
 

@@ -75,7 +75,7 @@ class A {}
 "#,
     r#"
 let A = _decorate([dec()], function (_initialize) {
-  
+
 
   class A {
     constructor() {
@@ -116,7 +116,7 @@ class B extends A {
 "#,
     r#"
 let B = _decorate([dec], function (_initialize, _A) {
-  
+
 
   class B extends _A {
     constructor() {
@@ -197,7 +197,7 @@ class B extends A {
 "#,
     r#"
 let B = _decorate([dec], function (_initialize, _A) {
-  
+
 
   class B extends _A {
     constructor() {
@@ -297,7 +297,7 @@ class Foo {
     r#"
 var method = 1;
 let Foo = _decorate([decorator], function (_initialize) {
-  
+
 
   class Foo {
     constructor() {
@@ -432,7 +432,7 @@ class Foo {
 "#,
     r#"
 let Foo = _decorate([_ => desc = _], function (_initialize) {
-  
+
 
   class Foo {
     constructor() {
@@ -542,7 +542,7 @@ class Sub extends Super {
 "#,
     r#"
 let Sub = _decorate([decorator(parameter)], function (_initialize, _Super) {
-  
+
 
   class Sub extends _Super {
     constructor() {
@@ -599,7 +599,7 @@ class A {
 "#,
     r#"
 let A = _decorate([dec(a, b, ...c)], function (_initialize) {
-  
+
 
   class A {
     constructor() {
@@ -723,7 +723,7 @@ class B extends A {
 "#,
     r#"
 let B = _decorate([dec], function (_initialize, _A) {
-  
+
 
   class B extends _A {
     constructor() {
@@ -938,7 +938,7 @@ test!(
     transformation_strict_directive,
     r#"
 (() => {
-  
+
 
   @dec
   class Foo {
@@ -956,7 +956,7 @@ test!(
 "#,
     r#"
 () => {
-  
+
 
   let Foo = _decorate([dec], function (_initialize) {
     class Foo {
@@ -979,7 +979,7 @@ test!(
 
 () => {
   let Foo = _decorate([dec], function (_initialize2) {
-    
+
 
     class Foo {
       constructor() {
@@ -1172,7 +1172,7 @@ test!(
 "#,
     r#"
 let A = _decorate([dec], function (_initialize, _B) {
-  
+
 
   class A extends _B {
     constructor(...args) {
@@ -1206,7 +1206,7 @@ async function g() {
     r#"
 async function g() {
   let A = _decorate([dec], function (_initialize, _super) {
-    
+
 
     class A extends _super {
       constructor(...args) {
@@ -1240,7 +1240,7 @@ function* g() {
     r#"
 function* g() {
   let A = _decorate([dec], function (_initialize, _super) {
-    
+
 
     class A extends _super {
       constructor(...args) {
@@ -1431,7 +1431,7 @@ class B extends A {
 "#,
     r#"
 let B = _decorate([dec], function (_initialize, _A) {
-  
+
 
   class B extends _A {
     constructor() {
@@ -1672,7 +1672,7 @@ test!(
 "#,
     r#"
 _decorate([dec()], function (_initialize) {
-  
+
 
   class _class {
     constructor() {
@@ -1736,7 +1736,7 @@ class Foo {
 "#,
     r#"
 let Foo = _decorate([_ => desc = _], function (_initialize) {
-  
+
 
   class Foo {
     constructor() {
@@ -4441,7 +4441,7 @@ export class Product extends TimestampedEntity {
 
   @OneToMany(() => Discount, (discount) => discount.product)
   public discounts!: Discount[];
-}   
+}
 ",
     "var _class, _descriptor, _dec, _descriptor1, _dec1, _descriptor2, _dec2, _descriptor3, \
      _dec3, _descriptor4, _dec4, _descriptor5, _dec5;
@@ -4666,7 +4666,7 @@ test!(
       private generic: Generic<A>,
       generic2: Generic<A, B>
     ) {}
-  
+
     @Run
     method(
       generic: Inter<A>,
@@ -4739,13 +4739,13 @@ test!(
     @Controller()
     export class AppController {
       constructor(private appService: AppService) {}
-    
+
       @Inject()
       appService: AppService;
-    
+
       @Inject()
       private appService2: AppService;
-    
+
       @Get()
       getHello(): string {
         return this.appService.getHello();
@@ -4831,28 +4831,28 @@ test!(
     "class Injected {}
 
     class MyClass {
-      constructor(@inject() parameter: Injected) {}  
+      constructor(@inject() parameter: Injected) {}
     }
-    
+
     class MyOtherClass {
       constructor(
-        @inject() private readonly parameter: Injected, 
+        @inject() private readonly parameter: Injected,
         @inject('KIND') otherParam: Injected
       ) {}
-    
+
       methodUndecorated(@demo() param: string, otherParam) {}
-    
+
       @decorate('named')
       method(@inject() param: Injected, @arg() schema: Schema) {}
     }
-    
+
     @Decorate
     class DecoratedClass {
       constructor(
         @inject() private readonly module: Injected,
         @inject() otherModule: Injected
       ) {}
-      
+
       @decorate('example')
       method(@inject() param: string) {}
     }",
@@ -4942,16 +4942,16 @@ test!(
     legacy_metadata_type_serialization,
     "import { Service } from './service';
     import { Decorate } from './Decorate';
-    
+
     const sym = Symbol();
-    
+
     @Decorate()
     class Sample {
       constructor(
         private p0: String,
         p1: Number,
         p2: 10,
-        p3: 'ABC',    
+        p3: 'ABC',
         p4: boolean,
         p5: string,
         p6: number,
@@ -4968,7 +4968,7 @@ test!(
         p17: true,
         p18: string = 'abc'
       ) {}
-    
+
       @Decorate
       method(
         @Arg() p0: Symbol,
@@ -4990,16 +4990,16 @@ test!(
         p16: any,
         p17: bigint,
       ) {}
-    
+
       /**
        * Member Expression
        */
       @Decorate()
       method2(
         p0: Decorate.Name = 'abc',
-        p1: Decorate.Name 
+        p1: Decorate.Name
       ) {}
-    
+
       /**
        * Assignments
        */
@@ -5097,12 +5097,12 @@ test!(
       x = \"xxx\",
       y = \"yyy\"
     }
-    
+
     class Xpto {
       @Decorator()
       value!: MyEnum;
     }
-    
+
     function Decorator() {
       return function (...args) {};
     }
@@ -5765,7 +5765,7 @@ test!(
     @dec
     someMethod() {}
   }
-  
+
   class OtherClass extends SomeClass {
     @dec
     anotherMethod() {

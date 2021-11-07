@@ -1915,7 +1915,7 @@ test!(
               return _interopRequireWildcard(require(\"foo\"));
           }));
       }
-  });      
+  });
     ",
     ok_if_code_eq
 );

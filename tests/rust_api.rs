@@ -69,7 +69,7 @@ fn shopify_1_check_filename() {
             "
             import React from 'react';
             import { useI18n } from '@shopify/react-i18n';
-            
+
             export function App() {
                 const [i18n] = useI18n();
                 return <h1>{i18n.translate('foo')}</h1>
@@ -170,7 +170,7 @@ fn shopify_2_same_opt() {
             "
             import React from 'react';
             import { useI18n } from '@shopify/react-i18n';
-            
+
             export function App() {
                 const [i18n] = useI18n();
                 return <h1>{i18n.translate('foo')}</h1>
@@ -232,7 +232,7 @@ fn shopify_3_reduce_defaults() {
             "
             import React from 'react';
             import { useI18n } from '@shopify/react-i18n';
-            
+
             export function App() {
                 const [i18n] = useI18n();
                 return <h1>{i18n.translate('foo')}</h1>
@@ -288,7 +288,7 @@ fn shopify_4_reduce_more() {
             "
             import React from 'react';
             import { useI18n } from '@shopify/react-i18n';
-            
+
             export function App() {
                 const [i18n] = useI18n();
                 return <h1>{i18n.translate('foo')}</h1>

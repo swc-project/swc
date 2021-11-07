@@ -2151,7 +2151,7 @@ test!(
       return function() {
           return _ref.apply(this, arguments);
       };
-    }();  
+    }();
     "
 );
 
@@ -2247,8 +2247,8 @@ test()
   function test() {
     return _test.apply(this, arguments);
   }
-  
-  
+
+
   test();
   "
 );
@@ -2261,7 +2261,7 @@ test!(
     class A {
       val = '1';
       async foo() {
-          try {           
+          try {
               return await (async (x) => x + this.val)('a');
           } catch (e) {
               throw e;
@@ -2298,14 +2298,14 @@ test_exec!(
     class A {
       val = '1';
       async foo() {
-          try {           
+          try {
               return await (async (x) => x + this.val)('a');
           } catch (e) {
               throw e;
           }
       }
     }
-    
+
     const a = new A();
     expect(a.foo()).resolves.toEqual('a1')
     "
@@ -2371,7 +2371,7 @@ test!(
           return result;
       },
     };
-    
+
     obj.byPlatform('foo').then(v => console.log(v))
     ",
     "
@@ -2447,11 +2447,11 @@ test!(
       var _main = _asyncToGenerator(function* () {
         console.log(1);
       });
-    
+
       function main() {
         return _main.apply(this, arguments);
       }
-    
+
       return main;
     })()(foo);
     "
@@ -2643,14 +2643,14 @@ test_exec!(
         yield result
       }
     }
-    
+
     async function printValues() {
       const iterator = generate()
       for await (const value of iterator) {
         console.log(`iterator value: ${value}`)
       }
     }
-    
+
     printValues()
     "
 );

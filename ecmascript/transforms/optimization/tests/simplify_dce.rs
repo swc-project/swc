@@ -73,7 +73,7 @@ noop!(
     noop_2,
     "
 switch (1){
-    case 1: 
+    case 1:
         a = '1';
 }
 
@@ -168,7 +168,7 @@ to!(
       RESOURCE_INSTAGRAM,
       RESOURCE_WEBSITE,
   } from '../../../../consts'
-  
+
     export const resources = [
       {
           value: RESOURCE_WEBSITE,
@@ -213,7 +213,7 @@ to!(
       RESOURCE_INSTAGRAM,
       RESOURCE_WEBSITE,
   } from '../../../../consts'
-  
+
     const resources = [
       {
           value: RESOURCE_WEBSITE,
@@ -283,7 +283,7 @@ resources.map(v => v)"
 noop!(
     issue_763_4,
     "import { RESOURCE_FACEBOOK, RESOURCE_INSTAGRAM, RESOURCE_WEBSITE } from './consts';
-    
+
     const resources = [
       {
         value: RESOURCE_WEBSITE,
@@ -298,7 +298,7 @@ noop!(
         label: 'Instagram',
       },
     ];
-    
+
     export function foo(websites) {
         const a = resources.map((resource) => (
             {
@@ -376,7 +376,7 @@ noop!(
     spack_issue_009,
     "
 class A {
-    
+
 }
 function a() {
     return new A();
@@ -541,7 +541,7 @@ test!(
         resolve: any;
         reject: any;
     }
-      
+
     export function d(): D {
         let methods;
         const promise = new Promise((resolve, reject) => {
@@ -576,7 +576,7 @@ test!(
         resolve: any;
         reject: any;
     }
-    
+
     function d(): D {
         let methods;
         const promise = new Promise((resolve, reject) => {
@@ -587,16 +587,16 @@ test!(
 
     class A {
         private s: D = d();
-      
+
         a() {
             this.s.resolve();
         }
-      
+
         b() {
             this.s = d();
         }
     }
-      
+
     new A();
     ",
     "
@@ -670,7 +670,7 @@ test!(
         resolve: any;
         reject: any;
     }
-    
+
     function d(): D {
         let methods;
         const promise = new Promise((resolve, reject) => {
@@ -681,12 +681,12 @@ test!(
 
     class A {
         private s: D = d();
-      
+
         a() {
             this.s.resolve();
         }
     }
-      
+
     new A();
     ",
     "

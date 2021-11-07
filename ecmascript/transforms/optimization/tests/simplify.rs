@@ -481,7 +481,7 @@ test!(
         resolve: any;
         reject: any;
     }
-    
+
     function d(): D {
         let methods;
         const promise = new Promise((resolve, reject) => {
@@ -492,16 +492,16 @@ test!(
 
     class A {
         private s: D = d();
-      
+
         a() {
             this.s.resolve();
         }
-      
+
         b() {
             this.s = d();
         }
     }
-      
+
     new A();
     ",
     "
@@ -579,7 +579,7 @@ test!(
     issue_1619_1,
     r#"
     "use strict";
-	
+
     console.log("\x00" + "\x31");
 
     "#,
@@ -600,7 +600,7 @@ test!(
             console.log(this === globalThis);
         },
     };
-    
+
     X.run();
     (0, X.run)();
     ",
@@ -610,7 +610,7 @@ test!(
             console.log(this === globalThis);
         },
     };
-    
+
     X.run();
     (0, X.run)();
     "

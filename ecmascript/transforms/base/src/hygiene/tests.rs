@@ -564,7 +564,7 @@ fn block_in_fn() {
             }))])
         },
         "
-        // Ideal: 
+        // Ideal:
         //
         // function Foo() {
         //     var bar;
@@ -833,7 +833,7 @@ fn regression_001() {
     function Foo() {
         _classCallCheck(this, Foo);
         foo.set(this, {
-             writable: true, value: 0 
+             writable: true, value: 0
         });
     }
     _createClass(Foo, [{
@@ -843,7 +843,7 @@ fn regression_001() {
                      1), old;
                      _classPrivateFieldSet(_obj = other.obj, foo, (old = \
                      +_classPrivateFieldGet(_obj, foo)) + 1), old;
-                } 
+                }
         }]);
     return Foo;
 }();
@@ -858,7 +858,7 @@ fn regression_001() {
     function Foo() {
         _classCallCheck(this, Foo);
         foo.set(this, {
-             writable: true, value: 0 
+             writable: true, value: 0
         });
     }
     _createClass(Foo, [{
@@ -868,7 +868,7 @@ fn regression_001() {
          old;
                 _classPrivateFieldSet(_obj = other.obj, foo, (old1 = +_classPrivateFieldGet(_obj1, \
          foo)) + 1), old1;
-                } 
+                }
         }]);
     return Foo;
 }();
@@ -893,7 +893,7 @@ fn regression_002() {
                      1), old;
                      _classPrivateFieldSet(_obj = other.obj, foo, (old = \
                      +_classPrivateFieldGet(_obj, foo)) + 1), old;
-                } 
+                }
         }])",
                 )?
                 .fold_with(&mut OnceMarker::new(&[(
@@ -908,7 +908,7 @@ fn regression_002() {
          1), old;
                      _classPrivateFieldSet(_obj = other.obj, foo, (old1 = \
          +_classPrivateFieldGet(_obj, foo)) + 1), old1;
-                } 
+                }
         }]);",
     );
 }
@@ -1521,7 +1521,7 @@ fn opt_6() {
             }
 
         }
-        
+
         ",
     );
 }
@@ -1582,7 +1582,7 @@ fn issue_2211_2() {
                         const _bar = () => _bar();
 
                         const alfa = () => _bar();
-                      
+
                         return { alfa };
                     };
                     ",
@@ -1702,7 +1702,7 @@ fn var_awareness_2() {
         },
         "
         for (var i of [1, 2, 3]) {
-            
+
         }
         for (var i1 of [4, 5, 6]) {
             console.log(i1)

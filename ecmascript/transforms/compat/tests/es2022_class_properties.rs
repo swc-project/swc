@@ -401,8 +401,8 @@ function withContext(ComposedComponent) {
       context: PropTypes.shape({
         addCss: PropTypes.func,
         setTitle: PropTypes.func,
-        setMeta: PropTypes.func 
-      }) 
+        setMeta: PropTypes.func
+      })
     });
     return WithContext;
   })();
@@ -757,7 +757,7 @@ class Foo {
 "#,
     r#"
 var Foo = function Foo() {
-  'use strict';  
+  'use strict';
 
   _classCallCheck(this, Foo);
 };
@@ -1056,22 +1056,22 @@ var MyClass = function() {
     }
     _createClass(MyClass, [{
              key: tmp, get: function () {
-                } 
+                }
         }, {
              key: tmp1, set: function (value) {
-                } 
+                }
         }, {
              key: tmp2, get: function () {
-                } 
+                }
         }, {
              key: tmp3, set: function (value) {
-                } 
+                }
         }, {
              key: tmp4, value: function () {
-                } 
+                }
         }], [{
              key: tmp5, value: function () {
-                } 
+                }
         }]);
     return MyClass;
 }();
@@ -1717,7 +1717,7 @@ var _prop = new WeakMap();
 var Bar =
 /*#__PURE__*/
 function (Foo) {
-  'use strict';  
+  'use strict';
 
   _inherits(Bar, Foo);
 
@@ -2262,12 +2262,12 @@ export default ((param)=>{
       key: 'getParam',
       value: function getParam() {
         return param;
-      } 
+      }
     }]);
     return App;
   }();
   _defineProperty(App, 'props', {
-    prop1: 'prop1', prop2: 'prop2' 
+    prop1: 'prop1', prop2: 'prop2'
   });
   return App;
 });
@@ -3502,7 +3502,7 @@ class MyClass3 {
 }
 var _myAsyncMethod1 = new WeakMap();
 export { MyClass3 as default };
-  
+
 
 "#
 );
@@ -3569,7 +3569,7 @@ for (let i = 0; i <= 10; ++i) {
 for(let i=0; i<= 10; ++i) {
   const clazz = classes[i];
   expect(clazz.foo).toBe('static field ' + i);
-  
+
   const instance = new clazz();
   expect(Object.getOwnPropertyNames(instance)).toEqual([String(i)])
   expect(instance[i]).toBe('computed field ' + i);
@@ -4811,11 +4811,11 @@ test!(
     r#"
   class Animal {
     #name;
-  
+
     constructor(name) {
       this.#name = name
     }
-  
+
     noise() {
       return this.#name
     }
@@ -4900,7 +4900,7 @@ test!(
     "
   class Test {
     #ws;
-    
+
     _packet(raw) {
         /** @type {DiscordPacket} */
         let pak;
@@ -5073,7 +5073,7 @@ test!(
     "
     class Test {
       #ws;
-    
+
       _packet(raw) {
         /** @type {DiscordPacket} */
         let pak;
@@ -5116,7 +5116,7 @@ test!(
       }
   }
   var _ws = new WeakMap();
-  
+
     "
 );
 
@@ -5127,7 +5127,7 @@ test!(
     "
   class Test {
     #ws;
-  
+
     _packet(raw) {
       /** @type {DiscordPacket} */
       let pak;
@@ -5286,18 +5286,18 @@ test!(
     class Foo {
       #y;
       static #z = 3;
-    
+
       constructor() {
         this.x = 1;
         this.#y = 2;
         this.#sssss();
       }
-    
+
       #sssss() {
         console.log(this.x, this.#y, Foo.#z);
       }
     }
-    
+
     const instance = new Foo();
     ",
     "
@@ -5337,7 +5337,7 @@ test!(
         return 1;
       }
       // #value = 1;
-    
+
       get(target) {
         return target.#value;
       }
@@ -5368,7 +5368,7 @@ test_exec!(
       #tag() {
         return this;
       }
-      
+
       #tag2 = this.#tag;
 
       constructor() {
@@ -5395,7 +5395,7 @@ test_exec!(
     #tag() {
       return this;
     }
-    
+
     #tag2 = this.#tag;
 
     constructor() {
@@ -5419,7 +5419,7 @@ test!(
       #tag() {
         return this;
       }
-      
+
       #tag2 = this.#tag;
 
       constructor() {
@@ -5527,7 +5527,7 @@ test!(
       constructor(props) {
         super(props);
       }
-    
+
       input = this.props.item;
     }
     ",

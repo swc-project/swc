@@ -414,9 +414,9 @@ test!(
     export default _c7 = React.memo(_c6 = forwardRef(_c5 = (props, ref) => {
       return <h1>Foo</h1>;
     }));
-    
+
     var _c, _c1, _c2, _c3, _c4, _c5, _c6, _c7;
-    
+
     $RefreshReg$(_c, "A$forwardRef");
     $RefreshReg$(_c1, "A");
     $RefreshReg$(_c2, "B$memo$React.forwardRef");
@@ -444,9 +444,9 @@ test!(
     export default _c2 = React.memo(_c1 = forwardRef(_c = function (props, ref) {
       return <h1>Foo</h1>;
     }));
-    
+
     var _c, _c1, _c2;
-    
+
     $RefreshReg$(_c, "%default%$React.memo$forwardRef");
     $RefreshReg$(_c1, "%default%$React.memo");
     $RefreshReg$(_c2, "%default%");
@@ -469,9 +469,9 @@ test!(
     export default _c2 = React.memo(_c1 = forwardRef(_c = function Named(props, ref) {
       return <h1>Foo</h1>;
     }));
-    
+
     var _c, _c1, _c2;
-    
+
     $RefreshReg$(_c, "%default%$React.memo$forwardRef");
     $RefreshReg$(_c1, "%default%$React.memo");
     $RefreshReg$(_c2, "%default%");
@@ -524,11 +524,11 @@ test!(
     const throttledAlert = throttle(function () {
       alert('Hi');
     });
-    
+
     const TooComplex = function () {
       return hello;
     }(() => {});
-    
+
     if (cond) {
       const Foo = thing(() => {});
     }
@@ -584,11 +584,11 @@ test!(
     let Alias1 = A;
     let Alias2 = A.Foo;
     const Dict = {};
-    
+
     function Foo() {
       return <div><A /><B /><StyledFactory1 /><StyledFactory2 /><StyledFactory3 /><Alias1 /><Alias2 /><Header /><Dict.X /></div>;
     }
-    
+
     _c4 = Foo;
     const B = hoc(A); // This is currently registered as a false positive:
 
@@ -598,7 +598,7 @@ test!(
     _c6 = NotAComponent;
 
     var _c, _c1, _c2, _c3, _c4, _c5, _c6;
-    
+
     $RefreshReg$(_c, "Header");
     $RefreshReg$(_c1, "StyledFactory1");
     $RefreshReg$(_c2, "StyledFactory2");
@@ -671,11 +671,11 @@ test!(
     let Alias1 = A;
     let Alias2 = A.Foo;
     const Dict = {};
-    
+
     function Foo() {
       return [React.createElement(A), React.createElement(B), React.createElement(StyledFactory1), React.createElement(StyledFactory2), React.createElement(StyledFactory3), React.createElement(Alias1), React.createElement(Alias2), jsx(Header), React.createElement(Dict.X)];
     }
-    
+
     _c4 = Foo;
     React.createContext(Store);
     const B = hoc(A); // This is currently registered as a false positive:
@@ -684,9 +684,9 @@ test!(
     const NotAComponent = wow(A); // We could avoid it but it also doesn't hurt.
 
     _c6 = NotAComponent;
-    
+
     var _c, _c1, _c2, _c3, _c4, _c5, _c6;
-    
+
     $RefreshReg$(_c, "Header");
     $RefreshReg$(_c1, "StyledFactory1");
     $RefreshReg$(_c2, "StyledFactory2");
@@ -716,7 +716,7 @@ test!(
     function Foo() {
       return <h1>Hi</h1>;
     }
-    
+
     _c = Foo;
     export default _c1 = hoc(Foo);
     export const A = hoc(Foo);
@@ -752,18 +752,18 @@ test!(
 
     export default function App() {
       _s();
-    
+
       const [foo, setFoo] = useState(0);
       React.useEffect(() => {});
       return <h1>{foo}</h1>;
     }
 
     _s(App, "useState{[foo, setFoo](0)}\nuseEffect{}");
-    
+
     _c = App;
-    
+
     var _c;
-    
+
     $RefreshReg$(_c, "App");
 "#
 );
@@ -796,26 +796,26 @@ test!(
 
     export function Foo() {
       _s();
-  
+
       const [foo, setFoo] = useState(0);
       React.useEffect(() => {});
       return <h1>{foo}</h1>;
     }
 
     _s(Foo, "useState{[foo, setFoo](0)}\nuseEffect{}");
-  
+
     _c = Foo;
 
     function Bar() {
       _s1();
-  
+
       const [foo, setFoo] = useState(0);
       React.useEffect(() => {});
       return <h1>{foo}</h1>;
     }
 
     _s1(Bar, "useState{[foo, setFoo](0)}\nuseEffect{}");
-  
+
     _c1 = Bar;
 
     function baz() {
@@ -826,7 +826,7 @@ test!(
     _s2(baz, "useState{}\nuseState{}");
 
     var _c, _c1;
-  
+
     $RefreshReg$(_c, "Foo");
     $RefreshReg$(_c1, "Bar");
 "#
@@ -864,7 +864,7 @@ test!(
 
     export const A = _s2(React.memo(_c1 = _s2 (React.forwardRef(_c = _s2((props, ref) => {
       _s2();
-    
+
       const [foo, setFoo] = useState(0);
       React.useEffect(() => {});
       return <h1 ref={ref}>{foo}</h1>;
@@ -872,7 +872,7 @@ test!(
     _c2 = A;
     export const B = _s1(React.memo(_c4 = _s1(React.forwardRef(_c3 = _s1(function (props, ref) {
       _s1();
-    
+
       const [foo, setFoo] = useState(0);
       React.useEffect(() => {});
       return <h1 ref={ref}>{foo}</h1>;
@@ -1119,9 +1119,9 @@ test!(
     exports.default = App;
     var _hooks = require("./hooks");
     var _foo = _interopRequireDefault(require("./foo"));
-    
+
     var _s = $RefreshSig$();
-    
+
     function App() {
       _s();
 
@@ -1129,15 +1129,15 @@ test!(
       const foo = (0, _foo).default();
       return <h1>{bar}</h1>;
     }
-    
+
     _s(App, "useFancyState{bar}\nuseFoo{foo}", false, function () {
       return [_hooks.useFancyState, _foo.default];
     });
-    
+
     _c = App;
-    
+
     var _c;
-    
+
     $RefreshReg$(_c, "App");
 "#
 );
@@ -1182,22 +1182,22 @@ test!(
       }
 
       _s1(useFancyState, "useState{[foo, setFoo](0)}\nuseFancyEffect{}", true);
-    
+
       const bar = useFancyState();
       const baz = FancyHook.useThing();
       React.useState();
       useThePlatform();
       return <h1>{bar}{baz}</h1>;
     }
-    
+
     _s(App, "useFancyState{bar}\nuseThing{baz}\nuseState{}\nuseThePlatform{}", true, function () {
       return [FancyHook.useThing];
     });
-    
+
     _c = App;
-    
+
     var _c;
-    
+
     $RefreshReg$(_c, "App");
 "#
 );
@@ -1244,9 +1244,9 @@ test!(
         </div>;
     }
     _c = App;
-    
+
     var _c;
-    
+
     $RefreshReg$(_c, "App");
 "#
 );
@@ -1323,10 +1323,10 @@ test!(
     r#"
     while (item) {
       var _s = $RefreshSig$();
-    
+
       _s(item => {
         _s();
-    
+
         useFoo();
       }, "useFoo{}", true)(item);
     }
@@ -1366,17 +1366,17 @@ test!(
 
     export default function Bar() {
       _s();
-    
+
       useContext(X);
       return <Foo />;
     }
-    
+
     _s(Bar, "useContext{}");
-    
+
     _c = Bar;
-    
+
     var _c;
-    
+
     import_meta_refreshReg(_c, "Bar");
 "#
 );
@@ -1392,7 +1392,7 @@ test!(
     function useHooks() {
       return useMemo(() => 1);
     }
-  
+
     declare module 'x' {}
 "#,
     r#"
