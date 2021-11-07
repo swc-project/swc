@@ -2034,6 +2034,13 @@ dependencies = [
 [[package]]
 name = "rplugin_macros"
 version = "0.1.0"
+dependencies = [
+ "pmutil",
+ "proc-macro2",
+ "quote",
+ "swc_macros_common",
+ "syn",
+]
 
 [[package]]
 name = "rustc-demangle"
