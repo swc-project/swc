@@ -28,7 +28,7 @@
               "end": 9,
               "ctxt": 0
             },
-            "selectors": [
+            "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
@@ -37,7 +37,6 @@
                   "ctxt": 0
                 },
                 "nestingSelector": null,
-                "combinator": null,
                 "typeSelector": {
                   "type": "TypeSelector",
                   "span": {
@@ -714,7 +713,7 @@
               "end": 917,
               "ctxt": 0
             },
-            "selectors": [
+            "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
@@ -723,7 +722,6 @@
                   "ctxt": 0
                 },
                 "nestingSelector": null,
-                "combinator": null,
                 "typeSelector": {
                   "type": "TypeSelector",
                   "span": {
@@ -845,7 +843,7 @@
               "end": 973,
               "ctxt": 0
             },
-            "selectors": [
+            "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
@@ -854,7 +852,6 @@
                   "ctxt": 0
                 },
                 "nestingSelector": null,
-                "combinator": null,
                 "typeSelector": {
                   "type": "TypeSelector",
                   "span": {

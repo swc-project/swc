@@ -1,624 +1,102 @@
 error: Stylesheet
  --> $DIR/tests/fixture/selector/combinators/input.css:1:1
   |
-1 | / article p {}
-2 | | article   p   {}
-3 | | article > p {}
-4 | | article    >    p    {}
-... |
-8 | | p    ~    img {}
-9 | | article > p > a {}
-  | |___________________^
+1 | article   p  p   {}
+  | ^^^^^^^^^^^^^^^^^^^
 
 error: Rule
  --> $DIR/tests/fixture/selector/combinators/input.css:1:1
   |
-1 | article p {}
-  | ^^^^^^^^^^^^
+1 | article   p  p   {}
+  | ^^^^^^^^^^^^^^^^^^^
 
 error: StyleRule
  --> $DIR/tests/fixture/selector/combinators/input.css:1:1
   |
-1 | article p {}
-  | ^^^^^^^^^^^^
+1 | article   p  p   {}
+  | ^^^^^^^^^^^^^^^^^^^
 
 error: SelectorList
  --> $DIR/tests/fixture/selector/combinators/input.css:1:1
   |
-1 | article p {}
-  | ^^^^^^^^^
+1 | article   p  p   {}
+  | ^^^^^^^^^^^^^^
 
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/combinators/input.css:1:1
   |
-1 | article p {}
-  | ^^^^^^^^^
+1 | article   p  p   {}
+  | ^^^^^^^^^^^^^^
 
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/combinators/input.css:1:1
   |
-1 | article p {}
+1 | article   p  p   {}
   | ^^^^^^^
 
 error: TypeSelector
  --> $DIR/tests/fixture/selector/combinators/input.css:1:1
   |
-1 | article p {}
+1 | article   p  p   {}
   | ^^^^^^^
 
 error: Text
  --> $DIR/tests/fixture/selector/combinators/input.css:1:1
   |
-1 | article p {}
+1 | article   p  p   {}
   | ^^^^^^^
 
+error: Combinator
+ --> $DIR/tests/fixture/selector/combinators/input.css:1:8
+  |
+1 | article   p  p   {}
+  |        ^^^
+
 error: CompoundSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:1:9
-  |
-1 | article p {}
-  |         ^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:1:9
-  |
-1 | article p {}
-  |         ^
-
-error: Text
- --> $DIR/tests/fixture/selector/combinators/input.css:1:9
-  |
-1 | article p {}
-  |         ^
-
-error: Block
  --> $DIR/tests/fixture/selector/combinators/input.css:1:11
   |
-1 | article p {}
-  |           ^^
-
-error: Rule
- --> $DIR/tests/fixture/selector/combinators/input.css:2:1
-  |
-2 | article   p   {}
-  | ^^^^^^^^^^^^^^^^
-
-error: StyleRule
- --> $DIR/tests/fixture/selector/combinators/input.css:2:1
-  |
-2 | article   p   {}
-  | ^^^^^^^^^^^^^^^^
-
-error: SelectorList
- --> $DIR/tests/fixture/selector/combinators/input.css:2:1
-  |
-2 | article   p   {}
-  | ^^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:2:1
-  |
-2 | article   p   {}
-  | ^^^^^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:2:1
-  |
-2 | article   p   {}
-  | ^^^^^^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:2:1
-  |
-2 | article   p   {}
-  | ^^^^^^^
-
-error: Text
- --> $DIR/tests/fixture/selector/combinators/input.css:2:1
-  |
-2 | article   p   {}
-  | ^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:2:11
-  |
-2 | article   p   {}
+1 | article   p  p   {}
   |           ^
 
 error: TypeSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:2:11
+ --> $DIR/tests/fixture/selector/combinators/input.css:1:11
   |
-2 | article   p   {}
+1 | article   p  p   {}
   |           ^
 
 error: Text
- --> $DIR/tests/fixture/selector/combinators/input.css:2:11
+ --> $DIR/tests/fixture/selector/combinators/input.css:1:11
   |
-2 | article   p   {}
+1 | article   p  p   {}
   |           ^
+
+error: Combinator
+ --> $DIR/tests/fixture/selector/combinators/input.css:1:12
+  |
+1 | article   p  p   {}
+  |            ^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/combinators/input.css:1:14
+  |
+1 | article   p  p   {}
+  |              ^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/combinators/input.css:1:14
+  |
+1 | article   p  p   {}
+  |              ^
+
+error: Text
+ --> $DIR/tests/fixture/selector/combinators/input.css:1:14
+  |
+1 | article   p  p   {}
+  |              ^
 
 error: Block
- --> $DIR/tests/fixture/selector/combinators/input.css:2:15
+ --> $DIR/tests/fixture/selector/combinators/input.css:1:18
   |
-2 | article   p   {}
-  |               ^^
-
-error: Rule
- --> $DIR/tests/fixture/selector/combinators/input.css:3:1
-  |
-3 | article > p {}
-  | ^^^^^^^^^^^^^^
-
-error: StyleRule
- --> $DIR/tests/fixture/selector/combinators/input.css:3:1
-  |
-3 | article > p {}
-  | ^^^^^^^^^^^^^^
-
-error: SelectorList
- --> $DIR/tests/fixture/selector/combinators/input.css:3:1
-  |
-3 | article > p {}
-  | ^^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:3:1
-  |
-3 | article > p {}
-  | ^^^^^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:3:1
-  |
-3 | article > p {}
-  | ^^^^^^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:3:1
-  |
-3 | article > p {}
-  | ^^^^^^^
-
-error: Text
- --> $DIR/tests/fixture/selector/combinators/input.css:3:1
-  |
-3 | article > p {}
-  | ^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:3:11
-  |
-3 | article > p {}
-  |           ^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:3:11
-  |
-3 | article > p {}
-  |           ^
-
-error: Text
- --> $DIR/tests/fixture/selector/combinators/input.css:3:11
-  |
-3 | article > p {}
-  |           ^
-
-error: Block
- --> $DIR/tests/fixture/selector/combinators/input.css:3:13
-  |
-3 | article > p {}
-  |             ^^
-
-error: Rule
- --> $DIR/tests/fixture/selector/combinators/input.css:4:1
-  |
-4 | article    >    p    {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^
-
-error: StyleRule
- --> $DIR/tests/fixture/selector/combinators/input.css:4:1
-  |
-4 | article    >    p    {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
- --> $DIR/tests/fixture/selector/combinators/input.css:4:1
-  |
-4 | article    >    p    {}
-  | ^^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:4:1
-  |
-4 | article    >    p    {}
-  | ^^^^^^^^^^^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:4:1
-  |
-4 | article    >    p    {}
-  | ^^^^^^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:4:1
-  |
-4 | article    >    p    {}
-  | ^^^^^^^
-
-error: Text
- --> $DIR/tests/fixture/selector/combinators/input.css:4:1
-  |
-4 | article    >    p    {}
-  | ^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:4:17
-  |
-4 | article    >    p    {}
-  |                 ^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:4:17
-  |
-4 | article    >    p    {}
-  |                 ^
-
-error: Text
- --> $DIR/tests/fixture/selector/combinators/input.css:4:17
-  |
-4 | article    >    p    {}
-  |                 ^
-
-error: Block
- --> $DIR/tests/fixture/selector/combinators/input.css:4:22
-  |
-4 | article    >    p    {}
-  |                      ^^
-
-error: Rule
- --> $DIR/tests/fixture/selector/combinators/input.css:5:1
-  |
-5 | p + img {}
-  | ^^^^^^^^^^
-
-error: StyleRule
- --> $DIR/tests/fixture/selector/combinators/input.css:5:1
-  |
-5 | p + img {}
-  | ^^^^^^^^^^
-
-error: SelectorList
- --> $DIR/tests/fixture/selector/combinators/input.css:5:1
-  |
-5 | p + img {}
-  | ^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:5:1
-  |
-5 | p + img {}
-  | ^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:5:1
-  |
-5 | p + img {}
-  | ^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:5:1
-  |
-5 | p + img {}
-  | ^
-
-error: Text
- --> $DIR/tests/fixture/selector/combinators/input.css:5:1
-  |
-5 | p + img {}
-  | ^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:5:5
-  |
-5 | p + img {}
-  |     ^^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:5:5
-  |
-5 | p + img {}
-  |     ^^^
-
-error: Text
- --> $DIR/tests/fixture/selector/combinators/input.css:5:5
-  |
-5 | p + img {}
-  |     ^^^
-
-error: Block
- --> $DIR/tests/fixture/selector/combinators/input.css:5:9
-  |
-5 | p + img {}
-  |         ^^
-
-error: Rule
- --> $DIR/tests/fixture/selector/combinators/input.css:6:1
-  |
-6 | p   +   img {}
-  | ^^^^^^^^^^^^^^
-
-error: StyleRule
- --> $DIR/tests/fixture/selector/combinators/input.css:6:1
-  |
-6 | p   +   img {}
-  | ^^^^^^^^^^^^^^
-
-error: SelectorList
- --> $DIR/tests/fixture/selector/combinators/input.css:6:1
-  |
-6 | p   +   img {}
-  | ^^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:6:1
-  |
-6 | p   +   img {}
-  | ^^^^^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:6:1
-  |
-6 | p   +   img {}
-  | ^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:6:1
-  |
-6 | p   +   img {}
-  | ^
-
-error: Text
- --> $DIR/tests/fixture/selector/combinators/input.css:6:1
-  |
-6 | p   +   img {}
-  | ^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:6:9
-  |
-6 | p   +   img {}
-  |         ^^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:6:9
-  |
-6 | p   +   img {}
-  |         ^^^
-
-error: Text
- --> $DIR/tests/fixture/selector/combinators/input.css:6:9
-  |
-6 | p   +   img {}
-  |         ^^^
-
-error: Block
- --> $DIR/tests/fixture/selector/combinators/input.css:6:13
-  |
-6 | p   +   img {}
-  |             ^^
-
-error: Rule
- --> $DIR/tests/fixture/selector/combinators/input.css:7:1
-  |
-7 | p ~ img {}
-  | ^^^^^^^^^^
-
-error: StyleRule
- --> $DIR/tests/fixture/selector/combinators/input.css:7:1
-  |
-7 | p ~ img {}
-  | ^^^^^^^^^^
-
-error: SelectorList
- --> $DIR/tests/fixture/selector/combinators/input.css:7:1
-  |
-7 | p ~ img {}
-  | ^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:7:1
-  |
-7 | p ~ img {}
-  | ^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:7:1
-  |
-7 | p ~ img {}
-  | ^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:7:1
-  |
-7 | p ~ img {}
-  | ^
-
-error: Text
- --> $DIR/tests/fixture/selector/combinators/input.css:7:1
-  |
-7 | p ~ img {}
-  | ^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:7:5
-  |
-7 | p ~ img {}
-  |     ^^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:7:5
-  |
-7 | p ~ img {}
-  |     ^^^
-
-error: Text
- --> $DIR/tests/fixture/selector/combinators/input.css:7:5
-  |
-7 | p ~ img {}
-  |     ^^^
-
-error: Block
- --> $DIR/tests/fixture/selector/combinators/input.css:7:9
-  |
-7 | p ~ img {}
-  |         ^^
-
-error: Rule
- --> $DIR/tests/fixture/selector/combinators/input.css:8:1
-  |
-8 | p    ~    img {}
-  | ^^^^^^^^^^^^^^^^
-
-error: StyleRule
- --> $DIR/tests/fixture/selector/combinators/input.css:8:1
-  |
-8 | p    ~    img {}
-  | ^^^^^^^^^^^^^^^^
-
-error: SelectorList
- --> $DIR/tests/fixture/selector/combinators/input.css:8:1
-  |
-8 | p    ~    img {}
-  | ^^^^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:8:1
-  |
-8 | p    ~    img {}
-  | ^^^^^^^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:8:1
-  |
-8 | p    ~    img {}
-  | ^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:8:1
-  |
-8 | p    ~    img {}
-  | ^
-
-error: Text
- --> $DIR/tests/fixture/selector/combinators/input.css:8:1
-  |
-8 | p    ~    img {}
-  | ^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:8:11
-  |
-8 | p    ~    img {}
-  |           ^^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:8:11
-  |
-8 | p    ~    img {}
-  |           ^^^
-
-error: Text
- --> $DIR/tests/fixture/selector/combinators/input.css:8:11
-  |
-8 | p    ~    img {}
-  |           ^^^
-
-error: Block
- --> $DIR/tests/fixture/selector/combinators/input.css:8:15
-  |
-8 | p    ~    img {}
-  |               ^^
-
-error: Rule
- --> $DIR/tests/fixture/selector/combinators/input.css:9:1
-  |
-9 | article > p > a {}
-  | ^^^^^^^^^^^^^^^^^^
-
-error: StyleRule
- --> $DIR/tests/fixture/selector/combinators/input.css:9:1
-  |
-9 | article > p > a {}
-  | ^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
- --> $DIR/tests/fixture/selector/combinators/input.css:9:1
-  |
-9 | article > p > a {}
-  | ^^^^^^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:9:1
-  |
-9 | article > p > a {}
-  | ^^^^^^^^^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:9:1
-  |
-9 | article > p > a {}
-  | ^^^^^^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:9:1
-  |
-9 | article > p > a {}
-  | ^^^^^^^
-
-error: Text
- --> $DIR/tests/fixture/selector/combinators/input.css:9:1
-  |
-9 | article > p > a {}
-  | ^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:9:11
-  |
-9 | article > p > a {}
-  |           ^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:9:11
-  |
-9 | article > p > a {}
-  |           ^
-
-error: Text
- --> $DIR/tests/fixture/selector/combinators/input.css:9:11
-  |
-9 | article > p > a {}
-  |           ^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:9:15
-  |
-9 | article > p > a {}
-  |               ^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/combinators/input.css:9:15
-  |
-9 | article > p > a {}
-  |               ^
-
-error: Text
- --> $DIR/tests/fixture/selector/combinators/input.css:9:15
-  |
-9 | article > p > a {}
-  |               ^
-
-error: Block
- --> $DIR/tests/fixture/selector/combinators/input.css:9:17
-  |
-9 | article > p > a {}
-  |                 ^^
+1 | article   p  p   {}
+  |                  ^^
 
