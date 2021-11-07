@@ -31,82 +31,72 @@ use abi_stable::{
 };
 pub use rplugin_macros::ast_for_plugin;
 
-/// Implemented for normal AST nodes.
-///
-/// Note that `swc` uses cargo feature named `plugin` to avoid making
-/// compilation slower for users if they don't need plugin support.
-pub trait UnstableAst {
-    type Stable: StableAbi;
+/// Implemented by AST nodes that has stable ABI, and passable to plugin.
+pub trait StableAst: StableAbi {
+    type Unstable: Sized;
 
-    fn from_stable(n: Self::Stable) -> Self;
+    fn from_unstable(n: Self::Unstable) -> Self;
 
-    fn into_stable(self) -> Self::Stable;
+    fn into_unstable(self) -> Self::Unstable;
 }
 
-impl<T> UnstableAst for Box<T>
+impl<T> StableAst for RBox<T>
 where
-    T: UnstableAst,
+    T: StableAst,
 {
-    type Stable = RBox<T::Stable>;
+    type Unstable = Box<T::Unstable>;
 
-    #[inline]
-    fn from_stable(n: Self::Stable) -> Self {
-        Box::new(T::from_stable(RBox::into_inner(n)))
+    fn from_unstable(n: Self::Unstable) -> Self {
+        RBox::new(T::from_unstable(*n))
     }
 
-    #[inline]
-    fn into_stable(self) -> Self::Stable {
-        RBox::new((*self).into_stable())
+    fn into_unstable(self) -> Self::Unstable {
+        Box::new(T::into_unstable(RBox::into_inner(self)))
     }
 }
 
-impl<T> UnstableAst for Option<T>
+impl<T> StableAst for Option<T>
 where
-    T: UnstableAst,
-    T::Stable: StableAbi<IsNonZeroType = True>,
+    T: StableAst + StableAbi<IsNonZeroType = True>,
 {
-    type Stable = Option<T::Stable>;
+    type Unstable = Option<T::Unstable>;
 
-    #[inline]
-    fn from_stable(n: Self::Stable) -> Self {
-        n.map(T::from_stable)
+    fn from_unstable(n: Self::Unstable) -> Self {
+        n.map(T::from_unstable)
     }
 
-    #[inline]
-    fn into_stable(self) -> Self::Stable {
-        self.map(T::into_stable)
+    fn into_unstable(self) -> Self::Unstable {
+        self.map(T::into_unstable)
     }
 }
 
-impl<T> UnstableAst for Vec<T>
+impl<T> StableAst for RVec<T>
 where
-    T: UnstableAst,
+    T: StableAst,
 {
-    type Stable = RVec<T::Stable>;
+    type Unstable = Vec<T::Unstable>;
 
-    #[inline]
-    fn from_stable(n: Self::Stable) -> Self {
-        n.into_iter().map(|v| T::from_stable(v)).collect()
+    fn from_unstable(n: Self::Unstable) -> Self {
+        n.into_iter().map(T::from_unstable).collect()
     }
 
-    #[inline]
-    fn into_stable(self) -> Self::Stable {
-        self.into_iter().map(|v| v.into_stable()).collect()
+    fn into_unstable(self) -> Self::Unstable {
+        self.into_iter().map(T::into_unstable).collect()
     }
 }
 
 macro_rules! as_is {
     ($T:ty) => {
         /// This is as-is
-        impl UnstableAst for $T {
-            type Stable = $T;
+        impl StableAst for $T {
+            type Unstable = $T;
             #[inline(always)]
-            fn from_stable(n: Self::Stable) -> Self {
+            fn from_unstable(n: Self::Unstable) -> Self {
                 n
             }
 
             #[inline(always)]
-            fn into_stable(self) -> Self::Stable {
+            fn into_unstable(self) -> Self::Unstable {
                 self
             }
         }
