@@ -1,0 +1,6 @@
+error: Invalid selector
+ --> $DIR/tests/errors/esbuild/misc/c3bWgxp_3BNOH3BSgNg7-Q/input.css:1:3
+  |
+1 | a: b {}
+  |   ^
+

@@ -1,0 +1,6 @@
+error: Expected "]"
+ --> $DIR/tests/errors/selector/attribute/invalid-modifier/input.css:1:14
+  |
+1 | [href="test" "z"] {}
+  |              ^^^
+
