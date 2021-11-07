@@ -9,8 +9,8 @@
 //! type of AST nodes.
 //!
 //! e.g. Using [RBox](abi_stable::std_types::RBox) instead of
-//! [Box](std::boxed::Box) is not an acceptable option, considering there are
-//! lots of users.
+//! [Box](std::boxed::Box) is not an acceptable option, as many users already
+//! use swc as a crate.
 //!
 //! Instead, we just use proc-macro to convert ast into something that can be
 //! passed directly to the plugin, using [StableAbi][abi_stable::StableAbi]. In
