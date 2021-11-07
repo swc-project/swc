@@ -94,6 +94,30 @@ where
     }
 }
 
-macro_rules! delegate {
-    () => {};
+macro_rules! as_is {
+    ($T:ty) => {
+        impl UnstableAst for $T {
+            type Stable = $T;
+
+            fn from_stable(n: Self::Stable) -> Self {
+                n
+            }
+
+            fn into_stable(self) -> Self::Stable {
+                self
+            }
+        }
+    };
+
+
+    (
+        $T:ty,
+        $($tt:tt),*
+    ) => {
+        as_is!($T);
+        as_is!($($tt),*);
+    };
 }
+
+as_is!(u8, u16, u32, u64);
+as_is!(i8, i16, i32, i64);
