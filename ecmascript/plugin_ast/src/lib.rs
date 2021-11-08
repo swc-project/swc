@@ -1,8 +1,31 @@
 pub use self::ast::*;
+use abi_stable::{std_types::RString, StableAbi};
+use rplugin::StableAst;
+use swc_atoms::JsWord;
+
+#[repr(transparent)]
+#[derive(StableAbi)]
+pub struct StableJsWord {
+    data: RString,
+}
+
+impl StableAst for StableJsWord {
+    type Unstable = JsWord;
+
+    fn from_unstable(n: Self::Unstable) -> Self {
+        StableJsWord {
+            data: RString::from(n.to_string()),
+        }
+    }
+
+    fn into_unstable(self) -> Self::Unstable {
+        String::from(self.data).into()
+    }
+}
 
 #[rplugin::ast_for_plugin(swc_ecma_ast)]
 mod ast {
-    use swc_atoms::JsWord;
+    use super::StableJsWord as JsWord;
     use swc_common::Span;
 
     pub struct Class {
