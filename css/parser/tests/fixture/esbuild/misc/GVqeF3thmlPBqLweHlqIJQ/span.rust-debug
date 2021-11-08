@@ -46,6 +46,12 @@ error: Text
 1 | a/**/b {}
   | ^
 
+error: Combinator
+ --> $DIR/tests/fixture/esbuild/misc/GVqeF3thmlPBqLweHlqIJQ/input.css:1:6
+  |
+1 | a/**/b {}
+  |      ^
+
 error: CompoundSelector
  --> $DIR/tests/fixture/esbuild/misc/GVqeF3thmlPBqLweHlqIJQ/input.css:1:6
   |

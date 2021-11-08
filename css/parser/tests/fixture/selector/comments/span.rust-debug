@@ -53,6 +53,12 @@ error: Text
 1 | /* { } */a b {}
   |          ^
 
+error: Combinator
+ --> $DIR/tests/fixture/selector/comments/input.css:1:11
+  |
+1 | /* { } */a b {}
+  |           ^
+
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/comments/input.css:1:12
   |
@@ -118,6 +124,12 @@ error: Text
   |
 2 | /* test */a b {}
   |           ^
+
+error: Combinator
+ --> $DIR/tests/fixture/selector/comments/input.css:2:12
+  |
+2 | /* test */a b {}
+  |            ^
 
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/comments/input.css:2:13
@@ -185,6 +197,12 @@ error: Text
 3 | /* { } */ a b {}
   |           ^
 
+error: Combinator
+ --> $DIR/tests/fixture/selector/comments/input.css:3:12
+  |
+3 | /* { } */ a b {}
+  |            ^
+
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/comments/input.css:3:13
   |
@@ -250,6 +268,12 @@ error: Text
   |
 4 | /* test */ a b {}
   |            ^
+
+error: Combinator
+ --> $DIR/tests/fixture/selector/comments/input.css:4:13
+  |
+4 | /* test */ a b {}
+  |             ^
 
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/comments/input.css:4:14
@@ -317,6 +341,12 @@ error: Text
 5 | a/* { } */b {}
   | ^
 
+error: Combinator
+ --> $DIR/tests/fixture/selector/comments/input.css:5:11
+  |
+5 | a/* { } */b {}
+  |           ^
+
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/comments/input.css:5:11
   |
@@ -382,6 +412,12 @@ error: Text
   |
 6 | a/* test */b {}
   | ^
+
+error: Combinator
+ --> $DIR/tests/fixture/selector/comments/input.css:6:12
+  |
+6 | a/* test */b {}
+  |            ^
 
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/comments/input.css:6:12
@@ -449,6 +485,12 @@ error: Text
 7 | a /* { } */ b {}
   | ^
 
+error: Combinator
+ --> $DIR/tests/fixture/selector/comments/input.css:7:2
+  |
+7 | a /* { } */ b {}
+  |  ^
+
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/comments/input.css:7:13
   |
@@ -514,6 +556,12 @@ error: Text
   |
 8 | a /* test */ b {}
   | ^
+
+error: Combinator
+ --> $DIR/tests/fixture/selector/comments/input.css:8:2
+  |
+8 | a /* test */ b {}
+  |  ^
 
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/comments/input.css:8:14
@@ -581,6 +629,12 @@ error: Text
 9 | a b/* { } */ {}
   | ^
 
+error: Combinator
+ --> $DIR/tests/fixture/selector/comments/input.css:9:2
+  |
+9 | a b/* { } */ {}
+  |  ^
+
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/comments/input.css:9:3
   |
@@ -646,6 +700,12 @@ error: Text
    |
 10 | a b/* test */ {}
    | ^
+
+error: Combinator
+  --> $DIR/tests/fixture/selector/comments/input.css:10:2
+   |
+10 | a b/* test */ {}
+   |  ^
 
 error: CompoundSelector
   --> $DIR/tests/fixture/selector/comments/input.css:10:3
@@ -713,6 +773,12 @@ error: Text
 11 | a b /* { } */ {}
    | ^
 
+error: Combinator
+  --> $DIR/tests/fixture/selector/comments/input.css:11:2
+   |
+11 | a b /* { } */ {}
+   |  ^
+
 error: CompoundSelector
   --> $DIR/tests/fixture/selector/comments/input.css:11:3
    |
@@ -778,6 +844,12 @@ error: Text
    |
 12 | a b /* test */ {}
    | ^
+
+error: Combinator
+  --> $DIR/tests/fixture/selector/comments/input.css:12:2
+   |
+12 | a b /* test */ {}
+   |  ^
 
 error: CompoundSelector
   --> $DIR/tests/fixture/selector/comments/input.css:12:3
@@ -845,6 +917,12 @@ error: Text
 13 | a b/* { } */{}
    | ^
 
+error: Combinator
+  --> $DIR/tests/fixture/selector/comments/input.css:13:2
+   |
+13 | a b/* { } */{}
+   |  ^
+
 error: CompoundSelector
   --> $DIR/tests/fixture/selector/comments/input.css:13:3
    |
@@ -910,6 +988,12 @@ error: Text
    |
 14 | a b/* test */{}
    | ^
+
+error: Combinator
+  --> $DIR/tests/fixture/selector/comments/input.css:14:2
+   |
+14 | a b/* test */{}
+   |  ^
 
 error: CompoundSelector
   --> $DIR/tests/fixture/selector/comments/input.css:14:3

@@ -80,6 +80,12 @@ error: Text
 1 | div, div + #id, div ~ #id, div > #id {
   |      ^^^
 
+error: Combinator
+ --> $DIR/tests/fixture/rome/selectors/input.css:1:10
+  |
+1 | div, div + #id, div ~ #id, div > #id {
+  |          ^
+
 error: CompoundSelector
  --> $DIR/tests/fixture/rome/selectors/input.css:1:12
   |
@@ -128,6 +134,12 @@ error: Text
 1 | div, div + #id, div ~ #id, div > #id {
   |                 ^^^
 
+error: Combinator
+ --> $DIR/tests/fixture/rome/selectors/input.css:1:21
+  |
+1 | div, div + #id, div ~ #id, div > #id {
+  |                     ^
+
 error: CompoundSelector
  --> $DIR/tests/fixture/rome/selectors/input.css:1:23
   |
@@ -175,6 +187,12 @@ error: Text
   |
 1 | div, div + #id, div ~ #id, div > #id {
   |                            ^^^
+
+error: Combinator
+ --> $DIR/tests/fixture/rome/selectors/input.css:1:32
+  |
+1 | div, div + #id, div ~ #id, div > #id {
+  |                                ^
 
 error: CompoundSelector
  --> $DIR/tests/fixture/rome/selectors/input.css:1:34
@@ -321,6 +339,12 @@ error: Text
   |
 9 | .class + * {
   |  ^^^^^
+
+error: Combinator
+ --> $DIR/tests/fixture/rome/selectors/input.css:9:8
+  |
+9 | .class + * {
+  |        ^
 
 error: CompoundSelector
  --> $DIR/tests/fixture/rome/selectors/input.css:9:10

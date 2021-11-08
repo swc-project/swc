@@ -28,7 +28,7 @@
               "end": 3,
               "ctxt": 0
             },
-            "selectors": [
+            "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
@@ -44,7 +44,6 @@
                     "ctxt": 0
                   }
                 },
-                "combinator": null,
                 "typeSelector": null,
                 "subclassSelectors": [
                   {

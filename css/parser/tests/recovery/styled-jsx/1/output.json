@@ -28,7 +28,7 @@
               "end": 15,
               "ctxt": 0
             },
-            "selectors": [
+            "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
@@ -37,7 +37,6 @@
                   "ctxt": 0
                 },
                 "nestingSelector": null,
-                "combinator": null,
                 "typeSelector": null,
                 "subclassSelectors": [
                   {
@@ -190,7 +189,7 @@
               "end": 158,
               "ctxt": 0
             },
-            "selectors": [
+            "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
@@ -199,7 +198,6 @@
                   "ctxt": 0
                 },
                 "nestingSelector": null,
-                "combinator": null,
                 "typeSelector": null,
                 "subclassSelectors": [
                   {
@@ -223,6 +221,15 @@
                 ]
               },
               {
+                "type": "Combinator",
+                "span": {
+                  "start": 126,
+                  "end": 127,
+                  "ctxt": 0
+                },
+                "value": " "
+              },
+              {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 127,
@@ -230,7 +237,6 @@
                   "ctxt": 0
                 },
                 "nestingSelector": null,
-                "combinator": null,
                 "typeSelector": null,
                 "subclassSelectors": [
                   {
@@ -529,7 +535,7 @@
                   "end": 355,
                   "ctxt": 0
                 },
-                "selectors": [
+                "children": [
                   {
                     "type": "CompoundSelector",
                     "span": {
@@ -538,7 +544,6 @@
                       "ctxt": 0
                     },
                     "nestingSelector": null,
-                    "combinator": null,
                     "typeSelector": null,
                     "subclassSelectors": [
                       {
@@ -562,6 +567,15 @@
                     ]
                   },
                   {
+                    "type": "Combinator",
+                    "span": {
+                      "start": 323,
+                      "end": 324,
+                      "ctxt": 0
+                    },
+                    "value": " "
+                  },
+                  {
                     "type": "CompoundSelector",
                     "span": {
                       "start": 324,
@@ -569,7 +583,6 @@
                       "ctxt": 0
                     },
                     "nestingSelector": null,
-                    "combinator": null,
                     "typeSelector": null,
                     "subclassSelectors": [
                       {
@@ -777,7 +790,7 @@
                   "end": 484,
                   "ctxt": 0
                 },
-                "selectors": [
+                "children": [
                   {
                     "type": "CompoundSelector",
                     "span": {
@@ -786,7 +799,6 @@
                       "ctxt": 0
                     },
                     "nestingSelector": null,
-                    "combinator": null,
                     "typeSelector": null,
                     "subclassSelectors": [
                       {
@@ -810,6 +822,15 @@
                     ]
                   },
                   {
+                    "type": "Combinator",
+                    "span": {
+                      "start": 452,
+                      "end": 453,
+                      "ctxt": 0
+                    },
+                    "value": " "
+                  },
+                  {
                     "type": "CompoundSelector",
                     "span": {
                       "start": 453,
@@ -817,7 +838,6 @@
                       "ctxt": 0
                     },
                     "nestingSelector": null,
-                    "combinator": null,
                     "typeSelector": null,
                     "subclassSelectors": [
                       {

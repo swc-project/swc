@@ -1,0 +1,6 @@
+error: Invalid attribute matcher
+ --> $DIR/tests/errors/selector/attribute/invalid-matcher-2/input.css:1:6
+  |
+1 | [href#="test"] {}
+  |      ^
+

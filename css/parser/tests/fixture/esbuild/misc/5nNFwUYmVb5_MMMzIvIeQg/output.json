@@ -28,7 +28,7 @@
               "end": 7,
               "ctxt": 0
             },
-            "selectors": [
+            "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
@@ -37,7 +37,6 @@
                   "ctxt": 0
                 },
                 "nestingSelector": null,
-                "combinator": null,
                 "typeSelector": {
                   "type": "TypeSelector",
                   "span": {
@@ -60,6 +59,15 @@
                 "subclassSelectors": []
               },
               {
+                "type": "Combinator",
+                "span": {
+                  "start": 1,
+                  "end": 2,
+                  "ctxt": 0
+                },
+                "value": "~"
+              },
+              {
                 "type": "CompoundSelector",
                 "span": {
                   "start": 6,
@@ -67,7 +75,6 @@
                   "ctxt": 0
                 },
                 "nestingSelector": null,
-                "combinator": "~",
                 "typeSelector": {
                   "type": "TypeSelector",
                   "span": {

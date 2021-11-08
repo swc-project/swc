@@ -1,0 +1,6 @@
+error: Invalid selector
+ --> $DIR/tests/errors/selector/pseudo-class/function/input.css:1:2
+  |
+1 | : nth-child(2) {
+  |  ^
+

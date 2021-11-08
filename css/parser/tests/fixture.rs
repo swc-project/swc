@@ -323,6 +323,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(ClassSelector, visit_class_selector);
     mtd!(SpaceValues, visit_space_values);
     mtd!(ComplexSelector, visit_complex_selector);
+    mtd!(Combinator, visit_combinator);
     mtd!(CompoundSelector, visit_compound_selector);
     mtd!(Block, visit_block);
     mtd!(RoundBracketBlock, visit_round_bracket_block);
@@ -347,7 +348,6 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(Tokens, visit_tokens);
     mtd!(Unit, visit_unit);
     mtd!(UnitValue, visit_unit_value);
-    mtd!(UniversalSelector, visit_universal_selector);
     mtd!(UrlValue, visit_url_value);
     mtd!(Value, visit_value);
 
