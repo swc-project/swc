@@ -138,12 +138,6 @@ pub struct PseudoSelector {
     pub args: Tokens,
 }
 
-/// `*`
-#[ast_node]
-pub struct UniversalSelector {
-    pub span: Span,
-}
-
 #[ast_node("IdSelector")]
 pub struct IdSelector {
     pub span: Span,

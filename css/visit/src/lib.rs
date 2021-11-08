@@ -242,10 +242,6 @@ define!({
         pub args: Tokens,
     }
 
-    pub struct UniversalSelector {
-        pub span: Span,
-    }
-
     pub struct IdSelector {
         pub span: Span,
         pub text: Text,
