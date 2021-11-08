@@ -1,5 +1,5 @@
 [package]
-edition = "2021"
+edition = "2018"
 name = "plugin_ast"
 version = "0.1.0"
 
