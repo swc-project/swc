@@ -1561,6 +1561,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "12295df4f294471248581bc09bef3c38a5e46f1e36d6a37353621a0c6c357e1f"
 
 [[package]]
+name = "plugin_ast"
+version = "0.1.0"
+dependencies = [
+ "abi_stable",
+ "rplugin",
+ "swc_ecma_ast",
+ "swc_ecma_parser",
+]
+
+[[package]]
 name = "pmutil"
 version = "0.5.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"

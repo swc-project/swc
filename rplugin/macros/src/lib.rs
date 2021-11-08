@@ -47,9 +47,7 @@ pub fn ast_for_plugin(
                 )));
             }
 
-            _ => {
-                todo!("Support: {:?}", item)
-            }
+            _ => {}
         }
 
         mod_items.push(item);
@@ -75,7 +73,7 @@ fn patch_fields(f: &mut Fields) {
                 f.ty = patch_field_type(&f.ty);
             });
         }
-        Fields::Unit => panic!("#[ast_for_plugin] does not support unit field"),
+        Fields::Unit => {}
     }
 }
 
