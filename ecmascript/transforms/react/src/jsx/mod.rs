@@ -1132,7 +1132,7 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
 fn jsx_text_to_str(t: JsWord) -> JsWord {
     static SPACE_START: Lazy<Regex> = Lazy::new(|| Regex::new("^[ ]+").unwrap());
     static SPACE_END: Lazy<Regex> = Lazy::new(|| Regex::new("[ ]+$").unwrap());
-    let mut buf = String::from("");
+    let mut buf = String::new();
     let replaced = t.replace('\t', " ");
     let lines: Vec<&str> = replaced.lines().collect();
     for (is_last, (i, line)) in lines.into_iter().enumerate().identify_last() {
