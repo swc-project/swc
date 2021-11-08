@@ -145,7 +145,12 @@ fn add_stable_abi(attrs: &mut Vec<Attribute>) {
 }
 
 fn make_unstable_ast_impl_for_struct(normal_crate_path: &Path, src: &ItemStruct) -> ItemImpl {
-    let binder = VariantBinder::new(None, &src.ident, &src.fields, &src.attrs);
+    let binder = [VariantBinder::new(
+        None,
+        &src.ident,
+        &src.fields,
+        &src.attrs,
+    )];
 
     q!(
         Vars {
@@ -194,68 +199,80 @@ where
         .collect()
 }
 
-fn make_from_unstable_impl_body(f: &VariantBinder) -> Expr {
-    let (pat, fields) = f.bind("_", None, None);
+fn make_from_unstable_impl_body(variants: &[VariantBinder]) -> Expr {
+    let mut arms = vec![];
 
-    let fields = make_field_values(fields, |f| {
-        q!(Vars { name: &f.name() }, {
-            rplugin::StableAst::from_unstable(name)
-        })
-        .parse()
-    });
+    for v in variants {
+        let (pat, fields) = v.bind("_", None, None);
+
+        let fields = make_field_values(fields, |f| {
+            q!(Vars { name: &f.name() }, {
+                rplugin::StableAst::from_unstable(name)
+            })
+            .parse()
+        });
+
+        arms.push(Arm {
+            attrs: Default::default(),
+            pat,
+            guard: Default::default(),
+            fat_arrow_token: call_site(),
+            body: Box::new(Expr::Struct(ExprStruct {
+                attrs: Default::default(),
+                path: v.qual_path(),
+                fields,
+                dot2_token: None,
+                brace_token: call_site(),
+                rest: None,
+            })),
+            comma: Some(call_site()),
+        });
+    }
 
     Expr::Match(ExprMatch {
         attrs: Default::default(),
         match_token: call_site(),
         expr: q!((unstable_node)).parse(),
         brace_token: call_site(),
-        arms: vec![Arm {
+        arms,
+    })
+}
+
+fn make_into_unstable_impl_body(variants: &[VariantBinder]) -> Expr {
+    let mut arms = vec![];
+
+    for v in variants {
+        let (pat, fields) = v.bind("_", None, None);
+
+        let fields = make_field_values(fields, |f| {
+            q!(Vars { name: &f.name() }, {
+                rplugin::StableAst::into_unstable(name)
+            })
+            .parse()
+        });
+
+        arms.push(Arm {
             attrs: Default::default(),
             pat,
             guard: Default::default(),
             fat_arrow_token: call_site(),
             body: Box::new(Expr::Struct(ExprStruct {
                 attrs: Default::default(),
-                path: f.qual_path(),
+                path: v.qual_path(),
                 fields,
                 dot2_token: None,
                 brace_token: call_site(),
                 rest: None,
             })),
             comma: Some(call_site()),
-        }],
-    })
-}
-
-fn make_into_unstable_impl_body(f: &VariantBinder) -> Expr {
-    let (pat, fields) = f.bind("_", None, None);
-
-    let fields = make_field_values(fields, |f| {
-        q!(Vars { name: &f.name() }, {
-            rplugin::StableAst::into_unstable(name)
-        })
-        .parse()
-    });
+        });
+    }
 
     Expr::Match(ExprMatch {
         attrs: Default::default(),
         match_token: call_site(),
         expr: q!((self)).parse(),
         brace_token: call_site(),
-        arms: vec![Arm {
-            attrs: Default::default(),
-            pat,
-            guard: Default::default(),
-            fat_arrow_token: call_site(),
-            body: Box::new(Expr::Struct(ExprStruct {
-                attrs: Default::default(),
-                path: f.qual_path(),
-                fields,
-                dot2_token: None,
-                brace_token: call_site(),
-                rest: None,
-            })),
-            comma: Some(call_site()),
-        }],
+        arms,
     })
 }
