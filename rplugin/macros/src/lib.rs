@@ -1,10 +1,13 @@
 extern crate proc_macro;
 
 use pmutil::{q, ToTokensExt};
-use swc_macros_common::{call_site, prelude::VariantBinder};
+use swc_macros_common::{
+    call_site,
+    prelude::{BindedField, VariantBinder},
+};
 use syn::{
-    parse, Arm, Attribute, Expr, ExprMatch, ExprStruct, FieldValue, Fields, Index, Item, ItemImpl,
-    ItemMod, ItemStruct, Lit, Member, Path, Type,
+    parse, punctuated::Punctuated, Arm, Attribute, Expr, ExprMatch, ExprStruct, FieldValue, Fields,
+    Index, Item, ItemImpl, ItemMod, ItemStruct, Member, Path, Token, Type,
 };
 
 #[proc_macro_attribute]
@@ -168,10 +171,11 @@ fn make_unstable_ast_impl_for_struct(normal_crate_path: &Path, src: &ItemStruct)
     .parse()
 }
 
-fn make_from_unstable_impl_body(f: &VariantBinder) -> Expr {
-    let (pat, fields) = f.bind("_", None, None);
-
-    let fields = fields
+fn make_field_values<F>(fields: Vec<BindedField>, mut op: F) -> Punctuated<FieldValue, Token![,]>
+where
+    F: FnMut(&BindedField) -> Expr,
+{
+    fields
         .into_iter()
         .map(|f| {
             // Call from_unstable for each field
@@ -184,13 +188,21 @@ fn make_from_unstable_impl_body(f: &VariantBinder) -> Expr {
                     .map(Member::Named)
                     .unwrap_or_else(|| Member::Unnamed(Index::from(f.idx()))),
                 colon_token: Some(call_site()),
-                expr: q!(Vars { name: &f.name() }, {
-                    rplugin::StableAst::from_unstable(name)
-                })
-                .parse(),
+                expr: op(&f),
             }
         })
-        .collect();
+        .collect()
+}
+
+fn make_from_unstable_impl_body(f: &VariantBinder) -> Expr {
+    let (pat, fields) = f.bind("_", None, None);
+
+    let fields = make_field_values(fields, |f| {
+        q!(Vars { name: &f.name() }, {
+            rplugin::StableAst::from_unstable(name)
+        })
+        .parse()
+    });
 
     Expr::Match(ExprMatch {
         attrs: Default::default(),
@@ -218,26 +230,12 @@ fn make_from_unstable_impl_body(f: &VariantBinder) -> Expr {
 fn make_into_unstable_impl_body(f: &VariantBinder) -> Expr {
     let (pat, fields) = f.bind("_", None, None);
 
-    let fields = fields
-        .into_iter()
-        .map(|f| {
-            // Call from_unstable for each field
-            FieldValue {
-                attrs: Default::default(),
-                member: f
-                    .field()
-                    .ident
-                    .clone()
-                    .map(Member::Named)
-                    .unwrap_or_else(|| Member::Unnamed(Index::from(f.idx()))),
-                colon_token: Some(call_site()),
-                expr: q!(Vars { name: &f.name() }, {
-                    rplugin::StableAst::into_unstable(name)
-                })
-                .parse(),
-            }
+    let fields = make_field_values(fields, |f| {
+        q!(Vars { name: &f.name() }, {
+            rplugin::StableAst::into_unstable(name)
         })
-        .collect();
+        .parse()
+    });
 
     Expr::Match(ExprMatch {
         attrs: Default::default(),
