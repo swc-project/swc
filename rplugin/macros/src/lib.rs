@@ -161,8 +161,8 @@ fn make_unstable_ast_impl_for_struct(normal_crate_path: &Path, src: &ItemStruct)
         Vars {
             normal_crate_path,
             Type: &src.ident,
-            from_unstable_body: make_from_unstable_impl_body(&binder),
-            into_unstable_body: make_into_unstable_impl_body(&binder),
+            from_unstable_body: make_from_unstable_impl_body(normal_crate_path, &binder),
+            into_unstable_body: make_into_unstable_impl_body(normal_crate_path, &binder),
         },
         {
             impl rplugin::StableAst for Type {
@@ -192,8 +192,8 @@ fn make_unstable_ast_impl_for_enum(normal_crate_path: &Path, src: &ItemEnum) -> 
         Vars {
             normal_crate_path,
             Type: &src.ident,
-            from_unstable_body: make_from_unstable_impl_body(&binder),
-            into_unstable_body: make_into_unstable_impl_body(&binder),
+            from_unstable_body: make_from_unstable_impl_body(normal_crate_path, &binder),
+            into_unstable_body: make_into_unstable_impl_body(normal_crate_path, &binder),
         },
         {
             impl rplugin::StableAst for Type {
@@ -235,7 +235,7 @@ where
         .collect()
 }
 
-fn make_from_unstable_impl_body(variants: &[VariantBinder]) -> Expr {
+fn make_from_unstable_impl_body(normal_crate_path: &Path, variants: &[VariantBinder]) -> Expr {
     let mut arms = vec![];
 
     for v in variants {
@@ -247,6 +247,15 @@ fn make_from_unstable_impl_body(variants: &[VariantBinder]) -> Expr {
             })
             .parse()
         });
+
+        let pat = q!(
+            Vars {
+                pat,
+                normal_crate_path
+            },
+            { normal_crate_path::pat }
+        )
+        .parse();
 
         arms.push(Arm {
             attrs: Default::default(),
@@ -274,7 +283,7 @@ fn make_from_unstable_impl_body(variants: &[VariantBinder]) -> Expr {
     })
 }
 
-fn make_into_unstable_impl_body(variants: &[VariantBinder]) -> Expr {
+fn make_into_unstable_impl_body(normal_crate_path: &Path, variants: &[VariantBinder]) -> Expr {
     let mut arms = vec![];
 
     for v in variants {
@@ -294,7 +303,14 @@ fn make_into_unstable_impl_body(variants: &[VariantBinder]) -> Expr {
             fat_arrow_token: call_site(),
             body: Box::new(Expr::Struct(ExprStruct {
                 attrs: Default::default(),
-                path: v.qual_path(),
+                path: q!(
+                    Vars {
+                        normal_crate_path,
+                        Type: v.qual_path()
+                    },
+                    { normal_crate_path::Type }
+                )
+                .parse(),
                 fields,
                 dot2_token: None,
                 brace_token: call_site(),
