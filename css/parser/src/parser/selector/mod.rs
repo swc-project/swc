@@ -414,9 +414,6 @@ where
 
         expect!(self, ":"); // `:`
 
-        // TODO: should be removed, because invalid
-        self.input.skip_ws()?;
-
         if is!(self, Function) {
             let fn_span = self.input.cur_span()?;
             let value = bump!(self);
