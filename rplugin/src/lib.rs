@@ -143,3 +143,5 @@ macro_rules! convert {
 }
 
 convert!(String as RString);
+
+as_is!(swc_common::Span);
