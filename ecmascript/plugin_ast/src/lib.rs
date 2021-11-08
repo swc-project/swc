@@ -1,5 +1,9 @@
 pub use self::ast::*;
-use abi_stable::{std_types::RString, StableAbi};
+use abi_stable::{
+    std_types::{ROption, RString, RVec},
+    StableAbi,
+};
+use num_bigint::Sign;
 use rplugin::StableAst;
 use swc_atoms::JsWord;
 
@@ -23,9 +27,46 @@ impl StableAst for StableJsWord {
     }
 }
 
+#[repr(C)]
+#[derive(StableAbi)]
+pub struct StableBigIntValue {
+    sign: ROption<bool>,
+    bytes: RVec<u8>,
+}
+
+impl StableAst for StableBigIntValue {
+    type Unstable = num_bigint::BigInt;
+
+    fn from_unstable(n: Self::Unstable) -> Self {
+        let (sign, bytes) = n.to_bytes_be();
+
+        StableBigIntValue {
+            sign: match sign {
+                Sign::Plus => ROption::RSome(true),
+                Sign::Minus => ROption::RSome(false),
+                Sign::NoSign => ROption::RNone,
+            },
+            bytes: RVec::from(bytes),
+        }
+    }
+
+    fn into_unstable(self) -> Self::Unstable {
+        let sign = match self.sign {
+            ROption::RSome(v) => {
+                if v {
+                    Sign::Plus
+                } else {
+                    Sign::Minus
+                }
+            }
+            ROption::RNone => Sign::NoSign,
+        };
+        num_bigint::BigInt::from_bytes_be(sign, &self.bytes)
+    }
+}
 #[rplugin::ast_for_plugin(swc_ecma_ast)]
 mod ast {
-    use super::StableJsWord as JsWord;
+    use super::{StableBigIntValue as BigIntValue, StableJsWord as JsWord};
     use swc_common::Span;
 
     pub struct Class {
@@ -1124,6 +1165,7 @@ mod ast {
     }
     pub struct TsIntersectionType {
         pub span: Span,
+        pub types: Vec<Box<TsType>>,
     }
     pub struct TsConditionalType {
         pub span: Span,
@@ -1297,5 +1339,10 @@ mod ast {
     pub struct TsConstAssertion {
         pub span: Span,
         pub expr: Box<Expr>,
+    }
+
+    pub enum StrKind {
+        Normal { contains_quote: bool },
+        Synthesized,
     }
 }

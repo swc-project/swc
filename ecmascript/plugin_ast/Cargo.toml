@@ -7,6 +7,7 @@ version = "0.1.0"
 
 [dependencies]
 abi_stable = "0.10.3"
+num-bigint = "0.2"
 rplugin = {path = "../../rplugin/"}
 swc_atoms = {path = "../../atoms/"}
 swc_common = {path = "../../common/", features = ["plugin-base"]}
