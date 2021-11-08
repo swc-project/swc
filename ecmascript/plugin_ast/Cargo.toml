@@ -1,6 +1,6 @@
 [package]
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
-description = "Special AST for swc, which can be pass to dynamic libraries directly"
+description = "Special AST for swc, which can be passed to dynamic libraries directly"
 edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_ecma_plugin_ast"
