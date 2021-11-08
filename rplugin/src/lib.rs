@@ -25,8 +25,7 @@
 //! AST -> Normal AST`
 
 use abi_stable::{
-    reexports::True,
-    std_types::{RBox, RString, RVec},
+    std_types::{RBox, ROption, RString, RVec},
     StableAbi,
 };
 pub use rplugin_macros::ast_for_plugin;
@@ -55,18 +54,24 @@ where
     }
 }
 
-impl<T> StableAst for Option<T>
+impl<T> StableAst for ROption<T>
 where
-    T: StableAst + StableAbi<IsNonZeroType = True>,
+    T: StableAst,
 {
     type Unstable = Option<T::Unstable>;
 
     fn from_unstable(n: Self::Unstable) -> Self {
-        n.map(T::from_unstable)
+        match n {
+            Some(v) => ROption::RSome(T::from_unstable(v)),
+            None => ROption::RNone,
+        }
     }
 
     fn into_unstable(self) -> Self::Unstable {
-        self.map(T::into_unstable)
+        match self {
+            ROption::RSome(v) => Some(v.into_unstable()),
+            ROption::RNone => None,
+        }
     }
 }
 

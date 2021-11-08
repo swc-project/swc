@@ -103,7 +103,7 @@ fn patch_field_type(ty: &Type) -> Type {
             Vars {
                 ty: patch_field_type(ty),
             },
-            (Option<ty>)
+            (abi_stable::std_types::ROption<ty>)
         )
         .parse();
     }
