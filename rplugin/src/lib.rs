@@ -23,6 +23,11 @@
 //!
 //! `Normal AST -> Plugin AST -> Normal AST -> plugin -> Normal AST -> Plugin
 //! AST -> Normal AST`
+//!
+//! # Note for potential users
+//!
+//! Currently this crate depends on `swc_common`, but if there's a request, I
+//! can change it to not depend on `swc_common`.
 
 use abi_stable::{
     std_types::{RBox, ROption, RString, RVec},
