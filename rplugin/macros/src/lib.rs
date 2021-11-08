@@ -98,6 +98,16 @@ fn patch_field_type(ty: &Type) -> Type {
         .parse();
     }
 
+    if let Some(ty) = get_generic(ty, "Option") {
+        return q!(
+            Vars {
+                ty: patch_field_type(ty),
+            },
+            (Option<ty>)
+        )
+        .parse();
+    }
+
     match ty {
         Type::Path(p) => {
             if p.path.is_ident("String") {
