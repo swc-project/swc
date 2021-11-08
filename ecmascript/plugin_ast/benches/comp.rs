@@ -1,6 +1,7 @@
 #![feature(bench_black_box)]
 #![feature(test)]
 
+extern crate swc_node_base;
 extern crate test;
 
 use rplugin::StableAst;
