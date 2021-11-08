@@ -26,7 +26,7 @@
 
 use abi_stable::{
     reexports::True,
-    std_types::{RBox, RVec},
+    std_types::{RBox, RString, RVec},
     StableAbi,
 };
 pub use rplugin_macros::ast_for_plugin;
@@ -116,3 +116,25 @@ as_is!(bool);
 as_is!(usize, u8, u16, u32, u64);
 as_is!(isize, i8, i16, i32, i64);
 as_is!(f32, f64);
+
+macro_rules! convert {
+    (
+        $U:ty as $T:ty
+    ) => {
+        impl StableAst for $T {
+            type Unstable = $U;
+
+            #[inline(always)]
+            fn from_unstable(n: Self::Unstable) -> Self {
+                n.into()
+            }
+
+            #[inline(always)]
+            fn into_unstable(self) -> Self::Unstable {
+                self.into()
+            }
+        }
+    };
+}
+
+convert!(String as RString);
