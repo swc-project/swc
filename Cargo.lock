@@ -2042,6 +2042,8 @@ version = "0.1.0"
 dependencies = [
  "abi_stable",
  "rplugin_macros",
+ "string_cache",
+ "swc_common",
 ]
 
 [[package]]
