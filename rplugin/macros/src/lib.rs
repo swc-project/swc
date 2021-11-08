@@ -7,7 +7,7 @@ use swc_macros_common::{
 };
 use syn::{
     parse, punctuated::Punctuated, Arm, Attribute, Expr, ExprMatch, ExprStruct, FieldValue, Fields,
-    Index, Item, ItemImpl, ItemMod, ItemStruct, Member, Path, Token, Type,
+    Index, Item, ItemEnum, ItemImpl, ItemMod, ItemStruct, Member, Path, Token, Type,
 };
 
 #[proc_macro_attribute]
@@ -40,6 +40,11 @@ pub fn ast_for_plugin(
                 for v in s.variants.iter_mut() {
                     patch_fields(&mut v.fields);
                 }
+
+                mod_items.push(Item::Impl(make_unstable_ast_impl_for_enum(
+                    &normal_crate_path,
+                    &s,
+                )));
             }
 
             _ => {
@@ -151,6 +156,37 @@ fn make_unstable_ast_impl_for_struct(normal_crate_path: &Path, src: &ItemStruct)
         &src.fields,
         &src.attrs,
     )];
+
+    q!(
+        Vars {
+            normal_crate_path,
+            Type: &src.ident,
+            from_unstable_body: make_from_unstable_impl_body(&binder),
+            into_unstable_body: make_into_unstable_impl_body(&binder),
+        },
+        {
+            impl rplugin::StableAst for Type {
+                type Unstable = normal_crate_path::Type;
+
+                fn from_unstable(unstable_node: Self::Unstable) -> Self {
+                    from_unstable_body
+                }
+
+                fn into_unstable(self) -> Self::Unstable {
+                    into_unstable_body
+                }
+            }
+        }
+    )
+    .parse()
+}
+
+fn make_unstable_ast_impl_for_enum(normal_crate_path: &Path, src: &ItemEnum) -> ItemImpl {
+    let binder = src
+        .variants
+        .iter()
+        .map(|v| VariantBinder::new(Some(&src.ident), &v.ident, &v.fields, &v.attrs))
+        .collect::<Vec<_>>();
 
     q!(
         Vars {
