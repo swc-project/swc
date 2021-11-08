@@ -51,7 +51,17 @@ fn json_deserialize(b: &mut Bencher) {
 }
 
 #[bench]
-fn ast_to_stable(b: &mut Bencher) {
+fn ast_clone(b: &mut Bencher) {
+    let program = input();
+
+    b.iter(|| {
+        let program = program.clone();
+        black_box(program);
+    })
+}
+
+#[bench]
+fn ast_clone_to_stable(b: &mut Bencher) {
     let program = input();
 
     b.iter(|| {
@@ -62,7 +72,7 @@ fn ast_to_stable(b: &mut Bencher) {
 }
 
 #[bench]
-fn ast_to_stable_then_to_unstable(b: &mut Bencher) {
+fn ast_clone_to_stable_then_to_unstable(b: &mut Bencher) {
     let program = input();
     b.iter(|| {
         let program = program.clone();
