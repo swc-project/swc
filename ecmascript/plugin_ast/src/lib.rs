@@ -2,6 +2,7 @@ pub use self::ast::*;
 
 #[rplugin::ast_for_plugin(swc_ecma_ast)]
 mod ast {
+    use swc_atoms::JsWord;
     use swc_common::Span;
 
     pub struct Class {
