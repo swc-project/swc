@@ -1,6 +1,10 @@
 [package]
+authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "Special AST for swc, which can be pass to dynamic libraries directly"
 edition = "2018"
-name = "plugin_ast"
+license = "Apache-2.0/MIT"
+name = "swc_ecma_plugin_ast"
+repository = "https://github.com/swc-project/swc.git"
 version = "0.1.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -8,14 +12,14 @@ version = "0.1.0"
 [dependencies]
 abi_stable = "0.10.3"
 num-bigint = "0.2"
-rplugin = {path = "../../rplugin/"}
-swc_atoms = {path = "../../atoms/"}
-swc_common = {path = "../../common/", features = ["plugin-base"]}
-swc_ecma_ast = {path = "../ast/"}
+rplugin = {version = "0.1", path = "../../rplugin/"}
+swc_atoms = {version = "0.2", path = "../../atoms/"}
+swc_common = {version = "0.14.6", path = "../../common/", features = ["plugin-base"]}
+swc_ecma_ast = {version = "0.57.0", path = "../ast/"}
 
 [dev-dependencies]
 serde = "1"
 serde_json = "1"
-swc_ecma_parser = {path = "../parser/"}
-swc_node_base = "0.5.1"
+swc_ecma_parser = {version = "0.77", path = "../parser/"}
+swc_node_base = {version = "0.5.1", path = "../../node/base"}
 testing = {version = "0.15.1", path = "../../testing"}

@@ -67,7 +67,7 @@ fn ast_clone_to_stable(b: &mut Bencher) {
 
     b.iter(|| {
         let program = program.clone();
-        let v = plugin_ast::Program::from_unstable(program);
+        let v = swc_ecma_plugin_ast::Program::from_unstable(program);
         black_box(v);
     })
 }
@@ -77,7 +77,7 @@ fn ast_clone_to_stable_then_to_unstable(b: &mut Bencher) {
     let program = input();
     b.iter(|| {
         let program = program.clone();
-        let stable = plugin_ast::Program::from_unstable(program);
+        let stable = swc_ecma_plugin_ast::Program::from_unstable(program);
 
         let v = stable.into_unstable();
 
