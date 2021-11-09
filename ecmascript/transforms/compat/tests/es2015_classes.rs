@@ -395,6 +395,8 @@ function (Bar) {
 
   _inherits(Foo, Bar);
 
+  var _super = _createSuper(Foo);
+
   function Foo() {
     _classCallCheck(this, Foo);
 
@@ -2503,6 +2505,7 @@ function (Bar) {
   'use strict';
 
   _inherits(Foo, Bar);
+  var _super = _createSuper(Foo);
 
   function Foo() {
     _classCallCheck(this, Foo);
