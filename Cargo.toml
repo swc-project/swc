@@ -10,7 +10,6 @@ members = [
   "plugin",
   "plugin/runner",
   "plugin/testing",
-  "crates/swc",
   "crates/wasm",
 ]
 
