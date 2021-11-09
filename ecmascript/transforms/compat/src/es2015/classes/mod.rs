@@ -455,6 +455,7 @@ where
 
         {
             // Process constructor
+            let is_constructor_default = constructor.is_none();
 
             let mut constructor =
                 constructor.unwrap_or_else(|| default_constructor(super_class_ident.is_some()));
@@ -466,7 +467,6 @@ where
             });
 
             // Black magic to detect injected constructor.
-            let is_constructor_default = constructor.span.is_dummy();
             if is_constructor_default {
                 constructor.params = vec![];
             }

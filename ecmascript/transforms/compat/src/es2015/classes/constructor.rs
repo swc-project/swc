@@ -231,8 +231,17 @@ impl Fold for ConstructorFolder<'_> {
                 let right = match self.super_var.clone() {
                     Some(super_var) => Box::new(Expr::Call(CallExpr {
                         span: DUMMY_SP,
-                        callee: super_var.make_member(quote_ident!("call")).as_callee(),
-                        args: {
+                        callee: if self.is_constructor_default {
+                            super_var.make_member(quote_ident!("apply")).as_callee()
+                        } else {
+                            super_var.make_member(quote_ident!("call")).as_callee()
+                        },
+                        args: if self.is_constructor_default {
+                            vec![
+                                ThisExpr { span: DUMMY_SP }.as_arg(),
+                                quote_ident!("arguments").as_arg(),
+                            ]
+                        } else {
                             let mut call_args = vec![ThisExpr { span: DUMMY_SP }.as_arg()];
                             call_args.extend(args);
 
@@ -261,23 +270,6 @@ impl Fold for ConstructorFolder<'_> {
         }
     }
 
-    fn fold_return_stmt(&mut self, stmt: ReturnStmt) -> ReturnStmt {
-        if self.ignore_return {
-            return stmt;
-        }
-
-        let arg = stmt.arg.fold_with(self);
-
-        let arg = Some(Box::new(make_possible_return_value(
-            ReturningMode::Returning {
-                mark: self.mark,
-                arg,
-            },
-        )));
-
-        ReturnStmt { arg, ..stmt }
-    }
-
     fn fold_stmt(&mut self, stmt: Stmt) -> Stmt {
         let stmt = stmt.fold_children_with(self);
 
@@ -291,8 +283,17 @@ impl Fold for ConstructorFolder<'_> {
                     let expr = match self.super_var.clone() {
                         Some(super_var) => Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
-                            callee: super_var.make_member(quote_ident!("call")).as_callee(),
-                            args: {
+                            callee: if self.is_constructor_default {
+                                super_var.make_member(quote_ident!("apply")).as_callee()
+                            } else {
+                                super_var.make_member(quote_ident!("call")).as_callee()
+                            },
+                            args: if self.is_constructor_default {
+                                vec![
+                                    ThisExpr { span: DUMMY_SP }.as_arg(),
+                                    quote_ident!("arguments").as_arg(),
+                                ]
+                            } else {
                                 let mut call_args = vec![ThisExpr { span: DUMMY_SP }.as_arg()];
                                 call_args.extend(args);
 
