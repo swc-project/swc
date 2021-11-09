@@ -144,12 +144,12 @@ function (Bar) {
   'use strict';
 
   _inherits(Foo, Bar);
-
+  var _super = _createSuper(Foo);
   function Foo() {
     _classCallCheck(this, Foo);
     var _this;
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
+    _this = _super.call(this);
     _defineProperty(_assertThisInitialized(_this), "bar", "foo");
     return _this;
   }
@@ -391,9 +391,10 @@ function withContext(ComposedComponent) {
     var WithContext = function(Component) {
       'use strict';
       _inherits(WithContext, Component);
+      var _super = _createSuper(WithContext);
       function WithContext() {
         _classCallCheck(this, WithContext);
-        return _possibleConstructorReturn(this, _getPrototypeOf(WithContext).apply(this, arguments));
+        return _super.apply(this, arguments);
       }
       return WithContext;
     }(Component);
@@ -895,13 +896,13 @@ function (A) {
   'use strict';
 
   _inherits(B, A);
-
+  var _super = _createSuper(B);
   function B() {
     _classCallCheck(this, B);
     var _this;
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(B).apply(this, arguments));
-    _defineProperty(_assertThisInitialized(_this), "foo", _get(_getPrototypeOf(B.prototype), "foo", _assertThisInitialized(_this)).call(_this));
+    _this = _super.apply(this, arguments);
+     _defineProperty(_assertThisInitialized(_this), "foo", _get(_getPrototypeOf(B.prototype), "foo", _assertThisInitialized(_this)).call(_this));
     return _this;
   }
 
@@ -4704,10 +4705,10 @@ function (A) {
   "use strict";
 
   _inherits(B, A);
-
+  var _super = _createSuper(B);
   function B() {
     _classCallCheck(this, B);
-    return _possibleConstructorReturn(this,  _getPrototypeOf(B).apply(this, arguments));
+    return _super.apply(this, arguments);
   }
 
   return B;
