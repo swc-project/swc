@@ -1619,10 +1619,10 @@ function () {
 var Outer = function (Hello) {
   'use strict';
   _inherits(Outer, Hello);
-
+  var _super = _createSuper(Outer);
   function Outer() {
     _classCallCheck(this, Outer);
-    var _this = _possibleConstructorReturn(this, _getPrototypeOf(Outer).call(this));
+    var _this = _super.call(this);
 
     var Inner =
     /*#__PURE__*/
