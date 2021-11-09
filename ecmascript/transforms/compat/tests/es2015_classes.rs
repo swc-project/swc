@@ -3948,12 +3948,12 @@ function (Bar) {
   'use strict';
 
   _inherits(Foo, Bar);
-
+  var _super = _createSuper(Foo);
   function Foo() {
     _classCallCheck(this, Foo);
     var _this;
 
-    if (eval("false")) _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
+    if (eval("false")) _this = _super.call(this);
     return _possibleConstructorReturn(_this);
   }
 
