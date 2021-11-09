@@ -7,9 +7,9 @@ members = [
   "ecmascript/babel/compat",
   "ecmascript/jsdoc",
   "crates/node",
-  "plugin",
-  "plugin/runner",
-  "plugin/testing",
+  "crates/swc_plugin",
+  "crates/swc_plugin_runner",
+  "crates/swc_plugin_testing",
   "crates/wasm",
 ]
 
