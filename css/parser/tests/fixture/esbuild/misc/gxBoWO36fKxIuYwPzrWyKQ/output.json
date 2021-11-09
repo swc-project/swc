@@ -74,7 +74,7 @@
             "type": "Declaration",
             "span": {
               "start": 4,
-              "end": 16,
+              "end": 17,
               "ctxt": 0
             },
             "property": {
@@ -92,7 +92,7 @@
                 "type": "HashValue",
                 "span": {
                   "start": 11,
-                  "end": 16,
+                  "end": 17,
                   "ctxt": 0
                 },
                 "value": "x,",

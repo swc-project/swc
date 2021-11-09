@@ -87,11 +87,6 @@ impl<I> Lexer<I>
 where
     I: Input,
 {
-    // #[inline]
-    // fn current_input_code_point(&mut self) -> Option<char> {
-    //     self.input.clone().nth(-1).map(|i| i.1)
-    // }
-
     fn read_token(&mut self) -> LexResult<Token> {
         // Consume comments.
         // If the next two input code point are U+002F SOLIDUS (/) followed by a U+002A
@@ -540,7 +535,6 @@ where
         // Create a <function-token> with its value set to string and return it.
         else if self.input.cur() == Some('(') {
             self.input.bump();
-            self.last_pos = Some(self.input.cur_pos());
 
             return Ok(Token::Function {
                 value: name.0,
@@ -587,7 +581,6 @@ where
                 Some(c) if c == ending_code_point.unwrap() => {
                     self.input.bump();
                     raw.push(c);
-                    self.last_pos = Some(self.input.cur_pos());
 
                     break;
                 }
@@ -677,8 +670,6 @@ where
 
         // Repeatedly consume the next input code point from the stream:
         loop {
-            self.last_pos = None;
-
             match self.input.cur() {
                 // U+0029 RIGHT PARENTHESIS ())
                 // Return the <url-token>.
@@ -842,8 +833,6 @@ where
                     raw.push(next.unwrap());
                     hex = hex * 16 + digit;
                 }
-
-                self.last_pos = Some(self.input.cur_pos());
 
                 // If the next input code point is whitespace, consume it as well.
                 let next = self.input.cur();
@@ -1049,7 +1038,6 @@ where
                 // name code point
                 // Append the code point to result.
                 Some(c) if is_name(c) => {
-                    self.last_pos = None;
                     self.input.bump();
 
                     value.push(c);

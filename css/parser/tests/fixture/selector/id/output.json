@@ -754,7 +754,7 @@
         "type": "SelectorList",
         "span": {
           "start": 112,
-          "end": 116,
+          "end": 119,
           "ctxt": 0
         },
         "children": [
@@ -762,7 +762,7 @@
             "type": "ComplexSelector",
             "span": {
               "start": 112,
-              "end": 116,
+              "end": 119,
               "ctxt": 0
             },
             "children": [
@@ -770,7 +770,7 @@
                 "type": "CompoundSelector",
                 "span": {
                   "start": 112,
-                  "end": 116,
+                  "end": 119,
                   "ctxt": 0
                 },
                 "nestingSelector": null,
@@ -780,14 +780,14 @@
                     "type": "IdSelector",
                     "span": {
                       "start": 112,
-                      "end": 116,
+                      "end": 119,
                       "ctxt": 0
                     },
                     "text": {
                       "type": "Text",
                       "span": {
                         "start": 112,
-                        "end": 116,
+                        "end": 119,
                         "ctxt": 0
                       },
                       "value": ":)",
@@ -821,7 +821,7 @@
         "type": "SelectorList",
         "span": {
           "start": 123,
-          "end": 127,
+          "end": 132,
           "ctxt": 0
         },
         "children": [
@@ -829,7 +829,7 @@
             "type": "ComplexSelector",
             "span": {
               "start": 123,
-              "end": 127,
+              "end": 132,
               "ctxt": 0
             },
             "children": [
@@ -837,7 +837,7 @@
                 "type": "CompoundSelector",
                 "span": {
                   "start": 123,
-                  "end": 127,
+                  "end": 132,
                   "ctxt": 0
                 },
                 "nestingSelector": null,
@@ -847,14 +847,14 @@
                     "type": "IdSelector",
                     "span": {
                       "start": 123,
-                      "end": 127,
+                      "end": 132,
                       "ctxt": 0
                     },
                     "text": {
                       "type": "Text",
                       "span": {
                         "start": 123,
-                        "end": 127,
+                        "end": 132,
                         "ctxt": 0
                       },
                       "value": ":`(",

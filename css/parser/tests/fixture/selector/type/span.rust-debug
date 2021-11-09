@@ -5,9 +5,10 @@ error: Stylesheet
 2 | | foo|h1 {}
 3 | | foo|* {}
 4 | | |h1 {}
-5 | | *|h1 {}
-6 | | h1 {}
-  | |______^
+... |
+7 | | \2d {}
+8 | | \2d a {}
+  | |________^
 
 error: Rule
  --> $DIR/tests/fixture/selector/type/input.css:1:1
@@ -314,4 +315,100 @@ error: Block
   |
 6 | h1 {}
   |    ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/type/input.css:7:1
+  |
+7 | \2d {}
+  | ^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/selector/type/input.css:7:1
+  |
+7 | \2d {}
+  | ^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/type/input.css:7:1
+  |
+7 | \2d {}
+  | ^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/type/input.css:7:1
+  |
+7 | \2d {}
+  | ^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/type/input.css:7:1
+  |
+7 | \2d {}
+  | ^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/type/input.css:7:1
+  |
+7 | \2d {}
+  | ^^^^
+
+error: Text
+ --> $DIR/tests/fixture/selector/type/input.css:7:1
+  |
+7 | \2d {}
+  | ^^^^
+
+error: Block
+ --> $DIR/tests/fixture/selector/type/input.css:7:5
+  |
+7 | \2d {}
+  |     ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/type/input.css:8:1
+  |
+8 | \2d a {}
+  | ^^^^^^^^
+
+error: StyleRule
+ --> $DIR/tests/fixture/selector/type/input.css:8:1
+  |
+8 | \2d a {}
+  | ^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/type/input.css:8:1
+  |
+8 | \2d a {}
+  | ^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/type/input.css:8:1
+  |
+8 | \2d a {}
+  | ^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/type/input.css:8:1
+  |
+8 | \2d a {}
+  | ^^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/type/input.css:8:1
+  |
+8 | \2d a {}
+  | ^^^^^
+
+error: Text
+ --> $DIR/tests/fixture/selector/type/input.css:8:1
+  |
+8 | \2d a {}
+  | ^^^^^
+
+error: Block
+ --> $DIR/tests/fixture/selector/type/input.css:8:7
+  |
+8 | \2d a {}
+  |       ^^
 

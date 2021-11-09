@@ -26,11 +26,11 @@ error: MediaQuery
  --> $DIR/tests/fixture/esbuild/misc/fkG7TT4zrV2k19c3t785gQ/input.css:1:8
   |
 1 | @media \0screen\,screen\9 {}
-  |        ^^^^^^^^^^^^^^^^^^
+  |        ^^^^^^^^^^^^^^^^^^^
 
 error: Text
  --> $DIR/tests/fixture/esbuild/misc/fkG7TT4zrV2k19c3t785gQ/input.css:1:8
   |
 1 | @media \0screen\,screen\9 {}
-  |        ^^^^^^^^^^^^^^^^^^
+  |        ^^^^^^^^^^^^^^^^^^^
 
