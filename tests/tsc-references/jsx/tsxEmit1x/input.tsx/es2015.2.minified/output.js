@@ -23,4 +23,4 @@ React.createElement("div", null), React.createElement("div", {
     n: "m"
 }, !1), React.createElement("div", {
     n: "m"
-}, !1), React.createElement("div", null, " "), React.createElement("div", null, " ", p, " "), React.createElement("div", null, p);
+}, !1), React.createElement("div", null, "      "), React.createElement("div", null, "  ", p, "    "), React.createElement("div", null, p);

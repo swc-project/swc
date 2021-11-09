@@ -79,9 +79,7 @@ where
                         },
                         Stmt::For(mut stmt) => match &mut stmt.init {
                             Some(VarDeclOrExpr::VarDecl(
-                                var
-                                @
-                                VarDecl {
+                                var @ VarDecl {
                                     kind: VarDeclKind::Var,
                                     ..
                                 },

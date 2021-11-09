@@ -94,9 +94,7 @@ impl Hoister<'_> {
                         }
 
                         Stmt::Decl(Decl::Var(
-                            var
-                            @
-                            VarDecl {
+                            var @ VarDecl {
                                 kind: VarDeclKind::Var,
                                 ..
                             },

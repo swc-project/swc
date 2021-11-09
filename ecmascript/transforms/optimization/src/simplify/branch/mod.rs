@@ -528,9 +528,7 @@ impl VisitMut for Remover {
                             if done {
                                 match s {
                                     Stmt::Decl(Decl::Var(
-                                        var
-                                        @
-                                        VarDecl {
+                                        var @ VarDecl {
                                             kind: VarDeclKind::Var,
                                             ..
                                         },
