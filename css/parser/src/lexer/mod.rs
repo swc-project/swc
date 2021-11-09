@@ -1262,40 +1262,30 @@ where
         self.input.bump();
         self.input.bump();
 
-        // let slice_start = self.input.cur_pos();
-        let mut was_star = if self.input.is_byte(b'*') {
-            self.input.bump();
-            true
-        } else {
-            false
-        };
-
-        while let Some(c) = self.input.cur() {
-            if was_star && c == '/' {
-                debug_assert_eq!(self.input.cur(), Some('/'));
+        while let Some(cur) = self.input.cur() {
+            if cur == '*' && self.input.peek() == Some('/') {
+                self.input.bump(); // '*'
                 self.input.bump(); // '/'
 
                 return Ok(());
+            } else {
+                self.input.bump();
             }
-
-            was_star = c == '*';
-            self.input.bump();
         }
 
         Err(ErrorKind::UnterminatedBlockComment)
     }
 
     fn skip_line_comment(&mut self) -> LexResult<()> {
+        debug_assert!(
+            self.config.allow_wrong_line_comments,
+            "Line comments are wrong and should be lexed only if it's explicitly requested"
+        );
         debug_assert_eq!(self.input.cur(), Some('/'));
         debug_assert_eq!(self.input.peek(), Some('/'));
 
         self.input.bump();
         self.input.bump();
-
-        debug_assert!(
-            self.config.allow_wrong_line_comments,
-            "Line comments are wrong and should be lexed only if it's explicitly requested"
-        );
 
         while let Some(c) = self.input.cur() {
             if is_newline(c) {
