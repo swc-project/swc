@@ -427,6 +427,29 @@ where
             );
         }
 
+        let super_var = super_class_ident.clone().map(|super_class| {
+            let var = private_ident!("_super");
+
+            stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                declare: Default::default(),
+                decls: vec![VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(var.clone().into()),
+                    init: Some(Box::new(Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: helper!(create_super, "_createSuper"),
+                        args: vec![super_class.as_arg()],
+                        type_args: Default::default(),
+                    }))),
+                    definite: Default::default(),
+                }],
+            })));
+
+            var
+        });
+
         // Marker for `_this`
         let this_mark = Mark::fresh(Mark::root());
 
