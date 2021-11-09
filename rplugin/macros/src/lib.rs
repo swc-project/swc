@@ -6,8 +6,9 @@ use swc_macros_common::{
     prelude::{BindedField, VariantBinder},
 };
 use syn::{
-    parse, punctuated::Punctuated, Arm, Attribute, Expr, ExprMatch, ExprStruct, FieldValue, Fields,
-    Index, Item, ItemEnum, ItemImpl, ItemMod, ItemStruct, Member, Path, Token, Type,
+    parse, punctuated::Punctuated, Arm, Attribute, Expr, ExprMatch, ExprStruct, Field, FieldValue,
+    Fields, Index, Item, ItemEnum, ItemImpl, ItemMod, ItemStruct, Member, Path, Token, Type,
+    Visibility,
 };
 
 #[proc_macro_attribute]
@@ -65,16 +66,21 @@ fn patch_fields(f: &mut Fields) {
     match f {
         Fields::Named(f) => {
             f.named.iter_mut().for_each(|f| {
-                f.ty = patch_field_type(&f.ty);
+                patch_field(f);
             });
         }
         Fields::Unnamed(f) => {
             f.unnamed.iter_mut().for_each(|f| {
-                f.ty = patch_field_type(&f.ty);
+                patch_field(f);
             });
         }
         Fields::Unit => {}
     }
+}
+
+fn patch_field(f: &mut Field) {
+    f.vis = Visibility::Inherited;
+    f.ty = patch_field_type(&f.ty);
 }
 
 fn patch_field_type(ty: &Type) -> Type {
