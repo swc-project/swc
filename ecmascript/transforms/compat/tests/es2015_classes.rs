@@ -1772,10 +1772,12 @@ function (Bar) {
 
   _inherits(Foo, Bar);
 
+  var _super = _createSuper(Foo);
+
   function Foo() {
     _classCallCheck(this, Foo);
     var _this;
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this, _assertThisInitialized(_this)));
+    _this = _super.call(this, _assertThisInitialized(_this))
     return _this;
   }
 
