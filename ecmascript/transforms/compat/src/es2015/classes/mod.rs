@@ -518,6 +518,7 @@ where
                         mode
                     },
                     mark: this_mark,
+                    super_var,
                     ignore_return: false,
                     in_injected_define_property_call: false,
                 });

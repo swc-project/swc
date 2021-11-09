@@ -166,6 +166,7 @@ pub(super) struct ConstructorFolder<'a> {
     /// Mark for `_this`
     pub mark: Mark,
     pub is_constructor_default: bool,
+    pub super_var: Option<Ident>,
     /// True when recursing into other function or class.
     pub ignore_return: bool,
     pub in_injected_define_property_call: bool,
@@ -227,11 +228,26 @@ impl Fold for ConstructorFolder<'_> {
                 args,
                 ..
             }) => {
-                let right = Box::new(make_possible_return_value(ReturningMode::Prototype {
-                    class_name: self.class_name.clone(),
-                    args: Some(args),
-                    is_constructor_default: self.is_constructor_default,
-                }));
+                let this_var = quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this");
+                let right = match self.super_var.clone() {
+                    Some(super_var) => Box::new(Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: super_var.make_member(quote_ident!("call")).as_callee(),
+                        args: {
+                            let mut call_args = vec![this_var.as_arg()];
+                            call_args.extend(args);
+
+                            call_args
+                        },
+                        type_args: Default::default(),
+                    })),
+
+                    None => Box::new(make_possible_return_value(ReturningMode::Prototype {
+                        class_name: self.class_name.clone(),
+                        args: Some(args),
+                        is_constructor_default: self.is_constructor_default,
+                    })),
+                };
 
                 Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
@@ -273,11 +289,25 @@ impl Fold for ConstructorFolder<'_> {
                     args,
                     ..
                 }) => {
-                    let expr = make_possible_return_value(ReturningMode::Prototype {
-                        is_constructor_default: self.is_constructor_default,
-                        class_name: self.class_name.clone(),
-                        args: Some(args),
-                    });
+                    let this_var = quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this");
+                    let expr = match self.super_var.clone() {
+                        Some(super_var) => Box::new(Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: super_var.make_member(quote_ident!("call")).as_callee(),
+                            args: {
+                                let mut call_args = vec![this_var.as_arg()];
+                                call_args.extend(args);
+
+                                call_args
+                            },
+                            type_args: Default::default(),
+                        })),
+                        None => Box::new(make_possible_return_value(ReturningMode::Prototype {
+                            is_constructor_default: self.is_constructor_default,
+                            class_name: self.class_name.clone(),
+                            args: Some(args),
+                        })),
+                    };
 
                     match self.mode {
                         Some(SuperFoldingMode::Assign) => AssignExpr {
@@ -286,7 +316,7 @@ impl Fold for ConstructorFolder<'_> {
                                 quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into(),
                             ))),
                             op: op!("="),
-                            right: expr.into(),
+                            right: expr,
                         }
                         .into_stmt(),
                         Some(SuperFoldingMode::Var) => Stmt::Decl(Decl::Var(VarDecl {
@@ -298,7 +328,7 @@ impl Fold for ConstructorFolder<'_> {
                                 name: Pat::Ident(
                                     quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into(),
                                 ),
-                                init: Some(expr.into()),
+                                init: Some(expr),
                                 definite: false,
                             }],
                         })),
