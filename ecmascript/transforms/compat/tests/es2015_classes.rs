@@ -2849,131 +2849,106 @@ class TestMultipleMethods extends (class {
 
 "#,
     r#"
-var TestEmpty =
-/*#__PURE__*/
-function (_super) {
-  'use strict';
-
-  _inherits(TestEmpty, _super);
-
-  function TestEmpty() {
-    _classCallCheck(this, TestEmpty);
-    return _possibleConstructorReturn(this, _getPrototypeOf(TestEmpty).apply(this, arguments));
-  }
-
-  return TestEmpty;
-}(function _class() {
-    'use strict';
-    _classCallCheck(this, _class);
-});
-
-var TestConstructorOnly =
-/*#__PURE__*/
-function (_super) {
-  'use strict';
-
-  _inherits(TestConstructorOnly, _super);
-
-  function TestConstructorOnly() {
-    _classCallCheck(this, TestConstructorOnly);
-    return _possibleConstructorReturn(this, _getPrototypeOf(TestConstructorOnly).apply(this, arguments));
-  }
-
-  return TestConstructorOnly;
-}(function _class() {
-  'use strict';
-  _classCallCheck(this, _class);
-});
-
-var TestMethodOnly =
-/*#__PURE__*/
-function (_super) {
-  'use strict';
-
-  _inherits(TestMethodOnly, _super);
-
-  function TestMethodOnly() {
-    _classCallCheck(this, TestMethodOnly);
-    return _possibleConstructorReturn(this, _getPrototypeOf(TestMethodOnly).apply(this, arguments));
-  }
-
-  return TestMethodOnly;
-}(
-/*#__PURE__*/
-function () {
-  'use strict';
-
-  function _class() {
-    _classCallCheck(this, _class);
-  }
-
-  _createClass(_class, [{
-    key: "method",
-    value: function method() {}
-  }]);
-  return _class;
-}());
-
-var TestConstructorAndMethod =
-/*#__PURE__*/
-function (_super) {
-  'use strict';
-
-  _inherits(TestConstructorAndMethod, _super);
-
-  function TestConstructorAndMethod() {
-    _classCallCheck(this, TestConstructorAndMethod);
-    return _possibleConstructorReturn(this, _getPrototypeOf(TestConstructorAndMethod).apply(this, arguments));
-  }
-
-  return TestConstructorAndMethod;
-}(
-/*#__PURE__*/
-function () {
-  'use strict';
-
-  function _class() {
-    _classCallCheck(this, _class);
-  }
-
-  _createClass(_class, [{
-    key: "method",
-    value: function method() {}
-  }]);
-  return _class;
-}());
-
-var TestMultipleMethods =
-/*#__PURE__*/
-function (_super) {
-  'use strict';
-
-  _inherits(TestMultipleMethods, _super);
-
-  function TestMultipleMethods() {
-    _classCallCheck(this, TestMultipleMethods);
-    return _possibleConstructorReturn(this, _getPrototypeOf(TestMultipleMethods).apply(this, arguments));
-  }
-
-  return TestMultipleMethods;
-}(
-/*#__PURE__*/
-function () {
-  'use strict';
-
-  function _class() {
-    _classCallCheck(this, _class);
-  }
-
-  _createClass(_class, [{
-    key: "m1",
-    value: function m1() {}
-  }, {
-    key: "m2",
-    value: function m2() {}
-  }]);
-  return _class;
-}());
+    var TestEmpty = function(_super) {
+      "use strict";
+      _inherits(TestEmpty, _super);
+      var _super1 = _createSuper(TestEmpty);
+      function TestEmpty() {
+          _classCallCheck(this, TestEmpty);
+          return _super1.apply(this, arguments);
+      }
+      return TestEmpty;
+  }(function _class() {
+      "use strict";
+      _classCallCheck(this, _class);
+  });
+  var TestConstructorOnly = function(_super) {
+      "use strict";
+      _inherits(TestConstructorOnly, _super);
+      var _super2 = _createSuper(TestConstructorOnly);
+      function TestConstructorOnly() {
+          _classCallCheck(this, TestConstructorOnly);
+          return _super2.apply(this, arguments);
+      }
+      return TestConstructorOnly;
+  }(function _class() {
+      "use strict";
+      _classCallCheck(this, _class);
+  });
+  var TestMethodOnly = function(_super) {
+      "use strict";
+      _inherits(TestMethodOnly, _super);
+      var _super3 = _createSuper(TestMethodOnly);
+      function TestMethodOnly() {
+          _classCallCheck(this, TestMethodOnly);
+          return _super3.apply(this, arguments);
+      }
+      return TestMethodOnly;
+  }(function() {
+      "use strict";
+      function _class() {
+          _classCallCheck(this, _class);
+      }
+      _createClass(_class, [
+          {
+              key: "method",
+              value: function method() {
+              }
+          }
+      ]);
+      return _class;
+  }());
+  var TestConstructorAndMethod = function(_super) {
+      "use strict";
+      _inherits(TestConstructorAndMethod, _super);
+      var _super4 = _createSuper(TestConstructorAndMethod);
+      function TestConstructorAndMethod() {
+          _classCallCheck(this, TestConstructorAndMethod);
+          return _super4.apply(this, arguments);
+      }
+      return TestConstructorAndMethod;
+  }(function() {
+      "use strict";
+      function _class() {
+          _classCallCheck(this, _class);
+      }
+      _createClass(_class, [
+          {
+              key: "method",
+              value: function method() {
+              }
+          }
+      ]);
+      return _class;
+  }());
+  var TestMultipleMethods = function(_super) {
+      "use strict";
+      _inherits(TestMultipleMethods, _super);
+      var _super5 = _createSuper(TestMultipleMethods);
+      function TestMultipleMethods() {
+          _classCallCheck(this, TestMultipleMethods);
+          return _super5.apply(this, arguments);
+      }
+      return TestMultipleMethods;
+  }(function() {
+      "use strict";
+      function _class() {
+          _classCallCheck(this, _class);
+      }
+      _createClass(_class, [
+          {
+              key: "m1",
+              value: function m1() {
+              }
+          },
+          {
+              key: "m2",
+              value: function m2() {
+              }
+          }
+      ]);
+      return _class;
+  }());
 
 "#
 );
