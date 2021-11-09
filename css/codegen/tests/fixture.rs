@@ -59,7 +59,7 @@ fn fixture(input: PathBuf) {
             }
 
             NormalizedOutput::from(css_str)
-                .compare_to_file(output_file)
+                .compare_to_file(min_output_file)
                 .unwrap();
         }
         Ok(())
