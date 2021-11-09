@@ -13,11 +13,11 @@ function Comp(p) {
 React.createElement(Comp, {
     a: 10,
     b: "hi"
-}, React.createElement(Button, null), " ", React.createElement(AnotherButton, null)), React.createElement(Comp, {
+}, React.createElement(Button, null), "  ", React.createElement(AnotherButton, null)), React.createElement(Comp, {
     a: 10,
     b: "hi"
-}, React.createElement(Button, null), React.createElement(AnotherButton, null), " "), React.createElement(Comp, {
+}, React.createElement(Button, null), React.createElement(AnotherButton, null), "  "), React.createElement(Comp, {
     a: 10,
     b: "hi"
-}, " ", React.createElement(Button, null), React.createElement(AnotherButton, null));
+}, "    ", React.createElement(Button, null), React.createElement(AnotherButton, null));
 export { };

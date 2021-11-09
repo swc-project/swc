@@ -4,7 +4,7 @@ use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
-use std::{iter, iter::once, mem, sync::Arc};
+use std::{borrow::Cow, iter, iter::once, mem, sync::Arc};
 use string_enum::StringEnum;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
@@ -1130,41 +1130,34 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
 
 #[inline]
 fn jsx_text_to_str(t: JsWord) -> JsWord {
-    static SPACE_NL_START: Lazy<Regex> =
-        Lazy::new(|| Regex::new("^[\t'\n\x0C\r ]*\n[\t'\n\x0C\r ]*").unwrap());
-    static SPACE_NL_END: Lazy<Regex> =
-        Lazy::new(|| Regex::new("[\t'\n\x0C\r ]*\n[\t'\n\x0C\r ]*$").unwrap());
-
-    if t == *" " {
-        return t;
-    }
-
-    if !t.contains(' ') && !t.contains('\n') {
-        return t;
-    }
-
-    let s = SPACE_NL_START.replace_all(&t, "");
-    let s = SPACE_NL_END.replace_all(&s, "");
-    let need_leading_space = s.starts_with(' ');
-    let need_trailing_space = s.ends_with(' ');
-
-    let mut buf = String::from(if need_leading_space { " " } else { "" });
-
-    for (last, s) in s
-        .split(|c: char| c != '\u{a0}' && c.is_ascii_whitespace())
-        .filter(|s| !s.is_empty())
-        .identify_last()
-    {
-        buf.push_str(s);
-        if !last {
-            buf.push(' ');
+    static SPACE_START: Lazy<Regex> = Lazy::new(|| Regex::new("^[ ]+").unwrap());
+    static SPACE_END: Lazy<Regex> = Lazy::new(|| Regex::new("[ ]+$").unwrap());
+    let mut buf = String::new();
+    let replaced = t.replace('\t', " ");
+    let lines: Vec<&str> = replaced.lines().collect();
+    for (is_last, (i, line)) in lines.into_iter().enumerate().identify_last() {
+        if line.len() == 0 {
+            continue;
         }
+        let line = Cow::from(line);
+        let line = if i != 0 {
+            SPACE_START.replace_all(&line, "")
+        } else {
+            line
+        };
+        let line = if is_last {
+            line
+        } else {
+            SPACE_END.replace_all(&line, "")
+        };
+        if line.len() == 0 {
+            continue;
+        }
+        if i != 0 && buf.len() != 0 {
+            buf.push_str(" ")
+        }
+        buf.push_str(&line);
     }
-
-    if need_trailing_space && !buf.ends_with(' ') {
-        buf.push(' ');
-    }
-
     buf.into()
 }
 
