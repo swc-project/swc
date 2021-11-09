@@ -513,9 +513,10 @@ var constructor;
 let CustomElement = function(HTMLElement) {
     'use strict';
     _inherits(CustomElement, HTMLElement);
+    var _super = _createSuper(CustomElement);
     function CustomElement() {
         _classCallCheck(this, CustomElement);
-        return _possibleConstructorReturn(this, _getPrototypeOf(CustomElement).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     return CustomElement;
 }(_wrapNativeSuper(HTMLElement));
