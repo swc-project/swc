@@ -6194,9 +6194,10 @@ test!(
     let A = function(B) {
       "use strict";
       _inherits(A, B);
+      var _super = _createSuper(A);
       function A() {
           _classCallCheck(this, A);
-          return _possibleConstructorReturn(this, _getPrototypeOf(A).apply(this, arguments));
+          return _super.apply(this, arguments);
       }
       _createClass(A, [
           {
@@ -6226,9 +6227,10 @@ test!(
     let A = function(B) {
       "use strict";
       _inherits(A, B);
+      var _super = _createSuper(A);
       function A() {
           _classCallCheck(this, A);
-          return _possibleConstructorReturn(this, _getPrototypeOf(A).apply(this, arguments));
+          return _super.apply(this, arguments);
       }
       _createClass(A, [
           {
