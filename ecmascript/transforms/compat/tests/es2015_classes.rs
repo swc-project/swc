@@ -2674,6 +2674,7 @@ class Child extends Base {
 var Child = function(Base) {
     'use strict';
     _inherits(Child, Base);
+    var _super = _createSuper(Child);
     function Child() {
         _classCallCheck(this, Child);
         var _this;
@@ -3984,13 +3985,13 @@ function (Bar) {
   'use strict';
 
   _inherits(Foo, Bar);
-
+  var _super = _createSuper(Foo);
   function Foo() {
     _classCallCheck(this, Foo);
 
     var _this;
 
-    var fn = () => _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
+    var fn = () => _this = _super.call(this)
 
     fn();
     return _possibleConstructorReturn(_this);
@@ -4351,13 +4352,13 @@ function (Bar) {
   'use strict';
 
   _inherits(Foo, Bar);
-
+  var _super = _createSuper(Foo);
   function Foo() {
     _classCallCheck(this, Foo);
     var _this;
 
 
-    var fn = () => _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
+    var fn = () => _this = _super.call(this)
 
     return _possibleConstructorReturn(_this);
   }
