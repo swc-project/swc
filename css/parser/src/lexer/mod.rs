@@ -116,7 +116,10 @@ where
             // whitespace
             // Consume as much whitespace as possible. Return a <whitespace-token>.
             Some(c) if is_whitespace(c) => {
+                self.input.bump();
+
                 let mut value = String::new();
+                value.push(c);
 
                 loop {
                     let c = self.input.cur();
@@ -1242,38 +1245,32 @@ where
             }
         }
 
-        if self.config.allow_wrong_line_comments {
-            if self.input.is_byte(b'/') && self.input.peek() == Some('/') {
-                self.skip_line_comment()?;
-                self.start_pos = self.input.cur_pos();
-
-                return Ok(());
-            }
-        }
-
         Ok(())
     }
 
     /// Expects current char to be '/' and next char to be '*'.
     fn skip_block_comment(&mut self) -> LexResult<()> {
-        debug_assert_eq!(self.input.cur(), Some('/'));
-        debug_assert_eq!(self.input.peek(), Some('*'));
-
         self.input.bump();
         self.input.bump();
 
-        while let Some(cur) = self.input.cur() {
-            if cur == '*' && self.input.peek() == Some('/') {
-                self.input.bump(); // '*'
-                self.input.bump(); // '/'
+        loop {
+            let cur = self.input.cur();
+            
+            match cur {
+                Some('*') if self.input.peek() == Some('/') => {
+                    self.input.bump(); // '*'
+                    self.input.bump(); // '/'
 
-                return Ok(());
-            } else {
-                self.input.bump();
+                    return Ok(());
+                }
+                Some(_) => {
+                    self.input.bump();
+                }
+                None => {
+                    return Err(ErrorKind::UnterminatedBlockComment);    
+                }
             }
         }
-
-        Err(ErrorKind::UnterminatedBlockComment)
     }
 
     fn skip_line_comment(&mut self) -> LexResult<()> {
