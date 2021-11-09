@@ -310,9 +310,7 @@ impl Fold for Actual {
             }
 
             Expr::Fn(
-                expr
-                @
-                FnExpr {
+                expr @ FnExpr {
                     function:
                         Function {
                             is_async: true,

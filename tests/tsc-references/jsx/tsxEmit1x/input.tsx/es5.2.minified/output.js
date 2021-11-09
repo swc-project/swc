@@ -81,4 +81,4 @@ var p, SomeClass = function() {
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), SomeClass;
 }();
-React.createElement("div", null, " "), React.createElement("div", null, " ", p, " "), React.createElement("div", null, p);
+React.createElement("div", null, "      "), React.createElement("div", null, "  ", p, "    "), React.createElement("div", null, p);

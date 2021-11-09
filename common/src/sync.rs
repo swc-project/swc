@@ -77,8 +77,8 @@ mod single {
 
     pub use std::{
         cell::{
-            Ref as ReadGuard, Ref as MappedReadGuard, RefMut as WriteGuard,
-            RefMut as MappedWriteGuard, RefMut as LockGuard, RefMut as MappedLockGuard,
+            Ref as ReadGuard, RefMut as WriteGuard, RefMut as MappedWriteGuard,
+            RefMut as LockGuard, RefMut as MappedLockGuard,
         },
         rc::{Rc as Lrc, Weak},
     };

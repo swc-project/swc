@@ -48,9 +48,7 @@ where
 
                 match &mut *kv.value {
                     Expr::Arrow(
-                        m
-                        @
-                        ArrowExpr {
+                        m @ ArrowExpr {
                             body: BlockStmtOrExpr::BlockStmt(..),
                             ..
                         },

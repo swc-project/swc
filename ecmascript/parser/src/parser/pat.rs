@@ -586,9 +586,7 @@ impl<'a, I: Tokens> Parser<I> {
                 Ok(Pat::Invalid(Invalid { span }))
             }
             Expr::Assign(
-                assign_expr
-                @
-                AssignExpr {
+                assign_expr @ AssignExpr {
                     op: AssignOpToken::Assign,
                     ..
                 },
@@ -692,9 +690,7 @@ impl<'a, I: Tokens> Parser<I> {
                 for expr in exprs.drain(..idx_of_rest_not_allowed) {
                     match expr {
                         Some(
-                            expr
-                            @
-                            ExprOrSpread {
+                            expr @ ExprOrSpread {
                                 spread: Some(..), ..
                             },
                         ) => {

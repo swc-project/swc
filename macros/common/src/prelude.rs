@@ -7,4 +7,4 @@ pub use super::{
 };
 pub use proc_macro2::{Delimiter, Group, Literal, Punct, Span, TokenStream, TokenTree};
 pub use quote::ToTokens;
-pub use syn::punctuated::{Pair as Element, Pair, Punctuated};
+pub use syn::punctuated::{Pair as Element, Punctuated};

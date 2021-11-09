@@ -7,7 +7,50 @@ use swc_css_codegen::{
 };
 use swc_css_parser::{parse_file, parser::ParserConfig};
 use swc_css_visit::{VisitMut, VisitMutWith};
-use testing::assert_eq;
+use testing::{assert_eq, NormalizedOutput};
+
+#[testing::fixture("tests/fixture/**/input.css")]
+fn fixture(input: PathBuf) {
+    let dir = input.parent().unwrap();
+    let output_file = dir.join("output.css");
+    eprintln!("{}", input.display());
+
+    testing::run_test2(false, |cm, handler| {
+        let fm = cm.load_file(&input).unwrap();
+
+        eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
+
+        let mut errors = vec![];
+        let stylesheet: Stylesheet = parse_file(
+            &fm,
+            ParserConfig {
+                parse_values: true,
+                ..Default::default()
+            },
+            &mut errors,
+        )
+        .unwrap();
+
+        for err in take(&mut errors) {
+            err.to_diagnostics(&handler).emit();
+        }
+
+        let mut css_str = String::new();
+        {
+            let wr = BasicCssWriter::new(&mut css_str, BasicCssWriterConfig { indent: "\t" });
+            let mut gen = CodeGenerator::new(wr, CodegenConfig { minify: false });
+
+            gen.emit(&stylesheet).unwrap();
+        }
+
+        NormalizedOutput::from(css_str)
+            .compare_to_file(output_file)
+            .unwrap();
+
+        Ok(())
+    })
+    .unwrap();
+}
 
 #[testing::fixture("../parser/tests/fixture/**/input.css")]
 fn parse_again(input: PathBuf) {
