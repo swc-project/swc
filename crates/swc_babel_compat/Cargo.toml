@@ -22,7 +22,7 @@ swc = {path = "../swc"}
 swc_atoms = {path = "../../atoms"}
 swc_babel_ast = {path = "../swc_babel_ast"}
 swc_babel_visit = {path = "../swc_babel_visit"}
-swc_common = {path = "../../common", features = ["sourcemap"]}
+swc_common = {path = "../../common", features = ["sourcemap", "tty-emitter"]}
 swc_ecma_ast = {path = "../../ecmascript/ast"}
 swc_ecma_parser = {path = "../../ecmascript/parser"}
 swc_ecma_utils = {path = "../../ecmascript/utils"}
