@@ -13,6 +13,7 @@ use testing::{assert_eq, NormalizedOutput};
 fn fixture(input: PathBuf) {
     let dir = input.parent().unwrap();
     let output_file = dir.join("output.css");
+    let min_output_file = dir.join("output.min.css");
     eprintln!("{}", input.display());
 
     testing::run_test2(false, |cm, handler| {
@@ -34,19 +35,33 @@ fn fixture(input: PathBuf) {
         for err in take(&mut errors) {
             err.to_diagnostics(&handler).emit();
         }
-
-        let mut css_str = String::new();
         {
-            let wr = BasicCssWriter::new(&mut css_str, BasicCssWriterConfig { indent: "\t" });
-            let mut gen = CodeGenerator::new(wr, CodegenConfig { minify: false });
+            let mut css_str = String::new();
+            {
+                let wr = BasicCssWriter::new(&mut css_str, BasicCssWriterConfig { indent: "\t" });
+                let mut gen = CodeGenerator::new(wr, CodegenConfig { minify: false });
 
-            gen.emit(&stylesheet).unwrap();
+                gen.emit(&stylesheet).unwrap();
+            }
+
+            NormalizedOutput::from(css_str)
+                .compare_to_file(output_file)
+                .unwrap();
         }
 
-        NormalizedOutput::from(css_str)
-            .compare_to_file(output_file)
-            .unwrap();
+        {
+            let mut css_str = String::new();
+            {
+                let wr = BasicCssWriter::new(&mut css_str, BasicCssWriterConfig { indent: "\t" });
+                let mut gen = CodeGenerator::new(wr, CodegenConfig { minify: true });
 
+                gen.emit(&stylesheet).unwrap();
+            }
+
+            NormalizedOutput::from(css_str)
+                .compare_to_file(output_file)
+                .unwrap();
+        }
         Ok(())
     })
     .unwrap();
