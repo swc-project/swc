@@ -439,7 +439,7 @@ where
                     name: Pat::Ident(var.clone().into()),
                     init: Some(Box::new(Expr::Call(CallExpr {
                         span: DUMMY_SP,
-                        callee: helper!(create_super, "_createSuper"),
+                        callee: helper!(create_super, "createSuper"),
                         args: vec![super_class.as_arg()],
                         type_args: Default::default(),
                     }))),
