@@ -96,9 +96,10 @@ test!(
 let List = function(Array) {
     'use strict';
     _inherits(List, Array);
+    var _super = _createSuper(List);
     function List() {
         _classCallCheck(this, List);
-        return _possibleConstructorReturn(this, _getPrototypeOf(List).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     return List;
 }(_wrapNativeSuper(Array));
