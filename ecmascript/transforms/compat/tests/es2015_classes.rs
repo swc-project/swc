@@ -789,7 +789,7 @@ var Test =
 function (Foo) {
   'use strict';
 _inherits(Test, Foo);
-
+  var _super = _createSuper(Test);
   function Test() {
     _classCallCheck(this, Test);
     var _this = _possibleConstructorReturn(this, _getPrototypeOf(Test).call(this));
@@ -6146,9 +6146,10 @@ test!(
   let Test = function(Foo1) {
     'use strict';
     _inherits(Test, Foo1);
+    var _super = _createSuper(Test);
     function Test() {
         _classCallCheck(this, Test);
-        return _possibleConstructorReturn(this, _getPrototypeOf(Test).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     _createClass(Test, [
         {
