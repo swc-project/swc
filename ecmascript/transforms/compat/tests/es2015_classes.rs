@@ -3018,6 +3018,7 @@ var Hello = function Hello() {
 var Outer = function (Hello) {
   'use strict';
   _inherits(Outer, Hello);
+  var _super = _createSuper(Outer);
 
   function Outer() {
     _classCallCheck(this, Outer);
@@ -3032,7 +3033,7 @@ var Outer = function (Hello) {
       }
 
       _createClass(Inner, [{
-        key: _this1 = _possibleConstructorReturn(_this, _getPrototypeOf(Outer).call(_this)),
+        key: _this1 = _super.call(_this),
         value: function () {
           return 'hello';
         }
