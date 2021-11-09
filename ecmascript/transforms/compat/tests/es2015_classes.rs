@@ -545,10 +545,11 @@ class A extends B {
 let A = function(B) {
     'use strict';
     _inherits(A, B);
+    var _super = _createSuper(A);
     function A() {
         _classCallCheck(this, A);
         var _this;
-        _this = _possibleConstructorReturn(this, _getPrototypeOf(A).call(this));
+        _this = _super.call(this);
         _this.arrow1 = function(x) {
             return x;
         };
@@ -699,11 +700,11 @@ let Obj =
 function (Base) {
   'use strict';
   _inherits(Obj, Base);
-
+  var _super = _createSuper(Obj);
   function Obj() {
     _classCallCheck(this, Obj);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Obj).apply(this, arguments));
+    return _super.apply(this, arguments);
   }
 
   _createClass(Obj, [{
