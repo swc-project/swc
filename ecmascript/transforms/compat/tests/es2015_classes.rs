@@ -449,11 +449,11 @@ let Obj =
 function (Base) {
   'use strict';
   _inherits(Obj, Base);
-
+  var _super = _createSuper(Obj);
   function Obj() {
     _classCallCheck(this, Obj);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Obj).apply(this, arguments));
+    return _super.apply(this, arguments);
   }
 
   _createClass(Obj, [{
@@ -1924,11 +1924,11 @@ let Obj =
 function (Base) {
   'use strict';
   _inherits(Obj, Base);
-
+  var _super = _createSuper(Obj);
   function Obj() {
     _classCallCheck(this, Obj);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Obj).apply(this, arguments));
+    return _super.apply(this, arguments);
   }
 
   _createClass(Obj, [{
@@ -4545,11 +4545,11 @@ let Obj =
 function (Base) {
   'use strict';
   _inherits(Obj, Base);
-
+  var _super = _createSuper(Obj);
   function Obj() {
     _classCallCheck(this, Obj);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Obj).apply(this, arguments));
+    return _super.apply(this, arguments);
   }
 
   _createClass(Obj, [{
