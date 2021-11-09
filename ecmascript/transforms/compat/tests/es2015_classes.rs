@@ -902,10 +902,10 @@ var x = {
   function (Foo) {
   'use strict';
 _inherits(_class, Foo);
-
+  var _super = _createSuper(_class);
     function _class() {
       _classCallCheck(this, _class);
-      return _possibleConstructorReturn(this, _getPrototypeOf(_class).apply(this, arguments));
+      return _super.apply(this, arguments);
     }
 
     return _class;
