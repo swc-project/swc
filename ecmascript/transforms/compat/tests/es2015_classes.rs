@@ -3244,13 +3244,14 @@ class Foo extends Bar {
 var Foo = function(Bar) {
     'use strict';
     _inherits(Foo, Bar);
+    var _super = _createSuper(Foo);
     function Foo() {
         _classCallCheck(this, Foo);
         var _this;
         var fn = ()=>_assertThisInitialized(_this)
         ;
         fn();
-        _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
+        _this = _super.call(this);
         return _this;
     }
     return Foo;
