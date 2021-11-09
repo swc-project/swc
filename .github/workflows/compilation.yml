@@ -70,8 +70,8 @@ jobs:
 
       - name: Check swc_bundler
         run: |
-          (cd bundler && cargo hack check --feature-powerset --no-dev-deps)
+          (cd crates/swc_bundler && cargo hack check --feature-powerset --no-dev-deps)
 
       - name: Check swc
         run: |
-          cargo hack check --feature-powerset --no-dev-deps
+          (cd crates/swc && cargo hack check --feature-powerset --no-dev-deps)

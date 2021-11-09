@@ -112,7 +112,7 @@ jobs:
 
           (cd tests/integration/redux/repo && npm i)
           (cd tests/integration/redux/repo && npx jest '.*.js' --modulePathIgnorePatterns 'typescript')
-      - name: (spack) example react app
+      - name: (swcpack) example react app
         run: |
           export PATH="$PATH:$HOME/npm/bin"
-          (cd node/bundler/tests/integration/react && npm i && npx spack)
+          (cd crates/swc_node_bundler/tests/integration/react && npm i && npx spack)

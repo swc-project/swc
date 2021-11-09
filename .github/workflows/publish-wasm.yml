@@ -38,12 +38,12 @@ jobs:
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
       - name: Build
-        run: (cd wasm && wasm-pack build  --release --scope=swc --target nodejs)
+        run: (cd crates/wasm && wasm-pack build  --release --scope=swc --target nodejs)
 
       - name: Publish
         run: |
           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-          (cd wasm/pkg && npm publish --access public)
+          (cd crates/wasm/pkg && npm publish --access public)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -76,7 +76,7 @@ jobs:
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
       - name: Build
-        run: (cd wasm && wasm-pack build  --release --scope=swc --target web)
+        run: (cd crates/wasm && wasm-pack build  --release --scope=swc --target web)
 
       - name: Rename
         run: |
@@ -86,7 +86,7 @@ jobs:
       - name: Publish
         run: |
           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-          (cd wasm/pkg && npm publish --access public)
+          (cd crates/wasm/pkg && npm publish --access public)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
