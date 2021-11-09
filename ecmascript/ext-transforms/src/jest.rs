@@ -40,9 +40,7 @@ impl Jest {
                             ..
                         }) => match &**callee {
                             Expr::Member(
-                                callee
-                                @
-                                MemberExpr {
+                                callee @ MemberExpr {
                                     computed: false, ..
                                 },
                             ) => match &callee.obj {

@@ -199,8 +199,7 @@ where
                 },
             ) => match &mut *bin.left {
                 Expr::Bin(
-                    left
-                    @ BinExpr {
+                    left @ BinExpr {
                         op: op!(bin, "+"), ..
                     },
                 ) => {
