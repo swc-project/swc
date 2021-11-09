@@ -11,6 +11,8 @@ mod macros;
 mod ctx;
 mod emit;
 mod list;
+#[cfg(test)]
+mod tests;
 pub mod writer;
 
 #[derive(Debug, Clone, Copy)]
