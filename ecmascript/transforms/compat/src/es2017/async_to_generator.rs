@@ -1,12 +1,15 @@
 use std::{iter, mem::replace};
-use swc_common::{Mark, Span, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, Mark, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
     contains_ident_ref, contains_this_expr, private_ident, quote_ident, ExprFactory, StmtLike,
 };
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{
+    noop_fold_type, noop_visit_mut_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitMut,
+    VisitMutWith, VisitWith,
+};
 
 /// `@babel/plugin-transform-async-to-generator`
 ///
@@ -926,7 +929,7 @@ impl Actual {
 ///
 /// `_asyncToGenerator(function*() {})` from `async function() {}`;
 fn make_fn_ref(mut expr: FnExpr, should_not_bind_this: bool) -> Expr {
-    expr.function.body = expr.function.body.fold_with(&mut AsyncFnBodyHandler {
+    expr.function.body.visit_mut_with(&mut AsyncFnBodyHandler {
         is_async_generator: expr.function.is_generator,
     });
 
@@ -970,55 +973,52 @@ struct AsyncFnBodyHandler {
 macro_rules! noop {
     ($name:ident, $T:path) => {
         /// Don't recurse into function.
-        fn $name(&mut self, f: $T) -> $T {
-            f
-        }
+        fn $name(&mut self, _f: &mut $T) {}
     };
 }
 
-/// TODO: VisitMut
-impl Fold for AsyncFnBodyHandler {
-    noop_fold_type!();
+impl VisitMut for AsyncFnBodyHandler {
+    noop_visit_mut_type!();
 
-    noop!(fold_fn_decl, FnDecl);
-    noop!(fold_fn_expr, FnExpr);
-    noop!(fold_constructor, Constructor);
-    noop!(fold_arrow_expr, ArrowExpr);
+    noop!(visit_mut_fn_expr, FnExpr);
+    noop!(visit_mut_constructor, Constructor);
+    noop!(visit_mut_arrow_expr, ArrowExpr);
+    noop!(visit_mut_fn_decl, FnDecl);
 
-    fn fold_expr(&mut self, expr: Expr) -> Expr {
-        let expr = expr.fold_children_with(self);
+    fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        expr.visit_mut_children_with(self);
 
         match expr {
             Expr::Await(AwaitExpr { span, arg }) => {
                 if self.is_async_generator {
                     let callee = helper!(await_async_generator, "awaitAsyncGenerator");
                     let arg = Box::new(Expr::Call(CallExpr {
-                        span,
+                        span: *span,
                         callee,
-                        args: vec![arg.as_arg()],
+                        args: vec![arg.take().as_arg()],
                         type_args: Default::default(),
                     }));
-                    Expr::Yield(YieldExpr {
-                        span,
+                    *expr = Expr::Yield(YieldExpr {
+                        span: *span,
                         delegate: false,
                         arg: Some(arg),
                     })
                 } else {
-                    Expr::Yield(YieldExpr {
-                        span,
+                    *expr = Expr::Yield(YieldExpr {
+                        span: *span,
                         delegate: false,
-                        arg: Some(arg),
+                        arg: Some(arg.take()),
                     })
                 }
             }
-            _ => expr,
+            _ => (),
         }
     }
 
-    fn fold_stmt(&mut self, s: Stmt) -> Stmt {
-        let s = s.fold_children_with(self);
+    fn visit_mut_stmt(&mut self, s: &mut Stmt) {
+        s.visit_mut_children_with(self);
 
-        handle_await_for(s, self.is_async_generator)
+        handle_await_for(s, self.is_async_generator);
     }
 }
 
@@ -1087,15 +1087,15 @@ fn extract_callee_of_bind_this(n: &mut CallExpr) -> Option<&mut Expr> {
     }
 }
 
-fn handle_await_for(stmt: Stmt, is_async_generator: bool) -> Stmt {
+fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
     let s = match stmt {
         Stmt::ForOf(
             s @ ForOfStmt {
                 await_token: Some(..),
                 ..
             },
-        ) => s,
-        _ => return stmt,
+        ) => s.take(),
+        _ => return,
     };
 
     let value = private_ident!("_value");
@@ -1430,7 +1430,7 @@ fn handle_await_for(stmt: Stmt, is_async_generator: bool) -> Stmt {
     })));
 
     stmts.push(Stmt::Try(try_stmt));
-    Stmt::Block(BlockStmt {
+    *stmt = Stmt::Block(BlockStmt {
         span: s.span,
         stmts,
     })
