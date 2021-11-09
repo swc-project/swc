@@ -585,12 +585,12 @@ var Hello = function Hello() {
 var Outer = function (Hello) {
   'use strict';
   _inherits(Outer, Hello);
-
+  var _super = _createSuper(Outer);
   function Outer() {
     _classCallCheck(this, Outer);
     var _this;
 
-    var _ref = _this = _possibleConstructorReturn(this, _getPrototypeOf(Outer).call(this));
+    var _ref = _this = _super.call(this);
 
     var Inner = function Inner() {
       _classCallCheck(this, Inner);
@@ -654,21 +654,21 @@ function (Bar) {
   'use strict';
 
   _inherits(Foo, Bar);
-
+  var _super = _createSuper(Foo);
   function Foo() {
     _classCallCheck(this, Foo);
     var _this;
 
 
     if (condition) {
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
+      _this = _super.call(this);
 
       _bar.set(_assertThisInitialized(_this), {
         writable: true,
         value: "foo"
       });
     } else {
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
+      _this = _super.call(this);
 
       _bar.set(_assertThisInitialized(_this), {
         writable: true,
@@ -1721,12 +1721,12 @@ function (Foo) {
   'use strict';
 
   _inherits(Bar, Foo);
-
+  var _super = _createSuper(Bar);
   function Bar() {
     _classCallCheck(this, Bar);
     var _this;
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Bar).apply(this, arguments));
+    _this = _super.apply(this, arguments);
 
     _prop1.set(_assertThisInitialized(_this), {
       writable: true,
