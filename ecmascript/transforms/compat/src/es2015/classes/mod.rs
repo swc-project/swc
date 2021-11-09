@@ -427,7 +427,7 @@ where
             );
         }
 
-        let super_var = super_class_ident.clone().map(|super_class| {
+        let super_var = super_class_ident.as_ref().map(|_| {
             let var = private_ident!("_super");
 
             stmts.push(Stmt::Decl(Decl::Var(VarDecl {
