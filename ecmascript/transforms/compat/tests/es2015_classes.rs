@@ -71,14 +71,17 @@ let singleton;
 let Sub = function(Foo) {
     'use strict';
     _inherits(Sub, Foo);
+
+    var _super = _createSuper(Sub);
+    
     function Sub() {
         _classCallCheck(this, Sub);
         var _this;
         if (singleton) {
             return _possibleConstructorReturn(_this, singleton);
         }
-        singleton = _this = _possibleConstructorReturn(this, _getPrototypeOf(Sub).call(this));
-        return _possibleConstructorReturn(_this);
+        singleton = _this = _super.call(this);
+        return _this;
     }
     return Sub;
 }(Foo);
