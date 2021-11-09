@@ -9,7 +9,7 @@ use swc_ecma_transforms_compat::{
     es2016, es2017, es2018, es2022,
     es2022::class_properties,
 };
-use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, Tester};
+use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, test_fixture, Tester};
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
@@ -6546,5 +6546,22 @@ fn exec(input: PathBuf) {
             )
         },
         &src,
+    );
+}
+
+#[testing::fixture("tests/fixture/classes/**/input.js")]
+fn fixture(input: PathBuf) {
+    let output = input.parent().unwrap().join("output.js");
+
+    test_fixture(
+        Default::default(),
+        |t| {
+            chain!(
+                class_properties(class_properties::Config { loose: false }),
+                classes(Some(t.comments.clone()))
+            )
+        },
+        input,
+        output,
     );
 }
