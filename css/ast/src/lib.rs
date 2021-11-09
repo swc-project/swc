@@ -7,6 +7,8 @@ mod at_rule;
 mod base;
 mod selector;
 mod style_rule;
+#[cfg(test)]
+mod tests;
 mod token;
 mod value;
 
