@@ -270,6 +270,23 @@ impl Fold for ConstructorFolder<'_> {
         }
     }
 
+    fn fold_return_stmt(&mut self, stmt: ReturnStmt) -> ReturnStmt {
+        if self.ignore_return {
+            return stmt;
+        }
+
+        let arg = stmt.arg.fold_with(self);
+
+        let arg = Some(Box::new(make_possible_return_value(
+            ReturningMode::Returning {
+                mark: self.mark,
+                arg,
+            },
+        )));
+
+        ReturnStmt { arg, ..stmt }
+    }
+
     fn fold_stmt(&mut self, stmt: Stmt) -> Stmt {
         let stmt = stmt.fold_children_with(self);
 
