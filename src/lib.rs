@@ -793,7 +793,7 @@ impl Compiler {
     where
         P: 'a + swc_ecma_visit::Fold,
     {
-        self.run(||  {
+        self.run(|| {
             let config = self.read_config(opts, name)?;
             let config = match config {
                 Some(v) => v,
