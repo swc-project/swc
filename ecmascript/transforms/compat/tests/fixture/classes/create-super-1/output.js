@@ -1,5 +1,5 @@
-var Foo = /*#__PURE__*/function (_Array) {
-    _inherits(Foo, _Array);
+var Foo = /*#__PURE__*/function (_UnknownNativeClass) {
+    _inherits(Foo, _UnknownNativeClass);
 
     var _super = _createSuper(Foo);
 
@@ -10,4 +10,4 @@ var Foo = /*#__PURE__*/function (_Array) {
     }
 
     return Foo;
-}( /*#__PURE__*/_wrapNativeSuper(Array));
+}(UnknownNativeClass);
