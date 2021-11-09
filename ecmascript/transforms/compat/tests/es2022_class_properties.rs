@@ -183,12 +183,12 @@ function (Parent) {
   'use strict';
 
   _inherits(Child, Parent);
-
+  var _super = _createSuper(Child);
   function Child() {
     _classCallCheck(this, Child);
     var _this;
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Child).call(this));
+    _this = _super.call(this);
 
     _scopedFunctionWithThis.set(_assertThisInitialized(_this), {
       writable: true,
@@ -1391,12 +1391,12 @@ function (Bar) {
   'use strict';
 
   _inherits(Foo, Bar);
-
+  var _super = _createSuper(Foo);
   function Foo() {
     _classCallCheck(this, Foo);
     var _this;
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
+    _this = _super.call(this);
 
     _bar.set(_assertThisInitialized(_this), {
       writable: true,
@@ -2659,14 +2659,13 @@ function (Bar) {
   'use strict';
 
   _inherits(Foo, Bar);
-
+  var _super = _createSuper(Foo);
   function Foo() {
     _classCallCheck(this, Foo);
     var _this;
 
     var _temp;
-    foo((_temp = _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this)),
-     _bar.set(_assertThisInitialized(_this), {
+    foo((_temp = _this = _super.call(this), _bar.set(_assertThisInitialized(_this), {
       writable: true,
       value: "foo"
     }), _temp));
