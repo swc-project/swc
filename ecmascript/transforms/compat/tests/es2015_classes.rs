@@ -2147,12 +2147,12 @@ let ColorPoint =
 function (Point) {
   'use strict';
 _inherits(ColorPoint, Point);
-
+var _super = _createSuper(ColorPoint);
   function ColorPoint() {
     _classCallCheck(this, ColorPoint);
     var _this;
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(ColorPoint).call(this));
+    _this = _super.call(this);
     _this.x = 2;
     _set(_getPrototypeOf(ColorPoint.prototype), 'x', 3, this, true);
     expect(_this.x).toBe(3); // A
