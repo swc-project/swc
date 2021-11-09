@@ -6466,9 +6466,10 @@ test!(
 var Extended = function(Base) {
     'use strict';
     _inherits(Extended, Base);
+    var _super = _createSuper(Extended);
     function Extended() {
         _classCallCheck(this, Extended);
-        return _possibleConstructorReturn(this, _getPrototypeOf(Extended).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     _createClass(Extended, [
         {
@@ -6512,9 +6513,10 @@ test!(
 var Extended = function(Base) {
     'use strict';
     _inherits(Extended, Base);
+    var _super = _createSuper(Extended);
     function Extended() {
         _classCallCheck(this, Extended);
-        return _possibleConstructorReturn(this, _getPrototypeOf(Extended).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     _createClass(Extended, [
         {
