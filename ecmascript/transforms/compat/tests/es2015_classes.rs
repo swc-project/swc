@@ -82,7 +82,7 @@ let Sub = function(Foo) {
             return _possibleConstructorReturn(_this, singleton);
         }
         singleton = _this = _super.call(this);
-        return _this;
+        return _possibleConstructorReturn(_this);
     }
     return Sub;
 }(Foo);
