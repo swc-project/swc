@@ -29,6 +29,6 @@ swc_common = {path = "../../common", features = ["sourcemap"]}
 swc_ecma_ast = {path = "../../ecmascript/ast"}
 swc_ecma_loader = {path = "../../ecmascript/loader"}
 swc_ecma_parser = {path = "../../ecmascript/parser"}
-swc_node_base = {path = "../base"}
-swc_node_bundler = {path = "../bundler"}
+swc_node_base = {path = "../../node/base"}
+swc_node_bundler = {path = "../../node/bundler"}
 tracing = {version = "0.1.28", features = ["release_max_level_off"]}
