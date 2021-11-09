@@ -440,7 +440,7 @@ where
                     init: Some(Box::new(Expr::Call(CallExpr {
                         span: DUMMY_SP,
                         callee: helper!(create_super, "createSuper"),
-                        args: vec![super_class.as_arg()],
+                        args: vec![class_name.clone().as_arg()],
                         type_args: Default::default(),
                     }))),
                     definite: Default::default(),
