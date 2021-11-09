@@ -135,15 +135,20 @@ export var Foo = function() {
 class HomePage extends React.Component {}
 "#,
         r#"
-var HomePage = function(_Component) {
-    'use strict';
-    _inherits(HomePage, _Component);
-    function HomePage() {
-        _classCallCheck(this, HomePage);
-        return _possibleConstructorReturn(this, _getPrototypeOf(HomePage).apply(this, arguments));
-    }
-    return HomePage;
-}(React.Component);
+        var HomePage = /*#__PURE__*/function (_Component) {
+            "use strict";
+            _inherits(HomePage, _Component);
+          
+            var _super = _createSuper(HomePage);
+          
+            function HomePage() {
+              _classCallCheck(this, HomePage);
+          
+              return _super.apply(this, arguments);
+            }
+          
+            return HomePage;
+          }(React.Component);
 "#
     );
 
@@ -285,10 +290,11 @@ class B extends A {
 var B = function(A) {
     'use strict';
     _inherits(B, A);
+    var _super = _createSuper(B);
     function B(num) {
         _classCallCheck(this, B);
         var _this;
-        _this = _possibleConstructorReturn(this, _getPrototypeOf(B).call(this));
+        _this = _super.call(this);
         _this.b_num = num;
         return _this;
     }
