@@ -2792,12 +2792,12 @@ let B =
 function (A) {
   'use strict';
 _inherits(B, A);
-
+var _super = _createSuper(B);
   function B() {
     _classCallCheck(this, B);
     var _this;
 
-    return _possibleConstructorReturn(_this, _this = _possibleConstructorReturn(this, _getPrototypeOf(B).call(this)));
+    return _possibleConstructorReturn(_this, _this = _super.call(this));
   }
 
   return B;
