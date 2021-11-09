@@ -88,25 +88,7 @@ where
     I: Input,
 {
     fn read_token(&mut self) -> LexResult<Token> {
-        // Consume comments.
-        // If the next two input code point are U+002F SOLIDUS (/) followed by a U+002A
-        // ASTERISK (*), consume them and all following code points up to and including
-        // the first U+002A ASTERISK (*) followed by a U+002F SOLIDUS (/), or up to an
-        // EOF code point. Return to the start of this step.
-        if self.input.cur() == Some('/') {
-            if self.input.peek() == Some('*') {
-                self.skip_block_comment()?;
-                self.skip_ws()?;
-                self.start_pos = self.input.cur_pos();
-
-                return self.read_token();
-            } else if self.config.allow_wrong_line_comments && self.input.peek() == Some('/') {
-                self.skip_line_comment()?;
-                self.start_pos = self.input.cur_pos();
-
-                return self.read_token();
-            }
-        }
+        self.read_comments()?;
 
         let start = self.input.cur_pos();
         let next = self.input.cur();
@@ -133,13 +115,6 @@ where
                         _ => {
                             break;
                         }
-                    }
-                }
-
-                if self.config.allow_wrong_line_comments {
-                    if self.input.is_byte(b'/') && self.input.peek() == Some('/') {
-                        self.skip_line_comment()?;
-                        self.start_pos = self.input.cur_pos();
                     }
                 }
 
@@ -431,6 +406,83 @@ where
                 return Ok(Token::Delim { value: c });
             }
         }
+    }
+
+    // Consume comments.
+    // This section describes how to consume comments from a stream of code points.
+    // It returns nothing.
+    fn read_comments(&mut self) -> LexResult<()> {
+        // If the next two input code point are U+002F SOLIDUS (/) followed by a U+002A
+        // ASTERISK (*), consume them and all following code points up to and including
+        // the first U+002A ASTERISK (*) followed by a U+002F SOLIDUS (/), or up to an
+        // EOF code point. Return to the start of this step.
+        // NOTE: We allow to parse line comments under the option.
+        let is_block_comment = self.input.cur() == Some('/') && self.input.peek() == Some('*');
+        let is_inline_comment = self.config.allow_wrong_line_comments
+            && self.input.cur() == Some('/')
+            && self.input.peek() == Some('/');
+
+        if is_block_comment {
+            while self.input.cur() == Some('/') && self.input.peek() == Some('*') {
+                self.input.bump(); // '*'
+                self.input.bump(); // '/'
+
+                loop {
+                    let cur = self.input.cur();
+
+                    if cur.is_some() {
+                        self.input.bump();
+                    }
+
+                    match cur {
+                        Some('*') if self.input.cur() == Some('/') => {
+                            self.input.bump(); // '/'
+
+                            break;
+                        }
+                        Some(_) => {}
+                        None => {
+                            return Err(ErrorKind::UnterminatedBlockComment);
+                        }
+                    }
+                }
+
+                // TODO: invalid
+                self.skip_ws()?;
+            }
+
+            self.start_pos = self.input.cur_pos();
+        } else if is_inline_comment {
+            while self.input.cur() == Some('/') && self.input.peek() == Some('/') {
+                self.input.bump(); // '/'
+                self.input.bump(); // '/'
+
+                loop {
+                    let cur = self.input.cur();
+
+                    if cur.is_some() {
+                        self.input.bump();
+                    }
+
+                    match cur {
+                        Some(c) if is_newline(c) => {
+                            break;
+                        }
+                        Some(_) => {}
+                        None => {
+                            return Err(ErrorKind::UnterminatedBlockComment);
+                        }
+                    }
+                }
+
+                // TODO: invalid
+                self.skip_ws()?;
+            }
+
+            self.start_pos = self.input.cur_pos();
+        }
+
+        Ok(())
     }
 
     // This section describes how to consume a numeric token from a stream of code
@@ -1243,53 +1295,6 @@ where
                     break;
                 }
             }
-        }
-
-        Ok(())
-    }
-
-    /// Expects current char to be '/' and next char to be '*'.
-    fn skip_block_comment(&mut self) -> LexResult<()> {
-        self.input.bump();
-        self.input.bump();
-
-        loop {
-            let cur = self.input.cur();
-            
-            match cur {
-                Some('*') if self.input.peek() == Some('/') => {
-                    self.input.bump(); // '*'
-                    self.input.bump(); // '/'
-
-                    return Ok(());
-                }
-                Some(_) => {
-                    self.input.bump();
-                }
-                None => {
-                    return Err(ErrorKind::UnterminatedBlockComment);    
-                }
-            }
-        }
-    }
-
-    fn skip_line_comment(&mut self) -> LexResult<()> {
-        debug_assert!(
-            self.config.allow_wrong_line_comments,
-            "Line comments are wrong and should be lexed only if it's explicitly requested"
-        );
-        debug_assert_eq!(self.input.cur(), Some('/'));
-        debug_assert_eq!(self.input.peek(), Some('/'));
-
-        self.input.bump();
-        self.input.bump();
-
-        while let Some(c) = self.input.cur() {
-            if is_newline(c) {
-                break;
-            }
-
-            self.input.bump();
         }
 
         Ok(())
