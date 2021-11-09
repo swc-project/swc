@@ -4674,10 +4674,10 @@ var _default =
 function (A) {
   'use strict';
   _inherits(_default, A);
-
+  var _super = _createSuper(_default);
   function _default() {
     _classCallCheck(this, _default);
-    return _possibleConstructorReturn(this, _getPrototypeOf(_default).apply(this, arguments));
+    return _super.apply(this, arguments);
   }
 
   return _default;
