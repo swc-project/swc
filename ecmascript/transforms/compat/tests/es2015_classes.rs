@@ -6555,13 +6555,13 @@ fn fixture(input: PathBuf) {
 
     test_fixture(
         Default::default(),
-        |t| {
+        &|t| {
             chain!(
                 class_properties(class_properties::Config { loose: false }),
                 classes(Some(t.comments.clone()))
             )
         },
-        input,
-        output,
+        &input,
+        &output,
     );
 }
