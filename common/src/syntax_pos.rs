@@ -26,6 +26,8 @@ pub mod hygiene;
 /// assume that the length of the `span = hi - lo`; there may be space in the
 /// `BytePos` range between files.
 #[derive(Debug, Clone, Copy, Hash, PartialEq, Eq, Ord, PartialOrd, Serialize, Deserialize)]
+#[cfg_attr(feature = "abi_stable", repr(C))]
+#[cfg_attr(feature = "abi_stable", derive(abi_stable::StableAbi))]
 pub struct Span {
     #[serde(rename = "start")]
     pub lo: BytePos,
@@ -800,6 +802,8 @@ pub trait Pos {
 /// a lot of them.
 #[derive(Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Debug, Serialize, Deserialize)]
 #[serde(transparent)]
+#[cfg_attr(feature = "abi_stable", repr(transparent))]
+#[cfg_attr(feature = "abi_stable", derive(abi_stable::StableAbi))]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct BytePos(pub u32);
 
