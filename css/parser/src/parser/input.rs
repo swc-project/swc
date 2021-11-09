@@ -43,10 +43,6 @@ where
         }
     }
 
-    pub fn is_eof(&mut self) -> PResult<bool> {
-        Ok(self.cur()?.is_none())
-    }
-
     pub fn last_pos(&mut self) -> PResult<BytePos> {
         self.cur()?;
 
