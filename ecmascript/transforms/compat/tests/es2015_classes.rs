@@ -42,9 +42,10 @@ class HomePage extends React.Component {}
 let HomePage = function(_Component) {
     'use strict';
     _inherits(HomePage, _Component);
+    var _super = _createSuper(HomePage);
     function HomePage() {
         _classCallCheck(this, HomePage);
-        return _possibleConstructorReturn(this, _getPrototypeOf(HomePage).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     return HomePage;
 }(React.Component);
@@ -1526,11 +1527,11 @@ let Obj =
 function (Base) {
   'use strict';
   _inherits(Obj, Base);
-
+  var _super = _createSuper(Obj);
   function Obj() {
     _classCallCheck(this, Obj);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Obj).apply(this, arguments));
+    return _super.apply(this, arguments);
   }
 
   _createClass(Obj, [{
