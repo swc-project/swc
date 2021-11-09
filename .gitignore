@@ -10,7 +10,6 @@ artifacts.json
 
 target/
 **/*.bk
-core
 *.log
 
 .vscode/*
