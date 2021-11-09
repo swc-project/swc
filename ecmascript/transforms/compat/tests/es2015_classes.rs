@@ -6073,10 +6073,10 @@ test!(
     let ColouredCanvasElement = function (CanvasElement) {
         'use strict';
         _inherits(ColouredCanvasElement, CanvasElement);
+        var _super = _createSuper(ColouredCanvasElement);
         function ColouredCanvasElement() {
             _classCallCheck(this, ColouredCanvasElement);
-            return _possibleConstructorReturn(this, \
-     _getPrototypeOf(ColouredCanvasElement).apply(this, arguments));
+            return _super.apply(this, arguments);
         }
         _createClass(ColouredCanvasElement, [
             {
@@ -6107,10 +6107,10 @@ test!(
   let ColouredCanvasElement = function (CanvasElement) {
       'use strict';
       _inherits(ColouredCanvasElement, CanvasElement);
+      var _super = _createSuper(ColouredCanvasElement);
       function ColouredCanvasElement() {
           _classCallCheck(this, ColouredCanvasElement);
-          return _possibleConstructorReturn(this, \
-     _getPrototypeOf(ColouredCanvasElement).apply(this, arguments));
+          return _super.apply(this, arguments);
       }
       _createClass(ColouredCanvasElement, [
           {
