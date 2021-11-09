@@ -4,7 +4,7 @@ members = [
   "css/stylis",
   "ecmascript",
   "crates/swc_ecma_plugin_ast",
-  "ecmascript/babel/compat",
+  "crates/swc_babel_compat",
   "ecmascript/jsdoc",
   "crates/node",
   "crates/swc_plugin",
