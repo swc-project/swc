@@ -793,7 +793,7 @@ impl Compiler {
     where
         P: 'a + swc_ecma_visit::Fold,
     {
-        self.run(|| -> Result<_, Error> {
+        self.run(||  {
             let config = self.read_config(opts, name)?;
             let config = match config {
                 Some(v) => v,
@@ -817,7 +817,6 @@ impl Compiler {
             )?;
             Ok(Some(built))
         })
-        .with_context(|| format!("failed to parse input for file '{:?}'", name))
     }
 
     pub fn run_transform<F, Ret>(&self, handler: &Handler, external_helpers: bool, op: F) -> Ret
