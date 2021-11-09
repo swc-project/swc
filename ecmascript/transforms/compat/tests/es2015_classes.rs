@@ -1,5 +1,4 @@
 use std::{fs::read_to_string, path::PathBuf};
-
 use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver::resolver;
@@ -767,6 +766,7 @@ var Foo = function(Bar) {
 "#
 );
 
+// TODO: Use `thisSuper`
 // spec_calling_super_properties
 test!(
     syntax(),
@@ -795,7 +795,7 @@ _inherits(Test, Foo);
   var _super = _createSuper(Test);
   function Test() {
     _classCallCheck(this, Test);
-    var _this = _possibleConstructorReturn(this, _getPrototypeOf(Test).call(this));
+    var _this = _super.call(this);
     _get(_getPrototypeOf(Test.prototype), "test", _assertThisInitialized(_this)).whatever();
     _get(_getPrototypeOf(Test.prototype), "test", _assertThisInitialized(_this)).call(_this);
     return _this;
@@ -1651,6 +1651,7 @@ expect(new Outer().hello()).toBe('hello');
 "#
 );
 
+// TODO: Use `thisSuper`
 // spec_super_reference_in_prop_exression
 test!(
     syntax(),
@@ -1668,10 +1669,11 @@ class Foo extends Bar {
 var Foo = function(Bar) {
     'use strict';
     _inherits(Foo, Bar);
+    var _super = _createSuper(Foo);
     function Foo() {
         _classCallCheck(this, Foo);
         var _this;
-        _get(_getPrototypeOf(Foo.prototype), (_this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this))).method, _assertThisInitialized(_this)).call(_this);
+        _get(_getPrototypeOf(Foo.prototype), (_this = _super.call(this)).method, _assertThisInitialized(_this)).call(_this);
         return _possibleConstructorReturn(_this);
     }
     return Foo;
@@ -1793,6 +1795,7 @@ function (Bar) {
 "#
 );
 
+// TODO: Use `thisSuper`
 // spec_accessing_super_properties
 test!(
     syntax(),
@@ -1814,10 +1817,10 @@ var Test =
 function (Foo) {
   'use strict';
 _inherits(Test, Foo);
-
+  var _super = _createSuper(Test);
   function Test() {
     _classCallCheck(this, Test);
-    var _this = _possibleConstructorReturn(this, _getPrototypeOf(Test).call(this));
+    var _this = _super.call(this);
     _get(_getPrototypeOf(Test.prototype), "test", _assertThisInitialized(_this));
     _get(_getPrototypeOf(Test.prototype), "test", _assertThisInitialized(_this)).whatever;
     return _this;
