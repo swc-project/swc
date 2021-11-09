@@ -6,11 +6,11 @@ members = [
   "ecmascript/plugin_ast",
   "ecmascript/babel/compat",
   "ecmascript/jsdoc",
-  "node/binding",
+  "crates/node",
   "plugin",
   "plugin/runner",
   "plugin/testing",
-  "wasm",
+  "crates/wasm",
 ]
 
 [package]
