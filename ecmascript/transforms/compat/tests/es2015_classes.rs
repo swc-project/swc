@@ -4386,10 +4386,10 @@ function (_Controller) {
   'use strict';
 
   _inherits(BaseController, _Controller);
-
+  var _super = _createSuper(BaseController);
   function BaseController() {
     _classCallCheck(this, BaseController);
-    return _possibleConstructorReturn(this, _getPrototypeOf(BaseController).apply(this, arguments));
+    return _super.apply(this, arguments);
   }
 
   return BaseController;
@@ -4401,10 +4401,10 @@ function (_Another) {
   'use strict';
 
   _inherits(BaseController2, _Another);
-
+  var _super = _createSuper(BaseController2);
   function BaseController2() {
     _classCallCheck(this, BaseController2);
-    return _possibleConstructorReturn(this,_getPrototypeOf(BaseController2).apply(this, arguments));
+    return _super.apply(this, arguments);
   }
 
   return BaseController2;
@@ -4830,10 +4830,10 @@ test!(
         var Foo = function(Bar) {
             'use strict';
             _inherits(Foo, Bar);
+            var _super = _createSuper(Foo);
             function Foo() {
                 _classCallCheck(this, Foo);
-                return _possibleConstructorReturn(this, _getPrototypeOf(Foo).apply(this, \
-     arguments));
+                return _super.apply(this, arguments);
             }
             return Foo;
         }(Bar);
