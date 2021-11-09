@@ -228,13 +228,12 @@ impl Fold for ConstructorFolder<'_> {
                 args,
                 ..
             }) => {
-                let this_var = quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this");
                 let right = match self.super_var.clone() {
                     Some(super_var) => Box::new(Expr::Call(CallExpr {
                         span: DUMMY_SP,
                         callee: super_var.make_member(quote_ident!("call")).as_callee(),
                         args: {
-                            let mut call_args = vec![this_var.as_arg()];
+                            let mut call_args = vec![ThisExpr { span: DUMMY_SP }.as_arg()];
                             call_args.extend(args);
 
                             call_args
@@ -289,13 +288,12 @@ impl Fold for ConstructorFolder<'_> {
                     args,
                     ..
                 }) => {
-                    let this_var = quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this");
                     let expr = match self.super_var.clone() {
                         Some(super_var) => Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee: super_var.make_member(quote_ident!("call")).as_callee(),
                             args: {
-                                let mut call_args = vec![this_var.as_arg()];
+                                let mut call_args = vec![ThisExpr { span: DUMMY_SP }.as_arg()];
                                 call_args.extend(args);
 
                                 call_args
