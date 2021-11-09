@@ -1,0 +1,5 @@
+@supports (display: flex) {
+    h1 {
+        color: hotpink;
+    }
+}

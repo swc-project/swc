@@ -2883,6 +2883,140 @@ myclass.handle();
   "
 );
 
+test!(
+    Syntax::default(),
+    |_| {
+        let top_level_mark = Mark::fresh(Mark::root());
+        chain!(
+            async_to_generator(),
+            regenerator(Default::default(), top_level_mark)
+        )
+    },
+    issue_2677_1,
+    "
+async function region() {
+}
+
+export async function otherCall() {
+  await region();
+}
+
+export default async function someCall() {
+  await region();
+}
+  ",
+    "
+            var regeneratorRuntime = require('regenerator-runtime');
+function _region() {
+    _region = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                case 'end':
+                    return _ctx.stop();
+            }
+        }, _callee);
+    }));
+    return _region.apply(this, arguments);
+}
+function region() {
+    return _region.apply(this, arguments);
+}
+function _otherCall() {
+    _otherCall = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                    _ctx.next = 2;
+                    return region();
+                case 2:
+                case 'end':
+                    return _ctx.stop();
+            }
+        }, _callee);
+    }));
+    return _otherCall.apply(this, arguments);
+}
+export function otherCall() {
+    return _otherCall.apply(this, arguments);
+}
+function _someCall() {
+  _someCall = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+      return regeneratorRuntime.wrap(function _callee$(_ctx) {
+          while(1)switch(_ctx.prev = _ctx.next){
+              case 0:
+                  _ctx.next = 2;
+                  return region();
+              case 2:
+              case 'end':
+                  return _ctx.stop();
+          }
+      }, _callee);
+  }));
+  return _someCall.apply(this, arguments);
+}
+export default function someCall() {
+  return _someCall.apply(this, arguments);
+}
+  "
+);
+
+test!(
+    Syntax::default(),
+    |_| {
+        let top_level_mark = Mark::fresh(Mark::root());
+        chain!(
+            async_to_generator(),
+            regenerator(Default::default(), top_level_mark)
+        )
+    },
+    issue_2677_2,
+    "
+async function region() {
+}
+
+export default async function() {
+  await region();
+}
+",
+    "
+    var regeneratorRuntime = require('regenerator-runtime');
+    function _region() {
+        _region = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                    case 'end':
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }));
+        return _region.apply(this, arguments);
+    }
+    function region() {
+        return _region.apply(this, arguments);
+    }
+    function _ref() {
+        _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                        _ctx.next = 2;
+                        return region();
+                    case 2:
+                    case 'end':
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }));
+        return _ref.apply(this, arguments);
+    }
+    export default function() {
+        return _ref.apply(this, arguments);
+    }
+"
+);
+
 #[testing::fixture("tests/fixture/async-to-generator/**/exec.js")]
 fn exec(input: PathBuf) {
     let input = read_to_string(&input).unwrap();

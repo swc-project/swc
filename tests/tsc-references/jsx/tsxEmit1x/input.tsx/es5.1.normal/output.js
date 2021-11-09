@@ -114,6 +114,6 @@ var SomeClass = /*#__PURE__*/ function() {
     ]);
     return SomeClass;
 }();
-var whitespace1 = /*#__PURE__*/ React.createElement("div", null, " ");
-var whitespace2 = /*#__PURE__*/ React.createElement("div", null, " ", p, " ");
+var whitespace1 = /*#__PURE__*/ React.createElement("div", null, "      ");
+var whitespace2 = /*#__PURE__*/ React.createElement("div", null, "  ", p, "    ");
 var whitespace3 = /*#__PURE__*/ React.createElement("div", null, p);

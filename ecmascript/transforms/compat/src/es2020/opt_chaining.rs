@@ -504,9 +504,7 @@ impl OptChaining {
 
                             match *obj {
                                 Expr::Member(
-                                    obj
-                                    @
-                                    MemberExpr {
+                                    obj @ MemberExpr {
                                         obj: ExprOrSuper::Expr(..),
                                         ..
                                     },
