@@ -2478,6 +2478,7 @@ class Child extends Base {
 var Child = function(Base) {
     'use strict';
     _inherits(Child, Base);
+    var _super = _createSuper(Child);
     function Child() {
         _classCallCheck(this, Child);
         var _this;
@@ -3878,10 +3879,11 @@ function (Foo) {
   'use strict';
 
   _inherits(Test, Foo);
+  var _super = _createSuper(Test);
 
   function Test() {
     _classCallCheck(this, Test);
-    return _possibleConstructorReturn(this, _getPrototypeOf(Test).apply(this, arguments));
+    return _super.apply(this, arguments);
   }
 
   return Test;
