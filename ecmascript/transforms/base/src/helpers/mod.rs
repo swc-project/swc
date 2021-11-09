@@ -244,6 +244,12 @@ define_helpers!(Helpers {
 
     class_static_private_method_get: (class_check_private_static_access),
     class_check_private_static_access: (),
+
+    create_super: (
+        get_prototype_of,
+        is_native_reflect_construct,
+        possible_constructor_return
+    ),
 });
 
 pub fn inject_helpers() -> impl Fold + VisitMut {
