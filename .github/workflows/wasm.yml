@@ -34,9 +34,9 @@ jobs:
 
       - name: Build
         run: |
-          (cd wasm && yarn)
-          (cd wasm && ./scripts/build.sh)
+          (cd crates/wasm && yarn)
+          (cd crates/wasm && ./scripts/build.sh)
 
       - name: Test
         run: |
-          (cd wasm && ./scripts/test.sh)
+          (cd crates/wasm && ./scripts/test.sh)
