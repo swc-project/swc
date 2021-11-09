@@ -21,7 +21,7 @@ fn fixture(input: PathBuf) {
         eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
 
         let mut errors = vec![];
-        let mut stylesheet: Stylesheet = parse_file(
+        let stylesheet: Stylesheet = parse_file(
             &fm,
             ParserConfig {
                 parse_values: true,
