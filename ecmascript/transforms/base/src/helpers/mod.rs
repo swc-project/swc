@@ -245,6 +245,8 @@ define_helpers!(Helpers {
     class_static_private_method_get: (class_check_private_static_access),
     class_check_private_static_access: (),
 
+    is_native_reflect_construct: (),
+
     create_super: (
         get_prototype_of,
         is_native_reflect_construct,
