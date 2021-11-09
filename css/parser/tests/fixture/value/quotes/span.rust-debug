@@ -34,6 +34,12 @@ error: StyleRule
 29 | | }
    | |_^
 
+error: SelectorList
+ --> $DIR/tests/fixture/value/quotes/input.css:1:1
+  |
+1 | a::before {
+  | ^^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/value/quotes/input.css:1:1
   |
@@ -46,7 +52,7 @@ error: CompoundSelector
 1 | a::before {
   | ^^^^^^^^^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/value/quotes/input.css:1:1
   |
 1 | a::before {
@@ -599,6 +605,13 @@ error: StyleRule
 34 | | }
    | |_^
 
+error: SelectorList
+  --> $DIR/tests/fixture/value/quotes/input.css:31:1
+   |
+31 | / a[title="a not s\
+32 | | o very long title"] {
+   | |___________________^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/value/quotes/input.css:31:1
    |
@@ -613,7 +626,7 @@ error: CompoundSelector
 32 | | o very long title"] {
    | |___________________^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/value/quotes/input.css:31:1
    |
 31 | a[title="a not s\
@@ -640,12 +653,6 @@ error: AttrSelector
    |  __^
 32 | | o very long title"] {
    | |___________________^
-
-error: NamespacedName
-  --> $DIR/tests/fixture/value/quotes/input.css:31:3
-   |
-31 | a[title="a not s\
-   |   ^^^^^
 
 error: Text
   --> $DIR/tests/fixture/value/quotes/input.css:31:3
@@ -710,6 +717,12 @@ error: StyleRule
 37 | | }
    | |_^
 
+error: SelectorList
+  --> $DIR/tests/fixture/value/quotes/input.css:35:1
+   |
+35 | a[title="a not so very long title"] {
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/value/quotes/input.css:35:1
    |
@@ -722,7 +735,7 @@ error: CompoundSelector
 35 | a[title="a not so very long title"] {
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/value/quotes/input.css:35:1
    |
 35 | a[title="a not so very long title"] {
@@ -745,12 +758,6 @@ error: AttrSelector
    |
 35 | a[title="a not so very long title"] {
    |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: NamespacedName
-  --> $DIR/tests/fixture/value/quotes/input.css:35:3
-   |
-35 | a[title="a not so very long title"] {
-   |   ^^^^^
 
 error: Text
   --> $DIR/tests/fixture/value/quotes/input.css:35:3

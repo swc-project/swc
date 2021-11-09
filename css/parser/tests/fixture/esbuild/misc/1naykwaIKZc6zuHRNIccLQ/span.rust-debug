@@ -16,6 +16,12 @@ error: StyleRule
 1 | a { value: id\65nt }
   | ^^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/1naykwaIKZc6zuHRNIccLQ/input.css:1:1
+  |
+1 | a { value: id\65nt }
+  | ^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/1naykwaIKZc6zuHRNIccLQ/input.css:1:1
   |
@@ -28,7 +34,7 @@ error: CompoundSelector
 1 | a { value: id\65nt }
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/esbuild/misc/1naykwaIKZc6zuHRNIccLQ/input.css:1:1
   |
 1 | a { value: id\65nt }

@@ -16,6 +16,12 @@ error: StyleRule
 1 | a { value: '' }
   | ^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/Yc70giIIGDIddrjD858dDw/input.css:1:1
+  |
+1 | a { value: '' }
+  | ^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/Yc70giIIGDIddrjD858dDw/input.css:1:1
   |
@@ -28,7 +34,7 @@ error: CompoundSelector
 1 | a { value: '' }
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/esbuild/misc/Yc70giIIGDIddrjD858dDw/input.css:1:1
   |
 1 | a { value: '' }

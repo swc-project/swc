@@ -12,6 +12,14 @@ macro_rules! tok {
         swc_css_ast::Token::Function { .. }
     };
 
+    ("[") => {
+        swc_css_ast::Token::LBracket
+    };
+
+    ("]") => {
+        swc_css_ast::Token::RBracket
+    };
+
     ("(") => {
         swc_css_ast::Token::LParen
     };

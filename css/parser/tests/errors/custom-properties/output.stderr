@@ -1,0 +1,12 @@
+error: Expected "}"
+ --> $DIR/tests/errors/custom-properties/input.css:2:34
+  |
+2 |     --semicolon-not-top-level: (;);
+  |                                  ^
+
+error: Expected ")"
+ --> $DIR/tests/errors/custom-properties/input.css:2:33
+  |
+2 |     --semicolon-not-top-level: (;);
+  |                                 ^
+

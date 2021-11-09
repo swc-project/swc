@@ -16,6 +16,12 @@ error: StyleRule
 1 | [\2c attr] {}
   | ^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/sNuIucY7tsVtjkcMTIXaGw/input.css:1:1
+  |
+1 | [\2c attr] {}
+  | ^^^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/sNuIucY7tsVtjkcMTIXaGw/input.css:1:1
   |
@@ -39,12 +45,6 @@ error: AttrSelector
   |
 1 | [\2c attr] {}
   | ^^^^^^^^^^
-
-error: NamespacedName
- --> $DIR/tests/fixture/esbuild/misc/sNuIucY7tsVtjkcMTIXaGw/input.css:1:2
-  |
-1 | [\2c attr] {}
-  |  ^^^^^^^^
 
 error: Text
  --> $DIR/tests/fixture/esbuild/misc/sNuIucY7tsVtjkcMTIXaGw/input.css:1:2

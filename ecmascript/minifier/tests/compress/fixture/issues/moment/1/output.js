@@ -1317,13 +1317,13 @@
                 time = startOfDate(this.year(), this.month(), this.date() + 1) - 1;
                 break;
             case "hour":
-                time += 3600000 - mod$1((time = this._d.valueOf()) + (this._isUTC ? 0 : 60000 * this.utcOffset()), 3600000) - 1;
+                time = this._d.valueOf(), time += 3600000 - mod$1(time + (this._isUTC ? 0 : 60000 * this.utcOffset()), 3600000) - 1;
                 break;
             case "minute":
-                time += 60000 - mod$1(time = this._d.valueOf(), 60000) - 1;
+                time = this._d.valueOf(), time += 60000 - mod$1(time, 60000) - 1;
                 break;
             case "second":
-                time += 1000 - mod$1(time = this._d.valueOf(), 1000) - 1;
+                time = this._d.valueOf(), time += 1000 - mod$1(time, 1000) - 1;
                 break;
         }
         return this._d.setTime(time), hooks.updateOffset(this, !0), this;
@@ -1409,13 +1409,13 @@
                 time = startOfDate(this.year(), this.month(), this.date());
                 break;
             case "hour":
-                time -= mod$1((time = this._d.valueOf()) + (this._isUTC ? 0 : 60000 * this.utcOffset()), 3600000);
+                time = this._d.valueOf(), time -= mod$1(time + (this._isUTC ? 0 : 60000 * this.utcOffset()), 3600000);
                 break;
             case "minute":
-                time -= mod$1(time = this._d.valueOf(), 60000);
+                time = this._d.valueOf(), time -= mod$1(time, 60000);
                 break;
             case "second":
-                time -= mod$1(time = this._d.valueOf(), 1000);
+                time = this._d.valueOf(), time -= mod$1(time, 1000);
                 break;
         }
         return this._d.setTime(time), hooks.updateOffset(this, !0), this;

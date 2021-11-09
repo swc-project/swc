@@ -117,7 +117,7 @@ mod tests {
                     return await 1;
                 };
             }
-          
+
             bar() {
                 (async function () {})();
             }

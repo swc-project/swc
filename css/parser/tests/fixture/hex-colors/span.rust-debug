@@ -34,6 +34,12 @@ error: StyleRule
 13 | | }
    | |_^
 
+error: SelectorList
+ --> $DIR/tests/fixture/hex-colors/input.css:1:1
+  |
+1 | a {
+  | ^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/hex-colors/input.css:1:1
   |
@@ -46,7 +52,7 @@ error: CompoundSelector
 1 | a {
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/hex-colors/input.css:1:1
   |
 1 | a {

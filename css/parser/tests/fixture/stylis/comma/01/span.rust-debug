@@ -22,6 +22,12 @@ error: StyleRule
 3 | | }
   | |_^
 
+error: SelectorList
+ --> $DIR/tests/fixture/stylis/comma/01/input.css:1:1
+  |
+1 | a {
+  | ^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/stylis/comma/01/input.css:1:1
   |
@@ -34,7 +40,7 @@ error: CompoundSelector
 1 | a {
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/stylis/comma/01/input.css:1:1
   |
 1 | a {

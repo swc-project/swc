@@ -13,189 +13,196 @@
         "end": 67,
         "ctxt": 0
       },
-      "selectors": [
-        {
-          "type": "ComplexSelector",
-          "span": {
-            "start": 0,
-            "end": 55,
-            "ctxt": 0
-          },
-          "selectors": [
-            {
-              "type": "CompoundSelector",
-              "span": {
-                "start": 0,
-                "end": 55,
-                "ctxt": 0
-              },
-              "hasNestPrefix": false,
-              "combinator": null,
-              "typeSelector": {
-                "type": "NamespacedName",
+      "selectors": {
+        "type": "SelectorList",
+        "span": {
+          "start": 0,
+          "end": 55,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 0,
+              "end": 55,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
                 "span": {
                   "start": 0,
-                  "end": 3,
+                  "end": 55,
                   "ctxt": 0
                 },
-                "prefix": null,
-                "name": {
-                  "type": "Text",
+                "nestingSelector": null,
+                "typeSelector": {
+                  "type": "TypeSelector",
                   "span": {
                     "start": 0,
                     "end": 3,
                     "ctxt": 0
                   },
-                  "value": "div",
-                  "raw": "div"
-                }
-              },
-              "subclassSelectors": [
-                {
-                  "type": "PseudoSelector",
-                  "span": {
-                    "start": 3,
-                    "end": 11,
-                    "ctxt": 0
-                  },
-                  "isElement": true,
+                  "prefix": null,
                   "name": {
                     "type": "Text",
                     "span": {
-                      "start": 5,
+                      "start": 0,
+                      "end": 3,
+                      "ctxt": 0
+                    },
+                    "value": "div",
+                    "raw": "div"
+                  }
+                },
+                "subclassSelectors": [
+                  {
+                    "type": "PseudoSelector",
+                    "span": {
+                      "start": 3,
                       "end": 11,
                       "ctxt": 0
                     },
-                    "value": "before",
-                    "raw": "before"
-                  },
-                  "args": {
-                    "type": "Tokens",
-                    "span": {
-                      "start": 0,
-                      "end": 0,
-                      "ctxt": 0
+                    "isElement": true,
+                    "name": {
+                      "type": "Text",
+                      "span": {
+                        "start": 5,
+                        "end": 11,
+                        "ctxt": 0
+                      },
+                      "value": "before",
+                      "raw": "before"
                     },
-                    "tokens": []
-                  }
-                },
-                {
-                  "type": "PseudoSelector",
-                  "span": {
-                    "start": 11,
-                    "end": 18,
-                    "ctxt": 0
+                    "args": {
+                      "type": "Tokens",
+                      "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                      },
+                      "tokens": []
+                    }
                   },
-                  "isElement": true,
-                  "name": {
-                    "type": "Text",
+                  {
+                    "type": "PseudoSelector",
                     "span": {
-                      "start": 13,
+                      "start": 11,
                       "end": 18,
                       "ctxt": 0
                     },
-                    "value": "after",
-                    "raw": "after"
-                  },
-                  "args": {
-                    "type": "Tokens",
-                    "span": {
-                      "start": 0,
-                      "end": 0,
-                      "ctxt": 0
+                    "isElement": true,
+                    "name": {
+                      "type": "Text",
+                      "span": {
+                        "start": 13,
+                        "end": 18,
+                        "ctxt": 0
+                      },
+                      "value": "after",
+                      "raw": "after"
                     },
-                    "tokens": []
-                  }
-                },
-                {
-                  "type": "PseudoSelector",
-                  "span": {
-                    "start": 18,
-                    "end": 29,
-                    "ctxt": 0
+                    "args": {
+                      "type": "Tokens",
+                      "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                      },
+                      "tokens": []
+                    }
                   },
-                  "isElement": true,
-                  "name": {
-                    "type": "Text",
+                  {
+                    "type": "PseudoSelector",
                     "span": {
-                      "start": 20,
+                      "start": 18,
                       "end": 29,
                       "ctxt": 0
                     },
-                    "value": "selection",
-                    "raw": "selection"
-                  },
-                  "args": {
-                    "type": "Tokens",
-                    "span": {
-                      "start": 0,
-                      "end": 0,
-                      "ctxt": 0
+                    "isElement": true,
+                    "name": {
+                      "type": "Text",
+                      "span": {
+                        "start": 20,
+                        "end": 29,
+                        "ctxt": 0
+                      },
+                      "value": "selection",
+                      "raw": "selection"
                     },
-                    "tokens": []
-                  }
-                },
-                {
-                  "type": "PseudoSelector",
-                  "span": {
-                    "start": 29,
-                    "end": 41,
-                    "ctxt": 0
+                    "args": {
+                      "type": "Tokens",
+                      "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                      },
+                      "tokens": []
+                    }
                   },
-                  "isElement": true,
-                  "name": {
-                    "type": "Text",
+                  {
+                    "type": "PseudoSelector",
                     "span": {
-                      "start": 31,
+                      "start": 29,
                       "end": 41,
                       "ctxt": 0
                     },
-                    "value": "first-line",
-                    "raw": "first-line"
-                  },
-                  "args": {
-                    "type": "Tokens",
-                    "span": {
-                      "start": 0,
-                      "end": 0,
-                      "ctxt": 0
+                    "isElement": true,
+                    "name": {
+                      "type": "Text",
+                      "span": {
+                        "start": 31,
+                        "end": 41,
+                        "ctxt": 0
+                      },
+                      "value": "first-line",
+                      "raw": "first-line"
                     },
-                    "tokens": []
-                  }
-                },
-                {
-                  "type": "PseudoSelector",
-                  "span": {
-                    "start": 41,
-                    "end": 55,
-                    "ctxt": 0
+                    "args": {
+                      "type": "Tokens",
+                      "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                      },
+                      "tokens": []
+                    }
                   },
-                  "isElement": true,
-                  "name": {
-                    "type": "Text",
+                  {
+                    "type": "PseudoSelector",
                     "span": {
-                      "start": 43,
+                      "start": 41,
                       "end": 55,
                       "ctxt": 0
                     },
-                    "value": "first-letter",
-                    "raw": "first-letter"
-                  },
-                  "args": {
-                    "type": "Tokens",
-                    "span": {
-                      "start": 0,
-                      "end": 0,
-                      "ctxt": 0
+                    "isElement": true,
+                    "name": {
+                      "type": "Text",
+                      "span": {
+                        "start": 43,
+                        "end": 55,
+                        "ctxt": 0
+                      },
+                      "value": "first-letter",
+                      "raw": "first-letter"
                     },
-                    "tokens": []
+                    "args": {
+                      "type": "Tokens",
+                      "span": {
+                        "start": 0,
+                        "end": 0,
+                        "ctxt": 0
+                      },
+                      "tokens": []
+                    }
                   }
-                }
-              ]
-            }
-          ]
-        }
-      ],
+                ]
+              }
+            ]
+          }
+        ]
+      },
       "block": {
         "type": "Block",
         "span": {

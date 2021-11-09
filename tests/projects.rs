@@ -7,7 +7,7 @@ use std::{
 };
 use swc::{
     config::{
-        BuiltConfig, Config, JscConfig, ModuleConfig, Options, SourceMapsConfig, TransformConfig,
+        BuiltInput, Config, JscConfig, ModuleConfig, Options, SourceMapsConfig, TransformConfig,
     },
     Compiler, TransformOutput,
 };
@@ -118,8 +118,7 @@ fn project(dir: &str) {
 
                 let fm = cm.load_file(entry.path()).expect("failed to load file");
 
-                if c.config_for_file(
-                    &handler,
+                if c.read_config(
                     &Options {
                         swcrc: true,
                         is_module: true,
@@ -127,7 +126,6 @@ fn project(dir: &str) {
                         ..Default::default()
                     },
                     &fm.name,
-                    noop(),
                 )
                 .expect("failed to read config")
                 .is_none()
@@ -708,9 +706,12 @@ fn should_visit() {
                 .into(),
             );
             let config = c
-                .config_for_file(
+                .parse_js_as_input(
+                    fm.clone(),
+                    None,
                     &handler,
                     &swc::config::Options {
+                        is_module: true,
                         config: swc::config::Config {
                             jsc: JscConfig {
                                 syntax: Some(Syntax::Es(EsConfig {
@@ -724,24 +725,15 @@ fn should_visit() {
                         ..Default::default()
                     },
                     &fm.name,
-                    noop(),
+                    |_| noop(),
                 )
                 .unwrap()
                 .unwrap();
 
             dbg!(config.syntax);
-            let program = c
-                .parse_js(
-                    fm.clone(),
-                    &handler,
-                    config.target,
-                    config.syntax,
-                    true,
-                    true,
-                )
-                .map_err(|_| ())?;
 
-            let config = BuiltConfig {
+            let config = BuiltInput {
+                program: config.program,
                 pass: chain!(Panicking, config.pass),
                 syntax: config.syntax,
                 target: config.target,
@@ -765,6 +757,7 @@ fn should_visit() {
                 c.comments().trailing.retain(preserve_excl);
             }
             let mut pass = config.pass;
+            let program = config.program;
             let program = helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
                 HANDLER.set(&handler, || {
                     // Fold module

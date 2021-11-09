@@ -13,38 +13,37 @@
         "end": 14,
         "ctxt": 0
       },
-      "selectors": [
-        {
-          "type": "ComplexSelector",
-          "span": {
-            "start": 0,
-            "end": 11,
-            "ctxt": 0
-          },
-          "selectors": [
-            {
-              "type": "CompoundSelector",
-              "span": {
-                "start": 0,
-                "end": 11,
-                "ctxt": 0
-              },
-              "hasNestPrefix": false,
-              "combinator": null,
-              "typeSelector": null,
-              "subclassSelectors": [
-                {
-                  "type": "AttributeSelector",
-                  "span": {
-                    "start": 0,
-                    "end": 11,
-                    "ctxt": 0
-                  },
-                  "name": {
-                    "type": "NamespacedName",
+      "selectors": {
+        "type": "SelectorList",
+        "span": {
+          "start": 0,
+          "end": 11,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 0,
+              "end": 11,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 0,
+                  "end": 11,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "AttributeSelector",
                     "span": {
-                      "start": 1,
-                      "end": 8,
+                      "start": 0,
+                      "end": 11,
                       "ctxt": 0
                     },
                     "prefix": null,
@@ -57,26 +56,26 @@
                       },
                       "value": "attr~",
                       "raw": "attr\\7e"
-                    }
-                  },
-                  "op": "=",
-                  "value": {
-                    "type": "String",
-                    "span": {
-                      "start": 9,
-                      "end": 10,
-                      "ctxt": 0
                     },
-                    "value": "x",
-                    "raw": "x"
-                  },
-                  "modifier": null
-                }
-              ]
-            }
-          ]
-        }
-      ],
+                    "matcher": "=",
+                    "value": {
+                      "type": "Text",
+                      "span": {
+                        "start": 9,
+                        "end": 10,
+                        "ctxt": 0
+                      },
+                      "value": "x",
+                      "raw": "x"
+                    },
+                    "modifier": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
       "block": {
         "type": "Block",
         "span": {

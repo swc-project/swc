@@ -1,5 +1,5 @@
 use super::Pure;
-use crate::{compress::util::get_lhs_ident, mode::Mode};
+use crate::mode::Mode;
 use swc_common::{util::take::Take, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, ExprFactory};
@@ -21,7 +21,7 @@ where
             &*seq.exprs[seq.exprs.len() - 2],
             &*seq.exprs[seq.exprs.len() - 1],
         ) {
-            (Expr::Assign(assign), Expr::Ident(ident)) => {
+            (Expr::Assign(assign @ AssignExpr { op: op!("="), .. }), Expr::Ident(ident)) => {
                 // Check if lhs is same as `ident`.
                 match &assign.left {
                     PatOrExpr::Expr(_) => {}
@@ -90,7 +90,7 @@ where
         }
 
         let assign = match e {
-            Expr::Assign(v) => v,
+            Expr::Assign(v @ AssignExpr { op: op!("="), .. }) => v,
             _ => return,
         };
 
@@ -156,14 +156,14 @@ where
 
             match (&mut *a, &mut *b) {
                 (
-                    Expr::Assign(a_assign),
+                    Expr::Assign(a_assign @ AssignExpr { op: op!("="), .. }),
                     Expr::Call(CallExpr {
                         callee: ExprOrSuper::Expr(b_callee),
                         args,
                         ..
                     }),
                 ) => {
-                    let var_name = get_lhs_ident(&a_assign.left);
+                    let var_name = a_assign.left.as_ident();
                     let var_name = match var_name {
                         Some(v) => v,
                         None => continue,

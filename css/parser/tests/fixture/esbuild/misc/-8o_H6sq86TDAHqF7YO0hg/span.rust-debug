@@ -16,6 +16,12 @@ error: StyleRule
 1 | \2d {}
   | ^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/-8o_H6sq86TDAHqF7YO0hg/input.css:1:1
+  |
+1 | \2d {}
+  | ^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/-8o_H6sq86TDAHqF7YO0hg/input.css:1:1
   |
@@ -28,7 +34,7 @@ error: CompoundSelector
 1 | \2d {}
   | ^^^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/esbuild/misc/-8o_H6sq86TDAHqF7YO0hg/input.css:1:1
   |
 1 | \2d {}

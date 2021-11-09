@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_common"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.14.4"
+version = "0.14.5"
 
 [lib]
 crate-type = ["lib", "dylib"]
@@ -15,13 +15,20 @@ crate-type = ["lib", "dylib"]
 concurrent = ["parking_lot"]
 debug = []
 default = []
+diagnostic-serde = []
+plugin-base = ["abi_stable", "anyhow", "bincode", "diagnostic-serde"]
+plugin-mode = ["plugin-base"]
+plugin-rt = ["plugin-base"]
 tty-emitter = ["atty", "termcolor"]
 
 [dependencies]
+abi_stable = {version = "0.10.3", optional = true}
 ahash = "0.7.4"
+anyhow = {version = "1.0.45", optional = true}
 arbitrary = {version = "1", optional = true, features = ["derive"]}
 ast_node = {version = "0.7.3", path = "../macros/ast_node"}
 atty = {version = "0.2", optional = true}
+bincode = {version = "1.3.3", optional = true}
 cfg-if = "0.1.2"
 either = "1.5"
 from_variant = {version = "0.1.3", path = "../macros/from_variant"}

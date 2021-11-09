@@ -16,6 +16,12 @@ error: StyleRule
 1 | #\2chash {}
   | ^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/Jir2h5-Giw9AVhE3ep3_sg/input.css:1:1
+  |
+1 | #\2chash {}
+  | ^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/Jir2h5-Giw9AVhE3ep3_sg/input.css:1:1
   |

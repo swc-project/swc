@@ -2,7 +2,7 @@ use super::{is_pure_undefined, Optimizer};
 use crate::{
     compress::{
         optimize::util::replace_id_with_expr,
-        util::{get_lhs_ident, get_lhs_ident_mut, is_directive, is_ident_used_by, replace_expr},
+        util::{is_directive, is_ident_used_by, replace_expr},
     },
     debug::dump,
     mode::Mode,
@@ -14,7 +14,9 @@ use std::mem::take;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{contains_this_expr, ident::IdentLike, undefined, ExprExt, Id, StmtLike};
+use swc_ecma_utils::{
+    contains_this_expr, ident::IdentLike, undefined, ExprExt, Id, StmtLike, UsageFinder,
+};
 use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
 use tracing::{span, Level};
 
@@ -93,9 +95,7 @@ where
                                 | Stmt::ForOf(..) => true,
 
                                 Stmt::Decl(Decl::Var(
-                                    v
-                                    @
-                                    VarDecl {
+                                    v @ VarDecl {
                                         kind: VarDeclKind::Var,
                                         ..
                                     },
@@ -116,9 +116,7 @@ where
             if stmts.len() == 2 {
                 match stmts[1].as_stmt() {
                     Some(Stmt::Decl(Decl::Var(
-                        v
-                        @
-                        VarDecl {
+                        v @ VarDecl {
                             kind: VarDeclKind::Var,
                             ..
                         },
@@ -196,10 +194,7 @@ where
 
                         Stmt::For(mut stmt @ ForStmt { init: None, .. })
                         | Stmt::For(
-                            mut
-                            stmt
-                            @
-                            ForStmt {
+                            mut stmt @ ForStmt {
                                 init: Some(VarDeclOrExpr::Expr(..)),
                                 ..
                             },
@@ -207,7 +202,7 @@ where
                             match &mut stmt.init {
                                 Some(VarDeclOrExpr::Expr(e)) => {
                                     if exprs.iter().all(|expr| match &**expr {
-                                        Expr::Assign(..) => true,
+                                        Expr::Assign(AssignExpr { op: op!("="), .. }) => true,
                                         _ => false,
                                     }) {
                                         let ids_used_by_exprs =
@@ -239,7 +234,7 @@ where
                                                 ..
                                             }) => {
                                                 if !has_conflict
-                                                    && get_lhs_ident_mut(left).is_some()
+                                                    && left.as_ident().is_some()
                                                     && match &**right {
                                                         Expr::Lit(Lit::Regex(..)) => false,
                                                         Expr::Lit(..) => true,
@@ -289,9 +284,7 @@ where
                         }
 
                         Stmt::Decl(Decl::Var(
-                            var
-                            @
-                            VarDecl {
+                            var @ VarDecl {
                                 kind: VarDeclKind::Var,
                                 ..
                             },
@@ -363,7 +356,7 @@ where
                 Expr::Seq(seq) => {
                     seq.exprs.len() > 1
                         && seq.exprs.iter().all(|expr| match &**expr {
-                            Expr::Assign(..) => true,
+                            Expr::Assign(AssignExpr { op: op!("="), .. }) => true,
                             _ => false,
                         })
                 }
@@ -387,7 +380,7 @@ where
                             Expr::Seq(seq) => {
                                 seq.exprs.len() > 1
                                     && seq.exprs.iter().all(|expr| match &**expr {
-                                        Expr::Assign(..) => true,
+                                        Expr::Assign(AssignExpr { op: op!("="), .. }) => true,
                                         _ => false,
                                     })
                             }
@@ -513,9 +506,7 @@ where
                 for stmt in &mut bs.stmts {
                     match stmt {
                         Stmt::Decl(Decl::Var(
-                            v
-                            @
-                            VarDecl {
+                            v @ VarDecl {
                                 kind: VarDeclKind::Var,
                                 ..
                             },
@@ -566,7 +557,7 @@ where
 
             match &*e.exprs[e.exprs.len() - 2] {
                 Expr::Assign(assign @ AssignExpr { op: op!("="), .. }) => {
-                    if let Some(lhs) = get_lhs_ident(&assign.left) {
+                    if let Some(lhs) = assign.left.as_ident() {
                         if lhs.sym == last_id.sym && lhs.span.ctxt == last_id.span.ctxt {
                             e.exprs.pop();
                             self.changed = true;
@@ -617,9 +608,7 @@ where
         Some(match s {
             Stmt::Expr(e) => vec![Mergable::Expr(&mut *e.expr)],
             Stmt::Decl(Decl::Var(
-                v
-                @
-                VarDecl {
+                v @ VarDecl {
                     kind: VarDeclKind::Var | VarDeclKind::Let,
                     ..
                 },
@@ -876,7 +865,7 @@ where
             }
 
             Expr::Assign(e) => {
-                let left_id = get_lhs_ident(&e.left);
+                let left_id = e.left.as_ident();
                 let left_id = match left_id {
                     Some(v) => v,
                     _ => return false,
@@ -1068,24 +1057,14 @@ where
             }
 
             Expr::Assign(b) => {
-                match &mut b.left {
-                    PatOrExpr::Expr(b) => match &**b {
-                        Expr::Ident(..) => {}
+                let b_left = b.left.as_ident();
+                let b_left = match b_left {
+                    Some(v) => v.clone(),
+                    None => return Ok(false),
+                };
 
-                        _ => {
-                            return Ok(false);
-                        }
-                    },
-                    PatOrExpr::Pat(b) => match &mut **b {
-                        Pat::Expr(b) => match &**b {
-                            Expr::Ident(..) => {}
-                            _ => {
-                                return Ok(false);
-                            }
-                        },
-                        Pat::Ident(..) => {}
-                        _ => return Ok(false),
-                    },
+                if UsageFinder::find(&b_left, &b.right) {
+                    return Err(());
                 }
 
                 tracing::trace!("seq: Try rhs of assign with op");
@@ -1283,7 +1262,7 @@ where
                     }) => {
                         match &**arg {
                             Expr::Ident(a_id) => {
-                                let mut v = UsageCoutner {
+                                let mut v = UsageCounter {
                                     expr_usage: Default::default(),
                                     pat_usage: Default::default(),
                                     target: &*a_id,
@@ -1339,7 +1318,7 @@ where
                         //
                         // (console.log(a = 5))
 
-                        let left_id = match get_lhs_ident(left) {
+                        let left_id = match left.as_ident() {
                             Some(v) => v,
                             None => {
                                 tracing::trace!("[X] sequences: Aborting because lhs is not an id");
@@ -1442,7 +1421,7 @@ where
         }
 
         {
-            let mut v = UsageCoutner {
+            let mut v = UsageCounter {
                 expr_usage: Default::default(),
                 pat_usage: Default::default(),
                 target: &left_id,
@@ -1483,7 +1462,7 @@ where
     }
 }
 
-struct UsageCoutner<'a> {
+struct UsageCounter<'a> {
     expr_usage: usize,
     pat_usage: usize,
 
@@ -1491,7 +1470,7 @@ struct UsageCoutner<'a> {
     in_lhs: bool,
 }
 
-impl Visit for UsageCoutner<'_> {
+impl Visit for UsageCounter<'_> {
     noop_visit_type!();
 
     fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
@@ -1543,7 +1522,7 @@ impl Mergable<'_> {
                 _ => None,
             },
             Mergable::Expr(s) => match &**s {
-                Expr::Assign(s) => get_lhs_ident(&s.left).map(|v| v.to_id()),
+                Expr::Assign(s) => s.left.as_ident().map(|v| v.to_id()),
                 _ => None,
             },
         }

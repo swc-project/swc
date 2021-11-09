@@ -16,6 +16,12 @@ error: StyleRule
 1 | a { color: #11223345 }
   | ^^^^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/fTZzFds73kLZoyY9Y2gZdQ/input.css:1:1
+  |
+1 | a { color: #11223345 }
+  | ^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/fTZzFds73kLZoyY9Y2gZdQ/input.css:1:1
   |
@@ -28,7 +34,7 @@ error: CompoundSelector
 1 | a { color: #11223345 }
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/esbuild/misc/fTZzFds73kLZoyY9Y2gZdQ/input.css:1:1
   |
 1 | a { color: #11223345 }

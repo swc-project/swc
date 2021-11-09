@@ -596,9 +596,7 @@ impl CaseHandler<'_> {
             }
 
             Expr::Bin(
-                e
-                @
-                BinExpr {
+                e @ BinExpr {
                     op: op!("&&") | op!("||"),
                     ..
                 },

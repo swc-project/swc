@@ -26,6 +26,12 @@ error: StyleRule
 3 | | }
   | |_^
 
+error: SelectorList
+ --> $DIR/tests/fixture/rome/selectors/input.css:1:1
+  |
+1 | div, div + #id, div ~ #id, div > #id {
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/rome/selectors/input.css:1:1
   |
@@ -38,7 +44,7 @@ error: CompoundSelector
 1 | div, div + #id, div ~ #id, div > #id {
   | ^^^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/rome/selectors/input.css:1:1
   |
 1 | div, div + #id, div ~ #id, div > #id {
@@ -51,10 +57,10 @@ error: Text
   | ^^^
 
 error: ComplexSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:1:5
+ --> $DIR/tests/fixture/rome/selectors/input.css:1:6
   |
 1 | div, div + #id, div ~ #id, div > #id {
-  |     ^^^^^^^^^^
+  |      ^^^^^^^^^
 
 error: CompoundSelector
  --> $DIR/tests/fixture/rome/selectors/input.css:1:6
@@ -62,7 +68,7 @@ error: CompoundSelector
 1 | div, div + #id, div ~ #id, div > #id {
   |      ^^^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/rome/selectors/input.css:1:6
   |
 1 | div, div + #id, div ~ #id, div > #id {
@@ -73,6 +79,12 @@ error: Text
   |
 1 | div, div + #id, div ~ #id, div > #id {
   |      ^^^
+
+error: Combinator
+ --> $DIR/tests/fixture/rome/selectors/input.css:1:10
+  |
+1 | div, div + #id, div ~ #id, div > #id {
+  |          ^
 
 error: CompoundSelector
  --> $DIR/tests/fixture/rome/selectors/input.css:1:12
@@ -99,10 +111,10 @@ error: Text
   |            ^^^
 
 error: ComplexSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:1:16
+ --> $DIR/tests/fixture/rome/selectors/input.css:1:17
   |
 1 | div, div + #id, div ~ #id, div > #id {
-  |                ^^^^^^^^^^
+  |                 ^^^^^^^^^
 
 error: CompoundSelector
  --> $DIR/tests/fixture/rome/selectors/input.css:1:17
@@ -110,7 +122,7 @@ error: CompoundSelector
 1 | div, div + #id, div ~ #id, div > #id {
   |                 ^^^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/rome/selectors/input.css:1:17
   |
 1 | div, div + #id, div ~ #id, div > #id {
@@ -121,6 +133,12 @@ error: Text
   |
 1 | div, div + #id, div ~ #id, div > #id {
   |                 ^^^
+
+error: Combinator
+ --> $DIR/tests/fixture/rome/selectors/input.css:1:21
+  |
+1 | div, div + #id, div ~ #id, div > #id {
+  |                     ^
 
 error: CompoundSelector
  --> $DIR/tests/fixture/rome/selectors/input.css:1:23
@@ -147,10 +165,10 @@ error: Text
   |                       ^^^
 
 error: ComplexSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:1:27
+ --> $DIR/tests/fixture/rome/selectors/input.css:1:28
   |
 1 | div, div + #id, div ~ #id, div > #id {
-  |                           ^^^^^^^^^^
+  |                            ^^^^^^^^^
 
 error: CompoundSelector
  --> $DIR/tests/fixture/rome/selectors/input.css:1:28
@@ -158,7 +176,7 @@ error: CompoundSelector
 1 | div, div + #id, div ~ #id, div > #id {
   |                            ^^^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/rome/selectors/input.css:1:28
   |
 1 | div, div + #id, div ~ #id, div > #id {
@@ -169,6 +187,12 @@ error: Text
   |
 1 | div, div + #id, div ~ #id, div > #id {
   |                            ^^^
+
+error: Combinator
+ --> $DIR/tests/fixture/rome/selectors/input.css:1:32
+  |
+1 | div, div + #id, div ~ #id, div > #id {
+  |                                ^
 
 error: CompoundSelector
  --> $DIR/tests/fixture/rome/selectors/input.css:1:34
@@ -218,6 +242,12 @@ error: StyleRule
 6 | |
 7 | | }
   | |_^
+
+error: SelectorList
+ --> $DIR/tests/fixture/rome/selectors/input.css:5:1
+  |
+5 | .escaped\.class\.name {
+  | ^^^^^^^^^^^^^^^^^^^^^
 
 error: ComplexSelector
  --> $DIR/tests/fixture/rome/selectors/input.css:5:1
@@ -274,6 +304,12 @@ error: StyleRule
 11 | | }
    | |_^
 
+error: SelectorList
+ --> $DIR/tests/fixture/rome/selectors/input.css:9:1
+  |
+9 | .class + * {
+  | ^^^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/rome/selectors/input.css:9:1
   |
@@ -304,13 +340,19 @@ error: Text
 9 | .class + * {
   |  ^^^^^
 
+error: Combinator
+ --> $DIR/tests/fixture/rome/selectors/input.css:9:8
+  |
+9 | .class + * {
+  |        ^
+
 error: CompoundSelector
  --> $DIR/tests/fixture/rome/selectors/input.css:9:10
   |
 9 | .class + * {
   |          ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/rome/selectors/input.css:9:10
   |
 9 | .class + * {
@@ -347,6 +389,12 @@ error: StyleRule
 15 | | }
    | |_^
 
+error: SelectorList
+  --> $DIR/tests/fixture/rome/selectors/input.css:13:1
+   |
+13 | a[title] {
+   | ^^^^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:13:1
    |
@@ -359,7 +407,7 @@ error: CompoundSelector
 13 | a[title] {
    | ^^^^^^^^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:13:1
    |
 13 | a[title] {
@@ -382,12 +430,6 @@ error: AttrSelector
    |
 13 | a[title] {
    |  ^^^^^^^
-
-error: NamespacedName
-  --> $DIR/tests/fixture/rome/selectors/input.css:13:3
-   |
-13 | a[title] {
-   |   ^^^^^
 
 error: Text
   --> $DIR/tests/fixture/rome/selectors/input.css:13:3
@@ -444,6 +486,12 @@ error: StyleRule
 19 | | }
    | |_^
 
+error: SelectorList
+  --> $DIR/tests/fixture/rome/selectors/input.css:17:1
+   |
+17 | a[title = "title"] {
+   | ^^^^^^^^^^^^^^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:17:1
    |
@@ -456,7 +504,7 @@ error: CompoundSelector
 17 | a[title = "title"] {
    | ^^^^^^^^^^^^^^^^^^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:17:1
    |
 17 | a[title = "title"] {
@@ -479,12 +527,6 @@ error: AttrSelector
    |
 17 | a[title = "title"] {
    |  ^^^^^^^^^^^^^^^^^
-
-error: NamespacedName
-  --> $DIR/tests/fixture/rome/selectors/input.css:17:3
-   |
-17 | a[title = "title"] {
-   |   ^^^^^
 
 error: Text
   --> $DIR/tests/fixture/rome/selectors/input.css:17:3
@@ -547,6 +589,12 @@ error: StyleRule
 23 | | }
    | |_^
 
+error: SelectorList
+  --> $DIR/tests/fixture/rome/selectors/input.css:21:1
+   |
+21 | a[title~="title" i] {
+   | ^^^^^^^^^^^^^^^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:21:1
    |
@@ -559,7 +607,7 @@ error: CompoundSelector
 21 | a[title~="title" i] {
    | ^^^^^^^^^^^^^^^^^^^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:21:1
    |
 21 | a[title~="title" i] {
@@ -582,12 +630,6 @@ error: AttrSelector
    |
 21 | a[title~="title" i] {
    |  ^^^^^^^^^^^^^^^^^^
-
-error: NamespacedName
-  --> $DIR/tests/fixture/rome/selectors/input.css:21:3
-   |
-21 | a[title~="title" i] {
-   |   ^^^^^
 
 error: Text
   --> $DIR/tests/fixture/rome/selectors/input.css:21:3
@@ -650,6 +692,12 @@ error: StyleRule
 27 | | }
    | |_^
 
+error: SelectorList
+  --> $DIR/tests/fixture/rome/selectors/input.css:25:1
+   |
+25 | a[title = "title"][href*="image/*" S] {
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:25:1
    |
@@ -662,7 +710,7 @@ error: CompoundSelector
 25 | a[title = "title"][href*="image/*" S] {
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:25:1
    |
 25 | a[title = "title"][href*="image/*" S] {
@@ -685,12 +733,6 @@ error: AttrSelector
    |
 25 | a[title = "title"][href*="image/*" S] {
    |  ^^^^^^^^^^^^^^^^^
-
-error: NamespacedName
-  --> $DIR/tests/fixture/rome/selectors/input.css:25:3
-   |
-25 | a[title = "title"][href*="image/*" S] {
-   |   ^^^^^
 
 error: Text
   --> $DIR/tests/fixture/rome/selectors/input.css:25:3
@@ -715,12 +757,6 @@ error: AttrSelector
    |
 25 | a[title = "title"][href*="image/*" S] {
    |                   ^^^^^^^^^^^^^^^^^^^
-
-error: NamespacedName
-  --> $DIR/tests/fixture/rome/selectors/input.css:25:20
-   |
-25 | a[title = "title"][href*="image/*" S] {
-   |                    ^^^^
 
 error: Text
   --> $DIR/tests/fixture/rome/selectors/input.css:25:20
@@ -781,6 +817,12 @@ error: StyleRule
 30 | | }
    | |_^
 
+error: SelectorList
+  --> $DIR/tests/fixture/rome/selectors/input.css:29:1
+   |
+29 | p:nth-last-of-type(2) {
+   | ^^^^^^^^^^^^^^^^^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:29:1
    |
@@ -793,7 +835,7 @@ error: CompoundSelector
 29 | p:nth-last-of-type(2) {
    | ^^^^^^^^^^^^^^^^^^^^^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:29:1
    |
 29 | p:nth-last-of-type(2) {
@@ -856,6 +898,12 @@ error: StyleRule
 32 | / :lang(en, ko) {
 33 | | }
    | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/rome/selectors/input.css:32:1
+   |
+32 | :lang(en, ko) {
+   | ^^^^^^^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:32:1
@@ -939,6 +987,12 @@ error: StyleRule
 36 | | }
    | |_^
 
+error: SelectorList
+  --> $DIR/tests/fixture/rome/selectors/input.css:35:1
+   |
+35 | ::pseudo-elem() {
+   | ^^^^^^^^^^^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:35:1
    |
@@ -996,6 +1050,12 @@ error: StyleRule
 38 | / ::pseudo-elem(a, b) {
 39 | | }
    | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/rome/selectors/input.css:38:1
+   |
+38 | ::pseudo-elem(a, b) {
+   | ^^^^^^^^^^^^^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:38:1

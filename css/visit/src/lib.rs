@@ -36,7 +36,7 @@ define!({
 
     pub struct StyleRule {
         pub span: Span,
-        pub selectors: Vec<ComplexSelector>,
+        pub selectors: SelectorList,
         pub block: Block,
     }
 
@@ -69,7 +69,7 @@ define!({
     pub enum Value {
         SquareBracketBlock(SquareBracketBlock),
 
-        Paren(ParenValue),
+        RoundBracketBlock(RoundBracketBlock),
 
         Unit(UnitValue),
 
@@ -128,10 +128,9 @@ define!({
         pub args: Vec<Value>,
     }
 
-    pub struct ParenValue {
+    pub struct RoundBracketBlock {
         pub span: Span,
-
-        pub value: Option<Box<Value>>,
+        pub children: Option<Vec<Value>>,
     }
 
     pub struct SquareBracketBlock {
@@ -173,27 +172,41 @@ define!({
         pub raw: JsWord,
     }
 
+    pub struct SelectorList {
+        pub span: Span,
+        pub children: Vec<ComplexSelector>,
+    }
+
     pub struct ComplexSelector {
         pub span: Span,
-        pub selectors: Vec<CompoundSelector>,
+        pub children: Vec<ComplexSelectorChildren>,
+    }
+
+    pub enum ComplexSelectorChildren {
+        CompoundSelector(CompoundSelector),
+        Combinator(Combinator),
     }
 
     pub struct CompoundSelector {
         pub span: Span,
-
-        pub has_nest_prefix: bool,
-
-        pub combinator: Option<SelectorCombinator>,
-
-        pub type_selector: Option<NamespacedName>,
-
+        pub nesting_selector: Option<NestingSelector>,
+        pub type_selector: Option<TypeSelector>,
         pub subclass_selectors: Vec<SubclassSelector>,
     }
 
-    pub struct NamespacedName {
+    pub struct Combinator {
+        pub span: Span,
+        pub value: CombinatorValue,
+    }
+
+    pub struct TypeSelector {
         pub span: Span,
         pub prefix: Option<Text>,
         pub name: Text,
+    }
+
+    pub struct NestingSelector {
+        pub span: Span,
     }
 
     pub enum SubclassSelector {
@@ -208,11 +221,17 @@ define!({
         At(AtSelector),
     }
 
+    pub enum AttrSelectorValue {
+        Str(Str),
+        Text(Text),
+    }
+
     pub struct AttrSelector {
         pub span: Span,
-        pub name: NamespacedName,
-        pub op: Option<AttrSelectorOp>,
-        pub value: Option<Str>,
+        pub prefix: Option<Text>,
+        pub name: Text,
+        pub matcher: Option<AttrSelectorMatcher>,
+        pub value: Option<AttrSelectorValue>,
         pub modifier: Option<char>,
     }
 
@@ -221,10 +240,6 @@ define!({
         pub is_element: bool,
         pub name: Text,
         pub args: Tokens,
-    }
-
-    pub struct UniversalSelector {
-        pub span: Span,
     }
 
     pub struct IdSelector {
@@ -423,9 +438,7 @@ define!({
 
     pub struct NestedPageRule {
         pub span: Span,
-
-        pub prelude: Vec<ComplexSelector>,
-
+        pub prelude: SelectorList,
         pub block: PageRuleBlock,
     }
 

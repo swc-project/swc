@@ -16,6 +16,12 @@ error: StyleRule
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1
+  |
+1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
+  | ^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1
   |
@@ -28,7 +34,7 @@ error: CompoundSelector
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1
   |
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }

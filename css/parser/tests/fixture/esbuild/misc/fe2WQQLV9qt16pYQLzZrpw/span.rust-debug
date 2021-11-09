@@ -16,6 +16,12 @@ error: StyleRule
 1 | [b="c d"] {}
   | ^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/fe2WQQLV9qt16pYQLzZrpw/input.css:1:1
+  |
+1 | [b="c d"] {}
+  | ^^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/fe2WQQLV9qt16pYQLzZrpw/input.css:1:1
   |
@@ -39,12 +45,6 @@ error: AttrSelector
   |
 1 | [b="c d"] {}
   | ^^^^^^^^^
-
-error: NamespacedName
- --> $DIR/tests/fixture/esbuild/misc/fe2WQQLV9qt16pYQLzZrpw/input.css:1:2
-  |
-1 | [b="c d"] {}
-  |  ^
 
 error: Text
  --> $DIR/tests/fixture/esbuild/misc/fe2WQQLV9qt16pYQLzZrpw/input.css:1:2

@@ -60,7 +60,7 @@ fn sort_001() {
         &["_9[0] = 133;", "const _9 = new ByteArray(32);"],
         "
         const _9 = new ByteArray(32);
-        _9[0] = 133; 
+        _9[0] = 133;
         ",
     )
 }
@@ -130,7 +130,7 @@ fn sort_005() {
         }
         const a = new A();
         const b = 1;
-        use(b);        
+        use(b);
         use(a);
         ",
     );
@@ -199,7 +199,7 @@ fn deno_jszip_03() {
         function X() {
             console.log(Q.A)
         }
-        const v = X() 
+        const v = X()
         ",
     );
 }
@@ -342,7 +342,7 @@ fn sort_011() {
         class BufWriterSync extends AbstractBufBase {
         }
         use(BufWriter);
-        use(BufWriterSync);        
+        use(BufWriterSync);
         ",
     );
 }

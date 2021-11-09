@@ -58,6 +58,12 @@ error: StyleRule
 1 | @document url("https://www.example.com/") { h1 { color: green } }
   |                                             ^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:45
+  |
+1 | @document url("https://www.example.com/") { h1 { color: green } }
+  |                                             ^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:45
   |
@@ -70,7 +76,7 @@ error: CompoundSelector
 1 | @document url("https://www.example.com/") { h1 { color: green } }
   |                                             ^^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:45
   |
 1 | @document url("https://www.example.com/") { h1 { color: green } }

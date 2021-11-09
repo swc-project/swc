@@ -13,49 +13,56 @@
         "end": 15,
         "ctxt": 0
       },
-      "selectors": [
-        {
-          "type": "ComplexSelector",
-          "span": {
-            "start": 0,
-            "end": 5,
-            "ctxt": 0
-          },
-          "selectors": [
-            {
-              "type": "CompoundSelector",
-              "span": {
-                "start": 0,
-                "end": 5,
-                "ctxt": 0
-              },
-              "hasNestPrefix": false,
-              "combinator": null,
-              "typeSelector": null,
-              "subclassSelectors": [
-                {
-                  "type": "ClassSelector",
-                  "span": {
-                    "start": 0,
-                    "end": 5,
-                    "ctxt": 0
-                  },
-                  "text": {
-                    "type": "Text",
+      "selectors": {
+        "type": "SelectorList",
+        "span": {
+          "start": 0,
+          "end": 5,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 0,
+              "end": 5,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 0,
+                  "end": 5,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
                     "span": {
-                      "start": 1,
+                      "start": 0,
                       "end": 5,
                       "ctxt": 0
                     },
-                    "value": "decl",
-                    "raw": "decl"
+                    "text": {
+                      "type": "Text",
+                      "span": {
+                        "start": 1,
+                        "end": 5,
+                        "ctxt": 0
+                      },
+                      "value": "decl",
+                      "raw": "decl"
+                    }
                   }
-                }
-              ]
-            }
-          ]
-        }
-      ],
+                ]
+              }
+            ]
+          }
+        ]
+      },
       "block": {
         "type": "Block",
         "span": {

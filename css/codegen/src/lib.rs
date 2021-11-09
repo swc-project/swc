@@ -55,10 +55,8 @@ where
 
     #[emitter]
     fn emit_style_rule(&mut self, n: &StyleRule) -> Result {
-        self.emit_list(&n.selectors, ListFormat::CommaDelimited)?;
-
+        emit!(self, n.selectors);
         space!(self);
-
         emit!(self, n.block);
     }
 
@@ -264,7 +262,6 @@ where
     #[emitter]
     fn emit_value(&mut self, n: &Value) -> Result {
         match n {
-            Value::Paren(n) => emit!(self, n),
             Value::Unit(n) => emit!(self, n),
             Value::Number(n) => emit!(self, n),
             Value::Percent(n) => emit!(self, n),
@@ -273,9 +270,10 @@ where
             Value::Str(n) => emit!(self, n),
             Value::Fn(n) => emit!(self, n),
             Value::Bin(n) => emit!(self, n),
-            Value::SquareBracketBlock(n) => emit!(self, n),
-            Value::Space(n) => emit!(self, n),
             Value::Brace(n) => emit!(self, n),
+            Value::SquareBracketBlock(n) => emit!(self, n),
+            Value::RoundBracketBlock(n) => emit!(self, n),
+            Value::Space(n) => emit!(self, n),
             Value::Lazy(n) => emit!(self, n),
             Value::AtText(n) => emit!(self, n),
             Value::Url(n) => emit!(self, n),
@@ -418,13 +416,6 @@ where
     }
 
     #[emitter]
-    fn emit_paren_value(&mut self, n: &ParenValue) -> Result {
-        punct!(self, "(");
-        emit!(self, n.value);
-        punct!(self, ")");
-    }
-
-    #[emitter]
     fn emit_unit_value(&mut self, n: &UnitValue) -> Result {
         emit!(self, n.value);
         emit!(self, n.unit);
@@ -460,6 +451,17 @@ where
         }
 
         punct!(self, "]");
+    }
+
+    #[emitter]
+    fn emit_round_bracket_block(&mut self, n: &RoundBracketBlock) -> Result {
+        punct!(self, "(");
+
+        if let Some(values) = &n.children {
+            self.emit_list(&values, ListFormat::CommaDelimited)?;
+        }
+
+        punct!(self, ")");
     }
 
     #[emitter]
@@ -672,30 +674,44 @@ where
 
     #[emitter]
     fn emit_nested_page_rule(&mut self, n: &NestedPageRule) -> Result {
-        self.emit_list(&n.prelude, ListFormat::CommaDelimited)?;
-
+        emit!(self, n.prelude);
         emit!(self, n.block);
     }
 
     #[emitter]
+    fn emit_selector_list(&mut self, n: &SelectorList) -> Result {
+        self.emit_list(&n.children, ListFormat::CommaDelimited)?;
+    }
+
+    #[emitter]
     fn emit_complex_selector(&mut self, n: &ComplexSelector) -> Result {
-        self.emit_list(&n.selectors, ListFormat::SpaceDelimited)?;
+        self.emit_list(&n.children, ListFormat::SpaceDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_complex_selector_children(&mut self, n: &ComplexSelectorChildren) -> Result {
+        match n {
+            ComplexSelectorChildren::CompoundSelector(n) => emit!(self, n),
+            ComplexSelectorChildren::Combinator(n) => emit!(self, n),
+        }
     }
 
     #[emitter]
     fn emit_compound_selector(&mut self, n: &CompoundSelector) -> Result {
-        if n.has_nest_prefix {
-            punct!(self, "&");
-        }
-
-        if let Some(combinator) = &n.combinator {
-            self.wr.write_punct(None, combinator.as_str())?;
-        }
-
-        let ctx = Ctx { ..self.ctx };
-        emit!(&mut *self.with_ctx(ctx), n.type_selector);
+        emit!(&mut *self.with_ctx(self.ctx), n.nesting_selector);
+        emit!(&mut *self.with_ctx(self.ctx), n.type_selector);
 
         self.emit_list(&n.subclass_selectors, ListFormat::NotDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_combinator(&mut self, n: &Combinator) -> Result {
+        self.wr.write_punct(None, n.value.as_str())?;
+    }
+
+    #[emitter]
+    fn emit_nesting_selector(&mut self, _: &NestingSelector) -> Result {
+        punct!(self, "&");
     }
 
     #[emitter]
@@ -715,7 +731,7 @@ where
     }
 
     #[emitter]
-    fn emit_namespaced_name(&mut self, n: &NamespacedName) -> Result {
+    fn emit_type_selector(&mut self, n: &TypeSelector) -> Result {
         if let Some(prefix) = &n.prefix {
             emit!(self, prefix);
             punct!(self, "|");
@@ -739,19 +755,33 @@ where
     }
 
     #[emitter]
+    fn emit_attr_selector_value(&mut self, n: &AttrSelectorValue) -> Result {
+        match n {
+            AttrSelectorValue::Str(n) => emit!(self, n),
+            AttrSelectorValue::Text(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
     fn emit_attr_selector(&mut self, n: &AttrSelector) -> Result {
         punct!(self, "[");
 
+        if let Some(prefix) = &n.prefix {
+            emit!(self, prefix);
+            punct!(self, "|");
+        }
+
         emit!(self, n.name);
 
-        if let Some(op) = n.op {
-            self.wr.write_punct(None, op.as_str())?;
+        if let Some(matcher) = n.matcher {
+            self.wr.write_punct(None, matcher.as_str())?;
         }
 
         emit!(self, n.value);
 
         if let Some(m) = &n.modifier {
             space!(self);
+
             self.wr.write_raw_char(None, *m)?;
         }
 

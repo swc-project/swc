@@ -33,9 +33,7 @@ where
             for stmt in &*stmts {
                 match stmt.as_stmt() {
                     Some(Stmt::Decl(Decl::Var(
-                        v
-                        @
-                        VarDecl {
+                        v @ VarDecl {
                             kind: VarDeclKind::Var,
                             ..
                         },

@@ -77,6 +77,12 @@ error: NestedPageRule
 2 |     @top-center { content: none }
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/rome/at-page/input.css:2:2
+  |
+2 |     @top-center { content: none }
+  |     ^^^^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/rome/at-page/input.css:2:2
   |
@@ -246,6 +252,12 @@ error: NestedPageRule
 7 |     @top-center { content: none }
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/rome/at-page/input.css:7:2
+  |
+7 |     @top-center { content: none }
+  |     ^^^^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/rome/at-page/input.css:7:2
   |
@@ -403,6 +415,12 @@ error: NestedPageRule
 12 |     @top-center { content: none }
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/rome/at-page/input.css:12:2
+   |
+12 |     @top-center { content: none }
+   |     ^^^^^^^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/rome/at-page/input.css:12:2
    |
@@ -559,6 +577,12 @@ error: NestedPageRule
    |
 17 |     @top-center { CONTENT: none }
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/rome/at-page/input.css:17:2
+   |
+17 |     @top-center { CONTENT: none }
+   |     ^^^^^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/rome/at-page/input.css:17:2

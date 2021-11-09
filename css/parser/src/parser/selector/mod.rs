@@ -11,12 +11,11 @@ impl<I> Parser<I>
 where
     I: ParserInput,
 {
-    pub(super) fn parse_selectors(&mut self) -> PResult<Vec<ComplexSelector>> {
+    pub(super) fn parse_selectors(&mut self) -> PResult<SelectorList> {
         self.input.skip_ws()?;
 
-        let first = self.parse_complex_selector()?;
-
-        let mut buf = vec![first];
+        let child = self.parse_complex_selector()?;
+        let mut children = vec![child];
 
         loop {
             self.input.skip_ws()?;
@@ -25,23 +24,38 @@ where
                 break;
             }
 
-            let s = self.parse_complex_selector()?;
-            buf.push(s);
+            self.input.skip_ws()?;
+
+            let child = self.parse_complex_selector()?;
+
+            children.push(child);
         }
 
-        Ok(buf)
+        let start_pos = match children.first() {
+            Some(ComplexSelector { span, .. }) => span.lo,
+            _ => {
+                unreachable!();
+            }
+        };
+        let last_pos = match children.last() {
+            Some(ComplexSelector { span, .. }) => span.hi,
+            _ => {
+                unreachable!();
+            }
+        };
+
+        Ok(SelectorList {
+            span: Span::new(start_pos, last_pos, Default::default()),
+            children,
+        })
     }
 
     fn parse_complex_selector(&mut self) -> PResult<ComplexSelector> {
-        let start_pos = self.input.cur_span()?.lo;
-
-        let sel = self.parse_compound_selector()?;
-
-        let mut selectors = vec![sel];
-        let mut last_pos;
+        let child = ComplexSelectorChildren::CompoundSelector(self.parse_compound_selector()?);
+        let mut children = vec![child];
 
         loop {
-            last_pos = self.input.last_pos()?;
+            let span = self.input.cur_span()?;
 
             self.input.skip_ws()?;
 
@@ -49,50 +63,69 @@ where
                 break;
             }
 
-            let combinator = self.parse_combinator()?;
+            let mut combinator = self.parse_combinator()?;
 
-            if combinator.is_some() {
+            if combinator.value == CombinatorValue::Descendant {
+                combinator.span = span;
+            } else {
                 self.input.skip_ws()?;
             }
 
-            let sel = self.parse_compound_selector();
+            children.push(ComplexSelectorChildren::Combinator(combinator));
 
-            match sel {
-                Ok(mut sel) => {
-                    sel.combinator = combinator;
-                    selectors.push(sel);
-                }
-                Err(err) => return Err(err),
-            }
+            let child = self.parse_compound_selector()?;
+
+            children.push(ComplexSelectorChildren::CompoundSelector(child));
         }
+
+        let start_pos = match children.first() {
+            Some(ComplexSelectorChildren::CompoundSelector(child)) => child.span.lo,
+            _ => {
+                unreachable!();
+            }
+        };
+        let last_pos = match children.last() {
+            Some(ComplexSelectorChildren::CompoundSelector(child)) => child.span.hi,
+            _ => {
+                unreachable!();
+            }
+        };
 
         Ok(ComplexSelector {
             span: Span::new(start_pos, last_pos, Default::default()),
-            selectors,
+            children,
         })
     }
 
-    fn parse_combinator(&mut self) -> PResult<Option<SelectorCombinator>> {
-        if eat!(self, " ") {
-            return Ok(Some(SelectorCombinator::Descendant));
-        }
+    fn parse_combinator(&mut self) -> PResult<Combinator> {
+        let span = self.input.cur_span()?;
 
         if eat!(self, ">") {
-            return Ok(Some(SelectorCombinator::Child));
+            return Ok(Combinator {
+                span,
+                value: CombinatorValue::Child,
+            });
+        } else if eat!(self, "+") {
+            return Ok(Combinator {
+                span,
+                value: CombinatorValue::NextSibling,
+            });
+        } else if eat!(self, "~") {
+            return Ok(Combinator {
+                span,
+                value: CombinatorValue::LaterSibling,
+            });
         }
 
-        if eat!(self, "+") {
-            return Ok(Some(SelectorCombinator::NextSibling));
-        }
-
-        if eat!(self, "~") {
-            return Ok(Some(SelectorCombinator::LaterSibling));
-        }
-
-        Ok(None)
+        return Ok(Combinator {
+            span,
+            value: CombinatorValue::Descendant,
+        });
     }
 
-    fn parse_ns_prefix(&mut self, span: Span) -> PResult<Option<Text>> {
+    fn parse_ns_prefix(&mut self) -> PResult<Option<Text>> {
+        let span = self.input.cur_span()?;
+
         if is!(self, Ident) && peeked_is!(self, "|") {
             let token = bump!(self);
             let text = match token {
@@ -126,14 +159,14 @@ where
         Ok(None)
     }
 
-    fn parse_wq_name(&mut self, span: Span) -> PResult<(Option<Text>, Option<Text>)> {
+    fn parse_wq_name(&mut self) -> PResult<(Option<Text>, Option<Text>)> {
         let state = self.input.state();
 
         if is!(self, Ident) && peeked_is!(self, "|")
             || is!(self, "*") && peeked_is!(self, "|")
             || is!(self, "|")
         {
-            let prefix = self.parse_ns_prefix(span)?;
+            let prefix = self.parse_ns_prefix()?;
 
             if is!(self, Ident) {
                 let span = self.input.cur_span()?;
@@ -169,12 +202,12 @@ where
     }
 
     // TODO: no span as argument
-    fn parse_type_selector(&mut self, span: Span) -> PResult<Option<NamespacedName>> {
+    fn parse_type_selector(&mut self, span: Span) -> PResult<Option<TypeSelector>> {
         let start_pos = span.lo;
 
         let mut prefix = None;
 
-        if let Ok(result) = self.parse_ns_prefix(span) {
+        if let Ok(result) = self.parse_ns_prefix() {
             prefix = result;
         }
 
@@ -188,7 +221,7 @@ where
                 }
             };
 
-            return Ok(Some(NamespacedName {
+            return Ok(Some(TypeSelector {
                 span: span!(self, start_pos),
                 prefix,
                 name,
@@ -200,7 +233,7 @@ where
             let raw = value.clone();
             let name = Text { span, value, raw };
 
-            return Ok(Some(NamespacedName {
+            return Ok(Some(TypeSelector {
                 span: span!(self, start_pos),
                 prefix,
                 name,
@@ -261,90 +294,116 @@ where
 
         self.input.skip_ws()?;
 
-        let start_span = self.input.cur_span()?;
-        let name_start_pos = self.input.cur_span()?.lo;
         let prefix;
         let name;
+        let mut attr_matcher = None;
+        let mut matcher_value = None;
+        let mut matcher_modifier = None;
 
-        if let Ok((p, Some(n))) = self.parse_wq_name(start_span) {
+        if let Ok((p, Some(n))) = self.parse_wq_name() {
             prefix = p;
             name = n;
         } else {
             return Err(Error::new(
                 span!(self, start_pos),
-                ErrorKind::InvalidAttrName,
+                ErrorKind::InvalidAttrSelectorName,
             ));
         }
 
-        // TODO: we don't need it
-        let name = NamespacedName {
-            span: span!(self, name_start_pos),
-            prefix,
-            name,
-        };
-
         self.input.skip_ws()?;
 
-        let attr_op = if eat!(self, "=") {
-            Some(AttrSelectorOp::Equals)
-        } else {
-            match cur!(self) {
+        if !is!(self, "]") {
+            let span = self.input.cur_span()?;
+
+            attr_matcher = match cur!(self) {
                 tok!("~") | tok!("|") | tok!("^") | tok!("$") | tok!("*") => {
                     let tok = bump!(self);
+
                     expect!(self, "=");
+
                     Some(match tok {
-                        tok!("~") => AttrSelectorOp::Tilde,
-                        tok!("|") => AttrSelectorOp::Bar,
-                        tok!("^") => AttrSelectorOp::Caret,
-                        tok!("$") => AttrSelectorOp::Dollar,
-                        tok!("*") => AttrSelectorOp::Asterisk,
+                        tok!("~") => AttrSelectorMatcher::Tilde,
+                        tok!("|") => AttrSelectorMatcher::Bar,
+                        tok!("^") => AttrSelectorMatcher::Caret,
+                        tok!("$") => AttrSelectorMatcher::Dollar,
+                        tok!("*") => AttrSelectorMatcher::Asterisk,
                         _ => {
                             unreachable!()
                         }
                     })
                 }
-                _ => None,
-            }
-        };
+                tok!("=") => {
+                    let tok = bump!(self);
 
-        let mut matcher_value = None;
-        let mut matcher_modifier = None;
+                    Some(match tok {
+                        tok!("=") => AttrSelectorMatcher::Equals,
+                        _ => {
+                            unreachable!()
+                        }
+                    })
+                }
+                _ => Err(Error::new(span, ErrorKind::InvalidAttrSelectorMatcher))?,
+            };
 
-        if let Some(..) = attr_op {
             self.input.skip_ws()?;
 
-            if !is!(self, Str) && !is!(self, Ident) {
-                return Err(Error::new(
-                    span!(self, start_pos),
-                    ErrorKind::ExpectedIdentOrStrForAttrSelectorOp,
-                ));
-            }
+            let span = self.input.cur_span()?;
 
-            let _ = cur!(self);
+            matcher_value = match cur!(self) {
+                Token::Ident { .. } => {
+                    let value = bump!(self);
+                    let ident = match value {
+                        Token::Ident { value, raw } => (value, raw),
+                        _ => unreachable!(),
+                    };
 
-            matcher_value = Some(self.parse_id_or_str_for_attr()?);
+                    Some(AttrSelectorValue::Text(Text {
+                        span,
+                        value: ident.0,
+                        raw: ident.1,
+                    }))
+                }
+                Token::Str { .. } => {
+                    let value = bump!(self);
+                    let str = match value {
+                        Token::Str { value, raw } => (value, raw),
+                        _ => unreachable!(),
+                    };
+
+                    Some(AttrSelectorValue::Str(Str {
+                        span,
+                        value: str.0,
+                        raw: str.1,
+                    }))
+                }
+                _ => Err(Error::new(span, ErrorKind::InvalidAttrSelectorMatcherValue))?,
+            };
 
             self.input.skip_ws()?;
 
             if is!(self, Ident) {
+                let span = self.input.cur_span()?;
+
                 match self.input.cur()? {
-                    Some(Token::Ident { value: s, .. }) => {
-                        if (&**s).eq_ignore_ascii_case("i") || (&**s).eq_ignore_ascii_case("s") {
-                            matcher_modifier = s.chars().next();
-                            bump!(self);
-                        }
+                    Some(Token::Ident { value, .. }) => {
+                        matcher_modifier = value.chars().next();
+
+                        bump!(self);
                     }
-                    _ => {}
+                    _ => Err(Error::new(span, ErrorKind::InvalidAttrSelectorModifier))?,
                 }
             }
+
+            self.input.skip_ws()?;
         }
 
         expect!(self, "]");
 
         Ok(AttrSelector {
             span: span!(self, start_pos),
+            prefix,
             name,
-            op: attr_op,
+            matcher: attr_matcher,
             value: matcher_value,
             modifier: matcher_modifier,
         })
@@ -354,9 +413,6 @@ where
         let span = self.input.cur_span()?;
 
         expect!(self, ":"); // `:`
-
-        // TODO: should be removed, because invalid
-        self.input.skip_ws()?;
 
         if is!(self, Function) {
             let fn_span = self.input.cur_span()?;
@@ -406,16 +462,17 @@ where
     }
 
     fn parse_compound_selector(&mut self) -> PResult<CompoundSelector> {
-        self.input.skip_ws()?;
-
         let span = self.input.cur_span()?;
         let start_pos = span.lo;
 
-        let mut has_nest_prefix = false;
+        let mut nesting_selector = None;
 
+        // TODO: move under option, because it is draft
         // This is an extension: https://drafts.csswg.org/css-nesting-1/
         if eat!(self, "&") {
-            has_nest_prefix = true;
+            nesting_selector = Some(NestingSelector {
+                span: span!(self, start_pos),
+            });
         }
 
         let type_selector = self.parse_type_selector(span).unwrap();
@@ -496,62 +553,24 @@ where
 
         let span = span!(self, start_pos);
 
-        if !has_nest_prefix && type_selector.is_none() && subclass_selectors.len() == 0 {
+        if nesting_selector.is_none() && type_selector.is_none() && subclass_selectors.len() == 0 {
             return Err(Error::new(span, ErrorKind::InvalidSelector));
         }
 
         Ok(CompoundSelector {
             span,
-            has_nest_prefix,
-            combinator: None,
+            nesting_selector,
             type_selector,
             subclass_selectors,
         })
     }
-
-    fn parse_id_or_str_for_attr(&mut self) -> PResult<Str> {
-        let span = self.input.cur_span()?;
-
-        match cur!(self) {
-            Token::Ident { .. } => {
-                let value = bump!(self);
-                let ident = match value {
-                    Token::Ident { value, raw } => (value, raw),
-                    _ => unreachable!(),
-                };
-
-                Ok(Str {
-                    span,
-                    value: ident.0,
-                    raw: ident.1,
-                })
-            }
-            Token::Str { .. } => {
-                let value = bump!(self);
-                let str = match value {
-                    Token::Str { value, raw } => (value, raw),
-                    _ => unreachable!(),
-                };
-
-                Ok(Str {
-                    span,
-                    value: str.0,
-                    raw: str.1,
-                })
-            }
-            _ => Err(Error::new(
-                span,
-                ErrorKind::ExpectedIdentOrStrForAttrSelectorOp,
-            ))?,
-        }
-    }
 }
 
-impl<I> Parse<Vec<ComplexSelector>> for Parser<I>
+impl<I> Parse<SelectorList> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<Vec<ComplexSelector>> {
+    fn parse(&mut self) -> PResult<SelectorList> {
         self.parse_selectors()
     }
 }

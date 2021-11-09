@@ -11,7 +11,6 @@ use swc_common::{
     Mark, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::PatOrExprExt;
 use swc_ecma_utils::{
     collect_decls, ident::IdentLike, ExprExt, Id, IsEmpty, ModuleItemLike, StmtLike, Value,
 };

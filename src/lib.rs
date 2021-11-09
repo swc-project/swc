@@ -112,7 +112,7 @@ pub extern crate swc_ecmascript as ecmascript;
 
 pub use crate::builder::PassBuilder;
 use crate::config::{
-    BuiltConfig, Config, ConfigFile, InputSourceMap, Merge, Options, Rc, RootMode, SourceMapsConfig,
+    BuiltInput, Config, ConfigFile, InputSourceMap, Merge, Options, Rc, RootMode, SourceMapsConfig,
 };
 use anyhow::{bail, Context, Error};
 use atoms::JsWord;
@@ -781,13 +781,18 @@ impl Compiler {
     /// This method handles merging of config.
     ///
     /// This method does **not** parse module.
-    pub fn config_for_file<'a>(
+    pub fn parse_js_as_input<'a, P>(
         &'a self,
-        handler: &Handler,
+        fm: Lrc<SourceFile>,
+        program: Option<Program>,
+        handler: &'a Handler,
         opts: &Options,
         name: &FileName,
-        before_pass: impl 'a + swc_ecma_visit::Fold,
-    ) -> Result<Option<BuiltConfig<impl 'a + swc_ecma_visit::Fold>>, Error> {
+        before_pass: impl 'a + FnOnce(&Program) -> P,
+    ) -> Result<Option<BuiltInput<impl 'a + swc_ecma_visit::Fold>>, Error>
+    where
+        P: 'a + swc_ecma_visit::Fold,
+    {
         self.run(|| -> Result<_, Error> {
             let config = self.read_config(opts, name)?;
             let config = match config {
@@ -795,9 +800,13 @@ impl Compiler {
                 None => return Ok(None),
             };
 
-            let built = opts.build(
+            let built = opts.build_as_input(
                 &self.cm,
                 name,
+                move |syntax, target, is_module| match program {
+                    Some(v) => Ok(v),
+                    _ => self.parse_js(fm.clone(), handler, target, syntax, is_module, true),
+                },
                 opts.output_path.as_deref(),
                 opts.source_file_name.clone(),
                 &handler,
@@ -805,10 +814,10 @@ impl Compiler {
                 Some(config),
                 Some(&self.comments),
                 before_pass,
-            );
+            )?;
             Ok(Some(built))
         })
-        .with_context(|| format!("failed to load config for file '{:?}'", name))
+        .with_context(|| format!("failed to parse input for file '{:?}'", name))
     }
 
     pub fn run_transform<F, Ret>(&self, handler: &Handler, external_helpers: bool, op: F) -> Ret
@@ -836,29 +845,44 @@ impl Compiler {
     }
 
     /// `custom_after_pass` is applied after swc transforms are applied.
+    ///
+    /// `program`: If you already parsed `Program`, you can pass it.
     pub fn process_js_with_custom_pass<P1, P2>(
         &self,
         fm: Arc<SourceFile>,
+        program: Option<Program>,
         handler: &Handler,
         opts: &Options,
-        custom_before_pass: P1,
-        custom_after_pass: P2,
+        custom_before_pass: impl FnOnce(&Program) -> P1,
+        custom_after_pass: impl FnOnce(&Program) -> P2,
     ) -> Result<TransformOutput, Error>
     where
         P1: swc_ecma_visit::Fold,
         P2: swc_ecma_visit::Fold,
     {
         self.run(|| -> Result<_, Error> {
-            let config =
-                self.run(|| self.config_for_file(handler, opts, &fm.name, custom_before_pass))?;
+            let config = self.run(|| {
+                self.parse_js_as_input(
+                    fm.clone(),
+                    program,
+                    handler,
+                    opts,
+                    &fm.name,
+                    custom_before_pass,
+                )
+            })?;
             let config = match config {
                 Some(v) => v,
                 None => {
                     bail!("cannot process file because it's ignored by .swcrc")
                 }
             };
-            let config = BuiltConfig {
-                pass: chain!(config.pass, custom_after_pass),
+
+            let pass = chain!(config.pass, custom_after_pass(&config.program));
+
+            let config = BuiltInput {
+                program: config.program,
+                pass,
                 syntax: config.syntax,
                 target: config.target,
                 minify: config.minify,
@@ -878,16 +902,7 @@ impl Compiler {
                 None
             };
 
-            let program = self.parse_js(
-                fm.clone(),
-                handler,
-                config.target,
-                config.syntax,
-                config.is_module,
-                true,
-            )?;
-
-            self.process_js_inner(handler, program, orig.as_ref(), config)
+            self.process_js_inner(handler, orig.as_ref(), config)
         })
         .context("failed to process js file")
     }
@@ -898,7 +913,7 @@ impl Compiler {
         handler: &Handler,
         opts: &Options,
     ) -> Result<TransformOutput, Error> {
-        self.process_js_with_custom_pass(fm, handler, opts, noop(), noop())
+        self.process_js_with_custom_pass(fm, None, handler, opts, |_| noop(), |_| noop())
     }
 
     pub fn minify(
@@ -1030,44 +1045,20 @@ impl Compiler {
         program: Program,
         opts: &Options,
     ) -> Result<TransformOutput, Error> {
-        self.run(|| -> Result<_, Error> {
-            let loc = self.cm.lookup_char_pos(program.span().lo());
-            let fm = loc.file;
+        let loc = self.cm.lookup_char_pos(program.span().lo());
+        let fm = loc.file;
 
-            let orig = if opts
-                .config
-                .source_maps
-                .as_ref()
-                .map(|v| v.enabled())
-                .unwrap_or_default()
-            {
-                self.get_orig_src_map(&fm, &opts.config.input_source_map, false)?
-            } else {
-                None
-            };
-
-            let config = self.run(|| self.config_for_file(handler, opts, &fm.name, noop()))?;
-
-            let config = match config {
-                Some(v) => v,
-                None => {
-                    bail!("cannot process file because it's ignored by .swcrc")
-                }
-            };
-
-            self.process_js_inner(handler, program, orig.as_ref(), config)
-        })
-        .context("failed to process js module")
+        self.process_js_with_custom_pass(fm, Some(program), handler, opts, |_| noop(), |_| noop())
     }
 
     fn process_js_inner(
         &self,
         handler: &Handler,
-        program: Program,
         orig: Option<&sourcemap::SourceMap>,
-        config: BuiltConfig<impl swc_ecma_visit::Fold>,
+        config: BuiltInput<impl swc_ecma_visit::Fold>,
     ) -> Result<TransformOutput, Error> {
         self.run(|| {
+            let program = config.program;
             let source_map_names = {
                 let mut v = IdentCollector {
                     names: Default::default(),

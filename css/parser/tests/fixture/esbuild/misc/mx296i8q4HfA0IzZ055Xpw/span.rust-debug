@@ -16,6 +16,12 @@ error: StyleRule
 1 | a { value: url(\61bc) }
   | ^^^^^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:1:1
+  |
+1 | a { value: url(\61bc) }
+  | ^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:1:1
   |
@@ -28,7 +34,7 @@ error: CompoundSelector
 1 | a { value: url(\61bc) }
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:1:1
   |
 1 | a { value: url(\61bc) }

@@ -16,6 +16,12 @@ error: StyleRule
 1 | \2d 123 {}
   | ^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/esbuild/misc/tr7rB0yt-SnlIRotrT7uFA/input.css:1:1
+  |
+1 | \2d 123 {}
+  | ^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/tr7rB0yt-SnlIRotrT7uFA/input.css:1:1
   |
@@ -28,7 +34,7 @@ error: CompoundSelector
 1 | \2d 123 {}
   | ^^^^^^^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/esbuild/misc/tr7rB0yt-SnlIRotrT7uFA/input.css:1:1
   |
 1 | \2d 123 {}

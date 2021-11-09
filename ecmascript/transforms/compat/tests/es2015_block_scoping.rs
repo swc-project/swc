@@ -361,7 +361,7 @@ test!(
         for(var i1 = 0; i1 < 5; i1++){
             var _ret = _loop(i1);
             if (_ret === "continue") continue;
-        }        
+        }
         "#
 );
 
@@ -593,24 +593,24 @@ test!(
     "
     function combineOverlappingMatches(matches) {
         let hasOverlaps = false
-        
+
         for (let i = matches.length - 1; i >= 0; i--) {
             let currentMatch = matches[i]
             let overlap = matches.find(match => {
                 return match !== currentMatch && match.itemsType === currentMatch.itemsType
             })
-            
+
             if (overlap) {
                 hasOverlaps = true
                 matches.splice(i, 1)
             }
         }
-        
+
         if (hasOverlaps) {
             combineOverlappingMatches(matches)
         }
     }
-    
+
     combineOverlappingMatches([1])
     ",
     "
@@ -666,7 +666,7 @@ test!(
             }
             infoMap.set(item, info); // important
         }
-        
+
         function getInfo(item) {
             if (!infoMap.has(item)) {
             throw new Error('no info yet');
@@ -844,18 +844,18 @@ test!(
         for (var i = 1; i < arguments.length; i++) {
             var source = arguments[i] != null ? arguments[i] : {};
             var ownKeys = Object.keys(source);
-        
+
             if (typeof Object.getOwnPropertySymbols === 'function') {
             ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
                 return Object.getOwnPropertyDescriptor(source, sym).enumerable;
             }));
             }
-        
+
             ownKeys.forEach(function (key) {
             defineProperty(target, key, source[key]);
             });
         }
-        
+
         return target;
     }
     ",
@@ -890,9 +890,9 @@ test!(
         a: 1,
         b: 2,
     }
-      
+
     const controller = {}
-      
+
     for (const key in keys) {
         controller[key] = (c, ...d) => {
             console.log(keys[key])
@@ -928,9 +928,9 @@ test!(
         a: 1,
         b: 2,
     }
-      
+
     const controller = {}
-      
+
     for (const key in keys) {
         controller[key] = (c, ...d) => {
             console.log(keys[key])

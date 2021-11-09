@@ -866,48 +866,55 @@
             "end": 390,
             "ctxt": 0
           },
-          "selectors": [
-            {
-              "type": "ComplexSelector",
-              "span": {
-                "start": 383,
-                "end": 384,
-                "ctxt": 0
-              },
-              "selectors": [
-                {
-                  "type": "CompoundSelector",
-                  "span": {
-                    "start": 383,
-                    "end": 384,
-                    "ctxt": 0
-                  },
-                  "hasNestPrefix": false,
-                  "combinator": null,
-                  "typeSelector": {
-                    "type": "NamespacedName",
+          "selectors": {
+            "type": "SelectorList",
+            "span": {
+              "start": 383,
+              "end": 384,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "ComplexSelector",
+                "span": {
+                  "start": 383,
+                  "end": 384,
+                  "ctxt": 0
+                },
+                "children": [
+                  {
+                    "type": "CompoundSelector",
                     "span": {
                       "start": 383,
                       "end": 384,
                       "ctxt": 0
                     },
-                    "prefix": null,
-                    "name": {
-                      "type": "Text",
+                    "nestingSelector": null,
+                    "typeSelector": {
+                      "type": "TypeSelector",
                       "span": {
                         "start": 383,
                         "end": 384,
                         "ctxt": 0
                       },
-                      "value": "a",
-                      "raw": "a"
-                    }
-                  },
-                  "subclassSelectors": []
-                }
-              ]
-            }
-          ],
+                      "prefix": null,
+                      "name": {
+                        "type": "Text",
+                        "span": {
+                          "start": 383,
+                          "end": 384,
+                          "ctxt": 0
+                        },
+                        "value": "a",
+                        "raw": "a"
+                      }
+                    },
+                    "subclassSelectors": []
+                  }
+                ]
+              }
+            ]
+          },
           "block": {
             "type": "Block",
             "span": {
@@ -925,49 +932,56 @@
             "end": 404,
             "ctxt": 0
           },
-          "selectors": [
-            {
-              "type": "ComplexSelector",
-              "span": {
-                "start": 392,
-                "end": 398,
-                "ctxt": 0
-              },
-              "selectors": [
-                {
-                  "type": "CompoundSelector",
-                  "span": {
-                    "start": 392,
-                    "end": 398,
-                    "ctxt": 0
-                  },
-                  "hasNestPrefix": false,
-                  "combinator": null,
-                  "typeSelector": null,
-                  "subclassSelectors": [
-                    {
-                      "type": "ClassSelector",
-                      "span": {
-                        "start": 392,
-                        "end": 398,
-                        "ctxt": 0
-                      },
-                      "text": {
-                        "type": "Text",
+          "selectors": {
+            "type": "SelectorList",
+            "span": {
+              "start": 392,
+              "end": 398,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "ComplexSelector",
+                "span": {
+                  "start": 392,
+                  "end": 398,
+                  "ctxt": 0
+                },
+                "children": [
+                  {
+                    "type": "CompoundSelector",
+                    "span": {
+                      "start": 392,
+                      "end": 398,
+                      "ctxt": 0
+                    },
+                    "nestingSelector": null,
+                    "typeSelector": null,
+                    "subclassSelectors": [
+                      {
+                        "type": "ClassSelector",
                         "span": {
-                          "start": 393,
+                          "start": 392,
                           "end": 398,
                           "ctxt": 0
                         },
-                        "value": "style",
-                        "raw": "style"
+                        "text": {
+                          "type": "Text",
+                          "span": {
+                            "start": 393,
+                            "end": 398,
+                            "ctxt": 0
+                          },
+                          "value": "style",
+                          "raw": "style"
+                        }
                       }
-                    }
-                  ]
-                }
-              ]
-            }
-          ],
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
           "block": {
             "type": "Block",
             "span": {

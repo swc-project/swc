@@ -27,7 +27,7 @@ impl Visit for AssertValid {
 
         let mut errors = vec![];
 
-        let _selectors: Vec<ComplexSelector> = parse_tokens(
+        let _selectors: SelectorList = parse_tokens(
             &s.args,
             ParserConfig {
                 parse_values: true,
@@ -314,7 +314,6 @@ macro_rules! mtd {
 }
 
 impl Visit for SpanVisualizer<'_> {
-    mtd!(SquareBracketBlock, visit_square_bracket_block);
     mtd!(AtRule, visit_at_rule);
     mtd!(AtSelector, visit_at_selector);
     mtd!(AtTextValue, visit_at_text_value);
@@ -324,14 +323,17 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(ClassSelector, visit_class_selector);
     mtd!(SpaceValues, visit_space_values);
     mtd!(ComplexSelector, visit_complex_selector);
+    mtd!(Combinator, visit_combinator);
     mtd!(CompoundSelector, visit_compound_selector);
     mtd!(Block, visit_block);
+    mtd!(RoundBracketBlock, visit_round_bracket_block);
+    mtd!(SquareBracketBlock, visit_square_bracket_block);
     mtd!(FnValue, visit_fn_value);
     mtd!(HashValue, visit_hash_value);
+    mtd!(NestingSelector, visit_nesting_selector);
     mtd!(IdSelector, visit_id_selector);
-    mtd!(NamespacedName, visit_namespaced_name);
+    mtd!(TypeSelector, visit_type_selector);
     mtd!(Num, visit_num);
-    mtd!(ParenValue, visit_paren_value);
     mtd!(PercentValue, visit_percent_value);
     mtd!(Declaration, visit_declaration);
     mtd!(PseudoSelector, visit_pseudo_selector);
@@ -339,13 +341,13 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(Str, visit_str);
     mtd!(StyleRule, visit_style_rule);
     mtd!(Stylesheet, visit_stylesheet);
+    mtd!(SelectorList, visit_selector_list);
     mtd!(SubclassSelector, visit_subclass_selector);
     mtd!(TagSelector, visit_tag_selector);
     mtd!(Text, visit_text);
     mtd!(Tokens, visit_tokens);
     mtd!(Unit, visit_unit);
     mtd!(UnitValue, visit_unit_value);
-    mtd!(UniversalSelector, visit_universal_selector);
     mtd!(UrlValue, visit_url_value);
     mtd!(Value, visit_value);
 

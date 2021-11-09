@@ -14,6 +14,10 @@ use std::fmt;
 
 #[must_use]
 #[derive(Clone, Debug, PartialEq, Hash)]
+#[cfg_attr(
+    feature = "diagnostic-serde",
+    derive(serde::Serialize, serde::Deserialize)
+)]
 pub struct Diagnostic {
     pub level: Level,
     pub message: Vec<(String, Style)>,
@@ -24,6 +28,10 @@ pub struct Diagnostic {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
+#[cfg_attr(
+    feature = "diagnostic-serde",
+    derive(serde::Serialize, serde::Deserialize)
+)]
 pub enum DiagnosticId {
     Error(String),
     Lint(String),
@@ -31,6 +39,10 @@ pub enum DiagnosticId {
 
 /// For example a note attached to an error.
 #[derive(Clone, Debug, PartialEq, Hash)]
+#[cfg_attr(
+    feature = "diagnostic-serde",
+    derive(serde::Serialize, serde::Deserialize)
+)]
 pub struct SubDiagnostic {
     pub level: Level,
     pub message: Vec<(String, Style)>,

@@ -23,6 +23,12 @@ error: StyleRule
 1 | /* { } */a b {}
   |          ^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/selector/comments/input.css:1:10
+  |
+1 | /* { } */a b {}
+  |          ^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/comments/input.css:1:10
   |
@@ -35,7 +41,7 @@ error: CompoundSelector
 1 | /* { } */a b {}
   |          ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:1:10
   |
 1 | /* { } */a b {}
@@ -47,13 +53,19 @@ error: Text
 1 | /* { } */a b {}
   |          ^
 
+error: Combinator
+ --> $DIR/tests/fixture/selector/comments/input.css:1:11
+  |
+1 | /* { } */a b {}
+  |           ^
+
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/comments/input.css:1:12
   |
 1 | /* { } */a b {}
   |            ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:1:12
   |
 1 | /* { } */a b {}
@@ -83,6 +95,12 @@ error: StyleRule
 2 | /* test */a b {}
   |           ^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/selector/comments/input.css:2:11
+  |
+2 | /* test */a b {}
+  |           ^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/comments/input.css:2:11
   |
@@ -95,7 +113,7 @@ error: CompoundSelector
 2 | /* test */a b {}
   |           ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:2:11
   |
 2 | /* test */a b {}
@@ -107,13 +125,19 @@ error: Text
 2 | /* test */a b {}
   |           ^
 
+error: Combinator
+ --> $DIR/tests/fixture/selector/comments/input.css:2:12
+  |
+2 | /* test */a b {}
+  |            ^
+
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/comments/input.css:2:13
   |
 2 | /* test */a b {}
   |             ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:2:13
   |
 2 | /* test */a b {}
@@ -143,6 +167,12 @@ error: StyleRule
 3 | /* { } */ a b {}
   |           ^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/selector/comments/input.css:3:11
+  |
+3 | /* { } */ a b {}
+  |           ^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/comments/input.css:3:11
   |
@@ -155,7 +185,7 @@ error: CompoundSelector
 3 | /* { } */ a b {}
   |           ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:3:11
   |
 3 | /* { } */ a b {}
@@ -167,13 +197,19 @@ error: Text
 3 | /* { } */ a b {}
   |           ^
 
+error: Combinator
+ --> $DIR/tests/fixture/selector/comments/input.css:3:12
+  |
+3 | /* { } */ a b {}
+  |            ^
+
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/comments/input.css:3:13
   |
 3 | /* { } */ a b {}
   |             ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:3:13
   |
 3 | /* { } */ a b {}
@@ -203,6 +239,12 @@ error: StyleRule
 4 | /* test */ a b {}
   |            ^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/selector/comments/input.css:4:12
+  |
+4 | /* test */ a b {}
+  |            ^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/comments/input.css:4:12
   |
@@ -215,7 +257,7 @@ error: CompoundSelector
 4 | /* test */ a b {}
   |            ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:4:12
   |
 4 | /* test */ a b {}
@@ -227,13 +269,19 @@ error: Text
 4 | /* test */ a b {}
   |            ^
 
+error: Combinator
+ --> $DIR/tests/fixture/selector/comments/input.css:4:13
+  |
+4 | /* test */ a b {}
+  |             ^
+
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/comments/input.css:4:14
   |
 4 | /* test */ a b {}
   |              ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:4:14
   |
 4 | /* test */ a b {}
@@ -263,6 +311,12 @@ error: StyleRule
 5 | a/* { } */b {}
   | ^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/selector/comments/input.css:5:1
+  |
+5 | a/* { } */b {}
+  | ^^^^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/comments/input.css:5:1
   |
@@ -275,7 +329,7 @@ error: CompoundSelector
 5 | a/* { } */b {}
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:5:1
   |
 5 | a/* { } */b {}
@@ -287,13 +341,19 @@ error: Text
 5 | a/* { } */b {}
   | ^
 
+error: Combinator
+ --> $DIR/tests/fixture/selector/comments/input.css:5:11
+  |
+5 | a/* { } */b {}
+  |           ^
+
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/comments/input.css:5:11
   |
 5 | a/* { } */b {}
   |           ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:5:11
   |
 5 | a/* { } */b {}
@@ -323,6 +383,12 @@ error: StyleRule
 6 | a/* test */b {}
   | ^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/selector/comments/input.css:6:1
+  |
+6 | a/* test */b {}
+  | ^^^^^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/comments/input.css:6:1
   |
@@ -335,7 +401,7 @@ error: CompoundSelector
 6 | a/* test */b {}
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:6:1
   |
 6 | a/* test */b {}
@@ -347,13 +413,19 @@ error: Text
 6 | a/* test */b {}
   | ^
 
+error: Combinator
+ --> $DIR/tests/fixture/selector/comments/input.css:6:12
+  |
+6 | a/* test */b {}
+  |            ^
+
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/comments/input.css:6:12
   |
 6 | a/* test */b {}
   |            ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:6:12
   |
 6 | a/* test */b {}
@@ -383,6 +455,12 @@ error: StyleRule
 7 | a /* { } */ b {}
   | ^^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/selector/comments/input.css:7:1
+  |
+7 | a /* { } */ b {}
+  | ^^^^^^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/comments/input.css:7:1
   |
@@ -395,7 +473,7 @@ error: CompoundSelector
 7 | a /* { } */ b {}
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:7:1
   |
 7 | a /* { } */ b {}
@@ -407,13 +485,19 @@ error: Text
 7 | a /* { } */ b {}
   | ^
 
+error: Combinator
+ --> $DIR/tests/fixture/selector/comments/input.css:7:2
+  |
+7 | a /* { } */ b {}
+  |  ^
+
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/comments/input.css:7:13
   |
 7 | a /* { } */ b {}
   |             ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:7:13
   |
 7 | a /* { } */ b {}
@@ -443,6 +527,12 @@ error: StyleRule
 8 | a /* test */ b {}
   | ^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/selector/comments/input.css:8:1
+  |
+8 | a /* test */ b {}
+  | ^^^^^^^^^^^^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/comments/input.css:8:1
   |
@@ -455,7 +545,7 @@ error: CompoundSelector
 8 | a /* test */ b {}
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:8:1
   |
 8 | a /* test */ b {}
@@ -467,13 +557,19 @@ error: Text
 8 | a /* test */ b {}
   | ^
 
+error: Combinator
+ --> $DIR/tests/fixture/selector/comments/input.css:8:2
+  |
+8 | a /* test */ b {}
+  |  ^
+
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/comments/input.css:8:14
   |
 8 | a /* test */ b {}
   |              ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:8:14
   |
 8 | a /* test */ b {}
@@ -503,6 +599,12 @@ error: StyleRule
 9 | a b/* { } */ {}
   | ^^^^^^^^^^^^^^^
 
+error: SelectorList
+ --> $DIR/tests/fixture/selector/comments/input.css:9:1
+  |
+9 | a b/* { } */ {}
+  | ^^^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/comments/input.css:9:1
   |
@@ -515,7 +617,7 @@ error: CompoundSelector
 9 | a b/* { } */ {}
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:9:1
   |
 9 | a b/* { } */ {}
@@ -527,13 +629,19 @@ error: Text
 9 | a b/* { } */ {}
   | ^
 
+error: Combinator
+ --> $DIR/tests/fixture/selector/comments/input.css:9:2
+  |
+9 | a b/* { } */ {}
+  |  ^
+
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/comments/input.css:9:3
   |
 9 | a b/* { } */ {}
   |   ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/comments/input.css:9:3
   |
 9 | a b/* { } */ {}
@@ -563,6 +671,12 @@ error: StyleRule
 10 | a b/* test */ {}
    | ^^^^^^^^^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/selector/comments/input.css:10:1
+   |
+10 | a b/* test */ {}
+   | ^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/comments/input.css:10:1
    |
@@ -575,7 +689,7 @@ error: CompoundSelector
 10 | a b/* test */ {}
    | ^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/selector/comments/input.css:10:1
    |
 10 | a b/* test */ {}
@@ -587,13 +701,19 @@ error: Text
 10 | a b/* test */ {}
    | ^
 
+error: Combinator
+  --> $DIR/tests/fixture/selector/comments/input.css:10:2
+   |
+10 | a b/* test */ {}
+   |  ^
+
 error: CompoundSelector
   --> $DIR/tests/fixture/selector/comments/input.css:10:3
    |
 10 | a b/* test */ {}
    |   ^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/selector/comments/input.css:10:3
    |
 10 | a b/* test */ {}
@@ -623,6 +743,12 @@ error: StyleRule
 11 | a b /* { } */ {}
    | ^^^^^^^^^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/selector/comments/input.css:11:1
+   |
+11 | a b /* { } */ {}
+   | ^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/comments/input.css:11:1
    |
@@ -635,7 +761,7 @@ error: CompoundSelector
 11 | a b /* { } */ {}
    | ^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/selector/comments/input.css:11:1
    |
 11 | a b /* { } */ {}
@@ -647,13 +773,19 @@ error: Text
 11 | a b /* { } */ {}
    | ^
 
+error: Combinator
+  --> $DIR/tests/fixture/selector/comments/input.css:11:2
+   |
+11 | a b /* { } */ {}
+   |  ^
+
 error: CompoundSelector
   --> $DIR/tests/fixture/selector/comments/input.css:11:3
    |
 11 | a b /* { } */ {}
    |   ^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/selector/comments/input.css:11:3
    |
 11 | a b /* { } */ {}
@@ -683,6 +815,12 @@ error: StyleRule
 12 | a b /* test */ {}
    | ^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/selector/comments/input.css:12:1
+   |
+12 | a b /* test */ {}
+   | ^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/comments/input.css:12:1
    |
@@ -695,7 +833,7 @@ error: CompoundSelector
 12 | a b /* test */ {}
    | ^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/selector/comments/input.css:12:1
    |
 12 | a b /* test */ {}
@@ -707,13 +845,19 @@ error: Text
 12 | a b /* test */ {}
    | ^
 
+error: Combinator
+  --> $DIR/tests/fixture/selector/comments/input.css:12:2
+   |
+12 | a b /* test */ {}
+   |  ^
+
 error: CompoundSelector
   --> $DIR/tests/fixture/selector/comments/input.css:12:3
    |
 12 | a b /* test */ {}
    |   ^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/selector/comments/input.css:12:3
    |
 12 | a b /* test */ {}
@@ -743,6 +887,12 @@ error: StyleRule
 13 | a b/* { } */{}
    | ^^^^^^^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/selector/comments/input.css:13:1
+   |
+13 | a b/* { } */{}
+   | ^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/comments/input.css:13:1
    |
@@ -755,7 +905,7 @@ error: CompoundSelector
 13 | a b/* { } */{}
    | ^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/selector/comments/input.css:13:1
    |
 13 | a b/* { } */{}
@@ -767,13 +917,19 @@ error: Text
 13 | a b/* { } */{}
    | ^
 
+error: Combinator
+  --> $DIR/tests/fixture/selector/comments/input.css:13:2
+   |
+13 | a b/* { } */{}
+   |  ^
+
 error: CompoundSelector
   --> $DIR/tests/fixture/selector/comments/input.css:13:3
    |
 13 | a b/* { } */{}
    |   ^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/selector/comments/input.css:13:3
    |
 13 | a b/* { } */{}
@@ -803,6 +959,12 @@ error: StyleRule
 14 | a b/* test */{}
    | ^^^^^^^^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/selector/comments/input.css:14:1
+   |
+14 | a b/* test */{}
+   | ^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/comments/input.css:14:1
    |
@@ -815,7 +977,7 @@ error: CompoundSelector
 14 | a b/* test */{}
    | ^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/selector/comments/input.css:14:1
    |
 14 | a b/* test */{}
@@ -827,13 +989,19 @@ error: Text
 14 | a b/* test */{}
    | ^
 
+error: Combinator
+  --> $DIR/tests/fixture/selector/comments/input.css:14:2
+   |
+14 | a b/* test */{}
+   |  ^
+
 error: CompoundSelector
   --> $DIR/tests/fixture/selector/comments/input.css:14:3
    |
 14 | a b/* test */{}
    |   ^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/selector/comments/input.css:14:3
    |
 14 | a b/* test */{}
@@ -863,6 +1031,12 @@ error: StyleRule
 15 | a/* test */,/* test */b{}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/selector/comments/input.css:15:1
+   |
+15 | a/* test */,/* test */b{}
+   | ^^^^^^^^^^^^^^^^^^^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/comments/input.css:15:1
    |
@@ -875,7 +1049,7 @@ error: CompoundSelector
 15 | a/* test */,/* test */b{}
    | ^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/selector/comments/input.css:15:1
    |
 15 | a/* test */,/* test */b{}
@@ -899,7 +1073,7 @@ error: CompoundSelector
 15 | a/* test */,/* test */b{}
    |                       ^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/selector/comments/input.css:15:23
    |
 15 | a/* test */,/* test */b{}
@@ -929,6 +1103,12 @@ error: StyleRule
 16 | a /* test */ , /* test */ b {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: SelectorList
+  --> $DIR/tests/fixture/selector/comments/input.css:16:1
+   |
+16 | a /* test */ , /* test */ b {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/comments/input.css:16:1
    |
@@ -941,7 +1121,7 @@ error: CompoundSelector
 16 | a /* test */ , /* test */ b {}
    | ^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/selector/comments/input.css:16:1
    |
 16 | a /* test */ , /* test */ b {}
@@ -954,10 +1134,10 @@ error: Text
    | ^
 
 error: ComplexSelector
-  --> $DIR/tests/fixture/selector/comments/input.css:16:15
+  --> $DIR/tests/fixture/selector/comments/input.css:16:27
    |
 16 | a /* test */ , /* test */ b {}
-   |               ^^^^^^^^^^^^^
+   |                           ^
 
 error: CompoundSelector
   --> $DIR/tests/fixture/selector/comments/input.css:16:27
@@ -965,7 +1145,7 @@ error: CompoundSelector
 16 | a /* test */ , /* test */ b {}
    |                           ^
 
-error: NamespacedName
+error: TypeSelector
   --> $DIR/tests/fixture/selector/comments/input.css:16:27
    |
 16 | a /* test */ , /* test */ b {}

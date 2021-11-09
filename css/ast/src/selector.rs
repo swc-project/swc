@@ -3,8 +3,45 @@ use is_macro::Is;
 use string_enum::StringEnum;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
+#[ast_node("SelectorList")]
+pub struct SelectorList {
+    pub span: Span,
+    pub children: Vec<ComplexSelector>,
+}
+
+#[ast_node("ComplexSelector")]
+pub struct ComplexSelector {
+    pub span: Span,
+    pub children: Vec<ComplexSelectorChildren>,
+}
+
+#[ast_node]
+#[derive(Is)]
+pub enum ComplexSelectorChildren {
+    #[tag("CompoundSelector")]
+    CompoundSelector(CompoundSelector),
+    #[tag("Combinator")]
+    Combinator(Combinator),
+}
+
+/// e.g. `foo.c1.c2`
+#[ast_node("CompoundSelector")]
+pub struct CompoundSelector {
+    pub span: Span,
+    /// "&"
+    pub nesting_selector: Option<NestingSelector>,
+    pub type_selector: Option<TypeSelector>,
+    pub subclass_selectors: Vec<SubclassSelector>,
+}
+
+#[ast_node("Combinator")]
+pub struct Combinator {
+    pub span: Span,
+    pub value: CombinatorValue,
+}
+
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
-pub enum SelectorCombinator {
+pub enum CombinatorValue {
     /// ` `
     Descendant,
 
@@ -18,29 +55,13 @@ pub enum SelectorCombinator {
     LaterSibling,
 }
 
-#[ast_node("ComplexSelector")]
-pub struct ComplexSelector {
+#[ast_node("NestingSelector")]
+pub struct NestingSelector {
     pub span: Span,
-    pub selectors: Vec<CompoundSelector>,
 }
 
-/// e.g. `foo.c1.c2`
-#[ast_node("CompoundSelector")]
-pub struct CompoundSelector {
-    pub span: Span,
-
-    /// "&"
-    pub has_nest_prefix: bool,
-
-    pub combinator: Option<SelectorCombinator>,
-
-    pub type_selector: Option<NamespacedName>,
-
-    pub subclass_selectors: Vec<SubclassSelector>,
-}
-
-#[ast_node("NamespacedName")]
-pub struct NamespacedName {
+#[ast_node("TypeSelector")]
+pub struct TypeSelector {
     pub span: Span,
     ///	If present, this is an identifier or "*" and is followed by a "|"
     /// character
@@ -68,25 +89,8 @@ pub enum SubclassSelector {
     At(AtSelector),
 }
 
-#[ast_node("AttributeSelector")]
-pub struct AttrSelector {
-    pub span: Span,
-    pub name: NamespacedName,
-    pub op: Option<AttrSelectorOp>,
-    pub value: Option<Str>,
-    pub modifier: Option<char>,
-}
-
-#[ast_node("PseudoSelector")]
-pub struct PseudoSelector {
-    pub span: Span,
-    pub is_element: bool,
-    pub name: Text,
-    pub args: Tokens,
-}
-
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
-pub enum AttrSelectorOp {
+pub enum AttrSelectorMatcher {
     /// `=`
     Equals,
 
@@ -106,10 +110,32 @@ pub enum AttrSelectorOp {
     Asterisk,
 }
 
-/// `*`
 #[ast_node]
-pub struct UniversalSelector {
+#[derive(Is)]
+pub enum AttrSelectorValue {
+    #[tag("String")]
+    Str(Str),
+
+    #[tag("Text")]
+    Text(Text),
+}
+
+#[ast_node("AttributeSelector")]
+pub struct AttrSelector {
     pub span: Span,
+    pub prefix: Option<Text>,
+    pub name: Text,
+    pub matcher: Option<AttrSelectorMatcher>,
+    pub value: Option<AttrSelectorValue>,
+    pub modifier: Option<char>,
+}
+
+#[ast_node("PseudoSelector")]
+pub struct PseudoSelector {
+    pub span: Span,
+    pub is_element: bool,
+    pub name: Text,
+    pub args: Tokens,
 }
 
 #[ast_node("IdSelector")]

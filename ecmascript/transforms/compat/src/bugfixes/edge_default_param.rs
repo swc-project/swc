@@ -1,62 +1,60 @@
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 /// Converts destructured parameters with default values to non-shorthand
 /// syntax. This fixes the only arguments-related bug in ES Modules-supporting
 /// browsers (Edge 16 & 17). Use this plugin instead of
 /// @babel/plugin-transform-parameters when targeting ES Modules.
-pub fn edge_default_param() -> impl Fold {
-    EdgeDefaultParam::default()
+pub fn edge_default_param() -> impl Fold + VisitMut {
+    as_folder(EdgeDefaultParam::default())
 }
 #[derive(Default, Clone, Copy)]
 struct EdgeDefaultParam {
     in_arrow: bool,
 }
 
-/// TODO: VisitMut
-impl Fold for EdgeDefaultParam {
-    noop_fold_type!();
+impl VisitMut for EdgeDefaultParam {
+    noop_visit_mut_type!();
 
-    fn fold_arrow_expr(&mut self, n: ArrowExpr) -> ArrowExpr {
+    fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
         self.in_arrow = true;
-        let params = n.params.fold_with(self);
+        n.params.visit_mut_children_with(self);
         self.in_arrow = false;
 
-        let body = n.body.fold_with(self);
-        ArrowExpr { params, body, ..n }
+        n.body.visit_mut_children_with(self);
     }
 
-    fn fold_object_pat(&mut self, n: ObjectPat) -> ObjectPat {
-        let n = n.fold_children_with(self);
+    fn visit_mut_object_pat(&mut self, n: &mut ObjectPat) {
+        n.visit_mut_children_with(self);
         if !self.in_arrow {
-            return n;
+            return;
         }
 
-        let props = n
-            .props
-            .into_iter()
-            .map(|prop| match prop {
-                ObjectPatProp::Assign(assign_pat) => {
-                    if let Some(value) = assign_pat.value {
-                        ObjectPatProp::KeyValue(KeyValuePatProp {
-                            key: PropName::Ident(assign_pat.key.clone()),
+        for idx in 0..n.props.len() {
+            let prop = &(n.props[idx]);
+
+            match prop {
+                ObjectPatProp::Assign(AssignPatProp {
+                    value, key, span, ..
+                }) => match &value {
+                    Some(value) => {
+                        let prop = ObjectPatProp::KeyValue(KeyValuePatProp {
+                            key: PropName::Ident(key.clone()),
                             value: Box::new(Pat::Assign(AssignPat {
-                                span: assign_pat.span,
-                                left: Box::new(Pat::Ident(BindingIdent::from(
-                                    assign_pat.key.clone(),
-                                ))),
+                                span: *span,
+                                left: Box::new(Pat::Ident(BindingIdent::from(key.clone()))),
                                 right: value.clone(),
                                 type_ann: None,
                             })),
-                        })
-                    } else {
-                        ObjectPatProp::Assign(assign_pat)
+                        });
+
+                        n.props[idx] = prop;
                     }
-                }
-                _ => prop,
-            })
-            .collect();
-        ObjectPat { props, ..n }
+                    _ => {}
+                },
+                _ => {}
+            }
+        }
     }
 }
 

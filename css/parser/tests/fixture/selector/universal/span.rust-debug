@@ -22,6 +22,12 @@ error: StyleRule
 3 | | }
   | |_^
 
+error: SelectorList
+ --> $DIR/tests/fixture/selector/universal/input.css:1:1
+  |
+1 | * {
+  | ^
+
 error: ComplexSelector
  --> $DIR/tests/fixture/selector/universal/input.css:1:1
   |
@@ -34,7 +40,7 @@ error: CompoundSelector
 1 | * {
   | ^
 
-error: NamespacedName
+error: TypeSelector
  --> $DIR/tests/fixture/selector/universal/input.css:1:1
   |
 1 | * {

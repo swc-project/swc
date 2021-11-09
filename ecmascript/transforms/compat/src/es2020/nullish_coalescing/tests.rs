@@ -59,7 +59,7 @@ test!(
     |_| tr(()),
     transform_in_function,
     r#"
-  
+
 function foo(opts) {
   var foo = opts.foo ?? "default";
 }
@@ -78,7 +78,7 @@ test!(
     |_| tr(()),
     transform_static_refs_in_default,
     r#"
-  
+
 function foo(foo, bar = foo ?? "bar") {}
 
 "#,
