@@ -178,6 +178,83 @@ pub(super) struct ConstructorFolder<'a> {
     pub in_injected_define_property_call: bool,
 }
 
+impl ConstructorFolder<'_> {
+    fn handle_super_access(&mut self, e: Expr) -> Expr {
+        match e {
+            Expr::Member(MemberExpr {
+                span,
+                obj: ExprOrSuper::Super(..),
+                prop,
+                computed,
+            }) => {
+                let this_var = quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this");
+                let this_super = private_ident!("_thisSuper");
+                self.cur_this_super = Some(this_super.clone());
+
+                self.vars.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(this_super.clone().into()),
+                    init: None,
+                    definite: Default::default(),
+                });
+
+                // _thisSuper = _assertThisInitialized(_this)
+                let init_this_super = Box::new(Expr::Assign(AssignExpr {
+                    span: DUMMY_SP,
+                    op: op!("="),
+                    left: PatOrExpr::Pat(Box::new(this_super.clone().into())),
+                    right: Box::new(Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: helper!(assert_this_initialized, "assertThisInitialized"),
+                        args: vec![this_var.as_arg()],
+                        type_args: Default::default(),
+                    })),
+                }));
+                // _getPrototypeOf(Foo.prototype)
+                let get_proto = Box::new(Expr::Call(CallExpr {
+                    span,
+                    callee: helper!(get_prototype_of, "getPrototypeOf"),
+                    args: vec![self
+                        .class_name
+                        .clone()
+                        .make_member(quote_ident!("prototype"))
+                        .as_arg()],
+                    type_args: Default::default(),
+                }));
+
+                Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: helper!(get, "get"),
+                    args: vec![
+                        Expr::Seq(SeqExpr {
+                            span: DUMMY_SP,
+                            exprs: vec![init_this_super, get_proto],
+                        })
+                        .as_arg(),
+                        if computed {
+                            prop.as_arg()
+                        } else {
+                            let prop = prop.expect_ident();
+
+                            Str {
+                                span: prop.span,
+                                value: prop.sym,
+                                has_escape: false,
+                                kind: Default::default(),
+                            }
+                            .as_arg()
+                        },
+                        this_super.clone().as_arg(),
+                    ],
+                    type_args: Default::default(),
+                })
+            }
+
+            _ => e,
+        }
+    }
+}
+
 /// `None`: `return _possibleConstructorReturn`
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(super) enum SuperFoldingMode {
@@ -308,75 +385,7 @@ impl Fold for ConstructorFolder<'_> {
                 })
             }
 
-            Expr::Member(MemberExpr {
-                span,
-                obj: ExprOrSuper::Super(..),
-                prop,
-                computed,
-            }) => {
-                let this_var = quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this");
-                let this_super = private_ident!("_thisSuper");
-                self.cur_this_super = Some(this_super.clone());
-
-                self.vars.push(VarDeclarator {
-                    span: DUMMY_SP,
-                    name: Pat::Ident(this_super.clone().into()),
-                    init: None,
-                    definite: Default::default(),
-                });
-
-                // _thisSuper = _assertThisInitialized(_this)
-                let init_this_super = Box::new(Expr::Assign(AssignExpr {
-                    span: DUMMY_SP,
-                    op: op!("="),
-                    left: PatOrExpr::Pat(Box::new(this_super.clone().into())),
-                    right: Box::new(Expr::Call(CallExpr {
-                        span: DUMMY_SP,
-                        callee: helper!(assert_this_initialized, "assertThisInitialized"),
-                        args: vec![this_var.as_arg()],
-                        type_args: Default::default(),
-                    })),
-                }));
-                // _getPrototypeOf(Foo.prototype)
-                let get_proto = Box::new(Expr::Call(CallExpr {
-                    span,
-                    callee: helper!(get_prototype_of, "getPrototypeOf"),
-                    args: vec![self
-                        .class_name
-                        .clone()
-                        .make_member(quote_ident!("prototype"))
-                        .as_arg()],
-                    type_args: Default::default(),
-                }));
-
-                Expr::Call(CallExpr {
-                    span: DUMMY_SP,
-                    callee: helper!(get, "get"),
-                    args: vec![
-                        Expr::Seq(SeqExpr {
-                            span: DUMMY_SP,
-                            exprs: vec![init_this_super, get_proto],
-                        })
-                        .as_arg(),
-                        if computed {
-                            prop.as_arg()
-                        } else {
-                            let prop = prop.expect_ident();
-
-                            Str {
-                                span: prop.span,
-                                value: prop.sym,
-                                has_escape: false,
-                                kind: Default::default(),
-                            }
-                            .as_arg()
-                        },
-                        this_super.clone().as_arg(),
-                    ],
-                    type_args: Default::default(),
-                })
-            }
-            _ => expr,
+            _ => self.handle_super_access(expr),
         }
     }
 
