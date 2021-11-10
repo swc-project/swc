@@ -5,7 +5,7 @@ members = [
   "ecmascript",
   "crates/swc_ecma_plugin_ast",
   "crates/swc_babel_compat",
-  "ecmascript/jsdoc",
+  "crates/jsdoc",
   "crates/node",
   "crates/swc_plugin",
   "crates/swc_plugin_runner",
