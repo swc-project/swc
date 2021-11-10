@@ -1828,13 +1828,12 @@ class Test extends Foo {
     
       function Test() {    
         _classCallCheck(this, Test);
-        var _thisSuper, _thisSuper2, _this;
-    
-        _this = _super.call(this);
+        var _thisSuper, _thisSuper1;
+        var _this = _super.call(this);
     
         _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(Test.prototype)), "test", _thisSuper);
     
-        _get((_thisSuper2 = _assertThisInitialized(_this), _getPrototypeOf(Test.prototype)), "test", _thisSuper2).whatever;
+        _get((_thisSuper1 = _assertThisInitialized(_this), _getPrototypeOf(Test.prototype)), "test", _thisSuper1).whatever;
         return _this;
       }
     
