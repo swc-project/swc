@@ -766,7 +766,6 @@ var Foo = function(Bar) {
 "#
 );
 
-// TODO: Use `thisSuper`
 // spec_calling_super_properties
 test!(
     syntax(),
@@ -787,29 +786,34 @@ class Test extends Foo {
 
 "#,
     r#"
-var Test =
-/*#__PURE__*/
-function (Foo) {
-  'use strict';
-_inherits(Test, Foo);
-  var _super = _createSuper(Test);
-  function Test() {
-    _classCallCheck(this, Test);
-    var _this = _super.call(this);
-    _get(_getPrototypeOf(Test.prototype), "test", _assertThisInitialized(_this)).whatever();
-    _get(_getPrototypeOf(Test.prototype), "test", _assertThisInitialized(_this)).call(_this);
-    return _this;
-  }
-
-  _createClass(Test, null, [{
-    key: "test",
-    value: function test() {
-      return _get(_getPrototypeOf(Test), "wow", this).call(this);
-    }
-  }]);
-  return Test;
-}(Foo);
-
+    var Test = /*#__PURE__*/function (_Foo) {
+      _inherits(Test, _Foo);
+    
+      var _super = _createSuper(Test);
+    
+      function Test() {
+        var _thisSuper, _thisSuper2, _this;
+    
+        _classCallCheck(this, Test);
+    
+        _this = _super.call(this);
+    
+        _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(Test.prototype)), "test", _thisSuper).whatever();
+    
+        _get((_thisSuper2 = _assertThisInitialized(_this), _getPrototypeOf(Test.prototype)), "test", _thisSuper2).call(_thisSuper2);
+    
+        return _this;
+      }
+    
+      _createClass(Test, null, [{
+        key: "test",
+        value: function test() {
+          return _get(_getPrototypeOf(Test), "wow", this).call(this);
+        }
+      }]);
+    
+      return Test;
+    }(Foo);
 "#
 );
 
@@ -1651,7 +1655,6 @@ expect(new Outer().hello()).toBe('hello');
 "#
 );
 
-// TODO: Use `thisSuper`
 // spec_super_reference_in_prop_exression
 test!(
     syntax(),
@@ -1666,18 +1669,23 @@ class Foo extends Bar {
 
 "#,
     r#"
-var Foo = function(Bar) {
-    'use strict';
-    _inherits(Foo, Bar);
-    var _super = _createSuper(Foo);
-    function Foo() {
+    var Foo = /*#__PURE__*/function (_Bar) {
+      _inherits(Foo, _Bar);
+    
+      var _super = _createSuper(Foo);
+    
+      function Foo() {
+        var _thisSuper, _this;
+    
         _classCallCheck(this, Foo);
-        var _this;
-        _get(_getPrototypeOf(Foo.prototype), (_this = _super.call(this)).method, _assertThisInitialized(_this)).call(_this);
-        return _possibleConstructorReturn(_this);
-    }
-    return Foo;
-}(Bar);
+    
+        _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(Foo.prototype)), (_this = _super.call(this)).method, _thisSuper).call(_thisSuper);
+    
+        return _this;
+      }
+    
+      return Foo;
+    }(Bar);
 
 
 "#
@@ -1795,7 +1803,6 @@ function (Bar) {
 "#
 );
 
-// TODO: Use `thisSuper`
 // spec_accessing_super_properties
 test!(
     syntax(),
@@ -1812,22 +1819,26 @@ class Test extends Foo {
 
 "#,
     r#"
-var Test =
-/*#__PURE__*/
-function (Foo) {
-  'use strict';
-_inherits(Test, Foo);
-  var _super = _createSuper(Test);
-  function Test() {
-    _classCallCheck(this, Test);
-    var _this = _super.call(this);
-    _get(_getPrototypeOf(Test.prototype), "test", _assertThisInitialized(_this));
-    _get(_getPrototypeOf(Test.prototype), "test", _assertThisInitialized(_this)).whatever;
-    return _this;
-  }
-
-  return Test;
-}(Foo);
+    var Test = /*#__PURE__*/function (_Foo) {
+      _inherits(Test, _Foo);
+    
+      var _super = _createSuper(Test);
+    
+      function Test() {
+        var _thisSuper, _thisSuper2, _this;
+    
+        _classCallCheck(this, Test);
+    
+        _this = _super.call(this);
+    
+        _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(Test.prototype)), "test", _thisSuper);
+    
+        _get((_thisSuper2 = _assertThisInitialized(_this), _getPrototypeOf(Test.prototype)), "test", _thisSuper2).whatever;
+        return _this;
+      }
+    
+      return Test;
+    }(Foo);
 
 "#
 );
