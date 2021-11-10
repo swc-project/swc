@@ -42,4 +42,10 @@ t2.z.toString();
         "x"
     ]);
     x.toFixed(), q.y.toFixed(), q.z.toFixed();
-}[target_string] = strArray, [target_string_undef] = strArray, [, , , ...target_string_arr] = strArray, ({ x , y , z  } = numMapPoint), { q  } = numMapPoint;
+}[target_string] = strArray, [target_string_undef] = strArray, [, , , ...target_string_arr] = strArray;
+{
+    let x, y, z;
+    ({ x , y , z  } = numMapPoint);
+    let q;
+    ({ q  } = numMapPoint);
+}
