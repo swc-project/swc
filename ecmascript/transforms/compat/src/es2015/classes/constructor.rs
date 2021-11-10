@@ -309,9 +309,15 @@ impl Fold for ConstructorFolder<'_> {
                     type_args: Default::default(),
                 }));
 
-                Expr::Seq(SeqExpr {
+                Expr::Call(CallExpr {
                     span: DUMMY_SP,
-                    exprs: vec![init_this_super, get_proto],
+                    callee: helper!(get, "get"),
+                    args: vec![Expr::Seq(SeqExpr {
+                        span: DUMMY_SP,
+                        exprs: vec![init_this_super, get_proto],
+                    })
+                    .as_arg()],
+                    type_args: Default::default(),
                 })
             }
             _ => expr,
