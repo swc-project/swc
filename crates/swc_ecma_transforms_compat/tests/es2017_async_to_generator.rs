@@ -58,13 +58,13 @@ async function foo(bar) {
 }
 "#,
     r#"
+function foo(bar) {
+  return _foo.apply(this, arguments);
+}
 function _foo() {
     _foo = _asyncToGenerator(function*(bar) {
         bar && (yield bar());
     });
-    return _foo.apply(this, arguments);
-}
-function foo(bar) {
     return _foo.apply(this, arguments);
 }
 "#
@@ -122,14 +122,14 @@ async function foo({ a, b = mandatory("b") }) {
 function mandatory(paramName) {
     throw new Error(`Missing parameter: ${paramName}`);
 }
+function foo(param) {
+  return _foo.apply(this, arguments);
+}
 function _foo() {
     _foo = _asyncToGenerator(function*(param) {
         let a = param.a, _b = param.b, b = _b === void 0 ? mandatory('b') : _b;
         return Promise.resolve(b);
     });
-    return _foo.apply(this, arguments);
-}
-function foo(param) {
     return _foo.apply(this, arguments);
 }
 "#
@@ -221,6 +221,9 @@ async function s(x, ...args) {
 }
 "#,
     r#"
+    function s(x) {
+      return _s.apply(this, arguments);
+    }
     function _s() {
       _s = _asyncToGenerator((function*(x) {
           for(let _len1 = arguments.length, args = new Array(_len1 > 1 ? _len1 - 1 : 0), _key1 = 1; _key1 < _len1; _key1++){
@@ -256,9 +259,6 @@ async function s(x, ...args) {
           yield t();
           return this.h(t);
       }).bind(this));
-      return _s.apply(this, arguments);
-  }
-  function s(x) {
       return _s.apply(this, arguments);
   }
 "#
@@ -618,11 +618,11 @@ async function foo(bar) {
 }
 "#,
     r#"
-function _foo() {
-  _foo = _asyncToGenerator(function* (bar) {});
+function foo(bar) {
   return _foo.apply(this, arguments);
 }
-function foo(bar) {
+function _foo() {
+  _foo = _asyncToGenerator(function* (bar) {});
   return _foo.apply(this, arguments);
 }
 "#
@@ -638,14 +638,13 @@ async function foo() {
 }
 "#,
     r#"
+function foo() {
+  return _foo.apply(this, arguments);
+}
 function _foo() {
   _foo = _asyncToGenerator(function* () {
     var wat = yield bar();
   });
-  return _foo.apply(this, arguments);
-}
-
-function foo() {
   return _foo.apply(this, arguments);
 }
 "#
@@ -1458,6 +1457,10 @@ function mandatory(paramName) {
   throw new Error(`Missing parameter: ${paramName}`);
 }
 
+function foo(_) {
+  return _foo.apply(this, arguments);
+}
+
 function _foo() {
   _foo = _asyncToGenerator(function* (param) {
     let a = param.a,
@@ -1466,10 +1469,6 @@ function _foo() {
     return Promise.resolve(b);
   });
   return _foo.apply(this, arguments);
-}
-
-function foo(_) {
-    return _foo.apply(this, arguments);
 }
 
 "#
@@ -1521,63 +1520,56 @@ async function six(a, {b} = {}){}
 "#,
     r#"
 
-function _one() {
-  _one = _asyncToGenerator(function* (a, b = 1) {});
-  return _one.apply(this, arguments);
-}
-
 function one(a) {
   return _one.apply(this, arguments);
 }
-
-function _two() {
-  _two = _asyncToGenerator(function* (a, b, ...c) {});
-  return _two.apply(this, arguments);
+function _one() {
+  _one = _asyncToGenerator(function*(a, b = 1) {
+  });
+  return _one.apply(this, arguments);
 }
-
 function two(a, b) {
   return _two.apply(this, arguments);
 }
-
-function _three() {
-  _three = _asyncToGenerator(function* (a, b = 1, c, d = 3) {});
-  return _three.apply(this, arguments);
+function _two() {
+  _two = _asyncToGenerator(function*(a, b, ...c) {
+  });
+  return _two.apply(this, arguments);
 }
-
 function three(a) {
   return _three.apply(this, arguments);
 }
-
-function _four() {
-  _four = _asyncToGenerator(function* (a, b = 1, c, ...d) {});
-  return _four.apply(this, arguments);
+function _three() {
+  _three = _asyncToGenerator(function*(a, b = 1, c, d = 3) {
+  });
+  return _three.apply(this, arguments);
 }
-
 function four(a) {
   return _four.apply(this, arguments);
 }
-
-function _five() {
-  _five = _asyncToGenerator(function* (a, {
-    b
-  }) {});
-  return _five.apply(this, arguments);
+function _four() {
+  _four = _asyncToGenerator(function*(a, b = 1, c, ...d) {
+  });
+  return _four.apply(this, arguments);
 }
-
 function five(a, _) {
   return _five.apply(this, arguments);
 }
-
-function _six() {
-  _six = _asyncToGenerator(function* (a, {
-    b
-  } = {}) {});
-  return _six.apply(this, arguments);
+function _five() {
+  _five = _asyncToGenerator(function*(a, { b  }) {
+  });
+  return _five.apply(this, arguments);
 }
-
 function six(a) {
   return _six.apply(this, arguments);
 }
+function _six() {
+  _six = _asyncToGenerator(function*(a, { b  } = {
+  }) {
+  });
+  return _six.apply(this, arguments);
+}
+
 
 "#
 );
@@ -1727,6 +1719,9 @@ async function s(x, ...args) {
 
 "#,
     r#"
+    function s(x) {
+      return _s.apply(this, arguments);
+    }
     function _s() {
       _s = _asyncToGenerator((function*(x, ...args) {
           let t = _asyncToGenerator((function*(y, a) {
@@ -1743,9 +1738,6 @@ async function s(x, ...args) {
           return this.h(t);
       }).bind(this));
       return _s.apply(this, arguments);
-    }
-    function s(x) {
-        return _s.apply(this, arguments);
     }
     "#
 );
@@ -2010,17 +2002,15 @@ async function foo() {
 
 "#,
     r#"
+function foo() {
+  return _foo.apply(this, arguments);
+}
 function _foo() {
   _foo = _asyncToGenerator(function* () {
     var wat = yield bar();
   });
   return _foo.apply(this, arguments);
 }
-
-function foo() {
-  return _foo.apply(this, arguments);
-}
-
 "#
 );
 
@@ -2068,12 +2058,11 @@ async function foo(bar) {
 
 "#,
     r#"
-function _foo() {
-  _foo = _asyncToGenerator(function* (bar) {});
+function foo(bar) {
   return _foo.apply(this, arguments);
 }
-
-function foo(bar) {
+function _foo() {
+  _foo = _asyncToGenerator(function* (bar) {});
   return _foo.apply(this, arguments);
 }
 "#
@@ -2105,16 +2094,17 @@ for (let a of b) {
 }
 }
 "#,
-    "function _foo() {
+    "function foo() {
+  return _foo.apply(this, arguments);
+}
+function _foo() {
   _foo = _asyncToGenerator(function*() {
       for (let a of b){
       }
   });
   return _foo.apply(this, arguments);
 }
-function foo() {
-  return _foo.apply(this, arguments);
-}"
+"
 );
 
 test!(
@@ -2199,22 +2189,22 @@ test!(
     const details = {
         _id: '1'
     };
-    function _request() {
-        _request = _asyncToGenerator(function*(path) {
-            return `success:${path}`;
-        });
-        return _request.apply(this, arguments);
-    }
     function request(path) {
-        return _request.apply(this, arguments);
+      return _request.apply(this, arguments);
+    }
+    function _request() {
+      _request = _asyncToGenerator(function*(path) {
+          return `success:${path}`;
+      });
+      return _request.apply(this, arguments);
     }
     _asyncToGenerator(function*() {
-        const obj = source === 'matilda' ? details : yield \
+      const obj = source === 'matilda' ? details : yield \
      request(`/${details._id}?source=${source}`);
-        console.log({
-            obj
-        });
-    })();
+      console.log({
+          obj
+      });
+  })();
     "
 );
 
@@ -2233,6 +2223,9 @@ async function test() {
 test()
 ",
     "
+  function test() {
+    return _test.apply(this, arguments);
+  }
   function _test() {
     _test = _asyncToGenerator(function* () {
       try {
@@ -2243,13 +2236,8 @@ test()
     });
     return _test.apply(this, arguments);
   }
-
-  function test() {
-    return _test.apply(this, arguments);
-  }
-
-
   test();
+
   "
 );
 
@@ -2469,6 +2457,9 @@ test!(
     }
     ",
     "
+    function main() {
+      return _main.apply(this, arguments);
+    }
     function _main() {
       _main = _asyncToGenerator(function*() {
           {
@@ -2498,9 +2489,6 @@ test!(
         });
         return _main.apply(this, arguments);
     }
-    function main() {
-        return _main.apply(this, arguments);
-    }
     "
 );
 
@@ -2515,15 +2503,14 @@ test!(
     }
     ",
     "
+    function lol() {
+      return _lol.apply(this, arguments);
+    }
     function _lol() {
       _lol = _wrapAsyncGenerator(function* () {
         yield 1;
         yield 2;
       });
-      return _lol.apply(this, arguments);
-    }
-
-    function lol() {
       return _lol.apply(this, arguments);
     }
     "
@@ -2548,6 +2535,9 @@ test!(
     "
     const cache = {
     };
+    function getThing(key) {
+      return _getThing.apply(this, arguments);
+    }
     function _getThing() {
         _getThing = _asyncToGenerator(function*(key) {
             const it = cache[key] || (yield fetchThing(key));
@@ -2555,12 +2545,9 @@ test!(
         });
         return _getThing.apply(this, arguments);
     }
-    function getThing(key) {
-        return _getThing.apply(this, arguments);
-    }
     function fetchThing(key) {
-        return Promise.resolve(key.toUpperCase()).then((val)=>cache[key] = val
-        );
+      return Promise.resolve(key.toUpperCase()).then((val)=>cache[key] = val
+      );
     }
     "
 );
@@ -2591,6 +2578,9 @@ test!(
     var regeneratorRuntime = require('regenerator-runtime');
     const cache = {
     };
+    function getThing(key) {
+      return _getThing.apply(this, arguments);
+    }
     function _getThing() {
         _getThing = _asyncToGenerator(regeneratorRuntime.mark(function _callee(key) {
             var it;
@@ -2617,12 +2607,9 @@ test!(
         }));
         return _getThing.apply(this, arguments);
     }
-    function getThing(key) {
-        return _getThing.apply(this, arguments);
-    }
     function fetchThing(key) {
-        return Promise.resolve(key.toUpperCase()).then((val)=>cache[key] = val
-        );
+      return Promise.resolve(key.toUpperCase()).then((val)=>cache[key] = val
+      );
     }
     "
 );
@@ -2907,6 +2894,9 @@ export default async function someCall() {
   ",
     "
             var regeneratorRuntime = require('regenerator-runtime');
+function region() {
+  return _region.apply(this, arguments);
+}
 function _region() {
     _region = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
@@ -2919,8 +2909,8 @@ function _region() {
     }));
     return _region.apply(this, arguments);
 }
-function region() {
-    return _region.apply(this, arguments);
+export function otherCall() {
+  return _otherCall.apply(this, arguments);
 }
 function _otherCall() {
     _otherCall = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
@@ -2937,8 +2927,8 @@ function _otherCall() {
     }));
     return _otherCall.apply(this, arguments);
 }
-export function otherCall() {
-    return _otherCall.apply(this, arguments);
+export default function someCall() {
+  return _someCall.apply(this, arguments);
 }
 function _someCall() {
   _someCall = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
@@ -2953,9 +2943,6 @@ function _someCall() {
           }
       }, _callee);
   }));
-  return _someCall.apply(this, arguments);
-}
-export default function someCall() {
   return _someCall.apply(this, arguments);
 }
   "
@@ -2981,6 +2968,9 @@ export default async function() {
 ",
     "
     var regeneratorRuntime = require('regenerator-runtime');
+    function region() {
+      return _region.apply(this, arguments);
+    }
     function _region() {
         _region = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
@@ -2993,8 +2983,8 @@ export default async function() {
         }));
         return _region.apply(this, arguments);
     }
-    function region() {
-        return _region.apply(this, arguments);
+    export default function() {
+      return _ref.apply(this, arguments);
     }
     function _ref() {
         _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
@@ -3009,9 +2999,6 @@ export default async function() {
                 }
             }, _callee);
         }));
-        return _ref.apply(this, arguments);
-    }
-    export default function() {
         return _ref.apply(this, arguments);
     }
 "
