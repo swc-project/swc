@@ -14,7 +14,7 @@ use swc_ecma_parser::{Syntax, TsConfig};
 use testing::{NormalizedOutput, Tester};
 
 #[testing::fixture(
-    "../../ecmascript/parser/tests/typescript/tsc/**/input.ts",
+    "../swc_ecma_parser/tests/typescript/tsc/**/input.ts",
     exclude(
         "privateNameFieldDestructuredBinding/input.ts",
         "restPropertyWithBindingPattern/input.ts",
@@ -24,16 +24,14 @@ use testing::{NormalizedOutput, Tester};
         "objectRestPropertyMustBeLast/input.ts",
     )
 )]
-#[testing::fixture("../../ecmascript/parser/tests/typescript/tsc/**/input.tsx")]
+#[testing::fixture("../swc_ecma_parser/tests/typescript/tsc/**/input.tsx")]
 fn fixture(input: PathBuf) {
     if input.to_string_lossy().contains("jsdoc") {
         return;
     }
 
     let base = Path::new("..")
-        .join("..")
-        .join("ecmascript")
-        .join("parser")
+        .join("swc_ecma_parser")
         .join("tests")
         .join("typescript")
         .join("tsc")
