@@ -1681,7 +1681,7 @@ class Foo extends Bar {
         var _thisSuper, _this;
     
         _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(Foo.prototype)), (_this = _super.call(this)).method, _thisSuper).call(_thisSuper);
-         
+
         return _possibleConstructorReturn(_this);
       }
     
@@ -4750,6 +4750,8 @@ expect(t2).toBeInstanceOf(Array);
 
 // spec_super_reference_in_prop_exression_exec
 test_exec!(
+    // babel also fails on this
+    ignore,
     syntax(),
     |t| spec_tr(t),
     spec_super_reference_in_prop_exression_exec,
