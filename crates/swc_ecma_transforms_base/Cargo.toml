@@ -29,6 +29,6 @@ swc_ecma_visit = {version = "0.43.0", path = "../../swc_ecma_visit"}
 tracing = "0.1"
 
 [dev-dependencies]
-swc_ecma_codegen = {version = "0.79.0", path = "../../codegen"}
+swc_ecma_codegen = {version = "0.79.0", path = "../../swc_ecma_codegen"}
 swc_ecma_transforms_macros = {version = "0.3.0", path = "../macros"}
 testing = {version = "0.15.0", path = "../../testing"}
