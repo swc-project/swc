@@ -44,6 +44,31 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 var X = function X() {
     "use strict";
     _classCallCheck(this, X);
@@ -51,18 +76,20 @@ var X = function X() {
 var A = /*#__PURE__*/ function(X) {
     "use strict";
     _inherits(A, X);
+    var _super = _createSuper(A);
     function A() {
         _classCallCheck(this, A);
-        return _possibleConstructorReturn(this, _getPrototypeOf(A).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     return A;
 }(X);
 var B = /*#__PURE__*/ function(X) {
     "use strict";
     _inherits(B, X);
+    var _super = _createSuper(B);
     function B() {
         _classCallCheck(this, B);
-        return _possibleConstructorReturn(this, _getPrototypeOf(B).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     return B;
 }(X);

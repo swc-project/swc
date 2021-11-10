@@ -1,3 +1,7 @@
+function _assertThisInitialized(self) {
+    if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    return self;
+}
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
@@ -34,12 +38,6 @@ function _inherits(subClass, superClass) {
         }
     }), superClass && _setPrototypeOf(subClass, superClass);
 }
-function _possibleConstructorReturn(self, call) {
-    return call && ("object" === _typeof(call) || "function" == typeof call) ? call : (function(self) {
-        if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        return self;
-    })(self);
-}
 function set(target, property, value, receiver) {
     return set = "undefined" != typeof Reflect && Reflect.set ? Reflect.set : function set(target, property, value, receiver) {
         var obj, key, value, desc, base = _superPropBase(target, property);
@@ -72,9 +70,28 @@ function _superPropBase(object, property) {
     for(; !Object.prototype.hasOwnProperty.call(object, property) && null !== (object = _getPrototypeOf(object)););
     return object;
 }
-var _typeof = function(obj) {
-    return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, NoBase = function() {
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = function() {
+        if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+        if (Reflect.construct.sham) return !1;
+        if ("function" == typeof Proxy) return !0;
+        try {
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+            })), !0;
+        } catch (e) {
+            return !1;
+        }
+    }();
+    return function() {
+        var obj, self, call, result, Super = _getPrototypeOf(Derived);
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else result = Super.apply(this, arguments);
+        return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : _assertThisInitialized(self);
+    };
+}
+var NoBase = function() {
     "use strict";
     function NoBase() {
         _classCallCheck(this, NoBase), this.m = _get(_getPrototypeOf(NoBase.prototype), "prototype", this), this.n = _get(_getPrototypeOf(NoBase.prototype), "hasOwnProperty", this).call(this, ""), _get(_getPrototypeOf(NoBase.prototype), "prototype", this), _get(_getPrototypeOf(NoBase.prototype), "hasOwnProperty", this).call(this, "");
@@ -135,12 +152,14 @@ var _typeof = function(obj) {
 SomeBase.privateStaticMember = 0, SomeBase.publicStaticMember = 0;
 var SomeDerived1 = function(SomeBase) {
     "use strict";
+    _inherits(SomeDerived1, SomeBase);
+    var _super = _createSuper(SomeDerived1);
     function SomeDerived1() {
         _classCallCheck(this, SomeDerived1);
-        var _this = _possibleConstructorReturn(this, _getPrototypeOf(SomeDerived1).call(this));
-        return _set(_getPrototypeOf(SomeDerived1.prototype), "publicMember", 1, this, !0), _this;
+        var _thisSuper, _this = _super.call(this);
+        return _set((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(SomeDerived1.prototype)), "publicMember", 1, _thisSuper, !0), _this;
     }
-    return _inherits(SomeDerived1, SomeBase), _createClass(SomeDerived1, [
+    return _createClass(SomeDerived1, [
         {
             key: "fn",
             value: function() {
@@ -164,12 +183,14 @@ var SomeDerived1 = function(SomeBase) {
     ]), SomeDerived1;
 }(SomeBase), SomeDerived2 = function(SomeBase) {
     "use strict";
+    _inherits(SomeDerived2, SomeBase);
+    var _super = _createSuper(SomeDerived2);
     function SomeDerived2() {
         _classCallCheck(this, SomeDerived2);
-        var _this = _possibleConstructorReturn(this, _getPrototypeOf(SomeDerived2).call(this));
-        return _set(_getPrototypeOf(SomeDerived2.prototype), "privateMember", 1, this, !0), _this;
+        var _thisSuper, _this = _super.call(this);
+        return _set((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(SomeDerived2.prototype)), "privateMember", 1, _thisSuper, !0), _this;
     }
-    return _inherits(SomeDerived2, SomeBase), _createClass(SomeDerived2, [
+    return _createClass(SomeDerived2, [
         {
             key: "fn",
             value: function() {
@@ -188,10 +209,12 @@ var SomeDerived1 = function(SomeBase) {
     ]), SomeDerived2;
 }(SomeBase), SomeDerived3 = function(SomeBase) {
     "use strict";
+    _inherits(SomeDerived3, SomeBase);
+    var _super = _createSuper(SomeDerived3);
     function SomeDerived3() {
-        return _classCallCheck(this, SomeDerived3), _possibleConstructorReturn(this, _getPrototypeOf(SomeDerived3).apply(this, arguments));
+        return _classCallCheck(this, SomeDerived3), _super.apply(this, arguments);
     }
-    return _inherits(SomeDerived3, SomeBase), _createClass(SomeDerived3, null, [
+    return _createClass(SomeDerived3, null, [
         {
             key: "fn",
             value: function() {

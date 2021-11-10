@@ -132,6 +132,31 @@ function _superPropBase(object, property) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 var NoBase = //super property access in constructor of class with no base type
 //super property access in instance member function of class with no base type
 //super property access in instance member accessor(get and set) of class with no base type
@@ -215,10 +240,12 @@ var SomeDerived1 = //super.publicInstanceMemberNotFunction in constructor of der
 /*#__PURE__*/ function(SomeBase) {
     "use strict";
     _inherits(SomeDerived1, SomeBase);
+    var _super = _createSuper(SomeDerived1);
     function SomeDerived1() {
         _classCallCheck(this, SomeDerived1);
-        var _this = _possibleConstructorReturn(this, _getPrototypeOf(SomeDerived1).call(this));
-        _set(_getPrototypeOf(SomeDerived1.prototype), "publicMember", 1, this, true);
+        var _thisSuper;
+        var _this = _super.call(this);
+        _set((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(SomeDerived1.prototype)), "publicMember", 1, _thisSuper, true);
         return _this;
     }
     _createClass(SomeDerived1, [
@@ -260,10 +287,12 @@ var SomeDerived2 = //super.privateProperty in constructor of derived class
 /*#__PURE__*/ function(SomeBase) {
     "use strict";
     _inherits(SomeDerived2, SomeBase);
+    var _super = _createSuper(SomeDerived2);
     function SomeDerived2() {
         _classCallCheck(this, SomeDerived2);
-        var _this = _possibleConstructorReturn(this, _getPrototypeOf(SomeDerived2).call(this));
-        _set(_getPrototypeOf(SomeDerived2.prototype), "privateMember", 1, this, true);
+        var _thisSuper;
+        var _this = _super.call(this);
+        _set((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(SomeDerived2.prototype)), "privateMember", 1, _thisSuper, true);
         return _this;
     }
     _createClass(SomeDerived2, [
@@ -293,9 +322,10 @@ var SomeDerived3 = //super.publicStaticMemberNotFunction in static member functi
 /*#__PURE__*/ function(SomeBase) {
     "use strict";
     _inherits(SomeDerived3, SomeBase);
+    var _super = _createSuper(SomeDerived3);
     function SomeDerived3() {
         _classCallCheck(this, SomeDerived3);
-        return _possibleConstructorReturn(this, _getPrototypeOf(SomeDerived3).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     _createClass(SomeDerived3, null, [
         {

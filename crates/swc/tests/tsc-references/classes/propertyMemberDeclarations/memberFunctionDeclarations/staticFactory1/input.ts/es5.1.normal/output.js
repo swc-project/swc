@@ -58,6 +58,31 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 var Base = /*#__PURE__*/ function() {
     "use strict";
     function Base() {
@@ -80,14 +105,15 @@ var Base = /*#__PURE__*/ function() {
     ]);
     return Base;
 }();
-var Derived = /*#__PURE__*/ function(Base) {
+var Derived1 = /*#__PURE__*/ function(Base) {
     "use strict";
-    _inherits(Derived, Base);
-    function Derived() {
-        _classCallCheck(this, Derived);
-        return _possibleConstructorReturn(this, _getPrototypeOf(Derived).apply(this, arguments));
+    _inherits(Derived1, Base);
+    var _super = _createSuper(Derived1);
+    function Derived1() {
+        _classCallCheck(this, Derived1);
+        return _super.apply(this, arguments);
     }
-    _createClass(Derived, [
+    _createClass(Derived1, [
         {
             key: "foo",
             value: function foo() {
@@ -95,7 +121,7 @@ var Derived = /*#__PURE__*/ function(Base) {
             }
         }
     ]);
-    return Derived;
+    return Derived1;
 }(Base);
-var d = Derived.create();
+var d = Derived1.create();
 d.foo();

@@ -44,25 +44,52 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 var Base = function Base() {
     "use strict";
     _classCallCheck(this, Base);
 };
-var Derived = /*#__PURE__*/ function(Base) {
+var Derived1 = /*#__PURE__*/ function(Base) {
     "use strict";
-    _inherits(Derived, Base);
-    function Derived() {
-        _classCallCheck(this, Derived);
-        return _possibleConstructorReturn(this, _getPrototypeOf(Derived).apply(this, arguments));
+    _inherits(Derived1, Base);
+    var _super = _createSuper(Derived1);
+    function Derived1() {
+        _classCallCheck(this, Derived1);
+        return _super.apply(this, arguments);
     }
-    return Derived;
+    return Derived1;
 }(Base);
 var Derived2 = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(Derived2, Base);
+    var _super = _createSuper(Derived2);
     function Derived2() {
         _classCallCheck(this, Derived2);
-        return _possibleConstructorReturn(this, _getPrototypeOf(Derived2).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     return Derived2;
 }(Base);
@@ -71,7 +98,7 @@ function f(a) {
     return r;
 }
 var r1 = f({
-    x: new Derived(),
+    x: new Derived1(),
     y: new Derived2()
 }); // error because neither is supertype of the other
 function f2(a) {
@@ -79,11 +106,11 @@ function f2(a) {
     return r;
 }
 var r2 = f2({
-    x: new Derived(),
+    x: new Derived1(),
     y: new Derived2()
 }); // ok
 var r3 = f2({
-    x: new Derived(),
+    x: new Derived1(),
     y: new Derived2()
 }); // ok
 function f3(y, x) {
@@ -95,7 +122,7 @@ var r4 = f3(function(x) {
 }, new Base());
 var r5 = f3(function(x) {
     return x;
-}, new Derived());
+}, new Derived1());
 var r6 = f3(function(x) {
     return x;
 }, null);

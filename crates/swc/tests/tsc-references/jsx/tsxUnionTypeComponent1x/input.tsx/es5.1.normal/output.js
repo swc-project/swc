@@ -58,6 +58,31 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 // @filename: file.tsx
 // @jsx: react
 // @noLib: true
@@ -67,9 +92,10 @@ var React = require('react');
 var MyComponent = /*#__PURE__*/ function(_Component) {
     "use strict";
     _inherits(MyComponent, _Component);
+    var _super = _createSuper(MyComponent);
     function MyComponent() {
         _classCallCheck(this, MyComponent);
-        return _possibleConstructorReturn(this, _getPrototypeOf(MyComponent).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     _createClass(MyComponent, [
         {
@@ -92,9 +118,10 @@ var MyButtonComponent = // Component Class as Props
 /*#__PURE__*/ function(_Component) {
     "use strict";
     _inherits(MyButtonComponent, _Component);
+    var _super = _createSuper(MyButtonComponent);
     function MyButtonComponent() {
         _classCallCheck(this, MyButtonComponent);
-        return _possibleConstructorReturn(this, _getPrototypeOf(MyButtonComponent).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     return MyButtonComponent;
 }(React.Component);

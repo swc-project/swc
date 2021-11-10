@@ -81,6 +81,31 @@ function _superPropBase(object, property) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 var c1 = /*#__PURE__*/ function() {
     "use strict";
     function c1() {
@@ -195,11 +220,12 @@ var c2 = /*#__PURE__*/ function() {
 var c3 = /*#__PURE__*/ function(c2) {
     "use strict";
     _inherits(c3, c2);
+    var _super = _createSuper(c3);
     function c3() {
         _classCallCheck(this, c3);
-        var _this;
-        _this = _possibleConstructorReturn(this, _getPrototypeOf(c3).call(this, 10));
-        _this.p1 = _get(_getPrototypeOf(c3.prototype), "c2_p1", _assertThisInitialized(_this));
+        var _thisSuper, _this;
+        _this = _super.call(this, 10);
+        _this.p1 = _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(c3.prototype)), "c2_p1", _thisSuper);
         return _this;
     }
     _createClass(c3, [
@@ -247,9 +273,10 @@ c2_i.nc_f1();
 var c4 = /*#__PURE__*/ function(c2) {
     "use strict";
     _inherits(c4, c2);
+    var _super = _createSuper(c4);
     function c4() {
         _classCallCheck(this, c4);
-        return _possibleConstructorReturn(this, _getPrototypeOf(c4).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     return c4;
 }(c2);
@@ -289,11 +316,12 @@ var c5 = function c5() {
 var c6 = /*#__PURE__*/ function(c5) {
     "use strict";
     _inherits(c6, c5);
+    var _super = _createSuper(c6);
     function c6() {
         _classCallCheck(this, c6);
-        var _this;
-        _this = _possibleConstructorReturn(this, _getPrototypeOf(c6).call(this));
-        _this.d = _get(_getPrototypeOf(c6.prototype), "b", _assertThisInitialized(_this));
+        var _thisSuper, _this;
+        _this = _super.call(this);
+        _this.d = _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(c6.prototype)), "b", _thisSuper);
         return _this;
     }
     return c6;

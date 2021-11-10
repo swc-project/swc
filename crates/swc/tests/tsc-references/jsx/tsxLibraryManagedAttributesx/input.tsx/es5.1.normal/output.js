@@ -44,12 +44,38 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 var Component = /*#__PURE__*/ function(ReactComponent) {
     "use strict";
     _inherits(Component, ReactComponent);
+    var _super = _createSuper(Component);
     function Component() {
         _classCallCheck(this, Component);
-        return _possibleConstructorReturn(this, _getPrototypeOf(Component).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     return Component;
 }(ReactComponent);
@@ -91,9 +117,10 @@ var f = /*#__PURE__*/ React.createElement(Component, {
 var JustPropTypes = /*#__PURE__*/ function(ReactComponent) {
     "use strict";
     _inherits(JustPropTypes, ReactComponent);
+    var _super = _createSuper(JustPropTypes);
     function JustPropTypes() {
         _classCallCheck(this, JustPropTypes);
-        return _possibleConstructorReturn(this, _getPrototypeOf(JustPropTypes).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     return JustPropTypes;
 }(ReactComponent);
@@ -119,9 +146,10 @@ var j = /*#__PURE__*/ React.createElement(JustPropTypes, {
 var JustDefaultProps = /*#__PURE__*/ function(ReactComponent) {
     "use strict";
     _inherits(JustDefaultProps, ReactComponent);
+    var _super = _createSuper(JustDefaultProps);
     function JustDefaultProps() {
         _classCallCheck(this, JustDefaultProps);
-        return _possibleConstructorReturn(this, _getPrototypeOf(JustDefaultProps).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     return JustDefaultProps;
 }(ReactComponent);
@@ -141,9 +169,10 @@ var m = /*#__PURE__*/ React.createElement(JustDefaultProps, {
 var BothWithSpecifiedGeneric = /*#__PURE__*/ function(ReactComponent) {
     "use strict";
     _inherits(BothWithSpecifiedGeneric, ReactComponent);
+    var _super = _createSuper(BothWithSpecifiedGeneric);
     function BothWithSpecifiedGeneric() {
         _classCallCheck(this, BothWithSpecifiedGeneric);
-        return _possibleConstructorReturn(this, _getPrototypeOf(BothWithSpecifiedGeneric).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     return BothWithSpecifiedGeneric;
 }(ReactComponent);
@@ -185,9 +214,10 @@ var s = /*#__PURE__*/ React.createElement(BothWithSpecifiedGeneric, {
 var JustPropTypesWithSpecifiedGeneric = /*#__PURE__*/ function(ReactComponent) {
     "use strict";
     _inherits(JustPropTypesWithSpecifiedGeneric, ReactComponent);
+    var _super = _createSuper(JustPropTypesWithSpecifiedGeneric);
     function JustPropTypesWithSpecifiedGeneric() {
         _classCallCheck(this, JustPropTypesWithSpecifiedGeneric);
-        return _possibleConstructorReturn(this, _getPrototypeOf(JustPropTypesWithSpecifiedGeneric).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     return JustPropTypesWithSpecifiedGeneric;
 }(ReactComponent);
@@ -213,9 +243,10 @@ var w = /*#__PURE__*/ React.createElement(JustPropTypesWithSpecifiedGeneric, {
 var JustDefaultPropsWithSpecifiedGeneric = /*#__PURE__*/ function(ReactComponent) {
     "use strict";
     _inherits(JustDefaultPropsWithSpecifiedGeneric, ReactComponent);
+    var _super = _createSuper(JustDefaultPropsWithSpecifiedGeneric);
     function JustDefaultPropsWithSpecifiedGeneric() {
         _classCallCheck(this, JustDefaultPropsWithSpecifiedGeneric);
-        return _possibleConstructorReturn(this, _getPrototypeOf(JustDefaultPropsWithSpecifiedGeneric).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     return JustDefaultPropsWithSpecifiedGeneric;
 }(ReactComponent);

@@ -58,6 +58,31 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 // The resulting type an array literal expression is determined as follows:
 // If the array literal is empty, the resulting type is an array type with the element type Undefined.
 // Otherwise, if the array literal is contextually typed by a type that has a property with the numeric name ‘0’, the resulting type is a tuple type constructed from the types of the element expressions.
@@ -120,9 +145,10 @@ var D = /*#__PURE__*/ function() {
 var E = /*#__PURE__*/ function(C) {
     "use strict";
     _inherits(E, C);
+    var _super = _createSuper(E);
     function E() {
         _classCallCheck(this, E);
-        return _possibleConstructorReturn(this, _getPrototypeOf(E).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     _createClass(E, [
         {
@@ -136,9 +162,10 @@ var E = /*#__PURE__*/ function(C) {
 var F = /*#__PURE__*/ function(C) {
     "use strict";
     _inherits(F, C);
+    var _super = _createSuper(F);
     function F() {
         _classCallCheck(this, F);
-        return _possibleConstructorReturn(this, _getPrototypeOf(F).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     _createClass(F, [
         {

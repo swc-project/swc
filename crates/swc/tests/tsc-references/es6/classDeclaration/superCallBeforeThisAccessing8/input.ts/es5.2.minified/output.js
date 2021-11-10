@@ -24,11 +24,7 @@ var _typeof = function(obj) {
     _classCallCheck(this, Base1);
 }, D = function(Base) {
     "use strict";
-    function D() {
-        var _this;
-        return _classCallCheck(this, D), (_this = _possibleConstructorReturn(this, _getPrototypeOf(D).call(this, void 0)))._t, _possibleConstructorReturn(_this);
-    }
-    return !function(subClass, superClass) {
+    !function(subClass, superClass) {
         if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
         subClass.prototype = Object.create(superClass && superClass.prototype, {
             constructor: {
@@ -37,5 +33,31 @@ var _typeof = function(obj) {
                 configurable: !0
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
-    }(D, Base), D;
+    }(D, Base);
+    var _super = function(Derived) {
+        var hasNativeReflectConstruct = function() {
+            if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+            if (Reflect.construct.sham) return !1;
+            if ("function" == typeof Proxy) return !0;
+            try {
+                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+                })), !0;
+            } catch (e) {
+                return !1;
+            }
+        }();
+        return function() {
+            var result, Super = _getPrototypeOf(Derived);
+            if (hasNativeReflectConstruct) {
+                var NewTarget = _getPrototypeOf(this).constructor;
+                result = Reflect.construct(Super, arguments, NewTarget);
+            } else result = Super.apply(this, arguments);
+            return _possibleConstructorReturn(this, result);
+        };
+    }(D);
+    function D() {
+        var _this;
+        return _classCallCheck(this, D), (_this = _super.call(this, void 0))._t, _possibleConstructorReturn(_this);
+    }
+    return D;
 }(Base1);

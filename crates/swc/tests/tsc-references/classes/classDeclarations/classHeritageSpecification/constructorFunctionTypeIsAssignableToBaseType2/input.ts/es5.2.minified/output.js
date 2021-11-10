@@ -29,21 +29,45 @@ function _setPrototypeOf(o, p) {
 }
 var _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, Base1 = function(x) {
+};
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = function() {
+        if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+        if (Reflect.construct.sham) return !1;
+        if ("function" == typeof Proxy) return !0;
+        try {
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+            })), !0;
+        } catch (e) {
+            return !1;
+        }
+    }();
+    return function() {
+        var result, Super = _getPrototypeOf(Derived);
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else result = Super.apply(this, arguments);
+        return _possibleConstructorReturn(this, result);
+    };
+}
+var Base1 = function(x) {
     "use strict";
     _classCallCheck(this, Base1);
-}, Derived = function(Base) {
+}, Derived1 = function(Base) {
     "use strict";
-    function Derived(x) {
-        return _classCallCheck(this, Derived), _possibleConstructorReturn(this, _getPrototypeOf(Derived).call(this, x));
+    _inherits(Derived1, Base);
+    var _super = _createSuper(Derived1);
+    function Derived1(x) {
+        return _classCallCheck(this, Derived1), _super.call(this, x);
     }
-    return _inherits(Derived, Base), Derived;
+    return Derived1;
 }(Base1), Derived2 = function(Base) {
     "use strict";
+    _inherits(Derived2, Base);
+    var _super = _createSuper(Derived2);
     function Derived2(x) {
-        _classCallCheck(this, Derived2);
-        var _this = _possibleConstructorReturn(this, _getPrototypeOf(Derived2).call(this, x));
-        return _possibleConstructorReturn(_this, 1);
+        return _classCallCheck(this, Derived2), _possibleConstructorReturn(_super.call(this, x), 1);
     }
-    return _inherits(Derived2, Base), Derived2;
+    return Derived2;
 }(Base1);

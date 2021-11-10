@@ -36,20 +36,11 @@ function _inherits(subClass, superClass) {
         }
     }), superClass && _setPrototypeOf(subClass, superClass);
 }
-function _possibleConstructorReturn(self, call) {
-    return call && ("object" === _typeof(call) || "function" == typeof call) ? call : (function(self) {
-        if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        return self;
-    })(self);
-}
 function _setPrototypeOf(o, p) {
     return _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var _typeof = function(obj) {
-    return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-};
 function _wrapNativeSuper(Class) {
     var _cache = "function" == typeof Map ? new Map() : void 0;
     return _wrapNativeSuper = function _wrapNativeSuper(Class) {
@@ -73,64 +64,108 @@ function _wrapNativeSuper(Class) {
         }), _setPrototypeOf(Wrapper, Class);
     }, _wrapNativeSuper(Class);
 }
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = function() {
+        if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+        if (Reflect.construct.sham) return !1;
+        if ("function" == typeof Proxy) return !0;
+        try {
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+            })), !0;
+        } catch (e) {
+            return !1;
+        }
+    }();
+    return function() {
+        var obj, self, call, result, Super = _getPrototypeOf(Derived);
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else result = Super.apply(this, arguments);
+        return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : (function(self) {
+            if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+            return self;
+        })(self);
+    };
+}
 var C1 = function(Object) {
     "use strict";
+    _inherits(C1, Object);
+    var _super = _createSuper(C1);
     function C1() {
-        return _classCallCheck(this, C1), _possibleConstructorReturn(this, _getPrototypeOf(C1).apply(this, arguments));
+        return _classCallCheck(this, C1), _super.apply(this, arguments);
     }
-    return _inherits(C1, Object), C1;
+    return C1;
 }(_wrapNativeSuper(Object)), C2 = function(Function) {
     "use strict";
+    _inherits(C2, Function);
+    var _super = _createSuper(C2);
     function C2() {
-        return _classCallCheck(this, C2), _possibleConstructorReturn(this, _getPrototypeOf(C2).apply(this, arguments));
+        return _classCallCheck(this, C2), _super.apply(this, arguments);
     }
-    return _inherits(C2, Function), C2;
+    return C2;
 }(_wrapNativeSuper(Function)), C3 = function(String) {
     "use strict";
+    _inherits(C3, String);
+    var _super = _createSuper(C3);
     function C3() {
-        return _classCallCheck(this, C3), _possibleConstructorReturn(this, _getPrototypeOf(C3).apply(this, arguments));
+        return _classCallCheck(this, C3), _super.apply(this, arguments);
     }
-    return _inherits(C3, String), C3;
+    return C3;
 }(_wrapNativeSuper(String)), C4 = function(Boolean) {
     "use strict";
+    _inherits(C4, Boolean);
+    var _super = _createSuper(C4);
     function C4() {
-        return _classCallCheck(this, C4), _possibleConstructorReturn(this, _getPrototypeOf(C4).apply(this, arguments));
+        return _classCallCheck(this, C4), _super.apply(this, arguments);
     }
-    return _inherits(C4, Boolean), C4;
+    return C4;
 }(_wrapNativeSuper(Boolean)), C5 = function(Number) {
     "use strict";
+    _inherits(C5, Number);
+    var _super = _createSuper(C5);
     function C5() {
-        return _classCallCheck(this, C5), _possibleConstructorReturn(this, _getPrototypeOf(C5).apply(this, arguments));
+        return _classCallCheck(this, C5), _super.apply(this, arguments);
     }
-    return _inherits(C5, Number), C5;
+    return C5;
 }(_wrapNativeSuper(Number)), C6 = function(Date) {
     "use strict";
+    _inherits(C6, Date);
+    var _super = _createSuper(C6);
     function C6() {
-        return _classCallCheck(this, C6), _possibleConstructorReturn(this, _getPrototypeOf(C6).apply(this, arguments));
+        return _classCallCheck(this, C6), _super.apply(this, arguments);
     }
-    return _inherits(C6, Date), C6;
+    return C6;
 }(_wrapNativeSuper(Date)), C7 = function(RegExp) {
     "use strict";
+    _inherits(C7, RegExp);
+    var _super = _createSuper(C7);
     function C7() {
-        return _classCallCheck(this, C7), _possibleConstructorReturn(this, _getPrototypeOf(C7).apply(this, arguments));
+        return _classCallCheck(this, C7), _super.apply(this, arguments);
     }
-    return _inherits(C7, RegExp), C7;
+    return C7;
 }(_wrapNativeSuper(RegExp)), C8 = function(Error) {
     "use strict";
+    _inherits(C8, Error);
+    var _super = _createSuper(C8);
     function C8() {
-        return _classCallCheck(this, C8), _possibleConstructorReturn(this, _getPrototypeOf(C8).apply(this, arguments));
+        return _classCallCheck(this, C8), _super.apply(this, arguments);
     }
-    return _inherits(C8, Error), C8;
+    return C8;
 }(_wrapNativeSuper(Error)), C9 = function(Array) {
     "use strict";
+    _inherits(C9, Array);
+    var _super = _createSuper(C9);
     function C9() {
-        return _classCallCheck(this, C9), _possibleConstructorReturn(this, _getPrototypeOf(C9).apply(this, arguments));
+        return _classCallCheck(this, C9), _super.apply(this, arguments);
     }
-    return _inherits(C9, Array), C9;
+    return C9;
 }(_wrapNativeSuper(Array)), C10 = function(Array) {
     "use strict";
+    _inherits(C10, Array);
+    var _super = _createSuper(C10);
     function C10() {
-        return _classCallCheck(this, C10), _possibleConstructorReturn(this, _getPrototypeOf(C10).apply(this, arguments));
+        return _classCallCheck(this, C10), _super.apply(this, arguments);
     }
-    return _inherits(C10, Array), C10;
+    return C10;
 }(_wrapNativeSuper(Array));

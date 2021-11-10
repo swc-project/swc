@@ -18,14 +18,7 @@ var E, E1, _typeof = function(obj) {
     _classCallCheck(this, C31);
 }, D1 = function(C3) {
     "use strict";
-    function D1() {
-        var self, call;
-        return _classCallCheck(this, D1), self = this, call = _getPrototypeOf(D1).apply(this, arguments), call && ("object" === _typeof(call) || "function" == typeof call) ? call : (function(self) {
-            if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-            return self;
-        })(self);
-    }
-    return !function(subClass, superClass) {
+    !function(subClass, superClass) {
         if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
         subClass.prototype = Object.create(superClass && superClass.prototype, {
             constructor: {
@@ -34,7 +27,35 @@ var E, E1, _typeof = function(obj) {
                 configurable: !0
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
-    }(D1, C3), D1;
+    }(D1, C3);
+    var _super = function(Derived) {
+        var hasNativeReflectConstruct = function() {
+            if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+            if (Reflect.construct.sham) return !1;
+            if ("function" == typeof Proxy) return !0;
+            try {
+                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+                })), !0;
+            } catch (e) {
+                return !1;
+            }
+        }();
+        return function() {
+            var self, call, result, Super = _getPrototypeOf(Derived);
+            if (hasNativeReflectConstruct) {
+                var NewTarget = _getPrototypeOf(this).constructor;
+                result = Reflect.construct(Super, arguments, NewTarget);
+            } else result = Super.apply(this, arguments);
+            return self = this, (call = result) && ("object" === _typeof(call) || "function" == typeof call) ? call : (function(self) {
+                if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+                return self;
+            })(self);
+        };
+    }(D1);
+    function D1() {
+        return _classCallCheck(this, D1), _super.apply(this, arguments);
+    }
+    return D1;
 }(C31), C1 = function() {
     "use strict";
     _classCallCheck(this, C1);
