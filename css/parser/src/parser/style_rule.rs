@@ -16,20 +16,15 @@ where
 
         loop {
             // TODO: remove `}`
-            if is!(self, "}") {
+            if self.input.is_eof()? || is!(self, "}") {
                 return Ok(rules);
             }
 
-            let cur = self.input.cur()?;
-
-            match cur {
-                Some(tok!(" ")) => {
+            match cur!(self) {
+                tok!(" ") => {
                     self.input.skip_ws()?;
                 }
-                None => {
-                    return Ok(rules);
-                }
-                Some(tok!("<!--")) | Some(tok!("-->")) => {
+                tok!("<!--") | tok!("-->") => {
                     if ctx.is_top_level {
                         self.input.bump()?;
 
@@ -38,10 +33,10 @@ where
 
                     rules.push(self.parse_qualified_rule()?);
                 }
-                Some(Token::AtKeyword { .. }) => {
+                Token::AtKeyword { .. } => {
                     rules.push(self.parse_at_rule(Default::default())?.into());
                 }
-                Some(_) => {
+                _ => {
                     rules.push(self.parse_qualified_rule()?);
                 }
             }
