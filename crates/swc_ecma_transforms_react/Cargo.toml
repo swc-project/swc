@@ -20,8 +20,8 @@ regex = "1.4.2"
 serde = {version = "1.0.118", features = ["derive"]}
 sha-1 = "0.9.4"
 string_enum = {version = "0.3.1", path = "../../string_enum"}
-swc_atoms = {version = "0.2", path = "../../swc_atoms"}
-swc_common = {version = "0.14.0", path = "../../swc_common"}
+swc_atoms = {version = "0.2", path = "../swc_atoms"}
+swc_common = {version = "0.14.0", path = "../swc_common"}
 swc_ecma_ast = {version = "0.57.0", path = "../../swc_ecma_ast"}
 swc_ecma_parser = {version = "0.77.0", path = "../../swc_ecma_parser"}
 swc_ecma_transforms_base = {version = "0.43.0", path = "../base"}
