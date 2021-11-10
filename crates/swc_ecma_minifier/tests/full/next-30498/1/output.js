@@ -1,0 +1,1 @@
+class a extends BaseSchema{matches(b,c){let d=!1,e,f;return c&&("object"==typeof c?{excludeEmptyString:d=!1,message:e,name:f}=c:e=c),this.test({name:f||"matches",message:e||string.matches,params:{regex:b},test:a=>isAbsent(a)||""===a&&d|| -1!==a.search(b)})}}(function(){return new a()}).prototype=a.prototype
