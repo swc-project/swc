@@ -31,9 +31,7 @@ fn fixture(input: PathBuf) {
     }
 
     let base = Path::new("..")
-        .join("..")
-        .join("ecmascript")
-        .join("parser")
+        .join("swc_ecma_parser")
         .join("tests")
         .join("typescript")
         .join("tsc")
