@@ -312,11 +312,27 @@ impl Fold for ConstructorFolder<'_> {
                 Expr::Call(CallExpr {
                     span: DUMMY_SP,
                     callee: helper!(get, "get"),
-                    args: vec![Expr::Seq(SeqExpr {
-                        span: DUMMY_SP,
-                        exprs: vec![init_this_super, get_proto],
-                    })
-                    .as_arg()],
+                    args: vec![
+                        Expr::Seq(SeqExpr {
+                            span: DUMMY_SP,
+                            exprs: vec![init_this_super, get_proto],
+                        })
+                        .as_arg(),
+                        if computed {
+                            prop.as_arg()
+                        } else {
+                            let prop = prop.expect_ident();
+
+                            Str {
+                                span: prop.span,
+                                value: prop.sym,
+                                has_escape: false,
+                                kind: Default::default(),
+                            }
+                            .as_arg()
+                        },
+                        this_super.clone().as_arg(),
+                    ],
                     type_args: Default::default(),
                 })
             }
