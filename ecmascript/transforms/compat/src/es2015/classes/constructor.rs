@@ -179,7 +179,46 @@ pub(super) struct ConstructorFolder<'a> {
 }
 
 impl ConstructorFolder<'_> {
-    fn handle_super_access(&mut self, e: Expr) -> Expr {
+    /// `Ok()` means it's processed and children are folded.
+    fn handle_super_assignment(&mut self, e: Expr) -> Result<Expr, Expr> {
+        match e {
+            Expr::Assign(AssignExpr {
+                span,
+                left,
+                op: op!("="),
+                right,
+            }) => {
+                let left = left.normalize_expr();
+                match left {
+                    PatOrExpr::Expr(left_expr) => match &*left_expr {
+                        Expr::Member(MemberExpr {
+                            obj: ExprOrSuper::Super(..),
+                            ..
+                        }) => {
+                            let right = right.fold_children_with(self);
+
+                            return Ok(self.handle_super_access(*left_expr, Some(right)));
+                        }
+                        _ => Err(Expr::Assign(AssignExpr {
+                            span,
+                            left: PatOrExpr::Expr(left_expr),
+                            op: op!("="),
+                            right,
+                        })),
+                    },
+                    _ => Err(Expr::Assign(AssignExpr {
+                        span,
+                        left,
+                        op: op!("="),
+                        right,
+                    })),
+                }
+            }
+            _ => Err(e),
+        }
+    }
+
+    fn handle_super_access(&mut self, e: Expr, set_to: Option<Box<Expr>>) -> Expr {
         match e {
             Expr::Member(MemberExpr {
                 span,
@@ -224,28 +263,38 @@ impl ConstructorFolder<'_> {
 
                 Expr::Call(CallExpr {
                     span: DUMMY_SP,
-                    callee: helper!(get, "get"),
-                    args: vec![
-                        Expr::Seq(SeqExpr {
-                            span: DUMMY_SP,
-                            exprs: vec![init_this_super, get_proto],
-                        })
-                        .as_arg(),
-                        if computed {
-                            prop.as_arg()
-                        } else {
-                            let prop = prop.expect_ident();
+                    callee: if set_to.is_some() {
+                        helper!(set, "set")
+                    } else {
+                        helper!(get, "get")
+                    },
+                    args: {
+                        let mut args = vec![
+                            Expr::Seq(SeqExpr {
+                                span: DUMMY_SP,
+                                exprs: vec![init_this_super, get_proto],
+                            })
+                            .as_arg(),
+                            if computed {
+                                prop.as_arg()
+                            } else {
+                                let prop = prop.expect_ident();
 
-                            Str {
-                                span: prop.span,
-                                value: prop.sym,
-                                has_escape: false,
-                                kind: Default::default(),
-                            }
-                            .as_arg()
-                        },
-                        this_super.clone().as_arg(),
-                    ],
+                                Str {
+                                    span: prop.span,
+                                    value: prop.sym,
+                                    has_escape: false,
+                                    kind: Default::default(),
+                                }
+                                .as_arg()
+                            },
+                        ];
+
+                        args.extend(set_to.map(|v| v.as_arg()));
+
+                        args.push(this_super.clone().as_arg());
+                        args
+                    },
                     type_args: Default::default(),
                 })
             }
@@ -313,8 +362,11 @@ impl Fold for ConstructorFolder<'_> {
         match self.mode {
             Some(SuperFoldingMode::Assign) => {}
             _ => {
-                let expr = expr.fold_children_with(self);
-                return self.handle_super_access(expr);
+                let expr = match self.handle_super_assignment(expr) {
+                    Ok(v) => v,
+                    Err(v) => v.fold_children_with(self),
+                };
+                return self.handle_super_access(expr, None);
             }
         }
 
@@ -340,7 +392,10 @@ impl Fold for ConstructorFolder<'_> {
             _ => {}
         }
 
-        let expr = expr.fold_children_with(self);
+        let expr = match self.handle_super_assignment(expr) {
+            Ok(v) => v,
+            Err(v) => v.fold_children_with(self),
+        };
 
         match expr {
             Expr::This(e) => Expr::Ident(Ident::new("_this".into(), e.span.apply_mark(self.mark))),
@@ -388,7 +443,7 @@ impl Fold for ConstructorFolder<'_> {
                 })
             }
 
-            _ => self.handle_super_access(expr),
+            _ => self.handle_super_access(expr, None),
         }
     }
 
