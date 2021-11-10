@@ -31,7 +31,7 @@ swc_ecma_codegen = {version = "0.79.0", path = "../swc_ecma_codegen"}
 swc_ecma_parser = {version = "0.77.0", path = "../swc_ecma_parser"}
 swc_ecma_transforms = {version = "0.93.0", path = "../swc_ecma_transforms/", features = ["optimization"]}
 swc_ecma_transforms_base = {version = "0.43.0", path = "../swc_ecma_transforms/base"}
-swc_ecma_utils = {version = "0.51.0", path = "../utils"}
+swc_ecma_utils = {version = "0.51.0", path = "../swc_ecma_utils"}
 swc_ecma_visit = {version = "0.43.0", path = "../swc_ecma_visit"}
 tracing = "0.1.28"
 unicode-xid = "0.2.2"
