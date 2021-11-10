@@ -1827,10 +1827,9 @@ class Test extends Foo {
     
       var _super = _createSuper(Test);
     
-      function Test() {
-        var _thisSuper, _thisSuper2, _this;
-    
+      function Test() {    
         _classCallCheck(this, Test);
+        var _thisSuper, _thisSuper2, _this;
     
         _this = _super.call(this);
     
@@ -2171,7 +2170,7 @@ var _super = _createSuper(ColorPoint);
   function ColorPoint() {
     _classCallCheck(this, ColorPoint);
 
-    var _thisSuper, _thisSuper2, _this;
+    var _thisSuper, _thisSuper1, _this;
 
     _this = _super.call(this);
     _this.x = 2;
@@ -2180,7 +2179,7 @@ var _super = _createSuper(ColorPoint);
 
     expect(_this.x).toBe(3); // A
 
-    expect(_get((_thisSuper2 = _assertThisInitialized(_this), _getPrototypeOf(ColorPoint.prototype)), "x", _thisSuper2)).toBeUndefined(); // B
+    expect(_get((_thisSuper1 = _assertThisInitialized(_this), _getPrototypeOf(ColorPoint.prototype)), "x", _thisSuper1)).toBeUndefined(); // B
 
     return _this;
   }
