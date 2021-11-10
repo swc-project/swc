@@ -4,7 +4,7 @@ use swc_common::{Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_transforms_classes::{fold_only_key, get_prototype_of};
-use swc_ecma_utils::{quote_ident, ExprFactory};
+use swc_ecma_utils::{private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 pub(super) struct SuperCallFinder {
@@ -163,12 +163,150 @@ pub(super) fn constructor_fn(c: Constructor) -> Function {
 pub(super) struct ConstructorFolder<'a> {
     pub class_name: &'a Ident,
     pub mode: Option<SuperFoldingMode>,
+    /// Variables named `thisSuper` will be added if `super.foo` or
+    /// `super.foo()` is used in constructor.
+    pub vars: &'a mut Vec<VarDeclarator>,
+
+    pub cur_this_super: Option<Ident>,
+
     /// Mark for `_this`
     pub mark: Mark,
     pub is_constructor_default: bool,
+    pub super_var: Option<Ident>,
     /// True when recursing into other function or class.
     pub ignore_return: bool,
     pub in_injected_define_property_call: bool,
+}
+
+impl ConstructorFolder<'_> {
+    /// `Ok()` means it's processed and children are folded.
+    fn handle_super_assignment(&mut self, e: Expr) -> Result<Expr, Expr> {
+        match e {
+            Expr::Assign(AssignExpr {
+                span,
+                left,
+                op: op!("="),
+                right,
+            }) => {
+                let left = left.normalize_expr();
+                match left {
+                    PatOrExpr::Expr(left_expr) => match &*left_expr {
+                        Expr::Member(MemberExpr {
+                            obj: ExprOrSuper::Super(..),
+                            ..
+                        }) => {
+                            let right = right.fold_children_with(self);
+
+                            return Ok(self.handle_super_access(*left_expr, Some(right)));
+                        }
+                        _ => Err(Expr::Assign(AssignExpr {
+                            span,
+                            left: PatOrExpr::Expr(left_expr),
+                            op: op!("="),
+                            right,
+                        })),
+                    },
+                    _ => Err(Expr::Assign(AssignExpr {
+                        span,
+                        left,
+                        op: op!("="),
+                        right,
+                    })),
+                }
+            }
+            _ => Err(e),
+        }
+    }
+
+    fn handle_super_access(&mut self, e: Expr, set_to: Option<Box<Expr>>) -> Expr {
+        match e {
+            Expr::Member(MemberExpr {
+                span,
+                obj: ExprOrSuper::Super(..),
+                prop,
+                computed,
+            }) => {
+                let this_var = quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this");
+                let this_super = private_ident!("_thisSuper");
+                self.cur_this_super = Some(this_super.clone());
+
+                self.vars.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(this_super.clone().into()),
+                    init: None,
+                    definite: Default::default(),
+                });
+
+                // _thisSuper = _assertThisInitialized(_this)
+                let init_this_super = Box::new(Expr::Assign(AssignExpr {
+                    span: DUMMY_SP,
+                    op: op!("="),
+                    left: PatOrExpr::Pat(Box::new(this_super.clone().into())),
+                    right: Box::new(Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: helper!(assert_this_initialized, "assertThisInitialized"),
+                        args: vec![this_var.as_arg()],
+                        type_args: Default::default(),
+                    })),
+                }));
+                // _getPrototypeOf(Foo.prototype)
+                let get_proto = Box::new(Expr::Call(CallExpr {
+                    span,
+                    callee: helper!(get_prototype_of, "getPrototypeOf"),
+                    args: vec![self
+                        .class_name
+                        .clone()
+                        .make_member(quote_ident!("prototype"))
+                        .as_arg()],
+                    type_args: Default::default(),
+                }));
+
+                Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: if set_to.is_some() {
+                        helper!(set, "set")
+                    } else {
+                        helper!(get, "get")
+                    },
+                    args: {
+                        let mut args = vec![
+                            Expr::Seq(SeqExpr {
+                                span: DUMMY_SP,
+                                exprs: vec![init_this_super, get_proto],
+                            })
+                            .as_arg(),
+                            if computed {
+                                prop.as_arg()
+                            } else {
+                                let prop = prop.expect_ident();
+
+                                Str {
+                                    span: prop.span,
+                                    value: prop.sym,
+                                    has_escape: false,
+                                    kind: Default::default(),
+                                }
+                                .as_arg()
+                            },
+                        ];
+
+                        let is_set = set_to.is_some();
+                        args.extend(set_to.map(|v| v.as_arg()));
+
+                        args.push(this_super.clone().as_arg());
+
+                        if is_set {
+                            args.push(true.as_arg());
+                        }
+                        args
+                    },
+                    type_args: Default::default(),
+                })
+            }
+
+            _ => e,
+        }
+    }
 }
 
 /// `None`: `return _possibleConstructorReturn`
@@ -190,10 +328,51 @@ impl Fold for ConstructorFolder<'_> {
     ignore_return!(fold_arrow_expr, ArrowExpr);
     ignore_return!(fold_constructor, Constructor);
 
+    fn fold_call_expr(&mut self, e: CallExpr) -> CallExpr {
+        match &e.callee {
+            ExprOrSuper::Expr(callee) => match &**callee {
+                Expr::Member(MemberExpr {
+                    obj: ExprOrSuper::Super(..),
+                    ..
+                }) => {
+                    let old = self.cur_this_super.take();
+
+                    let mut e = e.fold_children_with(self);
+
+                    let this_super = self.cur_this_super.take().unwrap();
+                    self.cur_this_super = old;
+
+                    e.args.insert(0, this_super.as_arg());
+
+                    CallExpr {
+                        span: e.span,
+                        callee: e
+                            .callee
+                            .expect_expr()
+                            .make_member(quote_ident!("call"))
+                            .as_callee(),
+                        args: e.args,
+                        type_args: Default::default(),
+                    }
+                }
+
+                _ => return e.fold_children_with(self),
+            },
+
+            _ => return e.fold_children_with(self),
+        }
+    }
+
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         match self.mode {
             Some(SuperFoldingMode::Assign) => {}
-            _ => return expr,
+            _ => {
+                let expr = match self.handle_super_assignment(expr) {
+                    Ok(v) => v,
+                    Err(v) => v.fold_children_with(self),
+                };
+                return self.handle_super_access(expr, None);
+            }
         }
 
         // We pretend method folding mode for while folding injected `_defineProperty`
@@ -218,7 +397,10 @@ impl Fold for ConstructorFolder<'_> {
             _ => {}
         }
 
-        let expr = expr.fold_children_with(self);
+        let expr = match self.handle_super_assignment(expr) {
+            Ok(v) => v,
+            Err(v) => v.fold_children_with(self),
+        };
 
         match expr {
             Expr::This(e) => Expr::Ident(Ident::new("_this".into(), e.span.apply_mark(self.mark))),
@@ -227,11 +409,34 @@ impl Fold for ConstructorFolder<'_> {
                 args,
                 ..
             }) => {
-                let right = Box::new(make_possible_return_value(ReturningMode::Prototype {
-                    class_name: self.class_name.clone(),
-                    args: Some(args),
-                    is_constructor_default: self.is_constructor_default,
-                }));
+                let right = match self.super_var.clone() {
+                    Some(super_var) => Box::new(Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: if self.is_constructor_default {
+                            super_var.make_member(quote_ident!("apply")).as_callee()
+                        } else {
+                            super_var.make_member(quote_ident!("call")).as_callee()
+                        },
+                        args: if self.is_constructor_default {
+                            vec![
+                                ThisExpr { span: DUMMY_SP }.as_arg(),
+                                quote_ident!("arguments").as_arg(),
+                            ]
+                        } else {
+                            let mut call_args = vec![ThisExpr { span: DUMMY_SP }.as_arg()];
+                            call_args.extend(args);
+
+                            call_args
+                        },
+                        type_args: Default::default(),
+                    })),
+
+                    None => Box::new(make_possible_return_value(ReturningMode::Prototype {
+                        class_name: self.class_name.clone(),
+                        args: Some(args),
+                        is_constructor_default: self.is_constructor_default,
+                    })),
+                };
 
                 Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
@@ -242,7 +447,8 @@ impl Fold for ConstructorFolder<'_> {
                     right,
                 })
             }
-            _ => expr,
+
+            _ => self.handle_super_access(expr, None),
         }
     }
 
@@ -273,11 +479,33 @@ impl Fold for ConstructorFolder<'_> {
                     args,
                     ..
                 }) => {
-                    let expr = make_possible_return_value(ReturningMode::Prototype {
-                        is_constructor_default: self.is_constructor_default,
-                        class_name: self.class_name.clone(),
-                        args: Some(args),
-                    });
+                    let expr = match self.super_var.clone() {
+                        Some(super_var) => Box::new(Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: if self.is_constructor_default {
+                                super_var.make_member(quote_ident!("apply")).as_callee()
+                            } else {
+                                super_var.make_member(quote_ident!("call")).as_callee()
+                            },
+                            args: if self.is_constructor_default {
+                                vec![
+                                    ThisExpr { span: DUMMY_SP }.as_arg(),
+                                    quote_ident!("arguments").as_arg(),
+                                ]
+                            } else {
+                                let mut call_args = vec![ThisExpr { span: DUMMY_SP }.as_arg()];
+                                call_args.extend(args);
+
+                                call_args
+                            },
+                            type_args: Default::default(),
+                        })),
+                        None => Box::new(make_possible_return_value(ReturningMode::Prototype {
+                            is_constructor_default: self.is_constructor_default,
+                            class_name: self.class_name.clone(),
+                            args: Some(args),
+                        })),
+                    };
 
                     match self.mode {
                         Some(SuperFoldingMode::Assign) => AssignExpr {
@@ -286,7 +514,7 @@ impl Fold for ConstructorFolder<'_> {
                                 quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into(),
                             ))),
                             op: op!("="),
-                            right: expr.into(),
+                            right: expr,
                         }
                         .into_stmt(),
                         Some(SuperFoldingMode::Var) => Stmt::Decl(Decl::Var(VarDecl {
@@ -298,7 +526,7 @@ impl Fold for ConstructorFolder<'_> {
                                 name: Pat::Ident(
                                     quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into(),
                                 ),
-                                init: Some(expr.into()),
+                                init: Some(expr),
                                 definite: false,
                             }],
                         })),

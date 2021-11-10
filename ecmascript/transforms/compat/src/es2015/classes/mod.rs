@@ -427,6 +427,29 @@ where
             );
         }
 
+        let super_var = super_class_ident.as_ref().map(|_| {
+            let var = private_ident!("_super");
+
+            stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                declare: Default::default(),
+                decls: vec![VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(var.clone().into()),
+                    init: Some(Box::new(Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: helper!(create_super, "createSuper"),
+                        args: vec![class_name.clone().as_arg()],
+                        type_args: Default::default(),
+                    }))),
+                    definite: Default::default(),
+                }],
+            })));
+
+            var
+        });
+
         // Marker for `_this`
         let this_mark = Mark::fresh(Mark::root());
 
@@ -457,6 +480,7 @@ where
                 insert_this |= inserted_this;
             }
 
+            let mut vars = vec![];
             let mut body = constructor.body.unwrap().stmts;
             // should we insert `var _this`?
 
@@ -486,15 +510,18 @@ where
                 // We should fold body instead of constructor itself.
                 // Handle `super()`
                 body = body.fold_with(&mut ConstructorFolder {
-                    is_constructor_default,
                     class_name: &class_name,
-                    // This if expression is required to handle super() call in all case
                     mode: if insert_this {
                         Some(SuperFoldingMode::Assign)
                     } else {
                         mode
                     },
+                    vars: &mut vars,
+                    // This if expression is required to handle super() call in all case
+                    cur_this_super: None,
                     mark: this_mark,
+                    is_constructor_default,
+                    super_var,
                     ignore_return: false,
                     in_injected_define_property_call: false,
                 });
@@ -503,18 +530,21 @@ where
                     || mode == Some(SuperFoldingMode::Assign);
 
                 if insert_this {
+                    vars.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(this.clone().into()),
+                        init: None,
+                        definite: false,
+                    });
+                }
+                if !vars.is_empty() {
                     prepend(
                         &mut body,
                         Stmt::Decl(Decl::Var(VarDecl {
                             span: DUMMY_SP,
                             declare: false,
                             kind: VarDeclKind::Var,
-                            decls: vec![VarDeclarator {
-                                span: DUMMY_SP,
-                                name: Pat::Ident(this.clone().into()),
-                                init: None,
-                                definite: false,
-                            }],
+                            decls: vars,
                         })),
                     );
                 }

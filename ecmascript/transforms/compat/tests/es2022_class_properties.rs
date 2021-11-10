@@ -144,12 +144,12 @@ function (Bar) {
   'use strict';
 
   _inherits(Foo, Bar);
-
+  var _super = _createSuper(Foo);
   function Foo() {
     _classCallCheck(this, Foo);
     var _this;
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
+    _this = _super.call(this);
     _defineProperty(_assertThisInitialized(_this), "bar", "foo");
     return _this;
   }
@@ -183,12 +183,12 @@ function (Parent) {
   'use strict';
 
   _inherits(Child, Parent);
-
+  var _super = _createSuper(Child);
   function Child() {
     _classCallCheck(this, Child);
     var _this;
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Child).call(this));
+    _this = _super.call(this);
 
     _scopedFunctionWithThis.set(_assertThisInitialized(_this), {
       writable: true,
@@ -257,17 +257,17 @@ function (Bar) {
   'use strict';
 
   _inherits(Foo, Bar);
-
+  var _super = _createSuper(Foo);
   function Foo() {
     _classCallCheck(this, Foo);
     var _this;
 
 
     if (condition) {
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
+      _this = _super.call(this);
       _defineProperty(_assertThisInitialized(_this), "bar", "foo");
     } else {
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
+      _this = _super.call(this);
       _defineProperty(_assertThisInitialized(_this), "bar", "foo");
     }
 
@@ -391,9 +391,10 @@ function withContext(ComposedComponent) {
     var WithContext = function(Component) {
       'use strict';
       _inherits(WithContext, Component);
+      var _super = _createSuper(WithContext);
       function WithContext() {
         _classCallCheck(this, WithContext);
-        return _possibleConstructorReturn(this, _getPrototypeOf(WithContext).apply(this, arguments));
+        return _super.apply(this, arguments);
       }
       return WithContext;
     }(Component);
@@ -584,12 +585,12 @@ var Hello = function Hello() {
 var Outer = function (Hello) {
   'use strict';
   _inherits(Outer, Hello);
-
+  var _super = _createSuper(Outer);
   function Outer() {
     _classCallCheck(this, Outer);
     var _this;
 
-    var _ref = _this = _possibleConstructorReturn(this, _getPrototypeOf(Outer).call(this));
+    var _ref = _this = _super.call(this);
 
     var Inner = function Inner() {
       _classCallCheck(this, Inner);
@@ -653,21 +654,21 @@ function (Bar) {
   'use strict';
 
   _inherits(Foo, Bar);
-
+  var _super = _createSuper(Foo);
   function Foo() {
     _classCallCheck(this, Foo);
     var _this;
 
 
     if (condition) {
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
+      _this = _super.call(this);
 
       _bar.set(_assertThisInitialized(_this), {
         writable: true,
         value: "foo"
       });
     } else {
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
+      _this = _super.call(this);
 
       _bar.set(_assertThisInitialized(_this), {
         writable: true,
@@ -870,7 +871,7 @@ class B extends A {
 }
 
 "#,
-    r#"
+    "
 var A =
 /*#__PURE__*/
 function () {
@@ -881,9 +882,9 @@ function () {
   }
 
   _createClass(A, [{
-    key: "foo",
+    key: 'foo',
     value: function foo() {
-      return "bar";
+      return 'bar';
     }
   }]);
   return A;
@@ -895,20 +896,22 @@ function (A) {
   'use strict';
 
   _inherits(B, A);
-
+  var _super = _createSuper(B);
   function B() {
     _classCallCheck(this, B);
-    var _this;
+    var _thisSuper, _this;
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(B).apply(this, arguments));
-    _defineProperty(_assertThisInitialized(_this), "foo", _get(_getPrototypeOf(B.prototype), "foo", _assertThisInitialized(_this)).call(_this));
+    _this = _super.apply(this, arguments);
+    _defineProperty(_assertThisInitialized(_this), 'foo', _get((_thisSuper = \
+     _assertThisInitialized(_this), _getPrototypeOf(B.prototype)), 'foo', \
+     _thisSuper).call(_thisSuper));
     return _this;
   }
 
   return B;
 }(A);
 
-"#
+"
 );
 
 test!(
@@ -1390,12 +1393,12 @@ function (Bar) {
   'use strict';
 
   _inherits(Foo, Bar);
-
+  var _super = _createSuper(Foo);
   function Foo() {
     _classCallCheck(this, Foo);
     var _this;
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this));
+    _this = _super.call(this);
 
     _bar.set(_assertThisInitialized(_this), {
       writable: true,
@@ -1441,10 +1444,10 @@ var Outer = function Outer() {
 
   var Test = function (_super) {
     _inherits(Test, _super);
-
+    var _super1 = _createSuper(Test);
     function Test() {
       _classCallCheck(this, Test);
-      return _possibleConstructorReturn(this, _getPrototypeOf(Test).apply(this, arguments));
+      return _super1.apply(this, arguments);
     }
 
     return Test;
@@ -1526,13 +1529,13 @@ var Foo = function (Bar) {
   'use strict';
 
   _inherits(Foo, Bar);
-
+  var _super = _createSuper(Foo);
   function Foo() {
     _classCallCheck(this, Foo);
     var _this;
 
     var _temp;
-    foo((_temp = _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this)), _defineProperty(_assertThisInitialized(_this), "bar", "foo"), _temp));
+    foo((_temp = _this = _super.call(this), _defineProperty(_assertThisInitialized(_this), "bar", "foo"), _temp));
     return _possibleConstructorReturn(_this);
   }
 
@@ -1720,12 +1723,12 @@ function (Foo) {
   'use strict';
 
   _inherits(Bar, Foo);
-
+  var _super = _createSuper(Bar);
   function Bar() {
     _classCallCheck(this, Bar);
     var _this;
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Bar).apply(this, arguments));
+    _this = _super.apply(this, arguments);
 
     _prop1.set(_assertThisInitialized(_this), {
       writable: true,
@@ -1782,16 +1785,16 @@ function (A) {
   'use strict';
 
   _inherits(B, A);
-
+  var _super = _createSuper(B);
   function B() {
     _classCallCheck(this, B);
-    var _this;
+    var _thisSuper, _this;
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(B).apply(this, arguments));
+    _this = _super.apply(this, arguments);
 
     _foo.set(_assertThisInitialized(_this), {
       writable: true,
-      value: _get(_getPrototypeOf(B.prototype), "foo", _assertThisInitialized(_this)).call(_this)
+      value: _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(B.prototype)), "foo", _thisSuper).call(_thisSuper)
     });
 
     return _this;
@@ -1900,12 +1903,13 @@ var Hello = function () {
 var Outer = function (Hello) {
   'use strict';
   _inherits(Outer, Hello);
-
+  var _super = _createSuper(Outer);
   function Outer() {
     _classCallCheck(this, Outer);
-    var _this = _possibleConstructorReturn(this, _getPrototypeOf(Outer).call(this));
+    var _thisSuper;
+    var _this = _super.call(this);
 
-    var _ref = _get(_getPrototypeOf(Outer.prototype), 'toString', _assertThisInitialized(_this)).call(_this);
+    var _ref = _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(Outer.prototype)), "toString", _thisSuper).call(_thisSuper);
 
     var Inner = function Inner() {
       _classCallCheck(this, Inner);
@@ -2167,12 +2171,12 @@ function (Bar) {
   'use strict';
 
   _inherits(Foo, Bar);
-
+  var _super = _createSuper(Foo);
   function Foo() {
     _classCallCheck(this, Foo);
     var _this;
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).apply(this, arguments))
+    _this = _super.apply(this, arguments);
     _defineProperty(_assertThisInitialized(_this), "bar", "foo");
     return _this;
   }
@@ -2658,14 +2662,13 @@ function (Bar) {
   'use strict';
 
   _inherits(Foo, Bar);
-
+  var _super = _createSuper(Foo);
   function Foo() {
     _classCallCheck(this, Foo);
     var _this;
 
     var _temp;
-    foo((_temp = _this = _possibleConstructorReturn(this, _getPrototypeOf(Foo).call(this)),
-     _bar.set(_assertThisInitialized(_this), {
+    foo((_temp = _this = _super.call(this), _bar.set(_assertThisInitialized(_this), {
       writable: true,
       value: "foo"
     }), _temp));
@@ -4704,10 +4707,10 @@ function (A) {
   "use strict";
 
   _inherits(B, A);
-
+  var _super = _createSuper(B);
   function B() {
     _classCallCheck(this, B);
-    return _possibleConstructorReturn(this,  _getPrototypeOf(B).apply(this, arguments));
+    return _super.apply(this, arguments);
   }
 
   return B;
