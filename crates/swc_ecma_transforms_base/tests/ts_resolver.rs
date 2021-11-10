@@ -6,8 +6,8 @@ use swc_ecma_transforms_base::resolver::ts_resolver;
 use swc_ecma_visit::{FoldWith, Node, Visit, VisitWith};
 use testing::fixture;
 
-#[fixture("../../parser/tests/typescript/**/*.ts")]
-#[fixture("../../parser/tests/typescript/**/*.tsx")]
+#[fixture("../swc_ecma_parser/tests/typescript/**/*.ts")]
+#[fixture("../swc_ecma_parser/tests/typescript/**/*.tsx")]
 fn no_empty(input: PathBuf) {
     eprintln!("{}", input.display());
 

@@ -66,7 +66,7 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     "c06df922631aeabc.js",
 ];
 
-#[testing::fixture("../parser/tests/test262-parser/pass/*.js")]
+#[testing::fixture("../swc_ecma_parser/tests/test262-parser/pass/*.js")]
 fn identity(input: PathBuf) {
     if !cfg!(target_os = "windows") {
         do_test(&input, true);
