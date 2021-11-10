@@ -290,9 +290,14 @@ impl ConstructorFolder<'_> {
                             },
                         ];
 
+                        let is_set = set_to.is_some();
                         args.extend(set_to.map(|v| v.as_arg()));
 
                         args.push(this_super.clone().as_arg());
+
+                        if is_set {
+                            args.push(true.as_arg());
+                        }
                         args
                     },
                     type_args: Default::default(),
