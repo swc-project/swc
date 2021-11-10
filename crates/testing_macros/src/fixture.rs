@@ -194,7 +194,7 @@ pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<ItemFn>, Error> {
         test_fns.push(f);
     }
 
-    if test_fns.is_empty(){
+    if test_fns.is_empty() {
         panic!("No test found")
     }
 
