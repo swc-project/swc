@@ -34,4 +34,4 @@ swc_ecma_codegen = {version = "0.79.0", path = "../swc_ecma_codegen/"}
 swc_ecma_transforms_compat = {version = "0.50.0", path = "../compat/"}
 swc_ecma_transforms_module = {version = "0.56.0", path = "../module"}
 swc_ecma_transforms_testing = {version = "0.44.0", path = "../testing/"}
-testing = {version = "0.15.0", path = "../../testing"}
+testing = {version = "0.15.0", path = "../testing"}
