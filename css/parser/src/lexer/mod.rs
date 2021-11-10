@@ -417,12 +417,7 @@ where
         // the first U+002A ASTERISK (*) followed by a U+002F SOLIDUS (/), or up to an
         // EOF code point. Return to the start of this step.
         // NOTE: We allow to parse line comments under the option.
-        let is_block_comment = self.input.cur() == Some('/') && self.input.peek() == Some('*');
-        let is_inline_comment = self.config.allow_wrong_line_comments
-            && self.input.cur() == Some('/')
-            && self.input.peek() == Some('/');
-
-        if is_block_comment {
+        if self.input.cur() == Some('/') && self.input.peek() == Some('*') {
             while self.input.cur() == Some('/') && self.input.peek() == Some('*') {
                 self.input.bump(); // '*'
                 self.input.bump(); // '/'
@@ -452,7 +447,10 @@ where
             }
 
             self.start_pos = self.input.cur_pos();
-        } else if is_inline_comment {
+        } else if self.config.allow_wrong_line_comments
+            && self.input.cur() == Some('/')
+            && self.input.peek() == Some('/')
+        {
             while self.input.cur() == Some('/') && self.input.peek() == Some('/') {
                 self.input.bump(); // '/'
                 self.input.bump(); // '/'

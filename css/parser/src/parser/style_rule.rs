@@ -24,7 +24,7 @@ where
 
             match cur {
                 Some(tok!(" ")) => {
-                    self.input.bump()?;
+                    self.input.skip_ws()?;
                 }
                 None => {
                     return Ok(rules);
