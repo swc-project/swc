@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 
-for filename in ../ast/src/*.rs; do
+for filename in ../swc_ecma_ast/src/*.rs; do
 #    echo "$filename"
     while read -r line; do
       [[ "$line" =~ ^[[:space:]]*# ]] && continue
