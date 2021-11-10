@@ -12,8 +12,8 @@ version = "0.18.0"
 
 [dependencies]
 anyhow = "1.0.41"
-swc_atoms = {version = "0.2.7", path = "../../atoms"}
-swc_common = {version = "0.14.0", path = "../../common"}
+swc_atoms = {version = "0.2.7", path = "../swc_atoms"}
+swc_common = {version = "0.14.0", path = "../swc_common"}
 swc_ecma_ast = {version = "0.57.0", path = "../../ecmascript/ast"}
 swc_ecma_codegen = {version = "0.79.0", path = "../../ecmascript/codegen"}
 swc_ecma_utils = {version = "0.51.0", path = "../../ecmascript/utils"}
