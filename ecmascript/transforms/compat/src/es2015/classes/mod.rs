@@ -510,16 +510,17 @@ where
                 // We should fold body instead of constructor itself.
                 // Handle `super()`
                 body = body.fold_with(&mut ConstructorFolder {
-                    is_constructor_default,
-                    vars: &mut vars,
                     class_name: &class_name,
-                    // This if expression is required to handle super() call in all case
                     mode: if insert_this {
                         Some(SuperFoldingMode::Assign)
                     } else {
                         mode
                     },
+                    vars: &mut vars,
+                    // This if expression is required to handle super() call in all case
+                    cur_this_super: None,
                     mark: this_mark,
+                    is_constructor_default,
                     super_var,
                     ignore_return: false,
                     in_injected_define_property_call: false,

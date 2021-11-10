@@ -166,6 +166,9 @@ pub(super) struct ConstructorFolder<'a> {
     /// Variables named `thisSuper` will be added if `super.foo` or
     /// `super.foo()` is used in constructor.
     pub vars: &'a mut Vec<VarDeclarator>,
+
+    pub cur_this_super: Option<Ident>,
+
     /// Mark for `_this`
     pub mark: Mark,
     pub is_constructor_default: bool,
@@ -193,6 +196,41 @@ impl Fold for ConstructorFolder<'_> {
     ignore_return!(fold_class, Class);
     ignore_return!(fold_arrow_expr, ArrowExpr);
     ignore_return!(fold_constructor, Constructor);
+
+    fn fold_call_expr(&mut self, e: CallExpr) -> CallExpr {
+        match &e.callee {
+            ExprOrSuper::Expr(callee) => match &**callee {
+                Expr::Member(MemberExpr {
+                    obj: ExprOrSuper::Super(..),
+                    ..
+                }) => {
+                    let old = self.cur_this_super.take();
+
+                    let mut e = e.fold_children_with(self);
+
+                    let this_super = self.cur_this_super.take().unwrap();
+                    self.cur_this_super = old;
+
+                    e.args.insert(0, this_super.as_arg());
+
+                    CallExpr {
+                        span: e.span,
+                        callee: e
+                            .callee
+                            .expect_expr()
+                            .make_member(quote_ident!("call"))
+                            .as_callee(),
+                        args: e.args,
+                        type_args: Default::default(),
+                    }
+                }
+
+                _ => return e.fold_children_with(self),
+            },
+
+            _ => return e.fold_children_with(self),
+        }
+    }
 
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         match self.mode {
@@ -278,6 +316,8 @@ impl Fold for ConstructorFolder<'_> {
             }) => {
                 let this_var = quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this");
                 let this_super = private_ident!("_thisSuper");
+                self.cur_this_super = Some(this_super.clone());
+
                 self.vars.push(VarDeclarator {
                     span: DUMMY_SP,
                     name: Pat::Ident(this_super.clone().into()),
