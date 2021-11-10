@@ -372,6 +372,21 @@ where
                                     // init_export!("default");
                                     let ident = ident.unwrap_or_else(|| private_ident!("_default"));
 
+                                    // bind default exported fn into scope. Note this assigns
+                                    // syntaxcontext
+                                    // for the `default` ident, since default export is always named
+                                    // as `export.default`
+                                    // instead of actual ident of FnExpr even if it exists.
+                                    {
+                                        let mut scope = self.scope.borrow_mut();
+
+                                        scope
+                                            .exported_bindings
+                                            .entry((ident.sym.clone(), ident.span.ctxt()))
+                                            .or_default()
+                                            .push((js_word!("default"), DUMMY_SP.ctxt()));
+                                    }
+
                                     extra_stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(
                                         FnDecl {
                                             ident: ident.clone(),
