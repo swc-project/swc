@@ -1,7 +1,8 @@
+const hardline = {
+    type: "hard"
+};
 module.exports = {
-    hardline: {
-        type: "hard"
-    }
+    hardline
 }, module.exports = {
     nested: require("./first")
 };

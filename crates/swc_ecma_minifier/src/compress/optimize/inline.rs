@@ -211,6 +211,7 @@ where
                     // Single use => inlined
                     if is_inline_enabled
                         && !should_preserve
+                        && !usage.reassigned
                         && (!usage.mutated || usage.is_mutated_only_by_one_call())
                         && usage.ref_count == 1
                     {
@@ -471,6 +472,7 @@ where
                 && usage.ref_count == 1
                 && (usage.is_fn_local || (usage.used_as_callee && !usage.used_above_decl))
                 && !usage.used_in_loop
+                && !usage.inline_prevented
                 && (match decl {
                     Decl::Class(..) => !usage.used_above_decl,
                     Decl::Fn(..) => true,
