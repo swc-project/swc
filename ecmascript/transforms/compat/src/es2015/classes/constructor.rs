@@ -312,7 +312,10 @@ impl Fold for ConstructorFolder<'_> {
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         match self.mode {
             Some(SuperFoldingMode::Assign) => {}
-            _ => return expr,
+            _ => {
+                let expr = expr.fold_children_with(self);
+                return self.handle_super_access(expr);
+            }
         }
 
         // We pretend method folding mode for while folding injected `_defineProperty`
