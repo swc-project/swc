@@ -871,7 +871,7 @@ class B extends A {
 }
 
 "#,
-    r#"
+    "
 var A =
 /*#__PURE__*/
 function () {
@@ -882,9 +882,9 @@ function () {
   }
 
   _createClass(A, [{
-    key: "foo",
+    key: 'foo',
     value: function foo() {
-      return "bar";
+      return 'bar';
     }
   }]);
   return A;
@@ -899,17 +899,19 @@ function (A) {
   var _super = _createSuper(B);
   function B() {
     _classCallCheck(this, B);
-    var _this;
+    var _thisSuper, _this;
 
     _this = _super.apply(this, arguments);
-     _defineProperty(_assertThisInitialized(_this), "foo", _get(_getPrototypeOf(B.prototype), "foo", _assertThisInitialized(_this)).call(_this));
+    _defineProperty(_assertThisInitialized(_this), 'foo', _get((_thisSuper = \
+     _assertThisInitialized(_this), _getPrototypeOf(B.prototype)), 'foo', \
+     _thisSuper).call(_thisSuper));
     return _this;
   }
 
   return B;
 }(A);
 
-"#
+"
 );
 
 test!(
@@ -1786,13 +1788,13 @@ function (A) {
   var _super = _createSuper(B);
   function B() {
     _classCallCheck(this, B);
-    var _this;
+    var _thisSuper, _this;
 
     _this = _super.apply(this, arguments);
 
     _foo.set(_assertThisInitialized(_this), {
       writable: true,
-      value: _get(_getPrototypeOf(B.prototype), "foo", _assertThisInitialized(_this)).call(_this)
+      value: _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(B.prototype)), "foo", _thisSuper).call(_thisSuper)
     });
 
     return _this;
@@ -1904,9 +1906,10 @@ var Outer = function (Hello) {
   var _super = _createSuper(Outer);
   function Outer() {
     _classCallCheck(this, Outer);
+    var _thisSuper;
     var _this = _super.call(this);
 
-    var _ref = _get(_getPrototypeOf(Outer.prototype), 'toString', _assertThisInitialized(_this)).call(_this);
+    var _ref = _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(Outer.prototype)), "toString", _thisSuper).call(_thisSuper);
 
     var Inner = function Inner() {
       _classCallCheck(this, Inner);
