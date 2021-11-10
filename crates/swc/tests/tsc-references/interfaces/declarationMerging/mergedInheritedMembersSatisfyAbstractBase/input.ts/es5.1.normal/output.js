@@ -44,6 +44,31 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 var BaseClass = function BaseClass() {
     "use strict";
     _classCallCheck(this, BaseClass);
@@ -51,9 +76,10 @@ var BaseClass = function BaseClass() {
 var Broken = /*#__PURE__*/ function(BaseClass) {
     "use strict";
     _inherits(Broken, BaseClass);
+    var _super = _createSuper(Broken);
     function Broken() {
         _classCallCheck(this, Broken);
-        return _possibleConstructorReturn(this, _getPrototypeOf(Broken).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     return Broken;
 }(BaseClass);
@@ -61,9 +87,10 @@ new Broken().bar;
 var IncorrectlyExtends = /*#__PURE__*/ function(BaseClass) {
     "use strict";
     _inherits(IncorrectlyExtends, BaseClass);
+    var _super = _createSuper(IncorrectlyExtends);
     function IncorrectlyExtends() {
         _classCallCheck(this, IncorrectlyExtends);
-        return _possibleConstructorReturn(this, _getPrototypeOf(IncorrectlyExtends).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     return IncorrectlyExtends;
 }(BaseClass);

@@ -44,6 +44,31 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 // conditional expressions return the best common type of the branches plus contextual type (using the first candidate if multiple BCTs exist)
 // no errors expected here
 var a;
@@ -52,21 +77,23 @@ var Base = function Base() {
     "use strict";
     _classCallCheck(this, Base);
 };
-var Derived = /*#__PURE__*/ function(Base) {
+var Derived1 = /*#__PURE__*/ function(Base) {
     "use strict";
-    _inherits(Derived, Base);
-    function Derived() {
-        _classCallCheck(this, Derived);
-        return _possibleConstructorReturn(this, _getPrototypeOf(Derived).apply(this, arguments));
+    _inherits(Derived1, Base);
+    var _super = _createSuper(Derived1);
+    function Derived1() {
+        _classCallCheck(this, Derived1);
+        return _super.apply(this, arguments);
     }
-    return Derived;
+    return Derived1;
 }(Base);
 var Derived2 = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(Derived2, Base);
+    var _super = _createSuper(Derived2);
     function Derived2() {
         _classCallCheck(this, Derived2);
-        return _possibleConstructorReturn(this, _getPrototypeOf(Derived2).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     return Derived2;
 }(Base);

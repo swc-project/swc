@@ -44,6 +44,31 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 var C = function C() {
     "use strict";
     _classCallCheck(this, C);
@@ -59,10 +84,11 @@ var D = function D() {
 var E = /*#__PURE__*/ function(D) {
     "use strict";
     _inherits(E, D);
+    var _super = _createSuper(E);
     function E() {
         _classCallCheck(this, E);
         var _this;
-        _this = _possibleConstructorReturn(this, _getPrototypeOf(E).apply(this, arguments));
+        _this = _super.apply(this, arguments);
         _this.z = true;
         return _this;
     }
@@ -71,10 +97,11 @@ var E = /*#__PURE__*/ function(D) {
 var F = /*#__PURE__*/ function(D) {
     "use strict";
     _inherits(F, D);
+    var _super = _createSuper(F);
     function F() {
         _classCallCheck(this, F);
         var _this;
-        _this = _possibleConstructorReturn(this, _getPrototypeOf(F).call(this));
+        _this = _super.call(this);
         _this.z = true;
         _this.j = "HI";
         return _this;

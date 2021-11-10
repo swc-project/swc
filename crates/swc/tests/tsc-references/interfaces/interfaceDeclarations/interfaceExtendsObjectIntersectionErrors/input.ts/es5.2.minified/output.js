@@ -16,49 +16,75 @@ function _inherits(subClass, superClass) {
         }
     }), superClass && _setPrototypeOf(subClass, superClass);
 }
-function _possibleConstructorReturn(self, call) {
-    return call && ("object" === _typeof(call) || "function" == typeof call) ? call : (function(self) {
-        if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        return self;
-    })(self);
-}
 function _setPrototypeOf(o, p) {
     return _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var EX, EX1, _typeof = function(obj) {
-    return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, C1 = function(_super) {
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = function() {
+        if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+        if (Reflect.construct.sham) return !1;
+        if ("function" == typeof Proxy) return !0;
+        try {
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+            })), !0;
+        } catch (e) {
+            return !1;
+        }
+    }();
+    return function() {
+        var obj, self, call, result, Super = _getPrototypeOf(Derived);
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else result = Super.apply(this, arguments);
+        return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : (function(self) {
+            if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+            return self;
+        })(self);
+    };
+}
+var EX, EX1, C1 = function(_super) {
     "use strict";
+    _inherits(C1, _super);
+    var _super1 = _createSuper(C1);
     function C1() {
-        return _classCallCheck(this, C1), _possibleConstructorReturn(this, _getPrototypeOf(C1).apply(this, arguments));
+        return _classCallCheck(this, C1), _super1.apply(this, arguments);
     }
-    return _inherits(C1, _super), C1;
+    return C1;
 }(Constructor()), C2 = function(_super) {
     "use strict";
+    _inherits(C2, _super);
+    var _super2 = _createSuper(C2);
     function C2() {
-        return _classCallCheck(this, C2), _possibleConstructorReturn(this, _getPrototypeOf(C2).apply(this, arguments));
+        return _classCallCheck(this, C2), _super2.apply(this, arguments);
     }
-    return _inherits(C2, _super), C2;
+    return C2;
 }(Constructor()), C3 = function(_super) {
     "use strict";
+    _inherits(C3, _super);
+    var _super3 = _createSuper(C3);
     function C3() {
-        return _classCallCheck(this, C3), _possibleConstructorReturn(this, _getPrototypeOf(C3).apply(this, arguments));
+        return _classCallCheck(this, C3), _super3.apply(this, arguments);
     }
-    return _inherits(C3, _super), C3;
+    return C3;
 }(Constructor()), C4 = function(_super) {
     "use strict";
+    _inherits(C4, _super);
+    var _super4 = _createSuper(C4);
     function C4() {
-        return _classCallCheck(this, C4), _possibleConstructorReturn(this, _getPrototypeOf(C4).apply(this, arguments));
+        return _classCallCheck(this, C4), _super4.apply(this, arguments);
     }
-    return _inherits(C4, _super), C4;
+    return C4;
 }(Constructor()), C5 = function(_super) {
     "use strict";
+    _inherits(C5, _super);
+    var _super5 = _createSuper(C5);
     function C5() {
-        return _classCallCheck(this, C5), _possibleConstructorReturn(this, _getPrototypeOf(C5).apply(this, arguments));
+        return _classCallCheck(this, C5), _super5.apply(this, arguments);
     }
-    return _inherits(C5, _super), C5;
+    return C5;
 }(Constructor());
 (EX1 = EX || (EX = {
 }))[EX1.A = 0] = "A", EX1[EX1.B = 1] = "B", EX1[EX1.C = 2] = "C";

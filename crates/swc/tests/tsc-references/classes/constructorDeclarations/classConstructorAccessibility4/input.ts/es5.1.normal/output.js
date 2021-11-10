@@ -58,6 +58,31 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 var A1 = // @declaration: true
 /*#__PURE__*/ function() {
     "use strict";
@@ -84,9 +109,10 @@ var A1 = // @declaration: true
                 }();
                 var C = /*#__PURE__*/ function(A) {
                     _inherits(C, A);
+                    var _super = _createSuper(C);
                     function C() {
                         _classCallCheck(this, C);
-                        return _possibleConstructorReturn(this, _getPrototypeOf(C).apply(this, arguments));
+                        return _super.apply(this, arguments);
                     }
                     return C;
                 }(A1);
@@ -120,9 +146,10 @@ var D1 = /*#__PURE__*/ function() {
                 }();
                 var F = /*#__PURE__*/ function(D) {
                     _inherits(F, D);
+                    var _super = _createSuper(F);
                     function F() {
                         _classCallCheck(this, F);
-                        return _possibleConstructorReturn(this, _getPrototypeOf(F).apply(this, arguments));
+                        return _super.apply(this, arguments);
                     }
                     return F;
                 }(D1);

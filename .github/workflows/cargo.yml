@@ -69,6 +69,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Checkout submodules
+        shell: bash
+        run: |
+          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+          git submodule sync --recursive
+          git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
+
       # We explicitly do this to cache properly.
       - name: Install Rust
         uses: actions-rs/toolchain@v1
@@ -204,7 +211,7 @@ jobs:
           # This does not have any effect on windows.
           npm config set prefix $HOME/npm
           yarn
-          (cd ecmascript/transforms && yarn)
+          (cd crates/swc_ecma_transforms && yarn)
           npm i -g jest
           echo $HOME
           echo $HOME/npm/bin >> $GITHUB_PATH

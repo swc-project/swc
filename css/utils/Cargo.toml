@@ -10,7 +10,7 @@ version = "0.28.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-swc_atoms = {version = "0.2.7", path = "../../atoms"}
-swc_common = {version = "0.14.0", path = "../../common"}
+swc_atoms = {version = "0.2.7", path = "../../crates/swc_atoms"}
+swc_common = {version = "0.14.0", path = "../../crates/swc_common"}
 swc_css_ast = {version = "0.31.0", path = "../ast"}
 swc_css_visit = {version = "0.30.0", path = "../visit"}

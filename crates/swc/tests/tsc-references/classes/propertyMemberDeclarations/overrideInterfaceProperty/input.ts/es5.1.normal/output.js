@@ -58,12 +58,38 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 var Sizz = /*#__PURE__*/ function(Mup) {
     "use strict";
     _inherits(Sizz, Mup);
+    var _super = _createSuper(Sizz);
     function Sizz() {
         _classCallCheck(this, Sizz);
-        return _possibleConstructorReturn(this, _getPrototypeOf(Sizz).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     _createClass(Sizz, [
         {
@@ -79,10 +105,11 @@ var Sizz = /*#__PURE__*/ function(Mup) {
 var Kasizz = /*#__PURE__*/ function(Mup) {
     "use strict";
     _inherits(Kasizz, Mup);
+    var _super = _createSuper(Kasizz);
     function Kasizz() {
         _classCallCheck(this, Kasizz);
         var _this;
-        _this = _possibleConstructorReturn(this, _getPrototypeOf(Kasizz).apply(this, arguments));
+        _this = _super.apply(this, arguments);
         _this.size = -1;
         return _this;
     }

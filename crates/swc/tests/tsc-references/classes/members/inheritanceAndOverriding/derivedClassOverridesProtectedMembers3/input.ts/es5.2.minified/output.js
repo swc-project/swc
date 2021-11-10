@@ -25,20 +25,36 @@ function _inherits(subClass, superClass) {
         }
     }), superClass && _setPrototypeOf(subClass, superClass);
 }
-function _possibleConstructorReturn(self, call) {
-    return call && ("object" === _typeof(call) || "function" == typeof call) ? call : (function(self) {
-        if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        return self;
-    })(self);
-}
 function _setPrototypeOf(o, p) {
     return _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var x, _typeof = function(obj) {
-    return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, Base = function() {
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = function() {
+        if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+        if (Reflect.construct.sham) return !1;
+        if ("function" == typeof Proxy) return !0;
+        try {
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+            })), !0;
+        } catch (e) {
+            return !1;
+        }
+    }();
+    return function() {
+        var obj, self, call, result, Super = _getPrototypeOf(Derived);
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else result = Super.apply(this, arguments);
+        return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : (function(self) {
+            if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+            return self;
+        })(self);
+    };
+}
+var x, Base = function() {
     "use strict";
     function Base(a) {
         _classCallCheck(this, Base);
@@ -74,16 +90,20 @@ var x, _typeof = function(obj) {
     ]), Base;
 }(), Derived1 = function(Base) {
     "use strict";
+    _inherits(Derived1, Base);
+    var _super = _createSuper(Derived1);
     function Derived1(a) {
-        return _classCallCheck(this, Derived1), _possibleConstructorReturn(this, _getPrototypeOf(Derived1).call(this, a));
+        return _classCallCheck(this, Derived1), _super.call(this, a);
     }
-    return _inherits(Derived1, Base), Derived1;
+    return Derived1;
 }(Base), Derived2 = function(Base) {
     "use strict";
+    _inherits(Derived2, Base);
+    var _super = _createSuper(Derived2);
     function Derived2(a) {
-        return _classCallCheck(this, Derived2), _possibleConstructorReturn(this, _getPrototypeOf(Derived2).call(this, a));
+        return _classCallCheck(this, Derived2), _super.call(this, a);
     }
-    return _inherits(Derived2, Base), _createClass(Derived2, [
+    return _createClass(Derived2, [
         {
             key: "b",
             value: function(a) {
@@ -92,10 +112,12 @@ var x, _typeof = function(obj) {
     ]), Derived2;
 }(Base), Derived3 = function(Base) {
     "use strict";
+    _inherits(Derived3, Base);
+    var _super = _createSuper(Derived3);
     function Derived3(a) {
-        return _classCallCheck(this, Derived3), _possibleConstructorReturn(this, _getPrototypeOf(Derived3).call(this, a));
+        return _classCallCheck(this, Derived3), _super.call(this, a);
     }
-    return _inherits(Derived3, Base), _createClass(Derived3, [
+    return _createClass(Derived3, [
         {
             key: "c",
             get: function() {
@@ -105,10 +127,12 @@ var x, _typeof = function(obj) {
     ]), Derived3;
 }(Base), Derived4 = function(Base) {
     "use strict";
+    _inherits(Derived4, Base);
+    var _super = _createSuper(Derived4);
     function Derived4(a) {
-        return _classCallCheck(this, Derived4), _possibleConstructorReturn(this, _getPrototypeOf(Derived4).call(this, a));
+        return _classCallCheck(this, Derived4), _super.call(this, a);
     }
-    return _inherits(Derived4, Base), _createClass(Derived4, [
+    return _createClass(Derived4, [
         {
             key: "c",
             set: function(v) {
@@ -117,22 +141,28 @@ var x, _typeof = function(obj) {
     ]), Derived4;
 }(Base), Derived5 = function(Base) {
     "use strict";
+    _inherits(Derived5, Base);
+    var _super = _createSuper(Derived5);
     function Derived5(a) {
-        return _classCallCheck(this, Derived5), _possibleConstructorReturn(this, _getPrototypeOf(Derived5).call(this, a));
+        return _classCallCheck(this, Derived5), _super.call(this, a);
     }
-    return _inherits(Derived5, Base), Derived5;
+    return Derived5;
 }(Base), Derived6 = function(Base) {
     "use strict";
+    _inherits(Derived6, Base);
+    var _super = _createSuper(Derived6);
     function Derived6(a) {
-        return _classCallCheck(this, Derived6), _possibleConstructorReturn(this, _getPrototypeOf(Derived6).call(this, a));
+        return _classCallCheck(this, Derived6), _super.call(this, a);
     }
-    return _inherits(Derived6, Base), Derived6;
+    return Derived6;
 }(Base), Derived7 = function(Base) {
     "use strict";
+    _inherits(Derived7, Base);
+    var _super = _createSuper(Derived7);
     function Derived7(a) {
-        return _classCallCheck(this, Derived7), _possibleConstructorReturn(this, _getPrototypeOf(Derived7).call(this, a));
+        return _classCallCheck(this, Derived7), _super.call(this, a);
     }
-    return _inherits(Derived7, Base), _createClass(Derived7, null, [
+    return _createClass(Derived7, null, [
         {
             key: "s",
             value: function(a) {
@@ -141,10 +171,12 @@ var x, _typeof = function(obj) {
     ]), Derived7;
 }(Base), Derived8 = function(Base) {
     "use strict";
+    _inherits(Derived8, Base);
+    var _super = _createSuper(Derived8);
     function Derived8(a) {
-        return _classCallCheck(this, Derived8), _possibleConstructorReturn(this, _getPrototypeOf(Derived8).call(this, a));
+        return _classCallCheck(this, Derived8), _super.call(this, a);
     }
-    return _inherits(Derived8, Base), _createClass(Derived8, null, [
+    return _createClass(Derived8, null, [
         {
             key: "t",
             get: function() {
@@ -154,10 +186,12 @@ var x, _typeof = function(obj) {
     ]), Derived8;
 }(Base), Derived9 = function(Base) {
     "use strict";
+    _inherits(Derived9, Base);
+    var _super = _createSuper(Derived9);
     function Derived9(a) {
-        return _classCallCheck(this, Derived9), _possibleConstructorReturn(this, _getPrototypeOf(Derived9).call(this, a));
+        return _classCallCheck(this, Derived9), _super.call(this, a);
     }
-    return _inherits(Derived9, Base), _createClass(Derived9, null, [
+    return _createClass(Derived9, null, [
         {
             key: "t",
             set: function(v) {
@@ -166,8 +200,10 @@ var x, _typeof = function(obj) {
     ]), Derived9;
 }(Base), Derived10 = function(Base) {
     "use strict";
+    _inherits(Derived10, Base);
+    var _super = _createSuper(Derived10);
     function Derived10(a) {
-        return _classCallCheck(this, Derived10), _possibleConstructorReturn(this, _getPrototypeOf(Derived10).call(this, a));
+        return _classCallCheck(this, Derived10), _super.call(this, a);
     }
-    return _inherits(Derived10, Base), Derived10;
+    return Derived10;
 }(Base);

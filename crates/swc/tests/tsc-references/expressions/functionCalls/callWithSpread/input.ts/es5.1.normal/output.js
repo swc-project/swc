@@ -98,6 +98,31 @@ function _toConsumableArray(arr) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 var _obj, _obj1, _obj2, _obj3, _instance4, _obj4, _instance1, _instance2, _instance3;
 function foo(x, y) {
     for(var _len = arguments.length, z = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
@@ -225,15 +250,15 @@ var C = /*#__PURE__*/ function() {
 var D = /*#__PURE__*/ function(C) {
     "use strict";
     _inherits(D, C);
+    var _super = _createSuper(D);
     function D() {
-        var _instance;
         _classCallCheck(this, D);
-        return _possibleConstructorReturn(this, _getPrototypeOf(D).call(this, 1, 2));
-        return _possibleConstructorReturn(this, (_instance = _getPrototypeOf(D)).call.apply(_instance, [
+        return _super.call(this, 1, 2);
+        return _super.call.apply(_super, [
             this,
             1,
             2
-        ].concat(_toConsumableArray(a))));
+        ].concat(_toConsumableArray(a)));
     }
     _createClass(D, [
         {

@@ -1,3 +1,4 @@
+var NonGeneric, Generic;
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
@@ -25,20 +26,35 @@ function _inherits(subClass, superClass) {
         }
     }), superClass && _setPrototypeOf(subClass, superClass);
 }
-function _possibleConstructorReturn(self, call) {
-    return call && ("object" === _typeof(call) || "function" == typeof call) ? call : (function(self) {
-        if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        return self;
-    })(self);
-}
 function _setPrototypeOf(o, p) {
     return _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var NonGeneric, Generic, _typeof = function(obj) {
-    return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-};
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = function() {
+        if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+        if (Reflect.construct.sham) return !1;
+        if ("function" == typeof Proxy) return !0;
+        try {
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+            })), !0;
+        } catch (e) {
+            return !1;
+        }
+    }();
+    return function() {
+        var obj, self, call, result, Super = _getPrototypeOf(Derived);
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else result = Super.apply(this, arguments);
+        return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : (function(self) {
+            if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+            return self;
+        })(self);
+    };
+}
 !function(NonGeneric) {
     var C = function() {
         "use strict";
@@ -63,10 +79,12 @@ var NonGeneric, Generic, _typeof = function(obj) {
         ]), C;
     }(), D = function(C) {
         "use strict";
+        _inherits(D, C);
+        var _super = _createSuper(D);
         function D() {
-            return _classCallCheck(this, D), _possibleConstructorReturn(this, _getPrototypeOf(D).apply(this, arguments));
+            return _classCallCheck(this, D), _super.apply(this, arguments);
         }
-        return _inherits(D, C), D;
+        return D;
     }(C), d = new D(1, 2), r = d.fn();
     r.x, r.y, r.y = 4, d.y();
 }(NonGeneric || (NonGeneric = {
@@ -94,10 +112,12 @@ var NonGeneric, Generic, _typeof = function(obj) {
         ]), C;
     }(), D = function(C) {
         "use strict";
+        _inherits(D, C);
+        var _super = _createSuper(D);
         function D() {
-            return _classCallCheck(this, D), _possibleConstructorReturn(this, _getPrototypeOf(D).apply(this, arguments));
+            return _classCallCheck(this, D), _super.apply(this, arguments);
         }
-        return _inherits(D, C), D;
+        return D;
     }(C), d = new D(1, ""), r = d.fn();
     r.x, r.y, r.y = "", d.y();
 })(Generic || (Generic = {

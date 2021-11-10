@@ -31,7 +31,7 @@ _objectWithoutProperties((_complex = complex).x, [
     "x",
     "y"
 ]), ref = _complex, { ka  } = ref.x;
-var arr, complex, _complex, ref, overEmit, _overEmit, ref1, _a = function(arr) {
+var arr, ka, complex, _complex, ref, overEmit, _overEmit, ref1, _a = function(arr) {
     if (Array.isArray(arr)) return arr;
 }(arr = overEmit.a) || function(iter) {
     if (Symbol.iterator in Object(iter) || "[object Arguments]" === Object.prototype.toString.call(iter)) return Array.from(iter);
@@ -39,8 +39,8 @@ var arr, complex, _complex, ref, overEmit, _overEmit, ref1, _a = function(arr) {
     throw new TypeError("Invalid attempt to destructure non-iterable instance");
 }(), ref2 = _a[0], ref2 = null !== ref2 ? ref2 : function(e) {
     throw e;
-}(new TypeError("Cannot destructure undefined")), y = _a.slice(1);
-overEmit.b.z, _extends({
+}(new TypeError("Cannot destructure undefined")), y = _a.slice(1), z = overEmit.b.z;
+_extends({
 }, overEmit.a[0]), _objectWithoutProperties(overEmit.b, [
     "z"
 ]), _objectWithoutProperties(overEmit, [

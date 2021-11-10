@@ -25,7 +25,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
     for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
     return target;
 }
-let other;
+let ka, other;
 _objectWithoutProperties((_complex = void 0).x, [
     "ka"
 ]), _objectWithoutProperties(_complex, [

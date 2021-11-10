@@ -25,25 +25,43 @@ function _inherits(subClass, superClass) {
         }
     }), superClass && _setPrototypeOf(subClass, superClass);
 }
-function _possibleConstructorReturn(self, call) {
-    return call && ("object" === _typeof(call) || "function" == typeof call) ? call : (function(self) {
-        if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        return self;
-    })(self);
-}
 function _setPrototypeOf(o, p) {
     return _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var _typeof = function(obj) {
-    return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, React = require("react"), RC1 = function(_Component) {
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = function() {
+        if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+        if (Reflect.construct.sham) return !1;
+        if ("function" == typeof Proxy) return !0;
+        try {
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+            })), !0;
+        } catch (e) {
+            return !1;
+        }
+    }();
+    return function() {
+        var obj, self, call, result, Super = _getPrototypeOf(Derived);
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else result = Super.apply(this, arguments);
+        return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : (function(self) {
+            if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+            return self;
+        })(self);
+    };
+}
+var React = require("react"), RC1 = function(_Component) {
     "use strict";
+    _inherits(RC1, _Component);
+    var _super = _createSuper(RC1);
     function RC1() {
-        return _classCallCheck(this, RC1), _possibleConstructorReturn(this, _getPrototypeOf(RC1).apply(this, arguments));
+        return _classCallCheck(this, RC1), _super.apply(this, arguments);
     }
-    return _inherits(RC1, _Component), _createClass(RC1, [
+    return _createClass(RC1, [
         {
             key: "render",
             value: function() {
@@ -53,10 +71,12 @@ var _typeof = function(obj) {
     ]), RC1;
 }(React.Component), RC2 = function(_Component) {
     "use strict";
+    _inherits(RC2, _Component);
+    var _super = _createSuper(RC2);
     function RC2() {
-        return _classCallCheck(this, RC2), _possibleConstructorReturn(this, _getPrototypeOf(RC2).apply(this, arguments));
+        return _classCallCheck(this, RC2), _super.apply(this, arguments);
     }
-    return _inherits(RC2, _Component), _createClass(RC2, [
+    return _createClass(RC2, [
         {
             key: "render",
             value: function() {
@@ -71,10 +91,12 @@ var _typeof = function(obj) {
     ]), RC2;
 }(React.Component), RC3 = function(_Component) {
     "use strict";
+    _inherits(RC3, _Component);
+    var _super = _createSuper(RC3);
     function RC3() {
-        return _classCallCheck(this, RC3), _possibleConstructorReturn(this, _getPrototypeOf(RC3).apply(this, arguments));
+        return _classCallCheck(this, RC3), _super.apply(this, arguments);
     }
-    return _inherits(RC3, _Component), _createClass(RC3, [
+    return _createClass(RC3, [
         {
             key: "render",
             value: function() {
@@ -84,10 +106,12 @@ var _typeof = function(obj) {
     ]), RC3;
 }(React.Component), RC4 = function(_Component) {
     "use strict";
+    _inherits(RC4, _Component);
+    var _super = _createSuper(RC4);
     function RC4() {
-        return _classCallCheck(this, RC4), _possibleConstructorReturn(this, _getPrototypeOf(RC4).apply(this, arguments));
+        return _classCallCheck(this, RC4), _super.apply(this, arguments);
     }
-    return _inherits(RC4, _Component), _createClass(RC4, [
+    return _createClass(RC4, [
         {
             key: "render",
             value: function() {

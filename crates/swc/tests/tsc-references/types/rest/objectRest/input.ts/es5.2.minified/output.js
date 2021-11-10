@@ -77,7 +77,9 @@ _n1.y, _n1.n2.z, _extends({
 }, nestedrest.n1.n2.n3), _objectWithoutProperties(nestedrest, [
     "x",
     "n1"
-]), complex.x.ka, complex.y, _objectWithoutProperties(complex.x, [
+]);
+var ka = complex.x.ka;
+complex.y, _objectWithoutProperties(complex.x, [
     "ka"
 ]), _objectWithoutProperties(complex, [
     "x",
