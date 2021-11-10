@@ -74,7 +74,7 @@
             "type": "Declaration",
             "span": {
               "start": 4,
-              "end": 14,
+              "end": 15,
               "ctxt": 0
             },
             "property": {
@@ -92,7 +92,7 @@
                 "type": "Text",
                 "span": {
                   "start": 11,
-                  "end": 14,
+                  "end": 15,
                   "ctxt": 0
                 },
                 "value": "x\u0001",

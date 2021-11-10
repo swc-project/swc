@@ -20,31 +20,31 @@ error: SelectorList
  --> $DIR/tests/fixture/esbuild/misc/-8o_H6sq86TDAHqF7YO0hg/input.css:1:1
   |
 1 | \2d {}
-  | ^^^
+  | ^^^^
 
 error: ComplexSelector
  --> $DIR/tests/fixture/esbuild/misc/-8o_H6sq86TDAHqF7YO0hg/input.css:1:1
   |
 1 | \2d {}
-  | ^^^
+  | ^^^^
 
 error: CompoundSelector
  --> $DIR/tests/fixture/esbuild/misc/-8o_H6sq86TDAHqF7YO0hg/input.css:1:1
   |
 1 | \2d {}
-  | ^^^
+  | ^^^^
 
 error: TypeSelector
  --> $DIR/tests/fixture/esbuild/misc/-8o_H6sq86TDAHqF7YO0hg/input.css:1:1
   |
 1 | \2d {}
-  | ^^^
+  | ^^^^
 
 error: Text
  --> $DIR/tests/fixture/esbuild/misc/-8o_H6sq86TDAHqF7YO0hg/input.css:1:1
   |
 1 | \2d {}
-  | ^^^
+  | ^^^^
 
 error: Block
  --> $DIR/tests/fixture/esbuild/misc/-8o_H6sq86TDAHqF7YO0hg/input.css:1:5

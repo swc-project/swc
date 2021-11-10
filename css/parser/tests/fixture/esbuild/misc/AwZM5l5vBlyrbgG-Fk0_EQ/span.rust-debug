@@ -56,7 +56,7 @@ error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/AwZM5l5vBlyrbgG-Fk0_EQ/input.css:1:5
   |
 1 | a { value: x\2c }
-  |     ^^^^^^^^^^^
+  |     ^^^^^^^^^^^^
 
 error: Text
  --> $DIR/tests/fixture/esbuild/misc/AwZM5l5vBlyrbgG-Fk0_EQ/input.css:1:5
@@ -68,11 +68,11 @@ error: Value
  --> $DIR/tests/fixture/esbuild/misc/AwZM5l5vBlyrbgG-Fk0_EQ/input.css:1:12
   |
 1 | a { value: x\2c }
-  |            ^^^^
+  |            ^^^^^
 
 error: Text
  --> $DIR/tests/fixture/esbuild/misc/AwZM5l5vBlyrbgG-Fk0_EQ/input.css:1:12
   |
 1 | a { value: x\2c }
-  |            ^^^^
+  |            ^^^^^
 
