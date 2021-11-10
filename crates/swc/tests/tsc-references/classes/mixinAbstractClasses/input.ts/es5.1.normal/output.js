@@ -58,13 +58,39 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 function Mixin(baseClass1) {
     var MixinClass = /*#__PURE__*/ function(baseClass) {
         "use strict";
         _inherits(MixinClass, baseClass);
+        var _super = _createSuper(MixinClass);
         function MixinClass() {
             _classCallCheck(this, MixinClass);
-            return _possibleConstructorReturn(this, _getPrototypeOf(MixinClass).apply(this, arguments));
+            return _super.apply(this, arguments);
         }
         _createClass(MixinClass, [
             {
@@ -98,9 +124,10 @@ var AbstractBase = function AbstractBase() {
 var DerivedFromConcrete = /*#__PURE__*/ function(_super) {
     "use strict";
     _inherits(DerivedFromConcrete, _super);
+    var _super1 = _createSuper(DerivedFromConcrete);
     function DerivedFromConcrete() {
         _classCallCheck(this, DerivedFromConcrete);
-        return _possibleConstructorReturn(this, _getPrototypeOf(DerivedFromConcrete).apply(this, arguments));
+        return _super1.apply(this, arguments);
     }
     return DerivedFromConcrete;
 }(Mixin(ConcreteBase));
@@ -110,9 +137,10 @@ wasConcrete.mixinMethod();
 var DerivedFromAbstract = /*#__PURE__*/ function(_super) {
     "use strict";
     _inherits(DerivedFromAbstract, _super);
+    var _super2 = _createSuper(DerivedFromAbstract);
     function DerivedFromAbstract() {
         _classCallCheck(this, DerivedFromAbstract);
-        return _possibleConstructorReturn(this, _getPrototypeOf(DerivedFromAbstract).apply(this, arguments));
+        return _super2.apply(this, arguments);
     }
     _createClass(DerivedFromAbstract, [
         {

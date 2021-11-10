@@ -28,20 +28,36 @@ function _inherits(subClass, superClass) {
 function _instanceof(left, right) {
     return null != right && "undefined" != typeof Symbol && right[Symbol.hasInstance] ? right[Symbol.hasInstance](left) : left instanceof right;
 }
-function _possibleConstructorReturn(self, call) {
-    return call && ("object" === _typeof(call) || "function" == typeof call) ? call : (function(self) {
-        if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        return self;
-    })(self);
-}
 function _setPrototypeOf(o, p) {
     return _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var c, _typeof = function(obj) {
-    return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, RoyalGuard = function() {
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = function() {
+        if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+        if (Reflect.construct.sham) return !1;
+        if ("function" == typeof Proxy) return !0;
+        try {
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+            })), !0;
+        } catch (e) {
+            return !1;
+        }
+    }();
+    return function() {
+        var obj, self, call, result, Super = _getPrototypeOf(Derived);
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else result = Super.apply(this, arguments);
+        return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : (function(self) {
+            if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+            return self;
+        })(self);
+    };
+}
+var c, RoyalGuard = function() {
     "use strict";
     function RoyalGuard() {
         _classCallCheck(this, RoyalGuard);
@@ -62,10 +78,12 @@ var c, _typeof = function(obj) {
     ]), RoyalGuard;
 }(), LeadGuard = function(RoyalGuard) {
     "use strict";
+    _inherits(LeadGuard, RoyalGuard);
+    var _super = _createSuper(LeadGuard);
     function LeadGuard() {
-        return _classCallCheck(this, LeadGuard), _possibleConstructorReturn(this, _getPrototypeOf(LeadGuard).apply(this, arguments));
+        return _classCallCheck(this, LeadGuard), _super.apply(this, arguments);
     }
-    return _inherits(LeadGuard, RoyalGuard), _createClass(LeadGuard, [
+    return _createClass(LeadGuard, [
         {
             key: "lead",
             value: function() {
@@ -74,10 +92,12 @@ var c, _typeof = function(obj) {
     ]), LeadGuard;
 }(RoyalGuard), FollowerGuard = function(RoyalGuard) {
     "use strict";
+    _inherits(FollowerGuard, RoyalGuard);
+    var _super = _createSuper(FollowerGuard);
     function FollowerGuard() {
-        return _classCallCheck(this, FollowerGuard), _possibleConstructorReturn(this, _getPrototypeOf(FollowerGuard).apply(this, arguments));
+        return _classCallCheck(this, FollowerGuard), _super.apply(this, arguments);
     }
-    return _inherits(FollowerGuard, RoyalGuard), _createClass(FollowerGuard, [
+    return _createClass(FollowerGuard, [
         {
             key: "follow",
             value: function() {

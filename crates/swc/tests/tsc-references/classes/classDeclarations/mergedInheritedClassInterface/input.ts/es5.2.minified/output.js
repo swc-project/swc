@@ -25,20 +25,36 @@ function _inherits(subClass, superClass) {
         }
     }), superClass && _setPrototypeOf(subClass, superClass);
 }
-function _possibleConstructorReturn(self, call) {
-    return call && ("object" === _typeof(call) || "function" == typeof call) ? call : (function(self) {
-        if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        return self;
-    })(self);
-}
 function _setPrototypeOf(o, p) {
     return _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var child, grandchild, _typeof = function(obj) {
-    return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, BaseClass = function() {
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = function() {
+        if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+        if (Reflect.construct.sham) return !1;
+        if ("function" == typeof Proxy) return !0;
+        try {
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+            })), !0;
+        } catch (e) {
+            return !1;
+        }
+    }();
+    return function() {
+        var obj, self, call, result, Super = _getPrototypeOf(Derived);
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else result = Super.apply(this, arguments);
+        return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : (function(self) {
+            if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+            return self;
+        })(self);
+    };
+}
+var child, grandchild, BaseClass = function() {
     "use strict";
     function BaseClass() {
         _classCallCheck(this, BaseClass);
@@ -52,10 +68,12 @@ var child, grandchild, _typeof = function(obj) {
     ]), BaseClass;
 }(), Child = function(BaseClass) {
     "use strict";
+    _inherits(Child, BaseClass);
+    var _super = _createSuper(Child);
     function Child() {
-        return _classCallCheck(this, Child), _possibleConstructorReturn(this, _getPrototypeOf(Child).apply(this, arguments));
+        return _classCallCheck(this, Child), _super.apply(this, arguments);
     }
-    return _inherits(Child, BaseClass), _createClass(Child, [
+    return _createClass(Child, [
         {
             key: "method",
             value: function() {
@@ -76,9 +94,11 @@ var child, grandchild, _typeof = function(obj) {
     ]), ChildNoBaseClass;
 }(), Grandchild = function(ChildNoBaseClass) {
     "use strict";
+    _inherits(Grandchild, ChildNoBaseClass);
+    var _super = _createSuper(Grandchild);
     function Grandchild() {
-        return _classCallCheck(this, Grandchild), _possibleConstructorReturn(this, _getPrototypeOf(Grandchild).apply(this, arguments));
+        return _classCallCheck(this, Grandchild), _super.apply(this, arguments);
     }
-    return _inherits(Grandchild, ChildNoBaseClass), Grandchild;
+    return Grandchild;
 }(ChildNoBaseClass);
 child.required, child.optional, child.additional, child.baseNumber, child.classNumber, child.baseMethod(), child.method(), grandchild.required, grandchild.optional, grandchild.additional2, grandchild.classString, grandchild.method2();

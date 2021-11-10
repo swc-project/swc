@@ -44,6 +44,31 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 var B = function B() {
     "use strict";
     _classCallCheck(this, B);
@@ -51,11 +76,12 @@ var B = function B() {
 var A = /*#__PURE__*/ function(B) {
     "use strict";
     _inherits(A, B);
+    var _super = _createSuper(A);
     function A() {
         _classCallCheck(this, A);
         var _this;
         void 0; // Error: 'super' call must  come first
-        _this = _possibleConstructorReturn(this, _getPrototypeOf(A).call(this));
+        _this = _super.call(this);
         _x.set(_assertThisInitialized(_this), {
             writable: true,
             value: void 0

@@ -191,6 +191,31 @@ function _wrapAsyncGenerator(fn) {
         return new AsyncGenerator(fn.apply(this, arguments));
     };
 }
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 var C1 = // @target: es2018
 // @lib: esnext
 // @filename: C1.ts
@@ -453,9 +478,10 @@ var B9 = // @filename: C9.ts
 var C9 = /*#__PURE__*/ function(B9) {
     "use strict";
     _inherits(C9, B9);
+    var _super = _createSuper(C9);
     function C9() {
         _classCallCheck(this, C9);
-        return _possibleConstructorReturn(this, _getPrototypeOf(C9).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     _createClass(C9, [
         {

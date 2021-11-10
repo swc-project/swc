@@ -106,6 +106,31 @@ function _toConsumableArray(arr) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 var Bar = function Bar() {
     "use strict";
     _classCallCheck(this, Bar);
@@ -113,9 +138,10 @@ var Bar = function Bar() {
 var Foo = /*#__PURE__*/ function(Bar) {
     "use strict";
     _inherits(Foo, Bar);
+    var _super = _createSuper(Foo);
     function Foo() {
         _classCallCheck(this, Foo);
-        return _possibleConstructorReturn(this, _getPrototypeOf(Foo).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     return Foo;
 }(Bar);

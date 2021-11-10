@@ -58,6 +58,31 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 // @filename: file.tsx
 // @jsx: react
 // @noLib: true
@@ -67,9 +92,10 @@ var React = require('react');
 var RC1 = /*#__PURE__*/ function(_Component) {
     "use strict";
     _inherits(RC1, _Component);
+    var _super = _createSuper(RC1);
     function RC1() {
         _classCallCheck(this, RC1);
-        return _possibleConstructorReturn(this, _getPrototypeOf(RC1).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     _createClass(RC1, [
         {
@@ -84,9 +110,10 @@ var RC1 = /*#__PURE__*/ function(_Component) {
 var RC2 = /*#__PURE__*/ function(_Component) {
     "use strict";
     _inherits(RC2, _Component);
+    var _super = _createSuper(RC2);
     function RC2() {
         _classCallCheck(this, RC2);
-        return _possibleConstructorReturn(this, _getPrototypeOf(RC2).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     _createClass(RC2, [
         {
@@ -106,9 +133,10 @@ var RC2 = /*#__PURE__*/ function(_Component) {
 var RC3 = /*#__PURE__*/ function(_Component) {
     "use strict";
     _inherits(RC3, _Component);
+    var _super = _createSuper(RC3);
     function RC3() {
         _classCallCheck(this, RC3);
-        return _possibleConstructorReturn(this, _getPrototypeOf(RC3).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     _createClass(RC3, [
         {
@@ -123,9 +151,10 @@ var RC3 = /*#__PURE__*/ function(_Component) {
 var RC4 = /*#__PURE__*/ function(_Component) {
     "use strict";
     _inherits(RC4, _Component);
+    var _super = _createSuper(RC4);
     function RC4() {
         _classCallCheck(this, RC4);
-        return _possibleConstructorReturn(this, _getPrototypeOf(RC4).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     _createClass(RC4, [
         {

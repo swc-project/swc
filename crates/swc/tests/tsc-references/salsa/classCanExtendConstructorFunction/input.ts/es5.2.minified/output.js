@@ -34,12 +34,6 @@ function _inherits(subClass, superClass) {
         }
     }), superClass && _setPrototypeOf(subClass, superClass);
 }
-function _possibleConstructorReturn(self, call) {
-    return call && ("object" === _typeof(call) || "function" == typeof call) ? call : (function(self) {
-        if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        return self;
-    })(self);
-}
 function _setPrototypeOf(o, p) {
     return _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
@@ -49,9 +43,30 @@ function _superPropBase(object, property) {
     for(; !Object.prototype.hasOwnProperty.call(object, property) && null !== (object = _getPrototypeOf(object)););
     return object;
 }
-var _typeof = function(obj) {
-    return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-};
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = function() {
+        if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+        if (Reflect.construct.sham) return !1;
+        if ("function" == typeof Proxy) return !0;
+        try {
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+            })), !0;
+        } catch (e) {
+            return !1;
+        }
+    }();
+    return function() {
+        var obj, self, call, result, Super = _getPrototypeOf(Derived);
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else result = Super.apply(this, arguments);
+        return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : (function(self) {
+            if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+            return self;
+        })(self);
+    };
+}
 function Wagon1(numberOxen) {
     this.numberOxen = numberOxen;
 }
@@ -65,11 +80,13 @@ Wagon1.circle = function(wagons) {
 };
 var Sql = function(Wagon) {
     "use strict";
+    _inherits(Sql, Wagon);
+    var _super = _createSuper(Sql);
     function Sql() {
         var _this;
-        return _classCallCheck(this, Sql), (_this = _possibleConstructorReturn(this, _getPrototypeOf(Sql).call(this))).foonly = 12, _this;
+        return _classCallCheck(this, Sql), (_this = _super.call(this)).foonly = 12, _this;
     }
-    return _inherits(Sql, Wagon), _createClass(Sql, [
+    return _createClass(Sql, [
         {
             key: "load",
             value: function(files, format) {
@@ -82,27 +99,33 @@ var Sql = function(Wagon) {
 db.numberOxen = db.foonly;
 var Drakkhen = function(Dragon) {
     "use strict";
+    _inherits(Drakkhen, Dragon);
+    var _super = _createSuper(Drakkhen);
     function Drakkhen() {
-        return _classCallCheck(this, Drakkhen), _possibleConstructorReturn(this, _getPrototypeOf(Drakkhen).apply(this, arguments));
+        return _classCallCheck(this, Drakkhen), _super.apply(this, arguments);
     }
-    return _inherits(Drakkhen, Dragon), Drakkhen;
+    return Drakkhen;
 }(Dragon1);
 function Dragon1(numberEaten) {
     this.numberEaten = numberEaten;
 }
 var Firedrake = function(Dragon) {
     "use strict";
+    _inherits(Firedrake, Dragon);
+    var _super = _createSuper(Firedrake);
     function Firedrake() {
-        return _classCallCheck(this, Firedrake), _possibleConstructorReturn(this, _getPrototypeOf(Firedrake).call(this));
+        return _classCallCheck(this, Firedrake), _super.call(this);
     }
-    return _inherits(Firedrake, Dragon), Firedrake;
+    return Firedrake;
 }(Dragon1), Conestoga = function(Wagon) {
     "use strict";
+    _inherits(Conestoga, Wagon);
+    var _super = _createSuper(Conestoga);
     function Conestoga(drunkOO) {
         var _this;
-        return _classCallCheck(this, Conestoga), (_this = _possibleConstructorReturn(this, _getPrototypeOf(Conestoga).call(this, "nope"))).drunkOO = drunkOO, _this;
+        return _classCallCheck(this, Conestoga), (_this = _super.call(this, "nope")).drunkOO = drunkOO, _this;
     }
-    return _inherits(Conestoga, Wagon), _createClass(Conestoga, null, [
+    return _createClass(Conestoga, null, [
         {
             key: "circle",
             value: function(others) {
@@ -117,10 +140,12 @@ function Soup1(flavour) {
 c.drunkOO, c.numberOxen;
 var Chowder = function(Soup) {
     "use strict";
+    _inherits(Chowder, Soup);
+    var _super = _createSuper(Chowder);
     function Chowder() {
-        return _classCallCheck(this, Chowder), _possibleConstructorReturn(this, _getPrototypeOf(Chowder).apply(this, arguments));
+        return _classCallCheck(this, Chowder), _super.apply(this, arguments);
     }
-    return _inherits(Chowder, Soup), _createClass(Chowder, [
+    return _createClass(Chowder, [
         {
             key: "log",
             value: function() {

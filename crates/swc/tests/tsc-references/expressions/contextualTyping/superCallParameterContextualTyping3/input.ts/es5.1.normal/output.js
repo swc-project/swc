@@ -81,6 +81,31 @@ function _superPropBase(object, property) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 var CBase = /*#__PURE__*/ function() {
     "use strict";
     function CBase(param) {
@@ -98,16 +123,18 @@ var CBase = /*#__PURE__*/ function() {
 var C = /*#__PURE__*/ function(CBase) {
     "use strict";
     _inherits(C, CBase);
+    var _super = _createSuper(C);
     function C() {
         _classCallCheck(this, C);
-        var _this = _possibleConstructorReturn(this, _getPrototypeOf(C).call(this, {
+        var _thisSuper;
+        var _this = _super.call(this, {
             method: function(p) {
                 p.length;
             }
-        }));
+        });
         // Should be okay.
         // 'p' should have type 'string'.
-        _get(_getPrototypeOf(C.prototype), "foo", _assertThisInitialized(_this)).call(_this, {
+        _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(C.prototype)), "foo", _thisSuper).call(_thisSuper, {
             method: function(p) {
                 p.length;
             }

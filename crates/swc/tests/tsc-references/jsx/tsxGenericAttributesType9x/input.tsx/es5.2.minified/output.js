@@ -27,17 +27,7 @@ var React1 = require("react");
 export function makeP(Ctor) {
     return (function(_PureComponent) {
         "use strict";
-        var Constructor, protoProps, staticProps;
-        function _class() {
-            var self, call, obj;
-            return !function(instance, Constructor) {
-                if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-            }(this, _class), self = this, call = _getPrototypeOf(_class).apply(this, arguments), call && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : (function(self) {
-                if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-                return self;
-            })(self);
-        }
-        return !function(subClass, superClass) {
+        !function(subClass, superClass) {
             if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
             subClass.prototype = Object.create(superClass && superClass.prototype, {
                 constructor: {
@@ -46,7 +36,37 @@ export function makeP(Ctor) {
                     configurable: !0
                 }
             }), superClass && _setPrototypeOf(subClass, superClass);
-        }(_class, _PureComponent), Constructor = _class, protoProps = [
+        }(_class, _PureComponent);
+        var Constructor, protoProps, staticProps, _super = function(Derived) {
+            var hasNativeReflectConstruct = function() {
+                if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+                if (Reflect.construct.sham) return !1;
+                if ("function" == typeof Proxy) return !0;
+                try {
+                    return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+                    })), !0;
+                } catch (e) {
+                    return !1;
+                }
+            }();
+            return function() {
+                var obj, self, call, result, Super = _getPrototypeOf(Derived);
+                if (hasNativeReflectConstruct) {
+                    var NewTarget = _getPrototypeOf(this).constructor;
+                    result = Reflect.construct(Super, arguments, NewTarget);
+                } else result = Super.apply(this, arguments);
+                return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : (function(self) {
+                    if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+                    return self;
+                })(self);
+            };
+        }(_class);
+        function _class() {
+            return !function(instance, Constructor) {
+                if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
+            }(this, _class), _super.apply(this, arguments);
+        }
+        return Constructor = _class, protoProps = [
             {
                 key: "render",
                 value: function() {

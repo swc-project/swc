@@ -1,3 +1,8 @@
+function _getPrototypeOf(o) {
+    return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+        return o.__proto__ || Object.getPrototypeOf(o);
+    }, _getPrototypeOf(o);
+}
 function _setPrototypeOf(o, p) {
     return _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
@@ -14,7 +19,7 @@ var D = function(_super) {
             return self;
         })(self);
     }
-    return !function(subClass, superClass) {
+    return (function(subClass, superClass) {
         if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
         subClass.prototype = Object.create(superClass && superClass.prototype, {
             constructor: {
@@ -23,5 +28,15 @@ var D = function(_super) {
                 configurable: !0
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
-    }(D, null), D;
+    })(D, null), (function() {
+        if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+        if (Reflect.construct.sham) return !1;
+        if ("function" == typeof Proxy) return !0;
+        try {
+            Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+            }));
+        } catch (e) {
+            return !1;
+        }
+    })(), D;
 }(null);

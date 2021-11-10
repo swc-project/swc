@@ -44,6 +44,31 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 var A = function A(x) {
     "use strict";
     _classCallCheck(this, A);
@@ -53,10 +78,11 @@ var A = function A(x) {
 var B = /*#__PURE__*/ function(A) {
     "use strict";
     _inherits(B, A);
+    var _super = _createSuper(B);
     function B(x) {
         _classCallCheck(this, B);
         var _this;
-        _this = _possibleConstructorReturn(this, _getPrototypeOf(B).call(this, x));
+        _this = _super.call(this, x);
         // Fails, x is readonly
         _this.x = 1;
         return _this;
@@ -66,10 +92,11 @@ var B = /*#__PURE__*/ function(A) {
 var C = /*#__PURE__*/ function(A) {
     "use strict";
     _inherits(C, A);
+    var _super = _createSuper(C);
     function C(x) {
         _classCallCheck(this, C);
         var _this;
-        _this = _possibleConstructorReturn(this, _getPrototypeOf(C).call(this, x));
+        _this = _super.call(this, x);
         _this.x = x;
         _this.x = 1;
         return _this;
@@ -86,10 +113,11 @@ var E = // Fails, can't redeclare readonly property
 /*#__PURE__*/ function(D) {
     "use strict";
     _inherits(E, D);
+    var _super = _createSuper(E);
     function E(x) {
         _classCallCheck(this, E);
         var _this;
-        _this = _possibleConstructorReturn(this, _getPrototypeOf(E).call(this, x));
+        _this = _super.call(this, x);
         _this.x = x;
         _this.x = 1;
         return _this;

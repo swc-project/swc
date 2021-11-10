@@ -58,6 +58,31 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 var BaseClass = /*#__PURE__*/ function() {
     "use strict";
     function BaseClass() {
@@ -75,9 +100,10 @@ var BaseClass = /*#__PURE__*/ function() {
 var Child = /*#__PURE__*/ function(BaseClass) {
     "use strict";
     _inherits(Child, BaseClass);
+    var _super = _createSuper(Child);
     function Child() {
         _classCallCheck(this, Child);
-        return _possibleConstructorReturn(this, _getPrototypeOf(Child).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     _createClass(Child, [
         {
@@ -105,9 +131,10 @@ var ChildNoBaseClass = /*#__PURE__*/ function() {
 var Grandchild = /*#__PURE__*/ function(ChildNoBaseClass) {
     "use strict";
     _inherits(Grandchild, ChildNoBaseClass);
+    var _super = _createSuper(Grandchild);
     function Grandchild() {
         _classCallCheck(this, Grandchild);
-        return _possibleConstructorReturn(this, _getPrototypeOf(Grandchild).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     return Grandchild;
 }(ChildNoBaseClass);

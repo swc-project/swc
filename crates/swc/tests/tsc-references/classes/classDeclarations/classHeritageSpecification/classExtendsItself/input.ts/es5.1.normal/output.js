@@ -44,12 +44,38 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 var C1 = /*#__PURE__*/ function(C) {
     "use strict";
     _inherits(C1, C);
+    var _super = _createSuper(C1);
     function C1() {
         _classCallCheck(this, C1);
-        return _possibleConstructorReturn(this, _getPrototypeOf(C1).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     return C1;
 } // error
@@ -57,9 +83,10 @@ var C1 = /*#__PURE__*/ function(C) {
 var D1 = /*#__PURE__*/ function(D) {
     "use strict";
     _inherits(D1, D);
+    var _super = _createSuper(D1);
     function D1() {
         _classCallCheck(this, D1);
-        return _possibleConstructorReturn(this, _getPrototypeOf(D1).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     return D1;
 } // error
@@ -67,9 +94,10 @@ var D1 = /*#__PURE__*/ function(D) {
 var E1 = /*#__PURE__*/ function(E) {
     "use strict";
     _inherits(E1, E);
+    var _super = _createSuper(E1);
     function E1() {
         _classCallCheck(this, E1);
-        return _possibleConstructorReturn(this, _getPrototypeOf(E1).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     return E1;
 } // error

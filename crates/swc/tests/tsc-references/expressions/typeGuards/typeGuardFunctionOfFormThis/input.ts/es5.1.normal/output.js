@@ -65,6 +65,31 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 var RoyalGuard = // @declaration: true
 /*#__PURE__*/ function() {
     "use strict";
@@ -90,9 +115,10 @@ var RoyalGuard = // @declaration: true
 var LeadGuard = /*#__PURE__*/ function(RoyalGuard) {
     "use strict";
     _inherits(LeadGuard, RoyalGuard);
+    var _super = _createSuper(LeadGuard);
     function LeadGuard() {
         _classCallCheck(this, LeadGuard);
-        return _possibleConstructorReturn(this, _getPrototypeOf(LeadGuard).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     _createClass(LeadGuard, [
         {
@@ -106,9 +132,10 @@ var LeadGuard = /*#__PURE__*/ function(RoyalGuard) {
 var FollowerGuard = /*#__PURE__*/ function(RoyalGuard) {
     "use strict";
     _inherits(FollowerGuard, RoyalGuard);
+    var _super = _createSuper(FollowerGuard);
     function FollowerGuard() {
         _classCallCheck(this, FollowerGuard);
-        return _possibleConstructorReturn(this, _getPrototypeOf(FollowerGuard).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     _createClass(FollowerGuard, [
         {
@@ -165,9 +192,10 @@ var ArrowGuard = function ArrowGuard() {
 var ArrowElite = /*#__PURE__*/ function(ArrowGuard) {
     "use strict";
     _inherits(ArrowElite, ArrowGuard);
+    var _super = _createSuper(ArrowElite);
     function ArrowElite() {
         _classCallCheck(this, ArrowElite);
-        return _possibleConstructorReturn(this, _getPrototypeOf(ArrowElite).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     _createClass(ArrowElite, [
         {
@@ -181,9 +209,10 @@ var ArrowElite = /*#__PURE__*/ function(ArrowGuard) {
 var ArrowMedic = /*#__PURE__*/ function(ArrowGuard) {
     "use strict";
     _inherits(ArrowMedic, ArrowGuard);
+    var _super = _createSuper(ArrowMedic);
     function ArrowMedic() {
         _classCallCheck(this, ArrowMedic);
-        return _possibleConstructorReturn(this, _getPrototypeOf(ArrowMedic).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     _createClass(ArrowMedic, [
         {
@@ -233,9 +262,10 @@ var MimicGuard = /*#__PURE__*/ function() {
 var MimicLeader = /*#__PURE__*/ function(MimicGuard) {
     "use strict";
     _inherits(MimicLeader, MimicGuard);
+    var _super = _createSuper(MimicLeader);
     function MimicLeader() {
         _classCallCheck(this, MimicLeader);
-        return _possibleConstructorReturn(this, _getPrototypeOf(MimicLeader).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     _createClass(MimicLeader, [
         {
@@ -249,9 +279,10 @@ var MimicLeader = /*#__PURE__*/ function(MimicGuard) {
 var MimicFollower = /*#__PURE__*/ function(MimicGuard) {
     "use strict";
     _inherits(MimicFollower, MimicGuard);
+    var _super = _createSuper(MimicFollower);
     function MimicFollower() {
         _classCallCheck(this, MimicFollower);
-        return _possibleConstructorReturn(this, _getPrototypeOf(MimicFollower).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     _createClass(MimicFollower, [
         {
