@@ -6,6 +6,10 @@ macro_rules! span {
 }
 
 macro_rules! tok_pat {
+    (EOF) => {
+        swc_css_ast::Token::EOF
+    };
+
     (Ident) => {
         swc_css_ast::Token::Ident { .. }
     };
@@ -67,14 +71,7 @@ macro_rules! can_ignore_ws {
 
 macro_rules! cur {
     ($parser:expr) => {
-        match $parser.input.cur()? {
-            Some(v) => v,
-            None => {
-                let last_pos = $parser.input.last_pos()?;
-                let span = swc_common::Span::new(last_pos, last_pos, Default::default());
-                Err(crate::error::Error::new(span, crate::error::ErrorKind::Eof))?
-            }
-        }
+        $parser.input.cur()?.unwrap()
     };
 }
 
@@ -86,7 +83,10 @@ macro_rules! bump {
 
 macro_rules! is {
     ($parser:expr, EOF) => {{
-        $parser.input.cur()?.is_none()
+        match $parser.input.cur()? {
+            Some(tok_pat!(EOF)) => true,
+            _ => false,
+        }
     }};
 
     ($parser:expr, $tt:tt) => {{

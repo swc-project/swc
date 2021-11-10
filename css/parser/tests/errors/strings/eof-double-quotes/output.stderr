@@ -1,2 +1,6 @@
 error: Expected "}"
+ --> $DIR/tests/errors/strings/eof-double-quotes/input.css:2:16
+  |
+2 |   prop: "string
+  |                ^
 

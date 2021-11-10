@@ -1,2 +1,6 @@
 error: Expected "}"
+ --> $DIR/tests/errors/escaped/broken-1/input.css:3:2
+  |
+3 | }
+  |  ^
 

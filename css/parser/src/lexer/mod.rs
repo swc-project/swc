@@ -395,8 +395,7 @@ where
             // EOF
             // Return an <EOF-token>.
             None => {
-                // TODO: Return an <EOF-token>.
-                return Err(ErrorKind::Eof);
+                return Ok(Token::EOF);
             }
             // anything else
             // Return a <delim-token> with its value set to the current input code point.

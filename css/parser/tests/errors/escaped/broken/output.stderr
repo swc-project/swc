@@ -1,2 +1,6 @@
 error: Expected "}"
+ --> $DIR/tests/errors/escaped/broken/input.css:2:18
+  |
+2 |     prop: "test\\
+  |                  ^
 

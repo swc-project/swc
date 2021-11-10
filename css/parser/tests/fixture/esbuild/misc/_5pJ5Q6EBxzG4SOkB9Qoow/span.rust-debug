@@ -29,8 +29,8 @@ error: Text
   | ^^^^^^^^
 
 error: Tokens
- --> $DIR/tests/fixture/esbuild/misc/_5pJ5Q6EBxzG4SOkB9Qoow/input.css:1:1
+ --> $DIR/tests/fixture/esbuild/misc/_5pJ5Q6EBxzG4SOkB9Qoow/input.css:1:9
   |
 1 | @unknown
-  | ^^^^^^^^
+  |         ^
 

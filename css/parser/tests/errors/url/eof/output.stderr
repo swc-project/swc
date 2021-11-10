@@ -1,2 +1,6 @@
 error: Expected "}"
+ --> $DIR/tests/errors/url/eof/input.css:1:22
+  |
+1 | a { prop: url(foo.png
+  |                      ^
 

@@ -2,7 +2,6 @@ use std::path::PathBuf;
 use swc_common::{errors::Handler, input::SourceFileInput, Span, Spanned, DUMMY_SP};
 use swc_css_ast::*;
 use swc_css_parser::{
-    error::ErrorKind,
     lexer::Lexer,
     parse_tokens,
     parser::{input::ParserInput, Parser, ParserConfig},
@@ -26,9 +25,15 @@ impl Visit for AssertValid {
         }
 
         let mut errors = vec![];
+        let mut tokens = s.clone().args;
+
+        tokens.tokens.push(TokenAndSpan {
+            span: DUMMY_SP,
+            token: Token::EOF,
+        });
 
         let _selectors: SelectorList = parse_tokens(
-            &s.args,
+            &tokens,
             ParserConfig {
                 parse_values: true,
 
@@ -57,7 +62,13 @@ fn tokens_input(input: PathBuf) {
             let mut tokens = vec![];
 
             while let Ok(t) = lexer.next() {
+                let is_eof = t.token == Token::EOF;
+
                 tokens.push(t);
+
+                if is_eof {
+                    break;
+                }
             }
             Tokens {
                 span: Span::new(fm.start_pos, fm.end_pos, Default::default()),
@@ -123,13 +134,16 @@ fn test_pass(input: PathBuf, config: ParserConfig) {
                         let res = lexer.next();
                         match res {
                             Ok(t) => {
+                                let is_eof = t.token == Token::EOF;
+
                                 tokens.tokens.push(t);
+
+                                if is_eof {
+                                    break;
+                                }
                             }
 
                             Err(e) => {
-                                if matches!(e.kind(), ErrorKind::Eof) {
-                                    break;
-                                }
                                 panic!("failed to lex tokens: {:?}", e)
                             }
                         }
@@ -240,13 +254,15 @@ fn recovery(input: PathBuf) {
                         let res = lexer.next();
                         match res {
                             Ok(t) => {
-                                tokens.tokens.push(t);
-                            }
+                                let is_eof = t.token == Token::EOF;
 
-                            Err(e) => {
-                                if matches!(e.kind(), ErrorKind::Eof) {
+                                tokens.tokens.push(t);
+
+                                if is_eof {
                                     break;
                                 }
+                            }
+                            Err(e) => {
                                 panic!("failed to lex tokens: {:?}", e)
                             }
                         }

@@ -1,2 +1,6 @@
 error: Expected "}"
+ --> $DIR/tests/errors/number/eof/input.css:2:11
+  |
+2 |   prop: 12
+  |           ^
 

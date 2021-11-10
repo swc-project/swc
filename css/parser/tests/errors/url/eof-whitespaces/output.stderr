@@ -1,2 +1,6 @@
 error: Expected "}"
+ --> $DIR/tests/errors/url/eof-whitespaces/input.css:1:25
+  |
+1 | a { prop: url(foo.png   
+  |                         ^
 

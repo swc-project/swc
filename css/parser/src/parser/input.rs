@@ -1,7 +1,6 @@
 use super::PResult;
-use crate::error::{Error, ErrorKind};
 use std::fmt::Debug;
-use swc_common::{BytePos, Span, SyntaxContext};
+use swc_common::{BytePos, Span};
 use swc_css_ast::{Token, TokenAndSpan, Tokens};
 
 pub trait ParserInput {
@@ -119,16 +118,6 @@ where
 
         if self.cur.is_none() {
             let res = self.input.next();
-
-            match &res {
-                Err(err) => {
-                    if let ErrorKind::Eof = err.kind() {
-                        return Ok(());
-                    }
-                }
-                _ => {}
-            }
-
             self.cur = res.map(Some)?;
         }
 
@@ -200,9 +189,7 @@ impl<'a> TokensInput<'a> {
         let ret = match ret {
             Some(v) => v,
             None => {
-                let bp = self.tokens.span.hi;
-                let span = Span::new(bp, bp, SyntaxContext::empty());
-                return Err(Error::new(span, ErrorKind::Eof));
+                unreachable!();
             }
         };
 
