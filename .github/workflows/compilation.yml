@@ -42,7 +42,7 @@ jobs:
 
       - name: Check swc_common
         run: |
-          (cd common && cargo hack check --feature-powerset --no-dev-deps)
+          (cd crates/swc_common && cargo hack check --feature-powerset --no-dev-deps)
 
       - name: Check swc_ecma_ast
         run: |
