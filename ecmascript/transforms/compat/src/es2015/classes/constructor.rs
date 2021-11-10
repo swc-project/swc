@@ -269,15 +269,14 @@ impl Fold for ConstructorFolder<'_> {
                     right,
                 })
             }
-            _ => expr,
-        }
-    }
 
-    fn fold_member_expr(&mut self, e: MemberExpr) -> MemberExpr {
-        let e = e.fold_children_with(self);
-
-        match e.obj {
-            ExprOrSuper::Super(..) => {
+            Expr::Member(MemberExpr {
+                span,
+                obj: ExprOrSuper::Super(..),
+                prop,
+                computed,
+            }) => {
+                let this_var = quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this");
                 let this_super = private_ident!("_thisSuper");
                 self.vars.push(VarDeclarator {
                     span: DUMMY_SP,
@@ -285,11 +284,38 @@ impl Fold for ConstructorFolder<'_> {
                     init: None,
                     definite: Default::default(),
                 });
-            }
-            _ => {}
-        }
 
-        e
+                // _thisSuper = _assertThisInitialized(_this)
+                let init_this_super = Box::new(Expr::Assign(AssignExpr {
+                    span: DUMMY_SP,
+                    op: op!("="),
+                    left: PatOrExpr::Pat(Box::new(this_super.clone().into())),
+                    right: Box::new(Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: helper!(assert_this_initialized, "assertThisInitialized"),
+                        args: vec![this_var.as_arg()],
+                        type_args: Default::default(),
+                    })),
+                }));
+                // _getPrototypeOf(Foo.prototype)
+                let get_proto = Box::new(Expr::Call(CallExpr {
+                    span,
+                    callee: helper!(get_prototype_of, "getPrototypeOf"),
+                    args: vec![self
+                        .class_name
+                        .clone()
+                        .make_member(quote_ident!("prototype"))
+                        .as_arg()],
+                    type_args: Default::default(),
+                }));
+
+                Expr::Seq(SeqExpr {
+                    span: DUMMY_SP,
+                    exprs: vec![init_this_super, get_proto],
+                })
+            }
+            _ => expr,
+        }
     }
 
     fn fold_return_stmt(&mut self, stmt: ReturnStmt) -> ReturnStmt {
