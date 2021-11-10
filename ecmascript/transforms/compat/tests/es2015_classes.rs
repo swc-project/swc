@@ -793,15 +793,14 @@ class Test extends Foo {
       var _super = _createSuper(Test);
     
       function Test() {
-        var _thisSuper, _thisSuper2, _this;
-    
         _classCallCheck(this, Test);
-    
-        _this = _super.call(this);
+        var _thisSuper, _thisSuper1;
+        
+        var _this = _super.call(this);
     
         _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(Test.prototype)), "test", _thisSuper).whatever();
     
-        _get((_thisSuper2 = _assertThisInitialized(_this), _getPrototypeOf(Test.prototype)), "test", _thisSuper2).call(_thisSuper2);
+        _get((_thisSuper1 = _assertThisInitialized(_this), _getPrototypeOf(Test.prototype)), "test", _thisSuper1).call(_thisSuper1);
     
         return _this;
       }
@@ -1627,23 +1626,23 @@ var Outer = function (Hello) {
   var _super = _createSuper(Outer);
   function Outer() {
     _classCallCheck(this, Outer);
+    var _thisSuper;
     var _this = _super.call(this);
 
-    var Inner =
-    /*#__PURE__*/
-    function () {
+    var Inner = /*#__PURE__*/function () {
       function Inner() {
         _classCallCheck(this, Inner);
       }
 
       _createClass(Inner, [{
-        key: _get(_getPrototypeOf(Outer.prototype), "toString", _assertThisInitialized(_this)).call(_this),
+        key: _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(Outer.prototype)), "toString", _thisSuper).call(_thisSuper),
         value: function () {
           return 'hello';
         }
       }]);
-      return Inner;
-    }();
+
+    return Inner;
+  }();
 
     return _possibleConstructorReturn(_this, new Inner());
   }
@@ -3706,9 +3705,10 @@ function (Hello) {
   var _super = _createSuper(Outer);
   function Outer() {
     _classCallCheck(this, Outer);
+    var _thisSuper;
     var _this = _super.call(this);
     var Inner = {
-      [_get(_getPrototypeOf(Outer.prototype), 'toString', _assertThisInitialized(_this)).call(_this)] () {
+      [_get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(Outer.prototype)), "toString", _thisSuper).call(_thisSuper)] () {
         return 'hello';
       }
 
