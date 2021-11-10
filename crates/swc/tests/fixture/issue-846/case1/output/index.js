@@ -429,6 +429,31 @@ function _toPropertyKey(arg) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 var SomeClass1 = _decorate([], function(_initialize) {
     var SomeClass = function SomeClass() {
         "use strict";
@@ -454,10 +479,11 @@ var OtherClass1 = _decorate([], function(_initialize, _SomeClass1) {
     var OtherClass = /*#__PURE__*/ function(_SomeClass) {
         "use strict";
         _inherits(OtherClass, _SomeClass);
+        var _super = _createSuper(OtherClass);
         function OtherClass() {
             _classCallCheck(this, OtherClass);
             var _this;
-            _this = _possibleConstructorReturn(this, _getPrototypeOf(OtherClass).apply(this, arguments));
+            _this = _super.apply(this, arguments);
             _initialize(_assertThisInitialized(_this));
             return _this;
         }

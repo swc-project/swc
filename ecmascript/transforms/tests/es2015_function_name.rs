@@ -304,10 +304,10 @@ let Login =
 function (_Component) {
   'use strict';
   _inherits(Login, _Component);
-
+  var _super = _createSuper(Login);
   function Login() {
     _classCallCheck(this, Login);
-    return _possibleConstructorReturn(this, _getPrototypeOf(Login).apply(this, arguments));
+    return _super.apply(this, arguments);
   }
 
   _createClass(Login, [{

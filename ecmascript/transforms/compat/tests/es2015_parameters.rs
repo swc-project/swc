@@ -1228,10 +1228,10 @@ test!(
         let Foo = function(Bar) {
             'use strict';
             _inherits(Foo, Bar);
+            var _super = _createSuper(Foo);
             function Foo() {
                 _classCallCheck(this, Foo);
-                return _possibleConstructorReturn(this,
-                    _getPrototypeOf(Foo).apply(this, arguments));
+                return _super.apply(this, arguments);
             }
             return Foo;
         }(Bar);

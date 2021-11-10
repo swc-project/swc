@@ -140,6 +140,31 @@ function _wrapNativeSuper(Class) {
     };
     return _wrapNativeSuper(Class);
 }
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 var Element = /*#__PURE__*/ function() {
     function Element() {
         _classCallCheck(this, Element);
@@ -156,9 +181,10 @@ var Element = /*#__PURE__*/ function() {
 }();
 var CanvasElement = /*#__PURE__*/ function(Element) {
     _inherits(CanvasElement, Element);
+    var _super = _createSuper(CanvasElement);
     function CanvasElement() {
         _classCallCheck(this, CanvasElement);
-        return _possibleConstructorReturn(this, _getPrototypeOf(CanvasElement).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     _createClass(CanvasElement, [
         {
@@ -173,9 +199,10 @@ var CanvasElement = /*#__PURE__*/ function(Element) {
 }(_wrapNativeSuper(Element));
 var ColouredCanvasElement = /*#__PURE__*/ function(CanvasElement) {
     _inherits(ColouredCanvasElement, CanvasElement);
+    var _super = _createSuper(ColouredCanvasElement);
     function ColouredCanvasElement() {
         _classCallCheck(this, ColouredCanvasElement);
-        return _possibleConstructorReturn(this, _getPrototypeOf(ColouredCanvasElement).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     _createClass(ColouredCanvasElement, [
         {
@@ -190,9 +217,10 @@ var ColouredCanvasElement = /*#__PURE__*/ function(CanvasElement) {
 }(CanvasElement);
 var ColouredSquare = /*#__PURE__*/ function(ColouredCanvasElement) {
     _inherits(ColouredSquare, ColouredCanvasElement);
+    var _super = _createSuper(ColouredSquare);
     function ColouredSquare() {
         _classCallCheck(this, ColouredSquare);
-        return _possibleConstructorReturn(this, _getPrototypeOf(ColouredSquare).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     return ColouredSquare;
 }(ColouredCanvasElement);
