@@ -372,26 +372,19 @@ where
                                     // init_export!("default");
                                     let ident = ident.unwrap_or_else(|| private_ident!("_default"));
 
-                                    let member_expr = member_expr!(DUMMY_SP, exports.default);
-                                    match &*member_expr {
-                                        Expr::Member(MemberExpr { prop, .. }) => match &**prop {
-                                            Expr::Ident(default_ident) => {
-                                                let mut scope = self.scope.borrow_mut();
+                                    // bind default exported fn into scope. Note this assigns
+                                    // syntaxcontext
+                                    // for the `default` ident, since default export is always named
+                                    // as `export.default`
+                                    // instead of actual ident of FnExpr even if it exists.
+                                    {
+                                        let mut scope = self.scope.borrow_mut();
 
-                                                scope
-                                                    .exported_bindings
-                                                    .entry((ident.sym.clone(), ident.span.ctxt()))
-                                                    .or_default()
-                                                    .push((
-                                                        default_ident.sym.clone(),
-                                                        default_ident.span.ctxt(),
-                                                    ));
-
-                                                drop(scope);
-                                            }
-                                            _ => (),
-                                        },
-                                        _ => (),
+                                        scope
+                                            .exported_bindings
+                                            .entry((ident.sym.clone(), ident.span.ctxt()))
+                                            .or_default()
+                                            .push((js_word!("default"), DUMMY_SP.ctxt()));
                                     }
 
                                     extra_stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(
@@ -406,7 +399,10 @@ where
                                     stmts.push(
                                         AssignExpr {
                                             span: DUMMY_SP,
-                                            left: PatOrExpr::Expr(member_expr),
+                                            left: PatOrExpr::Expr(member_expr!(
+                                                DUMMY_SP,
+                                                exports.default
+                                            )),
                                             op: op!("="),
                                             right: Box::new(ident.into()),
                                         }
