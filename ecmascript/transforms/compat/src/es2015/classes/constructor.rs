@@ -163,6 +163,9 @@ pub(super) fn constructor_fn(c: Constructor) -> Function {
 pub(super) struct ConstructorFolder<'a> {
     pub class_name: &'a Ident,
     pub mode: Option<SuperFoldingMode>,
+    /// Variables named `thisSuper` will be added if `super.foo` or
+    /// `super.foo()` is used in constructor.
+    pub vars: &'a mut Vec<VarDeclarator>,
     /// Mark for `_this`
     pub mark: Mark,
     pub is_constructor_default: bool,

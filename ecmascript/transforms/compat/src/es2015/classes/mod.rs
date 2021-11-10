@@ -480,6 +480,7 @@ where
                 insert_this |= inserted_this;
             }
 
+            let mut vars = vec![];
             let mut body = constructor.body.unwrap().stmts;
             // should we insert `var _this`?
 
@@ -510,6 +511,7 @@ where
                 // Handle `super()`
                 body = body.fold_with(&mut ConstructorFolder {
                     is_constructor_default,
+                    vars: &mut vars,
                     class_name: &class_name,
                     // This if expression is required to handle super() call in all case
                     mode: if insert_this {
@@ -527,18 +529,21 @@ where
                     || mode == Some(SuperFoldingMode::Assign);
 
                 if insert_this {
+                    vars.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(this.clone().into()),
+                        init: None,
+                        definite: false,
+                    });
+                }
+                if !vars.is_empty() {
                     prepend(
                         &mut body,
                         Stmt::Decl(Decl::Var(VarDecl {
                             span: DUMMY_SP,
                             declare: false,
                             kind: VarDeclKind::Var,
-                            decls: vec![VarDeclarator {
-                                span: DUMMY_SP,
-                                name: Pat::Ident(this.clone().into()),
-                                init: None,
-                                definite: false,
-                            }],
+                            decls: vars,
                         })),
                     );
                 }
