@@ -12,13 +12,13 @@ version = "0.46.0"
 [dependencies]
 nom = "5.1.2"
 serde = {version = "1", features = ["derive"]}
-swc_atoms = {version = "0.2", path = "../../atoms"}
-swc_common = {version = "0.14.0", path = "../../common"}
+swc_atoms = {version = "0.2", path = "../swc_atoms"}
+swc_common = {version = "0.14.0", path = "../swc_common"}
 
 [dev-dependencies]
 anyhow = "1"
 dashmap = "4.0.2"
-swc_ecma_ast = {version = "0.57.0", path = "../ast"}
-swc_ecma_parser = {version = "0.77.0", path = "../parser"}
-testing = {version = "0.15.0", path = "../../testing"}
+swc_ecma_ast = {version = "0.57.0", path = "../../ecmascript/ast"}
+swc_ecma_parser = {version = "0.77.0", path = "../../ecmascript/parser"}
+testing = {version = "0.15.0", path = "../testing"}
 walkdir = "2"
