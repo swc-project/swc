@@ -1683,7 +1683,7 @@ class Foo extends Bar {
     
         _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(Foo.prototype)), (_this = _super.call(this)).method, _thisSuper).call(_thisSuper);
     
-        return _this;
+        return _possibleConstructorReturn(_this);
       }
     
       return Foo;
