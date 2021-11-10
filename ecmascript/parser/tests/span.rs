@@ -6,7 +6,6 @@ use swc_ecma_visit::{Node, Visit, VisitWith};
 
 #[testing::fixture("tests/span/**/*.js")]
 #[testing::fixture("tests/span/**/*.ts")]
-#[testing::fixture("tests/span/**/*.tsx")]
 fn span(entry: PathBuf) {
     let dir = entry.parent().unwrap().to_path_buf();
     let file_name = entry
