@@ -4,7 +4,7 @@ use swc_common::{Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_transforms_classes::{fold_only_key, get_prototype_of};
-use swc_ecma_utils::{quote_ident, ExprFactory};
+use swc_ecma_utils::{private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 pub(super) struct SuperCallFinder {
@@ -271,6 +271,25 @@ impl Fold for ConstructorFolder<'_> {
             }
             _ => expr,
         }
+    }
+
+    fn fold_member_expr(&mut self, e: MemberExpr) -> MemberExpr {
+        let e = e.fold_children_with(self);
+
+        match e.obj {
+            ExprOrSuper::Super(..) => {
+                let this_super = private_ident!("_thisSuper");
+                self.vars.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(this_super.clone().into()),
+                    init: None,
+                    definite: Default::default(),
+                });
+            }
+            _ => {}
+        }
+
+        e
     }
 
     fn fold_return_stmt(&mut self, stmt: ReturnStmt) -> ReturnStmt {
