@@ -372,6 +372,28 @@ where
                                     // init_export!("default");
                                     let ident = ident.unwrap_or_else(|| private_ident!("_default"));
 
+                                    let member_expr = member_expr!(DUMMY_SP, exports.default);
+                                    match &*member_expr {
+                                        Expr::Member(MemberExpr { prop, .. }) => match &**prop {
+                                            Expr::Ident(default_ident) => {
+                                                let mut scope = self.scope.borrow_mut();
+
+                                                scope
+                                                    .exported_bindings
+                                                    .entry((ident.sym.clone(), ident.span.ctxt()))
+                                                    .or_default()
+                                                    .push((
+                                                        default_ident.sym.clone(),
+                                                        default_ident.span.ctxt(),
+                                                    ));
+
+                                                drop(scope);
+                                            }
+                                            _ => (),
+                                        },
+                                        _ => (),
+                                    }
+
                                     extra_stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(
                                         FnDecl {
                                             ident: ident.clone(),
@@ -384,10 +406,7 @@ where
                                     stmts.push(
                                         AssignExpr {
                                             span: DUMMY_SP,
-                                            left: PatOrExpr::Expr(member_expr!(
-                                                DUMMY_SP,
-                                                exports.default
-                                            )),
+                                            left: PatOrExpr::Expr(member_expr),
                                             op: op!("="),
                                             right: Box::new(ident.into()),
                                         }
