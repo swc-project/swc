@@ -211,6 +211,7 @@ where
                     // Single use => inlined
                     if is_inline_enabled
                         && !should_preserve
+                        && !usage.reassigned
                         && (!usage.mutated || usage.is_mutated_only_by_one_call())
                         && usage.ref_count == 1
                     {

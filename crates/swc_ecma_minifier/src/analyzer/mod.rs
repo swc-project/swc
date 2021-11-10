@@ -185,6 +185,34 @@ where
         ret
     }
 
+    fn visit_pat_id(&mut self, i: &Ident) {
+        let Ctx {
+            in_left_of_for_loop,
+            in_pat_of_param,
+            ..
+        } = self.ctx;
+
+        if self.ctx.in_pat_of_var_decl || self.ctx.in_pat_of_param || self.ctx.in_catch_param {
+            let v = self.declare_decl(
+                &i,
+                self.ctx.in_pat_of_var_decl_with_init,
+                self.ctx.var_decl_kind_of_pat,
+                false,
+            );
+
+            if in_pat_of_param {
+                v.mark_declared_as_fn_param();
+            }
+
+            if in_left_of_for_loop {
+                v.mark_reassigned();
+                v.mark_mutated();
+            }
+        } else {
+            self.report_usage(&i, true);
+        }
+    }
+
     fn report_usage(&mut self, i: &Ident, is_assign: bool) {
         self.data.report_usage(self.ctx, i, is_assign)
     }
@@ -590,6 +618,17 @@ where
         }
     }
 
+    fn visit_object_pat_prop(&mut self, n: &ObjectPatProp, _: &dyn Node) {
+        n.visit_children_with(self);
+
+        match n {
+            ObjectPatProp::Assign(p) => {
+                self.visit_pat_id(&p.key);
+            }
+            _ => {}
+        }
+    }
+
     fn visit_param(&mut self, n: &Param, _: &dyn Node) {
         let ctx = Ctx {
             in_pat_of_param: false,
@@ -608,37 +647,8 @@ where
     fn visit_pat(&mut self, n: &Pat, _: &dyn Node) {
         n.visit_children_with(self);
 
-        let Ctx {
-            in_left_of_for_loop,
-            in_pat_of_param,
-            ..
-        } = self.ctx;
-
         match n {
-            Pat::Ident(i) => {
-                if self.ctx.in_pat_of_var_decl
-                    || self.ctx.in_pat_of_param
-                    || self.ctx.in_catch_param
-                {
-                    let v = self.declare_decl(
-                        &i.id,
-                        self.ctx.in_pat_of_var_decl_with_init,
-                        self.ctx.var_decl_kind_of_pat,
-                        false,
-                    );
-
-                    if in_pat_of_param {
-                        v.mark_declared_as_fn_param();
-                    }
-
-                    if in_left_of_for_loop {
-                        v.mark_reassigned();
-                        v.mark_mutated();
-                    }
-                } else {
-                    self.report_usage(&i.id, true);
-                }
-            }
+            Pat::Ident(i) => self.visit_pat_id(&i.id),
             _ => {}
         }
     }
