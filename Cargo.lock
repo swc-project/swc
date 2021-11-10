@@ -2856,7 +2856,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.43.0"
+version = "0.43.1"
 dependencies = [
  "once_cell",
  "phf",
@@ -2889,7 +2889,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.50.3"
+version = "0.50.5"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -2927,7 +2927,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.56.0"
+version = "0.56.1"
 dependencies = [
  "Inflector",
  "ahash",
@@ -3357,9 +3357,9 @@ dependencies = [
 
 [[package]]
 name = "tinyvec"
-version = "1.5.0"
+version = "1.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f83b2a3d4d9091d0abd7eba4dc2710b1718583bd4d8992e2190720ea38f391f7"
+checksum = "2c1c1d5a42b6245520c249549ec267180beaffcc0615401ac8e31853d4b6d8d2"
 dependencies = [
  "tinyvec_macros",
 ]

@@ -22,20 +22,36 @@ function _inherits(subClass, superClass) {
         }
     }), superClass && _setPrototypeOf(subClass, superClass);
 }
-function _possibleConstructorReturn(self, call) {
-    return call && ("object" === _typeof(call) || "function" == typeof call) ? call : (function(self) {
-        if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        return self;
-    })(self);
-}
 function _setPrototypeOf(o, p) {
     return _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var _typeof = function(obj) {
-    return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, C = function() {
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = function() {
+        if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+        if (Reflect.construct.sham) return !1;
+        if ("function" == typeof Proxy) return !0;
+        try {
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+            })), !0;
+        } catch (e) {
+            return !1;
+        }
+    }();
+    return function() {
+        var obj, self, call, result, Super = _getPrototypeOf(Derived);
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else result = Super.apply(this, arguments);
+        return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : (function(self) {
+            if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+            return self;
+        })(self);
+    };
+}
+var C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C(foo) {
@@ -58,11 +74,13 @@ var _typeof = function(obj) {
     ], _defineProperties((Constructor = C).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }(), D = function(C) {
     "use strict";
+    _inherits(D, C);
+    var _super = _createSuper(D);
     function D() {
         var _this;
-        return _classCallCheck(this, D), _this = _possibleConstructorReturn(this, _getPrototypeOf(D).apply(this, arguments)), _this.quill = _this.foo, _this;
+        return _classCallCheck(this, D), _this = _super.apply(this, arguments), _this.quill = _this.foo, _this;
     }
-    return _inherits(D, C), D;
+    return D;
 }(C), E = function(foo2) {
     "use strict";
     var _this = this;
@@ -72,19 +90,23 @@ var _typeof = function(obj) {
 }, F1 = function() {
     "use strict";
     _classCallCheck(this, F1), this.Inner = (function(F) {
+        _inherits(_class, F);
+        var _super = _createSuper(_class);
         function _class() {
             var _this;
-            return _classCallCheck(this, _class), _this = _possibleConstructorReturn(this, _getPrototypeOf(_class).apply(this, arguments)), _this.p2 = _this.p1, _this;
+            return _classCallCheck(this, _class), _this = _super.apply(this, arguments), _this.p2 = _this.p1, _this;
         }
-        return _inherits(_class, F), _class;
+        return _class;
     })(F1), this.p1 = 0;
 }, G1 = function(p1) {
     "use strict";
     _classCallCheck(this, G1), this.p1 = p1, this.Inner = (function(G) {
+        _inherits(_class, G);
+        var _super = _createSuper(_class);
         function _class() {
             var _this;
-            return _classCallCheck(this, _class), _this = _possibleConstructorReturn(this, _getPrototypeOf(_class).apply(this, arguments)), _this.p2 = _this.p1, _this;
+            return _classCallCheck(this, _class), _this = _super.apply(this, arguments), _this.p2 = _this.p1, _this;
         }
-        return _inherits(_class, G), _class;
+        return _class;
     })(G1);
 };

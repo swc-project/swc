@@ -81,6 +81,31 @@ function _superPropBase(object, property) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 var SomeBaseClass = // @target: es5
 //super.publicInstanceMemberFunction in constructor of derived class
 //super.publicInstanceMemberFunction in instance member function of derived class
@@ -119,10 +144,12 @@ var SomeBaseClass = // @target: es5
 var SomeDerivedClass = /*#__PURE__*/ function(SomeBaseClass) {
     "use strict";
     _inherits(SomeDerivedClass, SomeBaseClass);
+    var _super = _createSuper(SomeDerivedClass);
     function SomeDerivedClass() {
         _classCallCheck(this, SomeDerivedClass);
-        var _this = _possibleConstructorReturn(this, _getPrototypeOf(SomeDerivedClass).call(this));
-        var x = _get(_getPrototypeOf(SomeDerivedClass.prototype), "func", _assertThisInitialized(_this)).call(_this);
+        var _thisSuper;
+        var _this = _super.call(this);
+        var x = _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(SomeDerivedClass.prototype)), "func", _thisSuper).call(_thisSuper);
         var x;
         return _this;
     }

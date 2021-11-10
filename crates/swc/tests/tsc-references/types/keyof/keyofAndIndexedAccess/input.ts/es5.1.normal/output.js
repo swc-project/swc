@@ -75,6 +75,31 @@ function _toConsumableArray(arr) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 var Shape = function Shape() {
     "use strict";
     _classCallCheck(this, Shape);
@@ -82,9 +107,10 @@ var Shape = function Shape() {
 var TaggedShape = /*#__PURE__*/ function(Shape) {
     "use strict";
     _inherits(TaggedShape, Shape);
+    var _super = _createSuper(TaggedShape);
     function TaggedShape() {
         _classCallCheck(this, TaggedShape);
-        return _possibleConstructorReturn(this, _getPrototypeOf(TaggedShape).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     return TaggedShape;
 }(Shape);
@@ -433,10 +459,11 @@ var Base = // Repros from #12011
 var Person = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(Person, Base);
+    var _super = _createSuper(Person);
     function Person(parts) {
         _classCallCheck(this, Person);
         var _this;
-        _this = _possibleConstructorReturn(this, _getPrototypeOf(Person).call(this));
+        _this = _super.call(this);
         _this.set("parts", parts);
         return _this;
     }
@@ -581,9 +608,10 @@ var A = function A() {
 var B = /*#__PURE__*/ function(A) {
     "use strict";
     _inherits(B, A);
+    var _super = _createSuper(B);
     function B() {
         _classCallCheck(this, B);
-        return _possibleConstructorReturn(this, _getPrototypeOf(B).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     _createClass(B, [
         {
@@ -619,12 +647,13 @@ var SampleClass = function SampleClass(props) {
 var AnotherSampleClass = /*#__PURE__*/ function(SampleClass) {
     "use strict";
     _inherits(AnotherSampleClass, SampleClass);
+    var _super = _createSuper(AnotherSampleClass);
     function AnotherSampleClass(props) {
         _classCallCheck(this, AnotherSampleClass);
         var foo = {
             foo: "bar"
         };
-        return _possibleConstructorReturn(this, _getPrototypeOf(AnotherSampleClass).call(this, merge(props, foo)));
+        return _super.call(this, merge(props, foo));
     }
     _createClass(AnotherSampleClass, [
         {

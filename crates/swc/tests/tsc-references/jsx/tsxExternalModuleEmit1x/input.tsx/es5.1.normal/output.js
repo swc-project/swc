@@ -62,12 +62,38 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 export var App = /*#__PURE__*/ function(_Component) {
     "use strict";
     _inherits(App, _Component);
+    var _super = _createSuper(App);
     function App() {
         _classCallCheck(this, App);
-        return _possibleConstructorReturn(this, _getPrototypeOf(App).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     _createClass(App, [
         {
@@ -82,9 +108,10 @@ export var App = /*#__PURE__*/ function(_Component) {
 export var Button = /*#__PURE__*/ function(_Component) {
     "use strict";
     _inherits(Button, _Component);
+    var _super = _createSuper(Button);
     function Button() {
         _classCallCheck(this, Button);
-        return _possibleConstructorReturn(this, _getPrototypeOf(Button).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     _createClass(Button, [
         {

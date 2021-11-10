@@ -16,35 +16,54 @@ function _inherits(subClass, superClass) {
         }
     }), superClass && _setPrototypeOf(subClass, superClass);
 }
-function _possibleConstructorReturn(self, call) {
-    return call && ("object" === _typeof(call) || "function" == typeof call) ? call : (function(self) {
-        if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        return self;
-    })(self);
-}
 function _setPrototypeOf(o, p) {
     return _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var _typeof = function(obj) {
-    return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-};
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = function() {
+        if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+        if (Reflect.construct.sham) return !1;
+        if ("function" == typeof Proxy) return !0;
+        try {
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+            })), !0;
+        } catch (e) {
+            return !1;
+        }
+    }();
+    return function() {
+        var obj, self, call, result, Super = _getPrototypeOf(Derived);
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else result = Super.apply(this, arguments);
+        return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : (function(self) {
+            if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+            return self;
+        })(self);
+    };
+}
 First.Item = function I() {
     "use strict";
     _classCallCheck(this, I);
 }, Common.Object = (function(_Item) {
     "use strict";
+    _inherits(_class, _Item);
+    var _super = _createSuper(_class);
     function _class() {
-        return _classCallCheck(this, _class), _possibleConstructorReturn(this, _getPrototypeOf(_class).apply(this, arguments));
+        return _classCallCheck(this, _class), _super.apply(this, arguments);
     }
-    return _inherits(_class, _Item), _class;
+    return _class;
 })(First.Item), Workspace.Object = (function(_Object) {
     "use strict";
+    _inherits(_class, _Object);
+    var _super = _createSuper(_class);
     function _class() {
-        return _classCallCheck(this, _class), _possibleConstructorReturn(this, _getPrototypeOf(_class).apply(this, arguments));
+        return _classCallCheck(this, _class), _super.apply(this, arguments);
     }
-    return _inherits(_class, _Object), _class;
+    return _class;
 })(Common.Object);
 var First = {
 }, Common = {

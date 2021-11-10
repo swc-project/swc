@@ -44,6 +44,31 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 var Base = function Base(x) {
     "use strict";
     _classCallCheck(this, Base);
@@ -51,35 +76,37 @@ var Base = function Base(x) {
     this.a = 1;
     this.a = x;
 };
-var Derived = /*#__PURE__*/ function(Base) {
+var Derived1 = /*#__PURE__*/ function(Base) {
     "use strict";
-    _inherits(Derived, Base);
-    function Derived(y, z) {
-        _classCallCheck(this, Derived);
+    _inherits(Derived1, Base);
+    var _super = _createSuper(Derived1);
+    function Derived1(y, z) {
+        _classCallCheck(this, Derived1);
         var _this;
-        _this = _possibleConstructorReturn(this, _getPrototypeOf(Derived).call(this, 2));
+        _this = _super.call(this, 2);
         _this.b = '';
         _this.b = y;
         return _this;
     }
-    return Derived;
+    return Derived1;
 }(Base);
 var Derived2 = /*#__PURE__*/ function(Derived) {
     "use strict";
     _inherits(Derived2, Derived);
+    var _super = _createSuper(Derived2);
     function Derived2() {
         _classCallCheck(this, Derived2);
         var _this;
-        _this = _possibleConstructorReturn(this, _getPrototypeOf(Derived2).apply(this, arguments));
+        _this = _super.apply(this, arguments);
         _this.x = 1;
         _this.y = 'hello';
         return _this;
     }
     return Derived2;
-}(Derived);
-var r = new Derived(); // error
+}(Derived1);
+var r = new Derived1(); // error
 var r2 = new Derived2(1); // error
-var r3 = new Derived('', '');
+var r3 = new Derived1('', '');
 var Base2 = function Base2(x) {
     "use strict";
     _classCallCheck(this, Base2);
@@ -88,10 +115,11 @@ var Base2 = function Base2(x) {
 var D = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(D, Base);
+    var _super = _createSuper(D);
     function D(y, z) {
         _classCallCheck(this, D);
         var _this;
-        _this = _possibleConstructorReturn(this, _getPrototypeOf(D).call(this, 2));
+        _this = _super.call(this, 2);
         _this.b = null;
         _this.b = y;
         return _this;
@@ -101,10 +129,11 @@ var D = /*#__PURE__*/ function(Base) {
 var D2 = /*#__PURE__*/ function(D) {
     "use strict";
     _inherits(D2, D);
+    var _super = _createSuper(D2);
     function D2() {
         _classCallCheck(this, D2);
         var _this;
-        _this = _possibleConstructorReturn(this, _getPrototypeOf(D2).apply(this, arguments));
+        _this = _super.apply(this, arguments);
         _this.x = 2;
         _this.y = null;
         return _this;

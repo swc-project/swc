@@ -34,12 +34,6 @@ function _inherits(subClass, superClass) {
         }
     }), superClass && _setPrototypeOf(subClass, superClass);
 }
-function _possibleConstructorReturn(self, call) {
-    return call && ("object" === _typeof(call) || "function" == typeof call) ? call : (function(self) {
-        if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        return self;
-    })(self);
-}
 function _setPrototypeOf(o, p) {
     return _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
@@ -49,9 +43,31 @@ function _superPropBase(object, property) {
     for(; !Object.prototype.hasOwnProperty.call(object, property) && null !== (object = _getPrototypeOf(object)););
     return object;
 }
-var _typeof = function(obj) {
-    return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, Base = function() {
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = function() {
+        if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+        if (Reflect.construct.sham) return !1;
+        if ("function" == typeof Proxy) return !0;
+        try {
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+            })), !0;
+        } catch (e) {
+            return !1;
+        }
+    }();
+    return function() {
+        var obj, self, call, result, Super = _getPrototypeOf(Derived);
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else result = Super.apply(this, arguments);
+        return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : (function(self) {
+            if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+            return self;
+        })(self);
+    };
+}
+var Base = function() {
     "use strict";
     function Base() {
         _classCallCheck(this, Base);
@@ -66,10 +82,12 @@ var _typeof = function(obj) {
     ]), Base;
 }(), Derived1 = function(Base) {
     "use strict";
+    _inherits(Derived1, Base);
+    var _super = _createSuper(Derived1);
     function Derived1() {
-        return _classCallCheck(this, Derived1), _possibleConstructorReturn(this, _getPrototypeOf(Derived1).apply(this, arguments));
+        return _classCallCheck(this, Derived1), _super.apply(this, arguments);
     }
-    return _inherits(Derived1, Base), _createClass(Derived1, null, [
+    return _createClass(Derived1, null, [
         {
             key: "staticMethod1",
             value: function() {
@@ -79,10 +97,12 @@ var _typeof = function(obj) {
     ]), Derived1;
 }(Base), Derived2 = function(Derived1) {
     "use strict";
+    _inherits(Derived2, Derived1);
+    var _super = _createSuper(Derived2);
     function Derived2() {
-        return _classCallCheck(this, Derived2), _possibleConstructorReturn(this, _getPrototypeOf(Derived2).apply(this, arguments));
+        return _classCallCheck(this, Derived2), _super.apply(this, arguments);
     }
-    return _inherits(Derived2, Derived1), _createClass(Derived2, null, [
+    return _createClass(Derived2, null, [
         {
             key: "staticMethod3",
             value: function() {

@@ -44,6 +44,31 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
@@ -56,18 +81,20 @@ First.Item = function I() {
 Common.Object = /*#__PURE__*/ (function(_Item) {
     "use strict";
     _inherits(_class, _Item);
+    var _super = _createSuper(_class);
     function _class() {
         _classCallCheck(this, _class);
-        return _possibleConstructorReturn(this, _getPrototypeOf(_class).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     return _class;
 })(First.Item);
 Workspace.Object = /*#__PURE__*/ (function(_Object) {
     "use strict";
     _inherits(_class, _Object);
+    var _super = _createSuper(_class);
     function _class() {
         _classCallCheck(this, _class);
-        return _possibleConstructorReturn(this, _getPrototypeOf(_class).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     return _class;
 })(Common.Object);

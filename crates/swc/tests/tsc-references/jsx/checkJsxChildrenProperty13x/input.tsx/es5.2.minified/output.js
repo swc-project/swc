@@ -34,25 +34,43 @@ function _inherits(subClass, superClass) {
         }
     }), superClass && _setPrototypeOf(subClass, superClass);
 }
-function _possibleConstructorReturn(self, call) {
-    return call && ("object" === _typeof(call) || "function" == typeof call) ? call : (function(self) {
-        if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        return self;
-    })(self);
-}
 function _setPrototypeOf(o, p) {
     return _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var _typeof = function(obj) {
-    return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, React = require("react"), Button = function(_Component) {
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = function() {
+        if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+        if (Reflect.construct.sham) return !1;
+        if ("function" == typeof Proxy) return !0;
+        try {
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+            })), !0;
+        } catch (e) {
+            return !1;
+        }
+    }();
+    return function() {
+        var obj, self, call, result, Super = _getPrototypeOf(Derived);
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else result = Super.apply(this, arguments);
+        return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : (function(self) {
+            if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+            return self;
+        })(self);
+    };
+}
+var React = require("react"), Button = function(_Component) {
     "use strict";
+    _inherits(Button, _Component);
+    var _super = _createSuper(Button);
     function Button() {
-        return _classCallCheck(this, Button), _possibleConstructorReturn(this, _getPrototypeOf(Button).apply(this, arguments));
+        return _classCallCheck(this, Button), _super.apply(this, arguments);
     }
-    return _inherits(Button, _Component), _createClass(Button, [
+    return _createClass(Button, [
         {
             key: "render",
             value: function() {
@@ -65,10 +83,12 @@ var _typeof = function(obj) {
     ]), Button;
 }(React.Component), InnerButton = function(_Component) {
     "use strict";
+    _inherits(InnerButton, _Component);
+    var _super = _createSuper(InnerButton);
     function InnerButton() {
-        return _classCallCheck(this, InnerButton), _possibleConstructorReturn(this, _getPrototypeOf(InnerButton).apply(this, arguments));
+        return _classCallCheck(this, InnerButton), _super.apply(this, arguments);
     }
-    return _inherits(InnerButton, _Component), _createClass(InnerButton, [
+    return _createClass(InnerButton, [
         {
             key: "render",
             value: function() {

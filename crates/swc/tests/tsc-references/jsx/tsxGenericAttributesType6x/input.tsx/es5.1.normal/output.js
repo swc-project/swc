@@ -72,6 +72,31 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 // @filename: file.tsx
 // @jsx: preserve
 // @noLib: true
@@ -81,9 +106,10 @@ var React = require('react');
 var B1 = /*#__PURE__*/ function(_Component) {
     "use strict";
     _inherits(B1, _Component);
+    var _super = _createSuper(B1);
     function B1() {
         _classCallCheck(this, B1);
-        return _possibleConstructorReturn(this, _getPrototypeOf(B1).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     _createClass(B1, [
         {
@@ -98,9 +124,10 @@ var B1 = /*#__PURE__*/ function(_Component) {
 var B = /*#__PURE__*/ function(_Component) {
     "use strict";
     _inherits(B, _Component);
+    var _super = _createSuper(B);
     function B() {
         _classCallCheck(this, B);
-        return _possibleConstructorReturn(this, _getPrototypeOf(B).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     _createClass(B, [
         {

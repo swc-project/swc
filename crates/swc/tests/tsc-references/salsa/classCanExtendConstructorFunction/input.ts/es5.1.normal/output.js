@@ -81,6 +81,31 @@ function _superPropBase(object, property) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
@@ -106,10 +131,11 @@ var Sql = // ok
 /*#__PURE__*/ function(Wagon) {
     "use strict";
     _inherits(Sql, Wagon);
+    var _super = _createSuper(Sql);
     function Sql() {
         _classCallCheck(this, Sql);
         var _this;
-        _this = _possibleConstructorReturn(this, _getPrototypeOf(Sql).call(this)); // error: not enough arguments
+        _this = _super.call(this); // error: not enough arguments
         _this.foonly = 12;
         return _this;
     }
@@ -140,9 +166,10 @@ var Drakkhen = // error, can't extend a TS constructor function
 /*#__PURE__*/ function(Dragon) {
     "use strict";
     _inherits(Drakkhen, Dragon);
+    var _super = _createSuper(Drakkhen);
     function Drakkhen() {
         _classCallCheck(this, Drakkhen);
-        return _possibleConstructorReturn(this, _getPrototypeOf(Drakkhen).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     return Drakkhen;
 }(Dragon1);
@@ -156,9 +183,10 @@ var Firedrake = // error!
 /*#__PURE__*/ function(Dragon) {
     "use strict";
     _inherits(Firedrake, Dragon);
+    var _super = _createSuper(Firedrake);
     function Firedrake() {
         _classCallCheck(this, Firedrake);
-        return _possibleConstructorReturn(this, _getPrototypeOf(Firedrake).call(this));
+        return _super.call(this);
     }
     return Firedrake;
 }(Dragon1);
@@ -166,10 +194,11 @@ var Conestoga = // ok
 /*#__PURE__*/ function(Wagon) {
     "use strict";
     _inherits(Conestoga, Wagon);
+    var _super = _createSuper(Conestoga);
     function Conestoga(drunkOO) {
         _classCallCheck(this, Conestoga);
         var _this;
-        _this = _possibleConstructorReturn(this, _getPrototypeOf(Conestoga).call(this, 'nope'));
+        _this = _super.call(this, 'nope');
         _this.drunkOO = drunkOO;
         return _this;
     }
@@ -197,9 +226,10 @@ c.numberOxen;
 var Chowder = /** @extends {Soup<{ claim: "ignorant" | "malicious" }>} */ /*#__PURE__*/ function(Soup) {
     "use strict";
     _inherits(Chowder, Soup);
+    var _super = _createSuper(Chowder);
     function Chowder() {
         _classCallCheck(this, Chowder);
-        return _possibleConstructorReturn(this, _getPrototypeOf(Chowder).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     _createClass(Chowder, [
         {

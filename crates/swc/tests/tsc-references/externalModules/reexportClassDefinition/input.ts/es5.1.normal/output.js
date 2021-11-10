@@ -44,6 +44,31 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 var x = function x() {
     "use strict";
     _classCallCheck(this, x);
@@ -59,9 +84,10 @@ var foo2 = require('./foo2');
 var x = /*#__PURE__*/ function(_x) {
     "use strict";
     _inherits(x, _x);
+    var _super = _createSuper(x);
     function x() {
         _classCallCheck(this, x);
-        return _possibleConstructorReturn(this, _getPrototypeOf(x).apply(this, arguments));
+        return _super.apply(this, arguments);
     }
     return x;
 }(foo2.x);

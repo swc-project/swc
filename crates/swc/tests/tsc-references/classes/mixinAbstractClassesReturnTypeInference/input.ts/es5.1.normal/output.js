@@ -58,6 +58,31 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 var AbstractBase = function AbstractBase() {
     "use strict";
     _classCallCheck(this, AbstractBase);
@@ -68,9 +93,10 @@ function Mixin2(baseClass1) {
     /*#__PURE__*/ function(baseClass) {
         "use strict";
         _inherits(MixinClass, baseClass);
+        var _super = _createSuper(MixinClass);
         function MixinClass() {
             _classCallCheck(this, MixinClass);
-            return _possibleConstructorReturn(this, _getPrototypeOf(MixinClass).apply(this, arguments));
+            return _super.apply(this, arguments);
         }
         _createClass(MixinClass, [
             {
@@ -92,9 +118,10 @@ function Mixin2(baseClass1) {
 var DerivedFromAbstract2 = /*#__PURE__*/ function(_super) {
     "use strict";
     _inherits(DerivedFromAbstract2, _super);
+    var _super1 = _createSuper(DerivedFromAbstract2);
     function DerivedFromAbstract2() {
         _classCallCheck(this, DerivedFromAbstract2);
-        return _possibleConstructorReturn(this, _getPrototypeOf(DerivedFromAbstract2).apply(this, arguments));
+        return _super1.apply(this, arguments);
     }
     _createClass(DerivedFromAbstract2, [
         {

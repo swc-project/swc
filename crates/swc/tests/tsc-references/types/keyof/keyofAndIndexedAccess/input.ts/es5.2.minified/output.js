@@ -25,28 +25,46 @@ function _inherits(subClass, superClass) {
         }
     }), superClass && _setPrototypeOf(subClass, superClass);
 }
-function _possibleConstructorReturn(self, call) {
-    return call && ("object" === _typeof(call) || "function" == typeof call) ? call : (function(self) {
-        if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        return self;
-    })(self);
-}
 function _setPrototypeOf(o, p) {
     return _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var Flag, E, Flag1, E1, _typeof = function(obj) {
-    return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, Shape1 = function() {
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = function() {
+        if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+        if (Reflect.construct.sham) return !1;
+        if ("function" == typeof Proxy) return !0;
+        try {
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+            })), !0;
+        } catch (e) {
+            return !1;
+        }
+    }();
+    return function() {
+        var obj, self, call, result, Super = _getPrototypeOf(Derived);
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else result = Super.apply(this, arguments);
+        return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : (function(self) {
+            if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+            return self;
+        })(self);
+    };
+}
+var Flag, E, Flag1, E1, Shape1 = function() {
     "use strict";
     _classCallCheck(this, Shape1);
 }, TaggedShape = function(Shape) {
     "use strict";
+    _inherits(TaggedShape, Shape);
+    var _super = _createSuper(TaggedShape);
     function TaggedShape() {
-        return _classCallCheck(this, TaggedShape), _possibleConstructorReturn(this, _getPrototypeOf(TaggedShape).apply(this, arguments));
+        return _classCallCheck(this, TaggedShape), _super.apply(this, arguments);
     }
-    return _inherits(TaggedShape, Shape), TaggedShape;
+    return TaggedShape;
 }(Shape1), Item = function() {
     "use strict";
     _classCallCheck(this, Item);
@@ -130,11 +148,13 @@ var Component = function() {
     ]), Base;
 }(), Person = function(Base) {
     "use strict";
+    _inherits(Person, Base);
+    var _super = _createSuper(Person);
     function Person(parts) {
         var _this;
-        return _classCallCheck(this, Person), (_this = _possibleConstructorReturn(this, _getPrototypeOf(Person).call(this))).set("parts", parts), _this;
+        return _classCallCheck(this, Person), (_this = _super.call(this)).set("parts", parts), _this;
     }
-    return _inherits(Person, Base), _createClass(Person, [
+    return _createClass(Person, [
         {
             key: "getParts",
             value: function() {
@@ -176,10 +196,12 @@ var A1 = function() {
     _classCallCheck(this, A1);
 }, B = function(A) {
     "use strict";
+    _inherits(B, A);
+    var _super = _createSuper(B);
     function B() {
-        return _classCallCheck(this, B), _possibleConstructorReturn(this, _getPrototypeOf(B).apply(this, arguments));
+        return _classCallCheck(this, B), _super.apply(this, arguments);
     }
-    return _inherits(B, A), _createClass(B, [
+    return _createClass(B, [
         {
             key: "f",
             value: function(p) {
@@ -205,12 +227,14 @@ var A1 = function() {
     _classCallCheck(this, SampleClass1), this.props = Object.freeze(props);
 }, AnotherSampleClass = function(SampleClass) {
     "use strict";
+    _inherits(AnotherSampleClass, SampleClass);
+    var _super = _createSuper(AnotherSampleClass);
     function AnotherSampleClass(props) {
-        return _classCallCheck(this, AnotherSampleClass), _possibleConstructorReturn(this, _getPrototypeOf(AnotherSampleClass).call(this, merge(props, {
+        return _classCallCheck(this, AnotherSampleClass), _super.call(this, merge(props, {
             foo: "bar"
-        })));
+        }));
     }
-    return _inherits(AnotherSampleClass, SampleClass), _createClass(AnotherSampleClass, [
+    return _createClass(AnotherSampleClass, [
         {
             key: "brokenMethod",
             value: function() {

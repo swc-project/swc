@@ -44,6 +44,31 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+        }));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+        var Super = _getPrototypeOf(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possibleConstructorReturn(this, result);
+    };
+}
 var Base = function Base() {
     "use strict";
     _classCallCheck(this, Base);
@@ -51,11 +76,12 @@ var Base = function Base() {
 var Sub = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(Sub, Base);
+    var _super = _createSuper(Sub);
     function Sub(p) {
         _classCallCheck(this, Sub);
         var _this;
         console.log('hi');
-        _this = _possibleConstructorReturn(this, _getPrototypeOf(Sub).call(this));
+        _this = _super.call(this);
         _this.p = p;
         _this.field = 0;
         return _this;
@@ -65,11 +91,12 @@ var Sub = /*#__PURE__*/ function(Base) {
 var Test = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(Test, Base);
+    var _super = _createSuper(Test);
     function Test(p) {
         _classCallCheck(this, Test);
         var _this;
         1;
-        _this = _possibleConstructorReturn(this, _getPrototypeOf(Test).call(this));
+        _this = _super.call(this);
         _this.p = p;
         _this.prop = 1;
         return _this;

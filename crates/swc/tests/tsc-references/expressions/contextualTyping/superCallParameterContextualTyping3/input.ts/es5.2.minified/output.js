@@ -49,20 +49,7 @@ var CBase = function() {
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), CBase;
 }(), C = function(CBase) {
     "use strict";
-    function C() {
-        _classCallCheck(this, C);
-        var obj, self, call, _this = (self = this, (call = _getPrototypeOf(C).call(this, {
-            method: function(p) {
-                p.length;
-            }
-        })) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : _assertThisInitialized(self));
-        return _get(_getPrototypeOf(C.prototype), "foo", _assertThisInitialized(_this)).call(_this, {
-            method: function(p) {
-                p.length;
-            }
-        }), _this;
-    }
-    return !function(subClass, superClass) {
+    !function(subClass, superClass) {
         if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
         subClass.prototype = Object.create(superClass && superClass.prototype, {
             constructor: {
@@ -71,5 +58,40 @@ var CBase = function() {
                 configurable: !0
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
-    }(C, CBase), C;
+    }(C, CBase);
+    var _super = function(Derived) {
+        var hasNativeReflectConstruct = function() {
+            if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+            if (Reflect.construct.sham) return !1;
+            if ("function" == typeof Proxy) return !0;
+            try {
+                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+                })), !0;
+            } catch (e) {
+                return !1;
+            }
+        }();
+        return function() {
+            var obj, self, call, result, Super = _getPrototypeOf(Derived);
+            if (hasNativeReflectConstruct) {
+                var NewTarget = _getPrototypeOf(this).constructor;
+                result = Reflect.construct(Super, arguments, NewTarget);
+            } else result = Super.apply(this, arguments);
+            return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : _assertThisInitialized(self);
+        };
+    }(C);
+    function C() {
+        _classCallCheck(this, C);
+        var _thisSuper, _this = _super.call(this, {
+            method: function(p) {
+                p.length;
+            }
+        });
+        return _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(C.prototype)), "foo", _thisSuper).call(_thisSuper, {
+            method: function(p) {
+                p.length;
+            }
+        }), _this;
+    }
+    return C;
 }(CBase);

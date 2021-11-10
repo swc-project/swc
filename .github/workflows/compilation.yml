@@ -42,31 +42,31 @@ jobs:
 
       - name: Check swc_common
         run: |
-          (cd common && cargo hack check --feature-powerset --no-dev-deps)
+          (cd crates/swc_common && cargo hack check --feature-powerset --no-dev-deps)
 
       - name: Check swc_ecma_ast
         run: |
-          (cd ecmascript/ast && cargo hack check --feature-powerset --no-dev-deps)
+          (cd crates/swc_ecma_ast && cargo hack check --feature-powerset --no-dev-deps)
 
       - name: Check swc_ecma_transforms
         run: |
-          (cd ecmascript/transforms && cargo hack check --feature-powerset --no-dev-deps)
+          (cd crates/swc_ecma_transforms && cargo hack check --feature-powerset --no-dev-deps)
 
       - name: Check swc_ecma_transforms_base
         run: |
-          (cd ecmascript/transforms/base && cargo hack check --feature-powerset --no-dev-deps)
+          (cd crates/swc_ecma_transforms_base && cargo hack check --feature-powerset --no-dev-deps)
 
       - name: Check swc_ecma_transforms_compat
         run: |
-          (cd ecmascript/transforms/compat && cargo hack check --feature-powerset --no-dev-deps)
+          (cd crates/swc_ecma_transforms_compat && cargo hack check --feature-powerset --no-dev-deps)
 
       - name: Check swc_ecma_transforms_optimization
         run: |
-          (cd ecmascript/transforms/optimization && cargo hack check --feature-powerset --no-dev-deps)
+          (cd crates/swc_ecma_transforms_optimization && cargo hack check --feature-powerset --no-dev-deps)
 
       - name: Check swc_ecma_utils
         run: |
-          (cd ecmascript/utils && cargo hack check --feature-powerset --no-dev-deps)
+          (cd crates/swc_ecma_utils && cargo hack check --feature-powerset --no-dev-deps)
 
       - name: Check swc_bundler
         run: |

@@ -38,9 +38,6 @@ function _inherits(subClass, superClass) {
         }
     }), superClass && _setPrototypeOf(subClass, superClass);
 }
-function _possibleConstructorReturn(self, call) {
-    return call && ("object" === _typeof(call) || "function" == typeof call) ? call : _assertThisInitialized(self);
-}
 function _setPrototypeOf(o, p) {
     return _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
@@ -50,9 +47,28 @@ function _superPropBase(object, property) {
     for(; !Object.prototype.hasOwnProperty.call(object, property) && null !== (object = _getPrototypeOf(object)););
     return object;
 }
-var i1_i, i2_i, i3_i, _typeof = function(obj) {
-    return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, c1 = function() {
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = function() {
+        if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
+        if (Reflect.construct.sham) return !1;
+        if ("function" == typeof Proxy) return !0;
+        try {
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+            })), !0;
+        } catch (e) {
+            return !1;
+        }
+    }();
+    return function() {
+        var obj, self, call, result, Super = _getPrototypeOf(Derived);
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else result = Super.apply(this, arguments);
+        return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : _assertThisInitialized(self);
+    };
+}
+var i1_i, i2_i, i3_i, c1 = function() {
     "use strict";
     function c1() {
         _classCallCheck(this, c1);
@@ -136,11 +152,13 @@ var c2 = function() {
     ]), c2;
 }(), c3 = function(c2) {
     "use strict";
+    _inherits(c3, c2);
+    var _super = _createSuper(c3);
     function c3() {
-        var _this;
-        return _classCallCheck(this, c3), (_this = _possibleConstructorReturn(this, _getPrototypeOf(c3).call(this, 10))).p1 = _get(_getPrototypeOf(c3.prototype), "c2_p1", _assertThisInitialized(_this)), _this;
+        var _thisSuper, _this;
+        return _classCallCheck(this, c3), (_this = _super.call(this, 10)).p1 = _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(c3.prototype)), "c2_p1", _thisSuper), _this;
     }
-    return _inherits(c3, c2), _createClass(c3, [
+    return _createClass(c3, [
         {
             key: "f1",
             value: function() {
@@ -168,10 +186,12 @@ var c2 = function() {
 c2_i.c2_f1(), c2_i.c2_nc_f1(), c2_i.f1(), c2_i.nc_f1(), c3_i.c2_f1(), c3_i.c2_nc_f1(), c3_i.f1(), c3_i.nc_f1(), (c2_i = c3_i).c2_f1(), c2_i.c2_nc_f1(), c2_i.f1(), c2_i.nc_f1();
 var c4 = function(c2) {
     "use strict";
+    _inherits(c4, c2);
+    var _super = _createSuper(c4);
     function c4() {
-        return _classCallCheck(this, c4), _possibleConstructorReturn(this, _getPrototypeOf(c4).apply(this, arguments));
+        return _classCallCheck(this, c4), _super.apply(this, arguments);
     }
-    return _inherits(c4, c2), c4;
+    return c4;
 }(c2);
 new c4(10), i2_i.i2_f1(), i2_i.i2_nc_f1(), i2_i.f1(), i2_i.nc_f1(), i2_i.i2_l1(), i2_i.i2_nc_l1(), i2_i.l1(), i2_i.nc_l1(), i3_i.i2_f1(), i3_i.i2_nc_f1(), i3_i.f1(), i3_i.nc_f1(), i3_i.i2_l1(), i3_i.i2_nc_l1(), i3_i.l1(), i3_i.nc_l1(), (i2_i = i3_i).i2_f1(), i2_i.i2_nc_f1(), i2_i.f1(), i2_i.nc_f1(), i2_i.i2_l1(), i2_i.i2_nc_l1(), i2_i.l1(), i2_i.nc_l1();
 var c51 = function() {
@@ -179,9 +199,11 @@ var c51 = function() {
     _classCallCheck(this, c51);
 }, c6 = function(c5) {
     "use strict";
+    _inherits(c6, c5);
+    var _super = _createSuper(c6);
     function c6() {
-        var _this;
-        return _classCallCheck(this, c6), (_this = _possibleConstructorReturn(this, _getPrototypeOf(c6).call(this))).d = _get(_getPrototypeOf(c6.prototype), "b", _assertThisInitialized(_this)), _this;
+        var _thisSuper, _this;
+        return _classCallCheck(this, c6), (_this = _super.call(this)).d = _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(c6.prototype)), "b", _thisSuper), _this;
     }
-    return _inherits(c6, c5), c6;
+    return c6;
 }(c51);
