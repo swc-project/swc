@@ -786,9 +786,9 @@ class Test extends Foo {
 
 "#,
     r#"
-    var Test = /*#__PURE__*/function (_Foo) {
+    var Test = /*#__PURE__*/function (Foo) {
       "use strict";
-      _inherits(Test, _Foo);
+      _inherits(Test, Foo);
     
       var _super = _createSuper(Test);
     
@@ -1670,9 +1670,9 @@ class Foo extends Bar {
 
 "#,
     r#"
-    var Foo = /*#__PURE__*/function (_Bar) {
+    var Foo = /*#__PURE__*/function (Bar) {
       "use strict";
-      _inherits(Foo, _Bar);
+      _inherits(Foo, Bar);
     
       var _super = _createSuper(Foo);
     
@@ -1821,9 +1821,9 @@ class Test extends Foo {
 
 "#,
     r#"
-    var Test = /*#__PURE__*/function (_Foo) {
+    var Test = /*#__PURE__*/function (Foo) {
       "use strict";
-      _inherits(Test, _Foo);
+      _inherits(Test, Foo);
     
       var _super = _createSuper(Test);
     
