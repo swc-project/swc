@@ -27,6 +27,9 @@ function _asyncToGenerator(fn) {
         });
     };
 }
+function f() {
+    return _f.apply(this, arguments);
+}
 function _f() {
     _f = _asyncToGenerator(function*() {
         let await_a = yield a;
@@ -35,8 +38,5 @@ function _f() {
         let await_d = yield d;
         let await_e = yield e;
     });
-    return _f.apply(this, arguments);
-}
-function f() {
     return _f.apply(this, arguments);
 }

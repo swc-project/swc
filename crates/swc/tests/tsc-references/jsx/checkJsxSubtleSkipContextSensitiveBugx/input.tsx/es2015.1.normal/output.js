@@ -38,15 +38,15 @@ class AsyncLoader extends React.Component {
         return null;
     }
 }
+function load() {
+    return _load.apply(this, arguments);
+}
 function _load() {
     _load = _asyncToGenerator(function*() {
         return {
             success: true
         };
     });
-    return _load.apply(this, arguments);
-}
-function load() {
     return _load.apply(this, arguments);
 }
 const loader = /*#__PURE__*/ React.createElement(AsyncLoader, {

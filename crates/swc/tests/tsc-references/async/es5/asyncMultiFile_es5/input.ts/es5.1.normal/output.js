@@ -28,6 +28,9 @@ function _asyncToGenerator(fn) {
         });
     };
 }
+function f() {
+    return _f.apply(this, arguments);
+}
 function _f() {
     _f = // @target: es5
     // @lib: es5,es2015.promise
@@ -41,9 +44,6 @@ function _f() {
             }
         }, _callee);
     }));
-    return _f.apply(this, arguments);
-}
-function f() {
     return _f.apply(this, arguments);
 }
 // @filename: b.ts

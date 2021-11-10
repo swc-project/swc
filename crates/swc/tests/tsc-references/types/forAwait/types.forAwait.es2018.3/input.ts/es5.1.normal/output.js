@@ -134,6 +134,9 @@ function _wrapAsyncGenerator(fn) {
         return new AsyncGenerator(fn.apply(this, arguments));
     };
 }
+function f1() {
+    return _f1.apply(this, arguments);
+}
 function _f1() {
     _f1 = // @target: es2018
     // @lib: es5
@@ -274,8 +277,8 @@ function _f1() {
     }));
     return _f1.apply(this, arguments);
 }
-function f1() {
-    return _f1.apply(this, arguments);
+function f2() {
+    return _f2.apply(this, arguments);
 }
 function _f2() {
     _f2 = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
@@ -412,8 +415,5 @@ function _f2() {
             ]
         ]);
     }));
-    return _f2.apply(this, arguments);
-}
-function f2() {
     return _f2.apply(this, arguments);
 }

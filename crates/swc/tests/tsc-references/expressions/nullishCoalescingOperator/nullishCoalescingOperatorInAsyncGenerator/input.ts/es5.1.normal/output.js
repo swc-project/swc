@@ -88,6 +88,9 @@ function _wrapAsyncGenerator(fn) {
         return new AsyncGenerator(fn.apply(this, arguments));
     };
 }
+function f(a) {
+    return _f.apply(this, arguments);
+}
 function _f() {
     _f = // @target: esnext,es2015,es5
     // @lib: esnext
@@ -117,8 +120,5 @@ function _f() {
             }
         }, _callee);
     }));
-    return _f.apply(this, arguments);
-}
-function f(a) {
     return _f.apply(this, arguments);
 }

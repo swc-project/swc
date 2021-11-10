@@ -31,6 +31,9 @@ function _asyncToGenerator(fn) {
 function _throw(e) {
     throw e;
 }
+function foo() {
+    return _foo.apply(this, arguments);
+}
 function _foo() {
     _foo = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         var tmp, ref, ref;
@@ -45,8 +48,5 @@ function _foo() {
             }
         }, _callee);
     }));
-    return _foo.apply(this, arguments);
-}
-function foo() {
     return _foo.apply(this, arguments);
 }

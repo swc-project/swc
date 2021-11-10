@@ -28,6 +28,9 @@ function _asyncToGenerator(fn) {
         });
     };
 }
+function f() {
+    return _f.apply(this, arguments);
+}
 function _f() {
     _f = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         var await_a, await_b, await_c, await_d, await_e;
@@ -60,8 +63,5 @@ function _f() {
             }
         }, _callee);
     }));
-    return _f.apply(this, arguments);
-}
-function f() {
     return _f.apply(this, arguments);
 }

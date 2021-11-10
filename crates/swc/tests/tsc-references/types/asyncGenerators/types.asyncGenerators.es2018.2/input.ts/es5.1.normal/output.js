@@ -88,6 +88,9 @@ function _wrapAsyncGenerator(fn) {
         return new AsyncGenerator(fn.apply(this, arguments));
     };
 }
+function inferReturnType1() {
+    return _inferReturnType1.apply(this, arguments);
+}
 function _inferReturnType1() {
     _inferReturnType1 = // @target: es2018
     // @lib: esnext
@@ -106,8 +109,8 @@ function _inferReturnType1() {
     }));
     return _inferReturnType1.apply(this, arguments);
 }
-function inferReturnType1() {
-    return _inferReturnType1.apply(this, arguments);
+function inferReturnType2() {
+    return _inferReturnType2.apply(this, arguments);
 }
 function _inferReturnType2() {
     _inferReturnType2 = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
@@ -123,8 +126,8 @@ function _inferReturnType2() {
     }));
     return _inferReturnType2.apply(this, arguments);
 }
-function inferReturnType2() {
-    return _inferReturnType2.apply(this, arguments);
+function inferReturnType3() {
+    return _inferReturnType3.apply(this, arguments);
 }
 function _inferReturnType3() {
     _inferReturnType3 = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
@@ -141,9 +144,6 @@ function _inferReturnType3() {
             }
         }, _callee);
     }));
-    return _inferReturnType3.apply(this, arguments);
-}
-function inferReturnType3() {
     return _inferReturnType3.apply(this, arguments);
 }
 var assignability1 = function() {
@@ -335,6 +335,9 @@ var assignability9 = function() {
         return _ref.apply(this, arguments);
     };
 }();
+function explicitReturnType1() {
+    return _explicitReturnType1.apply(this, arguments);
+}
 function _explicitReturnType1() {
     _explicitReturnType1 = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
@@ -350,8 +353,8 @@ function _explicitReturnType1() {
     }));
     return _explicitReturnType1.apply(this, arguments);
 }
-function explicitReturnType1() {
-    return _explicitReturnType1.apply(this, arguments);
+function explicitReturnType2() {
+    return _explicitReturnType2.apply(this, arguments);
 }
 function _explicitReturnType2() {
     _explicitReturnType2 = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
@@ -370,8 +373,8 @@ function _explicitReturnType2() {
     }));
     return _explicitReturnType2.apply(this, arguments);
 }
-function explicitReturnType2() {
-    return _explicitReturnType2.apply(this, arguments);
+function explicitReturnType3() {
+    return _explicitReturnType3.apply(this, arguments);
 }
 function _explicitReturnType3() {
     _explicitReturnType3 = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee4() {
@@ -398,8 +401,8 @@ function _explicitReturnType3() {
     }));
     return _explicitReturnType3.apply(this, arguments);
 }
-function explicitReturnType3() {
-    return _explicitReturnType3.apply(this, arguments);
+function explicitReturnType4() {
+    return _explicitReturnType4.apply(this, arguments);
 }
 function _explicitReturnType4() {
     _explicitReturnType4 = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
@@ -416,8 +419,8 @@ function _explicitReturnType4() {
     }));
     return _explicitReturnType4.apply(this, arguments);
 }
-function explicitReturnType4() {
-    return _explicitReturnType4.apply(this, arguments);
+function explicitReturnType5() {
+    return _explicitReturnType5.apply(this, arguments);
 }
 function _explicitReturnType5() {
     _explicitReturnType5 = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
@@ -436,8 +439,8 @@ function _explicitReturnType5() {
     }));
     return _explicitReturnType5.apply(this, arguments);
 }
-function explicitReturnType5() {
-    return _explicitReturnType5.apply(this, arguments);
+function explicitReturnType6() {
+    return _explicitReturnType6.apply(this, arguments);
 }
 function _explicitReturnType6() {
     _explicitReturnType6 = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee5() {
@@ -464,8 +467,8 @@ function _explicitReturnType6() {
     }));
     return _explicitReturnType6.apply(this, arguments);
 }
-function explicitReturnType6() {
-    return _explicitReturnType6.apply(this, arguments);
+function explicitReturnType7() {
+    return _explicitReturnType7.apply(this, arguments);
 }
 function _explicitReturnType7() {
     _explicitReturnType7 = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
@@ -482,8 +485,8 @@ function _explicitReturnType7() {
     }));
     return _explicitReturnType7.apply(this, arguments);
 }
-function explicitReturnType7() {
-    return _explicitReturnType7.apply(this, arguments);
+function explicitReturnType8() {
+    return _explicitReturnType8.apply(this, arguments);
 }
 function _explicitReturnType8() {
     _explicitReturnType8 = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
@@ -502,8 +505,8 @@ function _explicitReturnType8() {
     }));
     return _explicitReturnType8.apply(this, arguments);
 }
-function explicitReturnType8() {
-    return _explicitReturnType8.apply(this, arguments);
+function explicitReturnType9() {
+    return _explicitReturnType9.apply(this, arguments);
 }
 function _explicitReturnType9() {
     _explicitReturnType9 = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee6() {
@@ -530,8 +533,8 @@ function _explicitReturnType9() {
     }));
     return _explicitReturnType9.apply(this, arguments);
 }
-function explicitReturnType9() {
-    return _explicitReturnType9.apply(this, arguments);
+function explicitReturnType10() {
+    return _explicitReturnType10.apply(this, arguments);
 }
 function _explicitReturnType10() {
     _explicitReturnType10 = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
@@ -548,8 +551,8 @@ function _explicitReturnType10() {
     }));
     return _explicitReturnType10.apply(this, arguments);
 }
-function explicitReturnType10() {
-    return _explicitReturnType10.apply(this, arguments);
+function explicitReturnType11() {
+    return _explicitReturnType11.apply(this, arguments);
 }
 function _explicitReturnType11() {
     _explicitReturnType11 = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
@@ -566,8 +569,8 @@ function _explicitReturnType11() {
     }));
     return _explicitReturnType11.apply(this, arguments);
 }
-function explicitReturnType11() {
-    return _explicitReturnType11.apply(this, arguments);
+function explicitReturnType12() {
+    return _explicitReturnType12.apply(this, arguments);
 }
 function _explicitReturnType12() {
     _explicitReturnType12 = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
@@ -584,8 +587,8 @@ function _explicitReturnType12() {
     }));
     return _explicitReturnType12.apply(this, arguments);
 }
-function explicitReturnType12() {
-    return _explicitReturnType12.apply(this, arguments);
+function yieldStar() {
+    return _yieldStar.apply(this, arguments);
 }
 function _yieldStar() {
     _yieldStar = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
@@ -600,8 +603,5 @@ function _yieldStar() {
             }
         }, _callee);
     }));
-    return _yieldStar.apply(this, arguments);
-}
-function yieldStar() {
     return _yieldStar.apply(this, arguments);
 }

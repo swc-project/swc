@@ -27,6 +27,9 @@ function _asyncToGenerator(fn) {
         });
     };
 }
+function func() {
+    return _func.apply(this, arguments);
+}
 function _func() {
     _func = _asyncToGenerator(function*() {
         before();
@@ -34,8 +37,5 @@ function _func() {
         o.a = yield p;
         after();
     });
-    return _func.apply(this, arguments);
-}
-function func() {
     return _func.apply(this, arguments);
 }

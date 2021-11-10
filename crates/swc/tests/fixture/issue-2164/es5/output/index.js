@@ -28,6 +28,9 @@ function _asyncToGenerator(fn) {
         });
     };
 }
+function fn1() {
+    return _fn.apply(this, arguments);
+}
 function _fn() {
     _fn = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         var key;
@@ -42,8 +45,5 @@ function _fn() {
             }
         }, _callee);
     }));
-    return _fn.apply(this, arguments);
-}
-function fn1() {
     return _fn.apply(this, arguments);
 }

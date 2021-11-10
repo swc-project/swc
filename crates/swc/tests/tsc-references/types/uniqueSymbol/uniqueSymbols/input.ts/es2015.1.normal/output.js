@@ -173,6 +173,9 @@ function* genFuncYieldVarCall() {
 function* genFuncYieldConstCallWithTypeQuery() {
     yield constCall;
 }
+function asyncFuncReturnConstCall() {
+    return _asyncFuncReturnConstCall.apply(this, arguments);
+}
 function _asyncFuncReturnConstCall() {
     _asyncFuncReturnConstCall = // async function return inference
     _asyncToGenerator(function*() {
@@ -180,8 +183,8 @@ function _asyncFuncReturnConstCall() {
     });
     return _asyncFuncReturnConstCall.apply(this, arguments);
 }
-function asyncFuncReturnConstCall() {
-    return _asyncFuncReturnConstCall.apply(this, arguments);
+function asyncFuncReturnLetCall() {
+    return _asyncFuncReturnLetCall.apply(this, arguments);
 }
 function _asyncFuncReturnLetCall() {
     _asyncFuncReturnLetCall = _asyncToGenerator(function*() {
@@ -189,8 +192,8 @@ function _asyncFuncReturnLetCall() {
     });
     return _asyncFuncReturnLetCall.apply(this, arguments);
 }
-function asyncFuncReturnLetCall() {
-    return _asyncFuncReturnLetCall.apply(this, arguments);
+function asyncFuncReturnVarCall() {
+    return _asyncFuncReturnVarCall.apply(this, arguments);
 }
 function _asyncFuncReturnVarCall() {
     _asyncFuncReturnVarCall = _asyncToGenerator(function*() {
@@ -198,8 +201,8 @@ function _asyncFuncReturnVarCall() {
     });
     return _asyncFuncReturnVarCall.apply(this, arguments);
 }
-function asyncFuncReturnVarCall() {
-    return _asyncFuncReturnVarCall.apply(this, arguments);
+function asyncGenFuncYieldConstCall() {
+    return _asyncGenFuncYieldConstCall.apply(this, arguments);
 }
 function _asyncGenFuncYieldConstCall() {
     _asyncGenFuncYieldConstCall = // async generator function yield inference
@@ -208,8 +211,8 @@ function _asyncGenFuncYieldConstCall() {
     });
     return _asyncGenFuncYieldConstCall.apply(this, arguments);
 }
-function asyncGenFuncYieldConstCall() {
-    return _asyncGenFuncYieldConstCall.apply(this, arguments);
+function asyncGenFuncYieldLetCall() {
+    return _asyncGenFuncYieldLetCall.apply(this, arguments);
 }
 function _asyncGenFuncYieldLetCall() {
     _asyncGenFuncYieldLetCall = _wrapAsyncGenerator(function*() {
@@ -217,16 +220,13 @@ function _asyncGenFuncYieldLetCall() {
     });
     return _asyncGenFuncYieldLetCall.apply(this, arguments);
 }
-function asyncGenFuncYieldLetCall() {
-    return _asyncGenFuncYieldLetCall.apply(this, arguments);
+function asyncGenFuncYieldVarCall() {
+    return _asyncGenFuncYieldVarCall.apply(this, arguments);
 }
 function _asyncGenFuncYieldVarCall() {
     _asyncGenFuncYieldVarCall = _wrapAsyncGenerator(function*() {
         yield varCall;
     });
-    return _asyncGenFuncYieldVarCall.apply(this, arguments);
-}
-function asyncGenFuncYieldVarCall() {
     return _asyncGenFuncYieldVarCall.apply(this, arguments);
 }
 // classes

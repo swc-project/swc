@@ -28,6 +28,9 @@ function _asyncToGenerator(fn) {
         });
     };
 }
+function scanUser(groups) {
+    return _scanUser.apply(this, arguments);
+}
 function _scanUser() {
     _scanUser = _asyncToGenerator(regeneratorRuntime.mark(function _callee1(groups) {
         return regeneratorRuntime.wrap(function _callee$(_ctx1) {
@@ -108,9 +111,6 @@ function _scanUser() {
             }
         }, _callee1);
     }));
-    return _scanUser.apply(this, arguments);
-}
-function scanUser(groups) {
     return _scanUser.apply(this, arguments);
 }
 scanUser([

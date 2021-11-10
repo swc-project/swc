@@ -32,6 +32,9 @@ var source = Math.random() < 2 ? 'matilda' : 'fred';
 var details = {
     _id: '1'
 };
+function request(path) {
+    return _request.apply(this, arguments);
+}
 function _request() {
     _request = _asyncToGenerator(regeneratorRuntime.mark(function _callee(path) {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
@@ -44,9 +47,6 @@ function _request() {
             }
         }, _callee);
     }));
-    return _request.apply(this, arguments);
-}
-function request(path) {
     return _request.apply(this, arguments);
 }
 _asyncToGenerator(regeneratorRuntime.mark(function _callee() {

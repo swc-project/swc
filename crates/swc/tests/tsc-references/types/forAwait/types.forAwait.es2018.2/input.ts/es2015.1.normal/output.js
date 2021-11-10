@@ -41,6 +41,9 @@ function _asyncToGenerator(fn) {
         });
     };
 }
+function f() {
+    return _f.apply(this, arguments);
+}
 function _f() {
     _f = _asyncToGenerator(function*() {
         let y;
@@ -140,8 +143,5 @@ function _f() {
         for (y of asyncIterable){
         }
     });
-    return _f.apply(this, arguments);
-}
-function f() {
     return _f.apply(this, arguments);
 }

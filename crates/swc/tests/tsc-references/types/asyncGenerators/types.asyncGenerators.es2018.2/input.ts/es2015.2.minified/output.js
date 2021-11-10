@@ -65,11 +65,10 @@ function _inferReturnType1() {
 }
 function _inferReturnType2() {
     return (_inferReturnType2 = _wrapAsyncGenerator(function*() {
-        yield* inferReturnType2();
+        yield* (function() {
+            return _inferReturnType2.apply(this, arguments);
+        })();
     })).apply(this, arguments);
-}
-function inferReturnType2() {
-    return _inferReturnType2.apply(this, arguments);
 }
 function _inferReturnType3() {
     return (_inferReturnType3 = _wrapAsyncGenerator(function*() {

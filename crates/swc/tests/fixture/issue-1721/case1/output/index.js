@@ -131,6 +131,9 @@ function _wrapAsyncGenerator(fn) {
         return new AsyncGenerator(fn.apply(this, arguments));
     };
 }
+function lol() {
+    return _lol.apply(this, arguments);
+}
 function _lol() {
     _lol = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
@@ -149,8 +152,8 @@ function _lol() {
     }));
     return _lol.apply(this, arguments);
 }
-function lol() {
-    return _lol.apply(this, arguments);
+function main() {
+    return _main.apply(this, arguments);
 }
 function _main() {
     _main = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
@@ -225,9 +228,6 @@ function _main() {
             ]
         ]);
     }));
-    return _main.apply(this, arguments);
-}
-function main() {
     return _main.apply(this, arguments);
 }
 main();

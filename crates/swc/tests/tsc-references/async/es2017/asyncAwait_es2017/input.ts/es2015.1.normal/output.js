@@ -27,28 +27,28 @@ function _asyncToGenerator(fn) {
         });
     };
 }
+function f0() {
+    return _f0.apply(this, arguments);
+}
 function _f0() {
     _f0 = _asyncToGenerator(function*() {
     });
     return _f0.apply(this, arguments);
 }
-function f0() {
-    return _f0.apply(this, arguments);
+function f15() {
+    return _f11.apply(this, arguments);
 }
 function _f11() {
     _f11 = _asyncToGenerator(function*() {
     });
     return _f11.apply(this, arguments);
 }
-function f15() {
-    return _f11.apply(this, arguments);
+function f3() {
+    return _f3.apply(this, arguments);
 }
 function _f3() {
     _f3 = _asyncToGenerator(function*() {
     });
-    return _f3.apply(this, arguments);
-}
-function f3() {
     return _f3.apply(this, arguments);
 }
 let f4 = function() {
@@ -132,17 +132,20 @@ class C {
 }
 var M1;
 (function(M) {
+    function f1() {
+        return _f1.apply(this, arguments);
+    }
     function _f1() {
         _f1 = _asyncToGenerator(function*() {
         });
         return _f1.apply(this, arguments);
     }
-    function f1() {
-        return _f1.apply(this, arguments);
-    }
     M.f1 = f1;
 })(M1 || (M1 = {
 }));
+function f14() {
+    return _f14.apply(this, arguments);
+}
 function _f14() {
     _f14 = _asyncToGenerator(function*() {
         block: {
@@ -150,8 +153,5 @@ function _f14() {
             break block;
         }
     });
-    return _f14.apply(this, arguments);
-}
-function f14() {
     return _f14.apply(this, arguments);
 }

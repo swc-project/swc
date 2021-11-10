@@ -99,6 +99,9 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
+function func() {
+    return _func.apply(this, arguments);
+}
 function _func() {
     _func = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         var D;
@@ -126,8 +129,5 @@ function _func() {
             }
         }, _callee);
     }));
-    return _func.apply(this, arguments);
-}
-function func() {
     return _func.apply(this, arguments);
 }

@@ -27,13 +27,13 @@ function _asyncToGenerator(fn) {
         });
     };
 }
+function func() {
+    return _func.apply(this, arguments);
+}
 function _func() {
     _func = _asyncToGenerator(function*() {
         class D extends yield p {
         }
     });
-    return _func.apply(this, arguments);
-}
-function func() {
     return _func.apply(this, arguments);
 }

@@ -28,6 +28,9 @@ function _asyncToGenerator(fn) {
         });
     };
 }
+function fn1() {
+    return _fn1.apply(this, arguments);
+}
 function _fn1() {
     _fn1 = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         var obj1, obj2;
@@ -60,8 +63,5 @@ function _fn1() {
             }
         }, _callee);
     }));
-    return _fn1.apply(this, arguments);
-}
-function fn1() {
     return _fn1.apply(this, arguments);
 }
