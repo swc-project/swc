@@ -157,9 +157,8 @@ impl<'a, I: Input> Lexer<'a, I> {
             if ch == '\\' {
                 has_escape = true;
                 out.push_str(self.input.slice(chunk_start, cur_pos));
-
-                let chars = self.read_jsx_escaped_char(&mut Raw(None))?;
-                out.extend(IntoIterator::into_iter(chars).flatten().flatten());
+                out.push_str("\\");
+                self.bump();
 
                 chunk_start = self.input.cur_pos();
                 continue;
@@ -190,65 +189,6 @@ impl<'a, I: Input> Lexer<'a, I> {
             value: out.into(),
             has_escape,
         })
-    }
-
-    fn read_jsx_escaped_char(&mut self, raw: &mut Raw) -> LexResult<[Option<Char>; 2]> {
-        debug_assert_eq!(self.cur(), Some('\\'));
-        let start = self.cur_pos();
-        self.bump(); // '\'
-
-        let c = match self.cur() {
-            Some(c) => c,
-            None => self.error_span(pos_span(start), SyntaxError::InvalidStrEscape)?,
-        };
-
-        macro_rules! push_c_and_ret {
-            ($c:expr) => {{
-                raw.push(c);
-                $c
-            }};
-        }
-
-        let c = match c {
-            '\\' => push_c_and_ret!('\\'),
-            '\r' => {
-                raw.push_str("\r");
-                self.bump(); // remove '\r'
-
-                if self.eat(b'\n') {
-                    raw.push_str("\n");
-                }
-                return Ok(Default::default());
-            }
-            '\n' | '\u{2028}' | '\u{2029}' => {
-                match c {
-                    '\n' => raw.push_str("\n"),
-                    '\u{2028}' => raw.push_str("\u{2028}"),
-                    '\u{2029}' => raw.push_str("\u{2029}"),
-                    _ => unreachable!(),
-                }
-                self.bump();
-                return Ok(Default::default());
-            }
-
-            // read hexadecimal escape sequences
-            'x' => {
-                raw.push_str("0x");
-                self.bump(); // 'x'
-                return self.read_hex_char(start, 2, raw).map(|v| [Some(v), None]);
-            }
-
-            // read unicode escape sequences
-            'u' => {
-                return self
-                    .read_unicode_escape(start, raw)
-                    .map(|v| [Some(v), None]);
-            }
-            _ => c,
-        };
-        self.input.bump();
-
-        Ok([Some('\\'.into()), Some(c.into())])
     }
 
     /// Read a JSX identifier (valid tag or attribute name).
