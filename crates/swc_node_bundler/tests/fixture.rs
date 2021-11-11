@@ -12,9 +12,9 @@ use swc_bundler::{BundleKind, Bundler, Config, ModuleRecord};
 use swc_common::{FileName, Span, GLOBALS};
 use swc_ecma_ast::{
     Bool, EsVersion, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr,
-    PropName, Str, TargetEnv,
+    PropName, Str,
 };
-use swc_ecma_loader::NODE_BUILTINS;
+use swc_ecma_loader::{TargetEnv, NODE_BUILTINS};
 use swc_ecma_transforms::fixer;
 use swc_ecma_visit::FoldWith;
 use swc_node_bundler::loaders::swc::SwcLoader;

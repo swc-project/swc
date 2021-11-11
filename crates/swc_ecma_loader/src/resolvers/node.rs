@@ -2,7 +2,7 @@
 //!
 //! See: https://github.com/goto-bus-stop/node-resolve
 
-use crate::{resolve::Resolve, NODE_BUILTINS};
+use crate::{resolve::Resolve, TargetEnv, NODE_BUILTINS};
 use anyhow::{bail, Context, Error};
 use dashmap::{DashMap, DashSet};
 #[cfg(windows)]
@@ -16,7 +16,6 @@ use std::{
     path::{Component, Path, PathBuf},
 };
 use swc_common::{collections::AHashMap, FileName};
-use swc_ecma_ast::TargetEnv;
 use tracing::debug;
 
 static PACKAGE: &str = "package.json";

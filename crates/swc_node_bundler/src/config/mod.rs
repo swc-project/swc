@@ -9,7 +9,8 @@ use std::{collections::HashMap, fmt, marker::PhantomData, path::PathBuf};
 use string_enum::StringEnum;
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, FileName};
-use swc_ecma_ast::{EsVersion, TargetEnv};
+use swc_ecma_ast::EsVersion;
+use swc_ecma_loader::TargetEnv;
 
 mod module;
 mod optimization;

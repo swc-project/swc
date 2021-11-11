@@ -165,9 +165,9 @@ pub mod resolver {
     use crate::config::CompiledPaths;
     use std::path::PathBuf;
     use swc_common::collections::AHashMap;
-    use swc_ecma_ast::TargetEnv;
-    use swc_ecma_loader::resolvers::{
-        lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
+    use swc_ecma_loader::{
+        resolvers::{lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver},
+        TargetEnv,
     };
 
     pub type NodeResolver = CachingResolver<NodeModulesResolver>;
