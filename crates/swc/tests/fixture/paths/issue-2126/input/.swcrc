@@ -1,0 +1,17 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript"
+        },
+        "target": "es2020",
+        "baseUrl": ".",
+        "paths": {
+            "@print/a": [
+                "./packages/a/src/index.ts"
+            ]
+        }
+    },
+    "module": {
+        "type": "commonjs"
+    }
+}
