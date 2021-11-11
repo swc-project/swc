@@ -18,7 +18,7 @@ pub struct TokenAndSpan {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum Token {
     EOF,
-    
+
     Ident {
         value: JsWord,
         raw: JsWord,
