@@ -172,6 +172,11 @@ where
                 Pattern::Exact(from) => {
                     // Should be exactly matched
                     if src == from {
+                        let replaced = self.base_url.join(&to[0]);
+                        if replaced.exists() {
+                            return Ok(FileName::Real(replaced));
+                        }
+
                         return self
                             .inner
                             .resolve(base, &format!("./{}", &to[0]))
