@@ -2371,7 +2371,7 @@ checksum = "6446ced80d6c486436db5c078dde11a9f73d42b57fb273121e160b84f63d894c"
 
 [[package]]
 name = "swc"
-version = "0.83.1"
+version = "0.83.2"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2706,7 +2706,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_loader"
-version = "0.24.0"
+version = "0.24.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2927,7 +2927,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.56.1"
+version = "0.56.2"
 dependencies = [
  "Inflector",
  "ahash",

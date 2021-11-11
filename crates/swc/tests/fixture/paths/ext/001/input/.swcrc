@@ -1,0 +1,10 @@
+{
+    "jsc": {
+        "baseUrl": ".",
+        "paths": {
+            "@styles/*": [
+                "styles/*"
+            ]
+        }
+    }
+}

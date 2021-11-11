@@ -54,9 +54,18 @@ where
     R: Resolve,
 {
     fn resolve_import(&self, base: &FileName, module_specifier: &str) -> Result<JsWord, Error> {
-        fn to_specifier(target_path: &str) -> JsWord {
+        fn to_specifier(target_path: &str, is_file: Option<bool>) -> JsWord {
             let mut p = PathBuf::from(target_path);
-            p.set_extension("");
+            if is_file.unwrap_or_else(|| p.is_file()) {
+                match p.extension() {
+                    Some(v) => {
+                        if v == "ts" || v == "tsx" || v == "js" {
+                            p.set_extension("");
+                        }
+                    }
+                    None => {}
+                }
+            }
             p.display().to_string().into()
         }
 
@@ -68,7 +77,7 @@ where
 
         let target = match target {
             FileName::Real(v) => v,
-            FileName::Custom(s) => return Ok(to_specifier(&s)),
+            FileName::Custom(s) => return Ok(to_specifier(&s, None)),
             _ => {
                 unreachable!(
                     "Node path provider does not support using `{:?}` as a target file name",
@@ -93,6 +102,8 @@ where
             }
         };
 
+        let is_file = target.is_file();
+
         let rel_path = diff_paths(
             &target,
             match base.parent() {
@@ -103,7 +114,7 @@ where
 
         let rel_path = match rel_path {
             Some(v) => v,
-            None => return Ok(to_specifier(&target.display().to_string())),
+            None => return Ok(to_specifier(&target.display().to_string(), Some(is_file))),
         };
 
         {
@@ -140,9 +151,9 @@ where
             Cow::Owned(format!("./{}", s))
         };
         if cfg!(target_os = "windows") {
-            Ok(to_specifier(&s.replace('\\', "/")))
+            Ok(to_specifier(&s.replace('\\', "/"), Some(is_file)))
         } else {
-            Ok(to_specifier(&s))
+            Ok(to_specifier(&s, Some(is_file)))
         }
     }
 }
