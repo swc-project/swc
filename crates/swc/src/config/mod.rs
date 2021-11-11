@@ -38,7 +38,9 @@ pub use swc_ecma_parser::JscTarget;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::{
     hygiene, modules,
-    modules::{hoist::import_hoister, path::NodeImportResolver, util::Scope},
+    modules::{
+        hoist::import_hoister, path::NodeImportResolver, rewriter::import_rewriter, util::Scope,
+    },
     optimization::{const_modules, json_parse, simplifier},
     pass::{noop, Optional},
     proposals::{decorators, export_default_from, import_assertions},
@@ -901,7 +903,16 @@ impl ModuleConfig {
         };
 
         match config {
-            None | Some(ModuleConfig::Es6) => Box::new(import_hoister()),
+            None | Some(ModuleConfig::Es6) => {
+                let base_pass = import_hoister();
+                if paths.is_empty() {
+                    Box::new(base_pass)
+                } else {
+                    let resolver = build_resolver(base_url, paths);
+
+                    Box::new(chain!(import_rewriter(base, resolver), base_pass))
+                }
+            }
             Some(ModuleConfig::CommonJs(config)) => {
                 if paths.is_empty() {
                     Box::new(modules::common_js::common_js(
