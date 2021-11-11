@@ -19,9 +19,8 @@ use swc_bundler::{BundleKind, Bundler, Load, ModuleRecord, Resolve};
 use swc_common::{collections::AHashMap, Span};
 use swc_ecma_ast::{
     Bool, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr, PropName, Str,
-    TargetEnv,
 };
-use swc_ecma_loader::NODE_BUILTINS;
+use swc_ecma_loader::{TargetEnv, NODE_BUILTINS};
 
 struct ConfigItem {
     loader: Box<dyn Load>,

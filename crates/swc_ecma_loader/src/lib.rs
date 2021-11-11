@@ -1,3 +1,5 @@
+use serde::{Deserialize, Serialize};
+
 pub mod resolve;
 pub mod resolvers;
 
@@ -69,3 +71,18 @@ pub const NODE_BUILTINS: &[&str] = &[
     "worker_threads",
     "zlib",
 ];
+
+/// Target runtime environment.
+#[derive(Debug, Copy, Clone, Serialize, Deserialize, Eq, PartialEq, Hash)]
+pub enum TargetEnv {
+    #[serde(rename = "browser")]
+    Browser,
+    #[serde(rename = "node")]
+    Node,
+}
+
+impl Default for TargetEnv {
+    fn default() -> Self {
+        TargetEnv::Browser
+    }
+}

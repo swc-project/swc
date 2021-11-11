@@ -18,7 +18,10 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
-use swc_ecma_loader::resolvers::{lru::CachingResolver, node::NodeModulesResolver};
+use swc_ecma_loader::{
+    resolvers::{lru::CachingResolver, node::NodeModulesResolver},
+    TargetEnv,
+};
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
 
 fn print_bundles(cm: Lrc<SourceMap>, modules: Vec<Bundle>) {
