@@ -620,37 +620,37 @@ error: SelectorList
   --> $DIR/tests/fixture/selector/id/input.css:12:1
    |
 12 | #\3A \) {}
-   | ^^^^
+   | ^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/id/input.css:12:1
    |
 12 | #\3A \) {}
-   | ^^^^
+   | ^^^^^^^
 
 error: CompoundSelector
   --> $DIR/tests/fixture/selector/id/input.css:12:1
    |
 12 | #\3A \) {}
-   | ^^^^
+   | ^^^^^^^
 
 error: SubclassSelector
   --> $DIR/tests/fixture/selector/id/input.css:12:1
    |
 12 | #\3A \) {}
-   | ^^^^
+   | ^^^^^^^
 
 error: IdSelector
   --> $DIR/tests/fixture/selector/id/input.css:12:1
    |
 12 | #\3A \) {}
-   | ^^^^
+   | ^^^^^^^
 
 error: Text
   --> $DIR/tests/fixture/selector/id/input.css:12:1
    |
 12 | #\3A \) {}
-   | ^^^^
+   | ^^^^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/id/input.css:12:9
@@ -674,37 +674,37 @@ error: SelectorList
   --> $DIR/tests/fixture/selector/id/input.css:13:1
    |
 13 | #\3A \`\( {}
-   | ^^^^
+   | ^^^^^^^^^
 
 error: ComplexSelector
   --> $DIR/tests/fixture/selector/id/input.css:13:1
    |
 13 | #\3A \`\( {}
-   | ^^^^
+   | ^^^^^^^^^
 
 error: CompoundSelector
   --> $DIR/tests/fixture/selector/id/input.css:13:1
    |
 13 | #\3A \`\( {}
-   | ^^^^
+   | ^^^^^^^^^
 
 error: SubclassSelector
   --> $DIR/tests/fixture/selector/id/input.css:13:1
    |
 13 | #\3A \`\( {}
-   | ^^^^
+   | ^^^^^^^^^
 
 error: IdSelector
   --> $DIR/tests/fixture/selector/id/input.css:13:1
    |
 13 | #\3A \`\( {}
-   | ^^^^
+   | ^^^^^^^^^
 
 error: Text
   --> $DIR/tests/fixture/selector/id/input.css:13:1
    |
 13 | #\3A \`\( {}
-   | ^^^^
+   | ^^^^^^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/id/input.css:13:11

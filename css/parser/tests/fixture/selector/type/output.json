@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 47,
+    "end": 62,
     "ctxt": 0
   },
   "rules": [
@@ -442,6 +442,138 @@
         "span": {
           "start": 44,
           "end": 46,
+          "ctxt": 0
+        },
+        "items": []
+      }
+    },
+    {
+      "type": "StyleRule",
+      "span": {
+        "start": 47,
+        "end": 53,
+        "ctxt": 0
+      },
+      "selectors": {
+        "type": "SelectorList",
+        "span": {
+          "start": 47,
+          "end": 51,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 47,
+              "end": 51,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 47,
+                  "end": 51,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": {
+                  "type": "TypeSelector",
+                  "span": {
+                    "start": 47,
+                    "end": 51,
+                    "ctxt": 0
+                  },
+                  "prefix": null,
+                  "name": {
+                    "type": "Text",
+                    "span": {
+                      "start": 47,
+                      "end": 51,
+                      "ctxt": 0
+                    },
+                    "value": "-",
+                    "raw": "\\2d "
+                  }
+                },
+                "subclassSelectors": []
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 51,
+          "end": 53,
+          "ctxt": 0
+        },
+        "items": []
+      }
+    },
+    {
+      "type": "StyleRule",
+      "span": {
+        "start": 54,
+        "end": 62,
+        "ctxt": 0
+      },
+      "selectors": {
+        "type": "SelectorList",
+        "span": {
+          "start": 54,
+          "end": 59,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 54,
+              "end": 59,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 54,
+                  "end": 59,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": {
+                  "type": "TypeSelector",
+                  "span": {
+                    "start": 54,
+                    "end": 59,
+                    "ctxt": 0
+                  },
+                  "prefix": null,
+                  "name": {
+                    "type": "Text",
+                    "span": {
+                      "start": 54,
+                      "end": 59,
+                      "ctxt": 0
+                    },
+                    "value": "-a",
+                    "raw": "\\2d a"
+                  }
+                },
+                "subclassSelectors": []
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 60,
+          "end": 62,
           "ctxt": 0
         },
         "items": []

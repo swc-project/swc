@@ -56,7 +56,7 @@ error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/866Law8W0FQas7QMxFjUbw/input.css:1:5
   |
 1 | a { value: 10x\2c }
-  |     ^^^^^^^^^^^^^
+  |     ^^^^^^^^^^^^^^
 
 error: Text
  --> $DIR/tests/fixture/esbuild/misc/866Law8W0FQas7QMxFjUbw/input.css:1:5
@@ -68,23 +68,23 @@ error: Value
  --> $DIR/tests/fixture/esbuild/misc/866Law8W0FQas7QMxFjUbw/input.css:1:12
   |
 1 | a { value: 10x\2c }
-  |            ^^^^^^
+  |            ^^^^^^^
 
 error: UnitValue
  --> $DIR/tests/fixture/esbuild/misc/866Law8W0FQas7QMxFjUbw/input.css:1:12
   |
 1 | a { value: 10x\2c }
-  |            ^^^^^^
+  |            ^^^^^^^
 
 error: Num
  --> $DIR/tests/fixture/esbuild/misc/866Law8W0FQas7QMxFjUbw/input.css:1:12
   |
 1 | a { value: 10x\2c }
-  |            ^
+  |            ^^
 
 error: Unit
- --> $DIR/tests/fixture/esbuild/misc/866Law8W0FQas7QMxFjUbw/input.css:1:13
+ --> $DIR/tests/fixture/esbuild/misc/866Law8W0FQas7QMxFjUbw/input.css:1:14
   |
 1 | a { value: 10x\2c }
-  |             ^^^^^
+  |              ^^^^^
 

@@ -1,0 +1,10 @@
+error: Expected Declaration value
+ --> $DIR/tests/errors/comments/bad-comment-4/input.css:2:17
+  |
+2 |       background: url(
+  |  _________________^
+3 | |         /* test */
+4 | |         "test.png"
+5 | |     );
+  | |_____^
+

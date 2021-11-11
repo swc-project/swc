@@ -87,31 +87,8 @@ impl<I> Lexer<I>
 where
     I: Input,
 {
-    // #[inline]
-    // fn current_input_code_point(&mut self) -> Option<char> {
-    //     self.input.clone().nth(-1).map(|i| i.1)
-    // }
-
     fn read_token(&mut self) -> LexResult<Token> {
-        // Consume comments.
-        // If the next two input code point are U+002F SOLIDUS (/) followed by a U+002A
-        // ASTERISK (*), consume them and all following code points up to and including
-        // the first U+002A ASTERISK (*) followed by a U+002F SOLIDUS (/), or up to an
-        // EOF code point. Return to the start of this step.
-        if self.input.cur() == Some('/') {
-            if self.input.peek() == Some('*') {
-                self.skip_block_comment()?;
-                self.skip_ws()?;
-                self.start_pos = self.input.cur_pos();
-
-                return self.read_token();
-            } else if self.config.allow_wrong_line_comments && self.input.peek() == Some('/') {
-                self.skip_line_comment()?;
-                self.start_pos = self.input.cur_pos();
-
-                return self.read_token();
-            }
-        }
+        self.read_comments()?;
 
         let start = self.input.cur_pos();
         let next = self.input.cur();
@@ -121,7 +98,10 @@ where
             // whitespace
             // Consume as much whitespace as possible. Return a <whitespace-token>.
             Some(c) if is_whitespace(c) => {
+                self.input.bump();
+
                 let mut value = String::new();
+                value.push(c);
 
                 loop {
                     let c = self.input.cur();
@@ -135,13 +115,6 @@ where
                         _ => {
                             break;
                         }
-                    }
-                }
-
-                if self.config.allow_wrong_line_comments {
-                    if self.input.is_byte(b'/') && self.input.peek() == Some('/') {
-                        self.skip_line_comment()?;
-                        self.start_pos = self.input.cur_pos();
                     }
                 }
 
@@ -435,6 +408,81 @@ where
         }
     }
 
+    // Consume comments.
+    // This section describes how to consume comments from a stream of code points.
+    // It returns nothing.
+    fn read_comments(&mut self) -> LexResult<()> {
+        // If the next two input code point are U+002F SOLIDUS (/) followed by a U+002A
+        // ASTERISK (*), consume them and all following code points up to and including
+        // the first U+002A ASTERISK (*) followed by a U+002F SOLIDUS (/), or up to an
+        // EOF code point. Return to the start of this step.
+        // NOTE: We allow to parse line comments under the option.
+        if self.input.cur() == Some('/') && self.input.peek() == Some('*') {
+            while self.input.cur() == Some('/') && self.input.peek() == Some('*') {
+                self.input.bump(); // '*'
+                self.input.bump(); // '/'
+
+                loop {
+                    let cur = self.input.cur();
+
+                    if cur.is_some() {
+                        self.input.bump();
+                    }
+
+                    match cur {
+                        Some('*') if self.input.cur() == Some('/') => {
+                            self.input.bump(); // '/'
+
+                            break;
+                        }
+                        Some(_) => {}
+                        None => {
+                            return Err(ErrorKind::UnterminatedBlockComment);
+                        }
+                    }
+                }
+
+                // TODO: invalid
+                self.skip_ws()?;
+            }
+
+            self.start_pos = self.input.cur_pos();
+        } else if self.config.allow_wrong_line_comments
+            && self.input.cur() == Some('/')
+            && self.input.peek() == Some('/')
+        {
+            while self.input.cur() == Some('/') && self.input.peek() == Some('/') {
+                self.input.bump(); // '/'
+                self.input.bump(); // '/'
+
+                loop {
+                    let cur = self.input.cur();
+
+                    if cur.is_some() {
+                        self.input.bump();
+                    }
+
+                    match cur {
+                        Some(c) if is_newline(c) => {
+                            break;
+                        }
+                        Some(_) => {}
+                        None => {
+                            return Err(ErrorKind::UnterminatedBlockComment);
+                        }
+                    }
+                }
+
+                // TODO: invalid
+                self.skip_ws()?;
+            }
+
+            self.start_pos = self.input.cur_pos();
+        }
+
+        Ok(())
+    }
+
     // This section describes how to consume a numeric token from a stream of code
     // points. It returns either a <number-token>, <percentage-token>, or
     // <dimension-token>.
@@ -540,7 +588,6 @@ where
         // Create a <function-token> with its value set to string and return it.
         else if self.input.cur() == Some('(') {
             self.input.bump();
-            self.last_pos = Some(self.input.cur_pos());
 
             return Ok(Token::Function {
                 value: name.0,
@@ -587,7 +634,6 @@ where
                 Some(c) if c == ending_code_point.unwrap() => {
                     self.input.bump();
                     raw.push(c);
-                    self.last_pos = Some(self.input.cur_pos());
 
                     break;
                 }
@@ -677,8 +723,6 @@ where
 
         // Repeatedly consume the next input code point from the stream:
         loop {
-            self.last_pos = None;
-
             match self.input.cur() {
                 // U+0029 RIGHT PARENTHESIS ())
                 // Return the <url-token>.
@@ -842,8 +886,6 @@ where
                     raw.push(next.unwrap());
                     hex = hex * 16 + digit;
                 }
-
-                self.last_pos = Some(self.input.cur_pos());
 
                 // If the next input code point is whitespace, consume it as well.
                 let next = self.input.cur();
@@ -1049,7 +1091,6 @@ where
                 // name code point
                 // Append the code point to result.
                 Some(c) if is_name(c) => {
-                    self.last_pos = None;
                     self.input.bump();
 
                     value.push(c);
@@ -1252,69 +1293,6 @@ where
                     break;
                 }
             }
-        }
-
-        if self.config.allow_wrong_line_comments {
-            if self.input.is_byte(b'/') && self.input.peek() == Some('/') {
-                self.skip_line_comment()?;
-                self.start_pos = self.input.cur_pos();
-
-                return Ok(());
-            }
-        }
-
-        Ok(())
-    }
-
-    /// Expects current char to be '/' and next char to be '*'.
-    fn skip_block_comment(&mut self) -> LexResult<()> {
-        debug_assert_eq!(self.input.cur(), Some('/'));
-        debug_assert_eq!(self.input.peek(), Some('*'));
-
-        self.input.bump();
-        self.input.bump();
-
-        // let slice_start = self.input.cur_pos();
-        let mut was_star = if self.input.is_byte(b'*') {
-            self.input.bump();
-            true
-        } else {
-            false
-        };
-
-        while let Some(c) = self.input.cur() {
-            if was_star && c == '/' {
-                debug_assert_eq!(self.input.cur(), Some('/'));
-                self.input.bump(); // '/'
-
-                return Ok(());
-            }
-
-            was_star = c == '*';
-            self.input.bump();
-        }
-
-        Err(ErrorKind::UnterminatedBlockComment)
-    }
-
-    fn skip_line_comment(&mut self) -> LexResult<()> {
-        debug_assert_eq!(self.input.cur(), Some('/'));
-        debug_assert_eq!(self.input.peek(), Some('/'));
-
-        self.input.bump();
-        self.input.bump();
-
-        debug_assert!(
-            self.config.allow_wrong_line_comments,
-            "Line comments are wrong and should be lexed only if it's explicitly requested"
-        );
-
-        while let Some(c) = self.input.cur() {
-            if is_newline(c) {
-                break;
-            }
-
-            self.input.bump();
         }
 
         Ok(())

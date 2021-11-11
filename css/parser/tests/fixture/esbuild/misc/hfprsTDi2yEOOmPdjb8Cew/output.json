@@ -17,7 +17,7 @@
         "type": "SelectorList",
         "span": {
           "start": 0,
-          "end": 7,
+          "end": 8,
           "ctxt": 0
         },
         "children": [
@@ -25,7 +25,7 @@
             "type": "ComplexSelector",
             "span": {
               "start": 0,
-              "end": 7,
+              "end": 8,
               "ctxt": 0
             },
             "children": [
@@ -33,7 +33,7 @@
                 "type": "CompoundSelector",
                 "span": {
                   "start": 0,
-                  "end": 7,
+                  "end": 8,
                   "ctxt": 0
                 },
                 "nestingSelector": null,
@@ -61,14 +61,14 @@
                     "type": "IdSelector",
                     "span": {
                       "start": 3,
-                      "end": 7,
+                      "end": 8,
                       "ctxt": 0
                     },
                     "text": {
                       "type": "Text",
                       "span": {
                         "start": 3,
-                        "end": 7,
+                        "end": 8,
                         "ctxt": 0
                       },
                       "value": "0",
