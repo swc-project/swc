@@ -59,7 +59,7 @@ where
             if is_file.unwrap_or_else(|| p.is_file()) {
                 match p.extension() {
                     Some(v) => {
-                        if v == "ts" || v == "tsx" {
+                        if v == "ts" || v == "tsx" || v == "js" {
                             p.set_extension("");
                         }
                     }
