@@ -1,4 +1,4 @@
-use crate::{SelectorList, Text, Tokens, Value};
+use crate::{SelectorList, Ident, Tokens, Value};
 use swc_common::{ast_node, Span};
 
 #[ast_node("StyleRule")]
@@ -25,7 +25,7 @@ pub enum DeclarationBlockItem {
 #[ast_node("Declaration")]
 pub struct Declaration {
     pub span: Span,
-    pub property: Text,
+    pub property: Ident,
     pub value: Vec<Value>,
     /// The span includes `!`
     pub important: Option<Span>,

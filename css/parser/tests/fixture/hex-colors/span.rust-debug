@@ -58,7 +58,7 @@ error: TypeSelector
 1 | a {
   | ^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/hex-colors/input.css:1:1
   |
 1 | a {
@@ -83,7 +83,7 @@ error: Declaration
 2 |   color: #000000;
   |   ^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/hex-colors/input.css:2:3
   |
 2 |   color: #000000;
@@ -107,7 +107,7 @@ error: Declaration
 3 |   color: #ffffff;
   |   ^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/hex-colors/input.css:3:3
   |
 3 |   color: #ffffff;
@@ -131,7 +131,7 @@ error: Declaration
 4 |   color: #FFFFFF;
   |   ^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/hex-colors/input.css:4:3
   |
 4 |   color: #FFFFFF;
@@ -155,7 +155,7 @@ error: Declaration
 5 |   color: #0000ffcc;
   |   ^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/hex-colors/input.css:5:3
   |
 5 |   color: #0000ffcc;
@@ -179,7 +179,7 @@ error: Declaration
 6 |   color: #0000FFCC;
   |   ^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/hex-colors/input.css:6:3
   |
 6 |   color: #0000FFCC;
@@ -203,7 +203,7 @@ error: Declaration
 7 |   color: #000;
   |   ^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/hex-colors/input.css:7:3
   |
 7 |   color: #000;
@@ -227,7 +227,7 @@ error: Declaration
 8 |   color: #fff;
   |   ^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/hex-colors/input.css:8:3
   |
 8 |   color: #fff;
@@ -251,7 +251,7 @@ error: Declaration
 9 |   color: #FFF;
   |   ^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/hex-colors/input.css:9:3
   |
 9 |   color: #FFF;
@@ -275,7 +275,7 @@ error: Declaration
 10 |   color: #0000;
    |   ^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/hex-colors/input.css:10:3
    |
 10 |   color: #0000;
@@ -299,7 +299,7 @@ error: Declaration
 11 |   color: #ffff;
    |   ^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/hex-colors/input.css:11:3
    |
 11 |   color: #ffff;
@@ -323,7 +323,7 @@ error: Declaration
 12 |   color: #FFFF;
    |   ^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/hex-colors/input.css:12:3
    |
 12 |   color: #FFFF;

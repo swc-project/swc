@@ -58,7 +58,7 @@ error: TypeSelector
 1 | a::before {
   | ^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/value/quotes/input.css:1:1
   |
 1 | a::before {
@@ -76,7 +76,7 @@ error: PseudoSelector
 1 | a::before {
   |  ^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/value/quotes/input.css:1:4
   |
 1 | a::before {
@@ -103,7 +103,7 @@ error: Declaration
 2 |     content: "This string is demarcated by double quotes.";
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/value/quotes/input.css:2:5
   |
 2 |     content: "This string is demarcated by double quotes.";
@@ -127,7 +127,7 @@ error: Declaration
 3 |     content: 'This string is demarcated by single quotes.';
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/value/quotes/input.css:3:5
   |
 3 |     content: 'This string is demarcated by single quotes.';
@@ -151,7 +151,7 @@ error: Declaration
 4 |     content: "This is a string with \" an escaped double quote.";
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/value/quotes/input.css:4:5
   |
 4 |     content: "This is a string with \" an escaped double quote.";
@@ -175,7 +175,7 @@ error: Declaration
 5 |     content: "This string also has \22 an escaped double quote.";
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/value/quotes/input.css:5:5
   |
 5 |     content: "This string also has \22 an escaped double quote.";
@@ -199,7 +199,7 @@ error: Declaration
 6 |     content: 'This is a string with \' an escaped single quote.';
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/value/quotes/input.css:6:5
   |
 6 |     content: 'This is a string with \' an escaped single quote.';
@@ -223,7 +223,7 @@ error: Declaration
 7 |     content: 'This string also has \27 an escaped single quote.';
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/value/quotes/input.css:7:5
   |
 7 |     content: 'This string also has \27 an escaped single quote.';
@@ -247,7 +247,7 @@ error: Declaration
 8 |     content: "This is a string with \\ an escaped backslash.";
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/value/quotes/input.css:8:5
   |
 8 |     content: "This is a string with \\ an escaped backslash.";
@@ -271,7 +271,7 @@ error: Declaration
 9 |     content: "This string also has \22an escaped double quote.";
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/value/quotes/input.css:9:5
   |
 9 |     content: "This string also has \22an escaped double quote.";
@@ -295,7 +295,7 @@ error: Declaration
 10 |     content: "This string also has \22  an escaped double quote.";
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/value/quotes/input.css:10:5
    |
 10 |     content: "This string also has \22  an escaped double quote.";
@@ -319,7 +319,7 @@ error: Declaration
 11 |     content: "This string has a \Aline break in it.";
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/value/quotes/input.css:11:5
    |
 11 |     content: "This string has a \Aline break in it.";
@@ -344,7 +344,7 @@ error: Declaration
 13 | | awesome string";
    | |_______________^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/value/quotes/input.css:12:5
    |
 12 |     content: "A really long \
@@ -372,7 +372,7 @@ error: Declaration
 14 |     content: ";'@ /**/\"";
    |     ^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/value/quotes/input.css:14:5
    |
 14 |     content: ";'@ /**/\"";
@@ -396,7 +396,7 @@ error: Declaration
 15 |     content: '\'"\\';
    |     ^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/value/quotes/input.css:15:5
    |
 15 |     content: '\'"\\';
@@ -421,7 +421,7 @@ error: Declaration
 17 | | b";
    | |__^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/value/quotes/input.css:16:5
    |
 16 |     content: "a\
@@ -450,7 +450,7 @@ error: Declaration
 19 | | b";
    | |__^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/value/quotes/input.css:18:5
    |
 18 |     content: "a\
@@ -479,7 +479,7 @@ error: Declaration
 21 | | b";
    | |__^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/value/quotes/input.css:20:5
    |
 20 |     content: "a\
@@ -507,7 +507,7 @@ error: Declaration
 22 |     content: "a\b";
    |     ^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/value/quotes/input.css:22:5
    |
 22 |     content: "a\b";
@@ -535,7 +535,7 @@ error: Declaration
 27 | | b";
    | |__^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/value/quotes/input.css:23:5
    |
 23 |     content: "a\
@@ -569,7 +569,7 @@ error: Declaration
 28 |     content: 'a\62 c';
    |     ^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/value/quotes/input.css:28:5
    |
 28 |     content: 'a\62 c';
@@ -632,7 +632,7 @@ error: TypeSelector
 31 | a[title="a not s\
    | ^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/value/quotes/input.css:31:1
    |
 31 | a[title="a not s\
@@ -654,7 +654,7 @@ error: AttrSelector
 32 | | o very long title"] {
    | |___________________^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/value/quotes/input.css:31:3
    |
 31 | a[title="a not s\
@@ -683,7 +683,7 @@ error: Declaration
 33 |     color: red;
    |     ^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/value/quotes/input.css:33:5
    |
 33 |     color: red;
@@ -695,7 +695,7 @@ error: Value
 33 |     color: red;
    |            ^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/value/quotes/input.css:33:12
    |
 33 |     color: red;
@@ -741,7 +741,7 @@ error: TypeSelector
 35 | a[title="a not so very long title"] {
    | ^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/value/quotes/input.css:35:1
    |
 35 | a[title="a not so very long title"] {
@@ -759,7 +759,7 @@ error: AttrSelector
 35 | a[title="a not so very long title"] {
    |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/value/quotes/input.css:35:3
    |
 35 | a[title="a not so very long title"] {
@@ -786,7 +786,7 @@ error: Declaration
 36 |     color: red;
    |     ^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/value/quotes/input.css:36:5
    |
 36 |     color: red;
@@ -798,7 +798,7 @@ error: Value
 36 |     color: red;
    |            ^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/value/quotes/input.css:36:12
    |
 36 |     color: red;

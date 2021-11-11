@@ -46,7 +46,7 @@ error: KeyframesRule
 8 | | }
   | |_^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/keyframe/input.css:1:12
   |
 1 | @keyframes important1 {
@@ -66,7 +66,7 @@ error: KeyframeSelector
 2 |     from {
   |     ^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/keyframe/input.css:2:5
   |
 2 |     from {
@@ -96,7 +96,7 @@ error: Declaration
 3 |         margin-top: 50px !important;
   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/keyframe/input.css:3:9
   |
 3 |         margin-top: 50px !important;
@@ -140,7 +140,7 @@ error: KeyframeSelector
 5 |     to {
   |     ^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/keyframe/input.css:5:5
   |
 5 |     to {
@@ -170,7 +170,7 @@ error: Declaration
 6 |         margin-top: 100px !important;
   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/keyframe/input.css:6:9
   |
 6 |         margin-top: 100px !important;
@@ -236,7 +236,7 @@ error: KeyframesRule
 21 | | }
    | |_^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/rome/keyframe/input.css:10:12
    |
 10 | @keyframes foo {
@@ -255,7 +255,7 @@ error: KeyframeSelector
 11 |     from {
    |     ^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/rome/keyframe/input.css:11:5
    |
 11 |     from {
@@ -290,7 +290,7 @@ error: KeyframeSelector
 13 |     to {
    |     ^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/rome/keyframe/input.css:13:5
    |
 13 |     to {
@@ -456,7 +456,7 @@ error: KeyframesRule
 24 | | }
    | |_^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/rome/keyframe/input.css:23:12
    |
 23 | @keyframes FOO {

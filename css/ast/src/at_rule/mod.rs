@@ -1,5 +1,5 @@
 pub use self::{charset::*, document::*, import::*, keyframe::*, media::*, page::*, support::*};
-use crate::{Block, Str, Text, Tokens, UrlValue};
+use crate::{Block, Str, Ident, Tokens, UrlValue};
 use is_macro::Is;
 use swc_common::{ast_node, Span};
 
@@ -66,7 +66,7 @@ pub enum NamespaceValue {
 #[ast_node("NamespaceRule")]
 pub struct NamespaceRule {
     pub span: Span,
-    pub prefix: Text,
+    pub prefix: Ident,
     pub value: NamespaceValue,
 }
 
@@ -79,6 +79,6 @@ pub struct ViewportRule {
 #[ast_node("UnknownAtRule")]
 pub struct UnknownAtRule {
     pub span: Span,
-    pub name: Text,
+    pub name: Ident,
     pub tokens: Tokens,
 }

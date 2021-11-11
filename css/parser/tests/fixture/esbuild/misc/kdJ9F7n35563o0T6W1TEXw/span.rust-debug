@@ -70,7 +70,7 @@ error: AtSelector
 1 | @page { @top-left {} }
   |         ^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:9
   |
 1 | @page { @top-left {} }

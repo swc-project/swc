@@ -29,7 +29,7 @@ error: MediaQuery
 1 | @\media screen {}
   |         ^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/at-rule/media/input.css:1:9
   |
 1 | @\media screen {}
@@ -59,7 +59,7 @@ error: MediaQuery
 2 | @\media \screen {}
   |         ^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/at-rule/media/input.css:2:9
   |
 2 | @\media \screen {}

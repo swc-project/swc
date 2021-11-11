@@ -22,7 +22,7 @@ error: NamespaceRule
 1 | @n\61mespace ns 'path';
   | ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/Zb1jcH156xr4eFiUgmg-jg/input.css:1:14
   |
 1 | @n\61mespace ns 'path';

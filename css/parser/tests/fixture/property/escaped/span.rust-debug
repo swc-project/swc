@@ -46,7 +46,7 @@ error: TypeSelector
 1 | table {
   | ^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/property/escaped/input.css:1:1
   |
 1 | table {
@@ -67,7 +67,7 @@ error: Declaration
 2 |     colo\r: \red;
   |     ^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/property/escaped/input.css:2:5
   |
 2 |     colo\r: \red;
@@ -79,7 +79,7 @@ error: Value
 2 |     colo\r: \red;
   |             ^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/property/escaped/input.css:2:13
   |
 2 |     colo\r: \red;

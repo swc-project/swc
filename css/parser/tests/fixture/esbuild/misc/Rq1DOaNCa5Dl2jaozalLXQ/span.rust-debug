@@ -40,7 +40,7 @@ error: TypeSelector
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
   | ^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:1
   |
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
@@ -58,7 +58,7 @@ error: Declaration
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:5
   |
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
@@ -70,7 +70,7 @@ error: Value
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
   |                 ^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:17
   |
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
@@ -178,7 +178,7 @@ error: Value
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
   |                                       ^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:39
   |
 1 | a { box-shadow: inset 0px 0px 0px 0px black }

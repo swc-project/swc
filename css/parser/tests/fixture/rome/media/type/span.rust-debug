@@ -34,7 +34,7 @@ error: MediaQuery
 1 | @media screen {}
   |        ^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/media/type/input.css:1:8
   |
 1 | @media screen {}
@@ -76,7 +76,7 @@ error: MediaQuery
 2 | @media not screen {}
   |            ^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/media/type/input.css:2:12
   |
 2 | @media not screen {}
@@ -118,7 +118,7 @@ error: MediaQuery
 3 | @media only screen {}
   |             ^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/media/type/input.css:3:13
   |
 3 | @media only screen {}
@@ -160,7 +160,7 @@ error: MediaQuery
 4 | @media print, screen {}
   |        ^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/media/type/input.css:4:8
   |
 4 | @media print, screen {}
@@ -172,7 +172,7 @@ error: MediaQuery
 4 | @media print, screen {}
   |               ^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/media/type/input.css:4:15
   |
 4 | @media print, screen {}
@@ -214,7 +214,7 @@ error: MediaQuery
 5 | @media screen, all, print {}
   |        ^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/media/type/input.css:5:8
   |
 5 | @media screen, all, print {}
@@ -226,7 +226,7 @@ error: MediaQuery
 5 | @media screen, all, print {}
   |                ^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/media/type/input.css:5:16
   |
 5 | @media screen, all, print {}
@@ -238,7 +238,7 @@ error: MediaQuery
 5 | @media screen, all, print {}
   |                     ^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/media/type/input.css:5:21
   |
 5 | @media screen, all, print {}
@@ -292,7 +292,7 @@ error: MediaQuery
 6 | @media only screen, not all, only print {}
   |             ^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/media/type/input.css:6:13
   |
 6 | @media only screen, not all, only print {}
@@ -316,7 +316,7 @@ error: MediaQuery
 6 | @media only screen, not all, only print {}
   |                         ^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/media/type/input.css:6:25
   |
 6 | @media only screen, not all, only print {}
@@ -340,7 +340,7 @@ error: MediaQuery
 6 | @media only screen, not all, only print {}
   |                                   ^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/media/type/input.css:6:35
   |
 6 | @media only screen, not all, only print {}

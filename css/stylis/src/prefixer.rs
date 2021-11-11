@@ -1,7 +1,7 @@
 use std::{iter::once, mem::take};
 use swc_common::{Span, DUMMY_SP};
 use swc_css_ast::*;
-use swc_css_utils::replace_text;
+use swc_css_utils::replace_ident;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
 pub fn prefixer() -> impl VisitMut {
@@ -25,7 +25,7 @@ impl Prefixer {
                 "image-set" => {
                     let val = Value::Fn(FnValue {
                         span: DUMMY_SP,
-                        name: Text {
+                        name: Ident {
                             span: DUMMY_SP,
                             value: "-webkit-image-set".into(),
                             raw: "-webkit-image-set".into(),
@@ -34,9 +34,9 @@ impl Prefixer {
                     });
 
                     let second = second.map(|v| match &v {
-                        Value::Text(t) => {
+                        Value::Ident(t) => {
                             if &*t.value == "grab" {
-                                Value::Text(Text {
+                                Value::Ident(Ident {
                                     span: t.span,
                                     value: "-webkit-grab".into(),
                                     raw: "-webkit-grab".into(),
@@ -50,7 +50,7 @@ impl Prefixer {
 
                     self.added.push(Declaration {
                         span: DUMMY_SP,
-                        property: Text {
+                        property: Ident {
                             span: DUMMY_SP,
                             value: "cursor".into(),
                             raw: "cursor".into(),
@@ -99,14 +99,14 @@ impl VisitMut for Prefixer {
 
         macro_rules! simple {
             ($property:expr,$val:expr) => {{
-                let val = Value::Text(Text {
+                let val = Value::Ident(Ident {
                     span: DUMMY_SP,
                     value: $val.into(),
                     raw: $val.into(),
                 });
                 self.added.push(Declaration {
                     span: n.span,
-                    property: Text {
+                    property: Ident {
                         span: n.property.span,
                         value: $property.into(),
                         raw: $property.into(),
@@ -121,7 +121,7 @@ impl VisitMut for Prefixer {
             ($property:expr) => {{
                 self.added.push(Declaration {
                     span: n.span,
-                    property: Text {
+                    property: Ident {
                         span: n.property.span,
                         value: $property.into(),
                         raw: $property.into(),
@@ -134,7 +134,7 @@ impl VisitMut for Prefixer {
 
         macro_rules! same_name {
             ($property:expr) => {{
-                let val = Text {
+                let val = Ident {
                     span: DUMMY_SP,
                     value: $property.into(),
                     raw: $property.into(),
@@ -143,7 +143,7 @@ impl VisitMut for Prefixer {
                 self.added.push(Declaration {
                     span: n.span,
                     property: n.property.clone(),
-                    value: vec![Value::Text(val)],
+                    value: vec![Value::Ident(val)],
                     important: n.important.clone(),
                 });
             }};
@@ -235,7 +235,7 @@ impl VisitMut for Prefixer {
                             "image-set" => {
                                 let val = Value::Fn(FnValue {
                                     span: DUMMY_SP,
-                                    name: Text {
+                                    name: Ident {
                                         span: DUMMY_SP,
                                         value: "-webkit-image-set".into(),
                                         raw: "-webkit-image-set".into(),
@@ -265,7 +265,7 @@ impl VisitMut for Prefixer {
                             "image-set" => {
                                 let val = Value::Fn(FnValue {
                                     span: DUMMY_SP,
-                                    name: Text {
+                                    name: Ident {
                                         span: DUMMY_SP,
                                         value: "-webkit-image-set".into(),
                                         raw: "-webkit-image-set".into(),
@@ -291,7 +291,7 @@ impl VisitMut for Prefixer {
             "cursor" => {
                 if n.value.len() >= 1 {
                     match &n.value[0] {
-                        Value::Text(Text { value, .. }) => match &**value {
+                        Value::Ident(Ident { value, .. }) => match &**value {
                             "grab" => {
                                 same_name!("-webkit-grab");
                             }
@@ -310,7 +310,7 @@ impl VisitMut for Prefixer {
             "display" => {
                 if n.value.len() == 1 {
                     match &n.value[0] {
-                        Value::Text(Text { value, .. }) => match &**value {
+                        Value::Ident(Ident { value, .. }) => match &**value {
                             "flex" => {
                                 same_name!("-webkit-box");
                                 same_name!("-webkit-flex");
@@ -371,7 +371,7 @@ impl VisitMut for Prefixer {
             "justify-content" => {
                 if n.value.len() == 1 {
                     match &n.value[0] {
-                        Value::Text(Text { value, .. }) => match &**value {
+                        Value::Ident(Ident { value, .. }) => match &**value {
                             "flex-end" => {
                                 simple!("-webkit-box-pack", "end");
                                 simple!("-ms-flex-pack", "end");
@@ -470,7 +470,7 @@ impl VisitMut for Prefixer {
             "position" => {
                 if n.value.len() == 1 {
                     match &n.value[0] {
-                        Value::Text(Text { value, .. }) => match &**value {
+                        Value::Ident(Ident { value, .. }) => match &**value {
                             "sticky" => {
                                 same_name!("-webkit-sticky");
                             }
@@ -497,7 +497,7 @@ impl VisitMut for Prefixer {
             "text-decoration" => {
                 if n.value.len() == 1 {
                     match &n.value[0] {
-                        Value::Text(Text { value, .. }) => match &**value {
+                        Value::Ident(Ident { value, .. }) => match &**value {
                             "none" => {
                                 same_content!("-webkit-text-decoration");
                             }
@@ -513,7 +513,7 @@ impl VisitMut for Prefixer {
             "text-size-adjust" => {
                 if n.value.len() == 1 {
                     match &n.value[0] {
-                        Value::Text(Text { value, .. }) => match &**value {
+                        Value::Ident(Ident { value, .. }) => match &**value {
                             "none" => {
                                 same_content!("-webkit-text-size-adjust");
                                 same_content!("-moz-text-size-adjust");
@@ -530,10 +530,10 @@ impl VisitMut for Prefixer {
 
             "transition" => {
                 let mut value = n.value.clone();
-                replace_text(&mut value, "transform", "-webkit-transform");
+                replace_ident(&mut value, "transform", "-webkit-transform");
                 self.added.push(Declaration {
                     span: n.span,
-                    property: Text {
+                    property: Ident {
                         span: n.property.span,
                         value: "-webkit-transition".into(),
                         raw: "-webkit-transition".into(),
@@ -546,7 +546,7 @@ impl VisitMut for Prefixer {
             "writing-mode" => {
                 if n.value.len() == 1 {
                     match &n.value[0] {
-                        Value::Text(Text { value, .. }) => match &**value {
+                        Value::Ident(Ident { value, .. }) => match &**value {
                             "none" => {
                                 same_content!("-webkit-writing-mode");
                                 same_content!("-ms-writing-mode");
@@ -579,7 +579,7 @@ impl VisitMut for Prefixer {
             | "min-block-size" | "min-inline-size" => {
                 if n.value.len() == 1 {
                     match &n.value[0] {
-                        Value::Text(Text { value, .. }) => match &**value {
+                        Value::Ident(Ident { value, .. }) => match &**value {
                             "fit-content" => {
                                 same_name!("-webkit-fit-content");
                                 same_name!("-moz-fit-content");

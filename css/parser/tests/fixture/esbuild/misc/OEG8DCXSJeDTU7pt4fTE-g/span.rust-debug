@@ -34,7 +34,7 @@ error: FnValue
 1 | @import url("foo.css") screen and (orientation:landscape);
   |         ^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:9
   |
 1 | @import url("foo.css") screen and (orientation:landscape);
@@ -70,7 +70,7 @@ error: MediaQuery
 1 | @import url("foo.css") screen and (orientation:landscape);
   |                        ^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:24
   |
 1 | @import url("foo.css") screen and (orientation:landscape);
@@ -88,7 +88,7 @@ error: Declaration
 1 | @import url("foo.css") screen and (orientation:landscape);
   |                                    ^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:36
   |
 1 | @import url("foo.css") screen and (orientation:landscape);
@@ -100,7 +100,7 @@ error: Value
 1 | @import url("foo.css") screen and (orientation:landscape);
   |                                                ^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:48
   |
 1 | @import url("foo.css") screen and (orientation:landscape);

@@ -40,7 +40,7 @@ error: TypeSelector
 1 | a { color: #ABBBCCFF }
   | ^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/xc1mD3YfHByTKL-N-FL49A/input.css:1:1
   |
 1 | a { color: #ABBBCCFF }
@@ -58,7 +58,7 @@ error: Declaration
 1 | a { color: #ABBBCCFF }
   |     ^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/xc1mD3YfHByTKL-N-FL49A/input.css:1:5
   |
 1 | a { color: #ABBBCCFF }

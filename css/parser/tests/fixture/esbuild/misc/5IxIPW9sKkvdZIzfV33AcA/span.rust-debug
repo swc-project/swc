@@ -22,7 +22,7 @@ error: UnknownAtRule
 1 | @u\,nknown;
   | ^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/5IxIPW9sKkvdZIzfV33AcA/input.css:1:1
   |
 1 | @u\,nknown;

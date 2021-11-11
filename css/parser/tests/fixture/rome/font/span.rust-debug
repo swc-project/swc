@@ -45,7 +45,7 @@ error: Declaration
 2 |     src: url("");
   |     ^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/font/input.css:2:2
   |
 2 |     src: url("");
@@ -63,7 +63,7 @@ error: FnValue
 2 |     src: url("");
   |          ^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/font/input.css:2:7
   |
 2 |     src: url("");

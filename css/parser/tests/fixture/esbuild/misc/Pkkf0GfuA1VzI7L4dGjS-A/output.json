@@ -52,7 +52,7 @@
                     "ctxt": 0
                   },
                   "prefix": {
-                    "type": "Text",
+                    "type": "Identifier",
                     "span": {
                       "start": 1,
                       "end": 2,
@@ -62,7 +62,7 @@
                     "raw": "*"
                   },
                   "name": {
-                    "type": "Text",
+                    "type": "Identifier",
                     "span": {
                       "start": 3,
                       "end": 4,

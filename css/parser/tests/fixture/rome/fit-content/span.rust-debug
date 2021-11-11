@@ -52,7 +52,7 @@ error: ClassSelector
 1 | .style {
   | ^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/fit-content/input.css:1:2
   |
 1 | .style {
@@ -73,7 +73,7 @@ error: Declaration
 2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/fit-content/input.css:2:2
   |
 2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
@@ -91,7 +91,7 @@ error: FnValue
 2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
   |                            ^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/fit-content/input.css:2:25
   |
 2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
@@ -133,7 +133,7 @@ error: FnValue
 2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
   |                                             ^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/fit-content/input.css:2:42
   |
 2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;

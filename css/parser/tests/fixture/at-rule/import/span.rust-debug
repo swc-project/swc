@@ -40,7 +40,7 @@ error: FnValue
 1 | @import url("./style.css");
   |         ^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/at-rule/import/input.css:1:9
   |
 1 | @import url("./style.css");
@@ -88,7 +88,7 @@ error: FnValue
 2 | @import url('./style.css');
   |         ^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/at-rule/import/input.css:2:9
   |
 2 | @import url('./style.css');
@@ -226,7 +226,7 @@ error: FnValue
 6 | @IMPORT url("./style.css");
   |         ^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/at-rule/import/input.css:6:9
   |
 6 | @IMPORT url("./style.css");
@@ -304,7 +304,7 @@ error: FnValue
 8 | @import URL("./style.css");
   |         ^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/at-rule/import/input.css:8:9
   |
 8 | @import URL("./style.css");
@@ -388,7 +388,7 @@ error: MediaQuery
 10 | @import "common.css" screen;
    |                      ^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/at-rule/import/input.css:10:22
    |
 10 | @import "common.css" screen;
@@ -424,7 +424,7 @@ error: FnValue
 11 | @import url('landscape.css') screen and (orientation:landscape);
    |         ^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/at-rule/import/input.css:11:9
    |
 11 | @import url('landscape.css') screen and (orientation:landscape);
@@ -460,7 +460,7 @@ error: MediaQuery
 11 | @import url('landscape.css') screen and (orientation:landscape);
    |                              ^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/at-rule/import/input.css:11:30
    |
 11 | @import url('landscape.css') screen and (orientation:landscape);
@@ -478,7 +478,7 @@ error: Declaration
 11 | @import url('landscape.css') screen and (orientation:landscape);
    |                                          ^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/at-rule/import/input.css:11:42
    |
 11 | @import url('landscape.css') screen and (orientation:landscape);
@@ -490,7 +490,7 @@ error: Value
 11 | @import url('landscape.css') screen and (orientation:landscape);
    |                                                      ^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/at-rule/import/input.css:11:54
    |
 11 | @import url('landscape.css') screen and (orientation:landscape);

@@ -40,13 +40,13 @@ error: TypeSelector
 1 | a|b {}
   | ^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/aVG5R30iWKuuw8iOGrgVmw/input.css:1:1
   |
 1 | a|b {}
   | ^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/aVG5R30iWKuuw8iOGrgVmw/input.css:1:3
   |
 1 | a|b {}

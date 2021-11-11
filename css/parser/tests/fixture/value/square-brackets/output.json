@@ -46,7 +46,7 @@
                   },
                   "prefix": null,
                   "name": {
-                    "type": "Text",
+                    "type": "Identifier",
                     "span": {
                       "start": 0,
                       "end": 3,
@@ -78,7 +78,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 10,
                 "end": 14,
@@ -108,7 +108,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 25,
                 "end": 29,
@@ -138,7 +138,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 41,
                 "end": 45,
@@ -157,7 +157,7 @@
                 },
                 "children": [
                   {
-                    "type": "Text",
+                    "type": "Identifier",
                     "span": {
                       "start": 49,
                       "end": 59,
@@ -179,7 +179,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 66,
                 "end": 70,
@@ -198,7 +198,7 @@
                 },
                 "children": [
                   {
-                    "type": "Text",
+                    "type": "Identifier",
                     "span": {
                       "start": 74,
                       "end": 77,
@@ -257,7 +257,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 94,
                 "end": 98,
@@ -276,7 +276,7 @@
                 },
                 "children": [
                   {
-                    "type": "Text",
+                    "type": "Identifier",
                     "span": {
                       "start": 101,
                       "end": 111,
@@ -314,7 +314,7 @@
                 },
                 "children": [
                   {
-                    "type": "Text",
+                    "type": "Identifier",
                     "span": {
                       "start": 118,
                       "end": 126,
@@ -324,7 +324,7 @@
                     "raw": "row1-end"
                   },
                   {
-                    "type": "Text",
+                    "type": "Identifier",
                     "span": {
                       "start": 127,
                       "end": 137,
@@ -362,7 +362,7 @@
                 },
                 "children": [
                   {
-                    "type": "Text",
+                    "type": "Identifier",
                     "span": {
                       "start": 144,
                       "end": 152,

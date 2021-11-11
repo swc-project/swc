@@ -22,7 +22,7 @@ error: KeyframesRule
 1 | @keyframes name { from { color: red } to { color: blue } }
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:12
   |
 1 | @keyframes name { from { color: red } to { color: blue } }
@@ -40,7 +40,7 @@ error: KeyframeSelector
 1 | @keyframes name { from { color: red } to { color: blue } }
   |                   ^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:19
   |
 1 | @keyframes name { from { color: red } to { color: blue } }
@@ -64,7 +64,7 @@ error: Declaration
 1 | @keyframes name { from { color: red } to { color: blue } }
   |                          ^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:26
   |
 1 | @keyframes name { from { color: red } to { color: blue } }
@@ -76,7 +76,7 @@ error: Value
 1 | @keyframes name { from { color: red } to { color: blue } }
   |                                 ^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:33
   |
 1 | @keyframes name { from { color: red } to { color: blue } }
@@ -94,7 +94,7 @@ error: KeyframeSelector
 1 | @keyframes name { from { color: red } to { color: blue } }
   |                                       ^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:39
   |
 1 | @keyframes name { from { color: red } to { color: blue } }
@@ -118,7 +118,7 @@ error: Declaration
 1 | @keyframes name { from { color: red } to { color: blue } }
   |                                            ^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:44
   |
 1 | @keyframes name { from { color: red } to { color: blue } }
@@ -130,7 +130,7 @@ error: Value
 1 | @keyframes name { from { color: red } to { color: blue } }
   |                                                   ^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:51
   |
 1 | @keyframes name { from { color: red } to { color: blue } }

@@ -46,7 +46,7 @@ error: TypeSelector
 1 | * {
   | ^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/selector/universal/input.css:1:1
   |
 1 | * {
@@ -67,7 +67,7 @@ error: Declaration
 2 |     display: block;
   |     ^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/selector/universal/input.css:2:5
   |
 2 |     display: block;
@@ -79,7 +79,7 @@ error: Value
 2 |     display: block;
   |              ^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/selector/universal/input.css:2:14
   |
 2 |     display: block;

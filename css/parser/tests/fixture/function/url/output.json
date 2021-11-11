@@ -46,7 +46,7 @@
                   },
                   "prefix": null,
                   "name": {
-                    "type": "Text",
+                    "type": "Identifier",
                     "span": {
                       "start": 0,
                       "end": 1,
@@ -78,7 +78,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 8,
                 "end": 24,
@@ -109,7 +109,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 115,
                 "end": 131,
@@ -127,7 +127,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Text",
+                  "type": "Identifier",
                   "span": {
                     "start": 133,
                     "end": 136,
@@ -160,7 +160,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 161,
                 "end": 177,
@@ -178,7 +178,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Text",
+                  "type": "Identifier",
                   "span": {
                     "start": 179,
                     "end": 182,
@@ -211,7 +211,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 207,
                 "end": 223,
@@ -229,7 +229,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Text",
+                  "type": "Identifier",
                   "span": {
                     "start": 225,
                     "end": 228,
@@ -262,7 +262,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 253,
                 "end": 269,
@@ -280,7 +280,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Text",
+                  "type": "Identifier",
                   "span": {
                     "start": 271,
                     "end": 274,
@@ -313,7 +313,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 302,
                 "end": 318,
@@ -331,7 +331,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Text",
+                  "type": "Identifier",
                   "span": {
                     "start": 320,
                     "end": 323,
@@ -364,7 +364,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 351,
                 "end": 367,
@@ -382,7 +382,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Text",
+                  "type": "Identifier",
                   "span": {
                     "start": 369,
                     "end": 372,
@@ -415,7 +415,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 403,
                 "end": 419,
@@ -433,7 +433,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Text",
+                  "type": "Identifier",
                   "span": {
                     "start": 421,
                     "end": 424,
@@ -466,7 +466,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 465,
                 "end": 481,
@@ -497,7 +497,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 494,
                 "end": 510,
@@ -528,7 +528,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 526,
                 "end": 542,
@@ -546,7 +546,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Text",
+                  "type": "Identifier",
                   "span": {
                     "start": 544,
                     "end": 547,
@@ -579,7 +579,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 557,
                 "end": 573,
@@ -597,7 +597,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Text",
+                  "type": "Identifier",
                   "span": {
                     "start": 575,
                     "end": 578,
@@ -630,7 +630,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 594,
                 "end": 610,
@@ -648,7 +648,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Text",
+                  "type": "Identifier",
                   "span": {
                     "start": 612,
                     "end": 615,
@@ -681,7 +681,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 625,
                 "end": 641,
@@ -699,7 +699,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Text",
+                  "type": "Identifier",
                   "span": {
                     "start": 643,
                     "end": 646,
@@ -732,7 +732,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 662,
                 "end": 678,
@@ -750,7 +750,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Text",
+                  "type": "Identifier",
                   "span": {
                     "start": 680,
                     "end": 683,
@@ -783,7 +783,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 700,
                 "end": 716,
@@ -814,7 +814,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 740,
                 "end": 756,
@@ -845,7 +845,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 786,
                 "end": 802,
@@ -876,7 +876,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 835,
                 "end": 851,
@@ -907,7 +907,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 894,
                 "end": 910,
@@ -938,7 +938,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 980,
                 "end": 996,

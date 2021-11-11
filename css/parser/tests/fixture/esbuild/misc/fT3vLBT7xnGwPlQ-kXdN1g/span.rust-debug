@@ -46,7 +46,7 @@ error: IdSelector
 1 | #\61hash {}
   | ^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/fT3vLBT7xnGwPlQ-kXdN1g/input.css:1:1
   |
 1 | #\61hash {}

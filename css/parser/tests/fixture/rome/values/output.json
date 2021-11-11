@@ -46,7 +46,7 @@
                   },
                   "prefix": null,
                   "name": {
-                    "type": "Text",
+                    "type": "Identifier",
                     "span": {
                       "start": 0,
                       "end": 1,
@@ -66,7 +66,7 @@
                     },
                     "isElement": true,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 3,
                         "end": 9,
@@ -107,7 +107,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 13,
                 "end": 20,
@@ -174,7 +174,7 @@
                       "ctxt": 0
                     },
                     "text": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 39,
                         "end": 45,
@@ -206,7 +206,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 49,
                 "end": 56,
@@ -237,7 +237,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 65,
                 "end": 76,
@@ -268,7 +268,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 84,
                 "end": 89,
@@ -307,7 +307,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 97,
                 "end": 107,
@@ -381,7 +381,7 @@
                   },
                   "prefix": null,
                   "name": {
-                    "type": "Text",
+                    "type": "Identifier",
                     "span": {
                       "start": 117,
                       "end": 120,
@@ -413,7 +413,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 124,
                 "end": 129,
@@ -424,7 +424,7 @@
             },
             "value": [
               {
-                "type": "Text",
+                "type": "Identifier",
                 "span": {
                   "start": 131,
                   "end": 137,
@@ -479,7 +479,7 @@
                   },
                   "prefix": null,
                   "name": {
-                    "type": "Text",
+                    "type": "Identifier",
                     "span": {
                       "start": 141,
                       "end": 144,
@@ -511,7 +511,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 148,
                 "end": 153,
@@ -522,7 +522,7 @@
             },
             "value": [
               {
-                "type": "Text",
+                "type": "Identifier",
                 "span": {
                   "start": 155,
                   "end": 161,
@@ -542,7 +542,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 164,
                 "end": 174,
@@ -553,7 +553,7 @@
             },
             "value": [
               {
-                "type": "Text",
+                "type": "Identifier",
                 "span": {
                   "start": 176,
                   "end": 180,

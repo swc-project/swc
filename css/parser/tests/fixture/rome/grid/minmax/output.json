@@ -47,7 +47,7 @@
                       "ctxt": 0
                     },
                     "text": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 1,
                         "end": 6,
@@ -79,7 +79,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 10,
                 "end": 31,
@@ -97,7 +97,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Text",
+                  "type": "Identifier",
                   "span": {
                     "start": 33,
                     "end": 39,
@@ -108,7 +108,7 @@
                 },
                 "args": [
                   {
-                    "type": "Text",
+                    "type": "Identifier",
                     "span": {
                       "start": 40,
                       "end": 51,
@@ -154,7 +154,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Text",
+                  "type": "Identifier",
                   "span": {
                     "start": 60,
                     "end": 66,
@@ -228,7 +228,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Text",
+                  "type": "Identifier",
                   "span": {
                     "start": 79,
                     "end": 85,
@@ -239,7 +239,7 @@
                 },
                 "args": [
                   {
-                    "type": "Text",
+                    "type": "Identifier",
                     "span": {
                       "start": 86,
                       "end": 97,
@@ -249,7 +249,7 @@
                     "raw": "max-content"
                   },
                   {
-                    "type": "Text",
+                    "type": "Identifier",
                     "span": {
                       "start": 99,
                       "end": 110,

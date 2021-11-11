@@ -1,8 +1,8 @@
 use swc_atoms::JsWord;
 use swc_common::{ast_node, Span};
 
-#[ast_node("Text")]
-pub struct Text {
+#[ast_node("Identifier")]
+pub struct Ident {
     pub span: Span,
     pub value: JsWord,
     pub raw: JsWord,

@@ -40,13 +40,13 @@ error: TypeSelector
 1 | \2a|div {}
   | ^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1
   |
 1 | \2a|div {}
   | ^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:5
   |
 1 | \2a|div {}

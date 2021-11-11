@@ -28,7 +28,7 @@ error: MediaQuery
 1 | @media screen {}
   |        ^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/XVEwpuBI9VyrQMNs3Ow9Ag/input.css:1:8
   |
 1 | @media screen {}

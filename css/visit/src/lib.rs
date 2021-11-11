@@ -9,7 +9,7 @@ pub trait Node {}
 impl<T: ?Sized> Node for T {}
 
 define!({
-    pub struct Text {
+    pub struct Ident {
         pub span: Span,
         pub value: JsWord,
         pub raw: JsWord,
@@ -29,7 +29,7 @@ define!({
 
     pub struct Declaration {
         pub span: Span,
-        pub property: Text,
+        pub property: Ident,
         pub value: Vec<Value>,
         pub important: Option<Span>,
     }
@@ -79,7 +79,7 @@ define!({
 
         Hash(HashValue),
 
-        Text(Text),
+        Ident(Ident),
 
         Str(Str),
 
@@ -122,9 +122,7 @@ define!({
 
     pub struct FnValue {
         pub span: Span,
-
-        pub name: Text,
-
+        pub name: Ident,
         pub args: Vec<Value>,
     }
 
@@ -162,7 +160,7 @@ define!({
 
     pub struct AtTextValue {
         pub span: Span,
-        pub name: Text,
+        pub name: Ident,
         pub block: Option<BraceValue>,
     }
 
@@ -201,8 +199,8 @@ define!({
 
     pub struct TypeSelector {
         pub span: Span,
-        pub prefix: Option<Text>,
-        pub name: Text,
+        pub prefix: Option<Ident>,
+        pub name: Ident,
     }
 
     pub struct NestingSelector {
@@ -223,13 +221,13 @@ define!({
 
     pub enum AttrSelectorValue {
         Str(Str),
-        Text(Text),
+        Ident(Ident),
     }
 
     pub struct AttrSelector {
         pub span: Span,
-        pub prefix: Option<Text>,
-        pub name: Text,
+        pub prefix: Option<Ident>,
+        pub name: Ident,
         pub matcher: Option<AttrSelectorMatcher>,
         pub value: Option<AttrSelectorValue>,
         pub modifier: Option<char>,
@@ -238,28 +236,28 @@ define!({
     pub struct PseudoSelector {
         pub span: Span,
         pub is_element: bool,
-        pub name: Text,
+        pub name: Ident,
         pub args: Tokens,
     }
 
     pub struct IdSelector {
         pub span: Span,
-        pub text: Text,
+        pub text: Ident,
     }
 
     pub struct ClassSelector {
         pub span: Span,
-        pub text: Text,
+        pub text: Ident,
     }
 
     pub struct TagSelector {
         pub span: Span,
-        pub text: Text,
+        pub text: Ident,
     }
 
     pub struct AtSelector {
         pub span: Span,
-        pub text: Text,
+        pub text: Ident,
     }
 
     pub struct Stylesheet {
@@ -322,7 +320,7 @@ define!({
 
     pub struct NamespaceRule {
         pub span: Span,
-        pub prefix: Text,
+        pub prefix: Ident,
         pub value: NamespaceValue,
     }
 
@@ -333,7 +331,7 @@ define!({
 
     pub struct UnknownAtRule {
         pub span: Span,
-        pub name: Text,
+        pub name: Ident,
         pub tokens: Tokens,
     }
 
@@ -345,7 +343,7 @@ define!({
 
     pub struct KeyframesRule {
         pub span: Span,
-        pub id: Text,
+        pub id: Ident,
         pub blocks: Vec<KeyframeBlock>,
     }
 
@@ -356,7 +354,7 @@ define!({
     }
 
     pub enum KeyframeSelector {
-        Id(Text),
+        Ident(Ident),
         Percent(PercentValue),
     }
 
@@ -374,7 +372,7 @@ define!({
     }
 
     pub enum MediaQuery {
-        Text(Text),
+        Ident(Ident),
         And(AndMediaQuery),
         Or(OrMediaQuery),
         Not(NotMediaQuery),
@@ -420,10 +418,8 @@ define!({
 
     pub struct PageSelector {
         pub span: Span,
-
-        pub ident: Option<Text>,
-
-        pub pseudo: Option<Text>,
+        pub ident: Option<Ident>,
+        pub pseudo: Option<Ident>,
     }
 
     pub struct PageRuleBlock {

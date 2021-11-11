@@ -40,7 +40,7 @@ error: TypeSelector
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   | ^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1
   |
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
@@ -58,7 +58,7 @@ error: Declaration
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:5
   |
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
@@ -76,7 +76,7 @@ error: FnValue
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   |                 ^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:17
   |
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
@@ -160,7 +160,7 @@ error: Value
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   |                                       ^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:39
   |
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }

@@ -46,7 +46,7 @@ error: TypeSelector
 1 | a {
   | ^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/delim/backslash/input.css:1:1
   |
 1 | a {
@@ -67,7 +67,7 @@ error: Declaration
 2 |     color: \\ red \\ blue;
   |     ^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/delim/backslash/input.css:2:5
   |
 2 |     color: \\ red \\ blue;
@@ -79,7 +79,7 @@ error: Value
 2 |     color: \\ red \\ blue;
   |            ^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/delim/backslash/input.css:2:12
   |
 2 |     color: \\ red \\ blue;
@@ -91,7 +91,7 @@ error: Value
 2 |     color: \\ red \\ blue;
   |               ^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/delim/backslash/input.css:2:15
   |
 2 |     color: \\ red \\ blue;
@@ -103,7 +103,7 @@ error: Value
 2 |     color: \\ red \\ blue;
   |                   ^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/delim/backslash/input.css:2:19
   |
 2 |     color: \\ red \\ blue;
@@ -115,7 +115,7 @@ error: Value
 2 |     color: \\ red \\ blue;
   |                      ^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/delim/backslash/input.css:2:22
   |
 2 |     color: \\ red \\ blue;

@@ -1,4 +1,4 @@
-use crate::{Str, Text, Tokens};
+use crate::{Str, Ident, Tokens};
 use is_macro::Is;
 use string_enum::StringEnum;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
@@ -65,9 +65,9 @@ pub struct TypeSelector {
     pub span: Span,
     ///	If present, this is an identifier or "*" and is followed by a "|"
     /// character
-    pub prefix: Option<Text>,
+    pub prefix: Option<Ident>,
     ///	This is an identifier or "*".
-    pub name: Text,
+    pub name: Ident,
 }
 
 #[ast_node]
@@ -116,15 +116,15 @@ pub enum AttrSelectorValue {
     #[tag("String")]
     Str(Str),
 
-    #[tag("Text")]
-    Text(Text),
+    #[tag("Ident")]
+    Ident(Ident),
 }
 
 #[ast_node("AttributeSelector")]
 pub struct AttrSelector {
     pub span: Span,
-    pub prefix: Option<Text>,
-    pub name: Text,
+    pub prefix: Option<Ident>,
+    pub name: Ident,
     pub matcher: Option<AttrSelectorMatcher>,
     pub value: Option<AttrSelectorValue>,
     pub modifier: Option<char>,
@@ -134,7 +134,7 @@ pub struct AttrSelector {
 pub struct PseudoSelector {
     pub span: Span,
     pub is_element: bool,
-    pub name: Text,
+    pub name: Ident,
     pub args: Tokens,
 }
 
@@ -142,25 +142,25 @@ pub struct PseudoSelector {
 pub struct IdSelector {
     pub span: Span,
     /// Does not include `#`
-    pub text: Text,
+    pub text: Ident,
 }
 
 #[ast_node("ClassSelector")]
 pub struct ClassSelector {
     pub span: Span,
     /// Does not include `.`
-    pub text: Text,
+    pub text: Ident,
 }
 
 #[ast_node("TagSelector")]
 pub struct TagSelector {
     pub span: Span,
-    pub text: Text,
+    pub text: Ident,
 }
 
 /// Type for `@top-center`. Allowwed in only some contexts.
 #[ast_node("AtSelector")]
 pub struct AtSelector {
     pub span: Span,
-    pub text: Text,
+    pub text: Ident,
 }

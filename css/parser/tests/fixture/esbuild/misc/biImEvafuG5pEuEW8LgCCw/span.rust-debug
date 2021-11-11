@@ -40,7 +40,7 @@ error: TypeSelector
 1 | a { value: f\6e() }
   | ^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/biImEvafuG5pEuEW8LgCCw/input.css:1:1
   |
 1 | a { value: f\6e() }
@@ -58,7 +58,7 @@ error: Declaration
 1 | a { value: f\6e() }
   |     ^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/biImEvafuG5pEuEW8LgCCw/input.css:1:5
   |
 1 | a { value: f\6e() }
@@ -76,7 +76,7 @@ error: FnValue
 1 | a { value: f\6e() }
   |            ^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/biImEvafuG5pEuEW8LgCCw/input.css:1:12
   |
 1 | a { value: f\6e() }

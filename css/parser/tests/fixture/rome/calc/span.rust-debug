@@ -64,7 +64,7 @@ error: ClassSelector
 1 | .style {
   | ^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/calc/input.css:1:2
   |
 1 | .style {
@@ -89,7 +89,7 @@ error: Declaration
 2 |     width: calc(2px);
   |     ^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/calc/input.css:2:2
   |
 2 |     width: calc(2px);
@@ -107,7 +107,7 @@ error: FnValue
 2 |     width: calc(2px);
   |            ^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/calc/input.css:2:9
   |
 2 |     width: calc(2px);
@@ -143,7 +143,7 @@ error: Declaration
 3 |     width: calc(2px + 1px);
   |     ^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/calc/input.css:3:2
   |
 3 |     width: calc(2px + 1px);
@@ -161,7 +161,7 @@ error: FnValue
 3 |     width: calc(2px + 1px);
   |            ^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/calc/input.css:3:9
   |
 3 |     width: calc(2px + 1px);
@@ -233,7 +233,7 @@ error: Declaration
 4 |     width: calc(2em + 1%);
   |     ^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/calc/input.css:4:2
   |
 4 |     width: calc(2em + 1%);
@@ -251,7 +251,7 @@ error: FnValue
 4 |     width: calc(2em + 1%);
   |            ^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/calc/input.css:4:9
   |
 4 |     width: calc(2em + 1%);
@@ -317,7 +317,7 @@ error: Declaration
 5 |     width: calc(2em * 2% * 3px);
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/calc/input.css:5:2
   |
 5 |     width: calc(2em * 2% * 3px);
@@ -335,7 +335,7 @@ error: FnValue
 5 |     width: calc(2em * 2% * 3px);
   |            ^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/calc/input.css:5:9
   |
 5 |     width: calc(2em * 2% * 3px);
@@ -449,7 +449,7 @@ error: Declaration
 6 |     width: calc(2em / 2 / 3);
   |     ^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/calc/input.css:6:2
   |
 6 |     width: calc(2em / 2 / 3);
@@ -467,7 +467,7 @@ error: FnValue
 6 |     width: calc(2em / 2 / 3);
   |            ^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/calc/input.css:6:9
   |
 6 |     width: calc(2em / 2 / 3);
@@ -563,7 +563,7 @@ error: Declaration
 7 |     width: calc(2em / (2 - 3) / (2 - 6));
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/calc/input.css:7:2
   |
 7 |     width: calc(2em / (2 - 3) / (2 - 6));
@@ -581,7 +581,7 @@ error: FnValue
 7 |     width: calc(2em / (2 - 3) / (2 - 6));
   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/calc/input.css:7:9
   |
 7 |     width: calc(2em / (2 - 3) / (2 - 6));
@@ -749,7 +749,7 @@ error: Declaration
 8 |     width: calc(2em * 2 + 3);
   |     ^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/calc/input.css:8:2
   |
 8 |     width: calc(2em * 2 + 3);
@@ -767,7 +767,7 @@ error: FnValue
 8 |     width: calc(2em * 2 + 3);
   |            ^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/calc/input.css:8:9
   |
 8 |     width: calc(2em * 2 + 3);
@@ -863,7 +863,7 @@ error: Declaration
 9 |     width: calc(2em * 2 - 3 + 3em / 5);
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/calc/input.css:9:2
   |
 9 |     width: calc(2em * 2 - 3 + 3em / 5);
@@ -881,7 +881,7 @@ error: FnValue
 9 |     width: calc(2em * 2 - 3 + 3em / 5);
   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/calc/input.css:9:9
   |
 9 |     width: calc(2em * 2 - 3 + 3em / 5);

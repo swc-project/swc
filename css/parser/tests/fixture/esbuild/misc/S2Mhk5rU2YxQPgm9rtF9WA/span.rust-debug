@@ -28,7 +28,7 @@ error: FnValue
 1 | @document url("https://www.example.com/") { h1 { color: green } }
   |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:11
   |
 1 | @document url("https://www.example.com/") { h1 { color: green } }
@@ -82,7 +82,7 @@ error: TypeSelector
 1 | @document url("https://www.example.com/") { h1 { color: green } }
   |                                             ^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:45
   |
 1 | @document url("https://www.example.com/") { h1 { color: green } }
@@ -100,7 +100,7 @@ error: Declaration
 1 | @document url("https://www.example.com/") { h1 { color: green } }
   |                                                  ^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:50
   |
 1 | @document url("https://www.example.com/") { h1 { color: green } }
@@ -112,7 +112,7 @@ error: Value
 1 | @document url("https://www.example.com/") { h1 { color: green } }
   |                                                         ^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:57
   |
 1 | @document url("https://www.example.com/") { h1 { color: green } }

@@ -34,7 +34,7 @@ error: Declaration
 1 | @media (aspect-ratio: 12/9) {}
   |         ^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/media/ratio/input.css:1:9
   |
 1 | @media (aspect-ratio: 12/9) {}

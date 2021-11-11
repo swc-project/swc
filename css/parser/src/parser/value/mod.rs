@@ -241,7 +241,7 @@ where
             Token::AtKeyword { .. } => {
                 let name = bump!(self);
                 let name = match name {
-                    Token::AtKeyword { value, raw } => Text { span, value, raw },
+                    Token::AtKeyword { value, raw } => Ident { span, value, raw },
                     _ => {
                         unreachable!()
                     }
@@ -447,7 +447,7 @@ where
             }
         };
 
-        let name = Text {
+        let name = Ident {
             span: if is_fn {
                 swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default())
             } else {
@@ -476,7 +476,7 @@ where
             }));
         }
 
-        Ok(Value::Text(name))
+        Ok(Value::Ident(name))
     }
 
     /// Parse comma separated values.
@@ -660,7 +660,7 @@ where
                 unreachable!()
             }
         };
-        let name = Text {
+        let name = Ident {
             span: swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default()),
             value: name.0,
             raw: name.1,

@@ -98,7 +98,7 @@ error: AtSelector
 2 |     @top-center {
   |     ^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:2:2
   |
 2 |     @top-center {
@@ -125,7 +125,7 @@ error: Declaration
 3 |         display: none;
   |         ^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:3:3
   |
 3 |         display: none;
@@ -137,7 +137,7 @@ error: Value
 3 |         display: none;
   |                  ^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:3:12
   |
 3 |         display: none;

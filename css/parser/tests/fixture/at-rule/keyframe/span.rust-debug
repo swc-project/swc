@@ -28,7 +28,7 @@ error: KeyframesRule
 1 | @keyframes foo { /* ... */ }
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/at-rule/keyframe/input.css:1:12
   |
 1 | @keyframes foo { /* ... */ }
@@ -52,7 +52,7 @@ error: KeyframesRule
 2 | @keyframes "foo" { /* ... */ }
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/at-rule/keyframe/input.css:2:12
   |
 2 | @keyframes "foo" { /* ... */ }
@@ -76,7 +76,7 @@ error: KeyframesRule
 3 | @keyframes    foo    { /* ... */ }
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/at-rule/keyframe/input.css:3:15
   |
 3 | @keyframes    foo    { /* ... */ }
@@ -118,7 +118,7 @@ error: KeyframesRule
 13 | | }
    | |_^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/at-rule/keyframe/input.css:5:12
   |
 5 | @keyframes slidein {
@@ -138,7 +138,7 @@ error: KeyframeSelector
 6 |     from {
   |     ^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/at-rule/keyframe/input.css:6:5
   |
 6 |     from {
@@ -168,7 +168,7 @@ error: Declaration
 7 |         transform: translateX(0%);
   |         ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/at-rule/keyframe/input.css:7:9
   |
 7 |         transform: translateX(0%);
@@ -186,7 +186,7 @@ error: FnValue
 7 |         transform: translateX(0%);
   |                    ^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/at-rule/keyframe/input.css:7:20
   |
 7 |         transform: translateX(0%);
@@ -224,7 +224,7 @@ error: KeyframeSelector
 10 |     to {
    |     ^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:10:5
    |
 10 |     to {
@@ -254,7 +254,7 @@ error: Declaration
 11 |         transform: translateX(100%);
    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:11:9
    |
 11 |         transform: translateX(100%);
@@ -272,7 +272,7 @@ error: FnValue
 11 |         transform: translateX(100%);
    |                    ^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:11:20
    |
 11 |         transform: translateX(100%);
@@ -329,7 +329,7 @@ error: KeyframesRule
 20 | | }
    | |_^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:15:12
    |
 15 | @keyframes identifier {
@@ -377,7 +377,7 @@ error: Declaration
 16 |     0% { top: 0; left: 0; }
    |          ^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:10
    |
 16 |     0% { top: 0; left: 0; }
@@ -401,7 +401,7 @@ error: Declaration
 16 |     0% { top: 0; left: 0; }
    |                  ^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:18
    |
 16 |     0% { top: 0; left: 0; }
@@ -461,7 +461,7 @@ error: Declaration
 17 |     30% { top: 50px; }
    |           ^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:17:11
    |
 17 |     30% { top: 50px; }
@@ -551,7 +551,7 @@ error: Declaration
 18 |     68%, 72% { left: 50px; }
    |                ^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:16
    |
 18 |     68%, 72% { left: 50px; }
@@ -623,7 +623,7 @@ error: Declaration
 19 |     100% { top: 100px; left: 100%; }
    |            ^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:12
    |
 19 |     100% { top: 100px; left: 100%; }
@@ -659,7 +659,7 @@ error: Declaration
 19 |     100% { top: 100px; left: 100%; }
    |                        ^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:24
    |
 19 |     100% { top: 100px; left: 100%; }

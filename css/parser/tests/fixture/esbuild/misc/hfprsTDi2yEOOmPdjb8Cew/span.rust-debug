@@ -40,7 +40,7 @@ error: TypeSelector
 1 | div#\30 {}
   | ^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/hfprsTDi2yEOOmPdjb8Cew/input.css:1:1
   |
 1 | div#\30 {}
@@ -58,7 +58,7 @@ error: IdSelector
 1 | div#\30 {}
   |    ^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/hfprsTDi2yEOOmPdjb8Cew/input.css:1:4
   |
 1 | div#\30 {}

@@ -46,7 +46,7 @@
                   },
                   "prefix": null,
                   "name": {
-                    "type": "Text",
+                    "type": "Identifier",
                     "span": {
                       "start": 22,
                       "end": 26,
@@ -78,7 +78,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 33,
                 "end": 43,
@@ -89,7 +89,7 @@
             },
             "value": [
               {
-                "type": "Text",
+                "type": "Identifier",
                 "span": {
                   "start": 45,
                   "end": 48,
@@ -109,7 +109,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 54,
                 "end": 59,
@@ -127,7 +127,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Text",
+                  "type": "Identifier",
                   "span": {
                     "start": 61,
                     "end": 65,

@@ -151,7 +151,7 @@ where
     #[emitter]
     fn emit_keyframe_selector(&mut self, n: &KeyframeSelector) -> Result {
         match n {
-            KeyframeSelector::Id(n) => emit!(self, n),
+            KeyframeSelector::Ident(n) => emit!(self, n),
             KeyframeSelector::Percent(n) => emit!(self, n),
         }
     }
@@ -266,7 +266,7 @@ where
             Value::Number(n) => emit!(self, n),
             Value::Percent(n) => emit!(self, n),
             Value::Hash(n) => emit!(self, n),
-            Value::Text(n) => emit!(self, n),
+            Value::Ident(n) => emit!(self, n),
             Value::Str(n) => emit!(self, n),
             Value::Fn(n) => emit!(self, n),
             Value::Bin(n) => emit!(self, n),
@@ -298,7 +298,7 @@ where
     #[emitter]
     fn emit_media_query(&mut self, n: &MediaQuery) -> Result {
         match n {
-            MediaQuery::Text(n) => emit!(self, n),
+            MediaQuery::Ident(n) => emit!(self, n),
             MediaQuery::And(n) => emit!(self, n),
             MediaQuery::Or(n) => emit!(self, n),
             MediaQuery::Not(n) => emit!(self, n),
@@ -352,7 +352,7 @@ where
     }
 
     #[emitter]
-    fn emit_text(&mut self, n: &Text) -> Result {
+    fn emit_ident(&mut self, n: &Ident) -> Result {
         self.wr.write_raw(Some(n.span), &n.raw)?;
     }
 
@@ -758,7 +758,7 @@ where
     fn emit_attr_selector_value(&mut self, n: &AttrSelectorValue) -> Result {
         match n {
             AttrSelectorValue::Str(n) => emit!(self, n),
-            AttrSelectorValue::Text(n) => emit!(self, n),
+            AttrSelectorValue::Ident(n) => emit!(self, n),
         }
     }
 

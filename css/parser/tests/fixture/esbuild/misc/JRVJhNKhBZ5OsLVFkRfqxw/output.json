@@ -14,7 +14,7 @@
         "ctxt": 0
       },
       "id": {
-        "type": "Text",
+        "type": "Identifier",
         "span": {
           "start": 11,
           "end": 17,
@@ -32,7 +32,7 @@
           },
           "selector": [
             {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 20,
                 "end": 26,

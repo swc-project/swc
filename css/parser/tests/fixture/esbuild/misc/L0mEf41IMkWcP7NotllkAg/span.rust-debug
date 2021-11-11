@@ -34,7 +34,7 @@ error: UnknownAtRule
 4 | | }
   | |_^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1
   |
 1 | @unknown{

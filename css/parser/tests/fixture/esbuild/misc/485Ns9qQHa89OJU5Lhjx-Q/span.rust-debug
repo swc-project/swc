@@ -40,7 +40,7 @@ error: TypeSelector
 1 | a { value: \69 dent }
   | ^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/485Ns9qQHa89OJU5Lhjx-Q/input.css:1:1
   |
 1 | a { value: \69 dent }
@@ -58,7 +58,7 @@ error: Declaration
 1 | a { value: \69 dent }
   |     ^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/485Ns9qQHa89OJU5Lhjx-Q/input.css:1:5
   |
 1 | a { value: \69 dent }
@@ -70,7 +70,7 @@ error: Value
 1 | a { value: \69 dent }
   |            ^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/485Ns9qQHa89OJU5Lhjx-Q/input.css:1:12
   |
 1 | a { value: \69 dent }

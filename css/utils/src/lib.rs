@@ -1,13 +1,13 @@
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
-pub struct TextReplacer<'a> {
+pub struct IdentReplacer<'a> {
     from: &'a str,
     to: &'a str,
 }
 
-impl VisitMut for TextReplacer<'_> {
-    fn visit_mut_text(&mut self, n: &mut Text) {
+impl VisitMut for IdentReplacer<'_> {
+    fn visit_mut_ident(&mut self, n: &mut Ident) {
         n.visit_mut_children_with(self);
 
         if &*n.value == self.from {
@@ -17,9 +17,9 @@ impl VisitMut for TextReplacer<'_> {
     }
 }
 
-pub fn replace_text<N>(node: &mut N, from: &str, to: &str)
+pub fn replace_ident<N>(node: &mut N, from: &str, to: &str)
 where
-    N: for<'aa> VisitMutWith<TextReplacer<'aa>>,
+    N: for<'aa> VisitMutWith<IdentReplacer<'aa>>,
 {
-    node.visit_mut_with(&mut TextReplacer { from, to });
+    node.visit_mut_with(&mut IdentReplacer { from, to });
 }

@@ -46,7 +46,7 @@ error: ClassSelector
 1 | .selector { property: value\9; }
   | ^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:2
   |
 1 | .selector { property: value\9; }
@@ -64,7 +64,7 @@ error: Declaration
 1 | .selector { property: value\9; }
   |             ^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:13
   |
 1 | .selector { property: value\9; }
@@ -76,7 +76,7 @@ error: Value
 1 | .selector { property: value\9; }
   |                       ^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:23
   |
 1 | .selector { property: value\9; }

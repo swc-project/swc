@@ -50,7 +50,7 @@ error: TypeSelector
 1 | p::before {
   | ^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/values/input.css:1:1
   |
 1 | p::before {
@@ -68,7 +68,7 @@ error: PseudoSelector
 1 | p::before {
   |  ^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/values/input.css:1:4
   |
 1 | p::before {
@@ -91,7 +91,7 @@ error: Declaration
 2 |     content: ' content ';
   |     ^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/values/input.css:2:2
   |
 2 |     content: ' content ';
@@ -161,7 +161,7 @@ error: ClassSelector
 5 | .number {
   | ^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/values/input.css:5:2
   |
 5 | .number {
@@ -185,7 +185,7 @@ error: Declaration
 6 |     opacity: 1e-3;
   |     ^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/values/input.css:6:2
   |
 6 |     opacity: 1e-3;
@@ -209,7 +209,7 @@ error: Declaration
 7 |     line-height: 0.2;
   |     ^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/values/input.css:7:2
   |
 7 |     line-height: 0.2;
@@ -233,7 +233,7 @@ error: Declaration
 8 |     width: 20%;
   |     ^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/values/input.css:8:2
   |
 8 |     width: 20%;
@@ -263,7 +263,7 @@ error: Declaration
 9 |     margin-top: -5%;
   |     ^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/values/input.css:9:2
   |
 9 |     margin-top: -5%;
@@ -327,7 +327,7 @@ error: TypeSelector
 12 | foo {
    | ^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/rome/values/input.css:12:1
    |
 12 | foo {
@@ -348,7 +348,7 @@ error: Declaration
 13 |     color: yellow
    |     ^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/rome/values/input.css:13:2
    |
 13 |     color: yellow
@@ -360,7 +360,7 @@ error: Value
 13 |     color: yellow
    |            ^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/rome/values/input.css:13:9
    |
 13 |     color: yellow
@@ -408,7 +408,7 @@ error: TypeSelector
 16 | bar {
    | ^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/rome/values/input.css:16:1
    |
 16 | bar {
@@ -430,7 +430,7 @@ error: Declaration
 17 |     color: yellow;
    |     ^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/rome/values/input.css:17:2
    |
 17 |     color: yellow;
@@ -442,7 +442,7 @@ error: Value
 17 |     color: yellow;
    |            ^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/rome/values/input.css:17:9
    |
 17 |     color: yellow;
@@ -454,7 +454,7 @@ error: Declaration
 18 |     background: none
    |     ^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/rome/values/input.css:18:2
    |
 18 |     background: none
@@ -466,7 +466,7 @@ error: Value
 18 |     background: none
    |                 ^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/rome/values/input.css:18:14
    |
 18 |     background: none

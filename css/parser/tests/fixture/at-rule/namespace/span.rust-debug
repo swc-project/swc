@@ -27,7 +27,7 @@ error: NamespaceRule
 1 | @namespace empty "";
   | ^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/at-rule/namespace/input.css:1:12
   |
 1 | @namespace empty "";
@@ -63,7 +63,7 @@ error: NamespaceRule
 2 | @namespace "";
   | ^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
 
 error: NamespaceValue
  --> $DIR/tests/fixture/at-rule/namespace/input.css:2:12
@@ -125,7 +125,7 @@ error: NamespaceRule
 4 | @namespace svg url(http://www.w3.org/2000/svg);
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/at-rule/namespace/input.css:4:12
   |
 4 | @namespace svg url(http://www.w3.org/2000/svg);
@@ -191,7 +191,7 @@ error: NamespaceRule
 6 | @namespace svg "http://www.w3.org/2000/svg";
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/at-rule/namespace/input.css:6:12
   |
 6 | @namespace svg "http://www.w3.org/2000/svg";

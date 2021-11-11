@@ -21,7 +21,7 @@
           "ctxt": 0
         },
         "left": {
-          "type": "Text",
+          "type": "Identifier",
           "span": {
             "start": 7,
             "end": 13,
@@ -31,7 +31,7 @@
           "raw": "screen"
         },
         "right": {
-          "type": "Text",
+          "type": "Identifier",
           "span": {
             "start": 19,
             "end": 24,
@@ -65,7 +65,7 @@
             "ctxt": 0
           },
           "left": {
-            "type": "Text",
+            "type": "Identifier",
             "span": {
               "start": 41,
               "end": 47,
@@ -75,7 +75,7 @@
             "raw": "screen"
           },
           "right": {
-            "type": "Text",
+            "type": "Identifier",
             "span": {
               "start": 53,
               "end": 58,
@@ -110,7 +110,7 @@
             "ctxt": 0
           },
           "left": {
-            "type": "Text",
+            "type": "Identifier",
             "span": {
               "start": 75,
               "end": 81,
@@ -127,7 +127,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 87,
                 "end": 96,
@@ -186,7 +186,7 @@
           "ctxt": 0
         },
         "left": {
-          "type": "Text",
+          "type": "Identifier",
           "span": {
             "start": 115,
             "end": 121,
@@ -203,7 +203,7 @@
             "ctxt": 0
           },
           "property": {
-            "type": "Text",
+            "type": "Identifier",
             "span": {
               "start": 127,
               "end": 136,
@@ -261,7 +261,7 @@
           "ctxt": 0
         },
         "left": {
-          "type": "Text",
+          "type": "Identifier",
           "span": {
             "start": 179,
             "end": 185,
@@ -285,7 +285,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 191,
                 "end": 200,
@@ -340,7 +340,7 @@
                 "ctxt": 0
               },
               "property": {
-                "type": "Text",
+                "type": "Identifier",
                 "span": {
                   "start": 214,
                   "end": 223,
@@ -388,7 +388,7 @@
                 "ctxt": 0
               },
               "property": {
-                "type": "Text",
+                "type": "Identifier",
                 "span": {
                   "start": 237,
                   "end": 246,
@@ -448,7 +448,7 @@
           "ctxt": 0
         },
         "left": {
-          "type": "Text",
+          "type": "Identifier",
           "span": {
             "start": 265,
             "end": 271,
@@ -472,7 +472,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 277,
                 "end": 286,
@@ -527,7 +527,7 @@
                 "ctxt": 0
               },
               "property": {
-                "type": "Text",
+                "type": "Identifier",
                 "span": {
                   "start": 300,
                   "end": 309,
@@ -582,7 +582,7 @@
                   "ctxt": 0
                 },
                 "property": {
-                  "type": "Text",
+                  "type": "Identifier",
                   "span": {
                     "start": 323,
                     "end": 332,
@@ -630,7 +630,7 @@
                   "ctxt": 0
                 },
                 "property": {
-                  "type": "Text",
+                  "type": "Identifier",
                   "span": {
                     "start": 346,
                     "end": 355,
