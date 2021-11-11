@@ -486,6 +486,7 @@ where
         for TokenAndSpan { span, token } in &n.tokens {
             let span = *span;
             match token {
+                Token::EOF => {},
                 Token::AtKeyword { raw, .. } => {
                     punct!(self, span, "@");
                     self.wr.write_raw(Some(n.span), &raw)?;
