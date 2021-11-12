@@ -55,7 +55,7 @@ error: Declaration
 2 |     font-family: "Open Sans";
   |     ^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/at-rule/font-face/input.css:2:5
   |
 2 |     font-family: "Open Sans";
@@ -80,7 +80,7 @@ error: Declaration
 4 | |     url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
   | |______________________________________________________________^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/at-rule/font-face/input.css:3:5
   |
 3 |     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
@@ -98,7 +98,7 @@ error: FnValue
 3 |     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/at-rule/font-face/input.css:3:10
   |
 3 |     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
@@ -136,7 +136,7 @@ error: FnValue
 3 |     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
   |                                                       ^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/at-rule/font-face/input.css:3:55
   |
 3 |     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
@@ -166,7 +166,7 @@ error: FnValue
 4 |     url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/at-rule/font-face/input.css:4:5
   |
 4 |     url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
@@ -196,7 +196,7 @@ error: FnValue
 4 |     url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
   |                                                 ^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/at-rule/font-face/input.css:4:49
   |
 4 |     url("/fonts/OpenSans-Regular-webfont.woff") format("woff");

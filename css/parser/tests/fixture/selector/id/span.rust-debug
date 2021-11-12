@@ -52,7 +52,7 @@ error: IdSelector
 1 | #id {}
   | ^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/selector/id/input.css:1:1
   |
 1 | #id {}
@@ -106,7 +106,7 @@ error: IdSelector
 2 | #♥ {}
   | ^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/selector/id/input.css:2:1
   |
 2 | #♥ {}
@@ -160,7 +160,7 @@ error: IdSelector
 3 | #© {}
   | ^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/selector/id/input.css:3:1
   |
 3 | #© {}
@@ -214,7 +214,7 @@ error: IdSelector
 4 | #“‘’” {}
   | ^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/selector/id/input.css:4:1
   |
 4 | #“‘’” {}
@@ -268,7 +268,7 @@ error: IdSelector
 5 | #☺☃ {}
   | ^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/selector/id/input.css:5:1
   |
 5 | #☺☃ {}
@@ -322,7 +322,7 @@ error: IdSelector
 6 | #⌘⌥ {}
   | ^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/selector/id/input.css:6:1
   |
 6 | #⌘⌥ {}
@@ -376,7 +376,7 @@ error: IdSelector
 7 | #𝄞♪♩♫♬ {}
   | ^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/selector/id/input.css:7:1
   |
 7 | #𝄞♪♩♫♬ {}
@@ -430,7 +430,7 @@ error: IdSelector
 8 | #💩 {}
   | ^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/selector/id/input.css:8:1
   |
 8 | #💩 {}
@@ -484,7 +484,7 @@ error: IdSelector
 9 | #\? {}
   | ^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/selector/id/input.css:9:1
   |
 9 | #\? {}
@@ -538,7 +538,7 @@ error: IdSelector
 10 | #\@ {}
    | ^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/id/input.css:10:1
    |
 10 | #\@ {}
@@ -592,7 +592,7 @@ error: IdSelector
 11 | #\. {}
    | ^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/id/input.css:11:1
    |
 11 | #\. {}
@@ -646,7 +646,7 @@ error: IdSelector
 12 | #\3A \) {}
    | ^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/id/input.css:12:1
    |
 12 | #\3A \) {}
@@ -700,7 +700,7 @@ error: IdSelector
 13 | #\3A \`\( {}
    | ^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/id/input.css:13:1
    |
 13 | #\3A \`\( {}
@@ -754,7 +754,7 @@ error: IdSelector
 14 | #\31 23 {}
    | ^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/id/input.css:14:1
    |
 14 | #\31 23 {}
@@ -808,7 +808,7 @@ error: IdSelector
 15 | #\31 a2b3c {}
    | ^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/id/input.css:15:1
    |
 15 | #\31 a2b3c {}
@@ -862,7 +862,7 @@ error: IdSelector
 16 | #\<p\> {}
    | ^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/id/input.css:16:1
    |
 16 | #\<p\> {}
@@ -916,7 +916,7 @@ error: IdSelector
 17 | #\<\>\<\<\<\>\>\<\> {}
    | ^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/id/input.css:17:1
    |
 17 | #\<\>\<\<\<\>\>\<\> {}
@@ -970,7 +970,7 @@ error: IdSelector
 18 | #\+\+\+\+\+\+\+\+\+\+\[\>\+\+\+\+\+\+\+\>\+\+\+\+\+\+\+\+\+\+\>\+\+\+\>\+\<\<\<\<\-\]\>\+\+\.\>\+\.\+\+\+\+\+\+\+\.\.\+\+\+\.\>\+\+\.\<\<\+\+\+\+\+\+\+\+\+\+\+\+\+\+\+\.\>\.\+\+\+\.\-\-\-\-\-\-\.\-\-\-\-\-\-\-\-\.\>\+\.\>\. {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/id/input.css:18:1
    |
 18 | #\+\+\+\+\+\+\+\+\+\+\[\>\+\+\+\+\+\+\+\>\+\+\+\+\+\+\+\+\+\+\>\+\+\+\>\+\<\<\<\<\-\]\>\+\+\.\>\+\.\+\+\+\+\+\+\+\.\.\+\+\+\.\>\+\+\.\<\<\+\+\+\+\+\+\+\+\+\+\+\+\+\+\+\.\>\.\+\+\+\.\-\-\-\-\-\-\.\-\-\-\-\-\-\-\-\.\>\+\.\>\. {}
@@ -1024,7 +1024,7 @@ error: IdSelector
 19 | #\# {}
    | ^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/id/input.css:19:1
    |
 19 | #\# {}
@@ -1078,7 +1078,7 @@ error: IdSelector
 20 | #\#\# {}
    | ^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/id/input.css:20:1
    |
 20 | #\#\# {}
@@ -1132,7 +1132,7 @@ error: IdSelector
 21 | #\#\.\#\.\# {}
    | ^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/id/input.css:21:1
    |
 21 | #\#\.\#\.\# {}
@@ -1186,7 +1186,7 @@ error: IdSelector
 22 | #\_ {}
    | ^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/id/input.css:22:1
    |
 22 | #\_ {}
@@ -1240,7 +1240,7 @@ error: IdSelector
 23 | #\{\} {}
    | ^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/id/input.css:23:1
    |
 23 | #\{\} {}
@@ -1294,7 +1294,7 @@ error: IdSelector
 24 | #\.fake\-class {}
    | ^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/id/input.css:24:1
    |
 24 | #\.fake\-class {}
@@ -1348,7 +1348,7 @@ error: IdSelector
 25 | #foo\.bar {}
    | ^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/id/input.css:25:1
    |
 25 | #foo\.bar {}
@@ -1402,7 +1402,7 @@ error: IdSelector
 26 | #\3A hover {}
    | ^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/id/input.css:26:1
    |
 26 | #\3A hover {}
@@ -1456,7 +1456,7 @@ error: IdSelector
 27 | #\3A hover\3A focus\3A active {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/id/input.css:27:1
    |
 27 | #\3A hover\3A focus\3A active {}
@@ -1510,7 +1510,7 @@ error: IdSelector
 28 | #\[attr\=value\] {}
    | ^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/id/input.css:28:1
    |
 28 | #\[attr\=value\] {}
@@ -1564,7 +1564,7 @@ error: IdSelector
 29 | #f\/o\/o {}
    | ^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/id/input.css:29:1
    |
 29 | #f\/o\/o {}
@@ -1618,7 +1618,7 @@ error: IdSelector
 30 | #f\\o\\o {}
    | ^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/id/input.css:30:1
    |
 30 | #f\\o\\o {}
@@ -1672,7 +1672,7 @@ error: IdSelector
 31 | #f\*o\*o {}
    | ^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/id/input.css:31:1
    |
 31 | #f\*o\*o {}
@@ -1726,7 +1726,7 @@ error: IdSelector
 32 | #f\!o\!o {}
    | ^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/id/input.css:32:1
    |
 32 | #f\!o\!o {}
@@ -1780,7 +1780,7 @@ error: IdSelector
 33 | #f\'o\'o {}
    | ^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/id/input.css:33:1
    |
 33 | #f\'o\'o {}
@@ -1834,7 +1834,7 @@ error: IdSelector
 34 | #f\~o\~o {}
    | ^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/id/input.css:34:1
    |
 34 | #f\~o\~o {}
@@ -1888,7 +1888,7 @@ error: IdSelector
 35 | #f\+o\+o {}
    | ^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/id/input.css:35:1
    |
 35 | #f\+o\+o {}

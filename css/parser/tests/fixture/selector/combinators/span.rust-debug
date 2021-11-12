@@ -40,7 +40,7 @@ error: TypeSelector
 1 | article   p  p   {}
   | ^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/selector/combinators/input.css:1:1
   |
 1 | article   p  p   {}
@@ -64,7 +64,7 @@ error: TypeSelector
 1 | article   p  p   {}
   |           ^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/selector/combinators/input.css:1:11
   |
 1 | article   p  p   {}
@@ -88,7 +88,7 @@ error: TypeSelector
 1 | article   p  p   {}
   |              ^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/selector/combinators/input.css:1:14
   |
 1 | article   p  p   {}

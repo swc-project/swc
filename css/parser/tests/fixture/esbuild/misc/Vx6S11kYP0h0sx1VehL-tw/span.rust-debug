@@ -22,7 +22,7 @@ error: KeyframesRule
 1 | @keyframes a\62 c { from {} }
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/Vx6S11kYP0h0sx1VehL-tw/input.css:1:12
   |
 1 | @keyframes a\62 c { from {} }
@@ -40,7 +40,7 @@ error: KeyframeSelector
 1 | @keyframes a\62 c { from {} }
   |                     ^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/Vx6S11kYP0h0sx1VehL-tw/input.css:1:21
   |
 1 | @keyframes a\62 c { from {} }

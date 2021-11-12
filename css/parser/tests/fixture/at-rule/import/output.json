@@ -21,7 +21,7 @@
           "ctxt": 0
         },
         "name": {
-          "type": "Text",
+          "type": "Identifier",
           "span": {
             "start": 8,
             "end": 11,
@@ -60,7 +60,7 @@
           "ctxt": 0
         },
         "name": {
-          "type": "Text",
+          "type": "Identifier",
           "span": {
             "start": 36,
             "end": 39,
@@ -156,7 +156,7 @@
           "ctxt": 0
         },
         "name": {
-          "type": "Text",
+          "type": "Identifier",
           "span": {
             "start": 136,
             "end": 139,
@@ -214,7 +214,7 @@
           "ctxt": 0
         },
         "name": {
-          "type": "Text",
+          "type": "Identifier",
           "span": {
             "start": 190,
             "end": 193,
@@ -275,7 +275,7 @@
         "raw": "\"common.css\""
       },
       "condition": {
-        "type": "Text",
+        "type": "Identifier",
         "span": {
           "start": 250,
           "end": 256,
@@ -300,7 +300,7 @@
           "ctxt": 0
         },
         "name": {
-          "type": "Text",
+          "type": "Identifier",
           "span": {
             "start": 266,
             "end": 269,
@@ -330,7 +330,7 @@
           "ctxt": 0
         },
         "left": {
-          "type": "Text",
+          "type": "Identifier",
           "span": {
             "start": 287,
             "end": 293,
@@ -347,7 +347,7 @@
             "ctxt": 0
           },
           "property": {
-            "type": "Text",
+            "type": "Identifier",
             "span": {
               "start": 299,
               "end": 310,
@@ -358,7 +358,7 @@
           },
           "value": [
             {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 311,
                 "end": 320,

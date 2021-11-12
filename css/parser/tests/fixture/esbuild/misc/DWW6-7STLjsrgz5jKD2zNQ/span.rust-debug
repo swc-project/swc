@@ -22,5 +22,5 @@ error: KeyframesRule
 1 | @keyframes {}
   | ^^^^^^^^^^^^
 
-error: Text
+error: Ident
 

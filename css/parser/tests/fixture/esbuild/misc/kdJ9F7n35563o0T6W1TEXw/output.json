@@ -62,7 +62,7 @@
                             "ctxt": 0
                           },
                           "text": {
-                            "type": "Text",
+                            "type": "Identifier",
                             "span": {
                               "start": 8,
                               "end": 17,

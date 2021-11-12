@@ -63,7 +63,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 23,
                 "end": 29,
@@ -129,7 +129,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 43,
                 "end": 49,
@@ -195,7 +195,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 63,
                 "end": 69,
@@ -254,7 +254,7 @@
           },
           "ident": null,
           "pseudo": {
-            "type": "Text",
+            "type": "Identifier",
             "span": {
               "start": 84,
               "end": 89,
@@ -280,7 +280,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 91,
                 "end": 97,
@@ -339,7 +339,7 @@
           },
           "ident": null,
           "pseudo": {
-            "type": "Text",
+            "type": "Identifier",
             "span": {
               "start": 111,
               "end": 116,
@@ -365,7 +365,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 118,
                 "end": 124,
@@ -424,7 +424,7 @@
           },
           "ident": null,
           "pseudo": {
-            "type": "Text",
+            "type": "Identifier",
             "span": {
               "start": 139,
               "end": 144,
@@ -450,7 +450,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 145,
                 "end": 151,

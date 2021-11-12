@@ -50,7 +50,7 @@ error: TypeSelector
 5 | a {
   | ^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/comment/input.css:5:1
   |
 5 | a {
@@ -71,7 +71,7 @@ error: Declaration
 6 |     color: white; /* comment */
   |     ^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/comment/input.css:6:2
   |
 6 |     color: white; /* comment */
@@ -83,7 +83,7 @@ error: Value
 6 |     color: white; /* comment */
   |            ^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/comment/input.css:6:9
   |
 6 |     color: white; /* comment */
@@ -129,7 +129,7 @@ error: TypeSelector
 9 | a {
   | ^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/comment/input.css:9:1
   |
 9 | a {
@@ -150,7 +150,7 @@ error: Declaration
 10 |     color: /* comment */ white;
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/rome/comment/input.css:10:2
    |
 10 |     color: /* comment */ white;
@@ -162,7 +162,7 @@ error: Value
 10 |     color: /* comment */ white;
    |                          ^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/rome/comment/input.css:10:23
    |
 10 |     color: /* comment */ white;
@@ -208,7 +208,7 @@ error: TypeSelector
 13 | a /* comment */ {
    | ^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/rome/comment/input.css:13:1
    |
 13 | a /* comment */ {
@@ -229,7 +229,7 @@ error: Declaration
 14 |     color: white;
    |     ^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/rome/comment/input.css:14:2
    |
 14 |     color: white;
@@ -241,7 +241,7 @@ error: Value
 14 |     color: white;
    |            ^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/rome/comment/input.css:14:9
    |
 14 |     color: white;

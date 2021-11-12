@@ -40,7 +40,7 @@ error: TypeSelector
 1 | a { value: @\2cx }
   | ^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/mn3ADjaNJuY6IF0Nqms-VQ/input.css:1:1
   |
 1 | a { value: @\2cx }
@@ -58,7 +58,7 @@ error: Declaration
 1 | a { value: @\2cx }
   |     ^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/mn3ADjaNJuY6IF0Nqms-VQ/input.css:1:5
   |
 1 | a { value: @\2cx }
@@ -76,7 +76,7 @@ error: AtTextValue
 1 | a { value: @\2cx }
   |            ^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/mn3ADjaNJuY6IF0Nqms-VQ/input.css:1:12
   |
 1 | a { value: @\2cx }

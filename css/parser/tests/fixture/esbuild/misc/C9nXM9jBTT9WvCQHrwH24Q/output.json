@@ -55,7 +55,7 @@
                     },
                     "prefix": null,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 2,
                         "end": 3,

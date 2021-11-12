@@ -14,7 +14,7 @@
         "ctxt": 0
       },
       "prefix": {
-        "type": "Text",
+        "type": "Identifier",
         "span": {
           "start": 11,
           "end": 14,

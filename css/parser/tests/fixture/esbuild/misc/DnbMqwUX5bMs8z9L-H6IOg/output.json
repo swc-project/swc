@@ -14,7 +14,7 @@
         "ctxt": 0
       },
       "id": {
-        "type": "Text",
+        "type": "Identifier",
         "span": {
           "start": 15,
           "end": 19,

@@ -40,7 +40,7 @@ error: TypeSelector
 1 | a { value: url(\61 bc) }
   | ^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/gPpnAqOuxEdLAEJjFaUEkg/input.css:1:1
   |
 1 | a { value: url(\61 bc) }
@@ -58,7 +58,7 @@ error: Declaration
 1 | a { value: url(\61 bc) }
   |     ^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/gPpnAqOuxEdLAEJjFaUEkg/input.css:1:5
   |
 1 | a { value: url(\61 bc) }

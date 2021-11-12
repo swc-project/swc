@@ -22,7 +22,7 @@ error: KeyframesRule
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:12
   |
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
@@ -88,7 +88,7 @@ error: Declaration
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
   |                             ^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:29
   |
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
@@ -100,7 +100,7 @@ error: Value
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
   |                                    ^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:36
   |
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
@@ -166,7 +166,7 @@ error: Declaration
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
   |                                                     ^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:53
   |
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
@@ -178,7 +178,7 @@ error: Value
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
   |                                                            ^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:60
   |
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }

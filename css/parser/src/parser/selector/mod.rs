@@ -123,13 +123,13 @@ where
         });
     }
 
-    fn parse_ns_prefix(&mut self) -> PResult<Option<Text>> {
+    fn parse_ns_prefix(&mut self) -> PResult<Option<Ident>> {
         let span = self.input.cur_span()?;
 
         if is!(self, Ident) && peeked_is!(self, "|") {
             let token = bump!(self);
-            let text = match token {
-                Token::Ident { value, raw } => Text { span, value, raw },
+            let ident = match token {
+                Token::Ident { value, raw } => Ident { span, value, raw },
                 _ => {
                     unreachable!()
                 }
@@ -137,7 +137,7 @@ where
 
             bump!(self);
 
-            return Ok(Some(text));
+            return Ok(Some(ident));
         } else if is!(self, "*") && peeked_is!(self, "|") {
             bump!(self);
             bump!(self);
@@ -145,11 +145,11 @@ where
             let value: JsWord = "*".into();
             let raw = value.clone();
 
-            return Ok(Some(Text { span, value, raw }));
+            return Ok(Some(Ident { span, value, raw }));
         } else if is!(self, "|") {
             bump!(self);
 
-            return Ok(Some(Text {
+            return Ok(Some(Ident {
                 span: Span::new(span.lo, span.lo, Default::default()),
                 value: js_word!(""),
                 raw: js_word!(""),
@@ -159,7 +159,7 @@ where
         Ok(None)
     }
 
-    fn parse_wq_name(&mut self) -> PResult<(Option<Text>, Option<Text>)> {
+    fn parse_wq_name(&mut self) -> PResult<(Option<Ident>, Option<Ident>)> {
         let state = self.input.state();
 
         if is!(self, Ident) && peeked_is!(self, "|")
@@ -172,7 +172,7 @@ where
                 let span = self.input.cur_span()?;
                 let token = bump!(self);
                 let name = match token {
-                    Token::Ident { value, raw } => Text { span, value, raw },
+                    Token::Ident { value, raw } => Ident { span, value, raw },
                     _ => {
                         unreachable!()
                     }
@@ -189,7 +189,7 @@ where
             let span = self.input.cur_span()?;
             let token = bump!(self);
             let name = match token {
-                Token::Ident { value, raw } => Text { span, value, raw },
+                Token::Ident { value, raw } => Ident { span, value, raw },
                 _ => {
                     unreachable!()
                 }
@@ -215,7 +215,7 @@ where
             let span = self.input.cur_span()?;
             let token = bump!(self);
             let name = match token {
-                Token::Ident { value, raw } => Text { span, value, raw },
+                Token::Ident { value, raw } => Ident { span, value, raw },
                 _ => {
                     unreachable!()
                 }
@@ -231,7 +231,7 @@ where
 
             let value: JsWord = "*".into();
             let raw = value.clone();
-            let name = Text { span, value, raw };
+            let name = Ident { span, value, raw };
 
             return Ok(Some(TypeSelector {
                 span: span!(self, start_pos),
@@ -245,9 +245,8 @@ where
 
     fn parse_id_selector(&mut self) -> PResult<IdSelector> {
         let span = self.input.cur_span()?;
-
-        let text = match bump!(self) {
-            Token::Hash { value, raw, .. } => Text { span, value, raw },
+        let ident = match bump!(self) {
+            Token::Hash { value, raw, .. } => Ident { span, value, raw },
             _ => {
                 unreachable!()
             }
@@ -255,7 +254,7 @@ where
 
         Ok(IdSelector {
             span: span!(self, span.lo),
-            text,
+            text: ident,
         })
     }
 
@@ -279,7 +278,7 @@ where
 
         Ok(ClassSelector {
             span: span!(self, start_pos),
-            text: Text {
+            text: Ident {
                 span,
                 value: values.0,
                 raw: values.1,
@@ -357,7 +356,7 @@ where
                         _ => unreachable!(),
                     };
 
-                    Some(AttrSelectorValue::Text(Text {
+                    Some(AttrSelectorValue::Ident(Ident {
                         span,
                         value: ident.0,
                         raw: ident.1,
@@ -429,7 +428,7 @@ where
             return Ok(PseudoSelector {
                 span: span!(self, span.lo),
                 is_element: false,
-                name: Text {
+                name: Ident {
                     span: Span::new(fn_span.lo, fn_span.hi - BytePos(1), Default::default()),
                     value: values.0,
                     raw: values.1,
@@ -447,7 +446,7 @@ where
             return Ok(PseudoSelector {
                 span: span!(self, span.lo),
                 is_element: false,
-                name: Text {
+                name: Ident {
                     span: ident_span,
                     value: values.0,
                     raw: values.1,
@@ -536,7 +535,7 @@ where
 
                     subclass_selectors.push(SubclassSelector::At(AtSelector {
                         span,
-                        text: Text {
+                        text: Ident {
                             span,
                             value: values.0,
                             raw: values.1,

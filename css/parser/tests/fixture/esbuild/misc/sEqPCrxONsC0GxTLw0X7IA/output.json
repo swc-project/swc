@@ -47,7 +47,7 @@
                       "ctxt": 0
                     },
                     "prefix": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 1,
                         "end": 3,
@@ -57,7 +57,7 @@
                       "raw": "ns"
                     },
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 4,
                         "end": 12,

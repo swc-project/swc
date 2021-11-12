@@ -1,4 +1,4 @@
-use crate::{Num, Str, Text, Tokens};
+use crate::{Ident, Num, Str, Tokens};
 use string_enum::StringEnum;
 use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
@@ -23,8 +23,8 @@ pub enum Value {
     #[tag("HashValue")]
     Hash(HashValue),
 
-    #[tag("Text")]
-    Text(Text),
+    #[tag("Ident")]
+    Ident(Ident),
 
     #[tag("String")]
     Str(Str),
@@ -85,9 +85,7 @@ pub struct BinValue {
 pub struct FnValue {
     /// Span starting from the `lo` of identifier and to the end of `)`.
     pub span: Span,
-
-    pub name: Text,
-
+    pub name: Ident,
     pub args: Vec<Value>,
 }
 
@@ -158,7 +156,7 @@ pub struct BraceValue {
 pub struct AtTextValue {
     pub span: Span,
     /// Includes `@`.
-    pub name: Text,
+    pub name: Ident,
     pub block: Option<BraceValue>,
 }
 

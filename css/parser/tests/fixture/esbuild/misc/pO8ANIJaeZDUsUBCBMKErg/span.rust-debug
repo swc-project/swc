@@ -40,7 +40,7 @@ error: TypeSelector
 1 | a { width: -0.0%; }
   | ^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/pO8ANIJaeZDUsUBCBMKErg/input.css:1:1
   |
 1 | a { width: -0.0%; }
@@ -58,7 +58,7 @@ error: Declaration
 1 | a { width: -0.0%; }
   |     ^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/pO8ANIJaeZDUsUBCBMKErg/input.css:1:5
   |
 1 | a { width: -0.0%; }

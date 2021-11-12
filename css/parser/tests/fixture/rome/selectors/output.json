@@ -46,7 +46,7 @@
                   },
                   "prefix": null,
                   "name": {
-                    "type": "Text",
+                    "type": "Identifier",
                     "span": {
                       "start": 0,
                       "end": 3,
@@ -85,7 +85,7 @@
                   },
                   "prefix": null,
                   "name": {
-                    "type": "Text",
+                    "type": "Identifier",
                     "span": {
                       "start": 5,
                       "end": 8,
@@ -124,7 +124,7 @@
                       "ctxt": 0
                     },
                     "text": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 11,
                         "end": 14,
@@ -163,7 +163,7 @@
                   },
                   "prefix": null,
                   "name": {
-                    "type": "Text",
+                    "type": "Identifier",
                     "span": {
                       "start": 16,
                       "end": 19,
@@ -202,7 +202,7 @@
                       "ctxt": 0
                     },
                     "text": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 22,
                         "end": 25,
@@ -241,7 +241,7 @@
                   },
                   "prefix": null,
                   "name": {
-                    "type": "Text",
+                    "type": "Identifier",
                     "span": {
                       "start": 27,
                       "end": 30,
@@ -280,7 +280,7 @@
                       "ctxt": 0
                     },
                     "text": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 33,
                         "end": 36,
@@ -347,7 +347,7 @@
                       "ctxt": 0
                     },
                     "text": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 44,
                         "end": 64,
@@ -414,7 +414,7 @@
                       "ctxt": 0
                     },
                     "text": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 72,
                         "end": 77,
@@ -452,7 +452,7 @@
                   },
                   "prefix": null,
                   "name": {
-                    "type": "Text",
+                    "type": "Identifier",
                     "span": {
                       "start": 80,
                       "end": 81,
@@ -518,7 +518,7 @@
                   },
                   "prefix": null,
                   "name": {
-                    "type": "Text",
+                    "type": "Identifier",
                     "span": {
                       "start": 88,
                       "end": 89,
@@ -538,7 +538,7 @@
                     },
                     "prefix": null,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 90,
                         "end": 95,
@@ -573,7 +573,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 101,
                 "end": 106,
@@ -584,7 +584,7 @@
             },
             "value": [
               {
-                "type": "Text",
+                "type": "Identifier",
                 "span": {
                   "start": 108,
                   "end": 114,
@@ -639,7 +639,7 @@
                   },
                   "prefix": null,
                   "name": {
-                    "type": "Text",
+                    "type": "Identifier",
                     "span": {
                       "start": 119,
                       "end": 120,
@@ -659,7 +659,7 @@
                     },
                     "prefix": null,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 121,
                         "end": 126,
@@ -703,7 +703,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 142,
                 "end": 147,
@@ -714,7 +714,7 @@
             },
             "value": [
               {
-                "type": "Text",
+                "type": "Identifier",
                 "span": {
                   "start": 149,
                   "end": 155,
@@ -769,7 +769,7 @@
                   },
                   "prefix": null,
                   "name": {
-                    "type": "Text",
+                    "type": "Identifier",
                     "span": {
                       "start": 160,
                       "end": 161,
@@ -789,7 +789,7 @@
                     },
                     "prefix": null,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 162,
                         "end": 167,
@@ -833,7 +833,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 184,
                 "end": 189,
@@ -844,7 +844,7 @@
             },
             "value": [
               {
-                "type": "Text",
+                "type": "Identifier",
                 "span": {
                   "start": 191,
                   "end": 197,
@@ -899,7 +899,7 @@
                   },
                   "prefix": null,
                   "name": {
-                    "type": "Text",
+                    "type": "Identifier",
                     "span": {
                       "start": 202,
                       "end": 203,
@@ -919,7 +919,7 @@
                     },
                     "prefix": null,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 204,
                         "end": 209,
@@ -950,7 +950,7 @@
                     },
                     "prefix": null,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 221,
                         "end": 225,
@@ -994,7 +994,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 243,
                 "end": 248,
@@ -1005,7 +1005,7 @@
             },
             "value": [
               {
-                "type": "Text",
+                "type": "Identifier",
                 "span": {
                   "start": 250,
                   "end": 256,
@@ -1060,7 +1060,7 @@
                   },
                   "prefix": null,
                   "name": {
-                    "type": "Text",
+                    "type": "Identifier",
                     "span": {
                       "start": 261,
                       "end": 262,
@@ -1080,7 +1080,7 @@
                     },
                     "isElement": false,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 263,
                         "end": 279,
@@ -1171,7 +1171,7 @@
                     },
                     "isElement": false,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 289,
                         "end": 293,
@@ -1295,7 +1295,7 @@
                     },
                     "isElement": true,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 309,
                         "end": 320,
@@ -1372,7 +1372,7 @@
                     },
                     "isElement": true,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 330,
                         "end": 341,

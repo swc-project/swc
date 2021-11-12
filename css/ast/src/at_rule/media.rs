@@ -1,4 +1,4 @@
-use crate::{Declaration, Rule, Text};
+use crate::{Declaration, Ident, Rule};
 use swc_common::{ast_node, Span};
 
 #[ast_node("MediaRule")]
@@ -12,8 +12,8 @@ pub struct MediaRule {
 
 #[ast_node]
 pub enum MediaQuery {
-    #[tag("Text")]
-    Text(Text),
+    #[tag("Ident")]
+    Ident(Ident),
 
     #[tag("AndMediaQuery")]
     And(AndMediaQuery),

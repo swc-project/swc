@@ -52,7 +52,7 @@ error: AttrSelector
 1 | [title] {}
   | ^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/selector/attribute/input.css:1:2
   |
 1 | [title] {}
@@ -106,13 +106,13 @@ error: AttrSelector
 2 | [title=foo] {}
   | ^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/selector/attribute/input.css:2:2
   |
 2 | [title=foo] {}
   |  ^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/selector/attribute/input.css:2:8
   |
 2 | [title=foo] {}
@@ -166,7 +166,7 @@ error: AttrSelector
 3 | [title="foo"] {}
   | ^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/selector/attribute/input.css:3:2
   |
 3 | [title="foo"] {}
@@ -226,7 +226,7 @@ error: AttrSelector
 4 | [ title = "foo" ] {}
   | ^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/selector/attribute/input.css:4:3
   |
 4 | [ title = "foo" ] {}
@@ -286,7 +286,7 @@ error: AttrSelector
 5 | [   title   =   "foo"   ] {}
   | ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/selector/attribute/input.css:5:5
   |
 5 | [   title   =   "foo"   ] {}
@@ -346,7 +346,7 @@ error: AttrSelector
 6 | [lang~="en-us"] {}
   | ^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/selector/attribute/input.css:6:2
   |
 6 | [lang~="en-us"] {}
@@ -406,7 +406,7 @@ error: AttrSelector
 7 | [lang|="zh"] {}
   | ^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/selector/attribute/input.css:7:2
   |
 7 | [lang|="zh"] {}
@@ -466,7 +466,7 @@ error: AttrSelector
 8 | [href^="#"] {}
   | ^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/selector/attribute/input.css:8:2
   |
 8 | [href^="#"] {}
@@ -526,7 +526,7 @@ error: AttrSelector
 9 | [href$=".org"] {}
   | ^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/selector/attribute/input.css:9:2
   |
 9 | [href$=".org"] {}
@@ -586,7 +586,7 @@ error: AttrSelector
 10 | [href*="example"] {}
    | ^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:10:2
    |
 10 | [href*="example"] {}
@@ -646,7 +646,7 @@ error: AttrSelector
 11 | [href*="insensitive" i] {}
    | ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:11:2
    |
 11 | [href*="insensitive" i] {}
@@ -706,7 +706,7 @@ error: AttrSelector
 12 | [href*="insensitive" I] {}
    | ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:12:2
    |
 12 | [href*="insensitive" I] {}
@@ -766,7 +766,7 @@ error: AttrSelector
 13 | [href*="cAsE" s] {}
    | ^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:13:2
    |
 13 | [href*="cAsE" s] {}
@@ -826,7 +826,7 @@ error: AttrSelector
 14 | [href*="cAsE" S] {}
    | ^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:14:2
    |
 14 | [href*="cAsE" S] {}
@@ -886,19 +886,19 @@ error: AttrSelector
 15 | [foo|att=val] {}
    | ^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:15:2
    |
 15 | [foo|att=val] {}
    |  ^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:15:6
    |
 15 | [foo|att=val] {}
    |      ^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:15:10
    |
 15 | [foo|att=val] {}
@@ -952,13 +952,13 @@ error: AttrSelector
 16 | [*|att] {}
    | ^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:16:2
    |
 16 | [*|att] {}
    |  ^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:16:4
    |
 16 | [*|att] {}
@@ -1012,13 +1012,13 @@ error: AttrSelector
 17 | [   *|att   ] {}
    | ^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:17:5
    |
 17 | [   *|att   ] {}
    |     ^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:17:7
    |
 17 | [   *|att   ] {}
@@ -1072,13 +1072,13 @@ error: AttrSelector
 18 | [|att] {}
    | ^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:18:2
    |
 18 | [|att] {}
    |  ^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:18:3
    |
 18 | [|att] {}
@@ -1132,13 +1132,13 @@ error: AttrSelector
 19 | [ |att ] {}
    | ^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:19:3
    |
 19 | [ |att ] {}
    |   ^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:19:4
    |
 19 | [ |att ] {}
@@ -1192,13 +1192,13 @@ error: AttrSelector
 20 | [   |att   ] {}
    | ^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:20:5
    |
 20 | [   |att   ] {}
    |     ^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:20:6
    |
 20 | [   |att   ] {}
@@ -1252,7 +1252,7 @@ error: AttrSelector
 21 | [att] {}
    | ^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:21:2
    |
 21 | [att] {}
@@ -1306,7 +1306,7 @@ error: AttrSelector
 22 | [ att ] {}
    | ^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:22:3
    |
 22 | [ att ] {}
@@ -1360,7 +1360,7 @@ error: AttrSelector
 23 | [   att   ] {}
    | ^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:23:5
    |
 23 | [   att   ] {}
@@ -1408,7 +1408,7 @@ error: TypeSelector
 24 | a[ class = "test" ] {}
    | ^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:24:1
    |
 24 | a[ class = "test" ] {}
@@ -1426,7 +1426,7 @@ error: AttrSelector
 24 | a[ class = "test" ] {}
    |  ^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:24:4
    |
 24 | a[ class = "test" ] {}
@@ -1480,7 +1480,7 @@ error: TypeSelector
 25 | a[   class   =   "test"   ] {}
    | ^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:25:1
    |
 25 | a[   class   =   "test"   ] {}
@@ -1498,7 +1498,7 @@ error: AttrSelector
 25 | a[   class   =   "test"   ] {}
    |  ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:25:6
    |
 25 | a[   class   =   "test"   ] {}
@@ -1558,7 +1558,7 @@ error: AttrSelector
 26 | [href*="insensitive"   i] {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:26:2
    |
 26 | [href*="insensitive"   i] {}
@@ -1618,7 +1618,7 @@ error: AttrSelector
 27 | [   href*="insensitive"   i   ] {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:27:5
    |
 27 | [   href*="insensitive"   i   ] {}
@@ -1678,7 +1678,7 @@ error: AttrSelector
 28 | [   href   *=   "insensitive"   i   ] {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:28:5
    |
 28 | [   href   *=   "insensitive"   i   ] {}
@@ -1738,7 +1738,7 @@ error: AttrSelector
 29 | [   href   ] {}
    | ^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:29:5
    |
 29 | [   href   ] {}

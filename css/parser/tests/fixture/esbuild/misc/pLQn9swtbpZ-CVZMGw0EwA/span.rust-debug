@@ -46,7 +46,7 @@ error: PseudoSelector
 1 | :pseudo(cl\2css) {}
   | ^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:1:2
   |
 1 | :pseudo(cl\2css) {}

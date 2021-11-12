@@ -22,7 +22,7 @@ error: NamespaceRule
 1 | @namespace ns 'p\61th';
   | ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/um4N0M2i5kY73ExgnkIV9g/input.css:1:12
   |
 1 | @namespace ns 'p\61th';

@@ -40,7 +40,7 @@ error: TypeSelector
 1 | a { value: \2cx }
   | ^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:1
   |
 1 | a { value: \2cx }
@@ -58,7 +58,7 @@ error: Declaration
 1 | a { value: \2cx }
   |     ^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:5
   |
 1 | a { value: \2cx }
@@ -70,7 +70,7 @@ error: Value
 1 | a { value: \2cx }
   |            ^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:12
   |
 1 | a { value: \2cx }

@@ -49,7 +49,7 @@ error: TypeSelector
 1 | a {
   | ^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/declaration-list/input.css:1:1
   |
 1 | a {
@@ -71,7 +71,7 @@ error: Declaration
 2 |     prop1: value;
   |     ^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/declaration-list/input.css:2:5
   |
 2 |     prop1: value;
@@ -83,7 +83,7 @@ error: Value
 2 |     prop1: value;
   |            ^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/declaration-list/input.css:2:12
   |
 2 |     prop1: value;
@@ -95,7 +95,7 @@ error: Declaration
 3 |     prop2: value;
   |     ^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/declaration-list/input.css:3:5
   |
 3 |     prop2: value;
@@ -107,7 +107,7 @@ error: Value
 3 |     prop2: value;
   |            ^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/declaration-list/input.css:3:12
   |
 3 |     prop2: value;

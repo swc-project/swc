@@ -46,7 +46,7 @@ error: TypeSelector
 1 | p :global(span:not(.test)) {
   | ^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1
   |
 1 | p :global(span:not(.test)) {
@@ -76,7 +76,7 @@ error: PseudoSelector
 1 | p :global(span:not(.test)) {
   |   ^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:4
   |
 1 | p :global(span:not(.test)) {
@@ -139,7 +139,7 @@ error: Declaration
 2 |     color: green;
   |     ^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:2:5
   |
 2 |     color: green;
@@ -151,7 +151,7 @@ error: Value
 2 |     color: green;
   |            ^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:2:12
   |
 2 |     color: green;

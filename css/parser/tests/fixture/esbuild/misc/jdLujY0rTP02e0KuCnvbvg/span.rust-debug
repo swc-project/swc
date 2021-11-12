@@ -40,7 +40,7 @@ error: TypeSelector
 1 | a/**/:b {}
   | ^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/jdLujY0rTP02e0KuCnvbvg/input.css:1:1
   |
 1 | a/**/:b {}
@@ -58,7 +58,7 @@ error: PseudoSelector
 1 | a/**/:b {}
   |      ^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/jdLujY0rTP02e0KuCnvbvg/input.css:1:7
   |
 1 | a/**/:b {}

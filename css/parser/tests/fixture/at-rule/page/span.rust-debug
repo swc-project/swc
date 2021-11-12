@@ -94,7 +94,7 @@ error: Declaration
 3 | @page{margin: 1cm}
   |       ^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/at-rule/page/input.css:3:7
   |
 3 | @page{margin: 1cm}
@@ -160,7 +160,7 @@ error: Declaration
 4 | @page {margin: 1cm}
   |        ^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/at-rule/page/input.css:4:8
   |
 4 | @page {margin: 1cm}
@@ -226,7 +226,7 @@ error: Declaration
 5 | @page {margin: 1cm;}
   |        ^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/at-rule/page/input.css:5:8
   |
 5 | @page {margin: 1cm;}
@@ -280,7 +280,7 @@ error: PageSelector
 6 | @page :first {margin: 2cm}
   |       ^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/at-rule/page/input.css:6:8
   |
 6 | @page :first {margin: 2cm}
@@ -304,7 +304,7 @@ error: Declaration
 6 | @page :first {margin: 2cm}
   |               ^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/at-rule/page/input.css:6:15
   |
 6 | @page :first {margin: 2cm}
@@ -358,7 +358,7 @@ error: PageSelector
 7 | @page :first {margin: 2cm;}
   |       ^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/at-rule/page/input.css:7:8
   |
 7 | @page :first {margin: 2cm;}
@@ -382,7 +382,7 @@ error: Declaration
 7 | @page :first {margin: 2cm;}
   |               ^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/at-rule/page/input.css:7:15
   |
 7 | @page :first {margin: 2cm;}
@@ -436,7 +436,7 @@ error: PageSelector
 8 | @page :first{margin: 2cm;}
   |       ^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/at-rule/page/input.css:8:8
   |
 8 | @page :first{margin: 2cm;}
@@ -460,7 +460,7 @@ error: Declaration
 8 | @page :first{margin: 2cm;}
   |              ^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/at-rule/page/input.css:8:14
   |
 8 | @page :first{margin: 2cm;}

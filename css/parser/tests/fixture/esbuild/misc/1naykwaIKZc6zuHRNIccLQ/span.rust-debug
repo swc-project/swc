@@ -40,7 +40,7 @@ error: TypeSelector
 1 | a { value: id\65nt }
   | ^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/1naykwaIKZc6zuHRNIccLQ/input.css:1:1
   |
 1 | a { value: id\65nt }
@@ -58,7 +58,7 @@ error: Declaration
 1 | a { value: id\65nt }
   |     ^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/1naykwaIKZc6zuHRNIccLQ/input.css:1:5
   |
 1 | a { value: id\65nt }
@@ -70,7 +70,7 @@ error: Value
 1 | a { value: id\65nt }
   |            ^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/1naykwaIKZc6zuHRNIccLQ/input.css:1:12
   |
 1 | a { value: id\65nt }

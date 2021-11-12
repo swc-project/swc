@@ -182,7 +182,7 @@ where
             _ => {}
         }
 
-        let name = Text {
+        let name = Ident {
             span: span!(self, start),
             value: name.0,
             raw: name.1,
@@ -324,17 +324,17 @@ where
     fn parse(&mut self) -> PResult<KeyframesRule> {
         let span = self.input.cur_span()?;
         let name = match bump!(self) {
-            Token::Ident { value, raw } => Text {
+            Token::Ident { value, raw } => Ident {
                 span: span!(self, span.lo),
                 value,
                 raw,
             },
-            Token::Str { value, raw } => Text {
+            Token::Str { value, raw } => Ident {
                 span: span!(self, span.lo),
                 value,
                 raw,
             },
-            _ => Text {
+            _ => Ident {
                 span: DUMMY_SP,
                 value: js_word!(""),
                 raw: js_word!(""),
@@ -383,7 +383,7 @@ where
     fn parse(&mut self) -> PResult<NamespaceRule> {
         let span = self.input.cur_span()?;
         // TODO: make optional
-        let mut prefix = Text {
+        let mut prefix = Ident {
             span: DUMMY_SP,
             value: js_word!(""),
             raw: js_word!(""),
@@ -391,7 +391,7 @@ where
 
         if is!(self, Ident) {
             prefix = match bump!(self) {
-                Token::Ident { value, raw } => Text {
+                Token::Ident { value, raw } => Ident {
                     span: span!(self, span.lo),
                     value,
                     raw,
@@ -520,7 +520,7 @@ where
         let span = self.input.cur_span()?;
 
         if is!(self, Ident) {
-            self.parse_id().map(KeyframeSelector::Id)
+            self.parse_id().map(KeyframeSelector::Ident)
         } else if is!(self, Percent) {
             self.parse().map(KeyframeSelector::Percent)
         } else {
@@ -706,8 +706,8 @@ where
                 query,
             })
         } else if is!(self, Ident) {
-            let text = self.parse_id()?;
-            MediaQuery::Text(text)
+            let ident = self.parse_id()?;
+            MediaQuery::Ident(ident)
         } else if eat!(self, "(") {
             if is!(self, Ident) {
                 let span = self.input.cur_span()?;
@@ -734,7 +734,7 @@ where
                     })
                 } else {
                     expect!(self, ")");
-                    MediaQuery::Text(id)
+                    MediaQuery::Ident(id)
                 }
             } else {
                 let query: MediaQuery = self.parse()?;

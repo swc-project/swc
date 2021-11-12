@@ -43,7 +43,7 @@ error: TypeSelector
 1 | a:after { content: 'a\
   | ^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:1
   |
 1 | a:after { content: 'a\
@@ -61,7 +61,7 @@ error: PseudoSelector
 1 | a:after { content: 'a\
   |  ^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:3
   |
 1 | a:after { content: 'a\
@@ -85,7 +85,7 @@ error: Declaration
 2 | | b' }
   | |__^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:11
   |
 1 | a:after { content: 'a\

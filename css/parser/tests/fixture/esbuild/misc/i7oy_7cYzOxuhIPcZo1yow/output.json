@@ -48,7 +48,7 @@
                     },
                     "prefix": null,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 1,
                         "end": 5,
@@ -59,7 +59,7 @@
                     },
                     "matcher": "=",
                     "value": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 6,
                         "end": 9,

@@ -344,7 +344,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(SelectorList, visit_selector_list);
     mtd!(SubclassSelector, visit_subclass_selector);
     mtd!(TagSelector, visit_tag_selector);
-    mtd!(Text, visit_text);
+    mtd!(Ident, visit_ident);
     mtd!(Tokens, visit_tokens);
     mtd!(Unit, visit_unit);
     mtd!(UnitValue, visit_unit_value);

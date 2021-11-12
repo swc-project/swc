@@ -46,7 +46,7 @@ error: ClassSelector
 1 | .cl\61ss {}
   | ^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/dqE2h21N1vX-ivcowP16dQ/input.css:1:2
   |
 1 | .cl\61ss {}

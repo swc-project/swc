@@ -34,7 +34,7 @@ error: FnValue
 1 | @import url("foo.css");
   |         ^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/o97ukh94L8_Su32XfrkoKA/input.css:1:9
   |
 1 | @import url("foo.css");

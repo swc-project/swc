@@ -52,7 +52,7 @@ error: PseudoSelector
 1 | :global(.foo + a) {
   | ^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:2
   |
 1 | :global(.foo + a) {
@@ -115,7 +115,7 @@ error: Declaration
 2 |     color: red;
   |     ^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:2:5
   |
 2 |     color: red;
@@ -127,7 +127,7 @@ error: Value
 2 |     color: red;
   |            ^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:2:12
   |
 2 |     color: red;

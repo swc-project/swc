@@ -21,7 +21,7 @@
           "ctxt": 0
         },
         "property": {
-          "type": "Text",
+          "type": "Identifier",
           "span": {
             "start": 8,
             "end": 17,
@@ -85,7 +85,7 @@
             "ctxt": 0
           },
           "property": {
-            "type": "Text",
+            "type": "Identifier",
             "span": {
               "start": 37,
               "end": 46,
@@ -140,7 +140,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 60,
                 "end": 69,
@@ -188,7 +188,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 83,
                 "end": 92,
@@ -254,7 +254,7 @@
             "ctxt": 0
           },
           "property": {
-            "type": "Text",
+            "type": "Identifier",
             "span": {
               "start": 112,
               "end": 121,
@@ -309,7 +309,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 135,
                 "end": 144,
@@ -364,7 +364,7 @@
                 "ctxt": 0
               },
               "property": {
-                "type": "Text",
+                "type": "Identifier",
                 "span": {
                   "start": 158,
                   "end": 167,
@@ -412,7 +412,7 @@
                 "ctxt": 0
               },
               "property": {
-                "type": "Text",
+                "type": "Identifier",
                 "span": {
                   "start": 181,
                   "end": 190,
@@ -479,7 +479,7 @@
             "ctxt": 0
           },
           "property": {
-            "type": "Text",
+            "type": "Identifier",
             "span": {
               "start": 214,
               "end": 223,
@@ -544,7 +544,7 @@
             "ctxt": 0
           },
           "property": {
-            "type": "Text",
+            "type": "Identifier",
             "span": {
               "start": 243,
               "end": 252,
@@ -599,7 +599,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 266,
                 "end": 275,
@@ -647,7 +647,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 288,
                 "end": 297,
@@ -713,7 +713,7 @@
             "ctxt": 0
           },
           "property": {
-            "type": "Text",
+            "type": "Identifier",
             "span": {
               "start": 317,
               "end": 326,
@@ -768,7 +768,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 340,
                 "end": 349,
@@ -816,7 +816,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 362,
                 "end": 371,
@@ -899,7 +899,7 @@
                       },
                       "prefix": null,
                       "name": {
-                        "type": "Text",
+                        "type": "Identifier",
                         "span": {
                           "start": 383,
                           "end": 384,
@@ -966,7 +966,7 @@
                           "ctxt": 0
                         },
                         "text": {
-                          "type": "Text",
+                          "type": "Identifier",
                           "span": {
                             "start": 393,
                             "end": 398,

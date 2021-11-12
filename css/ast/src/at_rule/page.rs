@@ -1,4 +1,4 @@
-use crate::{Declaration, SelectorList, Text};
+use crate::{Declaration, Ident, SelectorList};
 use swc_common::{ast_node, Span};
 
 #[ast_node("PageRule")]
@@ -14,9 +14,9 @@ pub struct PageRule {
 pub struct PageSelector {
     pub span: Span,
 
-    pub ident: Option<Text>,
+    pub ident: Option<Ident>,
 
-    pub pseudo: Option<Text>,
+    pub pseudo: Option<Ident>,
 }
 
 #[ast_node]

@@ -46,7 +46,7 @@ error: MediaQuery
 1 | @media screen and (color) {}
   |        ^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:1:8
   |
 1 | @media screen and (color) {}
@@ -58,7 +58,7 @@ error: MediaQuery
 1 | @media screen and (color) {}
   |                    ^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:1:20
   |
 1 | @media screen and (color) {}
@@ -112,7 +112,7 @@ error: MediaQuery
 2 | @media only screen and (color) {}
   |             ^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:2:13
   |
 2 | @media only screen and (color) {}
@@ -124,7 +124,7 @@ error: MediaQuery
 2 | @media only screen and (color) {}
   |                         ^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:2:25
   |
 2 | @media only screen and (color) {}
@@ -178,7 +178,7 @@ error: MediaQuery
 3 | @media only screen and (min-width: 800px) {}
   |             ^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:3:13
   |
 3 | @media only screen and (min-width: 800px) {}
@@ -196,7 +196,7 @@ error: Declaration
 3 | @media only screen and (min-width: 800px) {}
   |                         ^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:3:25
   |
 3 | @media only screen and (min-width: 800px) {}
@@ -262,7 +262,7 @@ error: MediaQuery
 4 | @media screen and (min-width       :          800px        ) {}
   |        ^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:4:8
   |
 4 | @media screen and (min-width       :          800px        ) {}
@@ -280,7 +280,7 @@ error: Declaration
 4 | @media screen and (min-width       :          800px        ) {}
   |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:4:20
   |
 4 | @media screen and (min-width       :          800px        ) {}
@@ -346,7 +346,7 @@ error: MediaQuery
 5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |        ^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:5:8
   |
 5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
@@ -376,7 +376,7 @@ error: Declaration
 5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |                    ^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:5:20
   |
 5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
@@ -430,7 +430,7 @@ error: Declaration
 5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |                                           ^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:5:43
   |
 5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
@@ -472,7 +472,7 @@ error: Declaration
 5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |                                                                  ^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:5:66
   |
 5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
@@ -538,7 +538,7 @@ error: MediaQuery
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
   |        ^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:6:8
   |
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
@@ -568,7 +568,7 @@ error: Declaration
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
   |                    ^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:6:20
   |
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
@@ -622,7 +622,7 @@ error: Declaration
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
   |                                           ^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:6:43
   |
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
@@ -676,7 +676,7 @@ error: Declaration
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
   |                                                                  ^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:6:66
   |
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
@@ -718,7 +718,7 @@ error: Declaration
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
   |                                                                                         ^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/media/feature/input.css:6:89
   |
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}

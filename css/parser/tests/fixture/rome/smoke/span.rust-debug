@@ -51,7 +51,7 @@ error: TypeSelector
 2 | body {
   | ^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/smoke/input.css:2:1
   |
 2 | body {
@@ -73,7 +73,7 @@ error: Declaration
 3 |     background: red;
   |     ^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/smoke/input.css:3:5
   |
 3 |     background: red;
@@ -85,7 +85,7 @@ error: Value
 3 |     background: red;
   |                 ^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/smoke/input.css:3:17
   |
 3 |     background: red;
@@ -97,7 +97,7 @@ error: Declaration
 4 |     width: calc(1px + 2%);
   |     ^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/smoke/input.css:4:5
   |
 4 |     width: calc(1px + 2%);
@@ -115,7 +115,7 @@ error: FnValue
 4 |     width: calc(1px + 2%);
   |            ^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/smoke/input.css:4:12
   |
 4 |     width: calc(1px + 2%);

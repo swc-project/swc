@@ -48,7 +48,7 @@
                     },
                     "isElement": false,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 1,
                         "end": 7,
@@ -164,7 +164,7 @@
               "ctxt": 0
             },
             "property": {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 24,
                 "end": 29,
@@ -175,7 +175,7 @@
             },
             "value": [
               {
-                "type": "Text",
+                "type": "Identifier",
                 "span": {
                   "start": 31,
                   "end": 34,

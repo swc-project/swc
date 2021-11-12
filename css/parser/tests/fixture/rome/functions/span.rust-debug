@@ -64,7 +64,7 @@ error: ClassSelector
 1 | .style {
   | ^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/functions/input.css:1:2
   |
 1 | .style {
@@ -89,7 +89,7 @@ error: Declaration
 2 |     --fancy: 2px;
   |     ^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/functions/input.css:2:2
   |
 2 |     --fancy: 2px;
@@ -125,7 +125,7 @@ error: Declaration
 3 |     border: var(--fancy);
   |     ^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/functions/input.css:3:2
   |
 3 |     border: var(--fancy);
@@ -143,7 +143,7 @@ error: FnValue
 3 |     border: var(--fancy);
   |             ^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/functions/input.css:3:10
   |
 3 |     border: var(--fancy);
@@ -155,7 +155,7 @@ error: Value
 3 |     border: var(--fancy);
   |                 ^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/functions/input.css:3:14
   |
 3 |     border: var(--fancy);
@@ -167,7 +167,7 @@ error: Declaration
 4 |     font-size: calc(10px + 5rem);
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/functions/input.css:4:2
   |
 4 |     font-size: calc(10px + 5rem);
@@ -185,7 +185,7 @@ error: FnValue
 4 |     font-size: calc(10px + 5rem);
   |                ^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/functions/input.css:4:13
   |
 4 |     font-size: calc(10px + 5rem);
@@ -257,7 +257,7 @@ error: Declaration
 5 |     background: url("");
   |     ^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/functions/input.css:5:2
   |
 5 |     background: url("");
@@ -275,7 +275,7 @@ error: FnValue
 5 |     background: url("");
   |                 ^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/functions/input.css:5:14
   |
 5 |     background: url("");
@@ -299,7 +299,7 @@ error: Declaration
 6 |     background: url("something");
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/functions/input.css:6:2
   |
 6 |     background: url("something");
@@ -317,7 +317,7 @@ error: FnValue
 6 |     background: url("something");
   |                 ^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/functions/input.css:6:14
   |
 6 |     background: url("something");
@@ -341,7 +341,7 @@ error: Declaration
 7 |     background: url("./something");
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/functions/input.css:7:2
   |
 7 |     background: url("./something");
@@ -359,7 +359,7 @@ error: FnValue
 7 |     background: url("./something");
   |                 ^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/functions/input.css:7:14
   |
 7 |     background: url("./something");

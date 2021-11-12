@@ -48,7 +48,7 @@
                     },
                     "isElement": false,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 1,
                         "end": 7,

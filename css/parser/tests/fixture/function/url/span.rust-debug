@@ -58,7 +58,7 @@ error: TypeSelector
 1 | a {
   | ^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/function/url/input.css:1:1
   |
 1 | a {
@@ -83,7 +83,7 @@ error: Declaration
 2 |     background-image: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7);
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/function/url/input.css:2:5
   |
 2 |     background-image: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7);
@@ -107,7 +107,7 @@ error: Declaration
 3 |     background-image: url("./image (1).jpg");
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/function/url/input.css:3:5
   |
 3 |     background-image: url("./image (1).jpg");
@@ -125,7 +125,7 @@ error: FnValue
 3 |     background-image: url("./image (1).jpg");
   |                       ^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/function/url/input.css:3:23
   |
 3 |     background-image: url("./image (1).jpg");
@@ -149,7 +149,7 @@ error: Declaration
 4 |     background-image: url('./image (1).jpg');
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/function/url/input.css:4:5
   |
 4 |     background-image: url('./image (1).jpg');
@@ -167,7 +167,7 @@ error: FnValue
 4 |     background-image: url('./image (1).jpg');
   |                       ^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/function/url/input.css:4:23
   |
 4 |     background-image: url('./image (1).jpg');
@@ -191,7 +191,7 @@ error: Declaration
 5 |     background-image: URL('./image (1).jpg');
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/function/url/input.css:5:5
   |
 5 |     background-image: URL('./image (1).jpg');
@@ -209,7 +209,7 @@ error: FnValue
 5 |     background-image: URL('./image (1).jpg');
   |                       ^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/function/url/input.css:5:23
   |
 5 |     background-image: URL('./image (1).jpg');
@@ -233,7 +233,7 @@ error: Declaration
 6 |     background-image: url(   './image (1).jpg');
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/function/url/input.css:6:5
   |
 6 |     background-image: url(   './image (1).jpg');
@@ -251,7 +251,7 @@ error: FnValue
 6 |     background-image: url(   './image (1).jpg');
   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/function/url/input.css:6:23
   |
 6 |     background-image: url(   './image (1).jpg');
@@ -275,7 +275,7 @@ error: Declaration
 7 |     background-image: url('./image (1).jpg'   );
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/function/url/input.css:7:5
   |
 7 |     background-image: url('./image (1).jpg'   );
@@ -293,7 +293,7 @@ error: FnValue
 7 |     background-image: url('./image (1).jpg'   );
   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/function/url/input.css:7:23
   |
 7 |     background-image: url('./image (1).jpg'   );
@@ -317,7 +317,7 @@ error: Declaration
 8 |     background-image: url(   './image (1).jpg'   );
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/function/url/input.css:8:5
   |
 8 |     background-image: url(   './image (1).jpg'   );
@@ -335,7 +335,7 @@ error: FnValue
 8 |     background-image: url(   './image (1).jpg'   );
   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/function/url/input.css:8:23
   |
 8 |     background-image: url(   './image (1).jpg'   );
@@ -361,7 +361,7 @@ error: Declaration
 11 | |     );
    | |_____^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/function/url/input.css:9:5
   |
 9 |     background-image: url(   
@@ -385,7 +385,7 @@ error: FnValue
 11 | |     );
    | |_____^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/function/url/input.css:9:23
   |
 9 |     background-image: url(   
@@ -409,7 +409,7 @@ error: Declaration
 12 |     background-image: url();
    |     ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/function/url/input.css:12:5
    |
 12 |     background-image: url();
@@ -433,7 +433,7 @@ error: Declaration
 13 |     background-image: url(   );
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/function/url/input.css:13:5
    |
 13 |     background-image: url(   );
@@ -457,7 +457,7 @@ error: Declaration
 14 |     background-image: url("");
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/function/url/input.css:14:5
    |
 14 |     background-image: url("");
@@ -475,7 +475,7 @@ error: FnValue
 14 |     background-image: url("");
    |                       ^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/function/url/input.css:14:23
    |
 14 |     background-image: url("");
@@ -499,7 +499,7 @@ error: Declaration
 15 |     background-image: url(   ""   );
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/function/url/input.css:15:5
    |
 15 |     background-image: url(   ""   );
@@ -517,7 +517,7 @@ error: FnValue
 15 |     background-image: url(   ""   );
    |                       ^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/function/url/input.css:15:23
    |
 15 |     background-image: url(   ""   );
@@ -541,7 +541,7 @@ error: Declaration
 16 |     background-image: url('');
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/function/url/input.css:16:5
    |
 16 |     background-image: url('');
@@ -559,7 +559,7 @@ error: FnValue
 16 |     background-image: url('');
    |                       ^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/function/url/input.css:16:23
    |
 16 |     background-image: url('');
@@ -583,7 +583,7 @@ error: Declaration
 17 |     background-image: url(   ''   );
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/function/url/input.css:17:5
    |
 17 |     background-image: url(   ''   );
@@ -601,7 +601,7 @@ error: FnValue
 17 |     background-image: url(   ''   );
    |                       ^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/function/url/input.css:17:23
    |
 17 |     background-image: url(   ''   );
@@ -625,7 +625,7 @@ error: Declaration
 18 |     background-image: url(   ' '   );
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/function/url/input.css:18:5
    |
 18 |     background-image: url(   ' '   );
@@ -643,7 +643,7 @@ error: FnValue
 18 |     background-image: url(   ' '   );
    |                       ^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/function/url/input.css:18:23
    |
 18 |     background-image: url(   ' '   );
@@ -667,7 +667,7 @@ error: Declaration
 19 |     background-image: url(./image.png);
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/function/url/input.css:19:5
    |
 19 |     background-image: url(./image.png);
@@ -691,7 +691,7 @@ error: Declaration
 20 |     background-image: url(   ./image.png   );
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/function/url/input.css:20:5
    |
 20 |     background-image: url(   ./image.png   );
@@ -715,7 +715,7 @@ error: Declaration
 21 |     background-image: url(   ./image\32.png   );
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/function/url/input.css:21:5
    |
 21 |     background-image: url(   ./image\32.png   );
@@ -741,7 +741,7 @@ error: Declaration
 24 | |     );
    | |_____^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/function/url/input.css:22:5
    |
 22 |     background-image: url(   
@@ -777,7 +777,7 @@ error: Declaration
 33 | |     );
    | |_____^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/function/url/input.css:25:5
    |
 25 |     background-image: url(
@@ -821,7 +821,7 @@ error: Declaration
 42 | |        );
    | |________^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/function/url/input.css:34:5
    |
 34 |     background-image: url(   

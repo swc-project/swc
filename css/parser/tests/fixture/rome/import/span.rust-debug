@@ -65,7 +65,7 @@ error: FnValue
 2 | @import url("something.css");
   |         ^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/import/input.css:2:9
   |
 2 | @import url("something.css");

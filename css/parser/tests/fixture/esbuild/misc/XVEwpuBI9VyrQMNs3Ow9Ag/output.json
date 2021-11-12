@@ -14,7 +14,7 @@
         "ctxt": 0
       },
       "query": {
-        "type": "Text",
+        "type": "Identifier",
         "span": {
           "start": 7,
           "end": 13,

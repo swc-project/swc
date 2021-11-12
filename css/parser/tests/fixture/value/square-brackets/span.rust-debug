@@ -58,7 +58,7 @@ error: TypeSelector
 1 | div {
   | ^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/value/square-brackets/input.css:1:1
   |
 1 | div {
@@ -83,7 +83,7 @@ error: Declaration
 2 |     prop:  [];
   |     ^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/value/square-brackets/input.css:2:5
   |
 2 |     prop:  [];
@@ -107,7 +107,7 @@ error: Declaration
 3 |     prop:  [ ];
   |     ^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/value/square-brackets/input.css:3:5
   |
 3 |     prop:  [ ];
@@ -131,7 +131,7 @@ error: Declaration
 4 |     prop:  [row1-start];
   |     ^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/value/square-brackets/input.css:4:5
   |
 4 |     prop:  [row1-start];
@@ -155,7 +155,7 @@ error: Value
 4 |     prop:  [row1-start];
   |             ^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/value/square-brackets/input.css:4:13
   |
 4 |     prop:  [row1-start];
@@ -167,7 +167,7 @@ error: Declaration
 5 |     prop:  [red #fff 12px];
   |     ^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/value/square-brackets/input.css:5:5
   |
 5 |     prop:  [red #fff 12px];
@@ -191,7 +191,7 @@ error: Value
 5 |     prop:  [red #fff 12px];
   |             ^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/value/square-brackets/input.css:5:13
   |
 5 |     prop:  [red #fff 12px];
@@ -239,7 +239,7 @@ error: Declaration
 6 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/value/square-brackets/input.css:6:5
   |
 6 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
@@ -263,7 +263,7 @@ error: Value
 6 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
   |            ^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/value/square-brackets/input.css:6:12
   |
 6 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
@@ -305,7 +305,7 @@ error: Value
 6 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
   |                             ^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/value/square-brackets/input.css:6:29
   |
 6 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
@@ -317,7 +317,7 @@ error: Value
 6 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
   |                                      ^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/value/square-brackets/input.css:6:38
   |
 6 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
@@ -359,7 +359,7 @@ error: Value
 6 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
   |                                                       ^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/value/square-brackets/input.css:6:55
   |
 6 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];

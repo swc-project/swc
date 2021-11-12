@@ -22,7 +22,7 @@ error: KeyframesRule
 1 | @-ms-keyframes name {}
   | ^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/DnbMqwUX5bMs8z9L-H6IOg/input.css:1:16
   |
 1 | @-ms-keyframes name {}

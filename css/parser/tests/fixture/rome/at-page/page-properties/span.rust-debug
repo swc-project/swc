@@ -51,7 +51,7 @@ error: Declaration
 2 |     display: none;
   |     ^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/at-page/page-properties/input.css:2:2
   |
 2 |     display: none;
@@ -63,7 +63,7 @@ error: Value
 2 |     display: none;
   |              ^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/at-page/page-properties/input.css:2:11
   |
 2 |     display: none;

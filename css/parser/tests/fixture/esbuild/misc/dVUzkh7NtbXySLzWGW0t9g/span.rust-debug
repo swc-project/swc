@@ -40,7 +40,7 @@ error: TypeSelector
 1 | a { color: red } a { color: green } a { color: red }
   | ^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:1
   |
 1 | a { color: red } a { color: green } a { color: red }
@@ -58,7 +58,7 @@ error: Declaration
 1 | a { color: red } a { color: green } a { color: red }
   |     ^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:5
   |
 1 | a { color: red } a { color: green } a { color: red }
@@ -70,7 +70,7 @@ error: Value
 1 | a { color: red } a { color: green } a { color: red }
   |            ^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:12
   |
 1 | a { color: red } a { color: green } a { color: red }
@@ -112,7 +112,7 @@ error: TypeSelector
 1 | a { color: red } a { color: green } a { color: red }
   |                  ^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:18
   |
 1 | a { color: red } a { color: green } a { color: red }
@@ -130,7 +130,7 @@ error: Declaration
 1 | a { color: red } a { color: green } a { color: red }
   |                      ^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:22
   |
 1 | a { color: red } a { color: green } a { color: red }
@@ -142,7 +142,7 @@ error: Value
 1 | a { color: red } a { color: green } a { color: red }
   |                             ^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:29
   |
 1 | a { color: red } a { color: green } a { color: red }
@@ -184,7 +184,7 @@ error: TypeSelector
 1 | a { color: red } a { color: green } a { color: red }
   |                                     ^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:37
   |
 1 | a { color: red } a { color: green } a { color: red }
@@ -202,7 +202,7 @@ error: Declaration
 1 | a { color: red } a { color: green } a { color: red }
   |                                         ^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:41
   |
 1 | a { color: red } a { color: green } a { color: red }
@@ -214,7 +214,7 @@ error: Value
 1 | a { color: red } a { color: green } a { color: red }
   |                                                ^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:48
   |
 1 | a { color: red } a { color: green } a { color: red }

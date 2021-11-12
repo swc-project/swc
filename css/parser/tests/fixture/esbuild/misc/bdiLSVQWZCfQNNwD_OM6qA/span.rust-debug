@@ -40,7 +40,7 @@ error: TypeSelector
 1 | a { value: #\68ash }
   | ^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/bdiLSVQWZCfQNNwD_OM6qA/input.css:1:1
   |
 1 | a { value: #\68ash }
@@ -58,7 +58,7 @@ error: Declaration
 1 | a { value: #\68ash }
   |     ^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/bdiLSVQWZCfQNNwD_OM6qA/input.css:1:5
   |
 1 | a { value: #\68ash }

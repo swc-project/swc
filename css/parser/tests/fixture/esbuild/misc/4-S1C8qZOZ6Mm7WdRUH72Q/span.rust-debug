@@ -40,7 +40,7 @@ error: TypeSelector
 1 | a { value: @\6b eyword }
   | ^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/4-S1C8qZOZ6Mm7WdRUH72Q/input.css:1:1
   |
 1 | a { value: @\6b eyword }
@@ -58,7 +58,7 @@ error: Declaration
 1 | a { value: @\6b eyword }
   |     ^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/4-S1C8qZOZ6Mm7WdRUH72Q/input.css:1:5
   |
 1 | a { value: @\6b eyword }
@@ -76,7 +76,7 @@ error: AtTextValue
 1 | a { value: @\6b eyword }
   |            ^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/4-S1C8qZOZ6Mm7WdRUH72Q/input.css:1:12
   |
 1 | a { value: @\6b eyword }

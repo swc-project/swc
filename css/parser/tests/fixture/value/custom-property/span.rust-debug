@@ -64,7 +64,7 @@ error: PseudoSelector
 1 | :root {
   | ^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/value/custom-property/input.css:1:2
   |
 1 | :root {
@@ -91,7 +91,7 @@ error: Declaration
 2 |     --number: 1;
   |     ^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/value/custom-property/input.css:2:5
   |
 2 |     --number: 1;
@@ -115,7 +115,7 @@ error: Declaration
 3 |     --unit: 100vw;
   |     ^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/value/custom-property/input.css:3:5
   |
 3 |     --unit: 100vw;
@@ -151,7 +151,7 @@ error: Declaration
 4 |     --color: #06c;
   |     ^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/value/custom-property/input.css:4:5
   |
 4 |     --color: #06c;
@@ -175,7 +175,7 @@ error: Declaration
 6 |     --function: calc(1 + 1);
   |     ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/value/custom-property/input.css:6:5
   |
 6 |     --function: calc(1 + 1);
@@ -193,7 +193,7 @@ error: FnValue
 6 |     --function: calc(1 + 1);
   |                 ^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/value/custom-property/input.css:6:17
   |
 6 |     --function: calc(1 + 1);
@@ -241,7 +241,7 @@ error: Declaration
 7 |     --variable: var(--unit);
   |     ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/value/custom-property/input.css:7:5
   |
 7 |     --variable: var(--unit);
@@ -259,7 +259,7 @@ error: FnValue
 7 |     --variable: var(--unit);
   |                 ^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/value/custom-property/input.css:7:17
   |
 7 |     --variable: var(--unit);
@@ -271,7 +271,7 @@ error: Value
 7 |     --variable: var(--unit);
   |                     ^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/value/custom-property/input.css:7:21
   |
 7 |     --variable: var(--unit);
@@ -283,7 +283,7 @@ error: Declaration
 9 |     --string: 'single quoted string';
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/value/custom-property/input.css:9:5
   |
 9 |     --string: 'single quoted string';
@@ -307,7 +307,7 @@ error: Declaration
 10 |     --string: "double quoted string";
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/value/custom-property/input.css:10:5
    |
 10 |     --string: "double quoted string";
@@ -331,7 +331,7 @@ error: Declaration
 12 |     --square-block: [1, 2, 3];
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/value/custom-property/input.css:12:5
    |
 12 |     --square-block: [1, 2, 3];
@@ -397,7 +397,7 @@ error: Declaration
 13 |     --round-block: (1, 2, 3);
    |     ^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/value/custom-property/input.css:13:5
    |
 13 |     --round-block: (1, 2, 3);
@@ -463,7 +463,7 @@ error: Declaration
 15 |     --bracket-block: {1, 2, 3};
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/value/custom-property/input.css:15:5
    |
 15 |     --bracket-block: {1, 2, 3};
@@ -541,7 +541,7 @@ error: Declaration
 16 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/value/custom-property/input.css:16:5
    |
 16 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
@@ -691,7 +691,7 @@ error: Declaration
 17 |     --javascript: function(rule) { console.log(rule) };
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/value/custom-property/input.css:17:5
    |
 17 |     --javascript: function(rule) { console.log(rule) };
@@ -709,7 +709,7 @@ error: FnValue
 17 |     --javascript: function(rule) { console.log(rule) };
    |                   ^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/value/custom-property/input.css:17:19
    |
 17 |     --javascript: function(rule) { console.log(rule) };
@@ -721,7 +721,7 @@ error: Value
 17 |     --javascript: function(rule) { console.log(rule) };
    |                            ^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/value/custom-property/input.css:17:28
    |
 17 |     --javascript: function(rule) { console.log(rule) };
@@ -799,7 +799,7 @@ error: Declaration
 19 |     --CDO: <!--;
    |     ^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/value/custom-property/input.css:19:5
    |
 19 |     --CDO: <!--;
@@ -829,7 +829,7 @@ error: Declaration
 20 |     --CDC: -->;
    |     ^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/value/custom-property/input.css:20:5
    |
 20 |     --CDC: -->;

@@ -14,7 +14,7 @@
         "ctxt": 0
       },
       "query": {
-        "type": "Text",
+        "type": "Identifier",
         "span": {
           "start": 7,
           "end": 13,
@@ -40,7 +40,7 @@
           "ctxt": 0
         },
         "query": {
-          "type": "Text",
+          "type": "Identifier",
           "span": {
             "start": 28,
             "end": 34,
@@ -67,7 +67,7 @@
           "ctxt": 0
         },
         "query": {
-          "type": "Text",
+          "type": "Identifier",
           "span": {
             "start": 50,
             "end": 56,
@@ -95,7 +95,7 @@
         },
         "queries": [
           {
-            "type": "Text",
+            "type": "Identifier",
             "span": {
               "start": 67,
               "end": 72,
@@ -105,7 +105,7 @@
             "raw": "print"
           },
           {
-            "type": "Text",
+            "type": "Identifier",
             "span": {
               "start": 74,
               "end": 80,
@@ -134,7 +134,7 @@
         },
         "queries": [
           {
-            "type": "Text",
+            "type": "Identifier",
             "span": {
               "start": 91,
               "end": 97,
@@ -144,7 +144,7 @@
             "raw": "screen"
           },
           {
-            "type": "Text",
+            "type": "Identifier",
             "span": {
               "start": 99,
               "end": 102,
@@ -154,7 +154,7 @@
             "raw": "all"
           },
           {
-            "type": "Text",
+            "type": "Identifier",
             "span": {
               "start": 104,
               "end": 109,
@@ -190,7 +190,7 @@
           },
           "queries": [
             {
-              "type": "Text",
+              "type": "Identifier",
               "span": {
                 "start": 125,
                 "end": 131,
@@ -207,7 +207,7 @@
                 "ctxt": 0
               },
               "query": {
-                "type": "Text",
+                "type": "Identifier",
                 "span": {
                   "start": 137,
                   "end": 140,
@@ -225,7 +225,7 @@
                 "ctxt": 0
               },
               "query": {
-                "type": "Text",
+                "type": "Identifier",
                 "span": {
                   "start": 147,
                   "end": 152,

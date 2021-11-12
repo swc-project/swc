@@ -40,7 +40,7 @@ error: TypeSelector
 1 | a:after { content: 'a\62 c' }
   | ^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/6kUhG0W7hwZxIuaCsZ7pHg/input.css:1:1
   |
 1 | a:after { content: 'a\62 c' }
@@ -58,7 +58,7 @@ error: PseudoSelector
 1 | a:after { content: 'a\62 c' }
   |  ^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/6kUhG0W7hwZxIuaCsZ7pHg/input.css:1:3
   |
 1 | a:after { content: 'a\62 c' }
@@ -78,7 +78,7 @@ error: Declaration
 1 | a:after { content: 'a\62 c' }
   |           ^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/6kUhG0W7hwZxIuaCsZ7pHg/input.css:1:11
   |
 1 | a:after { content: 'a\62 c' }

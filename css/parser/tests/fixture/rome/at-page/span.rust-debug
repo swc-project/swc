@@ -43,13 +43,13 @@ error: PageSelector
 1 | @page MyPage:blank {
   |       ^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/at-page/input.css:1:7
   |
 1 | @page MyPage:blank {
   |       ^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/at-page/input.css:1:14
   |
 1 | @page MyPage:blank {
@@ -107,7 +107,7 @@ error: AtSelector
 2 |     @top-center { content: none }
   |     ^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/at-page/input.css:2:2
   |
 2 |     @top-center { content: none }
@@ -131,7 +131,7 @@ error: Declaration
 2 |     @top-center { content: none }
   |                   ^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/at-page/input.css:2:16
   |
 2 |     @top-center { content: none }
@@ -143,7 +143,7 @@ error: Value
 2 |     @top-center { content: none }
   |                            ^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/at-page/input.css:2:25
   |
 2 |     @top-center { content: none }
@@ -161,7 +161,7 @@ error: Declaration
 3 |     margin-left: 4cm;
   |     ^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/at-page/input.css:3:2
   |
 3 |     margin-left: 4cm;
@@ -224,7 +224,7 @@ error: PageSelector
 6 | @page :blank {
   |       ^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/at-page/input.css:6:8
   |
 6 | @page :blank {
@@ -282,7 +282,7 @@ error: AtSelector
 7 |     @top-center { content: none }
   |     ^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/at-page/input.css:7:2
   |
 7 |     @top-center { content: none }
@@ -306,7 +306,7 @@ error: Declaration
 7 |     @top-center { content: none }
   |                   ^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/at-page/input.css:7:16
   |
 7 |     @top-center { content: none }
@@ -318,7 +318,7 @@ error: Value
 7 |     @top-center { content: none }
   |                            ^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/at-page/input.css:7:25
   |
 7 |     @top-center { content: none }
@@ -336,7 +336,7 @@ error: Declaration
 8 |     margin-left: 4cm;
   |     ^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/rome/at-page/input.css:8:2
   |
 8 |     margin-left: 4cm;
@@ -445,7 +445,7 @@ error: AtSelector
 12 |     @top-center { content: none }
    |     ^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/rome/at-page/input.css:12:2
    |
 12 |     @top-center { content: none }
@@ -469,7 +469,7 @@ error: Declaration
 12 |     @top-center { content: none }
    |                   ^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/rome/at-page/input.css:12:16
    |
 12 |     @top-center { content: none }
@@ -481,7 +481,7 @@ error: Value
 12 |     @top-center { content: none }
    |                            ^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/rome/at-page/input.css:12:25
    |
 12 |     @top-center { content: none }
@@ -499,7 +499,7 @@ error: Declaration
 13 |     margin-left: 4cm;
    |     ^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/rome/at-page/input.css:13:2
    |
 13 |     margin-left: 4cm;
@@ -608,7 +608,7 @@ error: AtSelector
 17 |     @top-center { CONTENT: none }
    |     ^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/rome/at-page/input.css:17:2
    |
 17 |     @top-center { CONTENT: none }
@@ -632,7 +632,7 @@ error: Declaration
 17 |     @top-center { CONTENT: none }
    |                   ^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/rome/at-page/input.css:17:16
    |
 17 |     @top-center { CONTENT: none }
@@ -644,7 +644,7 @@ error: Value
 17 |     @top-center { CONTENT: none }
    |                            ^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/rome/at-page/input.css:17:25
    |
 17 |     @top-center { CONTENT: none }
@@ -662,7 +662,7 @@ error: Declaration
 18 |     MARGIN-LEFT: 4cm;
    |     ^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/rome/at-page/input.css:18:2
    |
 18 |     MARGIN-LEFT: 4cm;

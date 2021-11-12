@@ -64,7 +64,7 @@ error: ClassSelector
 1 | & > .bar { color: red; }
   |     ^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/selector/nesting/input.css:1:6
   |
 1 | & > .bar { color: red; }
@@ -82,7 +82,7 @@ error: Declaration
 1 | & > .bar { color: red; }
   |            ^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/selector/nesting/input.css:1:12
   |
 1 | & > .bar { color: red; }
@@ -94,7 +94,7 @@ error: Value
 1 | & > .bar { color: red; }
   |                   ^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/selector/nesting/input.css:1:19
   |
 1 | & > .bar { color: red; }

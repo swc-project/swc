@@ -14,7 +14,7 @@
         "ctxt": 0
       },
       "id": {
-        "type": "Text",
+        "type": "Identifier",
         "span": {
           "start": 11,
           "end": 15,
@@ -84,7 +84,7 @@
                   "ctxt": 0
                 },
                 "property": {
-                  "type": "Text",
+                  "type": "Identifier",
                   "span": {
                     "start": 28,
                     "end": 33,
@@ -95,7 +95,7 @@
                 },
                 "value": [
                   {
-                    "type": "Text",
+                    "type": "Identifier",
                     "span": {
                       "start": 35,
                       "end": 38,
@@ -170,7 +170,7 @@
                   "ctxt": 0
                 },
                 "property": {
-                  "type": "Text",
+                  "type": "Identifier",
                   "span": {
                     "start": 52,
                     "end": 57,
@@ -181,7 +181,7 @@
                 },
                 "value": [
                   {
-                    "type": "Text",
+                    "type": "Identifier",
                     "span": {
                       "start": 59,
                       "end": 63,

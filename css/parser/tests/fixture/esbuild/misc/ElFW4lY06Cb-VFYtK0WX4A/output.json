@@ -22,7 +22,7 @@
             "ctxt": 0
           },
           "name": {
-            "type": "Text",
+            "type": "Identifier",
             "span": {
               "start": 15,
               "end": 25,
@@ -75,7 +75,7 @@
                       },
                       "prefix": null,
                       "name": {
-                        "type": "Text",
+                        "type": "Identifier",
                         "span": {
                           "start": 30,
                           "end": 32,
@@ -107,7 +107,7 @@
                   "ctxt": 0
                 },
                 "property": {
-                  "type": "Text",
+                  "type": "Identifier",
                   "span": {
                     "start": 35,
                     "end": 40,
@@ -118,7 +118,7 @@
                 },
                 "value": [
                   {
-                    "type": "Text",
+                    "type": "Identifier",
                     "span": {
                       "start": 42,
                       "end": 47,

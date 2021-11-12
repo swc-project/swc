@@ -28,7 +28,7 @@ error: UnknownAtRule
 9 | @unknown {}
   | ^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/at-rule/unknown/input.css:9:1
   |
 9 | @unknown {}
@@ -70,7 +70,7 @@ error: UnknownAtRule
 10 | @\unknown {}
    | ^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/at-rule/unknown/input.css:10:1
    |
 10 | @\unknown {}
@@ -112,7 +112,7 @@ error: UnknownAtRule
 12 | @unknown {p:v}
    | ^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/at-rule/unknown/input.css:12:1
    |
 12 | @unknown {p:v}
@@ -172,7 +172,7 @@ error: UnknownAtRule
 15 | @unknown/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/at-rule/unknown/input.css:15:1
    |
 15 | @unknown/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
@@ -232,7 +232,7 @@ error: UnknownAtRule
 22 | @unknown {s{p:v}}
    | ^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/at-rule/unknown/input.css:22:1
    |
 22 | @unknown {s{p:v}}
@@ -319,7 +319,7 @@ error: UnknownAtRule
 36 | | }
    | |_^
 
-error: Text
+error: Ident
   --> $DIR/tests/fixture/at-rule/unknown/input.css:33:1
    |
 33 | @unknown {

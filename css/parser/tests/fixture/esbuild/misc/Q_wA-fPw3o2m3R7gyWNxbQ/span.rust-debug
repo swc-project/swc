@@ -40,7 +40,7 @@ error: TypeSelector
 1 | a:after { content: '\invalid' }
   | ^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1
   |
 1 | a:after { content: '\invalid' }
@@ -58,7 +58,7 @@ error: PseudoSelector
 1 | a:after { content: '\invalid' }
   |  ^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:3
   |
 1 | a:after { content: '\invalid' }
@@ -78,7 +78,7 @@ error: Declaration
 1 | a:after { content: '\invalid' }
   |           ^^^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:11
   |
 1 | a:after { content: '\invalid' }

@@ -40,7 +40,7 @@ error: TypeSelector
 1 | a { value: @k\65yword }
   | ^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/vK9rUBJhwa0FsjBe18lL0w/input.css:1:1
   |
 1 | a { value: @k\65yword }
@@ -58,7 +58,7 @@ error: Declaration
 1 | a { value: @k\65yword }
   |     ^^^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/vK9rUBJhwa0FsjBe18lL0w/input.css:1:5
   |
 1 | a { value: @k\65yword }
@@ -76,7 +76,7 @@ error: AtTextValue
 1 | a { value: @k\65yword }
   |            ^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/esbuild/misc/vK9rUBJhwa0FsjBe18lL0w/input.css:1:12
   |
 1 | a { value: @k\65yword }

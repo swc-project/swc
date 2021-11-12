@@ -48,7 +48,7 @@
                     },
                     "prefix": null,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 1,
                         "end": 6,
@@ -119,7 +119,7 @@
                     },
                     "prefix": null,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 12,
                         "end": 17,
@@ -130,7 +130,7 @@
                     },
                     "matcher": "=",
                     "value": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 18,
                         "end": 21,
@@ -199,7 +199,7 @@
                     },
                     "prefix": null,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 27,
                         "end": 32,
@@ -279,7 +279,7 @@
                     },
                     "prefix": null,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 45,
                         "end": 50,
@@ -359,7 +359,7 @@
                     },
                     "prefix": null,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 68,
                         "end": 73,
@@ -439,7 +439,7 @@
                     },
                     "prefix": null,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 94,
                         "end": 98,
@@ -519,7 +519,7 @@
                     },
                     "prefix": null,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 113,
                         "end": 117,
@@ -599,7 +599,7 @@
                     },
                     "prefix": null,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 129,
                         "end": 133,
@@ -679,7 +679,7 @@
                     },
                     "prefix": null,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 144,
                         "end": 148,
@@ -759,7 +759,7 @@
                     },
                     "prefix": null,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 162,
                         "end": 166,
@@ -839,7 +839,7 @@
                     },
                     "prefix": null,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 183,
                         "end": 187,
@@ -919,7 +919,7 @@
                     },
                     "prefix": null,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 210,
                         "end": 214,
@@ -999,7 +999,7 @@
                     },
                     "prefix": null,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 237,
                         "end": 241,
@@ -1079,7 +1079,7 @@
                     },
                     "prefix": null,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 257,
                         "end": 261,
@@ -1158,7 +1158,7 @@
                       "ctxt": 0
                     },
                     "prefix": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 277,
                         "end": 280,
@@ -1168,7 +1168,7 @@
                       "raw": "foo"
                     },
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 281,
                         "end": 284,
@@ -1179,7 +1179,7 @@
                     },
                     "matcher": "=",
                     "value": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 285,
                         "end": 288,
@@ -1247,7 +1247,7 @@
                       "ctxt": 0
                     },
                     "prefix": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 294,
                         "end": 295,
@@ -1257,7 +1257,7 @@
                       "raw": "*"
                     },
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 296,
                         "end": 299,
@@ -1327,7 +1327,7 @@
                       "ctxt": 0
                     },
                     "prefix": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 308,
                         "end": 309,
@@ -1337,7 +1337,7 @@
                       "raw": "*"
                     },
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 310,
                         "end": 313,
@@ -1407,7 +1407,7 @@
                       "ctxt": 0
                     },
                     "prefix": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 322,
                         "end": 322,
@@ -1417,7 +1417,7 @@
                       "raw": ""
                     },
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 323,
                         "end": 326,
@@ -1487,7 +1487,7 @@
                       "ctxt": 0
                     },
                     "prefix": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 333,
                         "end": 333,
@@ -1497,7 +1497,7 @@
                       "raw": ""
                     },
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 334,
                         "end": 337,
@@ -1567,7 +1567,7 @@
                       "ctxt": 0
                     },
                     "prefix": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 347,
                         "end": 347,
@@ -1577,7 +1577,7 @@
                       "raw": ""
                     },
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 348,
                         "end": 351,
@@ -1648,7 +1648,7 @@
                     },
                     "prefix": null,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 360,
                         "end": 363,
@@ -1719,7 +1719,7 @@
                     },
                     "prefix": null,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 370,
                         "end": 373,
@@ -1790,7 +1790,7 @@
                     },
                     "prefix": null,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 383,
                         "end": 386,
@@ -1859,7 +1859,7 @@
                   },
                   "prefix": null,
                   "name": {
-                    "type": "Text",
+                    "type": "Identifier",
                     "span": {
                       "start": 394,
                       "end": 395,
@@ -1879,7 +1879,7 @@
                     },
                     "prefix": null,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 397,
                         "end": 402,
@@ -1957,7 +1957,7 @@
                   },
                   "prefix": null,
                   "name": {
-                    "type": "Text",
+                    "type": "Identifier",
                     "span": {
                       "start": 417,
                       "end": 418,
@@ -1977,7 +1977,7 @@
                     },
                     "prefix": null,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 422,
                         "end": 427,
@@ -2057,7 +2057,7 @@
                     },
                     "prefix": null,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 449,
                         "end": 453,
@@ -2137,7 +2137,7 @@
                     },
                     "prefix": null,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 481,
                         "end": 485,
@@ -2217,7 +2217,7 @@
                     },
                     "prefix": null,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 516,
                         "end": 520,
@@ -2297,7 +2297,7 @@
                     },
                     "prefix": null,
                     "name": {
-                      "type": "Text",
+                      "type": "Identifier",
                       "span": {
                         "start": 557,
                         "end": 561,
