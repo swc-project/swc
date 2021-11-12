@@ -85,8 +85,10 @@ impl<'a, I: Tokens> Parser<I> {
             expect!(p, "class");
 
             let ident = p.parse_maybe_opt_binding_ident()?;
-            if let Some(span) = ident.invalid_class_name() {
-                p.emit_err(span, SyntaxError::TS2414);
+            if p.input.syntax().typescript() {
+                if let Some(span) = ident.invalid_class_name() {
+                    p.emit_err(span, SyntaxError::TS2414);
+                }
             }
 
             let type_params = if p.input.syntax().typescript() {
@@ -1276,7 +1278,18 @@ trait IsInvalidClassName {
 impl IsInvalidClassName for Ident {
     fn invalid_class_name(&self) -> Option<Span> {
         match self.sym {
-            js_word!("any") => Some(self.span),
+            js_word!("string")
+            | js_word!("null")
+            | js_word!("number")
+            | js_word!("object")
+            | js_word!("any")
+            | js_word!("unknown")
+            | js_word!("boolean")
+            | js_word!("bigint")
+            | js_word!("symbol")
+            | js_word!("void")
+            | js_word!("never")
+            | js_word!("intrinsic") => Some(self.span),
             _ => None,
         }
     }
