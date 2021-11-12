@@ -37,11 +37,20 @@ where
     }
 
     pub fn load(&self, entry: &FileName) -> Result<(ModuleId, L::Output), Error> {
-        self.load_file_and_deps(entry)
+        let (module_id, module) = self
+            .load_file_and_deps(entry)
+            .with_context(|| format!("failed to load entry `{}`", entry))?;
+
+        Ok((module_id, module.unwrap()))
     }
 
-    fn load_file_and_deps(&self, f: &FileName) -> Result<(ModuleId, L::Output), Error> {
+    /// Returbs `Ok(_, None)` if the module is already loaded.
+    fn load_file_and_deps(&self, f: &FileName) -> Result<(ModuleId, Option<L::Output>), Error> {
         let (module_id, metadata) = self.loader.metadata_for(f)?;
+
+        if self.loader.is_loaded(f) {
+            return Ok((module_id, None));
+        }
 
         let module = self
             .loader
@@ -56,7 +65,7 @@ where
             .map(|dep| self.load_dep(&f, &dep))
             .collect::<Result<Vec<_>, _>>()?;
 
-        Ok((module_id, module))
+        Ok((module_id, Some(module)))
     }
 
     fn load_dep(&self, base: &FileName, dep: &JsWord) -> Result<ModuleId, Error> {

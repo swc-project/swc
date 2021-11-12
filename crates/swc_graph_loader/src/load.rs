@@ -9,6 +9,8 @@ pub trait Load: swc_common::sync::Send + swc_common::sync::Sync {
     type Output;
     type Metadata;
 
+    fn is_loaded(&self, f: &FileName) -> bool;
+
     fn metadata_for(&self, f: &FileName) -> Result<(ModuleId, Self::Metadata), Error>;
 
     fn load(
@@ -25,6 +27,10 @@ where
 {
     type Output = L::Output;
     type Metadata = L::Metadata;
+
+    fn is_loaded(&self, f: &FileName) -> bool {
+        (**self).is_loaded(f)
+    }
 
     fn metadata_for(&self, f: &FileName) -> Result<(ModuleId, Self::Metadata), Error> {
         (**self).metadata_for(f)
