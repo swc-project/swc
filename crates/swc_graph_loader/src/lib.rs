@@ -35,7 +35,7 @@ where
         }
     }
 
-    pub fn load(&mut self, entry: &FileName) -> Result<(ModuleId, L::Output), Error> {
+    pub fn load(&self, entry: &FileName) -> Result<(ModuleId, L::Output), Error> {
         let (module_id, module) = self
             .load_file_and_deps(entry)
             .with_context(|| format!("failed to load entry `{}`", entry))?;
