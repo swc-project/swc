@@ -1,7 +1,9 @@
 use ahash::AHashSet;
+use auto_impl::auto_impl;
 use std::{fmt::Debug, hash::Hash, marker::PhantomData};
 use swc_fast_graph::digraph::FastDiGraphMap;
 
+#[auto_impl(&, Box, Rc, Arc)]
 pub trait DepGraph {
     type ModuleId: Debug + Copy + Eq + Hash + Ord;
 

@@ -11,6 +11,7 @@ version = "0.1.0"
 
 [dependencies]
 ahash = "0.7.6"
+auto_impl = "0.5.0"
 petgraph = "0.5.0"
 swc_fast_graph = {version = "0.1", path = "../swc_fast_graph/"}
 tracing = "0.1.29"
