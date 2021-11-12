@@ -182,6 +182,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "auto_impl"
+version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7862e21c893d65a1650125d157eaeec691439379a1cee17ee49031b79236ada4"
+dependencies = [
+ "proc-macro-error",
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
 name = "autocfg"
 version = "0.1.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2510,6 +2522,7 @@ dependencies = [
  "swc_ecma_transforms_typescript",
  "swc_ecma_utils",
  "swc_ecma_visit",
+ "swc_fast_graph",
  "swc_graph_analyzer",
  "swc_node_base",
  "tempfile",
@@ -2578,7 +2591,7 @@ dependencies = [
 name = "swc_css_codegen"
 version = "0.32.0"
 dependencies = [
- "auto_impl",
+ "auto_impl 0.4.1",
  "bitflags",
  "swc_atoms 0.2.9",
  "swc_common",
@@ -3136,6 +3149,7 @@ name = "swc_graph_analyzer"
 version = "0.1.0"
 dependencies = [
  "ahash",
+ "auto_impl 0.5.0",
  "petgraph",
  "swc_fast_graph",
  "tracing",

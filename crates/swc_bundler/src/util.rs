@@ -6,8 +6,6 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut};
 
-pub(crate) mod fast_graph;
-
 #[cfg(feature = "concurrent")]
 pub(crate) type Readonly<T> = std::sync::Arc<T>;
 

@@ -1,10 +1,10 @@
-use crate::util::fast_graph::FastDiGraphMap;
 use petgraph::{
     EdgeDirection,
     EdgeDirection::{Incoming, Outgoing},
 };
 use std::{collections::VecDeque, iter::repeat};
 use swc_common::collections::AHashSet;
+use swc_fast_graph::digraph::FastDiGraphMap;
 
 /// Is dependency between nodes hard?
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
