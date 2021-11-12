@@ -9,7 +9,7 @@ repository = "https://github.com/swc-project/swc.git"
 version = "0.1.0"
 
 [features]
-concurrent = ["rayon"]
+concurrent = ["rayon", "swc_common/concurrent"]
 
 [dependencies]
 ahash = "0.7.6"
