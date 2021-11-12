@@ -1,8 +1,43 @@
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        let result = 2 + 2;
-        assert_eq!(result, 4);
+use std::{hash::Hash, marker::PhantomData};
+
+pub trait DepGraph {
+    type ModuleId: Copy + Eq + Hash + Ord;
+}
+
+pub struct ModuleGraph<G>
+where
+    G: DepGraph,
+{
+    dep_graph: G,
+    result: GraphResult<G>,
+}
+
+impl<G> ModuleGraph<G>
+where
+    G: DepGraph,
+{
+    pub fn new(dep_graph: G) -> Self {
+        Self {
+            dep_graph,
+            result: GraphResult {
+                cycles: Default::default(),
+                _marker: Default::default(),
+            },
+        }
     }
+
+    pub fn load(&mut self, entry: G::ModuleId) {}
+
+    pub fn into_result(self) -> GraphResult<G> {
+        self.result
+    }
+}
+
+pub struct GraphResult<G>
+where
+    G: DepGraph,
+{
+    pub cycles: Vec<Vec<G::ModuleId>>,
+
+    _marker: PhantomData<G>,
 }
