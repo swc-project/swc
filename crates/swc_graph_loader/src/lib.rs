@@ -1,3 +1,4 @@
+pub mod deps;
 pub mod load;
 pub mod module_id;
 
