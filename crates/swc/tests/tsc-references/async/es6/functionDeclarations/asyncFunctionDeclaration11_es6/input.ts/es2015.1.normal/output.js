@@ -28,12 +28,12 @@ function _asyncToGenerator(fn) {
     };
 }
 function _await() {
-    _await = // @target: ES6
+    return _await1.apply(this, arguments);
+}
+function _await1() {
+    _await1 = // @target: ES6
     // @noEmitHelpers: true
     _asyncToGenerator(function*() {
     });
-    return _await.apply(this, arguments);
-}
-function _await1() {
-    return _await.apply(this, arguments);
+    return _await1.apply(this, arguments);
 }

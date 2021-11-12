@@ -621,6 +621,9 @@ var load = __swcpack_require__.bind(void 0, function(module, exports1) {
     }
 });
 var { default: regeneratorRuntime1  } = load();
+function foo() {
+    return _foo.apply(this, arguments);
+}
 function _foo() {
     _foo = _asyncToGenerator(regeneratorRuntime1.mark(function _callee() {
         return regeneratorRuntime1.wrap(function _callee$(_ctx) {
@@ -631,9 +634,6 @@ function _foo() {
             }
         }, _callee);
     }));
-    return _foo.apply(this, arguments);
-}
-function foo() {
     return _foo.apply(this, arguments);
 }
 foo();

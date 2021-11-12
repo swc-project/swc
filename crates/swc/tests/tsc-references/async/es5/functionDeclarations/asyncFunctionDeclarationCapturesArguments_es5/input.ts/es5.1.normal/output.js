@@ -61,9 +61,9 @@ var C = // @target: ES5
             value: function method() {
                 var other = function other() {
                 };
-                var fn = function fn() {
+                function fn() {
                     return _fn.apply(this, arguments);
-                };
+                }
                 function _fn() {
                     _fn = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                         var _args = arguments;

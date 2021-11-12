@@ -27,6 +27,9 @@ function _asyncToGenerator(fn) {
         });
     };
 }
+function fn1() {
+    return _fn1.apply(this, arguments);
+}
 function _fn1() {
     _fn1 = _asyncToGenerator(function*() {
         const obj1 = yield {
@@ -40,8 +43,5 @@ function _fn1() {
             key: "value"
         };
     });
-    return _fn1.apply(this, arguments);
-}
-function fn1() {
     return _fn1.apply(this, arguments);
 }

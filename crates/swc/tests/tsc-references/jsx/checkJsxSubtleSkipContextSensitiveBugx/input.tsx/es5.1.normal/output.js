@@ -137,6 +137,9 @@ var AsyncLoader = /*#__PURE__*/ function(_Component) {
     ]);
     return AsyncLoader;
 }(React.Component);
+function load() {
+    return _load.apply(this, arguments);
+}
 function _load() {
     _load = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
@@ -151,9 +154,6 @@ function _load() {
             }
         }, _callee);
     }));
-    return _load.apply(this, arguments);
-}
-function load() {
     return _load.apply(this, arguments);
 }
 var loader = /*#__PURE__*/ React.createElement(AsyncLoader, {

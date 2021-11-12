@@ -59,6 +59,9 @@ function _nonIterableRest() {
 function _slicedToArray(arr, i) {
     return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
 }
+function f(a, b) {
+    return _f.apply(this, arguments);
+}
 function _f() {
     _f = _asyncToGenerator(regeneratorRuntime.mark(function _callee(a, b) {
         var ref, ref1, tmp, a_;
@@ -72,8 +75,5 @@ function _f() {
             }
         }, _callee);
     }));
-    return _f.apply(this, arguments);
-}
-function f(a, b) {
     return _f.apply(this, arguments);
 }

@@ -253,6 +253,9 @@ try {
         }
     }
 }
+function asyncfn() {
+    return _asyncfn.apply(this, arguments);
+}
 function _asyncfn() {
     _asyncfn = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         var _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, _iteratorAbruptCompletion1, _didIteratorError2, _iteratorError2, _iterator2, _step2, _value1, _iteratorAbruptCompletion2, _didIteratorError3, _iteratorError3, _iterator3, _step3, _value2, _iteratorAbruptCompletion3, _didIteratorError4, _iteratorError4, _iterator4, _step4, _value3;
@@ -511,9 +514,6 @@ function _asyncfn() {
     }));
     return _asyncfn.apply(this, arguments);
 }
-function asyncfn() {
-    return _asyncfn.apply(this, arguments);
-}
 function f1() {
     return regeneratorRuntime.wrap(function f1$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){
@@ -527,6 +527,9 @@ function f1() {
                 return _ctx.stop();
         }
     }, _marked);
+}
+function f2() {
+    return _f2.apply(this, arguments);
 }
 function _f2() {
     _f2 = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
@@ -550,8 +553,8 @@ function _f2() {
     }));
     return _f2.apply(this, arguments);
 }
-function f2() {
-    return _f2.apply(this, arguments);
+function f3() {
+    return _f3.apply(this, arguments);
 }
 function _f3() {
     _f3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
@@ -642,8 +645,5 @@ function _f3() {
             ]
         ]);
     }));
-    return _f3.apply(this, arguments);
-}
-function f3() {
     return _f3.apply(this, arguments);
 }

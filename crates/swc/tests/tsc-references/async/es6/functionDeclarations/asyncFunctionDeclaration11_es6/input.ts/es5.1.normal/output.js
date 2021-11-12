@@ -29,7 +29,10 @@ function _asyncToGenerator(fn) {
     };
 }
 function _await() {
-    _await = // @target: ES6
+    return _await1.apply(this, arguments);
+}
+function _await1() {
+    _await1 = // @target: ES6
     // @noEmitHelpers: true
     _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
@@ -40,8 +43,5 @@ function _await() {
             }
         }, _callee);
     }));
-    return _await.apply(this, arguments);
-}
-function _await1() {
-    return _await.apply(this, arguments);
+    return _await1.apply(this, arguments);
 }

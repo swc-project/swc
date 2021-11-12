@@ -72,6 +72,9 @@ function _inferReturnType1() {
         }, _callee);
     }))).apply(this, arguments);
 }
+function inferReturnType2() {
+    return _inferReturnType2.apply(this, arguments);
+}
 function _inferReturnType2() {
     return (_inferReturnType2 = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function(_ctx) {
@@ -84,9 +87,6 @@ function _inferReturnType2() {
             }
         }, _callee);
     }))).apply(this, arguments);
-}
-function inferReturnType2() {
-    return _inferReturnType2.apply(this, arguments);
 }
 function _inferReturnType3() {
     return (_inferReturnType3 = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {

@@ -4,6 +4,9 @@ export default function StaticPage(param) {
     var data = param.data;
     return(/*#__PURE__*/ React.createElement("div", null, data.foo));
 };
+export function getStaticProps() {
+    return _getStaticProps.apply(this, arguments);
+}
 function _getStaticProps() {
     _getStaticProps = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
@@ -22,8 +25,5 @@ function _getStaticProps() {
             }
         }, _callee);
     }));
-    return _getStaticProps.apply(this, arguments);
-}
-export function getStaticProps() {
     return _getStaticProps.apply(this, arguments);
 }

@@ -27,12 +27,12 @@ function _asyncToGenerator(fn) {
         });
     };
 }
+function f() {
+    return _f.apply(this, arguments);
+}
 function _f() {
     _f = _asyncToGenerator(function*() {
         yield a;
     });
-    return _f.apply(this, arguments);
-}
-function f() {
     return _f.apply(this, arguments);
 }

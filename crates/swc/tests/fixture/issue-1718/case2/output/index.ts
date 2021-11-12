@@ -27,6 +27,9 @@ function _asyncToGenerator(fn) {
         });
     };
 }
+function scanUser(groups) {
+    return _scanUser.apply(this, arguments);
+}
 function _scanUser() {
     _scanUser = _asyncToGenerator(function*(groups) {
         yield Promise.all(groups.map(_asyncToGenerator(function*({ users  }) {
@@ -37,9 +40,6 @@ function _scanUser() {
             }
         })));
     });
-    return _scanUser.apply(this, arguments);
-}
-function scanUser(groups) {
     return _scanUser.apply(this, arguments);
 }
 scanUser([

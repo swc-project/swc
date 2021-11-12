@@ -8,6 +8,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     }
     info.done ? resolve(value) : Promise.resolve(value).then(_next, _throw);
 }
+function fun(deepPromised) {
+    return _fun.apply(this, arguments);
+}
 function _fun() {
     return (_fun = (function(fn) {
         return function() {
@@ -80,9 +83,6 @@ function _fun() {
             ]
         ]);
     }))).apply(this, arguments);
-}
-function fun(deepPromised) {
-    return _fun.apply(this, arguments);
 }
 f1(1, 2), f1(1, "hello"), f1(1, sn), f1(void 0, "abc"), f1("foo", "bar"), f1(!0, !1), f1("hello", 1), f2([
     "string",

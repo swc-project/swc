@@ -27,6 +27,9 @@ function _asyncToGenerator(fn) {
         });
     };
 }
+function fn1() {
+    return _fn1.apply(this, arguments);
+}
 function _fn1() {
     _fn1 = _asyncToGenerator(function*() {
         return {
@@ -35,8 +38,8 @@ function _fn1() {
     });
     return _fn1.apply(this, arguments);
 }
-function fn1() {
-    return _fn1.apply(this, arguments);
+function fn2() {
+    return _fn2.apply(this, arguments);
 }
 function _fn2() {
     _fn2 = _asyncToGenerator(function*() {
@@ -48,8 +51,8 @@ function _fn2() {
     });
     return _fn2.apply(this, arguments);
 }
-function fn2() {
-    return _fn2.apply(this, arguments);
+function fn3() {
+    return _fn3.apply(this, arguments);
 }
 function _fn3() {
     _fn3 = _asyncToGenerator(function*() {
@@ -59,8 +62,8 @@ function _fn3() {
     });
     return _fn3.apply(this, arguments);
 }
-function fn3() {
-    return _fn3.apply(this, arguments);
+function fn4() {
+    return _fn4.apply(this, arguments);
 }
 function _fn4() {
     _fn4 = _asyncToGenerator(function*() {
@@ -70,8 +73,5 @@ function _fn4() {
             });
         });
     });
-    return _fn4.apply(this, arguments);
-}
-function fn4() {
     return _fn4.apply(this, arguments);
 }

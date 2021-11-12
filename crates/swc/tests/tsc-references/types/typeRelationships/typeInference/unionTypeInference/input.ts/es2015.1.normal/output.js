@@ -53,6 +53,9 @@ foo(x);
 const y = bar(1, 2);
 // Repro from #32752
 const containsPromises = Symbol();
+function fun(deepPromised) {
+    return _fun.apply(this, arguments);
+}
 function _fun() {
     _fun = _asyncToGenerator(function*(deepPromised) {
         const deepPromisedWithIndexer = deepPromised;
@@ -61,9 +64,6 @@ function _fun() {
             if (awaitedValue) yield fun(awaitedValue);
         }
     });
-    return _fun.apply(this, arguments);
-}
-function fun(deepPromised) {
     return _fun.apply(this, arguments);
 }
 baz(xx);

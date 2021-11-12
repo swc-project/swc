@@ -34,13 +34,13 @@ class C {
     method() {
         function other() {
         }
+        function fn() {
+            return _fn.apply(this, arguments);
+        }
         function _fn() {
             _fn = _asyncToGenerator((function*() {
                 yield other.apply(this, arguments);
             }).bind(this));
-            return _fn.apply(this, arguments);
-        }
-        function fn() {
             return _fn.apply(this, arguments);
         }
     }

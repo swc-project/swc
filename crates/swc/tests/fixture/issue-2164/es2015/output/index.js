@@ -27,13 +27,13 @@ function _asyncToGenerator(fn) {
         });
     };
 }
+function fn1() {
+    return _fn.apply(this, arguments);
+}
 function _fn() {
     _fn = _asyncToGenerator(function*() {
         for(const key in {
         });
     });
-    return _fn.apply(this, arguments);
-}
-function fn1() {
     return _fn.apply(this, arguments);
 }

@@ -28,6 +28,9 @@ function _asyncToGenerator(fn) {
         });
     };
 }
+function f() {
+    return _f.apply(this, arguments);
+}
 function _f() {
     _f = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
@@ -38,8 +41,5 @@ function _f() {
             }
         }, _callee);
     }));
-    return _f.apply(this, arguments);
-}
-function f() {
     return _f.apply(this, arguments);
 }

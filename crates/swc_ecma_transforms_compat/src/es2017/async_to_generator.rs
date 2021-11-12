@@ -7,8 +7,8 @@ use swc_ecma_utils::{
     contains_ident_ref, contains_this_expr, private_ident, quote_ident, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
-    noop_fold_type, noop_visit_mut_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitMut,
-    VisitMutWith, VisitWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
+    VisitWith,
 };
 
 /// `@babel/plugin-transform-async-to-generator`
@@ -31,8 +31,8 @@ use swc_ecma_visit::{
 ///   yield bar();
 /// });
 /// ```
-pub fn async_to_generator() -> impl Fold {
-    AsyncToGenerator
+pub fn async_to_generator() -> impl Fold + VisitMut {
+    as_folder(AsyncToGenerator)
 }
 
 #[derive(Default, Clone)]
@@ -44,61 +44,59 @@ struct Actual {
     extra_stmts: Vec<Stmt>,
 }
 
-/// TODO: VisitMut
 #[fast_path(ShouldWork)]
-impl Fold for AsyncToGenerator {
-    noop_fold_type!();
+impl VisitMut for AsyncToGenerator {
+    noop_visit_mut_type!();
 
-    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        self.fold_stmt_like(n)
+    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        self.visit_mut_stmt_like(n);
     }
 
-    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
-        self.fold_stmt_like(n)
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+        self.visit_mut_stmt_like(n);
     }
 }
 
 impl AsyncToGenerator {
-    fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
+    fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike + FoldWith<Actual>,
-        Vec<T>: FoldWith<Self>,
+        T: StmtLike + VisitMutWith<Actual>,
+        Vec<T>: VisitMutWith<Self>,
     {
-        let stmts = stmts.fold_children_with(self);
+        stmts.visit_mut_children_with(self);
 
-        let mut buf = Vec::with_capacity(stmts.len());
+        let mut stmts_updated = Vec::with_capacity(stmts.len());
 
-        for stmt in stmts {
+        for mut stmt in stmts.drain(..) {
             let mut actual = Actual {
                 in_object_prop: false,
                 in_prototype_assignment: false,
                 extra_stmts: vec![],
             };
-            let stmt = stmt.fold_with(&mut actual);
 
-            buf.extend(actual.extra_stmts.into_iter().map(T::from_stmt));
-            buf.push(stmt);
+            stmt.visit_mut_with(&mut actual);
+            stmts_updated.push(stmt);
+            stmts_updated.extend(actual.extra_stmts.into_iter().map(T::from_stmt));
         }
 
-        buf
+        *stmts = stmts_updated;
     }
 }
 
-/// TODO: VisitMut
 #[fast_path(ShouldWork)]
-impl Fold for Actual {
-    noop_fold_type!();
+impl VisitMut for Actual {
+    noop_visit_mut_type!();
 
     /// Removes nested binds like `(function(){}).bind(this).bind(this)`
-    fn fold_call_expr(&mut self, n: CallExpr) -> CallExpr {
-        let mut n = n.fold_children_with(self);
+    fn visit_mut_call_expr(&mut self, n: &mut CallExpr) {
+        n.visit_mut_children_with(self);
 
-        if let Some(callee) = extract_callee_of_bind_this(&mut n) {
+        if let Some(callee) = extract_callee_of_bind_this(n) {
             match callee {
                 Expr::Call(callee_of_callee) => {
                     if let Some(..) = extract_callee_of_bind_this(callee_of_callee) {
                         // We found bind(this).bind(this)
-                        return replace(
+                        *n = replace(
                             callee_of_callee,
                             CallExpr {
                                 span: DUMMY_SP,
@@ -112,26 +110,26 @@ impl Fold for Actual {
                 _ => {}
             }
         }
-
-        n
     }
 
-    fn fold_class_method(&mut self, mut m: ClassMethod) -> ClassMethod {
+    fn visit_mut_class_method(&mut self, m: &mut ClassMethod) {
         if m.function.body.is_none() {
-            return m;
+            return;
         }
         if m.kind != MethodKind::Method || !m.function.is_async {
-            return m;
+            return;
         }
         let params = m.function.params.clone();
 
         let mut folder = MethodFolder { vars: vec![] };
         m.function.params.clear();
-        let function = m.function.fold_children_with(&mut folder);
+
+        m.function.visit_mut_children_with(&mut folder);
+
         let expr = make_fn_ref(
             FnExpr {
                 ident: None,
-                function,
+                function: m.function.take(),
             },
             self.in_object_prop || self.in_prototype_assignment,
         );
@@ -147,42 +145,37 @@ impl Fold for Actual {
             })))
         };
 
-        ClassMethod {
-            function: Function {
-                span: m.span,
-                is_async: false,
-                is_generator: false,
-                params,
-                body: Some(BlockStmt {
-                    span: DUMMY_SP,
-                    stmts: hoisted_super
-                        .into_iter()
-                        .chain(iter::once(Stmt::Return(ReturnStmt {
+        m.function = Function {
+            span: m.span,
+            is_async: false,
+            is_generator: false,
+            params,
+            body: Some(BlockStmt {
+                span: DUMMY_SP,
+                stmts: hoisted_super
+                    .into_iter()
+                    .chain(iter::once(Stmt::Return(ReturnStmt {
+                        span: DUMMY_SP,
+                        arg: Some(Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
-                            arg: Some(Box::new(Expr::Call(CallExpr {
-                                span: DUMMY_SP,
-                                callee: expr.as_callee(),
-                                args: vec![],
-                                type_args: Default::default(),
-                            }))),
-                        })))
-                        .collect(),
-                }),
-                decorators: Default::default(),
-                type_params: Default::default(),
-                return_type: Default::default(),
-            },
-            ..m
-        }
+                            callee: expr.as_callee(),
+                            args: vec![],
+                            type_args: Default::default(),
+                        }))),
+                    })))
+                    .collect(),
+            }),
+            decorators: Default::default(),
+            type_params: Default::default(),
+            return_type: Default::default(),
+        };
     }
 
-    fn fold_expr(&mut self, expr: Expr) -> Expr {
+    fn visit_mut_expr(&mut self, expr: &mut Expr) {
         match expr {
-            Expr::Paren(ParenExpr { span, expr }) => {
-                return Expr::Paren(ParenExpr {
-                    span,
-                    expr: expr.fold_with(self),
-                });
+            Expr::Paren(ParenExpr { expr, .. }) => {
+                expr.visit_mut_with(self);
+                return;
             }
 
             // Optimization for iife.
@@ -192,7 +185,13 @@ impl Fold for Actual {
                 args,
                 type_args,
             }) if callee.is_fn_expr() => {
-                return self.handle_iife(span, (*callee).fn_expr().unwrap(), args, type_args);
+                *expr = self.handle_iife(
+                    *span,
+                    &mut (*callee).take().expect_fn_expr(),
+                    args,
+                    type_args.take(),
+                );
+                return;
             }
 
             Expr::Call(CallExpr {
@@ -200,7 +199,7 @@ impl Fold for Actual {
                 callee: ExprOrSuper::Expr(callee),
                 args,
                 type_args,
-            }) if match &*callee {
+            }) if match &**callee {
                 Expr::Paren(ParenExpr { expr, .. }) => match &**expr {
                     Expr::Fn(..) => true,
                     _ => false,
@@ -208,12 +207,13 @@ impl Fold for Actual {
                 _ => false,
             } =>
             {
-                return self.handle_iife(
-                    span,
-                    (*callee).paren().unwrap().expr.fn_expr().unwrap(),
+                *expr = self.handle_iife(
+                    *span,
+                    &mut (*callee).take().expect_paren().expr.expect_fn_expr(),
                     args,
-                    type_args,
+                    type_args.take(),
                 );
+                return;
             }
 
             Expr::Assign(assign_expr) => {
@@ -246,14 +246,15 @@ impl Fold for Actual {
                     _ => {}
                 }
 
-                let assign_expr = assign_expr.fold_children_with(self);
+                assign_expr.visit_mut_children_with(self);
                 self.in_prototype_assignment = false;
-                return Expr::Assign(assign_expr);
+                //*expr = Expr::Assign(assign_expr.take());
+                return;
             }
             _ => {}
         }
 
-        let expr = expr.fold_children_with(self);
+        expr.visit_mut_children_with(self);
 
         match expr {
             Expr::Arrow(ArrowExpr {
@@ -266,24 +267,24 @@ impl Fold for Actual {
                 return_type,
             }) => {
                 // Apply arrow
-                let used_this = contains_this_expr(&body);
+                let used_this = contains_this_expr(body);
 
                 let fn_expr = FnExpr {
                     ident: None,
                     function: Function {
                         decorators: vec![],
-                        span,
+                        span: *span,
                         params: params
                             .into_iter()
                             .map(|pat| Param {
                                 span: DUMMY_SP,
                                 decorators: Default::default(),
-                                pat,
+                                pat: pat.take(),
                             })
                             .collect(),
                         is_async: true,
-                        is_generator,
-                        body: Some(match body {
+                        is_generator: *is_generator,
+                        body: Some(match body.take() {
                             BlockStmtOrExpr::BlockStmt(block) => block,
                             BlockStmtOrExpr::Expr(expr) => BlockStmt {
                                 span: DUMMY_SP,
@@ -293,17 +294,18 @@ impl Fold for Actual {
                                 })],
                             },
                         }),
-                        type_params,
-                        return_type,
+                        type_params: type_params.take(),
+                        return_type: return_type.take(),
                     },
                 };
 
                 if !used_this {
-                    return make_fn_ref(fn_expr, false);
+                    *expr = make_fn_ref(fn_expr, false);
+                    return;
                 }
 
-                return Expr::Call(CallExpr {
-                    span,
+                *expr = Expr::Call(CallExpr {
+                    span: span.take(),
                     callee: make_fn_ref(fn_expr, false)
                         .make_member(quote_ident!("bind"))
                         .as_callee(),
@@ -313,7 +315,7 @@ impl Fold for Actual {
             }
 
             Expr::Fn(
-                expr @ FnExpr {
+                fn_expr @ FnExpr {
                     function:
                         Function {
                             is_async: true,
@@ -323,7 +325,9 @@ impl Fold for Actual {
                     ..
                 },
             ) => {
-                let function = self.fold_fn(expr.ident.clone(), expr.function, false);
+                self.visit_fn(fn_expr.ident.clone(), &mut fn_expr.function, false);
+
+                let function = fn_expr.function.take();
                 let body = Some(BlockStmt {
                     span: DUMMY_SP,
                     stmts: self
@@ -333,7 +337,7 @@ impl Fold for Actual {
                         .collect(),
                 });
 
-                Expr::Call(CallExpr {
+                *expr = Expr::Call(CallExpr {
                     span: DUMMY_SP,
                     callee: Expr::Fn(FnExpr {
                         ident: None,
@@ -342,76 +346,66 @@ impl Fold for Actual {
                     .as_callee(),
                     args: vec![],
                     type_args: Default::default(),
-                })
+                });
             }
 
-            _ => expr,
+            _ => {}
         }
     }
 
-    fn fold_fn_decl(&mut self, f: FnDecl) -> FnDecl {
-        let f = f.fold_children_with(self);
+    fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
+        f.visit_mut_children_with(self);
         if !f.function.is_async {
-            return f;
+            return;
         }
 
-        let function = self.fold_fn(Some(f.ident.clone()), f.function, true);
-        FnDecl {
-            ident: f.ident,
-            function,
-            declare: false,
-        }
+        self.visit_fn(Some(f.ident.clone()), &mut f.function, true);
     }
 
-    fn fold_module_item(&mut self, item: ModuleItem) -> ModuleItem {
+    fn visit_mut_module_item(&mut self, item: &mut ModuleItem) {
         match item {
             // if fn is ExportDefaultDecl, fn is not FnDecl but FnExpr
             ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export_default)) => {
-                if let DefaultDecl::Fn(expr) = export_default.decl {
-                    let expr = if !expr.function.is_async {
-                        expr
-                    } else {
-                        let function = self.fold_fn(expr.ident.clone(), expr.function, true);
-                        FnExpr {
-                            ident: expr.ident,
-                            function,
-                        }
+                if let DefaultDecl::Fn(expr) = &mut export_default.decl {
+                    if expr.function.is_async {
+                        self.visit_fn(expr.ident.clone(), &mut expr.function, true);
+                        *item = ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(
+                            ExportDefaultDecl {
+                                decl: DefaultDecl::Fn(expr.take()),
+                                ..*export_default
+                            },
+                        ));
                     };
-
-                    ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
-                        decl: expr.into(),
-                        ..export_default
-                    }))
                 } else {
-                    let item =
-                        ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export_default));
-                    item.fold_children_with(self)
+                    export_default.visit_mut_children_with(self);
                 }
             }
-            _ => item.fold_children_with(self),
-        }
+            _ => item.visit_mut_children_with(self),
+        };
     }
 
-    fn fold_method_prop(&mut self, prop: MethodProp) -> MethodProp {
-        let prop = prop.fold_children_with(self);
+    fn visit_mut_method_prop(&mut self, prop: &mut MethodProp) {
+        prop.visit_mut_children_with(self);
 
         if !prop.function.is_async {
-            return prop;
+            return;
         }
-        let params = prop.function.params;
 
         let is_this_used = contains_this_expr(&prop.function.body);
+
+        let original_fn_params = prop.function.params.take();
 
         let fn_ref = make_fn_ref(
             FnExpr {
                 ident: None,
                 function: Function {
                     params: vec![],
-                    ..prop.function
+                    ..prop.function.take()
                 },
             },
             true,
         );
+
         let fn_ref = if is_this_used {
             fn_ref.apply(
                 DUMMY_SP,
@@ -427,41 +421,34 @@ impl Fold for Actual {
             })
         };
 
-        MethodProp {
-            function: Function {
-                params,
+        prop.function = Function {
+            params: original_fn_params,
+            span: DUMMY_SP,
+            is_async: false,
+            is_generator: false,
+            body: Some(BlockStmt {
                 span: DUMMY_SP,
-                is_async: false,
-                is_generator: false,
-                body: Some(BlockStmt {
+                stmts: vec![Stmt::Return(ReturnStmt {
                     span: DUMMY_SP,
-                    stmts: vec![Stmt::Return(ReturnStmt {
-                        span: DUMMY_SP,
-                        arg: Some(Box::new(fn_ref)),
-                    })],
-                }),
-                decorators: Default::default(),
-                return_type: Default::default(),
-                type_params: Default::default(),
-            },
-            ..prop
+                    arg: Some(Box::new(fn_ref)),
+                })],
+            }),
+            decorators: Default::default(),
+            return_type: Default::default(),
+            type_params: Default::default(),
         }
     }
 
-    fn fold_prop(&mut self, n: Prop) -> Prop {
+    fn visit_mut_prop(&mut self, n: &mut Prop) {
         let old = self.in_object_prop;
         self.in_object_prop = true;
 
-        let n = n.fold_children_with(self);
+        n.visit_mut_children_with(self);
 
         self.in_object_prop = old;
-
-        n
     }
 
-    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
-        n
-    }
+    fn visit_mut_stmts(&mut self, _n: &mut Vec<Stmt>) {}
 }
 
 /// Hoists super access
@@ -565,11 +552,10 @@ impl MethodFolder {
     }
 }
 
-/// TODO: VisitMut
-impl Fold for MethodFolder {
-    noop_fold_type!();
+impl VisitMut for MethodFolder {
+    noop_visit_mut_type!();
 
-    fn fold_expr(&mut self, expr: Expr) -> Expr {
+    fn visit_mut_expr(&mut self, expr: &mut Expr) {
         // TODO(kdy): Cache (Reuse declaration for same property)
 
         match expr {
@@ -579,7 +565,7 @@ impl Fold for MethodFolder {
                 left: PatOrExpr::Expr(left),
                 op,
                 right,
-            }) if match &*left {
+            }) if match **left {
                 Expr::Member(MemberExpr {
                     obj: ExprOrSuper::Super(..),
                     ..
@@ -587,7 +573,12 @@ impl Fold for MethodFolder {
                 _ => false,
             } =>
             {
-                return self.handle_assign_to_super_prop(span, left.member().unwrap(), op, right);
+                *expr = self.handle_assign_to_super_prop(
+                    *span,
+                    left.take().expect_member(),
+                    *op,
+                    right.take(),
+                );
             }
 
             // super.setter = 1
@@ -596,7 +587,7 @@ impl Fold for MethodFolder {
                 left: PatOrExpr::Pat(left),
                 op,
                 right,
-            }) if match &*left {
+            }) if match &**left {
                 Pat::Expr(left) => match &**left {
                     Expr::Member(MemberExpr {
                         obj: ExprOrSuper::Super(..),
@@ -607,12 +598,13 @@ impl Fold for MethodFolder {
                 _ => false,
             } =>
             {
-                return self.handle_assign_to_super_prop(
-                    span,
-                    left.expr().unwrap().member().unwrap(),
-                    op,
-                    right,
+                *expr = self.handle_assign_to_super_prop(
+                    *span,
+                    left.take().expect_expr().expect_member(),
+                    *op,
+                    right.take(),
                 );
+                return;
             }
 
             // super.method()
@@ -621,7 +613,7 @@ impl Fold for MethodFolder {
                 callee: ExprOrSuper::Expr(callee),
                 args,
                 type_args,
-            }) if match *callee {
+            }) if match **callee {
                 Expr::Member(MemberExpr {
                     obj: ExprOrSuper::Super(..),
                     ..
@@ -634,7 +626,7 @@ impl Fold for MethodFolder {
                     prop,
                     computed,
                     ..
-                } = callee.member().unwrap();
+                } = callee.take().member().unwrap();
                 let super_token = match obj {
                     ExprOrSuper::Super(super_token) => super_token,
                     _ => unreachable!(),
@@ -677,12 +669,12 @@ impl Fold for MethodFolder {
                     definite: false,
                 });
 
-                Expr::Call(CallExpr {
-                    span,
+                *expr = Expr::Call(CallExpr {
+                    span: *span,
                     callee: ident.as_callee(),
-                    args,
-                    type_args,
-                })
+                    args: args.take(),
+                    type_args: type_args.take(),
+                });
             }
             // super.getter
             Expr::Member(MemberExpr {
@@ -703,9 +695,9 @@ impl Fold for MethodFolder {
                         body: BlockStmtOrExpr::Expr(Box::new(
                             MemberExpr {
                                 span: DUMMY_SP,
-                                obj: ExprOrSuper::Super(super_token),
-                                computed,
-                                prop,
+                                obj: ExprOrSuper::Super(*super_token),
+                                computed: *computed,
+                                prop: prop.take(),
                             }
                             .into(),
                         )),
@@ -715,14 +707,14 @@ impl Fold for MethodFolder {
                     definite: false,
                 });
 
-                Expr::Call(CallExpr {
-                    span,
+                *expr = Expr::Call(CallExpr {
+                    span: *span,
                     callee: ident.as_callee(),
                     args: vec![],
                     type_args: Default::default(),
                 })
             }
-            _ => expr.fold_children_with(self),
+            _ => expr.visit_mut_children_with(self),
         }
     }
 }
@@ -731,17 +723,19 @@ impl Actual {
     fn handle_iife(
         &mut self,
         span: Span,
-        callee: FnExpr,
-        args: Vec<ExprOrSpread>,
+        callee: &mut FnExpr,
+        args: &mut Vec<ExprOrSpread>,
         type_args: Option<TsTypeParamInstantiation>,
     ) -> Expr {
         if !callee.function.is_async || callee.ident.is_some() {
-            let callee = Expr::Fn(callee).fold_with(self);
-            let args = args.fold_with(self);
+            let mut callee = Expr::Fn(callee.take());
+            callee.visit_mut_with(self);
+
+            args.visit_mut_with(self);
             return Expr::Call(CallExpr {
                 span,
-                callee: ExprOrSuper::Expr(Box::new(callee)),
-                args,
+                callee: ExprOrSuper::Expr(Box::new(callee.into())),
+                args: args.take(),
                 type_args,
             });
         }
@@ -750,31 +744,35 @@ impl Actual {
         if callee.ident.is_some()
             && contains_ident_ref(&callee.function.body, callee.ident.as_ref().unwrap())
         {
-            let callee = Expr::Fn(callee).fold_with(self);
-            let args = args.fold_with(self);
+            let mut callee = Expr::Fn(callee.take());
+            callee.visit_mut_with(self);
+
+            args.visit_mut_with(self);
             return Expr::Call(CallExpr {
                 span,
-                callee: ExprOrSuper::Expr(Box::new(callee)),
-                args,
+                callee: ExprOrSuper::Expr(Box::new(callee.into())),
+                args: args.take(),
                 type_args,
             });
         }
 
-        let callee = make_fn_ref(callee, self.in_object_prop || self.in_prototype_assignment);
+        let callee = make_fn_ref(
+            callee.take(),
+            self.in_object_prop || self.in_prototype_assignment,
+        );
 
         Expr::Call(CallExpr {
             span,
-            callee: ExprOrSuper::Expr(Box::new(callee)),
-            args,
+            callee: ExprOrSuper::Expr(Box::new(callee.into())),
+            args: args.take(),
             type_args,
         })
     }
 
-    fn fold_fn(&mut self, raw_ident: Option<Ident>, f: Function, is_decl: bool) -> Function {
+    fn visit_fn(&mut self, raw_ident: Option<Ident>, f: &mut Function, is_decl: bool) {
         if f.body.is_none() {
-            return f;
+            return;
         }
-        let span = f.span();
         let params = {
             let mut done = false;
             f.params
@@ -804,7 +802,7 @@ impl Actual {
         let right = make_fn_ref(
             FnExpr {
                 ident: None,
-                function: f,
+                function: f.take(),
             },
             self.in_object_prop || self.in_prototype_assignment,
         );
@@ -868,8 +866,9 @@ impl Actual {
                 vec![quote_ident!("arguments").as_arg()],
             ))),
         });
-        Function {
-            span,
+
+        *f = Function {
+            span: (*f).span,
             body: Some(BlockStmt {
                 span: DUMMY_SP,
                 stmts: if is_decl {
@@ -921,7 +920,7 @@ impl Actual {
             decorators: Default::default(),
             return_type: Default::default(),
             type_params: Default::default(),
-        }
+        };
     }
 }
 

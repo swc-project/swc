@@ -28,6 +28,9 @@ function _asyncToGenerator(fn) {
         });
     };
 }
+function foo() {
+    return _foo.apply(this, arguments);
+}
 function _foo() {
     _foo = // @target: es2017
     // @noEmitHelpers: true
@@ -40,8 +43,5 @@ function _foo() {
             }
         }, _callee);
     }));
-    return _foo.apply(this, arguments);
-}
-function foo() {
     return _foo.apply(this, arguments);
 }

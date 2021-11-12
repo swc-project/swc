@@ -54,6 +54,9 @@ foo(x);
 var y = bar(1, 2);
 // Repro from #32752
 var containsPromises = Symbol();
+function fun(deepPromised) {
+    return _fun.apply(this, arguments);
+}
 function _fun() {
     _fun = _asyncToGenerator(regeneratorRuntime.mark(function _callee(deepPromised) {
         var deepPromisedWithIndexer, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, value, awaitedValue;
@@ -128,9 +131,6 @@ function _fun() {
             ]
         ]);
     }));
-    return _fun.apply(this, arguments);
-}
-function fun(deepPromised) {
     return _fun.apply(this, arguments);
 }
 baz(xx);

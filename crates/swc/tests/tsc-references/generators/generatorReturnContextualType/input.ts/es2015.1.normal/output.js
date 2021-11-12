@@ -95,6 +95,9 @@ function* f1() {
         x: 'x'
     };
 }
+function f2() {
+    return _f2.apply(this, arguments);
+}
 function _f2() {
     _f2 = _wrapAsyncGenerator(function*() {
         return {
@@ -103,8 +106,8 @@ function _f2() {
     });
     return _f2.apply(this, arguments);
 }
-function f2() {
-    return _f2.apply(this, arguments);
+function f3() {
+    return _f3.apply(this, arguments);
 }
 function _f3() {
     _f3 = _wrapAsyncGenerator(function*() {
@@ -114,8 +117,8 @@ function _f3() {
     });
     return _f3.apply(this, arguments);
 }
-function f3() {
-    return _f3.apply(this, arguments);
+function f4() {
+    return _f4.apply(this, arguments);
 }
 function _f4() {
     _f4 = _wrapAsyncGenerator(function*() {
@@ -124,8 +127,5 @@ function _f4() {
         };
         return Promise.resolve(ret); // Error
     });
-    return _f4.apply(this, arguments);
-}
-function f4() {
     return _f4.apply(this, arguments);
 }

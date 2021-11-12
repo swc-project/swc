@@ -27,13 +27,13 @@ function _asyncToGenerator(fn) {
         });
     };
 }
+function func() {
+    return _func.apply(this, arguments);
+}
 function _func() {
     _func = _asyncToGenerator(function*() {
         "use strict";
         var b = (yield p) || a;
     });
-    return _func.apply(this, arguments);
-}
-function func() {
     return _func.apply(this, arguments);
 }

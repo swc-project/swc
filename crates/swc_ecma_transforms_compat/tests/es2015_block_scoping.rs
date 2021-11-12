@@ -512,6 +512,9 @@ test!(
         ",
     r#"
         var regeneratorRuntime = require("regenerator-runtime");
+        function foo() {
+            return _foo.apply(this, arguments);
+        }
         function _foo() {
             _foo = _asyncToGenerator(regeneratorRuntime.mark(function _callee1() {
                 return regeneratorRuntime.wrap(function _callee$(_ctx1) {
@@ -549,9 +552,6 @@ test!(
                     }
                 }, _callee1);
             }));
-            return _foo.apply(this, arguments);
-        }
-        function foo() {
             return _foo.apply(this, arguments);
         }
 

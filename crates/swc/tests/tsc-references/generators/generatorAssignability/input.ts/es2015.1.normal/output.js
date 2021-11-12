@@ -152,6 +152,9 @@ let [...y2] = g2; // ok
 // for-of over iterable
 for (_ of g1); // error
 for (_ of g2); // ok
+function asyncfn() {
+    return _asyncfn.apply(this, arguments);
+}
 function _asyncfn() {
     _asyncfn = _asyncToGenerator(function*() {
         // for-await-of over iterable
@@ -251,13 +254,13 @@ function _asyncfn() {
     });
     return _asyncfn.apply(this, arguments);
 }
-function asyncfn() {
-    return _asyncfn.apply(this, arguments);
-}
 function* f1() {
     // yield* over iterable
     yield* g1; // error
     yield* g3; // ok
+}
+function f2() {
+    return _f2.apply(this, arguments);
 }
 function _f2() {
     _f2 = _wrapAsyncGenerator(function*() {
@@ -270,8 +273,8 @@ function _f2() {
     });
     return _f2.apply(this, arguments);
 }
-function f2() {
-    return _f2.apply(this, arguments);
+function f3() {
+    return _f3.apply(this, arguments);
 }
 function _f3() {
     _f3 = _asyncToGenerator(function*() {
@@ -305,8 +308,5 @@ function _f3() {
             }
         }
     });
-    return _f3.apply(this, arguments);
-}
-function f3() {
     return _f3.apply(this, arguments);
 }
