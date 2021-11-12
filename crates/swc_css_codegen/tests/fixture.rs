@@ -52,7 +52,7 @@ fn fixture(input: PathBuf) {
     .unwrap();
 }
 
-#[testing::fixture("../parser/tests/fixture/**/input.css")]
+#[testing::fixture("../swc_css_parser/tests/fixture/**/input.css")]
 fn parse_again(input: PathBuf) {
     eprintln!("{}", input.display());
 
