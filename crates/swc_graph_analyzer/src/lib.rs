@@ -4,7 +4,7 @@ pub trait DepGraph {
     type ModuleId: Copy + Eq + Hash + Ord;
 }
 
-pub struct ModuleGraph<G>
+pub struct GraphAnalyzer<G>
 where
     G: DepGraph,
 {
@@ -12,7 +12,7 @@ where
     result: GraphResult<G>,
 }
 
-impl<G> ModuleGraph<G>
+impl<G> GraphAnalyzer<G>
 where
     G: DepGraph,
 {
@@ -20,6 +20,7 @@ where
         Self {
             dep_graph,
             result: GraphResult {
+                all: Default::default(),
                 cycles: Default::default(),
                 _marker: Default::default(),
             },
@@ -37,6 +38,7 @@ pub struct GraphResult<G>
 where
     G: DepGraph,
 {
+    pub all: Vec<G::ModuleId>,
     pub cycles: Vec<Vec<G::ModuleId>>,
 
     _marker: PhantomData<G>,
