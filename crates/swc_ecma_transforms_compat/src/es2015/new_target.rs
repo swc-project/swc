@@ -85,6 +85,8 @@ impl VisitMut for NewTarget {
         let old = self.in_constructor;
 
         self.in_constructor = true;
+        self.in_arrow_expr = false;
+        self.var = None;
 
         c.visit_mut_children_with(self);
 
