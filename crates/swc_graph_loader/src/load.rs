@@ -6,9 +6,17 @@ use crate::module_id::ModuleId;
 /// General file loader.
 #[auto_impl::auto_impl(&, Box)]
 pub trait Load: swc_common::sync::Send + swc_common::sync::Sync {
-    type Output: LoaderOutput;
+    type Output;
+    type Metadata;
 
-    fn load(&self, file: &FileName) -> Result<Self::Output, Error>;
+    fn metadata_for(&self, id: ModuleId) -> Result<Self::Metadata, Error>;
+
+    fn load(
+        &self,
+        module_id: ModuleId,
+        metadata: Self::Metadata,
+        file: &FileName,
+    ) -> Result<Self::Output, Error>;
 }
 
 impl<L> Load for swc_common::sync::Lrc<L>
@@ -16,12 +24,18 @@ where
     L: Load,
 {
     type Output = L::Output;
+    type Metadata = L::Metadata;
 
-    fn load(&self, file: &FileName) -> Result<Self::Output, Error> {
-        (**self).load(file)
+    fn metadata_for(&self, id: ModuleId) -> Result<Self::Metadata, Error> {
+        (**self).metadata_for(id)
     }
-}
 
-pub trait LoaderOutput: Sized {
-    fn module_id(&self) -> ModuleId;
+    fn load(
+        &self,
+        module_id: ModuleId,
+        metadata: Self::Metadata,
+        file: &FileName,
+    ) -> Result<Self::Output, Error> {
+        (**self).load(module_id, metadata, file)
+    }
 }
