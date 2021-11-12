@@ -2510,6 +2510,7 @@ dependencies = [
  "swc_ecma_transforms_typescript",
  "swc_ecma_utils",
  "swc_ecma_visit",
+ "swc_graph_loader",
  "swc_node_base",
  "tempfile",
  "testing",
@@ -3119,6 +3120,10 @@ dependencies = [
  "quote",
  "syn",
 ]
+
+[[package]]
+name = "swc_graph_loader"
+version = "0.1.0"
 
 [[package]]
 name = "swc_macros_common"
