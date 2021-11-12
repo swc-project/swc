@@ -5,7 +5,6 @@ use swc_atoms::JsWord;
 use swc_common::FileName;
 use swc_ecma_loader::resolve::Resolve;
 
-pub mod cache;
 pub mod deps;
 pub mod load;
 pub mod module_id;
