@@ -3122,11 +3122,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_fast_graph"
+version = "0.1.0"
+dependencies = [
+ "petgraph",
+]
+
+[[package]]
 name = "swc_graph_analyzer"
 version = "0.1.0"
 dependencies = [
  "ahash",
  "petgraph",
+ "swc_fast_graph",
  "tracing",
 ]
 
