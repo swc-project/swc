@@ -3124,6 +3124,11 @@ dependencies = [
 [[package]]
 name = "swc_graph_analyzer"
 version = "0.1.0"
+dependencies = [
+ "ahash",
+ "petgraph",
+ "tracing",
+]
 
 [[package]]
 name = "swc_macros_common"
