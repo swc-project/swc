@@ -52,10 +52,6 @@ jobs:
         run: |
           (cd crates/swc_ecma_loader && cargo hack check --feature-powerset --no-dev-deps)
 
-      - name: Check swc_dep_graph
-        run: |
-          (cd crates/swc_dep_graph && cargo hack check --feature-powerset --no-dev-deps)
-
       - name: Check swc_ecma_transforms
         run: |
           (cd crates/swc_ecma_transforms && cargo hack check --feature-powerset --no-dev-deps)
