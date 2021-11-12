@@ -35,12 +35,24 @@ where
         }
     }
 
-    pub fn load(&self, entry: &FileName) -> Result<(ModuleId, L::Output), Error> {
+    pub fn load(&mut self, entry: &FileName) -> Result<(ModuleId, L::Output), Error> {
         let (module_id, module) = self
             .load_file_and_deps(entry)
             .with_context(|| format!("failed to load entry `{}`", entry))?;
 
-        Ok((module_id, module.unwrap()))
+        let module = match module {
+            Some(v) => v,
+            None => {
+                let (module_id, metadata) = self.loader.metadata_for(entry)?;
+                self.loader
+                    .load(module_id, metadata, entry)
+                    .with_context(|| {
+                        format!("failed to load {}; (module id = {:?})", entry, module_id)
+                    })?
+            }
+        };
+
+        Ok((module_id, module))
     }
 
     /// Returbs `Ok(_, None)` if the module is already loaded.
