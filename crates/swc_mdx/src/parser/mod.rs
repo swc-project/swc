@@ -109,7 +109,7 @@ where
         }
 
         if self.read_exact_at_line_start(">", true)? {
-            return self.parse_quote_block()?;
+            return self.parse_block_quote().map(BlockNode::BlockQuote);
         }
 
         todo!()
@@ -124,6 +124,10 @@ where
     }
 
     pub fn parse_text_nodes(&mut self) -> PResult<Vec<TextNode>> {
+        todo!()
+    }
+
+    pub fn parse_block_quote(&mut self) -> PResult<BlockQuote> {
         todo!()
     }
 

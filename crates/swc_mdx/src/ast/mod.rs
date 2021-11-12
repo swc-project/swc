@@ -23,10 +23,7 @@ pub enum BlockNode {
         span: Span,
         content: Vec<TextNode>,
     },
-    Blockquote {
-        span: Span,
-        content: Vec<BlockNode>,
-    },
+    BlockQuote(BlockQuote),
     CodeBlock {
         span: Span,
         lang: Option<String>,
@@ -79,4 +76,10 @@ pub enum InlineNode {
 pub struct Text {
     pub span: Span,
     pub value: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Spanned)]
+pub struct BlockQuote {
+    pub span: Span,
+    pub content: Vec<BlockNode>,
 }
