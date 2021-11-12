@@ -1,5 +1,6 @@
 use ahash::AHashSet;
 use std::{fmt::Debug, hash::Hash, marker::PhantomData};
+use swc_fast_graph::digraph::FastDiGraphMap;
 
 pub trait DepGraph {
     type ModuleId: Debug + Copy + Eq + Hash + Ord;
@@ -26,6 +27,7 @@ where
             dep_graph,
             data: GraphResult {
                 all: Default::default(),
+                graph: Default::default(),
                 cycles: Default::default(),
                 _marker: Default::default(),
             },
@@ -88,6 +90,7 @@ where
     G: DepGraph,
 {
     pub all: Vec<G::ModuleId>,
+    pub graph: FastDiGraphMap<G::ModuleId, ()>,
     pub cycles: Vec<Vec<G::ModuleId>>,
 
     _marker: PhantomData<G>,

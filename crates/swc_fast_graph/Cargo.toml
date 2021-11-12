@@ -12,5 +12,6 @@ version = "0.1.0"
 
 [dependencies]
 ahash = "0.7.6"
+indexmap = "1.7.0"
 petgraph = "0.5"
 swc_common = {version = "0.14.6", path = "../swc_common"}

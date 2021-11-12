@@ -3126,6 +3126,7 @@ name = "swc_fast_graph"
 version = "0.1.0"
 dependencies = [
  "ahash",
+ "indexmap",
  "petgraph",
  "swc_common",
 ]
