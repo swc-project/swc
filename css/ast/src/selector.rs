@@ -1,4 +1,4 @@
-use crate::{Str, Ident, Tokens};
+use crate::{Ident, Str, Tokens};
 use is_macro::Is;
 use string_enum::StringEnum;
 use swc_common::{ast_node, EqIgnoreSpan, Span};

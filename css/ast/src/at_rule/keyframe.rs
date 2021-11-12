@@ -1,4 +1,4 @@
-use crate::{AtRule, Block, PercentValue, Ident};
+use crate::{AtRule, Block, Ident, PercentValue};
 use swc_common::{ast_node, Span};
 
 #[ast_node("KeyframesRule")]

@@ -1,5 +1,5 @@
 pub use self::{charset::*, document::*, import::*, keyframe::*, media::*, page::*, support::*};
-use crate::{Block, Str, Ident, Tokens, UrlValue};
+use crate::{Block, Ident, Str, Tokens, UrlValue};
 use is_macro::Is;
 use swc_common::{ast_node, Span};
 

@@ -1,4 +1,4 @@
-use crate::{Declaration, Rule, Ident};
+use crate::{Declaration, Ident, Rule};
 use swc_common::{ast_node, Span};
 
 #[ast_node("MediaRule")]

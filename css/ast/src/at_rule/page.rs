@@ -1,4 +1,4 @@
-use crate::{Declaration, SelectorList, Ident};
+use crate::{Declaration, Ident, SelectorList};
 use swc_common::{ast_node, Span};
 
 #[ast_node("PageRule")]

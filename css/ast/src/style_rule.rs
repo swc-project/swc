@@ -1,4 +1,4 @@
-use crate::{SelectorList, Ident, Tokens, Value};
+use crate::{Ident, SelectorList, Tokens, Value};
 use swc_common::{ast_node, Span};
 
 #[ast_node("StyleRule")]
