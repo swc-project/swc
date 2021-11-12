@@ -9,7 +9,7 @@ pub trait Load: swc_common::sync::Send + swc_common::sync::Sync {
     type Output;
     type Metadata;
 
-    fn metadata_for(&self, id: ModuleId) -> Result<Self::Metadata, Error>;
+    fn metadata_for(&self, f: &FileName) -> Result<(ModuleId, Self::Metadata), Error>;
 
     fn load(
         &self,
@@ -26,8 +26,8 @@ where
     type Output = L::Output;
     type Metadata = L::Metadata;
 
-    fn metadata_for(&self, id: ModuleId) -> Result<Self::Metadata, Error> {
-        (**self).metadata_for(id)
+    fn metadata_for(&self, f: &FileName) -> Result<(ModuleId, Self::Metadata), Error> {
+        (**self).metadata_for(f)
     }
 
     fn load(

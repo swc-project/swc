@@ -34,5 +34,9 @@ where
         }
     }
 
-    pub fn load(&self, entry: &FileName) -> Result<(ModuleId, L::Output), Error> {}
+    pub fn load(&self, entry: &FileName) -> Result<(ModuleId, L::Output), Error> {
+        self.load_file_and_deps(entry)
+    }
+
+    fn load_file_and_deps(&self, f: &FileName) -> Result<(ModuleId, L::Output), Error> {}
 }
