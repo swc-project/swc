@@ -2,7 +2,7 @@
 
 use std::collections::HashMap;
 use swc_common::{sync::Lrc, SourceMap};
-use swc_ecma_ast::ObjectLit;
+use swc_ecma_ast::{FnExpr, ObjectLit};
 
 #[derive(Debug, Default)]
 struct TestOpts {
@@ -13,7 +13,7 @@ struct TestOpts {
     pub pragma_frag: String,
     pub pragma_import_source: String,
 
-    pub components: Option<ObjectLit>,
+    pub components: HashMap<String, FnExpr>,
 
     pub render: Option<fn(String) -> String>,
 }
@@ -100,7 +100,7 @@ fn components() {
                     "
                 .into(),
             );
-            Some(obj(&cm, m))
+            obj(&cm, m)
         },
         ..Default::default()
     });
@@ -120,7 +120,7 @@ fn components_member() {
                     "
                 .into(),
             );
-            Some(obj(&cm, m))
+            obj(&cm, m)
         },
         ..Default::default()
     });
@@ -152,7 +152,7 @@ fn components_member_complex() {
                     "
                     .into(),
                 );
-                Some(obj(&cm, m))
+                obj(&cm, m)
             },
             ..Default::default()
         },
@@ -174,7 +174,7 @@ fn components_overwrite() {
                 .into(),
             );
 
-            Some(obj(&cm, m))
+            obj(&cm, m)
         },
         ..Default::default()
     });
@@ -198,7 +198,7 @@ fn components_no_overwrite_in_exports() {
                     .into(),
                 );
 
-                Some(obj(&cm, m))
+                obj(&cm, m)
             },
             ..Default::default()
         },
@@ -249,4 +249,6 @@ fn demy_multiple_layout_2() {
     );
 }
 
-fn obj(cm: &Lrc<SourceMap>, m: HashMap<String, String>) -> ObjectLit {}
+fn obj(cm: &Lrc<SourceMap>, m: HashMap<String, String>) -> HashMap<String, FnExpr> {
+    todo!()
+}
