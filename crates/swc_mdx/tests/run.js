@@ -38,64 +38,6 @@ test('compile', async () => {
     assert.equal(
         renderToStaticMarkup(
             React.createElement(
-                await run(
-                    compileSync('x', {
-                        remarkPlugins: [() => () => ({ type: 'root', children: [] })]
-                    })
-                )
-            )
-        ),
-        '',
-        'should compile an empty document (remark)'
-    )
-
-    assert.equal(
-        renderToStaticMarkup(
-            React.createElement(
-                await run(
-                    compileSync('y', {
-                        rehypePlugins: [() => () => ({ type: 'root', children: [] })]
-                    })
-                )
-            )
-        ),
-        '',
-        'should compile an empty document (rehype)'
-    )
-
-    assert.equal(
-        renderToStaticMarkup(
-            React.createElement(
-                await run(
-                    compileSync('y', {
-                        rehypePlugins: [() => () => ({ type: 'doctype', name: 'html' })]
-                    })
-                )
-            )
-        ),
-        '',
-        'should compile a document (rehype, non-representable)'
-    )
-
-    assert.equal(
-        renderToStaticMarkup(
-            React.createElement(
-                await run(
-                    compileSync('y', {
-                        rehypePlugins: [
-                            () => () => ({ type: 'element', tagName: 'x', children: [] })
-                        ]
-                    })
-                )
-            )
-        ),
-        '<x></x>',
-        'should compile a non-element document (rehype, single element)'
-    )
-
-    assert.equal(
-        renderToStaticMarkup(
-            React.createElement(
                 await run(compileSync('!', { jsxRuntime: 'automatic' }))
             )
         ),
