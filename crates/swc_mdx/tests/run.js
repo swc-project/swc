@@ -35,50 +35,6 @@ import 'source-map-support/register.js'
 const renderToStaticMarkup = renderToStaticMarkup_
 
 test('compile', async () => {
-    assert.throws(
-        () => {
-            compileSync('import React from "react"\n\n.', {
-                jsxRuntime: 'classic',
-                pragmaImportSource: '@emotion/react',
-                pragma: ''
-            })
-        },
-        /Missing `pragma` in classic runtime with `pragmaImportSource`/,
-        'should *not* support `jsxClassicImportSource` w/o `pragma`'
-    )
-
-    assert.equal(
-        renderToStaticMarkup(
-            React.createElement(await run(compileSync('<X />')), {
-                components: {
-                    /** @param {Object.<string, unknown>} props */
-                    X(props) {
-                        return React.createElement('span', props, '!')
-                    }
-                }
-            })
-        ),
-        '<span>!</span>',
-        'should support passing in `components` to `MDXContent`'
-    )
-
-    assert.equal(
-        renderToStaticMarkup(
-            React.createElement(await run(compileSync('<x.y />')), {
-                components: {
-                    x: {
-                        /** @param {Object.<string, unknown>} props */
-                        y(props) {
-                            return React.createElement('span', props, '?')
-                        }
-                    }
-                }
-            })
-        ),
-        '<span>?</span>',
-        'should support passing in `components` (for members) to `MDXContent`'
-    )
-
     assert.equal(
         renderToStaticMarkup(
             React.createElement(await run(compileSync('<X /> and <X.Y />')), {
