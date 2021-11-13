@@ -227,4 +227,26 @@ fn custom_components_in_expored_components() {
     );
 }
 
+#[test]
+fn demy_multiple_layout_1() {
+    test_error(
+        "export default function a() {}\n\nexport default function b() {}\n\n.",
+        "Cannot specify multiple layouts",
+        |_cm| TestOpts {
+            ..Default::default()
+        },
+    );
+}
+
+#[test]
+fn demy_multiple_layout_2() {
+    test_error(
+        "export default function a() {}\n\nexport {Layout as default} from './components.js'\n\n.",
+        "Cannot specify multiple layouts",
+        |_cm| TestOpts {
+            ..Default::default()
+        },
+    );
+}
+
 fn obj(cm: &Lrc<SourceMap>, m: HashMap<String, String>) -> ObjectLit {}

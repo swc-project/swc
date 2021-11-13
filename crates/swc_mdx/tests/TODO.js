@@ -35,51 +35,6 @@ import 'source-map-support/register.js'
 const renderToStaticMarkup = renderToStaticMarkup_
 
 test('compile', async () => {
-    assert.equal(
-        renderToStaticMarkup(
-            React.createElement(
-                await run(
-                    compileSync(
-                        'export default function Layout({components, ...props}) { return <section {...props} /> }\n\na'
-                    )
-                ),
-                {
-                    components: {
-                        /**
-                         * @param {Object.<string, unknown>} props
-                         */
-                        wrapper(props) {
-                            const { components, ...rest } = props
-                            return React.createElement('article', rest)
-                        }
-                    }
-                }
-            )
-        ),
-        '<section><p>a</p></section>',
-        'should *not* support overwriting the layout by passing one (as `wrapper`) to `MDXContent`'
-    )
-
-    assert.throws(
-        () => {
-            compileSync(
-                'export default function a() {}\n\nexport default function b() {}\n\n.'
-            )
-        },
-        /Cannot specify multiple layouts \(previous: 1:1-1:31\)/,
-        'should *not* support multiple layouts (1)'
-    )
-
-    assert.throws(
-        () => {
-            compileSync(
-                'export default function a() {}\n\nexport {Layout as default} from "./components.js"\n\n.'
-            )
-        },
-        /Cannot specify multiple layouts \(previous: 1:1-1:31\)/,
-        'should *not* support multiple layouts (2)'
-    )
-
     try {
         renderToStaticMarkup(
             React.createElement(await run(compileSync('export default a')))
