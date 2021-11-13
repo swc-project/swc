@@ -38,6 +38,19 @@ where
         }
     }
 
+    fn expect_byte(&mut self, b: u8) -> PResult<()> {
+        if self.i.eat_byte(b) {
+            return Ok(());
+        }
+        let pos = self.i.cur_pos();
+        Err(Error {
+            inner: Box::new((
+                Span::new(pos, pos, Default::default()),
+                ErrorKind::Expected(b as _),
+            )),
+        })
+    }
+
     fn read_exact_at_line_start(&mut self, expected: &'static str, skip_ws: bool) -> PResult<bool> {
         let start = self.i.cur_pos();
 
@@ -243,6 +256,17 @@ where
 
     pub fn parse_text_node(&mut self) -> PResult<TextNode> {
         let start = self.i.cur_pos();
+
+        if self.i.eat_byte(b'*') {
+            let kind = self.parse_text_nodes().map(TextNodeKind::Emphasis)?;
+
+            self.expect_byte(b'*')?;
+
+            return Ok(TextNode {
+                span: self.span(start),
+                kind,
+            });
+        }
 
         let c = match self.i.cur() {
             Some(c) => c,

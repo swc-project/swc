@@ -3,11 +3,12 @@ use swc_ecma_parser::error::SyntaxError;
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct Error {
-    inner: Box<(Span, ErrorKind)>,
+    pub(crate) inner: Box<(Span, ErrorKind)>,
 }
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum ErrorKind {
+    Expected(char),
     JsxParsingError(SyntaxError),
 }
 
