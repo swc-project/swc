@@ -1,9 +1,11 @@
+use self::ctx::Ctx;
 pub use self::errors::{Error, ErrorKind};
 use crate::ast::*;
 use swc_common::{input::Input, BytePos, Span, Spanned};
 use swc_ecma_ast::{EsVersion, ExprStmt, ModuleItem, Stmt};
 use swc_ecma_parser::{EsConfig, Syntax};
 
+mod ctx;
 mod errors;
 
 pub struct Parser<I>
@@ -11,6 +13,7 @@ where
     I: Input,
 {
     i: I,
+    ctx: Ctx,
 }
 
 /// Result of parsing
@@ -21,7 +24,10 @@ where
     I: Input,
 {
     pub fn new(input: I) -> Self {
-        Self { i: input }
+        Self {
+            i: input,
+            ctx: Default::default(),
+        }
     }
 
     fn span(&mut self, start: BytePos) -> Span {
