@@ -35,43 +35,6 @@ import 'source-map-support/register.js'
 const renderToStaticMarkup = renderToStaticMarkup_
 
 test('compile', async () => {
-    assert.equal(
-        renderToStaticMarkup(
-            React.createElement(
-                MDXProvider,
-                {
-                    components: {
-                        em(props) {
-                            return React.createElement('i', props)
-                        }
-                    }
-                },
-                React.createElement(
-                    await run(compileSync('*z*', { providerImportSource: '@mdx-js/react' }))
-                )
-            )
-        ),
-        '<p><i>z</i></p>',
-        'should support setting components through context with a `providerImportSource`'
-    )
-
-    console.log('\nnote: the next warning is expected!\n')
-
-    try {
-        renderToStaticMarkup(
-            React.createElement(
-                await run(compileSync('<X />', { providerImportSource: '@mdx-js/react' }))
-            )
-        )
-        assert.unreachable()
-    } catch (/** @type {unknown} */ error) {
-        const exception = /** @type {Error} */ (error)
-        assert.match(
-            exception.message,
-            /Element type is invalid/,
-            'should throw if a required component is not passed or given to `MDXProvider`'
-        )
-    }
 
     assert.equal(
         renderToStaticMarkup(
