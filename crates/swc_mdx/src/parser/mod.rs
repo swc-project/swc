@@ -200,7 +200,7 @@ where
             None => return Ok(None),
         };
 
-        if c.is_alphanumeric() {
+        if c.is_alphanumeric() || c == '*' {
             return self.parse_text_nodes().map(BlockNode::Text).map(Some);
         }
 
