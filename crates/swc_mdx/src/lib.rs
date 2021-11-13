@@ -89,7 +89,18 @@ where
                     self_closing: false,
                     type_args: Default::default(),
                 },
-                children: vec![],
+                children: vec![JSXElementChild::JSXElement(Box::new(JSXElement {
+                    span: DUMMY_SP,
+                    opening: JSXOpeningElement {
+                        name: JSXElementName::Ident(crate_mdx_content.clone()),
+                        span: DUMMY_SP,
+                        attrs: Default::default(),
+                        self_closing: true,
+                        type_args: Default::default(),
+                    },
+                    children: Default::default(),
+                    closing: None,
+                }))],
                 closing: Some(JSXClosingElement {
                     name: JSXElementName::Ident(mdx_layout.clone()),
                     span: DUMMY_SP,
