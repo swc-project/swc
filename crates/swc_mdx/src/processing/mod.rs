@@ -10,7 +10,7 @@ use swc_ecma_utils::{member_expr, private_ident, quote_ident, ExprFactory};
 pub struct ContentProcessor<'a> {
     pub(crate) props: &'a Ident,
     pub(crate) components: &'a Ident,
-    pub(crate) used_components: AHashSet<JsWord>,
+    pub(crate) used_components: Vec<JsWord>,
 }
 
 impl ContentProcessor<'_> {
@@ -88,7 +88,28 @@ impl ContentProcessor<'_> {
             BlockNode::Es(_) => {
                 unreachable!("`BlockNode::Es(_)` should be removed before calling processor")
             }
-            BlockNode::Text(nodes) => self.process_text_nodes(nodes),
+            BlockNode::Text(nodes) => {
+                let children = self.process_text_nodes(nodes);
+
+                let tag_name = self.use_component("p".into());
+
+                Box::new(Expr::JSXElement(Box::new(JSXElement {
+                    // TODO: Use proper span
+                    span: DUMMY_SP,
+                    opening: JSXOpeningElement {
+                        name: tag_name.clone(),
+                        span: DUMMY_SP,
+                        attrs: Default::default(),
+                        self_closing: false,
+                        type_args: Default::default(),
+                    },
+                    children: vec![expr_to_jsx_child(children)],
+                    closing: Some(JSXClosingElement {
+                        span: DUMMY_SP,
+                        name: tag_name,
+                    }),
+                })))
+            }
             _ => {
                 todo!("process_block_node")
             }
@@ -96,7 +117,7 @@ impl ContentProcessor<'_> {
     }
 
     fn process_text_nodes(&mut self, nodes: Vec<TextNode>) -> Box<Expr> {
-        let mut exprs = nodes
+        let exprs = nodes
             .into_iter()
             .map(|node| self.process_text_node(node))
             .collect();
@@ -143,7 +164,9 @@ impl ContentProcessor<'_> {
     }
 
     fn use_component(&mut self, tag_name: JsWord) -> JSXElementName {
-        self.used_components.insert(tag_name.clone());
+        if !self.used_components.contains(&tag_name) {
+            self.used_components.push(tag_name.clone());
+        }
 
         JSXElementName::JSXMemberExpr(JSXMemberExpr {
             obj: JSXObject::Ident(self.components.clone()),
