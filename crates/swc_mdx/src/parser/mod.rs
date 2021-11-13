@@ -152,7 +152,57 @@ where
         todo!("parse_code_block({:?})", self.i.cur())
     }
 
+    fn read_text(&mut self) -> PResult<String> {
+        let mut buf = String::new();
+
+        loop {
+            match self.i.cur() {
+                Some(c) => {
+                    let s = self.i.uncons_while(|c: char| {
+                        c.is_alphanumeric()
+                            || match c {
+                                ' ' | '_' | ',' => true,
+                                _ => false,
+                            }
+                    });
+                    if !s.is_empty() {
+                        buf.push_str(&s);
+                        break;
+                    }
+                }
+                None => break,
+            }
+
+            if self.i.eat_byte(b' ') {
+                buf.push(' ');
+                continue;
+            }
+        }
+
+        Ok(buf)
+    }
+
     pub fn parse_text_node(&mut self) -> PResult<TextNode> {
+        let start = self.i.cur_pos();
+
+        match self.i.cur() {
+            Some(c) => {
+                if c.is_alphanumeric() {
+                    let text = self.read_text()?;
+                    return Ok(TextNode {
+                        span: self.span(start),
+                        kind: TextNodeKind::Text(text),
+                    });
+                }
+            }
+            None => {
+                return Ok(TextNode {
+                    span: self.span(start),
+                    kind: TextNodeKind::Break,
+                })
+            }
+        }
+
         todo!("parse_text_node({:?})", self.i.cur())
     }
 
