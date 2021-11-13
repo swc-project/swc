@@ -35,38 +35,6 @@ import 'source-map-support/register.js'
 const renderToStaticMarkup = renderToStaticMarkup_
 
 test('compile', async () => {
-    assert.equal(
-        renderToStaticMarkup(
-            React.createElement(await run(compileSync('*a*')), {
-                components: {
-                    em(props) {
-                        return React.createElement('i', props)
-                    }
-                }
-            })
-        ),
-        '<p><i>a</i></p>',
-        'should support overwriting components by passing them to `MDXContent`'
-    )
-
-    assert.equal(
-        renderToStaticMarkup(
-            React.createElement(
-                await run(
-                    compileSync('export var X = () => <em>a</em>\n\n*a*, <X>b</X>')
-                ),
-                {
-                    components: {
-                        em(props) {
-                            return React.createElement('i', props)
-                        }
-                    }
-                }
-            )
-        ),
-        '<p><i>a</i>, <em>a</em></p>',
-        'should *not* support overwriting components in exports'
-    )
 
     try {
         renderToStaticMarkup(

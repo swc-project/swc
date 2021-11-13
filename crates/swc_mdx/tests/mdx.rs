@@ -157,4 +157,50 @@ fn components_member_complex() {
     );
 }
 
+#[test]
+fn components_overwrite() {
+    test_render("*a*", "<p><i>a</i></p>", |cm| TestOpts {
+        components: {
+            let mut m = HashMap::new();
+            m.insert(
+                "em".into(),
+                "
+                    function (props) {
+                        return React.createElement('i', props)
+                    }
+                    "
+                .into(),
+            );
+
+            Some(obj(&cm, m))
+        },
+        ..Default::default()
+    });
+}
+
+#[test]
+fn components_no_overwrite_in_exports() {
+    test_render(
+        "export var X = () => <em>a</em>\n\n*a*, <X>b</X>",
+        "<p><i>a</i>, <em>a</em></p>",
+        |cm| TestOpts {
+            components: {
+                let mut m = HashMap::new();
+                m.insert(
+                    "em".into(),
+                    "
+                    function (props) {
+                        return React.createElement('i', props)
+                    }
+                    "
+                    .into(),
+                );
+
+                Some(obj(&cm, m))
+            },
+            ..Default::default()
+        },
+    );
+}
+
 fn obj(cm: &Lrc<SourceMap>, m: HashMap<String, String>) -> ObjectLit {}
