@@ -157,7 +157,15 @@ where
     }
 
     pub fn parse_text_nodes(&mut self) -> PResult<Vec<TextNode>> {
-        todo!()
+        let mut buf = vec![];
+
+        loop {
+            if self.i.cur().is_none() || self.i.eat_byte(b'\n') || self.i.eat_byte(b'\r') {
+                return Ok(buf);
+            }
+
+            buf.push(self.parse_text_node()?);
+        }
     }
 
     pub fn parse_block_quote(&mut self) -> PResult<BlockQuote> {
