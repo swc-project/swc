@@ -35,48 +35,6 @@ import 'source-map-support/register.js'
 const renderToStaticMarkup = renderToStaticMarkup_
 
 test('compile', async () => {
-    try {
-        // @ts-expect-error: removed option.
-        await compile('# hi!', { filepath: 'example.mdx' })
-        assert.unreachable()
-    } catch (/** @type {unknown} */ error) {
-        const exception = /** @type {Error} */ (error)
-        console.log(exception.message)
-        assert.match(
-            exception.message,
-            /`options.filepath` is no longer supported/,
-            'should throw when a removed option is passed'
-        )
-    }
-
-    assert.equal(
-        renderToStaticMarkup(
-            React.createElement(await run(await compile('# hi!')))
-        ),
-        '<h1>hi!</h1>',
-        'should compile'
-    )
-
-    assert.equal(
-        renderToStaticMarkup(
-            React.createElement(await run(await compile(new VFile('# hi?'))))
-        ),
-        '<h1>hi?</h1>',
-        'should compile a vfile'
-    )
-
-    assert.equal(
-        renderToStaticMarkup(React.createElement(await run(compileSync('# hi!')))),
-        '<h1>hi!</h1>',
-        'should compile (sync)'
-    )
-
-    assert.equal(
-        renderToStaticMarkup(React.createElement(await run(compileSync('')))),
-        '',
-        'should compile an empty document'
-    )
-
     assert.equal(
         renderToStaticMarkup(
             React.createElement(
