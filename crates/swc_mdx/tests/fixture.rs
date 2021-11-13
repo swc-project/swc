@@ -6,6 +6,8 @@ use swc_mdx::parser::Parser;
 fn fixture(input: PathBuf) {
     testing::run_test2(false, |cm, handler| {
         let fm = cm.load_file(&input).unwrap();
+        println!("---- Input ----\n{}", fm.src);
+
         let mut parser = Parser::new(StringInput::from(&*fm));
 
         let res = parser.parse();
