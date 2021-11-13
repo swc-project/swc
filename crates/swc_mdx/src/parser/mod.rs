@@ -1,4 +1,6 @@
 use swc_common::{input::Input, BytePos, Span};
+use swc_ecma_ast::EsVersion;
+use swc_ecma_parser::{EsConfig, Syntax};
 
 pub use self::errors::{Error, ErrorKind};
 use crate::ast::*;
@@ -94,7 +96,19 @@ where
         // import / export
         if self.read_exact_at_line_start("import", true)?
             || self.read_exact_at_line_start("export", true)?
-        {}
+        {
+            let lexer = swc_ecma_parser::lexer::Lexer::new(
+                Syntax::Es(EsConfig {
+                    jsx: true,
+                    ..Default::default()
+                }),
+                EsVersion::latest(),
+                self.i.clone(),
+                None,
+            );
+            let mut es_parser = swc_ecma_parser::Parser::new_from(lexer);
+            let expr = es_parser.parse_expr();
+        }
 
         // jsx elem / jsx frag
         if self.read_exact_at_line_start("<", true)? {}
