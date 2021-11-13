@@ -542,7 +542,7 @@ test!(
             decorators(Default::default()),
             class_properties(class_properties::Config { loose: false }),
             simplifier(Default::default()),
-            es2018(),
+            es2018(Default::default()),
             es2017(),
             es2016(),
             es2015(

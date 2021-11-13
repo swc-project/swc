@@ -1,3 +1,4 @@
+use serde::Deserialize;
 use std::{iter, mem};
 use swc_common::{chain, util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -15,9 +16,18 @@ use swc_ecma_visit::{
     VisitMut, VisitMutWith, VisitWith,
 };
 
+// TODO: currently swc behaves like babel with
+// `ignoreFunctionLength` and `pureGetters` on
+
 /// `@babel/plugin-proposal-object-rest-spread`
-pub fn object_rest_spread() -> impl Fold {
-    chain!(ObjectRest::default(), as_folder(ObjectSpread))
+pub fn object_rest_spread(c: Config) -> impl Fold {
+    chain!(
+        ObjectRest {
+            c,
+            ..Default::default()
+        },
+        as_folder(ObjectSpread { c })
+    )
 }
 
 #[derive(Default)]
@@ -28,6 +38,14 @@ struct ObjectRest {
     mutable_vars: Vec<VarDeclarator>,
     /// Assignment expressions.
     exprs: Vec<Box<Expr>>,
+    c: Config,
+}
+
+#[derive(Debug, Clone, Copy, Default, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Config {
+    pub no_symbol: bool,
+    pub set_property: bool,
 }
 
 macro_rules! impl_for_for_stmt {
@@ -441,7 +459,10 @@ impl ObjectRest {
         let mut buf = Vec::with_capacity(stmts.len());
 
         for stmt in stmts {
-            let mut folder = ObjectRest::default();
+            let mut folder = ObjectRest {
+                c: self.c,
+                ..Default::default()
+            };
             let stmt = stmt.fold_with(&mut folder);
 
             // Add variable declaration
@@ -843,14 +864,22 @@ impl ObjectRest {
                 span: DUMMY_SP,
                 left: PatOrExpr::Pat(last.arg),
                 op: op!("="),
-                right: Box::new(object_without_properties(obj, excluded_props)),
+                right: Box::new(object_without_properties(
+                    obj,
+                    excluded_props,
+                    self.c.no_symbol,
+                )),
             })));
         } else {
             // println!("Var: rest = objectWithoutProperties()",);
             self.push_var_if_not_empty(VarDeclarator {
                 span: DUMMY_SP,
                 name: *last.arg,
-                init: Some(Box::new(object_without_properties(obj, excluded_props))),
+                init: Some(Box::new(object_without_properties(
+                    obj,
+                    excluded_props,
+                    self.c.no_symbol,
+                ))),
                 definite: false,
             });
         }
@@ -864,7 +893,11 @@ impl ObjectRest {
     }
 }
 
-fn object_without_properties(obj: Box<Expr>, excluded_props: Vec<Option<ExprOrSpread>>) -> Expr {
+fn object_without_properties(
+    obj: Box<Expr>,
+    excluded_props: Vec<Option<ExprOrSpread>>,
+    no_symbol: bool,
+) -> Expr {
     if excluded_props.is_empty() {
         return Expr::Call(CallExpr {
             span: DUMMY_SP,
@@ -901,7 +934,14 @@ fn object_without_properties(obj: Box<Expr>, excluded_props: Vec<Option<ExprOrSp
 
     Expr::Call(CallExpr {
         span: DUMMY_SP,
-        callee: helper!(object_without_properties, "objectWithoutProperties"),
+        callee: if no_symbol {
+            helper!(
+                object_without_properties_loose,
+                "objectWithoutPropertiesLoose"
+            )
+        } else {
+            helper!(object_without_properties, "objectWithoutProperties")
+        },
         args: vec![
             obj.as_arg(),
             if is_literal(&excluded_props) {
@@ -1008,11 +1048,13 @@ impl VisitMut for PatSimplifier {
 }
 
 #[derive(Clone, Copy)]
-struct ObjectSpread;
+struct ObjectSpread {
+    c: Config,
+}
 
 impl Parallel for ObjectSpread {
     fn create(&self) -> Self {
-        ObjectSpread
+        ObjectSpread { c: self.c }
     }
 
     fn merge(&mut self, _: Self) {}
@@ -1069,7 +1111,11 @@ impl VisitMut for ObjectSpread {
 
                 *expr = Expr::Call(CallExpr {
                     span: *span,
-                    callee: helper!(object_spread, "objectSpread"),
+                    callee: if self.c.set_property {
+                        helper!(extends, "extends")
+                    } else {
+                        helper!(object_spread, "objectSpread")
+                    },
                     args,
                     type_args: Default::default(),
                 });

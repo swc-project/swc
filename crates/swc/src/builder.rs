@@ -202,7 +202,12 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                     should_enable(self.target, EsVersion::Es2019)
                 ),
                 Optional::new(
-                    compat::es2018(),
+                    compat::es2018(compat::es2018::Config {
+                        object_rest_spread: compat::es2018::object_rest_spread::Config {
+                            no_symbol: self.loose,
+                            set_property: self.loose
+                        }
+                    }),
                     should_enable(self.target, EsVersion::Es2018)
                 ),
                 Optional::new(

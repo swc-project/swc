@@ -1,6 +1,9 @@
 use swc_common::chain;
 use swc_ecma_parser::Syntax;
-use swc_ecma_transforms_compat::{es2015::spread, es2018::object_rest_spread};
+use swc_ecma_transforms_compat::{
+    es2015::spread,
+    es2018::{object_rest_spread, object_rest_spread::Config},
+};
 use swc_ecma_transforms_testing::{test, test_exec};
 use swc_ecma_visit::Fold;
 
@@ -8,13 +11,13 @@ fn syntax() -> Syntax {
     Syntax::default()
 }
 
-fn tr() -> impl Fold {
-    object_rest_spread()
+fn tr(c: Config) -> impl Fold {
+    object_rest_spread(c)
 }
 
 test!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     issue_233,
     "const foo = () => ({ x, ...y }) => y",
     "const foo = ()=>(_param)=>{
@@ -25,7 +28,7 @@ test!(
 
 test!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     issue_239,
     "class Foo {
   constructor ({ ...bar }) {}
@@ -42,7 +45,7 @@ test!(
 // args.
 test!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     issue_227,
     "export default function fn1(...args) {
   fn2(...args);
@@ -54,7 +57,7 @@ test!(
 
 test!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     issue_162,
     r#"
 export const good = {
@@ -75,7 +78,7 @@ export const good = {
 
 test!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     issue_181,
     r#"
 const fn = ({ a, ...otherProps }) => otherProps;
@@ -90,7 +93,7 @@ const fn = (_param)=>{
 
 test!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     rest_function_array,
     r#"
 function foo([{...bar}]) {
@@ -106,7 +109,7 @@ function foo([_param]) {
 
 test!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     rest_var_basic,
     r#"
 var { a , ...b } = _ref;
@@ -118,7 +121,7 @@ var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     rest_assignment_exec,
     r#"
 let foo = {
@@ -134,7 +137,7 @@ expect(c).toEqual({b: 2});
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     rest_catch_exec,
     r#"
 try {
@@ -156,7 +159,7 @@ try {
 
 test!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     rest_assignment_expression,
     r#"({ a1 } = c1);
 ({ a2, ...b2 } = c2);
@@ -173,7 +176,7 @@ console.log(( _c3 = c3, b3 = _objectWithoutProperties(_c3, ['a3']), { a3  } = _c
 
 test!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     rest_catch_clause,
     r#"
 try {} catch({ ...a34 }) {}
@@ -213,7 +216,7 @@ try {
 
 test!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     rest_export,
     r#"
 // ExportNamedDeclaration
@@ -241,7 +244,7 @@ export var [dd, ee] = ads;
 test!(
     syntax(),
     |_| chain!(
-        tr(),
+        tr(Default::default()),
         spread(spread::Config {
             ..Default::default()
         })
@@ -321,7 +324,7 @@ async function a() {
 test_exec!(
     ignore,
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     rest_impure_computed_exec,
     r#"
 var key, x, y, z;
@@ -351,7 +354,7 @@ expect(z).toBe("zee");
 test!(
     ignore,
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     rest_impure_computed,
     r#"
 var key, x, y, z;
@@ -432,7 +435,7 @@ expect(z).toBe("zee");"#
 
 test!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     rest_nested_2,
     r#"
 const test = {
@@ -481,7 +484,7 @@ const {
 
 test!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     rest_nested_computed_key,
     r#"
 const {
@@ -509,7 +512,7 @@ const _ref = {
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     rest_nested_default_value_exec,
     r#"
 const {
@@ -527,7 +530,7 @@ expect(d).toEqual({})
 
 test!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     rest_nested_default_value,
     r#"
 const {
@@ -555,7 +558,7 @@ const _ref = {
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     rest_nested_order_exec,
     r#"
 var result = "";
@@ -584,7 +587,7 @@ expect(result).toBe("barbazfoo");
 
 test!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     rest_nested_order,
     r#"
 const { a: { ...bar }, b: { ...baz }, ...foo } = obj;
@@ -597,7 +600,7 @@ const bar = _extends({}, obj.a), baz = _extends({}, obj.b), foo =
 
 test!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     rest_nested_1,
     r#"
 const defunct = {
@@ -634,7 +637,7 @@ const {
 test_exec!(
     ignore,
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     rest_non_string_computed_exec,
     r#"
 const a = {
@@ -697,7 +700,7 @@ expect(dy).toBe("sy");
 test!(
     ignore,
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     rest_non_string_computed,
     r#"
 const a = {
@@ -811,7 +814,7 @@ expect(dy).toBe("sy");"#
 
 test!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     rest_parameters,
     r#"
 function a({ ...a34 }) {}
@@ -906,7 +909,7 @@ function b3({
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     rest_symbol_exec,
     r#"
 const sym = Symbol("test");
@@ -934,7 +937,7 @@ expect(Object.getOwnPropertySymbols(noSym)).toEqual([]);"#
 test!(
     ignore,
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     rest_symbol,
     r#"
 let {
@@ -975,7 +978,7 @@ if (_ref3 = {}, _Symbol$for3 = Symbol.for("foo"), ({
 
 test!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     rest_variable_destructuring_1,
     r#"
 var z = {};
@@ -1030,7 +1033,7 @@ const {
 
 test!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     rest_variable_destructuring_2,
     r#"
 let {
@@ -1054,7 +1057,7 @@ let {
 
 test!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     rest_variable_destructuring_3,
     r#"
 let { x4: { ...y4 } } = z;
@@ -1066,7 +1069,7 @@ let y4 = _extends({}, z.x4);
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     rest_with_array_rest_exec,
     r#"
 let [{ a, ...foo}, ...bar] = [{ a: 1, b:2 }, 2, 3, 4];
@@ -1078,7 +1081,7 @@ expect(bar).toEqual([2, 3, 4]);
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     rest_with_array_rest_exec_2,
     r#"
 let {
@@ -1098,7 +1101,7 @@ expect(objectRest).toEqual({d: 'oyez'})
 
 test!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     rest_with_array_rest,
     r#"
 let {
@@ -1120,7 +1123,7 @@ let _ref = {
 
 test!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     spread_assignment,
     r#"
 z = { x, ...y };
@@ -1140,7 +1143,7 @@ z = {
 
 test!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     object_spread_expression,
     r#"
 ({ x, ...y, a, ...b, c });
@@ -1177,7 +1180,7 @@ _objectSpread({}, {
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     spread_no_object_assign_exec,
     r#"
 Object.defineProperty(Object.prototype, 'NOSET', {
@@ -1226,7 +1229,7 @@ expect(Array.isArray(Object.getPrototypeOf(o2))).toBe(false);
 
 test!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     spread_variable_declaration,
     r#"var z = { ...x };"#,
     r#"var z = _objectSpread({}, x);"#
@@ -1235,7 +1238,7 @@ test!(
 // object_spread_assignment
 test!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     object_spread_assignment,
     r#"
 z = { x, ...y };
@@ -1345,7 +1348,7 @@ z = {
 // object_rest_symbol_exec_exec
 test_exec!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     object_rest_symbol_exec_exec,
     r#"
 const sym = Symbol("test");
@@ -1632,7 +1635,7 @@ expect(Object.getOwnPropertySymbols(noSym)).toEqual([]);
 // regression_gh_5151
 test!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     regression_gh_5151,
     r#"
 const { x, ...y } = a,
@@ -1892,7 +1895,7 @@ var l = foo(),
 // regression_gh_7388
 test!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     regression_gh_7388,
     r#"
 function fn0(obj0) {
@@ -2040,7 +2043,7 @@ function fn0(obj0) {
 // object_rest_impure_computed_exec_exec
 test_exec!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     object_rest_impure_computed_exec_exec,
     r#"
 var key, x, y, z;
@@ -2111,7 +2114,7 @@ test_exec!(
     // WTF? babel's output is wrong
     ignore,
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     object_spread_expression_exec,
     r#"
 var log = [];
@@ -2308,7 +2311,7 @@ expect(log).toEqual([1]);
 // object_spread_variable_declaration
 test!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     object_spread_variable_declaration,
     r#"
 var z = { ...x };
@@ -2358,7 +2361,7 @@ var z = _objectSpread({}, x);
 // object_spread_no_object_assign_exec_exec
 test_exec!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     object_spread_no_object_assign_exec_exec,
     r#"
 Object.defineProperty(Object.prototype, 'NOSET', {
@@ -2408,7 +2411,7 @@ expect(Array.isArray(Object.getPrototypeOf(o2))).toBe(false);
 // object_rest_non_string_computed_exec_exec
 test_exec!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     object_rest_non_string_computed_exec_exec,
     r#"
 const a = {
@@ -2474,7 +2477,7 @@ expect(dy).toBe("sy");
 // object_rest_variable_exec_exec
 test_exec!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     object_rest_variable_exec_exec,
     r#"
 // var { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };
@@ -2560,7 +2563,7 @@ test_exec!(
 // object_spread_no_getOwnPropertyDescriptors_exec
 test_exec!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     object_spread_no_get_own_property_descriptors_exec,
     r#"
 const oldGOPDs = Object.getOwnPropertyDescriptors;
@@ -2720,7 +2723,7 @@ Object.getOwnPropertyDescriptors = oldGOPDs;
 // regression_gh_4904
 test!(
     syntax(),
-    |_| tr(),
+    |_| tr(Default::default()),
     regression_gh_4904,
     r#"
 const { s, ...t } = foo();
@@ -2741,5 +2744,270 @@ const _ref2 = foo((_param)=>{
 }), { a  } = _ref2;
 
 
+"#
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        no_symbol: true,
+        set_property: true
+    }),
+    no_symbol_rest_assignment_expression,
+    r#"({ a, b, ...c } = obj);"#,
+    r#"
+var _obj;
+_obj = obj, c = _objectWithoutPropertiesLoose(_obj, [
+    "a",
+    "b"
+]), ({ a , b  } = _obj), _obj;
+"#
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        no_symbol: true,
+        set_property: true
+    }),
+    no_symbol_computed,
+    r#"let { [a]: b, ...c } = obj;"#,
+    r#"
+
+let {
+  [a]: b
+} = obj,
+    c = _objectWithoutPropertiesLoose(obj, [a].map(_toPropertyKey));
+"#
+);
+
+test_exec!(
+    syntax(),
+    |_| tr(Config {
+        no_symbol: true,
+        set_property: true
+    }),
+    set_property_ignore_symbol_exec,
+    r#"
+let sym = Symbol();
+
+let { a, ...r } = { a: 1, b: 2, [sym]: 3 };
+
+expect(a).toBe(1);
+expect(r.b).toBe(2);
+expect(sym in r).toBe(false);
+"#
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        no_symbol: true,
+        set_property: true
+    }),
+    no_symbol_rest_nested,
+    r#"let { a, nested: { b, c, ...d }, e } = obj;"#,
+    r#"
+let {
+  a,
+  nested: {
+    b,
+    c
+  },
+  e
+} = obj,
+    d = _objectWithoutPropertiesLoose(obj.nested, ["b", "c"]);
+"#
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        no_symbol: true,
+        set_property: true
+    }),
+    no_symbol_var_declaration,
+    r#"var { a, b, ...c } = obj;"#,
+    r#"
+var {
+  a,
+  b
+} = obj,
+    c = _objectWithoutPropertiesLoose(obj, ["a", "b"]);
+"#
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        no_symbol: true,
+        set_property: true
+    }),
+    set_property_assignment,
+    r#"
+var x;
+var y;
+var z;
+
+z = { x, ...y };
+
+z = { x, w: { ...y } };
+"#,
+    r#"
+var x;
+var y;
+var z;
+z = _extends({
+  x
+}, y);
+z = {
+  x,
+  w: _extends({}, y)
+};
+"#
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        no_symbol: true,
+        set_property: true
+    }),
+    set_property_expression,
+    r#"
+var a;
+var b;
+var c;
+var d;
+var x;
+var y;
+
+({ x, ...y, a, ...b, c });
+
+({ ...Object.prototype });
+
+({ ...{ foo: 'bar' } });
+
+({ ...{ foo: 'bar' }, ...{ bar: 'baz' } });
+
+({ ...{ get foo () { return 'foo' } } });
+"#,
+    r#"
+
+var a;
+var b;
+var c;
+var d;
+var x;
+var y;
+_extends({ x }, y, { a }, b, { c });
+_extends({}, Object.prototype);
+_extends({}, {
+  foo: 'bar'
+});
+_extends({}, {
+  foo: 'bar'
+}, {
+  bar: 'baz'
+});
+_extends({}, {
+  get foo() {
+    return 'foo';
+  }
+
+});
+"#
+);
+
+test_exec!(
+    syntax(),
+    |_| tr(Config {
+        no_symbol: true,
+        set_property: true
+    }),
+    set_property_expression_exec,
+    r#"
+var log = [];
+
+var a = {
+  ...{ get foo() { log.push(1); } },
+  get bar() { log.push(2); }
+};
+
+// Loose mode uses regular Get, not GetOwnProperty.
+expect(log).toEqual([1, 2]);
+"#
+);
+
+test_exec!(
+    syntax(),
+    |_| tr(Config {
+        no_symbol: true,
+        set_property: true
+    }),
+    set_property_no_get_own_property_exec,
+    r#"
+const oldGOPDs = Object.getOwnPropertyDescriptors;
+Object.getOwnPropertyDescriptors = null;
+
+try {
+  ({ ...{ a: 1 }, b: 1, ...{} });
+} finally {
+  Object.getOwnPropertyDescriptors = oldGOPDs;
+}
+"#
+);
+
+test_exec!(
+    syntax(),
+    |_| tr(Config {
+        no_symbol: true,
+        set_property: true
+    }),
+    set_property_no_object_assign_exec,
+    r#"
+"use strict";
+Object.defineProperty(Object.prototype, 'NOSET', {
+  get(value) {
+    // noop
+  },
+});
+
+Object.defineProperty(Object.prototype, 'NOWRITE', {
+  writable: false,
+  value: 'abc',
+});
+
+const obj = { 'NOSET': 123 };
+// this won't work as expected if transformed as Object.assign (or equivalent)
+// because those trigger object setters (spread don't)
+expect(() => {
+  const objSpread = { ...obj };
+}).toThrow();
+
+const obj2 = { 'NOWRITE': 456 };
+// this throws `TypeError: Cannot assign to read only property 'NOWRITE'`
+// if transformed as Object.assign (or equivalent) because those use *assignment* for creating properties
+// (spread defines them)
+expect(() => {
+  const obj2Spread = { ...obj2 };
+}).toThrow();
+
+const KEY = Symbol('key');
+const obj3Spread = { ...{ get foo () { return 'bar' } }, [KEY]: 'symbol' };
+expect(Object.getOwnPropertyDescriptor(obj3Spread, 'foo').value).toBe('bar');
+expect(Object.getOwnPropertyDescriptor(obj3Spread, KEY).value).toBe('symbol');
+
+const obj4Spread = { ...Object.prototype };
+expect(Object.getOwnPropertyDescriptor(obj4Spread, 'hasOwnProperty')).toBeUndefined();
+
+expect(() => ({ ...null, ...undefined })).not.toThrow();
+
+const o = Object.create(null);
+o.a = 'foo';
+o.__proto__ = [];
+const o2 = { ...o };
+// Loose will do o2.__proto__ = []
+expect(Array.isArray(Object.getPrototypeOf(o2))).toBe(true);
 "#
 );

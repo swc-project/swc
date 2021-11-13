@@ -124,13 +124,13 @@ fn es2022_class_properties(b: &mut Bencher) {
 
 #[bench]
 fn es2018(b: &mut Bencher) {
-    run(b, || swc_ecma_transforms_compat::es2018());
+    run(b, || swc_ecma_transforms_compat::es2018(Default::default()));
 }
 
 #[bench]
 fn es2018_object_rest_spread(b: &mut Bencher) {
     run(b, || {
-        swc_ecma_transforms_compat::es2018::object_rest_spread()
+        swc_ecma_transforms_compat::es2018::object_rest_spread(Default::default())
     });
 }
 
@@ -276,7 +276,7 @@ fn full_es2016(b: &mut Bencher) {
         chain!(
             swc_ecma_transforms_compat::es2022(Default::default()),
             swc_ecma_transforms_compat::es2019(),
-            swc_ecma_transforms_compat::es2018(),
+            swc_ecma_transforms_compat::es2018(Default::default()),
             swc_ecma_transforms_compat::es2017(),
             swc_ecma_transforms_compat::es2016(),
         )
@@ -289,7 +289,7 @@ fn full_es2017(b: &mut Bencher) {
         chain!(
             swc_ecma_transforms_compat::es2022(Default::default()),
             swc_ecma_transforms_compat::es2019(),
-            swc_ecma_transforms_compat::es2018(),
+            swc_ecma_transforms_compat::es2018(Default::default()),
             swc_ecma_transforms_compat::es2017(),
         )
     });
@@ -301,7 +301,7 @@ fn full_es2018(b: &mut Bencher) {
         chain!(
             swc_ecma_transforms_compat::es2022(Default::default()),
             swc_ecma_transforms_compat::es2019(),
-            swc_ecma_transforms_compat::es2018(),
+            swc_ecma_transforms_compat::es2018(Default::default()),
         )
     });
 }
