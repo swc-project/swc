@@ -118,12 +118,18 @@ where
     let mdx_content_span = res.span;
 
     {
-        let mut processor = ContentProcessor::default();
+        let components = private_ident!("_components");
+
+        let mut processor = ContentProcessor {
+            props: &props,
+            components: &components,
+            used_components: Default::default(),
+        };
 
         fn_body.push(Stmt::Decl(Decl::Fn(FnDecl {
             ident: crate_mdx_content.clone(),
             declare: Default::default(),
-            function: processor.make_create_mdx_content(props.clone(), res),
+            function: processor.make_create_mdx_content(res),
         })));
     }
 

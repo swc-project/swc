@@ -1,20 +1,20 @@
 use std::mem::take;
 
-use crate::ast::{BlockNode, MdxFile};
+use crate::ast::{BlockNode, MdxFile, TextNode};
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashSet, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{member_expr, private_ident, quote_ident, ExprFactory};
 
-#[derive(Debug, Default)]
-pub struct ContentProcessor {
-    used_components: AHashSet<JsWord>,
+#[derive(Debug)]
+pub struct ContentProcessor<'a> {
+    pub(crate) props: &'a Ident,
+    pub(crate) components: &'a Ident,
+    pub(crate) used_components: AHashSet<JsWord>,
 }
 
-impl ContentProcessor {
-    pub(crate) fn make_create_mdx_content(&mut self, props: Ident, f: MdxFile) -> Function {
-        let components = private_ident!("_components");
-
+impl ContentProcessor<'_> {
+    pub(crate) fn make_create_mdx_content(&mut self, f: MdxFile) -> Function {
         let mut stmts = vec![];
 
         stmts.push(Stmt::Decl(Decl::Var(VarDecl {
@@ -23,7 +23,7 @@ impl ContentProcessor {
             declare: Default::default(),
             decls: vec![VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(components.clone().into()),
+                name: Pat::Ident(self.components.clone().into()),
                 init: Some(Box::new(Expr::Call(CallExpr {
                     span: DUMMY_SP,
                     callee: member_expr!(DUMMY_SP, Object.assign).as_callee(),
@@ -47,7 +47,7 @@ impl ContentProcessor {
                                 .collect(),
                         }
                         .as_arg(),
-                        props
+                        self.props
                             .clone()
                             .make_member(quote_ident!("components"))
                             .as_arg(),
@@ -62,7 +62,7 @@ impl ContentProcessor {
             let mut content = f
                 .content
                 .into_iter()
-                .map(|node| self.process_block_node(&components, node))
+                .map(|node| self.process_block_node(node))
                 .collect();
 
             stmts.push(Stmt::Return(ReturnStmt {
@@ -86,7 +86,19 @@ impl ContentProcessor {
         }
     }
 
-    fn process_block_node(&mut self, components: &Ident, node: BlockNode) -> Box<Expr> {}
+    fn process_block_node(&mut self, node: BlockNode) -> Box<Expr> {
+        match node {
+            BlockNode::Es(_) => {
+                unreachable!("`BlockNode::Es(_)` should be removed before calling processor")
+            }
+            BlockNode::Text(nodes) => self.process_text_nodes(nodes),
+            _ => {
+                todo!("process_block_node")
+            }
+        }
+    }
+
+    fn process_text_nodes(&mut self, nodes: Vec<TextNode>) -> Box<Expr> {}
 }
 
 fn to_jsx(exprs: Vec<Box<Expr>>) -> Box<Expr> {
