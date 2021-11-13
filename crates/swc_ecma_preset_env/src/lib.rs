@@ -105,9 +105,22 @@ where
     // ES2020
 
     let pass = add!(pass, ExportNamespaceFrom, es2020::export_namespace_from());
-    let pass = add!(pass, NullishCoalescing, es2020::nullish_coalescing());
+    let pass = add!(
+        pass,
+        NullishCoalescing,
+        es2020::nullish_coalescing(es2020::nullish_coalescing::Config {
+            no_document_all: loose
+        })
+    );
 
-    let pass = add!(pass, OptionalChaining, es2020::optional_chaining());
+    let pass = add!(
+        pass,
+        OptionalChaining,
+        es2020::optional_chaining(es2020::opt_chaining::Config {
+            no_document_all: loose,
+            pure_getter: loose
+        })
+    );
 
     // ES2019
     let pass = add!(pass, OptionalCatchBinding, es2019::optional_catch_binding());

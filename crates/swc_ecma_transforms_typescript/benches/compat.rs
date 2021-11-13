@@ -100,14 +100,18 @@ fn es2020(b: &mut Bencher) {
 #[bench]
 fn es2020_nullish_coalescing(b: &mut Bencher) {
     run(b, || {
-        swc_ecma_transforms_compat::es2020::nullish_coalescing()
+        swc_ecma_transforms_compat::es2020::nullish_coalescing(
+            swc_ecma_transforms_compat::es2020::nullish_coalescing::Config {
+                no_document_all: false,
+            },
+        )
     });
 }
 
 #[bench]
 fn es2020_optional_chaining(b: &mut Bencher) {
     run(b, || {
-        swc_ecma_transforms_compat::es2020::optional_chaining()
+        swc_ecma_transforms_compat::es2020::optional_chaining(Default::default())
     });
 }
 

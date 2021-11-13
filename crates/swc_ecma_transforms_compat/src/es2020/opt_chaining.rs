@@ -1,19 +1,31 @@
+use serde::Deserialize;
 use std::{iter::once, mem};
-use swc_common::{Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Check;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{alias_if_required, prepend, private_ident, undefined, ExprFactory, StmtLike};
 use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit};
 
-pub fn optional_chaining() -> impl Fold {
-    OptChaining::default()
+pub fn optional_chaining(c: Config) -> impl Fold {
+    OptChaining {
+        c,
+        ..Default::default()
+    }
 }
 
 #[derive(Default)]
 struct OptChaining {
     vars_without_init: Vec<VarDeclarator>,
     vars_with_init: Vec<VarDeclarator>,
+    c: Config,
+}
+
+#[derive(Debug, Clone, Copy, Default, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Config {
+    pub no_document_all: bool,
+    pub pure_getter: bool,
 }
 
 /// TODO: VisitMut
@@ -101,6 +113,7 @@ impl OptChaining {
                     .map(|stmt| {
                         GLOBALS.set(&globals, || {
                             let mut visitor = Self::default();
+                            visitor.c = self.c;
                             let mut stmts = Vec::with_capacity(3);
                             visitor.fold_one_stmt_to(stmt, &mut stmts);
 
@@ -131,22 +144,26 @@ impl OptChaining {
 
         let mut new: Vec<T> = vec![];
 
-        let mut v = Self::default();
+        let init = self.vars_with_init.take();
+        let uninit = self.vars_without_init.take();
         for stmt in stmts {
-            v.fold_one_stmt_to(stmt, &mut new);
+            self.fold_one_stmt_to(stmt, &mut new);
         }
 
-        if !v.vars_without_init.is_empty() {
+        if !self.vars_without_init.is_empty() {
             prepend(
                 &mut new,
                 T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
                     declare: false,
                     kind: VarDeclKind::Var,
-                    decls: mem::replace(&mut v.vars_without_init, vec![]),
+                    decls: mem::replace(&mut self.vars_without_init, vec![]),
                 }))),
             );
         }
+
+        self.vars_with_init = init;
+        self.vars_without_init = uninit;
 
         new
     }
@@ -435,23 +452,30 @@ impl OptChaining {
                     }
                 };
 
-                let right = Box::new(Expr::Bin(BinExpr {
-                    span: DUMMY_SP,
-                    left: right,
-                    op: op!("==="),
-                    right: undefined(span),
-                }));
-
-                let test = Box::new(Expr::Bin(BinExpr {
-                    span,
-                    left: Box::new(Expr::Bin(BinExpr {
+                let test = Box::new(Expr::Bin(if self.c.no_document_all {
+                    BinExpr {
                         span: obj_span,
                         left,
-                        op: op!("==="),
+                        op: op!("=="),
                         right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
-                    })),
-                    op: op!("||"),
-                    right,
+                    }
+                } else {
+                    BinExpr {
+                        span,
+                        left: Box::new(Expr::Bin(BinExpr {
+                            span: obj_span,
+                            left,
+                            op: op!("==="),
+                            right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+                        })),
+                        op: op!("||"),
+                        right: Box::new(Expr::Bin(BinExpr {
+                            span: DUMMY_SP,
+                            left: right,
+                            op: op!("==="),
+                            right: undefined(span),
+                        })),
+                    }
                 }));
 
                 CondExpr {
@@ -479,21 +503,27 @@ impl OptChaining {
 
                 let (left, right, alt) = match *obj {
                     Expr::Ident(..) => (obj.clone(), obj, e.expr),
+                    _ if is_simple_expr(&obj) && self.c.pure_getter => (obj.clone(), obj, e.expr),
                     _ => {
                         let this_as_super;
-                        let (this_obj, aliased) = alias_if_required(
-                            match &*obj {
-                                Expr::Member(m) => match &m.obj {
-                                    ExprOrSuper::Super(s) => {
-                                        this_as_super = Expr::This(ThisExpr { span: s.span });
-                                        &this_as_super
-                                    }
-                                    ExprOrSuper::Expr(obj) => &**obj,
+                        let should_call = obj.is_member();
+                        let (this_obj, aliased) = if should_call {
+                            alias_if_required(
+                                match &*obj {
+                                    Expr::Member(m) => match &m.obj {
+                                        ExprOrSuper::Super(s) => {
+                                            this_as_super = Expr::This(ThisExpr { span: s.span });
+                                            &this_as_super
+                                        }
+                                        ExprOrSuper::Expr(obj) => &**obj,
+                                    },
+                                    _ => &*obj,
                                 },
-                                _ => &*obj,
-                            },
-                            "_obj",
-                        );
+                                "_obj",
+                            )
+                        } else {
+                            (Ident::dummy(), false)
+                        };
                         let obj_expr = if !is_super_access && aliased {
                             self.vars_without_init.push(VarDeclarator {
                                 span: obj_span,
@@ -554,12 +584,19 @@ impl OptChaining {
                             Box::new(Expr::Ident(tmp.clone())),
                             Box::new(Expr::Call(CallExpr {
                                 span,
-                                callee: ExprOrSuper::Expr(Box::new(Expr::Member(MemberExpr {
-                                    span: DUMMY_SP,
-                                    obj: ExprOrSuper::Expr(Box::new(Expr::Ident(tmp.clone()))),
-                                    prop: Box::new(Expr::Ident(Ident::new("call".into(), span))),
-                                    computed: false,
-                                }))),
+                                callee: ExprOrSuper::Expr(Box::new(if should_call {
+                                    Expr::Member(MemberExpr {
+                                        span: DUMMY_SP,
+                                        obj: ExprOrSuper::Expr(Box::new(Expr::Ident(tmp.clone()))),
+                                        prop: Box::new(Expr::Ident(Ident::new(
+                                            "call".into(),
+                                            span,
+                                        ))),
+                                        computed: false,
+                                    })
+                                } else {
+                                    Expr::Ident(tmp.clone())
+                                })),
                                 args: once(if is_super_access {
                                     ThisExpr { span }.as_arg()
                                 } else {
@@ -573,21 +610,30 @@ impl OptChaining {
                     }
                 };
 
-                let test = Box::new(Expr::Bin(BinExpr {
-                    span,
-                    left: Box::new(Expr::Bin(BinExpr {
+                let test = Box::new(Expr::Bin(if self.c.no_document_all {
+                    BinExpr {
                         span: DUMMY_SP,
                         left,
-                        op: op!("==="),
+                        op: op!("=="),
                         right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
-                    })),
-                    op: op!("||"),
-                    right: Box::new(Expr::Bin(BinExpr {
-                        span: DUMMY_SP,
-                        left: right,
-                        op: op!("==="),
-                        right: undefined(span),
-                    })),
+                    }
+                } else {
+                    BinExpr {
+                        span,
+                        left: Box::new(Expr::Bin(BinExpr {
+                            span: DUMMY_SP,
+                            left,
+                            op: op!("==="),
+                            right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+                        })),
+                        op: op!("||"),
+                        right: Box::new(Expr::Bin(BinExpr {
+                            span: DUMMY_SP,
+                            left: right,
+                            op: op!("==="),
+                            right: undefined(span),
+                        })),
+                    }
                 }));
 
                 CondExpr {
@@ -618,5 +664,25 @@ impl Visit for ShouldWork {
 impl Check for ShouldWork {
     fn should_handle(&self) -> bool {
         self.found
+    }
+}
+
+// TODO: skip transparent wrapper
+fn is_simple_expr(expr: &Expr) -> bool {
+    match expr {
+        Expr::Ident(_) => true,
+        Expr::Member(MemberExpr {
+            obj,
+            computed: false,
+            ..
+        }) if match obj {
+            ExprOrSuper::Super(..) => true,
+            ExprOrSuper::Expr(expr) if is_simple_expr(expr) => true,
+            _ => false,
+        } =>
+        {
+            true
+        }
+        _ => false,
     }
 }

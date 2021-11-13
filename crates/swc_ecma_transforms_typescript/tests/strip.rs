@@ -3184,7 +3184,7 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(tr(), optional_chaining()),
+    |_| chain!(tr(), optional_chaining(Default::default())),
     issue_1149_1,
     "
     const tmp = tt?.map((t: any) => t).join((v: any) => v);
@@ -3198,7 +3198,7 @@ test!(
     Syntax::Typescript(TsConfig {
         ..Default::default()
     }),
-    |_| chain!(tr(), nullish_coalescing()),
+    |_| chain!(tr(), nullish_coalescing(Default::default())),
     issue_1123_1,
     r#"
     interface SuperSubmission {

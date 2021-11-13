@@ -186,7 +186,15 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                     should_enable(self.target, EsVersion::Es2021)
                 ),
                 Optional::new(
-                    compat::es2020::es2020(),
+                    compat::es2020::es2020(compat::es2020::Config {
+                        nullish_coalescing: compat::es2020::nullish_coalescing::Config {
+                            no_document_all: self.loose
+                        },
+                        optional_chaining: compat::es2020::opt_chaining::Config {
+                            no_document_all: self.loose,
+                            pure_getter: self.loose
+                        }
+                    }),
                     should_enable(self.target, EsVersion::Es2020)
                 ),
                 Optional::new(
