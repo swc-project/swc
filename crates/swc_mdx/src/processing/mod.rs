@@ -111,7 +111,12 @@ impl ContentProcessor<'_> {
         let node_span = node.span;
         match node.kind {
             TextNodeKind::Break => todo!(),
-            TextNodeKind::Text(_) => todo!(),
+            TextNodeKind::Text(t) => Box::new(Expr::Lit(Lit::Str(Str {
+                span: node_span,
+                value: t.into(),
+                has_escape: false,
+                kind: Default::default(),
+            }))),
             TextNodeKind::Code(_) => todo!(),
             TextNodeKind::Link(_, _, _) => todo!(),
             TextNodeKind::Image(_, _, _) => todo!(),
