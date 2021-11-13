@@ -19,6 +19,10 @@ impl<I> Parser<I>
 where
     I: Input,
 {
+    pub fn new(input: I) -> Self {
+        Self { i: input }
+    }
+
     fn span(&mut self, start: BytePos) -> Span {
         Span::new(start, self.i.last_pos(), Default::default())
     }
@@ -59,6 +63,17 @@ where
         }
 
         Ok(true)
+    }
+
+    pub fn parse(&mut self) -> PResult<MdxFile> {
+        let start = self.i.cur_pos();
+
+        let content = self.parse_block_nodes()?;
+
+        Ok(MdxFile {
+            span: self.span(start),
+            content,
+        })
     }
 
     pub fn parse_block_nodes(&mut self) -> PResult<Vec<BlockNode>> {
