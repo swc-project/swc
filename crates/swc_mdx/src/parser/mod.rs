@@ -194,8 +194,14 @@ where
             break;
         }
 
-        if self.i.cur().is_none() {
-            return Ok(None);
+        let c = self.i.cur();
+        let c = match c {
+            Some(v) => v,
+            None => return Ok(None),
+        };
+
+        if c.is_alphanumeric() {
+            return self.parse_text_nodes().map(BlockNode::Text).map(Some);
         }
 
         todo!("parse({:?})", self.i.cur())

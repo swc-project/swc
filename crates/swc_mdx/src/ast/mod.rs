@@ -32,7 +32,7 @@ pub enum BlockNode {
         span: Span,
         items: Vec<ListItem>,
     },
-    Raw(Text),
+    Text(Vec<TextNode>),
     Hr {
         span: Span,
     },
