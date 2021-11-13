@@ -59,8 +59,8 @@ where
         parameters(),
         computed_properties(),
         destructuring(c.destructuring),
-        regenerator(c.regenerator, global_mark),
         block_scoping(),
+        regenerator(c.regenerator, global_mark),
     )
 }
 
