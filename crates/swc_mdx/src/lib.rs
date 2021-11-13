@@ -2,7 +2,7 @@ use crate::{error::Error, parser::Parser};
 use swc_common::{input::Input, SourceFile, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_parser::StringInput;
-use swc_ecma_utils::private_ident;
+use swc_ecma_utils::{private_ident, ExprFactory};
 
 pub mod ast;
 pub mod error;
@@ -36,7 +36,52 @@ where
         }),
     };
 
+    let mdx_layout = private_ident!("MDXLayout");
+    let crate_mdx_content = private_ident!("_createMdxContent");
+
     let mut fn_body = vec![];
+    // const {wrapper: MDXLayout} = props.components || ({});
+
+    fn_body.push(Stmt::Decl(Decl::Var(VarDecl {
+        span: DUMMY_SP,
+        kind: VarDeclKind::Const,
+        declare: Default::default(),
+        decls: vec![],
+    })));
+
+    // return MDXLayout ? <MDXLayout {...props}><_createMdxContent /></MDXLayout> :
+    // _createMdxContent();',
+    fn_body.push(Stmt::Return(ReturnStmt {
+        span: DUMMY_SP,
+        arg: Some(Box::new(Expr::Cond(CondExpr {
+            span: DUMMY_SP,
+            test: Box::new(Expr::Ident(mdx_layout.clone())),
+            cons: Box::new(Expr::JSXElement(Box::new(JSXElement {
+                span: DUMMY_SP,
+                opening: JSXOpeningElement {
+                    name: JSXElementName::Ident(mdx_layout.clone()),
+                    span: DUMMY_SP,
+                    attrs: vec![JSXAttrOrSpread::SpreadElement(SpreadElement {
+                        dot3_token: DUMMY_SP,
+                        expr: Box::new(Expr::Ident(props.clone())),
+                    })],
+                    self_closing: false,
+                    type_args: Default::default(),
+                },
+                children: vec![],
+                closing: Some(JSXClosingElement {
+                    name: JSXElementName::Ident(mdx_layout.clone()),
+                    span: DUMMY_SP,
+                }),
+            }))),
+            alt: Box::new(Expr::Call(CallExpr {
+                span: DUMMY_SP,
+                callee: crate_mdx_content.as_callee(),
+                args: Default::default(),
+                type_args: Default::default(),
+            })),
+        }))),
+    }));
 
     items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
         ident: fn_name.clone(),
