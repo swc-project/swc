@@ -3,9 +3,12 @@
 #[derive(Debug, Default)]
 struct TestOpts {
     pub jsx_runtime: String,
+    pub jsx_import_source: String,
+
     pub pragma: String,
     pub pragma_frag: String,
     pub pragma_import_source: String,
+
     pub render: Option<fn(String) -> String>,
 }
 
@@ -38,7 +41,7 @@ fn jsx_runtime_automatic() {
 }
 
 #[test]
-fn jsx_pragma() {
+fn jsx_preact_pragma() {
     test_render(
         "!",
         "<p>!</p>",
@@ -51,4 +54,38 @@ fn jsx_pragma() {
             ..Default::default()
         },
     );
+}
+
+#[test]
+fn jsx_preact_import_source() {
+    test_render(
+        "!",
+        "<p>!</p>",
+        TestOpts {
+            jsx_import_source: "preact".into(),
+            render: Some(render_preact),
+            ..Default::default()
+        },
+    );
+}
+
+#[test]
+#[ignore]
+fn jsx_emotion_import_source() {
+    // assert.equal(
+    //     renderToStaticMarkup(
+    //         React.createElement(
+    //             await run(
+    //                 String(
+    //                     compileSync('<>+</>', { jsxImportSource:
+    // '@emotion/react' })                 ).replace(
+    //                     /\/jsx-runtime(?=["'])/g,
+    //                     '$&/dist/emotion-react-jsx-runtime.cjs.prod.js'
+    //                 )
+    //             )
+    //         )
+    //     ),
+    //     '+',
+    //     'should support `jsxImportSource` for `emotion`'
+    // )
 }

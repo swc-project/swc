@@ -35,31 +35,6 @@ import 'source-map-support/register.js'
 const renderToStaticMarkup = renderToStaticMarkup_
 
 test('compile', async () => {
-    assert.equal(
-        render(
-            h(await run(compileSync('<>1</>', { jsxImportSource: 'preact' })), {})
-        ),
-        '1',
-        'should support `jsxImportSource` for `preact`'
-    )
-
-    assert.equal(
-        renderToStaticMarkup(
-            React.createElement(
-                await run(
-                    String(
-                        compileSync('<>+</>', { jsxImportSource: '@emotion/react' })
-                    ).replace(
-                        /\/jsx-runtime(?=["'])/g,
-                        '$&/dist/emotion-react-jsx-runtime.cjs.prod.js'
-                    )
-                )
-            )
-        ),
-        '+',
-        'should support `jsxImportSource` for `emotion`'
-    )
-
     assert.throws(
         () => {
             compileSync('import React from "react"\n\n.', {
