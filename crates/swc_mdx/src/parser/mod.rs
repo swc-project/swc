@@ -61,6 +61,7 @@ where
                 self.i.reset_to(start);
                 return Ok(false);
             }
+            self.i.bump();
         }
 
         Ok(true)
@@ -144,7 +145,7 @@ where
             return self.parse_block_quote().map(BlockNode::BlockQuote);
         }
 
-        todo!()
+        todo!("parse({:?})", self.i.cur())
     }
 
     pub fn parse_code_block(&mut self) -> PResult<BlockNode> {
