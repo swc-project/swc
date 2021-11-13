@@ -36,47 +36,6 @@ const renderToStaticMarkup = renderToStaticMarkup_
 
 test('compile', async () => {
     assert.equal(
-        renderToStaticMarkup(
-            React.createElement(
-                await run(compileSync('!', { jsxRuntime: 'automatic' }))
-            )
-        ),
-        '<p>!</p>',
-        'should support the automatic runtime (`@jsxRuntime`)'
-    )
-
-    // console.log(
-    //   '\nnote: the next deprecation is expected (preact is missing an export map)\n'
-    // )
-    //
-    // To do: re-enable when `preact/compat` has a correct export map.
-    // assert.equal(
-    //   render(
-    //     h(await run(compileSync('?', {jsxImportSource: 'preact/compat'})), {})
-    //   ),
-    //   '<p>?</p>',
-    //   'should support an import source (`@jsxImportSource`)'
-    // )
-
-    assert.equal(
-        render(
-            h(
-                await run(
-                    compileSync('<>%</>', {
-                        jsxRuntime: 'classic',
-                        pragma: 'preact.createElement',
-                        pragmaFrag: 'preact.Fragment',
-                        pragmaImportSource: 'preact/compat'
-                    })
-                ),
-                {}
-            )
-        ),
-        '%',
-        'should support `pragma`, `pragmaFrag` for `preact/compat`'
-    )
-
-    assert.equal(
         render(
             h(await run(compileSync('<>1</>', { jsxImportSource: 'preact' })), {})
         ),
