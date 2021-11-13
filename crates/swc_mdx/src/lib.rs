@@ -2,7 +2,7 @@ use crate::{error::Error, parser::Parser};
 use swc_common::{input::Input, SourceFile, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_parser::StringInput;
-use swc_ecma_utils::{private_ident, ExprFactory};
+use swc_ecma_utils::{private_ident, quote_ident, ExprFactory};
 
 pub mod ast;
 pub mod error;
@@ -46,7 +46,28 @@ where
         span: DUMMY_SP,
         kind: VarDeclKind::Const,
         declare: Default::default(),
-        decls: vec![],
+        decls: vec![VarDeclarator {
+            span: DUMMY_SP,
+            name: Pat::Object(ObjectPat {
+                span: DUMMY_SP,
+                props: vec![ObjectPatProp::KeyValue(KeyValuePatProp {
+                    key: PropName::Ident(quote_ident!("wrapper")),
+                    value: Box::new(Pat::Ident(mdx_layout.clone().into())),
+                })],
+                optional: Default::default(),
+                type_ann: Default::default(),
+            }),
+            init: Some(Box::new(Expr::Bin(BinExpr {
+                span: DUMMY_SP,
+                op: op!("||"),
+                left: Box::new(props.clone().make_member(quote_ident!("components"))),
+                right: Box::new(Expr::Object(ObjectLit {
+                    span: DUMMY_SP,
+                    props: Default::default(),
+                })),
+            }))),
+            definite: Default::default(),
+        }],
     })));
 
     // return MDXLayout ? <MDXLayout {...props}><_createMdxContent /></MDXLayout> :
