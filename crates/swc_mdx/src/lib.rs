@@ -1,4 +1,4 @@
-use crate::{error::Error, parser::Parser};
+use crate::{error::Error, parser::Parser, processing::ContentProcessor};
 use swc_common::{input::Input, SourceFile, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_parser::StringInput;
@@ -108,12 +108,24 @@ where
             }))),
             alt: Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
-                callee: crate_mdx_content.as_callee(),
+                callee: crate_mdx_content.clone().as_callee(),
                 args: Default::default(),
                 type_args: Default::default(),
             })),
         }))),
     }));
+
+    let mdx_content_span = res.span;
+
+    {
+        let mut processor = ContentProcessor::default();
+
+        fn_body.push(Stmt::Decl(Decl::Fn(FnDecl {
+            ident: crate_mdx_content.clone(),
+            declare: Default::default(),
+            function: processor.make_create_mdx_content(props.clone(), res),
+        })));
+    }
 
     items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
         ident: fn_name.clone(),
@@ -121,7 +133,7 @@ where
         function: Function {
             params: vec![props_param],
             decorators: Default::default(),
-            span: res.span,
+            span: mdx_content_span,
             body: Some(BlockStmt {
                 span: DUMMY_SP,
                 stmts: fn_body,
