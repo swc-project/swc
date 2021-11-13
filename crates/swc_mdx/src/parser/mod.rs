@@ -116,14 +116,22 @@ where
 
         loop {
             if self.i.cur().is_none() {
-                return Ok(buf);
+                break;
             }
 
-            buf.push(self.parse_block_node()?)
+            let node = self.parse_block_node()?;
+            match node {
+                Some(v) => {
+                    buf.push(v);
+                }
+                None => break,
+            }
         }
+
+        Ok(buf)
     }
 
-    pub fn parse_block_node(&mut self) -> PResult<BlockNode> {
+    fn parse_block_node(&mut self) -> PResult<Option<BlockNode>> {
         loop {
             let start = self.i.cur_pos();
 
@@ -133,16 +141,19 @@ where
             {
                 return Ok(self
                     .with_es_parser(|p| p.parse_module_item())
-                    .map(BlockNode::Es)?);
+                    .map(BlockNode::Es)
+                    .map(Some)?);
             }
 
             // jsx elem / jsx frag
             if self.is_exact_at_line_start("<", true)? {
                 let expr = self.with_es_parser(|p| p.parse_expr())?;
-                return Ok(BlockNode::Es(ModuleItem::Stmt(Stmt::Expr(ExprStmt {
-                    span: expr.span(),
-                    expr,
-                }))));
+                return Ok(Some(BlockNode::Es(ModuleItem::Stmt(Stmt::Expr(
+                    ExprStmt {
+                        span: expr.span(),
+                        expr,
+                    },
+                )))));
             }
 
             if self.read_exact_at_line_start("#", true)? {
@@ -158,19 +169,22 @@ where
 
                 let span = self.span(start);
 
-                return Ok(BlockNode::Header {
+                return Ok(Some(BlockNode::Header {
                     span,
                     hash_cnt: cnt,
                     content,
-                });
+                }));
             }
 
             if self.read_exact_at_line_start("```", true)? {
-                return self.parse_code_block();
+                return self.parse_code_block().map(Some);
             }
 
             if self.read_exact_at_line_start(">", true)? {
-                return self.parse_block_quote().map(BlockNode::BlockQuote);
+                return self
+                    .parse_block_quote()
+                    .map(BlockNode::BlockQuote)
+                    .map(Some);
             }
 
             if self.i.eat_byte(b'\n') || self.i.eat_byte(b'\r') {
@@ -178,6 +192,10 @@ where
             }
 
             break;
+        }
+
+        if self.i.cur().is_none() {
+            return Ok(None);
         }
 
         todo!("parse({:?})", self.i.cur())
