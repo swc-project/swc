@@ -244,22 +244,21 @@ where
     pub fn parse_text_node(&mut self) -> PResult<TextNode> {
         let start = self.i.cur_pos();
 
-        match self.i.cur() {
-            Some(c) => {
-                if c.is_alphanumeric() {
-                    let text = self.read_text()?;
-                    return Ok(TextNode {
-                        span: self.span(start),
-                        kind: TextNodeKind::Text(text),
-                    });
-                }
-            }
+        let c = match self.i.cur() {
+            Some(c) => c,
             None => {
                 return Ok(TextNode {
                     span: self.span(start),
                     kind: TextNodeKind::Break,
                 })
             }
+        };
+        if c.is_alphanumeric() {
+            let text = self.read_text()?;
+            return Ok(TextNode {
+                span: self.span(start),
+                kind: TextNodeKind::Text(text),
+            });
         }
 
         todo!("parse_text_node({:?})", self.i.cur())
