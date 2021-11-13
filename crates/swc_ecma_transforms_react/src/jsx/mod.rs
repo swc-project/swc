@@ -205,6 +205,7 @@ where
         pragma_frag: parse_expr_for_jsx(&cm, "pragmaFrag", options.pragma_frag, top_level_mark),
         use_builtins: options.use_builtins,
         use_spread: options.use_spread,
+        development: options.development,
         throw_if_namespace: options.throw_if_namespace,
         top_level_node: true,
     })
@@ -237,6 +238,7 @@ where
     pragma_frag: Arc<Box<Expr>>,
     use_builtins: bool,
     use_spread: bool,
+    development: bool,
     throw_if_namespace: bool,
 }
 
@@ -347,12 +349,18 @@ where
         match self.runtime {
             Runtime::Automatic => {
                 let jsx = if use_jsxs {
+                    let jsxs = if self.development {
+                        "_jsxsDEV"
+                    } else {
+                        "_jsxs"
+                    };
                     self.import_jsxs
-                        .get_or_insert_with(|| private_ident!("_jsxs"))
+                        .get_or_insert_with(|| private_ident!(jsxs))
                         .clone()
                 } else {
+                    let jsx = if self.development { "_jsxDEV" } else { "_jsx" };
                     self.import_jsx
-                        .get_or_insert_with(|| private_ident!("_jsx"))
+                        .get_or_insert_with(|| private_ident!(jsx))
                         .clone()
                 };
 
@@ -453,12 +461,18 @@ where
                         .get_or_insert_with(|| private_ident!("_createElement"))
                         .clone()
                 } else if use_jsxs {
+                    let jsxs = if self.development {
+                        "_jsxsDEV"
+                    } else {
+                        "_jsxs"
+                    };
                     self.import_jsxs
-                        .get_or_insert_with(|| private_ident!("_jsxs"))
+                        .get_or_insert_with(|| private_ident!(jsxs))
                         .clone()
                 } else {
+                    let jsx = if self.development { "_jsxDEV" } else { "_jsx" };
                     self.import_jsx
-                        .get_or_insert_with(|| private_ident!("_jsx"))
+                        .get_or_insert_with(|| private_ident!(jsx))
                         .clone()
                 };
 
@@ -976,14 +990,22 @@ where
                 .map(|local| ImportNamedSpecifier {
                     span: DUMMY_SP,
                     local,
-                    imported: Some(quote_ident!("jsx")),
+                    imported: if self.development {
+                        Some(quote_ident!("jsxDEV"))
+                    } else {
+                        Some(quote_ident!("jsx"))
+                    },
                     is_type_only: false,
                 })
                 .into_iter()
                 .chain(self.import_jsxs.take().map(|local| ImportNamedSpecifier {
                     span: DUMMY_SP,
                     local,
-                    imported: Some(quote_ident!("jsxs")),
+                    imported: if self.development {
+                        Some(quote_ident!("jsxsDEV"))
+                    } else {
+                        Some(quote_ident!("jsxs"))
+                    },
                     is_type_only: false,
                 }))
                 .chain(
@@ -1000,6 +1022,11 @@ where
                 .collect::<Vec<_>>();
 
             if !imports.is_empty() {
+                let jsx_runtime = if self.development {
+                    "jsx-dev-runtime"
+                } else {
+                    "jsx-runtime"
+                };
                 prepend(
                     &mut module.body,
                     ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
@@ -1007,7 +1034,7 @@ where
                         specifiers: imports,
                         src: Str {
                             span: DUMMY_SP,
-                            value: format!("{}/jsx-runtime", self.import_source).into(),
+                            value: format!("{}/{}", self.import_source, jsx_runtime).into(),
                             has_escape: false,
                             kind: Default::default(),
                         },
