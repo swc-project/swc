@@ -14,7 +14,7 @@ pub struct ContentProcessor<'a> {
 }
 
 impl ContentProcessor<'_> {
-    pub(crate) fn make_create_mdx_content(&mut self, f: MdxFile) -> Function {
+    pub(crate) fn make_create_mdx_content(&mut self, f: Vec<BlockNode>) -> Function {
         let mut stmts = vec![];
 
         stmts.push(Stmt::Decl(Decl::Var(VarDecl {
@@ -59,8 +59,7 @@ impl ContentProcessor<'_> {
         })));
 
         {
-            let mut content = f
-                .content
+            let content = f
                 .into_iter()
                 .map(|node| self.process_block_node(node))
                 .collect();

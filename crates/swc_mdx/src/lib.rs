@@ -1,4 +1,4 @@
-use crate::{error::Error, parser::Parser, processing::ContentProcessor};
+use crate::{ast::BlockNode, error::Error, parser::Parser, processing::ContentProcessor};
 use swc_common::{input::Input, SourceFile, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_parser::StringInput;
@@ -118,6 +118,19 @@ where
     let mdx_content_span = res.span;
 
     {
+        let mut content = Vec::with_capacity(res.content.len());
+
+        for node in res.content {
+            match node {
+                BlockNode::Es(e) => {
+                    items.push(e);
+                }
+                _ => {
+                    content.push(node);
+                }
+            }
+        }
+
         let components = private_ident!("_components");
 
         let mut processor = ContentProcessor {
@@ -129,7 +142,7 @@ where
         fn_body.push(Stmt::Decl(Decl::Fn(FnDecl {
             ident: crate_mdx_content.clone(),
             declare: Default::default(),
-            function: processor.make_create_mdx_content(res),
+            function: processor.make_create_mdx_content(content),
         })));
     }
 
