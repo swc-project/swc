@@ -1,9 +1,8 @@
-use swc_common::{input::Input, BytePos, Span};
-use swc_ecma_ast::EsVersion;
-use swc_ecma_parser::{EsConfig, Syntax};
-
 pub use self::errors::{Error, ErrorKind};
 use crate::ast::*;
+use swc_common::{input::Input, BytePos, Span, Spanned};
+use swc_ecma_ast::EsVersion;
+use swc_ecma_parser::{EsConfig, Syntax};
 
 mod errors;
 
@@ -107,7 +106,11 @@ where
                 None,
             );
             let mut es_parser = swc_ecma_parser::Parser::new_from(lexer);
-            let expr = es_parser.parse_expr();
+            let item = es_parser.parse_module_item()?;
+
+            self.i.reset_to(item.span().hi);
+
+            return Ok(BlockNode::Es(item));
         }
 
         // jsx elem / jsx frag

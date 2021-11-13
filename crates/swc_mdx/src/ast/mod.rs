@@ -9,10 +9,8 @@ pub struct MdxFile {
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum BlockNode {
-    Es6(ModuleDecl),
-
-    JsxEl(JSXElement),
-    JsxFrag(JSXFragment),
+    /// Ecmascript node
+    Es(ModuleItem),
 
     Header {
         span: Span,
