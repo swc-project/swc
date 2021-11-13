@@ -1,7 +1,7 @@
 pub use self::errors::{Error, ErrorKind};
 use crate::ast::*;
 use swc_common::{input::Input, BytePos, Span, Spanned};
-use swc_ecma_ast::EsVersion;
+use swc_ecma_ast::{EsVersion, ExprStmt, ModuleItem, Stmt};
 use swc_ecma_parser::{EsConfig, Syntax};
 
 mod errors;
@@ -67,6 +67,39 @@ where
         Ok(true)
     }
 
+    fn is_exact_at_line_start(&mut self, expected: &'static str, skip_ws: bool) -> PResult<bool> {
+        let start = self.i.cur_pos();
+
+        // TODO: Line start
+        if skip_ws {
+            loop {
+                if self.i.eat_byte(b' ')
+                    || self.i.eat_byte(b'\t')
+                    || self.i.eat_byte(b'\n')
+                    || self.i.eat_byte(b'\r')
+                {
+                    continue;
+                }
+
+                break;
+            }
+        }
+
+        let actual_start = self.i.cur_pos();
+
+        for chars in expected.chars() {
+            if self.i.cur() != Some(chars) {
+                self.i.reset_to(start);
+                return Ok(false);
+            }
+            self.i.bump();
+        }
+
+        self.i.reset_to(actual_start);
+
+        Ok(true)
+    }
+
     pub fn parse(&mut self) -> PResult<MdxFile> {
         let start = self.i.cur_pos();
 
@@ -94,28 +127,22 @@ where
         let start = self.i.cur_pos();
 
         // import / export
-        if self.read_exact_at_line_start("import", true)?
-            || self.read_exact_at_line_start("export", true)?
+        if self.is_exact_at_line_start("import", true)?
+            || self.is_exact_at_line_start("export", true)?
         {
-            let lexer = swc_ecma_parser::lexer::Lexer::new(
-                Syntax::Es(EsConfig {
-                    jsx: true,
-                    ..Default::default()
-                }),
-                EsVersion::latest(),
-                self.i.clone(),
-                None,
-            );
-            let mut es_parser = swc_ecma_parser::Parser::new_from(lexer);
-            let item = es_parser.parse_module_item()?;
-
-            self.i.reset_to(item.span().hi);
-
-            return Ok(BlockNode::Es(item));
+            return Ok(self
+                .with_es_parser(|p| p.parse_module_item())
+                .map(BlockNode::Es)?);
         }
 
         // jsx elem / jsx frag
-        if self.read_exact_at_line_start("<", true)? {}
+        if self.is_exact_at_line_start("<", true)? {
+            let expr = self.with_es_parser(|p| p.parse_expr())?;
+            return Ok(BlockNode::Es(ModuleItem::Stmt(Stmt::Expr(ExprStmt {
+                span: expr.span(),
+                expr,
+            }))));
+        }
 
         if self.read_exact_at_line_start("#", true)? {
             let mut cnt = 1;
@@ -224,5 +251,29 @@ where
 
     pub fn parse_list_item(&mut self) -> PResult<ListItem> {
         todo!()
+    }
+
+    fn with_es_parser<F, T>(&mut self, op: F) -> PResult<T>
+    where
+        F: FnOnce(
+            &mut swc_ecma_parser::Parser<swc_ecma_parser::lexer::Lexer<I>>,
+        ) -> swc_ecma_parser::PResult<T>,
+        T: Spanned,
+    {
+        let lexer = swc_ecma_parser::lexer::Lexer::new(
+            Syntax::Es(EsConfig {
+                jsx: true,
+                ..Default::default()
+            }),
+            EsVersion::latest(),
+            self.i.clone(),
+            None,
+        );
+        let mut es_parser = swc_ecma_parser::Parser::new_from(lexer);
+        let ret = op(&mut es_parser)?;
+
+        self.i.reset_to(ret.span().hi);
+
+        Ok(ret)
     }
 }
