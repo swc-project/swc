@@ -36,22 +36,6 @@ const renderToStaticMarkup = renderToStaticMarkup_
 
 test('compile', async () => {
 
-    try {
-        renderToStaticMarkup(
-            React.createElement(
-                await run(compileSync('export var X = () => <Y />\n\n<X />'))
-            )
-        )
-        assert.unreachable()
-    } catch (/** @type {unknown} */ error) {
-        const exception = /** @type {Error} */ (error)
-        assert.match(
-            exception.message,
-            /Y is not defined/,
-            'should throw on missing components in exported components'
-        )
-    }
-
     assert.equal(
         renderToStaticMarkup(
             React.createElement(

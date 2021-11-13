@@ -20,6 +20,8 @@ struct TestOpts {
 
 fn test_render(input: &str, output: &str, opts: impl FnOnce(Lrc<SourceMap>) -> TestOpts) {}
 
+fn test_error(input: &str, expected_msg: &str, opts: impl FnOnce(Lrc<SourceMap>) -> TestOpts) {}
+
 fn render_automatic(s: String) -> String {
     todo!()
 }
@@ -198,6 +200,16 @@ fn components_no_overwrite_in_exports() {
 
                 Some(obj(&cm, m))
             },
+            ..Default::default()
+        },
+    );
+}
+#[test]
+fn components_error_for_missing_in_export() {
+    test_error(
+        "export var X = () => <Y />\n\n<X />",
+        "Y is not defined",
+        |_cm| TestOpts {
             ..Default::default()
         },
     );
