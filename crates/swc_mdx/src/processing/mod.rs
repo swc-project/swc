@@ -1,6 +1,6 @@
 use std::mem::take;
 
-use crate::ast::{BlockNode, MdxFile, TextNode};
+use crate::ast::{BlockNode, MdxFile, TextNode, TextNodeKind};
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashSet, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -98,7 +98,56 @@ impl ContentProcessor<'_> {
         }
     }
 
-    fn process_text_nodes(&mut self, nodes: Vec<TextNode>) -> Box<Expr> {}
+    fn process_text_nodes(&mut self, nodes: Vec<TextNode>) -> Box<Expr> {
+        let mut exprs = nodes
+            .into_iter()
+            .map(|node| self.process_text_node(node))
+            .collect();
+
+        to_jsx(exprs)
+    }
+
+    fn process_text_node(&mut self, node: TextNode) -> Box<Expr> {
+        let node_span = node.span;
+        match node.kind {
+            TextNodeKind::Break => todo!(),
+            TextNodeKind::Text(_) => todo!(),
+            TextNodeKind::Code(_) => todo!(),
+            TextNodeKind::Link(_, _, _) => todo!(),
+            TextNodeKind::Image(_, _, _) => todo!(),
+            TextNodeKind::Emphasis(nodes) => {
+                let children = self.process_text_nodes(nodes);
+
+                let tag_name = self.use_component("em".into());
+
+                Box::new(Expr::JSXElement(Box::new(JSXElement {
+                    span: node_span,
+                    opening: JSXOpeningElement {
+                        name: tag_name.clone(),
+                        span: DUMMY_SP,
+                        attrs: Default::default(),
+                        self_closing: false,
+                        type_args: Default::default(),
+                    },
+                    children: vec![expr_to_jsx_child(children)],
+                    closing: Some(JSXClosingElement {
+                        span: DUMMY_SP,
+                        name: tag_name,
+                    }),
+                })))
+            }
+            TextNodeKind::Strong(_) => todo!(),
+        }
+    }
+
+    fn use_component(&mut self, tag_name: JsWord) -> JSXElementName {
+        self.used_components.insert(tag_name.clone());
+
+        JSXElementName::JSXMemberExpr(JSXMemberExpr {
+            obj: JSXObject::Ident(self.components.clone()),
+            prop: quote_ident!(tag_name),
+        })
+    }
 }
 
 fn to_jsx(exprs: Vec<Box<Expr>>) -> Box<Expr> {
