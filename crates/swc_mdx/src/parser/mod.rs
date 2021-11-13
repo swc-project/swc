@@ -149,11 +149,11 @@ where
     }
 
     pub fn parse_code_block(&mut self) -> PResult<BlockNode> {
-        todo!()
+        todo!("parse_code_block({:?})", self.i.cur())
     }
 
     pub fn parse_text_node(&mut self) -> PResult<TextNode> {
-        todo!()
+        todo!("parse_text_node({:?})", self.i.cur())
     }
 
     pub fn parse_text_nodes(&mut self) -> PResult<Vec<TextNode>> {
