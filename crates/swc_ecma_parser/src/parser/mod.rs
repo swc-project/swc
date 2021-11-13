@@ -203,6 +203,10 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
+    pub fn parse_module_item(&mut self) -> PResult<ModuleItem> {
+        self.parse_stmt_like(true, true)
+    }
+
     fn ctx(&self) -> Context {
         self.input.get_ctx()
     }

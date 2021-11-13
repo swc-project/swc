@@ -69,7 +69,11 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     /// Parse a statement, declaration or module item.
-    fn parse_stmt_like<Type>(&mut self, include_decl: bool, top_level: bool) -> PResult<Type>
+    pub(super) fn parse_stmt_like<Type>(
+        &mut self,
+        include_decl: bool,
+        top_level: bool,
+    ) -> PResult<Type>
     where
         Self: StmtLikeParser<'a, Type>,
         Type: IsDirective + From<Stmt>,
