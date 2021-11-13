@@ -35,46 +35,6 @@ import 'source-map-support/register.js'
 const renderToStaticMarkup = renderToStaticMarkup_
 
 test('compile', async () => {
-    try {
-        renderToStaticMarkup(
-            React.createElement(await run(compileSync('export default a')))
-        )
-        assert.unreachable()
-    } catch (/** @type {unknown} */ error) {
-        const exception = /** @type {Error} */ (error)
-        assert.equal(
-            exception.message,
-            'a is not defined',
-            'should support an identifier as an export default'
-        )
-    }
-
-    console.log('\nnote: the next warning is expected!\n')
-
-    try {
-        renderToStaticMarkup(React.createElement(await run(compileSync('<X />'))))
-        assert.unreachable()
-    } catch (/** @type {unknown} */ error) {
-        const exception = /** @type {Error} */ (error)
-        assert.match(
-            exception.message,
-            /Element type is invalid/,
-            'should throw if a required component is not passed'
-        )
-    }
-
-    try {
-        renderToStaticMarkup(React.createElement(await run(compileSync('<a.b />'))))
-        assert.unreachable()
-    } catch (/** @type {unknown} */ error) {
-        const exception = /** @type {Error} */ (error)
-        assert.match(
-            exception.message,
-            /Cannot read propert/,
-            'should throw if a required member is not passed'
-        )
-    }
-
     assert.equal(
         renderToStaticMarkup(
             React.createElement(
