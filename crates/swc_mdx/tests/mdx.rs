@@ -124,4 +124,37 @@ fn components_member() {
     });
 }
 
+#[test]
+fn components_member_complex() {
+    test_render(
+        "<X /> and <X.Y />",
+        "<p><span>!</span> and <span>?</span></p>",
+        |cm| TestOpts {
+            components: {
+                let mut m = HashMap::new();
+                m.insert(
+                    "X".into(),
+                    "
+                    function () {
+                        return React.createElement('span', props, '!')
+                    }
+                    "
+                    .into(),
+                );
+                m.insert(
+                    "X.Y".into(),
+                    "
+                    function () {
+                        return React.createElement('span', props, '?')
+                    }
+                    "
+                    .into(),
+                );
+                Some(obj(&cm, m))
+            },
+            ..Default::default()
+        },
+    );
+}
+
 fn obj(cm: &Lrc<SourceMap>, m: HashMap<String, String>) -> ObjectLit {}

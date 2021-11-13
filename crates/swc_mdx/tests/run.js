@@ -37,27 +37,6 @@ const renderToStaticMarkup = renderToStaticMarkup_
 test('compile', async () => {
     assert.equal(
         renderToStaticMarkup(
-            React.createElement(await run(compileSync('<X /> and <X.Y />')), {
-                components: {
-                    X: Object.assign(
-                        /** @param {Object.<string, unknown>} props */
-                        (props) => React.createElement('span', props, '!'),
-                        {
-                            /** @param {Object.<string, unknown>} props */
-                            Y(props) {
-                                return React.createElement('span', props, '?')
-                            }
-                        }
-                    )
-                }
-            })
-        ),
-        '<p><span>!</span> and <span>?</span></p>',
-        'should support passing in `components` directly and as an object w/ members'
-    )
-
-    assert.equal(
-        renderToStaticMarkup(
             React.createElement(await run(compileSync('*a*')), {
                 components: {
                     em(props) {
