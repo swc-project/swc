@@ -12,11 +12,7 @@ pub enum BlockNode {
     /// Ecmascript node
     Es(ModuleItem),
 
-    Header {
-        span: Span,
-        hash_cnt: usize,
-        content: Vec<TextNode>,
-    },
+    Header(Header),
     Paragraph {
         span: Span,
         content: Vec<TextNode>,
@@ -40,6 +36,13 @@ pub enum BlockNode {
     Hr {
         span: Span,
     },
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub struct Header {
+    pub span: Span,
+    pub hash_cnt: usize,
+    pub content: Vec<TextNode>,
 }
 
 #[derive(Debug, Clone, PartialEq)]

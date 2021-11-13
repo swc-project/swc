@@ -169,11 +169,11 @@ where
 
                 let span = self.span(start);
 
-                return Ok(Some(BlockNode::Header {
+                return Ok(Some(BlockNode::Header(Header {
                     span,
                     hash_cnt: cnt,
                     content,
-                }));
+                })));
             }
 
             if self.read_exact_at_line_start("```", true)? {
