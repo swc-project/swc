@@ -32,7 +32,7 @@ Check out the documentation [in the website](https://swc.rs/docs/installation/).
 
 # Features
 
-Please see [comparison with babel](https://swc.rs/docs/comparison-babel).
+Please see [comparison with babel](https://swc.rs/docs/migrating-from-babel).
 
 # Performance
 
