@@ -124,52 +124,60 @@ where
     }
 
     pub fn parse_block_node(&mut self) -> PResult<BlockNode> {
-        let start = self.i.cur_pos();
+        loop {
+            let start = self.i.cur_pos();
 
-        // import / export
-        if self.is_exact_at_line_start("import", true)?
-            || self.is_exact_at_line_start("export", true)?
-        {
-            return Ok(self
-                .with_es_parser(|p| p.parse_module_item())
-                .map(BlockNode::Es)?);
-        }
-
-        // jsx elem / jsx frag
-        if self.is_exact_at_line_start("<", true)? {
-            let expr = self.with_es_parser(|p| p.parse_expr())?;
-            return Ok(BlockNode::Es(ModuleItem::Stmt(Stmt::Expr(ExprStmt {
-                span: expr.span(),
-                expr,
-            }))));
-        }
-
-        if self.read_exact_at_line_start("#", true)? {
-            let mut cnt = 1;
-
-            while self.i.eat_byte(b'#') {
-                cnt += 1;
+            // import / export
+            if self.is_exact_at_line_start("import", true)?
+                || self.is_exact_at_line_start("export", true)?
+            {
+                return Ok(self
+                    .with_es_parser(|p| p.parse_module_item())
+                    .map(BlockNode::Es)?);
             }
 
-            self.skip_ws()?;
+            // jsx elem / jsx frag
+            if self.is_exact_at_line_start("<", true)? {
+                let expr = self.with_es_parser(|p| p.parse_expr())?;
+                return Ok(BlockNode::Es(ModuleItem::Stmt(Stmt::Expr(ExprStmt {
+                    span: expr.span(),
+                    expr,
+                }))));
+            }
 
-            let content = self.parse_text_nodes()?;
+            if self.read_exact_at_line_start("#", true)? {
+                let mut cnt = 1;
 
-            let span = self.span(start);
+                while self.i.eat_byte(b'#') {
+                    cnt += 1;
+                }
 
-            return Ok(BlockNode::Header {
-                span,
-                hash_cnt: cnt,
-                content,
-            });
-        }
+                self.skip_ws()?;
 
-        if self.read_exact_at_line_start("```", true)? {
-            return self.parse_code_block();
-        }
+                let content = self.parse_text_nodes()?;
 
-        if self.read_exact_at_line_start(">", true)? {
-            return self.parse_block_quote().map(BlockNode::BlockQuote);
+                let span = self.span(start);
+
+                return Ok(BlockNode::Header {
+                    span,
+                    hash_cnt: cnt,
+                    content,
+                });
+            }
+
+            if self.read_exact_at_line_start("```", true)? {
+                return self.parse_code_block();
+            }
+
+            if self.read_exact_at_line_start(">", true)? {
+                return self.parse_block_quote().map(BlockNode::BlockQuote);
+            }
+
+            if self.i.eat_byte(b'\n') || self.i.eat_byte(b'\r') {
+                continue;
+            }
+
+            break;
         }
 
         todo!("parse({:?})", self.i.cur())
