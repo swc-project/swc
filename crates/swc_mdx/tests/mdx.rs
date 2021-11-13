@@ -204,11 +204,23 @@ fn components_no_overwrite_in_exports() {
         },
     );
 }
+
 #[test]
 fn components_error_for_missing_in_export() {
     test_error(
         "export var X = () => <Y />\n\n<X />",
         "Y is not defined",
+        |_cm| TestOpts {
+            ..Default::default()
+        },
+    );
+}
+
+#[test]
+fn custom_components_in_expored_components() {
+    test_render(
+        "export function Foo({Box = 'div'}) { return <Box>a</Box>; }\n\n<Foo />",
+        "<div>a</div>",
         |_cm| TestOpts {
             ..Default::default()
         },

@@ -63,20 +63,6 @@ test('compile', async () => {
     assert.equal(
         renderToStaticMarkup(
             React.createElement(
-                await run(
-                    compileSync(
-                        'export function Foo({Box = "div"}) { return <Box>a</Box>; }\n\n<Foo />'
-                    )
-                )
-            )
-        ),
-        '<div>a</div>',
-        'should support custom components in exported components'
-    )
-
-    assert.equal(
-        renderToStaticMarkup(
-            React.createElement(
                 MDXProvider,
                 {
                     components: {
