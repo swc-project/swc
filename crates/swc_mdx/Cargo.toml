@@ -15,4 +15,5 @@ swc_ecma_ast = {version = "0.58.0", path = "../swc_ecma_ast"}
 swc_ecma_parser = {version = "0.78.0", path = "../swc_ecma_parser"}
 
 [dev-dependencies]
+swc_ecma_codegen = {version = "0.80.0", path = "../swc_ecma_codegen"}
 testing = {version = "0.15.1", path = "../testing"}
