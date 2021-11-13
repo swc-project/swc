@@ -1,6 +1,6 @@
 use std::mem::take;
 
-use crate::ast::MdxFile;
+use crate::ast::{BlockNode, MdxFile};
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashSet, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -58,6 +58,19 @@ impl ContentProcessor {
             }],
         })));
 
+        {
+            let mut content = f
+                .content
+                .into_iter()
+                .map(|node| self.process_block_node(&components, node))
+                .collect();
+
+            stmts.push(Stmt::Return(ReturnStmt {
+                span: DUMMY_SP,
+                arg: Some(to_jsx(content)),
+            }));
+        }
+
         Function {
             span: DUMMY_SP,
             params: Default::default(),
@@ -71,5 +84,31 @@ impl ContentProcessor {
             type_params: Default::default(),
             return_type: Default::default(),
         }
+    }
+
+    fn process_block_node(&mut self, components: &Ident, node: BlockNode) -> Box<Expr> {}
+}
+
+fn to_jsx(exprs: Vec<Box<Expr>>) -> Box<Expr> {
+    if exprs.len() == 1 {
+        exprs.into_iter().next().unwrap()
+    } else {
+        Box::new(Expr::JSXFragment(JSXFragment {
+            span: DUMMY_SP,
+            opening: JSXOpeningFragment { span: DUMMY_SP },
+            children: exprs.into_iter().map(expr_to_jsx_child).collect(),
+            closing: JSXClosingFragment { span: DUMMY_SP },
+        }))
+    }
+}
+
+fn expr_to_jsx_child(expr: Box<Expr>) -> JSXElementChild {
+    match *expr {
+        Expr::JSXElement(jsx) => JSXElementChild::JSXElement(jsx),
+        Expr::JSXFragment(jsx) => JSXElementChild::JSXFragment(jsx),
+        _ => JSXElementChild::JSXExprContainer(JSXExprContainer {
+            span: DUMMY_SP,
+            expr: JSXExpr::Expr(expr),
+        }),
     }
 }
