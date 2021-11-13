@@ -17,6 +17,11 @@ impl ContentProcessor<'_> {
     pub(crate) fn make_create_mdx_content(&mut self, f: Vec<BlockNode>) -> Function {
         let mut stmts = vec![];
 
+        let content = f
+            .into_iter()
+            .map(|node| self.process_block_node(node))
+            .collect();
+
         stmts.push(Stmt::Decl(Decl::Var(VarDecl {
             span: DUMMY_SP,
             kind: VarDeclKind::Const,
@@ -58,17 +63,10 @@ impl ContentProcessor<'_> {
             }],
         })));
 
-        {
-            let content = f
-                .into_iter()
-                .map(|node| self.process_block_node(node))
-                .collect();
-
-            stmts.push(Stmt::Return(ReturnStmt {
-                span: DUMMY_SP,
-                arg: Some(to_jsx(content)),
-            }));
-        }
+        stmts.push(Stmt::Return(ReturnStmt {
+            span: DUMMY_SP,
+            arg: Some(to_jsx(content)),
+        }));
 
         Function {
             span: DUMMY_SP,
