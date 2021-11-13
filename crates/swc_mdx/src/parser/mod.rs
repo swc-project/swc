@@ -219,7 +219,7 @@ where
             None => return Ok(None),
         };
 
-        if c.is_alphanumeric() || c == '*' {
+        if c.is_alphanumeric() || (!self.ctx.in_asterisk && c == '*') {
             return self.parse_text_nodes().map(BlockNode::Text).map(Some);
         }
 
@@ -263,8 +263,15 @@ where
     pub fn parse_text_node(&mut self) -> PResult<TextNode> {
         let start = self.i.cur_pos();
 
-        if self.i.eat_byte(b'*') {
-            let kind = self.parse_text_nodes().map(TextNodeKind::Emphasis)?;
+        if !self.ctx.in_asterisk && self.i.eat_byte(b'*') {
+            let ctx = Ctx {
+                in_asterisk: true,
+                ..self.ctx
+            };
+            let kind = self
+                .with_ctx(ctx)
+                .parse_text_nodes()
+                .map(TextNodeKind::Emphasis)?;
 
             self.expect_byte(b'*')?;
 
@@ -299,11 +306,17 @@ where
 
         loop {
             if self.i.cur().is_none() || self.i.eat_byte(b'\n') || self.i.eat_byte(b'\r') {
-                return Ok(buf);
+                break;
+            }
+
+            if self.ctx.in_asterisk && self.i.is_byte(b'*') {
+                break;
             }
 
             buf.push(self.parse_text_node()?);
         }
+
+        Ok(buf)
     }
 
     pub fn parse_block_quote(&mut self) -> PResult<BlockQuote> {
