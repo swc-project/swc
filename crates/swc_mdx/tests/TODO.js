@@ -40,20 +40,6 @@ test('compile', async () => {
             React.createElement(
                 await run(
                     compileSync(
-                        'import React from "react"\nexport default class extends React.Component { render() { return <>{this.props.children}</> } }\n\na'
-                    )
-                )
-            )
-        ),
-        '<p>a</p>',
-        'should support setting the layout through a class component'
-    )
-
-    assert.equal(
-        renderToStaticMarkup(
-            React.createElement(
-                await run(
-                    compileSync(
                         'export default function Layout({components, ...props}) { return <section {...props} /> }\n\na'
                     )
                 ),
