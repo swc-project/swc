@@ -239,7 +239,7 @@ where
                     let s = self.i.uncons_while(|c: char| {
                         c.is_alphanumeric()
                             || match c {
-                                ' ' | '?' | '_' | ',' => true,
+                                ' ' | '?' | '!' | '_' | ',' => true,
                                 _ => false,
                             }
                     });
