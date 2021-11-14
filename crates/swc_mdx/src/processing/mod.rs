@@ -131,6 +131,7 @@ impl ContentProcessor<'_> {
         let node_span = node.span;
         match node.kind {
             TextNodeKind::Break => todo!(),
+            TextNodeKind::Jsx(e) => e,
             TextNodeKind::Text(t) => Box::new(Expr::Lit(Lit::Str(Str {
                 span: node_span,
                 value: t.into(),
