@@ -62,6 +62,7 @@ pub struct TextNode {
 #[derive(Debug, Clone, PartialEq)]
 pub enum TextNodeKind {
     Break,
+    Jsx(Box<Expr>),
     Text(String),
     Code(String),
     Link(String, String, Option<String>),

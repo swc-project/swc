@@ -293,6 +293,14 @@ where
             });
         }
 
+        if c == '<' {
+            let expr = self.with_es_parser(|p| p.parse_expr())?;
+            return Ok(TextNode {
+                span: self.span(start),
+                kind: TextNodeKind::Jsx(expr),
+            });
+        }
+
         todo!("parse_text_node({:?})", self.i.cur())
     }
 
