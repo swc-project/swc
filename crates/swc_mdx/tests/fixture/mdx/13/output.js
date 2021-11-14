@@ -4,7 +4,6 @@ function MDXContent(props = {
     };
     return MDXLayout ? <MDXLayout {...props}><_createMdxContent /></MDXLayout> : _createMdxContent();
     function _createMdxContent() {
-        const _components = Object.assign(props.components);
         return <>a {} b</>;
     }
 }
