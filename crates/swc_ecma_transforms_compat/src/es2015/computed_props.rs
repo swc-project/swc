@@ -43,6 +43,7 @@ pub fn computed_properties(c: Config) -> impl Fold {
 #[derive(Debug, Clone, Copy, Default, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Config {
+    #[serde(default)]
     pub loose: bool,
 }
 

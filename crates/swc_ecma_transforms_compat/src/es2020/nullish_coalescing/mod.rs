@@ -24,6 +24,7 @@ struct NullishCoalescing {
 #[derive(Debug, Clone, Copy, Default, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Config {
+    #[serde(default)]
     pub no_document_all: bool,
 }
 

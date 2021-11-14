@@ -44,7 +44,9 @@ struct ObjectRest {
 #[derive(Debug, Clone, Copy, Default, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Config {
+    #[serde(default)]
     pub no_symbol: bool,
+    #[serde(default)]
     pub set_property: bool,
 }
 

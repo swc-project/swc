@@ -26,7 +26,9 @@ struct TemplateLiteral {
 #[derive(Debug, Clone, Copy, Default, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Config {
+    #[serde(default)]
     pub ignore_to_primitive: bool,
+    #[serde(default)]
     pub mutable_template: bool,
 }
 
