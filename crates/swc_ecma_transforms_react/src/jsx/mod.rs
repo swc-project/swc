@@ -348,14 +348,9 @@ where
 
         match self.runtime {
             Runtime::Automatic => {
-                let jsx = if use_jsxs {
-                    let jsxs = if self.development {
-                        "_jsxsDEV"
-                    } else {
-                        "_jsxs"
-                    };
+                let jsx = if use_jsxs && !self.development {
                     self.import_jsxs
-                        .get_or_insert_with(|| private_ident!(jsxs))
+                        .get_or_insert_with(|| private_ident!("_jsxs"))
                         .clone()
                 } else {
                     let jsx = if self.development { "_jsxDEV" } else { "_jsx" };
@@ -460,14 +455,9 @@ where
                     self.import_create_element
                         .get_or_insert_with(|| private_ident!("_createElement"))
                         .clone()
-                } else if use_jsxs {
-                    let jsxs = if self.development {
-                        "_jsxsDEV"
-                    } else {
-                        "_jsxs"
-                    };
+                } else if use_jsxs && !self.development {
                     self.import_jsxs
-                        .get_or_insert_with(|| private_ident!(jsxs))
+                        .get_or_insert_with(|| private_ident!("_jsxs"))
                         .clone()
                 } else {
                     let jsx = if self.development { "_jsxDEV" } else { "_jsx" };
@@ -610,6 +600,7 @@ where
 
                 self.top_level_node = top_level_node;
 
+                let args = once(name.as_arg()).chain(once(props_obj.as_arg()));
                 let args = if self.development {
                     let loc = self.cm.lookup_char_pos(el.span.lo);
                     let source = ObjectLit {
@@ -640,17 +631,26 @@ where
                             }))),
                         ],
                     };
-                    once(name.as_arg())
-                        .chain(once(props_obj.as_arg()))
-                        .chain(key)
-                        .chain(once(source.as_arg()))
-                        .chain(once(ThisExpr { span: DUMMY_SP }.as_arg()))
-                        .collect()
+                    args.chain(once(
+                        Ident {
+                            span: DUMMY_SP,
+                            sym: js_word!("undefined"),
+                            optional: false,
+                        }
+                        .as_arg(),
+                    ))
+                    .chain(once(
+                        Lit::Bool(Bool {
+                            span: DUMMY_SP,
+                            value: use_jsxs,
+                        })
+                        .as_arg(),
+                    ))
+                    .chain(once(source.as_arg()))
+                    .chain(once(ThisExpr { span: DUMMY_SP }.as_arg()))
+                    .collect()
                 } else {
-                    once(name.as_arg())
-                        .chain(once(props_obj.as_arg()))
-                        .chain(key)
-                        .collect()
+                    args.chain(key).collect()
                 };
                 Expr::Call(CallExpr {
                     span,
@@ -1023,42 +1023,56 @@ where
                 );
             }
 
-            let imports = self
-                .import_jsx
-                .take()
-                .map(|local| ImportNamedSpecifier {
-                    span: DUMMY_SP,
-                    local,
-                    imported: if self.development {
-                        Some(quote_ident!("jsxDEV"))
-                    } else {
-                        Some(quote_ident!("jsx"))
-                    },
-                    is_type_only: false,
-                })
-                .into_iter()
-                .chain(self.import_jsxs.take().map(|local| ImportNamedSpecifier {
-                    span: DUMMY_SP,
-                    local,
-                    imported: if self.development {
-                        Some(quote_ident!("jsxsDEV"))
-                    } else {
-                        Some(quote_ident!("jsxs"))
-                    },
-                    is_type_only: false,
-                }))
-                .chain(
-                    self.import_fragment
-                        .take()
-                        .map(|local| ImportNamedSpecifier {
-                            span: DUMMY_SP,
-                            local,
-                            imported: Some(quote_ident!("Fragment")),
-                            is_type_only: false,
-                        }),
-                )
-                .map(ImportSpecifier::Named)
-                .collect::<Vec<_>>();
+            let imports = self.import_jsx.take();
+            let imports = if self.development {
+                imports
+                    .map(|local| ImportNamedSpecifier {
+                        span: DUMMY_SP,
+                        local,
+                        imported: Some(quote_ident!("jsxDEV")),
+                        is_type_only: false,
+                    })
+                    .into_iter()
+                    .chain(
+                        self.import_fragment
+                            .take()
+                            .map(|local| ImportNamedSpecifier {
+                                span: DUMMY_SP,
+                                local,
+                                imported: Some(quote_ident!("Fragment")),
+                                is_type_only: false,
+                            }),
+                    )
+                    .map(ImportSpecifier::Named)
+                    .collect::<Vec<_>>()
+            } else {
+                imports
+                    .map(|local| ImportNamedSpecifier {
+                        span: DUMMY_SP,
+                        local,
+                        imported: Some(quote_ident!("jsx")),
+                        is_type_only: false,
+                    })
+                    .into_iter()
+                    .chain(self.import_jsxs.take().map(|local| ImportNamedSpecifier {
+                        span: DUMMY_SP,
+                        local,
+                        imported: Some(quote_ident!("jsxs")),
+                        is_type_only: false,
+                    }))
+                    .chain(
+                        self.import_fragment
+                            .take()
+                            .map(|local| ImportNamedSpecifier {
+                                span: DUMMY_SP,
+                                local,
+                                imported: Some(quote_ident!("Fragment")),
+                                is_type_only: false,
+                            }),
+                    )
+                    .map(ImportSpecifier::Named)
+                    .collect::<Vec<_>>()
+            };
 
             if !imports.is_empty() {
                 let jsx_runtime = if self.development {
