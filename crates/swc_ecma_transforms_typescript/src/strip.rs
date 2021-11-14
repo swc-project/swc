@@ -278,7 +278,7 @@ struct Scope {
 struct DeclInfo {
     /// interface / type alias
     has_type: bool,
-    /// Var, Fn, Class
+    /// Var, Fn, Class, Namespace without declare
     has_concrete: bool,
     /// In `import foo = bar.baz`, `foo`'s dependency is `bar`. This means that
     /// when setting `has_concrete` for `foo`, it must also be set for
@@ -330,13 +330,15 @@ where
             }
 
             Decl::TsInterface(TsInterfaceDecl { ref id, .. })
-            | Decl::TsModule(TsModuleDecl {
-                id: TsModuleName::Ident(ref id),
-                ..
-            })
             | Decl::TsTypeAlias(TsTypeAliasDecl { ref id, .. }) => {
                 self.store(id.sym.clone(), id.span.ctxt, false)
             }
+
+            Decl::TsModule(TsModuleDecl {
+                id: TsModuleName::Ident(ref id),
+                declare,
+                ..
+            }) => self.store(id.sym.clone(), id.span.ctxt, !declare),
 
             Decl::TsModule(TsModuleDecl {
                 id:
