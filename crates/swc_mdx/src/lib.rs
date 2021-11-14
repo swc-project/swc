@@ -1,4 +1,5 @@
 use crate::{ast::BlockNode, error::Error, parser::Parser, processing::ContentProcessor};
+use std::iter::once;
 use swc_common::{input::Input, SourceFile, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_parser::StringInput;
@@ -79,10 +80,24 @@ where
             span: DUMMY_SP,
             name: Pat::Object(ObjectPat {
                 span: DUMMY_SP,
-                props: vec![ObjectPatProp::KeyValue(KeyValuePatProp {
+                props: once(ObjectPatProp::KeyValue(KeyValuePatProp {
                     key: PropName::Ident(quote_ident!("wrapper")),
                     value: Box::new(Pat::Ident(mdx_layout.clone().into())),
-                })],
+                }))
+                .chain(
+                    processor
+                        .used_components
+                        .iter()
+                        .filter(|sym| sym.starts_with(|c: char| c.is_ascii_uppercase()))
+                        .map(|sym| {
+                            ObjectPatProp::Assign(AssignPatProp {
+                                span: DUMMY_SP,
+                                key: quote_ident!(sym.clone()),
+                                value: None,
+                            })
+                        }),
+                )
+                .collect(),
                 optional: Default::default(),
                 type_ann: Default::default(),
             }),
