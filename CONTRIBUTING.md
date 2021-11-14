@@ -24,7 +24,7 @@ necessary to use it exactly:
 
     Instead, this happened: <explanation>
 
-    I'm using <output of `SWC --version`>
+    I'm using <output of `swc --version`>
 
 All three components are important: what you did, what you expected, what
 happened instead. Please use https://gist.github.com/ if your examples run long.
@@ -158,7 +158,7 @@ adding labels to triage issues:
     an issue is **C-feature-request**, but is not **Feature accepted**,
     then it was not thoroughly discussed, and might need some additional design
     or perhaps should be implemented as an external subcommand first. Ping
-    @swc-project/SWC if you want to send a PR for an such issue.
+    @swc-project/swc if you want to send a PR for an such issue.
 
 -   Green, **E**-prefixed labels explain the level of **experience** or
     **effort** necessary to fix the issue. [**E-mentor**][e-mentor] issues also

@@ -22,9 +22,9 @@
    </a>
 </p>
 
-SWC (stands for `speedy web compiler`) is a super-fast typescript / javascript compiler written in rust. It's a library for rust and javascript at the same time. If you are using SWC from rust, see [rustdoc](https://rustdoc.swc.rs/swc/) and for most users, your entrypoint for using library will be [parser](https://rustdoc.swc.rs/swc_ecma_parser/).
+SWC (stands for `Speedy Web Compiler`) is a super-fast TypeScript / JavaScript compiler written in Rust. It's a library for Rust and JavaScript at the same time. If you are using SWC from Rust, see [rustdoc](https://rustdoc.swc.rs/swc/) and for most users, your entry point for using the library will be [parser](https://rustdoc.swc.rs/swc_ecma_parser/).
 
-If you are using SWC from javascript, please refer to [docs on the website](https://swc.rs/docs/installation/).
+If you are using SWC from JavaScript, please refer to [docs on the website](https://swc.rs/docs/installation/).
 
 # Documentation
 
