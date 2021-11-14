@@ -4,7 +4,7 @@ use swc_ecma_transforms_testing::{test, test_exec};
 
 fn tr() -> impl Fold {
     let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
-    jsx_src(true, cm)
+    jsx_src(true, Some(Runtime::Classic), cm)
 }
 
 test_exec!(

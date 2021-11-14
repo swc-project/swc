@@ -38,12 +38,16 @@ pub fn react<C>(
 where
     C: Comments + Clone,
 {
-    let Options { development, .. } = options;
+    let Options {
+        development,
+        runtime,
+        ..
+    } = options;
 
     let refresh_options = options.refresh.take();
 
     chain!(
-        jsx_src(development, cm.clone()),
+        jsx_src(development, runtime, cm.clone()),
         jsx_self(development),
         refresh(development, refresh_options, cm.clone(), comments.clone()),
         jsx(cm.clone(), comments.clone(), options, top_level_mark),

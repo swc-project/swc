@@ -1,3 +1,4 @@
+use super::jsx::Runtime;
 use swc_common::{sync::Lrc, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
@@ -9,14 +10,16 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut};
 mod tests;
 
 /// `@babel/plugin-transform-react-jsx-source`
-pub fn jsx_src(dev: bool, cm: Lrc<SourceMap>) -> impl Fold + VisitMut {
-    as_folder(JsxSrc { cm, dev })
+pub fn jsx_src(dev: bool, runtime: Option<Runtime>, cm: Lrc<SourceMap>) -> impl Fold + VisitMut {
+    let runtime = runtime.unwrap_or(Runtime::Classic);
+    as_folder(JsxSrc { cm, dev, runtime })
 }
 
 #[derive(Clone)]
 struct JsxSrc {
     cm: Lrc<SourceMap>,
     dev: bool,
+    runtime: Runtime,
 }
 
 impl Parallel for JsxSrc {
@@ -32,7 +35,11 @@ impl VisitMut for JsxSrc {
     noop_visit_mut_type!();
 
     fn visit_mut_jsx_opening_element(&mut self, e: &mut JSXOpeningElement) {
-        if !self.dev || e.span == DUMMY_SP {
+        let is_automatic = match self.runtime {
+            Runtime::Automatic => true,
+            Runtime::Classic => false,
+        };
+        if !self.dev || e.span == DUMMY_SP || is_automatic {
             return;
         }
 
