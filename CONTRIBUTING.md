@@ -1,6 +1,6 @@
-# Contributing to swc
+# Contributing to SWC
 
-Thank you for your interest in contributing to swc! Good places to start are this document, ARCHITECTURE.md, which describes the high-level structure of SWC and E-easy bugs on the issue tracker.
+Thank you for your interest in contributing to SWC! Good places to start are this document, ARCHITECTURE.md, which describes the high-level structure of SWC and E-easy bugs on the issue tracker.
 
 ## Code of Conduct
 
