@@ -1,10 +1,9 @@
+use crate::ast::{BlockNode, TextNode, TextNodeKind};
 use std::{iter::once, mem::take};
-
-use crate::ast::{BlockNode, MdxFile, TextNode, TextNodeKind};
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashSet, DUMMY_SP};
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_utils::{member_expr, private_ident, quote_ident, ExprFactory};
+use swc_ecma_utils::{member_expr, quote_ident, ExprFactory};
 
 #[derive(Debug)]
 pub struct ContentProcessor<'a> {
@@ -22,56 +21,48 @@ impl ContentProcessor<'_> {
             .map(|node| self.process_block_node(node))
             .collect();
 
-        stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-            span: DUMMY_SP,
-            kind: VarDeclKind::Const,
-            declare: Default::default(),
-            decls: vec![VarDeclarator {
+        if !self.used_components.is_empty() {
+            stmts.push(Stmt::Decl(Decl::Var(VarDecl {
                 span: DUMMY_SP,
-                name: Pat::Ident(self.components.clone().into()),
-                init: Some(Box::new(Expr::Call(CallExpr {
+                kind: VarDeclKind::Const,
+                declare: Default::default(),
+                decls: vec![VarDeclarator {
                     span: DUMMY_SP,
-                    callee: member_expr!(DUMMY_SP, Object.assign).as_callee(),
-                    args: {
-                        if self.used_components.is_empty() {
-                            None
-                        } else {
-                            Some(
-                                ObjectLit {
-                                    span: DUMMY_SP,
-                                    props: take(&mut self.used_components)
-                                        .into_iter()
-                                        .map(|sym| KeyValueProp {
-                                            key: PropName::Ident(quote_ident!(sym.clone())),
-                                            value: Box::new(Expr::Lit(Lit::Str(Str {
-                                                span: DUMMY_SP,
-                                                value: sym,
-                                                has_escape: false,
-                                                kind: Default::default(),
-                                            }))),
-                                        })
-                                        .map(Prop::KeyValue)
-                                        .map(Box::new)
-                                        .map(PropOrSpread::Prop)
-                                        .collect(),
-                                }
-                                .as_arg(),
-                            )
-                        }
-                        .into_iter()
-                        .chain(once(
+                    name: Pat::Ident(self.components.clone().into()),
+                    init: Some(Box::new(Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: member_expr!(DUMMY_SP, Object.assign).as_callee(),
+                        args: vec![
+                            ObjectLit {
+                                span: DUMMY_SP,
+                                props: take(&mut self.used_components)
+                                    .into_iter()
+                                    .map(|sym| KeyValueProp {
+                                        key: PropName::Ident(quote_ident!(sym.clone())),
+                                        value: Box::new(Expr::Lit(Lit::Str(Str {
+                                            span: DUMMY_SP,
+                                            value: sym,
+                                            has_escape: false,
+                                            kind: Default::default(),
+                                        }))),
+                                    })
+                                    .map(Prop::KeyValue)
+                                    .map(Box::new)
+                                    .map(PropOrSpread::Prop)
+                                    .collect(),
+                            }
+                            .as_arg(),
                             self.props
                                 .clone()
                                 .make_member(quote_ident!("components"))
                                 .as_arg(),
-                        ))
-                        .collect()
-                    },
-                    type_args: Default::default(),
-                }))),
-                definite: Default::default(),
-            }],
-        })));
+                        ],
+                        type_args: Default::default(),
+                    }))),
+                    definite: Default::default(),
+                }],
+            })));
+        }
 
         stmts.push(Stmt::Return(ReturnStmt {
             span: DUMMY_SP,
