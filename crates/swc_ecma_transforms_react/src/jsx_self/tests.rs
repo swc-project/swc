@@ -2,7 +2,7 @@ use super::*;
 use swc_ecma_transforms_testing::test;
 
 fn tr() -> impl Fold {
-    jsx_self(true)
+    jsx_self(true, Some(Runtime::Classic))
 }
 
 test!(

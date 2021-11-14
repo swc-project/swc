@@ -48,7 +48,7 @@ where
 
     chain!(
         jsx_src(development, runtime, cm.clone()),
-        jsx_self(development),
+        jsx_self(development, runtime),
         refresh(development, refresh_options, cm.clone(), comments.clone()),
         jsx(cm.clone(), comments.clone(), options, top_level_mark),
         display_name(),
