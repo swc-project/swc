@@ -2,7 +2,7 @@ use self::ctx::Ctx;
 pub use self::errors::{Error, ErrorKind};
 use crate::ast::*;
 use swc_common::{input::Input, BytePos, Span, Spanned};
-use swc_ecma_ast::{EsVersion, ExprStmt, ModuleItem, Stmt};
+use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{EsConfig, Syntax};
 
 mod ctx;

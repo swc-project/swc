@@ -9,7 +9,8 @@ use swc_ecma_utils::{member_expr, quote_ident, ExprFactory};
 pub struct ContentProcessor<'a> {
     pub(crate) props: &'a Ident,
     pub(crate) components: &'a Ident,
-    pub(crate) used_components: Vec<JsWord>,
+    pub(crate) used_custom_components: Vec<JsWord>,
+    pub(crate) used_tags: Vec<JsWord>,
 }
 
 impl ContentProcessor<'_> {
@@ -21,7 +22,7 @@ impl ContentProcessor<'_> {
             .map(|node| self.process_block_node(node))
             .collect();
 
-        if !self.used_components.is_empty() {
+        if !self.used_tags.is_empty() {
             stmts.push(Stmt::Decl(Decl::Var(VarDecl {
                 span: DUMMY_SP,
                 kind: VarDeclKind::Const,
@@ -35,7 +36,7 @@ impl ContentProcessor<'_> {
                         args: vec![
                             ObjectLit {
                                 span: DUMMY_SP,
-                                props: take(&mut self.used_components)
+                                props: take(&mut self.used_tags)
                                     .into_iter()
                                     .map(|sym| KeyValueProp {
                                         key: PropName::Ident(quote_ident!(sym.clone())),
@@ -89,12 +90,12 @@ impl ContentProcessor<'_> {
             BlockNode::Es(_) => {
                 unreachable!("`BlockNode::Es(_)` should be removed before calling processor")
             }
-            BlockNode::Jsx(e) => e,
+            BlockNode::Jsx(e) => self.process_jsx(e),
 
             BlockNode::Text(nodes) => {
                 let children = self.process_text_nodes(nodes);
 
-                let tag_name = self.use_component("p".into());
+                let tag_name = self.use_tag("p".into());
 
                 Box::new(Expr::JSXElement(Box::new(JSXElement {
                     // TODO: Use proper span
@@ -132,7 +133,7 @@ impl ContentProcessor<'_> {
         let node_span = node.span;
         match node.kind {
             TextNodeKind::Break => todo!(),
-            TextNodeKind::Jsx(e) => e,
+            TextNodeKind::Jsx(e) => self.process_jsx(e),
             TextNodeKind::Text(t) => Box::new(Expr::Lit(Lit::Str(Str {
                 span: node_span,
                 value: t.into(),
@@ -145,7 +146,7 @@ impl ContentProcessor<'_> {
             TextNodeKind::Emphasis(nodes) => {
                 let children = self.process_text_nodes(nodes);
 
-                let tag_name = self.use_component("em".into());
+                let tag_name = self.use_tag("em".into());
 
                 Box::new(Expr::JSXElement(Box::new(JSXElement {
                     span: node_span,
@@ -167,9 +168,28 @@ impl ContentProcessor<'_> {
         }
     }
 
-    fn use_component(&mut self, tag_name: JsWord) -> JSXElementName {
-        if !self.used_components.contains(&tag_name) {
-            self.used_components.push(tag_name.clone());
+    fn process_jsx(&mut self, e: Box<Expr>) -> Box<Expr> {
+        match &*e {
+            Expr::JSXElement(e) => {
+                self.add_custom_component(&e.opening.name);
+            }
+            _ => {}
+        }
+
+        e
+    }
+
+    fn add_custom_component(&mut self, name: &JSXElementName) {
+        if let JSXElementName::Ident(name) = name {
+            if !self.used_custom_components.contains(&name.sym) {
+                self.used_custom_components.push(name.sym.clone());
+            }
+        }
+    }
+
+    fn use_tag(&mut self, tag_name: JsWord) -> JSXElementName {
+        if !self.used_tags.contains(&tag_name) {
+            self.used_tags.push(tag_name.clone());
         }
 
         JSXElementName::JSXMemberExpr(JSXMemberExpr {

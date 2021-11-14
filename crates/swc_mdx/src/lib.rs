@@ -45,7 +45,8 @@ where
     let mut processor = ContentProcessor {
         props: &props,
         components: &components,
-        used_components: Default::default(),
+        used_custom_components: Default::default(),
+        used_tags: Default::default(),
     };
 
     let actual_function = {
@@ -86,7 +87,7 @@ where
                 }))
                 .chain(
                     processor
-                        .used_components
+                        .used_custom_components
                         .iter()
                         .filter(|sym| sym.starts_with(|c: char| c.is_ascii_uppercase()))
                         .map(|sym| {
