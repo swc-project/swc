@@ -610,13 +610,52 @@ where
 
                 self.top_level_node = top_level_node;
 
+                let args = if self.development {
+                    let loc = self.cm.lookup_char_pos(el.span.lo);
+                    let source = ObjectLit {
+                        span: DUMMY_SP,
+                        props: vec![
+                            PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                                key: PropName::Ident(quote_ident!("fileName")),
+                                value: Box::new(Expr::Lit(Lit::Str(Str {
+                                    span: DUMMY_SP,
+                                    value: loc.file.name.to_string().into(),
+                                    has_escape: false,
+                                    kind: Default::default(),
+                                }))),
+                            }))),
+                            PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                                key: PropName::Ident(quote_ident!("lineNumber")),
+                                value: Box::new(Expr::Lit(Lit::Num(Number {
+                                    span: DUMMY_SP,
+                                    value: loc.line as _,
+                                }))),
+                            }))),
+                            PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                                key: PropName::Ident(quote_ident!("columnNumber")),
+                                value: Box::new(Expr::Lit(Lit::Num(Number {
+                                    span: DUMMY_SP,
+                                    value: (loc.col.0 + 1) as _,
+                                }))),
+                            }))),
+                        ],
+                    };
+                    once(name.as_arg())
+                        .chain(once(props_obj.as_arg()))
+                        .chain(key)
+                        .chain(once(source.as_arg()))
+                        .chain(once(ThisExpr { span: DUMMY_SP }.as_arg()))
+                        .collect()
+                } else {
+                    once(name.as_arg())
+                        .chain(once(props_obj.as_arg()))
+                        .chain(key)
+                        .collect()
+                };
                 Expr::Call(CallExpr {
                     span,
                     callee: jsx.as_callee(),
-                    args: once(name.as_arg())
-                        .chain(once(props_obj.as_arg()))
-                        .chain(key)
-                        .collect(),
+                    args,
                     type_args: Default::default(),
                 })
             }
