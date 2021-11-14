@@ -192,24 +192,6 @@ test('compile', async () => {
 
 test('jsx', async () => {
     assert.equal(
-        String(compileSync('<>a {/* 1 */} b</>', { jsx: true })),
-        [
-            '/*@jsxRuntime automatic @jsxImportSource react*/',
-            '/*1*/',
-            'function MDXContent(props = {}) {',
-            '  const {wrapper: MDXLayout} = props.components || ({});',
-            '  return MDXLayout ? <MDXLayout {...props}><_createMdxContent /></MDXLayout> : _createMdxContent();',
-            '  function _createMdxContent() {',
-            '    return <><>{"a "}{}{" b"}</></>;',
-            '  }',
-            '}',
-            'export default MDXContent;',
-            ''
-        ].join('\n'),
-        'should serialize fragments, expressions'
-    )
-
-    assert.equal(
         String(compileSync('Hello {props.name}', { jsx: true })),
         [
             '/*@jsxRuntime automatic @jsxImportSource react*/',
