@@ -1,4 +1,4 @@
-use std::mem::take;
+use std::{iter::once, mem::take};
 
 use crate::ast::{BlockNode, MdxFile, TextNode, TextNodeKind};
 use swc_atoms::JsWord;
@@ -32,31 +32,41 @@ impl ContentProcessor<'_> {
                 init: Some(Box::new(Expr::Call(CallExpr {
                     span: DUMMY_SP,
                     callee: member_expr!(DUMMY_SP, Object.assign).as_callee(),
-                    args: vec![
-                        ObjectLit {
-                            span: DUMMY_SP,
-                            props: take(&mut self.used_components)
-                                .into_iter()
-                                .map(|sym| KeyValueProp {
-                                    key: PropName::Ident(quote_ident!(sym.clone())),
-                                    value: Box::new(Expr::Lit(Lit::Str(Str {
-                                        span: DUMMY_SP,
-                                        value: sym,
-                                        has_escape: false,
-                                        kind: Default::default(),
-                                    }))),
-                                })
-                                .map(Prop::KeyValue)
-                                .map(Box::new)
-                                .map(PropOrSpread::Prop)
-                                .collect(),
+                    args: {
+                        if self.used_components.is_empty() {
+                            None
+                        } else {
+                            Some(
+                                ObjectLit {
+                                    span: DUMMY_SP,
+                                    props: take(&mut self.used_components)
+                                        .into_iter()
+                                        .map(|sym| KeyValueProp {
+                                            key: PropName::Ident(quote_ident!(sym.clone())),
+                                            value: Box::new(Expr::Lit(Lit::Str(Str {
+                                                span: DUMMY_SP,
+                                                value: sym,
+                                                has_escape: false,
+                                                kind: Default::default(),
+                                            }))),
+                                        })
+                                        .map(Prop::KeyValue)
+                                        .map(Box::new)
+                                        .map(PropOrSpread::Prop)
+                                        .collect(),
+                                }
+                                .as_arg(),
+                            )
                         }
-                        .as_arg(),
-                        self.props
-                            .clone()
-                            .make_member(quote_ident!("components"))
-                            .as_arg(),
-                    ],
+                        .into_iter()
+                        .chain(once(
+                            self.props
+                                .clone()
+                                .make_member(quote_ident!("components"))
+                                .as_arg(),
+                        ))
+                        .collect()
+                    },
                     type_args: Default::default(),
                 }))),
                 definite: Default::default(),
