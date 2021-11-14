@@ -1,5 +1,6 @@
 ## How tests work
-The babel-compat tests are mostly written as fixtures, similar to the [@babel/parser tests](https://github.com/babel/babel/tree/main/packages/babel-parser/test/fixtures). The `src/convert.rs` test runner looks in the `fixtures/` directory for input and expected output files. Input files are parsed into an swc AST and converted to a Babel AST in Rust. Output files are parsed directly into a Babel AST. The two ASTs are then compared, with any differences causing the test to fail.
+
+The babel-compat tests are mostly written as fixtures, similar to the [@babel/parser tests](https://github.com/babel/babel/tree/main/packages/babel-parser/test/fixtures). The `src/convert.rs` test runner looks in the `fixtures/` directory for input and expected output files. Input files are parsed into an SWC AST and converted to a Babel AST in Rust. Output files are parsed directly into a Babel AST. The two ASTs are then compared, with any differences causing the test to fail.
 
 ## How to write a test
 
@@ -24,6 +25,6 @@ node babelgen.js fixtures/my-test/input.js > fixtures/my-test/output.json
 This happens a lot with `None` and `Some(false)`. You'll probably want to add a normalizer function to the Normalizer visitor in `src/normalize/mod.rs`.
 
 ## Other random utlities
-- `swcgen.js`: Prints the swc AST as JSON.
-- `compare.sh`: prints the Babel and swc ASTs side-by-side.
 
+-   `swcgen.js`: Prints the SWC AST as JSON.
+-   `compare.sh`: prints the Babel and SWC ASTs side-by-side.

@@ -1,6 +1,6 @@
 # Minifier
 
-EcmaScript minifier for the swc project. This is basically a port of terser.
+EcmaScript minifier for the SWC project. This is basically a port of terser.
 
 # Note
 

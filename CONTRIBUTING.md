@@ -1,6 +1,6 @@
 # Contributing to swc
 
-Thank you for your interest in contributing to swc! Good places to start are this document, ARCHITECTURE.md, which describes the high-level structure of swc and E-easy bugs on the issue tracker.
+Thank you for your interest in contributing to swc! Good places to start are this document, ARCHITECTURE.md, which describes the high-level structure of SWC and E-easy bugs on the issue tracker.
 
 ## Code of Conduct
 
@@ -24,7 +24,7 @@ necessary to use it exactly:
 
     Instead, this happened: <explanation>
 
-    I'm using <output of `swc --version`>
+    I'm using <output of `SWC --version`>
 
 All three components are important: what you did, what you expected, what
 happened instead. Please use https://gist.github.com/ if your examples run long.
@@ -40,7 +40,7 @@ If you're looking for somewhere to start, check out the [E-easy][e-easy] and
 
 Feel free to ask for guidelines on how to tackle a problem on [gitter][] or open a
 [new issue][new-issues]. This is especially important if you want to add new
-features to swc or make large changes to the already existing code-base.
+features to SWC or make large changes to the already existing code-base.
 swc's core developers will do their best to provide help.
 
 If you start working on an already-filed issue, post a comment on this issue to
@@ -58,7 +58,7 @@ passes the test-suite at all times.
 
 Your basic steps to get going:
 
--   Fork swc and create a branch from master for the issue you are working on.
+-   Fork SWC and create a branch from master for the issue you are working on.
 -   Make sure you have the `make` utility installed, along with Rust and C/C++
     compilers.
 -   Please adhere to the code style that you see around the location you are
@@ -111,7 +111,7 @@ After cloning the project there are a few steps required to get the project runn
 
 ## Pull requests
 
-After the pull request is made, one of the swc project developers will review your code.
+After the pull request is made, one of the SWC project developers will review your code.
 The review-process will make sure that the proposed changes are sound.
 Please give the assigned reviewer sufficient time, especially during weekends.
 If you don't get a reply, you may poke the core developers on [gitter].
@@ -158,7 +158,7 @@ adding labels to triage issues:
     an issue is **C-feature-request**, but is not **Feature accepted**,
     then it was not thoroughly discussed, and might need some additional design
     or perhaps should be implemented as an external subcommand first. Ping
-    @swc-projcet/swc if you want to send a PR for an such issue.
+    @swc-project/SWC if you want to send a PR for an such issue.
 
 -   Green, **E**-prefixed labels explain the level of **experience** or
     **effort** necessary to fix the issue. [**E-mentor**][e-mentor] issues also

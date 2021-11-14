@@ -1,21 +1,21 @@
-# swc architecture
+# SWC architecture
 
-This document gives a high level overview of swc internals. You may find it useful if you want to contribute to swc or if you are interested in the inner workings of swc.
+This document gives a high level overview of SWC internals. You may find it useful if you want to contribute to SWC or if you are interested in the inner workings of swc.
 
 ## Macros
 
-See [blog post about swc macros](https://swc.rs/blog/2020/01/04/pmutil#macros-built-with-pmutil).
+See [blog post about SWC macros](https://swc.rs/blog/2020/01/04/pmutil#macros-built-with-pmutil).
 
-swc uses proc macro extensively to reduce work. Please see links below to know what each macro do.
+SWC uses proc macro extensively to reduce work. Please see links below to know what each macro do.
 
-- [enum_kind][]
-- [string_enum][]
-- [ast_node][]
+-   [enum_kind][]
+-   [string_enum][]
+-   [ast_node][]
 
 And some adhoc-macros are used.
 
-- [parser_macros][]
-- [codegen_macros][]
+-   [parser_macros][]
+-   [codegen_macros][]
 
 These macro breaks macro hygiene.
 
@@ -23,7 +23,7 @@ These macro breaks macro hygiene.
 
 ### `/atoms`
 
-Handle string interning for the swc project. The crate depends on [string_cache](https://github.com/servo/string-cache) from servo.
+Handle string interning for the SWC project. The crate depends on [string_cache](https://github.com/servo/string-cache) from servo.
 
 ### `/common`
 
@@ -56,7 +56,7 @@ e.g.
 ```js
 let a = 1;
 {
-  let a = 1;
+    let a = 1;
 }
 ```
 
@@ -87,7 +87,7 @@ becomes
 ```js
 let a = 1;
 {
-  let a1 = 2;
+    let a1 = 2;
 }
 ```
 
@@ -137,7 +137,7 @@ Contains code related to making code faster on runtime. Currently only small set
 
 ## Tests
 
-swc uses [official ecmascript conformance test suite called test262][test262] for testing.
+SWC uses [official ecmascript conformance test suite called test262][test262] for testing.
 
 Parser tests ensures that parsed result of test262/pass is identical with test262/pass-explicit.
 

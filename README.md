@@ -22,9 +22,9 @@
    </a>
 </p>
 
-swc (stands for `speedy web compiler`) is a super-fast typescript / javascript compiler written in rust. It's a library for rust and javascript at the same time. If you are using swc from rust, see [rustdoc](https://rustdoc.swc.rs/swc/) and for most users, your entrypoint for using library will be [parser](https://rustdoc.swc.rs/swc_ecma_parser/).
+SWC (stands for `speedy web compiler`) is a super-fast typescript / javascript compiler written in rust. It's a library for rust and javascript at the same time. If you are using SWC from rust, see [rustdoc](https://rustdoc.swc.rs/swc/) and for most users, your entrypoint for using library will be [parser](https://rustdoc.swc.rs/swc_ecma_parser/).
 
-If you are using swc from javascript, please refer to [docs on the website](https://swc.rs/docs/installation/).
+If you are using SWC from javascript, please refer to [docs on the website](https://swc.rs/docs/installation/).
 
 # Documentation
 
@@ -55,7 +55,7 @@ Please see [benchmark results](https://swc.rs/docs/benchmark-transform) on the w
    </a>
 </p>
 
-swc is a community-driven project, and is maintained by a group of [volunteers](https://opencollective.com/swc#team). If you'd like to help support the future of the project, please consider:
+SWC is a community-driven project, and is maintained by a group of [volunteers](https://opencollective.com/swc#team). If you'd like to help support the future of the project, please consider:
 
 -   Giving developer time on the project. (Message us on [Discord](https://discord.gg/GnHbXTdZz6) (preferred) or [Github discussions](https://github.com/swc-project/swc/discussions) for guidance!)
 -   Giving funds by becoming a sponsor (see https://opencollective.com/swc)!
@@ -67,7 +67,7 @@ documentation useful ([ARCHITECTURE.md](ARCHITECTURE.md)).
 
 ## License
 
-swc is primarily distributed under the terms of both the MIT license
+SWC is primarily distributed under the terms of both the MIT license
 and the Apache License (Version 2.0).
 
 See LICENSE-APACHE and LICENSE-MIT for details.
