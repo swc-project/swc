@@ -88,6 +88,8 @@ impl ContentProcessor<'_> {
             BlockNode::Es(_) => {
                 unreachable!("`BlockNode::Es(_)` should be removed before calling processor")
             }
+            BlockNode::Jsx(e) => e,
+
             BlockNode::Text(nodes) => {
                 let children = self.process_text_nodes(nodes);
 

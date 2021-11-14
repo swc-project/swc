@@ -36,6 +36,8 @@ pub enum BlockNode {
     Hr {
         span: Span,
     },
+
+    Jsx(Box<Expr>),
 }
 
 #[derive(Debug, Clone, PartialEq)]

@@ -167,12 +167,7 @@ where
             // jsx elem / jsx frag
             if self.is_exact_at_line_start("<", true)? {
                 let expr = self.with_es_parser(|p| p.parse_expr())?;
-                return Ok(Some(BlockNode::Es(ModuleItem::Stmt(Stmt::Expr(
-                    ExprStmt {
-                        span: expr.span(),
-                        expr,
-                    },
-                )))));
+                return Ok(Some(BlockNode::Jsx(expr)));
             }
 
             if self.read_exact_at_line_start("#", true)? {
