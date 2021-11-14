@@ -39,6 +39,35 @@ where
     let mdx_layout = private_ident!("MDXLayout");
     let crate_mdx_content = private_ident!("_createMdxContent");
 
+    let components = private_ident!("_components");
+
+    let mut processor = ContentProcessor {
+        props: &props,
+        components: &components,
+        used_components: Default::default(),
+    };
+
+    let actual_function = {
+        let mut content = Vec::with_capacity(res.content.len());
+
+        for node in res.content {
+            match node {
+                BlockNode::Es(e) => {
+                    items.push(e);
+                }
+                _ => {
+                    content.push(node);
+                }
+            }
+        }
+
+        Stmt::Decl(Decl::Fn(FnDecl {
+            ident: crate_mdx_content.clone(),
+            declare: Default::default(),
+            function: processor.make_create_mdx_content(content),
+        }))
+    };
+
     let mut fn_body = vec![];
     // const {wrapper: MDXLayout} = props.components || ({});
 
@@ -117,34 +146,7 @@ where
 
     let mdx_content_span = res.span;
 
-    {
-        let mut content = Vec::with_capacity(res.content.len());
-
-        for node in res.content {
-            match node {
-                BlockNode::Es(e) => {
-                    items.push(e);
-                }
-                _ => {
-                    content.push(node);
-                }
-            }
-        }
-
-        let components = private_ident!("_components");
-
-        let mut processor = ContentProcessor {
-            props: &props,
-            components: &components,
-            used_components: Default::default(),
-        };
-
-        fn_body.push(Stmt::Decl(Decl::Fn(FnDecl {
-            ident: crate_mdx_content.clone(),
-            declare: Default::default(),
-            function: processor.make_create_mdx_content(content),
-        })));
-    }
+    fn_body.push(actual_function);
 
     items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
         ident: fn_name.clone(),
