@@ -58,23 +58,17 @@ error: Ident
 1 | :nth-child(2n+1) {}
   |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:1:12
   |
 1 | :nth-child(2n+1) {}
   |            ^^^^
 
-error: Dimension { value: 2.0, raw_value: Atom('2' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
+error: AnPlusB
  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:1:12
   |
 1 | :nth-child(2n+1) {}
-  |            ^^
-
-error: Num { value: 1.0, raw: Atom('+1' type=inline) }
- --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:1:14
-  |
-1 | :nth-child(2n+1) {}
-  |              ^^
+  |            ^^^^
 
 error: Block
  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:1:18
@@ -130,29 +124,17 @@ error: Ident
 2 | :nth-child(2n +1) {}
   |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:2:12
   |
 2 | :nth-child(2n +1) {}
   |            ^^^^^
 
-error: Dimension { value: 2.0, raw_value: Atom('2' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
+error: AnPlusB
  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:2:12
   |
 2 | :nth-child(2n +1) {}
-  |            ^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
- --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:2:14
-  |
-2 | :nth-child(2n +1) {}
-  |              ^
-
-error: Num { value: 1.0, raw: Atom('+1' type=inline) }
- --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:2:15
-  |
-2 | :nth-child(2n +1) {}
-  |               ^^
+  |            ^^^^^
 
 error: Block
  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:2:19
@@ -208,41 +190,17 @@ error: Ident
 3 | :nth-child(2n + 1) {}
   |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:3:12
   |
 3 | :nth-child(2n + 1) {}
   |            ^^^^^^
 
-error: Dimension { value: 2.0, raw_value: Atom('2' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
+error: AnPlusB
  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:3:12
   |
 3 | :nth-child(2n + 1) {}
-  |            ^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
- --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:3:14
-  |
-3 | :nth-child(2n + 1) {}
-  |              ^
-
-error: Delim { value: '+' }
- --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:3:15
-  |
-3 | :nth-child(2n + 1) {}
-  |               ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
- --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:3:16
-  |
-3 | :nth-child(2n + 1) {}
-  |                ^
-
-error: Num { value: 1.0, raw: Atom('1' type=inline) }
- --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:3:17
-  |
-3 | :nth-child(2n + 1) {}
-  |                 ^
+  |            ^^^^^^
 
 error: Block
  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:3:20
@@ -298,35 +256,17 @@ error: Ident
 4 | :nth-child(2n+ 1) {}
   |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:4:12
   |
 4 | :nth-child(2n+ 1) {}
   |            ^^^^^
 
-error: Dimension { value: 2.0, raw_value: Atom('2' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
+error: AnPlusB
  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:4:12
   |
 4 | :nth-child(2n+ 1) {}
-  |            ^^
-
-error: Delim { value: '+' }
- --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:4:14
-  |
-4 | :nth-child(2n+ 1) {}
-  |              ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
- --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:4:15
-  |
-4 | :nth-child(2n+ 1) {}
-  |               ^
-
-error: Num { value: 1.0, raw: Atom('1' type=inline) }
- --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:4:16
-  |
-4 | :nth-child(2n+ 1) {}
-  |                ^
+  |            ^^^^^
 
 error: Block
  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:4:19
@@ -382,13 +322,13 @@ error: Ident
 5 | :nth-child(2n-1) {}
   |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:5:12
   |
 5 | :nth-child(2n-1) {}
   |            ^^^^
 
-error: Dimension { value: 2.0, raw_value: Atom('2' type=inline), unit: Atom('n-1' type=inline), raw_unit: Atom('n-1' type=inline) }
+error: AnPlusB
  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:5:12
   |
 5 | :nth-child(2n-1) {}
@@ -448,29 +388,17 @@ error: Ident
 6 | :nth-child(2n -1) {}
   |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:6:12
   |
 6 | :nth-child(2n -1) {}
   |            ^^^^^
 
-error: Dimension { value: 2.0, raw_value: Atom('2' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
+error: AnPlusB
  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:6:12
   |
 6 | :nth-child(2n -1) {}
-  |            ^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
- --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:6:14
-  |
-6 | :nth-child(2n -1) {}
-  |              ^
-
-error: Num { value: -1.0, raw: Atom('-1' type=inline) }
- --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:6:15
-  |
-6 | :nth-child(2n -1) {}
-  |               ^^
+  |            ^^^^^
 
 error: Block
  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:6:19
@@ -526,29 +454,17 @@ error: Ident
 7 | :nth-child(2n- 1) {}
   |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:7:12
   |
 7 | :nth-child(2n- 1) {}
   |            ^^^^^
 
-error: Dimension { value: 2.0, raw_value: Atom('2' type=inline), unit: Atom('n-' type=inline), raw_unit: Atom('n-' type=inline) }
+error: AnPlusB
  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:7:12
   |
 7 | :nth-child(2n- 1) {}
-  |            ^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
- --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:7:15
-  |
-7 | :nth-child(2n- 1) {}
-  |               ^
-
-error: Num { value: 1.0, raw: Atom('1' type=inline) }
- --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:7:16
-  |
-7 | :nth-child(2n- 1) {}
-  |                ^
+  |            ^^^^^
 
 error: Block
  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:7:19
@@ -604,41 +520,17 @@ error: Ident
 8 | :nth-child(2n - 1) {}
   |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:8:12
   |
 8 | :nth-child(2n - 1) {}
   |            ^^^^^^
 
-error: Dimension { value: 2.0, raw_value: Atom('2' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
+error: AnPlusB
  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:8:12
   |
 8 | :nth-child(2n - 1) {}
-  |            ^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
- --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:8:14
-  |
-8 | :nth-child(2n - 1) {}
-  |              ^
-
-error: Delim { value: '-' }
- --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:8:15
-  |
-8 | :nth-child(2n - 1) {}
-  |               ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
- --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:8:16
-  |
-8 | :nth-child(2n - 1) {}
-  |                ^
-
-error: Num { value: 1.0, raw: Atom('1' type=inline) }
- --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:8:17
-  |
-8 | :nth-child(2n - 1) {}
-  |                 ^
+  |            ^^^^^^
 
 error: Block
  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:8:20
@@ -694,23 +586,17 @@ error: Ident
 9 | :nth-child(-2n+1) {}
   |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:9:12
   |
 9 | :nth-child(-2n+1) {}
   |            ^^^^^
 
-error: Dimension { value: -2.0, raw_value: Atom('-2' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
+error: AnPlusB
  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:9:12
   |
 9 | :nth-child(-2n+1) {}
-  |            ^^^
-
-error: Num { value: 1.0, raw: Atom('+1' type=inline) }
- --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:9:15
-  |
-9 | :nth-child(-2n+1) {}
-  |               ^^
+  |            ^^^^^
 
 error: Block
  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:9:19
@@ -766,29 +652,17 @@ error: Ident
 10 | :nth-child(-2n +1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:10:12
    |
 10 | :nth-child(-2n +1) {}
    |            ^^^^^^
 
-error: Dimension { value: -2.0, raw_value: Atom('-2' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:10:12
    |
 10 | :nth-child(-2n +1) {}
-   |            ^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:10:15
-   |
-10 | :nth-child(-2n +1) {}
-   |               ^
-
-error: Num { value: 1.0, raw: Atom('+1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:10:16
-   |
-10 | :nth-child(-2n +1) {}
-   |                ^^
+   |            ^^^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:10:20
@@ -844,41 +718,17 @@ error: Ident
 11 | :nth-child(-2n + 1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:11:12
    |
 11 | :nth-child(-2n + 1) {}
    |            ^^^^^^^
 
-error: Dimension { value: -2.0, raw_value: Atom('-2' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:11:12
    |
 11 | :nth-child(-2n + 1) {}
-   |            ^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:11:15
-   |
-11 | :nth-child(-2n + 1) {}
-   |               ^
-
-error: Delim { value: '+' }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:11:16
-   |
-11 | :nth-child(-2n + 1) {}
-   |                ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:11:17
-   |
-11 | :nth-child(-2n + 1) {}
-   |                 ^
-
-error: Num { value: 1.0, raw: Atom('1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:11:18
-   |
-11 | :nth-child(-2n + 1) {}
-   |                  ^
+   |            ^^^^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:11:21
@@ -934,35 +784,17 @@ error: Ident
 12 | :nth-child(-2n+ 1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:12:12
    |
 12 | :nth-child(-2n+ 1) {}
    |            ^^^^^^
 
-error: Dimension { value: -2.0, raw_value: Atom('-2' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:12:12
    |
 12 | :nth-child(-2n+ 1) {}
-   |            ^^^
-
-error: Delim { value: '+' }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:12:15
-   |
-12 | :nth-child(-2n+ 1) {}
-   |               ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:12:16
-   |
-12 | :nth-child(-2n+ 1) {}
-   |                ^
-
-error: Num { value: 1.0, raw: Atom('1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:12:17
-   |
-12 | :nth-child(-2n+ 1) {}
-   |                 ^
+   |            ^^^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:12:20
@@ -1018,13 +850,13 @@ error: Ident
 13 | :nth-child(-2n-1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:13:12
    |
 13 | :nth-child(-2n-1) {}
    |            ^^^^^
 
-error: Dimension { value: -2.0, raw_value: Atom('-2' type=inline), unit: Atom('n-1' type=inline), raw_unit: Atom('n-1' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:13:12
    |
 13 | :nth-child(-2n-1) {}
@@ -1084,29 +916,17 @@ error: Ident
 14 | :nth-child(-2n -1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:14:12
    |
 14 | :nth-child(-2n -1) {}
    |            ^^^^^^
 
-error: Dimension { value: -2.0, raw_value: Atom('-2' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:14:12
    |
 14 | :nth-child(-2n -1) {}
-   |            ^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:14:15
-   |
-14 | :nth-child(-2n -1) {}
-   |               ^
-
-error: Num { value: -1.0, raw: Atom('-1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:14:16
-   |
-14 | :nth-child(-2n -1) {}
-   |                ^^
+   |            ^^^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:14:20
@@ -1162,41 +982,17 @@ error: Ident
 15 | :nth-child(-2n - 1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:15:12
    |
 15 | :nth-child(-2n - 1) {}
    |            ^^^^^^^
 
-error: Dimension { value: -2.0, raw_value: Atom('-2' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:15:12
    |
 15 | :nth-child(-2n - 1) {}
-   |            ^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:15:15
-   |
-15 | :nth-child(-2n - 1) {}
-   |               ^
-
-error: Delim { value: '-' }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:15:16
-   |
-15 | :nth-child(-2n - 1) {}
-   |                ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:15:17
-   |
-15 | :nth-child(-2n - 1) {}
-   |                 ^
-
-error: Num { value: 1.0, raw: Atom('1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:15:18
-   |
-15 | :nth-child(-2n - 1) {}
-   |                  ^
+   |            ^^^^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:15:21
@@ -1252,23 +1048,17 @@ error: Ident
 16 | :nth-child(+2n+1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:16:12
    |
 16 | :nth-child(+2n+1) {}
    |            ^^^^^
 
-error: Dimension { value: 2.0, raw_value: Atom('+2' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:16:12
    |
 16 | :nth-child(+2n+1) {}
-   |            ^^^
-
-error: Num { value: 1.0, raw: Atom('+1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:16:15
-   |
-16 | :nth-child(+2n+1) {}
-   |               ^^
+   |            ^^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:16:19
@@ -1324,29 +1114,17 @@ error: Ident
 17 | :nth-child(+2n +1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:17:12
    |
 17 | :nth-child(+2n +1) {}
    |            ^^^^^^
 
-error: Dimension { value: 2.0, raw_value: Atom('+2' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:17:12
    |
 17 | :nth-child(+2n +1) {}
-   |            ^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:17:15
-   |
-17 | :nth-child(+2n +1) {}
-   |               ^
-
-error: Num { value: 1.0, raw: Atom('+1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:17:16
-   |
-17 | :nth-child(+2n +1) {}
-   |                ^^
+   |            ^^^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:17:20
@@ -1402,41 +1180,17 @@ error: Ident
 18 | :nth-child(+2n + 1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:18:12
    |
 18 | :nth-child(+2n + 1) {}
    |            ^^^^^^^
 
-error: Dimension { value: 2.0, raw_value: Atom('+2' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:18:12
    |
 18 | :nth-child(+2n + 1) {}
-   |            ^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:18:15
-   |
-18 | :nth-child(+2n + 1) {}
-   |               ^
-
-error: Delim { value: '+' }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:18:16
-   |
-18 | :nth-child(+2n + 1) {}
-   |                ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:18:17
-   |
-18 | :nth-child(+2n + 1) {}
-   |                 ^
-
-error: Num { value: 1.0, raw: Atom('1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:18:18
-   |
-18 | :nth-child(+2n + 1) {}
-   |                  ^
+   |            ^^^^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:18:21
@@ -1492,35 +1246,17 @@ error: Ident
 19 | :nth-child(+2n+ 1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:19:12
    |
 19 | :nth-child(+2n+ 1) {}
    |            ^^^^^^
 
-error: Dimension { value: 2.0, raw_value: Atom('+2' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:19:12
    |
 19 | :nth-child(+2n+ 1) {}
-   |            ^^^
-
-error: Delim { value: '+' }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:19:15
-   |
-19 | :nth-child(+2n+ 1) {}
-   |               ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:19:16
-   |
-19 | :nth-child(+2n+ 1) {}
-   |                ^
-
-error: Num { value: 1.0, raw: Atom('1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:19:17
-   |
-19 | :nth-child(+2n+ 1) {}
-   |                 ^
+   |            ^^^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:19:20
@@ -1576,13 +1312,13 @@ error: Ident
 20 | :nth-child(+2n-1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:20:12
    |
 20 | :nth-child(+2n-1) {}
    |            ^^^^^
 
-error: Dimension { value: 2.0, raw_value: Atom('+2' type=inline), unit: Atom('n-1' type=inline), raw_unit: Atom('n-1' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:20:12
    |
 20 | :nth-child(+2n-1) {}
@@ -1642,29 +1378,17 @@ error: Ident
 21 | :nth-child(+2n -1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:21:12
    |
 21 | :nth-child(+2n -1) {}
    |            ^^^^^^
 
-error: Dimension { value: 2.0, raw_value: Atom('+2' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:21:12
    |
 21 | :nth-child(+2n -1) {}
-   |            ^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:21:15
-   |
-21 | :nth-child(+2n -1) {}
-   |               ^
-
-error: Num { value: -1.0, raw: Atom('-1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:21:16
-   |
-21 | :nth-child(+2n -1) {}
-   |                ^^
+   |            ^^^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:21:20
@@ -1720,29 +1444,17 @@ error: Ident
 22 | :nth-child(+2n- 1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:22:12
    |
 22 | :nth-child(+2n- 1) {}
    |            ^^^^^^
 
-error: Dimension { value: 2.0, raw_value: Atom('+2' type=inline), unit: Atom('n-' type=inline), raw_unit: Atom('n-' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:22:12
    |
 22 | :nth-child(+2n- 1) {}
-   |            ^^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:22:16
-   |
-22 | :nth-child(+2n- 1) {}
-   |                ^
-
-error: Num { value: 1.0, raw: Atom('1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:22:17
-   |
-22 | :nth-child(+2n- 1) {}
-   |                 ^
+   |            ^^^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:22:20
@@ -1798,41 +1510,17 @@ error: Ident
 23 | :nth-child(+2n - 1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:23:12
    |
 23 | :nth-child(+2n - 1) {}
    |            ^^^^^^^
 
-error: Dimension { value: 2.0, raw_value: Atom('+2' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:23:12
    |
 23 | :nth-child(+2n - 1) {}
-   |            ^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:23:15
-   |
-23 | :nth-child(+2n - 1) {}
-   |               ^
-
-error: Delim { value: '-' }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:23:16
-   |
-23 | :nth-child(+2n - 1) {}
-   |                ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:23:17
-   |
-23 | :nth-child(+2n - 1) {}
-   |                 ^
-
-error: Num { value: 1.0, raw: Atom('1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:23:18
-   |
-23 | :nth-child(+2n - 1) {}
-   |                  ^
+   |            ^^^^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:23:21
@@ -1888,23 +1576,17 @@ error: Ident
 24 | :nth-child(n+1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:24:12
    |
 24 | :nth-child(n+1) {}
    |            ^^^
 
-error: Ident { value: Atom('n' type=inline), raw: Atom('n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:24:12
    |
 24 | :nth-child(n+1) {}
-   |            ^
-
-error: Num { value: 1.0, raw: Atom('+1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:24:13
-   |
-24 | :nth-child(n+1) {}
-   |             ^^
+   |            ^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:24:17
@@ -1960,29 +1642,17 @@ error: Ident
 25 | :nth-child(n +1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:25:12
    |
 25 | :nth-child(n +1) {}
    |            ^^^^
 
-error: Ident { value: Atom('n' type=inline), raw: Atom('n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:25:12
    |
 25 | :nth-child(n +1) {}
-   |            ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:25:13
-   |
-25 | :nth-child(n +1) {}
-   |             ^
-
-error: Num { value: 1.0, raw: Atom('+1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:25:14
-   |
-25 | :nth-child(n +1) {}
-   |              ^^
+   |            ^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:25:18
@@ -2038,41 +1708,17 @@ error: Ident
 26 | :nth-child(n + 1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:26:12
    |
 26 | :nth-child(n + 1) {}
    |            ^^^^^
 
-error: Ident { value: Atom('n' type=inline), raw: Atom('n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:26:12
    |
 26 | :nth-child(n + 1) {}
-   |            ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:26:13
-   |
-26 | :nth-child(n + 1) {}
-   |             ^
-
-error: Delim { value: '+' }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:26:14
-   |
-26 | :nth-child(n + 1) {}
-   |              ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:26:15
-   |
-26 | :nth-child(n + 1) {}
-   |               ^
-
-error: Num { value: 1.0, raw: Atom('1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:26:16
-   |
-26 | :nth-child(n + 1) {}
-   |                ^
+   |            ^^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:26:19
@@ -2128,35 +1774,17 @@ error: Ident
 27 | :nth-child(n+ 1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:27:12
    |
 27 | :nth-child(n+ 1) {}
    |            ^^^^
 
-error: Ident { value: Atom('n' type=inline), raw: Atom('n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:27:12
    |
 27 | :nth-child(n+ 1) {}
-   |            ^
-
-error: Delim { value: '+' }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:27:13
-   |
-27 | :nth-child(n+ 1) {}
-   |             ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:27:14
-   |
-27 | :nth-child(n+ 1) {}
-   |              ^
-
-error: Num { value: 1.0, raw: Atom('1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:27:15
-   |
-27 | :nth-child(n+ 1) {}
-   |               ^
+   |            ^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:27:18
@@ -2212,13 +1840,13 @@ error: Ident
 28 | :nth-child(n-1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:28:12
    |
 28 | :nth-child(n-1) {}
    |            ^^^
 
-error: Ident { value: Atom('n-1' type=inline), raw: Atom('n-1' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:28:12
    |
 28 | :nth-child(n-1) {}
@@ -2278,29 +1906,17 @@ error: Ident
 29 | :nth-child(n -1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:29:12
    |
 29 | :nth-child(n -1) {}
    |            ^^^^
 
-error: Ident { value: Atom('n' type=inline), raw: Atom('n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:29:12
    |
 29 | :nth-child(n -1) {}
-   |            ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:29:13
-   |
-29 | :nth-child(n -1) {}
-   |             ^
-
-error: Num { value: -1.0, raw: Atom('-1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:29:14
-   |
-29 | :nth-child(n -1) {}
-   |              ^^
+   |            ^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:29:18
@@ -2356,29 +1972,17 @@ error: Ident
 30 | :nth-child(n- 1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:30:12
    |
 30 | :nth-child(n- 1) {}
    |            ^^^^
 
-error: Ident { value: Atom('n-' type=inline), raw: Atom('n-' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:30:12
    |
 30 | :nth-child(n- 1) {}
-   |            ^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:30:14
-   |
-30 | :nth-child(n- 1) {}
-   |              ^
-
-error: Num { value: 1.0, raw: Atom('1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:30:15
-   |
-30 | :nth-child(n- 1) {}
-   |               ^
+   |            ^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:30:18
@@ -2434,41 +2038,17 @@ error: Ident
 31 | :nth-child(n - 1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:31:12
    |
 31 | :nth-child(n - 1) {}
    |            ^^^^^
 
-error: Ident { value: Atom('n' type=inline), raw: Atom('n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:31:12
    |
 31 | :nth-child(n - 1) {}
-   |            ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:31:13
-   |
-31 | :nth-child(n - 1) {}
-   |             ^
-
-error: Delim { value: '-' }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:31:14
-   |
-31 | :nth-child(n - 1) {}
-   |              ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:31:15
-   |
-31 | :nth-child(n - 1) {}
-   |               ^
-
-error: Num { value: 1.0, raw: Atom('1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:31:16
-   |
-31 | :nth-child(n - 1) {}
-   |                ^
+   |            ^^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:31:19
@@ -2524,23 +2104,17 @@ error: Ident
 32 | :nth-child(-n+1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:32:12
    |
 32 | :nth-child(-n+1) {}
    |            ^^^^
 
-error: Ident { value: Atom('-n' type=inline), raw: Atom('-n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:32:12
    |
 32 | :nth-child(-n+1) {}
-   |            ^^
-
-error: Num { value: 1.0, raw: Atom('+1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:32:14
-   |
-32 | :nth-child(-n+1) {}
-   |              ^^
+   |            ^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:32:18
@@ -2596,29 +2170,17 @@ error: Ident
 33 | :nth-child(-n +1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:33:12
    |
 33 | :nth-child(-n +1) {}
    |            ^^^^^
 
-error: Ident { value: Atom('-n' type=inline), raw: Atom('-n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:33:12
    |
 33 | :nth-child(-n +1) {}
-   |            ^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:33:14
-   |
-33 | :nth-child(-n +1) {}
-   |              ^
-
-error: Num { value: 1.0, raw: Atom('+1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:33:15
-   |
-33 | :nth-child(-n +1) {}
-   |               ^^
+   |            ^^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:33:19
@@ -2674,41 +2236,17 @@ error: Ident
 34 | :nth-child(-n + 1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:34:12
    |
 34 | :nth-child(-n + 1) {}
    |            ^^^^^^
 
-error: Ident { value: Atom('-n' type=inline), raw: Atom('-n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:34:12
    |
 34 | :nth-child(-n + 1) {}
-   |            ^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:34:14
-   |
-34 | :nth-child(-n + 1) {}
-   |              ^
-
-error: Delim { value: '+' }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:34:15
-   |
-34 | :nth-child(-n + 1) {}
-   |               ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:34:16
-   |
-34 | :nth-child(-n + 1) {}
-   |                ^
-
-error: Num { value: 1.0, raw: Atom('1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:34:17
-   |
-34 | :nth-child(-n + 1) {}
-   |                 ^
+   |            ^^^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:34:20
@@ -2764,35 +2302,17 @@ error: Ident
 35 | :nth-child(-n+ 1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:35:12
    |
 35 | :nth-child(-n+ 1) {}
    |            ^^^^^
 
-error: Ident { value: Atom('-n' type=inline), raw: Atom('-n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:35:12
    |
 35 | :nth-child(-n+ 1) {}
-   |            ^^
-
-error: Delim { value: '+' }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:35:14
-   |
-35 | :nth-child(-n+ 1) {}
-   |              ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:35:15
-   |
-35 | :nth-child(-n+ 1) {}
-   |               ^
-
-error: Num { value: 1.0, raw: Atom('1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:35:16
-   |
-35 | :nth-child(-n+ 1) {}
-   |                ^
+   |            ^^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:35:19
@@ -2848,13 +2368,13 @@ error: Ident
 36 | :nth-child(-n-1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:36:12
    |
 36 | :nth-child(-n-1) {}
    |            ^^^^
 
-error: Ident { value: Atom('-n-1' type=inline), raw: Atom('-n-1' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:36:12
    |
 36 | :nth-child(-n-1) {}
@@ -2914,29 +2434,17 @@ error: Ident
 37 | :nth-child(-n -1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:37:12
    |
 37 | :nth-child(-n -1) {}
    |            ^^^^^
 
-error: Ident { value: Atom('-n' type=inline), raw: Atom('-n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:37:12
    |
 37 | :nth-child(-n -1) {}
-   |            ^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:37:14
-   |
-37 | :nth-child(-n -1) {}
-   |              ^
-
-error: Num { value: -1.0, raw: Atom('-1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:37:15
-   |
-37 | :nth-child(-n -1) {}
-   |               ^^
+   |            ^^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:37:19
@@ -2992,29 +2500,17 @@ error: Ident
 38 | :nth-child(-n- 1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:38:12
    |
 38 | :nth-child(-n- 1) {}
    |            ^^^^^
 
-error: Ident { value: Atom('-n-' type=inline), raw: Atom('-n-' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:38:12
    |
 38 | :nth-child(-n- 1) {}
-   |            ^^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:38:15
-   |
-38 | :nth-child(-n- 1) {}
-   |               ^
-
-error: Num { value: 1.0, raw: Atom('1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:38:16
-   |
-38 | :nth-child(-n- 1) {}
-   |                ^
+   |            ^^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:38:19
@@ -3070,41 +2566,17 @@ error: Ident
 39 | :nth-child(-n - 1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:39:12
    |
 39 | :nth-child(-n - 1) {}
    |            ^^^^^^
 
-error: Ident { value: Atom('-n' type=inline), raw: Atom('-n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:39:12
    |
 39 | :nth-child(-n - 1) {}
-   |            ^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:39:14
-   |
-39 | :nth-child(-n - 1) {}
-   |              ^
-
-error: Delim { value: '-' }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:39:15
-   |
-39 | :nth-child(-n - 1) {}
-   |               ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:39:16
-   |
-39 | :nth-child(-n - 1) {}
-   |                ^
-
-error: Num { value: 1.0, raw: Atom('1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:39:17
-   |
-39 | :nth-child(-n - 1) {}
-   |                 ^
+   |            ^^^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:39:20
@@ -3160,29 +2632,17 @@ error: Ident
 40 | :nth-child(+n+1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:40:12
    |
 40 | :nth-child(+n+1) {}
    |            ^^^^
 
-error: Delim { value: '+' }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:40:12
    |
 40 | :nth-child(+n+1) {}
-   |            ^
-
-error: Ident { value: Atom('n' type=inline), raw: Atom('n' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:40:13
-   |
-40 | :nth-child(+n+1) {}
-   |             ^
-
-error: Num { value: 1.0, raw: Atom('+1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:40:14
-   |
-40 | :nth-child(+n+1) {}
-   |              ^^
+   |            ^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:40:18
@@ -3238,35 +2698,17 @@ error: Ident
 41 | :nth-child(+n +1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:41:12
    |
 41 | :nth-child(+n +1) {}
    |            ^^^^^
 
-error: Delim { value: '+' }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:41:12
    |
 41 | :nth-child(+n +1) {}
-   |            ^
-
-error: Ident { value: Atom('n' type=inline), raw: Atom('n' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:41:13
-   |
-41 | :nth-child(+n +1) {}
-   |             ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:41:14
-   |
-41 | :nth-child(+n +1) {}
-   |              ^
-
-error: Num { value: 1.0, raw: Atom('+1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:41:15
-   |
-41 | :nth-child(+n +1) {}
-   |               ^^
+   |            ^^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:41:19
@@ -3322,47 +2764,17 @@ error: Ident
 42 | :nth-child(+n + 1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:42:12
    |
 42 | :nth-child(+n + 1) {}
    |            ^^^^^^
 
-error: Delim { value: '+' }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:42:12
    |
 42 | :nth-child(+n + 1) {}
-   |            ^
-
-error: Ident { value: Atom('n' type=inline), raw: Atom('n' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:42:13
-   |
-42 | :nth-child(+n + 1) {}
-   |             ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:42:14
-   |
-42 | :nth-child(+n + 1) {}
-   |              ^
-
-error: Delim { value: '+' }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:42:15
-   |
-42 | :nth-child(+n + 1) {}
-   |               ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:42:16
-   |
-42 | :nth-child(+n + 1) {}
-   |                ^
-
-error: Num { value: 1.0, raw: Atom('1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:42:17
-   |
-42 | :nth-child(+n + 1) {}
-   |                 ^
+   |            ^^^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:42:20
@@ -3418,41 +2830,17 @@ error: Ident
 43 | :nth-child(+n+ 1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:43:12
    |
 43 | :nth-child(+n+ 1) {}
    |            ^^^^^
 
-error: Delim { value: '+' }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:43:12
    |
 43 | :nth-child(+n+ 1) {}
-   |            ^
-
-error: Ident { value: Atom('n' type=inline), raw: Atom('n' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:43:13
-   |
-43 | :nth-child(+n+ 1) {}
-   |             ^
-
-error: Delim { value: '+' }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:43:14
-   |
-43 | :nth-child(+n+ 1) {}
-   |              ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:43:15
-   |
-43 | :nth-child(+n+ 1) {}
-   |               ^
-
-error: Num { value: 1.0, raw: Atom('1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:43:16
-   |
-43 | :nth-child(+n+ 1) {}
-   |                ^
+   |            ^^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:43:19
@@ -3508,23 +2896,17 @@ error: Ident
 44 | :nth-child(+n-1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:44:12
    |
 44 | :nth-child(+n-1) {}
    |            ^^^^
 
-error: Delim { value: '+' }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:44:12
    |
 44 | :nth-child(+n-1) {}
-   |            ^
-
-error: Ident { value: Atom('n-1' type=inline), raw: Atom('n-1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:44:13
-   |
-44 | :nth-child(+n-1) {}
-   |             ^^^
+   |            ^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:44:18
@@ -3580,35 +2962,17 @@ error: Ident
 45 | :nth-child(+n -1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:45:12
    |
 45 | :nth-child(+n -1) {}
    |            ^^^^^
 
-error: Delim { value: '+' }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:45:12
    |
 45 | :nth-child(+n -1) {}
-   |            ^
-
-error: Ident { value: Atom('n' type=inline), raw: Atom('n' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:45:13
-   |
-45 | :nth-child(+n -1) {}
-   |             ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:45:14
-   |
-45 | :nth-child(+n -1) {}
-   |              ^
-
-error: Num { value: -1.0, raw: Atom('-1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:45:15
-   |
-45 | :nth-child(+n -1) {}
-   |               ^^
+   |            ^^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:45:19
@@ -3664,35 +3028,17 @@ error: Ident
 46 | :nth-child(+n- 1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:46:12
    |
 46 | :nth-child(+n- 1) {}
    |            ^^^^^
 
-error: Delim { value: '+' }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:46:12
    |
 46 | :nth-child(+n- 1) {}
-   |            ^
-
-error: Ident { value: Atom('n-' type=inline), raw: Atom('n-' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:46:13
-   |
-46 | :nth-child(+n- 1) {}
-   |             ^^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:46:15
-   |
-46 | :nth-child(+n- 1) {}
-   |               ^
-
-error: Num { value: 1.0, raw: Atom('1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:46:16
-   |
-46 | :nth-child(+n- 1) {}
-   |                ^
+   |            ^^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:46:19
@@ -3748,47 +3094,17 @@ error: Ident
 47 | :nth-child(+n - 1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:47:12
    |
 47 | :nth-child(+n - 1) {}
    |            ^^^^^^
 
-error: Delim { value: '+' }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:47:12
    |
 47 | :nth-child(+n - 1) {}
-   |            ^
-
-error: Ident { value: Atom('n' type=inline), raw: Atom('n' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:47:13
-   |
-47 | :nth-child(+n - 1) {}
-   |             ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:47:14
-   |
-47 | :nth-child(+n - 1) {}
-   |              ^
-
-error: Delim { value: '-' }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:47:15
-   |
-47 | :nth-child(+n - 1) {}
-   |               ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:47:16
-   |
-47 | :nth-child(+n - 1) {}
-   |                ^
-
-error: Num { value: 1.0, raw: Atom('1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:47:17
-   |
-47 | :nth-child(+n - 1) {}
-   |                 ^
+   |            ^^^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:47:20
@@ -3844,13 +3160,13 @@ error: Ident
 48 | :nth-child(n) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:48:12
    |
 48 | :nth-child(n) {}
    |            ^
 
-error: Ident { value: Atom('n' type=inline), raw: Atom('n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:48:12
    |
 48 | :nth-child(n) {}
@@ -3910,13 +3226,13 @@ error: Ident
 49 | :nth-child(-n) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:49:12
    |
 49 | :nth-child(-n) {}
    |            ^^
 
-error: Ident { value: Atom('-n' type=inline), raw: Atom('-n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:49:12
    |
 49 | :nth-child(-n) {}
@@ -3976,23 +3292,17 @@ error: Ident
 50 | :nth-child(+n) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:50:12
    |
 50 | :nth-child(+n) {}
    |            ^^
 
-error: Delim { value: '+' }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:50:12
    |
 50 | :nth-child(+n) {}
-   |            ^
-
-error: Ident { value: Atom('n' type=inline), raw: Atom('n' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:50:13
-   |
-50 | :nth-child(+n) {}
-   |             ^
+   |            ^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:50:16
@@ -4048,13 +3358,13 @@ error: Ident
 51 | :nth-child(2n) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:51:12
    |
 51 | :nth-child(2n) {}
    |            ^^
 
-error: Dimension { value: 2.0, raw_value: Atom('2' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:51:12
    |
 51 | :nth-child(2n) {}
@@ -4114,13 +3424,13 @@ error: Ident
 52 | :nth-child(-2n) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:52:12
    |
 52 | :nth-child(-2n) {}
    |            ^^^
 
-error: Dimension { value: -2.0, raw_value: Atom('-2' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:52:12
    |
 52 | :nth-child(-2n) {}
@@ -4180,13 +3490,13 @@ error: Ident
 53 | :nth-child(+2n) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:53:12
    |
 53 | :nth-child(+2n) {}
    |            ^^^
 
-error: Dimension { value: 2.0, raw_value: Atom('+2' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:53:12
    |
 53 | :nth-child(+2n) {}
@@ -4246,13 +3556,13 @@ error: Ident
 54 | :nth-child(N) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:54:12
    |
 54 | :nth-child(N) {}
    |            ^
 
-error: Ident { value: Atom('N' type=inline), raw: Atom('N' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:54:12
    |
 54 | :nth-child(N) {}
@@ -4312,13 +3622,13 @@ error: Ident
 55 | :nth-child(-N) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:55:12
    |
 55 | :nth-child(-N) {}
    |            ^^
 
-error: Ident { value: Atom('-N' type=inline), raw: Atom('-N' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:55:12
    |
 55 | :nth-child(-N) {}
@@ -4378,23 +3688,17 @@ error: Ident
 56 | :nth-child(+N) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:56:12
    |
 56 | :nth-child(+N) {}
    |            ^^
 
-error: Delim { value: '+' }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:56:12
    |
 56 | :nth-child(+N) {}
-   |            ^
-
-error: Ident { value: Atom('N' type=inline), raw: Atom('N' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:56:13
-   |
-56 | :nth-child(+N) {}
-   |             ^
+   |            ^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:56:16
@@ -4450,13 +3754,13 @@ error: Ident
 57 | :nth-child(2N) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:57:12
    |
 57 | :nth-child(2N) {}
    |            ^^
 
-error: Dimension { value: 2.0, raw_value: Atom('2' type=inline), unit: Atom('N' type=inline), raw_unit: Atom('N' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:57:12
    |
 57 | :nth-child(2N) {}
@@ -4516,13 +3820,13 @@ error: Ident
 58 | :nth-child(-2N) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:58:12
    |
 58 | :nth-child(-2N) {}
    |            ^^^
 
-error: Dimension { value: -2.0, raw_value: Atom('-2' type=inline), unit: Atom('N' type=inline), raw_unit: Atom('N' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:58:12
    |
 58 | :nth-child(-2N) {}
@@ -4582,13 +3886,13 @@ error: Ident
 59 | :nth-child(+2N) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:59:12
    |
 59 | :nth-child(+2N) {}
    |            ^^^
 
-error: Dimension { value: 2.0, raw_value: Atom('+2' type=inline), unit: Atom('N' type=inline), raw_unit: Atom('N' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:59:12
    |
 59 | :nth-child(+2N) {}
@@ -4648,13 +3952,13 @@ error: Ident
 60 | :nth-child(1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:60:12
    |
 60 | :nth-child(1) {}
    |            ^
 
-error: Num { value: 1.0, raw: Atom('1' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:60:12
    |
 60 | :nth-child(1) {}
@@ -4714,13 +4018,13 @@ error: Ident
 61 | :nth-child(-1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:61:12
    |
 61 | :nth-child(-1) {}
    |            ^^
 
-error: Num { value: -1.0, raw: Atom('-1' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:61:12
    |
 61 | :nth-child(-1) {}
@@ -4780,13 +4084,13 @@ error: Ident
 62 | :nth-child(+1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:62:12
    |
 62 | :nth-child(+1) {}
    |            ^^
 
-error: Num { value: 1.0, raw: Atom('+1' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:62:12
    |
 62 | :nth-child(+1) {}
@@ -4846,13 +4150,13 @@ error: Ident
 63 | :nth-child(123456n-12345678) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:63:12
    |
 63 | :nth-child(123456n-12345678) {}
    |            ^^^^^^^^^^^^^^^^
 
-error: Dimension { value: 123456.0, raw_value: Atom('123456' type=inline), unit: Atom('n-12345678' type=dynamic), raw_unit: Atom('n-12345678' type=dynamic) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:63:12
    |
 63 | :nth-child(123456n-12345678) {}
@@ -4912,23 +4216,17 @@ error: Ident
 65 | :Nth-Child(2n+1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:65:12
    |
 65 | :Nth-Child(2n+1) {}
    |            ^^^^
 
-error: Dimension { value: 2.0, raw_value: Atom('2' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:65:12
    |
 65 | :Nth-Child(2n+1) {}
-   |            ^^
-
-error: Num { value: 1.0, raw: Atom('+1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:65:14
-   |
-65 | :Nth-Child(2n+1) {}
-   |              ^^
+   |            ^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:65:18
@@ -4984,23 +4282,17 @@ error: Ident
 66 | :NTH-CHILD(2n+1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:66:12
    |
 66 | :NTH-CHILD(2n+1) {}
    |            ^^^^
 
-error: Dimension { value: 2.0, raw_value: Atom('2' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:66:12
    |
 66 | :NTH-CHILD(2n+1) {}
-   |            ^^
-
-error: Num { value: 1.0, raw: Atom('+1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:66:14
-   |
-66 | :NTH-CHILD(2n+1) {}
-   |              ^^
+   |            ^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:66:18
@@ -5056,13 +4348,13 @@ error: Ident
 68 | :nth-child(odd) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:68:12
    |
 68 | :nth-child(odd) {}
    |            ^^^
 
-error: Ident { value: Atom('odd' type=inline), raw: Atom('odd' type=inline) }
+error: Ident
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:68:12
    |
 68 | :nth-child(odd) {}
@@ -5122,13 +4414,13 @@ error: Ident
 69 | :nth-child(ODD) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:69:12
    |
 69 | :nth-child(ODD) {}
    |            ^^^
 
-error: Ident { value: Atom('ODD' type=inline), raw: Atom('ODD' type=inline) }
+error: Ident
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:69:12
    |
 69 | :nth-child(ODD) {}
@@ -5188,13 +4480,13 @@ error: Ident
 70 | :nth-child(oDd) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:70:12
    |
 70 | :nth-child(oDd) {}
    |            ^^^
 
-error: Ident { value: Atom('oDd' type=inline), raw: Atom('oDd' type=inline) }
+error: Ident
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:70:12
    |
 70 | :nth-child(oDd) {}
@@ -5254,13 +4546,13 @@ error: Ident
 71 | :nth-child(even) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:71:12
    |
 71 | :nth-child(even) {}
    |            ^^^^
 
-error: Ident { value: Atom('even' type=inline), raw: Atom('even' type=inline) }
+error: Ident
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:71:12
    |
 71 | :nth-child(even) {}
@@ -5320,13 +4612,13 @@ error: Ident
 72 | :nth-child(eVeN) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:72:12
    |
 72 | :nth-child(eVeN) {}
    |            ^^^^
 
-error: Ident { value: Atom('eVeN' type=inline), raw: Atom('eVeN' type=inline) }
+error: Ident
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:72:12
    |
 72 | :nth-child(eVeN) {}
@@ -5386,13 +4678,13 @@ error: Ident
 73 | :nth-child(EVEN) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:73:12
    |
 73 | :nth-child(EVEN) {}
    |            ^^^^
 
-error: Ident { value: Atom('EVEN' type=inline), raw: Atom('EVEN' type=inline) }
+error: Ident
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:73:12
    |
 73 | :nth-child(EVEN) {}
@@ -5452,29 +4744,17 @@ error: Ident
 75 | :nth-child(/*test*/2n/*test*/+/*test*/1/*test*/) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:75:20
    |
 75 | :nth-child(/*test*/2n/*test*/+/*test*/1/*test*/) {}
    |                    ^^^^^^^^^^^^^^^^^^^^
 
-error: Dimension { value: 2.0, raw_value: Atom('2' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:75:20
    |
 75 | :nth-child(/*test*/2n/*test*/+/*test*/1/*test*/) {}
-   |                    ^^
-
-error: Delim { value: '+' }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:75:30
-   |
-75 | :nth-child(/*test*/2n/*test*/+/*test*/1/*test*/) {}
-   |                              ^
-
-error: Num { value: 1.0, raw: Atom('1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:75:39
-   |
-75 | :nth-child(/*test*/2n/*test*/+/*test*/1/*test*/) {}
-   |                                       ^
+   |                    ^^^^^^^^^^^^^^^^^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:75:50
@@ -5530,29 +4810,17 @@ error: Ident
 76 | :nth-last-child(/*test*/+3n/*test*/-/*test*/2/*test*/) {}
    |  ^^^^^^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:76:25
    |
 76 | :nth-last-child(/*test*/+3n/*test*/-/*test*/2/*test*/) {}
    |                         ^^^^^^^^^^^^^^^^^^^^^
 
-error: Dimension { value: 3.0, raw_value: Atom('+3' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:76:25
    |
 76 | :nth-last-child(/*test*/+3n/*test*/-/*test*/2/*test*/) {}
-   |                         ^^^
-
-error: Delim { value: '-' }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:76:36
-   |
-76 | :nth-last-child(/*test*/+3n/*test*/-/*test*/2/*test*/) {}
-   |                                    ^
-
-error: Num { value: 2.0, raw: Atom('2' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:76:45
-   |
-76 | :nth-last-child(/*test*/+3n/*test*/-/*test*/2/*test*/) {}
-   |                                             ^
+   |                         ^^^^^^^^^^^^^^^^^^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:76:56
@@ -5608,53 +4876,17 @@ error: Ident
 78 | :nth-child(  2n  +  1  ) {}
    |  ^^^^^^^^^
 
-error: Tokens
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:78:12
-   |
-78 | :nth-child(  2n  +  1  ) {}
-   |            ^^^^^^^^^^^^
-
-error: WhiteSpace { value: Atom('  ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:78:12
-   |
-78 | :nth-child(  2n  +  1  ) {}
-   |            ^^
-
-error: Dimension { value: 2.0, raw_value: Atom('2' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:78:14
    |
 78 | :nth-child(  2n  +  1  ) {}
-   |              ^^
+   |              ^^^^^^^^
 
-error: WhiteSpace { value: Atom('  ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:78:16
+error: AnPlusB
+  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:78:14
    |
 78 | :nth-child(  2n  +  1  ) {}
-   |                ^^
-
-error: Delim { value: '+' }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:78:18
-   |
-78 | :nth-child(  2n  +  1  ) {}
-   |                  ^
-
-error: WhiteSpace { value: Atom('  ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:78:19
-   |
-78 | :nth-child(  2n  +  1  ) {}
-   |                   ^^
-
-error: Num { value: 1.0, raw: Atom('1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:78:21
-   |
-78 | :nth-child(  2n  +  1  ) {}
-   |                     ^
-
-error: WhiteSpace { value: Atom('  ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:78:22
-   |
-78 | :nth-child(  2n  +  1  ) {}
-   |                      ^^
+   |              ^^^^^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:78:26
@@ -5710,53 +4942,17 @@ error: Ident
 79 | :nth-last-child(  +3n  -  2  ) {}
    |  ^^^^^^^^^^^^^^
 
-error: Tokens
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:79:17
-   |
-79 | :nth-last-child(  +3n  -  2  ) {}
-   |                 ^^^^^^^^^^^^^
-
-error: WhiteSpace { value: Atom('  ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:79:17
-   |
-79 | :nth-last-child(  +3n  -  2  ) {}
-   |                 ^^
-
-error: Dimension { value: 3.0, raw_value: Atom('+3' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:79:19
    |
 79 | :nth-last-child(  +3n  -  2  ) {}
-   |                   ^^^
+   |                   ^^^^^^^^^
 
-error: WhiteSpace { value: Atom('  ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:79:22
+error: AnPlusB
+  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:79:19
    |
 79 | :nth-last-child(  +3n  -  2  ) {}
-   |                      ^^
-
-error: Delim { value: '-' }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:79:24
-   |
-79 | :nth-last-child(  +3n  -  2  ) {}
-   |                        ^
-
-error: WhiteSpace { value: Atom('  ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:79:25
-   |
-79 | :nth-last-child(  +3n  -  2  ) {}
-   |                         ^^
-
-error: Num { value: 2.0, raw: Atom('2' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:79:27
-   |
-79 | :nth-last-child(  +3n  -  2  ) {}
-   |                           ^
-
-error: WhiteSpace { value: Atom('  ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:79:28
-   |
-79 | :nth-last-child(  +3n  -  2  ) {}
-   |                            ^^
+   |                   ^^^^^^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:79:32
@@ -5812,23 +5008,17 @@ error: Ident
 81 | :nth-child(-2n+1) {}
    |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:81:12
    |
 81 | :nth-child(-2n+1) {}
    |            ^^^^^
 
-error: Dimension { value: -2.0, raw_value: Atom('-2' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:81:12
    |
 81 | :nth-child(-2n+1) {}
-   |            ^^^
-
-error: Num { value: 1.0, raw: Atom('+1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:81:15
-   |
-81 | :nth-child(-2n+1) {}
-   |               ^^
+   |            ^^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:81:19
@@ -5884,23 +5074,17 @@ error: Ident
 82 | :nth-last-child(2n+1) {}
    |  ^^^^^^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:82:17
    |
 82 | :nth-last-child(2n+1) {}
    |                 ^^^^
 
-error: Dimension { value: 2.0, raw_value: Atom('2' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:82:17
    |
 82 | :nth-last-child(2n+1) {}
-   |                 ^^
-
-error: Num { value: 1.0, raw: Atom('+1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:82:19
-   |
-82 | :nth-last-child(2n+1) {}
-   |                   ^^
+   |                 ^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:82:23
@@ -5956,23 +5140,17 @@ error: Ident
 83 | :nth-of-type(2n+1) {}
    |  ^^^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:83:14
    |
 83 | :nth-of-type(2n+1) {}
    |              ^^^^
 
-error: Dimension { value: 2.0, raw_value: Atom('2' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:83:14
    |
 83 | :nth-of-type(2n+1) {}
-   |              ^^
-
-error: Num { value: 1.0, raw: Atom('+1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:83:16
-   |
-83 | :nth-of-type(2n+1) {}
-   |                ^^
+   |              ^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:83:20
@@ -6028,23 +5206,17 @@ error: Ident
 84 | :nth-last-of-type(2n+1) {}
    |  ^^^^^^^^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:84:19
    |
 84 | :nth-last-of-type(2n+1) {}
    |                   ^^^^
 
-error: Dimension { value: 2.0, raw_value: Atom('2' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:84:19
    |
 84 | :nth-last-of-type(2n+1) {}
-   |                   ^^
-
-error: Num { value: 1.0, raw: Atom('+1' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:84:21
-   |
-84 | :nth-last-of-type(2n+1) {}
-   |                     ^^
+   |                   ^^^^
 
 error: Block
   --> $DIR/tests/fixture/selector/pseudo-classs/an-plus-b/input.css:84:25

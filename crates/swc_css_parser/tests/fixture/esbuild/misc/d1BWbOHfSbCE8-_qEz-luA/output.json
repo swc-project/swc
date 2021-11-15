@@ -75,7 +75,7 @@
                       "value": "b",
                       "raw": "b"
                     },
-                    "args": {
+                    "children": {
                       "type": "Tokens",
                       "span": {
                         "start": 4,

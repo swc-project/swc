@@ -82,8 +82,6 @@ error: Ident
 1 | a::before {
   |    ^^^^^^
 
-error: Tokens
-
 error: Block
   --> $DIR/tests/fixture/value/quotes/input.css:1:11
    |

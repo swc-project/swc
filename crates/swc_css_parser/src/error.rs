@@ -49,6 +49,7 @@ impl Error {
             ErrorKind::InvalidMediaQuery => "Invalid media query".into(),
             ErrorKind::UnknownAtRuleNotTerminated => "Unknown @rule is not terminated".into(),
             ErrorKind::InvalidDeclarationValue => "Expected a property value".into(),
+            ErrorKind::InvalidAnPlusBMicrosyntax => "Invalid An+B microsyntax".into(),
         };
         handler.struct_span_err(self.inner.0, &msg)
     }
@@ -80,6 +81,7 @@ pub enum ErrorKind {
     InvalidSupportQuery,
     InvalidKeyframeSelector,
     InvalidMediaQuery,
+    InvalidAnPlusBMicrosyntax,
 
     UnknownAtRuleNotTerminated,
 }

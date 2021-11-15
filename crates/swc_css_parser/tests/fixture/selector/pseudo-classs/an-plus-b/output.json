@@ -57,43 +57,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 11,
                         "end": 15,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 11,
-                            "end": 13,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": 2.0,
-                              "raw_value": "2",
-                              "unit": "n",
-                              "raw_unit": "n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 11,
+                          "end": 15,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 13,
-                            "end": 15,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "+1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": 1,
+                        "bRaw": "+1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -163,55 +146,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 31,
                         "end": 36,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 31,
-                            "end": 33,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": 2.0,
-                              "raw_value": "2",
-                              "unit": "n",
-                              "raw_unit": "n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 31,
+                          "end": 36,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 33,
-                            "end": 34,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 34,
-                            "end": 36,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "+1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": 1,
+                        "bRaw": "+1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -281,79 +235,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 52,
                         "end": 58,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 52,
-                            "end": 54,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": 2.0,
-                              "raw_value": "2",
-                              "unit": "n",
-                              "raw_unit": "n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 52,
+                          "end": 58,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 54,
-                            "end": 55,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 55,
-                            "end": 56,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "+"
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 56,
-                            "end": 57,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 57,
-                            "end": 58,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": 1,
+                        "bRaw": " + 1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -423,67 +324,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 74,
                         "end": 79,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 74,
-                            "end": 76,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": 2.0,
-                              "raw_value": "2",
-                              "unit": "n",
-                              "raw_unit": "n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 74,
+                          "end": 79,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 76,
-                            "end": 77,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "+"
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 77,
-                            "end": 78,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 78,
-                            "end": 79,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": 1,
+                        "bRaw": " + 1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -553,30 +413,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 95,
                         "end": 99,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 95,
-                            "end": 99,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": 2.0,
-                              "raw_value": "2",
-                              "unit": "n-1",
-                              "raw_unit": "n-1"
-                            }
-                          }
-                        }
-                      ]
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 95,
+                          "end": 99,
+                          "ctxt": 0
+                        },
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": -1,
+                        "bRaw": "-1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -646,55 +502,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 115,
                         "end": 120,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 115,
-                            "end": 117,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": 2.0,
-                              "raw_value": "2",
-                              "unit": "n",
-                              "raw_unit": "n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 115,
+                          "end": 120,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 117,
-                            "end": 118,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 118,
-                            "end": 120,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": -1.0,
-                              "raw": "-1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": -1,
+                        "bRaw": "-1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -764,55 +591,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 136,
                         "end": 141,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 136,
-                            "end": 139,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": 2.0,
-                              "raw_value": "2",
-                              "unit": "n-",
-                              "raw_unit": "n-"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 136,
+                          "end": 141,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 139,
-                            "end": 140,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 140,
-                            "end": 141,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": -1,
+                        "bRaw": "- 1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -882,79 +680,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 157,
                         "end": 163,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 157,
-                            "end": 159,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": 2.0,
-                              "raw_value": "2",
-                              "unit": "n",
-                              "raw_unit": "n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 157,
+                          "end": 163,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 159,
-                            "end": 160,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 160,
-                            "end": 161,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "-"
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 161,
-                            "end": 162,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 162,
-                            "end": 163,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": -1,
+                        "bRaw": " - 1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -1024,43 +769,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 179,
                         "end": 184,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 179,
-                            "end": 182,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": -2.0,
-                              "raw_value": "-2",
-                              "unit": "n",
-                              "raw_unit": "n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 179,
+                          "end": 184,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 182,
-                            "end": 184,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "+1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": -2,
+                        "aRaw": "-2",
+                        "b": 1,
+                        "bRaw": "+1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -1130,55 +858,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 200,
                         "end": 206,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 200,
-                            "end": 203,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": -2.0,
-                              "raw_value": "-2",
-                              "unit": "n",
-                              "raw_unit": "n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 200,
+                          "end": 206,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 203,
-                            "end": 204,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 204,
-                            "end": 206,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "+1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": -2,
+                        "aRaw": "-2",
+                        "b": 1,
+                        "bRaw": "+1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -1248,79 +947,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 222,
                         "end": 229,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 222,
-                            "end": 225,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": -2.0,
-                              "raw_value": "-2",
-                              "unit": "n",
-                              "raw_unit": "n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 222,
+                          "end": 229,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 225,
-                            "end": 226,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 226,
-                            "end": 227,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "+"
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 227,
-                            "end": 228,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 228,
-                            "end": 229,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": -2,
+                        "aRaw": "-2",
+                        "b": 1,
+                        "bRaw": " + 1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -1390,67 +1036,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 245,
                         "end": 251,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 245,
-                            "end": 248,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": -2.0,
-                              "raw_value": "-2",
-                              "unit": "n",
-                              "raw_unit": "n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 245,
+                          "end": 251,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 248,
-                            "end": 249,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "+"
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 249,
-                            "end": 250,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 250,
-                            "end": 251,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": -2,
+                        "aRaw": "-2",
+                        "b": 1,
+                        "bRaw": " + 1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -1520,30 +1125,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 267,
                         "end": 272,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 267,
-                            "end": 272,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": -2.0,
-                              "raw_value": "-2",
-                              "unit": "n-1",
-                              "raw_unit": "n-1"
-                            }
-                          }
-                        }
-                      ]
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 267,
+                          "end": 272,
+                          "ctxt": 0
+                        },
+                        "a": -2,
+                        "aRaw": "-2",
+                        "b": -1,
+                        "bRaw": "-1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -1613,55 +1214,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 288,
                         "end": 294,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 288,
-                            "end": 291,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": -2.0,
-                              "raw_value": "-2",
-                              "unit": "n",
-                              "raw_unit": "n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 288,
+                          "end": 294,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 291,
-                            "end": 292,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 292,
-                            "end": 294,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": -1.0,
-                              "raw": "-1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": -2,
+                        "aRaw": "-2",
+                        "b": -1,
+                        "bRaw": "-1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -1731,79 +1303,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 310,
                         "end": 317,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 310,
-                            "end": 313,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": -2.0,
-                              "raw_value": "-2",
-                              "unit": "n",
-                              "raw_unit": "n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 310,
+                          "end": 317,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 313,
-                            "end": 314,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 314,
-                            "end": 315,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "-"
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 315,
-                            "end": 316,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 316,
-                            "end": 317,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": -2,
+                        "aRaw": "-2",
+                        "b": -1,
+                        "bRaw": " - 1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -1873,43 +1392,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 333,
                         "end": 338,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 333,
-                            "end": 336,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": 2.0,
-                              "raw_value": "+2",
-                              "unit": "n",
-                              "raw_unit": "n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 333,
+                          "end": 338,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 336,
-                            "end": 338,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "+1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 2,
+                        "aRaw": "+2",
+                        "b": 1,
+                        "bRaw": "+1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -1979,55 +1481,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 354,
                         "end": 360,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 354,
-                            "end": 357,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": 2.0,
-                              "raw_value": "+2",
-                              "unit": "n",
-                              "raw_unit": "n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 354,
+                          "end": 360,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 357,
-                            "end": 358,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 358,
-                            "end": 360,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "+1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 2,
+                        "aRaw": "+2",
+                        "b": 1,
+                        "bRaw": "+1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -2097,79 +1570,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 376,
                         "end": 383,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 376,
-                            "end": 379,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": 2.0,
-                              "raw_value": "+2",
-                              "unit": "n",
-                              "raw_unit": "n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 376,
+                          "end": 383,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 379,
-                            "end": 380,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 380,
-                            "end": 381,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "+"
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 381,
-                            "end": 382,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 382,
-                            "end": 383,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 2,
+                        "aRaw": "+2",
+                        "b": 1,
+                        "bRaw": " + 1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -2239,67 +1659,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 399,
                         "end": 405,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 399,
-                            "end": 402,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": 2.0,
-                              "raw_value": "+2",
-                              "unit": "n",
-                              "raw_unit": "n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 399,
+                          "end": 405,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 402,
-                            "end": 403,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "+"
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 403,
-                            "end": 404,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 404,
-                            "end": 405,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 2,
+                        "aRaw": "+2",
+                        "b": 1,
+                        "bRaw": " + 1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -2369,30 +1748,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 421,
                         "end": 426,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 421,
-                            "end": 426,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": 2.0,
-                              "raw_value": "+2",
-                              "unit": "n-1",
-                              "raw_unit": "n-1"
-                            }
-                          }
-                        }
-                      ]
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 421,
+                          "end": 426,
+                          "ctxt": 0
+                        },
+                        "a": 2,
+                        "aRaw": "+2",
+                        "b": -1,
+                        "bRaw": "-1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -2462,55 +1837,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 442,
                         "end": 448,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 442,
-                            "end": 445,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": 2.0,
-                              "raw_value": "+2",
-                              "unit": "n",
-                              "raw_unit": "n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 442,
+                          "end": 448,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 445,
-                            "end": 446,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 446,
-                            "end": 448,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": -1.0,
-                              "raw": "-1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 2,
+                        "aRaw": "+2",
+                        "b": -1,
+                        "bRaw": "-1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -2580,55 +1926,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 464,
                         "end": 470,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 464,
-                            "end": 468,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": 2.0,
-                              "raw_value": "+2",
-                              "unit": "n-",
-                              "raw_unit": "n-"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 464,
+                          "end": 470,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 468,
-                            "end": 469,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 469,
-                            "end": 470,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 2,
+                        "aRaw": "+2",
+                        "b": -1,
+                        "bRaw": "- 1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -2698,79 +2015,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 486,
                         "end": 493,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 486,
-                            "end": 489,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": 2.0,
-                              "raw_value": "+2",
-                              "unit": "n",
-                              "raw_unit": "n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 486,
+                          "end": 493,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 489,
-                            "end": 490,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 490,
-                            "end": 491,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "-"
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 491,
-                            "end": 492,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 492,
-                            "end": 493,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 2,
+                        "aRaw": "+2",
+                        "b": -1,
+                        "bRaw": " - 1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -2840,41 +2104,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 509,
                         "end": 512,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 509,
-                            "end": 510,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "n",
-                              "raw": "n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 509,
+                          "end": 512,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 510,
-                            "end": 512,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "+1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 1,
+                        "aRaw": "",
+                        "b": 1,
+                        "bRaw": "+1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -2944,53 +2193,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 528,
                         "end": 532,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 528,
-                            "end": 529,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "n",
-                              "raw": "n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 528,
+                          "end": 532,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 529,
-                            "end": 530,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 530,
-                            "end": 532,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "+1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 1,
+                        "aRaw": "",
+                        "b": 1,
+                        "bRaw": "+1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -3060,77 +2282,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 548,
                         "end": 553,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 548,
-                            "end": 549,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "n",
-                              "raw": "n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 548,
+                          "end": 553,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 549,
-                            "end": 550,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 550,
-                            "end": 551,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "+"
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 551,
-                            "end": 552,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 552,
-                            "end": 553,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 1,
+                        "aRaw": "",
+                        "b": 1,
+                        "bRaw": " + 1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -3200,65 +2371,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 569,
                         "end": 573,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 569,
-                            "end": 570,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "n",
-                              "raw": "n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 569,
+                          "end": 573,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 570,
-                            "end": 571,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "+"
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 571,
-                            "end": 572,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 572,
-                            "end": 573,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 1,
+                        "aRaw": "",
+                        "b": 1,
+                        "bRaw": " + 1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -3328,28 +2460,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 589,
                         "end": 592,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 589,
-                            "end": 592,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "n-1",
-                              "raw": "n-1"
-                            }
-                          }
-                        }
-                      ]
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 589,
+                          "end": 592,
+                          "ctxt": 0
+                        },
+                        "a": 1,
+                        "aRaw": "",
+                        "b": -1,
+                        "bRaw": "-1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -3419,53 +2549,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 608,
                         "end": 612,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 608,
-                            "end": 609,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "n",
-                              "raw": "n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 608,
+                          "end": 612,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 609,
-                            "end": 610,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 610,
-                            "end": 612,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": -1.0,
-                              "raw": "-1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 1,
+                        "aRaw": "",
+                        "b": -1,
+                        "bRaw": "-1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -3535,53 +2638,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 628,
                         "end": 632,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 628,
-                            "end": 630,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "n-",
-                              "raw": "n-"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 628,
+                          "end": 632,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 630,
-                            "end": 631,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 631,
-                            "end": 632,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 1,
+                        "aRaw": "",
+                        "b": -1,
+                        "bRaw": "- 1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -3651,77 +2727,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 648,
                         "end": 653,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 648,
-                            "end": 649,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "n",
-                              "raw": "n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 648,
+                          "end": 653,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 649,
-                            "end": 650,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 650,
-                            "end": 651,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "-"
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 651,
-                            "end": 652,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 652,
-                            "end": 653,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 1,
+                        "aRaw": "",
+                        "b": -1,
+                        "bRaw": " - 1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -3791,41 +2816,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 669,
                         "end": 673,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 669,
-                            "end": 671,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "-n",
-                              "raw": "-n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 669,
+                          "end": 673,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 671,
-                            "end": 673,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "+1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": -1,
+                        "aRaw": "-",
+                        "b": 1,
+                        "bRaw": "+1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -3895,53 +2905,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 689,
                         "end": 694,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 689,
-                            "end": 691,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "-n",
-                              "raw": "-n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 689,
+                          "end": 694,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 691,
-                            "end": 692,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 692,
-                            "end": 694,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "+1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": -1,
+                        "aRaw": "-",
+                        "b": 1,
+                        "bRaw": "+1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -4011,77 +2994,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 710,
                         "end": 716,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 710,
-                            "end": 712,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "-n",
-                              "raw": "-n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 710,
+                          "end": 716,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 712,
-                            "end": 713,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 713,
-                            "end": 714,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "+"
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 714,
-                            "end": 715,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 715,
-                            "end": 716,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": -1,
+                        "aRaw": "-",
+                        "b": 1,
+                        "bRaw": " + 1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -4151,65 +3083,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 732,
                         "end": 737,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 732,
-                            "end": 734,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "-n",
-                              "raw": "-n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 732,
+                          "end": 737,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 734,
-                            "end": 735,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "+"
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 735,
-                            "end": 736,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 736,
-                            "end": 737,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": -1,
+                        "aRaw": "-",
+                        "b": 1,
+                        "bRaw": " + 1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -4279,28 +3172,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 753,
                         "end": 757,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 753,
-                            "end": 757,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "-n-1",
-                              "raw": "-n-1"
-                            }
-                          }
-                        }
-                      ]
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 753,
+                          "end": 757,
+                          "ctxt": 0
+                        },
+                        "a": -1,
+                        "aRaw": "-",
+                        "b": -1,
+                        "bRaw": "-1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -4370,53 +3261,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 773,
                         "end": 778,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 773,
-                            "end": 775,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "-n",
-                              "raw": "-n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 773,
+                          "end": 778,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 775,
-                            "end": 776,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 776,
-                            "end": 778,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": -1.0,
-                              "raw": "-1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": -1,
+                        "aRaw": "-",
+                        "b": -1,
+                        "bRaw": "-1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -4486,53 +3350,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 794,
                         "end": 799,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 794,
-                            "end": 797,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "-n-",
-                              "raw": "-n-"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 794,
+                          "end": 799,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 797,
-                            "end": 798,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 798,
-                            "end": 799,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": -1,
+                        "aRaw": "-",
+                        "b": -1,
+                        "bRaw": "- 1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -4602,77 +3439,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 815,
                         "end": 821,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 815,
-                            "end": 817,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "-n",
-                              "raw": "-n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 815,
+                          "end": 821,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 817,
-                            "end": 818,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 818,
-                            "end": 819,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "-"
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 819,
-                            "end": 820,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 820,
-                            "end": 821,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": -1,
+                        "aRaw": "-",
+                        "b": -1,
+                        "bRaw": " - 1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -4742,53 +3528,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 837,
                         "end": 841,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 837,
-                            "end": 838,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "+"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 837,
+                          "end": 841,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 838,
-                            "end": 839,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "n",
-                              "raw": "n"
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 839,
-                            "end": 841,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "+1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 1,
+                        "aRaw": "+",
+                        "b": 1,
+                        "bRaw": "+1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -4858,65 +3617,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 857,
                         "end": 862,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 857,
-                            "end": 858,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "+"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 857,
+                          "end": 862,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 858,
-                            "end": 859,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "n",
-                              "raw": "n"
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 859,
-                            "end": 860,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 860,
-                            "end": 862,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "+1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 1,
+                        "aRaw": "+",
+                        "b": 1,
+                        "bRaw": "+1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -4986,89 +3706,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 878,
                         "end": 884,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 878,
-                            "end": 879,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "+"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 878,
+                          "end": 884,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 879,
-                            "end": 880,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "n",
-                              "raw": "n"
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 880,
-                            "end": 881,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 881,
-                            "end": 882,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "+"
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 882,
-                            "end": 883,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 883,
-                            "end": 884,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 1,
+                        "aRaw": "+",
+                        "b": 1,
+                        "bRaw": " + 1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -5138,77 +3795,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 900,
                         "end": 905,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 900,
-                            "end": 901,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "+"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 900,
+                          "end": 905,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 901,
-                            "end": 902,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "n",
-                              "raw": "n"
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 902,
-                            "end": 903,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "+"
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 903,
-                            "end": 904,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 904,
-                            "end": 905,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 1,
+                        "aRaw": "+",
+                        "b": 1,
+                        "bRaw": " + 1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -5278,40 +3884,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 921,
                         "end": 925,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 921,
-                            "end": 922,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "+"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 921,
+                          "end": 925,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 922,
-                            "end": 925,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "n-1",
-                              "raw": "n-1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 1,
+                        "aRaw": "+",
+                        "b": -1,
+                        "bRaw": "-1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -5381,65 +3973,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 941,
                         "end": 946,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 941,
-                            "end": 942,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "+"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 941,
+                          "end": 946,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 942,
-                            "end": 943,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "n",
-                              "raw": "n"
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 943,
-                            "end": 944,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 944,
-                            "end": 946,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": -1.0,
-                              "raw": "-1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 1,
+                        "aRaw": "+",
+                        "b": -1,
+                        "bRaw": "-1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -5509,65 +4062,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 962,
                         "end": 967,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 962,
-                            "end": 963,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "+"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 962,
+                          "end": 967,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 963,
-                            "end": 965,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "n-",
-                              "raw": "n-"
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 965,
-                            "end": 966,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 966,
-                            "end": 967,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 1,
+                        "aRaw": "+",
+                        "b": -1,
+                        "bRaw": "- 1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -5637,89 +4151,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 983,
                         "end": 989,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 983,
-                            "end": 984,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "+"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 983,
+                          "end": 989,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 984,
-                            "end": 985,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "n",
-                              "raw": "n"
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 985,
-                            "end": 986,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 986,
-                            "end": 987,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "-"
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 987,
-                            "end": 988,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 988,
-                            "end": 989,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 1,
+                        "aRaw": "+",
+                        "b": -1,
+                        "bRaw": " - 1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -5789,28 +4240,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 1005,
                         "end": 1006,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 1005,
-                            "end": 1006,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "n",
-                              "raw": "n"
-                            }
-                          }
-                        }
-                      ]
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 1005,
+                          "end": 1006,
+                          "ctxt": 0
+                        },
+                        "a": 1,
+                        "aRaw": "",
+                        "b": null,
+                        "bRaw": null
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -5880,28 +4329,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 1022,
                         "end": 1024,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 1022,
-                            "end": 1024,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "-n",
-                              "raw": "-n"
-                            }
-                          }
-                        }
-                      ]
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 1022,
+                          "end": 1024,
+                          "ctxt": 0
+                        },
+                        "a": -1,
+                        "aRaw": "-",
+                        "b": null,
+                        "bRaw": null
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -5971,40 +4418,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 1040,
                         "end": 1042,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 1040,
-                            "end": 1041,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "+"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 1040,
+                          "end": 1042,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 1041,
-                            "end": 1042,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "n",
-                              "raw": "n"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 1,
+                        "aRaw": "+",
+                        "b": null,
+                        "bRaw": null
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -6074,30 +4507,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 1058,
                         "end": 1060,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 1058,
-                            "end": 1060,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": 2.0,
-                              "raw_value": "2",
-                              "unit": "n",
-                              "raw_unit": "n"
-                            }
-                          }
-                        }
-                      ]
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 1058,
+                          "end": 1060,
+                          "ctxt": 0
+                        },
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": null,
+                        "bRaw": null
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -6167,30 +4596,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 1076,
                         "end": 1079,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 1076,
-                            "end": 1079,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": -2.0,
-                              "raw_value": "-2",
-                              "unit": "n",
-                              "raw_unit": "n"
-                            }
-                          }
-                        }
-                      ]
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 1076,
+                          "end": 1079,
+                          "ctxt": 0
+                        },
+                        "a": -2,
+                        "aRaw": "-2",
+                        "b": null,
+                        "bRaw": null
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -6260,30 +4685,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 1095,
                         "end": 1098,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 1095,
-                            "end": 1098,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": 2.0,
-                              "raw_value": "+2",
-                              "unit": "n",
-                              "raw_unit": "n"
-                            }
-                          }
-                        }
-                      ]
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 1095,
+                          "end": 1098,
+                          "ctxt": 0
+                        },
+                        "a": 2,
+                        "aRaw": "+2",
+                        "b": null,
+                        "bRaw": null
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -6353,28 +4774,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 1114,
                         "end": 1115,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 1114,
-                            "end": 1115,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "N",
-                              "raw": "N"
-                            }
-                          }
-                        }
-                      ]
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 1114,
+                          "end": 1115,
+                          "ctxt": 0
+                        },
+                        "a": 1,
+                        "aRaw": "",
+                        "b": null,
+                        "bRaw": null
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -6444,28 +4863,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 1131,
                         "end": 1133,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 1131,
-                            "end": 1133,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "-N",
-                              "raw": "-N"
-                            }
-                          }
-                        }
-                      ]
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 1131,
+                          "end": 1133,
+                          "ctxt": 0
+                        },
+                        "a": -1,
+                        "aRaw": "-",
+                        "b": null,
+                        "bRaw": null
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -6535,40 +4952,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 1149,
                         "end": 1151,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 1149,
-                            "end": 1150,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "+"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 1149,
+                          "end": 1151,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 1150,
-                            "end": 1151,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "N",
-                              "raw": "N"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 1,
+                        "aRaw": "+",
+                        "b": null,
+                        "bRaw": null
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -6638,30 +5041,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 1167,
                         "end": 1169,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 1167,
-                            "end": 1169,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": 2.0,
-                              "raw_value": "2",
-                              "unit": "N",
-                              "raw_unit": "N"
-                            }
-                          }
-                        }
-                      ]
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 1167,
+                          "end": 1169,
+                          "ctxt": 0
+                        },
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": null,
+                        "bRaw": null
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -6731,30 +5130,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 1185,
                         "end": 1188,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 1185,
-                            "end": 1188,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": -2.0,
-                              "raw_value": "-2",
-                              "unit": "N",
-                              "raw_unit": "N"
-                            }
-                          }
-                        }
-                      ]
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 1185,
+                          "end": 1188,
+                          "ctxt": 0
+                        },
+                        "a": -2,
+                        "aRaw": "-2",
+                        "b": null,
+                        "bRaw": null
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -6824,30 +5219,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 1204,
                         "end": 1207,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 1204,
-                            "end": 1207,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": 2.0,
-                              "raw_value": "+2",
-                              "unit": "N",
-                              "raw_unit": "N"
-                            }
-                          }
-                        }
-                      ]
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 1204,
+                          "end": 1207,
+                          "ctxt": 0
+                        },
+                        "a": 2,
+                        "aRaw": "+2",
+                        "b": null,
+                        "bRaw": null
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -6917,28 +5308,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 1223,
                         "end": 1224,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 1223,
-                            "end": 1224,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "1"
-                            }
-                          }
-                        }
-                      ]
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 1223,
+                          "end": 1224,
+                          "ctxt": 0
+                        },
+                        "a": null,
+                        "aRaw": null,
+                        "b": 1,
+                        "bRaw": "1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -7008,28 +5397,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 1240,
                         "end": 1242,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 1240,
-                            "end": 1242,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": -1.0,
-                              "raw": "-1"
-                            }
-                          }
-                        }
-                      ]
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 1240,
+                          "end": 1242,
+                          "ctxt": 0
+                        },
+                        "a": null,
+                        "aRaw": null,
+                        "b": -1,
+                        "bRaw": "-1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -7099,28 +5486,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 1258,
                         "end": 1260,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 1258,
-                            "end": 1260,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "+1"
-                            }
-                          }
-                        }
-                      ]
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 1258,
+                          "end": 1260,
+                          "ctxt": 0
+                        },
+                        "a": null,
+                        "aRaw": null,
+                        "b": 1,
+                        "bRaw": "+1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -7190,30 +5575,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 1276,
                         "end": 1292,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 1276,
-                            "end": 1292,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": 123456.0,
-                              "raw_value": "123456",
-                              "unit": "n-12345678",
-                              "raw_unit": "n-12345678"
-                            }
-                          }
-                        }
-                      ]
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 1276,
+                          "end": 1292,
+                          "ctxt": 0
+                        },
+                        "a": 123456,
+                        "aRaw": "123456",
+                        "b": -12345678,
+                        "bRaw": "-12345678"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -7283,43 +5664,26 @@
                       "value": "Nth-Child",
                       "raw": "Nth-Child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 1309,
                         "end": 1313,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 1309,
-                            "end": 1311,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": 2.0,
-                              "raw_value": "2",
-                              "unit": "n",
-                              "raw_unit": "n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 1309,
+                          "end": 1313,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 1311,
-                            "end": 1313,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "+1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": 1,
+                        "bRaw": "+1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -7389,43 +5753,26 @@
                       "value": "NTH-CHILD",
                       "raw": "NTH-CHILD"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 1329,
                         "end": 1333,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 1329,
-                            "end": 1331,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": 2.0,
-                              "raw_value": "2",
-                              "unit": "n",
-                              "raw_unit": "n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 1329,
+                          "end": 1333,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 1331,
-                            "end": 1333,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "+1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": 1,
+                        "bRaw": "+1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -7495,28 +5842,24 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 1350,
                         "end": 1353,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 1350,
-                            "end": 1353,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "odd",
-                              "raw": "odd"
-                            }
-                          }
-                        }
-                      ]
+                      "nth": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 1350,
+                          "end": 1353,
+                          "ctxt": 0
+                        },
+                        "value": "odd",
+                        "raw": "odd"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -7586,28 +5929,24 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 1369,
                         "end": 1372,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 1369,
-                            "end": 1372,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "ODD",
-                              "raw": "ODD"
-                            }
-                          }
-                        }
-                      ]
+                      "nth": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 1369,
+                          "end": 1372,
+                          "ctxt": 0
+                        },
+                        "value": "ODD",
+                        "raw": "ODD"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -7677,28 +6016,24 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 1388,
                         "end": 1391,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 1388,
-                            "end": 1391,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "oDd",
-                              "raw": "oDd"
-                            }
-                          }
-                        }
-                      ]
+                      "nth": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 1388,
+                          "end": 1391,
+                          "ctxt": 0
+                        },
+                        "value": "oDd",
+                        "raw": "oDd"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -7768,28 +6103,24 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 1407,
                         "end": 1411,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 1407,
-                            "end": 1411,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "even",
-                              "raw": "even"
-                            }
-                          }
-                        }
-                      ]
+                      "nth": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 1407,
+                          "end": 1411,
+                          "ctxt": 0
+                        },
+                        "value": "even",
+                        "raw": "even"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -7859,28 +6190,24 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 1427,
                         "end": 1431,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 1427,
-                            "end": 1431,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "eVeN",
-                              "raw": "eVeN"
-                            }
-                          }
-                        }
-                      ]
+                      "nth": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 1427,
+                          "end": 1431,
+                          "ctxt": 0
+                        },
+                        "value": "eVeN",
+                        "raw": "eVeN"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -7950,28 +6277,24 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 1447,
                         "end": 1451,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 1447,
-                            "end": 1451,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "EVEN",
-                              "raw": "EVEN"
-                            }
-                          }
-                        }
-                      ]
+                      "nth": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 1447,
+                          "end": 1451,
+                          "ctxt": 0
+                        },
+                        "value": "EVEN",
+                        "raw": "EVEN"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -8041,55 +6364,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 1476,
                         "end": 1496,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 1476,
-                            "end": 1478,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": 2.0,
-                              "raw_value": "2",
-                              "unit": "n",
-                              "raw_unit": "n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 1476,
+                          "end": 1496,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 1486,
-                            "end": 1487,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "+"
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 1495,
-                            "end": 1496,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": 1,
+                        "bRaw": " + 1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -8159,55 +6453,26 @@
                       "value": "nth-last-child",
                       "raw": "nth-last-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 1533,
                         "end": 1554,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 1533,
-                            "end": 1536,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": 3.0,
-                              "raw_value": "+3",
-                              "unit": "n",
-                              "raw_unit": "n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 1533,
+                          "end": 1554,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 1544,
-                            "end": 1545,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "-"
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 1553,
-                            "end": 1554,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 2.0,
-                              "raw": "2"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 3,
+                        "aRaw": "+3",
+                        "b": -2,
+                        "bRaw": " - 2"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -8277,103 +6542,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
-                        "start": 1579,
-                        "end": 1591,
+                        "start": 1581,
+                        "end": 1589,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 1579,
-                            "end": 1581,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": "  "
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 1581,
+                          "end": 1589,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 1581,
-                            "end": 1583,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": 2.0,
-                              "raw_value": "2",
-                              "unit": "n",
-                              "raw_unit": "n"
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 1583,
-                            "end": 1585,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": "  "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 1585,
-                            "end": 1586,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "+"
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 1586,
-                            "end": 1588,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": "  "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 1588,
-                            "end": 1589,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "1"
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 1589,
-                            "end": 1591,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": "  "
-                            }
-                          }
-                        }
-                      ]
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": 1,
+                        "bRaw": " + 1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -8443,103 +6631,26 @@
                       "value": "nth-last-child",
                       "raw": "nth-last-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
-                        "start": 1612,
-                        "end": 1625,
+                        "start": 1614,
+                        "end": 1623,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 1612,
-                            "end": 1614,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": "  "
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 1614,
+                          "end": 1623,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 1614,
-                            "end": 1617,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": 3.0,
-                              "raw_value": "+3",
-                              "unit": "n",
-                              "raw_unit": "n"
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 1617,
-                            "end": 1619,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": "  "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 1619,
-                            "end": 1620,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "-"
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 1620,
-                            "end": 1622,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": "  "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 1622,
-                            "end": 1623,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 2.0,
-                              "raw": "2"
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 1623,
-                            "end": 1625,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": "  "
-                            }
-                          }
-                        }
-                      ]
+                        "a": 3,
+                        "aRaw": "+3",
+                        "b": -2,
+                        "bRaw": " - 2"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -8609,43 +6720,26 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 1642,
                         "end": 1647,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 1642,
-                            "end": 1645,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": -2.0,
-                              "raw_value": "-2",
-                              "unit": "n",
-                              "raw_unit": "n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 1642,
+                          "end": 1647,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 1645,
-                            "end": 1647,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "+1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": -2,
+                        "aRaw": "-2",
+                        "b": 1,
+                        "bRaw": "+1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -8715,43 +6809,26 @@
                       "value": "nth-last-child",
                       "raw": "nth-last-child"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 1668,
                         "end": 1672,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 1668,
-                            "end": 1670,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": 2.0,
-                              "raw_value": "2",
-                              "unit": "n",
-                              "raw_unit": "n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 1668,
+                          "end": 1672,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 1670,
-                            "end": 1672,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "+1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": 1,
+                        "bRaw": "+1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -8821,43 +6898,26 @@
                       "value": "nth-of-type",
                       "raw": "nth-of-type"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 1690,
                         "end": 1694,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 1690,
-                            "end": 1692,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": 2.0,
-                              "raw_value": "2",
-                              "unit": "n",
-                              "raw_unit": "n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 1690,
+                          "end": 1694,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 1692,
-                            "end": 1694,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "+1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": 1,
+                        "bRaw": "+1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -8927,43 +6987,26 @@
                       "value": "nth-last-of-type",
                       "raw": "nth-last-of-type"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 1717,
                         "end": 1721,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 1717,
-                            "end": 1719,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Dimension": {
-                              "value": 2.0,
-                              "raw_value": "2",
-                              "unit": "n",
-                              "raw_unit": "n"
-                            }
-                          }
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 1717,
+                          "end": 1721,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 1719,
-                            "end": 1721,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 1.0,
-                              "raw": "+1"
-                            }
-                          }
-                        }
-                      ]
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": 1,
+                        "bRaw": "+1"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]

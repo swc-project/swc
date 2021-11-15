@@ -64,8 +64,6 @@ error: Ident
 1 | a::b {}
   |    ^
 
-error: Tokens
-
 error: Block
  --> $DIR/tests/fixture/esbuild/misc/sAlB53zm7iv9WuhRVKadHQ/input.css:1:6
   |

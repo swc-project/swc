@@ -789,17 +789,55 @@ where
     }
 
     #[emitter]
+    fn emit_nth(&mut self, n: &Nth) -> Result {
+        emit!(self, n.nth);
+
+        if n.selector_list.is_some() {
+            emit!(self, n.selector_list);
+        }
+    }
+
+    #[emitter]
+    fn emit_an_plus_b(&mut self, n: &AnPlusB) -> Result {
+        if let Some(a_raw) = &n.a_raw {
+            self.wr.write_raw(Some(n.span), a_raw)?;
+            punct!(self, "n");
+        }
+
+        if let Some(b_raw) = &n.b_raw {
+            self.wr.write_raw(Some(n.span), b_raw)?;
+        }
+    }
+
+    #[emitter]
+    fn emit_nth_value(&mut self, n: &NthValue) -> Result {
+        match n {
+            NthValue::AnPlusB(n) => emit!(self, n),
+            NthValue::Ident(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_pseudo_selector_children(&mut self, n: &PseudoSelectorChildren) -> Result {
+        match n {
+            PseudoSelectorChildren::Nth(n) => emit!(self, n),
+            PseudoSelectorChildren::Tokens(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
     fn emit_pseudo_selector(&mut self, n: &PseudoSelector) -> Result {
         punct!(self, ":");
+
         if n.is_element {
             punct!(self, ":");
         }
 
         emit!(self, n.name);
 
-        if !n.args.tokens.is_empty() {
+        if n.children.is_some() {
             punct!(self, "(");
-            emit!(self, n.args);
+            emit!(self, n.children);
             punct!(self, ")");
         }
     }

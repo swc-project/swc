@@ -58,8 +58,6 @@ error: Ident
 1 | &:b {}
   |   ^
 
-error: Tokens
-
 error: Block
  --> $DIR/tests/fixture/esbuild/misc/Dl_KXhjnyR5RfRaNMKBEdw/input.css:1:5
   |

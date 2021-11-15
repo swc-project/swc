@@ -257,7 +257,7 @@
                       "value": "global",
                       "raw": "global"
                     },
-                    "args": {
+                    "children": {
                       "type": "Tokens",
                       "span": {
                         "start": 135,
@@ -603,7 +603,7 @@
                           "value": "global",
                           "raw": "global"
                         },
-                        "args": {
+                        "children": {
                           "type": "Tokens",
                           "span": {
                             "start": 332,
@@ -858,7 +858,7 @@
                           "value": "global",
                           "raw": "global"
                         },
-                        "args": {
+                        "children": {
                           "type": "Tokens",
                           "span": {
                             "start": 461,

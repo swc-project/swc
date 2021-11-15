@@ -52,8 +52,6 @@ error: Ident
 1 | :pseudocl\61ss {}
   |  ^^^^^^^^^^^^^
 
-error: Tokens
-
 error: Block
  --> $DIR/tests/fixture/esbuild/misc/rGv8hpoRRBbCTlyQ-70xVw/input.css:1:16
   |

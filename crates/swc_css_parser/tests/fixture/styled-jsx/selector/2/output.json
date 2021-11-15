@@ -95,7 +95,7 @@
                       "value": "global",
                       "raw": "global"
                     },
-                    "args": {
+                    "children": {
                       "type": "Tokens",
                       "span": {
                         "start": 10,
