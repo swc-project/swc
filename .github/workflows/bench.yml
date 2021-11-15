@@ -46,6 +46,13 @@ jobs:
           restore-keys: |
             cargo-bench-${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
 
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: nightly-2021-09-30
+          override: true
+
       - name: Run benchmark
         run: cargo +nightly-2021-09-30 bench --all --exclude swc_plugin | tee output.txt
 
