@@ -1,6 +1,6 @@
 # swc_css_parser
 
-CSS parser for [the swc project](https://swc.rs)
+CSS parser for [the SWC project](https://swc.rs)
 
 # Structure
 
