@@ -6,7 +6,7 @@ use std::{
     env,
     fs::{self, create_dir_all, read_to_string, OpenOptions},
     io::{self, Write},
-    mem::{replace, take},
+    mem::take,
     path::Path,
     process::Command,
     rc::Rc,

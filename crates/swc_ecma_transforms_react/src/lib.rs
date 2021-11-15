@@ -6,7 +6,6 @@ pub use self::{
     pure_annotations::pure_annotations,
     refresh::{options::RefreshOptions, refresh},
 };
-use std::mem;
 use swc_common::{chain, comments::Comments, sync::Lrc, Mark, SourceMap};
 use swc_ecma_visit::Fold;
 

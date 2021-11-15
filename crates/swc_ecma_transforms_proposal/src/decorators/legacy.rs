@@ -1,7 +1,7 @@
 use self::metadata::{Metadata, ParamMetadata};
 use super::{contains_decorator, DecoratorFinder};
 use smallvec::SmallVec;
-use std::mem::{replace, take};
+use std::mem::take;
 use swc_common::{collections::AHashMap, util::move_map::MoveMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;

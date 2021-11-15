@@ -1,6 +1,6 @@
 use super::leap::{CatchEntry, Entry, FinallyEntry, LeapManager, TryEntry};
 use smallvec::SmallVec;
-use std::mem::{replace, take};
+use std::mem::take;
 use swc_atoms::JsWord;
 use swc_common::{
     util::{map::Map, move_map::MoveMap},
