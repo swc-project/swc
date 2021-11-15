@@ -300,7 +300,7 @@ impl<C: Comments> Refresh<C> {
     fn gen_hook_register(&self, func: Expr, hook_fn: &mut FnWithHook) -> Expr {
         let mut args = vec![func];
         let mut sign = Vec::new();
-        let hooks = mem::replace(&mut hook_fn.hook, Vec::new());
+        let hooks = mem::take(&mut hook_fn.hook);
         let mut custom_hook = Vec::new();
 
         for hook in hooks {
@@ -592,7 +592,7 @@ impl<C: Comments> Fold for Refresh<C> {
         let orig_bindings = self.scope_binding.len();
         self.scope_binding.extend(current_scope.into_iter());
 
-        let orig_hook = mem::replace(&mut self.curr_hook_fn, Vec::new());
+        let orig_hook = mem::take(&mut self.curr_hook_fn);
         let mut n = n.fold_children_with(self);
         let curr_hook = mem::replace(&mut self.curr_hook_fn, orig_hook);
         self.scope_binding.truncate(orig_bindings);
@@ -769,7 +769,7 @@ impl<C: Comments> Fold for Refresh<C> {
             items.push(ModuleItem::Stmt(self.gen_hook_handle(&self.curr_hook_fn)));
         }
 
-        let curr_hook_fn = mem::replace(&mut self.curr_hook_fn, Vec::new());
+        let curr_hook_fn = mem::take(&mut self.curr_hook_fn);
         let (mut handle_map, ignore) = hook_to_handle_map(curr_hook_fn);
 
         for mut item in module_items {

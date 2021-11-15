@@ -243,7 +243,7 @@ impl Spread {
 
         macro_rules! make_arr {
             () => {
-                let elems = mem::replace(&mut tmp_arr, vec![]);
+                let elems = mem::take(&mut tmp_arr);
                 match first_arr {
                     Some(_) => {
                         if !elems.is_empty() {

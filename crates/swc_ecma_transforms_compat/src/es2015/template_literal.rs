@@ -175,7 +175,7 @@ impl VisitMut for TemplateLiteral {
 
                         if last && !args.is_empty() {
                             obj = if self.c.ignore_to_primitive {
-                                let args = mem::replace(&mut args, vec![]);
+                                let args = mem::take(&mut args);
                                 for arg in args {
                                     obj = Box::new(Expr::Bin(BinExpr {
                                         span: span.with_hi(expr_span.hi() + BytePos(1)),
@@ -198,7 +198,7 @@ impl VisitMut for TemplateLiteral {
 
                                         computed: false,
                                     }))),
-                                    args: mem::replace(&mut args, vec![])
+                                    args: mem::take(&mut args)
                                         .into_iter()
                                         .map(|expr| ExprOrSpread { expr, spread: None })
                                         .collect(),
@@ -209,7 +209,7 @@ impl VisitMut for TemplateLiteral {
                     } else {
                         if !args.is_empty() {
                             obj = if self.c.ignore_to_primitive {
-                                let args = mem::replace(&mut args, vec![]);
+                                let args = mem::take(&mut args);
                                 let len = args.len();
                                 for arg in args {
                                     // for `${asd}a`
@@ -240,7 +240,7 @@ impl VisitMut for TemplateLiteral {
 
                                         computed: false,
                                     }))),
-                                    args: mem::replace(&mut args, vec![])
+                                    args: mem::take(&mut args)
                                         .into_iter()
                                         .map(|expr| ExprOrSpread { expr, spread: None })
                                         .collect(),

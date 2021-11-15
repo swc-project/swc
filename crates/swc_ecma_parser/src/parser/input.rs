@@ -149,7 +149,7 @@ impl<I: Tokens> Capturing<I> {
     }
     /// Take captured tokens
     pub fn take(&mut self) -> Vec<TokenAndSpan> {
-        mem::replace(&mut *self.captured.borrow_mut(), Default::default())
+        mem::take(&mut *self.captured.borrow_mut())
     }
 }
 
