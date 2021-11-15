@@ -55,7 +55,7 @@ fn babelify_only(b: &mut Bencher) {
     let module = c.run_transform(&handler, false, || {
         module
             .fold_with(&mut typescript::strip())
-            .fold_with(&mut es2020())
+            .fold_with(&mut es2020(Default::default()))
     });
 
     b.iter(|| {

@@ -1,4 +1,4 @@
-var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, ref10, ref11, _obj, ref12;
+var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, ref10, ref11, ref12;
 null == o1 || o1(), null == o1 || o1(1), null == o1 || o1(...[
     1,
     2
@@ -35,4 +35,4 @@ null == o1 || o1(), null == o1 || o1(1), null == o1 || o1(...[
 ]).c, null === (ref11 = o3.b) || void 0 === ref11 || ref11.call(o3, 1, ...[
     2,
     3
-], 4).c, null == o4 || o4(incr), null === (ref12 = _obj = o5()) || void 0 === ref12 || ref12.call(_obj), null == o2 || o2.b().toString, null == o2 || o2.b().toString;
+], 4).c, null == o4 || o4(incr), null === (ref12 = o5()) || void 0 === ref12 || ref12(), null == o2 || o2.b().toString, null == o2 || o2.b().toString;

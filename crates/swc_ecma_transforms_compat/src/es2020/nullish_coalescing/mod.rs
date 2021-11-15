@@ -1,3 +1,4 @@
+use serde::Deserialize;
 use std::mem::take;
 use swc_common::{util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -7,13 +8,24 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 #[cfg(test)]
 mod tests;
 
-pub fn nullish_coalescing() -> impl Fold + VisitMut + 'static {
-    as_folder(NullishCoalescing::default())
+pub fn nullish_coalescing(c: Config) -> impl Fold + VisitMut + 'static {
+    as_folder(NullishCoalescing {
+        c,
+        ..Default::default()
+    })
 }
 
 #[derive(Debug, Default)]
 struct NullishCoalescing {
     vars: Vec<VarDeclarator>,
+    c: Config,
+}
+
+#[derive(Debug, Clone, Copy, Default, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Config {
+    #[serde(default)]
+    pub no_document_all: bool,
 }
 
 impl NullishCoalescing {
@@ -47,12 +59,16 @@ impl VisitMut for NullishCoalescing {
 
     /// Prevents #1123
     fn visit_mut_block_stmt(&mut self, s: &mut BlockStmt) {
-        s.visit_mut_children_with(&mut NullishCoalescing::default())
+        let old_vars = self.vars.take();
+        s.visit_mut_children_with(self);
+        self.vars = old_vars;
     }
 
     /// Prevents #1123
     fn visit_mut_switch_case(&mut self, s: &mut SwitchCase) {
-        s.visit_mut_children_with(&mut NullishCoalescing::default())
+        let old_vars = self.vars.take();
+        s.visit_mut_children_with(self);
+        self.vars = old_vars;
     }
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
@@ -96,7 +112,7 @@ impl VisitMut for NullishCoalescing {
                     Expr::Ident(l.clone())
                 };
 
-                *e = make_cond(*span, &l, var_expr, right.take());
+                *e = make_cond(self.c, *span, &l, var_expr, right.take());
                 return;
             }
 
@@ -140,7 +156,13 @@ impl VisitMut for NullishCoalescing {
                             span: assign.span,
                             op: op!("="),
                             left: PatOrExpr::Pat(Box::new(Pat::Ident(alias.clone().into()))),
-                            right: Box::new(make_cond(assign.span, &alias, var_expr, right_expr)),
+                            right: Box::new(make_cond(
+                                self.c,
+                                assign.span,
+                                &alias,
+                                var_expr,
+                                right_expr,
+                            )),
                         });
                         return;
                     }
@@ -151,6 +173,7 @@ impl VisitMut for NullishCoalescing {
                                 op: op!("="),
                                 left: PatOrExpr::Pat(Box::new(Pat::Ident(i.clone()))),
                                 right: Box::new(make_cond(
+                                    self.c,
                                     assign.span,
                                     &i.id,
                                     Expr::Ident(i.id.clone()),
@@ -169,26 +192,40 @@ impl VisitMut for NullishCoalescing {
     }
 }
 
-fn make_cond(span: Span, alias: &Ident, var_expr: Expr, init: Box<Expr>) -> Expr {
-    Expr::Cond(CondExpr {
-        span,
-        test: Box::new(Expr::Bin(BinExpr {
-            span: DUMMY_SP,
-            left: Box::new(Expr::Bin(BinExpr {
+fn make_cond(c: Config, span: Span, alias: &Ident, var_expr: Expr, init: Box<Expr>) -> Expr {
+    Expr::Cond(if c.no_document_all {
+        CondExpr {
+            span,
+            test: Box::new(Expr::Bin(BinExpr {
                 span: DUMMY_SP,
                 left: Box::new(var_expr),
-                op: op!("!=="),
+                op: op!("!="),
                 right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
             })),
-            op: op!("&&"),
-            right: Box::new(Expr::Bin(BinExpr {
+            cons: Box::new(Expr::Ident(alias.clone())),
+            alt: init,
+        }
+    } else {
+        CondExpr {
+            span,
+            test: Box::new(Expr::Bin(BinExpr {
                 span: DUMMY_SP,
-                left: Box::new(Expr::Ident(alias.clone())),
-                op: op!("!=="),
-                right: undefined(DUMMY_SP),
+                left: Box::new(Expr::Bin(BinExpr {
+                    span: DUMMY_SP,
+                    left: Box::new(var_expr),
+                    op: op!("!=="),
+                    right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+                })),
+                op: op!("&&"),
+                right: Box::new(Expr::Bin(BinExpr {
+                    span: DUMMY_SP,
+                    left: Box::new(Expr::Ident(alias.clone())),
+                    op: op!("!=="),
+                    right: undefined(DUMMY_SP),
+                })),
             })),
-        })),
-        cons: Box::new(Expr::Ident(alias.clone())),
-        alt: init,
+            cons: Box::new(Expr::Ident(alias.clone())),
+            alt: init,
+        }
     })
 }

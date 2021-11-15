@@ -16,7 +16,7 @@ function _toConsumableArray(arr) {
     return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
 }
 var _o2, _o21, _o22, _o23, _ref, _ref1, _ref2, _ref3, _ref4, _ref5;
-var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, ref10, ref11, _obj, ref12;
+var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, ref10, ref11, ref12;
 o1 === null || o1 === void 0 ? void 0 : o1();
 o1 === null || o1 === void 0 ? void 0 : o1(1);
 o1 === null || o1 === void 0 ? void 0 : o1.apply(void 0, [
@@ -102,7 +102,7 @@ o2 === null || o2 === void 0 ? void 0 : (_o23 = o2)["b"].apply(_o23, [
     4
 ])).c;
 var v = o4 === null || o4 === void 0 ? void 0 : o4(incr);
-(ref12 = _obj = o5()) === null || ref12 === void 0 ? void 0 : ref12.call(_obj);
+(ref12 = o5()) === null || ref12 === void 0 ? void 0 : ref12();
 // GH#36031
 o2 === null || o2 === void 0 ? void 0 : o2.b().toString;
 o2 === null || o2 === void 0 ? void 0 : o2.b().toString;

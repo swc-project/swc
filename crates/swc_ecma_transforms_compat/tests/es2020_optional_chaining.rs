@@ -1,11 +1,11 @@
 use std::{fs::read_to_string, path::PathBuf};
 use swc_ecma_parser::{Syntax, TsConfig};
-use swc_ecma_transforms_compat::es2020::optional_chaining;
+use swc_ecma_transforms_compat::es2020::{opt_chaining::Config, optional_chaining};
 use swc_ecma_transforms_testing::{compare_stdout, test, test_exec};
 use swc_ecma_visit::Fold;
 
-fn tr(_: ()) -> impl Fold {
-    optional_chaining()
+fn tr(c: Config) -> impl Fold {
+    optional_chaining(c)
 }
 
 fn syntax() -> Syntax {
@@ -15,21 +15,229 @@ fn syntax() -> Syntax {
 }
 
 // general_memoize_loose
+test!(
+    syntax(),
+    |_| tr(Config {
+        no_document_all: true,
+        pure_getter: true
+    }),
+    general_memoize_loose,
+    r#"
+"use strict";
+
+function test(foo) {
+  foo?.bar;
+
+  foo?.bar?.baz;
+
+  foo?.(foo);
+
+  foo?.bar()
+
+  foo.get(bar)?.()
+
+  foo.bar()?.()
+  foo[bar]()?.()
+
+  foo.bar().baz?.()
+  foo[bar]().baz?.()
+
+  foo.bar?.(foo.bar, false)
+
+  foo?.bar?.(foo.bar, true)
+
+  foo.bar?.baz(foo.bar, false)
+
+  foo?.bar?.baz(foo.bar, true)
+
+  foo.bar?.baz?.(foo.bar, false)
+
+  foo?.bar?.baz?.(foo.bar, true)
+}
+"#,
+    r#"
+"use strict";
+
+function test(foo) {
+  var ref, ref1, ref2, ref3, _obj, ref4, _obj1, ref5, ref6, ref7, ref8, ref9;
+
+  foo == null ? void 0 : foo.bar;
+  foo == null ? void 0 : (ref = foo.bar) == null ? void 0 : ref.baz;
+  foo == null ? void 0 : foo(foo);
+  foo == null ? void 0 : foo.bar();
+  (ref1 = foo.get(bar)) == null ? void 0 : ref1();
+  (ref2 = foo.bar()) == null ? void 0 : ref2();
+  (ref3 = foo[bar]()) == null ? void 0 : ref3();
+  (ref4 = (_obj = foo.bar()).baz) == null ? void 0 : ref4.call(_obj);
+  (ref5 = (_obj1 = foo[bar]()).baz) == null ? void 0 : ref5.call(_obj1);
+  foo.bar == null ? void 0 : foo.bar(foo.bar, false);
+  foo == null ? void 0 : foo.bar == null ? void 0 : foo.bar(foo.bar, true);
+  (ref6 = foo.bar) == null ? void 0 : ref6.baz(foo.bar, false);
+  foo == null ? void 0 : (ref7 = foo.bar) == null ? void 0 : ref7.baz(foo.bar, true);
+  (ref8 = foo.bar) == null ? void 0 : ref8.baz == null ? void 0 : ref8.baz(foo.bar, false);
+  foo == null ? void 0 : (ref9 = foo.bar) == null ? void 0 : ref9.baz == null ? void 0 : ref9.baz(foo.bar, true);
+}
+"#
+);
 
 // general_lhs_assignment_read_and_update
 
 // general_function_call_loose
+test!(
+    syntax(),
+    |_| tr(Config {
+        pure_getter: true,
+        no_document_all: true
+    }),
+    general_function_call_loose,
+    r#"
+foo?.(foo);
+
+foo?.bar()
+
+foo.bar?.(foo.bar, false)
+
+foo?.bar?.(foo.bar, true)
+"#,
+    r#"
+foo == null ? void 0 : foo(foo);
+foo == null ? void 0 : foo.bar();
+foo.bar == null ? void 0 : foo.bar(foo.bar, false);
+foo == null ? void 0 : foo.bar == null ? void 0 : foo.bar(foo.bar, true);
+"#
+);
+
+// general_function_param_loose
+test!(
+    ignore,
+    syntax(),
+    |_| tr(Config {
+        pure_getter: true,
+        no_document_all: true
+    }),
+    general_function_param_loose,
+    r#"
+function f(a = x?.y) {}
+
+function g({ a, b = a?.c }) {}
+
+function h(a, { b = a.b?.c?.d.e }) {}
+
+function i(a, { b = (a.b?.c?.d).e }) {}
+
+function j(a, { b = a?.b?.c().d.e }) {}
+"#,
+    r#"
+function f(a = (() => {
+  var _x;
+
+  return (_x = x) == null ? void 0 : _x.y;
+})()) {}
+
+function g({
+  a,
+  b = a == null ? void 0 : a.c
+}) {}
+
+function h(a, {
+  b = (() => {
+    var _a$b, _a$b$c;
+
+    return (_a$b = a.b) == null ? void 0 : (_a$b$c = _a$b.c) == null ? void 0 : _a$b$c.d.e;
+  })()
+}) {}
+
+function i(a, {
+  b = (() => {
+    var _a$b2, _a$b2$c;
+
+    return (_a$b2 = a.b) == null ? void 0 : (_a$b2$c = _a$b2.c) == null ? void 0 : _a$b2$c.d;
+  })().e
+}) {}
+
+function j(a, {
+  b = (() => {
+    var _a$b3;
+
+    return a == null ? void 0 : (_a$b3 = a.b) == null ? void 0 : _a$b3.c().d.e;
+  })()
+}) {}
+"#
+);
+
+test!(
+    ignore,
+    syntax(),
+    |_| tr(Config {
+        pure_getter: true,
+        no_document_all: true
+    }),
+    general_method_key_loose,
+    r#"
+let x;
+const a = {
+  [x.y?.z]() {}
+};
+"#,
+    r#"
+var _x$y;
+
+let x;
+const a = {
+  [(_x$y = x.y) == null ? void 0 : _x$y.z]() {}
+
+};
+"#
+);
 
 // regression_7642
 
 // general_super_method_call_loose
+test!(
+    ignore,
+    syntax(),
+    |_| tr(Config {
+        pure_getter: true,
+        no_document_all: true
+    }),
+    general_super_method_call_loose,
+    r#"
+"use strict";
+class Base {
+  method() {
+    return 'Hello!';
+  }
+}
+
+class Derived extends Base {
+    method() {
+        return super.method?.()
+    }
+}
+"#,
+    r#"
+"use strict";
+
+class Base {
+  method() {
+    return 'Hello!';
+  }
+}
+
+class Derived extends Base {
+  method() {
+    return super.method == null ? void 0 : super.method();
+  }
+}
+"#
+);
 
 // general_lhs_update
 
 // general_assignment
 test!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     general_assignment,
     r#"
 "use strict";
@@ -80,7 +288,7 @@ val = obj === null || obj === void 0 ? void 0 : (ref2 = obj.a) === null || ref2 
 // general_memoize
 test!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     general_memoize,
     r#"
 function test(foo) {
@@ -126,7 +334,7 @@ function test(foo) {
 // general_containers
 test!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     general_containers,
     r#"
 var street = user.address?.street
@@ -155,7 +363,7 @@ a === null || a === void 0 ? void 0 : a.b, 2;
 // general_delete_exec
 test_exec!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     general_delete_exec,
     r#"
 "use strict";
@@ -187,7 +395,7 @@ expect(obj.a).toBeUndefined();
 // general_member_access
 test!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     general_member_access,
     r#"
 foo?.bar;
@@ -229,7 +437,7 @@ orders[client === null || client === void 0 ? void 0 : client.key].price;
 // general_unary
 test!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     general_unary,
     r#"
 "use strict";
@@ -272,7 +480,7 @@ test = +(obj === null || obj === void 0 ? void 0 : (ref2 = obj.b) === null || re
 // general_function_call
 test!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     general_function_call,
     r#"
 foo?.(foo);
@@ -299,7 +507,7 @@ foo?.bar()?.()
 
 "#,
     r#"
-var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8, _obj, ref9;
+var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9;
 foo === null || foo === void 0 ? void 0 : foo(foo);
 foo === null || foo === void 0 ? void 0 : foo.bar();
 (ref = foo.bar) === null || ref === void 0 ? void 0 : ref.call(foo, foo.bar, false);
@@ -310,13 +518,13 @@ foo === null || foo === void 0 ? void 0 : (ref2 = foo()) === null || ref2 === vo
 (ref4 = foo.bar) === null || ref4 === void 0 ? void 0 : (ref5 = ref4.call(foo)) === null || ref5 === void 0 ? void 0 : ref5.baz;
 foo === null || foo === void 0 ? void 0 : (ref6 = foo.bar) === null || ref6 === void 0 ? void 0 : ref6.call(foo).baz;
 foo === null || foo === void 0 ? void 0 : (ref7 = foo.bar) === null || ref7 === void 0 ? void 0 : (ref8 = ref7.call(foo)) === null || ref8 === void 0 ? void 0 : ref8.baz;
-(ref9 = _obj = foo === null || foo === void 0 ? void 0 : foo.bar()) === null || ref9 === void 0 ? void 0 : ref9.call(_obj);"#
+(ref9 = foo === null || foo === void 0 ? void 0 : foo.bar()) === null || ref9 === void 0 ? void 0 : ref9();"#
 );
 
 // general_unary_exec
 test_exec!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     general_unary_exec,
     r#"
 "use strict";
@@ -345,7 +553,7 @@ expect(test).toBe(NaN);
 // general_call_exec
 test_exec!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     general_call_exec,
     r#"
 
@@ -355,7 +563,7 @@ test_exec!(
 // general_delete
 test!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     general_delete,
     r#"
 "use strict";
@@ -396,7 +604,7 @@ obj === null || obj === void 0 ? void 0 : delete obj.a;
 // regression_8354_exec
 test_exec!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     regression_8354_exec,
     r#"
 const foo = undefined;
@@ -410,7 +618,7 @@ expect(foobar).toBe(undefined);
 // general_assignment_exec
 test_exec!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     general_assignment_exec,
     r#"
 "use strict";
@@ -448,7 +656,7 @@ expect(() => {
 // general_super_method_call
 test!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     general_super_method_call,
     r#"
 "use strict";
@@ -489,7 +697,7 @@ class Derived extends Base {
 
 test!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     simple_1,
     "obj?.a",
     "obj === null || obj === void 0 ? void 0 : obj.a;"
@@ -497,7 +705,7 @@ test!(
 
 test!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     simple_2,
     "obj?.a?.b",
     "var ref;
@@ -507,7 +715,7 @@ obj === null || obj === void 0 ? void 0 : (ref = obj.a) === null || ref === void
 
 test!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     simple_3,
     "obj?.a?.b.c",
     "var ref;
@@ -517,7 +725,7 @@ obj === null || obj === void 0 ? void 0 : (ref = obj.a) === null || ref === void
 
 test!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     call_1,
     "obj?.a?.b()",
     "var ref;
@@ -528,7 +736,7 @@ obj === null || obj === void 0 ? void 0 : (ref = obj.a) === null || ref === void
 
 test!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     call_2,
     "a?.b?.c?.()",
     "var ref, ref1;
@@ -544,7 +752,7 @@ a === null || a === void 0
 
 test!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     issue_732_1,
     "test.a?.b.c.d",
     "var ref;
@@ -553,7 +761,7 @@ test!(
 
 test!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     issue_732_2,
     "test.a?.b.c",
     "var ref;
@@ -562,7 +770,7 @@ test!(
 
 test!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     issue_732_3,
     "test.a?.b.c.d.e.f.g.h.i",
     "var ref;
@@ -572,7 +780,7 @@ test!(
 // https://github.com/Brooooooklyn/swc-node/issues/62
 test!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     swc_node_issue_62,
     "a.focus?.()",
     "var ref;
@@ -581,7 +789,7 @@ test!(
 
 test!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     issue_1092_1,
     "a?.b.c()",
     "a === null || a === void 0 ? void 0 : a.b.c();"
@@ -589,7 +797,7 @@ test!(
 
 test!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     issue_1092_2,
     "a?.b.c.d.e.f.g.h()",
     "a === null || a === void 0 ? void 0 : a.b.c.d.e.f.g.h();"
@@ -597,7 +805,7 @@ test!(
 
 test_exec!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     swc_node_95,
     "
   const obj = {
@@ -618,7 +826,7 @@ test_exec!(
 
 test!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     swc_node_95_2,
     "
 obj?.a?.b?.c()
@@ -631,7 +839,7 @@ obj === null || obj === void 0 ? void 0 : (ref = obj.a) === null || ref === void
 
 test!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     swc_node_95_3,
     "
 expect(obj?.a?.b?.c()).toBe(2)
@@ -645,7 +853,7 @@ expect(obj === null || obj === void 0 ? void 0 : (ref = obj.a) === null || ref =
 
 test!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     issue_1130_1,
     "
 const result = data?.filter(item => Math.random() > 0.5).map(item => JSON.stringify(item));
@@ -658,7 +866,7 @@ const result = data === null || data === void 0 ? void 0 : data.filter(item => M
 
 test!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     issue_1130_2,
     "
 const r = d?.filter(i => Math.random() > 0.5).map(i => JSON.stringify(i));
@@ -671,7 +879,7 @@ const r = d === null || d === void 0 ? void 0 : d.filter(i => Math.random() > 0.
 
 test!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     issue_1133_1,
     "
 async function foo() {
@@ -687,26 +895,25 @@ async function foo() {
 
 test!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     issue_1136_1,
-    "
+    r#"
     const PATCHES = new Map();
 
     const ident = 'foo';
     const patch = PATCHES.get(ident)?.();
-    ",
-    "
-    var _obj, ref;
+    "#,
+    r#"
+    var ref;
     const PATCHES = new Map();
-    const ident = \"foo\";
-    const patch = (ref = _obj = PATCHES.get(ident)) === null || ref === void 0 ? void 0 : \
-     ref.call(_obj);
-    "
+    const ident = "foo";
+    const patch = (ref = PATCHES.get(ident)) === null || ref === void 0 ? void 0 : ref();
+    "#
 );
 
 test!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     issue_1836_1,
     "
     function bug() {
@@ -727,9 +934,76 @@ test!(
     "
 );
 
+test_exec!(
+    ignore,
+    syntax(),
+    |_| tr(Config {
+        no_document_all: true,
+        pure_getter: true
+    }),
+    general_parenthesized_expression_member_call_loose,
+    r#"
+class Foo {
+  constructor() {
+    this.x = 1;
+    this.self = this;
+  }
+  m() { return this.x; };
+  getSelf() { return this }
+
+  test() {
+    const Foo = this;
+    const o = { Foo: Foo };
+    const fn = function () {
+      return o;
+    };
+
+    expect((Foo?.["m"])()).toEqual(1);
+    expect((Foo?.["m"])().toString).toEqual(1..toString);
+    expect((Foo?.["m"])().toString()).toEqual('1');
+
+    expect(((Foo?.["m"]))()).toEqual(1);
+    expect(((Foo?.["m"]))().toString).toEqual(1..toString);
+    expect(((Foo?.["m"]))().toString()).toEqual('1');
+
+    expect((o?.Foo.m)()).toEqual(1);
+    expect((o?.Foo.m)().toString).toEqual(1..toString);
+    expect((o?.Foo.m)().toString()).toEqual('1');
+
+    expect((((o.Foo?.self.getSelf)())?.m)()).toEqual(1);
+    expect((((o.Foo.self?.getSelf)())?.m)()).toEqual(1);
+
+    expect((((fn()?.Foo?.self.getSelf)())?.m)()).toEqual(1);
+    expect((((fn?.().Foo.self?.getSelf)())?.m)()).toEqual(1);
+  }
+
+  testNull() {
+    const o = null;
+
+    expect(() => { (o?.Foo.m)() }).toThrow();
+    expect(() => { (o?.Foo.m)().toString }).toThrow();
+    expect(() => { (o?.Foo.m)().toString() }).toThrow();
+
+    expect(() => { (((o.Foo?.self.getSelf)())?.m)() }).toThrow();
+    expect(() => { (((o.Foo.self?.getSelf)())?.m)() }).toThrow();
+
+    expect(() => (((fn()?.Foo?.self.getSelf)())?.m)()).toThrow();
+    expect(() => (((fn?.().Foo.self?.getSelf)())?.m)()).toThrow();
+  }
+}
+
+(new Foo).test();
+(new Foo).testNull();
+"#
+);
+
 #[testing::fixture("tests/fixture/opt-chain/**/exec.js")]
 fn exec(input: PathBuf) {
     let src = read_to_string(&input).unwrap();
 
-    compare_stdout(Default::default(), |_| optional_chaining(), &src);
+    compare_stdout(
+        Default::default(),
+        |_| optional_chaining(Default::default()),
+        &src,
+    );
 }

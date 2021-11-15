@@ -14,7 +14,7 @@ mod arrow;
 mod block_scoped_fn;
 mod block_scoping;
 pub mod classes;
-mod computed_props;
+pub mod computed_props;
 pub mod destructuring;
 mod duplicate_keys;
 pub mod for_of;
@@ -26,7 +26,7 @@ pub mod regenerator;
 mod shorthand_property;
 pub mod spread;
 mod sticky_regex;
-mod template_literal;
+pub mod template_literal;
 mod typeof_symbol;
 
 fn exprs() -> impl Fold {
@@ -47,7 +47,7 @@ where
 {
     chain!(
         block_scoped_functions(),
-        template_literal(),
+        template_literal(c.template_literal),
         new_target(),
         classes(comments),
         spread(c.spread),
@@ -57,7 +57,7 @@ where
         // Should come before parameters
         // See: https://github.com/swc-project/swc/issues/1036
         parameters(),
-        computed_properties(),
+        computed_properties(c.computed_props),
         destructuring(c.destructuring),
         block_scoping(),
         regenerator(c.regenerator, global_mark),
@@ -67,6 +67,9 @@ where
 #[derive(Debug, Clone, Default, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Config {
+    #[serde(flatten)]
+    pub computed_props: computed_props::Config,
+
     #[serde(flatten)]
     pub for_of: for_of::Config,
 
@@ -78,6 +81,9 @@ pub struct Config {
 
     #[serde(default)]
     pub regenerator: regenerator::Config,
+
+    #[serde(default)]
+    pub template_literal: template_literal::Config,
 }
 
 #[cfg(test)]
