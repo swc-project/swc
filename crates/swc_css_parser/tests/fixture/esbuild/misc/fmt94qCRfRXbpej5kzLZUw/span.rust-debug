@@ -10,7 +10,7 @@ error: Rule
 1 | a { value: url(\2c) }
   | ^^^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/esbuild/misc/fmt94qCRfRXbpej5kzLZUw/input.css:1:1
   |
 1 | a { value: url(\2c) }

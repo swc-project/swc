@@ -34,9 +34,9 @@ define!({
         pub important: Option<Span>,
     }
 
-    pub struct StyleRule {
+    pub struct QualifiedRule {
         pub span: Span,
-        pub selectors: SelectorList,
+        pub prelude: SelectorList,
         pub block: Block,
     }
 
@@ -292,11 +292,11 @@ define!({
     }
 
     pub enum Rule {
-        Style(StyleRule),
-
-        Invalid(Tokens),
+        QualifiedRule(QualifiedRule),
 
         AtRule(AtRule),
+
+        Invalid(Tokens),
     }
 
     pub struct Invalid {

@@ -10,7 +10,7 @@ error: Rule
 1 | a { value: url(\61 bc) }
   | ^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/esbuild/misc/gPpnAqOuxEdLAEJjFaUEkg/input.css:1:1
   |
 1 | a { value: url(\61 bc) }

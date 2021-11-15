@@ -10,7 +10,7 @@ error: Rule
 1 | a { border-top-left-radius: 0 0 }
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/esbuild/misc/PSncmPJMuHC-CjpwiYtkDw/input.css:1:1
   |
 1 | a { border-top-left-radius: 0 0 }

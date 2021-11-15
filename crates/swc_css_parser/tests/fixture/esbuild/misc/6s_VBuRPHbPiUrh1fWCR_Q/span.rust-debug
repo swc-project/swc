@@ -10,7 +10,7 @@ error: Rule
 1 | :pseudo(cl\,ss) {}
   | ^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/esbuild/misc/6s_VBuRPHbPiUrh1fWCR_Q/input.css:1:1
   |
 1 | :pseudo(cl\,ss) {}

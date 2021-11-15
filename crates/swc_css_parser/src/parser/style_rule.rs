@@ -47,8 +47,8 @@ where
         let start_pos = self.input.cur_span()?.lo;
         let start_state = self.input.state();
 
-        let selectors = self.parse_selectors();
-        let selectors = match selectors {
+        let prelude = self.parse_selectors();
+        let prelude = match prelude {
             Ok(v) => v,
             Err(err) => {
                 self.input.skip_ws()?;
@@ -74,9 +74,9 @@ where
         let block = self.parse_simple_block()?;
         let span = span!(self, start_pos);
 
-        Ok(Rule::Style(StyleRule {
+        Ok(Rule::QualifiedRule(QualifiedRule {
             span,
-            selectors,
+            prelude,
             block,
         }))
     }

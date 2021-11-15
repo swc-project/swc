@@ -10,7 +10,7 @@ error: Rule
 1 | [\61ttr] {}
   | ^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/esbuild/misc/lFIVvsKPgxD4lJlULqKluw/input.css:1:1
   |
 1 | [\61ttr] {}

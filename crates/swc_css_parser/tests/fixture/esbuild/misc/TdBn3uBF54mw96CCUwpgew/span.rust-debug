@@ -10,7 +10,7 @@ error: Rule
 1 | [a|b]{}
   | ^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/esbuild/misc/TdBn3uBF54mw96CCUwpgew/input.css:1:1
   |
 1 | [a|b]{}

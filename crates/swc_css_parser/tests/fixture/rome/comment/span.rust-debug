@@ -18,7 +18,7 @@ error: Rule
 7 | | }
   | |_^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/rome/comment/input.css:5:1
   |
 5 | / a {
@@ -97,7 +97,7 @@ error: Rule
 11 | | }
    | |_^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/rome/comment/input.css:9:1
    |
 9  | / a {
@@ -176,7 +176,7 @@ error: Rule
 15 | | }
    | |_^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/rome/comment/input.css:13:1
    |
 13 | / a /* comment */ {

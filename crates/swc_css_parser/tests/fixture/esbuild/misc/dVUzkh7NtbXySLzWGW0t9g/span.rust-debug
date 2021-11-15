@@ -10,7 +10,7 @@ error: Rule
 1 | a { color: red } a { color: green } a { color: red }
   | ^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:1
   |
 1 | a { color: red } a { color: green } a { color: red }
@@ -82,7 +82,7 @@ error: Rule
 1 | a { color: red } a { color: green } a { color: red }
   |                  ^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:18
   |
 1 | a { color: red } a { color: green } a { color: red }
@@ -154,7 +154,7 @@ error: Rule
 1 | a { color: red } a { color: green } a { color: red }
   |                                     ^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:37
   |
 1 | a { color: red } a { color: green } a { color: red }

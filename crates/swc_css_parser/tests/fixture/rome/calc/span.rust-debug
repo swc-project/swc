@@ -22,7 +22,7 @@ error: Rule
 10 | | }
    | |_^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/rome/calc/input.css:1:1
    |
 1  | / .style {

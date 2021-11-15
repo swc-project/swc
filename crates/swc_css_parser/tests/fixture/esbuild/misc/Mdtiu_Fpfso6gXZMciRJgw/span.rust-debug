@@ -10,7 +10,7 @@ error: Rule
 1 | a { value: 10\65m }
   | ^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:1
   |
 1 | a { value: 10\65m }

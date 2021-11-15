@@ -10,7 +10,7 @@ error: Rule
 1 | article   p  p   {}
   | ^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/selector/combinators/input.css:1:1
   |
 1 | article   p  p   {}

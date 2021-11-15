@@ -10,7 +10,7 @@ error: Rule
 1 | a { width: -0.0; }
   | ^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/esbuild/misc/wwLEw52LUKMFH3Wp5CaBAQ/input.css:1:1
   |
 1 | a { width: -0.0; }

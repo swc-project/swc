@@ -10,7 +10,7 @@ error: Rule
 1 | a { value: f\6e() }
   | ^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/esbuild/misc/biImEvafuG5pEuEW8LgCCw/input.css:1:1
   |
 1 | a { value: f\6e() }

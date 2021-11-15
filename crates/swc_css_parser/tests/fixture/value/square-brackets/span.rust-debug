@@ -22,7 +22,7 @@ error: Rule
 7 | | }
   | |_^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/value/square-brackets/input.css:1:1
   |
 1 | / div {
