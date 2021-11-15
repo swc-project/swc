@@ -9,7 +9,7 @@ include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0/MIT"
 name = "swc"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.84.0"
+version = "0.85.0"
 
 [lib]
 name = "swc"
@@ -53,10 +53,10 @@ swc_ecma_ast = {version = "0.58.0", path = "../swc_ecma_ast"}
 swc_ecma_codegen = {version = "0.80.0", path = "../swc_ecma_codegen"}
 swc_ecma_ext_transforms = {version = "0.38.0", path = "../swc_ecma_ext_transforms"}
 swc_ecma_loader = {version = "0.24.1", path = "../swc_ecma_loader", features = ["lru", "node", "tsc"]}
-swc_ecma_minifier = {version = "0.50.0", path = "../swc_ecma_minifier"}
+swc_ecma_minifier = {version = "0.51.0", path = "../swc_ecma_minifier"}
 swc_ecma_parser = {version = "0.78.0", path = "../swc_ecma_parser"}
-swc_ecma_preset_env = {version = "0.65.0", path = "../swc_ecma_preset_env"}
-swc_ecma_transforms = {version = "0.94.0", path = "../swc_ecma_transforms", features = [
+swc_ecma_preset_env = {version = "0.66.0", path = "../swc_ecma_preset_env"}
+swc_ecma_transforms = {version = "0.95.0", path = "../swc_ecma_transforms", features = [
   "compat",
   "module",
   "optimization",
@@ -65,11 +65,11 @@ swc_ecma_transforms = {version = "0.94.0", path = "../swc_ecma_transforms", feat
   "typescript",
 ]}
 swc_ecma_transforms_base = {version = "0.44.0", path = "../swc_ecma_transforms_base"}
-swc_ecma_transforms_compat = {version = "0.51.0", path = "../swc_ecma_transforms_compat"}
-swc_ecma_transforms_optimization = {version = "0.64.0", path = "../swc_ecma_transforms_optimization"}
+swc_ecma_transforms_compat = {version = "0.52.0", path = "../swc_ecma_transforms_compat"}
+swc_ecma_transforms_optimization = {version = "0.65.0", path = "../swc_ecma_transforms_optimization"}
 swc_ecma_utils = {version = "0.52.0", path = "../swc_ecma_utils"}
 swc_ecma_visit = {version = "0.44.0", path = "../swc_ecma_visit"}
-swc_ecmascript = {version = "0.86.0", path = "../swc_ecmascript"}
+swc_ecmascript = {version = "0.87.0", path = "../swc_ecmascript"}
 swc_visit = {version = "0.2.3", path = "../swc_visit"}
 tracing = "0.1.28"
 
