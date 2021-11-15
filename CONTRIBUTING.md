@@ -27,7 +27,7 @@ Please feel free to open an issue using the [feature request template][new-issue
 If you're looking for somewhere to start, check out the [E-easy][e-easy] and
 [E-mentor][e-mentor] tags.
 
-Feel free to ask for guidelines on how to tackle a problem on [gitter][] or open a
+Feel free to ask for guidelines on how to tackle a problem on [Discord][discord] or open a
 [new issue][new-issues]. This is especially important if you want to add new
 features to SWC or make large changes to the already existing code-base.
 The SWC core developers will do their best to provide help.
@@ -102,7 +102,7 @@ After cloning the project there are a few steps required to get the project runn
 After the pull request is made, one of the SWC project developers will review your code.
 The review-process will make sure that the proposed changes are sound.
 Please give the assigned reviewer sufficient time, especially during weekends.
-If you don't get a reply, you may ping the core developers on [gitter].
+If you don't get a reply, you may ping the core developers on [Discord][discord].
 
 A merge of SWC's main-branch and your changes is immediately queued
 to be tested after the pull request is made. In case unforeseen
@@ -165,7 +165,7 @@ adding labels to triage issues:
 [e-easy]: https://github.com/swc-project/swc/labels/E-easy
 [e-mentor]: https://github.com/swc-project/swc/labels/E-mentor
 [code of conduct]: https://www.rust-lang.org/conduct.html
-[gitter]: https://gitter.im/swcproject/Lobby
+[discord]: https://discord.gg/2ZhncgMt
 [`testing/lib.rs`]: https://github.com/swc-project/swc/blob/main/testing/src/lib.rs
 [irlo]: https://internals.rust-lang.org/
 [subcommands]: https://doc.rust-lang.org/cargo/reference/external-tools.html#custom-subcommands
