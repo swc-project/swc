@@ -5,6 +5,7 @@ function foo(a) {
     console.log(1 & a);
 }
 function bar() {
-    console.log("0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789");
+    const s = "01234567890123456789";
+    console.log(s + s + s + s + s);
     console.log("abcabcabcabcabc");
 }

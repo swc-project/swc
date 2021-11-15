@@ -176,6 +176,7 @@
                 for(; !token(peek());)next1();
                 return slice(index, position);
             }
+            var MS = "-ms-", MOZ = "-moz-", WEBKIT = "-webkit-", COMMENT = "comm", Enum_RULESET = "rule", DECLARATION = "decl";
             function serialize(children, callback) {
                 for(var output = "", length = Utility_sizeof(children), i = 0; i < length; i++)output += callback(children[i], i, children, callback) || "";
                 return output;
@@ -183,11 +184,11 @@
             function stringify(element, index, children, callback) {
                 switch(element.type){
                     case "@import":
-                    case "decl":
+                    case DECLARATION:
                         return element.return = element.return || element.value;
-                    case "comm":
+                    case COMMENT:
                         return "";
-                    case "rule":
+                    case Enum_RULESET:
                         element.value = element.props.join(",");
                 }
                 return Utility_strlen(children = serialize(element.children, callback)) ? element.return = element.value + "{" + children + "}" : "";
@@ -196,7 +197,7 @@
                 var value1;
                 switch((((length << 2 ^ Utility_charat(value1 = value, 0)) << 2 ^ Utility_charat(value1, 1)) << 2 ^ Utility_charat(value1, 2)) << 2 ^ Utility_charat(value1, 3)){
                     case 5103:
-                        return "-webkit-print-" + value + value;
+                        return WEBKIT + "print-" + value + value;
                     case 5737:
                     case 4201:
                     case 3177:
@@ -222,44 +223,44 @@
                     case 5365:
                     case 5621:
                     case 3829:
-                        return "-webkit-" + value + value;
+                        return WEBKIT + value + value;
                     case 5349:
                     case 4246:
                     case 4810:
                     case 6968:
                     case 2756:
-                        return "-webkit-" + value + "-moz-" + value + "-ms-" + value + value;
+                        return WEBKIT + value + MOZ + value + MS + value + value;
                     case 6828:
                     case 4268:
-                        return "-webkit-" + value + "-ms-" + value + value;
+                        return WEBKIT + value + MS + value + value;
                     case 6165:
-                        return "-webkit-" + value + "-ms-flex-" + value + value;
+                        return WEBKIT + value + MS + "flex-" + value + value;
                     case 5187:
-                        return "-webkit-" + value + replace(value, /(\w+).+(:[^]+)/, "-webkit-box-$1$2-ms-flex-$1$2") + value;
+                        return WEBKIT + value + replace(value, /(\w+).+(:[^]+)/, WEBKIT + "box-$1$2" + MS + "flex-$1$2") + value;
                     case 5443:
-                        return "-webkit-" + value + "-ms-flex-item-" + replace(value, /flex-|-self/, "") + value;
+                        return WEBKIT + value + MS + "flex-item-" + replace(value, /flex-|-self/, "") + value;
                     case 4675:
-                        return "-webkit-" + value + "-ms-flex-line-pack" + replace(value, /align-content|flex-|-self/, "") + value;
+                        return WEBKIT + value + MS + "flex-line-pack" + replace(value, /align-content|flex-|-self/, "") + value;
                     case 5548:
-                        return "-webkit-" + value + "-ms-" + replace(value, "shrink", "negative") + value;
+                        return WEBKIT + value + MS + replace(value, "shrink", "negative") + value;
                     case 5292:
-                        return "-webkit-" + value + "-ms-" + replace(value, "basis", "preferred-size") + value;
+                        return WEBKIT + value + MS + replace(value, "basis", "preferred-size") + value;
                     case 6060:
-                        return "-webkit-box-" + replace(value, "-grow", "") + "-webkit-" + value + "-ms-" + replace(value, "grow", "positive") + value;
+                        return WEBKIT + "box-" + replace(value, "-grow", "") + WEBKIT + value + MS + replace(value, "grow", "positive") + value;
                     case 4554:
-                        return "-webkit-" + replace(value, /([^-])(transform)/g, "$1-webkit-$2") + value;
+                        return WEBKIT + replace(value, /([^-])(transform)/g, "$1" + WEBKIT + "$2") + value;
                     case 6187:
-                        return replace(replace(replace(value, /(zoom-|grab)/, "-webkit-$1"), /(image-set)/, "-webkit-$1"), value, "") + value;
+                        return replace(replace(replace(value, /(zoom-|grab)/, WEBKIT + "$1"), /(image-set)/, WEBKIT + "$1"), value, "") + value;
                     case 5495:
                     case 3959:
-                        return replace(value, /(image-set\([^]*)/, "-webkit-$1$`$1");
+                        return replace(value, /(image-set\([^]*)/, WEBKIT + "$1$`$1");
                     case 4968:
-                        return replace(replace(value, /(.+:)(flex-)?(.*)/, "-webkit-box-pack:$3-ms-flex-pack:$3"), /s.+-b[^;]+/, "justify") + "-webkit-" + value + value;
+                        return replace(replace(value, /(.+:)(flex-)?(.*)/, WEBKIT + "box-pack:$3" + MS + "flex-pack:$3"), /s.+-b[^;]+/, "justify") + WEBKIT + value + value;
                     case 4095:
                     case 3583:
                     case 4068:
                     case 2532:
-                        return replace(value, /(.+)-inline(.+)/, "-webkit-$1$2") + value;
+                        return replace(value, /(.+)-inline(.+)/, WEBKIT + "$1$2") + value;
                     case 8116:
                     case 7059:
                     case 5753:
@@ -276,7 +277,7 @@
                             case 109:
                                 if (45 !== Utility_charat(value, length + 4)) break;
                             case 102:
-                                return replace(value, /(.+:)(.+)-([^]+)/, "$1-webkit-$2-$3$1-moz-" + (108 == Utility_charat(value, length + 3) ? "$3" : "$2-$3")) + value;
+                                return replace(value, /(.+:)(.+)-([^]+)/, "$1" + WEBKIT + "$2-$3$1" + MOZ + (108 == Utility_charat(value, length + 3) ? "$3" : "$2-$3")) + value;
                             case 115:
                                 return ~indexof(value, "stretch") ? prefix(replace(value, "stretch", "fill-available"), length) + value : value;
                         }
@@ -286,21 +287,21 @@
                     case 6444:
                         switch(Utility_charat(value, Utility_strlen(value) - 3 - (~indexof(value, "!important") && 10))){
                             case 107:
-                                return replace(value, ":", ":-webkit-") + value;
+                                return replace(value, ":", ":" + WEBKIT) + value;
                             case 101:
-                                return replace(value, /(.+:)([^;!]+)(;|!.+)?/, "$1-webkit-" + (45 === Utility_charat(value, 14) ? "inline-" : "") + "box$3$1-webkit-$2$3$1-ms-$2box$3") + value;
+                                return replace(value, /(.+:)([^;!]+)(;|!.+)?/, "$1" + WEBKIT + (45 === Utility_charat(value, 14) ? "inline-" : "") + "box$3$1" + WEBKIT + "$2$3$1" + MS + "$2box$3") + value;
                         }
                         break;
                     case 5936:
                         switch(Utility_charat(value, length + 11)){
                             case 114:
-                                return "-webkit-" + value + "-ms-" + replace(value, /[svh]\w+-[tblr]{2}/, "tb") + value;
+                                return WEBKIT + value + MS + replace(value, /[svh]\w+-[tblr]{2}/, "tb") + value;
                             case 108:
-                                return "-webkit-" + value + "-ms-" + replace(value, /[svh]\w+-[tblr]{2}/, "tb-rl") + value;
+                                return WEBKIT + value + MS + replace(value, /[svh]\w+-[tblr]{2}/, "tb-rl") + value;
                             case 45:
-                                return "-webkit-" + value + "-ms-" + replace(value, /[svh]\w+-[tblr]{2}/, "lr") + value;
+                                return WEBKIT + value + MS + replace(value, /[svh]\w+-[tblr]{2}/, "lr") + value;
                         }
-                        return "-webkit-" + value + "-ms-" + value + value;
+                        return WEBKIT + value + MS + value + value;
                 }
                 return value;
             }
@@ -388,13 +389,13 @@
                 for(var post = offset - 1, rule = 0 === offset ? rules : [
                     ""
                 ], size = Utility_sizeof(rule), i = 0, j = 0, k = 0; i < index; ++i)for(var x = 0, y = Utility_substr(value, post + 1, post = abs(j = points[i])), z = value; x < size; ++x)(z = trim(j > 0 ? rule[x] + " " + y : replace(y, /&\f/g, rule[x]))) && (props[k++] = z);
-                return node1(value, root, parent, 0 === offset ? "rule" : type, props, children, length);
+                return node1(value, root, parent, 0 === offset ? Enum_RULESET : type, props, children, length);
             }
             function comment(value, root, parent) {
-                return node1(value, root, parent, "comm", Utility_from(character1), Utility_substr(value, 2, -2), 0);
+                return node1(value, root, parent, COMMENT, Utility_from(character1), Utility_substr(value, 2, -2), 0);
             }
             function declaration(value, root, parent, length) {
-                return node1(value, root, parent, "decl", Utility_substr(value, 0, length), Utility_substr(value, length + 1, -1), length);
+                return node1(value, root, parent, DECLARATION, Utility_substr(value, 0, length), Utility_substr(value, length + 1, -1), length);
             }
             var identifierWithPointTracking = function(begin, points, index) {
                 for(var previous = 0, character = 0;;){
@@ -437,14 +438,14 @@
             }, defaultStylisPlugins = [
                 function(element, index, children, callback1) {
                     if (!element.return) switch(element.type){
-                        case "decl":
+                        case DECLARATION:
                             element.return = prefix(element.value, element.length);
                             break;
                         case "@keyframes":
                             return serialize([
-                                copy(replace(element.value, "@", "@-webkit-"), element, "")
+                                copy(replace(element.value, "@", "@" + WEBKIT), element, "")
                             ], callback1);
-                        case "rule":
+                        case Enum_RULESET:
                             if (element.length) return (function(array, callback) {
                                 return array.map(callback).join("");
                             })(element.props, function(value) {
@@ -453,13 +454,13 @@
                                     case ":read-only":
                                     case ":read-write":
                                         return serialize([
-                                            copy(replace(value, /:(read-\w+)/, ":-moz-$1"), element, "")
+                                            copy(replace(value, /:(read-\w+)/, ":" + MOZ + "$1"), element, "")
                                         ], callback1);
                                     case "::placeholder":
                                         return serialize([
-                                            copy(replace(value, /:(plac\w+)/, ":-webkit-input-$1"), element, ""),
-                                            copy(replace(value, /:(plac\w+)/, ":-moz-$1"), element, ""),
-                                            copy(replace(value, /:(plac\w+)/, "-ms-input-$1"), element, "")
+                                            copy(replace(value, /:(plac\w+)/, ":" + WEBKIT + "input-$1"), element, ""),
+                                            copy(replace(value, /:(plac\w+)/, ":" + MOZ + "$1"), element, ""),
+                                            copy(replace(value, /:(plac\w+)/, MS + "input-$1"), element, "")
                                         ], callback1);
                                 }
                                 return "";

@@ -116,8 +116,9 @@ do ;
 while (c)
 do ;
 while (0)
-for(;;);
-for(;;);
+for(var e = "a string"; e;);
+do ;
+while (e)
 "";
 do ;
 while ("")
