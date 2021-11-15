@@ -4,7 +4,7 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-var C = function() {
+var methodName = "method", accessorName = "accessor", tmp = methodName, tmp1 = methodName, tmp2 = accessorName, tmp3 = accessorName, tmp4 = accessorName, tmp5 = accessorName, C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C() {
@@ -14,33 +14,33 @@ var C = function() {
     }
     return Constructor = C, protoProps = [
         {
-            key: "method",
+            key: tmp,
             value: function() {
             }
         },
         {
-            key: "accessor",
+            key: tmp2,
             get: function() {
             }
         },
         {
-            key: "accessor",
+            key: tmp3,
             set: function(v) {
             }
         }
     ], staticProps = [
         {
-            key: "method",
+            key: tmp1,
             value: function() {
             }
         },
         {
-            key: "accessor",
+            key: tmp4,
             get: function() {
             }
         },
         {
-            key: "accessor",
+            key: tmp5,
             set: function(v) {
             }
         }
