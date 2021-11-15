@@ -1,6 +1,7 @@
-Convert swc AST to Babel AST.
+Convert SWC AST to Babel AST.
 
 ## Testing
+
 To run tests
 
 ```bash
