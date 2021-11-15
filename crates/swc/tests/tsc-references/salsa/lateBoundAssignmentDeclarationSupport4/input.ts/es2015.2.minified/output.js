@@ -1,8 +1,8 @@
-const _sym = Symbol();
+const _sym = Symbol(), _str = "my-fake-sym";
 function F() {
 }
-F.prototype[_sym] = "ok", F.prototype["my-fake-sym"] = "ok";
+F.prototype[_sym] = "ok", F.prototype[_str] = "ok";
 const inst = new F();
-inst["my-fake-sym"], inst[_sym], module.exports.F = F, module.exports.S = _sym;
+inst[_str], inst[_sym], module.exports.F = F, module.exports.S = _sym;
 const x = require("./lateBoundAssignmentDeclarationSupport4.js"), inst = new x.F();
 inst["my-fake-sym"], inst[x.S];

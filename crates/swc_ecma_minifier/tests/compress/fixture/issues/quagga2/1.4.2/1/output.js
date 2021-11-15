@@ -2577,7 +2577,7 @@
                     }
                 }
                 exports.wrap = wrap;
-                var ContinueSentinel = {
+                var GenStateSuspendedStart = "suspendedStart", GenStateExecuting = "executing", GenStateCompleted = "completed", ContinueSentinel = {
                 };
                 function Generator() {
                 }
@@ -2632,10 +2632,10 @@
                     };
                 }
                 function makeInvokeMethod(innerFn, self, context) {
-                    var state = "suspendedStart";
+                    var state = GenStateSuspendedStart;
                     return function(method, arg) {
-                        if ("executing" === state) throw new Error("Generator is already running");
-                        if ("completed" === state) {
+                        if (state === GenStateExecuting) throw new Error("Generator is already running");
+                        if (state === GenStateCompleted) {
                             if ("throw" === method) throw arg;
                             return doneResult();
                         }
@@ -2650,19 +2650,19 @@
                             }
                             if ("next" === context.method) context.sent = context._sent = context.arg;
                             else if ("throw" === context.method) {
-                                if ("suspendedStart" === state) throw state = "completed", context.arg;
+                                if (state === GenStateSuspendedStart) throw state = GenStateCompleted, context.arg;
                                 context.dispatchException(context.arg);
                             } else "return" === context.method && context.abrupt("return", context.arg);
-                            state = "executing";
+                            state = GenStateExecuting;
                             var record = tryCatch(innerFn, self, context);
                             if ("normal" === record.type) {
-                                if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue;
+                                if (state = context.done ? GenStateCompleted : "suspendedYield", record.arg === ContinueSentinel) continue;
                                 return {
                                     value: record.arg,
                                     done: context.done
                                 };
                             }
-                            "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg);
+                            "throw" === record.type && (state = GenStateCompleted, context.method = "throw", context.arg = record.arg);
                         }
                     };
                 }
@@ -6666,12 +6666,12 @@
                     return classCallCheck_default()(this, Exception), _this = _super.call(this, m), defineProperty_default()(assertThisInitialized_default()(_this), "code", void 0), _this.code = code, Object.setPrototypeOf(assertThisInitialized_default()(_this), Exception.prototype), _this;
                 }
                 return Exception;
-            }(wrapNativeSuper_default()(Error));
+            }(wrapNativeSuper_default()(Error)), ERROR_DESC = "This may mean that the user has declined camera access, or the browser does not support media APIs. If you are running in iOS, you must use Safari.";
             function enumerateDevices() {
                 try {
                     return navigator.mediaDevices.enumerateDevices();
                 } catch (err) {
-                    var error = new Exception_Exception("enumerateDevices is not defined. ".concat("This may mean that the user has declined camera access, or the browser does not support media APIs. If you are running in iOS, you must use Safari."), -1);
+                    var error = new Exception_Exception("enumerateDevices is not defined. ".concat(ERROR_DESC), -1);
                     return Promise.reject(error);
                 }
             }
@@ -6679,7 +6679,7 @@
                 try {
                     return navigator.mediaDevices.getUserMedia(constraints);
                 } catch (err) {
-                    var error = new Exception_Exception("getUserMedia is not defined. ".concat("This may mean that the user has declined camera access, or the browser does not support media APIs. If you are running in iOS, you must use Safari."), -1);
+                    var error = new Exception_Exception("getUserMedia is not defined. ".concat(ERROR_DESC), -1);
                     return Promise.reject(error);
                 }
             }

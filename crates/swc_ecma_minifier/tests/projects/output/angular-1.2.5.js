@@ -735,7 +735,7 @@
     }
     function createInjector(modulesToLoad1) {
         var INSTANTIATING = {
-        }, path = [], loadedModules = new HashMap(), providerCache = {
+        }, providerSuffix = "Provider", path = [], loadedModules = new HashMap(), providerCache = {
             $provide: {
                 provider: supportObject(provider1),
                 factory: supportObject(factory1),
@@ -754,7 +754,7 @@
                     assertNotHasOwnProperty(name, "constant"), providerCache[name] = value, instanceCache[name] = value;
                 }),
                 decorator: function(serviceName, decorFn) {
-                    var origProvider = providerInjector.get(serviceName + "Provider"), orig$get = origProvider.$get;
+                    var origProvider = providerInjector.get(serviceName + providerSuffix), orig$get = origProvider.$get;
                     origProvider.$get = function() {
                         var origInstance = instanceInjector.invoke(orig$get, origProvider);
                         return instanceInjector.invoke(decorFn, null, {
@@ -767,7 +767,7 @@
             throw $injectorMinErr1("unpr", "Unknown provider: {0}", path.join(" <- "));
         }), instanceCache = {
         }, instanceInjector = instanceCache.$injector = createInternalInjector(instanceCache, function(servicename) {
-            var provider = providerInjector.get(servicename + "Provider");
+            var provider = providerInjector.get(servicename + providerSuffix);
             return instanceInjector.invoke(provider.$get, provider);
         });
         return forEach(loadModules(modulesToLoad1), function(fn) {
@@ -781,7 +781,7 @@
         }
         function provider1(name, provider_) {
             if (assertNotHasOwnProperty(name, "service"), (isFunction(provider_) || isArray(provider_)) && (provider_ = providerInjector.instantiate(provider_)), !provider_.$get) throw $injectorMinErr1("pget", "Provider '{0}' must define $get factory method.", name);
-            return providerCache[name + "Provider"] = provider_;
+            return providerCache[name + providerSuffix] = provider_;
         }
         function factory1(name, factoryFn) {
             return provider1(name, {
@@ -835,7 +835,7 @@
                 get: getService,
                 annotate: annotate,
                 has: function(name) {
-                    return providerCache.hasOwnProperty(name + "Provider") || cache.hasOwnProperty(name);
+                    return providerCache.hasOwnProperty(name + providerSuffix) || cache.hasOwnProperty(name);
                 }
             };
         }
@@ -1049,9 +1049,9 @@
     var $compileMinErr = minErr("$compile");
     function $CompileProvider($provide, $$sanitizeUriProvider) {
         var hasDirectives = {
-        }, COMMENT_DIRECTIVE_REGEXP = /^\s*directive\:\s*([\d\w\-_]+)\s+(.*)$/, CLASS_DIRECTIVE_REGEXP = /(([\d\w\-_]+)(?:\:([^;]+))?;?)/, EVENT_HANDLER_ATTR_REGEXP = /^(on[a-z]+|formaction)$/;
+        }, Suffix = "Directive", COMMENT_DIRECTIVE_REGEXP = /^\s*directive\:\s*([\d\w\-_]+)\s+(.*)$/, CLASS_DIRECTIVE_REGEXP = /(([\d\w\-_]+)(?:\:([^;]+))?;?)/, EVENT_HANDLER_ATTR_REGEXP = /^(on[a-z]+|formaction)$/;
         this.directive = function registerDirective(name, directiveFactory1) {
-            return assertNotHasOwnProperty(name, "directive"), isString(name) ? (assertArg(directiveFactory1, "directiveFactory"), hasDirectives.hasOwnProperty(name) || (hasDirectives[name] = [], $provide.factory(name + "Directive", [
+            return assertNotHasOwnProperty(name, "directive"), isString(name) ? (assertArg(directiveFactory1, "directiveFactory"), hasDirectives.hasOwnProperty(name) || (hasDirectives[name] = [], $provide.factory(name + Suffix, [
                 "$injector",
                 "$exceptionHandler",
                 function($injector, $exceptionHandler) {
@@ -1326,7 +1326,7 @@
                 function addDirective(tDirectives, name, location, maxPriority, ignoreDirective, startAttrName, endAttrName) {
                     if (name === ignoreDirective) return null;
                     var match = null;
-                    if (hasDirectives.hasOwnProperty(name)) for(var directive, directives = $injector.get(name + "Directive"), i = 0, ii = directives.length; i < ii; i++)try {
+                    if (hasDirectives.hasOwnProperty(name)) for(var directive, directives = $injector.get(name + Suffix), i = 0, ii = directives.length; i < ii; i++)try {
                         directive = directives[i], (maxPriority === undefined || maxPriority > directive.priority) && -1 != directive.restrict.indexOf(location) && (startAttrName && (directive = inherit(directive, {
                             $$start: startAttrName,
                             $$end: endAttrName
@@ -3226,8 +3226,9 @@
         this.$get = valueFn1(window1);
     }
     function $FilterProvider($provide) {
+        var suffix = "Filter";
         function register(name, factory) {
-            if (!isObject(name)) return $provide.factory(name + "Filter", factory);
+            if (!isObject(name)) return $provide.factory(name + suffix, factory);
             var filters = {
             };
             return forEach(name, function(filter, key) {
@@ -3238,7 +3239,7 @@
             "$injector",
             function($injector) {
                 return function(name) {
-                    return $injector.get(name + "Filter");
+                    return $injector.get(name + suffix);
                 };
             }
         ], register("currency", currencyFilter), register("date", dateFilter), register("filter", filterFilter), register("json", jsonFilter), register("limitTo", limitToFilter), register("lowercase", lowercaseFilter), register("number", numberFilter), register("orderBy", orderByFilter), register("uppercase", uppercaseFilter);
@@ -4060,7 +4061,7 @@
         "$parse",
         "$animate",
         function($parse, $animate) {
-            var ngRepeatMinErr = minErr("ngRepeat");
+            var NG_REMOVED = "$$NG_REMOVED", ngRepeatMinErr = minErr("ngRepeat");
             return {
                 transclude: "element",
                 priority: 1000,
@@ -4097,13 +4098,13 @@
                             id: trackById
                         }, nextBlockMap[trackById] = !1;
                         for(key in lastBlockMap)lastBlockMap.hasOwnProperty(key) && (elementsToRemove = getBlockElements((block1 = lastBlockMap[key]).clone), $animate.leave(elementsToRemove), forEach(elementsToRemove, function(element) {
-                            element["$$NG_REMOVED"] = !0;
+                            element[NG_REMOVED] = !0;
                         }), block1.scope.$destroy());
                         for(index = 0, length = collectionKeys.length; index < length; index++){
                             if (key = collection === collectionKeys ? index : collectionKeys[index], value = collection[key], block1 = nextBlockOrder[index], nextBlockOrder[index - 1] && (previousNode = getBlockEnd(nextBlockOrder[index - 1])), block1.scope) {
                                 childScope = block1.scope, nextNode = previousNode;
                                 do nextNode = nextNode.nextSibling;
-                                while (nextNode && nextNode["$$NG_REMOVED"])
+                                while (nextNode && nextNode[NG_REMOVED])
                                 getBlockStart(block1) != nextNode && $animate.move(getBlockElements(block1.clone), null, jqLite(previousNode)), previousNode = getBlockEnd(block1);
                             } else childScope = $scope.$new();
                             childScope[valueIdentifier] = value, keyIdentifier && (childScope[keyIdentifier] = key), childScope.$index = index, childScope.$first = 0 === index, childScope.$last = index === arrayLength - 1, childScope.$middle = !(childScope.$first || childScope.$last), childScope.$odd = !(childScope.$even = (1 & index) == 0), block1.scope || $transclude(childScope, function(clone) {
@@ -4403,7 +4404,7 @@
                         interpolateFn || attr1.$set("value", element9.text());
                     }
                     return function(scope, element, attr) {
-                        var parent = element.parent(), selectCtrl = parent.data("$selectController") || parent.parent().data("$selectController");
+                        var selectCtrlName = "$selectController", parent = element.parent(), selectCtrl = parent.data(selectCtrlName) || parent.parent().data(selectCtrlName);
                         selectCtrl && selectCtrl.databound ? element.prop("selected", !1) : selectCtrl = nullSelectCtrl, interpolateFn ? scope.$watch(interpolateFn, function(newVal, oldVal) {
                             attr.$set("value", newVal), newVal !== oldVal && selectCtrl.removeOption(oldVal), selectCtrl.addOption(newVal);
                         }) : selectCtrl.addOption(attr.value), element.on("$destroy", function() {

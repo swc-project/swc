@@ -5,7 +5,7 @@
         return factory($, root, doc), $.mobile;
     }) : factory(root.jQuery, root, doc);
 }(this, document, function(jQuery, window1, document1, undefined5) {
-    var $18, rcapitals, $1, doc1, bool, docElem, refNode, fakeBody1, div1, $2, support1, $3, self1, $win1, dummyFnToInitNavigate, $4, undefined1, path2, $base, $5, undefined2, $6, path1, initialHref, $7, heldCall, curr, diff1, handler1, lastCall, $8, baseElement, base1, $9, $10, $11, $12, undefined3, rInitialLetter, iconposClass1, $13, $14, $15, meta, initialContent1, disabledZoom, enabledZoom, disabledInitially, $16, $17, undefined4, rDividerListItem, origDefaultFilterCallback;
+    var $18, rcapitals, $1, doc1, bool, docElem, refNode, fakeBody1, div1, $2, support1, $3, self1, $win1, dummyFnToInitNavigate, $4, undefined1, path2, $base, dialogHashKey, $5, undefined2, $6, path1, initialHref, $7, heldCall, curr, diff1, handler1, lastCall, $8, baseElement, base1, $9, $10, $11, $12, undefined3, rInitialLetter, iconposClass1, $13, $14, $15, meta, initialContent1, disabledZoom, enabledZoom, disabledInitially, $16, $17, undefined4, rDividerListItem, origDefaultFilterCallback;
     jQuery.mobile = {
     }, (function($, window, undefined) {
         $.extend($.mobile, {
@@ -532,7 +532,7 @@
             return options;
         }
     }), $18.mobile.widget = $18.Widget, (function($) {
-        var $html = $("html");
+        var loaderClass = "ui-loader", $html = $("html");
         $.widget("mobile.loader", {
             options: {
                 theme: "a",
@@ -540,7 +540,7 @@
                 html: "",
                 text: "loading"
             },
-            defaultHtml: "<div class='ui-loader'><span class='ui-icon-loading'></span><h1></h1></div>",
+            defaultHtml: "<div class='" + loaderClass + "'><span class='ui-icon-loading'></span><h1></h1></div>",
             fakeFixLoader: function() {
                 var activeBtn = $("." + $.mobile.activeBtnClass).first();
                 this.element.css({
@@ -557,7 +557,7 @@
             show: function(theme, msgText, textonly) {
                 var message, loadSettings;
                 this.resetHtml(), "object" === $.type(theme) ? theme = (loadSettings = $.extend({
-                }, this.options, theme)).theme : (loadSettings = this.options, theme = theme || loadSettings.theme), message = msgText || (!1 === loadSettings.text ? "" : loadSettings.text), $html.addClass("ui-loading"), loadSettings.textVisible, this.element.attr("class", "ui-loader ui-corner-all ui-body-" + theme + " ui-loader-" + (loadSettings.textVisible || msgText || theme.text ? "verbose" : "default") + (loadSettings.textonly || textonly ? " ui-loader-textonly" : "")), loadSettings.html ? this.element.html(loadSettings.html) : this.element.find("h1").text(message), this.element.appendTo($.mobile.pageContainer), this.checkLoaderPosition(), this.window.bind("scroll", $.proxy(this.checkLoaderPosition, this));
+                }, this.options, theme)).theme : (loadSettings = this.options, theme = theme || loadSettings.theme), message = msgText || (!1 === loadSettings.text ? "" : loadSettings.text), $html.addClass("ui-loading"), loadSettings.textVisible, this.element.attr("class", loaderClass + " ui-corner-all ui-body-" + theme + " ui-loader-" + (loadSettings.textVisible || msgText || theme.text ? "verbose" : "default") + (loadSettings.textonly || textonly ? " ui-loader-textonly" : "")), loadSettings.html ? this.element.html(loadSettings.html) : this.element.find("h1").text(message), this.element.appendTo($.mobile.pageContainer), this.checkLoaderPosition(), this.window.bind("scroll", $.proxy(this.checkLoaderPosition, this));
             },
             hide: function() {
                 $html.removeClass("ui-loading"), this.options.text && this.element.removeClass("ui-loader-fakefix"), $.mobile.window.unbind("scroll", this.fakeFixLoader), $.mobile.window.unbind("scroll", this.checkLoaderPosition);
@@ -565,13 +565,13 @@
         });
     })(jQuery, this), (function($, window, undefined) {
         "$:nomunge";
-        var fake_onhashchange, doc = document1, special = $.event.special, doc_mode = doc.documentMode, supports_onhashchange = "onhashchange" in window && (doc_mode === undefined || doc_mode > 7);
+        var fake_onhashchange, str_hashchange = "hashchange", doc = document1, special = $.event.special, doc_mode = doc.documentMode, supports_onhashchange = "on" + str_hashchange in window && (doc_mode === undefined || doc_mode > 7);
         function get_fragment(url) {
             return "#" + (url = url || location.href).replace(/^[^#]*#?(.*)$/, "$1");
         }
-        $.fn.hashchange = function(fn) {
-            return fn ? this.bind("hashchange", fn) : this.trigger("hashchange");
-        }, $.fn.hashchange.delay = 50, special.hashchange = $.extend(special.hashchange, {
+        $.fn[str_hashchange] = function(fn) {
+            return fn ? this.bind(str_hashchange, fn) : this.trigger(str_hashchange);
+        }, $.fn[str_hashchange].delay = 50, special[str_hashchange] = $.extend(special[str_hashchange], {
             setup: function() {
                 if (supports_onhashchange) return !1;
                 $(fake_onhashchange.start);
@@ -587,14 +587,14 @@
             }, history_set = fn_retval, history_get = fn_retval;
             function poll() {
                 var hash = get_fragment(), history_hash = history_get(last_hash);
-                hash !== last_hash ? (history_set(last_hash = hash, history_hash), $(window).trigger("hashchange")) : history_hash !== last_hash && (location.href = location.href.replace(/#.*/, "") + history_hash), timeout_id = setTimeout(poll, $.fn.hashchange.delay);
+                hash !== last_hash ? (history_set(last_hash = hash, history_hash), $(window).trigger(str_hashchange)) : history_hash !== last_hash && (location.href = location.href.replace(/#.*/, "") + history_hash), timeout_id = setTimeout(poll, $.fn[str_hashchange].delay);
             }
             return self.start = function() {
                 timeout_id || poll();
             }, self.stop = function() {
                 timeout_id && clearTimeout(timeout_id), timeout_id = undefined;
             }, !window.attachEvent || window.addEventListener || supports_onhashchange || (self.start = function() {
-                iframe || (iframe_src = (iframe_src = $.fn.hashchange.src) && iframe_src + get_fragment(), iframe = $("<iframe tabindex=\"-1\" title=\"empty\"/>").hide().one("load", function() {
+                iframe || (iframe_src = (iframe_src = $.fn[str_hashchange].src) && iframe_src + get_fragment(), iframe = $("<iframe tabindex=\"-1\" title=\"empty\"/>").hide().one("load", function() {
                     iframe_src || history_set(get_fragment()), poll();
                 }).attr("src", iframe_src || "javascript:0").insertAfter("body")[0].contentWindow, doc.onpropertychange = function() {
                     try {
@@ -605,7 +605,7 @@
             }, self.stop = fn_retval, history_get = function() {
                 return get_fragment(iframe.location.href);
             }, history_set = function(hash, history_hash) {
-                var iframe_doc = iframe.document, domain = $.fn.hashchange.domain;
+                var iframe_doc = iframe.document, domain = $.fn[str_hashchange].domain;
                 hash !== history_hash && (iframe_doc.title = doc.title, iframe_doc.open(), domain && iframe_doc.write("<script>document.domain=\"" + domain + "\"</script>"), iframe_doc.close(), iframe.location.hash = hash);
             }), self;
         })();
@@ -648,7 +648,7 @@
             cssPseudoElement: !!propExists("content"),
             touchOverflow: !!propExists("overflowScrolling"),
             cssTransform3d: function() {
-                var el, transforms, t, ret = $.mobile.media("(-" + vendors.join("-transform-3d),(-") + "-transform-3d),(transform-3d)");
+                var el, transforms, t, mqProp = "transform-3d", ret = $.mobile.media("(-" + vendors.join("-" + mqProp + "),(-") + "-" + mqProp + "),(" + mqProp + ")");
                 if (ret) return !!ret;
                 for(t in el = document1.createElement("div"), transforms = {
                     MozTransform: "-moz-transform",
@@ -717,7 +717,7 @@
         setup: function() {
             !self1.bound && (self1.bound = !0, self1.isPushStateEnabled() ? (self1.originalEventName = "popstate", $win1.bind("popstate.navigate", self1.popstate)) : self1.isHashChangeEnabled() && (self1.originalEventName = "hashchange", $win1.bind("hashchange.navigate", self1.hashchange)));
         }
-    }, ($4 = jQuery).mobile.path = path2 = {
+    }, dialogHashKey = "&ui-state=dialog", ($4 = jQuery).mobile.path = path2 = {
         uiStateKey: "&ui-state",
         urlParseRE: /^\s*(((([^:\/#\?]+:)?(?:(\/\/)((?:(([^:@\/#\?]+)(?:\:([^:@\/#\?]+))?)@)?(([^:\/#\?\]\[]+|\[[^\/\]@#?]+\])(?:\:([0-9]+))?))?)?)?((\/?(?:[^\/\?#]+\/+)*)([^\?#]*)))?(\?[^#]+)?)(#.*)?/,
         getLocation: function(url) {
@@ -790,7 +790,7 @@
         },
         convertUrlToDataUrl: function(absUrl) {
             var u = path2.parseUrl(absUrl);
-            return path2.isEmbeddedPage(u) ? u.hash.split("&ui-state=dialog")[0].replace(/^#/, "").replace(/\?.*$/, "") : path2.isSameDomain(u, this.documentBase) ? u.hrefNoHash.replace(this.documentBase.domain, "").split("&ui-state=dialog")[0] : window1.decodeURIComponent(absUrl);
+            return path2.isEmbeddedPage(u) ? u.hash.split(dialogHashKey)[0].replace(/^#/, "").replace(/\?.*$/, "") : path2.isSameDomain(u, this.documentBase) ? u.hrefNoHash.replace(this.documentBase.domain, "").split(dialogHashKey)[0] : window1.decodeURIComponent(absUrl);
         },
         get: function(newPath) {
             return newPath === undefined1 && (newPath = path2.parseLocation().hash), path2.stripHash(newPath).replace(/[^\/]*\.[^\/*]+$/, "");
@@ -811,7 +811,7 @@
             return url.replace(/\?.*$/, "");
         },
         cleanHash: function(hash) {
-            return path2.stripHash(hash.replace(/\?.*$/, "").replace("&ui-state=dialog", ""));
+            return path2.stripHash(hash.replace(/\?.*$/, "").replace(dialogHashKey, ""));
         },
         isHashValid: function(hash) {
             return /^#[^#]+$/.test(hash);
@@ -840,7 +840,7 @@
         },
         getFilePath: function(path) {
             var splitkey = "&" + $4.mobile.subPageUrlKey;
-            return path && path.split(splitkey)[0].split("&ui-state=dialog")[0];
+            return path && path.split(splitkey)[0].split(dialogHashKey)[0];
         },
         isFirstPageUrl: function(url) {
             var u = path2.parseUrl(path2.makeUrlAbsolute(url, this.documentBase)), samePath = u.hrefNoHash === this.documentUrl.hrefNoHash || this.documentBaseDiffers && u.hrefNoHash === this.documentBase.hrefNoHash, fp = $4.mobile.firstPage, fpId = fp && fp[0] ? fp[0].id : undefined1;
@@ -1006,7 +1006,7 @@
             })) : (setTimeout($.proxy(callback, this), 0), $(this));
         }, $.fn.animationComplete.defaultDuration = 1000;
     })(jQuery), (function($, window, document, undefined) {
-        var threshold, i1, virtualEventNames = "vmouseover vmousedown vmousemove vmouseup vclick vmouseout vmousecancel".split(" "), touchEventProps = "clientX clientY pageX pageY screenX screenY".split(" "), mouseHookProps = $.event.mouseHooks ? $.event.mouseHooks.props : [], mouseEventProps = $.event.props.concat(mouseHookProps), activeDocHandlers = {
+        var threshold, i1, dataPropertyName = "virtualMouseBindings", touchTargetPropertyName = "virtualTouchID", virtualEventNames = "vmouseover vmousedown vmousemove vmouseup vclick vmouseout vmousecancel".split(" "), touchEventProps = "clientX clientY pageX pageY screenX screenY".split(" "), mouseHookProps = $.event.mouseHooks ? $.event.mouseHooks.props : [], mouseEventProps = $.event.props.concat(mouseHookProps), activeDocHandlers = {
         }, resetTimerID = 0, startX = 0, startY = 0, didScroll = !1, clickBlockList = [], blockMouseTriggers = !1, blockTouchTriggers = !1, eventCaptureSupported = "addEventListener" in document, $document = $(document), nextTouchID = 1, lastTouchID = 0;
         function getNativeEvent(event) {
             for(; event && void 0 !== event.originalEvent;)event = event.originalEvent;
@@ -1015,7 +1015,7 @@
         function getVirtualBindingFlags(element) {
             for(var b, k, flags = {
             }; element;){
-                for(k in b = $.data(element, "virtualMouseBindings"))b[k] && (flags[k] = flags.hasVirtualBinding = !0);
+                for(k in b = $.data(element, dataPropertyName))b[k] && (flags[k] = flags.hasVirtualBinding = !0);
                 element = element.parentNode;
             }
             return flags;
@@ -1035,7 +1035,7 @@
             var ve;
             return (flags && flags[eventType1] || !flags && (function(element, eventType) {
                 for(var b; element;){
-                    if ((b = $.data(element, "virtualMouseBindings")) && (!eventType || b[eventType])) return element;
+                    if ((b = $.data(element, dataPropertyName)) && (!eventType || b[eventType])) return element;
                     element = element.parentNode;
                 }
                 return null;
@@ -1047,12 +1047,12 @@
             })(event1, eventType1), $(event1.target).trigger(ve)), ve;
         }
         function mouseEventCallback(event) {
-            var ve, touchID = $.data(event.target, "virtualTouchID");
+            var ve, touchID = $.data(event.target, touchTargetPropertyName);
             !blockMouseTriggers && (!lastTouchID || lastTouchID !== touchID) && (ve = triggerVirtualEvent("v" + event.type, event)) && (ve.isDefaultPrevented() && event.preventDefault(), ve.isPropagationStopped() && event.stopPropagation(), ve.isImmediatePropagationStopped() && event.stopImmediatePropagation());
         }
         function handleTouchStart(event) {
             var target, flags, t, touches = getNativeEvent(event).touches;
-            touches && 1 === touches.length && (flags = getVirtualBindingFlags(target = event.target)).hasVirtualBinding && (lastTouchID = nextTouchID++, $.data(target, "virtualTouchID", lastTouchID), clearResetTimer(), blockTouchTriggers = !1, didScroll = !1, startX = (t = getNativeEvent(event).touches[0]).pageX, startY = t.pageY, triggerVirtualEvent("vmouseover", event, flags), triggerVirtualEvent("vmousedown", event, flags));
+            touches && 1 === touches.length && (flags = getVirtualBindingFlags(target = event.target)).hasVirtualBinding && (lastTouchID = nextTouchID++, $.data(target, touchTargetPropertyName, lastTouchID), clearResetTimer(), blockTouchTriggers = !1, didScroll = !1, startX = (t = getNativeEvent(event).touches[0]).pageX, startY = t.pageY, triggerVirtualEvent("vmouseover", event, flags), triggerVirtualEvent("vmousedown", event, flags));
         }
         function handleScroll(event) {
             blockTouchTriggers || (didScroll || triggerVirtualEvent("vmousecancel", event, getVirtualBindingFlags(event.target)), didScroll = !0, startResetTimer());
@@ -1075,7 +1075,7 @@
             }
         }
         function hasVirtualBindings(ele) {
-            var k, bindings = $.data(ele, "virtualMouseBindings");
+            var k, bindings = $.data(ele, dataPropertyName);
             if (bindings) {
                 for(k in bindings)if (bindings[k]) return !0;
             }
@@ -1087,13 +1087,13 @@
             var realType = eventType.substr(1);
             return {
                 setup: function() {
-                    hasVirtualBindings(this) || $.data(this, "virtualMouseBindings", {
-                    }), $.data(this, "virtualMouseBindings")[eventType] = !0, activeDocHandlers[eventType] = (activeDocHandlers[eventType] || 0) + 1, 1 === activeDocHandlers[eventType] && $document.bind(realType, mouseEventCallback), $(this).bind(realType, dummyMouseHandler), eventCaptureSupported && (activeDocHandlers.touchstart = (activeDocHandlers.touchstart || 0) + 1, 1 === activeDocHandlers.touchstart && $document.bind("touchstart", handleTouchStart).bind("touchend", handleTouchEnd).bind("touchmove", handleTouchMove).bind("scroll", handleScroll));
+                    hasVirtualBindings(this) || $.data(this, dataPropertyName, {
+                    }), $.data(this, dataPropertyName)[eventType] = !0, activeDocHandlers[eventType] = (activeDocHandlers[eventType] || 0) + 1, 1 === activeDocHandlers[eventType] && $document.bind(realType, mouseEventCallback), $(this).bind(realType, dummyMouseHandler), eventCaptureSupported && (activeDocHandlers.touchstart = (activeDocHandlers.touchstart || 0) + 1, 1 === activeDocHandlers.touchstart && $document.bind("touchstart", handleTouchStart).bind("touchend", handleTouchEnd).bind("touchmove", handleTouchMove).bind("scroll", handleScroll));
                 },
                 teardown: function() {
                     --activeDocHandlers[eventType], activeDocHandlers[eventType] || $document.unbind(realType, mouseEventCallback), eventCaptureSupported && (--activeDocHandlers.touchstart, activeDocHandlers.touchstart || $document.unbind("touchstart", handleTouchStart).unbind("touchmove", handleTouchMove).unbind("touchend", handleTouchEnd).unbind("scroll", handleScroll));
-                    var $this = $(this), bindings = $.data(this, "virtualMouseBindings");
-                    bindings && (bindings[eventType] = !1), $this.unbind(realType, dummyMouseHandler), hasVirtualBindings(this) || $this.removeData("virtualMouseBindings");
+                    var $this = $(this), bindings = $.data(this, dataPropertyName);
+                    bindings && (bindings[eventType] = !1), $this.unbind(realType, dummyMouseHandler), hasVirtualBindings(this) || $this.removeData(dataPropertyName);
                 }
             };
         }
@@ -1105,7 +1105,7 @@
         eventCaptureSupported && document.addEventListener("click", function(e) {
             var x, y, ele, i, o, cnt = clickBlockList.length, target = e.target;
             if (cnt) for(x = e.clientX, y = e.clientY, threshold = $.vmouse.clickDistanceThreshold, ele = target; ele;){
-                for(i = 0; i < cnt; i++)if (o = clickBlockList[i], ele === target && Math.abs(o.x - x) < threshold && Math.abs(o.y - y) < threshold || $.data(ele, "virtualTouchID") === o.touchID) {
+                for(i = 0; i < cnt; i++)if (o = clickBlockList[i], ele === target && Math.abs(o.x - x) < threshold && Math.abs(o.y - y) < threshold || $.data(ele, touchTargetPropertyName) === o.touchID) {
                     e.preventDefault(), e.stopPropagation();
                     return;
                 }
@@ -1113,7 +1113,7 @@
             }
         }, !0);
     })(jQuery, window1, document1), (function($, window, undefined) {
-        var $document = $(document1), supportTouch = $.mobile.support.touch, touchStartEvent = supportTouch ? "touchstart" : "mousedown", touchStopEvent = supportTouch ? "touchend" : "mouseup", touchMoveEvent = supportTouch ? "touchmove" : "mousemove";
+        var $document = $(document1), supportTouch = $.mobile.support.touch, scrollEvent = "touchmove scroll", touchStartEvent = supportTouch ? "touchstart" : "mousedown", touchStopEvent = supportTouch ? "touchend" : "mouseup", touchMoveEvent = supportTouch ? "touchmove" : "mousemove";
         function triggerCustomEvent(obj, eventType, event, bubble) {
             var originalType = event.type;
             event.type = eventType, bubble ? $.event.trigger(event, void 0, obj) : $.event.dispatch.call(obj, event), event.type = originalType;
@@ -1129,14 +1129,14 @@
                 function trigger(event, state) {
                     triggerCustomEvent(thisObject, (scrolling = state) ? "scrollstart" : "scrollstop", event);
                 }
-                $this.bind("touchmove scroll", function(event) {
+                $this.bind(scrollEvent, function(event) {
                     $.event.special.scrollstart.enabled && (scrolling || trigger(event, !0), clearTimeout(timer), timer = setTimeout(function() {
                         trigger(event, !1);
                     }, 50));
                 });
             },
             teardown: function() {
-                $(this).unbind("touchmove scroll");
+                $(this).unbind(scrollEvent);
             }
         }, $.event.special.tap = {
             tapholdThreshold: 750,
@@ -1260,13 +1260,13 @@
     }, handler1 = function() {
         (diff1 = (curr = new Date().getTime()) - lastCall) >= 250 ? (lastCall = curr, $7(this).trigger("throttledresize")) : (heldCall && clearTimeout(heldCall), heldCall = setTimeout(handler1, 250 - diff1));
     }, lastCall = 0, (function($, window) {
-        var get_orientation, last_orientation, initial_orientation_is_landscape, initial_orientation_is_default, ww, wh, landscape_threshold, win = $(window), portrait_map = {
+        var get_orientation, last_orientation, initial_orientation_is_landscape, initial_orientation_is_default, ww, wh, landscape_threshold, win = $(window), event_name = "orientationchange", portrait_map = {
             "0": !0,
             "180": !0
         };
         function handler() {
             var orientation = get_orientation();
-            orientation !== last_orientation && (last_orientation = orientation, win.trigger("orientationchange"));
+            orientation !== last_orientation && (last_orientation = orientation, win.trigger(event_name));
         }
         $.support.orientation && (ww = window.innerWidth || win.width(), wh = window.innerHeight || win.height(), landscape_threshold = 50, initial_orientation_is_landscape = ww > wh && ww - wh > landscape_threshold, initial_orientation_is_default = portrait_map[window.orientation], (initial_orientation_is_landscape && initial_orientation_is_default || !initial_orientation_is_landscape && !initial_orientation_is_default) && (portrait_map = {
             "-90": !0,
@@ -1290,9 +1290,9 @@
         }), $.event.special.orientationchange.orientation = get_orientation = function() {
             var elem = document1.documentElement;
             return ($.support.orientation ? portrait_map[window.orientation] : elem && elem.clientWidth / elem.clientHeight < 1.1) ? "portrait" : "landscape";
-        }, $.fn.orientationchange = function(fn) {
-            return fn ? this.bind("orientationchange", fn) : this.trigger("orientationchange");
-        }, $.attrFn && ($.attrFn.orientationchange = !0);
+        }, $.fn[event_name] = function(fn) {
+            return fn ? this.bind(event_name, fn) : this.trigger(event_name);
+        }, $.attrFn && ($.attrFn[event_name] = !0);
     })(jQuery, this), base1 = {
         element: (baseElement = ($8 = jQuery)("head").children("base")).length ? baseElement : $8("<base>", {
             href: $8.mobile.path.documentBase.hrefNoHash
@@ -3469,8 +3469,8 @@
             "popup" === data.options.role && ($.mobile.popup.handleLink(data.options.link), theEvent.preventDefault());
         });
     })(jQuery), (function($, undefined) {
-        var goToAdjacentItem = function(item, target, direction) {
-            var adjacent = item[direction + "All"]().not(".ui-disabled,.ui-state-disabled,.ui-li-divider,.ui-screen-hidden,:jqmData(role='placeholder')").first();
+        var unfocusableItemSelector = ".ui-disabled,.ui-state-disabled,.ui-li-divider,.ui-screen-hidden,:jqmData(role='placeholder')", goToAdjacentItem = function(item, target, direction) {
+            var adjacent = item[direction + "All"]().not(unfocusableItemSelector).first();
             adjacent.length && (target.blur().attr("tabindex", "-1"), adjacent.find("a").first().focus());
         };
         $.widget("mobile.selectmenu", $.mobile.selectmenu, {
@@ -3589,7 +3589,7 @@
             },
             _focusMenuItem: function() {
                 var selector = this.list.find("a." + $.mobile.activeBtnClass);
-                0 === selector.length && (selector = this.list.find("li:not(.ui-disabled,.ui-state-disabled,.ui-li-divider,.ui-screen-hidden,:jqmData(role='placeholder')) a.ui-btn")), selector.first().focus();
+                0 === selector.length && (selector = this.list.find("li:not(" + unfocusableItemSelector + ") a.ui-btn")), selector.first().focus();
             },
             _decideFormat: function() {
                 var $window = this.window, menuHeight = this.list.parent().outerHeight(), scrollTop = $window.scrollTop(), btnOffset = this.button.offset().top, screenHeight = $window.height();
@@ -3866,16 +3866,16 @@
                 return !notransition && (this.options.transition && "none" !== this.options.transition && ("header" === this.role && !this.options.fullscreen && scroll > elHeight || "footer" === this.role && !this.options.fullscreen && scroll + viewportHeight < pHeight - elHeight) || this.options.fullscreen);
             },
             show: function(notransition) {
-                var $el = this.element;
-                this._useTransition(notransition) ? $el.removeClass("out ui-fixed-hidden").addClass("in").animationComplete(function() {
+                var hideClass = "ui-fixed-hidden", $el = this.element;
+                this._useTransition(notransition) ? $el.removeClass("out " + hideClass).addClass("in").animationComplete(function() {
                     $el.removeClass("in");
-                }) : $el.removeClass("ui-fixed-hidden"), this._visible = !0;
+                }) : $el.removeClass(hideClass), this._visible = !0;
             },
             hide: function(notransition) {
-                var $el = this.element, outclass = "out" + ("slide" === this.options.transition ? " reverse" : "");
+                var hideClass = "ui-fixed-hidden", $el = this.element, outclass = "out" + ("slide" === this.options.transition ? " reverse" : "");
                 this._useTransition(notransition) ? $el.addClass(outclass).removeClass("in").animationComplete(function() {
-                    $el.addClass("ui-fixed-hidden").removeClass(outclass);
-                }) : $el.addClass("ui-fixed-hidden").removeClass(outclass), this._visible = !1;
+                    $el.addClass(hideClass).removeClass(outclass);
+                }) : $el.addClass(hideClass).removeClass(outclass), this._visible = !1;
             },
             toggle: function() {
                 this[this._visible ? "hide" : "show"]();

@@ -17,12 +17,14 @@
         return null == obj ? results : nativeMap && obj.map === nativeMap ? obj.map(iterator, context) : (each(obj, function(value, index, list) {
             results.push(iterator.call(context, value, index, list));
         }), results);
-    }, _.reduce = _.foldl = _.inject = function(obj, iterator, memo, context) {
+    };
+    var reduceError = "Reduce of empty array with no initial value";
+    _.reduce = _.foldl = _.inject = function(obj, iterator, memo, context) {
         var initial = arguments.length > 2;
         if (null == obj && (obj = []), nativeReduce && obj.reduce === nativeReduce) return context && (iterator = _.bind(iterator, context)), initial ? obj.reduce(iterator, memo) : obj.reduce(iterator);
         if (each(obj, function(value, index, list) {
             initial ? memo = iterator.call(context, memo, value, index, list) : (memo = value, initial = !0);
-        }), !initial) throw new TypeError("Reduce of empty array with no initial value");
+        }), !initial) throw new TypeError(reduceError);
         return memo;
     }, _.reduceRight = _.foldr = function(obj, iterator, memo, context) {
         var initial = arguments.length > 2;
@@ -34,7 +36,7 @@
         }
         if (each(obj, function(value, index, list) {
             index = keys ? keys[--length] : --length, initial ? memo = iterator.call(context, memo, obj[index], index, list) : (memo = obj[index], initial = !0);
-        }), !initial) throw new TypeError("Reduce of empty array with no initial value");
+        }), !initial) throw new TypeError(reduceError);
         return memo;
     }, _.find = _.detect = function(obj, iterator, context) {
         var result;

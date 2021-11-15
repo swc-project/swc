@@ -36,7 +36,7 @@
         registrationNameDependencies1[registrationName] && error1("EventRegistry: More than one plugin attempted to publish the same registration name, `%s`.", registrationName), registrationNameDependencies1[registrationName] = dependencies, possibleRegistrationNames1[registrationName.toLowerCase()] = registrationName, "onDoubleClick" === registrationName && (possibleRegistrationNames1.ondblclick = registrationName);
         for(var i = 0; i < dependencies.length; i++)allNativeEvents.add(dependencies[i]);
     }
-    var canUseDOM = !!("undefined" != typeof window && void 0 !== window.document && void 0 !== window.document.createElement), VALID_ATTRIBUTE_NAME_REGEX = new RegExp("^[:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD][:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040]*$"), hasOwnProperty = Object.prototype.hasOwnProperty, illegalAttributeNameCache = {
+    var canUseDOM = !!("undefined" != typeof window && void 0 !== window.document && void 0 !== window.document.createElement), ATTRIBUTE_NAME_START_CHAR = ":A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD", ATTRIBUTE_NAME_CHAR = ATTRIBUTE_NAME_START_CHAR + "\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040", ROOT_ATTRIBUTE_NAME = "data-reactroot", VALID_ATTRIBUTE_NAME_REGEX = new RegExp("^[" + ATTRIBUTE_NAME_START_CHAR + "][" + ATTRIBUTE_NAME_CHAR + "]*$"), hasOwnProperty = Object.prototype.hasOwnProperty, illegalAttributeNameCache = {
     }, validatedAttributeNameCache = {
     };
     function isAttributeNameSafe(attributeName) {
@@ -851,23 +851,23 @@
         var node = element, textContent = node.textContent;
         textContent === node._wrapperState.initialValue && "" !== textContent && null !== textContent && (node.value = textContent);
     }
-    var Namespaces = {
-        html: "http://www.w3.org/1999/xhtml",
-        mathml: "http://www.w3.org/1998/Math/MathML",
-        svg: "http://www.w3.org/2000/svg"
+    var HTML_NAMESPACE = "http://www.w3.org/1999/xhtml", MATH_NAMESPACE = "http://www.w3.org/1998/Math/MathML", SVG_NAMESPACE = "http://www.w3.org/2000/svg", Namespaces = {
+        html: HTML_NAMESPACE,
+        mathml: MATH_NAMESPACE,
+        svg: SVG_NAMESPACE
     };
     function getIntrinsicNamespace(type) {
         switch(type){
             case "svg":
-                return "http://www.w3.org/2000/svg";
+                return SVG_NAMESPACE;
             case "math":
-                return "http://www.w3.org/1998/Math/MathML";
+                return MATH_NAMESPACE;
             default:
-                return "http://www.w3.org/1999/xhtml";
+                return HTML_NAMESPACE;
         }
     }
     function getChildNamespace(parentNamespace, type) {
-        return null == parentNamespace || "http://www.w3.org/1999/xhtml" === parentNamespace ? getIntrinsicNamespace(type) : "http://www.w3.org/2000/svg" === parentNamespace && "foreignObject" === type ? "http://www.w3.org/1999/xhtml" : parentNamespace;
+        return null == parentNamespace || parentNamespace === HTML_NAMESPACE ? getIntrinsicNamespace(type) : parentNamespace === SVG_NAMESPACE && "foreignObject" === type ? HTML_NAMESPACE : parentNamespace;
     }
     var setInnerHTML = function(func) {
         return "undefined" != typeof MSApp && MSApp.execUnsafeLocalFunction ? function(arg0, arg1, arg2, arg3) {
@@ -1859,7 +1859,7 @@
         "aria-rowspan": 0,
         "aria-setsize": 0
     }, warnedProperties = {
-    }, rARIA = new RegExp("^(aria)-[:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040]*$"), rARIACamel = new RegExp("^(aria)[A-Z][:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040]*$"), hasOwnProperty$1 = Object.prototype.hasOwnProperty;
+    }, rARIA = new RegExp("^(aria)-[" + ATTRIBUTE_NAME_CHAR + "]*$"), rARIACamel = new RegExp("^(aria)[A-Z][" + ATTRIBUTE_NAME_CHAR + "]*$"), hasOwnProperty$1 = Object.prototype.hasOwnProperty;
     function validateProperty(tagName, name) {
         if (hasOwnProperty$1.call(warnedProperties, name) && warnedProperties[name]) return !0;
         if (rARIACamel.test(name)) {
@@ -1876,7 +1876,7 @@
     }
     var didWarnValueNull = !1, validateProperty$1 = function() {
     }, warnedProperties$1 = {
-    }, _hasOwnProperty = Object.prototype.hasOwnProperty, EVENT_NAME_REGEX = /^on./, INVALID_EVENT_NAME_REGEX = /^on[^A-Z]/, rARIA$1 = new RegExp("^(aria)-[:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040]*$"), rARIACamel$1 = new RegExp("^(aria)[A-Z][:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040]*$");
+    }, _hasOwnProperty = Object.prototype.hasOwnProperty, EVENT_NAME_REGEX = /^on./, INVALID_EVENT_NAME_REGEX = /^on[^A-Z]/, rARIA$1 = new RegExp("^(aria)-[" + ATTRIBUTE_NAME_CHAR + "]*$"), rARIACamel$1 = new RegExp("^(aria)[A-Z][" + ATTRIBUTE_NAME_CHAR + "]*$");
     validateProperty$1 = function(tagName, name, value, eventRegistry) {
         if (_hasOwnProperty.call(warnedProperties$1, name) && warnedProperties$1[name]) return !0;
         var lowerCasedName = name.toLowerCase();
@@ -3675,7 +3675,7 @@
     function getListenerSetKey(domEventName, capture) {
         return domEventName + "__" + (capture ? "capture" : "bubble");
     }
-    var didWarnInvalidHydration = !1, HTML_NAMESPACE$1 = Namespaces.html;
+    var didWarnInvalidHydration = !1, DANGEROUSLY_SET_INNER_HTML = "dangerouslySetInnerHTML", SUPPRESS_CONTENT_EDITABLE_WARNING = "suppressContentEditableWarning", SUPPRESS_HYDRATION_WARNING = "suppressHydrationWarning", AUTOFOCUS = "autoFocus", CHILDREN = "children", STYLE = "style", HTML$1 = "__html", HTML_NAMESPACE$1 = Namespaces.html;
     warnedUnknownTags = {
         dialog: !0,
         webview: !0
@@ -4323,7 +4323,7 @@
             }
         }
     }
-    var ReactCurrentBatchConfig = ReactSharedInternals.ReactCurrentBatchConfig, ReactStrictModeWarnings = {
+    var ReactVersion = "17.0.2", ReactCurrentBatchConfig = ReactSharedInternals.ReactCurrentBatchConfig, ReactStrictModeWarnings = {
         recordUnsafeLifecycleWarnings: function(fiber, instance) {
         },
         flushPendingUnsafeLifecycleWarnings: function() {
@@ -7092,7 +7092,7 @@
                     }
                     var currentHostContext = getHostContext();
                     if (popHydrationState(workInProgress)) fiber = workInProgress, hostContext1 = currentHostContext, instance = fiber.stateNode, type9 = fiber.type, props7 = fiber.memoizedProps, hostContext2 = hostContext1, internalInstanceHandle1 = fiber, precacheFiberNode(internalInstanceHandle1, instance), updateFiberProps(instance, props7), updatePayload1 = (function(domElement, tag, rawProps, parentNamespace, rootContainerElement) {
-                        switch(suppressHydrationWarning = !0 === rawProps.suppressHydrationWarning, isCustomComponentTag = isCustomComponent(tag, rawProps), validatePropertiesInDevelopment(tag, rawProps), tag){
+                        switch(suppressHydrationWarning = !0 === rawProps[SUPPRESS_HYDRATION_WARNING], isCustomComponentTag = isCustomComponent(tag, rawProps), validatePropertiesInDevelopment(tag, rawProps), tag){
                             case "dialog":
                                 listenToNonDelegatedEvent("cancel", domElement), listenToNonDelegatedEvent("close", domElement);
                                 break;
@@ -7148,25 +7148,25 @@
                         var updatePayload = null;
                         for(var propKey in rawProps)if (rawProps.hasOwnProperty(propKey)) {
                             var nextProp = rawProps[propKey];
-                            if ("children" === propKey) "string" == typeof nextProp ? domElement.textContent !== nextProp && (suppressHydrationWarning || warnForTextDifference(domElement.textContent, nextProp), updatePayload = [
-                                "children",
+                            if (propKey === CHILDREN) "string" == typeof nextProp ? domElement.textContent !== nextProp && (suppressHydrationWarning || warnForTextDifference(domElement.textContent, nextProp), updatePayload = [
+                                CHILDREN,
                                 nextProp
                             ]) : "number" == typeof nextProp && domElement.textContent !== "" + nextProp && (suppressHydrationWarning || warnForTextDifference(domElement.textContent, nextProp), updatePayload = [
-                                "children",
+                                CHILDREN,
                                 "" + nextProp
                             ]);
                             else if (registrationNameDependencies1.hasOwnProperty(propKey)) null != nextProp && ("function" != typeof nextProp && warnForInvalidEventListener(propKey, nextProp), "onScroll" === propKey && listenToNonDelegatedEvent("scroll", domElement));
                             else if ("boolean" == typeof isCustomComponentTag) {
                                 var serverValue = void 0, propertyInfo = getPropertyInfo(propKey);
                                 if (suppressHydrationWarning) ;
-                                else if ("suppressContentEditableWarning" === propKey || "suppressHydrationWarning" === propKey || "value" === propKey || "checked" === propKey || "selected" === propKey) ;
-                                else if ("dangerouslySetInnerHTML" === propKey) {
-                                    var serverHTML = domElement.innerHTML, nextHtml = nextProp ? nextProp["__html"] : void 0;
+                                else if (propKey === SUPPRESS_CONTENT_EDITABLE_WARNING || propKey === SUPPRESS_HYDRATION_WARNING || "value" === propKey || "checked" === propKey || "selected" === propKey) ;
+                                else if (propKey === DANGEROUSLY_SET_INNER_HTML) {
+                                    var serverHTML = domElement.innerHTML, nextHtml = nextProp ? nextProp[HTML$1] : void 0;
                                     if (null != nextHtml) {
                                         var expectedHTML = normalizeHTML(domElement, nextHtml);
                                         expectedHTML !== serverHTML && warnForPropDifference(propKey, serverHTML, expectedHTML);
                                     }
-                                } else if ("style" === propKey) {
+                                } else if (propKey === STYLE) {
                                     if (extraAttributeNames.delete(propKey), canDiffStyleForHydrationWarning) {
                                         var expectedStyle = createDangerousStringForStyles(nextProp);
                                         expectedStyle !== (serverValue = domElement.getAttribute("style")) && warnForPropDifference(propKey, serverValue, expectedStyle);
@@ -7268,11 +7268,11 @@
                             switch(assertValidProps(tag1, props11), (function(tag, domElement, rootContainerElement, nextProps, isCustomComponentTag) {
                                 for(var propKey in nextProps)if (nextProps.hasOwnProperty(propKey)) {
                                     var nextProp = nextProps[propKey];
-                                    if ("style" === propKey) nextProp && Object.freeze(nextProp), setValueForStyles(domElement, nextProp);
-                                    else if ("dangerouslySetInnerHTML" === propKey) {
-                                        var nextHtml = nextProp ? nextProp["__html"] : void 0;
+                                    if (propKey === STYLE) nextProp && Object.freeze(nextProp), setValueForStyles(domElement, nextProp);
+                                    else if (propKey === DANGEROUSLY_SET_INNER_HTML) {
+                                        var nextHtml = nextProp ? nextProp[HTML$1] : void 0;
                                         null != nextHtml && setInnerHTML(domElement, nextHtml);
-                                    } else "children" === propKey ? "string" == typeof nextProp ? ("textarea" !== tag || "" !== nextProp) && setTextContent(domElement, nextProp) : "number" == typeof nextProp && setTextContent(domElement, "" + nextProp) : "suppressContentEditableWarning" === propKey || "suppressHydrationWarning" === propKey || "autoFocus" === propKey || (registrationNameDependencies1.hasOwnProperty(propKey) ? null != nextProp && ("function" != typeof nextProp && warnForInvalidEventListener(propKey, nextProp), "onScroll" === propKey && listenToNonDelegatedEvent("scroll", domElement)) : null != nextProp && setValueForProperty(domElement, propKey, nextProp, isCustomComponentTag));
+                                    } else propKey === CHILDREN ? "string" == typeof nextProp ? ("textarea" !== tag || "" !== nextProp) && setTextContent(domElement, nextProp) : "number" == typeof nextProp && setTextContent(domElement, "" + nextProp) : propKey === SUPPRESS_CONTENT_EDITABLE_WARNING || propKey === SUPPRESS_HYDRATION_WARNING || propKey === AUTOFOCUS || (registrationNameDependencies1.hasOwnProperty(propKey) ? null != nextProp && ("function" != typeof nextProp && warnForInvalidEventListener(propKey, nextProp), "onScroll" === propKey && listenToNonDelegatedEvent("scroll", domElement)) : null != nextProp && setValueForProperty(domElement, propKey, nextProp, isCustomComponentTag));
                                 }
                             })(tag1, domElement2, rootContainerElement, props11, isCustomComponentTag1), tag1){
                                 case "input":
@@ -7521,23 +7521,23 @@
                 }
                 assertValidProps(tag, nextProps);
                 var styleUpdates1 = null;
-                for(propKey in lastProps)if (!nextProps.hasOwnProperty(propKey) && lastProps.hasOwnProperty(propKey) && null != lastProps[propKey]) if ("style" === propKey) {
+                for(propKey in lastProps)if (!nextProps.hasOwnProperty(propKey) && lastProps.hasOwnProperty(propKey) && null != lastProps[propKey]) if (propKey === STYLE) {
                     var lastStyle = lastProps[propKey];
                     for(styleName in lastStyle)lastStyle.hasOwnProperty(styleName) && (styleUpdates1 || (styleUpdates1 = {
                     }), styleUpdates1[styleName] = "");
-                } else "dangerouslySetInnerHTML" !== propKey && "children" !== propKey && "suppressContentEditableWarning" !== propKey && "suppressHydrationWarning" !== propKey && "autoFocus" !== propKey && (registrationNameDependencies1.hasOwnProperty(propKey) ? updatePayload || (updatePayload = []) : (updatePayload = updatePayload || []).push(propKey, null));
+                } else propKey !== DANGEROUSLY_SET_INNER_HTML && propKey !== CHILDREN && propKey !== SUPPRESS_CONTENT_EDITABLE_WARNING && propKey !== SUPPRESS_HYDRATION_WARNING && propKey !== AUTOFOCUS && (registrationNameDependencies1.hasOwnProperty(propKey) ? updatePayload || (updatePayload = []) : (updatePayload = updatePayload || []).push(propKey, null));
                 for(propKey in nextProps){
                     var nextProp = nextProps[propKey], lastProp = null != lastProps ? lastProps[propKey] : void 0;
-                    if (nextProps.hasOwnProperty(propKey) && nextProp !== lastProp && (null != nextProp || null != lastProp)) if ("style" === propKey) if (nextProp && Object.freeze(nextProp), lastProp) {
+                    if (nextProps.hasOwnProperty(propKey) && nextProp !== lastProp && (null != nextProp || null != lastProp)) if (propKey === STYLE) if (nextProp && Object.freeze(nextProp), lastProp) {
                         for(styleName in lastProp)!lastProp.hasOwnProperty(styleName) || nextProp && nextProp.hasOwnProperty(styleName) || (styleUpdates1 || (styleUpdates1 = {
                         }), styleUpdates1[styleName] = "");
                         for(styleName in nextProp)nextProp.hasOwnProperty(styleName) && lastProp[styleName] !== nextProp[styleName] && (styleUpdates1 || (styleUpdates1 = {
                         }), styleUpdates1[styleName] = nextProp[styleName]);
                     } else styleUpdates1 || (updatePayload || (updatePayload = []), updatePayload.push(propKey, styleUpdates1)), styleUpdates1 = nextProp;
-                    else if ("dangerouslySetInnerHTML" === propKey) {
-                        var nextHtml = nextProp ? nextProp["__html"] : void 0, lastHtml = lastProp ? lastProp["__html"] : void 0;
+                    else if (propKey === DANGEROUSLY_SET_INNER_HTML) {
+                        var nextHtml = nextProp ? nextProp[HTML$1] : void 0, lastHtml = lastProp ? lastProp[HTML$1] : void 0;
                         null != nextHtml && lastHtml !== nextHtml && (updatePayload = updatePayload || []).push(propKey, nextHtml);
-                    } else "children" === propKey ? ("string" == typeof nextProp || "number" == typeof nextProp) && (updatePayload = updatePayload || []).push(propKey, "" + nextProp) : "suppressContentEditableWarning" !== propKey && "suppressHydrationWarning" !== propKey && (registrationNameDependencies1.hasOwnProperty(propKey) ? (null != nextProp && ("function" != typeof nextProp && warnForInvalidEventListener(propKey, nextProp), "onScroll" === propKey && listenToNonDelegatedEvent("scroll", domElement)), updatePayload || lastProp === nextProp || (updatePayload = [])) : "object" == typeof nextProp && null !== nextProp && nextProp.$$typeof === REACT_OPAQUE_ID_TYPE ? nextProp.toString() : (updatePayload = updatePayload || []).push(propKey, nextProp));
+                    } else propKey === CHILDREN ? ("string" == typeof nextProp || "number" == typeof nextProp) && (updatePayload = updatePayload || []).push(propKey, "" + nextProp) : propKey !== SUPPRESS_CONTENT_EDITABLE_WARNING && propKey !== SUPPRESS_HYDRATION_WARNING && (registrationNameDependencies1.hasOwnProperty(propKey) ? (null != nextProp && ("function" != typeof nextProp && warnForInvalidEventListener(propKey, nextProp), "onScroll" === propKey && listenToNonDelegatedEvent("scroll", domElement)), updatePayload || lastProp === nextProp || (updatePayload = [])) : "object" == typeof nextProp && null !== nextProp && nextProp.$$typeof === REACT_OPAQUE_ID_TYPE ? nextProp.toString() : (updatePayload = updatePayload || []).push(propKey, nextProp));
                 }
                 return styleUpdates1 && ((function(styleUpdates, nextStyles) {
                     if (nextStyles) {
@@ -7552,7 +7552,7 @@
                             }
                         }
                     }
-                })(styleUpdates1, nextProps.style), (updatePayload = updatePayload || []).push("style", styleUpdates1)), updatePayload;
+                })(styleUpdates1, nextProps[STYLE]), (updatePayload = updatePayload || []).push(STYLE, styleUpdates1)), updatePayload;
             }(domElement3, type12, oldProps1, newProps3));
             workInProgress.updateQueue = updatePayload2, updatePayload2 && markUpdate(workInProgress);
         }
@@ -8034,7 +8034,7 @@
                         switch((function(domElement, updatePayload, wasCustomComponentTag, isCustomComponentTag) {
                             for(var i = 0; i < updatePayload.length; i += 2){
                                 var propKey = updatePayload[i], propValue = updatePayload[i + 1];
-                                "style" === propKey ? setValueForStyles(domElement, propValue) : "dangerouslySetInnerHTML" === propKey ? setInnerHTML(domElement, propValue) : "children" === propKey ? setTextContent(domElement, propValue) : setValueForProperty(domElement, propKey, propValue, isCustomComponentTag);
+                                propKey === STYLE ? setValueForStyles(domElement, propValue) : propKey === DANGEROUSLY_SET_INNER_HTML ? setInnerHTML(domElement, propValue) : propKey === CHILDREN ? setTextContent(domElement, propValue) : setValueForProperty(domElement, propKey, propValue, isCustomComponentTag);
                             }
                         })(domElement5, updatePayload5, wasCustomComponentTag, isCustomComponentTag2), tag){
                             case "input":
@@ -9490,8 +9490,8 @@
             updateContainer(children, fiberRoot, parentComponent, callback);
         } else {
             if (fiberRoot = (root = container3._reactRootContainer = (function(container, forceHydrate) {
-                var container2, options, rootElement, shouldHydrate = forceHydrate || !!((rootElement = getReactRootElementInContainer(container)) && 1 === rootElement.nodeType && rootElement.hasAttribute("data-reactroot"));
-                if (!shouldHydrate) for(var rootSibling, warned = !1; rootSibling = container.lastChild;)!warned && 1 === rootSibling.nodeType && rootSibling.hasAttribute("data-reactroot") && (warned = !0, error1("render(): Target node has markup rendered by React, but there are unrelated nodes as well. This is most commonly caused by white-space inserted around server-rendered markup.")), container.removeChild(rootSibling);
+                var container2, options, rootElement, shouldHydrate = forceHydrate || !!((rootElement = getReactRootElementInContainer(container)) && 1 === rootElement.nodeType && rootElement.hasAttribute(ROOT_ATTRIBUTE_NAME));
+                if (!shouldHydrate) for(var rootSibling, warned = !1; rootSibling = container.lastChild;)!warned && 1 === rootSibling.nodeType && rootSibling.hasAttribute(ROOT_ATTRIBUTE_NAME) && (warned = !0, error1("render(): Target node has markup rendered by React, but there are unrelated nodes as well. This is most commonly caused by white-space inserted around server-rendered markup.")), container.removeChild(rootSibling);
                 return !shouldHydrate || forceHydrate || warnedAboutHydrateAPI || (warnedAboutHydrateAPI = !0, warn("render(): Calling ReactDOM.render() to hydrate server-rendered markup will stop working in React v18. Replace the ReactDOM.render() call with ReactDOM.hydrate() if you want React to attach to the server HTML.")), container2 = container, options = shouldHydrate ? {
                     hydrate: !0
                 } : void 0, new ReactDOMBlockingRoot(container2, 0, options);
@@ -9617,7 +9617,7 @@
     }), (devToolsConfig = {
         findFiberByHostInstance: getClosestInstanceFromNode,
         bundleType: 1,
-        version: "17.0.2",
+        version: ReactVersion,
         rendererPackageName: "react-dom"
     }).findFiberByHostInstance, ReactSharedInternals.ReactCurrentDispatcher, !function(internals) {
         if ("undefined" == typeof __REACT_DEVTOOLS_GLOBAL_HOOK__) return !1;
@@ -9741,5 +9741,5 @@
             if (!(null != parentComponent && void 0 !== parentComponent._reactInternals)) throw Error("parentComponent must be a valid React Component");
             return legacyRenderSubtreeIntoContainer(parentComponent, element, containerNode, !1, callback);
         })(parentComponent2, element3, containerNode1, callback2);
-    }, exports.version = "17.0.2";
+    }, exports.version = ReactVersion;
 });
