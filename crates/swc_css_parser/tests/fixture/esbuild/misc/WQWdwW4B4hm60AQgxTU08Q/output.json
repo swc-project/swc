@@ -58,13 +58,12 @@
                 },
                 "subclassSelectors": [
                   {
-                    "type": "PseudoSelector",
+                    "type": "PseudoElementSelector",
                     "span": {
                       "start": 1,
                       "end": 7,
                       "ctxt": 0
                     },
-                    "isElement": true,
                     "name": {
                       "type": "Identifier",
                       "span": {

@@ -214,7 +214,9 @@ define!({
 
         Attr(AttrSelector),
 
-        Pseudo(PseudoSelector),
+        PseudoClass(PseudoClassSelector),
+
+        PseudoElement(PseudoElementSelector),
 
         At(AtSelector),
     }
@@ -260,8 +262,14 @@ define!({
     }
 
     pub struct PseudoSelector {
+    pub struct PseudoClassSelector {
         pub span: Span,
-        pub is_element: bool,
+        pub name: Ident,
+        pub args: Tokens,
+    }
+
+    pub struct PseudoElementSelector {
+        pub span: Span,
         pub name: Ident,
         pub children: Option<PseudoSelectorChildren>,
     }

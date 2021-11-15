@@ -1072,13 +1072,12 @@
                 },
                 "subclassSelectors": [
                   {
-                    "type": "PseudoSelector",
+                    "type": "PseudoClassSelector",
                     "span": {
                       "start": 262,
                       "end": 282,
                       "ctxt": 0
                     },
-                    "isElement": false,
                     "name": {
                       "type": "Identifier",
                       "span": {
@@ -1161,13 +1160,12 @@
                 "typeSelector": null,
                 "subclassSelectors": [
                   {
-                    "type": "PseudoSelector",
+                    "type": "PseudoClassSelector",
                     "span": {
                       "start": 288,
                       "end": 301,
                       "ctxt": 0
                     },
-                    "isElement": false,
                     "name": {
                       "type": "Identifier",
                       "span": {
@@ -1285,13 +1283,12 @@
                 "typeSelector": null,
                 "subclassSelectors": [
                   {
-                    "type": "PseudoSelector",
+                    "type": "PseudoElementSelector",
                     "span": {
                       "start": 307,
                       "end": 322,
                       "ctxt": 0
                     },
-                    "isElement": true,
                     "name": {
                       "type": "Identifier",
                       "span": {
@@ -1362,13 +1359,12 @@
                 "typeSelector": null,
                 "subclassSelectors": [
                   {
-                    "type": "PseudoSelector",
+                    "type": "PseudoElementSelector",
                     "span": {
                       "start": 328,
                       "end": 347,
                       "ctxt": 0
                     },
-                    "isElement": true,
                     "name": {
                       "type": "Identifier",
                       "span": {

@@ -13,7 +13,7 @@ use testing::NormalizedOutput;
 struct AssertValid;
 
 impl Visit for AssertValid {
-    fn visit_pseudo_selector(&mut self, s: &PseudoSelector, _: &dyn Node) {
+    fn visit_pseudo_class_selector(&mut self, s: &PseudoClassSelector, _: &dyn Node) {
         s.visit_children_with(self);
 
         if let Some(PseudoSelectorChildren::Tokens(args)) = &s.children {
@@ -341,6 +341,8 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(Nth, visit_nth);
     mtd!(AnPlusB, visit_an_plus_b);
     mtd!(PseudoSelector, visit_pseudo_selector);
+    mtd!(PseudoClassSelector, visit_pseudo_class_selector);
+    mtd!(PseudoElementSelector, visit_pseudo_element_selector);
     mtd!(Rule, visit_rule);
     mtd!(Str, visit_str);
     mtd!(QualifiedRule, visit_qualified_rule);

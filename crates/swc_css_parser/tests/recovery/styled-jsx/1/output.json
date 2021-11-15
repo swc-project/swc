@@ -240,13 +240,12 @@
                 "typeSelector": null,
                 "subclassSelectors": [
                   {
-                    "type": "PseudoSelector",
+                    "type": "PseudoClassSelector",
                     "span": {
                       "start": 127,
                       "end": 158,
                       "ctxt": 0
                     },
-                    "isElement": false,
                     "name": {
                       "type": "Identifier",
                       "span": {
@@ -586,13 +585,12 @@
                     "typeSelector": null,
                     "subclassSelectors": [
                       {
-                        "type": "PseudoSelector",
+                        "type": "PseudoClassSelector",
                         "span": {
                           "start": 324,
                           "end": 355,
                           "ctxt": 0
                         },
-                        "isElement": false,
                         "name": {
                           "type": "Identifier",
                           "span": {
@@ -841,13 +839,12 @@
                     "typeSelector": null,
                     "subclassSelectors": [
                       {
-                        "type": "PseudoSelector",
+                        "type": "PseudoClassSelector",
                         "span": {
                           "start": 453,
                           "end": 484,
                           "ctxt": 0
                         },
-                        "isElement": false,
                         "name": {
                           "type": "Identifier",
                           "span": {

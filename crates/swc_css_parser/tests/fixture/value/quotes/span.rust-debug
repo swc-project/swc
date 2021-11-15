@@ -70,7 +70,7 @@ error: SubclassSelector
 1 | a::before {
   |  ^^^^^^^^
 
-error: PseudoSelector
+error: PseudoElementSelector
  --> $DIR/tests/fixture/value/quotes/input.css:1:2
   |
 1 | a::before {
