@@ -166,7 +166,7 @@ where
                                 && !usage.has_property_mutation))
                         && match &**init {
                             Expr::Lit(lit) => match lit {
-                                Lit::Str(_) => true,
+                                Lit::Str(_) => false,
                                 Lit::Bool(_) | Lit::Null(_) | Lit::Num(_) | Lit::BigInt(_) => true,
                                 Lit::Regex(_) => self.options.unsafe_regexp,
                                 _ => false,
