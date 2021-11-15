@@ -213,7 +213,7 @@ impl Fold for Legacy {
                 Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
-                    decls: replace(&mut self.uninitialized_vars, Default::default()),
+                    decls: take(&mut self.uninitialized_vars),
                     declare: false,
                 })),
             );
@@ -255,7 +255,7 @@ impl Legacy {
                 buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
-                    decls: replace(&mut self.initialized_vars, Default::default()),
+                    decls: take(&mut self.initialized_vars),
                     declare: false,
                 }))));
             }

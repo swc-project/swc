@@ -41,7 +41,7 @@ where
 {
     let Options { development, .. } = options;
 
-    let refresh_options = mem::replace(&mut options.refresh, None);
+    let refresh_options = options.refresh.take();
 
     chain!(
         jsx_src(development, cm.clone()),

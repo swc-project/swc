@@ -1,6 +1,6 @@
 use super::leap::{CatchEntry, Entry, FinallyEntry, LeapManager, TryEntry};
 use smallvec::SmallVec;
-use std::mem::replace;
+use std::mem::{replace, take};
 use swc_atoms::JsWord;
 use swc_common::{
     util::{map::Map, move_map::MoveMap},
@@ -93,7 +93,7 @@ impl CaseHandler<'_> {
         //        let mut last_loc_value = 0;
         Some(ArrayLit {
             span: DUMMY_SP,
-            elems: replace(&mut self.try_entries, Default::default())
+            elems: take(&mut self.try_entries)
                 .into_iter()
                 .map(|entry: TryEntry| {
                     //                    let this_loc_value = entry.first_loc;
@@ -850,7 +850,7 @@ impl CaseHandler<'_> {
         let mut already_ended = false;
 
         let stmts = {
-            let stmts = replace(&mut self.listing, vec![]);
+            let stmts = take(&mut self.listing);
             let mut v = InvalidToLit { map: &self.marked };
 
             stmts.fold_with(&mut v)

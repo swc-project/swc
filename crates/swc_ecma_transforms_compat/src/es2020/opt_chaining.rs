@@ -93,7 +93,7 @@ impl OptChaining {
                 span: DUMMY_SP,
                 declare: false,
                 kind: VarDeclKind::Var,
-                decls: mem::replace(&mut self.vars_with_init, vec![]),
+                decls: mem::take(&mut self.vars_with_init),
             }))));
         }
         new.push(stmt);
@@ -159,7 +159,7 @@ impl OptChaining {
                     span: DUMMY_SP,
                     declare: false,
                     kind: VarDeclKind::Var,
-                    decls: mem::replace(&mut self.vars_without_init, vec![]),
+                    decls: mem::take(&mut self.vars_without_init),
                 }))),
             );
         }

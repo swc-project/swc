@@ -114,7 +114,7 @@ macro_rules! take_vars {
                     Stmt::Decl(Decl::Var(VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
-                        decls: mem::replace(&mut self.vars, vec![]),
+                        decls: mem::take(&mut self.vars),
 
                         declare: false,
                     })),

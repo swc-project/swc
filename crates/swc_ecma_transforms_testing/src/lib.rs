@@ -17,6 +17,7 @@ use swc_common::{
     comments::SingleThreadedComments,
     errors::{Handler, HANDLER},
     sync::Lrc,
+    util::take::Take,
     FileName, SourceMap, DUMMY_SP,
 };
 use swc_ecma_ast::{Pat, *};
@@ -594,8 +595,7 @@ impl VisitMut for Normalizer {
         match node {
             PatOrExpr::Pat(pat) => match &mut **pat {
                 Pat::Expr(e) => {
-                    let e = replace(e, Box::new(Expr::Invalid(Invalid { span: DUMMY_SP })));
-                    *node = PatOrExpr::Expr(e);
+                    *node = PatOrExpr::Expr(e.take());
                 }
                 _ => {}
             },
