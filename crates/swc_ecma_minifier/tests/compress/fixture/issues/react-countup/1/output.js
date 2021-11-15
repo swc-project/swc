@@ -208,7 +208,7 @@
                     "responsive" === layout ? (wrapperStyle.display = "block", wrapperStyle.position = "relative", hasSizer = !0, sizerStyle.paddingTop = paddingTop) : "intrinsic" === layout ? (wrapperStyle.display = "inline-block", wrapperStyle.position = "relative", wrapperStyle.maxWidth = "100%", hasSizer = !0, sizerStyle.maxWidth = "100%", sizerSvg = "<svg width=\"".concat(widthInt, "\" height=\"").concat(heightInt, "\" xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"/>")) : "fixed" === layout && (wrapperStyle.display = "inline-block", wrapperStyle.position = "relative", wrapperStyle.width = widthInt, wrapperStyle.height = heightInt);
                 }
                 var imgAttributes = {
-                    src: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+                    src: emptyDataURL,
                     srcSet: void 0,
                     sizes: void 0
                 };
@@ -250,7 +250,7 @@
                         setRef(img1), (function(img, src, layout, placeholder, onLoadingComplete) {
                             if (img) {
                                 var handleLoad = function() {
-                                    "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" !== img.src && ("decode" in img ? img.decode() : Promise.resolve()).catch(function() {
+                                    img.src !== emptyDataURL && ("decode" in img ? img.decode() : Promise.resolve()).catch(function() {
                                     }).then(function() {
                                         if ("blur" === placeholder && (img.style.filter = "none", img.style.backgroundSize = "none", img.style.backgroundImage = "none"), loadedImageURLs.add(src), onLoadingComplete) {
                                             var naturalWidth = img.naturalWidth, naturalHeight = img.naturalHeight;
@@ -325,7 +325,7 @@
             }
             var loadedImageURLs = new Set();
             new Map();
-            var loaders = new Map([
+            var emptyDataURL = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7", loaders = new Map([
                 [
                     "default",
                     function(param) {

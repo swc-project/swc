@@ -8,26 +8,26 @@
         return null;
     }(), isSupportObjectConstructor = nativeURLSearchParams && "a=1" === new nativeURLSearchParams({
         a: 1
-    }).toString(), decodesPlusesCorrectly = nativeURLSearchParams && "+" === new nativeURLSearchParams("s=%2B").get("s"), encodesAmpersandsCorrectly = !nativeURLSearchParams || ((ampersandTest = new nativeURLSearchParams()).append("s", " &"), "s=+%26" === ampersandTest.toString()), prototype = URLSearchParamsPolyfill.prototype, iterable = !!(self.Symbol && self.Symbol.iterator);
+    }).toString(), decodesPlusesCorrectly = nativeURLSearchParams && "+" === new nativeURLSearchParams("s=%2B").get("s"), __URLSearchParams__ = "__URLSearchParams__", encodesAmpersandsCorrectly = !nativeURLSearchParams || ((ampersandTest = new nativeURLSearchParams()).append("s", " &"), "s=+%26" === ampersandTest.toString()), prototype = URLSearchParamsPolyfill.prototype, iterable = !!(self.Symbol && self.Symbol.iterator);
     if (!nativeURLSearchParams || !isSupportObjectConstructor || !decodesPlusesCorrectly || !encodesAmpersandsCorrectly) {
         prototype.append = function(name, value) {
-            appendTo(this["__URLSearchParams__"], name, value);
+            appendTo(this[__URLSearchParams__], name, value);
         }, prototype.delete = function(name) {
-            delete this["__URLSearchParams__"][name];
+            delete this[__URLSearchParams__][name];
         }, prototype.get = function(name) {
-            var dict = this["__URLSearchParams__"];
+            var dict = this[__URLSearchParams__];
             return this.has(name) ? dict[name][0] : null;
         }, prototype.getAll = function(name) {
-            var dict = this["__URLSearchParams__"];
+            var dict = this[__URLSearchParams__];
             return this.has(name) ? dict[name].slice(0) : [];
         }, prototype.has = function(name) {
-            return hasOwnProperty(this["__URLSearchParams__"], name);
+            return hasOwnProperty(this[__URLSearchParams__], name);
         }, prototype.set = function(name, value) {
-            this["__URLSearchParams__"][name] = [
+            this[__URLSearchParams__][name] = [
                 "" + value
             ];
         }, prototype.toString = function() {
-            var i, key, name, value, dict = this["__URLSearchParams__"], query = [];
+            var i, key, name, value, dict = this[__URLSearchParams__], query = [];
             for(key in dict)for(i = 0, name = encode(key), value = dict[key]; i < value.length; i++)query.push(name + "=" + encode(value[i]));
             return query.join("&");
         }, decodesPlusesCorrectly && nativeURLSearchParams && !isSupportObjectConstructor && self.Proxy ? (propValue = new Proxy(nativeURLSearchParams, {
@@ -74,7 +74,7 @@
         }, iterable && (USPProto[self.Symbol.iterator] = USPProto[self.Symbol.iterator] || USPProto.entries);
     }
     function URLSearchParamsPolyfill(search) {
-        ((search = search || "") instanceof URLSearchParams || search instanceof URLSearchParamsPolyfill) && (search = search.toString()), this["__URLSearchParams__"] = parseToDict(search);
+        ((search = search || "") instanceof URLSearchParams || search instanceof URLSearchParamsPolyfill) && (search = search.toString()), this[__URLSearchParams__] = parseToDict(search);
     }
     function encode(str) {
         var replace = {
