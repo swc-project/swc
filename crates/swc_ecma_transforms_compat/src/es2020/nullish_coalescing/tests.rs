@@ -2,8 +2,8 @@ use super::*;
 use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms_testing::{test, test_exec};
 
-fn tr(_: ()) -> impl Fold {
-    nullish_coalescing()
+fn tr(c: Config) -> impl Fold {
+    nullish_coalescing(c)
 }
 
 fn syntax() -> Syntax {
@@ -15,7 +15,7 @@ fn syntax() -> Syntax {
 
 test_exec!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     runtime_semantics_exec,
     r#"
 expect(null ?? undefined).toBeUndefined(undefined);
@@ -42,7 +42,7 @@ expect(obj2.foo ?? -1).toBe(0);
 
 test!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     transform_in_default,
     r#"
  function foo(foo, qux = foo.bar ?? "qux") {}
@@ -56,7 +56,7 @@ function foo(foo, qux = (_bar = foo.bar) !== null && _bar !== void 0 ? _bar : "q
 
 test!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     transform_in_function,
     r#"
 
@@ -75,7 +75,7 @@ function foo(opts) {
 
 test!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     transform_static_refs_in_default,
     r#"
 
@@ -90,7 +90,7 @@ function foo(foo, bar = foo !== null && foo !== void 0 ? foo : "bar") {}
 
 test!(
     syntax(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     transform_static_refs_in_function,
     r#"
 function foo() {
@@ -110,7 +110,7 @@ function foo() {
 
 test!(
     Default::default(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     assign_01,
     "
     a ??= b;
@@ -122,7 +122,7 @@ test!(
 
 test!(
     Default::default(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     issue_1570_1,
     "
     const a = {}
@@ -138,11 +138,31 @@ test!(
 
 test_exec!(
     Default::default(),
-    |_| tr(()),
+    |_| tr(Default::default()),
     issue_1570_2,
     "
     const a = {}
     a.b ??= '1'
     expect(a.b).toBe('1')
     "
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        no_document_all: true
+    }),
+    loose,
+    r#"
+function foo(opts) {
+    var foo = opts.foo ?? "default";
+}
+"#,
+    r#"
+function foo(opts) {
+  var _foo;
+
+  var foo = (_foo = opts.foo) != null ? _foo : "default";
+}
+"#
 );

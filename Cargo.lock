@@ -121,9 +121,9 @@ checksum = "ee10e43ae4a853c0a3591d4e2ada1719e553be18199d9da9d4a83f5927c2f5c7"
 
 [[package]]
 name = "arbitrary"
-version = "1.0.2"
+version = "1.0.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "577b08a4acd7b99869f863c50011b01eb73424ccc798ecd996f2e24817adfca7"
+checksum = "510c76ecefdceada737ea728f4f9a84bd2e1ef29f1ba555e560940fe279954de"
 dependencies = [
  "derive_arbitrary",
 ]
@@ -1013,9 +1013,9 @@ checksum = "fbe5e23404da5b4f555ef85ebed98fb4083e55a00c317800bc2a50ede9f3d219"
 
 [[package]]
 name = "libloading"
-version = "0.7.1"
+version = "0.7.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c0cf036d15402bea3c5d4de17b3fce76b3e4a56ebc1f577be0e7a72f7c607cf0"
+checksum = "afe203d669ec979b7128619bae5a63b7b42e9203c1b29146079ee05e2f604b52"
 dependencies = [
  "cfg-if 1.0.0",
  "winapi",
@@ -1154,9 +1154,9 @@ dependencies = [
 
 [[package]]
 name = "napi"
-version = "1.7.8"
+version = "1.7.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "107f4fb92cc82989990fb542bceca2ad216f3263ebd4771f6216645adc391730"
+checksum = "b33ead3731711d69cbcdb9c7fafbfae12ad7d32a7a6ec4bd8dba5bc8548d814b"
 dependencies = [
  "napi-sys",
  "serde",
@@ -1172,9 +1172,9 @@ checksum = "87375bacff0768dd606ccf870eae936efd21e3245af9e7b37ae44f969d48be8a"
 
 [[package]]
 name = "napi-derive"
-version = "1.1.1"
+version = "1.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4d57bc36513971ab3c60e5af84092662fb1b2fa686d0ef4aadab0d0fb6414bb9"
+checksum = "6ee880798e942fc785e2e234544b9db578019a1d7676f45dad7f38d432ab0fe4"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -2197,9 +2197,9 @@ dependencies = [
 
 [[package]]
 name = "serde_json"
-version = "1.0.69"
+version = "1.0.70"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e466864e431129c7e0d3476b92f20458e5879919a0596c6472738d9fa2d342f8"
+checksum = "e277c495ac6cd1a01a58d0a0c574568b4d1ddf14f59965c6a58b8d96400b54f3"
 dependencies = [
  "itoa",
  "ryu",
@@ -2383,7 +2383,7 @@ checksum = "6446ced80d6c486436db5c078dde11a9f73d42b57fb273121e160b84f63d894c"
 
 [[package]]
 name = "swc"
-version = "0.84.0"
+version = "0.86.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2489,7 +2489,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.81.1"
+version = "0.82.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2720,7 +2720,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_loader"
-version = "0.24.2"
+version = "0.24.3"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2740,7 +2740,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.50.0"
+version = "0.51.0"
 dependencies = [
  "ahash",
  "ansi_term 0.12.1",
@@ -2815,7 +2815,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.65.0"
+version = "0.66.0"
 dependencies = [
  "ahash",
  "dashmap",
@@ -2841,7 +2841,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.94.0"
+version = "0.95.0"
 dependencies = [
  "pretty_assertions 0.6.1",
  "sourcemap",
@@ -2901,7 +2901,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.51.1"
+version = "0.52.2"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -2939,7 +2939,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.57.0"
+version = "0.58.0"
 dependencies = [
  "Inflector",
  "ahash",
@@ -2962,7 +2962,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.64.0"
+version = "0.65.0"
 dependencies = [
  "ahash",
  "dashmap",
@@ -2991,7 +2991,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.57.0"
+version = "0.58.0"
 dependencies = [
  "either",
  "serde",
@@ -3015,7 +3015,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.59.0"
+version = "0.60.0"
 dependencies = [
  "ahash",
  "base64 0.13.0",
@@ -3064,7 +3064,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.60.0"
+version = "0.61.0"
 dependencies = [
  "serde",
  "swc_atoms 0.2.9",
@@ -3111,7 +3111,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.86.0"
+version = "0.87.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3405,9 +3405,9 @@ checksum = "cda74da7e1a664f795bb1f8a87ec406fb89a02522cf6e50620d016add6dbbf5c"
 
 [[package]]
 name = "tokio"
-version = "1.13.0"
+version = "1.14.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "588b2d10a336da58d877567cd8fb8a14b463e2104910f8132cd054b4b96e29ee"
+checksum = "70e992e41e0d2fb9f755b37446f20900f64446ef54874f40a60c78f021ac6144"
 dependencies = [
  "autocfg 1.0.1",
  "bytes",

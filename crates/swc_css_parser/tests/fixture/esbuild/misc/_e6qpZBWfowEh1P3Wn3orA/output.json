@@ -57,7 +57,7 @@
                       "value": "pseudo",
                       "raw": "pseudo"
                     },
-                    "args": {
+                    "children": {
                       "type": "Tokens",
                       "span": {
                         "start": 8,

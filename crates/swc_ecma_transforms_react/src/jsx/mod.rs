@@ -733,7 +733,7 @@ where
                         args.push(
                             ObjectLit {
                                 span: DUMMY_SP,
-                                props: mem::replace(&mut cur_obj_props, vec![]),
+                                props: mem::take(&mut cur_obj_props),
                             }
                             .as_arg(),
                         )

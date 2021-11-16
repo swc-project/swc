@@ -1,0 +1,101 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 0,
+    "end": 23,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "StyleRule",
+      "span": {
+        "start": 0,
+        "end": 22,
+        "ctxt": 0
+      },
+      "selectors": {
+        "type": "SelectorList",
+        "span": {
+          "start": 0,
+          "end": 19,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 0,
+              "end": 19,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 0,
+                  "end": 19,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "PseudoSelector",
+                    "span": {
+                      "start": 0,
+                      "end": 19,
+                      "ctxt": 0
+                    },
+                    "isElement": false,
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1,
+                        "end": 10,
+                        "ctxt": 0
+                      },
+                      "value": "nth-child",
+                      "raw": "nth-child"
+                    },
+                    "children": {
+                      "type": "Tokens",
+                      "span": {
+                        "start": 11,
+                        "end": 18,
+                        "ctxt": 0
+                      },
+                      "tokens": [
+                        {
+                          "span": {
+                            "start": 11,
+                            "end": 18,
+                            "ctxt": 0
+                          },
+                          "token": {
+                            "Ident": {
+                              "value": "unknown",
+                              "raw": "unknown"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 20,
+          "end": 22,
+          "ctxt": 0
+        },
+        "items": []
+      }
+    }
+  ]
+}

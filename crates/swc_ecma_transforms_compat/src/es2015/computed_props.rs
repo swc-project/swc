@@ -1,3 +1,4 @@
+use serde::Deserialize;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -35,16 +36,26 @@ use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visi
 ///
 /// TODO(kdy1): cache reference like (_f = f, mutatorMap[_f].get = function(){})
 ///     instead of (mutatorMap[f].get = function(){}
-pub fn computed_properties() -> impl Fold {
-    ComputedProps
+pub fn computed_properties(c: Config) -> impl Fold {
+    ComputedProps { c }
 }
 
-struct ComputedProps;
+#[derive(Debug, Clone, Copy, Default, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Config {
+    #[serde(default)]
+    pub loose: bool,
+}
+
+struct ComputedProps {
+    c: Config,
+}
 
 #[derive(Default)]
 struct ObjectLitFolder {
     vars: Vec<VarDeclarator>,
     used_define_enum_props: bool,
+    c: Config,
 }
 
 /// TODO: VisitMut
@@ -75,7 +86,7 @@ impl Fold for ObjectLitFolder {
 
                 let props_cnt = props.len();
 
-                exprs.push(if props_cnt == 1 {
+                exprs.push(if !self.c.loose && props_cnt == 1 {
                     Box::new(Expr::Object(ObjectLit {
                         span: DUMMY_SP,
                         props: obj_props,
@@ -95,19 +106,26 @@ impl Fold for ObjectLitFolder {
                 for prop in props {
                     let span = prop.span();
 
-                    let (key, value) = match prop {
+                    let ((key, is_compute), value) = match prop {
                         PropOrSpread::Prop(prop) => match *prop {
                             Prop::Shorthand(ident) => (
-                                Expr::Lit(Lit::Str(Str {
-                                    span: ident.span,
-                                    value: ident.sym.clone(),
-                                    has_escape: false,
-                                    kind: Default::default(),
-                                })),
+                                (
+                                    if self.c.loose {
+                                        Expr::Ident(ident.clone())
+                                    } else {
+                                        Expr::Lit(Lit::Str(Str {
+                                            span: ident.span,
+                                            value: ident.sym.clone(),
+                                            has_escape: false,
+                                            kind: Default::default(),
+                                        }))
+                                    },
+                                    false,
+                                ),
                                 Expr::Ident(ident),
                             ),
                             Prop::KeyValue(KeyValueProp { key, value }) => {
-                                (prop_name_to_expr(key), *value)
+                                (prop_name_to_expr(key, self.c.loose), *value)
                             }
                             Prop::Assign(..) => {
                                 unreachable!("assign property in object literal is invalid")
@@ -167,8 +185,9 @@ impl Fold for ObjectLitFolder {
                                 };
 
                                 // mutator[f]
-                                let mutator_elem =
-                                    mutator_map.clone().computed_member(prop_name_to_expr(key));
+                                let mutator_elem = mutator_map
+                                    .clone()
+                                    .computed_member(prop_name_to_expr(key, false).0);
 
                                 // mutator[f] = mutator[f] || {}
                                 exprs.push(Box::new(Expr::Assign(AssignExpr {
@@ -204,7 +223,7 @@ impl Fold for ObjectLitFolder {
                                 // unimplemented!("getter /setter property")
                             }
                             Prop::Method(MethodProp { key, function }) => (
-                                prop_name_to_expr(key),
+                                prop_name_to_expr(key, self.c.loose),
                                 Expr::Fn(FnExpr {
                                     ident: None,
                                     function,
@@ -214,7 +233,7 @@ impl Fold for ObjectLitFolder {
                         PropOrSpread::Spread(..) => unimplemented!("computed spread property"),
                     };
 
-                    if props_cnt == 1 {
+                    if !self.c.loose && props_cnt == 1 {
                         return Expr::Call(CallExpr {
                             span,
                             callee: helper!(define_property, "defineProperty"),
@@ -222,12 +241,26 @@ impl Fold for ObjectLitFolder {
                             type_args: Default::default(),
                         });
                     }
-                    exprs.push(Box::new(Expr::Call(CallExpr {
-                        span,
-                        callee: helper!(define_property, "defineProperty"),
-                        args: vec![obj_ident.clone().as_arg(), key.as_arg(), value.as_arg()],
-                        type_args: Default::default(),
-                    })));
+                    exprs.push(if self.c.loose {
+                        let left = if is_compute {
+                            obj_ident.clone().computed_member(key)
+                        } else {
+                            obj_ident.clone().make_member(key)
+                        };
+                        Box::new(Expr::Assign(AssignExpr {
+                            span,
+                            op: AssignOp::Assign,
+                            left: PatOrExpr::Expr(Box::new(left)),
+                            right: value.into(),
+                        }))
+                    } else {
+                        Box::new(Expr::Call(CallExpr {
+                            span,
+                            callee: helper!(define_property, "defineProperty"),
+                            args: vec![obj_ident.clone().as_arg(), key.as_arg(), value.as_arg()],
+                            type_args: Default::default(),
+                        }))
+                    });
                 }
 
                 self.vars.push(VarDeclarator {
@@ -317,7 +350,10 @@ impl ComputedProps {
                 continue;
             }
 
-            let mut folder = ObjectLitFolder::default();
+            let mut folder = ObjectLitFolder {
+                c: self.c,
+                ..Default::default()
+            };
             let stmt = stmt.fold_with(&mut folder);
 
             // Add variable declaration
@@ -338,18 +374,25 @@ impl ComputedProps {
     }
 }
 
-fn prop_name_to_expr(p: PropName) -> Expr {
+fn prop_name_to_expr(p: PropName, loose: bool) -> (Expr, bool) {
     match p {
-        PropName::Ident(i) => Expr::Lit(Lit::Str(Str {
-            value: i.sym,
-            span: i.span,
-            has_escape: false,
-            kind: Default::default(),
-        })),
-        PropName::Str(s) => Expr::Lit(Lit::Str(s)),
-        PropName::Num(n) => Expr::Lit(Lit::Num(n)),
-        PropName::BigInt(b) => Expr::Lit(Lit::BigInt(b)),
-        PropName::Computed(c) => *c.expr,
+        PropName::Ident(i) => (
+            if loose {
+                Expr::Ident(i)
+            } else {
+                Expr::Lit(Lit::Str(Str {
+                    value: i.sym,
+                    span: i.span,
+                    has_escape: false,
+                    kind: Default::default(),
+                }))
+            },
+            false,
+        ),
+        PropName::Str(s) => (Expr::Lit(Lit::Str(s)), true),
+        PropName::Num(n) => (Expr::Lit(Lit::Num(n)), true),
+        PropName::BigInt(b) => (Expr::Lit(Lit::BigInt(b)), true),
+        PropName::Computed(c) => (*c.expr, true),
     }
 }
 

@@ -4,20 +4,21 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-export var _sym, MyClass = function() {
+var _sym = "my-fake-sym";
+export var MyClass = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function MyClass() {
         !function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, MyClass), this["my-fake-sym"] = "ok";
+        }(this, MyClass), this[_sym] = "ok";
     }
-    return protoProps = [
+    return Constructor = MyClass, protoProps = [
         {
             key: "method",
             value: function() {
-                this["my-fake-sym"] = "yep", this["my-fake-sym"];
+                this[_sym] = "yep", this[_sym];
             }
         }
-    ], _defineProperties((Constructor = MyClass).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), MyClass;
+    ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), MyClass;
 }();

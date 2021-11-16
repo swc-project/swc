@@ -1,5 +1,5 @@
 use smallvec::SmallVec;
-use std::mem::{replace, take};
+use std::mem::take;
 use swc_atoms::js_word;
 use swc_common::{collections::AHashMap, util::map::Map, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -642,7 +642,7 @@ impl BlockScoping {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     declare: false,
-                    decls: replace(&mut self.vars, Default::default()),
+                    decls: take(&mut self.vars),
                 }))),
             );
         }

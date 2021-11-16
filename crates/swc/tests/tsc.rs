@@ -6,7 +6,7 @@ use std::{
     path::{Path, PathBuf},
 };
 use swc::{
-    config::{Config, JscConfig, Options},
+    config::{Config, IsModule, JscConfig, Options},
     Compiler,
 };
 use swc_ecma_ast::EsVersion;
@@ -113,7 +113,7 @@ fn compile(input: &Path, output: &Path, opts: Options) {
                 fm,
                 &handler,
                 &Options {
-                    is_module: true,
+                    is_module: IsModule::Bool(true),
 
                     config: Config {
                         jsc: JscConfig {

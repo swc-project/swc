@@ -9,7 +9,7 @@ use std::{
     io::{self, stderr},
     sync::Arc,
 };
-use swc::config::{Config, JscConfig, Options, SourceMapsConfig};
+use swc::config::{Config, IsModule, JscConfig, Options, SourceMapsConfig};
 use swc_common::{errors::Handler, FileName, FilePathMapping, SourceFile, SourceMap};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::{Syntax, TsConfig};
@@ -41,7 +41,7 @@ fn parse(c: &swc::Compiler) -> (Arc<SourceFile>, Program) {
             &handler,
             EsVersion::Es5,
             Syntax::Typescript(Default::default()),
-            true,
+            IsModule::Bool(true),
             true,
         )
         .unwrap(),
@@ -165,7 +165,7 @@ macro_rules! compat {
                         ..Default::default()
                     },
                     swcrc: false,
-                    is_module: true,
+                    is_module: IsModule::Bool(true),
                     ..Default::default()
                 },
             );

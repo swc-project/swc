@@ -64,8 +64,6 @@ error: Ident
 1 | a:b:c {}
   |   ^
 
-error: Tokens
-
 error: SubclassSelector
  --> $DIR/tests/fixture/esbuild/misc/pJGP-gxqsiFs_ruNrpY3bw/input.css:1:4
   |

@@ -143,7 +143,7 @@ where
                         self.mode.store(i.to_id(), &*init);
                     }
 
-                    // No use => doppred
+                    // No use => dropped
                     if usage.ref_count == 0 {
                         if init.may_have_side_effects() {
                             // TODO: Inline partially
@@ -166,7 +166,7 @@ where
                                 && !usage.has_property_mutation))
                         && match &**init {
                             Expr::Lit(lit) => match lit {
-                                Lit::Str(_) => true,
+                                Lit::Str(s) => usage.ref_count == 1 || s.value.len() <= 3,
                                 Lit::Bool(_) | Lit::Null(_) | Lit::Num(_) | Lit::BigInt(_) => true,
                                 Lit::Regex(_) => self.options.unsafe_regexp,
                                 _ => false,

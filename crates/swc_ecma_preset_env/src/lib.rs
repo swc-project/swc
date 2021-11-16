@@ -105,15 +105,35 @@ where
     // ES2020
 
     let pass = add!(pass, ExportNamespaceFrom, es2020::export_namespace_from());
-    let pass = add!(pass, NullishCoalescing, es2020::nullish_coalescing());
+    let pass = add!(
+        pass,
+        NullishCoalescing,
+        es2020::nullish_coalescing(es2020::nullish_coalescing::Config {
+            no_document_all: loose
+        })
+    );
 
-    let pass = add!(pass, OptionalChaining, es2020::optional_chaining());
+    let pass = add!(
+        pass,
+        OptionalChaining,
+        es2020::optional_chaining(es2020::opt_chaining::Config {
+            no_document_all: loose,
+            pure_getter: loose
+        })
+    );
 
     // ES2019
     let pass = add!(pass, OptionalCatchBinding, es2019::optional_catch_binding());
 
     // ES2018
-    let pass = add!(pass, ObjectRestSpread, es2018::object_rest_spread());
+    let pass = add!(
+        pass,
+        ObjectRestSpread,
+        es2018::object_rest_spread(es2018::object_rest_spread::Config {
+            no_symbol: loose,
+            set_property: loose
+        })
+    );
 
     // ES2017
     let pass = add!(pass, AsyncToGenerator, es2017::async_to_generator());
@@ -123,7 +143,15 @@ where
 
     // ES2015
     let pass = add!(pass, BlockScopedFunctions, es2015::block_scoped_functions());
-    let pass = add!(pass, TemplateLiterals, es2015::template_literal(), true);
+    let pass = add!(
+        pass,
+        TemplateLiterals,
+        es2015::template_literal(es2015::template_literal::Config {
+            ignore_to_primitive: loose,
+            mutable_template: loose
+        }),
+        true
+    );
     let pass = add!(pass, Classes, es2015::classes(comments));
     let pass = add!(
         pass,
@@ -150,7 +178,7 @@ where
     let pass = add!(
         pass,
         ComputedProperties,
-        es2015::computed_properties(),
+        es2015::computed_properties(es2015::computed_props::Config { loose }),
         true
     );
     let pass = add!(

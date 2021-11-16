@@ -1,4 +1,4 @@
-var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, ref10, ref11, _obj, ref12;
+var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, ref10, ref11, ref12;
 o1 === null || o1 === void 0 ? void 0 : o1();
 o1 === null || o1 === void 0 ? void 0 : o1(1);
 o1 === null || o1 === void 0 ? void 0 : o1(...[
@@ -60,7 +60,7 @@ o2 === null || o2 === void 0 ? void 0 : o2["b"](1, ...[
     3
 ], 4).c;
 const v = o4 === null || o4 === void 0 ? void 0 : o4(incr);
-(ref12 = _obj = o5()) === null || ref12 === void 0 ? void 0 : ref12.call(_obj);
+(ref12 = o5()) === null || ref12 === void 0 ? void 0 : ref12();
 // GH#36031
 o2 === null || o2 === void 0 ? void 0 : o2.b().toString;
 o2 === null || o2 === void 0 ? void 0 : o2.b().toString;

@@ -4336,7 +4336,7 @@ test!(
     syntax(),
     |_| chain!(
         resolver(),
-        object_rest_spread(),
+        object_rest_spread(Default::default()),
         destructuring(destructuring::Config { loose: false }),
         common_js(Mark::fresh(Mark::root()), Default::default(), None),
     ),

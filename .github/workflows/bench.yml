@@ -46,8 +46,15 @@ jobs:
           restore-keys: |
             cargo-bench-${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
 
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: nightly-2021-09-30
+          override: true
+
       - name: Run benchmark
-        run: cargo bench --all --exclude swc_plugin | tee output.txt
+        run: cargo +nightly-2021-09-30 bench --all --exclude swc_plugin | tee output.txt
 
       - name: Download previous benchmark results
         run: mkdir raw-data && curl -o raw-data/benchmark-data.json https://raw.githubusercontent.com/swc-project/raw-data/gh-pages/benchmark-data.json
@@ -91,7 +98,7 @@ jobs:
           max-items-in-chart: 250
 
       - name: Deploy
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/main'
         uses: JamesIves/github-pages-deploy-action@4.1.0
         with:
           token: ${{ secrets.GH_TOKEN }}

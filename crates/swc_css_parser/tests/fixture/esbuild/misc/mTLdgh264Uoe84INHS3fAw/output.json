@@ -57,15 +57,7 @@
                       "value": "b",
                       "raw": "b"
                     },
-                    "args": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 0,
-                        "end": 0,
-                        "ctxt": 0
-                      },
-                      "tokens": []
-                    }
+                    "children": null
                   }
                 ]
               }
