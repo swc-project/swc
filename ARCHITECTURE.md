@@ -46,7 +46,7 @@ Parses javascript and typescript
 
 ### [`/crates/swc_ecma_transforms_base`](crates/swc_ecma_transforms_base)
 
-Theres are three core transforms named `resolver`, `hygiene`, `fixer`. Other transforms depends on them.
+There are three core transforms named `resolver`, `hygiene`, `fixer`. Other transforms depend on them.
 
 #### [`/crates/swc_ecma_transforms_base/src/resolver`](crates/swc_ecma_transforms_base/src/resolver)
 
@@ -70,11 +70,11 @@ let a#0 = 1;
 }
 ```
 
-where number after `#` denotes the hygiene id. If two identifiers have same symbol but different hygiene id, it's different.
+where the number after the hash (`#`) denotes the hygiene id. If two identifiers have the same symbol but different hygiene ids, they are considered different.
 
 #### [`/crates/swc_ecma_transforms_base/src/hygiene`](crates/swc_ecma_transforms_base/src/hygiene)
 
-Hygiene pass actually changes symbol of identifiers with same symbol but different hygiene id.
+The hygiene pass actually changes symbols of identifiers with the same symbol but different hygiene ids to different symbols.
 
 ```js
 let a#0 = 1;
@@ -106,7 +106,7 @@ let v = BinExpr {
 };
 ```
 
-(other passes generates AST like this)
+(other passes generate AST like this)
 
 is converted into
 
@@ -127,7 +127,7 @@ and printed as
 <!-- TODO: add correct references to files -->
 <!-- #### `/ecmascript/transforms/src/compat`
 
-Contains code related to converting new generation javascript codes for old browsers.
+Contains code related to converting new generation javascript code into code understood by old browsers.
 
 #### `/ecmascript/transforms/src/modules`
 
@@ -135,15 +135,15 @@ Contains code related to transforming es6 modules to other modules.
 
 #### `/ecmascript/transforms/src/optimization`
 
-Contains code related to making code faster on runtime. Currently only small set of optimization is implemented. -->
+Contains code related to making code faster on runtime. Currently only a small set of optimizations is implemented. -->
 
 ## Tests
 
 SWC uses the [official ecmascript conformance test suite called test262][test262] for testing.
 
-Parser tests ensures that parsed result of `test262/pass` is identical with `test262/pass-explicit`.
+Parser tests ensure that the parsed results of `test262/pass` are identical with `test262/pass-explicit`.
 
-Codegen tests ensures that generated code is equivalent to golden fixture files located at [tests/references](crates/swc_ecma_codegen/tests).
+Codegen tests ensure that the generated code is equivalent to the golden fixture files located at [tests/references](crates/swc_ecma_codegen/tests).
 
 [enum_kind]: https://rustdoc.swc.rs/enum_kind/derive.Kind.html
 [string_enum]: https://rustdoc.swc.rs/string_enum/derive.StringEnum.html
