@@ -4,7 +4,7 @@ use swc_common::{ast_node, Span};
 #[ast_node("StyleRule")]
 pub struct StyleRule {
     pub span: Span,
-    pub selectors: SelectorList,
+    pub selectors: Option<SelectorList>,
     pub block: Block,
 }
 

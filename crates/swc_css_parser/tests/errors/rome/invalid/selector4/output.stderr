@@ -1,3 +1,9 @@
+error: Expected "{"
+ --> $DIR/tests/errors/rome/invalid/selector4/input.css:1:1
+  |
+1 | .class[attr= {
+  | ^
+
 error: Invalid attribute matcher value
  --> $DIR/tests/errors/rome/invalid/selector4/input.css:1:14
   |

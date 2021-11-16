@@ -36,7 +36,7 @@ define!({
 
     pub struct StyleRule {
         pub span: Span,
-        pub selectors: SelectorList,
+        pub selectors: Option<SelectorList>,
         pub block: Block,
     }
 

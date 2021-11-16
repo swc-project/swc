@@ -55,7 +55,9 @@ where
 
     #[emitter]
     fn emit_style_rule(&mut self, n: &StyleRule) -> Result {
-        emit!(self, n.selectors);
+        if n.selectors.is_some() {
+            emit!(self, n.selectors);
+        }
         space!(self);
         emit!(self, n.block);
     }

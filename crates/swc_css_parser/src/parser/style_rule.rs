@@ -46,17 +46,22 @@ where
     pub(crate) fn parse_qualified_rule(&mut self) -> PResult<Rule> {
         let start_pos = self.input.cur_span()?.lo;
         let start_state = self.input.state();
-
-        let selectors = self.parse_selectors();
-        let selectors = match selectors {
-            Ok(v) => v,
+        let selectors = match self.parse_selectors() {
+            Ok(v) => Some(v),
             Err(err) => {
                 self.input.skip_ws()?;
-                if is!(self, "}") {
+
+                if is!(self, "{") {
+                    self.errors.push(err);
+                    self.input.reset(&start_state);
+
+                    None
+                } else if is!(self, "}") {
                     self.errors.push(err);
                     self.input.reset(&start_state);
 
                     let mut tokens = vec![];
+
                     while !is_one_of!(self, EOF, "}") {
                         tokens.extend(self.input.bump()?);
                     }
