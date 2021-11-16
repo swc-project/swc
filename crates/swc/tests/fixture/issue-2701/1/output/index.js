@@ -28,8 +28,32 @@ function _asyncToGenerator(fn) {
     };
 }
 const x = {
-    // i am some comment
+    // i am some comment1
     hello () {
+        return _asyncToGenerator(function*() {
+            console.log("Hello");
+        })();
+    },
+    // i am some comment2
+    "hello" () {
+        return _asyncToGenerator(function*() {
+            console.log("Hello");
+        })();
+    },
+    // i am some comment3
+    1 () {
+        return _asyncToGenerator(function*() {
+            console.log("Hello");
+        })();
+    },
+    // i am some comment4
+    [Date.now()] () {
+        return _asyncToGenerator(function*() {
+            console.log("Hello");
+        })();
+    },
+    // i am some comment5
+    1n () {
         return _asyncToGenerator(function*() {
             console.log("Hello");
         })();
