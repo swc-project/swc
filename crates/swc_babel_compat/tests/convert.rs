@@ -9,7 +9,7 @@ use std::{
     path::{Path, PathBuf},
     sync::Arc,
 };
-use swc::Compiler;
+use swc::{config::IsModule, Compiler};
 use swc_babel_ast::File;
 use swc_babel_compat::babelify::{normalize::normalize, Babelify, Context};
 use swc_common::{
@@ -136,7 +136,7 @@ fn run_test(src: String, expected: String, syntax: Syntax, is_module: bool) {
             &handler,
             Default::default(), // EsVersion (ES version)
             syntax,
-            is_module,
+            IsModule::Bool(is_module),
             true, // parse_conmments
         )
         .unwrap();

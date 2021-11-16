@@ -76,8 +76,8 @@ After cloning the project there are a few steps required to get the project runn
 2.  Install js dependencies.
 
     ```bash
-    yarn add browserslist
-    ( cd ecmascript/transforms; yarn install )
+    yarn
+    ( cd ecmascript/transforms; yarn )
     ```
 
 3.  Setup some environment variables which is required for tests.
@@ -85,13 +85,18 @@ After cloning the project there are a few steps required to get the project runn
     ```bash
     export RUST_BACKTRACE=full
     export PATH="$PATH:$PWD/ecmascript/transforms/node_modules/.bin"
+    export RUST_MIN_STACK=16777216
     ```
 
 4.  Install deno, if you are going to work on the bundler.
 
     See [official install guide of deno](https://deno.land/manual/getting_started/installation) to install it.
 
-5.  Run tests
+5.  Ensure you're using Node.JS >= 16
+
+    Since tests make use of `atob` which was only introduced in node 16.
+
+6.  Run tests
 
     ```bash
     cargo test --all --all-features

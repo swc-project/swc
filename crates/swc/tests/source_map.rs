@@ -10,7 +10,7 @@ use std::{
     sync::Arc,
 };
 use swc::{
-    config::{Config, Options, SourceMapsConfig},
+    config::{Config, IsModule, Options, SourceMapsConfig},
     Compiler,
 };
 use testing::{assert_eq, NormalizedOutput, StdErr, Tester};
@@ -33,7 +33,7 @@ fn file(f: &str) -> Result<(), StdErr> {
                         ..Default::default()
                     },
                     swcrc: true,
-                    is_module: true,
+                    is_module: IsModule::Bool(true),
                     source_maps: Some(SourceMapsConfig::Bool(true)),
                     ..Default::default()
                 },
@@ -88,7 +88,7 @@ fn inline(f: &str) -> Result<(), StdErr> {
                         ..Default::default()
                     },
                     swcrc: true,
-                    is_module: true,
+                    is_module: IsModule::Bool(true),
                     source_maps: Some(SourceMapsConfig::Str(String::from("inline"))),
                     ..Default::default()
                 },
@@ -153,7 +153,7 @@ fn stacktrace(input_dir: PathBuf) {
                     &handler,
                     &Options {
                         swcrc: true,
-                        is_module: true,
+                        is_module: IsModule::Bool(true),
                         source_maps: Some(SourceMapsConfig::Str("inline".to_string())),
                         ..Default::default()
                     },

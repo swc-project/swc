@@ -9,7 +9,7 @@
 //!
 //! ## Dependency version management
 //!
-//! `swc` has [swc_ecmascript](https://docs.rs/swc_emcascript) and [swc_css](https://docs.rs/swc_css), which re-exports required modules.
+//! `swc` has [swc_ecmascript](https://docs.rs/swc_ecmascript) and [swc_css](https://docs.rs/swc_css), which re-exports required modules.
 //!
 //! ## Testing
 //!
@@ -120,7 +120,7 @@ use common::{
     collections::AHashMap,
     errors::{EmitterWriter, HANDLER},
 };
-use config::{util::BoolOrObject, JsMinifyCommentOption, JsMinifyOptions};
+use config::{util::BoolOrObject, IsModule, JsMinifyCommentOption, JsMinifyOptions};
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use serde::Serialize;
@@ -399,7 +399,7 @@ impl Compiler {
         handler: &Handler,
         target: EsVersion,
         syntax: Syntax,
-        is_module: bool,
+        is_module: IsModule,
         parse_comments: bool,
     ) -> Result<Program, Error> {
         self.run(|| {
@@ -415,33 +415,22 @@ impl Compiler {
             );
             let mut parser = Parser::new_from(lexer);
             let mut error = false;
-            let program = if is_module {
-                let m = parser.parse_module();
 
-                for e in parser.take_errors() {
-                    e.into_diagnostic(handler).emit();
-                    error = true;
-                }
-
-                m.map_err(|e| {
-                    e.into_diagnostic(handler).emit();
-                    Error::msg("Syntax Error")
-                })
-                .map(Program::Module)?
-            } else {
-                let s = parser.parse_script();
-
-                for e in parser.take_errors() {
-                    e.into_diagnostic(handler).emit();
-                    error = true;
-                }
-
-                s.map_err(|e| {
-                    e.into_diagnostic(handler).emit();
-                    Error::msg("Syntax Error")
-                })
-                .map(Program::Script)?
+            let program_result = match is_module {
+                IsModule::Bool(true) => parser.parse_module().map(Program::Module),
+                IsModule::Bool(false) => parser.parse_script().map(Program::Script),
+                IsModule::Unknown => parser.parse_program(),
             };
+
+            for e in parser.take_errors() {
+                e.into_diagnostic(handler).emit();
+                error = true;
+            }
+
+            let program = program_result.map_err(|e| {
+                e.into_diagnostic(handler).emit();
+                Error::msg("Syntax Error")
+            })?;
 
             if error {
                 return Err(anyhow::anyhow!("Syntax Error").context(
@@ -982,7 +971,7 @@ impl Compiler {
 
                         ..Default::default()
                     }),
-                    true,
+                    IsModule::Bool(true),
                     true,
                 )
                 .context("failed to parse input file")?
