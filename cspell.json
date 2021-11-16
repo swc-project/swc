@@ -32,7 +32,6 @@
         "corejs",
         "ctxt",
         "ctxts",
-        "Cutomizing",
         "dedup",
         "dejavu",
         "delim",
@@ -126,7 +125,5 @@
         "unimpl",
         "untrusted"
     ],
-    "flagWords": [
-        "actally"
-    ]
+    "flagWords": ["actally"]
 }
