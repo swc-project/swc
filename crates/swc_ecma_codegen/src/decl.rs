@@ -54,10 +54,7 @@ where
             space!();
         }
 
-        println!("run emit_fn_decl");
-
         if node.function.is_async {
-            println!("run async emit_fn_decl");
             keyword!("async");
             space!();
         }

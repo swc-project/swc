@@ -32,7 +32,6 @@ use swc_ecma_visit::{
 /// });
 /// ```
 pub fn async_to_generator() -> impl Fold + VisitMut {
-    println!("run async_to_generator");
     as_folder(AsyncToGenerator)
 }
 
@@ -64,7 +63,6 @@ impl AsyncToGenerator {
         T: StmtLike + VisitMutWith<Actual>,
         Vec<T>: VisitMutWith<Self>,
     {
-        println!("run visit_mut_stmt_like");
         stmts.visit_mut_children_with(self);
 
         let mut stmts_updated = Vec::with_capacity(stmts.len());
@@ -75,9 +73,7 @@ impl AsyncToGenerator {
                 in_prototype_assignment: false,
                 extra_stmts: vec![],
             };
-            println!("before visit_mut_with: {:?}", stmt.as_stmt());
             stmt.visit_mut_with(&mut actual);
-            println!("after visit_mut_with: {:?}", stmt.as_stmt());
             stmts_updated.push(stmt);
             stmts_updated.extend(actual.extra_stmts.into_iter().map(T::from_stmt));
         }
@@ -388,9 +384,7 @@ impl VisitMut for Actual {
     }
 
     fn visit_mut_method_prop(&mut self, prop: &mut MethodProp) {
-        println!("visit_mut_method_prop before: {:?}", &prop);
         prop.visit_mut_children_with(self);
-        println!("visit_mut_method_prop after: {:?}", &prop);
 
         if !prop.function.is_async {
             return;
@@ -425,8 +419,6 @@ impl VisitMut for Actual {
                 type_args: Default::default(),
             })
         };
-
-        println!("\nprop span: {:?}\n", prop);
 
         let func_span_lo = {
             let key_span_lo = match &prop.key {
