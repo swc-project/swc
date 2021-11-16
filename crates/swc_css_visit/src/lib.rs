@@ -233,11 +233,37 @@ define!({
         pub modifier: Option<char>,
     }
 
+    pub enum PseudoSelectorChildren {
+        Nth(Nth),
+
+        Tokens(Tokens),
+    }
+
+    pub struct Nth {
+        pub span: Span,
+        pub nth: NthValue,
+        pub selector_list: Option<SelectorList>,
+    }
+
+    pub enum NthValue {
+        AnPlusB(AnPlusB),
+
+        Ident(Ident),
+    }
+
+    pub struct AnPlusB {
+        pub span: Span,
+        pub a: Option<i32>,
+        pub a_raw: Option<JsWord>,
+        pub b: Option<i32>,
+        pub b_raw: Option<JsWord>,
+    }
+
     pub struct PseudoSelector {
         pub span: Span,
         pub is_element: bool,
         pub name: Ident,
-        pub args: Tokens,
+        pub children: Option<PseudoSelectorChildren>,
     }
 
     pub struct IdSelector {

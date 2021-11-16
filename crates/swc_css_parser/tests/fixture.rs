@@ -16,30 +16,32 @@ impl Visit for AssertValid {
     fn visit_pseudo_selector(&mut self, s: &PseudoSelector, _: &dyn Node) {
         s.visit_children_with(self);
 
-        if s.args.tokens.is_empty() {
-            return;
-        }
+        if let Some(PseudoSelectorChildren::Tokens(args)) = &s.children {
+            if args.tokens.is_empty() {
+                return;
+            }
 
-        match &s.args.tokens[0].token {
-            Token::Colon | Token::Num { .. } => return,
-            _ => {}
-        }
+            match &args.tokens[0].token {
+                Token::Colon | Token::Num { .. } => return,
+                _ => {}
+            }
 
-        let mut errors = vec![];
+            let mut errors = vec![];
 
-        let _selectors: SelectorList = parse_tokens(
-            &s.args,
-            ParserConfig {
-                parse_values: true,
+            let _selectors: SelectorList = parse_tokens(
+                &args,
+                ParserConfig {
+                    parse_values: true,
 
-                ..Default::default()
-            },
-            &mut errors,
-        )
-        .unwrap_or_else(|err| panic!("failed to parse tokens: {:?}\n{:?}", err, s.args));
+                    ..Default::default()
+                },
+                &mut errors,
+            )
+            .unwrap_or_else(|err| panic!("failed to parse tokens: {:?}\n{:?}", err, s.children));
 
-        for err in errors {
-            panic!("{:?}", err);
+            for err in errors {
+                panic!("{:?}", err);
+            }
         }
     }
 }
@@ -336,6 +338,8 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(Num, visit_num);
     mtd!(PercentValue, visit_percent_value);
     mtd!(Declaration, visit_declaration);
+    mtd!(Nth, visit_nth);
+    mtd!(AnPlusB, visit_an_plus_b);
     mtd!(PseudoSelector, visit_pseudo_selector);
     mtd!(Rule, visit_rule);
     mtd!(Str, visit_str);

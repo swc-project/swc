@@ -1089,28 +1089,26 @@
                       "value": "nth-last-of-type",
                       "raw": "nth-last-of-type"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 280,
                         "end": 281,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 280,
-                            "end": 281,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 2.0,
-                              "raw": "2"
-                            }
-                          }
-                        }
-                      ]
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 280,
+                          "end": 281,
+                          "ctxt": 0
+                        },
+                        "a": null,
+                        "aRaw": null,
+                        "b": 2,
+                        "bRaw": "2"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -1180,7 +1178,7 @@
                       "value": "lang",
                       "raw": "lang"
                     },
-                    "args": {
+                    "children": {
                       "type": "Tokens",
                       "span": {
                         "start": 294,
@@ -1304,7 +1302,7 @@
                       "value": "pseudo-elem",
                       "raw": "pseudo-elem"
                     },
-                    "args": {
+                    "children": {
                       "type": "Tokens",
                       "span": {
                         "start": 321,
@@ -1381,7 +1379,7 @@
                       "value": "pseudo-elem",
                       "raw": "pseudo-elem"
                     },
-                    "args": {
+                    "children": {
                       "type": "Tokens",
                       "span": {
                         "start": 342,

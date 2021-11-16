@@ -1,0 +1,86 @@
+:nth-child(2n+1) {}
+:nth-child(2n +1) {}
+:nth-child(2n + 1) {}
+:nth-child(2n+ 1) {}
+:nth-child(2n-1) {}
+:nth-child(2n -1) {}
+:nth-child(2n- 1) {}
+:nth-child(2n - 1) {}
+:nth-child(-2n+1) {}
+:nth-child(-2n +1) {}
+:nth-child(-2n + 1) {}
+:nth-child(-2n+ 1) {}
+:nth-child(-2n-1) {}
+:nth-child(-2n -1) {}
+:nth-child(-2n - 1) {}
+:nth-child(+2n+1) {}
+:nth-child(+2n +1) {}
+:nth-child(+2n + 1) {}
+:nth-child(+2n+ 1) {}
+:nth-child(+2n-1) {}
+:nth-child(+2n -1) {}
+:nth-child(+2n- 1) {}
+:nth-child(+2n - 1) {}
+:nth-child(n+1) {}
+:nth-child(n +1) {}
+:nth-child(n + 1) {}
+:nth-child(n+ 1) {}
+:nth-child(n-1) {}
+:nth-child(n -1) {}
+:nth-child(n- 1) {}
+:nth-child(n - 1) {}
+:nth-child(-n+1) {}
+:nth-child(-n +1) {}
+:nth-child(-n + 1) {}
+:nth-child(-n+ 1) {}
+:nth-child(-n-1) {}
+:nth-child(-n -1) {}
+:nth-child(-n- 1) {}
+:nth-child(-n - 1) {}
+:nth-child(+n+1) {}
+:nth-child(+n +1) {}
+:nth-child(+n + 1) {}
+:nth-child(+n+ 1) {}
+:nth-child(+n-1) {}
+:nth-child(+n -1) {}
+:nth-child(+n- 1) {}
+:nth-child(+n - 1) {}
+:nth-child(n) {}
+:nth-child(-n) {}
+:nth-child(+n) {}
+:nth-child(2n) {}
+:nth-child(-2n) {}
+:nth-child(+2n) {}
+:nth-child(N) {}
+:nth-child(-N) {}
+:nth-child(+N) {}
+:nth-child(2N) {}
+:nth-child(-2N) {}
+:nth-child(+2N) {}
+:nth-child(1) {}
+:nth-child(-1) {}
+:nth-child(+1) {}
+:nth-child(123456n-12345678) {}
+
+:Nth-Child(2n+1) {}
+:NTH-CHILD(2n+1) {}
+
+:nth-child(odd) {}
+:nth-child(ODD) {}
+:nth-child(oDd) {}
+:nth-child(even) {}
+:nth-child(eVeN) {}
+:nth-child(EVEN) {}
+
+:nth-child(/*test*/2n/*test*/+/*test*/1/*test*/) {}
+:nth-last-child(/*test*/+3n/*test*/-/*test*/2/*test*/) {}
+
+:nth-child(  2n  +  1  ) {}
+:nth-last-child(  +3n  -  2  ) {}
+
+:nth-child(-2n+1) {}
+:nth-last-child(2n+1) {}
+:nth-of-type(2n+1) {}
+:nth-last-of-type(2n+1) {}
+
+/*:nth-child(2n+1 of li,.test) {}*/
