@@ -28,7 +28,7 @@ function _asyncToGenerator(fn) {
     };
 }
 const x = {
-     // i am some comment
+    // i am some comment
     hello () {
         return _asyncToGenerator(function*() {
             console.log("Hello");
