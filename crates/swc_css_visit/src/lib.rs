@@ -261,17 +261,16 @@ define!({
         pub b_raw: Option<JsWord>,
     }
 
-    pub struct PseudoSelector {
     pub struct PseudoClassSelector {
         pub span: Span,
         pub name: Ident,
-        pub args: Tokens,
+        pub children: Option<PseudoSelectorChildren>,
     }
 
     pub struct PseudoElementSelector {
         pub span: Span,
         pub name: Ident,
-        pub children: Option<PseudoSelectorChildren>,
+        pub children: Option<Tokens>,
     }
 
     pub struct IdSelector {

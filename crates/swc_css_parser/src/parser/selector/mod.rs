@@ -681,7 +681,6 @@ where
         Ok(nth)
     }
 
-    fn parse_pseudo_class_selector(&mut self) -> PResult<PseudoSelector> {
     fn parse_pseudo_class_selector(&mut self) -> PResult<PseudoClassSelector> {
         let span = self.input.cur_span()?;
 
@@ -751,14 +750,51 @@ where
         let span = self.input.cur_span()?;
 
         expect!(self, ":"); // `:`
+        expect!(self, ":"); // `:`
 
-        let pseudo_class = self.parse_pseudo_class_selector()?;
+        if is!(self, Function) {
+            let fn_span = self.input.cur_span()?;
+            let name = bump!(self);
+            let names = match name {
+                Token::Function { value, raw } => (value, raw),
+                _ => unreachable!(),
+            };
 
-        return Ok(PseudoElementSelector {
-            span: span!(self, span.lo),
-            name: pseudo_class.name,
-            args: pseudo_class.args,
-        });
+            let children = self.parse_any_value(false)?;
+
+            expect!(self, ")");
+
+            return Ok(PseudoElementSelector {
+                span: span!(self, span.lo),
+                name: Ident {
+                    span: Span::new(fn_span.lo, fn_span.hi - BytePos(1), Default::default()),
+                    value: names.0,
+                    raw: names.1,
+                },
+                children: Some(children),
+            });
+        } else if is!(self, Ident) {
+            let ident_span = self.input.cur_span()?;
+            let value = bump!(self);
+            let values = match value {
+                Token::Ident { value, raw } => (value, raw),
+                _ => unreachable!(),
+            };
+
+            return Ok(PseudoElementSelector {
+                span: span!(self, span.lo),
+                name: Ident {
+                    span: ident_span,
+                    value: values.0,
+                    raw: values.1,
+                },
+                children: None,
+            });
+        }
+
+        let span = self.input.cur_span()?;
+
+        return Err(Error::new(span, ErrorKind::InvalidSelector));
     }
 
     fn parse_compound_selector(&mut self) -> PResult<CompoundSelector> {

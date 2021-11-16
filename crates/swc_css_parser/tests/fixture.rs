@@ -340,7 +340,6 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(Declaration, visit_declaration);
     mtd!(Nth, visit_nth);
     mtd!(AnPlusB, visit_an_plus_b);
-    mtd!(PseudoSelector, visit_pseudo_selector);
     mtd!(PseudoClassSelector, visit_pseudo_class_selector);
     mtd!(PseudoElementSelector, visit_pseudo_element_selector);
     mtd!(Rule, visit_rule);

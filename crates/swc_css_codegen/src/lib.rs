@@ -827,19 +827,14 @@ where
     }
 
     #[emitter]
-    fn emit_pseudo_selector(&mut self, n: &PseudoSelector) -> Result {
-        punct!(self, ":");
-
-        if n.is_element {
-            punct!(self, ":");
     fn emit_pseudo_class_selector(&mut self, n: &PseudoClassSelector) -> Result {
         punct!(self, ":");
 
         emit!(self, n.name);
 
-        if !n.args.tokens.is_empty() {
+        if n.children.is_some() {
             punct!(self, "(");
-            emit!(self, n.args);
+            emit!(self, n.children);
             punct!(self, ")");
         }
     }

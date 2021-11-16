@@ -170,20 +170,18 @@ pub enum NthValue {
     Ident(Ident),
 }
 
-#[ast_node("PseudoSelector")]
-pub struct PseudoSelector {
 #[ast_node("PseudoClassSelector")]
 pub struct PseudoClassSelector {
     pub span: Span,
     pub name: Ident,
-    pub args: Tokens,
+    pub children: Option<PseudoSelectorChildren>,
 }
 
 #[ast_node("PseudoElementSelector")]
 pub struct PseudoElementSelector {
     pub span: Span,
     pub name: Ident,
-    pub children: Option<PseudoSelectorChildren>,
+    pub children: Option<Tokens>,
 }
 
 #[ast_node("IdSelector")]
