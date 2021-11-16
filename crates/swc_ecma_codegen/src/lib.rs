@@ -1613,6 +1613,7 @@ where
     #[emitter]
     fn emit_kv_prop(&mut self, node: &KeyValueProp) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
+
         emit!(node.key);
         punct!(":");
         formatting_space!();

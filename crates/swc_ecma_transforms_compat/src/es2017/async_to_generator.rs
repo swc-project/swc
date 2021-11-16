@@ -73,6 +73,7 @@ impl AsyncToGenerator {
                 in_prototype_assignment: false,
                 extra_stmts: vec![],
             };
+
             stmt.visit_mut_with(&mut actual);
             stmts_updated.push(stmt);
             stmts_updated.extend(actual.extra_stmts.into_iter().map(T::from_stmt));

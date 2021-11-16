@@ -554,7 +554,6 @@ impl Compiler {
                 // Invalid utf8 is valid in javascript world.
                 String::from_utf8(buf).expect("invalid utf8 character detected")
             };
-
             let (code, map) = match source_map {
                 SourceMapsConfig::Bool(v) => {
                     if v {
