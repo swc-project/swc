@@ -484,6 +484,10 @@ impl Compiler {
             });
 
             let span = node.span();
+            println!("span: {:?}", span);
+
+            println!("leading: {:?}", self.comments.leading);
+            println!("trailing: {:?}", self.comments.trailing);
 
             match preserve_comments {
                 BoolOrObject::Bool(true)
@@ -519,6 +523,7 @@ impl Compiler {
                     self.comments.trailing.retain(remove_all_in_range);
                 }
             }
+            println!("leading after: {:?}", self.comments.leading);
 
             let mut src_map_buf = vec![];
 
@@ -548,12 +553,17 @@ impl Compiler {
                         wr,
                     };
 
+                    println!("emitter comment: {:?}", self.comments.leading);
+
                     node.emit_with(&mut emitter)
                         .context("failed to emit module")?;
                 }
                 // Invalid utf8 is valid in javascript world.
                 String::from_utf8(buf).expect("invalid utf8 character detected")
             };
+
+            println!("src: {}", src);
+
             let (code, map) = match source_map {
                 SourceMapsConfig::Bool(v) => {
                     if v {
@@ -1075,6 +1085,8 @@ impl Compiler {
                     program.fold_with(&mut pass)
                 })
             });
+
+            println!("before self.print program: {:?}", program);
 
             self.print(
                 &program,

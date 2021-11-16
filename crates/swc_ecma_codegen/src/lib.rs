@@ -1315,6 +1315,8 @@ where
     fn emit_fn_expr(&mut self, n: &FnExpr) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
+        println!("run emit_fn_expr: {:?}, {:?}", n.function.span.lo, n.span());
+
         if n.function.is_async {
             keyword!("async");
             space!();
@@ -1600,6 +1602,7 @@ where
 
     #[emitter]
     fn emit_prop(&mut self, node: &Prop) -> Result {
+        println!("run emit_prop{:?}", node);
         match *node {
             Prop::Shorthand(ref n) => emit!(n),
             Prop::KeyValue(ref n) => emit!(n),
@@ -1613,7 +1616,11 @@ where
     #[emitter]
     fn emit_kv_prop(&mut self, node: &KeyValueProp) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
-
+        println!(
+            "run kv_prop, node.span: {:?}, key: {:?}",
+            node.span(),
+            node.key
+        );
         emit!(node.key);
         punct!(":");
         formatting_space!();
@@ -1682,6 +1689,7 @@ where
     #[emitter]
     fn emit_method_prop(&mut self, node: &MethodProp) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
+        println!("run emit_method_prop");
 
         if node.function.is_async {
             keyword!("async");
@@ -1742,6 +1750,7 @@ where
     fn emit_ident(&mut self, ident: &Ident) -> Result {
         // TODO: Use write_symbol when ident is a symbol.
         self.emit_leading_comments_of_span(ident.span, false)?;
+        println!("run emit_ident: {:?}", ident.span);
 
         // TODO: span
         self.wr
@@ -1895,7 +1904,11 @@ where
                     }
                 }
 
+                println!("before run child.emit_with");
+
                 child.emit_with(self)?;
+
+                println!("after run child.emit_with");
 
                 // Emit this child.
                 if should_emit_intervening_comments {
@@ -2356,6 +2369,8 @@ where
     fn emit_return_stmt(&mut self, n: &ReturnStmt) -> Result {
         self.emit_leading_comments_of_span(n.span, false)?;
 
+        println!("run emit_return: {:?}", n.span());
+
         {
             let span = if n.span.is_dummy() {
                 DUMMY_SP
@@ -2371,6 +2386,7 @@ where
                     .as_deref()
                     .map(|expr| self.has_leading_comment(expr))
                     .unwrap_or(false);
+            println!("run need_paren in emit_return");
             if need_paren {
                 punct!("(");
             } else {

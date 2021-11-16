@@ -64,6 +64,12 @@ where
             None => return Ok(()),
         };
 
+        println!(
+            "run emit_leading_comments: pos: {:?}, comment.leading: {:?}",
+            pos,
+            comments.get_leading(pos)
+        );
+
         if is_hi {
             pos = pos - BytePos(1)
         }
