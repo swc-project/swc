@@ -9,7 +9,7 @@
 //!
 //! ## Dependency version management
 //!
-//! `swc` has [swc_ecmascript](https://docs.rs/swc_emcascript) and [swc_css](https://docs.rs/swc_css), which re-exports required modules.
+//! `swc` has [swc_ecmascript](https://docs.rs/swc_ecmascript) and [swc_css](https://docs.rs/swc_css), which re-exports required modules.
 //!
 //! ## Testing
 //!
