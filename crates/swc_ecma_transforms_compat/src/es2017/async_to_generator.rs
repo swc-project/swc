@@ -451,7 +451,6 @@ impl VisitMut for Actual {
         prop.function = Function {
             params: original_fn_params,
             span: func_span,
-            span: prop_method_span,
             is_async: false,
             is_generator: false,
             body: Some(BlockStmt {
