@@ -7,7 +7,8 @@ use std::{
 };
 use swc::{
     config::{
-        BuiltInput, Config, JscConfig, ModuleConfig, Options, SourceMapsConfig, TransformConfig,
+        BuiltInput, Config, IsModule, JscConfig, ModuleConfig, Options, SourceMapsConfig,
+        TransformConfig,
     },
     Compiler, TransformOutput,
 };
@@ -44,7 +45,7 @@ fn file_with_opt(filename: &str, options: Options) -> Result<NormalizedOutput, S
             fm,
             &handler,
             &Options {
-                is_module: true,
+                is_module: IsModule::Bool(true),
                 ..options
             },
         );
@@ -79,7 +80,7 @@ fn compile_str(
             fm,
             &handler,
             &Options {
-                is_module: true,
+                is_module: IsModule::Bool(true),
                 ..options
             },
         );
@@ -121,7 +122,7 @@ fn project(dir: &str) {
                 if c.read_config(
                     &Options {
                         swcrc: true,
-                        is_module: true,
+                        is_module: IsModule::Bool(true),
 
                         ..Default::default()
                     },
@@ -138,7 +139,7 @@ fn project(dir: &str) {
                     &handler,
                     &Options {
                         swcrc: true,
-                        is_module: true,
+                        is_module: IsModule::Bool(true),
 
                         ..Default::default()
                     },
@@ -189,7 +190,7 @@ fn par_project(dir: &str) {
                     &handler,
                     &Options {
                         swcrc: true,
-                        is_module: true,
+                        is_module: IsModule::Bool(true),
                         source_maps: Some(SourceMapsConfig::Bool(true)),
                         ..Default::default()
                     },
@@ -540,7 +541,7 @@ fn issue_879() {
     let f = file_with_opt(
         "tests/projects/issue-879/input.ts",
         Options {
-            is_module: true,
+            is_module: IsModule::Bool(true),
             config: Config {
                 env: Some(Default::default()),
                 module: Some(ModuleConfig::CommonJs(Default::default())),
@@ -614,7 +615,7 @@ fn issue_1549() {
     let output = str_with_opt(
         "const a = `\r\n`;",
         Options {
-            is_module: true,
+            is_module: IsModule::Bool(true),
             config: Config {
                 jsc: JscConfig {
                     target: Some(EsVersion::Es5),
@@ -636,7 +637,7 @@ fn deno_10282_1() {
     let output = str_with_opt(
         "const a = `\r\n`;",
         Options {
-            is_module: true,
+            is_module: IsModule::Bool(true),
             config: Config {
                 jsc: JscConfig {
                     target: Some(EsVersion::Es3),
@@ -658,7 +659,7 @@ fn deno_10282_2() {
     let output = str_with_opt(
         "const a = `\r\n`;",
         Options {
-            is_module: true,
+            is_module: IsModule::Bool(true),
             config: Config {
                 jsc: JscConfig {
                     target: Some(EsVersion::Es2020),
@@ -711,7 +712,7 @@ fn should_visit() {
                     None,
                     &handler,
                     &swc::config::Options {
-                        is_module: true,
+                        is_module: IsModule::Bool(true),
                         config: swc::config::Config {
                             jsc: JscConfig {
                                 syntax: Some(Syntax::Es(EsConfig {
@@ -818,7 +819,7 @@ fn tests(input_dir: PathBuf) {
                     &handler,
                     &Options {
                         swcrc: true,
-                        is_module: true,
+                        is_module: IsModule::Bool(true),
                         output_path: Some(output.join(entry.file_name())),
 
                         ..Default::default()

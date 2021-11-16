@@ -3,7 +3,7 @@ use anyhow::{bail, Context, Error};
 use helpers::Helpers;
 use std::{collections::HashMap, env, sync::Arc};
 use swc::{
-    config::{GlobalInliningPassEnvs, InputSourceMap, JscConfig, TransformConfig},
+    config::{GlobalInliningPassEnvs, InputSourceMap, IsModule, JscConfig, TransformConfig},
     try_with_handler,
 };
 use swc_atoms::JsWord;
@@ -159,7 +159,7 @@ impl SwcLoader {
                 &handler,
                 EsVersion::Es2020,
                 Default::default(),
-                true,
+                IsModule::Bool(true),
                 true,
             )?;
             let program = helpers::HELPERS.set(&helpers, || {
@@ -230,7 +230,7 @@ impl SwcLoader {
                     source_maps: None,
                     source_file_name: None,
                     source_root: None,
-                    is_module: true,
+                    is_module: IsModule::Bool(true),
                     output_path: None,
                     ..Default::default()
                 },
@@ -269,7 +269,7 @@ impl SwcLoader {
                         handler,
                         EsVersion::Es2020,
                         config.as_ref().map(|v| v.syntax).unwrap_or_default(),
-                        true,
+                        IsModule::Bool(true),
                         true,
                     )
                     .context("tried to parse as ecmascript as it's excluded by .swcrc")?

@@ -380,7 +380,7 @@ export interface Options extends Config {
 
   plugin?: Plugin;
 
-  isModule?: boolean;
+  isModule?: boolean | 'unknown';
 
   /**
    * Destination path. Note that this value is used only to fix source path
