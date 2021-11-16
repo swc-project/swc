@@ -548,7 +548,6 @@ impl Compiler {
                         wr,
                     };
 
-
                     node.emit_with(&mut emitter)
                         .context("failed to emit module")?;
                 }
