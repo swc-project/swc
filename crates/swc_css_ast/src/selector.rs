@@ -1,6 +1,7 @@
 use crate::{Ident, Str, Tokens};
 use is_macro::Is;
 use string_enum::StringEnum;
+use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 #[ast_node("SelectorList")]
@@ -130,12 +131,48 @@ pub struct AttrSelector {
     pub modifier: Option<char>,
 }
 
+#[ast_node]
+#[derive(Is)]
+pub enum PseudoSelectorChildren {
+    #[tag("Nth")]
+    Nth(Nth),
+
+    #[tag("Tokens")]
+    Tokens(Tokens),
+}
+
+#[ast_node("Nth")]
+pub struct Nth {
+    pub span: Span,
+    pub nth: NthValue,
+    pub selector_list: Option<SelectorList>,
+}
+
+#[ast_node("AnPlusB")]
+pub struct AnPlusB {
+    pub span: Span,
+    pub a: Option<i32>,
+    pub a_raw: Option<JsWord>,
+    pub b: Option<i32>,
+    pub b_raw: Option<JsWord>,
+}
+
+#[ast_node]
+#[derive(Is)]
+pub enum NthValue {
+    #[tag("AnPlusB")]
+    AnPlusB(AnPlusB),
+
+    #[tag("Ident")]
+    Ident(Ident),
+}
+
 #[ast_node("PseudoSelector")]
 pub struct PseudoSelector {
     pub span: Span,
     pub is_element: bool,
     pub name: Ident,
-    pub args: Tokens,
+    pub children: Option<PseudoSelectorChildren>,
 }
 
 #[ast_node("IdSelector")]

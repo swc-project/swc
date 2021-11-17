@@ -64,8 +64,6 @@ error: Ident
 1 | div::before::after::selection::first-line::first-letter {color:red}
   |      ^^^^^^
 
-error: Tokens
-
 error: SubclassSelector
  --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:12
   |

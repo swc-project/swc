@@ -74,8 +74,6 @@ error: Ident
 1 | p::before {
   |    ^^^^^^
 
-error: Tokens
-
 error: Block
  --> $DIR/tests/fixture/rome/values/input.css:1:11
   |
