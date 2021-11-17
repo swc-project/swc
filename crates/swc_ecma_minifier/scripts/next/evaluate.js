@@ -1,15 +1,21 @@
 const readline = require('readline');
+const fs = require('fs').promises;
+const path = require('path');
+
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
     terminal: false
 });
 
-rl.on('line', function (data) {
+rl.on('line', async (data) => {
     try {
-        const obj = eval(`(${data})`)
+        const { name, source } = eval(`(${data})`)
+        const targetPath = path.join(__dirname, '..', '..', 'tests', 'compress', 'fixture', 'issues', 'next', name);
 
-        console.log(obj)
+        await fs.mkdir(path.dirname(targetPath), { recursive: true });
+
+        await fs.writeFile(targetPath, source, 'utf8');
     } catch (e) {
         console.log(`Code: (${data})`)
         console.error(e);
