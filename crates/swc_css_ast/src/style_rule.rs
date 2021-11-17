@@ -1,10 +1,10 @@
 use crate::{Ident, SelectorList, Tokens, Value};
 use swc_common::{ast_node, Span};
 
-#[ast_node("StyleRule")]
-pub struct StyleRule {
+#[ast_node("QualifiedRule")]
+pub struct QualifiedRule {
     pub span: Span,
-    pub selectors: SelectorList,
+    pub prelude: SelectorList,
     pub block: Block,
 }
 

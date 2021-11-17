@@ -10,7 +10,7 @@ error: Rule
 1 | :pseudo\2c class {}
   | ^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/esbuild/misc/YUPpw78_zYmKpAkI2SzNsg/input.css:1:1
   |
 1 | :pseudo\2c class {}

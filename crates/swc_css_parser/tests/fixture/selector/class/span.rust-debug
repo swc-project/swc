@@ -16,7 +16,7 @@ error: Rule
 1 | .class {}
   | ^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/selector/class/input.css:1:1
   |
 1 | .class {}
@@ -70,7 +70,7 @@ error: Rule
 2 | .♥ {}
   | ^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/selector/class/input.css:2:1
   |
 2 | .♥ {}
@@ -124,7 +124,7 @@ error: Rule
 3 | .© {}
   | ^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/selector/class/input.css:3:1
   |
 3 | .© {}
@@ -178,7 +178,7 @@ error: Rule
 4 | .“‘’” {}
   | ^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/selector/class/input.css:4:1
   |
 4 | .“‘’” {}
@@ -232,7 +232,7 @@ error: Rule
 5 | .☺☃ {}
   | ^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/selector/class/input.css:5:1
   |
 5 | .☺☃ {}
@@ -286,7 +286,7 @@ error: Rule
 6 | .⌘⌥ {}
   | ^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/selector/class/input.css:6:1
   |
 6 | .⌘⌥ {}
@@ -340,7 +340,7 @@ error: Rule
 7 | .𝄞♪♩♫♬ {}
   | ^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/selector/class/input.css:7:1
   |
 7 | .𝄞♪♩♫♬ {}
@@ -394,7 +394,7 @@ error: Rule
 8 | .💩 {}
   | ^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/selector/class/input.css:8:1
   |
 8 | .💩 {}
@@ -448,7 +448,7 @@ error: Rule
 9 | .\? {}
   | ^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/selector/class/input.css:9:1
   |
 9 | .\? {}
@@ -502,7 +502,7 @@ error: Rule
 10 | .\@ {}
    | ^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/class/input.css:10:1
    |
 10 | .\@ {}
@@ -556,7 +556,7 @@ error: Rule
 11 | .\. {}
    | ^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/class/input.css:11:1
    |
 11 | .\. {}
@@ -610,7 +610,7 @@ error: Rule
 12 | .\3A \) {}
    | ^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/class/input.css:12:1
    |
 12 | .\3A \) {}
@@ -664,7 +664,7 @@ error: Rule
 13 | .\3A \`\( {}
    | ^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/class/input.css:13:1
    |
 13 | .\3A \`\( {}
@@ -718,7 +718,7 @@ error: Rule
 14 | .\31 23 {}
    | ^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/class/input.css:14:1
    |
 14 | .\31 23 {}
@@ -772,7 +772,7 @@ error: Rule
 15 | .\31 a2b3c {}
    | ^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/class/input.css:15:1
    |
 15 | .\31 a2b3c {}
@@ -826,7 +826,7 @@ error: Rule
 16 | .\<p\> {}
    | ^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/class/input.css:16:1
    |
 16 | .\<p\> {}
@@ -880,7 +880,7 @@ error: Rule
 17 | .\<\>\<\<\<\>\>\<\> {}
    | ^^^^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/class/input.css:17:1
    |
 17 | .\<\>\<\<\<\>\>\<\> {}
@@ -934,7 +934,7 @@ error: Rule
 18 | .\+\+\+\+\+\+\+\+\+\+\[\>\+\+\+\+\+\+\+\>\+\+\+\+\+\+\+\+\+\+\>\+\+\+\>\+\<\<\<\<\-\]\>\+\+\.\>\+\.\+\+\+\+\+\+\+\.\.\+\+\+\.\>\+\+\.\<\<\+\+\+\+\+\+\+\+\+\+\+\+\+\+\+\.\>\.\+\+\+\.\-\-\-\-\-\-\.\-\-\-\-\-\-\-\-\.\>\+\.\>\. {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/class/input.css:18:1
    |
 18 | .\+\+\+\+\+\+\+\+\+\+\[\>\+\+\+\+\+\+\+\>\+\+\+\+\+\+\+\+\+\+\>\+\+\+\>\+\<\<\<\<\-\]\>\+\+\.\>\+\.\+\+\+\+\+\+\+\.\.\+\+\+\.\>\+\+\.\<\<\+\+\+\+\+\+\+\+\+\+\+\+\+\+\+\.\>\.\+\+\+\.\-\-\-\-\-\-\.\-\-\-\-\-\-\-\-\.\>\+\.\>\. {}
@@ -988,7 +988,7 @@ error: Rule
 19 | .\# {}
    | ^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/class/input.css:19:1
    |
 19 | .\# {}
@@ -1042,7 +1042,7 @@ error: Rule
 20 | .\#\# {}
    | ^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/class/input.css:20:1
    |
 20 | .\#\# {}
@@ -1096,7 +1096,7 @@ error: Rule
 21 | .\#\.\#\.\# {}
    | ^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/class/input.css:21:1
    |
 21 | .\#\.\#\.\# {}
@@ -1150,7 +1150,7 @@ error: Rule
 22 | .\_ {}
    | ^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/class/input.css:22:1
    |
 22 | .\_ {}
@@ -1204,7 +1204,7 @@ error: Rule
 23 | .\{\} {}
    | ^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/class/input.css:23:1
    |
 23 | .\{\} {}
@@ -1258,7 +1258,7 @@ error: Rule
 24 | .\.fake\-class {}
    | ^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/class/input.css:24:1
    |
 24 | .\.fake\-class {}
@@ -1312,7 +1312,7 @@ error: Rule
 25 | .foo\.bar {}
    | ^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/class/input.css:25:1
    |
 25 | .foo\.bar {}
@@ -1366,7 +1366,7 @@ error: Rule
 26 | .\3A hover {}
    | ^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/class/input.css:26:1
    |
 26 | .\3A hover {}
@@ -1420,7 +1420,7 @@ error: Rule
 27 | .\3A hover\3A focus\3A active {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/class/input.css:27:1
    |
 27 | .\3A hover\3A focus\3A active {}
@@ -1474,7 +1474,7 @@ error: Rule
 28 | .\[attr\=value\] {}
    | ^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/class/input.css:28:1
    |
 28 | .\[attr\=value\] {}
@@ -1528,7 +1528,7 @@ error: Rule
 29 | .f\/o\/o {}
    | ^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/class/input.css:29:1
    |
 29 | .f\/o\/o {}
@@ -1582,7 +1582,7 @@ error: Rule
 30 | .f\\o\\o {}
    | ^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/class/input.css:30:1
    |
 30 | .f\\o\\o {}
@@ -1636,7 +1636,7 @@ error: Rule
 31 | .f\*o\*o {}
    | ^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/class/input.css:31:1
    |
 31 | .f\*o\*o {}
@@ -1690,7 +1690,7 @@ error: Rule
 32 | .f\!o\!o {}
    | ^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/class/input.css:32:1
    |
 32 | .f\!o\!o {}
@@ -1744,7 +1744,7 @@ error: Rule
 33 | .f\'o\'o {}
    | ^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/class/input.css:33:1
    |
 33 | .f\'o\'o {}
@@ -1798,7 +1798,7 @@ error: Rule
 34 | .f\~o\~o {}
    | ^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/class/input.css:34:1
    |
 34 | .f\~o\~o {}
@@ -1852,7 +1852,7 @@ error: Rule
 35 | .f\+o\+o {}
    | ^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/class/input.css:35:1
    |
 35 | .f\+o\+o {}
@@ -1906,7 +1906,7 @@ error: Rule
 36 | .-a-b-c- {}
    | ^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/class/input.css:36:1
    |
 36 | .-a-b-c- {}
@@ -1960,7 +1960,7 @@ error: Rule
 37 | .\#fake-id {}
    | ^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/class/input.css:37:1
    |
 37 | .\#fake-id {}

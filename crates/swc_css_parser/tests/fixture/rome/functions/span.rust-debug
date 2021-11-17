@@ -22,7 +22,7 @@ error: Rule
 8 | | }
   | |_^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/rome/functions/input.css:1:1
   |
 1 | / .style {

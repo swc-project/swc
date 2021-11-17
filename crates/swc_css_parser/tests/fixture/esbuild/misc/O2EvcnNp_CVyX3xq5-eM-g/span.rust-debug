@@ -12,7 +12,7 @@ error: Rule
 2 | | b' }
   | |____^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:1
   |
 1 | / a:after { content: 'a\

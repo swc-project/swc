@@ -10,7 +10,7 @@ error: Rule
 1 | #id {}
   | ^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/esbuild/misc/0qqdP6EmNqzSa3h8c8lYUQ/input.css:1:1
   |
 1 | #id {}

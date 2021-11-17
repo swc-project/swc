@@ -343,7 +343,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(PseudoSelector, visit_pseudo_selector);
     mtd!(Rule, visit_rule);
     mtd!(Str, visit_str);
-    mtd!(StyleRule, visit_style_rule);
+    mtd!(QualifiedRule, visit_qualified_rule);
     mtd!(Stylesheet, visit_stylesheet);
     mtd!(SelectorList, visit_selector_list);
     mtd!(SubclassSelector, visit_subclass_selector);

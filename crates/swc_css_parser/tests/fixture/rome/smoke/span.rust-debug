@@ -18,7 +18,7 @@ error: Rule
 5 | | }
   | |_^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/rome/smoke/input.css:2:1
   |
 2 | / body {

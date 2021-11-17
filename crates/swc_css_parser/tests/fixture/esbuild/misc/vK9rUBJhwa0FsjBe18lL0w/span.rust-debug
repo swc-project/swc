@@ -10,7 +10,7 @@ error: Rule
 1 | a { value: @k\65yword }
   | ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/esbuild/misc/vK9rUBJhwa0FsjBe18lL0w/input.css:1:1
   |
 1 | a { value: @k\65yword }

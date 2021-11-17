@@ -47,15 +47,15 @@ where
     #[emitter]
     fn emit_rule(&mut self, n: &Rule) -> Result {
         match n {
-            Rule::Style(n) => emit!(self, n),
+            Rule::QualifiedRule(n) => emit!(self, n),
             Rule::AtRule(n) => emit!(self, n),
             Rule::Invalid(n) => emit!(self, n),
         }
     }
 
     #[emitter]
-    fn emit_style_rule(&mut self, n: &StyleRule) -> Result {
-        emit!(self, n.selectors);
+    fn emit_qualified_rule(&mut self, n: &QualifiedRule) -> Result {
+        emit!(self, n.prelude);
         space!(self);
         emit!(self, n.block);
     }
