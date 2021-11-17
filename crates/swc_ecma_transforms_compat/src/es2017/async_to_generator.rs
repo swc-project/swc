@@ -1,5 +1,5 @@
 use std::{iter, mem::replace};
-use swc_common::{util::take::Take, Mark, Span, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, BytePos, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
@@ -429,9 +429,28 @@ impl VisitMut for Actual {
             })
         };
 
+        let func_span_lo = {
+            let key_span_lo = match &prop.key {
+                PropName::Ident(ident) => ident.span().lo(),
+                PropName::Str(str) => str.span().lo(),
+                PropName::Num(num) => num.span().lo(),
+                PropName::Computed(computed) => computed.span().lo(),
+                PropName::BigInt(bigint) => bigint.span().lo(),
+            };
+
+            // sub length of "async " from prop's key span
+            key_span_lo - BytePos(6)
+        };
+
+        let func_span = Span::new(
+            func_span_lo,
+            func_span_lo + BytePos(1), // dummy pos
+            SyntaxContext::empty(),
+        );
+
         prop.function = Function {
             params: original_fn_params,
-            span: prop_method_span,
+            span: func_span,
             is_async: false,
             is_generator: false,
             body: Some(BlockStmt {
