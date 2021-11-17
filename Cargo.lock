@@ -2901,7 +2901,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.52.3"
+version = "0.52.4"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -3652,7 +3652,7 @@ checksum = "fd6fbd9a79829dd1ad0cc20627bf1ed606756a7f77edff7b66b7064f9cb327c6"
 
 [[package]]
 name = "wasm"
-version = "1.2.108"
+version = "1.2.109"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
