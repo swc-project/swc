@@ -1,6 +1,18 @@
-const fs = require('fs');
-const data = fs.readFileSync(0, 'utf-8');
+const readline = require('readline');
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+    terminal: false
+});
 
-const obj = eval(`(${data})`)
+rl.on('line', function (data) {
+    try {
+        const obj = eval(`(${data})`)
 
-console.log(obj)
+        console.log(obj)
+    } catch (e) {
+        console.log(`Code: (${data})`)
+        console.error(e);
+    }
+})
+
