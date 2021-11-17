@@ -220,14 +220,9 @@ impl<'a, I: Input> Lexer<'a, I> {
             self.bump();
             if c.is_line_terminator() {
                 self.state.had_line_break = true;
-            }
-            match c {
-                '\n' | '\r' | '\u{2028}' | '\u{2029}' => {
-                    break;
-                }
-                _ => {
-                    end = self.cur_pos();
-                }
+                break;
+            } else {
+                end = self.cur_pos();
             }
         }
 
