@@ -8,7 +8,7 @@ SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 export NEXT_DEBUG_MINIFY=1
 
 # Remove preovious builds
-rm -r .next
+rm -rf .next
 
 
 npx next build | grep '{ name:' | node "$SCRIPT_DIR/evaluate.js"
