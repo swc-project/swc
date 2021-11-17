@@ -274,7 +274,7 @@ fn for_diff(input: PathBuf) {
             None => return Ok(()),
         };
 
-        let output = print(cm.clone(), &[output_module.clone()], false, true);
+        let output = print(cm.clone(), &[output_module.clone()], true, true);
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Ourput"), output);
 
