@@ -441,9 +441,6 @@ where
                         }
                     }
                 }
-
-                // TODO: invalid
-                self.skip_ws()?;
             }
 
             self.start_pos = self.input.cur_pos();
@@ -472,9 +469,6 @@ where
                         }
                     }
                 }
-
-                // TODO: invalid
-                self.skip_ws()?;
             }
 
             self.start_pos = self.input.cur_pos();

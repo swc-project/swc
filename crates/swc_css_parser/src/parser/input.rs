@@ -208,18 +208,22 @@ impl ParserInput for TokensInput<'_> {
     }
 
     fn skip_whitespaces(&mut self) -> PResult<()> {
-        let cur = self.tokens.tokens.get(self.idx);
-        let cur = match cur {
-            Some(cur) => cur,
-            None => return Ok(()),
-        };
+        loop {
+            let cur = self.tokens.tokens.get(self.idx);
+            let cur = match cur {
+                Some(cur) => cur,
+                None => return Ok(()),
+            };
 
-        match cur.token {
-            tok!(" ") => {
-                self.idx += 1;
+            match cur.token {
+                tok!(" ") => {
+                    self.idx += 1;
+                }
+
+                _ => {
+                    break;
+                }
             }
-
-            _ => {}
         }
 
         Ok(())
