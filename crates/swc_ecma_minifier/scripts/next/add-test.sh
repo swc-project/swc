@@ -12,3 +12,4 @@ rm -r .next
 
 
 npx next build | grep '{ name:' | node "$SCRIPT_DIR/evaluate.js"
+touch "$SCRIPT_DIR/../../tests/compress.rs"
