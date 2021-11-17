@@ -61,6 +61,7 @@ Steps to get started:
 -   All code changes are expected to comply with the formatting suggested by `rustfmt`.
     You can use `rustup component add --toolchain nightly rustfmt-preview` to install `rustfmt` and use
     `rustfmt +nightly --unstable-features --skip-children` on the changed files to automatically format your code.
+    HINT: use `git status --porcelain | cut -f 3 -d ' ' | grep '.rs$' | xargs -L1 rustfmt +nightly --unstable-features --skip-children` to run rustfmt on all changed files
 -   Push your commits to GitHub and create a pull request against the `swc-project/swc` `main` branch.
 
 ## Getting your development environment set up

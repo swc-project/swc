@@ -64,8 +64,10 @@ impl<'a> Tester<'a> {
         res
     }
 
-    pub fn parse_module(&mut self, file_name: &str, src: &str) -> Result<Module, ()> {
-        self.with_parser(file_name, Syntax::default(), src, |p| p.parse_module())
+    pub fn parse_module(&mut self, file_name: &str, src: &str) -> Result<Program, ()> {
+        self.with_parser(file_name, Syntax::default(), src, |p| {
+            p.parse_module().map(Program::Module)
+        })
     }
 
     pub fn parse_stmts(&mut self, file_name: &str, src: &str) -> Result<Vec<Stmt>, ()> {
@@ -89,16 +91,20 @@ impl<'a> Tester<'a> {
         name: &str,
         syntax: Syntax,
         src: &str,
-    ) -> Result<Module, ()> {
+        is_module: bool,
+    ) -> Result<Program, ()> {
         let fm = self
             .cm
             .new_source_file(FileName::Real(name.into()), src.into());
 
-        let module = {
+        let program = {
             let mut p = Parser::new(syntax, StringInput::from(&*fm), Some(&self.comments));
-            let res = p
-                .parse_module()
-                .map_err(|e| e.into_diagnostic(&self.handler).emit());
+            let res = (if is_module {
+                p.parse_module().map(Program::Module)
+            } else {
+                p.parse_script().map(Program::Script)
+            })
+            .map_err(|e| e.into_diagnostic(&self.handler).emit());
 
             for e in p.take_errors() {
                 e.into_diagnostic(&self.handler).emit()
@@ -107,17 +113,17 @@ impl<'a> Tester<'a> {
             res?
         };
 
-        let module = module
+        let program = program
             .fold_with(&mut tr)
             .fold_with(&mut as_folder(DropSpan {
                 preserve_ctxt: true,
             }))
             .fold_with(&mut Normalizer);
 
-        Ok(module)
+        Ok(program)
     }
 
-    pub fn print(&mut self, module: &Module) -> String {
+    pub fn print(&mut self, program: &Program) -> String {
         let mut buf = vec![];
         {
             let mut emitter = Emitter {
@@ -133,7 +139,7 @@ impl<'a> Tester<'a> {
             };
 
             // println!("Emitting: {:?}", module);
-            emitter.emit_module(&module).unwrap();
+            emitter.emit_program(&program).unwrap();
         }
 
         let s = String::from_utf8_lossy(&buf);
@@ -179,6 +185,7 @@ pub(crate) fn test_transform<F, P>(
     expected: &str,
     ok_if_code_eq: bool,
     hygiene_config: crate::hygiene::Config,
+    is_module: bool,
 ) where
     F: FnOnce(&mut Tester) -> P,
     P: Fold,
@@ -191,12 +198,13 @@ pub(crate) fn test_transform<F, P>(
             "output.js",
             syntax,
             expected,
+            true,
         )?;
 
         println!("----- Actual -----");
 
         let tr = tr(tester);
-        let actual = tester.apply_transform(tr, "input.js", syntax, input)?;
+        let actual = tester.apply_transform(tr, "input.js", syntax, input, is_module)?;
 
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {

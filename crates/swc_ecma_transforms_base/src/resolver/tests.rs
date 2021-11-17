@@ -50,7 +50,7 @@ fn run_test_with_config<F, V>(
     F: FnOnce() -> V,
     V: Fold,
 {
-    crate::tests::test_transform(syntax, |_| tr(), src, to, true, config);
+    crate::tests::test_transform(syntax, |_| tr(), src, to, true, config, true);
 }
 
 #[test]

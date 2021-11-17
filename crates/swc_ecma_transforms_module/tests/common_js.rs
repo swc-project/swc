@@ -3,7 +3,7 @@ use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::{
     fixer::fixer,
-    helpers::inject_helpers,
+    helpers::{inject_helpers, ModuleType},
     hygiene::hygiene,
     resolver::{resolver, resolver_with_mark},
 };
@@ -101,7 +101,7 @@ test!(
             resolver_with_mark(mark),
             // Optional::new(typescript::strip(), syntax.typescript()),
             import_analyzer(Rc::clone(&scope)),
-            inject_helpers(),
+            inject_helpers(ModuleType::CommonJs),
             common_js(mark, Default::default(), Some(scope)),
             hygiene(),
             fixer(None)
@@ -4803,7 +4803,7 @@ test!(
         let scope = Rc::new(RefCell::new(Scope::default()));
         chain!(
             import_analyzer(Rc::clone(&scope)),
-            inject_helpers(),
+            inject_helpers(ModuleType::CommonJs),
             common_js(Mark::fresh(Mark::root()), Default::default(), Some(scope)),
             hygiene(),
             fixer(None)

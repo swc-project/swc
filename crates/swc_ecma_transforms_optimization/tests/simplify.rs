@@ -3,7 +3,10 @@
 use std::{cell::RefCell, rc::Rc};
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
-use swc_ecma_transforms_base::{helpers::inject_helpers, resolver::resolver};
+use swc_ecma_transforms_base::{
+    helpers::{inject_helpers, ModuleType},
+    resolver::resolver,
+};
 use swc_ecma_transforms_compat::{es2015, es2016, es2017, es2018, es2022::class_properties, es3};
 use swc_ecma_transforms_module::{
     common_js::common_js, import_analysis::import_analyzer, util::Scope,
@@ -552,7 +555,7 @@ test!(
             ),
             es3(true),
             import_analyzer(Rc::clone(&scope)),
-            inject_helpers(),
+            inject_helpers(ModuleType::Es6),
             common_js(Mark::fresh(Mark::root()), Default::default(), Some(scope)),
         )
     },

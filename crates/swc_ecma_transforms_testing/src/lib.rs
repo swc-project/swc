@@ -25,7 +25,7 @@ use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_transforms_base::{
     fixer,
-    helpers::{inject_helpers, HELPERS},
+    helpers::{inject_helpers, ModuleType, HELPERS},
     hygiene,
 };
 use swc_ecma_utils::{quote_ident, quote_str, DropSpan, ExprFactory};
@@ -383,7 +383,7 @@ where
             .fold_with(&mut fixer::fixer(Some(&tester.comments)));
 
         let src_without_helpers = tester.print(&module, &tester.comments.clone());
-        module = module.fold_with(&mut inject_helpers());
+        module = module.fold_with(&mut inject_helpers(ModuleType::Es6));
 
         let transfromed_src = tester.print(&module, &tester.comments.clone());
 
@@ -440,7 +440,7 @@ where
             .fold_with(&mut fixer::fixer(Some(&tester.comments)));
 
         let src_without_helpers = tester.print(&module, &tester.comments.clone());
-        module = module.fold_with(&mut inject_helpers());
+        module = module.fold_with(&mut inject_helpers(ModuleType::Es6));
 
         let src = tester.print(&module, &tester.comments.clone());
 

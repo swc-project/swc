@@ -2,6 +2,7 @@ use super::*;
 use crate::tests::{HygieneVisualizer, Tester};
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, hygiene::*, DUMMY_SP};
+use swc_ecma_ast::Program;
 use swc_ecma_parser::Syntax;
 use swc_ecma_utils::quote_ident;
 use swc_ecma_visit::{Fold, FoldWith};
@@ -65,11 +66,11 @@ where
 {
     test_module(
         |tester| {
-            Ok(Module {
+            Ok(Program::Module(Module {
                 span: DUMMY_SP,
                 body: op(tester)?.into_iter().map(ModuleItem::Stmt).collect(),
                 shebang: None,
-            })
+            }))
         },
         expected,
         Default::default(),
@@ -78,7 +79,7 @@ where
 
 fn test_module<F>(op: F, expected: &str, config: Config)
 where
-    F: FnOnce(&mut crate::tests::Tester<'_>) -> Result<Module, ()>,
+    F: FnOnce(&mut crate::tests::Tester<'_>) -> Result<Program, ()>,
 {
     crate::tests::Tester::run(|tester| {
         let module = op(tester)?;
@@ -92,7 +93,7 @@ where
 
         let expected = {
             let expected = tester.with_parser("expected.js", Syntax::default(), expected, |p| {
-                p.parse_module()
+                p.parse_module().map(Program::Module)
             })?;
             tester.print(&expected)
         };

@@ -270,7 +270,20 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             ),
             compat::reserved_words::reserved_words(),
             Optional::new(export_namespace_from(), need_interop_analysis),
-            Optional::new(helpers::inject_helpers(), self.inject_helpers),
+            Optional::new(
+                helpers::inject_helpers(match module {
+                    Option::None => swc_ecma_transforms_base::helpers::ModuleType::Es6, /* TODO: is this assumption correct? */
+                    Option::Some(ModuleConfig::CommonJs(_)) =>
+                        swc_ecma_transforms_base::helpers::ModuleType::CommonJs,
+                    Option::Some(ModuleConfig::Umd(_)) =>
+                        swc_ecma_transforms_base::helpers::ModuleType::Umd,
+                    Option::Some(ModuleConfig::Amd(_)) =>
+                        swc_ecma_transforms_base::helpers::ModuleType::Amd,
+                    Option::Some(ModuleConfig::Es6) =>
+                        swc_ecma_transforms_base::helpers::ModuleType::Es6,
+                }),
+                self.inject_helpers
+            ),
             ModuleConfig::build(
                 self.cm.clone(),
                 base_url,

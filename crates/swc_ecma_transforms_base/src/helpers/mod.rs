@@ -1,6 +1,7 @@
 use once_cell::sync::Lazy;
 use scoped_tls::scoped_thread_local;
 use std::sync::atomic::{AtomicBool, Ordering};
+use swc_atoms::js_word;
 use swc_common::{FileName, FilePathMapping, Mark, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
@@ -17,9 +18,9 @@ macro_rules! enable_helper {
     }};
 }
 
-macro_rules! add_to {
-    ($buf:expr, $name:ident, $b:expr, $mark:expr) => {{
-        static STMTS: Lazy<Vec<Stmt>> = Lazy::new(|| {
+macro_rules! stmts {
+    ($name:ident) => {{
+        Lazy::new(|| {
             let cm = SourceMap::new(FilePathMapping::empty());
             let code = include_str!(concat!("./_", stringify!($name), ".js"));
             let fm = cm.new_source_file(FileName::Custom(stringify!($name).into()), code.into());
@@ -42,7 +43,13 @@ macro_rules! add_to {
                 })
                 .unwrap();
             stmts
-        });
+        })
+    }};
+}
+
+macro_rules! add_to {
+    ($buf:expr, $name:ident, $b:expr, $mark:expr) => {{
+        static STMTS: Lazy<Vec<Stmt>> = stmts!($name);
 
         let enable = $b.load(Ordering::Relaxed);
         if enable {
@@ -56,6 +63,20 @@ macro_rules! add_to {
                     })
                     .map(ModuleItem::Stmt),
             )
+        }
+    }};
+}
+
+macro_rules! add_to_script {
+    ($buf:expr, $name:ident, $b:expr, $mark:expr) => {{
+        static STMTS: Lazy<Vec<Stmt>> = stmts!($name);
+
+        let enable = $b.load(Ordering::Relaxed);
+        if enable {
+            $buf.extend(STMTS.iter().cloned().map(|mut stmt| {
+                stmt.visit_mut_with(&mut Marker($mark));
+                stmt
+            }))
         }
     }};
 }
@@ -158,6 +179,20 @@ macro_rules! define_helpers {
 
                 buf
             }
+
+
+            fn build_helpers_script(&self) -> Vec<Stmt> {
+                let mut buf = vec![];
+
+                HELPERS.with(|helpers|{
+                    debug_assert!(!helpers.external);
+                    $(
+                            add_to_script!(buf, $name, helpers.inner.$name, helpers.mark.0);
+                    )*
+                });
+
+                buf
+            }
         }
     };
 }
@@ -254,11 +289,20 @@ define_helpers!(Helpers {
     ),
 });
 
-pub fn inject_helpers() -> impl Fold + VisitMut {
-    as_folder(InjectHelpers)
+pub enum ModuleType {
+    CommonJs,
+    Es6,
+    Amd,
+    Umd,
 }
 
-struct InjectHelpers;
+pub fn inject_helpers(module_type: ModuleType) -> impl Fold + VisitMut {
+    as_folder(InjectHelpers { module_type })
+}
+
+struct InjectHelpers {
+    module_type: ModuleType,
+}
 
 impl InjectHelpers {
     fn mk_helpers(&self) -> Vec<ModuleItem> {
@@ -282,6 +326,48 @@ impl InjectHelpers {
             self.build_helpers()
         }
     }
+
+    fn mk_script_helpers(&self) -> Vec<Stmt> {
+        let (mark, external) = HELPERS.with(|helper| (helper.mark(), helper.external()));
+        if external {
+            if self.is_helper_used() {
+                match self.module_type {
+                    ModuleType::CommonJs => vec![Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        declare: false,
+                        kind: VarDeclKind::Const,
+                        decls: vec![VarDeclarator {
+                            span: DUMMY_SP,
+                            definite: false,
+                            name: Pat::Ident(BindingIdent::from(quote_ident!(
+                                DUMMY_SP.apply_mark(mark),
+                                "swcHelpers"
+                            ))),
+                            init: Option::Some(Box::new(Expr::Call(CallExpr {
+                                span: DUMMY_SP,
+                                callee: ExprOrSuper::Expr(Box::new(Expr::Ident(Ident::new(
+                                    js_word!("require"),
+                                    DUMMY_SP,
+                                )))),
+                                args: vec![ExprOrSpread {
+                                    expr: Box::new(Expr::Lit(Lit::Str(quote_str!("@swc/helpers")))),
+                                    spread: Option::None,
+                                }],
+                                type_args: Option::None,
+                            }))),
+                        }],
+                    }))],
+                    _ => unimplemented!(
+                        "injecting external helpers for non-commonjs environment not supported!"
+                    ),
+                }
+            } else {
+                vec![]
+            }
+        } else {
+            self.build_helpers_script()
+        }
+    }
 }
 
 impl VisitMut for InjectHelpers {
@@ -291,6 +377,12 @@ impl VisitMut for InjectHelpers {
         let helpers = self.mk_helpers();
 
         prepend_stmts(&mut module.body, helpers.into_iter());
+    }
+
+    fn visit_mut_script(&mut self, s: &mut Script) {
+        let helpers = self.mk_script_helpers();
+
+        prepend_stmts(&mut s.body, helpers.into_iter());
     }
 }
 
@@ -326,14 +418,67 @@ swcHelpers._throw()";
                     "import * as swcHelpers1 from '@swc/helpers';
 _throw();
 swcHelpers._throw();",
+                    true,
                 )?;
                 enable_helper!(throw);
 
                 eprintln!("----- Actual -----");
 
-                let tr = as_folder(InjectHelpers);
+                let tr = as_folder(InjectHelpers {
+                    module_type: ModuleType::Es6,
+                });
                 let actual = tester
-                    .apply_transform(tr, "input.js", Default::default(), input)?
+                    .apply_transform(tr, "input.js", Default::default(), input, true)?
+                    .fold_with(&mut crate::hygiene::hygiene())
+                    .fold_with(&mut crate::fixer::fixer(None));
+
+                if actual == expected {
+                    return Ok(());
+                }
+
+                let (actual_src, expected_src) = (tester.print(&actual), tester.print(&expected));
+
+                if actual_src == expected_src {
+                    return Ok(());
+                }
+
+                println!(">>>>> Orig <<<<<\n{}", input);
+                println!(">>>>> Code <<<<<\n{}", actual_src);
+                assert_eq!(
+                    DebugUsingDisplay(&actual_src),
+                    DebugUsingDisplay(&expected_src)
+                );
+                Err(())
+            })
+        });
+    }
+
+    #[test]
+    fn external_helper_cjs() {
+        let input = "_throw()
+swcHelpers._throw()";
+        crate::tests::Tester::run(|tester| {
+            HELPERS.set(&Helpers::new(true), || {
+                let expected = tester.apply_transform(
+                    as_folder(DropSpan {
+                        preserve_ctxt: false,
+                    }),
+                    "output.js",
+                    Default::default(),
+                    "const swcHelpers1 = require('@swc/helpers');
+_throw();
+swcHelpers._throw();",
+                    false,
+                )?;
+                enable_helper!(throw);
+
+                eprintln!("----- Actual -----");
+
+                let tr = as_folder(InjectHelpers {
+                    module_type: ModuleType::CommonJs,
+                });
+                let actual = tester
+                    .apply_transform(tr, "input.js", Default::default(), input, false)?
                     .fold_with(&mut crate::hygiene::hygiene())
                     .fold_with(&mut crate::fixer::fixer(None));
 
@@ -364,7 +509,9 @@ swcHelpers._throw();",
             Default::default(),
             |_| {
                 enable_helper!(throw);
-                as_folder(InjectHelpers)
+                as_folder(InjectHelpers {
+                    module_type: ModuleType::Es6,
+                })
             },
             "'use strict'",
             "'use strict'
@@ -374,6 +521,7 @@ function _throw(e) {
 ",
             false,
             Default::default(),
+            true,
         )
     }
 
@@ -383,7 +531,9 @@ function _throw(e) {
             Default::default(),
             |_| {
                 enable_helper!(throw);
-                as_folder(InjectHelpers)
+                as_folder(InjectHelpers {
+                    module_type: ModuleType::Es6,
+                })
             },
             "let _throw = null",
             "function _throw(e) {
@@ -393,8 +543,32 @@ let _throw1 = null;
 ",
             false,
             Default::default(),
+            true,
         )
     }
+
+    #[test]
+    fn inline_helper_cjs() {
+        crate::tests::test_transform(
+            Default::default(),
+            |_| {
+                enable_helper!(throw);
+                as_folder(InjectHelpers {
+                    module_type: ModuleType::CommonJs,
+                })
+            },
+            "let _throw = null",
+            "function _throw(e) {
+    throw e;
+}
+let _throw1 = null;
+",
+            true, // TODO: we have an extra Stmt in `acutal` AST, can this be fixed?
+            Default::default(),
+            false,
+        )
+    }
+
     #[test]
     fn use_strict_abort() {
         crate::tests::test_transform(
@@ -408,6 +582,7 @@ let x = 4;",
 let x = 4;",
             false,
             Default::default(),
+            true,
         );
     }
 }

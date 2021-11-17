@@ -48,8 +48,11 @@ where
 
                     let module = bundle.module;
 
-                    bundle.module =
-                        HELPERS.set(&swc_helpers, || module.fold_with(&mut inject_helpers()));
+                    bundle.module = HELPERS.set(&swc_helpers, || {
+                        module.fold_with(&mut inject_helpers(
+                            swc_ecma_transforms_base::helpers::ModuleType::Es6,
+                        ))
+                    });
                 }
 
                 match bundle.kind {
