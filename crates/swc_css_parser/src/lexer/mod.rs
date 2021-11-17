@@ -58,16 +58,6 @@ where
             .map_err(|kind| Error::new(span, kind))
     }
 
-    fn skip_whitespaces(&mut self) -> PResult<()> {
-        let start = self.input.cur_pos();
-
-        let token = self.skip_ws();
-        let end = self.input.cur_pos();
-        let span = Span::new(start, end, Default::default());
-
-        token.map_err(|kind| Error::new(span, kind))
-    }
-
     fn start_pos(&mut self) -> swc_common::BytePos {
         self.input.cur_pos()
     }
@@ -443,6 +433,7 @@ where
                 }
             }
 
+            // TODO: fix me
             self.start_pos = self.input.cur_pos();
         } else if self.config.allow_wrong_line_comments
             && self.input.cur() == Some('/')
