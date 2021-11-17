@@ -51,7 +51,7 @@ where
 
     pub fn cur_span(&mut self) -> PResult<Span> {
         if self.cur.is_none() {
-            self.bump_inner(false)?;
+            self.bump_inner()?;
         }
 
         Ok(self.cur.as_ref().map(|cur| cur.span).unwrap_or_default())
@@ -59,7 +59,7 @@ where
 
     pub fn cur(&mut self) -> PResult<Option<&Token>> {
         if self.cur.is_none() {
-            self.bump_inner(true)?;
+            self.bump_inner()?;
         }
 
         Ok(self.cur.as_ref().map(|v| &v.token))
@@ -88,12 +88,12 @@ where
 
         let token = self.cur.take();
 
-        self.bump_inner(false)?;
+        self.bump_inner()?;
 
         Ok(token)
     }
 
-    fn bump_inner(&mut self, skip_whitespace: bool) -> PResult<()> {
+    fn bump_inner(&mut self) -> PResult<()> {
         if let Some(cur) = &self.cur {
             self.last_pos = cur.span.hi;
         }
@@ -101,20 +101,7 @@ where
         self.cur = None;
 
         if let Some(next) = self.peeked.take() {
-            if skip_whitespace {
-                match next.token {
-                    tok!(" ") => {}
-                    _ => {
-                        self.cur = Some(next);
-                    }
-                }
-            } else {
-                self.cur = Some(next);
-            }
-        }
-
-        if skip_whitespace {
-            self.input.skip_whitespaces()?;
+            self.cur = Some(next);
         }
 
         if self.cur.is_none() {
@@ -138,7 +125,7 @@ where
     pub(super) fn skip_ws(&mut self) -> PResult<()> {
         match self.cur.as_ref().map(|v| &v.token) {
             Some(tok!(" ")) => {
-                self.bump_inner(true)?;
+                self.bump_inner()?;
                 Ok(())
             }
 
