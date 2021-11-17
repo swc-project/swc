@@ -211,6 +211,7 @@ where
                         // This function is misdesigned and should be removed.
                         // This is wrong because the order of execution is not guaranteed.
                         match &**arg {
+                            Expr::Lit(Lit::Str(..)) => continue,
                             Expr::Lit(..) => {}
                             _ => continue,
                         }
