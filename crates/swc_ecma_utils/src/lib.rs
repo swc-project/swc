@@ -411,6 +411,12 @@ pub struct Hoister {
 impl Visit for Hoister {
     noop_visit_type!();
 
+    fn visit_assign_pat_prop(&mut self, node: &AssignPatProp, _: &dyn Node) {
+        node.value.visit_with(node, self);
+
+        self.vars.push(node.key.clone());
+    }
+
     fn visit_assign_expr(&mut self, node: &AssignExpr, _: &dyn Node) {
         node.right.visit_children_with(self);
     }
@@ -2325,4 +2331,56 @@ where
     };
     n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
     v.bindings
+}
+
+#[cfg(test)]
+mod test {
+    use swc_common::{input::StringInput, BytePos};
+    use swc_ecma_parser::{Parser, Syntax};
+
+    use super::*;
+
+    #[test]
+    fn test_collect_decls() {
+        run_collect_decls(
+            "const { a, b = 1, inner: { c }, ...d } = {};",
+            &["a", "b", "c", "d"],
+        );
+        run_collect_decls("const [ a, b = 1, [c], ...d ] = [];", &["a", "b", "c", "d"]);
+    }
+
+    fn run_collect_decls(text: &str, expected_names: &[&str]) {
+        let module = parse_module(text);
+        let decls: AHashSet<Id> = collect_decls(&module);
+        let mut names = decls.iter().map(|d| d.0.to_string()).collect::<Vec<_>>();
+        names.sort();
+        assert_eq!(names, expected_names);
+    }
+
+    #[test]
+    fn test_extract_var_ids() {
+        run_extract_var_ids(
+            "var { a, b = 1, inner: { c }, ...d } = {};",
+            &["a", "b", "c", "d"],
+        );
+        run_extract_var_ids("var [ a, b = 1, [c], ...d ] = [];", &["a", "b", "c", "d"]);
+    }
+
+    fn run_extract_var_ids(text: &str, expected_names: &[&str]) {
+        let module = parse_module(text);
+        let decls = extract_var_ids(&module);
+        let mut names = decls.iter().map(|d| d.sym.to_string()).collect::<Vec<_>>();
+        names.sort();
+        assert_eq!(names, expected_names);
+    }
+
+    fn parse_module(text: &str) -> Module {
+        let syntax = Syntax::Es(Default::default());
+        let mut p = Parser::new(
+            syntax,
+            StringInput::new(text, BytePos(0), BytePos(text.len() as u32)),
+            None,
+        );
+        p.parse_module().unwrap()
+    }
 }
