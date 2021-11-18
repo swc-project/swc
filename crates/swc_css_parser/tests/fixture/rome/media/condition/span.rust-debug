@@ -895,7 +895,7 @@ error: Rule
 9 | |     }
   | |_____^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/rome/media/condition/input.css:7:2
   |
 7 |       a {
@@ -952,7 +952,7 @@ error: Rule
 12 | |     }
    | |_____^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/rome/media/condition/input.css:10:2
    |
 10 |       .style {

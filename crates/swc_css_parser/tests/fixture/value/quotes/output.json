@@ -7,13 +7,13 @@
   },
   "rules": [
     {
-      "type": "StyleRule",
+      "type": "QualifiedRule",
       "span": {
         "start": 0,
         "end": 878,
         "ctxt": 0
       },
-      "selectors": {
+      "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 0,
@@ -75,15 +75,7 @@
                       "value": "before",
                       "raw": "before"
                     },
-                    "args": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 0,
-                        "end": 0,
-                        "ctxt": 0
-                      },
-                      "tokens": []
-                    }
+                    "children": null
                   }
                 ]
               }
@@ -692,13 +684,13 @@
       }
     },
     {
-      "type": "StyleRule",
+      "type": "QualifiedRule",
       "span": {
         "start": 880,
         "end": 937,
         "ctxt": 0
       },
-      "selectors": {
+      "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 880,
@@ -822,13 +814,13 @@
       }
     },
     {
-      "type": "StyleRule",
+      "type": "QualifiedRule",
       "span": {
         "start": 938,
         "end": 993,
         "ctxt": 0
       },
-      "selectors": {
+      "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 938,

@@ -17,7 +17,7 @@ error: Rule
 1 | /* { } */a b {}
   |          ^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/selector/comments/input.css:1:10
   |
 1 | /* { } */a b {}
@@ -89,7 +89,7 @@ error: Rule
 2 | /* test */a b {}
   |           ^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/selector/comments/input.css:2:11
   |
 2 | /* test */a b {}
@@ -161,7 +161,7 @@ error: Rule
 3 | /* { } */ a b {}
   |           ^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/selector/comments/input.css:3:11
   |
 3 | /* { } */ a b {}
@@ -233,7 +233,7 @@ error: Rule
 4 | /* test */ a b {}
   |            ^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/selector/comments/input.css:4:12
   |
 4 | /* test */ a b {}
@@ -305,7 +305,7 @@ error: Rule
 5 | a/* { } */b {}
   | ^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/selector/comments/input.css:5:1
   |
 5 | a/* { } */b {}
@@ -377,7 +377,7 @@ error: Rule
 6 | a/* test */b {}
   | ^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/selector/comments/input.css:6:1
   |
 6 | a/* test */b {}
@@ -449,7 +449,7 @@ error: Rule
 7 | a /* { } */ b {}
   | ^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/selector/comments/input.css:7:1
   |
 7 | a /* { } */ b {}
@@ -521,7 +521,7 @@ error: Rule
 8 | a /* test */ b {}
   | ^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/selector/comments/input.css:8:1
   |
 8 | a /* test */ b {}
@@ -593,7 +593,7 @@ error: Rule
 9 | a b/* { } */ {}
   | ^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/selector/comments/input.css:9:1
   |
 9 | a b/* { } */ {}
@@ -665,7 +665,7 @@ error: Rule
 10 | a b/* test */ {}
    | ^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/comments/input.css:10:1
    |
 10 | a b/* test */ {}
@@ -737,7 +737,7 @@ error: Rule
 11 | a b /* { } */ {}
    | ^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/comments/input.css:11:1
    |
 11 | a b /* { } */ {}
@@ -809,7 +809,7 @@ error: Rule
 12 | a b /* test */ {}
    | ^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/comments/input.css:12:1
    |
 12 | a b /* test */ {}
@@ -881,7 +881,7 @@ error: Rule
 13 | a b/* { } */{}
    | ^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/comments/input.css:13:1
    |
 13 | a b/* { } */{}
@@ -953,7 +953,7 @@ error: Rule
 14 | a b/* test */{}
    | ^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/comments/input.css:14:1
    |
 14 | a b/* test */{}
@@ -1025,7 +1025,7 @@ error: Rule
 15 | a/* test */,/* test */b{}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/comments/input.css:15:1
    |
 15 | a/* test */,/* test */b{}
@@ -1097,7 +1097,7 @@ error: Rule
 16 | a /* test */ , /* test */ b {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/comments/input.css:16:1
    |
 16 | a /* test */ , /* test */ b {}

@@ -7,13 +7,13 @@
   },
   "rules": [
     {
-      "type": "StyleRule",
+      "type": "QualifiedRule",
       "span": {
         "start": 0,
         "end": 41,
         "ctxt": 0
       },
-      "selectors": {
+      "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 0,
@@ -307,13 +307,13 @@
       }
     },
     {
-      "type": "StyleRule",
+      "type": "QualifiedRule",
       "span": {
         "start": 43,
         "end": 69,
         "ctxt": 0
       },
-      "selectors": {
+      "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 43,
@@ -374,13 +374,13 @@
       }
     },
     {
-      "type": "StyleRule",
+      "type": "QualifiedRule",
       "span": {
         "start": 71,
         "end": 86,
         "ctxt": 0
       },
-      "selectors": {
+      "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 71,
@@ -479,13 +479,13 @@
       }
     },
     {
-      "type": "StyleRule",
+      "type": "QualifiedRule",
       "span": {
         "start": 88,
         "end": 117,
         "ctxt": 0
       },
-      "selectors": {
+      "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 88,
@@ -600,13 +600,13 @@
       }
     },
     {
-      "type": "StyleRule",
+      "type": "QualifiedRule",
       "span": {
         "start": 119,
         "end": 158,
         "ctxt": 0
       },
-      "selectors": {
+      "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 119,
@@ -730,13 +730,13 @@
       }
     },
     {
-      "type": "StyleRule",
+      "type": "QualifiedRule",
       "span": {
         "start": 160,
         "end": 200,
         "ctxt": 0
       },
-      "selectors": {
+      "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 160,
@@ -860,13 +860,13 @@
       }
     },
     {
-      "type": "StyleRule",
+      "type": "QualifiedRule",
       "span": {
         "start": 202,
         "end": 259,
         "ctxt": 0
       },
-      "selectors": {
+      "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 202,
@@ -1021,13 +1021,13 @@
       }
     },
     {
-      "type": "StyleRule",
+      "type": "QualifiedRule",
       "span": {
         "start": 261,
         "end": 286,
         "ctxt": 0
       },
-      "selectors": {
+      "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 261,
@@ -1089,28 +1089,26 @@
                       "value": "nth-last-of-type",
                       "raw": "nth-last-of-type"
                     },
-                    "args": {
-                      "type": "Tokens",
+                    "children": {
+                      "type": "Nth",
                       "span": {
                         "start": 280,
                         "end": 281,
                         "ctxt": 0
                       },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 280,
-                            "end": 281,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Num": {
-                              "value": 2.0,
-                              "raw": "2"
-                            }
-                          }
-                        }
-                      ]
+                      "nth": {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 280,
+                          "end": 281,
+                          "ctxt": 0
+                        },
+                        "a": null,
+                        "aRaw": null,
+                        "b": 2,
+                        "bRaw": "2"
+                      },
+                      "selectorList": null
                     }
                   }
                 ]
@@ -1130,13 +1128,13 @@
       }
     },
     {
-      "type": "StyleRule",
+      "type": "QualifiedRule",
       "span": {
         "start": 288,
         "end": 305,
         "ctxt": 0
       },
-      "selectors": {
+      "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 288,
@@ -1180,7 +1178,7 @@
                       "value": "lang",
                       "raw": "lang"
                     },
-                    "args": {
+                    "children": {
                       "type": "Tokens",
                       "span": {
                         "start": 294,
@@ -1254,13 +1252,13 @@
       }
     },
     {
-      "type": "StyleRule",
+      "type": "QualifiedRule",
       "span": {
         "start": 307,
         "end": 326,
         "ctxt": 0
       },
-      "selectors": {
+      "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 307,
@@ -1304,7 +1302,7 @@
                       "value": "pseudo-elem",
                       "raw": "pseudo-elem"
                     },
-                    "args": {
+                    "children": {
                       "type": "Tokens",
                       "span": {
                         "start": 321,
@@ -1331,13 +1329,13 @@
       }
     },
     {
-      "type": "StyleRule",
+      "type": "QualifiedRule",
       "span": {
         "start": 328,
         "end": 351,
         "ctxt": 0
       },
-      "selectors": {
+      "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 328,
@@ -1381,7 +1379,7 @@
                       "value": "pseudo-elem",
                       "raw": "pseudo-elem"
                     },
-                    "args": {
+                    "children": {
                       "type": "Tokens",
                       "span": {
                         "start": 342,

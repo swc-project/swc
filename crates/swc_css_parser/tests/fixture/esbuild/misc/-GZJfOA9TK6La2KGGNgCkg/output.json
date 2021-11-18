@@ -7,13 +7,13 @@
   },
   "rules": [
     {
-      "type": "StyleRule",
+      "type": "QualifiedRule",
       "span": {
         "start": 0,
         "end": 67,
         "ctxt": 0
       },
-      "selectors": {
+      "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 0,
@@ -75,15 +75,7 @@
                       "value": "before",
                       "raw": "before"
                     },
-                    "args": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 0,
-                        "end": 0,
-                        "ctxt": 0
-                      },
-                      "tokens": []
-                    }
+                    "children": null
                   },
                   {
                     "type": "PseudoSelector",
@@ -103,15 +95,7 @@
                       "value": "after",
                       "raw": "after"
                     },
-                    "args": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 0,
-                        "end": 0,
-                        "ctxt": 0
-                      },
-                      "tokens": []
-                    }
+                    "children": null
                   },
                   {
                     "type": "PseudoSelector",
@@ -131,15 +115,7 @@
                       "value": "selection",
                       "raw": "selection"
                     },
-                    "args": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 0,
-                        "end": 0,
-                        "ctxt": 0
-                      },
-                      "tokens": []
-                    }
+                    "children": null
                   },
                   {
                     "type": "PseudoSelector",
@@ -159,15 +135,7 @@
                       "value": "first-line",
                       "raw": "first-line"
                     },
-                    "args": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 0,
-                        "end": 0,
-                        "ctxt": 0
-                      },
-                      "tokens": []
-                    }
+                    "children": null
                   },
                   {
                     "type": "PseudoSelector",
@@ -187,15 +155,7 @@
                       "value": "first-letter",
                       "raw": "first-letter"
                     },
-                    "args": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 0,
-                        "end": 0,
-                        "ctxt": 0
-                      },
-                      "tokens": []
-                    }
+                    "children": null
                   }
                 ]
               }

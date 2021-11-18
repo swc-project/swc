@@ -18,7 +18,7 @@ error: Rule
 3 | | }
   | |_^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/rome/values/input.css:1:1
   |
 1 | / p::before {
@@ -74,8 +74,6 @@ error: Ident
 1 | p::before {
   |    ^^^^^^
 
-error: Tokens
-
 error: Block
  --> $DIR/tests/fixture/rome/values/input.css:1:11
   |
@@ -120,7 +118,7 @@ error: Rule
 10 | | }
    | |_^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/rome/values/input.css:5:1
    |
 5  | / .number {
@@ -295,7 +293,7 @@ error: Rule
 14 | | }
    | |_^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/rome/values/input.css:12:1
    |
 12 | / foo {
@@ -375,7 +373,7 @@ error: Rule
 19 | | }
    | |_^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/rome/values/input.css:16:1
    |
 16 | / bar {

@@ -22,7 +22,7 @@ error: Rule
 29 | | }
    | |_^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/value/quotes/input.css:1:1
    |
 1  | / a::before {
@@ -81,8 +81,6 @@ error: Ident
   |
 1 | a::before {
   |    ^^^^^^
-
-error: Tokens
 
 error: Block
   --> $DIR/tests/fixture/value/quotes/input.css:1:11
@@ -596,7 +594,7 @@ error: Rule
 34 | | }
    | |_^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/value/quotes/input.css:31:1
    |
 31 | / a[title="a not s\
@@ -709,7 +707,7 @@ error: Rule
 37 | | }
    | |_^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/value/quotes/input.css:35:1
    |
 35 | / a[title="a not so very long title"] {

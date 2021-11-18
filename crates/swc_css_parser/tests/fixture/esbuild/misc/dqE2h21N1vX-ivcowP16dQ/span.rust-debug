@@ -10,7 +10,7 @@ error: Rule
 1 | .cl\61ss {}
   | ^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/esbuild/misc/dqE2h21N1vX-ivcowP16dQ/input.css:1:1
   |
 1 | .cl\61ss {}

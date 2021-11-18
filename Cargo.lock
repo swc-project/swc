@@ -832,9 +832,9 @@ checksum = "acd94fdbe1d4ff688b67b04eee2e17bd50995534a61539e45adfefb45e5e5503"
 
 [[package]]
 name = "httpdate"
-version = "1.0.1"
+version = "1.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6456b8a6c8f33fee7d958fcd1b60d55b11940a79e63ae87013e6d22e26034440"
+checksum = "c4a1e36c821dbe04574f602848a19f742f4fb3c98d40449f11bcad18d6b17421"
 
 [[package]]
 name = "humantime"
@@ -847,9 +847,9 @@ dependencies = [
 
 [[package]]
 name = "hyper"
-version = "0.14.14"
+version = "0.14.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2b91bb1f221b6ea1f1e4371216b70f40748774c2fb5971b450c07773fb92d26b"
+checksum = "436ec0091e4f20e655156a30a0df3770fe2900aa301e548e08446ec794b6953c"
 dependencies = [
  "bytes",
  "futures-channel",
@@ -1389,9 +1389,9 @@ checksum = "28988d872ab76095a6e6ac88d99b54fd267702734fd7ffe610ca27f533ddb95a"
 
 [[package]]
 name = "openssl-sys"
-version = "0.9.70"
+version = "0.9.71"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c6517987b3f8226b5da3661dad65ff7f300cc59fb5ea8333ca191fc65fde3edf"
+checksum = "7df13d165e607909b363a4757a6f133f8a818a74e9d3a98d09c6128e15fa4c73"
 dependencies = [
  "autocfg 1.0.1",
  "cc",
@@ -2197,9 +2197,9 @@ dependencies = [
 
 [[package]]
 name = "serde_json"
-version = "1.0.70"
+version = "1.0.71"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e277c495ac6cd1a01a58d0a0c574568b4d1ddf14f59965c6a58b8d96400b54f3"
+checksum = "063bf466a64011ac24040a49009724ee60a57da1b437617ceb32e53ad61bfb19"
 dependencies = [
  "itoa",
  "ryu",
@@ -2383,7 +2383,7 @@ checksum = "6446ced80d6c486436db5c078dde11a9f73d42b57fb273121e160b84f63d894c"
 
 [[package]]
 name = "swc"
-version = "0.85.0"
+version = "0.86.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2567,7 +2567,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.34.0"
+version = "0.35.0"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -2578,7 +2578,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_ast"
-version = "0.32.0"
+version = "0.33.0"
 dependencies = [
  "is-macro",
  "serde",
@@ -2589,7 +2589,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.32.0"
+version = "0.33.0"
 dependencies = [
  "auto_impl 0.4.1",
  "bitflags",
@@ -2615,7 +2615,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.34.0"
+version = "0.35.0"
 dependencies = [
  "bitflags",
  "lexical",
@@ -2631,7 +2631,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_utils"
-version = "0.29.0"
+version = "0.30.0"
 dependencies = [
  "swc_atoms 0.2.9",
  "swc_common",
@@ -2641,7 +2641,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_visit"
-version = "0.31.0"
+version = "0.32.0"
 dependencies = [
  "swc_atoms 0.2.9",
  "swc_common",
@@ -2773,7 +2773,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.78.2"
+version = "0.78.4"
 dependencies = [
  "either",
  "enum_kind",
@@ -2901,7 +2901,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.52.1"
+version = "0.52.5"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -3086,7 +3086,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.52.0"
+version = "0.52.1"
 dependencies = [
  "once_cell",
  "rayon",
@@ -3265,7 +3265,7 @@ dependencies = [
 
 [[package]]
 name = "swc_stylis"
-version = "0.31.0"
+version = "0.32.0"
 dependencies = [
  "swc_atoms 0.2.9",
  "swc_common",
@@ -3405,9 +3405,9 @@ checksum = "cda74da7e1a664f795bb1f8a87ec406fb89a02522cf6e50620d016add6dbbf5c"
 
 [[package]]
 name = "tokio"
-version = "1.13.1"
+version = "1.14.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "52963f91310c08d91cb7bff5786dfc8b79642ab839e188187e92105dbfb9d2c8"
+checksum = "70e992e41e0d2fb9f755b37446f20900f64446ef54874f40a60c78f021ac6144"
 dependencies = [
  "autocfg 1.0.1",
  "bytes",
@@ -3652,7 +3652,7 @@ checksum = "fd6fbd9a79829dd1ad0cc20627bf1ed606756a7f77edff7b66b7064f9cb327c6"
 
 [[package]]
 name = "wasm"
-version = "1.2.108"
+version = "1.2.110"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",

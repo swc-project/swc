@@ -10,7 +10,7 @@ error: Rule
 1 | :pseudocl\61ss {}
   | ^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/esbuild/misc/rGv8hpoRRBbCTlyQ-70xVw/input.css:1:1
   |
 1 | :pseudocl\61ss {}
@@ -51,8 +51,6 @@ error: Ident
   |
 1 | :pseudocl\61ss {}
   |  ^^^^^^^^^^^^^
-
-error: Tokens
 
 error: Block
  --> $DIR/tests/fixture/esbuild/misc/rGv8hpoRRBbCTlyQ-70xVw/input.css:1:16

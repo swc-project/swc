@@ -7,13 +7,13 @@
   },
   "rules": [
     {
-      "type": "StyleRule",
+      "type": "QualifiedRule",
       "span": {
         "start": 0,
         "end": 10,
         "ctxt": 0
       },
-      "selectors": {
+      "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 0,
@@ -75,7 +75,7 @@
                       "value": "b",
                       "raw": "b"
                     },
-                    "args": {
+                    "children": {
                       "type": "Tokens",
                       "span": {
                         "start": 5,

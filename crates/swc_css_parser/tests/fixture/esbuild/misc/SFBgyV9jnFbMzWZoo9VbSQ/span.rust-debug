@@ -10,7 +10,7 @@ error: Rule
 1 | a { color: #ABCF }
   | ^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/esbuild/misc/SFBgyV9jnFbMzWZoo9VbSQ/input.css:1:1
   |
 1 | a { color: #ABCF }

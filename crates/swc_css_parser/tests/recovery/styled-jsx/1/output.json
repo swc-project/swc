@@ -7,13 +7,13 @@
   },
   "rules": [
     {
-      "type": "StyleRule",
+      "type": "QualifiedRule",
       "span": {
         "start": 0,
         "end": 109,
         "ctxt": 0
       },
-      "selectors": {
+      "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 0,
@@ -168,13 +168,13 @@
       }
     },
     {
-      "type": "StyleRule",
+      "type": "QualifiedRule",
       "span": {
         "start": 111,
         "end": 286,
         "ctxt": 0
       },
-      "selectors": {
+      "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 111,
@@ -257,7 +257,7 @@
                       "value": "global",
                       "raw": "global"
                     },
-                    "args": {
+                    "children": {
                       "type": "Tokens",
                       "span": {
                         "start": 135,
@@ -514,13 +514,13 @@
       },
       "rules": [
         {
-          "type": "StyleRule",
+          "type": "QualifiedRule",
           "span": {
             "start": 308,
             "end": 413,
             "ctxt": 0
           },
-          "selectors": {
+          "prelude": {
             "type": "SelectorList",
             "span": {
               "start": 308,
@@ -603,7 +603,7 @@
                           "value": "global",
                           "raw": "global"
                         },
-                        "args": {
+                        "children": {
                           "type": "Tokens",
                           "span": {
                             "start": 332,
@@ -769,13 +769,13 @@
       },
       "rules": [
         {
-          "type": "StyleRule",
+          "type": "QualifiedRule",
           "span": {
             "start": 437,
             "end": 542,
             "ctxt": 0
           },
-          "selectors": {
+          "prelude": {
             "type": "SelectorList",
             "span": {
               "start": 437,
@@ -858,7 +858,7 @@
                           "value": "global",
                           "raw": "global"
                         },
-                        "args": {
+                        "children": {
                           "type": "Tokens",
                           "span": {
                             "start": 461,

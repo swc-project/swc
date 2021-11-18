@@ -395,6 +395,14 @@ impl VisitMut for Actual {
 
         let original_fn_params = prop.function.params.take();
 
+        let prop_method_span = prop.function.span;
+        let prop_method_body_span = if let Some(body) = &prop.function.body {
+            body.span
+        } else {
+            DUMMY_SP
+        };
+        prop.function.span = prop_method_body_span;
+
         let fn_ref = make_fn_ref(
             FnExpr {
                 ident: None,
@@ -423,7 +431,7 @@ impl VisitMut for Actual {
 
         prop.function = Function {
             params: original_fn_params,
-            span: DUMMY_SP,
+            span: prop_method_span,
             is_async: false,
             is_generator: false,
             body: Some(BlockStmt {

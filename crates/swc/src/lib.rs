@@ -2,7 +2,7 @@
 //!
 //!
 //!
-//! # Cutomizing
+//! # Customizing
 //!
 //!
 //! This is documentation for building custom build tools on top of swc.

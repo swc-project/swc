@@ -10,7 +10,7 @@ error: Rule
 1 | &:b {}
   | ^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/esbuild/misc/Dl_KXhjnyR5RfRaNMKBEdw/input.css:1:1
   |
 1 | &:b {}
@@ -57,8 +57,6 @@ error: Ident
   |
 1 | &:b {}
   |   ^
-
-error: Tokens
 
 error: Block
  --> $DIR/tests/fixture/esbuild/misc/Dl_KXhjnyR5RfRaNMKBEdw/input.css:1:5

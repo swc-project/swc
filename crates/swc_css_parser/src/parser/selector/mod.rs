@@ -408,6 +408,279 @@ where
         })
     }
 
+    fn parse_nth(&mut self) -> PResult<Nth> {
+        self.input.skip_ws()?;
+
+        let span = self.input.cur_span()?;
+        let nth = match cur!(self) {
+            //  odd | even
+            Token::Ident { value, .. }
+                if &(*value).to_ascii_lowercase() == "odd"
+                    || &(*value).to_ascii_lowercase() == "even" =>
+            {
+                let name = bump!(self);
+                let names = match name {
+                    Token::Ident { value, raw } => (value, raw),
+                    _ => {
+                        unreachable!();
+                    }
+                };
+
+                NthValue::Ident(Ident {
+                    span: span!(self, span.lo),
+                    value: names.0.into(),
+                    raw: names.1.into(),
+                })
+            }
+            // <integer>
+            Token::Num { .. } => {
+                let num = match bump!(self) {
+                    Token::Num { value, raw } => (value, raw),
+                    _ => {
+                        unreachable!();
+                    }
+                };
+
+                NthValue::AnPlusB(AnPlusB {
+                    span: span!(self, span.lo),
+                    a: None,
+                    a_raw: None,
+                    b: Some(num.0 as i32),
+                    b_raw: Some(num.1),
+                })
+            }
+            // '+'? n
+            // '+'? <ndashdigit-ident>
+            // '+'? n <signed-integer>
+            // '+'? n- <signless-integer>
+            // '+'? n ['+' | '-'] <signless-integer>
+            // -n
+            // <dashndashdigit-ident>
+            // -n <signed-integer>
+            // -n- <signless-integer>
+            // -n ['+' | '-'] <signless-integer>
+            Token::Ident { .. } | Token::Delim { value: '+' } |
+            // <n-dimension>
+            // <ndashdigit-dimension>
+            // <ndash-dimension> <signless-integer>
+            // <n-dimension> <signed-integer>
+            // <n-dimension> ['+' | '-'] <signless-integer>
+            Token::Dimension { .. } => {
+                let mut has_plus_sign = false;
+
+                // '+' n
+                match cur!(self) {
+                    Token::Delim { value: '+' } => {
+                        let peeked = self.input.peek()?;
+
+                        match peeked {
+                            Some(Token::Ident { .. }) => {
+                                bump!(self);
+                                has_plus_sign = true;
+                            }
+                            _ => {}
+                        }
+                    }
+                    _ => {}
+                }
+
+                let a;
+                let a_raw;
+
+                let n_value;
+
+                match cur!(self) {
+                    Token::Ident {  .. } => {
+                        let ident_value = match bump!(self) {
+                            Token::Ident { value, .. } => value,
+                            _ => {
+                                unreachable!();
+                            }
+                        };
+
+                        let has_minus_sign = ident_value.chars().nth(0) == Some('-');
+                        let n_char = if has_minus_sign { ident_value.chars().nth(1) } else { ident_value.chars().nth(0) };
+
+                        if n_char != Some('n') && n_char != Some('N') {
+                            return Err(Error::new(
+                                span,
+                                ErrorKind::Expected("'n' character in Ident"),
+                            ));
+                        }
+
+                        a = Some(if has_minus_sign { -1 } else {1 });
+                        a_raw = Some((if has_plus_sign { "+" } else if has_minus_sign { "-" } else { "" }).into());
+
+                        n_value = if has_minus_sign { ident_value.clone()[1..].to_string() } else { ident_value.clone().to_string() };
+                    }
+                    Token::Dimension { .. } => {
+                        let dimension = match bump!(self) {
+                            Token::Dimension { value, raw_value, unit, .. } => (value, raw_value, unit),
+                            _ => {
+                                unreachable!();
+                            }
+                        };
+
+                        let n_char = dimension.2.chars().nth(0);
+
+                        if n_char != Some('n') && n_char != Some('N') {
+                            return Err(Error::new(
+                                span,
+                                ErrorKind::Expected("'n' character in Ident"),
+                            ));
+                        }
+
+                        a = Some(dimension.0 as i32);
+                        a_raw = Some(dimension.1.into());
+
+                        n_value =  (*dimension.2).to_string();
+                    }
+                    _ => {
+                        return Err(Error::new(span, ErrorKind::InvalidAnPlusBMicrosyntax));
+                    }
+                };
+
+                self.input.skip_ws()?;
+
+                let mut b = None;
+                let mut b_raw = None;
+
+                let dash_after_n = n_value.chars().nth(1);
+
+                match cur!(self) {
+                    // '+'? n <signed-integer>
+                    // -n <signed-integer>
+                    // <n-dimension> <signed-integer>
+                    Token::Num { .. } if dash_after_n == None => {
+                        let num = match bump!(self) {
+                            Token::Num { value, raw, .. } => (value, raw),
+                            _ => {
+                                unreachable!();
+                            }
+                        };
+
+                        b = Some(num.0 as i32);
+                        b_raw = Some(num.1);
+                    }
+                    // -n- <signless-integer>
+                    // '+'? n- <signless-integer>
+                    // <ndash-dimension> <signless-integer>
+                    Token::Num { .. } if dash_after_n == Some('-') => {
+                        let num = match bump!(self) {
+                            Token::Num { value, raw, .. } => (value, raw),
+                            _ => {
+                                unreachable!();
+                            }
+                        };
+
+                        b = Some(-1 * num.0 as i32);
+
+                        let mut b_raw_str = String::new();
+
+                        b_raw_str.push_str("- ");
+                        b_raw_str.push_str(&num.1);
+                        b_raw = Some(b_raw_str.into());
+                    }
+                    // '+'? n ['+' | '-'] <signless-integer>
+                    // -n ['+' | '-'] <signless-integer>
+                    // <n-dimension> ['+' | '-'] <signless-integer>
+                    Token::Delim { value: '-', .. } | Token::Delim { value: '+', .. } => {
+                        let (b_sign, b_sign_raw) = match bump!(self) {
+                            Token::Delim { value, .. } => (if value == '-' { -1 } else { 1 }, value),
+                            _ => {
+                                unreachable!();
+                            }
+                        };
+
+                        self.input.skip_ws()?;
+
+                        let num = match bump!(self) {
+                            Token::Num { value, raw, .. } => (value, raw),
+                            _ => {
+                                return Err(Error::new(span, ErrorKind::Expected("Num")));
+                            }
+                        };
+
+                        b = Some(b_sign * num.0 as i32);
+
+                        let mut b_raw_str = String::new();
+
+                        b_raw_str.push(' ');
+                        b_raw_str.push(b_sign_raw);
+                        b_raw_str.push(' ');
+                        b_raw_str.push_str(&num.1);
+                        b_raw = Some(b_raw_str.into());
+                    }
+                    // '+'? <ndashdigit-ident>
+                    // <dashndashdigit-ident>
+                    // <ndashdigit-dimension>
+                    _ if dash_after_n == Some('-') => {
+                        let b_from_ident = &n_value[2..];
+                        let parsed: i32 = lexical::parse(b_from_ident).unwrap_or_else(|err| {
+                            unreachable!(
+                                "failed to parse `{}` using lexical: {:?}",
+                                b_from_ident, err
+                            )
+                        });
+
+                        b = Some(-1 * parsed);
+
+                        let mut b_raw_str = String::new();
+
+                        b_raw_str.push('-');
+                        b_raw_str.push_str(b_from_ident);
+
+                        b_raw = Some(b_raw_str.into());
+                    }
+                    // '+'? n
+                    // -n
+                    _ if dash_after_n == None => {}
+                    _ => {
+                        return Err(Error::new(span, ErrorKind::InvalidAnPlusBMicrosyntax));
+                    }
+                }
+
+                NthValue::AnPlusB(AnPlusB {
+                    span: span!(self, span.lo),
+                    a,
+                    a_raw,
+                    b,
+                    b_raw,
+                })
+            }
+            _ => {
+                return Err(Error::new(span, ErrorKind::InvalidAnPlusBMicrosyntax));
+            }
+        };
+
+        let nth = Nth {
+            span: span!(self, span.lo),
+            nth,
+            selector_list: None,
+        };
+
+        self.input.skip_ws()?;
+
+        // match cur!(self) {
+        //     Token::Ident { value, .. } => {
+        //         match &*value.to_ascii_lowercase() {
+        //             "of" => {
+        //                 bump!(self);
+        //
+        //                 self.input.skip_ws()?;
+        //
+        //                 // TODO: fix me
+        //                 selector_list = Some(self.parse_selectors()?);
+        //             }
+        //             _ => {}
+        //         }
+        //     }
+        //     _ => {}
+        // }
+
+        Ok(nth)
+    }
+
     fn parse_pseudo_class_selector(&mut self) -> PResult<PseudoSelector> {
         let span = self.input.cur_span()?;
 
@@ -415,13 +688,28 @@ where
 
         if is!(self, Function) {
             let fn_span = self.input.cur_span()?;
-            let value = bump!(self);
-            let values = match value {
+            let name = bump!(self);
+            let names = match name {
                 Token::Function { value, raw } => (value, raw),
                 _ => unreachable!(),
             };
 
-            let args = self.parse_any_value(false)?;
+            let children = match &*names.0.to_ascii_lowercase() {
+                "nth-child" | "nth-last-child" | "nth-of-type" | "nth-last-of-type" => {
+                    let state = self.input.state();
+                    let nth = self.parse_nth();
+
+                    match nth {
+                        Ok(nth) => PseudoSelectorChildren::Nth(nth),
+                        Err(_) => {
+                            self.input.reset(&state);
+
+                            PseudoSelectorChildren::Tokens(self.parse_any_value(false)?)
+                        }
+                    }
+                }
+                _ => PseudoSelectorChildren::Tokens(self.parse_any_value(false)?),
+            };
 
             expect!(self, ")");
 
@@ -430,10 +718,10 @@ where
                 is_element: false,
                 name: Ident {
                     span: Span::new(fn_span.lo, fn_span.hi - BytePos(1), Default::default()),
-                    value: values.0,
-                    raw: values.1,
+                    value: names.0,
+                    raw: names.1,
                 },
-                args,
+                children: Some(children),
             });
         } else if is!(self, Ident) {
             let ident_span = self.input.cur_span()?;
@@ -451,7 +739,7 @@ where
                     value: values.0,
                     raw: values.1,
                 },
-                args: Default::default(),
+                children: None,
             });
         }
 

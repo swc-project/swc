@@ -860,13 +860,13 @@
       },
       "rules": [
         {
-          "type": "StyleRule",
+          "type": "QualifiedRule",
           "span": {
             "start": 383,
             "end": 390,
             "ctxt": 0
           },
-          "selectors": {
+          "prelude": {
             "type": "SelectorList",
             "span": {
               "start": 383,
@@ -926,13 +926,13 @@
           }
         },
         {
-          "type": "StyleRule",
+          "type": "QualifiedRule",
           "span": {
             "start": 392,
             "end": 404,
             "ctxt": 0
           },
-          "selectors": {
+          "prelude": {
             "type": "SelectorList",
             "span": {
               "start": 392,

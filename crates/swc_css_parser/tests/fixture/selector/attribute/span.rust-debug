@@ -16,7 +16,7 @@ error: Rule
 1 | [title] {}
   | ^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/selector/attribute/input.css:1:1
   |
 1 | [title] {}
@@ -70,7 +70,7 @@ error: Rule
 2 | [title=foo] {}
   | ^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/selector/attribute/input.css:2:1
   |
 2 | [title=foo] {}
@@ -130,7 +130,7 @@ error: Rule
 3 | [title="foo"] {}
   | ^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/selector/attribute/input.css:3:1
   |
 3 | [title="foo"] {}
@@ -190,7 +190,7 @@ error: Rule
 4 | [ title = "foo" ] {}
   | ^^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/selector/attribute/input.css:4:1
   |
 4 | [ title = "foo" ] {}
@@ -250,7 +250,7 @@ error: Rule
 5 | [   title   =   "foo"   ] {}
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/selector/attribute/input.css:5:1
   |
 5 | [   title   =   "foo"   ] {}
@@ -310,7 +310,7 @@ error: Rule
 6 | [lang~="en-us"] {}
   | ^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/selector/attribute/input.css:6:1
   |
 6 | [lang~="en-us"] {}
@@ -370,7 +370,7 @@ error: Rule
 7 | [lang|="zh"] {}
   | ^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/selector/attribute/input.css:7:1
   |
 7 | [lang|="zh"] {}
@@ -430,7 +430,7 @@ error: Rule
 8 | [href^="#"] {}
   | ^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/selector/attribute/input.css:8:1
   |
 8 | [href^="#"] {}
@@ -490,7 +490,7 @@ error: Rule
 9 | [href$=".org"] {}
   | ^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/selector/attribute/input.css:9:1
   |
 9 | [href$=".org"] {}
@@ -550,7 +550,7 @@ error: Rule
 10 | [href*="example"] {}
    | ^^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/attribute/input.css:10:1
    |
 10 | [href*="example"] {}
@@ -610,7 +610,7 @@ error: Rule
 11 | [href*="insensitive" i] {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/attribute/input.css:11:1
    |
 11 | [href*="insensitive" i] {}
@@ -670,7 +670,7 @@ error: Rule
 12 | [href*="insensitive" I] {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/attribute/input.css:12:1
    |
 12 | [href*="insensitive" I] {}
@@ -730,7 +730,7 @@ error: Rule
 13 | [href*="cAsE" s] {}
    | ^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/attribute/input.css:13:1
    |
 13 | [href*="cAsE" s] {}
@@ -790,7 +790,7 @@ error: Rule
 14 | [href*="cAsE" S] {}
    | ^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/attribute/input.css:14:1
    |
 14 | [href*="cAsE" S] {}
@@ -850,7 +850,7 @@ error: Rule
 15 | [foo|att=val] {}
    | ^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/attribute/input.css:15:1
    |
 15 | [foo|att=val] {}
@@ -916,7 +916,7 @@ error: Rule
 16 | [*|att] {}
    | ^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/attribute/input.css:16:1
    |
 16 | [*|att] {}
@@ -976,7 +976,7 @@ error: Rule
 17 | [   *|att   ] {}
    | ^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/attribute/input.css:17:1
    |
 17 | [   *|att   ] {}
@@ -1036,7 +1036,7 @@ error: Rule
 18 | [|att] {}
    | ^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/attribute/input.css:18:1
    |
 18 | [|att] {}
@@ -1096,7 +1096,7 @@ error: Rule
 19 | [ |att ] {}
    | ^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/attribute/input.css:19:1
    |
 19 | [ |att ] {}
@@ -1156,7 +1156,7 @@ error: Rule
 20 | [   |att   ] {}
    | ^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/attribute/input.css:20:1
    |
 20 | [   |att   ] {}
@@ -1216,7 +1216,7 @@ error: Rule
 21 | [att] {}
    | ^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/attribute/input.css:21:1
    |
 21 | [att] {}
@@ -1270,7 +1270,7 @@ error: Rule
 22 | [ att ] {}
    | ^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/attribute/input.css:22:1
    |
 22 | [ att ] {}
@@ -1324,7 +1324,7 @@ error: Rule
 23 | [   att   ] {}
    | ^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/attribute/input.css:23:1
    |
 23 | [   att   ] {}
@@ -1378,7 +1378,7 @@ error: Rule
 24 | a[ class = "test" ] {}
    | ^^^^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/attribute/input.css:24:1
    |
 24 | a[ class = "test" ] {}
@@ -1450,7 +1450,7 @@ error: Rule
 25 | a[   class   =   "test"   ] {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/attribute/input.css:25:1
    |
 25 | a[   class   =   "test"   ] {}
@@ -1522,7 +1522,7 @@ error: Rule
 26 | [href*="insensitive"   i] {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/attribute/input.css:26:1
    |
 26 | [href*="insensitive"   i] {}
@@ -1582,7 +1582,7 @@ error: Rule
 27 | [   href*="insensitive"   i   ] {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/attribute/input.css:27:1
    |
 27 | [   href*="insensitive"   i   ] {}
@@ -1642,7 +1642,7 @@ error: Rule
 28 | [   href   *=   "insensitive"   i   ] {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/attribute/input.css:28:1
    |
 28 | [   href   *=   "insensitive"   i   ] {}
@@ -1702,7 +1702,7 @@ error: Rule
 29 | [   href   ] {}
    | ^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/selector/attribute/input.css:29:1
    |
 29 | [   href   ] {}

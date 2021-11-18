@@ -18,7 +18,7 @@ error: Rule
 3 | | }
   | |_^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/rome/selectors/input.css:1:1
   |
 1 | / div, div + #id, div ~ #id, div > #id {
@@ -235,7 +235,7 @@ error: Rule
 7 | | }
   | |_^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/rome/selectors/input.css:5:1
   |
 5 | / .escaped\.class\.name {
@@ -296,7 +296,7 @@ error: Rule
 11 | | }
    | |_^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/rome/selectors/input.css:9:1
    |
 9  | / .class + * {
@@ -381,7 +381,7 @@ error: Rule
 15 | | }
    | |_^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/rome/selectors/input.css:13:1
    |
 13 | / a[title] {
@@ -478,7 +478,7 @@ error: Rule
 19 | | }
    | |_^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/rome/selectors/input.css:17:1
    |
 17 | / a[title = "title"] {
@@ -581,7 +581,7 @@ error: Rule
 23 | | }
    | |_^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/rome/selectors/input.css:21:1
    |
 21 | / a[title~="title" i] {
@@ -684,7 +684,7 @@ error: Rule
 27 | | }
    | |_^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/rome/selectors/input.css:25:1
    |
 25 | / a[title = "title"][href*="image/*" S] {
@@ -810,7 +810,7 @@ error: Rule
 30 | | }
    | |_^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/rome/selectors/input.css:29:1
    |
 29 | / p:nth-last-of-type(2) {
@@ -865,13 +865,13 @@ error: Ident
 29 | p:nth-last-of-type(2) {
    |   ^^^^^^^^^^^^^^^^
 
-error: Tokens
+error: Nth
   --> $DIR/tests/fixture/rome/selectors/input.css:29:20
    |
 29 | p:nth-last-of-type(2) {
    |                    ^
 
-error: Num { value: 2.0, raw: Atom('2' type=inline) }
+error: AnPlusB
   --> $DIR/tests/fixture/rome/selectors/input.css:29:20
    |
 29 | p:nth-last-of-type(2) {
@@ -892,7 +892,7 @@ error: Rule
 33 | | }
    | |_^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/rome/selectors/input.css:32:1
    |
 32 | / :lang(en, ko) {
@@ -980,7 +980,7 @@ error: Rule
 36 | | }
    | |_^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/rome/selectors/input.css:35:1
    |
 35 | / ::pseudo-elem() {
@@ -1044,7 +1044,7 @@ error: Rule
 39 | | }
    | |_^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/rome/selectors/input.css:38:1
    |
 38 | / ::pseudo-elem(a, b) {

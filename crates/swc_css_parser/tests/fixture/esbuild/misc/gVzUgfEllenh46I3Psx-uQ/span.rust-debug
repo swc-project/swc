@@ -10,7 +10,7 @@ error: Rule
 1 | a { margin: 0 1 0px 1px }
   | ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1
   |
 1 | a { margin: 0 1 0px 1px }

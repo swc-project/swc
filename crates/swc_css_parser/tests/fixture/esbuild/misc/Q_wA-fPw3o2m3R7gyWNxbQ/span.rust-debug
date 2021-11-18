@@ -10,7 +10,7 @@ error: Rule
 1 | a:after { content: '\invalid' }
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1
   |
 1 | a:after { content: '\invalid' }
@@ -63,8 +63,6 @@ error: Ident
   |
 1 | a:after { content: '\invalid' }
   |   ^^^^^
-
-error: Tokens
 
 error: Block
  --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:9

@@ -10,7 +10,7 @@ error: Rule
 1 | .decl { a: b; }
   | ^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/esbuild/misc/b6WBp-DsAKNB9xg6pcRTzQ/input.css:1:1
   |
 1 | .decl { a: b; }

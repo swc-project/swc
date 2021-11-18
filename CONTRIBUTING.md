@@ -53,7 +53,7 @@ Steps to get started:
     working on.
 -   [Commit as you go][githelp].
 -   Include tests that cover all non-trivial code. The existing tests
-    in `test/` provide templates on how to test SWC's behavior in a
+    in `tests/` provide templates on how to test SWC's behavior in a
     sandbox-environment. The internal crate `testing` provides a vast amount
     of helpers to minimize boilerplate. See [`testing/lib.rs`] for an
     introduction to writing tests.
@@ -77,14 +77,14 @@ After cloning the project there are a few steps required to get the project runn
 
     ```bash
     yarn
-    ( cd ecmascript/transforms; yarn )
+    ( cd crates/swc_ecma_transforms; yarn )
     ```
 
 3.  Setup some environment variables which is required for tests.
 
     ```bash
     export RUST_BACKTRACE=full
-    export PATH="$PATH:$PWD/ecmascript/transforms/node_modules/.bin"
+    export PATH="$PATH:$PWD/crates/swc_ecma_transforms/node_modules/.bin"
     export RUST_MIN_STACK=16777216
     ```
 
@@ -170,8 +170,10 @@ adding labels to triage issues:
 [e-easy]: https://github.com/swc-project/swc/labels/E-easy
 [e-mentor]: https://github.com/swc-project/swc/labels/E-mentor
 [code of conduct]: https://www.rust-lang.org/conduct.html
+[development-models]: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/getting-started/about-collaborative-development-models
 [discord]: https://discord.gg/2ZhncgMt
-[`testing/lib.rs`]: https://github.com/swc-project/swc/blob/main/testing/src/lib.rs
+[`testing/lib.rs`]: https://github.com/swc-project/swc/blob/main/crates/testing/src/lib.rs
 [irlo]: https://internals.rust-lang.org/
+[lru]: https://docs.github.com/en/search-github/getting-started-with-searching-on-github/sorting-search-results#sort-by-updated-date
 [subcommands]: https://doc.rust-lang.org/cargo/reference/external-tools.html#custom-subcommands
 [issue-tracker]: https://github.com/swc-project/swc/issues

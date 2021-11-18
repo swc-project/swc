@@ -22,7 +22,7 @@ error: Rule
 21 | | }
    | |_^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/value/custom-property/input.css:1:1
    |
 1  | / :root {
@@ -69,8 +69,6 @@ error: Ident
   |
 1 | :root {
   |  ^^^^
-
-error: Tokens
 
 error: Block
   --> $DIR/tests/fixture/value/custom-property/input.css:1:7
