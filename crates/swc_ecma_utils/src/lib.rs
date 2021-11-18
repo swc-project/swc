@@ -2249,7 +2249,7 @@ where
         }
     }
 
-    fn visit_object_pat_prop(&mut self, node: &ObjectPatProp, _: &dyn Node) {
+    fn visit_assign_pat_prop(&mut self, node: &AssignPatProp, _: &dyn Node) {
         node.value.visit_with(node, self);
 
         if self.is_pat_decl {
