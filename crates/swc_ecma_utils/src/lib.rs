@@ -2165,6 +2165,14 @@ where
 {
     noop_visit_type!();
 
+    fn visit_assign_pat_prop(&mut self, node: &AssignPatProp, _: &dyn Node) {
+        node.value.visit_with(node, self);
+
+        if self.is_pat_decl {
+            self.add(&node.key);
+        }
+    }
+
     fn visit_class_decl(&mut self, node: &ClassDecl, _: &dyn Node) {
         node.visit_children_with(self);
 
