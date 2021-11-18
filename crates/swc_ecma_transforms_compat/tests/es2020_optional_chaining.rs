@@ -914,6 +914,17 @@ test!(
 test!(
     syntax(),
     |_| tr(Default::default()),
+    pr_2791,
+    r#"UNCONFIRMED_CALLBACK_MAP.get(pid)?.(error, response)"#,
+    r#"
+var ref;
+(ref = UNCONFIRMED_CALLBACK_MAP.get(pid)) === null || ref === void 0 ? void 0 : ref(error, response)
+  "#
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
     issue_1836_1,
     "
     function bug() {
