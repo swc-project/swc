@@ -2567,7 +2567,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.35.0"
+version = "0.36.0"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -2589,7 +2589,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.33.0"
+version = "0.34.0"
 dependencies = [
  "auto_impl 0.4.1",
  "bitflags",
@@ -2615,7 +2615,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.35.0"
+version = "0.36.0"
 dependencies = [
  "bitflags",
  "lexical",
@@ -2901,7 +2901,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.52.5"
+version = "0.52.6"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -3265,7 +3265,7 @@ dependencies = [
 
 [[package]]
 name = "swc_stylis"
-version = "0.32.0"
+version = "0.33.0"
 dependencies = [
  "swc_atoms 0.2.9",
  "swc_common",

@@ -16,7 +16,7 @@ where
 
         loop {
             // TODO: remove `}`
-            if self.input.is_eof()? || is!(self, "}") {
+            if is!(self, EOF) || is!(self, "}") {
                 return Ok(rules);
             }
 
@@ -117,7 +117,7 @@ where
         let mut declarations = vec![];
 
         loop {
-            if self.input.is_eof()? {
+            if is!(self, EOF) {
                 return Ok(declarations);
             }
 
@@ -166,7 +166,7 @@ where
         let mut value = vec![];
         let mut end = self.input.cur_span()?.hi;
 
-        if !self.input.is_eof()? {
+        if !is!(self, EOF) {
             let ctx = Ctx {
                 allow_operation_in_value: false,
                 recover_from_property_value: true,
