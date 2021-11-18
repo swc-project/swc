@@ -10,7 +10,7 @@ error: Rule
 1 | a { value: @\6beyword }
   | ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/esbuild/misc/CiejHTPFd8U5szvvY3uRjw/input.css:1:1
   |
 1 | a { value: @\6beyword }

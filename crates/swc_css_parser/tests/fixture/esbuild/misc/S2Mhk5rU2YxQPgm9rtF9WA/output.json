@@ -47,13 +47,13 @@
       ],
       "block": [
         {
-          "type": "StyleRule",
+          "type": "QualifiedRule",
           "span": {
             "start": 44,
             "end": 63,
             "ctxt": 0
           },
-          "selectors": {
+          "prelude": {
             "type": "SelectorList",
             "span": {
               "start": 44,

@@ -10,7 +10,7 @@ error: Rule
 1 | a { value: #\68ash }
   | ^^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/esbuild/misc/bdiLSVQWZCfQNNwD_OM6qA/input.css:1:1
   |
 1 | a { value: #\68ash }

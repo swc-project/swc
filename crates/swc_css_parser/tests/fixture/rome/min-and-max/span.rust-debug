@@ -22,7 +22,7 @@ error: Rule
 12 | | }
    | |_^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/rome/min-and-max/input.css:1:1
    |
 1  | / .style {

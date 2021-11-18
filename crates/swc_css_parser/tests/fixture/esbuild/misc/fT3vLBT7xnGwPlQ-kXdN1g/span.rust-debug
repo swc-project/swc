@@ -10,7 +10,7 @@ error: Rule
 1 | #\61hash {}
   | ^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/esbuild/misc/fT3vLBT7xnGwPlQ-kXdN1g/input.css:1:1
   |
 1 | #\61hash {}

@@ -10,7 +10,7 @@ error: Rule
 1 | a { value: \69 dent }
   | ^^^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/esbuild/misc/485Ns9qQHa89OJU5Lhjx-Q/input.css:1:1
   |
 1 | a { value: \69 dent }

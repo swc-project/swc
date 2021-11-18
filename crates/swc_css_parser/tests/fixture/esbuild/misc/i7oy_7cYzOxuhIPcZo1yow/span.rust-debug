@@ -10,7 +10,7 @@ error: Rule
 1 | [attr=\2c] {}
   | ^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/esbuild/misc/i7oy_7cYzOxuhIPcZo1yow/input.css:1:1
   |
 1 | [attr=\2c] {}
