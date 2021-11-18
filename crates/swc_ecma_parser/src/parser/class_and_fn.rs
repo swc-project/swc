@@ -343,7 +343,9 @@ impl<'a, I: Tokens> Parser<I> {
                         kind: MethodKind::Method,
                     },
                 );
-            } else if self.is_class_property(/* asi */ true) {
+            } else if self.is_class_property(/* asi */ true)
+                || (self.syntax().typescript() && is!(self, '?'))
+            {
                 // Property named `declare`
 
                 let key = Either::Right(PropName::Ident(Ident::new(
@@ -403,7 +405,9 @@ impl<'a, I: Tokens> Parser<I> {
                         kind: MethodKind::Method,
                     },
                 );
-            } else if self.is_class_property(/* asi */ true) {
+            } else if self.is_class_property(/* asi */ true)
+                || (self.syntax().typescript() && is!(self, '?'))
+            {
                 // Property named `static`
 
                 // Avoid to parse
