@@ -7,9 +7,9 @@ error: Stylesheet
 3  | | /* comment */color/* comment */:/* comment */red/* comment */;
 4  | | }
 ...  |
-25 | |
-26 | | /*!test*/
-   | |_
+35 | | /*************** FOO *****************/
+36 | | /* comment *//* comment */
+   | |___________________________^
 
 error: Rule
  --> $DIR/tests/fixture/comment/input.css:1:14

@@ -221,7 +221,7 @@ where
                     break;
                 }
 
-                if self.input.is_eof()? {
+                if is!(self, EOF) {
                     break;
                 }
                 let token = self.input.bump()?;

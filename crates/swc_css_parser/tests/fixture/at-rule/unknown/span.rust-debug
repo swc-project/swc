@@ -1,10 +1,11 @@
 error: Stylesheet
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:9:1
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:1:14
    |
-9  | / @unknown {}
-10 | | @\unknown {}
-11 | | /*@unknown a b {}*/
-12 | | @unknown {p:v}
+1  |   /*@unknown;*/
+   |  ______________^
+2  | | /*@unknown x y;*/
+3  | | /*@unknown \"blah\";*/
+4  | | /*@unknown!*test*!;*/
 ...  |
 35 | |     <!-- {}
 36 | | }
