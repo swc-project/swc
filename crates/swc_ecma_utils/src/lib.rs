@@ -2249,6 +2249,14 @@ where
         }
     }
 
+    fn visit_object_pat_prop(&mut self, node: &ObjectPatProp, _: &dyn Node) {
+        node.value.visit_with(node, self);
+
+        if self.is_pat_decl {
+            self.add(&node.key);
+        }
+    }
+
     fn visit_stmts(&mut self, nodes: &[Stmt], _: &dyn Node) {
         #[cfg(feature = "concurrent")]
         if nodes.len() > 16 {
