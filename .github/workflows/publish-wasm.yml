@@ -81,7 +81,7 @@ jobs:
       - name: Rename
         run: |
           sed -i'' -e 's/"name": "@swc\/wasm"/"name": "@swc\/wasm-web"/g' package.json
-        working-directory: wasm/pkg
+        working-directory: crates/wasm/pkg
 
       - name: Publish
         run: |
