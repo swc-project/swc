@@ -38,9 +38,9 @@ class C {
             return _fn.apply(this, arguments);
         }
         function _fn() {
-            _fn = _asyncToGenerator((function*() {
+            _fn = _asyncToGenerator(function*() {
                 yield other.apply(this, arguments);
-            }).bind(this));
+            });
             return _fn.apply(this, arguments);
         }
     }
