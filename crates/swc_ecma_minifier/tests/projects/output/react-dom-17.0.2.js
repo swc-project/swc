@@ -2910,7 +2910,7 @@
     }
     canUseDOM && (isInputEventSupported = (function(eventNameSuffix) {
         if (!canUseDOM) return !1;
-        var eventName = "oninput", isSupported = eventName in document;
+        var eventName = "on" + eventNameSuffix, isSupported = eventName in document;
         if (!isSupported) {
             var element = document.createElement("div");
             element.setAttribute(eventName, "return;"), isSupported = "function" == typeof element[eventName];
@@ -9476,8 +9476,8 @@
         return container ? 9 === container.nodeType ? container.documentElement : container.firstChild : null;
     }
     function legacyRenderSubtreeIntoContainer(parentComponent, children, container3, forceHydrate1, callback) {
-        var callback1;
-        topLevelUpdateWarnings(container3), null !== (callback1 = void 0 === callback ? null : callback) && "function" != typeof callback1 && error1("%s(...): Expected the last optional `callback` argument to be a function. Instead received: %s.", "render", callback1);
+        var callback1, callerName;
+        topLevelUpdateWarnings(container3), callerName = "render", null !== (callback1 = void 0 === callback ? null : callback) && "function" != typeof callback1 && error1("%s(...): Expected the last optional `callback` argument to be a function. Instead received: %s.", callerName, callback1);
         var fiberRoot, root = container3._reactRootContainer;
         if (root) {
             if (fiberRoot = root._internalRoot, "function" == typeof callback) {
