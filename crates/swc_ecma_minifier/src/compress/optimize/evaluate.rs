@@ -6,12 +6,12 @@ use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, undefined, ExprExt, Value::Known};
 
-/// Methods related to the option `evaludate`.
+/// Methods related to the option `evaluate`.
 impl<M> Optimizer<'_, M>
 where
     M: Mode,
 {
-    /// Evaludate expression if possible.
+    /// Evaluate expression if possible.
     ///
     /// This method call apppropriate methods for each ast types.
     pub(super) fn evaluate(&mut self, e: &mut Expr) {
