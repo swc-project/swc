@@ -57,6 +57,7 @@ where
                 }
 
                 let value = match &*assign.right {
+                    Expr::Lit(Lit::Str(..)) => return,
                     Expr::Lit(..)
                     | Expr::Member(MemberExpr {
                         computed: false, ..
