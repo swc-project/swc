@@ -7,10 +7,10 @@ use swc_ecma_utils::{
     contains_this_expr, member_expr, prepend, prepend_stmts, private_ident, quote_ident,
     ExprFactory,
 };
-use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub fn parameters() -> impl 'static + Fold {
-    Params::default()
+    as_folder(Params::default())
 }
 
 #[derive(Clone, Default)]
@@ -62,15 +62,13 @@ impl Parallel for Params {
 }
 
 impl Params {
-    fn fold_fn_like(&mut self, ps: Vec<Param>, body: BlockStmt) -> (Vec<Param>, BlockStmt) {
-        let body_span = body.span;
-
+    fn visit_mut_fn_like(&mut self, ps: &mut Vec<Param>, body: &mut BlockStmt) {
         let mut params = vec![];
         let mut decls = vec![];
         let mut unpack_rest = None;
         let mut decls_after_unpack = vec![];
 
-        for (i, param) in ps.into_iter().enumerate() {
+        for (i, param) in ps.drain(..).enumerate() {
             let span = param.span();
 
             match param.pat {
@@ -263,7 +261,6 @@ impl Params {
             }
         }
 
-        let mut stmts = body.stmts;
         let mut iter: ArrayVec<[_; 3]> = Default::default();
 
         if !decls.is_empty() {
@@ -283,32 +280,24 @@ impl Params {
                 declare: false,
             })));
         }
-        prepend_stmts(&mut stmts, iter.into_iter());
+        prepend_stmts(&mut body.stmts, iter.into_iter());
 
-        (
-            params,
-            BlockStmt {
-                span: body_span,
-                stmts,
-            },
-        )
+        *ps = params;
     }
 }
 
-/// TODO: VisitMut
 #[parallel]
-impl Fold for Params {
-    noop_fold_type!();
+impl VisitMut for Params {
+    noop_visit_mut_type!();
 
-    fn fold_block_stmt_or_expr(&mut self, body: BlockStmtOrExpr) -> BlockStmtOrExpr {
-        let body = body.fold_children_with(self);
+    fn visit_mut_block_stmt_or_expr(&mut self, body: &mut BlockStmtOrExpr) {
+        body.visit_mut_children_with(self);
 
         if self.vars.is_empty() {
-            return body;
+            return;
         }
 
-        let body = match body {
-            BlockStmtOrExpr::BlockStmt(v) => v,
+        match body {
             BlockStmtOrExpr::Expr(v) => {
                 let mut stmts = vec![];
                 prepend(
@@ -322,32 +311,31 @@ impl Fold for Params {
                 );
                 stmts.push(Stmt::Return(ReturnStmt {
                     span: DUMMY_SP,
-                    arg: Some(v),
+                    arg: Some(v.take()),
                 }));
-                BlockStmt {
+                *body = BlockStmtOrExpr::BlockStmt(BlockStmt {
                     span: DUMMY_SP,
                     stmts,
-                }
+                });
             }
+            _ => {}
         };
-
-        BlockStmtOrExpr::BlockStmt(body)
     }
 
-    fn fold_catch_clause(&mut self, f: CatchClause) -> CatchClause {
-        let f = f.fold_children_with(self);
+    fn visit_mut_catch_clause(&mut self, f: &mut CatchClause) {
+        f.visit_mut_children_with(self);
 
-        let (mut params, body) = match f.param {
-            Some(pat) => self.fold_fn_like(
-                vec![Param {
-                    span: DUMMY_SP,
-                    decorators: vec![],
-                    pat,
-                }],
-                f.body,
-            ),
-            None => self.fold_fn_like(vec![], f.body),
-        };
+        let mut params = vec![];
+        if f.param.is_some() {
+            params.push(Param {
+                span: DUMMY_SP,
+                decorators: vec![],
+                pat: f.param.take().unwrap(),
+            });
+        }
+
+        self.visit_mut_fn_like(&mut params, &mut f.body);
+
         assert!(
             params.len() == 0 || params.len() == 1,
             "fold_fn_like should return 0 ~ 1 parameter while handling catch clause"
@@ -359,22 +347,19 @@ impl Fold for Params {
             Some(params.pop().unwrap())
         };
 
-        CatchClause {
-            param: param.map(|param| param.pat),
-            body,
-            ..f
-        }
+        f.param = param.map(|param| param.pat);
     }
 
-    fn fold_constructor(&mut self, f: Constructor) -> Constructor {
+    fn visit_mut_constructor(&mut self, f: &mut Constructor) {
         if f.body.is_none() {
-            return f;
+            return;
         }
 
-        let f = f.fold_children_with(self);
+        f.visit_mut_children_with(self);
 
-        let params = f
+        let mut params = f
             .params
+            .take()
             .into_iter()
             .map(|pat| match pat {
                 ParamOrTsParamProp::Param(p) => p,
@@ -384,26 +369,24 @@ impl Fold for Params {
             })
             .collect();
 
-        let (params, body) = self.fold_fn_like(params, f.body.unwrap());
+        let mut body = f.body.take().unwrap();
+        self.visit_mut_fn_like(&mut params, &mut body);
 
-        Constructor {
-            params: params.into_iter().map(ParamOrTsParamProp::Param).collect(),
-            body: Some(body),
-            ..f
-        }
+        f.params = params.into_iter().map(ParamOrTsParamProp::Param).collect();
+        f.body = Some(body);
     }
 
-    fn fold_expr(&mut self, e: Expr) -> Expr {
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
         let mut vars = self.vars.take();
 
-        let e = e.fold_children_with(self);
+        e.visit_mut_children_with(self);
 
         vars.extend(self.vars.take());
         self.vars = vars;
 
         match e {
             Expr::Arrow(f) => {
-                let f = f.fold_children_with(self);
+                f.visit_mut_children_with(self);
 
                 let was_expr = match f.body {
                     BlockStmtOrExpr::Expr(..) => true,
@@ -416,26 +399,29 @@ impl Fold for Params {
                 });
 
                 let body_span = f.body.span();
-                let (params, mut body) = self.fold_fn_like(
-                    f.params
-                        .into_iter()
-                        .map(|pat| Param {
+                let mut params = f
+                    .params
+                    .take()
+                    .into_iter()
+                    .map(|pat| Param {
+                        span: DUMMY_SP,
+                        decorators: Default::default(),
+                        pat,
+                    })
+                    .collect();
+
+                let mut body = match f.body.take() {
+                    BlockStmtOrExpr::BlockStmt(block) => block,
+                    BlockStmtOrExpr::Expr(expr) => BlockStmt {
+                        span: body_span,
+                        stmts: vec![Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
-                            decorators: Default::default(),
-                            pat,
-                        })
-                        .collect(),
-                    match f.body {
-                        BlockStmtOrExpr::BlockStmt(block) => block,
-                        BlockStmtOrExpr::Expr(expr) => BlockStmt {
-                            span: body_span,
-                            stmts: vec![Stmt::Return(ReturnStmt {
-                                span: DUMMY_SP,
-                                arg: Some(expr),
-                            })],
-                        },
+                            arg: Some(expr),
+                        })],
                     },
-                );
+                };
+
+                self.visit_mut_fn_like(&mut params, &mut body);
 
                 if need_arrow_to_function {
                     // We are converting an arrow expression to a function expression, and we
@@ -454,7 +440,7 @@ impl Fold for Params {
                         body.visit_mut_with(&mut ThisReplacer { to: &this_ident })
                     }
 
-                    return Expr::Fn(FnExpr {
+                    *e = Expr::Fn(FnExpr {
                         ident: None,
                         function: Function {
                             params,
@@ -467,6 +453,7 @@ impl Fold for Params {
                             return_type: Default::default(),
                         },
                     });
+                    return;
                 }
 
                 let body = if was_expr
@@ -485,70 +472,68 @@ impl Fold for Params {
                     BlockStmtOrExpr::BlockStmt(body)
                 };
 
-                return Expr::Arrow(ArrowExpr {
+                *e = Expr::Arrow(ArrowExpr {
                     params: params.into_iter().map(|param| param.pat).collect(),
                     body,
-                    ..f
+                    span: f.span,
+                    is_async: f.is_async,
+                    is_generator: f.is_generator,
+                    type_params: f.type_params.take(),
+                    return_type: f.return_type.take(),
                 });
             }
-            _ => e,
+            _ => {}
         }
     }
 
-    fn fold_function(&mut self, f: Function) -> Function {
+    fn visit_mut_function(&mut self, f: &mut Function) {
         if f.body.is_none() {
-            return f;
+            return;
         }
 
-        let f = f.fold_children_with(self);
+        f.visit_mut_children_with(self);
 
-        let (params, body) = self.fold_fn_like(f.params, f.body.unwrap());
+        let mut body = f.body.take().unwrap();
+        self.visit_mut_fn_like(&mut f.params, &mut body);
 
-        Function {
-            params,
-            body: Some(body),
-            ..f
-        }
+        f.body = Some(body);
     }
 
-    fn fold_getter_prop(&mut self, f: GetterProp) -> GetterProp {
+    fn visit_mut_getter_prop(&mut self, f: &mut GetterProp) {
         if f.body.is_none() {
-            return f;
+            return;
         }
 
-        let f = f.fold_children_with(self);
+        f.visit_mut_children_with(self);
 
-        let (params, body) = self.fold_fn_like(vec![], f.body.unwrap());
+        let mut params = vec![];
+        let mut body = f.body.take().unwrap();
+        self.visit_mut_fn_like(&mut params, &mut body);
         debug_assert_eq!(params, vec![]);
 
-        GetterProp {
-            body: Some(body),
-            ..f
-        }
+        f.body = Some(body);
     }
 
-    fn fold_setter_prop(&mut self, f: SetterProp) -> SetterProp {
+    fn visit_mut_setter_prop(&mut self, f: &mut SetterProp) {
         if f.body.is_none() {
-            return f;
+            return;
         }
 
-        let f = f.fold_children_with(self);
+        f.visit_mut_children_with(self);
 
-        let (mut params, body) = self.fold_fn_like(
-            vec![Param {
-                span: DUMMY_SP,
-                decorators: Default::default(),
-                pat: f.param,
-            }],
-            f.body.unwrap(),
-        );
+        let mut params = vec![Param {
+            span: DUMMY_SP,
+            decorators: Default::default(),
+            pat: f.param.take(),
+        }];
+
+        let mut body = f.body.take().unwrap();
+        self.visit_mut_fn_like(&mut params, &mut body);
+
         debug_assert!(params.len() == 1);
 
-        SetterProp {
-            param: params.pop().unwrap().pat,
-            body: Some(body),
-            ..f
-        }
+        f.param = params.pop().unwrap().pat;
+        f.body = Some(body);
     }
 }
 
