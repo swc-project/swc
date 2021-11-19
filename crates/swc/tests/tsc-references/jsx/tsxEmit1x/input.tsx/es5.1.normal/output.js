@@ -80,7 +80,7 @@ var SomeClass = /*#__PURE__*/ function() {
         {
             key: "f",
             value: function f() {
-                var _this = this, _this1 = this;
+                var _this = this;
                 var rewrites1 = /*#__PURE__*/ React.createElement("div", null, function() {
                     return _this;
                 });
@@ -94,7 +94,7 @@ var SomeClass = /*#__PURE__*/ function() {
                 });
                 var rewrites4 = /*#__PURE__*/ React.createElement("div", {
                     a: function() {
-                        return _this1;
+                        return _this;
                     }
                 });
                 var rewrites5 = /*#__PURE__*/ React.createElement("div", {
