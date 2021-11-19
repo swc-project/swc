@@ -404,7 +404,7 @@ where
                                         span: bin.span,
                                         op: op!(unary, "-"),
                                         arg: Box::new(Expr::Ident(Ident::new(
-                                            js_word!("NaN"),
+                                            js_word!("Infinity"),
                                             bin.span.with_ctxt(SyntaxContext::empty()),
                                         ))),
                                     })
