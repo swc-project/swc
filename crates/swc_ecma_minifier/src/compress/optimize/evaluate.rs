@@ -391,7 +391,7 @@ where
                             }
                             (FpCategory::Normal, FpCategory::Zero) => {
                                 self.changed = true;
-                                tracing::debug!("evaluate: `constant / 0` => `Infinity`");
+                                tracing::debug!("evaluate: `{} / 0` => `Infinity`", ln);
 
                                 // Sign does not matter for NaN
                                 *e = if ln.is_sign_positive() == rn.is_sign_positive() {
