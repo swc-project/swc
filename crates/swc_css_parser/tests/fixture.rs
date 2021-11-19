@@ -35,7 +35,7 @@ impl Visit for AssertValid {
                 },
                 &mut errors,
             )
-                .unwrap_or_else(|err| panic!("failed to parse tokens: {:?}\n{:?}", err, s.children));
+            .unwrap_or_else(|err| panic!("failed to parse tokens: {:?}\n{:?}", err, s.children));
 
             for err in errors {
                 panic!("{:?}", err);
