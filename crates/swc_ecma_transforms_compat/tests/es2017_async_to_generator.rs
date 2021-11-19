@@ -3007,6 +3007,29 @@ export default async function() {
 "
 );
 
+test_exec!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    function_parameters,
+    "
+class A {
+  waitForinit = () => Promise.resolve(3);
+
+  doTest() {
+    throw new Error('should not be called');
+  }
+}
+
+jest.spyOn(A.prototype, 'doTest').mockImplementation(async function() {
+  const ret = await this.waitForinit();
+  return ret;
+});
+
+const a = new A();
+expect(a.doTest()).resolves.toEqual(3);
+"
+);
+
 #[testing::fixture("tests/fixture/async-to-generator/**/exec.js")]
 fn exec(input: PathBuf) {
     let input = read_to_string(&input).unwrap();
