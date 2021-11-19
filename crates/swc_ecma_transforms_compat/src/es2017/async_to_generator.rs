@@ -269,7 +269,6 @@ impl VisitMut for Actual {
 
                 assign_expr.visit_mut_children_with(self);
                 self.in_prototype_assignment = false;
-                //*expr = Expr::Assign(assign_expr.take());
                 return;
             }
             _ => {}
@@ -906,7 +905,7 @@ impl Actual {
                 ident: None,
                 function: f.take(),
             },
-            self.in_object_prop || self.in_prototype_assignment,
+            true,
         );
 
         if is_decl {
