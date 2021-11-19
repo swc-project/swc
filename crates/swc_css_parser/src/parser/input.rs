@@ -9,8 +9,6 @@ pub trait ParserInput {
 
     fn next(&mut self) -> PResult<TokenAndSpan>;
 
-    fn skip_whitespaces(&mut self) -> PResult<()>;
-
     fn start_pos(&mut self) -> BytePos;
 
     fn state(&mut self) -> Self::State;
@@ -43,10 +41,6 @@ where
         }
     }
 
-    pub fn is_eof(&mut self) -> PResult<bool> {
-        Ok(self.cur()?.is_none())
-    }
-
     pub fn last_pos(&mut self) -> PResult<BytePos> {
         self.cur()?;
 
@@ -55,7 +49,7 @@ where
 
     pub fn cur_span(&mut self) -> PResult<Span> {
         if self.cur.is_none() {
-            self.bump_inner(false)?;
+            self.bump_inner()?;
         }
 
         Ok(self.cur.as_ref().map(|cur| cur.span).unwrap_or_default())
@@ -63,7 +57,7 @@ where
 
     pub fn cur(&mut self) -> PResult<Option<&Token>> {
         if self.cur.is_none() {
-            self.bump_inner(true)?;
+            self.bump_inner()?;
         }
 
         Ok(self.cur.as_ref().map(|v| &v.token))
@@ -92,12 +86,12 @@ where
 
         let token = self.cur.take();
 
-        self.bump_inner(false)?;
+        self.bump_inner()?;
 
         Ok(token)
     }
 
-    fn bump_inner(&mut self, skip_whitespace: bool) -> PResult<()> {
+    fn bump_inner(&mut self) -> PResult<()> {
         if let Some(cur) = &self.cur {
             self.last_pos = cur.span.hi;
         }
@@ -105,20 +99,7 @@ where
         self.cur = None;
 
         if let Some(next) = self.peeked.take() {
-            if skip_whitespace {
-                match next.token {
-                    tok!(" ") => {}
-                    _ => {
-                        self.cur = Some(next);
-                    }
-                }
-            } else {
-                self.cur = Some(next);
-            }
-        }
-
-        if skip_whitespace {
-            self.input.skip_whitespaces()?;
+            self.cur = Some(next);
         }
 
         if self.cur.is_none() {
@@ -140,27 +121,13 @@ where
     }
 
     pub(super) fn skip_ws(&mut self) -> PResult<()> {
-        match self.cur.as_ref().map(|v| &v.token) {
-            Some(tok!(" ")) => {
-                self.bump_inner(true)?;
-                Ok(())
-            }
-
-            Some(..) => Ok(()),
-
-            None => {
-                if self.peeked.is_none() {
-                    self.input.skip_whitespaces()?;
-                } else {
-                    match self.peeked.as_ref().map(|v| &v.token) {
-                        Some(tok!(" ")) => {
-                            self.peeked = None;
-                            self.input.skip_whitespaces()?;
-                        }
-                        _ => {}
-                    }
+        loop {
+            match self.cur.as_ref().map(|v| &v.token) {
+                Some(tok!(" ")) => {
+                    self.bump_inner()?;
                 }
-                Ok(())
+
+                Some(..) | None => return Ok(()),
             }
         }
     }
@@ -222,24 +189,6 @@ impl ParserInput for TokensInput<'_> {
         self.idx += 1;
 
         Ok(ret)
-    }
-
-    fn skip_whitespaces(&mut self) -> PResult<()> {
-        let cur = self.tokens.tokens.get(self.idx);
-        let cur = match cur {
-            Some(cur) => cur,
-            None => return Ok(()),
-        };
-
-        match cur.token {
-            tok!(" ") => {
-                self.idx += 1;
-            }
-
-            _ => {}
-        }
-
-        Ok(())
     }
 
     fn start_pos(&mut self) -> BytePos {

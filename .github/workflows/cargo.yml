@@ -256,7 +256,7 @@ jobs:
 
       - name: Run cargo test (swc, concurrent)
         shell: bash
-        if: matrix.crate == 'swc'
+        if: matrix.crate == 'swc' && runner.os != 'Windows'
         run: |
           cargo test --color always -p swc --features concurrent
 
