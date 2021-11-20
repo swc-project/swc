@@ -716,13 +716,6 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
             }
         }
 
-        fn fold_function(&mut self, n: Function) -> Function {
-            if self.in_injected_define_property_call {
-                return n;
-            }
-            n.fold_children_with(self)
-        }
-
         fn fold_member_expr(
             &mut self,
             MemberExpr {
