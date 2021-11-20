@@ -20,9 +20,7 @@ var A = function() {
     "use strict";
     !function(instance, Constructor) {
         if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-    }(this, A);
-    var _this = this;
-    this.b = (function(fn) {
+    }(this, A), this.b = (function(fn) {
         return function() {
             var self = this, args = arguments;
             return new Promise(function(resolve, reject) {
@@ -37,21 +35,21 @@ var A = function() {
             });
         };
     })(regeneratorRuntime.mark(function _callee() {
-        var _len, args, _key, obj, _args = arguments;
+        var _len, args, _key, _this, obj, _args = arguments;
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){
                 case 0:
                     for(_len = _args.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = _args[_key];
-                    return _ctx.next = 3, Promise.resolve();
-                case 3:
+                    return _this = this, _ctx.next = 4, Promise.resolve();
+                case 4:
                     obj = _defineProperty({
                     }, "a", function() {
                         return _this;
                     });
-                case 4:
+                case 5:
                 case "end":
                     return _ctx.stop();
             }
-        }, _callee);
+        }, _callee, this);
     }).bind(this)).bind(this);
 };
