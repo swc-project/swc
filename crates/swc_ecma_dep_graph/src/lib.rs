@@ -324,7 +324,7 @@ try {
                         text: r#"/ <reference foo="bar" />"#.to_string(),
                         span: Span::new(BytePos(86), BytePos(113), SyntaxContext::empty()),
                     }],
-                    span: Span::new(BytePos(114), BytePos(147), Default::default()),
+                    span: Span::new(BytePos(114), BytePos(148), Default::default()),
                     specifier: JsWord::from("./buzz.ts"),
                     specifier_span: Span::new(BytePos(136), BytePos(147), Default::default()),
                     import_assertions: HashMap::default(),
