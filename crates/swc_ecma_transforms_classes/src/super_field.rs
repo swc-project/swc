@@ -71,7 +71,7 @@ impl<'a> Fold for SuperFieldAccessFolder<'a> {
             return n;
         }
 
-        if !self.in_injected_define_property_call {
+        if self.folding_constructor && !self.in_injected_define_property_call {
             let old = self.in_nested_scope;
             self.in_nested_scope = true;
             let n = n.fold_children_with(self);
