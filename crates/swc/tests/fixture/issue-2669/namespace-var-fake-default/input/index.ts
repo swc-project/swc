@@ -1,4 +1,4 @@
 namespace TEST {
-  export const VALUE = "value";
+  const VALUE = "value";
 }
 export default TEST;
