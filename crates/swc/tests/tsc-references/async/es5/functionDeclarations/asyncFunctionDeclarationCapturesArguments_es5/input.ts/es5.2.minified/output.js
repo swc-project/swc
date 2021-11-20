@@ -54,7 +54,7 @@ var C = function() {
                                     return _ctx.stop();
                             }
                         }, _callee, this);
-                    }).bind(this))).apply(this, arguments);
+                    }))).apply(this, arguments);
                 }
             }
         }
