@@ -4466,7 +4466,7 @@
                 };
                 return function(name2, requires, configFn) {
                     return (function(name, context) {
-                        if ("hasOwnProperty" === name) throw ngMinErr("badname", "hasOwnProperty is not a valid {0} name", "module");
+                        if ("hasOwnProperty" === name) throw ngMinErr("badname", "hasOwnProperty is not a valid {0} name", context);
                     })(name2, "module"), requires && modules.hasOwnProperty(name2) && (modules[name2] = null), ensure(modules, name2, function() {
                         if (!requires) throw $injectorMinErr("nomod", "Module '{0}' is not available! You either misspelled the module name or forgot to load it. If registering a module ensure that you specify the dependencies as the second argument.", name2);
                         var invokeQueue = [], runBlocks = [], config = invokeLater("$injector", "invoke"), moduleInstance = {

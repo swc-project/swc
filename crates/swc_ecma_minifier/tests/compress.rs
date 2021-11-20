@@ -115,12 +115,13 @@ fn run(
     input: &Path,
     config: &str,
     mangle: Option<TestMangleOptions>,
+    skip_hygiene: bool,
 ) -> Option<Module> {
     let _ = rayon::ThreadPoolBuilder::new()
         .thread_name(|i| format!("rayon-{}", i + 1))
         .build_global();
 
-    let disable_hygiene = mangle.is_some();
+    let disable_hygiene = mangle.is_some() || skip_hygiene;
 
     let (_module, config) = parse_compressor_config(cm.clone(), &config);
 
@@ -260,6 +261,34 @@ fn find_config(dir: &Path) -> String {
     panic!("failed to find config file for {}", dir.display())
 }
 
+#[testing::fixture("tests/diff/**/input.js")]
+fn for_diff(input: PathBuf) {
+    let dir = input.parent().unwrap();
+    let config = find_config(&dir);
+    eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
+
+    testing::run_test2(false, |cm, handler| {
+        let output = run(cm.clone(), &handler, &input, &config, None, true);
+        let output_module = match output {
+            Some(v) => v,
+            None => return Ok(()),
+        };
+
+        let output = print(cm.clone(), &[output_module.clone()], true, true);
+
+        eprintln!("---- {} -----\n{}", Color::Green.paint("Ourput"), output);
+
+        println!("{}", input.display());
+
+        NormalizedOutput::from(output)
+            .compare_to_file(dir.join("output.js"))
+            .unwrap();
+
+        Ok(())
+    })
+    .unwrap()
+}
+
 #[testing::fixture("tests/compress/fixture/**/input.js")]
 fn base_fixture(input: PathBuf) {
     let dir = input.parent().unwrap();
@@ -267,13 +296,13 @@ fn base_fixture(input: PathBuf) {
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
 
     testing::run_test2(false, |cm, handler| {
-        let output = run(cm.clone(), &handler, &input, &config, None);
+        let output = run(cm.clone(), &handler, &input, &config, None, false);
         let output_module = match output {
             Some(v) => v,
             None => return Ok(()),
         };
 
-        let output = print(cm.clone(), &[output_module.clone()], false);
+        let output = print(cm.clone(), &[output_module.clone()], false, false);
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Ourput"), output);
 
@@ -296,13 +325,13 @@ fn projects(input: PathBuf) {
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
 
     testing::run_test2(false, |cm, handler| {
-        let output = run(cm.clone(), &handler, &input, &config, None);
+        let output = run(cm.clone(), &handler, &input, &config, None, false);
         let output_module = match output {
             Some(v) => v,
             None => return Ok(()),
         };
 
-        let output = print(cm.clone(), &[output_module.clone()], false);
+        let output = print(cm.clone(), &[output_module.clone()], false, false);
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Ourput"), output);
 
@@ -354,9 +383,9 @@ fn base_exec(input: PathBuf) {
             expected_output
         );
 
-        let output = run(cm.clone(), &handler, &input, &config, mangle);
+        let output = run(cm.clone(), &handler, &input, &config, mangle, false);
         let output = output.expect("Parsing in base test should not fail");
-        let output = print(cm.clone(), &[output], false);
+        let output = print(cm.clone(), &[output], false, false);
 
         eprintln!(
             "---- {} -----\n{}",
@@ -405,13 +434,13 @@ fn fixture(input: PathBuf) {
         let mangle: Option<TestMangleOptions> =
             mangle.map(|s| serde_json::from_str(&s).expect("failed to deserialize mangle.json"));
 
-        let output = run(cm.clone(), &handler, &input, &config, mangle);
+        let output = run(cm.clone(), &handler, &input, &config, mangle, false);
         let output_module = match output {
             Some(v) => v,
             None => return Ok(()),
         };
 
-        let output = print(cm.clone(), &[output_module.clone()], false);
+        let output = print(cm.clone(), &[output_module.clone()], false, false);
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Ourput"), output);
 
@@ -441,7 +470,7 @@ fn fixture(input: PathBuf) {
                 ModuleItem::Stmt(Stmt::Empty(..)) => false,
                 _ => true,
             });
-            print(cm.clone(), &[expected], false)
+            print(cm.clone(), &[expected], false, false)
         };
 
         if output == expected {
@@ -473,7 +502,12 @@ fn fixture(input: PathBuf) {
             }
         }
 
-        let output_str = print(cm.clone(), &[drop_span(output_module.clone())], false);
+        let output_str = print(
+            cm.clone(),
+            &[drop_span(output_module.clone())],
+            false,
+            false,
+        );
 
         if env::var("UPDATE").map(|s| s == "1").unwrap_or(false) {
             let _ = catch_unwind(|| {
@@ -490,12 +524,17 @@ fn fixture(input: PathBuf) {
     .unwrap()
 }
 
-fn print<N: swc_ecma_codegen::Node>(cm: Lrc<SourceMap>, nodes: &[N], minify: bool) -> String {
+fn print<N: swc_ecma_codegen::Node>(
+    cm: Lrc<SourceMap>,
+    nodes: &[N],
+    minify: bool,
+    skip_semi: bool,
+) -> String {
     let mut buf = vec![];
 
     {
         let mut wr: Box<dyn WriteJs> = Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None));
-        if minify {
+        if minify || skip_semi {
             wr = Box::new(omit_trailing_semi(wr));
         }
 
@@ -527,7 +566,7 @@ impl Shower<'_> {
         let span = node.span();
 
         if span.is_dummy() {
-            let src = print(self.cm.clone(), &[node], false);
+            let src = print(self.cm.clone(), &[node], false, false);
             self.handler
                 .struct_span_warn(span, &format!("{}: {}", name, src))
                 .emit();
@@ -1377,13 +1416,14 @@ fn full(input: PathBuf) {
                 top_level: true,
                 ..Default::default()
             })),
+            false,
         );
         let output_module = match output {
             Some(v) => v,
             None => return Ok(()),
         };
 
-        let output = print(cm.clone(), &[output_module.clone()], true);
+        let output = print(cm.clone(), &[output_module.clone()], true, true);
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Output"), output);
 
