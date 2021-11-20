@@ -4,6 +4,7 @@ use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::quote_ident;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut};
+
 #[cfg(test)]
 mod tests;
 
