@@ -61,10 +61,26 @@ macro_rules! mark_nested {
 impl<'a> Fold for SuperFieldAccessFolder<'a> {
     noop_fold_type!();
 
-    mark_nested!(fold_function, Function);
+    // mark_nested!(fold_function, Function);
     mark_nested!(fold_class, Class);
 
     fold_only_key!();
+
+    fn fold_function(&mut self, n: Function) -> Function {
+        if self.folding_constructor {
+            return n;
+        }
+
+        if !self.in_injected_define_property_call {
+            let old = self.in_nested_scope;
+            self.in_nested_scope = true;
+            let n = n.fold_children_with(self);
+            self.in_nested_scope = old;
+            n
+        } else {
+            n.fold_children_with(self)
+        }
+    }
 
     fn fold_expr(&mut self, n: Expr) -> Expr {
         match n {
