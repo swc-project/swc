@@ -34,7 +34,7 @@ impl VisitMut for Inner {
     }
 }
 
-fn assert_cnt(src: &str, cnt: usize) {
+fn assert_cnt(b: &mut Bencher, src: &str, cnt: usize) {
     testing::run_test2(false, |cm, _handler| {
         let fm = cm.new_source_file(FileName::Anon, src.into());
 
@@ -52,12 +52,14 @@ fn assert_cnt(src: &str, cnt: usize) {
             Err(..) => return Ok(()),
         };
 
-        let mut v = Outer {
-            v: Inner { cnt: 0 },
-        };
-        module.visit_mut_with(&mut v);
+        b.iter(|| {
+            let mut v = Outer {
+                v: Inner { cnt: 0 },
+            };
+            module.visit_mut_with(&mut v);
 
-        assert_eq!(v.v.cnt, cnt);
+            assert_eq!(v.v.cnt, cnt);
+        });
 
         Ok(())
     })
@@ -66,52 +68,48 @@ fn assert_cnt(src: &str, cnt: usize) {
 
 #[bench]
 fn time_5(b: &mut Bencher) {
-    b.iter(|| {
-        assert_cnt(
-            "
-            {{{{{
-                call()
-            }}}}}",
-            5,
-        );
-    });
+    assert_cnt(
+        b,
+        "
+        {{{{{
+            call()
+        }}}}}",
+        5,
+    );
 }
 
 #[bench]
 fn time_10(b: &mut Bencher) {
-    b.iter(|| {
-        assert_cnt(
-            "
-            {{{{{{{{{{
-                        call()
-            }}}}}}}}}}",
-            10,
-        );
-    });
+    assert_cnt(
+        b,
+        "
+        {{{{{{{{{{
+                    call()
+        }}}}}}}}}}",
+        10,
+    );
 }
 
 #[bench]
 fn time_15(b: &mut Bencher) {
-    b.iter(|| {
-        assert_cnt(
-            "
-            {{{{{{{{{{{{{{{
-                            call()
-            }}}}}}}}}}}}}}}",
-            15,
-        );
-    });
+    assert_cnt(
+        b,
+        "
+        {{{{{{{{{{{{{{{
+                        call()
+        }}}}}}}}}}}}}}}",
+        15,
+    );
 }
 
 #[bench]
 fn time_20(b: &mut Bencher) {
-    b.iter(|| {
-        assert_cnt(
-            "
-            {{{{{{{{{{{{{{{{{{{{
-                                    call()
-            }}}}}}}}}}}}}}}}}}}}",
-            20,
-        );
-    });
+    assert_cnt(
+        b,
+        "
+        {{{{{{{{{{{{{{{{{{{{
+                                call()
+        }}}}}}}}}}}}}}}}}}}}",
+        20,
+    );
 }
