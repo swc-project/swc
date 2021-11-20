@@ -76,11 +76,17 @@ impl<'a> VisitMut for FunctionWrapper<'a> {
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         match e {
             Expr::Ident(id) if id.sym == js_word!("arguments") => {
-                let arguments = self.state.args.get_or_insert(private_ident!("_arguments"));
+                let arguments = self
+                    .state
+                    .args
+                    .get_or_insert_with(|| private_ident!("_arguments"));
                 *e = Expr::Ident(arguments.clone());
             }
             Expr::This(..) => {
-                let this = self.state.this.get_or_insert(private_ident!("_this"));
+                let this = self
+                    .state
+                    .this
+                    .get_or_insert_with(|| private_ident!("_this"));
                 *e = Expr::Ident(this.clone());
             }
             _ => e.visit_mut_children_with(self),
