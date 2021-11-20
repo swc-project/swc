@@ -853,7 +853,7 @@ error: SubclassSelector
 29 | p:nth-last-of-type(2) {
    |  ^^^^^^^^^^^^^^^^^^^^
 
-error: PseudoSelector
+error: PseudoClassSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:29:2
    |
 29 | p:nth-last-of-type(2) {
@@ -923,7 +923,7 @@ error: SubclassSelector
 32 | :lang(en, ko) {
    | ^^^^^^^^^^^^^
 
-error: PseudoSelector
+error: PseudoClassSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:32:1
    |
 32 | :lang(en, ko) {
@@ -1011,7 +1011,7 @@ error: SubclassSelector
 35 | ::pseudo-elem() {
    | ^^^^^^^^^^^^^^^
 
-error: PseudoSelector
+error: PseudoElementSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:35:1
    |
 35 | ::pseudo-elem() {
@@ -1075,7 +1075,7 @@ error: SubclassSelector
 38 | ::pseudo-elem(a, b) {
    | ^^^^^^^^^^^^^^^^^^^
 
-error: PseudoSelector
+error: PseudoElementSelector
   --> $DIR/tests/fixture/rome/selectors/input.css:38:1
    |
 38 | ::pseudo-elem(a, b) {

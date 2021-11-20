@@ -114,13 +114,12 @@
                         }
                       },
                       {
-                        "type": "PseudoSelector",
+                        "type": "PseudoClassSelector",
                         "span": {
                           "start": 38,
                           "end": 52,
                           "ctxt": 0
                         },
-                        "isElement": false,
                         "name": {
                           "type": "Identifier",
                           "span": {
@@ -253,13 +252,12 @@
                         }
                       },
                       {
-                        "type": "PseudoSelector",
+                        "type": "PseudoClassSelector",
                         "span": {
                           "start": 96,
                           "end": 107,
                           "ctxt": 0
                         },
-                        "isElement": false,
                         "name": {
                           "type": "Identifier",
                           "span": {
@@ -372,13 +370,12 @@
                         }
                       },
                       {
-                        "type": "PseudoSelector",
+                        "type": "PseudoClassSelector",
                         "span": {
                           "start": 151,
                           "end": 163,
                           "ctxt": 0
                         },
-                        "isElement": false,
                         "name": {
                           "type": "Identifier",
                           "span": {
@@ -432,13 +429,12 @@
                         }
                       },
                       {
-                        "type": "PseudoSelector",
+                        "type": "PseudoClassSelector",
                         "span": {
                           "start": 175,
                           "end": 188,
                           "ctxt": 0
                         },
-                        "isElement": false,
                         "name": {
                           "type": "Identifier",
                           "span": {
@@ -512,13 +508,12 @@
                         }
                       },
                       {
-                        "type": "PseudoSelector",
+                        "type": "PseudoClassSelector",
                         "span": {
                           "start": 200,
                           "end": 213,
                           "ctxt": 0
                         },
-                        "isElement": false,
                         "name": {
                           "type": "Identifier",
                           "span": {
@@ -592,13 +587,12 @@
                         }
                       },
                       {
-                        "type": "PseudoSelector",
+                        "type": "PseudoClassSelector",
                         "span": {
                           "start": 225,
                           "end": 239,
                           "ctxt": 0
                         },
-                        "isElement": false,
                         "name": {
                           "type": "Identifier",
                           "span": {

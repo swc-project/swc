@@ -40,7 +40,7 @@ error: SubclassSelector
 1 | :pseudo(cl\,ss) {}
   | ^^^^^^^^^^^^^^^
 
-error: PseudoSelector
+error: PseudoClassSelector
  --> $DIR/tests/fixture/esbuild/misc/6s_VBuRPHbPiUrh1fWCR_Q/input.css:1:1
   |
 1 | :pseudo(cl\,ss) {}
