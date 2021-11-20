@@ -631,24 +631,30 @@ where
                             }))),
                         ],
                     };
-                    args.chain(once(
-                        Ident {
-                            span: DUMMY_SP,
-                            sym: js_word!("undefined"),
-                            optional: false,
-                        }
-                        .as_arg(),
-                    ))
-                    .chain(once(
-                        Lit::Bool(Bool {
-                            span: DUMMY_SP,
-                            value: use_jsxs,
-                        })
-                        .as_arg(),
-                    ))
-                    .chain(once(source.as_arg()))
-                    .chain(once(ThisExpr { span: DUMMY_SP }.as_arg()))
-                    .collect()
+
+                    // set undefined literal to key if key is None
+                    let key = match key {
+                        Some(key) => key,
+                        None => ExprOrSpread {
+                            spread: None,
+                            expr: Box::new(Expr::Ident(Ident {
+                                span: DUMMY_SP,
+                                sym: js_word!("undefined"),
+                                optional: false,
+                            })),
+                        },
+                    };
+                    args.chain(Some(key))
+                        .chain(once(
+                            Lit::Bool(Bool {
+                                span: DUMMY_SP,
+                                value: use_jsxs,
+                            })
+                            .as_arg(),
+                        ))
+                        .chain(once(source.as_arg()))
+                        .chain(once(ThisExpr { span: DUMMY_SP }.as_arg()))
+                        .collect()
                 } else {
                     args.chain(key).collect()
                 };
