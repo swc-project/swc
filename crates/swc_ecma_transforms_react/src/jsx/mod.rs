@@ -472,6 +472,8 @@ where
                 };
 
                 let mut key = None;
+                let mut __source = None;
+                let mut __self = None;
 
                 for attr in el.opening.attrs {
                     match attr {
@@ -489,6 +491,44 @@ where
                                         assert_ne!(
                                             key, None,
                                             "value of property 'key' should not be empty"
+                                        );
+                                        continue;
+                                    }
+
+                                    if !use_create_element
+                                        && i.sym == String::from("__source")
+                                        && self.development
+                                    {
+                                        if __source.is_some() {
+                                            panic!("Duplicate __source is found");
+                                        }
+                                        __source = attr
+                                            .value
+                                            .map(jsx_attr_value_to_expr)
+                                            .flatten()
+                                            .map(|expr| ExprOrSpread { expr, spread: None });
+                                        assert_ne!(
+                                            __source, None,
+                                            "value of property '__source' should not be empty"
+                                        );
+                                        continue;
+                                    }
+
+                                    if !use_create_element
+                                        && i.sym == String::from("__self")
+                                        && self.development
+                                    {
+                                        if __self.is_some() {
+                                            panic!("Duplicate __self is found");
+                                        }
+                                        __self = attr
+                                            .value
+                                            .map(jsx_attr_value_to_expr)
+                                            .flatten()
+                                            .map(|expr| ExprOrSpread { expr, spread: None });
+                                        assert_ne!(
+                                            __self, None,
+                                            "value of property '__self' should not be empty"
                                         );
                                         continue;
                                     }
@@ -602,46 +642,30 @@ where
 
                 let args = once(name.as_arg()).chain(once(props_obj.as_arg()));
                 let args = if self.development {
-                    let loc = self.cm.lookup_char_pos(el.span.lo);
-                    let source = ObjectLit {
-                        span: DUMMY_SP,
-                        props: vec![
-                            PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                                key: PropName::Ident(quote_ident!("fileName")),
-                                value: Box::new(Expr::Lit(Lit::Str(Str {
-                                    span: DUMMY_SP,
-                                    value: loc.file.name.to_string().into(),
-                                    has_escape: false,
-                                    kind: Default::default(),
-                                }))),
-                            }))),
-                            PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                                key: PropName::Ident(quote_ident!("lineNumber")),
-                                value: Box::new(Expr::Lit(Lit::Num(Number {
-                                    span: DUMMY_SP,
-                                    value: loc.line as _,
-                                }))),
-                            }))),
-                            PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                                key: PropName::Ident(quote_ident!("columnNumber")),
-                                value: Box::new(Expr::Lit(Lit::Num(Number {
-                                    span: DUMMY_SP,
-                                    value: (loc.col.0 + 1) as _,
-                                }))),
-                            }))),
-                        ],
-                    };
-
                     // set undefined literal to key if key is None
                     let key = match key {
                         Some(key) => key,
                         None => ExprOrSpread {
                             spread: None,
-                            expr: Box::new(Expr::Ident(Ident {
-                                span: DUMMY_SP,
-                                sym: js_word!("undefined"),
-                                optional: false,
-                            })),
+                            expr: Box::new(build_undefined_literal_value()),
+                        },
+                    };
+
+                    // set undefined literal to __source if __source is None
+                    let __source = match __source {
+                        Some(__source) => __source,
+                        None => ExprOrSpread {
+                            spread: None,
+                            expr: Box::new(build_undefined_literal_value()),
+                        },
+                    };
+
+                    // set undefined literal to __self if __self is None
+                    let __self = match __self {
+                        Some(__self) => __self,
+                        None => ExprOrSpread {
+                            spread: None,
+                            expr: Box::new(build_undefined_literal_value()),
                         },
                     };
                     args.chain(Some(key))
@@ -652,8 +676,8 @@ where
                             })
                             .as_arg(),
                         ))
-                        .chain(once(source.as_arg()))
-                        .chain(once(ThisExpr { span: DUMMY_SP }.as_arg()))
+                        .chain(Some(__source))
+                        .chain(Some(__self))
                         .collect()
                 } else {
                     args.chain(key).collect()
@@ -1323,4 +1347,12 @@ fn transform_jsx_attr_str(v: &str) -> String {
     }
 
     buf
+}
+
+fn build_undefined_literal_value() -> Expr {
+    Expr::Ident(Ident {
+        span: DUMMY_SP,
+        sym: js_word!("undefined"),
+        optional: false,
+    })
 }
