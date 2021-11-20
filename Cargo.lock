@@ -115,9 +115,9 @@ dependencies = [
 
 [[package]]
 name = "anyhow"
-version = "1.0.45"
+version = "1.0.47"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ee10e43ae4a853c0a3591d4e2ada1719e553be18199d9da9d4a83f5927c2f5c7"
+checksum = "38d9ff5d688f1c13395289f67db01d4826b46dd694e7580accdc3e8430f2d98e"
 
 [[package]]
 name = "arbitrary"
@@ -1154,9 +1154,9 @@ dependencies = [
 
 [[package]]
 name = "napi"
-version = "1.7.9"
+version = "1.7.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b33ead3731711d69cbcdb9c7fafbfae12ad7d32a7a6ec4bd8dba5bc8548d814b"
+checksum = "9050238b713b3c5dd5ae1613da1ccefe4061c03992f9e9bbe43b7d473ba4bd3c"
 dependencies = [
  "napi-sys",
  "serde",
@@ -2773,7 +2773,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.78.4"
+version = "0.78.5"
 dependencies = [
  "either",
  "enum_kind",
