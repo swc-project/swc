@@ -6,19 +6,7 @@ export default function Home() {
         new MyClass()
     }, [])
 
-    return (
-        <svg>
-            <g className="group">
-                <path />
-                <path />
-            </g>
-
-            <g className="group">
-                <path />
-                <path />
-            </g>
-        </svg>
-    )
+    return ({});
 }
 
 class MyClass {
