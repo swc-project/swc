@@ -278,7 +278,7 @@ struct Scope {
 struct DeclInfo {
     /// interface / type alias
     has_type: bool,
-    /// Var, Fn, Class, Namespace without declare
+    /// Var, Fn, Class, Namespace with "concrete" body
     has_concrete: bool,
     /// In `import foo = bar.baz`, `foo`'s dependency is `bar`. This means that
     /// when setting `has_concrete` for `foo`, it must also be set for
@@ -334,11 +334,12 @@ where
                 self.store(id.sym.clone(), id.span.ctxt, false)
             }
 
+            // Overwrite with `concrete: true` when its body is detected be `concrete` in
+            // `handle_ts_module`
             Decl::TsModule(TsModuleDecl {
                 id: TsModuleName::Ident(ref id),
-                declare,
                 ..
-            }) => self.store(id.sym.clone(), id.span.ctxt, !declare),
+            }) => self.store(id.sym.clone(), id.span.ctxt, false),
 
             Decl::TsModule(TsModuleDecl {
                 id:
@@ -1294,6 +1295,10 @@ where
             args: vec![init_arg.as_arg()],
             type_args: Default::default(),
         }));
+
+        // When its body is non empty, it should be `concrete` (i.e. "export"-able).
+        // TODO: Due to the processing order, this cannot handle "hoisting export".
+        self.store(module_name.sym.clone(), module_name.span.ctxt, true);
 
         Some((
             var.map(|var| {

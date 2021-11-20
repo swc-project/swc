@@ -1,4 +1,4 @@
 namespace TEST {
-  export type TYPE = "type";
+  type TYPE = "type";
 }
 export default TEST;
