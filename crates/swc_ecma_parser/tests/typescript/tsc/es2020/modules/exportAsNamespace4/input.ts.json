@@ -108,7 +108,7 @@
       "type": "ExportNamedDeclaration",
       "span": {
         "start": 182,
-        "end": 212,
+        "end": 213,
         "ctxt": 0
       },
       "specifiers": [

@@ -19,14 +19,13 @@ var t2 = function f() {
 var C = function C() {
     "use strict";
     _classCallCheck(this, C);
-    var _this = this;
     this.x = function() {
         var q;
-        var q = _this;
+        var q = this;
     };
     this.y = function ff() {
         var q;
-        var q = _this;
+        var q = this;
     };
 };
 var M;

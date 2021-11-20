@@ -58,7 +58,7 @@ error: SubclassSelector
 1 | :root {
   | ^^^^^
 
-error: PseudoSelector
+error: PseudoClassSelector
  --> $DIR/tests/fixture/value/custom-property/input.css:1:1
   |
 1 | :root {

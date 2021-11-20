@@ -77,7 +77,7 @@ var C = // @target: ES5
                                     return _ctx.stop();
                             }
                         }, _callee, this);
-                    }).bind(this));
+                    }));
                     return _fn.apply(this, arguments);
                 }
             }

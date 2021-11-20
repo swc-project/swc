@@ -58,13 +58,12 @@
                 },
                 "subclassSelectors": [
                   {
-                    "type": "PseudoSelector",
+                    "type": "PseudoElementSelector",
                     "span": {
                       "start": 3,
                       "end": 11,
                       "ctxt": 0
                     },
-                    "isElement": true,
                     "name": {
                       "type": "Identifier",
                       "span": {
@@ -78,13 +77,12 @@
                     "children": null
                   },
                   {
-                    "type": "PseudoSelector",
+                    "type": "PseudoElementSelector",
                     "span": {
                       "start": 11,
                       "end": 18,
                       "ctxt": 0
                     },
-                    "isElement": true,
                     "name": {
                       "type": "Identifier",
                       "span": {
@@ -98,13 +96,12 @@
                     "children": null
                   },
                   {
-                    "type": "PseudoSelector",
+                    "type": "PseudoElementSelector",
                     "span": {
                       "start": 18,
                       "end": 29,
                       "ctxt": 0
                     },
-                    "isElement": true,
                     "name": {
                       "type": "Identifier",
                       "span": {
@@ -118,13 +115,12 @@
                     "children": null
                   },
                   {
-                    "type": "PseudoSelector",
+                    "type": "PseudoElementSelector",
                     "span": {
                       "start": 29,
                       "end": 41,
                       "ctxt": 0
                     },
-                    "isElement": true,
                     "name": {
                       "type": "Identifier",
                       "span": {
@@ -138,13 +134,12 @@
                     "children": null
                   },
                   {
-                    "type": "PseudoSelector",
+                    "type": "PseudoElementSelector",
                     "span": {
                       "start": 41,
                       "end": 55,
                       "ctxt": 0
                     },
-                    "isElement": true,
                     "name": {
                       "type": "Identifier",
                       "span": {

@@ -74,7 +74,8 @@ var Base1 = function() {
 }(Base21), Derived3 = function(Base2) {
     "use strict";
     function Derived3() {
-        return _classCallCheck(this, Derived3), _possibleConstructorReturn(void 0);
+        var _this;
+        return _classCallCheck(this, Derived3), _possibleConstructorReturn(_this);
     }
     return _inherits(Derived3, Base2), _createSuper(Derived3), Derived3;
 }(Base21), Derived4 = function(Base2) {

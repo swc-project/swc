@@ -115,9 +115,9 @@ dependencies = [
 
 [[package]]
 name = "anyhow"
-version = "1.0.45"
+version = "1.0.47"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ee10e43ae4a853c0a3591d4e2ada1719e553be18199d9da9d4a83f5927c2f5c7"
+checksum = "38d9ff5d688f1c13395289f67db01d4826b46dd694e7580accdc3e8430f2d98e"
 
 [[package]]
 name = "arbitrary"
@@ -1154,9 +1154,9 @@ dependencies = [
 
 [[package]]
 name = "napi"
-version = "1.7.9"
+version = "1.7.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b33ead3731711d69cbcdb9c7fafbfae12ad7d32a7a6ec4bd8dba5bc8548d814b"
+checksum = "9050238b713b3c5dd5ae1613da1ccefe4061c03992f9e9bbe43b7d473ba4bd3c"
 dependencies = [
  "napi-sys",
  "serde",
@@ -2567,7 +2567,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.36.0"
+version = "0.37.0"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -2578,7 +2578,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_ast"
-version = "0.33.0"
+version = "0.34.0"
 dependencies = [
  "is-macro",
  "serde",
@@ -2589,7 +2589,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.34.0"
+version = "0.35.0"
 dependencies = [
  "auto_impl 0.4.1",
  "bitflags",
@@ -2615,7 +2615,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.36.0"
+version = "0.37.0"
 dependencies = [
  "bitflags",
  "lexical",
@@ -2631,7 +2631,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_utils"
-version = "0.30.0"
+version = "0.31.0"
 dependencies = [
  "swc_atoms 0.2.9",
  "swc_common",
@@ -2641,7 +2641,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_visit"
-version = "0.32.0"
+version = "0.33.0"
 dependencies = [
  "swc_atoms 0.2.9",
  "swc_common",
@@ -2740,7 +2740,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.51.0"
+version = "0.51.1"
 dependencies = [
  "ahash",
  "ansi_term 0.12.1",
@@ -2773,7 +2773,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.78.4"
+version = "0.78.5"
 dependencies = [
  "either",
  "enum_kind",
@@ -2889,7 +2889,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_classes"
-version = "0.30.0"
+version = "0.30.1"
 dependencies = [
  "swc_atoms 0.2.9",
  "swc_common",
@@ -2901,7 +2901,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.52.7"
+version = "0.52.9"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -3266,7 +3266,7 @@ dependencies = [
 
 [[package]]
 name = "swc_stylis"
-version = "0.33.0"
+version = "0.34.0"
 dependencies = [
  "swc_atoms 0.2.9",
  "swc_common",

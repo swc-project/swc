@@ -1,0 +1,28 @@
+a::after {}
+
+dialog::backdrop {}
+
+a::before {}
+
+video::cue {}
+video::cue(b) {}
+
+video::cue-region {}
+video::cue-region(#scroll) {}
+
+::grammar-error {}
+
+::marker {}
+
+tabbed-custom-element::part(tab) {}
+
+::placeholder {}
+
+::selection {}
+
+::slotted(*) {}
+::slotted(span) {}
+
+::spelling-error {}
+
+::target-text {}

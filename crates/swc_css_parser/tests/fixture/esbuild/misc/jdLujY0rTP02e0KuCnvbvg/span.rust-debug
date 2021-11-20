@@ -52,7 +52,7 @@ error: SubclassSelector
 1 | a/**/:b {}
   |      ^^
 
-error: PseudoSelector
+error: PseudoClassSelector
  --> $DIR/tests/fixture/esbuild/misc/jdLujY0rTP02e0KuCnvbvg/input.css:1:6
   |
 1 | a/**/:b {}

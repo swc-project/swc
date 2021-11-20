@@ -52,7 +52,7 @@ error: SubclassSelector
 1 | a::b {}
   |  ^^^
 
-error: PseudoSelector
+error: PseudoElementSelector
  --> $DIR/tests/fixture/esbuild/misc/sAlB53zm7iv9WuhRVKadHQ/input.css:1:2
   |
 1 | a::b {}

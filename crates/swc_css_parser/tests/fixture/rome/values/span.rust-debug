@@ -62,7 +62,7 @@ error: SubclassSelector
 1 | p::before {
   |  ^^^^^^^^
 
-error: PseudoSelector
+error: PseudoElementSelector
  --> $DIR/tests/fixture/rome/values/input.css:1:2
   |
 1 | p::before {

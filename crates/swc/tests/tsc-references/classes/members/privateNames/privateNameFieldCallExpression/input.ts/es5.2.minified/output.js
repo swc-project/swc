@@ -78,12 +78,10 @@ var A = function() {
     function A() {
         !function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, A);
-        var _this = this;
-        _fieldFunc.set(this, {
+        }(this, A), _fieldFunc.set(this, {
             writable: !0,
             value: function() {
-                _this.x = 10;
+                this.x = 10;
             }
         }), _fieldFunc2.set(this, {
             writable: !0,

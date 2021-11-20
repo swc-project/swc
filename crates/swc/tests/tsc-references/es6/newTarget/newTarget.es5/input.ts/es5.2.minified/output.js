@@ -16,10 +16,8 @@ function _setPrototypeOf(o, p) {
 }
 var A1 = function() {
     "use strict";
-    _classCallCheck(this, A1);
-    var _this = this;
-    this.constructor, this.d = function() {
-        return _this.constructor;
+    _classCallCheck(this, A1), this.constructor, this.d = function() {
+        return this.constructor;
     }, this.constructor;
 };
 A1.c = function _target() {
