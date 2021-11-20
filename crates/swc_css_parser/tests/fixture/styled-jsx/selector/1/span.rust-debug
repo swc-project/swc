@@ -14,7 +14,7 @@ error: Rule
 3 | | }
   | |_^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1
   |
 1 | / :global(.foo + a) {
@@ -46,7 +46,7 @@ error: SubclassSelector
 1 | :global(.foo + a) {
   | ^^^^^^^^^^^^^^^^^
 
-error: PseudoSelector
+error: PseudoClassSelector
  --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1
   |
 1 | :global(.foo + a) {

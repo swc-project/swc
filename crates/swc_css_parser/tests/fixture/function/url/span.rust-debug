@@ -22,7 +22,7 @@ error: Rule
 43 | | }
    | |_^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/function/url/input.css:1:1
    |
 1  | / a {

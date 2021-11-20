@@ -681,7 +681,7 @@ where
         Ok(nth)
     }
 
-    fn parse_pseudo_class_selector(&mut self) -> PResult<PseudoSelector> {
+    fn parse_pseudo_class_selector(&mut self) -> PResult<PseudoClassSelector> {
         let span = self.input.cur_span()?;
 
         expect!(self, ":"); // `:`
@@ -713,9 +713,8 @@ where
 
             expect!(self, ")");
 
-            return Ok(PseudoSelector {
+            return Ok(PseudoClassSelector {
                 span: span!(self, span.lo),
-                is_element: false,
                 name: Ident {
                     span: Span::new(fn_span.lo, fn_span.hi - BytePos(1), Default::default()),
                     value: names.0,
@@ -731,9 +730,59 @@ where
                 _ => unreachable!(),
             };
 
-            return Ok(PseudoSelector {
+            return Ok(PseudoClassSelector {
                 span: span!(self, span.lo),
-                is_element: false,
+                name: Ident {
+                    span: ident_span,
+                    value: values.0,
+                    raw: values.1,
+                },
+                children: None,
+            });
+        }
+
+        let span = self.input.cur_span()?;
+
+        return Err(Error::new(span, ErrorKind::InvalidSelector));
+    }
+
+    fn parse_pseudo_element_selector(&mut self) -> PResult<PseudoElementSelector> {
+        let span = self.input.cur_span()?;
+
+        expect!(self, ":"); // `:`
+        expect!(self, ":"); // `:`
+
+        if is!(self, Function) {
+            let fn_span = self.input.cur_span()?;
+            let name = bump!(self);
+            let names = match name {
+                Token::Function { value, raw } => (value, raw),
+                _ => unreachable!(),
+            };
+
+            let children = self.parse_any_value(false)?;
+
+            expect!(self, ")");
+
+            return Ok(PseudoElementSelector {
+                span: span!(self, span.lo),
+                name: Ident {
+                    span: Span::new(fn_span.lo, fn_span.hi - BytePos(1), Default::default()),
+                    value: names.0,
+                    raw: names.1,
+                },
+                children: Some(children),
+            });
+        } else if is!(self, Ident) {
+            let ident_span = self.input.cur_span()?;
+            let value = bump!(self);
+            let values = match value {
+                Token::Ident { value, raw } => (value, raw),
+                _ => unreachable!(),
+            };
+
+            return Ok(PseudoElementSelector {
+                span: span!(self, span.lo),
                 name: Ident {
                     span: ident_span,
                     value: values.0,
@@ -792,25 +841,17 @@ where
                 tok!(":") => {
                     if peeked_is!(self, ":") {
                         while is!(self, ":") {
-                            let start = self.input.cur_span()?.lo;
+                            let pseudo_element = self.parse_pseudo_element_selector()?;
 
-                            let is_element = peeked_is!(self, ":");
-                            if is_element {
-                                bump!(self);
-                            }
-
-                            let mut pseudo = self.parse_pseudo_class_selector()?;
-                            pseudo.span.lo = start;
-                            pseudo.is_element = is_element;
-                            subclass_selectors.push(SubclassSelector::Pseudo(pseudo));
+                            subclass_selectors.push(pseudo_element.into());
                         }
 
                         break 'subclass_selectors;
                     }
 
-                    let pseudo = self.parse_pseudo_class_selector()?;
+                    let pseudo_class = self.parse_pseudo_class_selector()?;
 
-                    subclass_selectors.push(SubclassSelector::Pseudo(pseudo));
+                    subclass_selectors.push(pseudo_class.into());
                 }
 
                 Token::AtKeyword { .. } if self.ctx.allow_at_selector => {

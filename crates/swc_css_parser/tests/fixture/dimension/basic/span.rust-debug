@@ -22,7 +22,7 @@ error: Rule
 9 | | }
   | |_^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/dimension/basic/input.css:1:1
   |
 1 | / a {

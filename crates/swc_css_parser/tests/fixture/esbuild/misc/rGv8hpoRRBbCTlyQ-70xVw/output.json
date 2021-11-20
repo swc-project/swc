@@ -7,13 +7,13 @@
   },
   "rules": [
     {
-      "type": "StyleRule",
+      "type": "QualifiedRule",
       "span": {
         "start": 0,
         "end": 17,
         "ctxt": 0
       },
-      "selectors": {
+      "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 0,
@@ -40,13 +40,12 @@
                 "typeSelector": null,
                 "subclassSelectors": [
                   {
-                    "type": "PseudoSelector",
+                    "type": "PseudoClassSelector",
                     "span": {
                       "start": 0,
                       "end": 14,
                       "ctxt": 0
                     },
-                    "isElement": false,
                     "name": {
                       "type": "Identifier",
                       "span": {

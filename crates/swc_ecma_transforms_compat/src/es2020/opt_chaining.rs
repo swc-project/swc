@@ -599,13 +599,17 @@ impl OptChaining {
                                 } else {
                                     Expr::Ident(tmp.clone())
                                 })),
-                                args: once(if is_super_access {
-                                    ThisExpr { span }.as_arg()
+                                args: if should_call {
+                                    once(if is_super_access {
+                                        ThisExpr { span }.as_arg()
+                                    } else {
+                                        this_obj.as_arg()
+                                    })
+                                    .chain(args)
+                                    .collect()
                                 } else {
-                                    this_obj.as_arg()
-                                })
-                                .chain(args)
-                                .collect(),
+                                    args
+                                },
                                 type_args,
                             })),
                         )

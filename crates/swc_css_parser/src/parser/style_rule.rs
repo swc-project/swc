@@ -16,7 +16,7 @@ where
 
         loop {
             // TODO: remove `}`
-            if self.input.is_eof()? || is!(self, "}") {
+            if is!(self, EOF) || is!(self, "}") {
                 return Ok(rules);
             }
 
@@ -47,8 +47,8 @@ where
         let start_pos = self.input.cur_span()?.lo;
         let start_state = self.input.state();
 
-        let selectors = self.parse_selectors();
-        let selectors = match selectors {
+        let prelude = self.parse_selectors();
+        let prelude = match prelude {
             Ok(v) => v,
             Err(err) => {
                 self.input.skip_ws()?;
@@ -74,9 +74,9 @@ where
         let block = self.parse_simple_block()?;
         let span = span!(self, start_pos);
 
-        Ok(Rule::Style(StyleRule {
+        Ok(Rule::QualifiedRule(QualifiedRule {
             span,
-            selectors,
+            prelude,
             block,
         }))
     }
@@ -117,7 +117,7 @@ where
         let mut declarations = vec![];
 
         loop {
-            if self.input.is_eof()? {
+            if is!(self, EOF) {
                 return Ok(declarations);
             }
 
@@ -166,7 +166,7 @@ where
         let mut value = vec![];
         let mut end = self.input.cur_span()?.hi;
 
-        if !self.input.is_eof()? {
+        if !is!(self, EOF) {
             let ctx = Ctx {
                 allow_operation_in_value: false,
                 recover_from_property_value: true,

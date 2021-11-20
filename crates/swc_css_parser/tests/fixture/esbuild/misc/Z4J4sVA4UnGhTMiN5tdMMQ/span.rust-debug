@@ -10,7 +10,7 @@ error: Rule
 1 | a { padding: 0 1 0 1 }
   | ^^^^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/esbuild/misc/Z4J4sVA4UnGhTMiN5tdMMQ/input.css:1:1
   |
 1 | a { padding: 0 1 0 1 }

@@ -994,34 +994,35 @@ class Class {
     r#"
     class Class {
       method() {
-          return _asyncToGenerator((function*() {
-              this;
-              ()=>this
-              ;
-              ()=>{
-                  this;
-                  ()=>this
-                  ;
-                  function x() {
-                      this;
-                      ()=>{
-                          this;
-                      };
-                      _asyncToGenerator((function*() {
-                          this;
-                      }).bind(this)).bind(this);
-                  }
-              };
-              function x() {
-                  this;
-                  ()=>{
-                      this;
-                  };
-                  _asyncToGenerator((function*() {
-                      this;
-                  }).bind(this)).bind(this);
-              }
-          }).bind(this))();
+        var _this = this;
+        return _asyncToGenerator((function*() {
+            this;
+            ()=>_this
+            ;
+            ()=>{
+                _this;
+                ()=>_this
+                ;
+                function x() {
+                    this;
+                    ()=>{
+                        _this;
+                    };
+                    _asyncToGenerator(function*() {
+                        _this;
+                    });
+                }
+            };
+            function x() {
+                this;
+                ()=>{
+                    _this;
+                };
+                _asyncToGenerator(function*() {
+                    _this;
+                });
+            }
+        }).bind(this))();
       }
     }
     "#
@@ -2261,15 +2262,16 @@ test!(
     class A {
       val = '1';
       foo() {
-          return _asyncToGenerator((function*() {
-              try {
-                  return yield _asyncToGenerator((function*(x) {
-                      return x + this.val;
-                  }).bind(this)).bind(this)('a');
-              } catch (e) {
-                  throw e;
-              }
-          }).bind(this))();
+        var _this = this;
+        return _asyncToGenerator(function*() {
+            try {
+                return yield _asyncToGenerator(function*(x) {
+                    return x + _this.val;
+                })('a');
+            } catch (e) {
+                throw e;
+            }
+        })();
       }
     }
     "
@@ -2315,11 +2317,12 @@ test!(
   class A {
     val = '1';
     foo() {
-        return _asyncToGenerator((function*() {
-          return yield _asyncToGenerator((function*(x) {
-              return x + this.val;
-          }).bind(this)).bind(this)('a');
-      }).bind(this))();
+        var _this = this;
+        return _asyncToGenerator(function*() {
+            return yield _asyncToGenerator(function*(x) {
+                return x + _this.val;
+            })('a');
+        })();
     }
   }
   "

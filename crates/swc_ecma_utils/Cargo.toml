@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_ecma_utils"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.52.0"
+version = "0.52.2"
 
 [features]
 # Process in parallel.
@@ -26,3 +26,4 @@ unicode-xid = "0.2"
 
 [dev-dependencies]
 testing = {version = "0.15.0", path = "../testing"}
+swc_ecma_parser = {version = "0.78.4", path = "../swc_ecma_parser"}

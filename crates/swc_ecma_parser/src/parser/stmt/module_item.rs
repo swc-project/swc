@@ -535,7 +535,7 @@ impl<'a, I: Tokens> Parser<I> {
                 if let Some(s) = export_ns {
                     let (src, asserts) = self.parse_from_clause_and_semi()?;
                     return Ok(ModuleDecl::ExportNamed(NamedExport {
-                        span: Span::new(start, src.span.hi(), Default::default()),
+                        span: span!(self, start),
                         specifiers: vec![s],
                         src: Some(src),
                         type_only,
@@ -559,7 +559,7 @@ impl<'a, I: Tokens> Parser<I> {
                 if let Some(default) = default {
                     let (src, asserts) = self.parse_from_clause_and_semi()?;
                     return Ok(ModuleDecl::ExportNamed(NamedExport {
-                        span: Span::new(start, src.span.hi(), Default::default()),
+                        span: span!(self, start),
                         specifiers: vec![ExportSpecifier::Default(ExportDefaultSpecifier {
                             exported: default,
                         })],

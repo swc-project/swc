@@ -7,9 +7,9 @@ error: Stylesheet
 3  | | /* comment */color/* comment */:/* comment */red/* comment */;
 4  | | }
 ...  |
-25 | |
-26 | | /*!test*/
-   | |_
+35 | | /*************** FOO *****************/
+36 | | /* comment *//* comment */
+   | |___________________________^
 
 error: Rule
  --> $DIR/tests/fixture/comment/input.css:1:14
@@ -21,7 +21,7 @@ error: Rule
 4 | | }
   | |_^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/comment/input.css:1:14
   |
 1 |   /* comment */a/* comment */
@@ -105,7 +105,7 @@ error: Rule
 15 | | }
    | |_^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/comment/input.css:9:1
    |
 9  | / div {
@@ -217,7 +217,7 @@ error: Rule
 21 | | }
    | |_^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/comment/input.css:18:1
    |
 18 | / a {

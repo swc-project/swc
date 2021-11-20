@@ -10,7 +10,7 @@ error: Rule
 1 | & > .bar { color: red; }
   | ^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/selector/nesting/input.css:1:1
   |
 1 | & > .bar { color: red; }

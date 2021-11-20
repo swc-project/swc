@@ -34,9 +34,9 @@ define!({
         pub important: Option<Span>,
     }
 
-    pub struct StyleRule {
+    pub struct QualifiedRule {
         pub span: Span,
-        pub selectors: SelectorList,
+        pub prelude: SelectorList,
         pub block: Block,
     }
 
@@ -214,7 +214,9 @@ define!({
 
         Attr(AttrSelector),
 
-        Pseudo(PseudoSelector),
+        PseudoClass(PseudoClassSelector),
+
+        PseudoElement(PseudoElementSelector),
 
         At(AtSelector),
     }
@@ -259,11 +261,16 @@ define!({
         pub b_raw: Option<JsWord>,
     }
 
-    pub struct PseudoSelector {
+    pub struct PseudoClassSelector {
         pub span: Span,
-        pub is_element: bool,
         pub name: Ident,
         pub children: Option<PseudoSelectorChildren>,
+    }
+
+    pub struct PseudoElementSelector {
+        pub span: Span,
+        pub name: Ident,
+        pub children: Option<Tokens>,
     }
 
     pub struct IdSelector {
@@ -292,11 +299,11 @@ define!({
     }
 
     pub enum Rule {
-        Style(StyleRule),
-
-        Invalid(Tokens),
+        QualifiedRule(QualifiedRule),
 
         AtRule(AtRule),
+
+        Invalid(Tokens),
     }
 
     pub struct Invalid {

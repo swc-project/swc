@@ -1,10 +1,11 @@
 error: Stylesheet
-  --> $DIR/tests/fixture/rome/comment/input.css:5:1
+  --> $DIR/tests/fixture/rome/comment/input.css:3:4
    |
-5  | / a {
+3  |    */
+   |  ____^
+4  | |
+5  | | a {
 6  | |     color: white; /* comment */
-7  | | }
-8  | |
 ...  |
 14 | |     color: white;
 15 | | }
@@ -18,7 +19,7 @@ error: Rule
 7 | | }
   | |_^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/rome/comment/input.css:5:1
   |
 5 | / a {
@@ -97,7 +98,7 @@ error: Rule
 11 | | }
    | |_^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/rome/comment/input.css:9:1
    |
 9  | / a {
@@ -176,7 +177,7 @@ error: Rule
 15 | | }
    | |_^
 
-error: StyleRule
+error: QualifiedRule
   --> $DIR/tests/fixture/rome/comment/input.css:13:1
    |
 13 | / a /* comment */ {

@@ -10,7 +10,7 @@ error: Rule
 1 | a:b(:c) {}
   | ^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/esbuild/misc/d1BWbOHfSbCE8-_qEz-luA/input.css:1:1
   |
 1 | a:b(:c) {}
@@ -52,7 +52,7 @@ error: SubclassSelector
 1 | a:b(:c) {}
   |  ^^^^^^
 
-error: PseudoSelector
+error: PseudoClassSelector
  --> $DIR/tests/fixture/esbuild/misc/d1BWbOHfSbCE8-_qEz-luA/input.css:1:2
   |
 1 | a:b(:c) {}

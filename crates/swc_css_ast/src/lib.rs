@@ -19,14 +19,14 @@ pub struct Stylesheet {
 #[ast_node]
 #[derive(Is)]
 pub enum Rule {
-    #[tag("StyleRule")]
-    Style(StyleRule),
-
-    #[tag("Tokens")]
-    Invalid(Tokens),
+    #[tag("QualifiedRule")]
+    QualifiedRule(QualifiedRule),
 
     #[tag("*")]
     AtRule(AtRule),
+
+    #[tag("Tokens")]
+    Invalid(Tokens),
 }
 
 #[ast_node]

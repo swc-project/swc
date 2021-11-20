@@ -10,7 +10,7 @@ error: Rule
 1 | a { value: id\65nt }
   | ^^^^^^^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/esbuild/misc/1naykwaIKZc6zuHRNIccLQ/input.css:1:1
   |
 1 | a { value: id\65nt }

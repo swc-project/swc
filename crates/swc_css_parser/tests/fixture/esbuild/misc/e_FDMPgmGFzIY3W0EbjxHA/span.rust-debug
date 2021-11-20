@@ -10,7 +10,7 @@ error: Rule
 1 | [\6es|attr] {}
   | ^^^^^^^^^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/esbuild/misc/e_FDMPgmGFzIY3W0EbjxHA/input.css:1:1
   |
 1 | [\6es|attr] {}

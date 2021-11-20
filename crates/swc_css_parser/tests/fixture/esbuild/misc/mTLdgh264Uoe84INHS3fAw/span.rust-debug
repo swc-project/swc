@@ -10,7 +10,7 @@ error: Rule
 1 | ::b {}
   | ^^^^^^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/esbuild/misc/mTLdgh264Uoe84INHS3fAw/input.css:1:1
   |
 1 | ::b {}
@@ -40,7 +40,7 @@ error: SubclassSelector
 1 | ::b {}
   | ^^^
 
-error: PseudoSelector
+error: PseudoElementSelector
  --> $DIR/tests/fixture/esbuild/misc/mTLdgh264Uoe84INHS3fAw/input.css:1:1
   |
 1 | ::b {}

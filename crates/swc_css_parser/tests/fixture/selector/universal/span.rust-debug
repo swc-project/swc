@@ -14,7 +14,7 @@ error: Rule
 3 | | }
   | |_^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/selector/universal/input.css:1:1
   |
 1 | / * {

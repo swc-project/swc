@@ -1,0 +1,72 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:1
+  |
+1 | div::bef\ore {}
+  | ^^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:1
+  |
+1 | div::bef\ore {}
+  | ^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:1
+  |
+1 | div::bef\ore {}
+  | ^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:1
+  |
+1 | div::bef\ore {}
+  | ^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:1
+  |
+1 | div::bef\ore {}
+  | ^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:1
+  |
+1 | div::bef\ore {}
+  | ^^^^^^^^^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:1
+  |
+1 | div::bef\ore {}
+  | ^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:1
+  |
+1 | div::bef\ore {}
+  | ^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:4
+  |
+1 | div::bef\ore {}
+  |    ^^^^^^^^^
+
+error: PseudoElementSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:4
+  |
+1 | div::bef\ore {}
+  |    ^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:6
+  |
+1 | div::bef\ore {}
+  |      ^^^^^^^
+
+error: Block
+ --> $DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:14
+  |
+1 | div::bef\ore {}
+  |              ^^
+

@@ -16,7 +16,7 @@ error: Rule
 4 | | }
   | |_^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/declaration-list/input.css:1:1
   |
 1 | / a {
