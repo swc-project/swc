@@ -364,6 +364,15 @@ impl Fold for ConstructorFolder<'_> {
     }
 
     fn fold_expr(&mut self, expr: Expr) -> Expr {
+        match expr {
+            Expr::This(..) => {
+                if self.ignore_return {
+                    return expr;
+                }
+            }
+            _ => {}
+        }
+
         match self.mode {
             Some(SuperFoldingMode::Assign) => {}
             _ => {
@@ -403,13 +412,7 @@ impl Fold for ConstructorFolder<'_> {
         };
 
         match expr {
-            Expr::This(e) => {
-                if self.ignore_return {
-                    return Expr::This(e);
-                } else {
-                    Expr::Ident(Ident::new("_this".into(), e.span.apply_mark(self.mark)))
-                }
-            }
+            Expr::This(e) => Expr::Ident(Ident::new("_this".into(), e.span.apply_mark(self.mark))),
             Expr::Call(CallExpr {
                 callee: ExprOrSuper::Super(..),
                 args,
