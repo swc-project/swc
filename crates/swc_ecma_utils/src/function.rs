@@ -10,6 +10,9 @@ pub struct WrapperState {
 }
 
 impl WrapperState {
+    pub fn new(this: Option<Ident>, args: Option<Ident>) -> Self {
+        Self { this, args }
+    }
     pub fn to_decl(self) -> Vec<VarDeclarator> {
         let Self { this, args } = self;
 
