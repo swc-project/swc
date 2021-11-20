@@ -2353,12 +2353,11 @@ var Foo = function () {
 
   function Foo() {
     _classCallCheck(this, Foo);
-    var _this = this;
 
     _foo.set(this, {
       writable: true,
       value: function () {
-        return _this;
+        return this;
       }
     });
   }
