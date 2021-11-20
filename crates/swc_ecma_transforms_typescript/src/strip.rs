@@ -329,17 +329,16 @@ where
                 self.store(id.sym.clone(), id.span.ctxt, false);
             }
 
+            // When the body of `TsModuleDecl` (aka namespace) is detected to be non empty in
+            // `handle_ts_module`, it overwrites the entry with `concreate = true`.
             Decl::TsInterface(TsInterfaceDecl { ref id, .. })
+            | Decl::TsModule(TsModuleDecl {
+                id: TsModuleName::Ident(ref id),
+                ..
+            })
             | Decl::TsTypeAlias(TsTypeAliasDecl { ref id, .. }) => {
                 self.store(id.sym.clone(), id.span.ctxt, false)
             }
-
-            // Overwrite with `concrete: true` when its body is detected be `concrete` in
-            // `handle_ts_module`
-            Decl::TsModule(TsModuleDecl {
-                id: TsModuleName::Ident(ref id),
-                ..
-            }) => self.store(id.sym.clone(), id.span.ctxt, false),
 
             Decl::TsModule(TsModuleDecl {
                 id:
