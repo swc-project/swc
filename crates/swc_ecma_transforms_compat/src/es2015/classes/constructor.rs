@@ -403,7 +403,13 @@ impl Fold for ConstructorFolder<'_> {
         };
 
         match expr {
-            Expr::This(e) => Expr::Ident(Ident::new("_this".into(), e.span.apply_mark(self.mark))),
+            Expr::This(e) => {
+                if self.ignore_return {
+                    return Expr::This(e);
+                } else {
+                    Expr::Ident(Ident::new("_this".into(), e.span.apply_mark(self.mark)))
+                }
+            }
             Expr::Call(CallExpr {
                 callee: ExprOrSuper::Super(..),
                 args,
@@ -659,6 +665,10 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
         noop_fold_type!();
 
         fn fold_class(&mut self, n: Class) -> Class {
+            n
+        }
+
+        fn fold_function(&mut self, n: Function) -> Function {
             n
         }
 
