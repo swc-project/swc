@@ -79,11 +79,10 @@ function _createSuper(Derived) {
 var A = function A() {
     "use strict";
     _classCallCheck(this, A);
-    var _this = this;
     var _newtarget = this.constructor;
     // @target: es5
     this.d = function _target() {
-        return _this.constructor;
+        return this.constructor;
     };
     var a = this.constructor;
     var b = function() {

@@ -113,11 +113,10 @@ var A = // @target: es2015
     "use strict";
     function A() {
         _classCallCheck(this, A);
-        var _this = this;
         _fieldFunc.set(this, {
             writable: true,
             value: function value() {
-                _this.x = 10;
+                this.x = 10;
             }
         });
         _fieldFunc2.set(this, {
