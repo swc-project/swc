@@ -364,15 +364,6 @@ impl Fold for ConstructorFolder<'_> {
     }
 
     fn fold_expr(&mut self, expr: Expr) -> Expr {
-        match expr {
-            Expr::This(..) => {
-                if self.ignore_return {
-                    return expr;
-                }
-            }
-            _ => {}
-        }
-
         match self.mode {
             Some(SuperFoldingMode::Assign) => {}
             _ => {
@@ -671,10 +662,6 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
             n
         }
 
-        fn fold_function(&mut self, n: Function) -> Function {
-            n
-        }
-
         fn fold_expr(&mut self, n: Expr) -> Expr {
             // We pretend method folding mode for while folding injected `_defineProperty`
             // calls.
@@ -717,6 +704,13 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
 
                 _ => n.fold_children_with(self),
             }
+        }
+
+        fn fold_function(&mut self, n: Function) -> Function {
+            if self.in_injected_define_property_call {
+                return n;
+            }
+            n.fold_children_with(self)
         }
 
         fn fold_member_expr(
