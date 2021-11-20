@@ -52,7 +52,7 @@ error: SubclassSelector
 1 | a:after { content: 'a\b' }
   |  ^^^^^^
 
-error: PseudoSelector
+error: PseudoClassSelector
  --> $DIR/tests/fixture/esbuild/misc/2nNBhRWO2cNcBJf09zDxjw/input.css:1:2
   |
 1 | a:after { content: 'a\b' }

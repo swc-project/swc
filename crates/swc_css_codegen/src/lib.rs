@@ -720,7 +720,8 @@ where
             SubclassSelector::Id(n) => emit!(self, n),
             SubclassSelector::Class(n) => emit!(self, n),
             SubclassSelector::Attr(n) => emit!(self, n),
-            SubclassSelector::Pseudo(n) => emit!(self, n),
+            SubclassSelector::PseudoClass(n) => emit!(self, n),
+            SubclassSelector::PseudoElement(n) => emit!(self, n),
             SubclassSelector::At(n) => emit!(self, n),
         }
     }
@@ -826,12 +827,22 @@ where
     }
 
     #[emitter]
-    fn emit_pseudo_selector(&mut self, n: &PseudoSelector) -> Result {
+    fn emit_pseudo_class_selector(&mut self, n: &PseudoClassSelector) -> Result {
         punct!(self, ":");
 
-        if n.is_element {
-            punct!(self, ":");
+        emit!(self, n.name);
+
+        if n.children.is_some() {
+            punct!(self, "(");
+            emit!(self, n.children);
+            punct!(self, ")");
         }
+    }
+
+    #[emitter]
+    fn emit_pseudo_element_selector(&mut self, n: &PseudoElementSelector) -> Result {
+        punct!(self, ":");
+        punct!(self, ":");
 
         emit!(self, n.name);
 

@@ -84,7 +84,10 @@ pub enum SubclassSelector {
     Attr(AttrSelector),
 
     #[tag("PseudoClassSelector")]
-    Pseudo(PseudoSelector),
+    PseudoClass(PseudoClassSelector),
+
+    #[tag("PseudoElementSelector")]
+    PseudoElement(PseudoElementSelector),
 
     #[tag("AtSelector")]
     At(AtSelector),
@@ -167,12 +170,18 @@ pub enum NthValue {
     Ident(Ident),
 }
 
-#[ast_node("PseudoSelector")]
-pub struct PseudoSelector {
+#[ast_node("PseudoClassSelector")]
+pub struct PseudoClassSelector {
     pub span: Span,
-    pub is_element: bool,
     pub name: Ident,
     pub children: Option<PseudoSelectorChildren>,
+}
+
+#[ast_node("PseudoElementSelector")]
+pub struct PseudoElementSelector {
+    pub span: Span,
+    pub name: Ident,
+    pub children: Option<Tokens>,
 }
 
 #[ast_node("IdSelector")]

@@ -13,7 +13,37 @@ use testing::NormalizedOutput;
 struct AssertValid;
 
 impl Visit for AssertValid {
-    fn visit_pseudo_selector(&mut self, s: &PseudoSelector, _: &dyn Node) {
+    fn visit_pseudo_element_selector(&mut self, s: &PseudoElementSelector, _: &dyn Node) {
+        if let Some(tokens) = &s.children {
+            if tokens.tokens.is_empty() {
+                return;
+            }
+
+            match &tokens.tokens[0].token {
+                Token::Colon | Token::Num { .. } => return,
+                _ => {}
+            }
+
+            let mut errors = vec![];
+
+            let _selectors: SelectorList = parse_tokens(
+                &tokens,
+                ParserConfig {
+                    parse_values: true,
+
+                    ..Default::default()
+                },
+                &mut errors,
+            )
+            .unwrap_or_else(|err| panic!("failed to parse tokens: {:?}\n{:?}", err, s.children));
+
+            for err in errors {
+                panic!("{:?}", err);
+            }
+        }
+    }
+
+    fn visit_pseudo_class_selector(&mut self, s: &PseudoClassSelector, _: &dyn Node) {
         s.visit_children_with(self);
 
         if let Some(PseudoSelectorChildren::Tokens(args)) = &s.children {
@@ -340,7 +370,8 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(Declaration, visit_declaration);
     mtd!(Nth, visit_nth);
     mtd!(AnPlusB, visit_an_plus_b);
-    mtd!(PseudoSelector, visit_pseudo_selector);
+    mtd!(PseudoClassSelector, visit_pseudo_class_selector);
+    mtd!(PseudoElementSelector, visit_pseudo_element_selector);
     mtd!(Rule, visit_rule);
     mtd!(Str, visit_str);
     mtd!(QualifiedRule, visit_qualified_rule);
