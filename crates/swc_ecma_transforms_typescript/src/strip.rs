@@ -1023,7 +1023,7 @@ where
                                                 },
                                             ))),
                                             op: op!("="),
-                                            right: Box::new(val),
+                                            right: Box::new(val.clone()),
                                         }))
                                     };
 
@@ -1042,9 +1042,11 @@ where
                                         right: if rhs_should_be_name {
                                             Box::new(Expr::Lit(Lit::Str(value.clone())))
                                         } else {
-                                            m.init.unwrap_or_else(|| {
+                                            if m.init.is_some() {
+                                                Box::new(val)
+                                            } else {
                                                 Box::new(Expr::Lit(Lit::Str(value.clone())))
-                                            })
+                                            }
                                         },
                                     }
                                     .into_stmt()
