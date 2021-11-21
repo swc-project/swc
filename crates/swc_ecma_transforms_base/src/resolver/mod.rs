@@ -416,6 +416,7 @@ impl<'a> VisitMut for Resolver<'a> {
     typed!(visit_mut_ts_rest_type, TsRestType);
     typed!(visit_mut_ts_type_predicate, TsTypePredicate);
     typed_ref!(visit_mut_ts_this_type_or_ident, TsThisTypeOrIdent);
+    typed_ref!(visit_mut_ts_expr_with_type_args, TsExprWithTypeArgs);
 
     fn visit_mut_import_decl(&mut self, n: &mut ImportDecl) {
         if n.type_only {
