@@ -257,7 +257,7 @@ fn errors(file: PathBuf) {
         );
     }
 
-    let module = with_parser(false, &file, false, |p| p.parse_typescript_module());
+    let module = with_parser(false, &file, false, false, |p| p.parse_typescript_module());
 
     let err = module.expect_err("should fail, but parsed as");
     if err
