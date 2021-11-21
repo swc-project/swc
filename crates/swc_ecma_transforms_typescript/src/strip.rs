@@ -1080,7 +1080,7 @@ where
 
     /// Returns `(var_decl, init)`.
     fn handle_ts_module(&mut self, module: TsModuleDecl) -> Option<(Option<Decl>, Stmt)> {
-        if module.global || module.declare {
+        if module.global {
             return None;
         }
         let module_span = module.span;
@@ -1102,6 +1102,15 @@ where
         // This makes body valid javascript.
         body.body.visit_mut_with(self);
         if body.body.is_empty() {
+            return None;
+        }
+
+        // When its body is non empty, it should be `concrete` (i.e. "export"-able).
+        // TODO: Due to the processing order, this cannot handle "hoisting export".
+        self.store(module_name.sym.clone(), module_name.span.ctxt, true);
+
+        // Allow exporting `declare namespace` but body should be empty
+        if module.declare {
             return None;
         }
 
@@ -1294,10 +1303,6 @@ where
             args: vec![init_arg.as_arg()],
             type_args: Default::default(),
         }));
-
-        // When its body is non empty, it should be `concrete` (i.e. "export"-able).
-        // TODO: Due to the processing order, this cannot handle "hoisting export".
-        self.store(module_name.sym.clone(), module_name.span.ctxt, true);
 
         Some((
             var.map(|var| {
