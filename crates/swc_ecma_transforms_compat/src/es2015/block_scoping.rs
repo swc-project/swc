@@ -1,7 +1,7 @@
 use smallvec::SmallVec;
 use std::mem::take;
 use swc_atoms::js_word;
-use swc_common::{collections::AHashMap, util::map::Map, Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{collections::AHashMap, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
@@ -9,8 +9,8 @@ use swc_ecma_utils::{
     quote_ident, quote_str, undefined, var::VarCollector, ExprFactory, Id, StmtLike,
 };
 use swc_ecma_visit::{
-    noop_fold_type, noop_visit_mut_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitMut,
-    VisitMutWith, VisitWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
+    VisitWith,
 };
 
 ///
@@ -27,11 +27,11 @@ use swc_ecma_visit::{
 /// }
 /// ```
 pub fn block_scoping() -> impl Fold {
-    BlockScoping {
+    as_folder(BlockScoping {
         scope: Default::default(),
         vars: vec![],
         var_decl_kind: VarDeclKind::Var,
-    }
+    })
 }
 
 type ScopeStack = SmallVec<[ScopeKind; 8]>;
@@ -60,9 +60,9 @@ struct BlockScoping {
 impl BlockScoping {
     /// This methods remove [ScopeKind::Loop] and [ScopeKind::Fn], but not
     /// [ScopeKind::ForLetLoop]
-    fn fold_with_scope<T>(&mut self, kind: ScopeKind, node: T) -> T
+    fn visit_mut_with_scope<T>(&mut self, kind: ScopeKind, node: &mut T)
     where
-        T: FoldWith<Self>,
+        T: VisitMutWith<Self>,
     {
         let len = self.scope.len();
 
@@ -71,13 +71,12 @@ impl BlockScoping {
             _ => true,
         };
         self.scope.push(kind);
-        let node = node.fold_with(self);
+
+        node.visit_mut_with(self);
 
         if remove {
             self.scope.truncate(len);
         }
-
-        node
     }
 
     fn mark_as_used(&mut self, i: Id) {
@@ -109,358 +108,350 @@ impl BlockScoping {
             .unwrap_or(false)
     }
 
-    fn handle_vars(&mut self, body: Box<Stmt>) -> Box<Stmt> {
-        body.map(|body| {
-            {
-                let mut v = FunctionFinder { found: false };
-                body.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
-                if !v.found {
-                    return body;
+    fn handle_vars(&mut self, body: &mut Box<Stmt>) {
+        let body_stmt = &mut **body;
+
+        {
+            let mut v = FunctionFinder { found: false };
+            body_stmt.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+            if !v.found {
+                return;
+            }
+        }
+
+        //
+        if let Some(ScopeKind::ForLetLoop {
+            args,
+            used,
+            mutated,
+            ..
+        }) = self.scope.pop()
+        {
+            if used.is_empty() {
+                return;
+            }
+            let this = if contains_this_expr(body_stmt) {
+                let ident = private_ident!("_this");
+                self.vars.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(ident.clone().into()),
+                    init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
+                    definite: false,
+                });
+                Some(ident)
+            } else {
+                None
+            };
+
+            let arguments = if contains_arguments(body_stmt) {
+                let ident = private_ident!("_arguments");
+                self.vars.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(ident.clone().into()),
+                    init: Some(Box::new(Expr::Ident(quote_ident!("arguments")))),
+                    definite: false,
+                });
+                Some(ident)
+            } else {
+                None
+            };
+
+            let mut flow_helper = FlowHelper {
+                all: &args,
+                has_continue: false,
+                has_break: false,
+                has_return: false,
+                mutated,
+                in_switch_case: false,
+            };
+
+            body_stmt.visit_mut_with(&mut flow_helper);
+
+            let mut body_stmt = match &mut body_stmt.take() {
+                Stmt::Block(bs) => bs.take(),
+                body => BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![body.take()],
+                },
+            };
+
+            if !flow_helper.mutated.is_empty() || this.is_some() || arguments.is_some() {
+                let no_modification = flow_helper.mutated.is_empty();
+                let mut v = MutationHandler {
+                    map: &mut flow_helper.mutated,
+                    in_function: false,
+                    this,
+                    arguments,
+                };
+
+                // Modifies identifiers, and add reassignments to break / continue / return
+                body_stmt.visit_mut_with(&mut v);
+
+                if !no_modification {
+                    if body_stmt
+                        .stmts
+                        .last()
+                        .map(|s| match s {
+                            Stmt::Return(..) => false,
+                            _ => true,
+                        })
+                        .unwrap_or(true)
+                    {
+                        body_stmt.stmts.push(v.make_reassignment(None).into_stmt());
+                    }
                 }
             }
 
-            //
-            if let Some(ScopeKind::ForLetLoop {
-                args,
-                used,
-                mutated,
-                ..
-            }) = self.scope.pop()
-            {
-                if used.is_empty() {
-                    return body;
-                }
-                let this = if contains_this_expr(&body) {
-                    let ident = private_ident!("_this");
-                    self.vars.push(VarDeclarator {
-                        span: DUMMY_SP,
-                        name: Pat::Ident(ident.clone().into()),
-                        init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
-                        definite: false,
-                    });
-                    Some(ident)
-                } else {
-                    None
-                };
+            let var_name = private_ident!("_loop");
 
-                let arguments = if contains_arguments(&body) {
-                    let ident = private_ident!("_arguments");
-                    self.vars.push(VarDeclarator {
-                        span: DUMMY_SP,
-                        name: Pat::Ident(ident.clone().into()),
-                        init: Some(Box::new(Expr::Ident(quote_ident!("arguments")))),
-                        definite: false,
-                    });
-                    Some(ident)
-                } else {
-                    None
-                };
+            self.vars.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(var_name.clone().into()),
+                init: Some(Box::new(
+                    FnExpr {
+                        ident: None,
+                        function: Function {
+                            span: DUMMY_SP,
+                            params: args
+                                .iter()
+                                .map(|i| {
+                                    let ctxt = flow_helper.mutated.get(i).copied().unwrap_or(i.1);
 
-                let mut flow_helper = FlowHelper {
-                    all: &args,
-                    has_continue: false,
-                    has_break: false,
-                    has_return: false,
-                    mutated,
-                    in_switch_case: false,
-                };
-
-                let mut body = match body.fold_with(&mut flow_helper) {
-                    Stmt::Block(bs) => bs,
-                    body => BlockStmt {
-                        span: DUMMY_SP,
-                        stmts: vec![body],
-                    },
-                };
-
-                if !flow_helper.mutated.is_empty() || this.is_some() || arguments.is_some() {
-                    let no_modification = flow_helper.mutated.is_empty();
-                    let mut v = MutationHandler {
-                        map: &mut flow_helper.mutated,
-                        in_function: false,
-                        this,
-                        arguments,
-                    };
-
-                    // Modifies identifiers, and add reassignments to break / continue / return
-                    body.visit_mut_with(&mut v);
-
-                    if !no_modification {
-                        if body
-                            .stmts
-                            .last()
-                            .map(|s| match s {
-                                Stmt::Return(..) => false,
-                                _ => true,
-                            })
-                            .unwrap_or(true)
-                        {
-                            body.stmts.push(v.make_reassignment(None).into_stmt());
-                        }
+                                    Param {
+                                        span: DUMMY_SP,
+                                        decorators: Default::default(),
+                                        pat: Pat::Ident(
+                                            Ident::new(i.0.clone(), DUMMY_SP.with_ctxt(ctxt))
+                                                .into(),
+                                        ),
+                                    }
+                                })
+                                .collect(),
+                            decorators: Default::default(),
+                            body: Some(body_stmt),
+                            is_generator: false,
+                            is_async: false,
+                            type_params: None,
+                            return_type: None,
+                        },
                     }
-                }
+                    .into(),
+                )),
+                definite: false,
+            });
 
-                let var_name = private_ident!("_loop");
+            let mut call = CallExpr {
+                span: DUMMY_SP,
+                callee: var_name.as_callee(),
+                args: args
+                    .iter()
+                    .cloned()
+                    .map(|i| ExprOrSpread {
+                        spread: None,
+                        expr: Box::new(Expr::Ident(Ident::new(i.0, DUMMY_SP.with_ctxt(i.1)))),
+                    })
+                    .collect(),
+                type_args: None,
+            };
 
-                self.vars.push(VarDeclarator {
-                    span: DUMMY_SP,
-                    name: Pat::Ident(var_name.clone().into()),
-                    init: Some(Box::new(
-                        FnExpr {
-                            ident: None,
-                            function: Function {
+            if flow_helper.has_return || flow_helper.has_continue || flow_helper.has_break {
+                let ret = private_ident!("_ret");
+
+                let mut stmts = vec![
+                    // var _ret = _loop(i);
+                    Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        declare: false,
+                        decls: vec![VarDeclarator {
+                            span: DUMMY_SP,
+                            name: Pat::Ident(ret.clone().into()),
+                            init: Some(Box::new(call.take().into())),
+                            definite: false,
+                        }],
+                    })),
+                ];
+
+                let use_switch = flow_helper.has_break && flow_helper.has_continue;
+
+                let check_ret = if flow_helper.has_return {
+                    // if (_typeof(_ret) === "object") return _ret.v;
+                    Some(
+                        IfStmt {
+                            span: DUMMY_SP,
+                            test: Box::new(Expr::Bin(BinExpr {
                                 span: DUMMY_SP,
-                                params: args
-                                    .iter()
-                                    .map(|i| {
-                                        let ctxt =
-                                            flow_helper.mutated.get(i).copied().unwrap_or(i.1);
+                                op: BinaryOp::EqEqEq,
+                                left: {
+                                    // _typeof(_ret)
+                                    let callee = helper!(type_of, "typeof");
 
-                                        Param {
-                                            span: DUMMY_SP,
-                                            decorators: Default::default(),
-                                            pat: Pat::Ident(
-                                                Ident::new(i.0.clone(), DUMMY_SP.with_ctxt(ctxt))
-                                                    .into(),
-                                            ),
-                                        }
+                                    Expr::Call(CallExpr {
+                                        span: Default::default(),
+                                        callee,
+                                        args: vec![ExprOrSpread {
+                                            spread: None,
+                                            expr: Box::new(ret.clone().into()),
+                                        }],
+                                        type_args: None,
                                     })
-                                    .collect(),
-                                decorators: Default::default(),
-                                body: Some(body),
-                                is_generator: false,
-                                is_async: false,
-                                type_params: None,
-                                return_type: None,
-                            },
+                                    .into()
+                                },
+                                //"object"
+                                right: Expr::Lit(Lit::Str(Str {
+                                    span: DUMMY_SP,
+                                    value: js_word!("object"),
+                                    has_escape: false,
+                                    kind: Default::default(),
+                                }))
+                                .into(),
+                            })),
+                            cons: Box::new(Stmt::Return(ReturnStmt {
+                                span: DUMMY_SP,
+                                arg: Some(ret.clone().make_member(quote_ident!("v")).into()),
+                            })),
+                            alt: None,
                         }
                         .into(),
-                    )),
-                    definite: false,
-                });
-
-                let call = CallExpr {
-                    span: DUMMY_SP,
-                    callee: var_name.as_callee(),
-                    args: args
-                        .iter()
-                        .cloned()
-                        .map(|i| ExprOrSpread {
-                            spread: None,
-                            expr: Box::new(Expr::Ident(Ident::new(i.0, DUMMY_SP.with_ctxt(i.1)))),
-                        })
-                        .collect(),
-                    type_args: None,
+                    )
+                } else {
+                    None
                 };
 
-                if flow_helper.has_return || flow_helper.has_continue || flow_helper.has_break {
-                    let ret = private_ident!("_ret");
+                if use_switch {
+                    let mut cases = vec![];
 
-                    let mut stmts = vec![
-                        // var _ret = _loop(i);
-                        Stmt::Decl(Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            declare: false,
-                            decls: vec![VarDeclarator {
+                    if flow_helper.has_break {
+                        cases.push(
+                            SwitchCase {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(ret.clone().into()),
-                                init: Some(Box::new(call.into())),
-                                definite: false,
-                            }],
-                        })),
-                    ];
-
-                    let use_switch = flow_helper.has_break && flow_helper.has_continue;
-
-                    let check_ret = if flow_helper.has_return {
-                        // if (_typeof(_ret) === "object") return _ret.v;
-                        Some(
-                            IfStmt {
-                                span: DUMMY_SP,
-                                test: Box::new(Expr::Bin(BinExpr {
+                                test: Some(Box::new(quote_str!("break").into())),
+                                // TODO: Handle labelled statements
+                                cons: vec![Stmt::Break(BreakStmt {
                                     span: DUMMY_SP,
-                                    op: BinaryOp::EqEqEq,
-                                    left: {
-                                        // _typeof(_ret)
-                                        let callee = helper!(type_of, "typeof");
-
-                                        Expr::Call(CallExpr {
-                                            span: Default::default(),
-                                            callee,
-                                            args: vec![ExprOrSpread {
-                                                spread: None,
-                                                expr: Box::new(ret.clone().into()),
-                                            }],
-                                            type_args: None,
-                                        })
-                                        .into()
-                                    },
-                                    //"object"
-                                    right: Expr::Lit(Lit::Str(Str {
-                                        span: DUMMY_SP,
-                                        value: js_word!("object"),
-                                        has_escape: false,
-                                        kind: Default::default(),
-                                    }))
-                                    .into(),
-                                })),
-                                cons: Box::new(Stmt::Return(ReturnStmt {
-                                    span: DUMMY_SP,
-                                    arg: Some(ret.clone().make_member(quote_ident!("v")).into()),
-                                })),
-                                alt: None,
-                            }
-                            .into(),
-                        )
-                    } else {
-                        None
-                    };
-
-                    if use_switch {
-                        let mut cases = vec![];
-
-                        if flow_helper.has_break {
-                            cases.push(
-                                SwitchCase {
-                                    span: DUMMY_SP,
-                                    test: Some(Box::new(quote_str!("break").into())),
-                                    // TODO: Handle labelled statements
-                                    cons: vec![Stmt::Break(BreakStmt {
-                                        span: DUMMY_SP,
-                                        label: None,
-                                    })],
-                                }
-                                .into(),
-                            );
-                        }
-
-                        if flow_helper.has_continue {
-                            cases.push(
-                                SwitchCase {
-                                    span: DUMMY_SP,
-                                    test: Some(Box::new(quote_str!("continue").into())),
-                                    // TODO: Handle labelled statements
-                                    cons: vec![Stmt::Continue(ContinueStmt {
-                                        span: DUMMY_SP,
-                                        label: None,
-                                    })],
-                                }
-                                .into(),
-                            );
-                        }
-
-                        cases.extend(check_ret.map(|stmt| SwitchCase {
-                            span: DUMMY_SP,
-                            test: None,
-                            cons: vec![stmt],
-                        }));
-
-                        stmts.push(
-                            SwitchStmt {
-                                span: DUMMY_SP,
-                                discriminant: Box::new(ret.clone().into()),
-                                cases,
+                                    label: None,
+                                })],
                             }
                             .into(),
                         );
-                    } else {
-                        //
-                        if flow_helper.has_break {
-                            stmts.push(
-                                IfStmt {
-                                    span: DUMMY_SP,
-                                    test: ret.clone().make_eq(quote_str!("break")).into(),
-                                    // TODO: Handle labelled statements
-                                    cons: Stmt::Break(BreakStmt {
-                                        span: DUMMY_SP,
-                                        label: None,
-                                    })
-                                    .into(),
-                                    alt: None,
-                                }
-                                .into(),
-                            );
-                        }
-
-                        if flow_helper.has_continue {
-                            stmts.push(
-                                IfStmt {
-                                    span: DUMMY_SP,
-                                    test: ret.clone().make_eq(quote_str!("continue")).into(),
-                                    // TODO: Handle labelled statements
-                                    cons: Stmt::Continue(ContinueStmt {
-                                        span: DUMMY_SP,
-                                        label: None,
-                                    })
-                                    .into(),
-                                    alt: None,
-                                }
-                                .into(),
-                            );
-                        }
-
-                        stmts.extend(check_ret);
                     }
 
-                    return BlockStmt {
+                    if flow_helper.has_continue {
+                        cases.push(
+                            SwitchCase {
+                                span: DUMMY_SP,
+                                test: Some(Box::new(quote_str!("continue").into())),
+                                // TODO: Handle labelled statements
+                                cons: vec![Stmt::Continue(ContinueStmt {
+                                    span: DUMMY_SP,
+                                    label: None,
+                                })],
+                            }
+                            .into(),
+                        );
+                    }
+
+                    cases.extend(check_ret.map(|stmt| SwitchCase {
+                        span: DUMMY_SP,
+                        test: None,
+                        cons: vec![stmt],
+                    }));
+
+                    stmts.push(
+                        SwitchStmt {
+                            span: DUMMY_SP,
+                            discriminant: Box::new(ret.clone().into()),
+                            cases,
+                        }
+                        .into(),
+                    );
+                } else {
+                    //
+                    if flow_helper.has_break {
+                        stmts.push(
+                            IfStmt {
+                                span: DUMMY_SP,
+                                test: ret.clone().make_eq(quote_str!("break")).into(),
+                                // TODO: Handle labelled statements
+                                cons: Stmt::Break(BreakStmt {
+                                    span: DUMMY_SP,
+                                    label: None,
+                                })
+                                .into(),
+                                alt: None,
+                            }
+                            .into(),
+                        );
+                    }
+
+                    if flow_helper.has_continue {
+                        stmts.push(
+                            IfStmt {
+                                span: DUMMY_SP,
+                                test: ret.clone().make_eq(quote_str!("continue")).into(),
+                                // TODO: Handle labelled statements
+                                cons: Stmt::Continue(ContinueStmt {
+                                    span: DUMMY_SP,
+                                    label: None,
+                                })
+                                .into(),
+                                alt: None,
+                            }
+                            .into(),
+                        );
+                    }
+
+                    stmts.extend(check_ret);
+                }
+
+                *body = Box::new(
+                    BlockStmt {
                         span: DUMMY_SP,
                         stmts,
                     }
-                    .into();
-                }
-
-                return call.into_stmt();
+                    .into(),
+                );
+                return;
             }
 
-            body
-        })
+            *body = Box::new(call.take().into_stmt());
+        }
     }
 }
 
-/// TODO: VisitMut
-impl Fold for BlockScoping {
-    noop_fold_type!();
+impl VisitMut for BlockScoping {
+    noop_visit_mut_type!();
 
-    fn fold_arrow_expr(&mut self, f: ArrowExpr) -> ArrowExpr {
-        ArrowExpr {
-            params: f.params.fold_with(self),
-            body: self.fold_with_scope(ScopeKind::Fn, f.body),
-            ..f
-        }
+    fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
+        n.params.visit_mut_with(self);
+        self.visit_mut_with_scope(ScopeKind::Fn, &mut n.body);
     }
 
-    fn fold_block_stmt(&mut self, n: BlockStmt) -> BlockStmt {
+    fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
         let vars = take(&mut self.vars);
-        let n = n.fold_children_with(self);
+        n.visit_mut_children_with(self);
         debug_assert_eq!(self.vars, vec![]);
         self.vars = vars;
-        n
     }
 
-    fn fold_constructor(&mut self, f: Constructor) -> Constructor {
-        Constructor {
-            key: f.key.fold_with(self),
-            params: f.params.fold_with(self),
-            body: self.fold_with_scope(ScopeKind::Fn, f.body),
-            ..f
-        }
+    fn visit_mut_constructor(&mut self, f: &mut Constructor) {
+        f.key.visit_mut_with(self);
+        f.params.visit_mut_with(self);
+        self.visit_mut_with_scope(ScopeKind::Fn, &mut f.body);
     }
 
-    fn fold_do_while_stmt(&mut self, node: DoWhileStmt) -> DoWhileStmt {
-        let body = self.fold_with_scope(ScopeKind::Loop, node.body);
-
-        let test = node.test.fold_with(self);
-
-        DoWhileStmt { body, test, ..node }
+    fn visit_mut_do_while_stmt(&mut self, node: &mut DoWhileStmt) {
+        self.visit_mut_with_scope(ScopeKind::Loop, &mut node.body);
+        node.test.visit_mut_with(self);
     }
 
-    fn fold_for_in_stmt(&mut self, node: ForInStmt) -> ForInStmt {
-        let left = self.fold_with_scope(ScopeKind::Block, node.left);
-        let mut vars = find_vars(&left);
+    fn visit_mut_for_in_stmt(&mut self, node: &mut ForInStmt) {
+        self.visit_mut_with_scope(ScopeKind::Block, &mut node.left);
+
+        let mut vars = find_vars(&node.left);
         let args = vars.clone();
 
-        let right = node.right.fold_with(self);
+        node.right.visit_mut_with(self);
 
         find_infected(&mut vars, &node.body);
 
@@ -474,23 +465,17 @@ impl Fold for BlockScoping {
                 mutated: Default::default(),
             }
         };
-        let body = self.fold_with_scope(kind, node.body);
-        let body = self.handle_vars(body);
 
-        ForInStmt {
-            left,
-            right,
-            body,
-            ..node
-        }
+        self.visit_mut_with_scope(kind, &mut node.body);
+        self.handle_vars(&mut node.body);
     }
 
-    fn fold_for_of_stmt(&mut self, node: ForOfStmt) -> ForOfStmt {
-        let left = self.fold_with_scope(ScopeKind::Block, node.left);
-        let mut vars = find_vars(&left);
+    fn visit_mut_for_of_stmt(&mut self, node: &mut ForOfStmt) {
+        self.visit_mut_with_scope(ScopeKind::Block, &mut node.left);
+        let mut vars = find_vars(&node.left);
         let args = vars.clone();
 
-        let right = node.right.fold_with(self);
+        node.right.visit_mut_with(self);
 
         find_infected(&mut vars, &node.body);
 
@@ -504,25 +489,19 @@ impl Fold for BlockScoping {
                 mutated: Default::default(),
             }
         };
-        let body = self.fold_with_scope(kind, node.body);
-        let body = self.handle_vars(body);
 
-        ForOfStmt {
-            left,
-            right,
-            body,
-            ..node
-        }
+        self.visit_mut_with_scope(kind, &mut node.body);
+        self.handle_vars(&mut node.body);
     }
 
-    fn fold_for_stmt(&mut self, node: ForStmt) -> ForStmt {
-        let init = node.init.fold_with(self);
+    fn visit_mut_for_stmt(&mut self, node: &mut ForStmt) {
+        node.init.visit_mut_with(self);
 
-        let mut vars = find_vars(&init);
+        let mut vars = find_vars(&node.init);
         let args = vars.clone();
 
-        let test = node.test.fold_with(self);
-        let update = node.update.fold_with(self);
+        node.test.visit_mut_with(self);
+        node.update.visit_mut_with(self);
 
         find_infected(&mut vars, &node.body);
 
@@ -536,108 +515,80 @@ impl Fold for BlockScoping {
                 mutated: Default::default(),
             }
         };
-        let body = self.fold_with_scope(kind, node.body);
-        let body = self.handle_vars(body);
-
-        ForStmt {
-            init,
-            test,
-            update,
-            body,
-            ..node
-        }
+        self.visit_mut_with_scope(kind, &mut node.body);
+        self.handle_vars(&mut node.body);
     }
 
-    fn fold_function(&mut self, f: Function) -> Function {
-        Function {
-            params: f.params.fold_with(self),
-            decorators: f.decorators.fold_with(self),
-            body: self.fold_with_scope(ScopeKind::Fn, f.body),
-            ..f
-        }
+    fn visit_mut_function(&mut self, f: &mut Function) {
+        f.params.visit_mut_with(self);
+        f.decorators.visit_mut_with(self);
+        self.visit_mut_with_scope(ScopeKind::Fn, &mut f.body);
     }
 
-    fn fold_getter_prop(&mut self, f: GetterProp) -> GetterProp {
-        GetterProp {
-            key: f.key.fold_with(self),
-            body: self.fold_with_scope(ScopeKind::Fn, f.body),
-            ..f
-        }
+    fn visit_mut_getter_prop(&mut self, f: &mut GetterProp) {
+        f.key.visit_mut_with(self);
+        self.visit_mut_with_scope(ScopeKind::Fn, &mut f.body);
     }
 
-    fn fold_ident(&mut self, node: Ident) -> Ident {
+    fn visit_mut_ident(&mut self, node: &mut Ident) {
         let id = node.to_id();
         self.mark_as_used(id);
-
-        node
     }
 
-    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        self.fold_stmt_likes(n)
+    fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
+        self.visit_mut_stmt_like(stmts);
     }
 
-    fn fold_setter_prop(&mut self, f: SetterProp) -> SetterProp {
-        SetterProp {
-            key: f.key.fold_with(self),
-            param: f.param.fold_with(self),
-            body: self.fold_with_scope(ScopeKind::Fn, f.body),
-            ..f
-        }
+    fn visit_mut_setter_prop(&mut self, f: &mut SetterProp) {
+        f.key.visit_mut_with(self);
+        f.param.visit_mut_with(self);
+        self.visit_mut_with_scope(ScopeKind::Fn, &mut f.body);
     }
 
-    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
-        self.fold_stmt_likes(n)
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+        self.visit_mut_stmt_like(n);
     }
 
-    fn fold_var_decl(&mut self, var: VarDecl) -> VarDecl {
+    fn visit_mut_var_decl(&mut self, var: &mut VarDecl) {
         let old = self.var_decl_kind;
         self.var_decl_kind = var.kind;
-        let var = var.fold_children_with(self);
+        var.visit_mut_children_with(self);
 
         self.var_decl_kind = old;
 
-        VarDecl {
-            kind: VarDeclKind::Var,
-            ..var
+        var.kind = VarDeclKind::Var;
+    }
+
+    fn visit_mut_var_declarator(&mut self, var: &mut VarDeclarator) {
+        var.visit_mut_children_with(self);
+
+        if self.in_loop_body() && var.init.is_none() {
+            if self.var_decl_kind == VarDeclKind::Var {
+                var.init = None
+            } else {
+                var.init = Some(undefined(var.span()))
+            }
         }
     }
 
-    fn fold_var_declarator(&mut self, var: VarDeclarator) -> VarDeclarator {
-        let var = var.fold_children_with(self);
+    fn visit_mut_while_stmt(&mut self, node: &mut WhileStmt) {
+        self.visit_mut_with_scope(ScopeKind::Loop, &mut node.body);
 
-        let init = if self.in_loop_body() && var.init.is_none() {
-            if self.var_decl_kind == VarDeclKind::Var {
-                None
-            } else {
-                Some(undefined(var.span()))
-            }
-        } else {
-            var.init
-        };
-
-        VarDeclarator { init, ..var }
-    }
-
-    fn fold_while_stmt(&mut self, node: WhileStmt) -> WhileStmt {
-        let body = self.fold_with_scope(ScopeKind::Loop, node.body);
-
-        let test = node.test.fold_with(self);
-
-        WhileStmt { body, test, ..node }
+        node.test.visit_mut_with(self);
     }
 }
 
 impl BlockScoping {
-    fn fold_stmt_likes<T>(&mut self, stmts: Vec<T>) -> Vec<T>
+    fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike,
-        Vec<T>: FoldWith<Self>,
+        Vec<T>: VisitMutWith<Self>,
     {
-        let mut stmts = stmts.fold_children_with(self);
+        stmts.visit_mut_children_with(self);
 
         if !self.vars.is_empty() {
             prepend(
-                &mut stmts,
+                stmts,
                 T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
@@ -646,7 +597,6 @@ impl BlockScoping {
                 }))),
             );
         }
-        stmts
     }
 }
 
@@ -762,16 +712,13 @@ impl<'a> FlowHelper<'a> {
     }
 }
 
-/// TODO: VisitMut
-impl Fold for FlowHelper<'_> {
-    noop_fold_type!();
+impl VisitMut for FlowHelper<'_> {
+    noop_visit_mut_type!();
 
     /// noop
-    fn fold_arrow_expr(&mut self, f: ArrowExpr) -> ArrowExpr {
-        f
-    }
+    fn visit_mut_arrow_expr(&mut self, _n: &mut ArrowExpr) {}
 
-    fn fold_assign_expr(&mut self, n: AssignExpr) -> AssignExpr {
+    fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
         match &n.left {
             PatOrExpr::Expr(e) => match &**e {
                 Expr::Ident(i) => {
@@ -788,21 +735,19 @@ impl Fold for FlowHelper<'_> {
             }
         }
 
-        n.fold_children_with(self)
+        n.visit_mut_children_with(self);
     }
 
     /// noop
-    fn fold_function(&mut self, f: Function) -> Function {
-        f
-    }
+    fn visit_mut_function(&mut self, _f: &mut Function) {}
 
-    fn fold_stmt(&mut self, node: Stmt) -> Stmt {
+    fn visit_mut_stmt(&mut self, node: &mut Stmt) {
         let span = node.span();
 
         match node {
             Stmt::Continue(..) => {
                 self.has_continue = true;
-                return Stmt::Return(ReturnStmt {
+                *node = Stmt::Return(ReturnStmt {
                     span,
                     arg: Some(
                         Expr::Lit(Lit::Str(Str {
@@ -817,10 +762,10 @@ impl Fold for FlowHelper<'_> {
             }
             Stmt::Break(..) => {
                 if self.in_switch_case {
-                    return node;
+                    return;
                 }
                 self.has_break = true;
-                return Stmt::Return(ReturnStmt {
+                *node = Stmt::Return(ReturnStmt {
                     span,
                     arg: Some(Box::new(Expr::Lit(Lit::Str(Str {
                         span,
@@ -832,15 +777,15 @@ impl Fold for FlowHelper<'_> {
             }
             Stmt::Return(s) => {
                 self.has_return = true;
-                let s: ReturnStmt = s.fold_with(self);
+                s.visit_mut_with(self);
 
-                return Stmt::Return(ReturnStmt {
+                *node = Stmt::Return(ReturnStmt {
                     span,
                     arg: Some(Box::new(Expr::Object(ObjectLit {
                         span,
                         props: vec![PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                             key: PropName::Ident(Ident::new("v".into(), DUMMY_SP)),
-                            value: s.arg.unwrap_or_else(|| {
+                            value: s.arg.take().unwrap_or_else(|| {
                                 Box::new(Expr::Unary(UnaryExpr {
                                     span: DUMMY_SP,
                                     op: UnaryOp::Void,
@@ -851,28 +796,25 @@ impl Fold for FlowHelper<'_> {
                     }))),
                 });
             }
-            _ => node.fold_children_with(self),
+            _ => node.visit_mut_children_with(self),
         }
     }
 
-    fn fold_switch_case(&mut self, n: SwitchCase) -> SwitchCase {
+    fn visit_mut_switch_case(&mut self, n: &mut SwitchCase) {
         let old = self.in_switch_case;
         self.in_switch_case = true;
 
-        let n = n.fold_children_with(self);
+        n.visit_mut_children_with(self);
 
         self.in_switch_case = old;
-
-        n
     }
 
-    fn fold_update_expr(&mut self, n: UpdateExpr) -> UpdateExpr {
+    fn visit_mut_update_expr(&mut self, n: &mut UpdateExpr) {
         match *n.arg {
             Expr::Ident(ref i) => self.check(i.to_id()),
             _ => {}
         }
-
-        n.fold_children_with(self)
+        n.visit_mut_children_with(self);
     }
 }
 
