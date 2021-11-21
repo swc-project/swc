@@ -1,4 +1,4 @@
-use swc_graph_analyzer::DepGraph;
+use swc_graph_analyzer::{DepGraph, GraphAnalyzer};
 
 struct Deps<'a> {
     deps: &'a [(usize, Vec<usize>)],
@@ -21,7 +21,17 @@ impl DepGraph for Deps<'_> {
     }
 }
 
-fn assert_cycles(deps: &[(usize, Vec<usize>)], cycles: Vec<Vec<usize>>) {}
+fn assert_cycles(deps: &[(usize, Vec<usize>)], cycles: Vec<Vec<usize>>) {
+    let mut analyzer = GraphAnalyzer::new(Deps { deps });
+
+    for idx in 0..deps.len() {
+        analyzer.load(idx);
+    }
+
+    let res = analyzer.into_result();
+
+    assert_eq!(res.cycles, cycles);
+}
 
 #[test]
 fn stc_1() {
