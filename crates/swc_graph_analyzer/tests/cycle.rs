@@ -22,6 +22,8 @@ impl DepGraph for Deps<'_> {
 }
 
 fn assert_cycles(deps: &[(usize, Vec<usize>)], cycles: Vec<Vec<usize>>) {
+    let _logger = testing::init();
+
     {
         let mut analyzer = GraphAnalyzer::new(Deps { deps });
 
