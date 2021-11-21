@@ -25,5 +25,14 @@ fn assert_cycles(deps: &[(usize, Vec<usize>)], cycles: Vec<Vec<usize>>) {}
 
 #[test]
 fn stc_1() {
-    assert_cycles(&[], vec![]);
+    assert_cycles(
+        &[
+            (0, vec![2]),
+            (1, vec![]),
+            (2, vec![1]),
+            (3, vec![0]),
+            (4, vec![2, 3]),
+        ],
+        vec![vec![0, 1, 2]],
+    );
 }
