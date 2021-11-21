@@ -208,7 +208,7 @@ where
             cm.new_source_file(FileName::Anon, "".into());
         }
 
-        let mut comments = SingleThreadedComments::default();
+        let comments = SingleThreadedComments::default();
 
         let fm = cm
             .load_file(file_name)
