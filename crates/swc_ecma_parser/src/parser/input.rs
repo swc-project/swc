@@ -7,7 +7,7 @@ use crate::{
 };
 use lexer::TokenContexts;
 use std::{cell::RefCell, mem, mem::take, rc::Rc};
-use swc_common::{BytePos, Span, DUMMY_SP};
+use swc_common::{BytePos, Span};
 
 /// Clone should be cheap if you are parsing typescript because typescript
 /// syntax requires backtracking.
@@ -16,6 +16,10 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     fn ctx(&self) -> Context;
     fn syntax(&self) -> Syntax;
     fn target(&self) -> EsVersion;
+
+    fn start_pos(&self) -> BytePos {
+        BytePos(0)
+    }
 
     fn set_expr_allowed(&mut self, allow: bool);
     fn token_context(&self) -> &lexer::TokenContexts;
@@ -45,6 +49,7 @@ pub struct TokensInput {
     iter: <Vec<TokenAndSpan> as IntoIterator>::IntoIter,
     ctx: Context,
     syntax: Syntax,
+    start_pos: BytePos,
     target: EsVersion,
     token_ctx: TokenContexts,
     errors: Rc<RefCell<Vec<Error>>>,
@@ -53,10 +58,13 @@ pub struct TokensInput {
 
 impl TokensInput {
     pub fn new(tokens: Vec<TokenAndSpan>, ctx: Context, syntax: Syntax, target: EsVersion) -> Self {
+        let start_pos = tokens.first().map(|t| t.span.lo).unwrap_or(BytePos(0));
+
         TokensInput {
             iter: tokens.into_iter(),
             ctx,
             syntax,
+            start_pos,
             target,
             token_ctx: Default::default(),
             errors: Default::default(),
@@ -93,6 +101,10 @@ impl Tokens for TokensInput {
         self.target
     }
 
+    fn start_pos(&self) -> BytePos {
+        self.start_pos
+    }
+
     fn set_expr_allowed(&mut self, _: bool) {}
 
     fn token_context(&self) -> &TokenContexts {
@@ -111,16 +123,16 @@ impl Tokens for TokensInput {
         self.errors.borrow_mut().push(error);
     }
 
-    fn take_errors(&mut self) -> Vec<Error> {
-        take(&mut self.errors.borrow_mut())
-    }
-
     fn add_module_mode_error(&self, error: Error) {
         if self.ctx.module {
             self.add_error(error);
             return;
         }
         self.module_errors.borrow_mut().push(error);
+    }
+
+    fn take_errors(&mut self) -> Vec<Error> {
+        take(&mut self.errors.borrow_mut())
     }
 }
 
@@ -197,6 +209,10 @@ impl<I: Tokens> Tokens for Capturing<I> {
         self.inner.target()
     }
 
+    fn start_pos(&self) -> BytePos {
+        self.inner.start_pos()
+    }
+
     fn set_expr_allowed(&mut self, allow: bool) {
         self.inner.set_expr_allowed(allow)
     }
@@ -217,12 +233,12 @@ impl<I: Tokens> Tokens for Capturing<I> {
         self.inner.add_error(error);
     }
 
-    fn take_errors(&mut self) -> Vec<Error> {
-        self.inner.take_errors()
-    }
-
     fn add_module_mode_error(&self, error: Error) {
         self.inner.add_module_mode_error(error)
+    }
+
+    fn take_errors(&mut self) -> Vec<Error> {
+        self.inner.take_errors()
     }
 }
 
@@ -248,10 +264,11 @@ impl<I: Tokens> Parser<I> {
 
 impl<I: Tokens> Buffer<I> {
     pub fn new(lexer: I) -> Self {
+        let start_pos = lexer.start_pos();
         Buffer {
             iter: lexer,
             cur: None,
-            prev_span: DUMMY_SP,
+            prev_span: Span::new(start_pos, start_pos, Default::default()),
             next: None,
         }
     }
