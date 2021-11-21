@@ -5,7 +5,7 @@ use std::{
     io::Read,
     path::{Path, PathBuf},
 };
-use swc_common::FileName;
+use swc_common::{comments::SingleThreadedComments, FileName};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, PResult, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_visit::FoldWith;
@@ -34,7 +34,7 @@ fn shifted(file: PathBuf) {
         );
     }
 
-    with_parser(false, &file, true, true, |p| {
+    with_parser(false, &file, true, true, |p, comments| {
         let program = p.parse_program()?.fold_with(&mut Normalizer {
             drop_span: false,
             is_test262: false,
@@ -45,6 +45,12 @@ fn shifted(file: PathBuf) {
 
         if StdErr::from(json.clone())
             .compare_to_file(&format!("{}.json", file.display()))
+            .is_err()
+        {
+            panic!()
+        }
+        if StdErr::from(format!("{:#?}", comments))
+            .compare_to_file(&format!("{}.comments", file.display()))
             .is_err()
         {
             panic!()
@@ -136,7 +142,7 @@ fn spec(file: PathBuf) {
         );
     }
 
-    with_parser(false, &file, true, false, |p| {
+    with_parser(false, &file, true, false, |p, _| {
         let program = p.parse_program()?.fold_with(&mut Normalizer {
             drop_span: false,
             is_test262: false,
@@ -194,13 +200,15 @@ fn with_parser<F, Ret>(
     f: F,
 ) -> Result<Ret, StdErr>
 where
-    F: FnOnce(&mut Parser<Lexer<StringInput<'_>>>) -> PResult<Ret>,
+    F: FnOnce(&mut Parser<Lexer<StringInput<'_>>>, &SingleThreadedComments) -> PResult<Ret>,
 {
     let fname = file_name.display().to_string();
     let output = ::testing::run_test(treat_error_as_bug, |cm, handler| {
         if shift {
             cm.new_source_file(FileName::Anon, "".into());
         }
+
+        let comments = SingleThreadedComments::default();
 
         let fm = cm
             .load_file(file_name)
@@ -218,12 +226,12 @@ where
             }),
             EsVersion::Es2015,
             (&*fm).into(),
-            None,
+            Some(&comments),
         );
 
         let mut p = Parser::new_from(lexer);
 
-        let res = f(&mut p).map_err(|e| e.into_diagnostic(&handler).emit());
+        let res = f(&mut p, &comments).map_err(|e| e.into_diagnostic(&handler).emit());
 
         for err in p.take_errors() {
             err.into_diagnostic(&handler).emit();
@@ -257,7 +265,9 @@ fn errors(file: PathBuf) {
         );
     }
 
-    let module = with_parser(false, &file, false, false, |p| p.parse_typescript_module());
+    let module = with_parser(false, &file, false, false, |p, _| {
+        p.parse_typescript_module()
+    });
 
     let err = module.expect_err("should fail, but parsed as");
     if err

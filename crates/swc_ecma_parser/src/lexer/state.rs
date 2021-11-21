@@ -198,7 +198,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                             // if the file had no tokens and no shebang, then treat any
                             // comments in the leading comments buffer as leading.
                             // Otherwise treat them as trailing.
-                            if last == BytePos(0) {
+                            if last == self.start_pos {
                                 comments_buffer.push(BufferedComment {
                                     kind: BufferedCommentKind::Leading,
                                     pos: last,
@@ -324,12 +324,12 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
 }
 
 impl State {
-    pub fn new(syntax: Syntax) -> Self {
+    pub fn new(syntax: Syntax, start_pos: BytePos) -> Self {
         State {
             is_expr_allowed: true,
             is_first: true,
             had_line_break: false,
-            prev_hi: BytePos(0),
+            prev_hi: start_pos,
             context: TokenContexts(vec![TokenContext::BraceStmt]),
             token_type: None,
             start: BytePos(0),
