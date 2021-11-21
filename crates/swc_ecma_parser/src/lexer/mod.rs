@@ -103,6 +103,7 @@ pub struct Lexer<'a, I: Input> {
 
     pub(crate) ctx: Context,
     input: I,
+    start_pos: BytePos,
 
     state: State,
     pub(crate) syntax: Syntax,
@@ -123,11 +124,14 @@ impl<'a, I: Input> Lexer<'a, I> {
         input: I,
         comments: Option<&'a dyn Comments>,
     ) -> Self {
+        let start_pos = input.last_pos();
+
         Lexer {
             comments,
             comments_buffer: comments.is_some().then(CommentsBuffer::new),
             ctx: Default::default(),
             input,
+            start_pos,
             state: State::new(syntax),
             syntax,
             target,

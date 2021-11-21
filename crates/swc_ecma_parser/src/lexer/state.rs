@@ -128,13 +128,17 @@ impl<I: Input> Tokens for Lexer<'_, I> {
         self.target
     }
 
+    fn start_pos(&self) -> BytePos {
+        self.start_pos
+    }
+
     fn set_expr_allowed(&mut self, allow: bool) {
         self.set_expr_allowed(allow)
     }
-
     fn token_context(&self) -> &TokenContexts {
         &self.state.context
     }
+
     fn token_context_mut(&mut self) -> &mut TokenContexts {
         &mut self.state.context
     }
@@ -147,16 +151,16 @@ impl<I: Input> Tokens for Lexer<'_, I> {
         self.errors.borrow_mut().push(error);
     }
 
-    fn take_errors(&mut self) -> Vec<Error> {
-        take(&mut self.errors.borrow_mut())
-    }
-
     fn add_module_mode_error(&self, error: Error) {
         if self.ctx.module {
             self.add_error(error);
             return;
         }
         self.module_errors.borrow_mut().push(error);
+    }
+
+    fn take_errors(&mut self) -> Vec<Error> {
+        take(&mut self.errors.borrow_mut())
     }
 }
 
