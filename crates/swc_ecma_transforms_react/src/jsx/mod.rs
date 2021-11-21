@@ -472,8 +472,8 @@ where
                 };
 
                 let mut key = None;
-                let mut __source = None;
-                let mut __self = None;
+                let mut source_props = None;
+                let mut self_props = None;
 
                 for attr in el.opening.attrs {
                     match attr {
@@ -499,16 +499,16 @@ where
                                         && *i.sym == *"__source"
                                         && self.development
                                     {
-                                        if __source.is_some() {
+                                        if source_props.is_some() {
                                             panic!("Duplicate __source is found");
                                         }
-                                        __source = attr
+                                        source_props = attr
                                             .value
                                             .map(jsx_attr_value_to_expr)
                                             .flatten()
                                             .map(|expr| ExprOrSpread { expr, spread: None });
                                         assert_ne!(
-                                            __source, None,
+                                            source_props, None,
                                             "value of property '__source' should not be empty"
                                         );
                                         continue;
@@ -518,16 +518,16 @@ where
                                         && *i.sym == *"__self"
                                         && self.development
                                     {
-                                        if __self.is_some() {
+                                        if self_props.is_some() {
                                             panic!("Duplicate __self is found");
                                         }
-                                        __self = attr
+                                        self_props = attr
                                             .value
                                             .map(jsx_attr_value_to_expr)
                                             .flatten()
                                             .map(|expr| ExprOrSpread { expr, spread: None });
                                         assert_ne!(
-                                            __self, None,
+                                            self_props, None,
                                             "value of property '__self' should not be empty"
                                         );
                                         continue;
@@ -652,8 +652,8 @@ where
                     };
 
                     // set undefined literal to __source if __source is None
-                    let __source = match __source {
-                        Some(__source) => __source,
+                    let source_props = match source_props {
+                        Some(source_props) => source_props,
                         None => ExprOrSpread {
                             spread: None,
                             expr: Box::new(build_undefined_literal_value()),
@@ -661,8 +661,8 @@ where
                     };
 
                     // set undefined literal to __self if __self is None
-                    let __self = match __self {
-                        Some(__self) => __self,
+                    let self_props = match self_props {
+                        Some(self_props) => self_props,
                         None => ExprOrSpread {
                             spread: None,
                             expr: Box::new(build_undefined_literal_value()),
@@ -676,8 +676,8 @@ where
                             })
                             .as_arg(),
                         ))
-                        .chain(Some(__source))
-                        .chain(Some(__self))
+                        .chain(Some(source_props))
+                        .chain(Some(self_props))
                         .collect()
                 } else {
                     args.chain(key).collect()
