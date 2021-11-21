@@ -2868,7 +2868,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.44.1"
+version = "0.44.2"
 dependencies = [
  "once_cell",
  "phf",

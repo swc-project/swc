@@ -1327,6 +1327,11 @@ impl VisitMut for Hoister<'_, '_> {
                     self.resolver.in_type = true;
                     self.resolver.modify(&mut i.id, None);
                 }
+
+                Decl::TsTypeAlias(a) => {
+                    self.resolver.in_type = true;
+                    self.resolver.modify(&mut a.id, None);
+                }
                 _ => {}
             }
         }
