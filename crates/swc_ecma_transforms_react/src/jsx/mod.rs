@@ -18,7 +18,9 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_parser::{Parser, StringInput, Syntax};
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{drop_span, member_expr, prepend, private_ident, quote_ident, ExprFactory};
+use swc_ecma_utils::{
+    drop_span, member_expr, prepend, private_ident, quote_ident, undefined, ExprFactory,
+};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 mod static_check;
@@ -647,7 +649,7 @@ where
                         Some(key) => key,
                         None => ExprOrSpread {
                             spread: None,
-                            expr: Box::new(build_undefined_literal_value()),
+                            expr: Box::new(*undefined(DUMMY_SP)),
                         },
                     };
 
@@ -656,7 +658,7 @@ where
                         Some(source_props) => source_props,
                         None => ExprOrSpread {
                             spread: None,
-                            expr: Box::new(build_undefined_literal_value()),
+                            expr: Box::new(*undefined(DUMMY_SP)),
                         },
                     };
 
@@ -665,7 +667,7 @@ where
                         Some(self_props) => self_props,
                         None => ExprOrSpread {
                             spread: None,
-                            expr: Box::new(build_undefined_literal_value()),
+                            expr: Box::new(*undefined(DUMMY_SP)),
                         },
                     };
                     args.chain(Some(key))
@@ -1347,12 +1349,4 @@ fn transform_jsx_attr_str(v: &str) -> String {
     }
 
     buf
-}
-
-fn build_undefined_literal_value() -> Expr {
-    Expr::Ident(Ident {
-        span: DUMMY_SP,
-        sym: js_word!("undefined"),
-        optional: false,
-    })
 }
