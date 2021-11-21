@@ -1105,8 +1105,7 @@ where
             return None;
         }
 
-        // When its body is non empty, it should be `concrete` (i.e. "export"-able).
-        // TODO: Due to the processing order, this cannot handle "hoisting export".
+        // When its body is non empty, it should be `concrete` and thus "export"-able.
         self.store(module_name.sym.clone(), module_name.span.ctxt, true);
 
         // Allow exporting `declare namespace` but body should be empty
@@ -1949,6 +1948,8 @@ where
         self.visit_mut_stmt_like(items);
         items.visit_with(&Invalid { span: DUMMY_SP }, self);
 
+        // TODO: Process `TsModule` before `ExportDecl` to support hoisted export of
+        // namespace
         let mut stmts = Vec::with_capacity(items.len());
         for mut item in take(items) {
             self.is_side_effect_import = false;
