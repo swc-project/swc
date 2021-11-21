@@ -4190,6 +4190,19 @@ to!(
     "
 );
 
+to!(
+    issue_2809,
+    "enum Color {
+    Aqua = '#00ffff',
+    Cyan = Aqua,
+}",
+    "var Color;
+(function (Color) {
+    Color['Aqua'] = '#00ffff';
+    Color['Cyan'] = '#00ffff';
+})(Color || (Color = {}));"
+);
+
 #[testing::fixture("tests/fixture/**/input.ts")]
 #[testing::fixture("tests/fixture/**/input.tsx")]
 fn exec(input: PathBuf) {

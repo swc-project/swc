@@ -416,6 +416,7 @@ impl<'a> VisitMut for Resolver<'a> {
     typed!(visit_mut_ts_rest_type, TsRestType);
     typed!(visit_mut_ts_type_predicate, TsTypePredicate);
     typed_ref!(visit_mut_ts_this_type_or_ident, TsThisTypeOrIdent);
+    typed_ref!(visit_mut_ts_expr_with_type_args, TsExprWithTypeArgs);
 
     fn visit_mut_import_decl(&mut self, n: &mut ImportDecl) {
         if n.type_only {
@@ -1310,6 +1311,26 @@ impl VisitMut for Hoister<'_, '_> {
 
     #[inline]
     fn visit_mut_constructor(&mut self, _: &mut Constructor) {}
+
+    #[inline]
+    fn visit_mut_decl(&mut self, decl: &mut Decl) {
+        decl.visit_mut_children_with(self);
+
+        if self.resolver.handle_types {
+            match decl {
+                Decl::TsEnum(e) => {
+                    self.resolver.in_type = true;
+                    self.resolver.modify(&mut e.id, None);
+                }
+
+                Decl::TsInterface(i) => {
+                    self.resolver.in_type = true;
+                    self.resolver.modify(&mut i.id, None);
+                }
+                _ => {}
+            }
+        }
+    }
 
     fn visit_mut_export_default_decl(&mut self, node: &mut ExportDefaultDecl) {
         // Treat default exported functions and classes as declarations
