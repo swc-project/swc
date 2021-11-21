@@ -670,7 +670,7 @@ where
                             expr: Box::new(*undefined(DUMMY_SP)),
                         },
                     };
-                    args.chain(Some(key))
+                    args.chain(once(key))
                         .chain(once(
                             Lit::Bool(Bool {
                                 span: DUMMY_SP,
@@ -678,8 +678,8 @@ where
                             })
                             .as_arg(),
                         ))
-                        .chain(Some(source_props))
-                        .chain(Some(self_props))
+                        .chain(once(source_props))
+                        .chain(once(self_props))
                         .collect()
                 } else {
                     args.chain(key).collect()
