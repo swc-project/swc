@@ -40,7 +40,7 @@ pub fn derive_deserialize_enum(input: proc_macro::TokenStream) -> proc_macro::To
     print("derive(DeserializeEnum)", item.dump())
 }
 
-/// Derives `serde::Serialize` and `serde::Deerialize`.
+/// Derives `serde::Serialize` and `serde::Deserialize`.
 ///
 /// # Struct attributes
 ///
