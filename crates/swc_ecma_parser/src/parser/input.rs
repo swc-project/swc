@@ -17,7 +17,9 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     fn syntax(&self) -> Syntax;
     fn target(&self) -> EsVersion;
 
-    fn start_pos(&self) -> BytePos;
+    fn start_pos(&self) -> BytePos {
+        BytePos(0)
+    }
 
     fn set_expr_allowed(&mut self, allow: bool);
     fn token_context(&self) -> &lexer::TokenContexts;
