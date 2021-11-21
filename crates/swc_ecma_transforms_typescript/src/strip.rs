@@ -1948,11 +1948,37 @@ where
         self.visit_mut_stmt_like(items);
         items.visit_with(&Invalid { span: DUMMY_SP }, self);
 
-        // TODO: Process `TsModule` before `ExportDecl` to support hoisted export of
-        // namespace
-        let mut stmts = Vec::with_capacity(items.len());
-        for mut item in take(items) {
-            self.is_side_effect_import = false;
+        // Reorder `TsModule` to support hoisted export of namespace
+        let mut items_partition: [Vec<ModuleItem>; 2] = Default::default();
+        let mut items_partition_indices: [Vec<usize>; 2] = Default::default();
+        for (i, item) in items.drain(..).enumerate() {
+            match item {
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: Decl::TsModule(_),
+                    ..
+                }))
+                | ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(_))) => {
+                    items_partition_indices[0].push(i);
+                    items_partition[0].push(item);
+                }
+                _ => {
+                    items_partition_indices[1].push(i);
+                    items_partition[1].push(item);
+                }
+            }
+        }
+
+        items.append(&mut items_partition[0]);
+        items.append(&mut items_partition[1]);
+
+        let mut items_indices: Vec<usize> = Vec::new();
+        items_indices.append(&mut items_partition_indices[0]);
+        items_indices.append(&mut items_partition_indices[1]);
+
+        // Process each `ModuleItem`
+        let mut item_results: Vec<Vec<ModuleItem>> = vec![Vec::new(); items.len()];
+        for (i, mut item) in items.drain(..).enumerate() {
+            let stmts = &mut item_results[items_indices[i]];
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                     span,
@@ -2094,7 +2120,7 @@ where
                         })));
                     }
 
-                    self.handle_enum(e, &mut stmts)
+                    self.handle_enum(e, stmts)
                 }
                 ModuleItem::Stmt(Stmt::Decl(Decl::TsEnum(e))) => {
                     // var Foo;
@@ -2113,7 +2139,7 @@ where
                             .into(),
                         );
                     }
-                    self.handle_enum(e, &mut stmts)
+                    self.handle_enum(e, stmts)
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
@@ -2222,7 +2248,10 @@ where
             };
         }
 
-        *items = stmts;
+        // Concatenate `items_results`
+        for mut items_result in item_results {
+            items.append(&mut items_result);
+        }
     }
 
     fn visit_mut_var_declarator(&mut self, d: &mut VarDeclarator) {
