@@ -22,15 +22,29 @@ impl DepGraph for Deps<'_> {
 }
 
 fn assert_cycles(deps: &[(usize, Vec<usize>)], cycles: Vec<Vec<usize>>) {
-    let mut analyzer = GraphAnalyzer::new(Deps { deps });
+    {
+        let mut analyzer = GraphAnalyzer::new(Deps { deps });
 
-    for idx in 0..deps.len() {
-        analyzer.load(idx);
+        analyzer.load(0);
+
+        let res = analyzer.into_result();
+
+        assert_eq!(res.cycles, cycles);
     }
 
-    let res = analyzer.into_result();
+    {
+        // Ensure that multiple load does not affect cycle detection.
 
-    assert_eq!(res.cycles, cycles);
+        let mut analyzer = GraphAnalyzer::new(Deps { deps });
+
+        for idx in 0..deps.len() {
+            analyzer.load(idx);
+        }
+
+        let res = analyzer.into_result();
+
+        assert_eq!(res.cycles, cycles);
+    }
 }
 
 #[test]
