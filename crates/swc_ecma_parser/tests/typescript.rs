@@ -5,6 +5,7 @@ use std::{
     io::Read,
     path::{Path, PathBuf},
 };
+use swc_common::FileName;
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, PResult, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_visit::FoldWith;
@@ -12,6 +13,47 @@ use testing::StdErr;
 
 #[path = "common/mod.rs"]
 mod common;
+
+#[testing::fixture("tests/shifted/**/*.ts")]
+fn shifted(file: PathBuf) {
+    {
+        // Drop to reduce memory usage.
+        //
+        // Because the test suite contains lots of test cases, it results in oom in
+        // github actions.
+        let input = {
+            let mut buf = String::new();
+            File::open(&file).unwrap().read_to_string(&mut buf).unwrap();
+            buf
+        };
+
+        eprintln!(
+            "\n\n========== Running reference test {}\nSource:\n{}\n",
+            file.display(),
+            input
+        );
+    }
+
+    with_parser(false, &file, true, true, |p| {
+        let program = p.parse_program()?.fold_with(&mut Normalizer {
+            drop_span: false,
+            is_test262: false,
+        });
+
+        let json =
+            serde_json::to_string_pretty(&program).expect("failed to serialize module as json");
+
+        if StdErr::from(json.clone())
+            .compare_to_file(&format!("{}.json", file.display()))
+            .is_err()
+        {
+            panic!()
+        }
+
+        Ok(())
+    })
+    .unwrap();
+}
 
 #[testing::fixture("tests/typescript/**/*.ts")]
 #[testing::fixture("tests/typescript/**/*.tsx")]
@@ -94,7 +136,7 @@ fn spec(file: PathBuf) {
         );
     }
 
-    with_parser(false, &file, true, |p| {
+    with_parser(false, &file, true, false, |p| {
         let program = p.parse_program()?.fold_with(&mut Normalizer {
             drop_span: false,
             is_test262: false,
@@ -148,6 +190,7 @@ fn with_parser<F, Ret>(
     treat_error_as_bug: bool,
     file_name: &Path,
     no_early_errors: bool,
+    shift: bool,
     f: F,
 ) -> Result<Ret, StdErr>
 where
@@ -155,6 +198,10 @@ where
 {
     let fname = file_name.display().to_string();
     let output = ::testing::run_test(treat_error_as_bug, |cm, handler| {
+        if shift {
+            cm.new_source_file(FileName::Anon, "".into());
+        }
+
         let fm = cm
             .load_file(file_name)
             .unwrap_or_else(|e| panic!("failed to load {}: {}", file_name.display(), e));
