@@ -49,7 +49,7 @@ fn shifted(file: PathBuf) {
         {
             panic!()
         }
-        if StdErr::from(format!("{:?}", comments))
+        if StdErr::from(format!("{:#?}", comments))
             .compare_to_file(&format!("{}.comments", file.display()))
             .is_err()
         {
