@@ -496,7 +496,7 @@ where
                                     }
 
                                     if !use_create_element
-                                        && i.sym == String::from("__source")
+                                        && *i.sym == *"__source"
                                         && self.development
                                     {
                                         if __source.is_some() {
@@ -515,7 +515,7 @@ where
                                     }
 
                                     if !use_create_element
-                                        && i.sym == String::from("__self")
+                                        && *i.sym == *"__self"
                                         && self.development
                                     {
                                         if __self.is_some() {
