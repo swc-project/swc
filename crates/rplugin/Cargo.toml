@@ -14,4 +14,4 @@ version = "0.1.0"
 abi_stable = "0.10.3"
 rplugin_macros = {version = "0.1", path = "../rplugin_macros"}
 string_cache = "0.8.2"
-swc_common = {version = "0.14.6", path = "../swc_common"}
+swc_common = {version = "0.14.6", path = "../swc_common", features = ["plugin-base"]}

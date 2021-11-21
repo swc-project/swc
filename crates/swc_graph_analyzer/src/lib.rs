@@ -10,6 +10,7 @@ pub trait DepGraph {
     fn deps_of(&self, module_id: Self::ModuleId) -> Vec<Self::ModuleId>;
 }
 
+/// Utility to detect cycles in a dependency graph.
 pub struct GraphAnalyzer<G>
 where
     G: DepGraph,
@@ -38,11 +39,22 @@ where
     }
 
     pub fn load(&mut self, entry: G::ModuleId) {
-        self.add_to_graph(entry, &mut vec![entry])
+        self.add_to_graph(
+            entry,
+            &mut vec![entry],
+            &mut State {
+                visited: Default::default(),
+            },
+        );
     }
 
-    fn add_to_graph(&mut self, module_id: G::ModuleId, path: &mut Vec<G::ModuleId>) {
-        let visited = self.data.all.contains(&module_id);
+    fn add_to_graph(
+        &mut self,
+        module_id: G::ModuleId,
+        path: &mut Vec<G::ModuleId>,
+        state: &mut State<G::ModuleId>,
+    ) {
+        let visited = state.visited.contains(&module_id);
         // dbg!(visited);
         // dbg!(&path);
         let cycle_rpos = if visited {
@@ -66,6 +78,9 @@ where
         path.push(module_id);
 
         if !visited {
+            state.visited.push(module_id);
+        }
+        if !self.data.all.contains(&module_id) {
             self.data.all.push(module_id);
         }
         self.data.graph.add_node(module_id);
@@ -75,7 +90,7 @@ where
 
             self.data.graph.add_edge(module_id, dep_module_id, ());
 
-            self.add_to_graph(dep_module_id, path);
+            self.add_to_graph(dep_module_id, path, state);
         }
 
         let res = path.pop();
@@ -85,6 +100,10 @@ where
     pub fn into_result(self) -> GraphResult<G> {
         self.data
     }
+}
+
+struct State<I> {
+    visited: Vec<I>,
 }
 
 pub struct GraphResult<G>
