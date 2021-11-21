@@ -132,7 +132,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             ctx: Default::default(),
             input,
             start_pos,
-            state: State::new(syntax),
+            state: State::new(syntax, start_pos),
             syntax,
             target,
             errors: Default::default(),
