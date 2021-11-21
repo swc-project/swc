@@ -10,6 +10,7 @@ pub trait DepGraph {
     fn deps_of(&self, module_id: Self::ModuleId) -> Vec<Self::ModuleId>;
 }
 
+/// Utility to detect cycles in a dependency graph.
 pub struct GraphAnalyzer<G>
 where
     G: DepGraph,
