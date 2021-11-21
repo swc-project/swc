@@ -15,3 +15,6 @@ auto_impl = "0.5.0"
 petgraph = "0.5.0"
 swc_fast_graph = {version = "0.1", path = "../swc_fast_graph/"}
 tracing = "0.1.29"
+
+[dev-dependencies]
+testing = {version = "0.15.1", path = "../testing"}

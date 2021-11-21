@@ -3153,6 +3153,7 @@ dependencies = [
  "auto_impl 0.5.0",
  "petgraph",
  "swc_fast_graph",
+ "testing",
  "tracing",
 ]
 
