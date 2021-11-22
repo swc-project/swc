@@ -30,5 +30,6 @@ swc_node_comments = {version = "0.1", path = "../swc_node_comments/"}
 
 [dev-dependencies]
 pretty_assertions = "0.7.1"
+swc = {version = "0.86.0", path = "../swc"}
 swc_ecma_transforms = {path = "../swc_ecma_transforms/"}
 walkdir = "2"
