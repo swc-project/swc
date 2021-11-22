@@ -47,8 +47,6 @@ where
     type State = LexerState;
 
     fn next(&mut self) -> PResult<TokenAndSpan> {
-        self.start_pos = self.input.cur_pos();
-
         let token = self.read_token();
         let end = self.last_pos.take().unwrap_or_else(|| self.input.cur_pos());
         let span = Span::new(self.start_pos, end, Default::default());
@@ -80,8 +78,9 @@ where
     fn read_token(&mut self) -> LexResult<Token> {
         self.read_comments()?;
 
-        let start = self.input.cur_pos();
         let next = self.input.cur();
+
+        self.start_pos = self.input.cur_pos();
 
         // Consume the next input code point.
         match next {
@@ -199,7 +198,7 @@ where
                 // If the input stream starts with a number, reconsume the current input code
                 // point, consume a numeric token and return it.
                 if self.would_start_number(None, None, None)? {
-                    self.input.reset_to(start);
+                    self.input.reset_to(self.start_pos);
 
                     return self.read_numeric();
                 }
@@ -222,7 +221,7 @@ where
                 // If the input stream starts with a number, reconsume the current input code
                 // point, consume a numeric token, and return it.
                 if self.would_start_number(None, None, None)? {
-                    self.input.reset_to(start);
+                    self.input.reset_to(self.start_pos);
 
                     return self.read_numeric();
                 }
@@ -237,7 +236,7 @@ where
                 // Otherwise, if the input stream starts with an identifier, reconsume the current
                 // input code point, consume an ident-like token, and return it.
                 else if self.would_start_ident(None, None, None)? {
-                    self.input.reset_to(start);
+                    self.input.reset_to(self.start_pos);
 
                     return self
                         .read_name()
@@ -255,7 +254,7 @@ where
                 // If the input stream starts with a number, reconsume the current input code
                 // point, consume a numeric token, and return it.
                 if self.would_start_number(None, None, None)? {
-                    self.input.reset_to(start);
+                    self.input.reset_to(self.start_pos);
 
                     return self.read_numeric();
                 }
@@ -370,7 +369,7 @@ where
             // Reconsume the current input code point, consume a numeric token, and return it.
             Some('0'..='9') => {
                 self.input.bump();
-                self.input.reset_to(start);
+                self.input.reset_to(self.start_pos);
 
                 return self.read_numeric();
             }
@@ -378,7 +377,7 @@ where
             // Reconsume the current input code point, consume an ident-like token, and return it.
             Some(c) if is_name_start(c) => {
                 self.input.bump();
-                self.input.reset_to(start);
+                self.input.reset_to(self.start_pos);
 
                 return self.read_ident_like();
             }
@@ -432,9 +431,6 @@ where
                     }
                 }
             }
-
-            // TODO: fix me
-            self.start_pos = self.input.cur_pos();
         } else if self.config.allow_wrong_line_comments
             && self.input.cur() == Some('/')
             && self.input.peek() == Some('/')
@@ -461,8 +457,6 @@ where
                     }
                 }
             }
-
-            self.start_pos = self.input.cur_pos();
         }
 
         Ok(())
