@@ -705,7 +705,6 @@ where
 
                 // whitespace
                 Some(c) if is_whitespace(c) => {
-                    raw.push(c);
                     self.input.bump();
                     let start_pos = self.input.cur_pos();
 
@@ -714,6 +713,7 @@ where
 
                     let end_pos = self.input.cur_pos();
 
+                    raw.push(c);
                     raw.push_str(&self.input.slice(start_pos, end_pos));
 
                     let c = self.input.cur();
@@ -1041,43 +1041,28 @@ where
         // Repeatedly consume the next input code point from the stream:
         loop {
             let start = self.input.cur_pos();
-            let next = self.input.cur();
 
-            // anything else
-            // Return result.
-            if next.is_none() {
-                break;
-            }
+            self.consume();
 
-            // TODO fix me
-            let first = self.input.cur();
-            let second = self.input.peek();
-            
-            match next {
+            match self.cur() {
                 // name code point
                 // Append the code point to result.
                 Some(c) if is_name(c) => {
-                    self.input.bump();
-
                     value.push(c);
                     raw.push(c);
                 }
                 // the stream starts with a valid escape
                 // Consume an escaped code point. Append the returned code point to result.
-                Some(c) if self.is_valid_escape(first, second)? => {
-                    raw.push(c);
-
-                    self.input.bump();
-
+                Some(c) if self.is_valid_escape(None, None)? => {
                     let escaped = self.read_escape()?;
 
                     value.push(escaped.0);
+                    raw.push(c);
                     raw.push_str(&escaped.1);
                 }
                 // anything else
                 // Reconsume the current input code point. Return result.
                 _ => {
-                    self.input.bump();
                     self.input.reset_to(start);
 
                     break;
