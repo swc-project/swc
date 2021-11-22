@@ -538,7 +538,6 @@ where
                 }
             }
 
-            // TODO: avoid reset
             match self.next() {
                 // If the next one or two input code points are U+0022 QUOTATION MARK ("), U+0027
                 // APOSTROPHE ('), or whitespace followed by U+0022 QUOTATION MARK (") or U+0027
@@ -548,6 +547,7 @@ where
                     if is_whitespace(c)
                         && (self.next_next() == Some('"') || self.next_next() == Some('\'')) =>
                 {
+                    // TODO: avoid reset
                     self.input.reset_to(start_whitespace);
 
                     return Ok(Token::Function {
@@ -556,8 +556,6 @@ where
                     });
                 }
                 Some('"' | '\'') => {
-                    self.input.reset_to(start_whitespace);
-
                     return Ok(Token::Function {
                         value: name.0,
                         raw: name.1,
@@ -565,8 +563,6 @@ where
                 }
                 // Otherwise, consume a url token, and return it.
                 _ => {
-                    self.input.reset_to(start_whitespace);
-
                     return self.read_url();
                 }
             }
