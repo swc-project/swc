@@ -112,6 +112,7 @@
         "putc",
         "qself",
         "regs",
+        "renamer",
         "repr",
         "rfind",
         "rplugin",
@@ -144,4 +145,5 @@
     "flagWords": [
         "actally"
     ]
+}
 }
