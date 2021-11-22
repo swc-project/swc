@@ -46,18 +46,30 @@ impl VisitMut for DropConsole {
                         computed: false,
                         ..
                     }) => {
-                        match (&**callee_obj, &**callee_prop) {
-                            (Expr::Ident(obj), Expr::Ident(prop)) => {
-                                if obj.sym != *"console" {
-                                    return;
+                        let mut loop_co = &**callee_obj;
+                        let mut loop_cp = &**callee_prop;
+                        loop {
+                            match (loop_co, loop_cp) {
+                                (Expr::Ident(obj), Expr::Ident(_prop)) => {
+                                    if obj.sym != *"console" {
+                                        return;
+                                    }
+                                    break;
                                 }
-
-                                match &*prop.sym {
-                                    "log" | "info" => {}
-                                    _ => return,
+                                (
+                                    Expr::Member(MemberExpr {
+                                        obj: ExprOrSuper::Expr(loop_co_obj),
+                                        prop: loop_cp_prop,
+                                        computed: false,
+                                        ..
+                                    }),
+                                    Expr::Ident(_prop),
+                                ) => {
+                                    loop_co = &loop_co_obj;
+                                    loop_cp = &loop_cp_prop;
                                 }
+                                _ => return,
                             }
-                            _ => return,
                         }
 
                         // Sioplifier will remove side-effect-free items.
