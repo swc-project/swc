@@ -15,6 +15,7 @@ where
 {
     input: I,
     cur: Option<char>,
+    cur_pos: BytePos,
     start_pos: BytePos,
     /// Used to override last_pos
     last_pos: Option<BytePos>,
@@ -30,6 +31,7 @@ where
         Lexer {
             input,
             cur: None,
+            cur_pos: start_pos,
             start_pos,
             last_pos: None,
             config,
@@ -99,7 +101,8 @@ where
 
     #[inline]
     fn consume(&mut self) {
-        self.cur = self.next();
+        self.cur = self.input.cur();
+        self.cur_pos = self.input.cur_pos();
 
         if self.cur.is_some() {
             self.input.bump();
@@ -108,7 +111,7 @@ where
 
     #[inline]
     fn reconsume(&mut self) {
-        self.input.reset_to(self.start_pos);
+        self.input.reset_to(self.cur_pos);
     }
 
     fn read_token(&mut self) -> LexResult<Token> {
@@ -602,8 +605,6 @@ where
 
         // Repeatedly consume the next input code point from the stream:
         loop {
-            let start = self.input.cur_pos();
-
             self.consume();
 
             match self.cur() {
@@ -628,7 +629,7 @@ where
                 // This is a parse error. Reconsume the current input code point, create a
                 // <bad-string-token>, and return it.
                 Some(c) if is_newline(c) => {
-                    self.input.reset_to(start);
+                    self.reconsume();
 
                     return Ok(Token::BadStr {
                         value: value.into(),
@@ -733,6 +734,7 @@ where
                     let end_pos = self.input.cur_pos();
 
                     raw.push(c);
+                    // TODO: fix me
                     raw.push_str(&self.input.slice(start_pos, end_pos));
 
                     // if the next input code point is U+0029 RIGHT PARENTHESIS ()) or EOF, consume
@@ -1050,8 +1052,6 @@ where
 
         // Repeatedly consume the next input code point from the stream:
         loop {
-            let start = self.input.cur_pos();
-
             self.consume();
 
             match self.cur() {
@@ -1073,7 +1073,7 @@ where
                 // anything else
                 // Reconsume the current input code point. Return result.
                 _ => {
-                    self.input.reset_to(start);
+                    self.reconsume();
 
                     break;
                 }
