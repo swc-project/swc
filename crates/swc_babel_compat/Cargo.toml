@@ -17,19 +17,19 @@ copyless = "0.1.5"
 rayon = "1.5.0"
 serde = {version = "1", features = ["derive"]}
 serde_json = "1.0.62"
-swc_atoms = {path = "../swc_atoms"}
-swc_babel_ast = {path = "../swc_babel_ast"}
-swc_babel_visit = {path = "../swc_babel_visit"}
-swc_common = {path = "../swc_common", features = ["sourcemap", "tty-emitter"]}
-swc_ecma_ast = {path = "../swc_ecma_ast"}
-swc_ecma_parser = {path = "../swc_ecma_parser"}
-swc_ecma_utils = {path = "../swc_ecma_utils"}
-swc_ecma_visit = {path = "../swc_ecma_visit"}
-swc_node_base = {path = "../swc_node_base"}
+swc_atoms = {version = "0.2", path = "../swc_atoms"}
+swc_babel_ast = {version = "0.1", path = "../swc_babel_ast"}
+swc_babel_visit = {version = "0.1", path = "../swc_babel_visit"}
+swc_common = {version = "0.14", path = "../swc_common", features = ["sourcemap", "tty-emitter"]}
+swc_ecma_ast = {version = "0.58", path = "../swc_ecma_ast"}
+swc_ecma_parser = {version = "0.78", path = "../swc_ecma_parser"}
+swc_ecma_utils = {version = "0.52.2", path = "../swc_ecma_utils"}
+swc_ecma_visit = {version = "0.44", path = "../swc_ecma_visit"}
 swc_node_comments = {version = "0.1", path = "../swc_node_comments/"}
 
 [dev-dependencies]
 pretty_assertions = "0.7.1"
 swc = {version = "0.86.0", path = "../swc"}
-swc_ecma_transforms = {path = "../swc_ecma_transforms/"}
+swc_ecma_transforms = {version = "0.95", path = "../swc_ecma_transforms/"}
+swc_node_base = {version = "0.5", path = "../swc_node_base"}
 walkdir = "2"
