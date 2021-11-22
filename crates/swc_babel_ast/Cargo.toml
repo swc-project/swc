@@ -1,12 +1,12 @@
 [package]
 authors = ["강동윤 <kdy1997.dev@gmail.com>", "Daniel Woznicki <daniel.woznicki@gmail.com>"]
 description = "Babel AST node definitions"
+documentation = "https://rustdoc.swc.rs/swc_babel_ast/"
 edition = "2018"
-license = "MIT"
+license = "Apache-2.0/MIT"
 name = "swc_babel_ast"
-publish = false
+repository = "https://github.com/swc-project/swc.git"
 version = "0.1.0"
-
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]

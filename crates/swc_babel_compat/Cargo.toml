@@ -5,7 +5,6 @@ documentation = "https://rustdoc.swc.rs/swc_babel_compat/"
 edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_babel_compat"
-publish = false
 repository = "https://github.com/swc-project/swc.git"
 version = "0.1.0"
 
