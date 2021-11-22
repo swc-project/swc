@@ -3282,6 +3282,9 @@ dependencies = [
 [[package]]
 name = "swc_timer"
 version = "0.1.0"
+dependencies = [
+ "tracing",
+]
 
 [[package]]
 name = "swc_visit"
