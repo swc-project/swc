@@ -95,7 +95,7 @@ where
     #[inline]
     fn consume(&mut self) {
         self.cur = self.next();
-        
+
         if self.cur.is_some() {
             self.input.bump();
         }
@@ -625,19 +625,17 @@ where
                 // U+005C REVERSE SOLIDUS (\)
                 Some(c) if c == '\\' => {
                     let next = self.next();
-                    
+
                     // If the next input code point is EOF, do nothing.
                     if self.next().is_none() {
                         continue;
                     }
                     // Otherwise, if the next input code point is a newline, consume it.
-                    else if self.next().is_some() && is_newline(self.next().unwrap())
-                    {
+                    else if self.next().is_some() && is_newline(self.next().unwrap()) {
                         self.consume();
 
                         raw.push(c);
                         raw.push(next.unwrap());
-                        
                     }
                     // Otherwise, (the stream starts with a valid escape) consume an escaped
                     // code point and append the returned code point to
@@ -924,12 +922,12 @@ where
         maybe_third: Option<char>,
     ) -> LexResult<bool> {
         // Look at the first code point:
-        let first = maybe_first.or(self.input.cur());
+        let first = maybe_first.or(self.cur);
 
         match first {
             // U+002D HYPHEN-MINUS
             Some('-') => {
-                let second = maybe_second.or(self.input.peek());
+                let second = maybe_second.or(self.next());
 
                 match second {
                     // If the second code point is a name-start code point
@@ -941,7 +939,7 @@ where
                     // or the second and third code points are a valid escape
                     // return true.
                     Some(_) => {
-                        let third = maybe_third.or(self.input.peek_ahead());
+                        let third = maybe_third.or(self.next_next());
 
                         return self.is_valid_escape(second, third);
                     }
@@ -960,7 +958,7 @@ where
             // If the first and second code points are a valid escape, return true. Otherwise,
             // return false.
             Some('\\') => {
-                let second = self.input.peek();
+                let second = maybe_second.or(self.next());
 
                 return Ok(self.is_valid_escape(first, second)?);
             }
