@@ -10,6 +10,7 @@ members = [
   "crates/swc_plugin_runner",
   "crates/swc_plugin_testing",
   "crates/swc_stylis",
+  "crates/swc_timer",
   "crates/wasm",
 ]
 
