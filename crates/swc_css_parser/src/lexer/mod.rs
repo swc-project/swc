@@ -417,8 +417,8 @@ where
                 loop {
                     self.consume();
 
-                    match self.cur {
-                        Some('*') if self.input.cur() == Some('/') => {
+                    match self.cur() {
+                        Some('*') if self.next() == Some('/') => {
                             self.consume(); // '/'
 
                             break;
@@ -441,7 +441,7 @@ where
                 loop {
                     self.consume();
 
-                    match self.cur {
+                    match self.cur() {
                         Some(c) if is_newline(c) => {
                             break;
                         }
