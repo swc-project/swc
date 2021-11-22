@@ -122,6 +122,8 @@ where
             // U+0022 QUOTATION MARK (")
             // Consume a string token and return it.
             Some(c) if c == '"' => {
+                self.input.bump();
+
                 return self.read_str(None);
             }
             // U+0023 NUMBER SIGN (#)
@@ -183,6 +185,8 @@ where
             // U+0027 APOSTROPHE (')
             // Consume a string token and return it.
             Some(c) if c == '\'' => {
+                self.input.bump();
+
                 return self.read_str(None);
             }
             // U+0028 LEFT PARENTHESIS (()
@@ -596,15 +600,13 @@ where
         // This algorithm may be called with an ending code point, which denotes the
         // code point that ends the string. If an ending code point is not specified,
         // the current input code point is used.
-        let ending_code_point = maybe_ending_code_point.or(self.input.cur());
+        let ending_code_point = maybe_ending_code_point.or(self.cur);
 
         // Initially create a <string-token> with its value set to the empty string.
         let mut value = String::new();
         let mut raw = String::new();
 
         raw.push(ending_code_point.unwrap());
-
-        self.input.bump();
 
         // Repeatedly consume the next input code point from the stream:
         loop {
