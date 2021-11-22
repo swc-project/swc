@@ -404,21 +404,17 @@ where
         // the first U+002A ASTERISK (*) followed by a U+002F SOLIDUS (/), or up to an
         // EOF code point. Return to the start of this step.
         // NOTE: We allow to parse line comments under the option.
-        if self.input.cur() == Some('/') && self.input.peek() == Some('*') {
-            while self.input.cur() == Some('/') && self.input.peek() == Some('*') {
-                self.input.bump(); // '*'
-                self.input.bump(); // '/'
+        if self.next() == Some('/') && self.next_next() == Some('*') {
+            while self.next() == Some('/') && self.next_next() == Some('*') {
+                self.consume(); // '*'
+                self.consume(); // '/'
 
                 loop {
-                    let cur = self.input.cur();
+                    self.consume();
 
-                    if cur.is_some() {
-                        self.input.bump();
-                    }
-
-                    match cur {
+                    match self.cur {
                         Some('*') if self.input.cur() == Some('/') => {
-                            self.input.bump(); // '/'
+                            self.consume(); // '/'
 
                             break;
                         }
@@ -430,21 +426,17 @@ where
                 }
             }
         } else if self.config.allow_wrong_line_comments
-            && self.input.cur() == Some('/')
-            && self.input.peek() == Some('/')
+            && self.next() == Some('/')
+            && self.next_next() == Some('/')
         {
-            while self.input.cur() == Some('/') && self.input.peek() == Some('/') {
-                self.input.bump(); // '/'
-                self.input.bump(); // '/'
+            while self.next() == Some('/') && self.next_next() == Some('/') {
+                self.consume(); // '/'
+                self.consume(); // '/'
 
                 loop {
-                    let cur = self.input.cur();
+                    self.consume();
 
-                    if cur.is_some() {
-                        self.input.bump();
-                    }
-
-                    match cur {
+                    match self.cur {
                         Some(c) if is_newline(c) => {
                             break;
                         }
@@ -467,9 +459,9 @@ where
         // Consume a number and let number be the result.
         let number = self.read_number();
 
-        let next_first = self.input.cur();
-        let next_second = self.input.peek();
-        let next_third = self.input.peek_ahead();
+        let next_first = self.next();
+        let next_second = self.next_next();
+        let next_third = self.next_next_next();
 
         // If the next 3 input code points would start an identifier, then:
         if self.would_start_ident(next_first, next_second, next_third)? {
@@ -505,7 +497,7 @@ where
         // Otherwise, if the next input code point is U+0025 PERCENTAGE SIGN (%), consume it. Create
         // a <percentage-token> with the same value as number, and return it.
         else if next_first == Some('%') {
-            self.input.bump();
+            self.consume();
 
             return Ok(Token::Percent {
                 value: number.0,
