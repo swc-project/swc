@@ -1073,23 +1073,6 @@ where
         Ok((value.into(), raw.into()))
     }
 
-    fn read_digits(&mut self) -> JsWord {
-        let mut digits = String::new();
-
-        loop {
-            let next = self.input.cur();
-
-            if next.is_some() && next.unwrap().is_digit(10) {
-                self.input.bump();
-                digits.push(next.unwrap());
-            } else {
-                break;
-            }
-        }
-
-        digits.into()
-    }
-
     // This section describes how to consume a number from a stream of code points.
     // It returns a numeric value, and a type which is either "integer" or "number".
     fn read_number(&mut self) -> (f64, String) {
@@ -1107,7 +1090,15 @@ where
         }
 
         // While the next input code point is a digit, consume it and append it to repr.
-        repr.push_str(&self.read_digits());
+        while let Some(c) = self.next() {
+            if c.is_digit(10) {
+                self.consume();
+
+                repr.push(c);
+            } else {
+                break;
+            }
+        }
 
         // If the next 2 input code points are U+002E FULL STOP (.) followed by a digit,
         // then:
@@ -1125,7 +1116,15 @@ where
 
                     // While the next input code point is a digit, consume it and append it to
                     // repr.
-                    repr.push_str(&self.read_digits());
+                    while let Some(c) = self.next() {
+                        if c.is_digit(10) {
+                            self.consume();
+
+                            repr.push(c);
+                        } else {
+                            break;
+                        }
+                    }
                 }
             }
         }
@@ -1155,7 +1154,15 @@ where
 
                 // While the next input code point is a digit, consume it and append it
                 // to repr.
-                repr.push_str(&self.read_digits());
+                while let Some(c) = self.next() {
+                    if c.is_digit(10) {
+                        self.consume();
+
+                        repr.push(c);
+                    } else {
+                        break;
+                    }
+                }
             }
         }
 
