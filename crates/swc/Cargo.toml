@@ -70,6 +70,7 @@ swc_ecma_transforms_optimization = {version = "0.65.0", path = "../swc_ecma_tran
 swc_ecma_utils = {version = "0.52.0", path = "../swc_ecma_utils"}
 swc_ecma_visit = {version = "0.44.0", path = "../swc_ecma_visit"}
 swc_ecmascript = {version = "0.87.0", path = "../swc_ecmascript"}
+swc_node_comments = {version = "0.1", path = "../swc_node_comments"}
 swc_visit = {version = "0.2.3", path = "../swc_visit"}
 tracing = "0.1.28"
 

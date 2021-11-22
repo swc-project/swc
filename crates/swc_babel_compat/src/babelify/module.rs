@@ -1,6 +1,5 @@
 use crate::babelify::{Babelify, Context};
 use serde::{Deserialize, Serialize};
-use swc::SwcComments;
 use swc_babel_ast::{
     BaseNode, File, InterpreterDirective, LineCol, Loc, ModuleDeclaration, Program as BabelProgram,
     SrcType, Statement,
@@ -8,6 +7,7 @@ use swc_babel_ast::{
 use swc_common::{comments::Comment, Span};
 use swc_ecma_ast::{Invalid, Module, ModuleItem, Program, Script};
 use swc_ecma_visit::{Node, Visit, VisitWith};
+use swc_node_comments::SwcComments;
 
 impl Babelify for Program {
     type Output = File;
@@ -85,10 +85,10 @@ impl Babelify for Script {
     }
 }
 
-// Babel adds a trailing newline to the end of files when parsing, while swc
-// truncates trailing whitespace. In order to get the converted base node to
-// locations to match babel, we immitate the trailing newline for Script and
-// Module nodes.
+/// Babel adds a trailing newline to the end of files when parsing, while swc
+/// truncates trailing whitespace. In order to get the converted base node to
+/// locations to match babel, we immitate the trailing newline for Script and
+/// Module nodes.
 fn base_with_trailing_newline(span: Span, ctx: &Context) -> BaseNode {
     let mut base = ctx.base(span);
     base.end = base.end.map(|num| num + 1);
@@ -102,10 +102,10 @@ fn base_with_trailing_newline(span: Span, ctx: &Context) -> BaseNode {
     base
 }
 
-// Should return true if the first line in parsed file is a comment.
-// Required because babel and swc have slightly different handlings for first
-// line comments. Swc ignores them and starts the program on the next line down,
-// while babel includes them in the file start/end.
+/// Should return true if the first line in parsed file is a comment.
+/// Required because babel and swc have slightly different handlings for first
+/// line comments. Swc ignores them and starts the program on the next line
+/// down, while babel includes them in the file start/end.
 fn has_comment_first_line(sp: Span, ctx: &Context) -> bool {
     if let Some(comments) = ctx.comments.leading.get(&sp.hi) {
         !comments

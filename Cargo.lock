@@ -2426,6 +2426,7 @@ dependencies = [
  "swc_ecma_visit",
  "swc_ecmascript",
  "swc_node_base",
+ "swc_node_comments",
  "swc_visit",
  "testing",
  "tracing",
@@ -2483,6 +2484,7 @@ dependencies = [
  "swc_ecma_utils",
  "swc_ecma_visit",
  "swc_node_base",
+ "swc_node_comments",
  "walkdir",
 ]
 
@@ -3214,6 +3216,15 @@ dependencies = [
  "testing",
  "tracing",
  "walkdir",
+]
+
+[[package]]
+name = "swc_node_comments"
+version = "0.1.0"
+dependencies = [
+ "ahash",
+ "dashmap",
+ "swc_common",
 ]
 
 [[package]]
