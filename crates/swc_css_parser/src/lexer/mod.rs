@@ -77,21 +77,39 @@ impl<I> Lexer<I>
 where
     I: Input,
 {
+    #[inline]
+    fn next(&mut self) -> Option<char> {
+        self.input.cur()
+    }
+
+    #[inline]
+    fn next_next(&mut self) -> Option<char> {
+        self.input.peek()
+    }
+
+    #[inline]
+    fn next_next_next(&mut self) -> Option<char> {
+        self.input.peek()
+    }
+
+    #[inline]
     fn consume(&mut self) {
-        self.cur = self.input.cur();
-        self.start_pos = self.input.cur_pos();
+        self.cur = self.next();
         
         if self.cur.is_some() {
             self.input.bump();
         }
     }
 
+    #[inline]
     fn reconsume(&mut self) {
         self.input.reset_to(self.start_pos);
     }
 
     fn read_token(&mut self) -> LexResult<Token> {
         self.read_comments()?;
+        // TODO: refactor me
+        self.start_pos = self.input.cur_pos();
         self.consume();
 
         // Consume the next input code point.
@@ -103,11 +121,11 @@ where
                 value.push(c);
 
                 loop {
-                    let c = self.input.cur();
+                    let c = self.next();
 
                     match c {
                         Some(c) if is_whitespace(c) => {
-                            self.input.bump();
+                            self.consume();
 
                             value.push(c);
                         }
@@ -128,8 +146,8 @@ where
             }
             // U+0023 NUMBER SIGN (#)
             Some(c) if c == '#' => {
-                let first = self.input.cur();
-                let second = self.input.peek();
+                let first = self.next();
+                let second = self.next_next();
 
                 // If the next input code point is a name code point or the next two input code
                 // points are a valid escape, then:
@@ -145,7 +163,7 @@ where
 
                     // If the next 3 input code points would start an identifier, set the
                     // <hash-token>’s type flag to "id".
-                    let third = self.input.peek_ahead();
+                    let third = self.next_next_next();
                     let is_would_start_ident = self.would_start_ident(first, second, third)?;
 
                     match hash_token {
@@ -225,9 +243,9 @@ where
                 }
                 // Otherwise, if the next 2 input code points are U+002D HYPHEN-MINUS U+003E
                 // GREATER-THAN SIGN (->), consume them and return a <CDC-token>.
-                else if self.input.cur() == Some('-') && self.input.peek() == Some('>') {
-                    self.input.bump();
-                    self.input.bump();
+                else if self.next() == Some('-') && self.next_next() == Some('>') {
+                    self.consume();
+                    self.consume();
 
                     return Ok(Token::CDC);
                 }
@@ -274,13 +292,13 @@ where
                 // If the next 3 input code points are U+0021 EXCLAMATION MARK U+002D
                 // HYPHEN-MINUS U+002D HYPHEN-MINUS (!--), consume them and return a
                 // <CDO-token>.
-                if self.input.cur() == Some('!')
-                    && self.input.peek() == Some('-')
-                    && self.input.peek_ahead() == Some('-')
+                if self.next() == Some('!')
+                    && self.next_next() == Some('-')
+                    && self.next_next_next() == Some('-')
                 {
-                    self.input.bump(); // !
-                    self.input.bump(); // -
-                    self.input.bump(); // -
+                    self.consume(); // !
+                    self.consume(); // -
+                    self.consume(); // -
 
                     return Ok(tok!("<!--"));
                 }
@@ -291,9 +309,9 @@ where
             }
             // U+0040 COMMERCIAL AT (@)
             Some(c) if c == '@' => {
-                let first = self.input.cur();
-                let second = self.input.peek();
-                let third = self.input.peek_ahead();
+                let first = self.next();
+                let second = self.next_next();
+                let third = self.next_next_next();
 
                 // If the next 3 input code points would start an identifier, consume a name,
                 // create an <at-keyword-token> with its value set to the returned value, and
@@ -320,7 +338,7 @@ where
             Some(c) if c == '\\' => {
                 // TODO: fix me
                 let first = self.cur;
-                let second = self.input.cur();
+                let second = self.next();
 
                 // If the input stream starts with a valid escape, reconsume the current input
                 // code point, consume an ident-like token, and return it.
