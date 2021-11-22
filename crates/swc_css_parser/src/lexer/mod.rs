@@ -14,6 +14,7 @@ where
     I: Input,
 {
     input: I,
+    cur: Option<char>,
     start_pos: BytePos,
     /// Used to override last_pos
     last_pos: Option<BytePos>,
@@ -28,6 +29,7 @@ where
         let start_pos = input.last_pos();
         Lexer {
             input,
+            cur: None,
             start_pos,
             last_pos: None,
             config,
@@ -75,15 +77,21 @@ impl<I> Lexer<I>
 where
     I: Input,
 {
+    fn consume(&mut self) {
+        self.cur = self.input.cur();
+        self.start_pos = self.input.cur_pos();
+    }
+
+    fn reconsume(&mut self) {
+        self.input.reset_to(self.start_pos);
+    }
+
     fn read_token(&mut self) -> LexResult<Token> {
         self.read_comments()?;
-
-        let next = self.input.cur();
-
-        self.start_pos = self.input.cur_pos();
+        self.consume();
 
         // Consume the next input code point.
-        match next {
+        match self.cur {
             // whitespace
             // Consume as much whitespace as possible. Return a <whitespace-token>.
             Some(c) if is_whitespace(c) => {
@@ -198,7 +206,7 @@ where
                 // If the input stream starts with a number, reconsume the current input code
                 // point, consume a numeric token and return it.
                 if self.would_start_number(None, None, None)? {
-                    self.input.reset_to(self.start_pos);
+                    self.reconsume();
 
                     return self.read_numeric();
                 }
@@ -221,7 +229,7 @@ where
                 // If the input stream starts with a number, reconsume the current input code
                 // point, consume a numeric token, and return it.
                 if self.would_start_number(None, None, None)? {
-                    self.input.reset_to(self.start_pos);
+                    self.reconsume();
 
                     return self.read_numeric();
                 }
@@ -236,7 +244,7 @@ where
                 // Otherwise, if the input stream starts with an identifier, reconsume the current
                 // input code point, consume an ident-like token, and return it.
                 else if self.would_start_ident(None, None, None)? {
-                    self.input.reset_to(self.start_pos);
+                    self.reconsume();
 
                     return self
                         .read_name()
@@ -254,7 +262,7 @@ where
                 // If the input stream starts with a number, reconsume the current input code
                 // point, consume a numeric token, and return it.
                 if self.would_start_number(None, None, None)? {
-                    self.input.reset_to(self.start_pos);
+                    self.reconsume();
 
                     return self.read_numeric();
                 }
@@ -369,7 +377,7 @@ where
             // Reconsume the current input code point, consume a numeric token, and return it.
             Some('0'..='9') => {
                 self.input.bump();
-                self.input.reset_to(self.start_pos);
+                self.reconsume();
 
                 return self.read_numeric();
             }
@@ -377,7 +385,7 @@ where
             // Reconsume the current input code point, consume an ident-like token, and return it.
             Some(c) if is_name_start(c) => {
                 self.input.bump();
-                self.input.reset_to(self.start_pos);
+                self.reconsume();
 
                 return self.read_ident_like();
             }
