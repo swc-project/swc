@@ -530,7 +530,13 @@ where
 
             // While the next two input code points are whitespace, consume the next input
             // code point.
-            self.skip_ws()?;
+            while let (Some(next), Some(next_next)) = (self.next(), self.next_next()) {
+                if is_whitespace(next) && is_whitespace(next_next) {
+                    self.consume();
+                } else {
+                    break;
+                }
+            }
 
             // TODO: avoid reset
             match self.next() {
@@ -538,6 +544,17 @@ where
                 // APOSTROPHE ('), or whitespace followed by U+0022 QUOTATION MARK (") or U+0027
                 // APOSTROPHE ('), then create a <function-token> with its value set to string and
                 // return it.
+                Some(c)
+                    if is_whitespace(c)
+                        && (self.next_next() == Some('"') || self.next_next() == Some('\'')) =>
+                {
+                    self.input.reset_to(start_whitespace);
+
+                    return Ok(Token::Function {
+                        value: name.0,
+                        raw: name.1,
+                    });
+                }
                 Some('"' | '\'') => {
                     self.input.reset_to(start_whitespace);
 
@@ -673,12 +690,18 @@ where
         let mut raw = String::new();
 
         // Consume as much whitespace as possible.
-        self.skip_ws()?;
+        while let Some(c) = self.next() {
+            if is_whitespace(c) {
+                self.consume();
+            } else {
+                break;
+            }
+        }
 
         // Repeatedly consume the next input code point from the stream:
         loop {
             self.consume();
-            
+
             match self.cur() {
                 // U+0029 RIGHT PARENTHESIS ())
                 // Return the <url-token>.
@@ -703,7 +726,13 @@ where
                     let start_pos = self.input.cur_pos();
 
                     // Consume as much whitespace as possible.
-                    self.skip_ws()?;
+                    while let Some(c) = self.next() {
+                        if is_whitespace(c) {
+                            self.consume();
+                        } else {
+                            break;
+                        }
+                    }
 
                     let end_pos = self.input.cur_pos();
 
@@ -1205,24 +1234,6 @@ where
         }
 
         return Ok((value, raw));
-    }
-
-    // TODO fix me
-    fn skip_ws(&mut self) -> LexResult<()> {
-        loop {
-            let c = self.input.cur();
-
-            match c {
-                Some(c) if is_whitespace(c) => {
-                    self.input.bump();
-                }
-                _ => {
-                    break;
-                }
-            }
-        }
-
-        Ok(())
     }
 }
 
