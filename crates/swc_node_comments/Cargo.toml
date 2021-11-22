@@ -1,8 +1,11 @@
 [package]
+edition = "2021"
 name = "swc_node_comments"
 version = "0.1.0"
-edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+ahash = "0.7.6"
+dashmap = "4"
+swc_common = {version = "0.14.6", path = "../swc_common"}

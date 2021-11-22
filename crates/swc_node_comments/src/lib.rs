@@ -1,5 +1,11 @@
+#![cfg_attr(test, deny(warnings))]
+
 use dashmap::DashMap;
 use std::sync::Arc;
+use swc_common::{
+    comments::{Comment, CommentKind, Comments},
+    BytePos, DUMMY_SP,
+};
 
 type CommentMap = Arc<DashMap<BytePos, Vec<Comment>, ahash::RandomState>>;
 

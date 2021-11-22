@@ -3210,6 +3210,11 @@ dependencies = [
 [[package]]
 name = "swc_node_comments"
 version = "0.1.0"
+dependencies = [
+ "ahash",
+ "dashmap",
+ "swc_common",
+]
 
 [[package]]
 name = "swc_plugin"

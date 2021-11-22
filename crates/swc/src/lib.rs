@@ -121,7 +121,6 @@ use common::{
     errors::{EmitterWriter, HANDLER},
 };
 use config::{util::BoolOrObject, IsModule, JsMinifyCommentOption, JsMinifyOptions};
-use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use serde::Serialize;
 use serde_json::error::Category;
@@ -135,7 +134,7 @@ use std::{
 };
 use swc_common::{
     chain,
-    comments::{Comment, CommentKind, Comments},
+    comments::{Comment, Comments},
     errors::Handler,
     input::StringInput,
     source_map::SourceMapGenConfig,
@@ -158,6 +157,7 @@ use swc_ecma_transforms::{
     resolver_with_mark,
 };
 use swc_ecma_visit::{noop_visit_type, FoldWith, Visit, VisitMutWith, VisitWith};
+pub use swc_node_comments::SwcComments;
 
 mod builder;
 pub mod config;
