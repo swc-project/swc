@@ -78,6 +78,11 @@ where
     I: Input,
 {
     #[inline]
+    fn cur(&mut self) -> Option<char> {
+        self.cur
+    }
+
+    #[inline]
     fn next(&mut self) -> Option<char> {
         self.input.cur()
     }
@@ -89,7 +94,7 @@ where
 
     #[inline]
     fn next_next_next(&mut self) -> Option<char> {
-        self.input.peek()
+        self.input.peek_ahead()
     }
 
     #[inline]
@@ -1106,10 +1111,10 @@ where
 
         // If the next input code point is U+002B PLUS SIGN (+) or U+002D HYPHEN-MINUS
         // (-), consume it and append it to repr.
-        let next = self.input.cur();
+        let next = self.next();
 
         if next == Some('+') || next == Some('-') {
-            self.input.bump();
+            self.consume();
 
             repr.push(next.unwrap());
         }
@@ -1119,14 +1124,14 @@ where
 
         // If the next 2 input code points are U+002E FULL STOP (.) followed by a digit,
         // then:
-        let next = self.input.cur();
+        let next = self.next();
 
         if next == Some('.') {
-            if let Some(n) = self.input.peek() {
+            if let Some(n) = self.next_next() {
                 if n.is_digit(10) {
                     // Consume them.
-                    self.input.bump();
-                    self.input.bump();
+                    self.consume();
+                    self.consume();
                     // Append them to repr.
                     repr.push(next.unwrap());
                     repr.push(n);
@@ -1141,38 +1146,29 @@ where
         // If the next 2 or 3 input code points are U+0045 LATIN CAPITAL LETTER E (E) or
         // U+0065 LATIN SMALL LETTER E (e), optionally followed by U+002D HYPHEN-MINUS
         // (-) or U+002B PLUS SIGN (+), followed by a digit, then:
-        let next = self.input.cur();
+        let next = self.next();
 
         if next == Some('E') || next == Some('e') {
-            if let Some(next_next) = self.input.peek() {
-                if next_next == '-' || next_next == '+' {
-                    if let Some(next_next_next) = self.input.peek_ahead() {
-                        if next_next_next.is_digit(10) {
-                            // Consume them.
-                            self.input.bump();
-                            self.input.bump();
+            let next_next = self.next_next();
+            let next_next_next = self.next_next_next();
 
-                            // Append them to repr.
-                            repr.push(next.unwrap());
-                            repr.push(next_next);
+            if (next_next == Some('-')
+                || next_next == Some('+')
+                    && next_next_next.is_some()
+                    && next_next_next.unwrap().is_digit(10))
+                || next_next.is_some() && next_next.unwrap().is_digit(10)
+            {
+                // Consume them.
+                self.consume();
+                self.consume();
 
-                            // While the next input code point is a digit, consume it and append it
-                            // to repr.
-                            repr.push_str(&self.read_digits());
-                        }
-                    }
-                } else if next_next.is_digit(10) {
-                    // Consume them.
-                    self.input.bump();
-                    self.input.bump();
+                // Append them to repr.
+                repr.push(next.unwrap());
+                repr.push(next_next.unwrap());
 
-                    // Append them to repr.
-                    repr.push(next.unwrap());
-                    repr.push(next_next);
-
-                    // While the next input code point is a digit, consume it and append it to repr.
-                    repr.push_str(&self.read_digits());
-                }
+                // While the next input code point is a digit, consume it and append it
+                // to repr.
+                repr.push_str(&self.read_digits());
             }
         }
 
@@ -1198,24 +1194,17 @@ where
 
         // Repeatedly consume the next input code point from the stream:
         loop {
-            let next = self.input.cur();
+            self.consume();
 
-            // EOF
-            // Return.
-            if next.is_none() {
-                break;
-            }
-
-            self.input.bump();
-
-            match next {
+            match self.cur() {
                 // U+0029 RIGHT PARENTHESIS ())
+                // EOF
                 // Return.
                 Some(c) if c == ')' => {
                     break;
                 }
                 None => {
-                    unreachable!()
+                    break;
                 }
                 // the input stream starts with a valid escape
                 Some(c) if self.is_valid_escape(None, None) == Ok(true) => {
@@ -1240,6 +1229,7 @@ where
         return Ok((value, raw));
     }
 
+    // TODO fix me
     fn skip_ws(&mut self) -> LexResult<()> {
         loop {
             let c = self.input.cur();
