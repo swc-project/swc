@@ -12,3 +12,6 @@ version = "0.1.0"
 
 [dependencies]
 tracing = "0.1"
+
+[dev-dependencies]
+testing = {version = "0.15.1", path = "../testing"}
