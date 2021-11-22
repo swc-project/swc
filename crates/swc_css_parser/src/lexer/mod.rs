@@ -292,7 +292,7 @@ where
                 // If the next 3 input code points are U+0021 EXCLAMATION MARK U+002D
                 // HYPHEN-MINUS U+002D HYPHEN-MINUS (!--), consume them and return a
                 // <CDO-token>.
-                if self.input.is_byte(b'!')
+                if self.input.cur() == Some('!')
                     && self.input.peek() == Some('-')
                     && self.input.peek_ahead() == Some('-')
                 {
