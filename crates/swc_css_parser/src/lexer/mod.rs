@@ -522,8 +522,8 @@ where
 
         // If string’s value is an ASCII case-insensitive match for "url", and the next
         // input code point is U+0028 LEFT PARENTHESIS ((), consume it.
-        if name.0.to_ascii_lowercase() == js_word!("url") && self.input.cur() == Some('(') {
-            self.input.bump();
+        if name.0.to_ascii_lowercase() == js_word!("url") && self.next() == Some('(') {
+            self.consume();
 
             let start_whitespace = self.input.cur_pos();
 
@@ -555,8 +555,8 @@ where
         }
         // Otherwise, if the next input code point is U+0028 LEFT PARENTHESIS ((), consume it.
         // Create a <function-token> with its value set to string and return it.
-        else if self.input.cur() == Some('(') {
-            self.input.bump();
+        else if self.next() == Some('(') {
+            self.consume();
 
             return Ok(Token::Function {
                 value: name.0,
