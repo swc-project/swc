@@ -1068,6 +1068,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "matchers"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8263075bb86c5a1b1427b5ae862e8889656f126e9f77c484496e8b47cf5c5558"
+dependencies = [
+ "regex-automata",
+]
+
+[[package]]
 name = "matches"
 version = "0.1.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1233,6 +1242,7 @@ dependencies = [
  "swc_node_base",
  "swc_node_bundler",
  "tracing",
+ "tracing-subscriber 0.3.2",
 ]
 
 [[package]]
@@ -3280,6 +3290,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_timer"
+version = "0.1.0"
+dependencies = [
+ "testing",
+ "tracing",
+]
+
+[[package]]
 name = "swc_visit"
 version = "0.2.8"
 dependencies = [
@@ -3345,7 +3363,7 @@ dependencies = [
  "swc_common",
  "testing_macros",
  "tracing",
- "tracing-subscriber",
+ "tracing-subscriber 0.2.25",
 ]
 
 [[package]]
@@ -3522,7 +3540,7 @@ dependencies = [
  "ansi_term 0.12.1",
  "chrono",
  "lazy_static",
- "matchers",
+ "matchers 0.0.1",
  "regex",
  "serde",
  "serde_json",
@@ -3533,6 +3551,24 @@ dependencies = [
  "tracing-core",
  "tracing-log",
  "tracing-serde",
+]
+
+[[package]]
+name = "tracing-subscriber"
+version = "0.3.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7507ec620f809cdf07cccb5bc57b13069a88031b795efd4079b1c71b66c1613d"
+dependencies = [
+ "ansi_term 0.12.1",
+ "lazy_static",
+ "matchers 0.1.0",
+ "regex",
+ "sharded-slab",
+ "smallvec 1.7.0",
+ "thread_local",
+ "tracing",
+ "tracing-core",
+ "tracing-log",
 ]
 
 [[package]]
