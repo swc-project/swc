@@ -1,6 +1,5 @@
 use crate::babelify::{Babelify, Context};
 use serde::{Deserialize, Serialize};
-use swc::SwcComments;
 use swc_babel_ast::{
     BaseNode, File, InterpreterDirective, LineCol, Loc, ModuleDeclaration, Program as BabelProgram,
     SrcType, Statement,
@@ -8,6 +7,7 @@ use swc_babel_ast::{
 use swc_common::{comments::Comment, Span};
 use swc_ecma_ast::{Invalid, Module, ModuleItem, Program, Script};
 use swc_ecma_visit::{Node, Visit, VisitWith};
+use swc_node_comments::SwcComments;
 
 impl Babelify for Program {
     type Output = File;

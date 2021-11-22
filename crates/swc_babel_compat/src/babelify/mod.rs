@@ -1,7 +1,6 @@
 use rayon::prelude::*;
 use serde::{de::DeserializeOwned, Serialize};
 use std::sync::Arc;
-use swc::SwcComments;
 use swc_babel_ast::{BaseComment, BaseNode, Comment, LineCol, Loc};
 use swc_common::{
     comments::{CommentKind, Comments},
@@ -9,6 +8,7 @@ use swc_common::{
     BytePos, SourceFile, SourceMap, Span,
 };
 use swc_ecma_ast::Class;
+use swc_node_comments::SwcComments;
 
 mod class;
 mod decl;

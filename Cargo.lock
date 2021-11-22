@@ -2463,7 +2463,6 @@ dependencies = [
  "rayon",
  "serde",
  "serde_json",
- "swc",
  "swc_atoms 0.2.9",
  "swc_babel_ast",
  "swc_babel_visit",
@@ -2474,6 +2473,7 @@ dependencies = [
  "swc_ecma_utils",
  "swc_ecma_visit",
  "swc_node_base",
+ "swc_node_comments",
  "walkdir",
 ]
 

@@ -1,7 +1,7 @@
 use std::sync::Arc;
-use swc::SwcComments;
 use swc_babel_ast::{BaseNode, LineCol, Loc};
 use swc_common::{BytePos, FileName, SourceFile, SourceMap, Span, SyntaxContext, DUMMY_SP};
+use swc_node_comments::SwcComments;
 
 pub struct Context {
     #[allow(unused)]
