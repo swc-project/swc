@@ -533,7 +533,7 @@ where
             self.skip_ws()?;
 
             // TODO: avoid reset
-            match self.input.cur() {
+            match self.next() {
                 // If the next one or two input code points are U+0022 QUOTATION MARK ("), U+0027
                 // APOSTROPHE ('), or whitespace followed by U+0022 QUOTATION MARK (") or U+0027
                 // APOSTROPHE ('), then create a <function-token> with its value set to string and
@@ -823,37 +823,35 @@ where
         let mut raw = String::new();
 
         // Consume the next input code point.
-        let next = self.input.cur();
+        self.consume();
 
-        match next {
+        match self.cur() {
             // hex digit
             Some(c) if is_hex_digit(c) => {
-                self.input.bump();
-
                 let mut hex = c.to_digit(16).unwrap();
 
-                raw.push(next.unwrap());
+                raw.push(c);
 
                 // Consume as many hex digits as possible, but no more than 5.
                 // Note that this means 1-6 hex digits have been consumed in total.
                 for _ in 0..5 {
-                    let next = self.input.cur();
+                    let next = self.next();
                     let digit = match next.and_then(|c| c.to_digit(16)) {
                         Some(v) => v,
                         None => break,
                     };
 
-                    self.input.bump();
+                    self.consume();
 
                     raw.push(next.unwrap());
                     hex = hex * 16 + digit;
                 }
 
                 // If the next input code point is whitespace, consume it as well.
-                let next = self.input.cur();
+                let next = self.next();
 
                 if next.is_some() && is_whitespace(next.unwrap()) {
-                    self.input.bump();
+                    self.consume();
 
                     raw.push(next.unwrap());
                 }
@@ -878,12 +876,10 @@ where
             }
             // anything else
             // Return the current input code point.
-            Some(_) => {
-                self.input.bump();
+            Some(c) => {
+                raw.push(c);
 
-                raw.push(next.unwrap());
-
-                return Ok((next.unwrap(), raw));
+                return Ok((c, raw));
             }
         }
     }
