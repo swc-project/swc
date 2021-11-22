@@ -118,7 +118,7 @@ where
         self.consume();
 
         // Consume the next input code point.
-        match self.cur {
+        match self.cur() {
             // whitespace
             // Consume as much whitespace as possible. Return a <whitespace-token>.
             Some(c) if is_whitespace(c) => {
@@ -341,13 +341,9 @@ where
             }
             // U+005C REVERSE SOLIDUS (\)
             Some(c) if c == '\\' => {
-                // TODO: fix me
-                let first = self.cur;
-                let second = self.next();
-
                 // If the input stream starts with a valid escape, reconsume the current input
                 // code point, consume an ident-like token, and return it.
-                if self.is_valid_escape(first, second)? {
+                if self.is_valid_escape(None, None)? {
                     self.reconsume();
 
                     return self.read_ident_like();
@@ -583,7 +579,7 @@ where
         // This algorithm may be called with an ending code point, which denotes the
         // code point that ends the string. If an ending code point is not specified,
         // the current input code point is used.
-        let ending_code_point = maybe_ending_code_point.or(self.cur);
+        let ending_code_point = maybe_ending_code_point.or(self.cur());
 
         // Initially create a <string-token> with its value set to the empty string.
         let mut value = String::new();
@@ -597,7 +593,7 @@ where
 
             self.consume();
 
-            match self.cur {
+            match self.cur() {
                 // ending code point
                 // Return the <string-token>.
                 Some(c) if c == ending_code_point.unwrap() => {
@@ -645,8 +641,7 @@ where
                     // Otherwise, (the stream starts with a valid escape) consume an escaped
                     // code point and append the returned code point to
                     // the <string-token>’s value.
-                    // TODO fix me
-                    else if self.is_valid_escape(Some(c), next)? {
+                    else if self.is_valid_escape(None, None)? {
                         let escape = self.read_escape()?;
 
                         value.push(escape.0);
@@ -779,7 +774,10 @@ where
                 Some(c) if c == '\\' => {
                     // If the stream starts with a valid escape, consume an escaped code point and
                     // append the returned code point to the <url-token>’s value.
-                    if self.is_valid_escape(None, None)? {
+                    // TODO: fix me
+                    let first = self.input.cur();
+                    let second = self.input.peek();
+                    if self.is_valid_escape(first, second)? {
                         raw.push(c);
 
                         self.input.bump();
@@ -902,11 +900,11 @@ where
         maybe_second: Option<char>,
     ) -> LexResult<bool> {
         // If the first code point is not U+005C REVERSE SOLIDUS (\), return false.
-        if maybe_first.or(self.input.cur()) != Some('\\') {
+        if maybe_first.or(self.cur()) != Some('\\') {
             return Ok(false);
         }
 
-        match maybe_second.or(self.input.peek()) {
+        match maybe_second.or(self.next()) {
             // Otherwise, if the second code point is a newline, return false.
             Some(second) => Ok(!is_newline(second)),
             // Otherwise, return true.
@@ -927,7 +925,7 @@ where
         maybe_third: Option<char>,
     ) -> LexResult<bool> {
         // Look at the first code point:
-        let first = maybe_first.or(self.cur);
+        let first = maybe_first.or(self.cur());
 
         match first {
             // U+002D HYPHEN-MINUS
@@ -986,7 +984,7 @@ where
         maybe_third: Option<char>,
     ) -> LexResult<bool> {
         // Look at the first code point:
-        let first = maybe_first.or(self.cur);
+        let first = maybe_first.or(self.cur());
 
         match first {
             // U+002B PLUS SIGN (+)
@@ -1051,6 +1049,10 @@ where
                 break;
             }
 
+            // TODO fix me
+            let first = self.input.cur();
+            let second = self.input.peek();
+            
             match next {
                 // name code point
                 // Append the code point to result.
@@ -1062,7 +1064,7 @@ where
                 }
                 // the stream starts with a valid escape
                 // Consume an escaped code point. Append the returned code point to result.
-                Some(c) if self.is_valid_escape(None, None)? => {
+                Some(c) if self.is_valid_escape(first, second)? => {
                     raw.push(c);
 
                     self.input.bump();
@@ -1208,13 +1210,12 @@ where
                 }
                 // the input stream starts with a valid escape
                 Some(c) if self.is_valid_escape(None, None) == Ok(true) => {
-                    raw.push(c);
-
                     // Consume an escaped code point. This allows an escaped right parenthesis
                     // ("\)") to be encountered without ending the <bad-url-token>.
                     let escaped = self.read_escape()?;
 
                     value.push(escaped.0);
+                    raw.push(c);
                     raw.push_str(&escaped.1);
                 }
                 // anything else
