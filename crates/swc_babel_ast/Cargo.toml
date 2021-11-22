@@ -1,5 +1,5 @@
 [package]
-authors = ["Daniel Woznicki <daniel.woznicki@gmail.com>"]
+authors = ["강동윤 <kdy1997.dev@gmail.com>", "Daniel Woznicki <daniel.woznicki@gmail.com>"]
 description = "Babel AST node definitions"
 edition = "2018"
 license = "MIT"
