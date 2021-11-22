@@ -671,14 +671,9 @@ where
         // Initially create a <url-token> with its value set to the empty string.
         let mut value = String::new();
         let mut raw = String::new();
-        let start_pos = self.input.cur_pos();
 
         // Consume as much whitespace as possible.
         self.skip_ws()?;
-
-        let end_pos = self.input.cur_pos();
-
-        raw.push_str(&self.input.slice(start_pos, end_pos));
 
         // Repeatedly consume the next input code point from the stream:
         loop {
@@ -778,13 +773,12 @@ where
                     let first = self.input.cur();
                     let second = self.input.peek();
                     if self.is_valid_escape(first, second)? {
-                        raw.push(c);
-
                         self.input.bump();
 
                         let escaped = self.read_escape()?;
 
                         value.push(escaped.0);
+                        raw.push(c);
                         raw.push_str(&escaped.1);
                     }
                     // Otherwise, this is a parse error. Consume the remnants of a bad url, create a
