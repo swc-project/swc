@@ -2416,6 +2416,7 @@ dependencies = [
  "swc_ecma_visit",
  "swc_ecmascript",
  "swc_node_base",
+ "swc_node_comments",
  "swc_visit",
  "testing",
  "tracing",
@@ -3205,6 +3206,10 @@ dependencies = [
  "tracing",
  "walkdir",
 ]
+
+[[package]]
+name = "swc_node_comments"
+version = "0.1.0"
 
 [[package]]
 name = "swc_plugin"
