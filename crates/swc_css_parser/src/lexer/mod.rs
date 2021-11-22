@@ -597,17 +597,13 @@ where
         // Repeatedly consume the next input code point from the stream:
         loop {
             let start = self.input.cur_pos();
-            let next = self.input.cur();
 
-            // if next.is_some() {
-            //     self.input.bump();
-            // }
+            self.consume();
 
-            match next {
+            match self.cur {
                 // ending code point
                 // Return the <string-token>.
                 Some(c) if c == ending_code_point.unwrap() => {
-                    self.input.bump();
                     raw.push(c);
 
                     break;
@@ -626,7 +622,6 @@ where
                 // This is a parse error. Reconsume the current input code point, create a
                 // <bad-string-token>, and return it.
                 Some(c) if is_newline(c) => {
-                    self.input.bump();
                     self.input.reset_to(start);
 
                     return Ok(Token::BadStr {
@@ -637,29 +632,30 @@ where
 
                 // U+005C REVERSE SOLIDUS (\)
                 Some(c) if c == '\\' => {
+                    let next = self.next();
+                    
                     // If the next input code point is EOF, do nothing.
-                    if self.input.peek().is_none() {
+                    if self.next().is_none() {
                         continue;
                     }
                     // Otherwise, if the next input code point is a newline, consume it.
-                    else if self.input.peek().is_some() && is_newline(self.input.peek().unwrap())
+                    else if self.next().is_some() && is_newline(self.next().unwrap())
                     {
+                        self.consume();
+
                         raw.push(c);
-                        self.input.bump();
-                        raw.push(self.input.cur().unwrap());
-                        self.input.bump();
+                        raw.push(next.unwrap());
+                        
                     }
                     // Otherwise, (the stream starts with a valid escape) consume an escaped
                     // code point and append the returned code point to
                     // the <string-token>’s value.
-                    else if self.is_valid_escape(None, None)? {
-                        raw.push(c);
-
-                        self.input.bump();
-
+                    // TODO fix me
+                    else if self.is_valid_escape(Some(c), next)? {
                         let escape = self.read_escape()?;
 
                         value.push(escape.0);
+                        raw.push(c);
                         raw.push_str(&escape.1);
                     }
                 }
@@ -667,8 +663,6 @@ where
                 // Anything else
                 // Append the current input code point to the <string-token>’s value.
                 Some(c) => {
-                    self.input.bump();
-
                     value.push(c);
                     raw.push(c);
                 }
