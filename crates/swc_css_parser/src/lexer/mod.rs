@@ -711,12 +711,10 @@ where
                     raw.push(c);
                     raw.push_str(&self.input.slice(start_pos, end_pos));
 
-                    let c = self.input.cur();
-
                     // if the next input code point is U+0029 RIGHT PARENTHESIS ()) or EOF, consume
                     // it and return the <url-token> (if EOF was encountered, this is a parse
                     // error);
-                    match c {
+                    match self.next() {
                         Some(c) if c == ')' => {
                             self.input.bump();
 
