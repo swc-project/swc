@@ -677,12 +677,12 @@ where
 
         // Repeatedly consume the next input code point from the stream:
         loop {
-            match self.input.cur() {
+            self.consume();
+            
+            match self.cur() {
                 // U+0029 RIGHT PARENTHESIS ())
                 // Return the <url-token>.
                 Some(c) if c == ')' => {
-                    self.input.bump();
-
                     return Ok(Token::Url {
                         value: value.into(),
                         raw: raw.into(),
@@ -700,7 +700,6 @@ where
 
                 // whitespace
                 Some(c) if is_whitespace(c) => {
-                    self.input.bump();
                     let start_pos = self.input.cur_pos();
 
                     // Consume as much whitespace as possible.
@@ -716,7 +715,7 @@ where
                     // error);
                     match self.next() {
                         Some(c) if c == ')' => {
-                            self.input.bump();
+                            self.consume();
 
                             return Ok(Token::Url {
                                 value: value.into(),
@@ -739,6 +738,7 @@ where
                     value.push_str(&remnants.0);
                     raw.push_str(&remnants.1);
 
+                    // TODO check me
                     return Ok(Token::BadUrl {
                         value: value.into(),
                         raw: raw.into(),
@@ -754,7 +754,9 @@ where
                 Some(c) if c == '"' || c == '\'' || c == '(' || is_non_printable(c) => {
                     let remnants = self.read_bad_url_remnants()?;
 
+                    value.push(c);
                     value.push_str(&remnants.0);
+                    raw.push(c);
                     raw.push_str(&remnants.1);
 
                     return Ok(Token::BadUrl {
@@ -767,12 +769,7 @@ where
                 Some(c) if c == '\\' => {
                     // If the stream starts with a valid escape, consume an escaped code point and
                     // append the returned code point to the <url-token>’s value.
-                    // TODO: fix me
-                    let first = self.input.cur();
-                    let second = self.input.peek();
-                    if self.is_valid_escape(first, second)? {
-                        self.input.bump();
-
+                    if self.is_valid_escape(None, None)? {
                         let escaped = self.read_escape()?;
 
                         value.push(escaped.0);
@@ -784,7 +781,9 @@ where
                     else {
                         let remnants = self.read_bad_url_remnants()?;
 
+                        value.push(c);
                         value.push_str(&remnants.0);
+                        raw.push(c);
                         raw.push_str(&remnants.1);
 
                         return Ok(Token::BadUrl {
@@ -799,8 +798,6 @@ where
                 Some(c) => {
                     value.push(c);
                     raw.push(c);
-
-                    self.input.bump();
                 }
             }
         }
