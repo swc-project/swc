@@ -981,19 +981,19 @@ where
         maybe_third: Option<char>,
     ) -> LexResult<bool> {
         // Look at the first code point:
-        let first = maybe_first.or(self.input.cur());
+        let first = maybe_first.or(self.cur);
 
         match first {
             // U+002B PLUS SIGN (+)
             // U+002D HYPHEN-MINUS (-)
             Some('+') | Some('-') => {
-                match maybe_second.or(self.input.peek()) {
+                match maybe_second.or(self.next()) {
                     // If the second code point is a digit, return true.
                     Some(second) if second.is_digit(10) => return Ok(true),
                     // Otherwise, if the second code point is a U+002E FULL STOP (.) and the
                     // third code point is a digit, return true.
                     Some('.') => {
-                        if let Some(third) = maybe_third.or(self.input.peek_ahead()) {
+                        if let Some(third) = maybe_third.or(self.next_next()) {
                             if third.is_digit(10) {
                                 return Ok(true);
                             }
@@ -1008,7 +1008,7 @@ where
             // U+002E FULL STOP (.)
             Some('.') => {
                 // If the second code point is a digit, return true.
-                if let Some(second) = self.input.peek() {
+                if let Some(second) = self.next() {
                     if second.is_digit(10) {
                         return Ok(true);
                     }
