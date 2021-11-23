@@ -191,7 +191,10 @@ where
                         // TODO: Check for global mark
                         if i.sym == *"require" && node.args.len() == 1 {
                             match &*node.args[0].expr {
-                                Expr::Lit(Lit::Str(..)) => {
+                                Expr::Lit(Lit::Str(module_name)) => {
+                                    if self.bundler.is_external(&module_name.value) {
+                                        return;
+                                    }
                                     let load = CallExpr {
                                         span: node.span,
                                         callee: Ident::new("load".into(), i.span).as_callee(),
