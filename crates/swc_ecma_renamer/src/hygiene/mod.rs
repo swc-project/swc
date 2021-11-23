@@ -5,8 +5,8 @@ use swc_ecma_utils::Id;
 
 mod unique_scopes;
 
-/// Implementation of [Rename] which renames an identifier if it's already in
-/// scope.
+/// Implementation of [Rename] which renames an identifier if there's a
+/// collision.
 #[derive(Debug)]
 pub struct HygieneRenamer {
     map: AHashMap<Id, String>,
