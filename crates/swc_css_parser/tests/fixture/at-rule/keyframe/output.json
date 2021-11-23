@@ -13,7 +13,7 @@
         "end": 28,
         "ctxt": 0
       },
-      "id": {
+      "name": {
         "type": "Identifier",
         "span": {
           "start": 11,
@@ -32,8 +32,8 @@
         "end": 59,
         "ctxt": 0
       },
-      "id": {
-        "type": "Identifier",
+      "name": {
+        "type": "String",
         "span": {
           "start": 40,
           "end": 45,
@@ -51,7 +51,7 @@
         "end": 94,
         "ctxt": 0
       },
-      "id": {
+      "name": {
         "type": "Identifier",
         "span": {
           "start": 74,
@@ -70,7 +70,7 @@
         "end": 223,
         "ctxt": 0
       },
-      "id": {
+      "name": {
         "type": "Identifier",
         "span": {
           "start": 107,
@@ -266,7 +266,7 @@
         "end": 367,
         "ctxt": 0
       },
-      "id": {
+      "name": {
         "type": "Identifier",
         "span": {
           "start": 236,
