@@ -527,7 +527,11 @@ fn default_targets() -> Option<Targets> {
 }
 
 fn default_path() -> PathBuf {
-    std::env::current_dir().unwrap()
+    if cfg!(target_arch = "wasm32") {
+        Default::default()
+    } else {
+        std::env::current_dir().unwrap()
+    }
 }
 
 #[derive(Debug, Clone, Deserialize, FromVariant)]
