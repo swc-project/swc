@@ -202,7 +202,7 @@ where
 
             Token::Dimension { .. } => return self.parse_numeric_value(),
 
-            Token::Ident { .. } => return self.parse_value_ident_or_fn(),
+            Token::Ident { .. } => return Ok(Value::Ident(self.parse()?)),
 
             tok!("[") => return self.parse_square_brackets_value().map(From::from),
 
