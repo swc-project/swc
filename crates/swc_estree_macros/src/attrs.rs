@@ -1,4 +1,6 @@
-use syn::Attribute;
+use proc_macro2::Span;
+use swc_macros_common::is_attr_name;
+use syn::{Attribute, Meta, NestedMeta};
 
 pub fn remove_flatten_attrs(attrs: &mut Vec<Attribute>) {
     attrs.retain(|attr| {
@@ -8,4 +10,44 @@ pub fn remove_flatten_attrs(attrs: &mut Vec<Attribute>) {
 
         true
     })
+}
+
+pub struct Flavor {
+    pub span: Span,
+    pub name: String,
+}
+
+impl Flavor {
+    pub fn should_remove(&self, attrs: &mut Vec<Attribute>) -> bool {
+        let res = attrs
+            .iter()
+            .filter(|attr| is_attr_name(attr, "flavor"))
+            .map(|attr| attr.parse_meta().unwrap())
+            .any(|meta| {
+                match meta {
+                    Meta::Path(_) => todo!("flavor(Meta::Path)"),
+                    Meta::List(meta) => {
+                        for item in meta.nested.iter() {
+                            match item {
+                                NestedMeta::Meta(item) => {
+                                    if let Some(flavor_name) = item.path().get_ident() {
+                                        if *flavor_name == self.name {
+                                            return true;
+                                        }
+                                    }
+                                }
+                                NestedMeta::Lit(_) => todo!(),
+                            }
+                        }
+                    }
+                    Meta::NameValue(_) => todo!("flavor(Meta::NameValue)"),
+                }
+
+                false
+            });
+
+        remove_flatten_attrs(attrs);
+
+        res
+    }
 }

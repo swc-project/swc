@@ -1,6 +1,6 @@
 extern crate proc_macro;
 
-use crate::ast::Flavor;
+use crate::attrs::Flavor;
 use pmutil::{q, ToTokensExt};
 use swc_macros_common::span_to_token;
 use syn::{Ident, ItemMod, Meta, NestedMeta, VisPublic, Visibility};

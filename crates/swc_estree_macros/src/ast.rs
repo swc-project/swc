@@ -1,51 +1,9 @@
-use crate::attrs::remove_flatten_attrs;
-use proc_macro2::Span;
-use swc_macros_common::is_attr_name;
-use syn::{punctuated::Pair, Attribute, Item, ItemEnum, ItemStruct, Meta, NestedMeta, Variant};
+use crate::attrs::Flavor;
+use syn::{punctuated::Pair, Item, ItemEnum, ItemStruct, Variant};
 
 /// Generates AST definition for one flavor.
 pub struct Processor<'a> {
     pub flavor: &'a Flavor,
-}
-
-pub struct Flavor {
-    pub span: Span,
-    pub name: String,
-}
-
-impl Flavor {
-    pub fn should_remove(&self, attrs: &mut Vec<Attribute>) -> bool {
-        let res = attrs
-            .iter()
-            .filter(|attr| is_attr_name(attr, "flavor"))
-            .map(|attr| attr.parse_meta().unwrap())
-            .any(|meta| {
-                match meta {
-                    Meta::Path(_) => todo!("flavor(Meta::Path)"),
-                    Meta::List(meta) => {
-                        for item in meta.nested.iter() {
-                            match item {
-                                NestedMeta::Meta(item) => {
-                                    if let Some(flavor_name) = item.path().get_ident() {
-                                        if *flavor_name == self.name {
-                                            return true;
-                                        }
-                                    }
-                                }
-                                NestedMeta::Lit(_) => todo!(),
-                            }
-                        }
-                    }
-                    Meta::NameValue(_) => todo!("flavor(Meta::NameValue)"),
-                }
-
-                false
-            });
-
-        remove_flatten_attrs(attrs);
-
-        res
-    }
 }
 
 impl Processor<'_> {
