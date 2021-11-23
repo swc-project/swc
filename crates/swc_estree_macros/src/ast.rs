@@ -11,6 +11,13 @@ impl Processor<'_> {
         match item {
             Item::Struct(item) => self.process_struct(item),
             Item::Enum(item) => self.process_enum(item),
+            Item::Use(mut item) => {
+                if self.flavor.should_remove(&mut item.attrs) {
+                    vec![]
+                } else {
+                    vec![Item::Use(item)]
+                }
+            }
             _ => {
                 vec![item]
             }
