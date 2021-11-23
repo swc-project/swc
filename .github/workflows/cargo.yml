@@ -117,9 +117,6 @@ jobs:
           - string_enum
           - swc
           - swc_atoms
-          - swc_babel_ast
-          - swc_babel_compat
-          - swc_babel_visit
           - swc_bundler
           - swc_common
           - swc_css
@@ -154,16 +151,22 @@ jobs:
           - swc_ecma_visit
           - swc_ecmascript
           - swc_eq_ignore_macros
+          - swc_estree_ast
+          - swc_estree_compat
+          - swc_estree_macros
+          - swc_estree_visit
           - swc_fast_graph
           - swc_graph_analyzer
           - swc_macros_common
           - swc_node_base
           - swc_node_bundler
+          - swc_node_comments
           - swc_plugin
           - swc_plugin_api
           - swc_plugin_runner
           - swc_plugin_testing
           - swc_stylis
+          - swc_timer
           - swc_visit
           - swc_visit_macros
           - testing
