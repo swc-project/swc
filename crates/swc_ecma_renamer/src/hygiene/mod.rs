@@ -3,8 +3,6 @@ use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, SyntaxContext};
 use swc_ecma_utils::Id;
 
-mod unique_scopes;
-
 /// Implementation of [Rename] which renames an identifier if there's a
 /// collision.
 #[derive(Debug)]
