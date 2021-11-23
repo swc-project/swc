@@ -575,6 +575,26 @@ where
     }
 }
 
+impl<I> Parse<Ident> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Ident> {
+        let span = self.input.cur_span()?;
+
+        if !is!(self, Ident) {
+            return Err(Error::new(span, ErrorKind::Expected("Ident")));
+        }
+
+        match bump!(self) {
+            Token::Ident { value, raw } => Ok(Ident { span, value, raw }),
+            _ => {
+                unreachable!()
+            }
+        }
+    }
+}
+
 impl<I> Parse<PercentValue> for Parser<I>
 where
     I: ParserInput,

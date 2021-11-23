@@ -520,7 +520,7 @@ where
         let span = self.input.cur_span()?;
 
         if is!(self, Ident) {
-            self.parse_id().map(KeyframeSelector::Ident)
+            self.parse().map(KeyframeSelector::Ident)
         } else if is!(self, Percent) {
             self.parse().map(KeyframeSelector::Percent)
         } else {
@@ -706,12 +706,12 @@ where
                 query,
             })
         } else if is!(self, Ident) {
-            let ident = self.parse_id()?;
+            let ident = self.parse()?;
             MediaQuery::Ident(ident)
         } else if eat!(self, "(") {
             if is!(self, Ident) {
                 let span = self.input.cur_span()?;
-                let id = self.parse_id()?;
+                let id = self.parse()?;
 
                 self.input.skip_ws()?;
 
@@ -844,13 +844,13 @@ where
         let start = self.input.cur_span()?.lo;
 
         let ident = if is!(self, Ident) {
-            Some(self.parse_id()?)
+            Some(self.parse()?)
         } else {
             None
         };
 
         let pseudo = if eat!(self, ":") {
-            Some(self.parse_id()?)
+            Some(self.parse()?)
         } else {
             None
         };
