@@ -2,6 +2,7 @@ use auto_impl::auto_impl;
 use swc_atoms::JsWord;
 use swc_common::SyntaxContext;
 
+mod esbuild;
 pub mod hygiene;
 pub mod minify;
 mod scope;
