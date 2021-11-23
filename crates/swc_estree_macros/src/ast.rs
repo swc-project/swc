@@ -12,5 +12,7 @@ pub struct Flavor {
 }
 
 impl Processor<'_> {
-    pub(crate) fn process_module_item(&mut self, item: Item) -> Vec<Item> {}
+    pub(crate) fn process_module_item(&mut self, item: Item) -> Vec<Item> {
+        vec![item]
+    }
 }
