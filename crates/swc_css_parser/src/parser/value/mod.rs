@@ -344,9 +344,7 @@ where
             _ => {}
         }
 
-        if is_one_of!(self, "<!--", "-->")
-            || (self.ctx.is_in_delimited_value && is_one_of!(self, "!", ";"))
-        {
+        if is_one_of!(self, "<!--", "-->", "!", ";") {
             let token = self.input.bump()?.unwrap();
             return Ok(Value::Lazy(Tokens {
                 span,
@@ -528,6 +526,7 @@ where
         let ctx = Ctx {
             is_in_delimited_value: true,
             allow_separating_value_with_space: false,
+            allow_separating_value_with_space: true,
             ..self.ctx
         };
 
@@ -555,7 +554,6 @@ where
         } else {
             let ctx = Ctx {
                 allow_operation_in_value: true,
-                is_in_delimited_value: true,
                 ..self.ctx
             };
 
