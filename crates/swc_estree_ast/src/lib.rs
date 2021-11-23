@@ -10,6 +10,7 @@ pub use module::*;
 pub use object::*;
 pub use pat::*;
 pub use stmt::*;
+use swc_estree_macros::estree_ast;
 pub use typescript::*;
 
 mod class;
@@ -25,3 +26,9 @@ mod object;
 mod pat;
 mod stmt;
 mod typescript;
+
+#[estree_ast(flavors(babel, acorn))]
+pub mod ast {
+
+    pub enum Expr {}
+}
