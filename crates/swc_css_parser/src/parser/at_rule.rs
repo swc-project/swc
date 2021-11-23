@@ -278,21 +278,13 @@ where
         let span = self.input.cur_span()?;
 
         let src = match cur!(self) {
-            Token::Str { .. } => {
-                let str = self.parse()?;
-
-                Ok(ImportSource::Str(str))
-            }
+            Token::Str { .. } => Ok(ImportSource::Str(self.parse()?)),
             Token::Function { value, .. } if *value.to_ascii_lowercase() == js_word!("url") => {
                 let func = self.parse()?;
 
                 Ok(ImportSource::Fn(func))
             }
-            Token::Url { .. } => {
-                let url = self.parse()?;
-
-                Ok(ImportSource::Url(url))
-            }
+            Token::Url { .. } => Ok(ImportSource::Url(self.parse()?)),
             _ => Err(Error::new(
                 span,
                 ErrorKind::Expected("url('https://example.com') or 'https://example.com'"),
