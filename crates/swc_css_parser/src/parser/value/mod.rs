@@ -251,20 +251,7 @@ where
                 }));
             }
 
-            Token::Url { .. } => {
-                let url = match bump!(self) {
-                    Token::Url { value, raw } => (value, raw),
-                    _ => {
-                        unreachable!()
-                    }
-                };
-
-                return Ok(Value::Url(UrlValue {
-                    span: span!(self, span.lo),
-                    url: url.0,
-                    raw: url.1,
-                }));
-            }
+            Token::Url { .. } => return Ok(Value::Url(self.parse()?)),
 
             _ => {}
         }
