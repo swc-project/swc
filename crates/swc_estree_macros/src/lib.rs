@@ -3,7 +3,7 @@ extern crate proc_macro;
 use crate::ast::Flavor;
 use pmutil::{q, ToTokensExt};
 use swc_macros_common::span_to_token;
-use syn::{Ident, ItemMod, VisPublic, Visibility};
+use syn::{Ident, ItemMod, Meta, NestedMeta, VisPublic, Visibility};
 
 mod ast;
 
@@ -19,9 +19,32 @@ pub fn estree_ast(
         .content
         .expect("#[estree_ast] requires a module with content");
 
-    dbg!(&args);
+    let mut flavors = vec![];
 
-    let flavors = Vec::<Flavor>::new();
+    for arg in args {
+        match &arg {
+            NestedMeta::Meta(Meta::List(meta)) => {
+                if meta.path.is_ident("flavors") {
+                    for flavor in meta.nested.iter() {
+                        match flavor {
+                            NestedMeta::Meta(Meta::Path(ident)) => {
+                                let ident = ident.get_ident().unwrap();
+                                flavors.push(Flavor {
+                                    span: ident.span(),
+                                    name: ident.to_string(),
+                                });
+                            }
+                            _ => panic!("#[estree_ast] requires a list of flavors"),
+                        }
+                    }
+                    continue;
+                }
+            }
+            _ => {}
+        }
+
+        panic!("#[estree_ast] Unknown attribute input: {:?}", arg);
+    }
 
     let new_modules = flavors.into_iter().map(|flavor| {
         let mut processor = self::ast::Processor { flavor: &flavor };
