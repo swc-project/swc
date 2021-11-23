@@ -1,10 +1,11 @@
-use pmutil::{q, ToTokensExt};
-use syn::Item;
-
 extern crate proc_macro;
 
+use pmutil::{q, ToTokensExt};
+
+mod ast;
+
 #[proc_macro_attribute]
-pub fn define_ast(
+pub fn estree_ast(
     args: proc_macro::TokenStream,
     module_tokens: proc_macro::TokenStream,
 ) -> proc_macro::TokenStream {
@@ -16,11 +17,9 @@ pub fn define_ast(
         .expect("#[define_ast] requires a module with content");
 
     let mut q = q!({});
-    for item in content.into_iter().flat_map(process_module_item) {
+    for item in content.into_iter().flat_map(self::ast::process_module_item) {
         q.push_tokens(&item);
     }
 
     q.dump().into()
 }
-
-fn process_module_item(item: Item) -> Vec<Item> {}
