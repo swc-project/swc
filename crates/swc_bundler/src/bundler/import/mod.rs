@@ -150,13 +150,7 @@ where
     /// Returns (local, export)
     fn ctxt_for(&self, src: &JsWord) -> Option<(SyntaxContext, SyntaxContext)> {
         // Don't apply mark if it's a core module.
-        if self
-            .bundler
-            .config
-            .external_modules
-            .iter()
-            .any(|v| v == src)
-        {
+        if self.bundler.is_external(src) {
             return None;
         }
         let path = self.bundler.resolve(self.path, src).ok()?;
@@ -170,13 +164,7 @@ where
 
     fn mark_as_wrapping_required(&self, src: &JsWord) {
         // Don't apply mark if it's a core module.
-        if self
-            .bundler
-            .config
-            .external_modules
-            .iter()
-            .any(|v| v == src)
-        {
+        if self.bundler.is_external(src) {
             return;
         }
         let path = self.bundler.resolve(self.path, src);
@@ -246,6 +234,9 @@ where
                                 _ => false,
                             } =>
                     {
+                        if self.bundler.is_external(&src.value) {
+                            return;
+                        }
                         match &mut **callee {
                             Expr::Ident(i) => {
                                 self.mark_as_cjs(&src.value);
@@ -407,12 +398,7 @@ where
 
     fn visit_mut_import_decl(&mut self, import: &mut ImportDecl) {
         // Ignore if it's a core module.
-        if self
-            .bundler
-            .config
-            .external_modules
-            .contains(&import.src.value)
-        {
+        if self.bundler.is_external(&import.src.value) {
             return;
         }
 

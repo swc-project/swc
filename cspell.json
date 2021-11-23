@@ -43,6 +43,7 @@
         "Deser",
         "dont",
         "DWORD",
+        "ecma",
         "ecmascript",
         "eddyb",
         "elems",
@@ -125,5 +126,7 @@
         "unimpl",
         "untrusted"
     ],
-    "flagWords": ["actally"]
+    "flagWords": [
+        "actally"
+    ]
 }
