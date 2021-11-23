@@ -39,7 +39,7 @@ pub fn estree_ast(
             }),
             mod_token: span_to_token(flavor.span),
             ident: Ident::new(&flavor.name, flavor.span),
-            content: Some((call_site(), module_items)),
+            content: Some((span_to_token(flavor.span), module_items)),
             semi: None,
         }
     });
