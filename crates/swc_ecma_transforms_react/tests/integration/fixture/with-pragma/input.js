@@ -1,8 +1,9 @@
+/**@jsxRuntime automatic */
 const App = (
     <div>
         <div />
         <>
-            <div key={1}>hoge</div>
+            <div>hoge</div>
         </>
     </div>
 );
