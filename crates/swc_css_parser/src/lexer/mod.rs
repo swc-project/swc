@@ -595,7 +595,7 @@ where
         // This algorithm may be called with an ending code point, which denotes the
         // code point that ends the string. If an ending code point is not specified,
         // the current input code point is used.
-        let ending_code_point = maybe_ending_code_point.or(self.cur());
+        let ending_code_point = maybe_ending_code_point.or_else(|| self.cur());
 
         // Initially create a <string-token> with its value set to the empty string.
         let mut value = String::new();
@@ -912,11 +912,11 @@ where
         maybe_second: Option<char>,
     ) -> LexResult<bool> {
         // If the first code point is not U+005C REVERSE SOLIDUS (\), return false.
-        if maybe_first.or(self.cur()) != Some('\\') {
+        if maybe_first.or_else(|| self.cur()) != Some('\\') {
             return Ok(false);
         }
 
-        match maybe_second.or(self.next()) {
+        match maybe_second.or_else(|| self.next()) {
             // Otherwise, if the second code point is a newline, return false.
             Some(second) => Ok(!is_newline(second)),
             // Otherwise, return true.
@@ -937,12 +937,12 @@ where
         maybe_third: Option<char>,
     ) -> LexResult<bool> {
         // Look at the first code point:
-        let first = maybe_first.or(self.cur());
+        let first = maybe_first.or_else(|| self.cur());
 
         match first {
             // U+002D HYPHEN-MINUS
             Some('-') => {
-                let second = maybe_second.or(self.next());
+                let second = maybe_second.or_else(|| self.next());
 
                 match second {
                     // If the second code point is a name-start code point
@@ -954,7 +954,7 @@ where
                     // or the second and third code points are a valid escape
                     // return true.
                     Some(_) => {
-                        let third = maybe_third.or(self.next_next());
+                        let third = maybe_third.or_else(|| self.next_next());
 
                         return self.is_valid_escape(second, third);
                     }
@@ -973,7 +973,7 @@ where
             // If the first and second code points are a valid escape, return true. Otherwise,
             // return false.
             Some('\\') => {
-                let second = maybe_second.or(self.next());
+                let second = maybe_second.or_else(|| self.next());
 
                 return Ok(self.is_valid_escape(first, second)?);
             }
@@ -996,19 +996,19 @@ where
         maybe_third: Option<char>,
     ) -> LexResult<bool> {
         // Look at the first code point:
-        let first = maybe_first.or(self.cur());
+        let first = maybe_first.or_else(|| self.cur());
 
         match first {
             // U+002B PLUS SIGN (+)
             // U+002D HYPHEN-MINUS (-)
             Some('+') | Some('-') => {
-                match maybe_second.or(self.next()) {
+                match maybe_second.or_else(|| self.next()) {
                     // If the second code point is a digit, return true.
                     Some(second) if second.is_digit(10) => return Ok(true),
                     // Otherwise, if the second code point is a U+002E FULL STOP (.) and the
                     // third code point is a digit, return true.
                     Some('.') => {
-                        if let Some(third) = maybe_third.or(self.next_next()) {
+                        if let Some(third) = maybe_third.or_else(|| self.next_next()) {
                             if third.is_digit(10) {
                                 return Ok(true);
                             }
