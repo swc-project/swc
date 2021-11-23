@@ -1,7 +1,7 @@
 use crate::attrs::remove_flatten_attrs;
 use proc_macro2::Span;
 use swc_macros_common::is_attr_name;
-use syn::{Attribute, Item, ItemEnum, ItemStruct};
+use syn::{Attribute, Item, ItemEnum, ItemStruct, Meta, NestedMeta};
 
 /// Generates AST definition for one flavor.
 pub struct Processor<'a> {
@@ -20,10 +20,23 @@ impl Flavor {
             .filter(|attr| is_attr_name(attr, "flavor"))
             .map(|attr| attr.parse_meta().unwrap())
             .any(|meta| {
-                if let Some(flavor_name) = meta.path().get_ident() {
-                    if *flavor_name == self.name {
-                        return true;
+                match meta {
+                    Meta::Path(_) => todo!("flavor(Meta::Path)"),
+                    Meta::List(meta) => {
+                        for item in meta.nested.iter() {
+                            match item {
+                                NestedMeta::Meta(item) => {
+                                    if let Some(flavor_name) = item.path().get_ident() {
+                                        if *flavor_name == self.name {
+                                            return true;
+                                        }
+                                    }
+                                }
+                                NestedMeta::Lit(_) => todo!(),
+                            }
+                        }
                     }
+                    Meta::NameValue(_) => todo!("flavor(Meta::NameValue)"),
                 }
 
                 false
