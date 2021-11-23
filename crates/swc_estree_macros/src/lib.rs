@@ -6,6 +6,7 @@ use swc_macros_common::span_to_token;
 use syn::{Ident, ItemMod, Meta, NestedMeta, VisPublic, Visibility};
 
 mod ast;
+mod attrs;
 
 #[proc_macro_attribute]
 pub fn estree_ast(
