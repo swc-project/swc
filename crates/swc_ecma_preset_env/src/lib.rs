@@ -2,14 +2,12 @@
 #![recursion_limit = "256"]
 
 pub use self::{transform_data::Feature, version::Version};
+use anyhow::{Context, Error};
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 use st_map::StaticMap;
-use std::{
-    path::{Path, PathBuf},
-    process::Command,
-};
+use std::path::PathBuf;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     chain,
@@ -38,8 +36,7 @@ where
     C: Comments,
 {
     let loose = c.loose;
-    let targets: Versions =
-        targets_to_versions(c.targets, &c.path).expect("failed to parse targets");
+    let targets: Versions = targets_to_versions(c.targets).expect("failed to parse targets");
     let is_any_target = targets.is_any_target();
 
     let (include, included_modules) = FeatureOrModule::split(c.include);
@@ -425,11 +422,11 @@ pub enum Mode {
 pub type Versions = BrowserData<Option<Version>>;
 
 impl BrowserData<Option<Version>> {
-    pub fn is_any_target(&self) -> bool {
+    pub(crate) fn is_any_target(&self) -> bool {
         self.iter().all(|(_, v)| v.is_none())
     }
 
-    pub fn parse_versions<'a>(lines: impl Iterator<Item = &'a str>) -> Result<Self, &'a str> {
+    pub(crate) fn parse_versions(distribs: Vec<browserslist::Distrib>) -> Result<Self, Error> {
         fn remap(key: &str) -> String {
             match key {
                 "and_chr" => "chrome".into(),
@@ -441,13 +438,10 @@ impl BrowserData<Option<Version>> {
             }
         }
 
-        let browsers = lines.map(|v| {
-            let mut v = v.split(' ');
-            (remap(v.next().unwrap()), v.next().unwrap().to_string())
-        });
-
         let mut data: Versions = BrowserData::default();
-        for (browser, version) in browsers {
+        for dist in distribs {
+            let browser = dist.name();
+            let version = dist.version();
             match &*browser {
                 "and_qq" | "and_uc" | "baidu" | "bb" | "kaios" | "op_mini" => continue,
 
@@ -587,72 +581,69 @@ pub enum Query {
     Multiple(Vec<String>),
 }
 
-type QueryResult = Result<Versions, ()>;
+type QueryResult = Result<Versions, Error>;
 
 impl Query {
-    fn exec(&self, path: &Path) -> QueryResult {
-        fn query<T>(s: &[T], path: &Path) -> QueryResult
+    fn exec(&self) -> QueryResult {
+        fn query<T>(s: &[T]) -> QueryResult
         where
-            T: AsRef<str> + Serialize,
+            T: AsRef<str>,
         {
-            let output = {
-                let output = Command::new("node")
-                    .current_dir(path)
-                    .arg("-e")
-                    .arg(include_str!("query.js"))
-                    .arg(serde_json::to_string(&s).expect("failed to serialize with serde"))
-                    .output()
-                    .expect("failed to collect output");
-                if !output.status.success() {
-                    println!("query.js: Status {:?}", output.status,);
-                    println!(
-                        "{}\n{}",
-                        String::from_utf8_lossy(&output.stdout),
-                        String::from_utf8_lossy(&output.stderr),
-                    );
-                    return Err(());
-                }
+            let distribs = browserslist::resolve(
+                s,
+                &browserslist::Opts {
+                    mobile_to_desktop: false,
+                    ignore_unknown_versions: true,
+                },
+            )
+            .with_context(|| {
+                format!(
+                    "failed to resolve browserslist query: {:?}",
+                    s.iter().map(|v| v.as_ref()).collect::<Vec<_>>()
+                )
+            })?;
 
-                output.stdout
-            };
-
-            let browsers: Vec<String> =
-                serde_json::from_slice(&output).expect("failed to read browser data output");
-            let versions = BrowserData::parse_versions(browsers.iter().map(|s| &**s))
-                .expect("failed to parse browser version");
+            let versions =
+                BrowserData::parse_versions(distribs).expect("failed to parse browser version");
 
             Ok(versions)
         }
 
-        static CACHE: Lazy<DashMap<Query, QueryResult, ahash::RandomState>> =
+        static CACHE: Lazy<DashMap<Query, Versions, ahash::RandomState>> =
             Lazy::new(Default::default);
 
         if let Some(v) = CACHE.get(self) {
-            return match &*v {
-                Ok(v) => Ok(*v),
-                Err(err) => Err(*err),
-            };
+            return Ok(v.clone());
         }
 
         let result = match *self {
-            Query::Single(ref s) => query(&[s], path),
-            Query::Multiple(ref s) => query(&s, path),
-        };
+            Query::Single(ref s) => {
+                if s == "" {
+                    query(&["defaults"])
+                } else {
+                    query(&[s])
+                }
+            }
+            Query::Multiple(ref s) => query(&s),
+        }
+        .context("failed to execute query")?;
 
         CACHE.insert(self.clone(), result);
 
-        result
+        Ok(result)
     }
 }
 
-fn targets_to_versions(v: Option<Targets>, path: &Path) -> Result<Versions, ()> {
+fn targets_to_versions(v: Option<Targets>) -> Result<Versions, Error> {
     match v {
         None => Ok(Default::default()),
         Some(Targets::Versions(v)) => Ok(v),
-        Some(Targets::Query(q)) => q.exec(path),
+        Some(Targets::Query(q)) => q
+            .exec()
+            .context("failed to convert target query to version data"),
         Some(Targets::HashMap(mut map)) => {
             let q = map.remove("browsers").map(|q| match q {
-                QueryOrVersion::Query(q) => q.exec(path).expect("failed to run query"),
+                QueryOrVersion::Query(q) => q.exec().expect("failed to run query"),
                 _ => unreachable!(),
             });
 
@@ -680,8 +671,7 @@ mod tests {
 
     #[test]
     fn test_empty() {
-        let path = std::env::current_dir().unwrap();
-        let res = Query::Single("".into()).exec(&path).unwrap();
+        let res = Query::Single("".into()).exec().unwrap();
         assert!(
             !res.is_any_target(),
             "empty query should return non-empty result"
