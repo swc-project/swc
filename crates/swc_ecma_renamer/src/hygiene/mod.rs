@@ -37,6 +37,31 @@ impl HygieneRenamerBuilder {
         if symbol.slot_namespace() != SlotNamespace::SlotDefault {
             return;
         }
+
+        let mut orig_name = symbol.original_name.clone();
+        if symbol.must_start_with_capital_letter_for_jsx {
+            orig_name = ascii_uppercase_first_letter(&orig_name)
+                .map(|s| s.into())
+                .unwrap_or(orig_name);
+        }
+
+        let name = scope.find_unused_name(orig_name);
+
+        self.map.insert(id, name);
+    }
+}
+
+fn ascii_uppercase_first_letter(s: &str) -> Option<String> {
+    let mut c = s.chars();
+    match c.next() {
+        None => None,
+        Some(f) => {
+            if f.is_ascii_lowercase() {
+                Some(f.to_uppercase().chain(c).collect::<String>())
+            } else {
+                None
+            }
+        }
     }
 }
 

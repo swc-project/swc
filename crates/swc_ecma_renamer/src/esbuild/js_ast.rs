@@ -30,6 +30,13 @@ pub(crate) struct Symbol {
     /// "arguments" variable is declared by the runtime for every function.
     /// Renaming can also break any identifier used inside a "with" statement.
     pub must_not_be_renamed: bool,
+
+    /// In React's version of JSX, lower-case names are strings while upper-case
+    /// names are identifiers. If we are preserving JSX syntax (i.e. not
+    /// transforming it), then we need to be careful to name the identifiers
+    /// something with a capital letter so further JSX processing doesn't treat
+    /// them as strings instead.
+    pub must_start_with_capital_letter_for_jsx: bool,
 }
 
 #[derive(Debug)]
