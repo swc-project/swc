@@ -1,7 +1,7 @@
 use crate::attrs::remove_flatten_attrs;
 use proc_macro2::Span;
 use swc_macros_common::is_attr_name;
-use syn::{Attribute, Item, ItemEnum, ItemStruct, Meta, NestedMeta};
+use syn::{punctuated::Pair, Attribute, Item, ItemEnum, ItemStruct, Meta, NestedMeta, Variant};
 
 /// Generates AST definition for one flavor.
 pub struct Processor<'a> {
@@ -72,6 +72,25 @@ impl Processor<'_> {
             return vec![];
         }
 
+        item.variants = item
+            .variants
+            .into_pairs()
+            .filter_map(|v| {
+                Some(match v {
+                    Pair::Punctuated(v, c) => Pair::Punctuated(self.process_variant(v)?, c),
+                    Pair::End(v) => Pair::End(self.process_variant(v)?),
+                })
+            })
+            .collect();
+
         vec![Item::Enum(item)]
+    }
+
+    fn process_variant(&mut self, mut variant: Variant) -> Option<Variant> {
+        if self.flavor.should_remove(&mut variant.attrs) {
+            return None;
+        }
+
+        Some(variant)
     }
 }
