@@ -2433,7 +2433,7 @@ checksum = "6446ced80d6c486436db5c078dde11a9f73d42b57fb273121e160b84f63d894c"
 
 [[package]]
 name = "swc"
-version = "0.86.0"
+version = "0.87.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2504,7 +2504,7 @@ dependencies = [
 
 [[package]]
 name = "swc_babel_compat"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2867,7 +2867,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.66.0"
+version = "0.67.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3166,7 +3166,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.87.0"
+version = "0.88.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
