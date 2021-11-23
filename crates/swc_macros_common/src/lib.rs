@@ -11,6 +11,10 @@ pub mod derive;
 pub mod prelude;
 mod syn_ext;
 
+pub fn span_to_token<T: FromSpan>(span: Span) -> T {
+    T::from_span(span)
+}
+
 pub fn call_site<T: FromSpan>() -> T {
     T::from_span(Span::call_site())
 }
