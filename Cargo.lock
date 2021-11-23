@@ -3182,6 +3182,10 @@ dependencies = [
 [[package]]
 name = "swc_estree_macros"
 version = "0.1.0"
+dependencies = [
+ "pmutil",
+ "syn",
+]
 
 [[package]]
 name = "swc_estree_visit"
