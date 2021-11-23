@@ -192,16 +192,7 @@ where
 
         let span = self.input.cur_span()?;
         match cur!(self) {
-            Token::Str { .. } => {
-                let token = bump!(self);
-
-                match token {
-                    Token::Str { value, raw } => return Ok(Value::Str(Str { span, value, raw })),
-                    _ => {
-                        unreachable!()
-                    }
-                }
-            }
+            Token::Str { .. } => return Ok(Value::Str(self.parse()?)),
 
             Token::Num { .. } => return self.parse_numeric_value(),
 
