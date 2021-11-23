@@ -24,7 +24,7 @@ const App = _jsxDEV(
                     {
                         children: "hoge",
                     },
-                    void 0,
+                    1,
                     false,
                     {
                         fileName: "input.js",
