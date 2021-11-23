@@ -38,8 +38,10 @@ pub struct SymbolMap {
 }
 
 impl SymbolMap {
-    pub fn get(&self, id: &Id) -> Option<&Symbol> {
-        self.symbols.get(id)
+    pub fn get(&self, id: &Id) -> &Symbol {
+        self.symbols
+            .get(id)
+            .unwrap_or_else(|| unreachable!("symbol map does not contain {}{:?}", id.0, id.1))
     }
 }
 
