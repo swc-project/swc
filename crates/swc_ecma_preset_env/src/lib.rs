@@ -427,7 +427,7 @@ impl BrowserData<Option<Version>> {
     }
 
     pub(crate) fn parse_versions(distribs: Vec<browserslist::Distrib>) -> Result<Self, Error> {
-        fn remap(key: &str) -> String {
+        fn remap(key: &str) -> &str {
             match key {
                 "and_chr" => "chrome".into(),
                 "and_ff" => "firefox".into(),
@@ -441,6 +441,7 @@ impl BrowserData<Option<Version>> {
         let mut data: Versions = BrowserData::default();
         for dist in distribs {
             let browser = dist.name();
+            let browser = remap(browser);
             let version = dist.version();
             match &*browser {
                 "and_qq" | "and_uc" | "baidu" | "bb" | "kaios" | "op_mini" => continue,
