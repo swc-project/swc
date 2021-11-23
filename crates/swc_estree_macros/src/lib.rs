@@ -8,6 +8,11 @@ use syn::{Ident, ItemMod, Meta, NestedMeta, VisPublic, Visibility};
 mod ast;
 mod attrs;
 
+/// `#[flavor]`
+///
+/// Applied on `use`, `struct`, `enum`, enum variant.
+///
+/// If flavor is e.g. `babel`, then the item is used only if flavor is babel.
 #[proc_macro_attribute]
 pub fn estree_ast(
     args: proc_macro::TokenStream,
