@@ -52,6 +52,11 @@ fn assert_flavor(flavor: Flavor, input: &Path, output_json_path: &Path) {
             let mut expected =
                 serde_json::from_str::<Value>(&expected).expect("acorn.js generated invalid json");
 
+            println!(
+                "----- Expected output -----\n{}",
+                serde_json::to_string_pretty(&expected).unwrap()
+            );
+
             diff_value(&mut actual, &mut expected);
 
             let actual = serde_json::to_string_pretty(&actual).unwrap();
