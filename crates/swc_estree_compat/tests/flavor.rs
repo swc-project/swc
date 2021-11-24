@@ -29,7 +29,7 @@ fn assert_flavor(flavor: Flavor, input: &Path, output: &Path) {
             comments: SwcComments::default(),
         };
         let json = flavor.with(|| {
-            let program = program.babelify(&ctx);
+            let program = program.babelify(&ctx).program;
             serde_json::to_string_pretty(&program).unwrap()
         });
 
