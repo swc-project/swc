@@ -4,8 +4,8 @@ use swc_common::{comments::Comment, Span};
 use swc_ecma_ast::{Invalid, Module, ModuleItem, Program, Script};
 use swc_ecma_visit::{Node, Visit, VisitWith};
 use swc_estree_ast::{
-    BaseNode, File, InterpreterDirective, LineCol, Loc, ModuleDeclaration, Program as BabelProgram,
-    SrcType, Statement,
+    flavor::Flavor, BaseNode, File, InterpreterDirective, LineCol, Loc, ModuleDeclaration,
+    Program as BabelProgram, SrcType, Statement,
 };
 use swc_node_comments::SwcComments;
 
@@ -27,9 +27,13 @@ impl Babelify for Program {
                 start: program.base.start,
                 end: program.base.end,
                 loc: program.base.loc,
-                range: match (program.base.start, program.base.end) {
-                    (Some(start), Some(end)) => Some([start, end]),
-                    _ => None,
+                range: if matches!(Flavor::current(), Flavor::Acorn) {
+                    match (program.base.start, program.base.end) {
+                        (Some(start), Some(end)) => Some([start, end]),
+                        _ => None,
+                    }
+                } else {
+                    None
                 },
             },
             program,
