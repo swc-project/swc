@@ -51,7 +51,12 @@ impl Serialize for Literal {
                     Literal::BigInt(l) => (&l.base, AcornLiteralValue::BigInt(l.value.clone())),
                     Literal::Decimal(l) => (&l.base, AcornLiteralValue::Decimal(l.value.clone())),
                 };
-                let acorn = AcornLiteral { base, value };
+                let acorn = AcornLiteral {
+                    type_: "Literal",
+                    raw: "",
+                    base,
+                    value,
+                };
 
                 AcornLiteral::serialize(&acorn, serializer)
             }
@@ -100,6 +105,10 @@ enum BabelLiteral {
 
 #[derive(Serialize)]
 struct AcornLiteral<'a> {
+    /// `Literal`.
+    #[serde(rename = "type")]
+    type_: &'a str,
+    raw: &'a str,
     #[serde(flatten)]
     base: &'a BaseNode,
     value: AcornLiteralValue,
