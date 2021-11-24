@@ -23,6 +23,7 @@ where
                 }) && (M::force_str_for_tpl()
                     || (!c.value.contains("\\n") && !c.value.contains("\\r")))
                     && !c.value.contains("\\0")
+                    && !c.value.contains("\\x")
                 {
                     *e = Expr::Lit(Lit::Str(Str {
                         value: c
