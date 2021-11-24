@@ -1,6 +1,6 @@
 use super::util::Scope;
-use std::{cell::RefCell, rc::Rc};
-use swc_atoms::js_word;
+use std::{cell::RefCell, collections::HashSet, rc::Rc};
+use swc_atoms::{js_word, JsWord};
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::enable_helper;
@@ -9,11 +9,15 @@ use swc_ecma_visit::{
 };
 
 pub fn import_analyzer(scope: Rc<RefCell<Scope>>) -> impl Fold + VisitMut {
-    as_folder(ImportAnalyzer { scope })
+    as_folder(ImportAnalyzer {
+        scope,
+        import_srcs: HashSet::new(),
+    })
 }
 
 pub struct ImportAnalyzer {
     scope: Rc<RefCell<Scope>>,
+    import_srcs: HashSet<JsWord>,
 }
 
 /// Inject required helpers methods **for** module transform passes.
@@ -97,6 +101,7 @@ impl Visit for ImportAnalyzer {
             }
         } else {
             let mut has_non_default = false;
+
             for s in &import.specifiers {
                 match *s {
                     ImportSpecifier::Namespace(ref _ns) => {
@@ -105,10 +110,10 @@ impl Visit for ImportAnalyzer {
                         }
                     }
                     ImportSpecifier::Default(_) => {
-                        scope
-                            .import_types
-                            .entry(import.src.value.clone())
-                            .or_insert(false);
+                        let src = import.src.value.clone();
+                        let src_already_exist = self.import_srcs.contains(&src);
+
+                        scope.import_types.entry(src).or_insert(src_already_exist);
                     }
                     ImportSpecifier::Named(ref i) => {
                         let ImportNamedSpecifier {
@@ -121,6 +126,11 @@ impl Visit for ImportAnalyzer {
                             .map(|i| i.sym.clone())
                             .unwrap_or_else(|| local.sym.clone());
                         let is_default = name == js_word!("default");
+
+                        // in case of default import comes after named import, it needs to know
+                        // if there's prior import to same src to determine interopDefault or
+                        // interopWildcard.
+                        self.import_srcs.insert(import.src.value.clone());
 
                         if is_default {
                             scope
