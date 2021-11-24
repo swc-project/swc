@@ -3,7 +3,10 @@ use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{quote_ident, ExprFactory, StmtLike};
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
+    VisitWith,
+};
 
 /// `@babel/plugin-transform-computed-properties`
 ///
@@ -37,7 +40,7 @@ use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visi
 /// TODO(kdy1): cache reference like (_f = f, mutatorMap[_f].get = function(){})
 ///     instead of (mutatorMap[f].get = function(){}
 pub fn computed_properties(c: Config) -> impl Fold {
-    ComputedProps { c }
+    as_folder(ComputedProps { c })
 }
 
 #[derive(Debug, Clone, Copy, Default, Deserialize)]
@@ -58,17 +61,16 @@ struct ObjectLitFolder {
     c: Config,
 }
 
-/// TODO: VisitMut
-impl Fold for ObjectLitFolder {
-    noop_fold_type!();
+impl VisitMut for ObjectLitFolder {
+    noop_visit_mut_type!();
 
-    fn fold_expr(&mut self, expr: Expr) -> Expr {
-        let expr = expr.fold_children_with(self);
+    fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        expr.visit_mut_children_with(self);
 
         match expr {
-            Expr::Object(ObjectLit { mut props, span }) => {
-                if !is_complex(&props) {
-                    return Expr::Object(ObjectLit { span, props });
+            Expr::Object(ObjectLit { props, span }) => {
+                if !is_complex(props) {
+                    return;
                 }
 
                 let mark = Mark::fresh(Mark::root());
@@ -103,7 +105,9 @@ impl Fold for ObjectLitFolder {
                     }))
                 });
 
-                for prop in props {
+                let mut single_cnt_prop = None;
+
+                for prop in props.drain(..) {
                     let span = prop.span();
 
                     let ((key, is_compute), value) = match prop {
@@ -234,12 +238,13 @@ impl Fold for ObjectLitFolder {
                     };
 
                     if !self.c.loose && props_cnt == 1 {
-                        return Expr::Call(CallExpr {
+                        single_cnt_prop = Some(Expr::Call(CallExpr {
                             span,
                             callee: helper!(define_property, "defineProperty"),
                             args: vec![exprs.pop().unwrap().as_arg(), key.as_arg(), value.as_arg()],
                             type_args: Default::default(),
-                        });
+                        }));
+                        break;
                     }
                     exprs.push(if self.c.loose {
                         let left = if is_compute {
@@ -263,8 +268,13 @@ impl Fold for ObjectLitFolder {
                     });
                 }
 
+                if let Some(single_expr) = single_cnt_prop {
+                    *expr = single_expr;
+                    return;
+                }
+
                 self.vars.push(VarDeclarator {
-                    span,
+                    span: *span,
                     name: Pat::Ident(obj_ident.clone().into()),
                     init: None,
                     definite: false,
@@ -280,7 +290,7 @@ impl Fold for ObjectLitFolder {
                         definite: false,
                     });
                     exprs.push(Box::new(Expr::Call(CallExpr {
-                        span,
+                        span: *span,
                         callee: helper!(define_enumerable_properties, "defineEnumerableProperties"),
                         args: vec![obj_ident.clone().as_arg(), mutator_map.as_arg()],
                         type_args: Default::default(),
@@ -289,14 +299,13 @@ impl Fold for ObjectLitFolder {
 
                 // Last value
                 exprs.push(Box::new(Expr::Ident(obj_ident)));
-                Expr::Seq(SeqExpr {
+                *expr = Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
                     exprs,
-                })
+                });
             }
-
-            _ => expr,
-        }
+            _ => {}
+        };
     }
 }
 
@@ -322,31 +331,29 @@ impl Visit for ComplexVisitor {
     }
 }
 
-/// TODO: VisitMut
-impl Fold for ComputedProps {
-    noop_fold_type!();
+impl VisitMut for ComputedProps {
+    noop_visit_mut_type!();
 
-    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        self.fold_stmt_like(n)
+    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        self.visit_mut_stmt_like(n);
     }
 
-    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
-        self.fold_stmt_like(n)
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+        self.visit_mut_stmt_like(n);
     }
 }
 
 impl ComputedProps {
-    fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
+    fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike + VisitWith<ShouldWork> + FoldWith<Self> + FoldWith<ObjectLitFolder>,
+        T: StmtLike + VisitWith<ShouldWork> + VisitMutWith<Self> + VisitMutWith<ObjectLitFolder>,
         Vec<T>: VisitWith<ShouldWork>,
     {
-        // let stmts = stmts.fold_children_with(self);
-        let mut buf = Vec::with_capacity(stmts.len());
+        let mut stmts_updated = Vec::with_capacity(stmts.len());
 
-        for stmt in stmts {
+        for mut stmt in stmts.drain(..) {
             if !contains_computed_expr(&stmt) {
-                buf.push(stmt);
+                stmts_updated.push(stmt);
                 continue;
             }
 
@@ -354,12 +361,13 @@ impl ComputedProps {
                 c: self.c,
                 ..Default::default()
             };
-            let stmt = stmt.fold_with(&mut folder);
+
+            stmt.visit_mut_with(&mut folder);
 
             // Add variable declaration
             // e.g. var ref
             if !folder.vars.is_empty() {
-                buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                stmts_updated.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     decls: folder.vars,
@@ -367,10 +375,10 @@ impl ComputedProps {
                 }))));
             }
 
-            buf.push(stmt);
+            stmts_updated.push(stmt);
         }
 
-        buf
+        *stmts = stmts_updated;
     }
 }
 
