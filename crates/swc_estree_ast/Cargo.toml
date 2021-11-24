@@ -18,3 +18,7 @@ serde_json = "1.0.62"
 swc_atoms = {version = "0.2", path = "../swc_atoms"}
 swc_common = {version = "0.14", path = "../swc_common"}
 swc_estree_macros = {version = "0.1", path = "../swc_estree_macros/"}
+
+[dev-dependencies]
+swc_ecma_parser = {version = "0.78.7", path = "../swc_ecma_parser"}
+testing = {version = "0.15.1", path = "../testing"}
