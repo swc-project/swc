@@ -180,13 +180,13 @@ if (holder2.a.isLeader()) {
 }
 var ArrowGuard = function ArrowGuard() {
     "use strict";
-    var _this = this, _this1 = this;
+    var _this = this;
     _classCallCheck(this, ArrowGuard);
     this.isElite = function() {
         return _instanceof(_this, ArrowElite);
     };
     this.isMedic = function() {
-        return _instanceof(_this1, ArrowMedic);
+        return _instanceof(_this, ArrowMedic);
     };
 };
 var ArrowElite = /*#__PURE__*/ function(ArrowGuard) {

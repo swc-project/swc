@@ -157,7 +157,7 @@ where
 
         self.input.skip_ws()?;
 
-        let property = self.parse_id()?;
+        let property = self.parse()?;
 
         self.input.skip_ws()?;
 

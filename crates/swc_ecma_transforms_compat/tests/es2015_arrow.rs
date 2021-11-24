@@ -287,3 +287,226 @@ test!(
     };
     "
 );
+
+test!(
+    // TODO: issue#2811
+    ignore,
+    ::swc_ecma_parser::Syntax::default(),
+    |_| arrow(),
+    fixture_this,
+    r#"
+function b() {
+  var t = x => this.x + x;
+}
+
+class Foo extends (function(){}) {
+  constructor(){
+    var foo = () => this;
+
+    if (true){
+        console.log(super(), foo());
+    } else {
+        super();
+        console.log(foo());
+    }
+  }
+}
+"#,
+    r#"
+function b() {
+  var _this = this;
+
+  var t = function (x) {
+    return _this.x + x;
+  };
+}
+
+class Foo extends function () {} {
+  constructor() {
+    var _this;
+
+    var foo = function () {
+      return _this;
+    };
+
+    if (true) {
+      console.log((super(), _this = this), foo());
+    } else {
+      super();
+      _this = this;
+      console.log(foo());
+    }
+  }
+
+}
+"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| arrow(),
+    fixture_arguments,
+    r#"
+function fn() {
+  var foo = () => {
+    return arguments;
+  };
+}
+
+var bar = () => arguments;
+
+var baz = () => () => arguments;
+"#,
+    r#"
+var _arguments1 = arguments;
+
+function fn() {
+  var _arguments = arguments;
+
+  var foo = function () {
+    return _arguments;
+  };
+}
+
+var bar = function () {
+  return _arguments1;
+};
+
+var baz = function () {
+  return function () {
+    return _arguments1;
+  };
+};
+"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| arrow(),
+    two_arrow,
+    r#"
+let foo = () => this;
+let bar = () => this;
+let foo1 = () => arguments;
+let bar1 = () => arguments;
+"#,
+    r#"
+var _this = this, _arguments = arguments;
+let foo = function () {
+  return _this;
+}
+let bar = function () {
+  return _this;
+}
+let foo1 = function () {
+  return _arguments;
+}
+let bar1 = function () {
+  return _arguments;
+}
+"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| arrow(),
+    computed_props,
+    r#"
+var a = {
+  [(() => this)()]: 123
+}
+"#,
+    r#"
+var _this = this;
+
+var a = {
+  [function () {
+    return _this;
+  }()]: 123
+};
+"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| arrow(),
+    this_in_params,
+    r#"
+export const getBadgeBorderRadius = (text = this, color = arguments) => {
+  return (text && style) || {}
+}"#,
+    r#"
+var _this = this, _arguments = arguments;
+export const getBadgeBorderRadius = function(text = _this, color = _arguments) {
+  return text && style || {
+  };
+};
+"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| arrow(),
+    getter_setter,
+    r#"
+const a = () => ({
+  get this() { this;arguments },
+  set arguments(a = this) { this;arguments },
+  get [this]() { this;arguments },
+})
+"#,
+    r#"
+var _this = this;
+const a = function () {
+  return {
+    get this() {
+      this;
+      arguments;
+    },
+
+    set arguments(a = this) {
+      this;
+      arguments;
+    },
+
+    get [_this] () {
+        this;
+        arguments;
+    }
+  };
+};
+"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| arrow(),
+    method_computed,
+    r#"
+const a = () => ({ 
+  [this](a = this) { this;arguments },
+})
+const b = () => class {
+  static [this]() {}
+  [arguments]() {}
+}
+"#,
+    r#"
+var _this = this;
+const a = function () {
+  return {
+    [_this](a = this) {
+      this;
+      arguments;
+    }
+  };
+};
+const b = function() {
+  return class {
+      static [this]() {}
+      [arguments]() {
+      }
+  };
+};
+"#
+);

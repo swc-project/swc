@@ -237,7 +237,7 @@ var B = /*#__PURE__*/ function(A) {
             key: "simple",
             value: // async method with only call/get on 'super' does not require a binding
             function simple() {
-                var _this = this, _this1 = this, _this2 = this, _this3 = this, _this4 = this;
+                var _this = this;
                 var // call with property access
                 _instance, // call additional property.
                 _instance1, // call with element access
@@ -253,20 +253,20 @@ var B = /*#__PURE__*/ function(A) {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++){
                         _args[_key] = arguments[_key];
                     }
-                    return (_instance1 = _get(_getPrototypeOf(B.prototype), "y", _this1)).call.apply(_instance1, [
-                        _this1
+                    return (_instance1 = _get(_getPrototypeOf(B.prototype), "y", _this)).call.apply(_instance1, [
+                        _this
                     ].concat(_toConsumableArray(_args)));
                 }, _super_method = function() {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++){
                         _args[_key] = arguments[_key];
                     }
-                    return (_instance2 = _get(_getPrototypeOf(B.prototype), "x", _this2)).call.apply(_instance2, [
-                        _this2
+                    return (_instance2 = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance2, [
+                        _this
                     ].concat(_toConsumableArray(_args)));
                 }, _super_x1 = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this3);
+                    return _get(_getPrototypeOf(B.prototype), "x", _this);
                 }, _super_method1 = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this4);
+                    return _get(_getPrototypeOf(B.prototype), "x", _this);
                 };
                 return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                     var _super, _superIndex, a, b;
@@ -292,7 +292,7 @@ var B = /*#__PURE__*/ function(A) {
             key: "advanced",
             value: // async method with assignment/destructuring on 'super' requires a binding
             function advanced() {
-                var _this = this, _this5 = this, _this6 = this, _this7 = this, _this8 = this, _this9 = this, _this10 = this, _this11 = this;
+                var _this = this;
                 var // call with property access
                 _instance, // call with element access
                 _instance3;
@@ -307,23 +307,23 @@ var B = /*#__PURE__*/ function(A) {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++){
                         _args[_key] = arguments[_key];
                     }
-                    return (_instance3 = _get(_getPrototypeOf(B.prototype), "x", _this5)).call.apply(_instance3, [
-                        _this5
+                    return (_instance3 = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance3, [
+                        _this
                     ].concat(_toConsumableArray(_args)));
                 }, _super_x2 = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this6);
+                    return _get(_getPrototypeOf(B.prototype), "x", _this);
                 }, _super_method2 = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this7);
+                    return _get(_getPrototypeOf(B.prototype), "x", _this);
                 }, _super_x3 = function(_args) {
                     // property access (assign)
-                    return _set(_getPrototypeOf(B.prototype), "x", _args, _this8, true);
+                    return _set(_getPrototypeOf(B.prototype), "x", _args, _this, true);
                 }, _super_method3 = function(_args) {
                     // element access (assign)
-                    return _set(_getPrototypeOf(B.prototype), "x", _args, _this9, true);
+                    return _set(_getPrototypeOf(B.prototype), "x", _args, _this, true);
                 }, _super_x4 = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this10);
+                    return _get(_getPrototypeOf(B.prototype), "x", _this);
                 }, _super_method4 = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this11);
+                    return _get(_getPrototypeOf(B.prototype), "x", _this);
                 };
                 return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                     var _super, _superIndex, f, a, b, ref, ref1;
