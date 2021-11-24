@@ -1,4 +1,4 @@
-use crate::{comment::Comment, Loc};
+use crate::Loc;
 use scoped_tls::scoped_thread_local;
 
 scoped_thread_local!(static FLAVOR: Flavor);
@@ -43,7 +43,15 @@ impl Flavor {
         !Self::current().emit_loc()
     }
 
-    pub(crate) fn skip_comments(cmts: &Vec<Comment>) -> bool {
-        matches!(Self::current(), Flavor::Acorn) && cmts.is_empty()
+    pub(crate) fn skip_empty_vec<T>(v: &Vec<T>) -> bool {
+        matches!(Self::current(), Flavor::Acorn) && v.is_empty()
+    }
+
+    pub(crate) fn skip_empty_string(v: &String) -> bool {
+        matches!(Self::current(), Flavor::Acorn) && v.is_empty()
+    }
+
+    pub(crate) fn skip_none<T>(v: &Option<T>) -> bool {
+        matches!(Self::current(), Flavor::Acorn) && v.is_none()
     }
 }

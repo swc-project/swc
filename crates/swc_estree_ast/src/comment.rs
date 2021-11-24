@@ -1,7 +1,6 @@
+use crate::common::Loc;
 use serde::{Deserialize, Serialize};
 use swc_common::ast_serde;
-
-use crate::common::Loc;
 
 #[derive(Debug, Clone, PartialEq)]
 #[ast_serde("BaseComment")]

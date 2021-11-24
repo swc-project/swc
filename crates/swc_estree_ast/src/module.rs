@@ -89,12 +89,15 @@ pub struct Program {
     #[serde(flatten)]
     pub base: BaseNode,
     pub body: Vec<Statement>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_empty_vec")]
     pub directives: Vec<Directive>,
     pub source_type: SrcType,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub interpreter: Option<InterpreterDirective>,
-    #[serde(default)]
+    #[serde(
+        default,
+        skip_serializing_if = "crate::flavor::Flavor::skip_empty_string"
+    )]
     pub source_file: String,
 }
 
