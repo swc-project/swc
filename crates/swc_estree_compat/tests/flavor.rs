@@ -87,11 +87,12 @@ fn diff_value(a: &mut Value, b: &mut Value) -> bool {
         return true;
     }
 
-    match (a, b) {
+    match (&mut *a, &mut *b) {
         (Value::Object(a), Value::Object(b)) => {
             a.retain(|key, a_v| {
                 if let Some(b_v) = b.get_mut(key) {
                     if diff_value(a_v, b_v) {
+                        b.remove(key);
                         return false;
                     }
                 }
