@@ -16,3 +16,6 @@ pmutil = "0.5.3"
 proc-macro2 = "1.0.32"
 swc_macros_common = {version = "0.3.3", path = "../swc_macros_common"}
 syn = {version = "1", features = ["full"]}
+
+[dev-dependencies]
+swc_common = {version = "0.14.6", path = "../swc_common"}
