@@ -75,7 +75,10 @@ impl<T> IsEmpty for Vec<T> {
     }
 }
 
-impl<T> IsEmpty for Option<T> {
+impl<T> IsEmpty for Option<T>
+where
+    T: IsEmpty,
+{
     fn is_empty(&self) -> bool {
         match self {
             Some(v) => v.is_empty(),
