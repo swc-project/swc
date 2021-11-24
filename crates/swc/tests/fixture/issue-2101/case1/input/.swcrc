@@ -1,0 +1,26 @@
+{
+  "sourceMaps": true,
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "tsx": true,
+      "dynamicImport": true
+    },
+    "transform": {
+      "react": {
+        "runtime": "automatic",
+        "refresh": true
+      },
+      "hidden": {
+        "jest": true
+      }
+    }
+  },
+  "module": {
+    "type": "commonjs"
+  },
+  "env": {
+    "coreJs": 3,
+    "mode": "usage"
+  }
+}
