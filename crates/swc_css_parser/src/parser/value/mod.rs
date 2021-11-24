@@ -487,7 +487,7 @@ where
 
         let ctx = Ctx {
             is_in_delimited_value: true,
-            allow_separating_value_with_space: true,
+            allow_separating_value_with_space: false,
             ..self.ctx
         };
 
