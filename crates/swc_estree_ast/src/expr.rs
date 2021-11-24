@@ -362,11 +362,14 @@ pub struct NewExpression {
     pub callee: Callee,
     #[serde(default)]
     pub arguments: Vec<Arg>,
-    #[serde(default)]
+    #[serde(
+        default,
+        skip_serializing_if = "crate::flavor::Flavor::skip_none_or_false"
+    )]
     pub optional: Option<bool>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub type_arguments: Option<TypeParameterInstantiation>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub type_parameters: Option<TSTypeParameterInstantiation>,
 }
 
