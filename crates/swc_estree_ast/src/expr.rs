@@ -364,7 +364,7 @@ pub struct NewExpression {
     pub arguments: Vec<Arg>,
     #[serde(
         default,
-        skip_serializing_if = "crate::flavor::Flavor::skip_none_or_false"
+        skip_serializing_if = "crate::flavor::Flavor::skip_none_and_false"
     )]
     pub optional: Option<bool>,
     #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
