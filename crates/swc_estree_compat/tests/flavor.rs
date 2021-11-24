@@ -2,9 +2,11 @@ use std::{
     path::{Path, PathBuf},
     process::{Command, Stdio},
 };
+use swc::SwcComments;
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
 use swc_estree_ast::flavor::Flavor;
+use swc_estree_compat::babelify::Babelify;
 use testing::{assert_eq, DebugUsingDisplay, NormalizedOutput};
 
 fn assert_flavor(flavor: Flavor, input: &Path, output: &Path) {
@@ -21,7 +23,14 @@ fn assert_flavor(flavor: Flavor, input: &Path, output: &Path) {
 
         let module = parser.parse_module().unwrap();
 
-        let json = flavor.with(|| serde_json::to_string_pretty(&module).unwrap());
+        let ctx = swc_estree_compat::babelify::Context {
+            fm: fm.clone(),
+            cm: cm.clone(),
+            comments: SwcComments::default(),
+        };
+        let module = flavor.with(|| module.babelify(&ctx));
+
+        let json = serde_json::to_string_pretty(&module).unwrap();
 
         {
             let mut cmd = Command::new("node");
