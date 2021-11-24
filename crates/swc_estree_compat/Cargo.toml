@@ -18,6 +18,8 @@ acorn = [
 babel = [
   "swc_estree_ast/babel-visit",
 ]
+# Temporary
+default = ["acorn", "babel"]
 
 [dependencies]
 ahash = {version = "0.7.0", features = ["compile-time-rng"]}
