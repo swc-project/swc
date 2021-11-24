@@ -514,9 +514,9 @@ pub struct ArrowFunctionExpression {
     pub expression: bool,
     #[serde(default)]
     pub generator: bool,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub return_type: Option<Box<TypeAnnotOrNoop>>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
 
