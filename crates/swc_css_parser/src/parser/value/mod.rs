@@ -196,7 +196,7 @@ where
 
             Token::Num { .. } => return self.parse_numeric_value(),
 
-            Token::Function { .. } => return self.parse_value_ident_or_fn(),
+            Token::Function { .. } => return Ok(Value::Fn(self.parse()?)),
 
             Token::Percent { .. } => return self.parse_numeric_value(),
 
@@ -409,38 +409,6 @@ where
         }
     }
 
-    fn parse_value_ident_or_fn(&mut self) -> PResult<Value> {
-        let span = self.input.cur_span()?;
-        let values = match bump!(self) {
-            Token::Function { value, raw } => (value, raw),
-            _ => {
-                unreachable!()
-            }
-        };
-
-        let name = Ident {
-            span: swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default()),
-            value: values.0,
-            raw: values.1,
-        };
-        let is_url = name.value.to_ascii_lowercase() == js_word!("url");
-        let ctx = Ctx {
-            allow_operation_in_value: if is_url { false } else { true },
-            allow_separating_value_with_space: if is_url { false } else { true },
-            allow_separating_value_with_comma: false,
-            ..self.ctx
-        };
-        let args = self.with_ctx(ctx).parse_comma_separated_value()?;
-
-        expect!(self, ")");
-
-        return Ok(Value::Fn(FnValue {
-            span: span!(self, span.lo),
-            name,
-            args,
-        }));
-    }
-
     /// Parse comma separated values.
     fn parse_comma_separated_value(&mut self) -> PResult<Vec<Value>> {
         let mut args = vec![];
@@ -642,25 +610,27 @@ where
                 unreachable!()
             }
         };
+
         let name = Ident {
             span: swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default()),
             value: name.0,
             raw: name.1,
         };
-
+        let is_url = name.value.to_ascii_lowercase() == js_word!("url");
         let ctx = Ctx {
-            allow_operation_in_value: true,
-            allow_separating_value_with_space: true,
+            allow_operation_in_value: if is_url { false } else { true },
+            allow_separating_value_with_space: if is_url { false } else { true },
+            allow_separating_value_with_comma: false,
             ..self.ctx
         };
         let args = self.with_ctx(ctx).parse_comma_separated_value()?;
 
         expect!(self, ")");
 
-        Ok(FnValue {
+        return Ok(FnValue {
             span: span!(self, span.lo),
             name,
             args,
-        })
+        });
     }
 }
