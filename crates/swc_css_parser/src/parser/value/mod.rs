@@ -128,20 +128,14 @@ where
     }
 
     /// Parse value as tokens.
-    pub(super) fn parse_any_value(&mut self, terminate_on_semi: bool) -> PResult<Tokens> {
+    pub(super) fn parse_any_value(&mut self) -> PResult<Tokens> {
         let start = self.input.cur_span()?.lo;
 
         let mut tokens = vec![];
 
         loop {
-            if is_one_of!(self, EOF, ")", "}", "]") {
+            if is_one_of!(self, EOF, ")", "}", "]", "bad-string", "bad-url") {
                 break;
-            }
-
-            if terminate_on_semi {
-                if is!(self, ";") {
-                    break;
-                }
             }
 
             let span = self.input.cur_span()?;
@@ -154,7 +148,7 @@ where
                             token: bump!(self),
                         });
 
-                        tokens.extend(self.parse_any_value(false)?.tokens);
+                        tokens.extend(self.parse_any_value()?.tokens);
 
                         if is!(self, $end) {
                             tokens.push(TokenAndSpan {

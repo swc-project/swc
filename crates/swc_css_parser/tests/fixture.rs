@@ -20,7 +20,12 @@ impl Visit for AssertValid {
             }
 
             match &tokens.tokens[0].token {
-                Token::Colon | Token::Num { .. } => return,
+                Token::Colon
+                | Token::Num { .. }
+                | Token::LBrace
+                | Token::LParen
+                | Token::Str { .. }
+                | Token::Url { .. } => return,
                 _ => {}
             }
 
@@ -52,7 +57,12 @@ impl Visit for AssertValid {
             }
 
             match &args.tokens[0].token {
-                Token::Colon | Token::Num { .. } => return,
+                Token::Colon
+                | Token::Num { .. }
+                | Token::LBrace
+                | Token::LParen
+                | Token::Str { .. }
+                | Token::Url { .. } => return,
                 _ => {}
             }
 

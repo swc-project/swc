@@ -1,1 +1,15 @@
-::unknown(unknown) {}
+::unknown {}
+::unknown() {}
+::unknown(foo) {}
+::unknown(foo bar) {}
+::unknown(foo, bar) {}
+::unknown([foo]) {}
+::unknown((foo bar)) {}
+::unknown(((foo bar))) {}
+::unknown({foo: bar}) {}
+::unknown({{foo: bar}}) {}
+::unknown({foo: bar !important}) {}
+::unknown("string") {}
+::unknown("string", foo) {}
+::unknown('string') {}
+::unknown(url(foo.png)) {}
