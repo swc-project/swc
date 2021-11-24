@@ -6,4 +6,4 @@ const res = acorn.parse(process.argv[1], {
     ecmaVersion: 2020,
     ranges: true
 })
-console.log(res);
+console.log(JSON.stringify(res, void 0, 4));
