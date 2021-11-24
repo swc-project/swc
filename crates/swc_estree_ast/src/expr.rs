@@ -180,7 +180,7 @@ pub struct MemberExpression {
     pub property: Box<MemberExprProp>,
     #[serde(default)]
     pub computed: bool,
-    #[serde(default)]
+    #[serde(default, serialize_with = "crate::ser::serialize_optional")]
     pub optional: Option<bool>,
 }
 

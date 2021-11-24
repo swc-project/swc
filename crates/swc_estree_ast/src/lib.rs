@@ -24,5 +24,6 @@ mod lit;
 mod module;
 mod object;
 mod pat;
+mod ser;
 mod stmt;
 mod typescript;
