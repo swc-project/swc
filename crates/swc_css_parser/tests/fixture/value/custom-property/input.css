@@ -11,6 +11,7 @@
     --empty2: /**/;
     --empty3: !important;
     --empty4:/**/ !important;
+    --empty5:/* 1 */ /* 2 */;
 
     --no-whitespace:ident;
     --number: 1;
@@ -51,8 +52,3 @@
 :root {
     --foo: 
 }
-
-/** Two spaces */
-.root { --var:/* 1 */ /* 2 */ }
-/** One spaces */
-.root { --var:/* 1 */ /* 2 */; }

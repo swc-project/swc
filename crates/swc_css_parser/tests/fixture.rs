@@ -25,7 +25,9 @@ impl Visit for AssertValid {
                 | Token::LBrace
                 | Token::LParen
                 | Token::Str { .. }
-                | Token::Url { .. } => return,
+                | Token::Url { .. }
+                | Token::Delim { .. }
+                | Token::Semi => return,
                 _ => {}
             }
 
@@ -62,7 +64,9 @@ impl Visit for AssertValid {
                 | Token::LBrace
                 | Token::LParen
                 | Token::Str { .. }
-                | Token::Url { .. } => return,
+                | Token::Url { .. }
+                | Token::Delim { .. }
+                | Token::Semi => return,
                 _ => {}
             }
 

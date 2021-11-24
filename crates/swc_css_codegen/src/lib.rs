@@ -366,8 +366,12 @@ where
         self.emit_list(&n.value, format)?;
 
         if let Some(tok) = n.important {
-            formatting_space!(self);
+            if !is_custom_property {
+                formatting_space!(self);
+            }
+
             punct!(self, tok, "!");
+
             self.wr.write_raw(Some(tok), "important")?;
         }
 

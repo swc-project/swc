@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 386,
+    "end": 418,
     "ctxt": 0
   },
   "rules": [
@@ -1834,14 +1834,14 @@
       "type": "QualifiedRule",
       "span": {
         "start": 368,
-        "end": 385,
+        "end": 383,
         "ctxt": 0
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 368,
-          "end": 382,
+          "end": 380,
           "ctxt": 0
         },
         "children": [
@@ -1849,7 +1849,7 @@
             "type": "ComplexSelector",
             "span": {
               "start": 368,
-              "end": 382,
+              "end": 380,
               "ctxt": 0
             },
             "children": [
@@ -1857,7 +1857,7 @@
                 "type": "CompoundSelector",
                 "span": {
                   "start": 368,
-                  "end": 382,
+                  "end": 380,
                   "ctxt": 0
                 },
                 "nestingSelector": null,
@@ -1867,7 +1867,7 @@
                     "type": "PseudoElementSelector",
                     "span": {
                       "start": 368,
-                      "end": 382,
+                      "end": 380,
                       "ctxt": 0
                     },
                     "name": {
@@ -1884,7 +1884,7 @@
                       "type": "Tokens",
                       "span": {
                         "start": 378,
-                        "end": 381,
+                        "end": 379,
                         "ctxt": 0
                       },
                       "tokens": [
@@ -1894,20 +1894,109 @@
                             "end": 379,
                             "ctxt": 0
                           },
+                          "token": {
+                            "Delim": {
+                              "value": "!"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 381,
+          "end": 383,
+          "ctxt": 0
+        },
+        "items": []
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 384,
+        "end": 401,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 384,
+          "end": 398,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 384,
+              "end": 398,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 384,
+                  "end": 398,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "PseudoElementSelector",
+                    "span": {
+                      "start": 384,
+                      "end": 398,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 386,
+                        "end": 393,
+                        "ctxt": 0
+                      },
+                      "value": "unknown",
+                      "raw": "unknown"
+                    },
+                    "children": {
+                      "type": "Tokens",
+                      "span": {
+                        "start": 394,
+                        "end": 397,
+                        "ctxt": 0
+                      },
+                      "tokens": [
+                        {
+                          "span": {
+                            "start": 394,
+                            "end": 395,
+                            "ctxt": 0
+                          },
                           "token": "LBrace"
                         },
                         {
                           "span": {
-                            "start": 379,
-                            "end": 380,
+                            "start": 395,
+                            "end": 396,
                             "ctxt": 0
                           },
                           "token": "Semi"
                         },
                         {
                           "span": {
-                            "start": 380,
-                            "end": 381,
+                            "start": 396,
+                            "end": 397,
                             "ctxt": 0
                           },
                           "token": "RBrace"
@@ -1924,8 +2013,93 @@
       "block": {
         "type": "Block",
         "span": {
-          "start": 383,
-          "end": 385,
+          "start": 399,
+          "end": 401,
+          "ctxt": 0
+        },
+        "items": []
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 402,
+        "end": 417,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 402,
+          "end": 414,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 402,
+              "end": 414,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 402,
+                  "end": 414,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "PseudoElementSelector",
+                    "span": {
+                      "start": 402,
+                      "end": 414,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 404,
+                        "end": 411,
+                        "ctxt": 0
+                      },
+                      "value": "unknown",
+                      "raw": "unknown"
+                    },
+                    "children": {
+                      "type": "Tokens",
+                      "span": {
+                        "start": 412,
+                        "end": 413,
+                        "ctxt": 0
+                      },
+                      "tokens": [
+                        {
+                          "span": {
+                            "start": 412,
+                            "end": 413,
+                            "ctxt": 0
+                          },
+                          "token": "Semi"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 415,
+          "end": 417,
           "ctxt": 0
         },
         "items": []
