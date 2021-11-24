@@ -5,7 +5,7 @@ use std::{
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
 use swc_estree_ast::flavor::Flavor;
-use testing::NormalizedOutput;
+use testing::{assert_eq, DebugUsingDisplay, NormalizedOutput};
 
 fn assert_flavor(flavor: Flavor, input: &Path, output: &Path) {
     testing::run_test(false, |cm, _handler| {
@@ -34,7 +34,7 @@ fn assert_flavor(flavor: Flavor, input: &Path, output: &Path) {
             let output =
                 String::from_utf8(output.stdout).expect("./acorn.js generated non-utf8 output");
 
-            assert_eq!(json, output);
+            assert_eq!(DebugUsingDisplay(&json), DebugUsingDisplay(&output));
         }
 
         NormalizedOutput::from(json.clone())
