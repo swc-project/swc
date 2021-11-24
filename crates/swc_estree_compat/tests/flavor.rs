@@ -98,7 +98,7 @@ fn diff_value(a: &mut Value, b: &mut Value) -> bool {
         (Value::Array(a), Value::Array(b)) => {
             if a.len() == b.len() {
                 for (a_v, b_v) in a.iter_mut().zip(b.iter_mut()) {
-                    diff_value(a_v, b_v)
+                    diff_value(a_v, b_v);
                 }
             }
         }
