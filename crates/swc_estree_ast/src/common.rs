@@ -38,11 +38,11 @@ impl Loc {
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct BaseNode {
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_comments")]
     pub leading_comments: Vec<Comment>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_comments")]
     pub inner_comments: Vec<Comment>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_comments")]
     pub trailing_comments: Vec<Comment>,
 
     #[serde(default)]
