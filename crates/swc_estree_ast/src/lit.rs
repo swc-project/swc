@@ -36,20 +36,20 @@ impl Serialize for Literal {
             }
             Flavor::Acorn => {
                 let (base, value) = match self {
-                    Literal::String(l) => (l.base, AcornLiteralValue::String(l.value.clone())),
-                    Literal::Numeric(l) => (l.base, AcornLiteralValue::Numeric(l.value.clone())),
-                    Literal::Null(..) => (l.base, AcornLiteralValue::Null(None)),
-                    Literal::Boolean(l) => (l.base, AcornLiteralValue::Boolean(l.value.clone())),
+                    Literal::String(l) => (&l.base, AcornLiteralValue::String(l.value.clone())),
+                    Literal::Numeric(l) => (&l.base, AcornLiteralValue::Numeric(l.value.clone())),
+                    Literal::Null(l) => (&l.base, AcornLiteralValue::Null(None)),
+                    Literal::Boolean(l) => (&l.base, AcornLiteralValue::Boolean(l.value.clone())),
                     Literal::RegExp(l) => (
-                        l.base,
+                        &l.base,
                         AcornLiteralValue::RegExp {
                             pattern: l.pattern.clone(),
                             flags: l.flags.clone(),
                         },
                     ),
                     Literal::Template(..) => todo!(),
-                    Literal::BigInt(l) => (l.base.AcornLiteralValue::BigInt(l.value.clone())),
-                    Literal::Decimal(l) => (l.base,AcornLiteralValue::Decimal(l.value.clone())),
+                    Literal::BigInt(l) => (&l.base, AcornLiteralValue::BigInt(l.value.clone())),
+                    Literal::Decimal(l) => (&l.base, AcornLiteralValue::Decimal(l.value.clone())),
                 };
                 let acorn = AcornLiteral { base, value };
 
@@ -99,9 +99,9 @@ enum BabelLiteral {
 }
 
 #[derive(Serialize)]
-struct AcornLiteral {
+struct AcornLiteral<'a> {
     #[serde(flatten)]
-    base: BaseNode,
+    base: &'a BaseNode,
     value: AcornLiteralValue,
 }
 
