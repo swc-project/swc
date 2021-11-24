@@ -21,4 +21,12 @@ impl Flavor {
     {
         FLAVOR.set(&self, || op())
     }
+
+    pub(crate) fn current() -> Self {
+        if FLAVOR.is_set() {
+            FLAVOR.with(|v| *v)
+        } else {
+            Flavor::default()
+        }
+    }
 }
