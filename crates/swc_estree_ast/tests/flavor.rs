@@ -23,10 +23,6 @@ fn assert_flavor(flavor: Flavor, input: &Path, output: &Path) {
 
         let json = flavor.with(|| serde_json::to_string_pretty(&module).unwrap());
 
-        NormalizedOutput::from(json.clone())
-            .compare_to_file(&output)
-            .unwrap();
-
         {
             let mut cmd = Command::new("node");
             cmd.arg("-e")
@@ -40,6 +36,10 @@ fn assert_flavor(flavor: Flavor, input: &Path, output: &Path) {
 
             assert_eq!(json, output);
         }
+
+        NormalizedOutput::from(json.clone())
+            .compare_to_file(&output)
+            .unwrap();
 
         Ok(())
     })
