@@ -8,10 +8,7 @@ use crate::{
         InterfaceExtends, TypeAnnotation, TypeParameterDeclaration, TypeParameterInstantiation,
     },
     jsx::{JSXElement, JSXFragment, JSXNamespacedName},
-    lit::{
-        BigIntLiteral, BooleanLiteral, DecimalLiteral, NullLiteral, NumericLiteral, RegExpLiteral,
-        StringLiteral, TemplateLiteral,
-    },
+    lit::{Literal, TemplateLiteral},
     module::{Import, Program},
     object::{ObjectMethod, ObjectProperty},
     stmt::{BlockStatement, ExpressionStatement},
@@ -41,15 +38,13 @@ pub enum Expression {
     #[tag("Identifier")]
     Id(Identifier),
     #[tag("StringLiteral")]
-    StringLiteral(StringLiteral),
     #[tag("NumericLiteral")]
-    NumericLiteral(NumericLiteral),
     #[tag("NullLiteral")]
-    NullLiteral(NullLiteral),
     #[tag("BooleanLiteral")]
-    BooleanLiteral(BooleanLiteral),
     #[tag("RegExpLiteral")]
-    RegExpLiteral(RegExpLiteral),
+    #[tag("DecimalLiteral")]
+    #[tag("BigIntLiteral")]
+    Literal(Literal),
     #[tag("LogicalExpression")]
     Logical(LogicalExpression),
     #[tag("MemberExpression")]
@@ -86,8 +81,6 @@ pub enum Expression {
     Await(AwaitExpression),
     #[tag("Import")]
     Import(Import),
-    #[tag("BigIntLiteral")]
-    BigIntLiteral(BigIntLiteral),
     #[tag("OptionalMemberExpression")]
     OptionalMember(OptionalMemberExpression),
     #[tag("OptionalCallExpression")]
@@ -108,8 +101,6 @@ pub enum Expression {
     Record(RecordExpression),
     #[tag("TupleExpression")]
     Tuple(TupleExpression),
-    #[tag("DecimalLiteral")]
-    DecimalLiteral(DecimalLiteral),
     #[tag("ModuleExpression")]
     Module(ModuleExpression),
     #[tag("TSAsExpression")]

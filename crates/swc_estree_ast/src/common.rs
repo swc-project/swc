@@ -113,15 +113,12 @@ pub enum FunctionParent {
 #[ast_serde]
 pub enum Immutable {
     #[tag("StringLiteral")]
-    StringLiteral(StringLiteral),
+    #[tag("DecimalLiteral")]
     #[tag("NumericLiteral")]
-    NumericLiteral(NumericLiteral),
     #[tag("NullLiteral")]
-    NullLiteral(NullLiteral),
     #[tag("BooleanLiteral")]
-    BooleanLiteral(BooleanLiteral),
     #[tag("BigIntLiteral")]
-    BigIntLiteral(BigIntLiteral),
+    Literal(Literal),
     #[tag("JSXAttribute")]
     JSXAttribute(JSXAttribute),
     #[tag("JSXClosingElement")]
@@ -142,8 +139,6 @@ pub enum Immutable {
     JSXOpeningFragment(JSXOpeningFragment),
     #[tag("JSXClosingFragment")]
     JSXClosingFragment(JSXClosingFragment),
-    #[tag("DecimalLiteral")]
-    DecimalLiteral(DecimalLiteral),
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -187,21 +182,15 @@ pub enum Pureish {
     #[tag("FunctionExpression")]
     FunctionExpr(FunctionExpression),
     #[tag("StringLiteral")]
-    StringLiteral(StringLiteral),
     #[tag("NumericLiteral")]
-    NumericLiteral(NumericLiteral),
     #[tag("NullLiteral")]
-    NullLiteral(NullLiteral),
     #[tag("BooleanLiteral")]
-    BooleanLiteral(BooleanLiteral),
     #[tag("RegExpLiteral")]
-    RegExpLiteral(RegExpLiteral),
+    #[tag("BigIntLiteral")]
+    #[tag("DecimalLiteral")]
+    Literal(Literal),
     #[tag("ArrowFunctionExpression")]
     ArrowFuncExpr(ArrowFunctionExpression),
-    #[tag("BigIntLiteral")]
-    BigIntLiteral(BigIntLiteral),
-    #[tag("DecimalLiteral")]
-    DecimalLiteral(DecimalLiteral),
 }
 
 #[derive(Debug, Clone, PartialEq)]

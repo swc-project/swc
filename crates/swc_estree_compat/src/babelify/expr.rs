@@ -11,12 +11,13 @@ use swc_ecma_ast::{
 use swc_estree_ast::{
     ArrayExprEl, ArrayExpression, ArrowFuncExprBody, ArrowFunctionExpression, AssignmentExpression,
     AwaitExpression, BinaryExprLeft, BinaryExpression, CallExpression, Callee, ClassExpression,
-    ConditionalExpression, Expression, FunctionExpression, LVal, LogicalExpression, MemberExprProp,
-    MemberExpression, MetaProperty, NewExpression, ObjectExprProp, ObjectExpression, ObjectKey,
-    ObjectMember, ParenthesizedExpression, PrivateName, SequenceExpression,
-    SpreadElement as BabelSpreadElement, Super as BabelSuper, TaggedTemplateExprTypeParams,
-    TaggedTemplateExpression, TemplateElVal, TemplateElement, TemplateLiteral, TemplateLiteralExpr,
-    ThisExpression, UnaryExpression, UpdateExpression, YieldExpression,
+    ConditionalExpression, Expression, FunctionExpression, LVal, Literal, LogicalExpression,
+    MemberExprProp, MemberExpression, MetaProperty, NewExpression, ObjectExprProp,
+    ObjectExpression, ObjectKey, ObjectMember, ParenthesizedExpression, PrivateName,
+    SequenceExpression, SpreadElement as BabelSpreadElement, Super as BabelSuper,
+    TaggedTemplateExprTypeParams, TaggedTemplateExpression, TemplateElVal, TemplateElement,
+    TemplateLiteral, TemplateLiteralExpr, ThisExpression, UnaryExpression, UpdateExpression,
+    YieldExpression,
 };
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -70,22 +71,22 @@ impl Babelify for Expr {
             Expr::Lit(lit) => {
                 match lit {
                     Lit::Str(s) => ExprOutput::Expr(
-                        Box::alloc().init(Expression::StringLiteral(s.babelify(ctx))),
+                        Box::alloc().init(Expression::Literal(Literal::String(s.babelify(ctx)))),
                     ),
                     Lit::Bool(b) => ExprOutput::Expr(
-                        Box::alloc().init(Expression::BooleanLiteral(b.babelify(ctx))),
+                        Box::alloc().init(Expression::Literal(Literal::Boolean(b.babelify(ctx)))),
                     ),
                     Lit::Null(n) => ExprOutput::Expr(
-                        Box::alloc().init(Expression::NullLiteral(n.babelify(ctx))),
+                        Box::alloc().init(Expression::Literal(Literal::Null(n.babelify(ctx)))),
                     ),
                     Lit::Num(n) => ExprOutput::Expr(
-                        Box::alloc().init(Expression::NumericLiteral(n.babelify(ctx))),
+                        Box::alloc().init(Expression::Literal(Literal::Numeric(n.babelify(ctx)))),
                     ),
                     Lit::BigInt(i) => ExprOutput::Expr(
-                        Box::alloc().init(Expression::BigIntLiteral(i.babelify(ctx))),
+                        Box::alloc().init(Expression::Literal(Literal::BigInt(i.babelify(ctx)))),
                     ),
                     Lit::Regex(r) => ExprOutput::Expr(
-                        Box::alloc().init(Expression::RegExpLiteral(r.babelify(ctx))),
+                        Box::alloc().init(Expression::Literal(Literal::RegExp(r.babelify(ctx)))),
                     ),
                     Lit::JSXText(_) => panic!(
                         "illegal conversion: Cannot convert {:?} to ExprOutput",
@@ -187,8 +188,8 @@ impl From<ExprOutput> for ObjectKey {
         match o {
             ExprOutput::Expr(e) => match *e {
                 Expression::Id(i) => ObjectKey::Id(i),
-                Expression::StringLiteral(s) => ObjectKey::String(s),
-                Expression::NumericLiteral(n) => ObjectKey::Numeric(n),
+                Expression::Literal(Literal::String(s)) => ObjectKey::String(s),
+                Expression::Literal(Literal::Numeric(n)) => ObjectKey::Numeric(n),
                 _ => ObjectKey::Expr(e),
             },
             ExprOutput::Private(_) => panic!(
