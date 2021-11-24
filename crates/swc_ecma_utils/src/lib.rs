@@ -35,6 +35,7 @@ use unicode_xid::UnicodeXID;
 mod macros;
 pub mod constructor;
 mod factory;
+pub mod function;
 pub mod ident;
 mod value;
 pub mod var;

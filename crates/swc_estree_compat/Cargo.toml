@@ -1,0 +1,47 @@
+[package]
+authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "Compatibility layer between estree and swc"
+documentation = "https://rustdoc.swc.rs/swc_estree_compat/"
+edition = "2018"
+license = "Apache-2.0/MIT"
+name = "swc_estree_compat"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.2.1"
+
+[package.metadata.docs.rs]
+all-features = true
+
+[features]
+flavor-acorn = [
+  "swc_estree_ast/flavor-acorn",
+  "swc_estree_visit/flavor-acorn",
+]
+flavor-babel = [
+  "swc_estree_ast/flavor-babel",
+  "swc_estree_visit/flavor-babel",
+]
+
+[dependencies]
+ahash = {version = "0.7.0", features = ["compile-time-rng"]}
+anyhow = "1"
+copyless = "0.1.5"
+rayon = "1.5.0"
+serde = {version = "1", features = ["derive"]}
+serde_json = "1.0.62"
+swc_atoms = {version = "0.2", path = "../swc_atoms"}
+swc_common = {version = "0.14", path = "../swc_common", features = ["concurrent", "sourcemap", "tty-emitter"]}
+swc_ecma_ast = {version = "0.58", path = "../swc_ecma_ast"}
+swc_ecma_parser = {version = "0.78", path = "../swc_ecma_parser"}
+swc_ecma_utils = {version = "0.52.3", path = "../swc_ecma_utils"}
+swc_ecma_visit = {version = "0.44", path = "../swc_ecma_visit"}
+swc_estree_ast = {version = "0.1", path = "../swc_estree_ast"}
+swc_estree_macros = {version = "0.1", path = "../swc_estree_macros/"}
+swc_estree_visit = {version = "0.1", path = "../swc_estree_visit"}
+swc_node_comments = {version = "0.1", path = "../swc_node_comments/"}
+
+[dev-dependencies]
+pretty_assertions = "0.7.1"
+swc = {version = "0.87.1", path = "../swc"}
+swc_ecma_transforms = {version = "0.95.1", path = "../swc_ecma_transforms/"}
+swc_node_base = {version = "0.5", path = "../swc_node_base"}
+walkdir = "2"

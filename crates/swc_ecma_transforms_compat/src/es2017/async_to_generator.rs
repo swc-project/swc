@@ -4,7 +4,9 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
-    contains_ident_ref, contains_this_expr, private_ident, quote_ident, ExprFactory, StmtLike,
+    contains_ident_ref, contains_this_expr,
+    function::{FunctionWrapper, WrapperState},
+    private_ident, quote_ident, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
@@ -122,29 +124,11 @@ impl VisitMut for Actual {
 
         let mut folder = MethodFolder {
             vars: vec![],
-            scoped_this_ident: None,
+            scope_ident: WrapperState::default(),
         };
         m.function.params.clear();
 
         m.function.visit_mut_children_with(&mut folder);
-
-        let this_decl = if let Some(this_ident) = folder.scoped_this_ident {
-            let decl = VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                declare: false,
-                decls: vec![VarDeclarator {
-                    span: DUMMY_SP,
-                    name: Pat::Ident(this_ident.into()),
-                    init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
-                    definite: false,
-                }],
-            };
-
-            Some(Stmt::Decl(Decl::Var(decl)))
-        } else {
-            None
-        };
 
         let expr = make_fn_ref(
             FnExpr {
@@ -174,7 +158,7 @@ impl VisitMut for Actual {
                 span: DUMMY_SP,
                 stmts: hoisted_super
                     .into_iter()
-                    .chain(this_decl.into_iter())
+                    .chain(folder.scope_ident.to_stmt().into_iter())
                     .chain(iter::once(Stmt::Return(ReturnStmt {
                         span: DUMMY_SP,
                         arg: Some(Box::new(Expr::Call(CallExpr {
@@ -479,49 +463,6 @@ impl VisitMut for Actual {
     fn visit_mut_stmts(&mut self, _n: &mut Vec<Stmt>) {}
 }
 
-struct ThisReplacer<'a> {
-    to: &'a Ident,
-}
-
-impl VisitMut for ThisReplacer<'_> {
-    noop_visit_mut_type!();
-
-    fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
-
-    fn visit_mut_constructor(&mut self, _: &mut Constructor) {}
-
-    fn visit_mut_expr(&mut self, e: &mut Expr) {
-        e.visit_mut_children_with(self);
-
-        match e {
-            Expr::This(..) => {
-                *e = Expr::Ident(self.to.clone());
-            }
-
-            _ => {}
-        }
-    }
-
-    fn visit_mut_function(&mut self, _: &mut Function) {}
-
-    /// Don't recurse into fn
-    fn visit_mut_getter_prop(&mut self, n: &mut GetterProp) {
-        n.key.visit_mut_with(self);
-    }
-
-    /// Don't recurse into fn
-    fn visit_mut_method_prop(&mut self, n: &mut MethodProp) {
-        n.key.visit_mut_with(self);
-        n.function.visit_mut_with(self);
-    }
-
-    /// Don't recurse into fn
-    fn visit_mut_setter_prop(&mut self, n: &mut SetterProp) {
-        n.key.visit_mut_with(self);
-        n.param.visit_mut_with(self);
-    }
-}
-
 /// Hoists super access
 ///
 /// ## In
@@ -552,7 +493,7 @@ impl VisitMut for ThisReplacer<'_> {
 /// ```
 struct MethodFolder {
     vars: Vec<VarDeclarator>,
-    scoped_this_ident: Option<Ident>,
+    scope_ident: WrapperState,
 }
 
 impl MethodFolder {
@@ -629,30 +570,16 @@ impl VisitMut for MethodFolder {
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         match expr {
-            Expr::Arrow(ArrowExpr { body, .. }) if contains_this_expr(body) => {
-                let this_id = self
-                    .scoped_this_ident
-                    .get_or_insert(private_ident!("_this"))
-                    .clone();
-
-                body.visit_mut_with(&mut ThisReplacer { to: &this_id });
+            Expr::Arrow(ArrowExpr { body, .. }) => {
+                body.visit_mut_with(&mut FunctionWrapper::new(&mut self.scope_ident));
             }
             Expr::Fn(FnExpr {
                 function: Function {
                     body: Some(body), ..
                 },
                 ..
-            }) if contains_this_expr(body) => {
-                if self.scoped_this_ident.is_none() {
-                    self.scoped_this_ident = Some(private_ident!("_this"));
-                }
-
-                body.visit_mut_with(&mut ThisReplacer {
-                    to: &self
-                        .scoped_this_ident
-                        .clone()
-                        .expect("this scope should exist"),
-                });
+            }) => {
+                body.visit_mut_with(&mut FunctionWrapper::new(&mut self.scope_ident));
             }
             _ => {}
         };

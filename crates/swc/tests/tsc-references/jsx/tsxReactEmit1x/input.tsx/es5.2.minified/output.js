@@ -55,7 +55,7 @@ var p, SomeClass = function() {
         {
             key: "f",
             value: function() {
-                var _this = this, _this1 = this;
+                var _this = this;
                 React.createElement("div", null, function() {
                     return _this;
                 }), React.createElement("div", null, [
@@ -66,7 +66,7 @@ var p, SomeClass = function() {
                     p: p
                 }), React.createElement("div", {
                     a: function() {
-                        return _this1;
+                        return _this;
                     }
                 }), React.createElement("div", {
                     a: [

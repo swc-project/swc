@@ -1,7 +1,7 @@
-var _arguments2 = arguments, _arguments1 = arguments;
+var _arguments1 = arguments;
 // @target: es6
 var a = function() {
-    var arg = _arguments2[0]; // error
+    var arg = _arguments1[0]; // error
 };
 var b = function b() {
     var _arguments = arguments;
