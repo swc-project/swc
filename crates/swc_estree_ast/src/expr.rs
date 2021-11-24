@@ -534,11 +534,11 @@ pub struct ClassExpression {
     pub decorators: Option<Vec<Decorator>>,
     #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub implements: Option<Vec<ClassImpl>>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub mixins: Option<InterfaceExtends>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub super_type_parameters: Option<SuperTypeParams>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
 
