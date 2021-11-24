@@ -24,6 +24,26 @@ fn tr() -> impl Fold {
 test!(
     syntax(),
     |_| tr(),
+    issue_2819,
+    r#"const [first, , third] = ["red", "yellow", "green"]"#,
+    r#"const first = "red", third = "green";"#,
+    ok_if_code_eq
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    issue_2821,
+    r#"const [x, y, ...z] = [1];"#,
+    r#"const ref = [
+    1
+], x = ref[0], y = ref[1], z = ref.slice(2)"#,
+    ok_if_code_eq
+);
+
+test!(
+    syntax(),
+    |_| tr(),
     issue_169,
     "export class Foo {
 	func(a, b = Date.now()) {
