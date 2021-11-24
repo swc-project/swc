@@ -45,17 +45,32 @@ pub struct ClassMethod {
     pub body: BlockStatement,
     #[serde(default)]
     pub computed: Option<bool>,
-    #[serde(default, rename = "static")]
+    #[serde(
+        default,
+        rename = "static",
+        skip_serializing_if = "crate::flavor::Flavor::skip_none_and_false"
+    )]
     pub is_static: Option<bool>,
-    #[serde(default)]
+    #[serde(
+        default,
+        skip_serializing_if = "crate::flavor::Flavor::skip_none_and_false"
+    )]
     pub generator: Option<bool>,
-    #[serde(default, rename = "async")]
+    #[serde(
+        default,
+        rename = "async",
+        skip_serializing_if = "crate::flavor::Flavor::skip_none_and_false"
+    )]
     pub is_async: Option<bool>,
-    #[serde(default, rename = "abstract")]
+    #[serde(
+        default,
+        rename = "abstract",
+        skip_serializing_if = "crate::flavor::Flavor::skip_none"
+    )]
     pub is_abstract: Option<bool>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub access: Option<Access>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub accessibility: Option<Access>,
     #[serde(default)]
     pub decorators: Option<Vec<Decorator>>,
