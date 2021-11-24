@@ -1,5 +1,8 @@
 use swc_estree_macros::estree_ast;
 use serde::{Deserialize, Serialize};
+pub use self::comment::*;
+
+mod comment;
 
 
 
@@ -857,32 +860,6 @@ pub mod ast {
         pub base: BaseNode,
         pub expected_node: PlaceholderExpectedNode,
         pub name: Identifier,
-    }
-
-    #[derive(Debug, Clone, PartialEq)]
-    #[ast_serde("BaseComment")]
-    pub struct BaseComment {
-        pub value: String,
-        pub start: usize,
-        pub end: usize,
-        pub loc: Loc,
-    }
-
-    #[derive(Debug, Clone, PartialEq)]
-    #[ast_serde]
-    pub enum Comment {
-        #[tag("CommentBlock")]
-        Block(BaseComment),
-        #[tag("CommentLine")]
-        Line(BaseComment),
-    }
-
-    #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-    #[serde(rename_all = "lowercase")]
-    pub enum CommentTypeShorthand {
-        Leading,
-        Inner,
-        Trailing,
     }
 
     #[derive(Debug, Clone, PartialEq)]
