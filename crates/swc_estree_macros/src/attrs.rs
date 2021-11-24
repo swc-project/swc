@@ -19,11 +19,15 @@ pub struct Flavor {
 
 impl Flavor {
     pub fn should_remove(&self, attrs: &mut Vec<Attribute>) -> bool {
+        if attrs.is_empty() {
+            return false;
+        }
+
         let res = attrs
             .iter()
             .filter(|attr| is_attr_name(attr, "flavor"))
             .map(|attr| attr.parse_meta().unwrap())
-            .any(|meta| {
+            .all(|meta| {
                 match meta {
                     Meta::Path(_) => todo!("flavor(Meta::Path)"),
                     Meta::List(meta) => {
@@ -32,7 +36,7 @@ impl Flavor {
                                 NestedMeta::Meta(item) => {
                                     if let Some(flavor_name) = item.path().get_ident() {
                                         if *flavor_name == self.name {
-                                            return true;
+                                            return false;
                                         }
                                     }
                                 }
@@ -43,7 +47,7 @@ impl Flavor {
                     Meta::NameValue(_) => todo!("flavor(Meta::NameValue)"),
                 }
 
-                false
+                true
             });
 
         remove_flatten_attrs(attrs);
