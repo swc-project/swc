@@ -1,12 +1,13 @@
 use serde_json::Value;
-use std::any::Any;
 use swc_atoms::JsWord;
 use swc_estree_ast::*;
 use swc_visit::define;
 
-pub trait Node: Any {}
+pub trait Node {}
 
-impl<T: ?Sized> Node for T where T: Any {}
+impl<T: ?Sized> Node for T {}
+
+type Range = [usize; 2];
 
 define!({
     pub enum Class {
@@ -142,6 +143,7 @@ define!({
         pub start: Option<usize>,
         pub end: Option<usize>,
         pub loc: Option<Loc>,
+        pub range: Option<Range>,
     }
     pub enum Binary {
         BinaryExpr(BinaryExpression),

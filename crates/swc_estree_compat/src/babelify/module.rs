@@ -27,6 +27,10 @@ impl Babelify for Program {
                 start: program.base.start,
                 end: program.base.end,
                 loc: program.base.loc,
+                range: match (program.base.start, program.base.end) {
+                    (Some(start), Some(end)) => Some([start, end]),
+                    _ => None,
+                },
             },
             program,
             comments: Some(ctx.convert_comments(comments)),

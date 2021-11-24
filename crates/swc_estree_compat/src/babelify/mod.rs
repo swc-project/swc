@@ -121,8 +121,10 @@ impl Context {
             start,
             end,
             loc,
-            /* TODO(kdy1): Use this field.
-             * extra: Default::default(), */
+            range: match (start, end) {
+                (Some(start), Some(end)) => Some([start, end]),
+                _ => None,
+            },
         }
     }
 }
