@@ -21,14 +21,14 @@ fn assert_flavor(flavor: Flavor, input: &Path, output: &Path) {
         );
         let mut parser = Parser::new_from(lexer);
 
-        let module = parser.parse_module().unwrap();
+        let program = parser.parse_program().unwrap();
 
         let ctx = swc_estree_compat::babelify::Context {
             fm: fm.clone(),
             cm: cm.clone(),
             comments: SwcComments::default(),
         };
-        let module = flavor.with(|| module.babelify(&ctx));
+        let module = flavor.with(|| program.babelify(&ctx));
 
         let json = serde_json::to_string_pretty(&module).unwrap();
 
