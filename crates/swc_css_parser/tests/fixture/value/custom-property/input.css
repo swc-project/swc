@@ -1,5 +1,17 @@
 :root {
-    --whitespace: ;
+    --:value;
+
+    --important:value!important;
+    --important1: value!important;
+    --important2: value !important;
+    --important3:value !important;
+    --important4: calc(1)!important;
+
+    --empty: ;
+    --empty2: /**/;
+    --empty3: !important;
+    --empty4:/**/ !important;
+
     --no-whitespace:ident;
     --number: 1;
     --unit: 100vw;
@@ -12,17 +24,32 @@
     --string: "double quoted string";
 
     --square-block: [1, 2, 3];
+    --square-block1: [];
+    --square-block2:[];
     --round-block: (1, 2, 3);
-
+    --round-block1: ();
+    --round-block2:();
     --bracket-block: {1, 2, 3};
+    --bracket-block1: {};
+    --bracket-block2:{};
+
+
     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     --javascript: function(rule) { console.log(rule) };
 
     --CDO: <!--;
     --CDC: -->;
+
+    --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
 }
 
-.class {--foo: }
-.class {
+:root{--a:1}
+:root {--foo: }
+:root {
     --foo: 
 }
+
+/** Two spaces */
+.root { --var:/* 1 */ /* 2 */ }
+/** One spaces */
+.root { --var:/* 1 */ /* 2 */; }
