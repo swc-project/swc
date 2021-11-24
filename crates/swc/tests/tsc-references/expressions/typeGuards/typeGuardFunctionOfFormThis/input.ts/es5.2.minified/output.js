@@ -112,11 +112,11 @@ var holder2 = {
 holder2.a.isLeader(), holder2.a;
 var ArrowGuard1 = function() {
     "use strict";
-    var _this = this, _this1 = this;
+    var _this = this;
     _classCallCheck(this, ArrowGuard1), this.isElite = function() {
         return _instanceof(_this, ArrowElite);
     }, this.isMedic = function() {
-        return _instanceof(_this1, ArrowMedic);
+        return _instanceof(_this, ArrowMedic);
     };
 }, ArrowElite = function(ArrowGuard) {
     "use strict";

@@ -54,7 +54,7 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var explicitCFunction, explicitPropertyFunction, _this = this, _this1 = this, _this2 = this, _this3 = this, B = function() {
+var explicitCFunction, explicitPropertyFunction, _this = this, B = function() {
     "use strict";
     _classCallCheck(this, B);
 }, C = function() {
@@ -161,11 +161,11 @@ reconstructed.explicitThis(10), reconstructed.explicitProperty(11), (0, reconstr
 }, c.explicitProperty = function(m) {
     return m;
 }, c.explicitC = function(m) {
-    return m + _this1.n;
+    return m + _this.n;
 }, c.explicitThis = function(m) {
-    return m + _this2.n;
+    return m + _this.n;
 }, c.explicitProperty = function(m) {
-    return m + _this3.n;
+    return m + _this.n;
 }, c.explicitThis = explicitCFunction, c.explicitThis = function(m) {
     return this.n + m;
 }, c.explicitC = function(m) {

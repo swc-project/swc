@@ -69,14 +69,13 @@ where
 /// If the cargo feature `debug` is disabled or the environment variable
 /// `SWC_RUN` is not `1`, this function is noop.
 pub(crate) fn invoke(module: &Module) {
-    static ENABLED: Lazy<bool> =
-        Lazy::new(|| cfg!(feature = "debug") && env::var("SWC_RUN").unwrap_or_default() == "1");
+    static ENABLED: Lazy<bool> = Lazy::new(|| env::var("SWC_RUN").unwrap_or_default() == "1");
 
     if cfg!(debug_assertions) {
         module.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
     }
 
-    if !*ENABLED {
+    if !cfg!(feature = "debug") || !*ENABLED {
         return;
     }
 

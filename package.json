@@ -1,6 +1,6 @@
 {
     "name": "@swc/core",
-    "version": "1.2.111",
+    "version": "1.2.112",
     "description": "Super-fast alternative for babel",
     "homepage": "https://swc.rs",
     "main": "./index.js",
@@ -49,9 +49,7 @@
     "dependencies": {
         "@node-rs/helper": "^1.0.0"
     },
-    "optionalDependencies": {
-        "browserslist": "^4.16.6"
-    },
+    "optionalDependencies": {},
     "types": "./index.d.ts",
     "scripts": {
         "prepare": "husky install && git config feature.manyFiles true",
@@ -78,7 +76,6 @@
         "@types/node": "^14.14.41",
         "axios": "^0.21.1",
         "babel-plugin-transform-node-env-inline": "^0.4.3",
-        "browserslist": "^4.16.6",
         "class-validator": "^0.13.1",
         "core-js": "^2.6.11",
         "cross-env": "^7.0.3",

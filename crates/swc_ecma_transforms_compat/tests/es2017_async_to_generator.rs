@@ -380,26 +380,26 @@ class Class {
     class Class {
       method() {
           return _asyncToGenerator((function*() {
-              var _this2 = this, _this1 = this;
+              var _this2 = this;
               this;
               (function() {
                   return _this2;
               });
               (function() {
-                  var _this4 = _this1;
-                  _this1;
+                  var _this1 = _this2;
+                  _this2;
                   (function() {
-                      return _this4;
+                      return _this1;
                   });
                   function x() {
-                      var _this = this, _this3 = this;
+                      var _this = this;
                       this;
                       (function() {
                           _this;
                       });
                       (function() {
                           var _ref = _asyncToGenerator(function*() {
-                              _this3;
+                              _this;
                           });
                           return function() {
                               return _ref.apply(this, arguments);
@@ -408,14 +408,14 @@ class Class {
                   }
               });
               function x() {
-                  var _this = this, _this5 = this;
+                  var _this = this;
                   this;
                   (function() {
                       _this;
                   });
                   (function() {
                       var _ref = _asyncToGenerator(function*() {
-                          _this5;
+                          _this;
                       });
                       return function() {
                           return _ref.apply(this, arguments);

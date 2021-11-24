@@ -199,7 +199,7 @@ var q1 = function q1(param) {
 };
 //type of 'this' in a fat arrow expression param list is typeof globalThis
 var q2 = function(param) {
-    var s = param === void 0 ? this : param;
+    var s = param === void 0 ? _this1 : param;
     var s;
     s.spaaaaaaace = 4;
     //type of 'this' in a fat arrow expression body is typeof globalThis

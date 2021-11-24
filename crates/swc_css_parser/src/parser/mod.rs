@@ -1,8 +1,5 @@
 use self::input::{Buffer, ParserInput};
-use crate::{
-    error::{Error, ErrorKind},
-    Parse,
-};
+use crate::{error::Error, Parse};
 use std::mem::take;
 use swc_common::Span;
 use swc_css_ast::*;
@@ -84,20 +81,6 @@ where
 
     pub fn parse_all(&mut self) -> PResult<Stylesheet> {
         self.parse()
-    }
-
-    fn parse_id(&mut self) -> PResult<Ident> {
-        let span = self.input.cur_span()?;
-        if !is!(self, Ident) {
-            return Err(Error::new(span, ErrorKind::Expected("Ident")));
-        }
-
-        match bump!(self) {
-            Token::Ident { value, raw } => Ok(Ident { span, value, raw }),
-            _ => {
-                unreachable!()
-            }
-        }
     }
 }
 

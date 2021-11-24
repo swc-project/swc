@@ -49,12 +49,12 @@ var C5 = /*#__PURE__*/ function() {
         {
             key: "foo",
             value: function foo() {
-                var _this4 = this, _this1 = this, _this2 = this, _this3 = this;
+                var _this2 = this;
                 var f1 = function(x) {
-                    return _this4;
+                    return _this2;
                 };
                 var f2 = function(x) {
-                    return _this1;
+                    return _this2;
                 };
                 var f3 = function(x) {
                     return function(y) {
@@ -62,14 +62,14 @@ var C5 = /*#__PURE__*/ function() {
                     };
                 };
                 var f4 = function(x) {
-                    var _this = _this3;
+                    var _this1 = _this2;
                     var g = function(y) {
-                        var _this5 = _this;
+                        var _this = _this1;
                         return function() {
-                            return _this5;
+                            return _this;
                         };
                     };
-                    return g(_this3);
+                    return g(_this2);
                 };
             }
         },

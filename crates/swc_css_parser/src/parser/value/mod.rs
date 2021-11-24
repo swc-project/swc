@@ -192,16 +192,7 @@ where
 
         let span = self.input.cur_span()?;
         match cur!(self) {
-            Token::Str { .. } => {
-                let token = bump!(self);
-
-                match token {
-                    Token::Str { value, raw } => return Ok(Value::Str(Str { span, value, raw })),
-                    _ => {
-                        unreachable!()
-                    }
-                }
-            }
+            Token::Str { .. } => return Ok(Value::Str(self.parse()?)),
 
             Token::Num { .. } => return self.parse_numeric_value(),
 
@@ -211,7 +202,7 @@ where
 
             Token::Dimension { .. } => return self.parse_numeric_value(),
 
-            Token::Ident { .. } => return self.parse_value_ident_or_fn(),
+            Token::Ident { .. } => return Ok(Value::Ident(self.parse()?)),
 
             tok!("[") => return self.parse_square_brackets_value().map(From::from),
 
@@ -260,20 +251,7 @@ where
                 }));
             }
 
-            Token::Url { .. } => {
-                let url = match bump!(self) {
-                    Token::Url { value, raw } => (value, raw),
-                    _ => {
-                        unreachable!()
-                    }
-                };
-
-                return Ok(Value::Url(UrlValue {
-                    span: span!(self, span.lo),
-                    url: url.0,
-                    raw: url.1,
-                }));
-            }
+            Token::Url { .. } => return Ok(Value::Url(self.parse()?)),
 
             _ => {}
         }
@@ -568,6 +546,26 @@ where
 
         match value {
             Token::Num { value, raw, .. } => Ok(Num { span, value, raw }),
+            _ => {
+                unreachable!()
+            }
+        }
+    }
+}
+
+impl<I> Parse<Ident> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Ident> {
+        let span = self.input.cur_span()?;
+
+        if !is!(self, Ident) {
+            return Err(Error::new(span, ErrorKind::Expected("Ident")));
+        }
+
+        match bump!(self) {
+            Token::Ident { value, raw } => Ok(Ident { span, value, raw }),
             _ => {
                 unreachable!()
             }
