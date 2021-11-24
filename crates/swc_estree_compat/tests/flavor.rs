@@ -26,7 +26,7 @@ fn assert_flavor(flavor: Flavor, input: &Path, output: &Path) {
         {
             let mut cmd = Command::new("node");
             cmd.arg("-e")
-                .arg(include_str!("./acorn.js"))
+                .arg(include_str!("../scripts/test-acorn.js"))
                 .arg(&*fm.src)
                 .stderr(Stdio::inherit());
             let output = cmd.output().unwrap();
