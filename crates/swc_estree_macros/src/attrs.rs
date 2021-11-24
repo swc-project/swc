@@ -19,7 +19,12 @@ pub struct Flavor {
 
 impl Flavor {
     pub fn should_remove(&self, attrs: &mut Vec<Attribute>) -> bool {
-        if attrs.is_empty() {
+        if attrs
+            .iter()
+            .filter(|attr| is_attr_name(attr, "flavor"))
+            .count()
+            == 0
+        {
             return false;
         }
 
