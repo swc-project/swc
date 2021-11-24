@@ -35,21 +35,23 @@ impl Serialize for Literal {
                 BabelLiteral::serialize(&b, serializer)
             }
             Flavor::Acorn => {
-                let acorn = AcornLiteral {
-                    value: match self {
-                        Literal::String(l) => AcornLiteralValue::String(l.value.clone()),
-                        Literal::Numeric(l) => AcornLiteralValue::Numeric(l.value.clone()),
-                        Literal::Null(..) => AcornLiteralValue::Null(None),
-                        Literal::Boolean(l) => AcornLiteralValue::Boolean(l.value.clone()),
-                        Literal::RegExp(l) => AcornLiteralValue::RegExp {
+                let (base, value) = match self {
+                    Literal::String(l) => (l.base, AcornLiteralValue::String(l.value.clone())),
+                    Literal::Numeric(l) => (l.base, AcornLiteralValue::Numeric(l.value.clone())),
+                    Literal::Null(..) => (l.base, AcornLiteralValue::Null(None)),
+                    Literal::Boolean(l) => (l.base, AcornLiteralValue::Boolean(l.value.clone())),
+                    Literal::RegExp(l) => (
+                        l.base,
+                        AcornLiteralValue::RegExp {
                             pattern: l.pattern.clone(),
                             flags: l.flags.clone(),
                         },
-                        Literal::Template(..) => todo!(),
-                        Literal::BigInt(l) => AcornLiteralValue::BigInt(l.value.clone()),
-                        Literal::Decimal(l) => AcornLiteralValue::Decimal(l.value.clone()),
-                    },
+                    ),
+                    Literal::Template(..) => todo!(),
+                    Literal::BigInt(l) => (l.base.AcornLiteralValue::BigInt(l.value.clone())),
+                    Literal::Decimal(l) => (l.base,AcornLiteralValue::Decimal(l.value.clone())),
                 };
+                let acorn = AcornLiteral { base, value };
 
                 AcornLiteral::serialize(&acorn, serializer)
             }
@@ -98,6 +100,8 @@ enum BabelLiteral {
 
 #[derive(Serialize)]
 struct AcornLiteral {
+    #[serde(flatten)]
+    base: BaseNode,
     value: AcornLiteralValue,
 }
 
