@@ -3,7 +3,7 @@ extern crate proc_macro;
 use crate::attrs::Flavor;
 use pmutil::{q, ToTokensExt};
 use swc_macros_common::span_to_token;
-use syn::{Ident, ItemMod, Meta, NestedMeta, VisPublic, Visibility};
+use syn::{Attribute, Ident, ItemMod, ItemStruct, Meta, NestedMeta, VisPublic, Visibility};
 
 mod ast;
 mod attrs;
@@ -61,7 +61,7 @@ pub fn estree_ast(
             .collect();
 
         ItemMod {
-            attrs: Default::default(),
+            attrs: vec![make_cfg_feature_attr(&format!("{}-ast", flavor.name))],
             vis: Visibility::Public(VisPublic {
                 pub_token: span_to_token(flavor.span),
             }),
@@ -78,4 +78,14 @@ pub fn estree_ast(
     }
 
     q.dump().into()
+}
+
+fn make_cfg_feature_attr(feat: &str) -> Attribute {
+    let s = q!(Vars { feat }, {
+        #[cfg(feature = feat)]
+        struct Dummy;
+    })
+    .parse::<ItemStruct>();
+
+    s.attrs.into_iter().next().unwrap()
 }
