@@ -411,50 +411,34 @@ where
 
     fn parse_value_ident_or_fn(&mut self) -> PResult<Value> {
         let span = self.input.cur_span()?;
-
-        let mut is_fn = false;
         let values = match bump!(self) {
-            Token::Ident { value, raw } => (value, raw),
-            Token::Function { value, raw } => {
-                is_fn = true;
-
-                (value, raw)
-            }
+            Token::Function { value, raw } => (value, raw),
             _ => {
                 unreachable!()
             }
         };
 
         let name = Ident {
-            span: if is_fn {
-                swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default())
-            } else {
-                span
-            },
+            span: swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default()),
             value: values.0,
             raw: values.1,
         };
+        let is_url = name.value.to_ascii_lowercase() == js_word!("url");
+        let ctx = Ctx {
+            allow_operation_in_value: if is_url { false } else { true },
+            allow_separating_value_with_space: if is_url { false } else { true },
+            allow_separating_value_with_comma: false,
+            ..self.ctx
+        };
+        let args = self.with_ctx(ctx).parse_comma_separated_value()?;
 
-        if eat!(self, "(") || is_fn {
-            let is_url = name.value.to_ascii_lowercase() == js_word!("url");
-            let ctx = Ctx {
-                allow_operation_in_value: if is_url { false } else { true },
-                allow_separating_value_with_space: if is_url { false } else { true },
-                allow_separating_value_with_comma: false,
-                ..self.ctx
-            };
-            let args = self.with_ctx(ctx).parse_comma_separated_value()?;
+        expect!(self, ")");
 
-            expect!(self, ")");
-
-            return Ok(Value::Fn(FnValue {
-                span: span!(self, span.lo),
-                name,
-                args,
-            }));
-        }
-
-        Ok(Value::Ident(name))
+        return Ok(Value::Fn(FnValue {
+            span: span!(self, span.lo),
+            name,
+            args,
+        }));
     }
 
     /// Parse comma separated values.
