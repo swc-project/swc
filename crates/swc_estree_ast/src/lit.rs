@@ -39,13 +39,13 @@ impl Serialize for Literal {
                     value: match self {
                         Literal::String(l) => AcornLiteralValue::String(l.value.clone()),
                         Literal::Numeric(l) => AcornLiteralValue::Numeric(l.value.clone()),
-                        Literal::Null(l) => AcornLiteralValue::Null(None),
+                        Literal::Null(..) => AcornLiteralValue::Null(None),
                         Literal::Boolean(l) => AcornLiteralValue::Boolean(l.value.clone()),
                         Literal::RegExp(l) => AcornLiteralValue::RegExp {
                             pattern: l.pattern.clone(),
                             flags: l.flags.clone(),
                         },
-                        Literal::Template(l) => todo!(),
+                        Literal::Template(..) => todo!(),
                         Literal::BigInt(l) => AcornLiteralValue::BigInt(l.value.clone()),
                         Literal::Decimal(l) => AcornLiteralValue::Decimal(l.value.clone()),
                     },
