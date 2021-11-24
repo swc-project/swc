@@ -20,4 +20,10 @@ pub mod ast {
     #[ast_serde("Literal")]
     #[derive(Debug, Clone, PartialEq)]
     pub struct Lit {}
+
+    impl From<Lit> for Expr {
+        fn from(lit: Lit) -> Self {
+            Expr::Lit(lit)
+        }
+    }
 }
