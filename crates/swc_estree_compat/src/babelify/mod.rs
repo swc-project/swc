@@ -19,7 +19,6 @@ mod jsx;
 mod lit;
 mod module;
 mod module_decl;
-pub mod normalize;
 mod operators;
 mod pat;
 mod prop;
