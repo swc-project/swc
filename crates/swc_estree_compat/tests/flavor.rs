@@ -76,4 +76,26 @@ fn acorn(input: PathBuf) {
     assert_flavor(Flavor::Acorn, &input, &output);
 }
 
-fn diff_value(a: &mut Value, b: &mut Value) {}
+/// Returns `true` if `actual` and `expected` are equal.
+fn diff_value(a: &mut Value, b: &mut Value) -> bool {
+    if *a == *b {
+        return true;
+    }
+
+    match (a, b) {
+        (Value::Object(a), Value::Object(b)) => {
+            a.retain(|key, a_v| {
+                if let Some(b_v) = b.get_mut(key) {
+                    if diff_value(a_v, b_v) {
+                        return false;
+                    }
+                }
+
+                true
+            });
+        }
+        _ => {}
+    }
+
+    false
+}
