@@ -127,7 +127,61 @@ where
         Ok(val)
     }
 
-    /// Parse value as tokens.
+    /// Parse value as <declaration-value>.
+    pub(super) fn parse_declaration_value(&mut self) -> PResult<Tokens> {
+        let start = self.input.cur_span()?.lo;
+
+        let mut tokens = vec![];
+
+        loop {
+            if is_one_of!(self, EOF, ")", "}", "]", "bad-string", "bad-url", ";", "!") {
+                break;
+            }
+
+            let span = self.input.cur_span()?;
+
+            macro_rules! try_group {
+                ($start:tt,$end:tt) => {{
+                    if is!(self, $start) {
+                        tokens.push(TokenAndSpan {
+                            span,
+                            token: bump!(self),
+                        });
+
+                        tokens.extend(self.parse_declaration_value()?.tokens);
+
+                        if is!(self, $end) {
+                            tokens.push(TokenAndSpan {
+                                span,
+                                token: bump!(self),
+                            });
+                        } else {
+                            break;
+                        }
+                        continue;
+                    }
+                }};
+            }
+
+            try_group!("(", ")");
+            try_group!("function", ")");
+            try_group!("[", "]");
+            try_group!("{", "}");
+
+            let token = self.input.bump()?;
+            match token {
+                Some(token) => tokens.push(token),
+                None => break,
+            }
+        }
+
+        Ok(Tokens {
+            span: span!(self, start),
+            tokens,
+        })
+    }
+
+    /// Parse value as <any-value>.
     pub(super) fn parse_any_value(&mut self) -> PResult<Tokens> {
         let start = self.input.cur_span()?.lo;
 

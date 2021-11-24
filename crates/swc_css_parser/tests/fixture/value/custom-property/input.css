@@ -1,4 +1,6 @@
 :root {
+    --whitespace: ;
+    --no-whitespace:ident;
     --number: 1;
     --unit: 100vw;
     --color: #06c;
@@ -18,4 +20,9 @@
 
     --CDO: <!--;
     --CDC: -->;
+}
+
+.class {--foo: }
+.class {
+    --foo: 
 }

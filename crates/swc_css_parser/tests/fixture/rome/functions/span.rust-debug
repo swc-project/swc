@@ -87,7 +87,7 @@ error: Declaration
  --> $DIR/tests/fixture/rome/functions/input.css:2:2
   |
 2 |     --fancy: 2px;
-  |     ^^^^^^^^^^^^
+  |     ^^^^^^^^^
 
 error: Ident
  --> $DIR/tests/fixture/rome/functions/input.css:2:2
@@ -96,28 +96,28 @@ error: Ident
   |     ^^^^^^^
 
 error: Value
+ --> $DIR/tests/fixture/rome/functions/input.css:2:10
+  |
+2 |     --fancy: 2px;
+  |             ^^^^
+
+error: Tokens
+ --> $DIR/tests/fixture/rome/functions/input.css:2:10
+  |
+2 |     --fancy: 2px;
+  |             ^^^^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+ --> $DIR/tests/fixture/rome/functions/input.css:2:10
+  |
+2 |     --fancy: 2px;
+  |             ^
+
+error: Dimension { value: 2.0, raw_value: Atom('2' type=inline), unit: Atom('px' type=inline), raw_unit: Atom('px' type=inline) }
  --> $DIR/tests/fixture/rome/functions/input.css:2:11
   |
 2 |     --fancy: 2px;
   |              ^^^
-
-error: UnitValue
- --> $DIR/tests/fixture/rome/functions/input.css:2:11
-  |
-2 |     --fancy: 2px;
-  |              ^^^
-
-error: Num
- --> $DIR/tests/fixture/rome/functions/input.css:2:11
-  |
-2 |     --fancy: 2px;
-  |              ^
-
-error: Unit
- --> $DIR/tests/fixture/rome/functions/input.css:2:12
-  |
-2 |     --fancy: 2px;
-  |               ^^
 
 error: Declaration
  --> $DIR/tests/fixture/rome/functions/input.css:3:2

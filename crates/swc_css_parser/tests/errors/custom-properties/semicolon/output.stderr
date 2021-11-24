@@ -1,0 +1,6 @@
+error: Expected "}"
+ --> $DIR/tests/errors/custom-properties/semicolon/input.css:2:34
+  |
+2 |     --semicolon-not-top-level: (;);
+  |                                  ^
+

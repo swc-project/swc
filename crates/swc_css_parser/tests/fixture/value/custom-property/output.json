@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 433,
+    "end": 521,
     "ctxt": 0
   },
   "rules": [
@@ -10,7 +10,7 @@
       "type": "QualifiedRule",
       "span": {
         "start": 0,
-        "end": 432,
+        "end": 479,
         "ctxt": 0
       },
       "prelude": {
@@ -68,7 +68,7 @@
         "type": "Block",
         "span": {
           "start": 6,
-          "end": 432,
+          "end": 479,
           "ctxt": 0
         },
         "items": [
@@ -76,14 +76,101 @@
             "type": "Declaration",
             "span": {
               "start": 12,
-              "end": 23,
+              "end": 26,
               "ctxt": 0
             },
             "property": {
               "type": "Identifier",
               "span": {
                 "start": 12,
-                "end": 20,
+                "end": 24,
+                "ctxt": 0
+              },
+              "value": "--whitespace",
+              "raw": "--whitespace"
+            },
+            "value": [
+              {
+                "type": "Tokens",
+                "span": {
+                  "start": 25,
+                  "end": 26,
+                  "ctxt": 0
+                },
+                "tokens": [
+                  {
+                    "span": {
+                      "start": 25,
+                      "end": 26,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 32,
+              "end": 53,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 32,
+                "end": 47,
+                "ctxt": 0
+              },
+              "value": "--no-whitespace",
+              "raw": "--no-whitespace"
+            },
+            "value": [
+              {
+                "type": "Tokens",
+                "span": {
+                  "start": 48,
+                  "end": 53,
+                  "ctxt": 0
+                },
+                "tokens": [
+                  {
+                    "span": {
+                      "start": 48,
+                      "end": 53,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Ident": {
+                        "value": "ident",
+                        "raw": "ident"
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 59,
+              "end": 69,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 59,
+                "end": 67,
                 "ctxt": 0
               },
               "value": "--number",
@@ -91,14 +178,39 @@
             },
             "value": [
               {
-                "type": "Number",
+                "type": "Tokens",
                 "span": {
-                  "start": 22,
-                  "end": 23,
+                  "start": 68,
+                  "end": 70,
                   "ctxt": 0
                 },
-                "value": 1.0,
-                "raw": "1"
+                "tokens": [
+                  {
+                    "span": {
+                      "start": 68,
+                      "end": 69,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 69,
+                      "end": 70,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Num": {
+                        "value": 1.0,
+                        "raw": "1"
+                      }
+                    }
+                  }
+                ]
               }
             ],
             "important": null
@@ -106,15 +218,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 29,
-              "end": 42,
+              "start": 76,
+              "end": 84,
               "ctxt": 0
             },
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 29,
-                "end": 35,
+                "start": 76,
+                "end": 82,
                 "ctxt": 0
               },
               "value": "--unit",
@@ -122,31 +234,41 @@
             },
             "value": [
               {
-                "type": "UnitValue",
+                "type": "Tokens",
                 "span": {
-                  "start": 37,
-                  "end": 42,
+                  "start": 83,
+                  "end": 89,
                   "ctxt": 0
                 },
-                "value": {
-                  "type": "Number",
-                  "span": {
-                    "start": 37,
-                    "end": 40,
-                    "ctxt": 0
+                "tokens": [
+                  {
+                    "span": {
+                      "start": 83,
+                      "end": 84,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
                   },
-                  "value": 100.0,
-                  "raw": "100"
-                },
-                "unit": {
-                  "span": {
-                    "start": 40,
-                    "end": 42,
-                    "ctxt": 0
-                  },
-                  "value": "vw",
-                  "raw": "vw"
-                }
+                  {
+                    "span": {
+                      "start": 84,
+                      "end": 89,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Dimension": {
+                        "value": 100.0,
+                        "raw_value": "100",
+                        "unit": "vw",
+                        "raw_unit": "vw"
+                      }
+                    }
+                  }
+                ]
               }
             ],
             "important": null
@@ -154,15 +276,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 48,
-              "end": 61,
+              "start": 95,
+              "end": 104,
               "ctxt": 0
             },
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 48,
-                "end": 55,
+                "start": 95,
+                "end": 102,
                 "ctxt": 0
               },
               "value": "--color",
@@ -170,14 +292,40 @@
             },
             "value": [
               {
-                "type": "HashValue",
+                "type": "Tokens",
                 "span": {
-                  "start": 57,
-                  "end": 61,
+                  "start": 103,
+                  "end": 108,
                   "ctxt": 0
                 },
-                "value": "06c",
-                "raw": "06c"
+                "tokens": [
+                  {
+                    "span": {
+                      "start": 103,
+                      "end": 104,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 104,
+                      "end": 108,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Hash": {
+                        "is_id": false,
+                        "value": "06c",
+                        "raw": "06c"
+                      }
+                    }
+                  }
+                ]
               }
             ],
             "important": null
@@ -185,15 +333,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 68,
-              "end": 91,
+              "start": 115,
+              "end": 127,
               "ctxt": 0
             },
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 68,
-                "end": 78,
+                "start": 115,
+                "end": 125,
                 "ctxt": 0
               },
               "value": "--function",
@@ -201,51 +349,107 @@
             },
             "value": [
               {
-                "type": "FnValue",
+                "type": "Tokens",
                 "span": {
-                  "start": 80,
-                  "end": 91,
+                  "start": 126,
+                  "end": 138,
                   "ctxt": 0
                 },
-                "name": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 80,
-                    "end": 84,
-                    "ctxt": 0
-                  },
-                  "value": "calc",
-                  "raw": "calc"
-                },
-                "args": [
+                "tokens": [
                   {
-                    "type": "BinValue",
                     "span": {
-                      "start": 85,
-                      "end": 90,
+                      "start": 126,
+                      "end": 127,
                       "ctxt": 0
                     },
-                    "op": "+",
-                    "left": {
-                      "type": "Number",
-                      "span": {
-                        "start": 85,
-                        "end": 86,
-                        "ctxt": 0
-                      },
-                      "value": 1.0,
-                      "raw": "1"
-                    },
-                    "right": {
-                      "type": "Number",
-                      "span": {
-                        "start": 89,
-                        "end": 90,
-                        "ctxt": 0
-                      },
-                      "value": 1.0,
-                      "raw": "1"
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
                     }
+                  },
+                  {
+                    "span": {
+                      "start": 127,
+                      "end": 132,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Function": {
+                        "value": "calc",
+                        "raw": "calc"
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 132,
+                      "end": 133,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Num": {
+                        "value": 1.0,
+                        "raw": "1"
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 133,
+                      "end": 134,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 134,
+                      "end": 135,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Delim": {
+                        "value": "+"
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 135,
+                      "end": 136,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 136,
+                      "end": 137,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Num": {
+                        "value": 1.0,
+                        "raw": "1"
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 127,
+                      "end": 132,
+                      "ctxt": 0
+                    },
+                    "token": "RParen"
                   }
                 ]
               }
@@ -255,15 +459,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 97,
-              "end": 120,
+              "start": 144,
+              "end": 156,
               "ctxt": 0
             },
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 97,
-                "end": 107,
+                "start": 144,
+                "end": 154,
                 "ctxt": 0
               },
               "value": "--variable",
@@ -271,32 +475,58 @@
             },
             "value": [
               {
-                "type": "FnValue",
+                "type": "Tokens",
                 "span": {
-                  "start": 109,
-                  "end": 120,
+                  "start": 155,
+                  "end": 167,
                   "ctxt": 0
                 },
-                "name": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 109,
-                    "end": 112,
-                    "ctxt": 0
-                  },
-                  "value": "var",
-                  "raw": "var"
-                },
-                "args": [
+                "tokens": [
                   {
-                    "type": "Identifier",
                     "span": {
-                      "start": 113,
-                      "end": 119,
+                      "start": 155,
+                      "end": 156,
                       "ctxt": 0
                     },
-                    "value": "--unit",
-                    "raw": "--unit"
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 156,
+                      "end": 160,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Function": {
+                        "value": "var",
+                        "raw": "var"
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 160,
+                      "end": 166,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Ident": {
+                        "value": "--unit",
+                        "raw": "--unit"
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 156,
+                      "end": 160,
+                      "ctxt": 0
+                    },
+                    "token": "RParen"
                   }
                 ]
               }
@@ -306,15 +536,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 127,
-              "end": 159,
+              "start": 174,
+              "end": 184,
               "ctxt": 0
             },
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 127,
-                "end": 135,
+                "start": 174,
+                "end": 182,
                 "ctxt": 0
               },
               "value": "--string",
@@ -322,14 +552,39 @@
             },
             "value": [
               {
-                "type": "String",
+                "type": "Tokens",
                 "span": {
-                  "start": 137,
-                  "end": 159,
+                  "start": 183,
+                  "end": 206,
                   "ctxt": 0
                 },
-                "value": "single quoted string",
-                "raw": "'single quoted string'"
+                "tokens": [
+                  {
+                    "span": {
+                      "start": 183,
+                      "end": 184,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 184,
+                      "end": 206,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Str": {
+                        "value": "single quoted string",
+                        "raw": "'single quoted string'"
+                      }
+                    }
+                  }
+                ]
               }
             ],
             "important": null
@@ -337,15 +592,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 165,
-              "end": 197,
+              "start": 212,
+              "end": 222,
               "ctxt": 0
             },
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 165,
-                "end": 173,
+                "start": 212,
+                "end": 220,
                 "ctxt": 0
               },
               "value": "--string",
@@ -353,14 +608,39 @@
             },
             "value": [
               {
-                "type": "String",
+                "type": "Tokens",
                 "span": {
-                  "start": 175,
-                  "end": 197,
+                  "start": 221,
+                  "end": 244,
                   "ctxt": 0
                 },
-                "value": "double quoted string",
-                "raw": "\"double quoted string\""
+                "tokens": [
+                  {
+                    "span": {
+                      "start": 221,
+                      "end": 222,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 222,
+                      "end": 244,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Str": {
+                        "value": "double quoted string",
+                        "raw": "\"double quoted string\""
+                      }
+                    }
+                  }
+                ]
               }
             ],
             "important": null
@@ -368,15 +648,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 204,
-              "end": 229,
+              "start": 251,
+              "end": 267,
               "ctxt": 0
             },
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 204,
-                "end": 218,
+                "start": 251,
+                "end": 265,
                 "ctxt": 0
               },
               "value": "--square-block",
@@ -384,52 +664,119 @@
             },
             "value": [
               {
-                "type": "SquareBracketBlock",
+                "type": "Tokens",
                 "span": {
-                  "start": 220,
-                  "end": 229,
+                  "start": 266,
+                  "end": 276,
                   "ctxt": 0
                 },
-                "children": [
+                "tokens": [
                   {
-                    "type": "CommaValues",
                     "span": {
-                      "start": 221,
-                      "end": 228,
+                      "start": 266,
+                      "end": 267,
                       "ctxt": 0
                     },
-                    "values": [
-                      {
-                        "type": "Number",
-                        "span": {
-                          "start": 221,
-                          "end": 222,
-                          "ctxt": 0
-                        },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 267,
+                      "end": 268,
+                      "ctxt": 0
+                    },
+                    "token": "LBracket"
+                  },
+                  {
+                    "span": {
+                      "start": 268,
+                      "end": 269,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Num": {
                         "value": 1.0,
                         "raw": "1"
-                      },
-                      {
-                        "type": "Number",
-                        "span": {
-                          "start": 224,
-                          "end": 225,
-                          "ctxt": 0
-                        },
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 269,
+                      "end": 270,
+                      "ctxt": 0
+                    },
+                    "token": "Comma"
+                  },
+                  {
+                    "span": {
+                      "start": 270,
+                      "end": 271,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 271,
+                      "end": 272,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Num": {
                         "value": 2.0,
                         "raw": "2"
-                      },
-                      {
-                        "type": "Number",
-                        "span": {
-                          "start": 227,
-                          "end": 228,
-                          "ctxt": 0
-                        },
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 272,
+                      "end": 273,
+                      "ctxt": 0
+                    },
+                    "token": "Comma"
+                  },
+                  {
+                    "span": {
+                      "start": 273,
+                      "end": 274,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 274,
+                      "end": 275,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Num": {
                         "value": 3.0,
                         "raw": "3"
                       }
-                    ]
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 267,
+                      "end": 268,
+                      "ctxt": 0
+                    },
+                    "token": "RBracket"
                   }
                 ]
               }
@@ -439,15 +786,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 235,
-              "end": 259,
+              "start": 282,
+              "end": 297,
               "ctxt": 0
             },
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 235,
-                "end": 248,
+                "start": 282,
+                "end": 295,
                 "ctxt": 0
               },
               "value": "--round-block",
@@ -455,52 +802,119 @@
             },
             "value": [
               {
-                "type": "RoundBracketBlock",
+                "type": "Tokens",
                 "span": {
-                  "start": 250,
-                  "end": 259,
+                  "start": 296,
+                  "end": 306,
                   "ctxt": 0
                 },
-                "children": [
+                "tokens": [
                   {
-                    "type": "CommaValues",
                     "span": {
-                      "start": 251,
-                      "end": 258,
+                      "start": 296,
+                      "end": 297,
                       "ctxt": 0
                     },
-                    "values": [
-                      {
-                        "type": "Number",
-                        "span": {
-                          "start": 251,
-                          "end": 252,
-                          "ctxt": 0
-                        },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 297,
+                      "end": 298,
+                      "ctxt": 0
+                    },
+                    "token": "LParen"
+                  },
+                  {
+                    "span": {
+                      "start": 298,
+                      "end": 299,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Num": {
                         "value": 1.0,
                         "raw": "1"
-                      },
-                      {
-                        "type": "Number",
-                        "span": {
-                          "start": 254,
-                          "end": 255,
-                          "ctxt": 0
-                        },
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 299,
+                      "end": 300,
+                      "ctxt": 0
+                    },
+                    "token": "Comma"
+                  },
+                  {
+                    "span": {
+                      "start": 300,
+                      "end": 301,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 301,
+                      "end": 302,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Num": {
                         "value": 2.0,
                         "raw": "2"
-                      },
-                      {
-                        "type": "Number",
-                        "span": {
-                          "start": 257,
-                          "end": 258,
-                          "ctxt": 0
-                        },
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 302,
+                      "end": 303,
+                      "ctxt": 0
+                    },
+                    "token": "Comma"
+                  },
+                  {
+                    "span": {
+                      "start": 303,
+                      "end": 304,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 304,
+                      "end": 305,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Num": {
                         "value": 3.0,
                         "raw": "3"
                       }
-                    ]
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 297,
+                      "end": 298,
+                      "ctxt": 0
+                    },
+                    "token": "RParen"
                   }
                 ]
               }
@@ -510,15 +924,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 266,
-              "end": 292,
+              "start": 313,
+              "end": 330,
               "ctxt": 0
             },
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 266,
-                "end": 281,
+                "start": 313,
+                "end": 328,
                 "ctxt": 0
               },
               "value": "--bracket-block",
@@ -526,281 +940,119 @@
             },
             "value": [
               {
-                "type": "BraceValue",
+                "type": "Tokens",
                 "span": {
-                  "start": 283,
-                  "end": 292,
-                  "ctxt": 0
-                },
-                "value": {
-                  "type": "Tokens",
-                  "span": {
-                    "start": 284,
-                    "end": 291,
-                    "ctxt": 0
-                  },
-                  "tokens": [
-                    {
-                      "span": {
-                        "start": 284,
-                        "end": 285,
-                        "ctxt": 0
-                      },
-                      "token": {
-                        "Num": {
-                          "value": 1.0,
-                          "raw": "1"
-                        }
-                      }
-                    },
-                    {
-                      "span": {
-                        "start": 285,
-                        "end": 286,
-                        "ctxt": 0
-                      },
-                      "token": "Comma"
-                    },
-                    {
-                      "span": {
-                        "start": 286,
-                        "end": 287,
-                        "ctxt": 0
-                      },
-                      "token": {
-                        "WhiteSpace": {
-                          "value": " "
-                        }
-                      }
-                    },
-                    {
-                      "span": {
-                        "start": 287,
-                        "end": 288,
-                        "ctxt": 0
-                      },
-                      "token": {
-                        "Num": {
-                          "value": 2.0,
-                          "raw": "2"
-                        }
-                      }
-                    },
-                    {
-                      "span": {
-                        "start": 288,
-                        "end": 289,
-                        "ctxt": 0
-                      },
-                      "token": "Comma"
-                    },
-                    {
-                      "span": {
-                        "start": 289,
-                        "end": 290,
-                        "ctxt": 0
-                      },
-                      "token": {
-                        "WhiteSpace": {
-                          "value": " "
-                        }
-                      }
-                    },
-                    {
-                      "span": {
-                        "start": 290,
-                        "end": 291,
-                        "ctxt": 0
-                      },
-                      "token": {
-                        "Num": {
-                          "value": 3.0,
-                          "raw": "3"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            ],
-            "important": null
-          },
-          {
-            "type": "Declaration",
-            "span": {
-              "start": 298,
-              "end": 339,
-              "ctxt": 0
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 298,
-                "end": 304,
-                "ctxt": 0
-              },
-              "value": "--JSON",
-              "raw": "--JSON"
-            },
-            "value": [
-              {
-                "type": "SquareBracketBlock",
-                "span": {
-                  "start": 306,
+                  "start": 329,
                   "end": 339,
                   "ctxt": 0
                 },
-                "children": [
+                "tokens": [
                   {
-                    "type": "CommaValues",
                     "span": {
-                      "start": 307,
+                      "start": 329,
+                      "end": 330,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 330,
+                      "end": 331,
+                      "ctxt": 0
+                    },
+                    "token": "LBrace"
+                  },
+                  {
+                    "span": {
+                      "start": 331,
+                      "end": 332,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Num": {
+                        "value": 1.0,
+                        "raw": "1"
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 332,
+                      "end": 333,
+                      "ctxt": 0
+                    },
+                    "token": "Comma"
+                  },
+                  {
+                    "span": {
+                      "start": 333,
+                      "end": 334,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 334,
+                      "end": 335,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Num": {
+                        "value": 2.0,
+                        "raw": "2"
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 335,
+                      "end": 336,
+                      "ctxt": 0
+                    },
+                    "token": "Comma"
+                  },
+                  {
+                    "span": {
+                      "start": 336,
+                      "end": 337,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 337,
                       "end": 338,
                       "ctxt": 0
                     },
-                    "values": [
-                      {
-                        "type": "Number",
-                        "span": {
-                          "start": 307,
-                          "end": 308,
-                          "ctxt": 0
-                        },
-                        "value": 1.0,
-                        "raw": "1"
-                      },
-                      {
-                        "type": "String",
-                        "span": {
-                          "start": 310,
-                          "end": 313,
-                          "ctxt": 0
-                        },
-                        "value": "2",
-                        "raw": "\"2\""
-                      },
-                      {
-                        "type": "BraceValue",
-                        "span": {
-                          "start": 315,
-                          "end": 333,
-                          "ctxt": 0
-                        },
-                        "value": {
-                          "type": "Tokens",
-                          "span": {
-                            "start": 316,
-                            "end": 332,
-                            "ctxt": 0
-                          },
-                          "tokens": [
-                            {
-                              "span": {
-                                "start": 316,
-                                "end": 323,
-                                "ctxt": 0
-                              },
-                              "token": {
-                                "Str": {
-                                  "value": "three",
-                                  "raw": "\"three\""
-                                }
-                              }
-                            },
-                            {
-                              "span": {
-                                "start": 323,
-                                "end": 324,
-                                "ctxt": 0
-                              },
-                              "token": "Colon"
-                            },
-                            {
-                              "span": {
-                                "start": 324,
-                                "end": 325,
-                                "ctxt": 0
-                              },
-                              "token": {
-                                "WhiteSpace": {
-                                  "value": " "
-                                }
-                              }
-                            },
-                            {
-                              "span": {
-                                "start": 325,
-                                "end": 326,
-                                "ctxt": 0
-                              },
-                              "token": "LBrace"
-                            },
-                            {
-                              "span": {
-                                "start": 326,
-                                "end": 329,
-                                "ctxt": 0
-                              },
-                              "token": {
-                                "Str": {
-                                  "value": "a",
-                                  "raw": "\"a\""
-                                }
-                              }
-                            },
-                            {
-                              "span": {
-                                "start": 329,
-                                "end": 330,
-                                "ctxt": 0
-                              },
-                              "token": "Colon"
-                            },
-                            {
-                              "span": {
-                                "start": 330,
-                                "end": 331,
-                                "ctxt": 0
-                              },
-                              "token": {
-                                "Num": {
-                                  "value": 1.0,
-                                  "raw": "1"
-                                }
-                              }
-                            },
-                            {
-                              "span": {
-                                "start": 331,
-                                "end": 332,
-                                "ctxt": 0
-                              },
-                              "token": "RBrace"
-                            }
-                          ]
-                        }
-                      },
-                      {
-                        "type": "SquareBracketBlock",
-                        "span": {
-                          "start": 335,
-                          "end": 338,
-                          "ctxt": 0
-                        },
-                        "children": [
-                          {
-                            "type": "Number",
-                            "span": {
-                              "start": 336,
-                              "end": 337,
-                              "ctxt": 0
-                            },
-                            "value": 4.0,
-                            "raw": "4"
-                          }
-                        ]
+                    "token": {
+                      "Num": {
+                        "value": 3.0,
+                        "raw": "3"
                       }
-                    ]
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 330,
+                      "end": 331,
+                      "ctxt": 0
+                    },
+                    "token": "RBrace"
                   }
                 ]
               }
@@ -811,150 +1063,271 @@
             "type": "Declaration",
             "span": {
               "start": 345,
-              "end": 395,
+              "end": 353,
               "ctxt": 0
             },
             "property": {
               "type": "Identifier",
               "span": {
                 "start": 345,
-                "end": 357,
+                "end": 351,
                 "ctxt": 0
               },
-              "value": "--javascript",
-              "raw": "--javascript"
+              "value": "--JSON",
+              "raw": "--JSON"
             },
             "value": [
               {
-                "type": "FnValue",
+                "type": "Tokens",
                 "span": {
-                  "start": 359,
-                  "end": 373,
+                  "start": 352,
+                  "end": 386,
                   "ctxt": 0
                 },
-                "name": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 359,
-                    "end": 367,
-                    "ctxt": 0
-                  },
-                  "value": "function",
-                  "raw": "function"
-                },
-                "args": [
+                "tokens": [
                   {
-                    "type": "Identifier",
                     "span": {
-                      "start": 368,
+                      "start": 352,
+                      "end": 353,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 353,
+                      "end": 354,
+                      "ctxt": 0
+                    },
+                    "token": "LBracket"
+                  },
+                  {
+                    "span": {
+                      "start": 354,
+                      "end": 355,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Num": {
+                        "value": 1.0,
+                        "raw": "1"
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 355,
+                      "end": 356,
+                      "ctxt": 0
+                    },
+                    "token": "Comma"
+                  },
+                  {
+                    "span": {
+                      "start": 356,
+                      "end": 357,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 357,
+                      "end": 360,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Str": {
+                        "value": "2",
+                        "raw": "\"2\""
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 360,
+                      "end": 361,
+                      "ctxt": 0
+                    },
+                    "token": "Comma"
+                  },
+                  {
+                    "span": {
+                      "start": 361,
+                      "end": 362,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 362,
+                      "end": 363,
+                      "ctxt": 0
+                    },
+                    "token": "LBrace"
+                  },
+                  {
+                    "span": {
+                      "start": 363,
+                      "end": 370,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Str": {
+                        "value": "three",
+                        "raw": "\"three\""
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 370,
+                      "end": 371,
+                      "ctxt": 0
+                    },
+                    "token": "Colon"
+                  },
+                  {
+                    "span": {
+                      "start": 371,
                       "end": 372,
                       "ctxt": 0
                     },
-                    "value": "rule",
-                    "raw": "rule"
-                  }
-                ]
-              },
-              {
-                "type": "BraceValue",
-                "span": {
-                  "start": 374,
-                  "end": 395,
-                  "ctxt": 0
-                },
-                "value": {
-                  "type": "Tokens",
-                  "span": {
-                    "start": 375,
-                    "end": 394,
-                    "ctxt": 0
-                  },
-                  "tokens": [
-                    {
-                      "span": {
-                        "start": 375,
-                        "end": 376,
-                        "ctxt": 0
-                      },
-                      "token": {
-                        "WhiteSpace": {
-                          "value": " "
-                        }
-                      }
-                    },
-                    {
-                      "span": {
-                        "start": 376,
-                        "end": 383,
-                        "ctxt": 0
-                      },
-                      "token": {
-                        "Ident": {
-                          "value": "console",
-                          "raw": "console"
-                        }
-                      }
-                    },
-                    {
-                      "span": {
-                        "start": 383,
-                        "end": 384,
-                        "ctxt": 0
-                      },
-                      "token": {
-                        "Delim": {
-                          "value": "."
-                        }
-                      }
-                    },
-                    {
-                      "span": {
-                        "start": 384,
-                        "end": 388,
-                        "ctxt": 0
-                      },
-                      "token": {
-                        "Function": {
-                          "value": "log",
-                          "raw": "log"
-                        }
-                      }
-                    },
-                    {
-                      "span": {
-                        "start": 388,
-                        "end": 392,
-                        "ctxt": 0
-                      },
-                      "token": {
-                        "Ident": {
-                          "value": "rule",
-                          "raw": "rule"
-                        }
-                      }
-                    },
-                    {
-                      "span": {
-                        "start": 392,
-                        "end": 393,
-                        "ctxt": 0
-                      },
-                      "token": "RParen"
-                    },
-                    {
-                      "span": {
-                        "start": 393,
-                        "end": 394,
-                        "ctxt": 0
-                      },
-                      "token": {
-                        "WhiteSpace": {
-                          "value": " "
-                        }
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
                       }
                     }
-                  ]
-                }
+                  },
+                  {
+                    "span": {
+                      "start": 372,
+                      "end": 373,
+                      "ctxt": 0
+                    },
+                    "token": "LBrace"
+                  },
+                  {
+                    "span": {
+                      "start": 373,
+                      "end": 376,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Str": {
+                        "value": "a",
+                        "raw": "\"a\""
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 376,
+                      "end": 377,
+                      "ctxt": 0
+                    },
+                    "token": "Colon"
+                  },
+                  {
+                    "span": {
+                      "start": 377,
+                      "end": 378,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Num": {
+                        "value": 1.0,
+                        "raw": "1"
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 372,
+                      "end": 373,
+                      "ctxt": 0
+                    },
+                    "token": "RBrace"
+                  },
+                  {
+                    "span": {
+                      "start": 362,
+                      "end": 363,
+                      "ctxt": 0
+                    },
+                    "token": "RBrace"
+                  },
+                  {
+                    "span": {
+                      "start": 380,
+                      "end": 381,
+                      "ctxt": 0
+                    },
+                    "token": "Comma"
+                  },
+                  {
+                    "span": {
+                      "start": 381,
+                      "end": 382,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 382,
+                      "end": 383,
+                      "ctxt": 0
+                    },
+                    "token": "LBracket"
+                  },
+                  {
+                    "span": {
+                      "start": 383,
+                      "end": 384,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Num": {
+                        "value": 4.0,
+                        "raw": "4"
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 382,
+                      "end": 383,
+                      "ctxt": 0
+                    },
+                    "token": "RBracket"
+                  },
+                  {
+                    "span": {
+                      "start": 353,
+                      "end": 354,
+                      "ctxt": 0
+                    },
+                    "token": "RBracket"
+                  }
+                ]
               }
             ],
             "important": null
@@ -962,15 +1335,203 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 402,
-              "end": 413,
+              "start": 392,
+              "end": 406,
               "ctxt": 0
             },
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 402,
-                "end": 407,
+                "start": 392,
+                "end": 404,
+                "ctxt": 0
+              },
+              "value": "--javascript",
+              "raw": "--javascript"
+            },
+            "value": [
+              {
+                "type": "Tokens",
+                "span": {
+                  "start": 405,
+                  "end": 442,
+                  "ctxt": 0
+                },
+                "tokens": [
+                  {
+                    "span": {
+                      "start": 405,
+                      "end": 406,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 406,
+                      "end": 415,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Function": {
+                        "value": "function",
+                        "raw": "function"
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 415,
+                      "end": 419,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Ident": {
+                        "value": "rule",
+                        "raw": "rule"
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 406,
+                      "end": 415,
+                      "ctxt": 0
+                    },
+                    "token": "RParen"
+                  },
+                  {
+                    "span": {
+                      "start": 420,
+                      "end": 421,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 421,
+                      "end": 422,
+                      "ctxt": 0
+                    },
+                    "token": "LBrace"
+                  },
+                  {
+                    "span": {
+                      "start": 422,
+                      "end": 423,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 423,
+                      "end": 430,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Ident": {
+                        "value": "console",
+                        "raw": "console"
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 430,
+                      "end": 431,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Delim": {
+                        "value": "."
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 431,
+                      "end": 435,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Function": {
+                        "value": "log",
+                        "raw": "log"
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 435,
+                      "end": 439,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Ident": {
+                        "value": "rule",
+                        "raw": "rule"
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 431,
+                      "end": 435,
+                      "ctxt": 0
+                    },
+                    "token": "RParen"
+                  },
+                  {
+                    "span": {
+                      "start": 440,
+                      "end": 441,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 421,
+                      "end": 422,
+                      "ctxt": 0
+                    },
+                    "token": "RBrace"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 449,
+              "end": 456,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 449,
+                "end": 454,
                 "ctxt": 0
               },
               "value": "--CDO",
@@ -980,15 +1541,27 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 409,
-                  "end": 413,
+                  "start": 455,
+                  "end": 460,
                   "ctxt": 0
                 },
                 "tokens": [
                   {
                     "span": {
-                      "start": 409,
-                      "end": 413,
+                      "start": 455,
+                      "end": 456,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 456,
+                      "end": 460,
                       "ctxt": 0
                     },
                     "token": "CDO"
@@ -1001,15 +1574,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 419,
-              "end": 429,
+              "start": 466,
+              "end": 473,
               "ctxt": 0
             },
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 419,
-                "end": 424,
+                "start": 466,
+                "end": 471,
                 "ctxt": 0
               },
               "value": "--CDC",
@@ -1019,18 +1592,252 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 426,
-                  "end": 429,
+                  "start": 472,
+                  "end": 476,
                   "ctxt": 0
                 },
                 "tokens": [
                   {
                     "span": {
-                      "start": 426,
-                      "end": 429,
+                      "start": 472,
+                      "end": 473,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 473,
+                      "end": 476,
                       "ctxt": 0
                     },
                     "token": "CDC"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 481,
+        "end": 497,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 481,
+          "end": 487,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 481,
+              "end": 487,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 481,
+                  "end": 487,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 481,
+                      "end": 487,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 482,
+                        "end": 487,
+                        "ctxt": 0
+                      },
+                      "value": "class",
+                      "raw": "class"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 488,
+          "end": 497,
+          "ctxt": 0
+        },
+        "items": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 489,
+              "end": 496,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 489,
+                "end": 494,
+                "ctxt": 0
+              },
+              "value": "--foo",
+              "raw": "--foo"
+            },
+            "value": [
+              {
+                "type": "Tokens",
+                "span": {
+                  "start": 495,
+                  "end": 496,
+                  "ctxt": 0
+                },
+                "tokens": [
+                  {
+                    "span": {
+                      "start": 495,
+                      "end": 496,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 498,
+        "end": 520,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 498,
+          "end": 504,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 498,
+              "end": 504,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 498,
+                  "end": 504,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 498,
+                      "end": 504,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 499,
+                        "end": 504,
+                        "ctxt": 0
+                      },
+                      "value": "class",
+                      "raw": "class"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 505,
+          "end": 520,
+          "ctxt": 0
+        },
+        "items": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 511,
+              "end": 519,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 511,
+                "end": 516,
+                "ctxt": 0
+              },
+              "value": "--foo",
+              "raw": "--foo"
+            },
+            "value": [
+              {
+                "type": "Tokens",
+                "span": {
+                  "start": 517,
+                  "end": 519,
+                  "ctxt": 0
+                },
+                "tokens": [
+                  {
+                    "span": {
+                      "start": 517,
+                      "end": 519,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " \n"
+                      }
+                    }
                   }
                 ]
               }
