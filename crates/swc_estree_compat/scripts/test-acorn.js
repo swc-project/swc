@@ -4,6 +4,7 @@
 const acorn = require("acorn");
 const res = acorn.parse(process.argv[1], {
     ecmaVersion: 2020,
-    ranges: true
+    ranges: true,
+    allowHashBang: true
 })
 console.log(JSON.stringify(res, void 0, 2));
