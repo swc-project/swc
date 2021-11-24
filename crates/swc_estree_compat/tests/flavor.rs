@@ -30,7 +30,7 @@ fn assert_flavor(flavor: Flavor, input: &Path, output: &Path) {
         };
         let json = flavor.with(|| {
             let program = program.babelify(&ctx);
-            serde_json::to_string_pretty(&module).unwrap()
+            serde_json::to_string_pretty(&program).unwrap()
         });
 
         println!("----- swc output -----\n{}", json);
