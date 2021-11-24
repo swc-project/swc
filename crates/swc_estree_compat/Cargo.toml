@@ -11,16 +11,6 @@ version = "0.2.1"
 [package.metadata.docs.rs]
 all-features = true
 
-[features]
-flavor-acorn = [
-  "swc_estree_ast/flavor-acorn",
-  "swc_estree_visit/flavor-acorn",
-]
-flavor-babel = [
-  "swc_estree_ast/flavor-babel",
-  "swc_estree_visit/flavor-babel",
-]
-
 [dependencies]
 ahash = {version = "0.7.0", features = ["compile-time-rng"]}
 anyhow = "1"

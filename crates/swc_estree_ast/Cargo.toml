@@ -11,11 +11,8 @@ version = "0.1.0"
 [package.metadata.docs.rs]
 all-features = true
 
-[features]
-flavor-acorn = []
-flavor-babel = []
-
 [dependencies]
+scoped-tls = "1.0.0"
 serde = {version = "1", features = ["derive"]}
 serde_json = "1.0.62"
 swc_atoms = {version = "0.2", path = "../swc_atoms"}
