@@ -372,11 +372,14 @@ pub struct Identifier {
     pub base: BaseNode,
     #[serde(default)]
     pub name: JsWord,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub decorators: Option<Vec<Decorator>>,
-    #[serde(default)]
+    #[serde(
+        default,
+        skip_serializing_if = "crate::flavor::Flavor::skip_none_and_false"
+    )]
     pub optional: Option<bool>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub type_annotation: Option<Box<TypeAnnotOrNoop>>,
 }
 
