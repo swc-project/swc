@@ -182,11 +182,7 @@ define!({
         ClassPrivateMethod(ClassPrivateMethod),
     }
     pub enum Immutable {
-        StringLiteral(StringLiteral),
-        NumericLiteral(NumericLiteral),
-        NullLiteral(NullLiteral),
-        BooleanLiteral(BooleanLiteral),
-        BigIntLiteral(BigIntLiteral),
+        Literal(Literal),
         JSXAttribute(JSXAttribute),
         JSXClosingElement(JSXClosingElement),
         JSXElement(JSXElement),
@@ -197,7 +193,6 @@ define!({
         JSXFragment(JSXFragment),
         JSXOpeningFragment(JSXOpeningFragment),
         JSXClosingFragment(JSXClosingFragment),
-        DecimalLiteral(DecimalLiteral),
     }
     pub enum Method {
         Object(ObjectMethod),
@@ -217,14 +212,8 @@ define!({
     pub enum Pureish {
         FunctionDecl(FunctionDeclaration),
         FunctionExpr(FunctionExpression),
-        StringLiteral(StringLiteral),
-        NumericLiteral(NumericLiteral),
-        NullLiteral(NullLiteral),
-        BooleanLiteral(BooleanLiteral),
-        RegExpLiteral(RegExpLiteral),
+        Literal(Literal),
         ArrowFuncExpr(ArrowFunctionExpression),
-        BigIntLiteral(BigIntLiteral),
-        DecimalLiteral(DecimalLiteral),
     }
     pub enum Scopable {
         BlockStmt(BlockStatement),
@@ -530,11 +519,7 @@ define!({
         Conditional(ConditionalExpression),
         Func(FunctionExpression),
         Id(Identifier),
-        StringLiteral(StringLiteral),
-        NumericLiteral(NumericLiteral),
-        NullLiteral(NullLiteral),
-        BooleanLiteral(BooleanLiteral),
-        RegExpLiteral(RegExpLiteral),
+        Literal(Literal),
         Logical(LogicalExpression),
         Member(MemberExpression),
         New(NewExpression),
@@ -553,7 +538,6 @@ define!({
         Yield(YieldExpression),
         Await(AwaitExpression),
         Import(Import),
-        BigIntLiteral(BigIntLiteral),
         OptionalMember(OptionalMemberExpression),
         OptionalCall(OptionalCallExpression),
         TypeCast(TypeCastExpression),
@@ -564,7 +548,6 @@ define!({
         Do(DoExpression),
         Record(RecordExpression),
         Tuple(TupleExpression),
-        DecimalLiteral(DecimalLiteral),
         Module(ModuleExpression),
         TSAs(TSAsExpression),
         TSTypeAssertion(TSTypeAssertion),
