@@ -163,8 +163,8 @@
                         },
                         {
                           "span": {
-                            "start": 15,
-                            "end": 19,
+                            "start": 24,
+                            "end": 25,
                             "ctxt": 0
                           },
                           "token": "RParen"

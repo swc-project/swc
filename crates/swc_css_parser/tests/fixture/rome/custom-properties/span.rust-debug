@@ -408,10 +408,10 @@ error: Function { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
    |                 ^^^^
 
 error: RParen
-  --> $DIR/tests/fixture/rome/custom-properties/input.css:10:14
+  --> $DIR/tests/fixture/rome/custom-properties/input.css:10:18
    |
 10 |     --function: foo();
-   |                 ^^^^
+   |                     ^
 
 error: Declaration
   --> $DIR/tests/fixture/rome/custom-properties/input.css:11:2
@@ -456,16 +456,16 @@ error: Function { value: Atom('bar' type=inline), raw: Atom('bar' type=inline) }
    |                            ^^^^
 
 error: RParen
-  --> $DIR/tests/fixture/rome/custom-properties/input.css:11:25
+  --> $DIR/tests/fixture/rome/custom-properties/input.css:11:29
    |
 11 |     --nested-function: foo(bar());
-   |                            ^^^^
+   |                                ^
 
 error: RParen
-  --> $DIR/tests/fixture/rome/custom-properties/input.css:11:21
+  --> $DIR/tests/fixture/rome/custom-properties/input.css:11:30
    |
 11 |     --nested-function: foo(bar());
-   |                        ^^^^
+   |                                 ^
 
 error: Declaration
   --> $DIR/tests/fixture/rome/custom-properties/input.css:12:2
@@ -510,10 +510,10 @@ error: WhiteSpace { value: Atom(' ' type=inline) }
    |                     ^
 
 error: RParen
-  --> $DIR/tests/fixture/rome/custom-properties/input.css:12:17
+  --> $DIR/tests/fixture/rome/custom-properties/input.css:12:19
    |
 12 |     --parentheses: ( );
-   |                    ^
+   |                      ^
 
 error: Declaration
   --> $DIR/tests/fixture/rome/custom-properties/input.css:13:2
@@ -558,10 +558,10 @@ error: WhiteSpace { value: Atom(' ' type=inline) }
    |                ^
 
 error: RBrace
-  --> $DIR/tests/fixture/rome/custom-properties/input.css:13:12
+  --> $DIR/tests/fixture/rome/custom-properties/input.css:13:14
    |
 13 |     --braces: { };
-   |               ^
+   |                 ^
 
 error: Declaration
   --> $DIR/tests/fixture/rome/custom-properties/input.css:14:2
@@ -606,10 +606,10 @@ error: WhiteSpace { value: Atom(' ' type=inline) }
    |                  ^
 
 error: RBracket
-  --> $DIR/tests/fixture/rome/custom-properties/input.css:14:14
+  --> $DIR/tests/fixture/rome/custom-properties/input.css:14:16
    |
 14 |     --brackets: [ ];
-   |                 ^
+   |                   ^
 
 error: Declaration
   --> $DIR/tests/fixture/rome/custom-properties/input.css:15:2
@@ -732,10 +732,10 @@ error: LBrace
    |                                         ^
 
 error: RBrace
-  --> $DIR/tests/fixture/rome/custom-properties/input.css:17:38
+  --> $DIR/tests/fixture/rome/custom-properties/input.css:17:39
    |
 17 |     --at-keyword-unknown-block: @foobar {};
-   |                                         ^
+   |                                          ^
 
 error: Declaration
   --> $DIR/tests/fixture/rome/custom-properties/input.css:18:2
@@ -786,10 +786,10 @@ error: LBrace
    |                                      ^
 
 error: RBrace
-  --> $DIR/tests/fixture/rome/custom-properties/input.css:18:35
+  --> $DIR/tests/fixture/rome/custom-properties/input.css:18:36
    |
 18 |     --at-keyword-known-block: @media {};
-   |                                      ^
+   |                                       ^
 
 error: Declaration
   --> $DIR/tests/fixture/rome/custom-properties/input.css:19:2
@@ -906,10 +906,10 @@ error: CDO
    |                           ^^^^
 
 error: RParen
-  --> $DIR/tests/fixture/rome/custom-properties/input.css:21:23
+  --> $DIR/tests/fixture/rome/custom-properties/input.css:21:28
    |
 21 |     --cdo-not-top-level: (<!--);
-   |                          ^
+   |                               ^
 
 error: Declaration
   --> $DIR/tests/fixture/rome/custom-properties/input.css:22:2
@@ -954,8 +954,8 @@ error: CDC
    |                           ^^^
 
 error: RParen
-  --> $DIR/tests/fixture/rome/custom-properties/input.css:22:23
+  --> $DIR/tests/fixture/rome/custom-properties/input.css:22:27
    |
 22 |     --cdc-not-top-level: (-->);
-   |                          ^
+   |                              ^
 

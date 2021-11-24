@@ -13,3 +13,5 @@
 :unknown("string", foo) {}
 :unknown('string') {}
 :unknown(url(foo.png)) {}
+:unknown({!}) {}
+:unknown({;}) {}

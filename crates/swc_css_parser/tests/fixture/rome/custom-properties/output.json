@@ -576,8 +576,8 @@
                   },
                   {
                     "span": {
-                      "start": 160,
-                      "end": 164,
+                      "start": 164,
+                      "end": 165,
                       "ctxt": 0
                     },
                     "token": "RParen"
@@ -653,16 +653,16 @@
                   },
                   {
                     "span": {
-                      "start": 191,
-                      "end": 195,
+                      "start": 195,
+                      "end": 196,
                       "ctxt": 0
                     },
                     "token": "RParen"
                   },
                   {
                     "span": {
-                      "start": 187,
-                      "end": 191,
+                      "start": 196,
+                      "end": 197,
                       "ctxt": 0
                     },
                     "token": "RParen"
@@ -732,8 +732,8 @@
                   },
                   {
                     "span": {
-                      "start": 215,
-                      "end": 216,
+                      "start": 217,
+                      "end": 218,
                       "ctxt": 0
                     },
                     "token": "RParen"
@@ -803,8 +803,8 @@
                   },
                   {
                     "span": {
-                      "start": 231,
-                      "end": 232,
+                      "start": 233,
+                      "end": 234,
                       "ctxt": 0
                     },
                     "token": "RBrace"
@@ -874,8 +874,8 @@
                   },
                   {
                     "span": {
-                      "start": 249,
-                      "end": 250,
+                      "start": 251,
+                      "end": 252,
                       "ctxt": 0
                     },
                     "token": "RBracket"
@@ -1070,8 +1070,8 @@
                   },
                   {
                     "span": {
-                      "start": 352,
-                      "end": 353,
+                      "start": 353,
+                      "end": 354,
                       "ctxt": 0
                     },
                     "token": "RBrace"
@@ -1154,8 +1154,8 @@
                   },
                   {
                     "span": {
-                      "start": 390,
-                      "end": 391,
+                      "start": 391,
+                      "end": 392,
                       "ctxt": 0
                     },
                     "token": "RBrace"
@@ -1323,8 +1323,8 @@
                   },
                   {
                     "span": {
-                      "start": 469,
-                      "end": 470,
+                      "start": 474,
+                      "end": 475,
                       "ctxt": 0
                     },
                     "token": "RParen"
@@ -1390,8 +1390,8 @@
                   },
                   {
                     "span": {
-                      "start": 499,
-                      "end": 500,
+                      "start": 503,
+                      "end": 504,
                       "ctxt": 0
                     },
                     "token": "RParen"

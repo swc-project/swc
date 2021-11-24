@@ -41,6 +41,9 @@
     --CDC: -->;
 
     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
+    --fake-important:{!important};
+    --semicolon-not-top-level: (;);
+    --delim-not-top-level: (!);
 }
 
 :root{--a:1}

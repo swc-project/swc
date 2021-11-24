@@ -132,43 +132,70 @@ where
         let start = self.input.cur_span()?.lo;
 
         let mut tokens = vec![];
+        let mut balance_stack: Vec<Option<char>> = vec![];
 
+        // The <declaration-value> production matches any sequence of one or more
+        // tokens, so long as the sequence does not contain ...
         loop {
-            if is_one_of!(self, EOF, ")", "}", "]", "bad-string", "bad-url", ";", "!") {
-                break;
-            }
+            match cur!(self) {
+                // ... <bad-string-token>, <bad-url-token>,
+                tok!("bad-string") | tok!("bad-url") => {
+                    break;
+                }
 
-            let span = self.input.cur_span()?;
-
-            macro_rules! try_group {
-                ($start:tt,$end:tt) => {{
-                    if is!(self, $start) {
-                        tokens.push(TokenAndSpan {
-                            span,
-                            token: bump!(self),
-                        });
-
-                        tokens.extend(self.parse_declaration_value()?.tokens);
-
-                        if is!(self, $end) {
-                            tokens.push(TokenAndSpan {
-                                span,
-                                token: bump!(self),
-                            });
-                        } else {
-                            break;
+                // ... unmatched <)-token>, <]-token>, or <}-token>,
+                tok!(")") | tok!("]") | tok!("}") => {
+                    let value = match cur!(self) {
+                        tok!(")") => ')',
+                        tok!("]") => ']',
+                        tok!("}") => '}',
+                        _ => {
+                            unreachable!();
                         }
-                        continue;
-                    }
-                }};
-            }
+                    };
 
-            try_group!("(", ")");
-            try_group!("function", ")");
-            try_group!("[", "]");
-            try_group!("{", "}");
+                    let balance_close_type = match balance_stack.pop() {
+                        Some(v) => v,
+                        None => None,
+                    };
+
+                    if Some(value) != balance_close_type {
+                        break;
+                    }
+                }
+
+                tok!("function") | tok!("(") | tok!("[") | tok!("{") => {
+                    let value = match cur!(self) {
+                        tok!("function") | tok!("(") => ')',
+                        tok!("[") => ']',
+                        tok!("{") => '}',
+                        _ => {
+                            unreachable!();
+                        }
+                    };
+
+                    balance_stack.push(Some(value));
+                }
+
+                // ... or top-level <semicolon-token> tokens
+                tok!(";") => {
+                    if balance_stack.len() == 0 {
+                        break;
+                    }
+                }
+
+                // ... or <delim-token> tokens with a value of "!"
+                tok!("!") => {
+                    if balance_stack.len() == 0 {
+                        break;
+                    }
+                }
+
+                _ => {}
+            }
 
             let token = self.input.bump()?;
+
             match token {
                 Some(token) => tokens.push(token),
                 None => break,
@@ -186,43 +213,56 @@ where
         let start = self.input.cur_span()?.lo;
 
         let mut tokens = vec![];
+        let mut balance_stack: Vec<Option<char>> = vec![];
 
+        // The <any-value> production matches any sequence of one or more tokens,
+        // so long as the sequence ...
         loop {
-            if is_one_of!(self, EOF, ")", "}", "]", "bad-string", "bad-url") {
-                break;
-            }
+            match cur!(self) {
+                // ... <bad-string-token>, <bad-url-token>,
+                tok!("bad-string") | tok!("bad-url") => {
+                    break;
+                }
 
-            let span = self.input.cur_span()?;
-
-            macro_rules! try_group {
-                ($start:tt,$end:tt) => {{
-                    if is!(self, $start) {
-                        tokens.push(TokenAndSpan {
-                            span,
-                            token: bump!(self),
-                        });
-
-                        tokens.extend(self.parse_any_value()?.tokens);
-
-                        if is!(self, $end) {
-                            tokens.push(TokenAndSpan {
-                                span,
-                                token: bump!(self),
-                            });
-                        } else {
-                            break;
+                // ... unmatched <)-token>, <]-token>, or <}-token>,
+                tok!(")") | tok!("]") | tok!("}") => {
+                    let value = match cur!(self) {
+                        tok!(")") => ')',
+                        tok!("]") => ']',
+                        tok!("}") => '}',
+                        _ => {
+                            unreachable!();
                         }
-                        continue;
-                    }
-                }};
-            }
+                    };
 
-            try_group!("(", ")");
-            try_group!("function", ")");
-            try_group!("[", "]");
-            try_group!("{", "}");
+                    let balance_close_type = match balance_stack.pop() {
+                        Some(v) => v,
+                        None => None,
+                    };
+
+                    if Some(value) != balance_close_type {
+                        break;
+                    }
+                }
+
+                tok!("function") | tok!("(") | tok!("[") | tok!("{") => {
+                    let value = match cur!(self) {
+                        tok!("function") | tok!("(") => ')',
+                        tok!("[") => ']',
+                        tok!("{") => '}',
+                        _ => {
+                            unreachable!();
+                        }
+                    };
+
+                    balance_stack.push(Some(value));
+                }
+
+                _ => {}
+            }
 
             let token = self.input.bump()?;
+
             match token {
                 Some(token) => tokens.push(token),
                 None => break,
