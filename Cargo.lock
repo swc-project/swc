@@ -3150,6 +3150,7 @@ dependencies = [
  "swc_atoms 0.2.9",
  "swc_common",
  "swc_estree_macros",
+ "swc_visit",
 ]
 
 [[package]]
@@ -3173,7 +3174,6 @@ dependencies = [
  "swc_ecma_visit",
  "swc_estree_ast",
  "swc_estree_macros",
- "swc_estree_visit",
  "swc_node_base",
  "swc_node_comments",
  "walkdir",
@@ -3187,18 +3187,6 @@ dependencies = [
  "proc-macro2",
  "swc_macros_common",
  "syn",
-]
-
-[[package]]
-name = "swc_estree_visit"
-version = "0.1.0"
-dependencies = [
- "serde",
- "serde_json",
- "swc_atoms 0.2.9",
- "swc_estree_ast",
- "swc_estree_macros",
- "swc_visit",
 ]
 
 [[package]]

@@ -12,13 +12,11 @@ version = "0.2.0"
 all-features = true
 
 [features]
-flavor-acorn = [
-  "swc_estree_ast/flavor-acorn",
-  "swc_estree_visit/flavor-acorn",
+acorn = [
+  "swc_estree_ast/acorn-visit",
 ]
-flavor-babel = [
-  "swc_estree_ast/flavor-babel",
-  "swc_estree_visit/flavor-babel",
+babel = [
+  "swc_estree_ast/babel-visit",
 ]
 
 [dependencies]
@@ -36,7 +34,6 @@ swc_ecma_utils = {version = "0.52.2", path = "../swc_ecma_utils"}
 swc_ecma_visit = {version = "0.44", path = "../swc_ecma_visit"}
 swc_estree_ast = {version = "0.1", path = "../swc_estree_ast"}
 swc_estree_macros = {version = "0.1", path = "../swc_estree_macros/"}
-swc_estree_visit = {version = "0.1", path = "../swc_estree_visit"}
 swc_node_comments = {version = "0.1", path = "../swc_node_comments/"}
 
 [dev-dependencies]

@@ -12,8 +12,10 @@ version = "0.1.0"
 all-features = true
 
 [features]
-flavor-acorn = []
-flavor-babel = []
+acorn-ast = []
+acorn-visit = ["acorn-ast"]
+babel-ast = []
+babel-visit = ["babel-ast"]
 
 [dependencies]
 serde = {version = "1", features = ["derive"]}
@@ -21,3 +23,4 @@ serde_json = "1.0.62"
 swc_atoms = {version = "0.2", path = "../swc_atoms"}
 swc_common = {version = "0.14", path = "../swc_common"}
 swc_estree_macros = {version = "0.1", path = "../swc_estree_macros/"}
+swc_visit = {version = "0.2", path = "../swc_visit"}
