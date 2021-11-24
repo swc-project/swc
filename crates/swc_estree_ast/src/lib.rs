@@ -17,6 +17,7 @@ mod comment;
 mod common;
 mod decl;
 mod expr;
+pub mod flavor;
 mod flow;
 mod jsx;
 mod lit;
