@@ -94,7 +94,10 @@ pub struct VariableDeclarator {
     pub id: LVal,
     #[serde(default)]
     pub init: Option<Box<Expression>>,
-    #[serde(default)]
+    #[serde(
+        default,
+        skip_serializing_if = "crate::flavor::Flavor::skip_none_and_false"
+    )]
     pub definite: Option<bool>,
 }
 
@@ -106,7 +109,10 @@ pub struct VariableDeclaration {
     pub kind: VariableDeclarationKind,
     #[serde(default)]
     pub declarations: Vec<VariableDeclarator>,
-    #[serde(default)]
+    #[serde(
+        default,
+        skip_serializing_if = "crate::flavor::Flavor::skip_none_and_false"
+    )]
     pub declare: Option<bool>,
 }
 

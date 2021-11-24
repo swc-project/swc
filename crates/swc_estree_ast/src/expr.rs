@@ -313,11 +313,14 @@ pub struct CallExpression {
     pub callee: Box<Callee>,
     #[serde(default)]
     pub arguments: Vec<Arg>,
-    #[serde(default)]
+    #[serde(
+        default,
+        skip_serializing_if = "crate::flavor::Flavor::skip_none_and_false"
+    )]
     pub optional: Option<bool>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub type_arguments: Option<TypeParameterInstantiation>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub type_parameters: Option<TSTypeParameterInstantiation>,
 }
 
