@@ -1,0 +1,23 @@
+[package]
+authors = ["강동윤 <kdy1997.dev@gmail.com>", "Daniel Woznicki <daniel.woznicki@gmail.com>"]
+description = "ESTree AST node definitions"
+documentation = "https://rustdoc.swc.rs/swc_estree_ast/"
+edition = "2018"
+license = "Apache-2.0/MIT"
+name = "swc_estree_ast"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.1.0"
+
+[package.metadata.docs.rs]
+all-features = true
+
+[features]
+flavor-acorn = []
+flavor-babel = []
+
+[dependencies]
+serde = {version = "1", features = ["derive"]}
+serde_json = "1.0.62"
+swc_atoms = {version = "0.2", path = "../swc_atoms"}
+swc_common = {version = "0.14", path = "../swc_common"}
+swc_estree_macros = {version = "0.1", path = "../swc_estree_macros/"}

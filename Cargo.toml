@@ -2,10 +2,10 @@
 members = [
   "crates/jsdoc",
   "crates/node",
-  "crates/swc_babel_compat",
   "crates/swc_css",
   "crates/swc_ecmascript",
   "crates/swc_ecma_plugin_ast",
+  "crates/swc_estree_compat",
   "crates/swc_plugin",
   "crates/swc_plugin_runner",
   "crates/swc_plugin_testing",
