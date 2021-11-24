@@ -112,6 +112,6 @@ pub struct ObjectProperty {
     pub computed: bool,
     #[serde(default)]
     pub shorthand: bool,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub decorators: Option<Vec<Decorator>>,
 }

@@ -185,7 +185,7 @@ pub struct BlockStatement {
     pub base: BaseNode,
     #[serde(default)]
     pub body: Vec<Statement>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_empty")]
     pub directives: Vec<Directive>,
 }
 

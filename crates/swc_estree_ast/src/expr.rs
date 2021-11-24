@@ -348,9 +348,9 @@ pub struct FunctionExpression {
     pub generator: Option<bool>,
     #[serde(default, rename = "async")]
     pub is_async: Option<bool>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub return_type: Option<Box<TypeAnnotOrNoop>>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
 

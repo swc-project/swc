@@ -38,11 +38,11 @@ impl Loc {
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct BaseNode {
-    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_empty_vec")]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_empty")]
     pub leading_comments: Vec<Comment>,
-    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_empty_vec")]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_empty")]
     pub inner_comments: Vec<Comment>,
-    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_empty_vec")]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_empty")]
     pub trailing_comments: Vec<Comment>,
 
     #[serde(default)]
@@ -372,7 +372,7 @@ pub struct Identifier {
     pub base: BaseNode,
     #[serde(default)]
     pub name: JsWord,
-    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_empty")]
     pub decorators: Option<Vec<Decorator>>,
     #[serde(
         default,

@@ -44,11 +44,10 @@ impl Flavor {
         !Self::current().emit_loc()
     }
 
-    pub(crate) fn skip_empty_vec<T>(v: &Vec<T>) -> bool {
-        matches!(Self::current(), Flavor::Acorn) && v.is_empty()
-    }
-
-    pub(crate) fn skip_empty_string(v: &String) -> bool {
+    pub(crate) fn skip_empty<T>(v: &T) -> bool
+    where
+        T: IsEmpty,
+    {
         matches!(Self::current(), Flavor::Acorn) && v.is_empty()
     }
 
@@ -57,5 +56,30 @@ impl Flavor {
     }
     pub(crate) fn skip_none_and_false(v: &Option<bool>) -> bool {
         matches!(Self::current(), Flavor::Acorn) && matches!(v, None | Some(false))
+    }
+}
+
+pub(crate) trait IsEmpty {
+    fn is_empty(&self) -> bool;
+}
+
+impl IsEmpty for String {
+    fn is_empty(&self) -> bool {
+        self.is_empty()
+    }
+}
+
+impl<T> IsEmpty for Vec<T> {
+    fn is_empty(&self) -> bool {
+        self.is_empty()
+    }
+}
+
+impl<T> IsEmpty for Option<T> {
+    fn is_empty(&self) -> bool {
+        match self {
+            Some(v) => v.is_empty(),
+            None => true,
+        }
     }
 }
