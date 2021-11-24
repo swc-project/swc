@@ -88,16 +88,6 @@ where
 
         self.input.skip_ws()?;
 
-        let items = self.parse_decl_block_items()?;
-
-        expect!(self, "}");
-
-        let span = span!(self, start);
-
-        Ok(Block { span, items })
-    }
-
-    fn parse_decl_block_items(&mut self) -> PResult<Vec<DeclarationBlockItem>> {
         let mut items = vec![];
 
         while is!(self, Ident) {
@@ -110,7 +100,11 @@ where
             self.input.skip_ws()?;
         }
 
-        Ok(items)
+        expect!(self, "}");
+
+        let span = span!(self, start);
+
+        Ok(Block { span, items })
     }
 
     fn parse_declaration_list(&mut self) -> PResult<Vec<Declaration>> {
@@ -235,15 +229,6 @@ where
 {
     fn parse(&mut self) -> PResult<Vec<Declaration>> {
         self.parse_declaration_list()
-    }
-}
-
-impl<I> Parse<Vec<DeclarationBlockItem>> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<Vec<DeclarationBlockItem>> {
-        self.parse_decl_block_items()
     }
 }
 
