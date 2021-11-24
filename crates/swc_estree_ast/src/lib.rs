@@ -1,12 +1,10 @@
-use swc_estree_macros::estree_ast;
-use serde::{Deserialize, Serialize};
 pub use self::comment::*;
+use serde::{Deserialize, Serialize};
+use swc_estree_macros::estree_ast;
 
 mod comment;
 
-
-
-#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq,Eq)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct LineCol {
     pub line: usize,
@@ -19,7 +17,7 @@ impl LineCol {
     }
 }
 
-#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq,Eq)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct Loc {
     pub start: LineCol,
@@ -35,7 +33,6 @@ impl Loc {
     }
 }
 
-
 #[estree_ast(flavors(babel, acorn))]
 pub mod ast {
     use super::*;
@@ -43,7 +40,6 @@ pub mod ast {
     use serde_json::Value;
     use swc_atoms::JsWord;
     use swc_common::ast_serde;
-
 
     #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
     #[serde(rename_all = "camelCase")]
