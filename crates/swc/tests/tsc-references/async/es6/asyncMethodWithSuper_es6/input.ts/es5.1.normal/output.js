@@ -328,7 +328,7 @@ var B = /*#__PURE__*/ function(A) {
             key: "simple",
             value: // async method with only call/get on 'super' does not require a binding
             function simple() {
-                var _this = this, _this1 = this, _this2 = this, _this3 = this, _this4 = this;
+                var _this = this;
                 var // call with property access
                 _instance, // call additional property.
                 _instance1, // call with element access
@@ -344,20 +344,20 @@ var B = /*#__PURE__*/ function(A) {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++){
                         _args[_key] = arguments[_key];
                     }
-                    return (_instance1 = _get(_getPrototypeOf(B.prototype), "y", _this1)).call.apply(_instance1, [
-                        _this1
+                    return (_instance1 = _get(_getPrototypeOf(B.prototype), "y", _this)).call.apply(_instance1, [
+                        _this
                     ].concat(_toConsumableArray(_args)));
                 }, _super_method = function() {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++){
                         _args[_key] = arguments[_key];
                     }
-                    return (_instance2 = _get(_getPrototypeOf(B.prototype), "x", _this2)).call.apply(_instance2, [
-                        _this2
+                    return (_instance2 = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance2, [
+                        _this
                     ].concat(_toConsumableArray(_args)));
                 }, _super_x1 = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this3);
+                    return _get(_getPrototypeOf(B.prototype), "x", _this);
                 }, _super_method1 = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this4);
+                    return _get(_getPrototypeOf(B.prototype), "x", _this);
                 };
                 return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                     var a, b;
@@ -381,7 +381,7 @@ var B = /*#__PURE__*/ function(A) {
             key: "advanced",
             value: // async method with assignment/destructuring on 'super' requires a binding
             function advanced() {
-                var _this = this, _this5 = this, _this6 = this, _this7 = this, _this8 = this, _this9 = this, _this10 = this, _this11 = this, _this12 = this, _this13 = this, _this14 = this, _this15 = this;
+                var _this = this;
                 var // call with property access
                 _instance, // call with element access
                 _instance3, _instance4, _instance5, _instance6, _instance7;
@@ -396,50 +396,50 @@ var B = /*#__PURE__*/ function(A) {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++){
                         _args[_key] = arguments[_key];
                     }
-                    return (_instance3 = _get(_getPrototypeOf(B.prototype), "x", _this5)).call.apply(_instance3, [
-                        _this5
+                    return (_instance3 = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance3, [
+                        _this
                     ].concat(_toConsumableArray(_args)));
                 }, _super_x2 = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this6);
+                    return _get(_getPrototypeOf(B.prototype), "x", _this);
                 }, _super_method2 = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this7);
+                    return _get(_getPrototypeOf(B.prototype), "x", _this);
                 }, _super_x3 = function(_args) {
                     // property access (assign)
-                    return _set(_getPrototypeOf(B.prototype), "x", _args, _this8, true);
+                    return _set(_getPrototypeOf(B.prototype), "x", _args, _this, true);
                 }, _super_method3 = function(_args) {
                     // element access (assign)
-                    return _set(_getPrototypeOf(B.prototype), "x", _args, _this9, true);
+                    return _set(_getPrototypeOf(B.prototype), "x", _args, _this, true);
                 }, _super_x4 = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this10);
+                    return _get(_getPrototypeOf(B.prototype), "x", _this);
                 }, _super_method4 = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this11);
+                    return _get(_getPrototypeOf(B.prototype), "x", _this);
                 }, _super_x5 = function() {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++){
                         _args[_key] = arguments[_key];
                     }
-                    return (_instance4 = _get(_getPrototypeOf(B.prototype), "x", _this12)).call.apply(_instance4, [
-                        _this12
+                    return (_instance4 = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance4, [
+                        _this
                     ].concat(_toConsumableArray(_args)));
                 }, _super_method5 = function() {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++){
                         _args[_key] = arguments[_key];
                     }
-                    return (_instance5 = _get(_getPrototypeOf(B.prototype), "x", _this13)).call.apply(_instance5, [
-                        _this13
+                    return (_instance5 = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance5, [
+                        _this
                     ].concat(_toConsumableArray(_args)));
                 }, _super_x6 = function() {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++){
                         _args[_key] = arguments[_key];
                     }
-                    return (_instance6 = _get(_getPrototypeOf(B.prototype), "x", _this14)).call.apply(_instance6, [
-                        _this14
+                    return (_instance6 = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance6, [
+                        _this
                     ].concat(_toConsumableArray(_args)));
                 }, _super_method6 = function() {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++){
                         _args[_key] = arguments[_key];
                     }
-                    return (_instance7 = _get(_getPrototypeOf(B.prototype), "x", _this15)).call.apply(_instance7, [
-                        _this15
+                    return (_instance7 = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance7, [
+                        _this
                     ].concat(_toConsumableArray(_args)));
                 };
                 return _asyncToGenerator(regeneratorRuntime.mark(function _callee1() {
@@ -508,7 +508,7 @@ var B = /*#__PURE__*/ function(A) {
         {
             key: "property_access_only_read_only",
             value: function property_access_only_read_only() {
-                var _this = this, _this16 = this, _this17 = this, _this18 = this;
+                var _this = this;
                 var // call with property access
                 _instance, _instance8, _instance9;
                 var _super_x = function() {
@@ -519,20 +519,20 @@ var B = /*#__PURE__*/ function(A) {
                         _this
                     ].concat(_toConsumableArray(_args)));
                 }, _super_x7 = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this16);
+                    return _get(_getPrototypeOf(B.prototype), "x", _this);
                 }, _super_x8 = function() {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++){
                         _args[_key] = arguments[_key];
                     }
-                    return (_instance8 = _get(_getPrototypeOf(B.prototype), "x", _this17)).call.apply(_instance8, [
-                        _this17
+                    return (_instance8 = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance8, [
+                        _this
                     ].concat(_toConsumableArray(_args)));
                 }, _super_x9 = function() {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++){
                         _args[_key] = arguments[_key];
                     }
-                    return (_instance9 = _get(_getPrototypeOf(B.prototype), "x", _this18)).call.apply(_instance9, [
-                        _this18
+                    return (_instance9 = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance9, [
+                        _this
                     ].concat(_toConsumableArray(_args)));
                 };
                 return _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
@@ -569,16 +569,16 @@ var B = /*#__PURE__*/ function(A) {
         {
             key: "property_access_only_write_only",
             value: function property_access_only_write_only() {
-                var _this = this, _this19 = this, _this20 = this, _this21 = this;
+                var _this = this;
                 var _super_x = function(_args) {
                     // property access (assign)
                     return _set(_getPrototypeOf(B.prototype), "x", _args, _this, true);
                 }, _super_x10 = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this19);
+                    return _get(_getPrototypeOf(B.prototype), "x", _this);
                 }, _super_x11 = function(_args) {
-                    return _set(_getPrototypeOf(B.prototype), "x", _args, _this20, true);
+                    return _set(_getPrototypeOf(B.prototype), "x", _args, _this, true);
                 }, _super_x12 = function(_args) {
-                    return _set(_getPrototypeOf(B.prototype), "x", _args, _this21, true);
+                    return _set(_getPrototypeOf(B.prototype), "x", _args, _this, true);
                 };
                 return _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
                     var f, ref;
@@ -620,7 +620,7 @@ var B = /*#__PURE__*/ function(A) {
         {
             key: "element_access_only_read_only",
             value: function element_access_only_read_only() {
-                var _this = this, _this22 = this, _this23 = this, _this24 = this;
+                var _this = this;
                 var // call with element access
                 _instance, _instance10, _instance11;
                 var _super_method = function() {
@@ -631,20 +631,20 @@ var B = /*#__PURE__*/ function(A) {
                         _this
                     ].concat(_toConsumableArray(_args)));
                 }, _super_method7 = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this22);
+                    return _get(_getPrototypeOf(B.prototype), "x", _this);
                 }, _super_method8 = function() {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++){
                         _args[_key] = arguments[_key];
                     }
-                    return (_instance10 = _get(_getPrototypeOf(B.prototype), "x", _this23)).call.apply(_instance10, [
-                        _this23
+                    return (_instance10 = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance10, [
+                        _this
                     ].concat(_toConsumableArray(_args)));
                 }, _super_method9 = function() {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++){
                         _args[_key] = arguments[_key];
                     }
-                    return (_instance11 = _get(_getPrototypeOf(B.prototype), "x", _this24)).call.apply(_instance11, [
-                        _this24
+                    return (_instance11 = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance11, [
+                        _this
                     ].concat(_toConsumableArray(_args)));
                 };
                 return _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
@@ -681,16 +681,16 @@ var B = /*#__PURE__*/ function(A) {
         {
             key: "element_access_only_write_only",
             value: function element_access_only_write_only() {
-                var _this = this, _this25 = this, _this26 = this, _this27 = this;
+                var _this = this;
                 var _super_method = function(_args) {
                     // element access (assign)
                     return _set(_getPrototypeOf(B.prototype), "x", _args, _this, true);
                 }, _super_method10 = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this25);
+                    return _get(_getPrototypeOf(B.prototype), "x", _this);
                 }, _super_method11 = function(_args) {
-                    return _set(_getPrototypeOf(B.prototype), "x", _args, _this26, true);
+                    return _set(_getPrototypeOf(B.prototype), "x", _args, _this, true);
                 }, _super_method12 = function(_args) {
-                    return _set(_getPrototypeOf(B.prototype), "x", _args, _this27, true);
+                    return _set(_getPrototypeOf(B.prototype), "x", _args, _this, true);
                 };
                 return _asyncToGenerator(regeneratorRuntime.mark(function _callee5() {
                     var f, ref;
@@ -732,7 +732,7 @@ var B = /*#__PURE__*/ function(A) {
         {
             key: "property_access_only_read_only_in_generator",
             value: function property_access_only_read_only_in_generator() {
-                var _this = this, _this28 = this, _this29 = this, _this30 = this;
+                var _this = this;
                 var // call with property access
                 _instance, _instance12, _instance13;
                 var _super_x = function() {
@@ -743,20 +743,20 @@ var B = /*#__PURE__*/ function(A) {
                         _this
                     ].concat(_toConsumableArray(_args)));
                 }, _super_x13 = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this28);
+                    return _get(_getPrototypeOf(B.prototype), "x", _this);
                 }, _super_x14 = function() {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++){
                         _args[_key] = arguments[_key];
                     }
-                    return (_instance12 = _get(_getPrototypeOf(B.prototype), "x", _this29)).call.apply(_instance12, [
-                        _this29
+                    return (_instance12 = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance12, [
+                        _this
                     ].concat(_toConsumableArray(_args)));
                 }, _super_x15 = function() {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++){
                         _args[_key] = arguments[_key];
                     }
-                    return (_instance13 = _get(_getPrototypeOf(B.prototype), "x", _this30)).call.apply(_instance13, [
-                        _this30
+                    return (_instance13 = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance13, [
+                        _this
                     ].concat(_toConsumableArray(_args)));
                 };
                 return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee6() {
@@ -793,16 +793,16 @@ var B = /*#__PURE__*/ function(A) {
         {
             key: "property_access_only_write_only_in_generator",
             value: function property_access_only_write_only_in_generator() {
-                var _this = this, _this31 = this, _this32 = this, _this33 = this;
+                var _this = this;
                 var _super_x = function(_args) {
                     // property access (assign)
                     return _set(_getPrototypeOf(B.prototype), "x", _args, _this, true);
                 }, _super_x16 = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this31);
+                    return _get(_getPrototypeOf(B.prototype), "x", _this);
                 }, _super_x17 = function(_args) {
-                    return _set(_getPrototypeOf(B.prototype), "x", _args, _this32, true);
+                    return _set(_getPrototypeOf(B.prototype), "x", _args, _this, true);
                 }, _super_x18 = function(_args) {
-                    return _set(_getPrototypeOf(B.prototype), "x", _args, _this33, true);
+                    return _set(_getPrototypeOf(B.prototype), "x", _args, _this, true);
                 };
                 return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee7() {
                     var f, ref;
@@ -844,7 +844,7 @@ var B = /*#__PURE__*/ function(A) {
         {
             key: "element_access_only_read_only_in_generator",
             value: function element_access_only_read_only_in_generator() {
-                var _this = this, _this34 = this, _this35 = this, _this36 = this;
+                var _this = this;
                 var // call with element access
                 _instance, _instance14, _instance15;
                 var _super_method = function() {
@@ -855,20 +855,20 @@ var B = /*#__PURE__*/ function(A) {
                         _this
                     ].concat(_toConsumableArray(_args)));
                 }, _super_method13 = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this34);
+                    return _get(_getPrototypeOf(B.prototype), "x", _this);
                 }, _super_method14 = function() {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++){
                         _args[_key] = arguments[_key];
                     }
-                    return (_instance14 = _get(_getPrototypeOf(B.prototype), "x", _this35)).call.apply(_instance14, [
-                        _this35
+                    return (_instance14 = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance14, [
+                        _this
                     ].concat(_toConsumableArray(_args)));
                 }, _super_method15 = function() {
                     for(var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++){
                         _args[_key] = arguments[_key];
                     }
-                    return (_instance15 = _get(_getPrototypeOf(B.prototype), "x", _this36)).call.apply(_instance15, [
-                        _this36
+                    return (_instance15 = _get(_getPrototypeOf(B.prototype), "x", _this)).call.apply(_instance15, [
+                        _this
                     ].concat(_toConsumableArray(_args)));
                 };
                 return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee8() {
@@ -905,16 +905,16 @@ var B = /*#__PURE__*/ function(A) {
         {
             key: "element_access_only_write_only_in_generator",
             value: function element_access_only_write_only_in_generator() {
-                var _this = this, _this37 = this, _this38 = this, _this39 = this;
+                var _this = this;
                 var _super_method = function(_args) {
                     // element access (assign)
                     return _set(_getPrototypeOf(B.prototype), "x", _args, _this, true);
                 }, _super_method16 = function() {
-                    return _get(_getPrototypeOf(B.prototype), "x", _this37);
+                    return _get(_getPrototypeOf(B.prototype), "x", _this);
                 }, _super_method17 = function(_args) {
-                    return _set(_getPrototypeOf(B.prototype), "x", _args, _this38, true);
+                    return _set(_getPrototypeOf(B.prototype), "x", _args, _this, true);
                 }, _super_method18 = function(_args) {
-                    return _set(_getPrototypeOf(B.prototype), "x", _args, _this39, true);
+                    return _set(_getPrototypeOf(B.prototype), "x", _args, _this, true);
                 };
                 return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee9() {
                     var f, ref;
