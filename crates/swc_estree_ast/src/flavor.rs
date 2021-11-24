@@ -35,6 +35,10 @@ impl Flavor {
         matches!(Self::current(), Flavor::Babel)
     }
 
+    pub(crate) fn skip_range(_: &Option<[usize; 2]>) -> bool {
+        matches!(Self::current(), Flavor::Babel)
+    }
+
     pub(crate) fn skip_loc(_: &Option<Loc>) -> bool {
         !Self::current().emit_loc()
     }
