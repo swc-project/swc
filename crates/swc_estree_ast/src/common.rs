@@ -346,9 +346,9 @@ pub struct RestElement {
     #[serde(flatten)]
     pub base: BaseNode,
     pub argument: Box<LVal>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_empty")]
     pub decorators: Option<Vec<Decorator>>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub type_annotation: Option<Box<TypeAnnotOrNoop>>,
 }
 
