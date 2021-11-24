@@ -18,4 +18,5 @@ swc_macros_common = {version = "0.3.3", path = "../swc_macros_common"}
 syn = {version = "1", features = ["full"]}
 
 [dev-dependencies]
+serde = "1"
 swc_common = {version = "0.14.6", path = "../swc_common"}
