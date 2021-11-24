@@ -1,3 +1,4 @@
+use serde_json::Value;
 use std::{
     path::{Path, PathBuf},
     process::{Command, Stdio},
@@ -9,7 +10,7 @@ use swc_estree_ast::flavor::Flavor;
 use swc_estree_compat::babelify::Babelify;
 use testing::{assert_eq, DebugUsingDisplay, NormalizedOutput};
 
-fn assert_flavor(flavor: Flavor, input: &Path, output: &Path) {
+fn assert_flavor(flavor: Flavor, input: &Path, output_json_path: &Path) {
     testing::run_test(false, |cm, _handler| {
         let fm = cm.load_file(input).unwrap();
 
@@ -28,28 +29,39 @@ fn assert_flavor(flavor: Flavor, input: &Path, output: &Path) {
             cm: cm.clone(),
             comments: SwcComments::default(),
         };
-        let json = flavor.with(|| {
+        let mut actual = flavor.with(|| {
             let program = program.babelify(&ctx).program;
-            serde_json::to_string_pretty(&program).unwrap()
+            serde_json::to_value(&program).unwrap()
         });
+        let actual_str = serde_json::to_string_pretty(&actual).unwrap();
 
-        println!("----- swc output -----\n{}", json);
-        {
+        println!("----- swc output -----\n{}", actual);
+        let output = {
             let mut cmd = Command::new("node");
             cmd.arg("-e")
                 .arg(include_str!("../scripts/test-acorn.js"))
                 .arg(&*fm.src)
                 .stderr(Stdio::inherit());
-            let output = cmd.output().unwrap();
+            cmd.output().unwrap()
+        };
 
-            let output =
-                String::from_utf8(output.stdout).expect("./acorn.js generated non-utf8 output");
+        let expected =
+            String::from_utf8(output.stdout).expect("./acorn.js generated non-utf8 output");
 
-            assert_eq!(DebugUsingDisplay(&json), DebugUsingDisplay(&output));
+        {
+            let mut expected =
+                serde_json::from_str::<Value>(&expected).expect("acorn.js generated invalid json");
+
+            diff_value(&mut actual, &mut expected);
+
+            let actual = serde_json::to_string_pretty(&actual).unwrap();
+            let expected = serde_json::to_string_pretty(&expected).unwrap();
+
+            assert_eq!(DebugUsingDisplay(&actual), DebugUsingDisplay(&expected));
         }
 
-        NormalizedOutput::from(json.clone())
-            .compare_to_file(&output)
+        NormalizedOutput::from(actual_str.clone())
+            .compare_to_file(&output_json_path)
             .unwrap();
 
         Ok(())
@@ -63,3 +75,5 @@ fn acorn(input: PathBuf) {
 
     assert_flavor(Flavor::Acorn, &input, &output);
 }
+
+fn diff_value(a: &mut Value, b: &mut Value) {}
