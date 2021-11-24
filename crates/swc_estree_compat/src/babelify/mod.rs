@@ -7,7 +7,7 @@ use swc_common::{
     BytePos, SourceFile, SourceMap, Span,
 };
 use swc_ecma_ast::Class;
-use swc_estree_ast::{BaseComment, BaseNode, Comment, LineCol, Loc};
+use swc_estree_ast::{flavor::Flavor, BaseComment, BaseNode, Comment, LineCol, Loc};
 use swc_node_comments::SwcComments;
 
 mod class;
@@ -60,6 +60,9 @@ impl Context {
 
     fn loc(&self, span: Span) -> Option<Loc> {
         if span.is_dummy() {
+            return None;
+        }
+        if !Flavor::current().emit_loc() {
             return None;
         }
 

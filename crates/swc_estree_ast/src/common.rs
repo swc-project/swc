@@ -49,12 +49,9 @@ pub struct BaseNode {
     pub start: Option<usize>,
     #[serde(default)]
     pub end: Option<usize>,
-    #[serde(default)]
+
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_loc")]
     pub loc: Option<Loc>,
-    /* TODO(dwoznicki): I can't figure out what goes in this field, so I'm just
-     * removing it for now.
-     * #[serde(default)]
-     * pub extra: Option<HashMap<String, Value, RandomState>>, */
 }
 
 #[derive(Debug, Clone, PartialEq)]

@@ -1,5 +1,7 @@
 use scoped_tls::scoped_thread_local;
 
+use crate::Loc;
+
 scoped_thread_local!(static FLAVOR: Flavor);
 
 #[derive(Debug, Clone, Copy, Eq, PartialEq, Hash)]
@@ -22,11 +24,19 @@ impl Flavor {
         FLAVOR.set(&self, || op())
     }
 
-    pub(crate) fn current() -> Self {
+    pub fn current() -> Self {
         if FLAVOR.is_set() {
             FLAVOR.with(|v| *v)
         } else {
             Flavor::default()
         }
+    }
+
+    pub fn emit_loc(&self) -> bool {
+        matches!(Self::current(), Flavor::Babel)
+    }
+
+    pub(crate) fn skip_loc(_: &Option<Loc>) -> bool {
+        !Self::current().emit_loc()
     }
 }
