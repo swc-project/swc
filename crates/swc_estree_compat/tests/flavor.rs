@@ -32,6 +32,7 @@ fn assert_flavor(flavor: Flavor, input: &Path, output: &Path) {
 
         let json = serde_json::to_string_pretty(&module).unwrap();
 
+        println!("----- swc output -----\n{}", json);
         {
             let mut cmd = Command::new("node");
             cmd.arg("-e")
