@@ -28,9 +28,10 @@ fn assert_flavor(flavor: Flavor, input: &Path, output: &Path) {
             cm: cm.clone(),
             comments: SwcComments::default(),
         };
-        let module = flavor.with(|| program.babelify(&ctx));
-
-        let json = serde_json::to_string_pretty(&module).unwrap();
+        let json = flavor.with(|| {
+            let program = program.babelify(&ctx);
+            serde_json::to_string_pretty(&module).unwrap()
+        });
 
         println!("----- swc output -----\n{}", json);
         {
