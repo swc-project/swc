@@ -1,4 +1,7 @@
-use std::path::{Path, PathBuf};
+use std::{
+    path::{Path, PathBuf},
+    process::{Command, Stdio},
+};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
 use swc_estree_ast::flavor::Flavor;
@@ -20,9 +23,23 @@ fn assert_flavor(flavor: Flavor, input: &Path, output: &Path) {
 
         let json = flavor.with(|| serde_json::to_string_pretty(&module).unwrap());
 
-        NormalizedOutput::from(json)
+        NormalizedOutput::from(json.clone())
             .compare_to_file(&output)
             .unwrap();
+
+        {
+            let mut cmd = Command::new("node");
+            cmd.arg("-e")
+                .arg(include_str!("./acorn.js"))
+                .arg(&*fm.src)
+                .stderr(Stdio::inherit());
+            let output = cmd.output().unwrap();
+
+            let output =
+                String::from_utf8(output.stdout).expect("./acorn.js generated non-utf8 output");
+
+            assert_eq!(json, output);
+        }
 
         Ok(())
     })
