@@ -1,40 +1,46 @@
 use swc_estree_macros::estree_ast;
+use serde::{Deserialize, Serialize};
+
+
+
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq,Eq)]
+#[serde(rename_all = "camelCase")]
+pub struct LineCol {
+    pub line: usize,
+    pub column: usize,
+}
+
+impl LineCol {
+    pub fn dummy() -> Self {
+        LineCol { line: 0, column: 0 }
+    }
+}
+
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq,Eq)]
+#[serde(rename_all = "camelCase")]
+pub struct Loc {
+    pub start: LineCol,
+    pub end: LineCol,
+}
+
+impl Loc {
+    pub fn dummy() -> Self {
+        Loc {
+            start: LineCol::dummy(),
+            end: LineCol::dummy(),
+        }
+    }
+}
+
 
 #[estree_ast(flavors(babel, acorn))]
 pub mod ast {
+    use super::*;
     use serde::{Deserialize, Serialize};
     use serde_json::Value;
     use swc_atoms::JsWord;
     use swc_common::ast_serde;
 
-    #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq)]
-    #[serde(rename_all = "camelCase")]
-    pub struct LineCol {
-        pub line: usize,
-        pub column: usize,
-    }
-
-    impl LineCol {
-        pub fn dummy() -> Self {
-            LineCol { line: 0, column: 0 }
-        }
-    }
-
-    #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq)]
-    #[serde(rename_all = "camelCase")]
-    pub struct Loc {
-        pub start: LineCol,
-        pub end: LineCol,
-    }
-
-    impl Loc {
-        pub fn dummy() -> Self {
-            Loc {
-                start: LineCol::dummy(),
-                end: LineCol::dummy(),
-            }
-        }
-    }
 
     #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
     #[serde(rename_all = "camelCase")]
