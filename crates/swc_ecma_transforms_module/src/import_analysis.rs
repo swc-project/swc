@@ -1,7 +1,7 @@
 use super::util::Scope;
-use std::{cell::RefCell, collections::HashSet, rc::Rc};
+use std::{cell::RefCell, rc::Rc};
 use swc_atoms::{js_word, JsWord};
-use swc_common::DUMMY_SP;
+use swc_common::{collections::AHashSet, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::enable_helper;
 use swc_ecma_visit::{
@@ -11,13 +11,13 @@ use swc_ecma_visit::{
 pub fn import_analyzer(scope: Rc<RefCell<Scope>>) -> impl Fold + VisitMut {
     as_folder(ImportAnalyzer {
         scope,
-        import_srcs: HashSet::new(),
+        import_srcs: Default::default(),
     })
 }
 
 pub struct ImportAnalyzer {
     scope: Rc<RefCell<Scope>>,
-    import_srcs: HashSet<JsWord>,
+    import_srcs: AHashSet<JsWord>,
 }
 
 /// Inject required helpers methods **for** module transform passes.
