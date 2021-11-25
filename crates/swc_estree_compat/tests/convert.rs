@@ -148,9 +148,13 @@ fn run_test(src: String, expected: String, syntax: Syntax, is_module: bool) {
         comments: compiler.comments().clone(),
     };
     let ast = swc_ast.babelify(&ctx);
-    println!("Actual: {:?}", ast);
 
     let mut actual = serde_json::to_value(&ast).unwrap();
+
+    println!(
+        "Actual: \n{}",
+        serde_json::to_string_pretty(&actual).unwrap()
+    );
 
     let mut expected: Value = serde_json::from_str(&expected).unwrap();
 
