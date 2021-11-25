@@ -1,18 +1,18 @@
-use serde::{Deserialize, Serialize};
-use serde_json::Value;
-use swc_common::ast_serde;
-
 use crate::{
     common::{
         Access, BaseNode, Decorator, Identifier, Param, PrivateName, SuperTypeParams,
         TypeAnnotOrNoop, TypeParamDeclOrNoop,
     },
     expr::{ClassExpression, Expression},
+    flavor::Flavor,
     flow::{ClassImplements, InterfaceExtends},
     object::ObjectKey,
     stmt::{BlockStatement, Statement},
     typescript::{TSDeclareMethod, TSExpressionWithTypeArguments, TSIndexSignature},
 };
+use serde::{ser::SerializeMap, Deserialize, Serialize};
+use serde_json::Value;
+use swc_common::ast_serde;
 
 #[derive(Debug, Clone, PartialEq)]
 #[ast_serde]
@@ -32,8 +32,7 @@ pub enum ClassMethodKind {
     Constructor,
 }
 
-#[derive(Debug, Clone, PartialEq)]
-#[ast_serde("ClassMethod")]
+#[derive(Debug, Clone, PartialEq, Deserialize)]
 pub struct ClassMethod {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -80,6 +79,99 @@ pub struct ClassMethod {
     pub return_type: Option<Box<TypeAnnotOrNoop>>,
     #[serde(default)]
     pub type_parameters: Option<TypeParamDeclOrNoop>,
+}
+
+#[derive(Serialize)]
+struct BabelClassMethod<'a> {
+    #[serde(flatten)]
+    pub base: &'a BaseNode,
+    #[serde(default)]
+    pub kind: Option<ClassMethodKind>,
+    pub key: ObjectKey,
+    #[serde(default)]
+    pub params: &'a [Param],
+    pub body: BlockStatement,
+    #[serde(default)]
+    pub computed: Option<bool>,
+    #[serde(
+        default,
+        rename = "static",
+        skip_serializing_if = "crate::flavor::Flavor::skip_none_and_false"
+    )]
+    pub is_static: Option<bool>,
+    #[serde(
+        default,
+        skip_serializing_if = "crate::flavor::Flavor::skip_none_and_false"
+    )]
+    pub generator: Option<bool>,
+    #[serde(
+        default,
+        rename = "async",
+        serialize_with = "crate::ser::serialize_as_bool"
+    )]
+    pub is_async: Option<bool>,
+    #[serde(
+        default,
+        rename = "abstract",
+        skip_serializing_if = "crate::flavor::Flavor::skip_none"
+    )]
+    pub is_abstract: Option<bool>,
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
+    pub access: Option<Access>,
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
+    pub accessibility: Option<Access>,
+    #[serde(default)]
+    pub decorators: Option<&'a [Decorator]>,
+    #[serde(default)]
+    pub optional: Option<bool>,
+    #[serde(default)]
+    pub return_type: Option<&'a TypeAnnotOrNoop>,
+    #[serde(default)]
+    pub type_parameters: Option<&'a TypeParamDeclOrNoop>,
+}
+
+impl Serialize for ClassMethod {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        match Flavor::current() {
+            Flavor::Babel => {
+                let actual = BabelClassMethod {
+                    base: &self.base,
+                    kind: self.kind,
+                    key: self.key,
+                    params: &self.params,
+                    body: self.body,
+                    computed: self.computed,
+                    is_static: self.is_static,
+                    generator: self.generator,
+                    is_async: self.is_async,
+                    is_abstract: self.is_abstract,
+                    access: self.access,
+                    accessibility: self.accessibility,
+                    decorators: self.decorators.as_deref(),
+                    optional: self.optional,
+                    return_type: self.return_type.as_deref(),
+                    type_parameters: self.type_parameters.as_ref(),
+                };
+                actual.serialize(serializer)
+            }
+            Flavor::Acorn => {
+                let mut s = serializer.serialize_map(None)?;
+
+                {
+                    // TODO(kdy1): This is bad.
+                    self.base
+                        .serialize(serde::__private::ser::FlatMapSerializer(&mut s))?;
+                }
+
+                s.serialize_entry("type", "MethodDefinition")?;
+
+                s.end()
+            }
+        }
+    }
 }
 
 #[derive(Debug, Clone, PartialEq)]
