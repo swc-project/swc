@@ -1203,9 +1203,9 @@ dependencies = [
 
 [[package]]
 name = "napi-build"
-version = "1.1.1"
+version = "1.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "87375bacff0768dd606ccf870eae936efd21e3245af9e7b37ae44f969d48be8a"
+checksum = "d46af3cd13ef452354c8704da88bfc4bfa38724ddb38963a5113099749710788"
 
 [[package]]
 name = "napi-derive"
@@ -2777,7 +2777,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.78.8"
+version = "0.78.9"
 dependencies = [
  "either",
  "enum_kind",
