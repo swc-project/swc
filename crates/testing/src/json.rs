@@ -1,5 +1,27 @@
 use serde_json::Value;
 
+fn normalize_value_recursively(v: &mut Value, normalize: &mut dyn FnMut(&str, &mut Value)) {
+    match v {
+        Value::Array(arr) => {
+            for v in arr {
+                normalize_value_recursively(v, normalize);
+            }
+        }
+
+        Value::Object(obj) => {
+            for (_, v) in obj.iter_mut() {
+                normalize_value_recursively(v, normalize);
+            }
+
+            for (k, v) in obj.iter_mut() {
+                normalize(k, v);
+            }
+        }
+
+        _ => {}
+    }
+}
+
 /// Remove common properties, recursively. You can optionally normalize more by
 /// passing a closure.
 ///
@@ -11,27 +33,26 @@ pub fn diff_json_value(
     b: &mut Value,
     normalize: &mut dyn FnMut(&str, &mut Value),
 ) -> bool {
+    normalize_value_recursively(a, normalize);
+    normalize_value_recursively(b, normalize);
+
+    remove_common(a, b)
+}
+
+fn remove_common(a: &mut Value, b: &mut Value) -> bool {
     if *a == *b {
         return true;
     }
 
     match (&mut *a, &mut *b) {
         (Value::Object(a), Value::Object(b)) => {
-            // Normalize all properties
-            for (k, v) in &mut *a {
-                normalize(&k, v);
-            }
-            for (k, v) in &mut *b {
-                normalize(&k, v);
-            }
-
             if a.is_empty() && b.is_empty() {
                 return true;
             }
 
             a.retain(|key, a_v| {
                 if let Some(b_v) = b.get_mut(key) {
-                    if diff_json_value(a_v, b_v, normalize) {
+                    if remove_common(a_v, b_v) {
                         // Remove from both
                         b.remove(key);
                         return false;
@@ -65,21 +86,9 @@ pub fn diff_json_value(
         }
 
         (Value::Array(a), Value::Array(b)) => {
-            for v in a.iter_mut().chain(b.iter_mut()) {
-                match v {
-                    Value::Object(v) => {
-                        for (k, v) in v {
-                            normalize(&k, v);
-                        }
-                    }
-
-                    _ => {}
-                }
-            }
-
             if a.len() == b.len() {
                 for (a_v, b_v) in a.iter_mut().zip(b.iter_mut()) {
-                    diff_json_value(a_v, b_v, normalize);
+                    remove_common(a_v, b_v);
                 }
             }
         }
