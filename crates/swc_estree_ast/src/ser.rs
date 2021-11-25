@@ -5,14 +5,7 @@ pub(crate) fn serialize_optional<S>(o: &Option<bool>, s: S) -> Result<S::Ok, S::
 where
     S: Serializer,
 {
-    if matches!(Flavor::current(), Flavor::Acorn) {
-        return s.serialize_some(&o.unwrap_or(false));
-    }
-
-    if o.is_none() {
-        return s.serialize_none();
-    }
-    s.serialize_some(&o.unwrap())
+    return s.serialize_some(&o.unwrap_or(false));
 }
 
 /// Always serializes as a boolean value.
