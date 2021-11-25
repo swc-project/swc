@@ -1,0 +1,183 @@
+{
+  "body": [
+    {
+      "declarations": [
+        {
+          "end": 28,
+          "id": {
+            "end": 7,
+            "name": "a",
+            "range": [
+              6,
+              7
+            ],
+            "start": 6,
+            "type": "Identifier"
+          },
+          "init": {
+            "end": 28,
+            "properties": [
+              {
+                "computed": false,
+                "end": 25,
+                "key": {
+                  "end": 20,
+                  "name": "name",
+                  "range": [
+                    16,
+                    20
+                  ],
+                  "start": 16,
+                  "type": "Identifier"
+                },
+                "kind": "init",
+                "method": false,
+                "range": [
+                  16,
+                  25
+                ],
+                "shorthand": false,
+                "start": 16,
+                "type": "Property",
+                "value": {
+                  "end": 25,
+                  "range": [
+                    22,
+                    25
+                  ],
+                  "raw": "a",
+                  "start": 22,
+                  "type": "Literal",
+                  "value": "a"
+                }
+              }
+            ],
+            "range": [
+              10,
+              28
+            ],
+            "start": 10,
+            "type": "ObjectExpression"
+          },
+          "range": [
+            6,
+            28
+          ],
+          "start": 6,
+          "type": "VariableDeclarator"
+        }
+      ],
+      "end": 29,
+      "kind": "const",
+      "range": [
+        0,
+        29
+      ],
+      "start": 0,
+      "type": "VariableDeclaration"
+    },
+    {
+      "declarations": [
+        {
+          "end": 68,
+          "id": {
+            "end": 37,
+            "name": "b",
+            "range": [
+              36,
+              37
+            ],
+            "start": 36,
+            "type": "Identifier"
+          },
+          "init": {
+            "end": 68,
+            "properties": [
+              {
+                "argument": {
+                  "end": 50,
+                  "name": "a",
+                  "range": [
+                    49,
+                    50
+                  ],
+                  "start": 49,
+                  "type": "Identifier"
+                },
+                "end": 50,
+                "range": [
+                  46,
+                  50
+                ],
+                "start": 46,
+                "type": "SpreadElement"
+              },
+              {
+                "computed": false,
+                "end": 65,
+                "key": {
+                  "end": 60,
+                  "name": "name",
+                  "range": [
+                    56,
+                    60
+                  ],
+                  "start": 56,
+                  "type": "Identifier"
+                },
+                "kind": "init",
+                "method": false,
+                "range": [
+                  56,
+                  65
+                ],
+                "shorthand": false,
+                "start": 56,
+                "type": "Property",
+                "value": {
+                  "end": 65,
+                  "range": [
+                    62,
+                    65
+                  ],
+                  "raw": "b",
+                  "start": 62,
+                  "type": "Literal",
+                  "value": "b"
+                }
+              }
+            ],
+            "range": [
+              40,
+              68
+            ],
+            "start": 40,
+            "type": "ObjectExpression"
+          },
+          "range": [
+            36,
+            68
+          ],
+          "start": 36,
+          "type": "VariableDeclarator"
+        }
+      ],
+      "end": 69,
+      "kind": "const",
+      "range": [
+        30,
+        69
+      ],
+      "start": 30,
+      "type": "VariableDeclaration"
+    }
+  ],
+  "end": 69,
+  "range": [
+    0,
+    69
+  ],
+  "sourceType": "script",
+  "start": 0,
+  "type": "Program"
+}
