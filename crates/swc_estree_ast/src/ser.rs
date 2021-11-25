@@ -29,3 +29,10 @@ pub(crate) fn skip_interpreter<T>(_: T) -> bool {
         Flavor::Babel => false,
     }
 }
+
+pub(crate) fn skip_typescript<T>(_: T) -> bool {
+    match Flavor::current() {
+        Flavor::Acorn => true,
+        Flavor::Babel => false,
+    }
+}

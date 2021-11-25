@@ -132,6 +132,23 @@ struct BabelClassMethod<'a> {
     pub type_parameters: Option<&'a TypeParamDeclOrNoop>,
 }
 
+#[derive(Serialize)]
+struct AcornClassMethodValue<'a> {
+    /// `FuncionExpression`
+    #[serde(rename = "type")]
+    type_: &'a str,
+    #[serde(flatten)]
+    base: &'a BaseNode,
+
+    body: &'a BlockStatement,
+
+    params: &'a [Param],
+
+    generator: bool,
+    #[serde(rename = "async")]
+    is_async: bool,
+}
+
 impl Serialize for ClassMethod {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
@@ -170,6 +187,21 @@ impl Serialize for ClassMethod {
                 }
 
                 s.serialize_entry("type", "MethodDefinition")?;
+                s.serialize_entry("computed", &self.computed.unwrap_or(false))?;
+                s.serialize_entry("key", &self.key)?;
+                s.serialize_entry("kind", &self.kind)?;
+                s.serialize_entry("static", &self.is_static.unwrap_or(false))?;
+                s.serialize_entry(
+                    "value",
+                    &AcornClassMethodValue {
+                        type_: "FunctionExpression",
+                        base: &self.body.base,
+                        body: &self.body,
+                        params: &self.params,
+                        generator: self.generator.unwrap_or(false),
+                        is_async: self.is_async.unwrap_or(false),
+                    },
+                )?;
 
                 s.end()
             }
@@ -319,11 +351,15 @@ pub struct ClassDeclaration {
     #[serde(default)]
     pub super_class: Option<Box<Expression>>,
     pub body: ClassBody,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_empty")]
     pub decorators: Option<Vec<Decorator>>,
-    #[serde(default, rename = "abstract")]
+    #[serde(
+        default,
+        rename = "abstract",
+        skip_serializing_if = "crate::ser::skip_typescript"
+    )]
     pub is_abstract: Option<bool>,
-    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
+    #[serde(default, skip_serializing_if = "crate::ser::skip_typescript")]
     pub declare: Option<bool>,
     #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_empty")]
     pub implements: Option<Vec<ClassImpl>>,

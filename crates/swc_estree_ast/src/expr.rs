@@ -518,9 +518,9 @@ pub struct ClassExpression {
     #[serde(default)]
     pub super_class: Option<Box<Expression>>,
     pub body: ClassBody,
-    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_empty")]
     pub decorators: Option<Vec<Decorator>>,
-    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_empty")]
     pub implements: Option<Vec<ClassImpl>>,
     #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub mixins: Option<InterfaceExtends>,
