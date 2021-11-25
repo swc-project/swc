@@ -1,0 +1,117 @@
+{
+  "body": [
+    {
+      "declarations": [
+        {
+          "end": 58,
+          "id": {
+            "end": 12,
+            "name": "square",
+            "range": [
+              6,
+              12
+            ],
+            "start": 6,
+            "type": "Identifier"
+          },
+          "init": {
+            "async": false,
+            "body": {
+              "body": [
+                {
+                  "argument": {
+                    "end": 56,
+                    "left": {
+                      "end": 47,
+                      "name": "number",
+                      "range": [
+                        41,
+                        47
+                      ],
+                      "start": 41,
+                      "type": "Identifier"
+                    },
+                    "operator": "*",
+                    "range": [
+                      41,
+                      56
+                    ],
+                    "right": {
+                      "end": 56,
+                      "name": "number",
+                      "range": [
+                        50,
+                        56
+                      ],
+                      "start": 50,
+                      "type": "Identifier"
+                    },
+                    "start": 41,
+                    "type": "BinaryExpression"
+                  },
+                  "end": 56,
+                  "range": [
+                    34,
+                    56
+                  ],
+                  "start": 34,
+                  "type": "ReturnStatement"
+                }
+              ],
+              "end": 58,
+              "range": [
+                32,
+                58
+              ],
+              "start": 32,
+              "type": "BlockStatement"
+            },
+            "end": 58,
+            "generator": false,
+            "id": null,
+            "params": [
+              {
+                "end": 30,
+                "name": "number",
+                "range": [
+                  24,
+                  30
+                ],
+                "start": 24,
+                "type": "Identifier"
+              }
+            ],
+            "range": [
+              15,
+              58
+            ],
+            "start": 15,
+            "type": "FunctionExpression"
+          },
+          "range": [
+            6,
+            58
+          ],
+          "start": 6,
+          "type": "VariableDeclarator"
+        }
+      ],
+      "end": 58,
+      "kind": "const",
+      "range": [
+        0,
+        58
+      ],
+      "start": 0,
+      "type": "VariableDeclaration"
+    }
+  ],
+  "end": 58,
+  "range": [
+    0,
+    58
+  ],
+  "sourceType": "script",
+  "start": 0,
+  "type": "Program"
+}
