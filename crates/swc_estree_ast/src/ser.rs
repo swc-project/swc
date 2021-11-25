@@ -14,3 +14,7 @@ where
     }
     s.serialize_some(&o.unwrap())
 }
+
+pub(crate) fn skip_expression_for_fn<T>(_: T) -> bool {
+    matches!(Flavor::current(), Flavor::Babel)
+}

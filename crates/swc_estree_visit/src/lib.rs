@@ -453,6 +453,7 @@ define!({
         pub is_async: Option<bool>,
         pub return_type: Option<Box<TypeAnnotOrNoop>>,
         pub type_parameters: Option<TypeParamDeclOrNoop>,
+        pub expression: bool,
     }
     pub struct EnumBooleanMember {
         pub base: BaseNode,

@@ -130,6 +130,8 @@ pub struct FunctionDeclaration {
     pub generator: Option<bool>,
     #[serde(default, rename = "async")]
     pub is_async: Option<bool>,
+    #[serde(default, skip_serializing_if = "crate::ser::skip_expression_for_fn")]
+    pub expression: bool,
     #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub return_type: Option<Box<TypeAnnotOrNoop>>,
     #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
@@ -145,6 +147,7 @@ impl From<FunctionExpression> for FunctionDeclaration {
             body: expr.body,
             generator: expr.generator,
             is_async: expr.is_async,
+            expression: false,
             return_type: expr.return_type,
             type_parameters: expr.type_parameters,
         }
