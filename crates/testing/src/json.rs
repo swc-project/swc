@@ -17,12 +17,15 @@ pub fn diff_json_value(
 
     match (&mut *a, &mut *b) {
         (Value::Object(a), Value::Object(b)) => {
+            for (k, v) in &mut *a {
+                normalize(&k, v);
+            }
+            for (k, v) in &mut *b {
+                normalize(&k, v);
+            }
+
             a.retain(|key, a_v| {
-                normalize(&key, a_v);
-
                 if let Some(b_v) = b.get_mut(key) {
-                    normalize(&key, b_v);
-
                     if diff_json_value(a_v, b_v, normalize) {
                         b.remove(key);
                         return false;
