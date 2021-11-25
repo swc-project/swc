@@ -9,12 +9,12 @@ use swc_ecma_ast::{
     TaggedTpl, ThisExpr, Tpl, TplElement, UnaryExpr, UpdateExpr, YieldExpr,
 };
 use swc_estree_ast::{
-    ArrayExprEl, ArrayExpression, ArrowFuncExprBody, ArrowFunctionExpression, AssignmentExpression,
-    AwaitExpression, BinaryExprLeft, BinaryExpression, CallExpression, Callee, ClassExpression,
-    ConditionalExpression, Expression, FunctionExpression, LVal, Literal, LogicalExpression,
-    MemberExprProp, MemberExpression, MetaProperty, NewExpression, ObjectExprProp,
-    ObjectExpression, ObjectKey, ObjectMember, ParenthesizedExpression, PrivateName,
-    SequenceExpression, SpreadElement as BabelSpreadElement, Super as BabelSuper,
+    flavor::Flavor, ArrayExprEl, ArrayExpression, ArrowFuncExprBody, ArrowFunctionExpression,
+    AssignmentExpression, AwaitExpression, BinaryExprLeft, BinaryExpression, CallExpression,
+    Callee, ClassExpression, ConditionalExpression, Expression, FunctionExpression, LVal, Literal,
+    LogicalExpression, MemberExprProp, MemberExpression, MetaProperty, NewExpression,
+    ObjectExprProp, ObjectExpression, ObjectKey, ObjectMember, ParenthesizedExpression,
+    PrivateName, SequenceExpression, SpreadElement as BabelSpreadElement, Super as BabelSuper,
     TaggedTemplateExprTypeParams, TaggedTemplateExpression, TemplateElVal, TemplateElement,
     TemplateLiteral, TemplateLiteralExpr, ThisExpression, UnaryExpression, UpdateExpression,
     YieldExpression,
@@ -464,12 +464,15 @@ impl Babelify for ArrowExpr {
                 .collect(),
             body: Box::alloc().init(self.body.babelify(ctx)),
             is_async: self.is_async,
+            expression: match Flavor::current() {
+                Flavor::Babel => Default::default(),
+                Flavor::Acorn => true,
+            },
             generator: self.is_generator,
-            expression: true,
-            type_parameters: self.type_params.map(|t| t.babelify(ctx).into()),
             return_type: self
                 .return_type
                 .map(|t| Box::alloc().init(t.babelify(ctx).into())),
+            type_parameters: self.type_params.map(|t| t.babelify(ctx).into()),
         }
     }
 }
