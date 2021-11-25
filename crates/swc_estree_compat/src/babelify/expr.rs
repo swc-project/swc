@@ -465,7 +465,7 @@ impl Babelify for ArrowExpr {
             body: Box::alloc().init(self.body.babelify(ctx)),
             is_async: self.is_async,
             generator: self.is_generator,
-            expression: Default::default(),
+            expression: true,
             type_parameters: self.type_params.map(|t| t.babelify(ctx).into()),
             return_type: self
                 .return_type
