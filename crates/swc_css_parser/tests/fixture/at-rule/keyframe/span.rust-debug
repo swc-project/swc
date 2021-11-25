@@ -52,7 +52,7 @@ error: KeyframesRule
 2 | @keyframes "foo" { /* ... */ }
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Ident
+error: Str
  --> $DIR/tests/fixture/at-rule/keyframe/input.css:2:12
   |
 2 | @keyframes "foo" { /* ... */ }

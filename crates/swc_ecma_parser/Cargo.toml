@@ -11,6 +11,7 @@ version = "0.78.8"
 
 [package.metadata.docs.rs]
 all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
 
 [features]
 # Used for debugging

@@ -124,14 +124,32 @@ where
     }
 
     #[emitter]
+    fn emit_keyframes_name(&mut self, n: &KeyframesName) -> Result {
+        match n {
+            KeyframesName::Ident(n) => emit!(self, n),
+            KeyframesName::Str(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
     fn emit_keyframes_rule(&mut self, n: &KeyframesRule) -> Result {
         punct!(self, "@");
         keyword!(self, "keyframes");
         space!(self);
 
-        emit!(self, n.id);
-        if !n.id.value.is_empty() {
-            space!(self);
+        emit!(self, n.name);
+
+        match &n.name {
+            KeyframesName::Ident(n) => {
+                if !n.value.is_empty() {
+                    space!(self);
+                }
+            }
+            KeyframesName::Str(n) => {
+                if !n.value.is_empty() {
+                    space!(self);
+                }
+            }
         }
 
         punct!(self, "{");

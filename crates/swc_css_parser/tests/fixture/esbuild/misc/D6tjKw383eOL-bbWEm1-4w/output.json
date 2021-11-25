@@ -13,7 +13,7 @@
         "end": 23,
         "ctxt": 0
       },
-      "id": {
+      "name": {
         "type": "Identifier",
         "span": {
           "start": 16,

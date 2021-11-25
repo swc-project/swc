@@ -13,7 +13,7 @@
         "end": 132,
         "ctxt": 0
       },
-      "id": {
+      "name": {
         "type": "Identifier",
         "span": {
           "start": 11,
@@ -195,7 +195,7 @@
         "end": 232,
         "ctxt": 0
       },
-      "id": {
+      "name": {
         "type": "Identifier",
         "span": {
           "start": 145,
@@ -379,7 +379,7 @@
         "end": 252,
         "ctxt": 0
       },
-      "id": {
+      "name": {
         "type": "Identifier",
         "span": {
           "start": 245,

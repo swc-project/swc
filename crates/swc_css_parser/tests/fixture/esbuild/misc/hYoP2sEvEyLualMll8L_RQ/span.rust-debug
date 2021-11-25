@@ -41,16 +41,16 @@ error: NestingSelector
   | ^
 
 error: TypeSelector
- --> $DIR/tests/fixture/esbuild/misc/hYoP2sEvEyLualMll8L_RQ/input.css:1:1
+ --> $DIR/tests/fixture/esbuild/misc/hYoP2sEvEyLualMll8L_RQ/input.css:1:2
   |
 1 | &* {}
-  | ^^
+  |  ^
 
 error: Ident
- --> $DIR/tests/fixture/esbuild/misc/hYoP2sEvEyLualMll8L_RQ/input.css:1:1
+ --> $DIR/tests/fixture/esbuild/misc/hYoP2sEvEyLualMll8L_RQ/input.css:1:2
   |
 1 | &* {}
-  | ^
+  |  ^
 
 error: Block
  --> $DIR/tests/fixture/esbuild/misc/hYoP2sEvEyLualMll8L_RQ/input.css:1:4
