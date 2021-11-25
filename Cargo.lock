@@ -3421,6 +3421,7 @@ dependencies = [
  "once_cell",
  "pretty_assertions 0.7.2",
  "regex",
+ "serde_json",
  "swc_common",
  "testing_macros",
  "tracing",
