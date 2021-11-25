@@ -1,7 +1,6 @@
-use std::borrow::Cow;
-
 use crate::{common::BaseNode, expr::Expression, flavor::Flavor, typescript::TSType};
-use serde::{Deserialize, Serialize};
+use serde::{ser::SerializeMap, Deserialize, Serialize};
+use std::borrow::Cow;
 use swc_atoms::JsWord;
 use swc_common::ast_serde;
 
@@ -16,6 +15,14 @@ pub enum Literal {
     BigInt(BigIntLiteral),
     Decimal(DecimalLiteral),
 }
+#[derive(Serialize)]
+struct AcornRegex<'a> {
+    flags: &'a str,
+    pattern: &'a str,
+}
+
+#[derive(Serialize)]
+struct Empty {}
 
 impl Serialize for Literal {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
@@ -62,14 +69,25 @@ impl Serialize for Literal {
                             Cow::Borrowed("false")
                         },
                     ),
-                    Literal::RegExp(l) => (
-                        &l.base,
-                        AcornLiteralValue::RegExp {
-                            pattern: l.pattern.clone(),
-                            flags: l.flags.clone(),
-                        },
-                        Cow::Borrowed(""),
-                    ),
+                    Literal::RegExp(l) => {
+                        let mut s = serializer.serialize_map(None)?;
+                        {
+                            // TODO(kdy1): This is bad.
+                            l.base
+                                .serialize(serde::__private::ser::FlatMapSerializer(&mut s))?;
+                        }
+                        s.serialize_entry("type", "Literal")?;
+
+                        s.serialize_entry(
+                            "regex",
+                            &AcornRegex {
+                                flags: &l.flags,
+                                pattern: &l.pattern,
+                            },
+                        )?;
+                        s.serialize_entry("value", &Empty {})?;
+                        return s.end();
+                    }
                     Literal::Template(..) => todo!(),
                     Literal::BigInt(l) => (
                         &l.base,
@@ -152,7 +170,6 @@ enum AcornLiteralValue {
     Numeric(f64),
     Null(Option<()>),
     Boolean(bool),
-    RegExp { pattern: JsWord, flags: JsWord },
     BigInt(String),
     Decimal(JsWord),
 }
