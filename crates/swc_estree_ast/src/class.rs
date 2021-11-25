@@ -83,14 +83,16 @@ pub struct ClassMethod {
 
 #[derive(Serialize)]
 struct BabelClassMethod<'a> {
+    #[serde(rename = "type")]
+    type_: &'a str,
     #[serde(flatten)]
     pub base: &'a BaseNode,
     #[serde(default)]
     pub kind: Option<ClassMethodKind>,
-    pub key: ObjectKey,
+    pub key: &'a ObjectKey,
     #[serde(default)]
     pub params: &'a [Param],
-    pub body: BlockStatement,
+    pub body: &'a BlockStatement,
     #[serde(default)]
     pub computed: Option<bool>,
     #[serde(
@@ -117,9 +119,9 @@ struct BabelClassMethod<'a> {
     )]
     pub is_abstract: Option<bool>,
     #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
-    pub access: Option<Access>,
+    pub access: Option<&'a Access>,
     #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
-    pub accessibility: Option<Access>,
+    pub accessibility: Option<&'a Access>,
     #[serde(default)]
     pub decorators: Option<&'a [Decorator]>,
     #[serde(default)]
@@ -138,18 +140,19 @@ impl Serialize for ClassMethod {
         match Flavor::current() {
             Flavor::Babel => {
                 let actual = BabelClassMethod {
+                    type_: "ClassMethod",
                     base: &self.base,
                     kind: self.kind,
-                    key: self.key,
+                    key: &self.key,
                     params: &self.params,
-                    body: self.body,
+                    body: &self.body,
                     computed: self.computed,
                     is_static: self.is_static,
                     generator: self.generator,
                     is_async: self.is_async,
                     is_abstract: self.is_abstract,
-                    access: self.access,
-                    accessibility: self.accessibility,
+                    access: self.access.as_ref(),
+                    accessibility: self.accessibility.as_ref(),
                     decorators: self.decorators.as_deref(),
                     optional: self.optional,
                     return_type: self.return_type.as_deref(),
