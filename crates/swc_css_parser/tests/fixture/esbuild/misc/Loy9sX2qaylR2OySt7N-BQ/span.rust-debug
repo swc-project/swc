@@ -46,6 +46,12 @@ error: Ident
 1 | a|* {}
   | ^
 
+error: Ident
+ --> $DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:1:3
+  |
+1 | a|* {}
+  |   ^
+
 error: Block
  --> $DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:1:5
   |

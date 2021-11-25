@@ -2247,9 +2247,9 @@ dependencies = [
 
 [[package]]
 name = "serde_json"
-version = "1.0.71"
+version = "1.0.72"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "063bf466a64011ac24040a49009724ee60a57da1b437617ceb32e53ad61bfb19"
+checksum = "d0ffa0837f2dfa6fb90868c2b5468cad482e175f7dad97e7421951e663f2b527"
 dependencies = [
  "itoa",
  "ryu",
@@ -2571,7 +2571,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.38.0"
+version = "0.39.0"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -2582,7 +2582,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_ast"
-version = "0.34.0"
+version = "0.35.0"
 dependencies = [
  "is-macro",
  "serde",
@@ -2593,7 +2593,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.36.0"
+version = "0.37.0"
 dependencies = [
  "auto_impl 0.4.1",
  "bitflags",
@@ -2619,7 +2619,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.38.0"
+version = "0.39.1"
 dependencies = [
  "bitflags",
  "lexical",
@@ -2635,7 +2635,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_utils"
-version = "0.31.0"
+version = "0.32.0"
 dependencies = [
  "swc_atoms 0.2.9",
  "swc_common",
@@ -2645,7 +2645,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_visit"
-version = "0.33.0"
+version = "0.34.0"
 dependencies = [
  "swc_atoms 0.2.9",
  "swc_common",
@@ -2907,7 +2907,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.52.12"
+version = "0.52.13"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -3143,18 +3143,18 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_ast"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
+ "scoped-tls",
  "serde",
  "serde_json",
  "swc_atoms 0.2.9",
  "swc_common",
- "swc_estree_macros",
 ]
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.2.1"
+version = "0.3.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3172,27 +3172,10 @@ dependencies = [
  "swc_ecma_utils",
  "swc_ecma_visit",
  "swc_estree_ast",
- "swc_estree_macros",
- "swc_estree_visit",
  "swc_node_base",
  "swc_node_comments",
+ "testing",
  "walkdir",
-]
-
-[[package]]
-name = "swc_estree_macros"
-version = "0.1.0"
-
-[[package]]
-name = "swc_estree_visit"
-version = "0.1.0"
-dependencies = [
- "serde",
- "serde_json",
- "swc_atoms 0.2.9",
- "swc_estree_ast",
- "swc_estree_macros",
- "swc_visit",
 ]
 
 [[package]]
@@ -3336,7 +3319,7 @@ dependencies = [
 
 [[package]]
 name = "swc_stylis"
-version = "0.35.0"
+version = "0.36.0"
 dependencies = [
  "swc_atoms 0.2.9",
  "swc_common",
@@ -3412,13 +3395,14 @@ dependencies = [
 
 [[package]]
 name = "testing"
-version = "0.15.1"
+version = "0.15.2"
 dependencies = [
  "ansi_term 0.12.1",
  "difference",
  "once_cell",
  "pretty_assertions 0.7.2",
  "regex",
+ "serde_json",
  "swc_common",
  "testing_macros",
  "tracing",
@@ -3427,7 +3411,7 @@ dependencies = [
 
 [[package]]
 name = "testing_macros"
-version = "0.2.3"
+version = "0.2.4"
 dependencies = [
  "anyhow",
  "glob",

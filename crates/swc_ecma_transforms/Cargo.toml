@@ -10,6 +10,7 @@ version = "0.95.1"
 
 [package.metadata.docs.rs]
 all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
 
 [features]
 compat = ["swc_ecma_transforms_compat"]

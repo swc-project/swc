@@ -201,9 +201,8 @@ where
         Ok((None, None))
     }
 
-    // TODO: no span as argument
-    fn parse_type_selector(&mut self, span: Span) -> PResult<Option<TypeSelector>> {
-        let start_pos = span.lo;
+    fn parse_type_selector(&mut self) -> PResult<Option<TypeSelector>> {
+        let span = self.input.cur_span()?;
 
         let mut prefix = None;
 
@@ -212,29 +211,39 @@ where
         }
 
         if is!(self, Ident) {
-            let span = self.input.cur_span()?;
+            let name_span = self.input.cur_span()?;
             let token = bump!(self);
             let name = match token {
-                Token::Ident { value, raw } => Ident { span, value, raw },
+                Token::Ident { value, raw } => Ident {
+                    span: name_span,
+                    value,
+                    raw,
+                },
                 _ => {
                     unreachable!()
                 }
             };
 
             return Ok(Some(TypeSelector {
-                span: span!(self, start_pos),
+                span: span!(self, span.lo),
                 prefix,
                 name,
             }));
         } else if is!(self, "*") {
+            let name_span = self.input.cur_span()?;
+
             bump!(self);
 
             let value: JsWord = "*".into();
             let raw = value.clone();
-            let name = Ident { span, value, raw };
+            let name = Ident {
+                span: name_span,
+                value,
+                raw,
+            };
 
             return Ok(Some(TypeSelector {
-                span: span!(self, start_pos),
+                span: span!(self, span.lo),
                 prefix,
                 name,
             }));
@@ -811,7 +820,7 @@ where
             });
         }
 
-        let type_selector = self.parse_type_selector(span).unwrap();
+        let type_selector = self.parse_type_selector().unwrap();
         let mut subclass_selectors = vec![];
 
         'subclass_selectors: loop {

@@ -21,6 +21,7 @@ use swc_common::{
 pub use testing_macros::fixture;
 use tracing_subscriber::EnvFilter;
 
+pub mod json;
 #[macro_use]
 mod macros;
 mod diag_errors;

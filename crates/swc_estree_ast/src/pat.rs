@@ -35,9 +35,9 @@ pub struct ObjectPattern {
     pub base: BaseNode,
     #[serde(default)]
     pub properties: Vec<ObjectPatternProp>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_empty")]
     pub decorators: Option<Vec<Decorator>>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub type_annotation: Option<Box<TypeAnnotOrNoop>>,
 }
 
@@ -55,27 +55,27 @@ pub enum AssignmentPatternLeft {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[serde(tag = "type", rename_all = "camelCase")]
 pub struct AssignmentPattern {
     #[serde(flatten)]
     pub base: BaseNode,
     pub left: AssignmentPatternLeft,
     pub right: Box<Expression>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_empty")]
     pub decorators: Option<Vec<Decorator>>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub type_annotation: Option<Box<TypeAnnotOrNoop>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[serde(tag = "type", rename_all = "camelCase")]
 pub struct ArrayPattern {
     #[serde(flatten)]
     pub base: BaseNode,
     #[serde(default)]
     pub elements: Vec<Option<PatternLike>>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_empty")]
     pub decorators: Option<Vec<Decorator>>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub type_annotation: Option<Box<TypeAnnotOrNoop>>,
 }

@@ -1,0 +1,54 @@
+{
+  "body": [
+    {
+      "declarations": [
+        {
+          "end": 36,
+          "id": {
+            "end": 28,
+            "name": "a",
+            "range": [
+              27,
+              28
+            ],
+            "start": 27,
+            "type": "Identifier"
+          },
+          "init": {
+            "end": 36,
+            "range": [
+              31,
+              36
+            ],
+            "raw": "false",
+            "start": 31,
+            "type": "Literal",
+            "value": false
+          },
+          "range": [
+            27,
+            36
+          ],
+          "start": 27,
+          "type": "VariableDeclarator"
+        }
+      ],
+      "end": 37,
+      "kind": "let",
+      "range": [
+        23,
+        37
+      ],
+      "start": 23,
+      "type": "VariableDeclaration"
+    }
+  ],
+  "end": 37,
+  "range": [
+    0,
+    37
+  ],
+  "sourceType": "script",
+  "start": 0,
+  "type": "Program"
+}

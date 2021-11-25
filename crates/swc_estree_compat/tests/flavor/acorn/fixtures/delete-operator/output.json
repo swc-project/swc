@@ -1,0 +1,139 @@
+{
+  "body": [
+    {
+      "declarations": [
+        {
+          "end": 17,
+          "id": {
+            "end": 7,
+            "name": "obj",
+            "range": [
+              4,
+              7
+            ],
+            "start": 4,
+            "type": "Identifier"
+          },
+          "init": {
+            "end": 17,
+            "properties": [
+              {
+                "computed": false,
+                "end": 16,
+                "key": {
+                  "end": 12,
+                  "name": "a",
+                  "range": [
+                    11,
+                    12
+                  ],
+                  "start": 11,
+                  "type": "Identifier"
+                },
+                "kind": "init",
+                "method": false,
+                "range": [
+                  11,
+                  16
+                ],
+                "shorthand": false,
+                "start": 11,
+                "type": "Property",
+                "value": {
+                  "end": 16,
+                  "range": [
+                    14,
+                    16
+                  ],
+                  "raw": "10",
+                  "start": 14,
+                  "type": "Literal",
+                  "value": 10.0
+                }
+              }
+            ],
+            "range": [
+              10,
+              17
+            ],
+            "start": 10,
+            "type": "ObjectExpression"
+          },
+          "range": [
+            4,
+            17
+          ],
+          "start": 4,
+          "type": "VariableDeclarator"
+        }
+      ],
+      "end": 18,
+      "kind": "let",
+      "range": [
+        0,
+        18
+      ],
+      "start": 0,
+      "type": "VariableDeclaration"
+    },
+    {
+      "end": 32,
+      "expression": {
+        "argument": {
+          "computed": false,
+          "end": 31,
+          "object": {
+            "end": 29,
+            "name": "obj",
+            "range": [
+              26,
+              29
+            ],
+            "start": 26,
+            "type": "Identifier"
+          },
+          "optional": false,
+          "property": {
+            "end": 31,
+            "name": "a",
+            "range": [
+              30,
+              31
+            ],
+            "start": 30,
+            "type": "Identifier"
+          },
+          "range": [
+            26,
+            31
+          ],
+          "start": 26,
+          "type": "MemberExpression"
+        },
+        "end": 31,
+        "operator": "delete",
+        "prefix": true,
+        "range": [
+          19,
+          31
+        ],
+        "start": 19,
+        "type": "UnaryExpression"
+      },
+      "range": [
+        19,
+        32
+      ],
+      "start": 19,
+      "type": "ExpressionStatement"
+    }
+  ],
+  "end": 32,
+  "range": [
+    0,
+    32
+  ],
+  "sourceType": "script",
+  "start": 0,
+  "type": "Program"
+}

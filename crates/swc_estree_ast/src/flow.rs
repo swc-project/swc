@@ -679,14 +679,14 @@ pub struct DeclareClass {
     #[serde(flatten)]
     pub base: BaseNode,
     pub id: Identifier,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub type_parameters: Option<TypeParameterInstantiation>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_empty")]
     pub extends: Option<Vec<InterfaceExtends>>,
     pub body: ObjectTypeAnnotation,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_empty")]
     pub implements: Option<Vec<ClassImplements>>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub mixins: Option<Vec<InterfaceExtends>>,
 }
 
@@ -714,7 +714,7 @@ pub struct DeclareInterface {
     pub body: ObjectTypeAnnotation,
     #[serde(default)]
     pub implements: Option<Vec<ClassImplements>>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_empty")]
     pub mixins: Option<Vec<InterfaceExtends>>,
 }
 
@@ -830,7 +830,7 @@ pub struct InterfaceDeclaration {
     pub body: ObjectTypeAnnotation,
     #[serde(default)]
     pub implements: Option<Vec<ClassImplements>>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_empty")]
     pub mixins: Option<Vec<InterfaceExtends>>,
 }
 

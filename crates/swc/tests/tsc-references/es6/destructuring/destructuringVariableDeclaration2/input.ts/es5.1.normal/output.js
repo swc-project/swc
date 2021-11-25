@@ -19,21 +19,25 @@ var tmp = 3, b0 = tmp === void 0 ? 3 : tmp, tmp1 = false, b1 = tmp1 === void 0 ?
 // The type T associated with a binding element is determined as follows:
 //      If the binding element is a rest element, T is an array type with
 //          an element type E, where E is the type of the numeric index signature of S.
-var c1 = 1, c2 = 2, ref1 = {
-    c3: 4,
-    c5: 0
-}, c4 = ref1.c3, c5 = ref1.c5, c6 = []; // Error
+var ref1 = [
+    1,
+    2,
+    {
+        c3: 4,
+        c5: 0
+    }
+], c1 = ref1[0], c2 = ref1[1], ref2 = ref1[2], c4 = ref2.c3, c5 = ref2.c5, c6 = ref1.slice(4); // Error
 // When a destructuring variable declaration, binding property, or binding element specifies
 // an initializer expression, the type of the initializer expression is required to be assignable
 // to the widened form of the type associated with the destructuring variable declaration, binding property, or binding element.
-var ref2 = {
+var ref3 = {
     d: {
         d1: [
             1,
             2
         ]
     }
-}, _d = ref2.d, _d1 = _d.d1, d1 = _d1 === void 0 ? [
+}, _d = ref3.d, _d1 = _d.d1, d1 = _d1 === void 0 ? [
     "string",
     null
 ] : _d1; // Error

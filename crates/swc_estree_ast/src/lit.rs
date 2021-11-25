@@ -1,11 +1,139 @@
-use crate::{common::BaseNode, expr::Expression, typescript::TSType};
-use serde::{Deserialize, Serialize};
+use crate::{common::BaseNode, expr::Expression, flavor::Flavor, typescript::TSType};
+use serde::{ser::SerializeMap, Deserialize, Serialize};
+use std::borrow::Cow;
 use swc_atoms::JsWord;
 use swc_common::ast_serde;
 
 #[derive(Debug, Clone, PartialEq)]
-#[ast_serde]
 pub enum Literal {
+    String(StringLiteral),
+    Numeric(NumericLiteral),
+    Null(NullLiteral),
+    Boolean(BooleanLiteral),
+    RegExp(RegExpLiteral),
+    Template(TemplateLiteral),
+    BigInt(BigIntLiteral),
+    Decimal(DecimalLiteral),
+}
+#[derive(Serialize)]
+struct AcornRegex<'a> {
+    flags: &'a str,
+    pattern: &'a str,
+}
+
+#[derive(Serialize)]
+struct Empty {}
+
+impl Serialize for Literal {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        match Flavor::current() {
+            Flavor::Babel => {
+                let b = match self {
+                    Literal::String(l) => BabelLiteral::String(l.clone()),
+                    Literal::Numeric(l) => BabelLiteral::Numeric(l.clone()),
+                    Literal::Null(l) => BabelLiteral::Null(l.clone()),
+                    Literal::Boolean(l) => BabelLiteral::Boolean(l.clone()),
+                    Literal::RegExp(l) => BabelLiteral::RegExp(l.clone()),
+                    Literal::Template(l) => BabelLiteral::Template(l.clone()),
+                    Literal::BigInt(l) => BabelLiteral::BigInt(l.clone()),
+                    Literal::Decimal(l) => BabelLiteral::Decimal(l.clone()),
+                };
+                BabelLiteral::serialize(&b, serializer)
+            }
+            Flavor::Acorn => {
+                let (base, value, raw) = match self {
+                    Literal::String(l) => (
+                        &l.base,
+                        AcornLiteralValue::String(l.value.clone()),
+                        Cow::Borrowed(&*l.value),
+                    ),
+                    Literal::Numeric(l) => (
+                        &l.base,
+                        AcornLiteralValue::Numeric(l.value.clone()),
+                        Cow::Owned(l.value.to_string()),
+                    ),
+                    Literal::Null(l) => (
+                        &l.base,
+                        AcornLiteralValue::Null(None),
+                        Cow::Borrowed("null"),
+                    ),
+                    Literal::Boolean(l) => (
+                        &l.base,
+                        AcornLiteralValue::Boolean(l.value.clone()),
+                        if l.value {
+                            Cow::Borrowed("true")
+                        } else {
+                            Cow::Borrowed("false")
+                        },
+                    ),
+                    Literal::RegExp(l) => {
+                        let mut s = serializer.serialize_map(None)?;
+                        {
+                            // TODO(kdy1): This is bad.
+                            l.base
+                                .serialize(serde::__private::ser::FlatMapSerializer(&mut s))?;
+                        }
+                        s.serialize_entry("type", "Literal")?;
+
+                        s.serialize_entry(
+                            "regex",
+                            &AcornRegex {
+                                flags: &l.flags,
+                                pattern: &l.pattern,
+                            },
+                        )?;
+                        s.serialize_entry("value", &Empty {})?;
+                        return s.end();
+                    }
+                    Literal::Template(..) => todo!(),
+                    Literal::BigInt(l) => (
+                        &l.base,
+                        AcornLiteralValue::BigInt(l.value.clone()),
+                        Cow::Owned(l.value.to_string()),
+                    ),
+                    Literal::Decimal(l) => (
+                        &l.base,
+                        AcornLiteralValue::Decimal(l.value.clone()),
+                        Cow::Owned(l.value.to_string()),
+                    ),
+                };
+                let acorn = AcornLiteral {
+                    type_: "Literal",
+                    raw: &raw,
+                    base,
+                    value,
+                };
+
+                AcornLiteral::serialize(&acorn, serializer)
+            }
+        }
+    }
+}
+
+impl<'de> Deserialize<'de> for Literal {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        BabelLiteral::deserialize(deserializer).map(|b| match b {
+            BabelLiteral::String(l) => Literal::String(l),
+            BabelLiteral::Numeric(l) => Literal::Numeric(l),
+            BabelLiteral::Null(l) => Literal::Null(l),
+            BabelLiteral::Boolean(l) => Literal::Boolean(l),
+            BabelLiteral::RegExp(l) => Literal::RegExp(l),
+            BabelLiteral::Template(l) => Literal::Template(l),
+            BabelLiteral::BigInt(l) => Literal::BigInt(l),
+            BabelLiteral::Decimal(l) => Literal::Decimal(l),
+        })
+    }
+}
+
+/// Used for serialization/deserialization
+#[ast_serde]
+enum BabelLiteral {
     #[tag("StringLiteral")]
     String(StringLiteral),
     #[tag("NumericLiteral")]
@@ -22,6 +150,28 @@ pub enum Literal {
     BigInt(BigIntLiteral),
     #[tag("DecimalLiteral")]
     Decimal(DecimalLiteral),
+}
+
+#[derive(Serialize)]
+struct AcornLiteral<'a> {
+    /// `Literal`.
+    #[serde(rename = "type")]
+    type_: &'a str,
+    raw: &'a str,
+    #[serde(flatten)]
+    base: &'a BaseNode,
+    value: AcornLiteralValue,
+}
+
+#[derive(Serialize)]
+#[serde(untagged)]
+enum AcornLiteralValue {
+    String(JsWord),
+    Numeric(f64),
+    Null(Option<()>),
+    Boolean(bool),
+    BigInt(String),
+    Decimal(JsWord),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]

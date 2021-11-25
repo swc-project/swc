@@ -1,0 +1,833 @@
+{
+  "body": [
+    {
+      "body": {
+        "body": [
+          {
+            "computed": false,
+            "end": 114,
+            "key": {
+              "end": 33,
+              "name": "constructor",
+              "range": [
+                22,
+                33
+              ],
+              "start": 22,
+              "type": "Identifier"
+            },
+            "kind": "constructor",
+            "range": [
+              22,
+              114
+            ],
+            "start": 22,
+            "static": false,
+            "type": "MethodDefinition",
+            "value": {
+              "async": false,
+              "body": {
+                "body": [
+                  {
+                    "end": 80,
+                    "expression": {
+                      "end": 79,
+                      "left": {
+                        "computed": false,
+                        "end": 70,
+                        "object": {
+                          "end": 63,
+                          "range": [
+                            59,
+                            63
+                          ],
+                          "start": 59,
+                          "type": "ThisExpression"
+                        },
+                        "optional": false,
+                        "property": {
+                          "end": 70,
+                          "name": "height",
+                          "range": [
+                            64,
+                            70
+                          ],
+                          "start": 64,
+                          "type": "Identifier"
+                        },
+                        "range": [
+                          59,
+                          70
+                        ],
+                        "start": 59,
+                        "type": "MemberExpression"
+                      },
+                      "operator": "=",
+                      "range": [
+                        59,
+                        79
+                      ],
+                      "right": {
+                        "end": 79,
+                        "name": "height",
+                        "range": [
+                          73,
+                          79
+                        ],
+                        "start": 73,
+                        "type": "Identifier"
+                      },
+                      "start": 59,
+                      "type": "AssignmentExpression"
+                    },
+                    "range": [
+                      59,
+                      80
+                    ],
+                    "start": 59,
+                    "type": "ExpressionStatement"
+                  },
+                  {
+                    "end": 108,
+                    "expression": {
+                      "end": 107,
+                      "left": {
+                        "computed": false,
+                        "end": 99,
+                        "object": {
+                          "end": 93,
+                          "range": [
+                            89,
+                            93
+                          ],
+                          "start": 89,
+                          "type": "ThisExpression"
+                        },
+                        "optional": false,
+                        "property": {
+                          "end": 99,
+                          "name": "width",
+                          "range": [
+                            94,
+                            99
+                          ],
+                          "start": 94,
+                          "type": "Identifier"
+                        },
+                        "range": [
+                          89,
+                          99
+                        ],
+                        "start": 89,
+                        "type": "MemberExpression"
+                      },
+                      "operator": "=",
+                      "range": [
+                        89,
+                        107
+                      ],
+                      "right": {
+                        "end": 107,
+                        "name": "width",
+                        "range": [
+                          102,
+                          107
+                        ],
+                        "start": 102,
+                        "type": "Identifier"
+                      },
+                      "start": 89,
+                      "type": "AssignmentExpression"
+                    },
+                    "range": [
+                      89,
+                      108
+                    ],
+                    "start": 89,
+                    "type": "ExpressionStatement"
+                  }
+                ],
+                "end": 114,
+                "range": [
+                  49,
+                  114
+                ],
+                "start": 49,
+                "type": "BlockStatement"
+              },
+              "end": 114,
+              "generator": false,
+              "params": [
+                {
+                  "end": 40,
+                  "name": "height",
+                  "range": [
+                    34,
+                    40
+                  ],
+                  "start": 34,
+                  "type": "Identifier"
+                },
+                {
+                  "end": 47,
+                  "name": "width",
+                  "range": [
+                    42,
+                    47
+                  ],
+                  "start": 42,
+                  "type": "Identifier"
+                }
+              ],
+              "range": [
+                49,
+                114
+              ],
+              "start": 49,
+              "type": "FunctionExpression"
+            }
+          },
+          {
+            "computed": false,
+            "end": 164,
+            "key": {
+              "end": 130,
+              "name": "height",
+              "range": [
+                124,
+                130
+              ],
+              "start": 124,
+              "type": "Identifier"
+            },
+            "kind": "set",
+            "range": [
+              120,
+              164
+            ],
+            "start": 120,
+            "static": false,
+            "type": "MethodDefinition",
+            "value": {
+              "async": false,
+              "body": {
+                "body": [
+                  {
+                    "end": 162,
+                    "expression": {
+                      "end": 161,
+                      "left": {
+                        "computed": false,
+                        "end": 152,
+                        "object": {
+                          "end": 145,
+                          "range": [
+                            141,
+                            145
+                          ],
+                          "start": 141,
+                          "type": "ThisExpression"
+                        },
+                        "optional": false,
+                        "property": {
+                          "end": 152,
+                          "name": "height",
+                          "range": [
+                            146,
+                            152
+                          ],
+                          "start": 146,
+                          "type": "Identifier"
+                        },
+                        "range": [
+                          141,
+                          152
+                        ],
+                        "start": 141,
+                        "type": "MemberExpression"
+                      },
+                      "operator": "=",
+                      "range": [
+                        141,
+                        161
+                      ],
+                      "right": {
+                        "end": 161,
+                        "name": "height",
+                        "range": [
+                          155,
+                          161
+                        ],
+                        "start": 155,
+                        "type": "Identifier"
+                      },
+                      "start": 141,
+                      "type": "AssignmentExpression"
+                    },
+                    "range": [
+                      141,
+                      162
+                    ],
+                    "start": 141,
+                    "type": "ExpressionStatement"
+                  }
+                ],
+                "end": 164,
+                "range": [
+                  139,
+                  164
+                ],
+                "start": 139,
+                "type": "BlockStatement"
+              },
+              "end": 164,
+              "generator": false,
+              "params": [
+                {
+                  "end": 137,
+                  "name": "height",
+                  "range": [
+                    131,
+                    137
+                  ],
+                  "start": 131,
+                  "type": "Identifier"
+                }
+              ],
+              "range": [
+                139,
+                164
+              ],
+              "start": 139,
+              "type": "FunctionExpression"
+            }
+          },
+          {
+            "computed": false,
+            "end": 210,
+            "key": {
+              "end": 179,
+              "name": "width",
+              "range": [
+                174,
+                179
+              ],
+              "start": 174,
+              "type": "Identifier"
+            },
+            "kind": "set",
+            "range": [
+              170,
+              210
+            ],
+            "start": 170,
+            "static": false,
+            "type": "MethodDefinition",
+            "value": {
+              "async": false,
+              "body": {
+                "body": [
+                  {
+                    "end": 208,
+                    "expression": {
+                      "end": 207,
+                      "left": {
+                        "computed": false,
+                        "end": 199,
+                        "object": {
+                          "end": 193,
+                          "range": [
+                            189,
+                            193
+                          ],
+                          "start": 189,
+                          "type": "ThisExpression"
+                        },
+                        "optional": false,
+                        "property": {
+                          "end": 199,
+                          "name": "width",
+                          "range": [
+                            194,
+                            199
+                          ],
+                          "start": 194,
+                          "type": "Identifier"
+                        },
+                        "range": [
+                          189,
+                          199
+                        ],
+                        "start": 189,
+                        "type": "MemberExpression"
+                      },
+                      "operator": "=",
+                      "range": [
+                        189,
+                        207
+                      ],
+                      "right": {
+                        "end": 207,
+                        "name": "width",
+                        "range": [
+                          202,
+                          207
+                        ],
+                        "start": 202,
+                        "type": "Identifier"
+                      },
+                      "start": 189,
+                      "type": "AssignmentExpression"
+                    },
+                    "range": [
+                      189,
+                      208
+                    ],
+                    "start": 189,
+                    "type": "ExpressionStatement"
+                  }
+                ],
+                "end": 210,
+                "range": [
+                  187,
+                  210
+                ],
+                "start": 187,
+                "type": "BlockStatement"
+              },
+              "end": 210,
+              "generator": false,
+              "params": [
+                {
+                  "end": 185,
+                  "name": "width",
+                  "range": [
+                    180,
+                    185
+                  ],
+                  "start": 180,
+                  "type": "Identifier"
+                }
+              ],
+              "range": [
+                187,
+                210
+              ],
+              "start": 187,
+              "type": "FunctionExpression"
+            }
+          },
+          {
+            "computed": false,
+            "end": 266,
+            "key": {
+              "end": 224,
+              "name": "area",
+              "range": [
+                220,
+                224
+              ],
+              "start": 220,
+              "type": "Identifier"
+            },
+            "kind": "get",
+            "range": [
+              216,
+              266
+            ],
+            "start": 216,
+            "static": false,
+            "type": "MethodDefinition",
+            "value": {
+              "async": false,
+              "body": {
+                "body": [
+                  {
+                    "argument": {
+                      "arguments": [],
+                      "callee": {
+                        "computed": false,
+                        "end": 257,
+                        "object": {
+                          "end": 248,
+                          "range": [
+                            244,
+                            248
+                          ],
+                          "start": 244,
+                          "type": "ThisExpression"
+                        },
+                        "optional": false,
+                        "property": {
+                          "end": 257,
+                          "name": "calcArea",
+                          "range": [
+                            249,
+                            257
+                          ],
+                          "start": 249,
+                          "type": "Identifier"
+                        },
+                        "range": [
+                          244,
+                          257
+                        ],
+                        "start": 244,
+                        "type": "MemberExpression"
+                      },
+                      "end": 259,
+                      "optional": false,
+                      "range": [
+                        244,
+                        259
+                      ],
+                      "start": 244,
+                      "type": "CallExpression"
+                    },
+                    "end": 260,
+                    "range": [
+                      237,
+                      260
+                    ],
+                    "start": 237,
+                    "type": "ReturnStatement"
+                  }
+                ],
+                "end": 266,
+                "range": [
+                  227,
+                  266
+                ],
+                "start": 227,
+                "type": "BlockStatement"
+              },
+              "end": 266,
+              "generator": false,
+              "params": [],
+              "range": [
+                227,
+                266
+              ],
+              "start": 227,
+              "type": "FunctionExpression"
+            }
+          },
+          {
+            "computed": false,
+            "end": 331,
+            "key": {
+              "end": 280,
+              "name": "calcArea",
+              "range": [
+                272,
+                280
+              ],
+              "start": 272,
+              "type": "Identifier"
+            },
+            "kind": "method",
+            "range": [
+              272,
+              331
+            ],
+            "start": 272,
+            "static": false,
+            "type": "MethodDefinition",
+            "value": {
+              "async": false,
+              "body": {
+                "body": [
+                  {
+                    "argument": {
+                      "end": 324,
+                      "left": {
+                        "computed": false,
+                        "end": 311,
+                        "object": {
+                          "end": 304,
+                          "range": [
+                            300,
+                            304
+                          ],
+                          "start": 300,
+                          "type": "ThisExpression"
+                        },
+                        "optional": false,
+                        "property": {
+                          "end": 311,
+                          "name": "height",
+                          "range": [
+                            305,
+                            311
+                          ],
+                          "start": 305,
+                          "type": "Identifier"
+                        },
+                        "range": [
+                          300,
+                          311
+                        ],
+                        "start": 300,
+                        "type": "MemberExpression"
+                      },
+                      "operator": "*",
+                      "range": [
+                        300,
+                        324
+                      ],
+                      "right": {
+                        "computed": false,
+                        "end": 324,
+                        "object": {
+                          "end": 318,
+                          "range": [
+                            314,
+                            318
+                          ],
+                          "start": 314,
+                          "type": "ThisExpression"
+                        },
+                        "optional": false,
+                        "property": {
+                          "end": 324,
+                          "name": "width",
+                          "range": [
+                            319,
+                            324
+                          ],
+                          "start": 319,
+                          "type": "Identifier"
+                        },
+                        "range": [
+                          314,
+                          324
+                        ],
+                        "start": 314,
+                        "type": "MemberExpression"
+                      },
+                      "start": 300,
+                      "type": "BinaryExpression"
+                    },
+                    "end": 325,
+                    "range": [
+                      293,
+                      325
+                    ],
+                    "start": 293,
+                    "type": "ReturnStatement"
+                  }
+                ],
+                "end": 331,
+                "range": [
+                  283,
+                  331
+                ],
+                "start": 283,
+                "type": "BlockStatement"
+              },
+              "end": 331,
+              "generator": false,
+              "params": [],
+              "range": [
+                283,
+                331
+              ],
+              "start": 283,
+              "type": "FunctionExpression"
+            }
+          }
+        ],
+        "end": 333,
+        "range": [
+          16,
+          333
+        ],
+        "start": 16,
+        "type": "ClassBody"
+      },
+      "end": 333,
+      "id": {
+        "end": 15,
+        "name": "Rectangle",
+        "range": [
+          6,
+          15
+        ],
+        "start": 6,
+        "type": "Identifier"
+      },
+      "range": [
+        0,
+        333
+      ],
+      "start": 0,
+      "superClass": null,
+      "type": "ClassDeclaration"
+    },
+    {
+      "declarations": [
+        {
+          "end": 371,
+          "id": {
+            "end": 347,
+            "name": "square",
+            "range": [
+              341,
+              347
+            ],
+            "start": 341,
+            "type": "Identifier"
+          },
+          "init": {
+            "arguments": [
+              {
+                "end": 366,
+                "range": [
+                  364,
+                  366
+                ],
+                "raw": "10",
+                "start": 364,
+                "type": "Literal",
+                "value": 10.0
+              },
+              {
+                "end": 370,
+                "range": [
+                  368,
+                  370
+                ],
+                "raw": "10",
+                "start": 368,
+                "type": "Literal",
+                "value": 10.0
+              }
+            ],
+            "callee": {
+              "end": 363,
+              "name": "Rectangle",
+              "range": [
+                354,
+                363
+              ],
+              "start": 354,
+              "type": "Identifier"
+            },
+            "end": 371,
+            "range": [
+              350,
+              371
+            ],
+            "start": 350,
+            "type": "NewExpression"
+          },
+          "range": [
+            341,
+            371
+          ],
+          "start": 341,
+          "type": "VariableDeclarator"
+        }
+      ],
+      "end": 372,
+      "kind": "const",
+      "range": [
+        335,
+        372
+      ],
+      "start": 335,
+      "type": "VariableDeclaration"
+    },
+    {
+      "end": 399,
+      "expression": {
+        "arguments": [
+          {
+            "computed": false,
+            "end": 397,
+            "object": {
+              "end": 392,
+              "name": "square",
+              "range": [
+                386,
+                392
+              ],
+              "start": 386,
+              "type": "Identifier"
+            },
+            "optional": false,
+            "property": {
+              "end": 397,
+              "name": "area",
+              "range": [
+                393,
+                397
+              ],
+              "start": 393,
+              "type": "Identifier"
+            },
+            "range": [
+              386,
+              397
+            ],
+            "start": 386,
+            "type": "MemberExpression"
+          }
+        ],
+        "callee": {
+          "computed": false,
+          "end": 385,
+          "object": {
+            "end": 381,
+            "name": "console",
+            "range": [
+              374,
+              381
+            ],
+            "start": 374,
+            "type": "Identifier"
+          },
+          "optional": false,
+          "property": {
+            "end": 385,
+            "name": "log",
+            "range": [
+              382,
+              385
+            ],
+            "start": 382,
+            "type": "Identifier"
+          },
+          "range": [
+            374,
+            385
+          ],
+          "start": 374,
+          "type": "MemberExpression"
+        },
+        "end": 398,
+        "optional": false,
+        "range": [
+          374,
+          398
+        ],
+        "start": 374,
+        "type": "CallExpression"
+      },
+      "range": [
+        374,
+        399
+      ],
+      "start": 374,
+      "type": "ExpressionStatement"
+    }
+  ],
+  "end": 399,
+  "range": [
+    0,
+    399
+  ],
+  "sourceType": "script",
+  "start": 0,
+  "type": "Program"
+}

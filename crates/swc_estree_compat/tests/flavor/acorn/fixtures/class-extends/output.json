@@ -1,0 +1,630 @@
+{
+  "body": [
+    {
+      "body": {
+        "body": [
+          {
+            "computed": false,
+            "end": 70,
+            "key": {
+              "end": 30,
+              "name": "constructor",
+              "range": [
+                19,
+                30
+              ],
+              "start": 19,
+              "type": "Identifier"
+            },
+            "kind": "constructor",
+            "range": [
+              19,
+              70
+            ],
+            "start": 19,
+            "static": false,
+            "type": "MethodDefinition",
+            "value": {
+              "async": false,
+              "body": {
+                "body": [
+                  {
+                    "end": 64,
+                    "expression": {
+                      "end": 63,
+                      "left": {
+                        "computed": false,
+                        "end": 56,
+                        "object": {
+                          "end": 51,
+                          "range": [
+                            47,
+                            51
+                          ],
+                          "start": 47,
+                          "type": "ThisExpression"
+                        },
+                        "optional": false,
+                        "property": {
+                          "end": 56,
+                          "name": "name",
+                          "range": [
+                            52,
+                            56
+                          ],
+                          "start": 52,
+                          "type": "Identifier"
+                        },
+                        "range": [
+                          47,
+                          56
+                        ],
+                        "start": 47,
+                        "type": "MemberExpression"
+                      },
+                      "operator": "=",
+                      "range": [
+                        47,
+                        63
+                      ],
+                      "right": {
+                        "end": 63,
+                        "name": "name",
+                        "range": [
+                          59,
+                          63
+                        ],
+                        "start": 59,
+                        "type": "Identifier"
+                      },
+                      "start": 47,
+                      "type": "AssignmentExpression"
+                    },
+                    "range": [
+                      47,
+                      64
+                    ],
+                    "start": 47,
+                    "type": "ExpressionStatement"
+                  }
+                ],
+                "end": 70,
+                "range": [
+                  37,
+                  70
+                ],
+                "start": 37,
+                "type": "BlockStatement"
+              },
+              "end": 70,
+              "generator": false,
+              "params": [
+                {
+                  "end": 35,
+                  "name": "name",
+                  "range": [
+                    31,
+                    35
+                  ],
+                  "start": 31,
+                  "type": "Identifier"
+                }
+              ],
+              "range": [
+                37,
+                70
+              ],
+              "start": 37,
+              "type": "FunctionExpression"
+            }
+          },
+          {
+            "computed": false,
+            "end": 143,
+            "key": {
+              "end": 81,
+              "name": "speak",
+              "range": [
+                76,
+                81
+              ],
+              "start": 76,
+              "type": "Identifier"
+            },
+            "kind": "method",
+            "range": [
+              76,
+              143
+            ],
+            "start": 76,
+            "static": false,
+            "type": "MethodDefinition",
+            "value": {
+              "async": false,
+              "body": {
+                "body": [
+                  {
+                    "end": 137,
+                    "expression": {
+                      "arguments": [
+                        {
+                          "end": 135,
+                          "expressions": [
+                            {
+                              "computed": false,
+                              "end": 118,
+                              "object": {
+                                "end": 113,
+                                "range": [
+                                  109,
+                                  113
+                                ],
+                                "start": 109,
+                                "type": "ThisExpression"
+                              },
+                              "optional": false,
+                              "property": {
+                                "end": 118,
+                                "name": "name",
+                                "range": [
+                                  114,
+                                  118
+                                ],
+                                "start": 114,
+                                "type": "Identifier"
+                              },
+                              "range": [
+                                109,
+                                118
+                              ],
+                              "start": 109,
+                              "type": "MemberExpression"
+                            }
+                          ],
+                          "quasis": [
+                            {
+                              "end": 107,
+                              "range": [
+                                107,
+                                107
+                              ],
+                              "start": 107,
+                              "tail": false,
+                              "type": "TemplateElement",
+                              "value": {
+                                "cooked": "",
+                                "raw": ""
+                              }
+                            },
+                            {
+                              "end": 134,
+                              "range": [
+                                119,
+                                134
+                              ],
+                              "start": 119,
+                              "tail": true,
+                              "type": "TemplateElement",
+                              "value": {
+                                "cooked": " makes a noise.",
+                                "raw": " makes a noise."
+                              }
+                            }
+                          ],
+                          "range": [
+                            106,
+                            135
+                          ],
+                          "start": 106,
+                          "type": "TemplateLiteral"
+                        }
+                      ],
+                      "callee": {
+                        "computed": false,
+                        "end": 105,
+                        "object": {
+                          "end": 101,
+                          "name": "console",
+                          "range": [
+                            94,
+                            101
+                          ],
+                          "start": 94,
+                          "type": "Identifier"
+                        },
+                        "optional": false,
+                        "property": {
+                          "end": 105,
+                          "name": "log",
+                          "range": [
+                            102,
+                            105
+                          ],
+                          "start": 102,
+                          "type": "Identifier"
+                        },
+                        "range": [
+                          94,
+                          105
+                        ],
+                        "start": 94,
+                        "type": "MemberExpression"
+                      },
+                      "end": 136,
+                      "optional": false,
+                      "range": [
+                        94,
+                        136
+                      ],
+                      "start": 94,
+                      "type": "CallExpression"
+                    },
+                    "range": [
+                      94,
+                      137
+                    ],
+                    "start": 94,
+                    "type": "ExpressionStatement"
+                  }
+                ],
+                "end": 143,
+                "range": [
+                  84,
+                  143
+                ],
+                "start": 84,
+                "type": "BlockStatement"
+              },
+              "end": 143,
+              "generator": false,
+              "params": [],
+              "range": [
+                84,
+                143
+              ],
+              "start": 84,
+              "type": "FunctionExpression"
+            }
+          }
+        ],
+        "end": 145,
+        "range": [
+          13,
+          145
+        ],
+        "start": 13,
+        "type": "ClassBody"
+      },
+      "end": 145,
+      "id": {
+        "end": 12,
+        "name": "Animal",
+        "range": [
+          6,
+          12
+        ],
+        "start": 6,
+        "type": "Identifier"
+      },
+      "range": [
+        0,
+        145
+      ],
+      "start": 0,
+      "superClass": null,
+      "type": "ClassDeclaration"
+    },
+    {
+      "body": {
+        "body": [
+          {
+            "computed": false,
+            "end": 224,
+            "key": {
+              "end": 189,
+              "name": "constructor",
+              "range": [
+                178,
+                189
+              ],
+              "start": 178,
+              "type": "Identifier"
+            },
+            "kind": "constructor",
+            "range": [
+              178,
+              224
+            ],
+            "start": 178,
+            "static": false,
+            "type": "MethodDefinition",
+            "value": {
+              "async": false,
+              "body": {
+                "body": [
+                  {
+                    "end": 218,
+                    "expression": {
+                      "arguments": [
+                        {
+                          "end": 216,
+                          "name": "name",
+                          "range": [
+                            212,
+                            216
+                          ],
+                          "start": 212,
+                          "type": "Identifier"
+                        }
+                      ],
+                      "callee": {
+                        "end": 211,
+                        "range": [
+                          206,
+                          211
+                        ],
+                        "start": 206,
+                        "type": "Super"
+                      },
+                      "end": 217,
+                      "optional": false,
+                      "range": [
+                        206,
+                        217
+                      ],
+                      "start": 206,
+                      "type": "CallExpression"
+                    },
+                    "range": [
+                      206,
+                      218
+                    ],
+                    "start": 206,
+                    "type": "ExpressionStatement"
+                  }
+                ],
+                "end": 224,
+                "range": [
+                  196,
+                  224
+                ],
+                "start": 196,
+                "type": "BlockStatement"
+              },
+              "end": 224,
+              "generator": false,
+              "params": [
+                {
+                  "end": 194,
+                  "name": "name",
+                  "range": [
+                    190,
+                    194
+                  ],
+                  "start": 190,
+                  "type": "Identifier"
+                }
+              ],
+              "range": [
+                196,
+                224
+              ],
+              "start": 196,
+              "type": "FunctionExpression"
+            }
+          },
+          {
+            "computed": false,
+            "end": 289,
+            "key": {
+              "end": 235,
+              "name": "speak",
+              "range": [
+                230,
+                235
+              ],
+              "start": 230,
+              "type": "Identifier"
+            },
+            "kind": "method",
+            "range": [
+              230,
+              289
+            ],
+            "start": 230,
+            "static": false,
+            "type": "MethodDefinition",
+            "value": {
+              "async": false,
+              "body": {
+                "body": [
+                  {
+                    "end": 283,
+                    "expression": {
+                      "arguments": [
+                        {
+                          "end": 281,
+                          "expressions": [
+                            {
+                              "computed": false,
+                              "end": 272,
+                              "object": {
+                                "end": 267,
+                                "range": [
+                                  263,
+                                  267
+                                ],
+                                "start": 263,
+                                "type": "ThisExpression"
+                              },
+                              "optional": false,
+                              "property": {
+                                "end": 272,
+                                "name": "name",
+                                "range": [
+                                  268,
+                                  272
+                                ],
+                                "start": 268,
+                                "type": "Identifier"
+                              },
+                              "range": [
+                                263,
+                                272
+                              ],
+                              "start": 263,
+                              "type": "MemberExpression"
+                            }
+                          ],
+                          "quasis": [
+                            {
+                              "end": 261,
+                              "range": [
+                                261,
+                                261
+                              ],
+                              "start": 261,
+                              "tail": false,
+                              "type": "TemplateElement",
+                              "value": {
+                                "cooked": "",
+                                "raw": ""
+                              }
+                            },
+                            {
+                              "end": 280,
+                              "range": [
+                                273,
+                                280
+                              ],
+                              "start": 273,
+                              "tail": true,
+                              "type": "TemplateElement",
+                              "value": {
+                                "cooked": " barks.",
+                                "raw": " barks."
+                              }
+                            }
+                          ],
+                          "range": [
+                            260,
+                            281
+                          ],
+                          "start": 260,
+                          "type": "TemplateLiteral"
+                        }
+                      ],
+                      "callee": {
+                        "computed": false,
+                        "end": 259,
+                        "object": {
+                          "end": 255,
+                          "name": "console",
+                          "range": [
+                            248,
+                            255
+                          ],
+                          "start": 248,
+                          "type": "Identifier"
+                        },
+                        "optional": false,
+                        "property": {
+                          "end": 259,
+                          "name": "log",
+                          "range": [
+                            256,
+                            259
+                          ],
+                          "start": 256,
+                          "type": "Identifier"
+                        },
+                        "range": [
+                          248,
+                          259
+                        ],
+                        "start": 248,
+                        "type": "MemberExpression"
+                      },
+                      "end": 282,
+                      "optional": false,
+                      "range": [
+                        248,
+                        282
+                      ],
+                      "start": 248,
+                      "type": "CallExpression"
+                    },
+                    "range": [
+                      248,
+                      283
+                    ],
+                    "start": 248,
+                    "type": "ExpressionStatement"
+                  }
+                ],
+                "end": 289,
+                "range": [
+                  238,
+                  289
+                ],
+                "start": 238,
+                "type": "BlockStatement"
+              },
+              "end": 289,
+              "generator": false,
+              "params": [],
+              "range": [
+                238,
+                289
+              ],
+              "start": 238,
+              "type": "FunctionExpression"
+            }
+          }
+        ],
+        "end": 291,
+        "range": [
+          172,
+          291
+        ],
+        "start": 172,
+        "type": "ClassBody"
+      },
+      "end": 291,
+      "id": {
+        "end": 156,
+        "name": "Dog",
+        "range": [
+          153,
+          156
+        ],
+        "start": 153,
+        "type": "Identifier"
+      },
+      "range": [
+        147,
+        291
+      ],
+      "start": 147,
+      "superClass": {
+        "end": 171,
+        "name": "Animal",
+        "range": [
+          165,
+          171
+        ],
+        "start": 165,
+        "type": "Identifier"
+      },
+      "type": "ClassDeclaration"
+    }
+  ],
+  "end": 291,
+  "range": [
+    0,
+    291
+  ],
+  "sourceType": "script",
+  "start": 0,
+  "type": "Program"
+}

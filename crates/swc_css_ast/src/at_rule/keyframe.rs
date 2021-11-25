@@ -1,10 +1,18 @@
-use crate::{AtRule, Block, Ident, PercentValue};
+use crate::{AtRule, Block, Ident, PercentValue, Str};
 use swc_common::{ast_node, Span};
+
+#[ast_node]
+pub enum KeyframesName {
+    #[tag("Ident")]
+    Ident(Ident),
+    #[tag("Str")]
+    Str(Str),
+}
 
 #[ast_node("KeyframesRule")]
 pub struct KeyframesRule {
     pub span: Span,
-    pub id: Ident,
+    pub name: KeyframesName,
     pub blocks: Vec<KeyframeBlock>,
 }
 

@@ -78,8 +78,6 @@ impl Visit for AssertValid {
 
 #[testing::fixture("tests/fixture/**/input.css")]
 fn tokens_input(input: PathBuf) {
-    eprintln!("Input: {}", input.display());
-
     testing::run_test2(false, |cm, handler| {
         let fm = cm.load_file(&input).unwrap();
 
@@ -125,8 +123,6 @@ fn tokens_input(input: PathBuf) {
 }
 
 fn test_pass(input: PathBuf, config: ParserConfig) {
-    eprintln!("Input: {}", input.display());
-
     testing::run_test2(false, |cm, handler| {
         let ref_json_path = input.parent().unwrap().join("output.json");
 
@@ -230,7 +226,6 @@ fn line_commetns(input: PathBuf) {
 
 #[testing::fixture("tests/recovery/**/input.css")]
 fn recovery(input: PathBuf) {
-    eprintln!("Input: {}", input.display());
     let stderr_path = input.parent().unwrap().join("output.swc-stderr");
 
     let mut errored = false;
@@ -427,7 +422,6 @@ impl Visit for SpanVisualizer<'_> {
 
 #[testing::fixture("tests/fixture/**/input.css")]
 fn span(input: PathBuf) {
-    eprintln!("Input: {}", input.display());
     let dir = input.parent().unwrap().to_path_buf();
 
     let output = testing::run_test2(false, |cm, handler| {
@@ -475,7 +469,6 @@ fn span(input: PathBuf) {
 
 #[testing::fixture("tests/errors/**/input.css")]
 fn fail(input: PathBuf) {
-    eprintln!("Input: {}", input.display());
     let stderr_path = input.parent().unwrap().join("output.stderr");
 
     let stderr = testing::run_test2(false, |cm, handler| -> Result<(), _> {

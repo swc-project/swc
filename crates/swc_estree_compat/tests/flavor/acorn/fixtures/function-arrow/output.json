@@ -1,0 +1,227 @@
+{
+  "body": [
+    {
+      "declarations": [
+        {
+          "end": 72,
+          "id": {
+            "end": 5,
+            "name": "a",
+            "range": [
+              4,
+              5
+            ],
+            "start": 4,
+            "type": "Identifier"
+          },
+          "init": {
+            "elements": [
+              {
+                "end": 24,
+                "range": [
+                  14,
+                  24
+                ],
+                "raw": "Hydrogen",
+                "start": 14,
+                "type": "Literal",
+                "value": "Hydrogen"
+              },
+              {
+                "end": 38,
+                "range": [
+                  30,
+                  38
+                ],
+                "raw": "Helium",
+                "start": 30,
+                "type": "Literal",
+                "value": "Helium"
+              },
+              {
+                "end": 53,
+                "range": [
+                  44,
+                  53
+                ],
+                "raw": "Lithium",
+                "start": 44,
+                "type": "Literal",
+                "value": "Lithium"
+              },
+              {
+                "end": 70,
+                "range": [
+                  59,
+                  70
+                ],
+                "raw": "Beryllium",
+                "start": 59,
+                "type": "Literal",
+                "value": "Beryllium"
+              }
+            ],
+            "end": 72,
+            "range": [
+              8,
+              72
+            ],
+            "start": 8,
+            "type": "ArrayExpression"
+          },
+          "range": [
+            4,
+            72
+          ],
+          "start": 4,
+          "type": "VariableDeclarator"
+        }
+      ],
+      "end": 73,
+      "kind": "var",
+      "range": [
+        0,
+        73
+      ],
+      "start": 0,
+      "type": "VariableDeclaration"
+    },
+    {
+      "declarations": [
+        {
+          "end": 103,
+          "id": {
+            "end": 80,
+            "name": "a3",
+            "range": [
+              78,
+              80
+            ],
+            "start": 78,
+            "type": "Identifier"
+          },
+          "init": {
+            "arguments": [
+              {
+                "async": false,
+                "body": {
+                  "computed": false,
+                  "end": 102,
+                  "object": {
+                    "end": 95,
+                    "name": "s",
+                    "range": [
+                      94,
+                      95
+                    ],
+                    "start": 94,
+                    "type": "Identifier"
+                  },
+                  "optional": false,
+                  "property": {
+                    "end": 102,
+                    "name": "length",
+                    "range": [
+                      96,
+                      102
+                    ],
+                    "start": 96,
+                    "type": "Identifier"
+                  },
+                  "range": [
+                    94,
+                    102
+                  ],
+                  "start": 94,
+                  "type": "MemberExpression"
+                },
+                "end": 102,
+                "expression": true,
+                "generator": false,
+                "params": [
+                  {
+                    "end": 90,
+                    "name": "s",
+                    "range": [
+                      89,
+                      90
+                    ],
+                    "start": 89,
+                    "type": "Identifier"
+                  }
+                ],
+                "range": [
+                  89,
+                  102
+                ],
+                "start": 89,
+                "type": "ArrowFunctionExpression"
+              }
+            ],
+            "callee": {
+              "computed": false,
+              "end": 88,
+              "object": {
+                "end": 84,
+                "name": "a",
+                "range": [
+                  83,
+                  84
+                ],
+                "start": 83,
+                "type": "Identifier"
+              },
+              "optional": false,
+              "property": {
+                "end": 88,
+                "name": "map",
+                "range": [
+                  85,
+                  88
+                ],
+                "start": 85,
+                "type": "Identifier"
+              },
+              "range": [
+                83,
+                88
+              ],
+              "start": 83,
+              "type": "MemberExpression"
+            },
+            "end": 103,
+            "optional": false,
+            "range": [
+              83,
+              103
+            ],
+            "start": 83,
+            "type": "CallExpression"
+          },
+          "range": [
+            78,
+            103
+          ],
+          "start": 78,
+          "type": "VariableDeclarator"
+        }
+      ],
+      "end": 104,
+      "kind": "var",
+      "range": [
+        74,
+        104
+      ],
+      "start": 74,
+      "type": "VariableDeclaration"
+    }
+  ],
+  "end": 104,
+  "range": [
+    0,
+    104
+  ],
+  "sourceType": "script",
+  "start": 0,
+  "type": "Program"
+}

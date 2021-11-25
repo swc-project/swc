@@ -35,6 +35,7 @@ impl Babelify for FnDecl {
             body: func.body,
             generator: func.generator,
             is_async: func.is_async,
+            expression: false,
             return_type: func.return_type,
             type_parameters: func.type_parameters,
         }

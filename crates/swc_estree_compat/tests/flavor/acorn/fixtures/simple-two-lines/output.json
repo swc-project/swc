@@ -1,0 +1,116 @@
+{
+  "body": [
+    {
+      "declarations": [
+        {
+          "end": 17,
+          "id": {
+            "end": 7,
+            "name": "n",
+            "range": [
+              6,
+              7
+            ],
+            "start": 6,
+            "type": "Identifier"
+          },
+          "init": {
+            "end": 17,
+            "range": [
+              10,
+              17
+            ],
+            "raw": "hello",
+            "start": 10,
+            "type": "Literal",
+            "value": "hello"
+          },
+          "range": [
+            6,
+            17
+          ],
+          "start": 6,
+          "type": "VariableDeclarator"
+        }
+      ],
+      "end": 18,
+      "kind": "const",
+      "range": [
+        0,
+        18
+      ],
+      "start": 0,
+      "type": "VariableDeclaration"
+    },
+    {
+      "end": 34,
+      "expression": {
+        "arguments": [
+          {
+            "end": 32,
+            "name": "n",
+            "range": [
+              31,
+              32
+            ],
+            "start": 31,
+            "type": "Identifier"
+          }
+        ],
+        "callee": {
+          "computed": false,
+          "end": 30,
+          "object": {
+            "end": 26,
+            "name": "console",
+            "range": [
+              19,
+              26
+            ],
+            "start": 19,
+            "type": "Identifier"
+          },
+          "optional": false,
+          "property": {
+            "end": 30,
+            "name": "log",
+            "range": [
+              27,
+              30
+            ],
+            "start": 27,
+            "type": "Identifier"
+          },
+          "range": [
+            19,
+            30
+          ],
+          "start": 19,
+          "type": "MemberExpression"
+        },
+        "end": 33,
+        "optional": false,
+        "range": [
+          19,
+          33
+        ],
+        "start": 19,
+        "type": "CallExpression"
+      },
+      "range": [
+        19,
+        34
+      ],
+      "start": 19,
+      "type": "ExpressionStatement"
+    }
+  ],
+  "end": 34,
+  "range": [
+    0,
+    34
+  ],
+  "sourceType": "script",
+  "start": 0,
+  "type": "Program"
+}

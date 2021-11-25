@@ -8,10 +8,7 @@ use crate::{
         InterfaceExtends, TypeAnnotation, TypeParameterDeclaration, TypeParameterInstantiation,
     },
     jsx::{JSXElement, JSXFragment, JSXNamespacedName},
-    lit::{
-        BigIntLiteral, BooleanLiteral, DecimalLiteral, NullLiteral, NumericLiteral, RegExpLiteral,
-        StringLiteral, TemplateLiteral,
-    },
+    lit::{Literal, TemplateLiteral},
     module::{Import, Program},
     object::{ObjectMethod, ObjectProperty},
     stmt::{BlockStatement, ExpressionStatement},
@@ -41,15 +38,13 @@ pub enum Expression {
     #[tag("Identifier")]
     Id(Identifier),
     #[tag("StringLiteral")]
-    StringLiteral(StringLiteral),
     #[tag("NumericLiteral")]
-    NumericLiteral(NumericLiteral),
     #[tag("NullLiteral")]
-    NullLiteral(NullLiteral),
     #[tag("BooleanLiteral")]
-    BooleanLiteral(BooleanLiteral),
     #[tag("RegExpLiteral")]
-    RegExpLiteral(RegExpLiteral),
+    #[tag("DecimalLiteral")]
+    #[tag("BigIntLiteral")]
+    Literal(Literal),
     #[tag("LogicalExpression")]
     Logical(LogicalExpression),
     #[tag("MemberExpression")]
@@ -86,8 +81,6 @@ pub enum Expression {
     Await(AwaitExpression),
     #[tag("Import")]
     Import(Import),
-    #[tag("BigIntLiteral")]
-    BigIntLiteral(BigIntLiteral),
     #[tag("OptionalMemberExpression")]
     OptionalMember(OptionalMemberExpression),
     #[tag("OptionalCallExpression")]
@@ -108,8 +101,6 @@ pub enum Expression {
     Record(RecordExpression),
     #[tag("TupleExpression")]
     Tuple(TupleExpression),
-    #[tag("DecimalLiteral")]
-    DecimalLiteral(DecimalLiteral),
     #[tag("ModuleExpression")]
     Module(ModuleExpression),
     #[tag("TSAsExpression")]
@@ -180,7 +171,7 @@ pub struct MemberExpression {
     pub property: Box<MemberExprProp>,
     #[serde(default)]
     pub computed: bool,
-    #[serde(default)]
+    #[serde(default, serialize_with = "crate::ser::serialize_optional")]
     pub optional: Option<bool>,
 }
 
@@ -313,11 +304,11 @@ pub struct CallExpression {
     pub callee: Box<Callee>,
     #[serde(default)]
     pub arguments: Vec<Arg>,
-    #[serde(default)]
+    #[serde(default, serialize_with = "crate::ser::serialize_optional")]
     pub optional: Option<bool>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub type_arguments: Option<TypeParameterInstantiation>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub type_parameters: Option<TSTypeParameterInstantiation>,
 }
 
@@ -345,9 +336,9 @@ pub struct FunctionExpression {
     pub generator: Option<bool>,
     #[serde(default, rename = "async")]
     pub is_async: Option<bool>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub return_type: Option<Box<TypeAnnotOrNoop>>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
 
@@ -359,11 +350,14 @@ pub struct NewExpression {
     pub callee: Callee,
     #[serde(default)]
     pub arguments: Vec<Arg>,
-    #[serde(default)]
+    #[serde(
+        default,
+        skip_serializing_if = "crate::flavor::Flavor::skip_none_and_false"
+    )]
     pub optional: Option<bool>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub type_arguments: Option<TypeParameterInstantiation>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub type_parameters: Option<TSTypeParameterInstantiation>,
 }
 
@@ -508,9 +502,9 @@ pub struct ArrowFunctionExpression {
     pub expression: bool,
     #[serde(default)]
     pub generator: bool,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub return_type: Option<Box<TypeAnnotOrNoop>>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
 
@@ -524,15 +518,15 @@ pub struct ClassExpression {
     #[serde(default)]
     pub super_class: Option<Box<Expression>>,
     pub body: ClassBody,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_empty")]
     pub decorators: Option<Vec<Decorator>>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_empty")]
     pub implements: Option<Vec<ClassImpl>>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub mixins: Option<InterfaceExtends>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub super_type_parameters: Option<SuperTypeParams>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
 

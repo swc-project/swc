@@ -1,7 +1,10 @@
 
 [build]
 
-rustdocflags = []
+rustdocflags = [
+  "--cfg",
+  "docsrs",
+]
 rustflags = [
   "-C",
   "target-feature=+sse2",
