@@ -52,7 +52,7 @@ function f0() {
         1,
         "hello"
     ], x = ref4[0], y = ref4[1], z = ref4[2];
-    var x = 0;
+    var x = 2;
     var x;
     var y;
 }

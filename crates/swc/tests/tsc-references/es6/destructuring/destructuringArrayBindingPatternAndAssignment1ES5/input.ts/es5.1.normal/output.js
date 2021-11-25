@@ -99,12 +99,9 @@ var ref6 = [
     2,
     3
 ], c7 = ref6[1];
-var c8 = 1;
-var c9 = 1;
+var c8 = 4;
+var c9 = 4;
 var c10 = [
-    1,
-    2,
-    3,
     4,
     "hello"
 ];
