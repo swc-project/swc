@@ -68,6 +68,14 @@ fn assert_flavor(flavor: Flavor, input: &Path, output_json_path: &Path) {
 
             diff_json_value(&mut actual, &mut expected, &mut |key, value| {
                 match key {
+                    "expression" => {
+                        // Normalize false to null
+                        match value {
+                            Value::Bool(false) => *value = Value::Null,
+                            _ => {}
+                        }
+                    }
+
                     "raw" => {
                         // Remove `'` and `"` from raw strings.
                         match value {
