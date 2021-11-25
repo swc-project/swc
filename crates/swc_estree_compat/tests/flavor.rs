@@ -49,6 +49,11 @@ fn assert_flavor(flavor: Flavor, input: &Path, output_json_path: &Path) {
         let expected =
             String::from_utf8(output.stdout).expect("./acorn.js generated non-utf8 output");
 
+        // We don't care about these cases
+        if expected.trim().is_empty() {
+            return Ok(());
+        }
+
         {
             let mut expected = serde_json::from_str::<Value>(&expected)
                 .with_context(|| format!("acorn.js generated invalid json:\n {}", expected))
