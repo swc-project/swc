@@ -8,7 +8,7 @@ use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
 use swc_estree_ast::flavor::Flavor;
 use swc_estree_compat::babelify::Babelify;
-use testing::{assert_eq, DebugUsingDisplay, NormalizedOutput};
+use testing::{assert_eq, json::diff_json_value, DebugUsingDisplay, NormalizedOutput};
 
 fn assert_flavor(flavor: Flavor, input: &Path, output_json_path: &Path) {
     testing::run_test(false, |cm, _handler| {
@@ -57,7 +57,7 @@ fn assert_flavor(flavor: Flavor, input: &Path, output_json_path: &Path) {
                 serde_json::to_string_pretty(&expected).unwrap()
             );
 
-            diff_value(&mut actual, &mut expected);
+            diff_json_value(&mut actual, &mut expected, &mut |_key, _value| {});
 
             let actual = serde_json::to_string_pretty(&actual).unwrap();
             let expected = serde_json::to_string_pretty(&expected).unwrap();
@@ -79,38 +79,4 @@ fn acorn(input: PathBuf) {
     let output = input.parent().unwrap().join("output.json");
 
     assert_flavor(Flavor::Acorn, &input, &output);
-}
-
-/// Returns `true` if `actual` and `expected` are equal.
-fn diff_value(a: &mut Value, b: &mut Value) -> bool {
-    if *a == *b {
-        return true;
-    }
-
-    match (&mut *a, &mut *b) {
-        (Value::Object(a), Value::Object(b)) => {
-            a.retain(|key, a_v| {
-                if let Some(b_v) = b.get_mut(key) {
-                    if diff_value(a_v, b_v) {
-                        b.remove(key);
-                        return false;
-                    }
-                }
-
-                true
-            });
-        }
-
-        (Value::Array(a), Value::Array(b)) => {
-            if a.len() == b.len() {
-                for (a_v, b_v) in a.iter_mut().zip(b.iter_mut()) {
-                    diff_value(a_v, b_v);
-                }
-            }
-        }
-
-        _ => {}
-    }
-
-    false
 }
