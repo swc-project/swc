@@ -99,6 +99,10 @@ impl Babelify for Script {
 /// Module nodes.
 fn base_with_trailing_newline(span: Span, ctx: &Context) -> BaseNode {
     let mut base = ctx.base(span);
+    if matches!(Flavor::current(), Flavor::Acorn) {
+        return base;
+    }
+
     base.end = base.end.map(|num| num + 1);
     base.loc = base.loc.map(|loc| Loc {
         end: LineCol {
