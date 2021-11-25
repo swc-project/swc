@@ -1,4 +1,4 @@
-use serde_json::Value;
+use serde_json::{Number, Value};
 use std::{
     path::{Path, PathBuf},
     process::{Command, Stdio},
@@ -57,7 +57,21 @@ fn assert_flavor(flavor: Flavor, input: &Path, output_json_path: &Path) {
                 serde_json::to_string_pretty(&expected).unwrap()
             );
 
-            diff_json_value(&mut actual, &mut expected, &mut |_key, _value| {});
+            diff_json_value(&mut actual, &mut expected, &mut |key, value| {
+                match key {
+                    "value" => {
+                        // Normalize numbers
+                        match value {
+                            Value::Number(n) => {
+                                *n = Number::from_f64(n.as_f64().unwrap()).unwrap();
+                            }
+                            _ => {}
+                        }
+                    }
+
+                    _ => {}
+                }
+            });
 
             let actual = serde_json::to_string_pretty(&actual).unwrap();
             let expected = serde_json::to_string_pretty(&expected).unwrap();
