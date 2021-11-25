@@ -15,6 +15,14 @@ where
     s.serialize_some(&o.unwrap())
 }
 
+/// Always serializes as a boolean value.
+pub(crate) fn serialize_as_bool<S>(o: &Option<bool>, s: S) -> Result<S::Ok, S::Error>
+where
+    S: Serializer,
+{
+    s.serialize_bool(o.unwrap_or(false))
+}
+
 pub(crate) fn skip_expression_for_fn<T>(_: T) -> bool {
     match Flavor::current() {
         Flavor::Acorn => false,

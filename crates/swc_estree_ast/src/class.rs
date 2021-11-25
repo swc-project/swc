@@ -59,7 +59,7 @@ pub struct ClassMethod {
     #[serde(
         default,
         rename = "async",
-        skip_serializing_if = "crate::flavor::Flavor::skip_none_and_false"
+        serialize_with = "crate::ser::serialize_as_bool"
     )]
     pub is_async: Option<bool>,
     #[serde(
