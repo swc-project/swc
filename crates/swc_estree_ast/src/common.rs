@@ -38,11 +38,11 @@ impl Loc {
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct BaseNode {
-    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_empty")]
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub leading_comments: Vec<Comment>,
-    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_empty")]
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub inner_comments: Vec<Comment>,
-    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_empty")]
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub trailing_comments: Vec<Comment>,
 
     #[serde(default)]
