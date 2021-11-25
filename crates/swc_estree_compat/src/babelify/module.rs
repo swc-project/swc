@@ -4,8 +4,8 @@ use swc_common::{comments::Comment, Span};
 use swc_ecma_ast::{Invalid, Module, ModuleItem, Program, Script};
 use swc_ecma_visit::{Node, Visit, VisitWith};
 use swc_estree_ast::{
-    BaseNode, File, InterpreterDirective, LineCol, Loc, ModuleDeclaration, Program as BabelProgram,
-    SrcType, Statement,
+    flavor::Flavor, BaseNode, File, InterpreterDirective, LineCol, Loc, ModuleDeclaration,
+    Program as BabelProgram, SrcType, Statement,
 };
 use swc_node_comments::SwcComments;
 
@@ -27,6 +27,14 @@ impl Babelify for Program {
                 start: program.base.start,
                 end: program.base.end,
                 loc: program.base.loc,
+                range: if matches!(Flavor::current(), Flavor::Acorn) {
+                    match (program.base.start, program.base.end) {
+                        (Some(start), Some(end)) => Some([start, end]),
+                        _ => None,
+                    }
+                } else {
+                    None
+                },
             },
             program,
             comments: Some(ctx.convert_comments(comments)),
@@ -91,6 +99,10 @@ impl Babelify for Script {
 /// Module nodes.
 fn base_with_trailing_newline(span: Span, ctx: &Context) -> BaseNode {
     let mut base = ctx.base(span);
+    if matches!(Flavor::current(), Flavor::Acorn) {
+        return base;
+    }
+
     base.end = base.end.map(|num| num + 1);
     base.loc = base.loc.map(|loc| Loc {
         end: LineCol {
@@ -99,6 +111,8 @@ fn base_with_trailing_newline(span: Span, ctx: &Context) -> BaseNode {
         },
         ..loc
     });
+    base.range = base.range.map(|range| [range[0], range[1] + 1]);
+
     base
 }
 

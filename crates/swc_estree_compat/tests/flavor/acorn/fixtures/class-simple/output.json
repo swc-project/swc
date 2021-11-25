@@ -1,0 +1,301 @@
+{
+  "body": [
+    {
+      "body": {
+        "body": [
+          {
+            "computed": false,
+            "end": 114,
+            "key": {
+              "end": 33,
+              "name": "constructor",
+              "range": [
+                22,
+                33
+              ],
+              "start": 22,
+              "type": "Identifier"
+            },
+            "kind": "constructor",
+            "range": [
+              22,
+              114
+            ],
+            "start": 22,
+            "static": false,
+            "type": "MethodDefinition",
+            "value": {
+              "async": false,
+              "body": {
+                "body": [
+                  {
+                    "end": 80,
+                    "expression": {
+                      "end": 79,
+                      "left": {
+                        "computed": false,
+                        "end": 70,
+                        "object": {
+                          "end": 63,
+                          "range": [
+                            59,
+                            63
+                          ],
+                          "start": 59,
+                          "type": "ThisExpression"
+                        },
+                        "optional": false,
+                        "property": {
+                          "end": 70,
+                          "name": "height",
+                          "range": [
+                            64,
+                            70
+                          ],
+                          "start": 64,
+                          "type": "Identifier"
+                        },
+                        "range": [
+                          59,
+                          70
+                        ],
+                        "start": 59,
+                        "type": "MemberExpression"
+                      },
+                      "operator": "=",
+                      "range": [
+                        59,
+                        79
+                      ],
+                      "right": {
+                        "end": 79,
+                        "name": "height",
+                        "range": [
+                          73,
+                          79
+                        ],
+                        "start": 73,
+                        "type": "Identifier"
+                      },
+                      "start": 59,
+                      "type": "AssignmentExpression"
+                    },
+                    "range": [
+                      59,
+                      80
+                    ],
+                    "start": 59,
+                    "type": "ExpressionStatement"
+                  },
+                  {
+                    "end": 108,
+                    "expression": {
+                      "end": 107,
+                      "left": {
+                        "computed": false,
+                        "end": 99,
+                        "object": {
+                          "end": 93,
+                          "range": [
+                            89,
+                            93
+                          ],
+                          "start": 89,
+                          "type": "ThisExpression"
+                        },
+                        "optional": false,
+                        "property": {
+                          "end": 99,
+                          "name": "width",
+                          "range": [
+                            94,
+                            99
+                          ],
+                          "start": 94,
+                          "type": "Identifier"
+                        },
+                        "range": [
+                          89,
+                          99
+                        ],
+                        "start": 89,
+                        "type": "MemberExpression"
+                      },
+                      "operator": "=",
+                      "range": [
+                        89,
+                        107
+                      ],
+                      "right": {
+                        "end": 107,
+                        "name": "width",
+                        "range": [
+                          102,
+                          107
+                        ],
+                        "start": 102,
+                        "type": "Identifier"
+                      },
+                      "start": 89,
+                      "type": "AssignmentExpression"
+                    },
+                    "range": [
+                      89,
+                      108
+                    ],
+                    "start": 89,
+                    "type": "ExpressionStatement"
+                  }
+                ],
+                "end": 114,
+                "range": [
+                  49,
+                  114
+                ],
+                "start": 49,
+                "type": "BlockStatement"
+              },
+              "end": 114,
+              "generator": false,
+              "params": [
+                {
+                  "end": 40,
+                  "name": "height",
+                  "range": [
+                    34,
+                    40
+                  ],
+                  "start": 34,
+                  "type": "Identifier"
+                },
+                {
+                  "end": 47,
+                  "name": "width",
+                  "range": [
+                    42,
+                    47
+                  ],
+                  "start": 42,
+                  "type": "Identifier"
+                }
+              ],
+              "range": [
+                49,
+                114
+              ],
+              "start": 49,
+              "type": "FunctionExpression"
+            }
+          }
+        ],
+        "end": 116,
+        "range": [
+          16,
+          116
+        ],
+        "start": 16,
+        "type": "ClassBody"
+      },
+      "end": 116,
+      "id": {
+        "end": 15,
+        "name": "Rectangle",
+        "range": [
+          6,
+          15
+        ],
+        "start": 6,
+        "type": "Identifier"
+      },
+      "range": [
+        0,
+        116
+      ],
+      "start": 0,
+      "superClass": null,
+      "type": "ClassDeclaration"
+    },
+    {
+      "declarations": [
+        {
+          "end": 149,
+          "id": {
+            "end": 127,
+            "name": "rect",
+            "range": [
+              123,
+              127
+            ],
+            "start": 123,
+            "type": "Identifier"
+          },
+          "init": {
+            "arguments": [
+              {
+                "end": 145,
+                "range": [
+                  144,
+                  145
+                ],
+                "raw": "2",
+                "start": 144,
+                "type": "Literal",
+                "value": 2.0
+              },
+              {
+                "end": 148,
+                "range": [
+                  147,
+                  148
+                ],
+                "raw": "3",
+                "start": 147,
+                "type": "Literal",
+                "value": 3.0
+              }
+            ],
+            "callee": {
+              "end": 143,
+              "name": "Rectangle",
+              "range": [
+                134,
+                143
+              ],
+              "start": 134,
+              "type": "Identifier"
+            },
+            "end": 149,
+            "range": [
+              130,
+              149
+            ],
+            "start": 130,
+            "type": "NewExpression"
+          },
+          "range": [
+            123,
+            149
+          ],
+          "start": 123,
+          "type": "VariableDeclarator"
+        }
+      ],
+      "end": 150,
+      "kind": "const",
+      "range": [
+        117,
+        150
+      ],
+      "start": 117,
+      "type": "VariableDeclaration"
+    }
+  ],
+  "end": 150,
+  "range": [
+    0,
+    150
+  ],
+  "sourceType": "script",
+  "start": 0,
+  "type": "Program"
+}

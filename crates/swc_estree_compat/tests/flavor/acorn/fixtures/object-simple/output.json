@@ -1,0 +1,122 @@
+{
+  "body": [
+    {
+      "declarations": [
+        {
+          "end": 37,
+          "id": {
+            "end": 7,
+            "name": "obj",
+            "range": [
+              4,
+              7
+            ],
+            "start": 4,
+            "type": "Identifier"
+          },
+          "init": {
+            "end": 37,
+            "properties": [
+              {
+                "computed": false,
+                "end": 20,
+                "key": {
+                  "end": 17,
+                  "name": "a",
+                  "range": [
+                    16,
+                    17
+                  ],
+                  "start": 16,
+                  "type": "Identifier"
+                },
+                "kind": "init",
+                "method": false,
+                "range": [
+                  16,
+                  20
+                ],
+                "shorthand": false,
+                "start": 16,
+                "type": "Property",
+                "value": {
+                  "end": 20,
+                  "range": [
+                    19,
+                    20
+                  ],
+                  "raw": "1",
+                  "start": 19,
+                  "type": "Literal",
+                  "value": 1.0
+                }
+              },
+              {
+                "computed": false,
+                "end": 34,
+                "key": {
+                  "end": 27,
+                  "name": "b",
+                  "range": [
+                    26,
+                    27
+                  ],
+                  "start": 26,
+                  "type": "Identifier"
+                },
+                "kind": "init",
+                "method": false,
+                "range": [
+                  26,
+                  34
+                ],
+                "shorthand": false,
+                "start": 26,
+                "type": "Property",
+                "value": {
+                  "end": 34,
+                  "range": [
+                    29,
+                    34
+                  ],
+                  "raw": "false",
+                  "start": 29,
+                  "type": "Literal",
+                  "value": false
+                }
+              }
+            ],
+            "range": [
+              10,
+              37
+            ],
+            "start": 10,
+            "type": "ObjectExpression"
+          },
+          "range": [
+            4,
+            37
+          ],
+          "start": 4,
+          "type": "VariableDeclarator"
+        }
+      ],
+      "end": 38,
+      "kind": "let",
+      "range": [
+        0,
+        38
+      ],
+      "start": 0,
+      "type": "VariableDeclaration"
+    }
+  ],
+  "end": 38,
+  "range": [
+    0,
+    38
+  ],
+  "sourceType": "script",
+  "start": 0,
+  "type": "Program"
+}

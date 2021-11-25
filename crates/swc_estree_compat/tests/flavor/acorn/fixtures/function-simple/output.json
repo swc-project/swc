@@ -1,0 +1,96 @@
+{
+  "body": [
+    {
+      "async": false,
+      "body": {
+        "body": [
+          {
+            "argument": {
+              "end": 50,
+              "left": {
+                "end": 41,
+                "name": "number",
+                "range": [
+                  35,
+                  41
+                ],
+                "start": 35,
+                "type": "Identifier"
+              },
+              "operator": "*",
+              "range": [
+                35,
+                50
+              ],
+              "right": {
+                "end": 50,
+                "name": "number",
+                "range": [
+                  44,
+                  50
+                ],
+                "start": 44,
+                "type": "Identifier"
+              },
+              "start": 35,
+              "type": "BinaryExpression"
+            },
+            "end": 51,
+            "range": [
+              28,
+              51
+            ],
+            "start": 28,
+            "type": "ReturnStatement"
+          }
+        ],
+        "end": 53,
+        "range": [
+          24,
+          53
+        ],
+        "start": 24,
+        "type": "BlockStatement"
+      },
+      "end": 53,
+      "expression": false,
+      "generator": false,
+      "id": {
+        "end": 15,
+        "name": "square",
+        "range": [
+          9,
+          15
+        ],
+        "start": 9,
+        "type": "Identifier"
+      },
+      "params": [
+        {
+          "end": 22,
+          "name": "number",
+          "range": [
+            16,
+            22
+          ],
+          "start": 16,
+          "type": "Identifier"
+        }
+      ],
+      "range": [
+        0,
+        53
+      ],
+      "start": 0,
+      "type": "FunctionDeclaration"
+    }
+  ],
+  "end": 53,
+  "range": [
+    0,
+    53
+  ],
+  "sourceType": "script",
+  "start": 0,
+  "type": "Program"
+}

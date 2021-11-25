@@ -6,20 +6,10 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_estree_compat"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.2.1"
+version = "0.3.0"
 
 [package.metadata.docs.rs]
 all-features = true
-
-[features]
-flavor-acorn = [
-  "swc_estree_ast/flavor-acorn",
-  "swc_estree_visit/flavor-acorn",
-]
-flavor-babel = [
-  "swc_estree_ast/flavor-babel",
-  "swc_estree_visit/flavor-babel",
-]
 
 [dependencies]
 ahash = {version = "0.7.0", features = ["compile-time-rng"]}
@@ -34,14 +24,15 @@ swc_ecma_ast = {version = "0.58", path = "../swc_ecma_ast"}
 swc_ecma_parser = {version = "0.78", path = "../swc_ecma_parser"}
 swc_ecma_utils = {version = "0.52.3", path = "../swc_ecma_utils"}
 swc_ecma_visit = {version = "0.44", path = "../swc_ecma_visit"}
-swc_estree_ast = {version = "0.1", path = "../swc_estree_ast"}
-swc_estree_macros = {version = "0.1", path = "../swc_estree_macros/"}
-swc_estree_visit = {version = "0.1", path = "../swc_estree_visit"}
+swc_estree_ast = {version = "0.2.0", path = "../swc_estree_ast"}
 swc_node_comments = {version = "0.1", path = "../swc_node_comments/"}
 
 [dev-dependencies]
 pretty_assertions = "0.7.1"
 swc = {version = "0.87.1", path = "../swc"}
+swc_ecma_ast = {version = "0.58.0", path = "../swc_ecma_ast"}
+swc_ecma_parser = {version = "0.78.7", path = "../swc_ecma_parser"}
 swc_ecma_transforms = {version = "0.95.1", path = "../swc_ecma_transforms/"}
 swc_node_base = {version = "0.5", path = "../swc_node_base"}
+testing = {version = "0.15.1", path = "../testing"}
 walkdir = "2"

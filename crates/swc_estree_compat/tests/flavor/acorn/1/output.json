@@ -1,0 +1,76 @@
+{
+  "body": [
+    {
+      "declarations": [
+        {
+          "end": 28,
+          "id": {
+            "end": 9,
+            "name": "foo",
+            "range": [
+              6,
+              9
+            ],
+            "start": 6,
+            "type": "Identifier"
+          },
+          "init": {
+            "arguments": [
+              {
+                "end": 27,
+                "range": [
+                  20,
+                  27
+                ],
+                "raw": "acorn",
+                "start": 20,
+                "type": "Literal",
+                "value": "acorn"
+              }
+            ],
+            "callee": {
+              "end": 19,
+              "name": "require",
+              "range": [
+                12,
+                19
+              ],
+              "start": 12,
+              "type": "Identifier"
+            },
+            "end": 28,
+            "optional": false,
+            "range": [
+              12,
+              28
+            ],
+            "start": 12,
+            "type": "CallExpression"
+          },
+          "range": [
+            6,
+            28
+          ],
+          "start": 6,
+          "type": "VariableDeclarator"
+        }
+      ],
+      "end": 29,
+      "kind": "const",
+      "range": [
+        0,
+        29
+      ],
+      "start": 0,
+      "type": "VariableDeclaration"
+    }
+  ],
+  "end": 29,
+  "range": [
+    0,
+    29
+  ],
+  "sourceType": "script",
+  "start": 0,
+  "type": "Program"
+}

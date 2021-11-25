@@ -38,23 +38,23 @@ impl Loc {
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct BaseNode {
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub leading_comments: Vec<Comment>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub inner_comments: Vec<Comment>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub trailing_comments: Vec<Comment>,
 
     #[serde(default)]
     pub start: Option<usize>,
     #[serde(default)]
     pub end: Option<usize>,
-    #[serde(default)]
+
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_range")]
+    pub range: Option<[usize; 2]>,
+
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_loc")]
     pub loc: Option<Loc>,
-    /* TODO(dwoznicki): I can't figure out what goes in this field, so I'm just
-     * removing it for now.
-     * #[serde(default)]
-     * pub extra: Option<HashMap<String, Value, RandomState>>, */
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -113,15 +113,12 @@ pub enum FunctionParent {
 #[ast_serde]
 pub enum Immutable {
     #[tag("StringLiteral")]
-    StringLiteral(StringLiteral),
+    #[tag("DecimalLiteral")]
     #[tag("NumericLiteral")]
-    NumericLiteral(NumericLiteral),
     #[tag("NullLiteral")]
-    NullLiteral(NullLiteral),
     #[tag("BooleanLiteral")]
-    BooleanLiteral(BooleanLiteral),
     #[tag("BigIntLiteral")]
-    BigIntLiteral(BigIntLiteral),
+    Literal(Literal),
     #[tag("JSXAttribute")]
     JSXAttribute(JSXAttribute),
     #[tag("JSXClosingElement")]
@@ -142,8 +139,6 @@ pub enum Immutable {
     JSXOpeningFragment(JSXOpeningFragment),
     #[tag("JSXClosingFragment")]
     JSXClosingFragment(JSXClosingFragment),
-    #[tag("DecimalLiteral")]
-    DecimalLiteral(DecimalLiteral),
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -187,21 +182,15 @@ pub enum Pureish {
     #[tag("FunctionExpression")]
     FunctionExpr(FunctionExpression),
     #[tag("StringLiteral")]
-    StringLiteral(StringLiteral),
     #[tag("NumericLiteral")]
-    NumericLiteral(NumericLiteral),
     #[tag("NullLiteral")]
-    NullLiteral(NullLiteral),
     #[tag("BooleanLiteral")]
-    BooleanLiteral(BooleanLiteral),
     #[tag("RegExpLiteral")]
-    RegExpLiteral(RegExpLiteral),
+    #[tag("BigIntLiteral")]
+    #[tag("DecimalLiteral")]
+    Literal(Literal),
     #[tag("ArrowFunctionExpression")]
     ArrowFuncExpr(ArrowFunctionExpression),
-    #[tag("BigIntLiteral")]
-    BigIntLiteral(BigIntLiteral),
-    #[tag("DecimalLiteral")]
-    DecimalLiteral(DecimalLiteral),
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -346,9 +335,9 @@ pub struct RestElement {
     #[serde(flatten)]
     pub base: BaseNode,
     pub argument: Box<LVal>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_empty")]
     pub decorators: Option<Vec<Decorator>>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub type_annotation: Option<Box<TypeAnnotOrNoop>>,
 }
 
@@ -372,11 +361,14 @@ pub struct Identifier {
     pub base: BaseNode,
     #[serde(default)]
     pub name: JsWord,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_empty")]
     pub decorators: Option<Vec<Decorator>>,
-    #[serde(default)]
+    #[serde(
+        default,
+        skip_serializing_if = "crate::flavor::Flavor::skip_none_and_false"
+    )]
     pub optional: Option<bool>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub type_annotation: Option<Box<TypeAnnotOrNoop>>,
 }
 

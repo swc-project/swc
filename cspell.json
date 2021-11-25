@@ -41,6 +41,7 @@
         "deps",
         "Deque",
         "Deser",
+        "deserialization",
         "dont",
         "DWORD",
         "ecma",

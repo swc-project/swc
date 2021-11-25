@@ -1,0 +1,221 @@
+{
+  "body": [
+    {
+      "declarations": [
+        {
+          "end": 24,
+          "id": {
+            "end": 8,
+            "name": "fs",
+            "range": [
+              6,
+              8
+            ],
+            "start": 6,
+            "type": "Identifier"
+          },
+          "init": {
+            "arguments": [
+              {
+                "end": 23,
+                "range": [
+                  19,
+                  23
+                ],
+                "raw": "fs",
+                "start": 19,
+                "type": "Literal",
+                "value": "fs"
+              }
+            ],
+            "callee": {
+              "end": 18,
+              "name": "require",
+              "range": [
+                11,
+                18
+              ],
+              "start": 11,
+              "type": "Identifier"
+            },
+            "end": 24,
+            "optional": false,
+            "range": [
+              11,
+              24
+            ],
+            "start": 11,
+            "type": "CallExpression"
+          },
+          "range": [
+            6,
+            24
+          ],
+          "start": 6,
+          "type": "VariableDeclarator"
+        }
+      ],
+      "end": 25,
+      "kind": "const",
+      "range": [
+        0,
+        25
+      ],
+      "start": 0,
+      "type": "VariableDeclaration"
+    },
+    {
+      "declarations": [
+        {
+          "end": 67,
+          "id": {
+            "end": 33,
+            "name": "s",
+            "range": [
+              32,
+              33
+            ],
+            "start": 32,
+            "type": "Identifier"
+          },
+          "init": {
+            "arguments": [
+              {
+                "end": 66,
+                "range": [
+                  52,
+                  66
+                ],
+                "raw": "_placeholder",
+                "start": 52,
+                "type": "Literal",
+                "value": "_placeholder"
+              }
+            ],
+            "callee": {
+              "computed": false,
+              "end": 51,
+              "object": {
+                "end": 38,
+                "name": "fs",
+                "range": [
+                  36,
+                  38
+                ],
+                "start": 36,
+                "type": "Identifier"
+              },
+              "optional": false,
+              "property": {
+                "end": 51,
+                "name": "readFileSync",
+                "range": [
+                  39,
+                  51
+                ],
+                "start": 39,
+                "type": "Identifier"
+              },
+              "range": [
+                36,
+                51
+              ],
+              "start": 36,
+              "type": "MemberExpression"
+            },
+            "end": 67,
+            "optional": false,
+            "range": [
+              36,
+              67
+            ],
+            "start": 36,
+            "type": "CallExpression"
+          },
+          "range": [
+            32,
+            67
+          ],
+          "start": 32,
+          "type": "VariableDeclarator"
+        }
+      ],
+      "end": 68,
+      "kind": "const",
+      "range": [
+        26,
+        68
+      ],
+      "start": 26,
+      "type": "VariableDeclaration"
+    },
+    {
+      "end": 88,
+      "expression": {
+        "end": 87,
+        "left": {
+          "computed": false,
+          "end": 83,
+          "object": {
+            "end": 75,
+            "name": "module",
+            "range": [
+              69,
+              75
+            ],
+            "start": 69,
+            "type": "Identifier"
+          },
+          "optional": false,
+          "property": {
+            "end": 83,
+            "name": "exports",
+            "range": [
+              76,
+              83
+            ],
+            "start": 76,
+            "type": "Identifier"
+          },
+          "range": [
+            69,
+            83
+          ],
+          "start": 69,
+          "type": "MemberExpression"
+        },
+        "operator": "=",
+        "range": [
+          69,
+          87
+        ],
+        "right": {
+          "end": 87,
+          "name": "s",
+          "range": [
+            86,
+            87
+          ],
+          "start": 86,
+          "type": "Identifier"
+        },
+        "start": 69,
+        "type": "AssignmentExpression"
+      },
+      "range": [
+        69,
+        88
+      ],
+      "start": 69,
+      "type": "ExpressionStatement"
+    }
+  ],
+  "end": 88,
+  "range": [
+    0,
+    88
+  ],
+  "sourceType": "script",
+  "start": 0,
+  "type": "Program"
+}

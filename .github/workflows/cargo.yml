@@ -153,8 +153,6 @@ jobs:
           - swc_eq_ignore_macros
           - swc_estree_ast
           - swc_estree_compat
-          - swc_estree_macros
-          - swc_estree_visit
           - swc_fast_graph
           - swc_graph_analyzer
           - swc_macros_common

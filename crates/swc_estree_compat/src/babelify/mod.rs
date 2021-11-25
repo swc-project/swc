@@ -7,7 +7,7 @@ use swc_common::{
     BytePos, SourceFile, SourceMap, Span,
 };
 use swc_ecma_ast::Class;
-use swc_estree_ast::{BaseComment, BaseNode, Comment, LineCol, Loc};
+use swc_estree_ast::{flavor::Flavor, BaseComment, BaseNode, Comment, CommentType, LineCol, Loc};
 use swc_node_comments::SwcComments;
 
 mod class;
@@ -19,7 +19,6 @@ mod jsx;
 mod lit;
 mod module;
 mod module_decl;
-pub mod normalize;
 mod operators;
 mod pat;
 mod prop;
@@ -62,6 +61,9 @@ impl Context {
         if span.is_dummy() {
             return None;
         }
+        if !Flavor::current().emit_loc() {
+            return None;
+        }
 
         let start = self.line_col(span.lo)?;
         let end = self.line_col(span.hi)?;
@@ -77,6 +79,10 @@ impl Context {
                 let loc = self.loc(c.span).unwrap_or_else(Loc::dummy);
 
                 let comment = BaseComment {
+                    type_: match c.kind {
+                        CommentKind::Line => CommentType::Line,
+                        CommentKind::Block => CommentType::Block,
+                    },
                     value: c.text,
                     start: start.unwrap_or_default(),
                     end: end.unwrap_or_default(),
@@ -118,8 +124,14 @@ impl Context {
             start,
             end,
             loc,
-            /* TODO(kdy1): Use this field.
-             * extra: Default::default(), */
+            range: if matches!(Flavor::current(), Flavor::Acorn) {
+                match (start, end) {
+                    (Some(start), Some(end)) => Some([start, end]),
+                    _ => None,
+                }
+            } else {
+                None
+            },
         }
     }
 }

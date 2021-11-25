@@ -1,0 +1,57 @@
+{
+  "body": [
+    {
+      "declarations": [
+        {
+          "end": 18,
+          "id": {
+            "end": 5,
+            "name": "r",
+            "range": [
+              4,
+              5
+            ],
+            "start": 4,
+            "type": "Identifier"
+          },
+          "init": {
+            "end": 18,
+            "range": [
+              8,
+              18
+            ],
+            "regex": {
+              "flags": "im",
+              "pattern": "[0-9]+"
+            },
+            "start": 8,
+            "type": "Literal",
+            "value": {}
+          },
+          "range": [
+            4,
+            18
+          ],
+          "start": 4,
+          "type": "VariableDeclarator"
+        }
+      ],
+      "end": 19,
+      "kind": "let",
+      "range": [
+        0,
+        19
+      ],
+      "start": 0,
+      "type": "VariableDeclaration"
+    }
+  ],
+  "end": 19,
+  "range": [
+    0,
+    19
+  ],
+  "sourceType": "script",
+  "start": 0,
+  "type": "Program"
+}

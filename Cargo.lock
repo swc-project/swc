@@ -3143,18 +3143,18 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_ast"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
+ "scoped-tls",
  "serde",
  "serde_json",
  "swc_atoms 0.2.9",
  "swc_common",
- "swc_estree_macros",
 ]
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.2.1"
+version = "0.3.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3172,27 +3172,10 @@ dependencies = [
  "swc_ecma_utils",
  "swc_ecma_visit",
  "swc_estree_ast",
- "swc_estree_macros",
- "swc_estree_visit",
  "swc_node_base",
  "swc_node_comments",
+ "testing",
  "walkdir",
-]
-
-[[package]]
-name = "swc_estree_macros"
-version = "0.1.0"
-
-[[package]]
-name = "swc_estree_visit"
-version = "0.1.0"
-dependencies = [
- "serde",
- "serde_json",
- "swc_atoms 0.2.9",
- "swc_estree_ast",
- "swc_estree_macros",
- "swc_visit",
 ]
 
 [[package]]
@@ -3412,13 +3395,14 @@ dependencies = [
 
 [[package]]
 name = "testing"
-version = "0.15.1"
+version = "0.15.2"
 dependencies = [
  "ansi_term 0.12.1",
  "difference",
  "once_cell",
  "pretty_assertions 0.7.2",
  "regex",
+ "serde_json",
  "swc_common",
  "testing_macros",
  "tracing",
@@ -3427,7 +3411,7 @@ dependencies = [
 
 [[package]]
 name = "testing_macros"
-version = "0.2.3"
+version = "0.2.4"
 dependencies = [
  "anyhow",
  "glob",
