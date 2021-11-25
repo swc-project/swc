@@ -67,6 +67,19 @@ fn assert_flavor(flavor: Flavor, input: &Path, output_json_path: &Path) {
             expected["range"] = Value::Null;
 
             diff_json_value(&mut actual, &mut expected, &mut |key, value| {
+                match &mut *value {
+                    Value::Object(v) => {
+                        if let Some("FunctionExpression") =
+                            v.get("type").and_then(|v| v.as_str()).as_deref()
+                        {
+                            v["range"] = Value::Null;
+                            v["start"] = Value::Null;
+                            v["end"] = Value::Null;
+                        }
+                    }
+                    __ => {}
+                }
+
                 match key {
                     "expression" => {
                         // Normalize false to null
