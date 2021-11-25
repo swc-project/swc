@@ -118,10 +118,13 @@ pub struct ObjectProperty {
 
 #[derive(Serialize)]
 struct BabelObjectProperty<'a> {
+    #[serde(rename = "type")]
+    type_: &'a str,
     #[serde(flatten)]
     base: &'a BaseNode,
     key: &'a ObjectKey,
     value: &'a ObjectPropVal,
+    method: bool,
     computed: bool,
     shorthand: bool,
     #[serde(skip_serializing_if = "crate::flavor::Flavor::skip_none")]
@@ -136,9 +139,11 @@ impl Serialize for ObjectProperty {
         match Flavor::current() {
             Flavor::Babel => {
                 let actual = BabelObjectProperty {
+                    type_: "ObjectProperty",
                     base: &self.base,
                     key: &self.key,
                     value: &self.value,
+                    method: false,
                     computed: self.computed,
                     shorthand: self.shorthand,
                     decorators: self.decorators.as_deref(),
