@@ -72,7 +72,7 @@
                     "end": 39,
                     "ctxt": 0
                   },
-                  "value": "\\0x20\\u0020 20",
+                  "value": "\\x20\\u0020 20",
                   "hasEscape": true,
                   "kind": {
                     "type": "normal",

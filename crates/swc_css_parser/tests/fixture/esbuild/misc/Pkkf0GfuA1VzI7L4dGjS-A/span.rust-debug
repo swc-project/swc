@@ -41,10 +41,10 @@ error: NestingSelector
   | ^
 
 error: TypeSelector
- --> $DIR/tests/fixture/esbuild/misc/Pkkf0GfuA1VzI7L4dGjS-A/input.css:1:1
+ --> $DIR/tests/fixture/esbuild/misc/Pkkf0GfuA1VzI7L4dGjS-A/input.css:1:2
   |
 1 | &*|b {}
-  | ^^^^
+  |  ^^^
 
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/Pkkf0GfuA1VzI7L4dGjS-A/input.css:1:2

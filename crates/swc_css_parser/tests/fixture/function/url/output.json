@@ -515,7 +515,7 @@
                   "ctxt": 0
                 },
                 "url": "",
-                "raw": "   "
+                "raw": ""
               }
             ],
             "important": null
@@ -832,7 +832,7 @@
                   "ctxt": 0
                 },
                 "url": "./image.png",
-                "raw": "   ./image.png   "
+                "raw": "./image.png   "
               }
             ],
             "important": null
@@ -863,7 +863,7 @@
                   "ctxt": 0
                 },
                 "url": "./image2.png",
-                "raw": "   ./image\\32.png   "
+                "raw": "./image\\32.png   "
               }
             ],
             "important": null
@@ -894,7 +894,7 @@
                   "ctxt": 0
                 },
                 "url": "./image2.png",
-                "raw": "   \n    ./image\\32.png   \n    "
+                "raw": "./image\\32.png   \n    "
               }
             ],
             "important": null
@@ -925,7 +925,7 @@
                   "ctxt": 0
                 },
                 "url": "./image2.png",
-                "raw": "\n    \n    \n    \n       ./image\\32.png\n    \n    \n    \n    "
+                "raw": "./image\\32.png\n    \n    \n    \n    "
               }
             ],
             "important": null
@@ -956,7 +956,7 @@
                   "ctxt": 0
                 },
                 "url": "./image2.png",
-                "raw": "   \n\n\n\n    ./image\\32.png\n\n\n\n       "
+                "raw": "./image\\32.png\n\n\n\n       "
               }
             ],
             "important": null

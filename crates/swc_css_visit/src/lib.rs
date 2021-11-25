@@ -374,9 +374,14 @@ define!({
         pub block: Vec<Rule>,
     }
 
+    pub enum KeyframesName {
+        Ident(Ident),
+        Str(Str),
+    }
+
     pub struct KeyframesRule {
         pub span: Span,
-        pub id: Ident,
+        pub name: KeyframesName,
         pub blocks: Vec<KeyframeBlock>,
     }
 
