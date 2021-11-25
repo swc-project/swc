@@ -164,7 +164,7 @@ fn run_test(src: String, expected: String, syntax: Syntax, is_module: bool) {
             *v = Value::Null;
         }
 
-        "optional" | "computed" | "static" | "abstract" | "declare" | "definite" => {
+        "optional" | "computed" | "static" | "abstract" | "declare" | "definite" | "generator" => {
             // TODO(kdy1): Remove this
             match v {
                 Value::Bool(false) => {
@@ -180,6 +180,19 @@ fn run_test(src: String, expected: String, syntax: Syntax, is_module: bool) {
             match v {
                 Value::Array(arr) => {
                     if arr.is_empty() {
+                        *v = Value::Null;
+                    }
+                }
+
+                _ => {}
+            }
+        }
+
+        "sourceFile" => {
+            // TODO(kdy1): Remove this
+            match v {
+                Value::String(s) => {
+                    if s.is_empty() {
                         *v = Value::Null;
                     }
                 }
