@@ -1,0 +1,182 @@
+{
+  "body": [
+    {
+      "async": false,
+      "body": {
+        "body": [
+          {
+            "argument": {
+              "arguments": [
+                {
+                  "async": false,
+                  "body": {
+                    "end": 86,
+                    "left": {
+                      "end": 82,
+                      "name": "multiplier",
+                      "range": [
+                        72,
+                        82
+                      ],
+                      "start": 72,
+                      "type": "Identifier"
+                    },
+                    "operator": "*",
+                    "range": [
+                      72,
+                      86
+                    ],
+                    "right": {
+                      "end": 86,
+                      "name": "x",
+                      "range": [
+                        85,
+                        86
+                      ],
+                      "start": 85,
+                      "type": "Identifier"
+                    },
+                    "start": 72,
+                    "type": "BinaryExpression"
+                  },
+                  "end": 86,
+                  "expression": true,
+                  "generator": false,
+                  "params": [
+                    {
+                      "end": 68,
+                      "name": "x",
+                      "range": [
+                        67,
+                        68
+                      ],
+                      "start": 67,
+                      "type": "Identifier"
+                    }
+                  ],
+                  "range": [
+                    67,
+                    86
+                  ],
+                  "start": 67,
+                  "type": "ArrowFunctionExpression"
+                }
+              ],
+              "callee": {
+                "computed": false,
+                "end": 66,
+                "object": {
+                  "end": 62,
+                  "name": "theArgs",
+                  "range": [
+                    55,
+                    62
+                  ],
+                  "start": 55,
+                  "type": "Identifier"
+                },
+                "optional": false,
+                "property": {
+                  "end": 66,
+                  "name": "map",
+                  "range": [
+                    63,
+                    66
+                  ],
+                  "start": 63,
+                  "type": "Identifier"
+                },
+                "range": [
+                  55,
+                  66
+                ],
+                "start": 55,
+                "type": "MemberExpression"
+              },
+              "end": 87,
+              "optional": false,
+              "range": [
+                55,
+                87
+              ],
+              "start": 55,
+              "type": "CallExpression"
+            },
+            "end": 88,
+            "range": [
+              48,
+              88
+            ],
+            "start": 48,
+            "type": "ReturnStatement"
+          }
+        ],
+        "end": 90,
+        "range": [
+          42,
+          90
+        ],
+        "start": 42,
+        "type": "BlockStatement"
+      },
+      "end": 90,
+      "expression": false,
+      "generator": false,
+      "id": {
+        "end": 17,
+        "name": "multiply",
+        "range": [
+          9,
+          17
+        ],
+        "start": 9,
+        "type": "Identifier"
+      },
+      "params": [
+        {
+          "end": 28,
+          "name": "multiplier",
+          "range": [
+            18,
+            28
+          ],
+          "start": 18,
+          "type": "Identifier"
+        },
+        {
+          "argument": {
+            "end": 40,
+            "name": "theArgs",
+            "range": [
+              33,
+              40
+            ],
+            "start": 33,
+            "type": "Identifier"
+          },
+          "end": 40,
+          "range": [
+            30,
+            40
+          ],
+          "start": 30,
+          "type": "RestElement"
+        }
+      ],
+      "range": [
+        0,
+        90
+      ],
+      "start": 0,
+      "type": "FunctionDeclaration"
+    }
+  ],
+  "end": 90,
+  "range": [
+    0,
+    90
+  ],
+  "sourceType": "script",
+  "start": 0,
+  "type": "Program"
+}
