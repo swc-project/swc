@@ -883,7 +883,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                         }
                         has_escape = true
                     }
-                    c if c.is_line_break() => l.error(start, SyntaxError::UnterminatedStrLit)?,
+                    c if c.is_line_break() => break,
                     _ => {
                         out.push(c);
                         l.bump();
@@ -891,7 +891,11 @@ impl<'a, I: Input> Lexer<'a, I> {
                 }
             }
 
-            l.error(start, SyntaxError::UnterminatedStrLit)?
+            l.emit_error(start, SyntaxError::UnterminatedStrLit);
+            return Ok(Token::Str {
+                value: (&**out).into(),
+                has_escape,
+            });
         })
     }
 
