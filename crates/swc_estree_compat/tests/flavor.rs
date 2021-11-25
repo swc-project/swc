@@ -61,6 +61,21 @@ fn assert_flavor(flavor: Flavor, input: &Path, output_json_path: &Path) {
 
             diff_json_value(&mut actual, &mut expected, &mut |key, value| {
                 match key {
+                    "raw" => {
+                        // Remove `'` and `"` from raw strings.
+                        match value {
+                            Value::String(s) => {
+                                if s.starts_with('\'') && s.ends_with('\'') {
+                                    *s = s[1..s.len() - 1].to_string();
+                                } else if s.starts_with('"') && s.ends_with('"') {
+                                    *s = s[1..s.len() - 1].to_string();
+                                }
+                            }
+
+                            _ => {}
+                        }
+                    }
+
                     "value" => {
                         // Normalize numbers
                         match value {
