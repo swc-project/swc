@@ -107,6 +107,8 @@ fn base_with_trailing_newline(span: Span, ctx: &Context) -> BaseNode {
         },
         ..loc
     });
+    base.range = base.range.map(|range| [range[0], range[1] + 1]);
+
     base
 }
 
