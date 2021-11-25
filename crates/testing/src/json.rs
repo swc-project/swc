@@ -17,6 +17,7 @@ pub fn diff_json_value(
 
     match (&mut *a, &mut *b) {
         (Value::Object(a), Value::Object(b)) => {
+            // Normalize all properties
             for (k, v) in &mut *a {
                 normalize(&k, v);
             }
@@ -27,10 +28,33 @@ pub fn diff_json_value(
             a.retain(|key, a_v| {
                 if let Some(b_v) = b.get_mut(key) {
                     if diff_json_value(a_v, b_v, normalize) {
+                        // Remove from both
                         b.remove(key);
                         return false;
                     }
+                } else {
+                    // Remove if a.foo is null and b does not have foo
+                    match a_v {
+                        Value::Null => return false,
+                        _ => {}
+                    }
                 }
+
+                // Preserve by default
+                true
+            });
+            b.retain(|key, b_v| {
+                // Remove if b.foo is null and a does not have foo
+                match b_v {
+                    Value::Null => {
+                        if !a.contains_key(key) {
+                            return false;
+                        }
+                    }
+                    _ => {}
+                }
+
+                // Preserve by default
 
                 true
             });
