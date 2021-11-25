@@ -8,6 +8,10 @@ name = "swc_ecma_utils"
 repository = "https://github.com/swc-project/swc.git"
 version = "0.52.3"
 
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
+
 [features]
 # Process in parallel.
 concurrent = [
@@ -25,5 +29,5 @@ swc_ecma_visit = {version = "0.44.0", path = "../swc_ecma_visit"}
 unicode-xid = "0.2"
 
 [dev-dependencies]
-testing = {version = "0.15.0", path = "../testing"}
 swc_ecma_parser = {version = "0.78.4", path = "../swc_ecma_parser"}
+testing = {version = "0.15.0", path = "../testing"}

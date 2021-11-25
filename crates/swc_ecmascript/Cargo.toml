@@ -10,6 +10,7 @@ version = "0.88.1"
 
 [package.metadata.docs.rs]
 all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
 
 [features]
 codegen = ["swc_ecma_codegen"]
