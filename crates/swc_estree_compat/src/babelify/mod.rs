@@ -7,7 +7,7 @@ use swc_common::{
     BytePos, SourceFile, SourceMap, Span,
 };
 use swc_ecma_ast::Class;
-use swc_estree_ast::{flavor::Flavor, BaseComment, BaseNode, Comment, LineCol, Loc};
+use swc_estree_ast::{flavor::Flavor, BaseComment, BaseNode, Comment, CommentType, LineCol, Loc};
 use swc_node_comments::SwcComments;
 
 mod class;
@@ -79,6 +79,10 @@ impl Context {
                 let loc = self.loc(c.span).unwrap_or_else(Loc::dummy);
 
                 let comment = BaseComment {
+                    type_: match c.kind {
+                        CommentKind::Line => CommentType::Line,
+                        CommentKind::Block => CommentType::Block,
+                    },
                     value: c.text,
                     start: start.unwrap_or_default(),
                     end: end.unwrap_or_default(),
