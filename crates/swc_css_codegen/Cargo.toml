@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_css_codegen"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.35.0"
+version = "0.36.0"
 
 [dependencies]
 auto_impl = "0.4.1"
@@ -17,6 +17,6 @@ swc_css_ast = {version = "0.34.0", path = "../swc_css_ast"}
 swc_css_codegen_macros = {version = "0.2.0", path = "../swc_css_codegen_macros"}
 
 [dev-dependencies]
-swc_css_parser = {version = "0.37.0", path = "../swc_css_parser"}
+swc_css_parser = {version = "0.38.0", path = "../swc_css_parser"}
 swc_css_visit = {version = "0.33.0", path = "../swc_css_visit"}
 testing = {version = "0.15.0", path = "../testing"}

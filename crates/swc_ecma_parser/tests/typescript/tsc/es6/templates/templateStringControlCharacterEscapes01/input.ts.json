@@ -72,7 +72,7 @@
                     "end": 33,
                     "ctxt": 0
                   },
-                  "value": "\\0\\0x00\\u0000 0 00 0000",
+                  "value": "\\0\\x00\\u0000 0 00 0000",
                   "hasEscape": true,
                   "kind": {
                     "type": "normal",

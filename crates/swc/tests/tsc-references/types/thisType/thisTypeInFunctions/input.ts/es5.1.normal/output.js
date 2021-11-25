@@ -83,7 +83,7 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
-var _this = this, _this1 = this, _this2 = this, _this3 = this, _this4 = this;
+var _this = this;
 var B = function B() {
     "use strict";
     _classCallCheck(this, B);
@@ -213,7 +213,7 @@ var explicitVoid = reconstructed.explicitVoid;
 explicitVoid(12);
 // assignment checking
 var unboundToSpecified = function(x) {
-    return x + _this1.y;
+    return x + _this.y;
 }; // ok, this:any
 var specifiedToSpecified = explicitStructural;
 var anyToSpecified = function anyToSpecified(x) {
@@ -251,13 +251,13 @@ c.explicitProperty = function(m) {
 // this inside lambdas refer to outer scope
 // the outer-scoped lambda at top-level is still just `any`
 c.explicitC = function(m) {
-    return m + _this2.n;
+    return m + _this.n;
 };
 c.explicitThis = function(m) {
-    return m + _this3.n;
+    return m + _this.n;
 };
 c.explicitProperty = function(m) {
-    return m + _this4.n;
+    return m + _this.n;
 };
 //NOTE: this=C here, I guess?
 c.explicitThis = explicitCFunction;

@@ -49,6 +49,7 @@
         "elems",
         "esbuild",
         "esms",
+        "estree",
         "eval",
         "Eval",
         "exponentation",

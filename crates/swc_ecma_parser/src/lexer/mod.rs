@@ -530,7 +530,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
             // read hexadecimal escape sequences
             'x' => {
-                raw.push_str("0x");
+                raw.push_str("x");
                 self.bump(); // 'x'
                 return self.read_hex_char(start, 2, raw).map(Some);
             }
