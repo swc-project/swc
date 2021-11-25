@@ -164,7 +164,8 @@ fn run_test(src: String, expected: String, syntax: Syntax, is_module: bool) {
             *v = Value::Null;
         }
 
-        "optional" | "computed" | "static" | "abstract" | "declare" | "definite" | "generator" => {
+        "optional" | "computed" | "static" | "abstract" | "declare" | "definite" | "generator"
+        | "readonly" | "expression" => {
             // TODO(kdy1): Remove this
             match v {
                 Value::Bool(false) => {
@@ -207,6 +208,13 @@ fn run_test(src: String, expected: String, syntax: Syntax, is_module: bool) {
                 Value::Number(n) => {
                     *n = Number::from_f64(n.as_f64().unwrap()).unwrap();
                 }
+
+                Value::String(s) => {
+                    // TODO(kdy1): Remove this
+                    // This is wrong, but we are not babel ast at the moment
+                    *s = s.replace("\n", "");
+                }
+
                 _ => {}
             }
         }
