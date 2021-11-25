@@ -16,5 +16,15 @@ where
 }
 
 pub(crate) fn skip_expression_for_fn<T>(_: T) -> bool {
-    matches!(Flavor::current(), Flavor::Babel)
+    match Flavor::current() {
+        Flavor::Acorn => false,
+        Flavor::Babel => true,
+    }
+}
+
+pub(crate) fn skip_interpreter<T>(_: T) -> bool {
+    match Flavor::current() {
+        Flavor::Acorn => true,
+        Flavor::Babel => false,
+    }
 }

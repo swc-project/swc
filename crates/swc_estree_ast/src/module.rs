@@ -92,7 +92,7 @@ pub struct Program {
     #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_empty")]
     pub directives: Vec<Directive>,
     pub source_type: SrcType,
-    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
+    #[serde(default, skip_serializing_if = "crate::ser::skip_interpreter")]
     pub interpreter: Option<InterpreterDirective>,
     #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_empty")]
     pub source_file: String,
