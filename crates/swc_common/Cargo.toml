@@ -8,6 +8,10 @@ name = "swc_common"
 repository = "https://github.com/swc-project/swc.git"
 version = "0.14.6"
 
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
+
 [lib]
 crate-type = ["lib", "dylib"]
 
