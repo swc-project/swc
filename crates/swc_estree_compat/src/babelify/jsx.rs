@@ -8,7 +8,7 @@ use swc_ecma_ast::{
     JSXOpeningFragment, JSXSpreadChild, JSXText, Lit,
 };
 use swc_estree_ast::{
-    JSXAttrName as BabelJSXAttrName, JSXAttrVal, JSXAttribute,
+    flavor::Flavor, JSXAttrName as BabelJSXAttrName, JSXAttrVal, JSXAttribute,
     JSXClosingElement as BabelJSXClosingElement, JSXClosingFragment as BabelJSXClosingFragment,
     JSXElement as BabelJSXElement, JSXElementChild as BabelJSXElementChild,
     JSXElementName as BabelJSXElementName, JSXEmptyExpression, JSXExprContainerExpr,
@@ -244,13 +244,16 @@ impl Babelify for JSXElement {
     type Output = BabelJSXElement;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
-        let self_closing = self.closing != None;
+        let self_closing = match Flavor::current() {
+            Flavor::Babel => None,
+            Flavor::Acorn => Some(self.closing.is_some()),
+        };
         BabelJSXElement {
             base: ctx.base(self.span),
             opening_element: self.opening.babelify(ctx),
             closing_element: self.closing.map(|el| el.babelify(ctx)),
             children: self.children.babelify(ctx),
-            self_closing: Some(self_closing),
+            self_closing,
         }
     }
 }
