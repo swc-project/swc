@@ -4,7 +4,7 @@ extern crate test;
 use anyhow::{Context as AnyhowContext, Error};
 use copyless::BoxHelper;
 use pretty_assertions::assert_eq;
-use serde_json::Value;
+use serde_json::{Number, Value};
 use std::{
     env, fs,
     path::{Path, PathBuf},
@@ -162,6 +162,16 @@ fn run_test(src: String, expected: String, syntax: Syntax, is_module: bool) {
         "identifierName" | "extra" | "errors" => {
             // Remove
             *value = Value::Null;
+        }
+
+        "value" => {
+            // Normalize numbers
+            match value {
+                Value::Number(n) => {
+                    *n = Number::from_f64(n.as_f64().unwrap()).unwrap();
+                }
+                _ => {}
+            }
         }
 
         _ => {}
