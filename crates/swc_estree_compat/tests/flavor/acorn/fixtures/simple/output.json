@@ -1,0 +1,54 @@
+{
+  "body": [
+    {
+      "declarations": [
+        {
+          "end": 11,
+          "id": {
+            "end": 7,
+            "name": "n",
+            "range": [
+              6,
+              7
+            ],
+            "start": 6,
+            "type": "Identifier"
+          },
+          "init": {
+            "end": 11,
+            "range": [
+              10,
+              11
+            ],
+            "raw": "1",
+            "start": 10,
+            "type": "Literal",
+            "value": 1.0
+          },
+          "range": [
+            6,
+            11
+          ],
+          "start": 6,
+          "type": "VariableDeclarator"
+        }
+      ],
+      "end": 12,
+      "kind": "const",
+      "range": [
+        0,
+        12
+      ],
+      "start": 0,
+      "type": "VariableDeclaration"
+    }
+  ],
+  "end": 12,
+  "range": [
+    0,
+    12
+  ],
+  "sourceType": "script",
+  "start": 0,
+  "type": "Program"
+}
