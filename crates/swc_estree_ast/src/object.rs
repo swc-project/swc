@@ -157,7 +157,7 @@ impl Serialize for ObjectProperty {
                 s.serialize_entry("type", "Property")?;
                 s.serialize_entry("kind", "init")?;
                 s.serialize_entry("method", &false)?;
-                s.serialize_entry("shorthand", &false)?;
+                s.serialize_entry("shorthand", &self.shorthand)?;
                 s.serialize_entry("key", &self.key)?;
                 s.serialize_entry("value", &self.value)?;
                 s.serialize_entry("computed", &self.computed)?;
