@@ -158,15 +158,26 @@ fn run_test(src: String, expected: String, syntax: Syntax, is_module: bool) {
 
     let mut expected: Value = serde_json::from_str(&expected).unwrap();
 
-    diff_json_value(&mut actual, &mut expected, &mut |key, value| match key {
+    diff_json_value(&mut actual, &mut expected, &mut |k, v| match k {
         "identifierName" | "extra" | "errors" => {
             // Remove
-            *value = Value::Null;
+            *v = Value::Null;
+        }
+
+        "optional" => {
+            // TODO(kdy1): Remove this
+            match v {
+                Value::Bool(false) => {
+                    *v = Value::Null;
+                }
+
+                _ => {}
+            }
         }
 
         "value" => {
             // Normalize numbers
-            match value {
+            match v {
                 Value::Number(n) => {
                     *n = Number::from_f64(n.as_f64().unwrap()).unwrap();
                 }
