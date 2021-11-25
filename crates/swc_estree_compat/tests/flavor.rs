@@ -59,6 +59,12 @@ fn assert_flavor(flavor: Flavor, input: &Path, output_json_path: &Path) {
                 serde_json::to_string_pretty(&expected).unwrap()
             );
 
+            actual["end"] = Value::Null;
+            expected["end"] = Value::Null;
+
+            actual["range"] = Value::Null;
+            expected["range"] = Value::Null;
+
             diff_json_value(&mut actual, &mut expected, &mut |key, value| {
                 match key {
                     "raw" => {
