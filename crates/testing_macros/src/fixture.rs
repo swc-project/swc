@@ -169,6 +169,8 @@ pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<ItemFn>, Error> {
                 #[ignore]
                 #[doc(hidden)]
                 fn test_ident() {
+                    eprintln!("Input: {}", path_str);
+
                     callee(::std::path::PathBuf::from(path_str));
                 }
             }
