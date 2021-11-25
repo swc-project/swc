@@ -65,6 +65,18 @@ pub fn diff_json_value(
         }
 
         (Value::Array(a), Value::Array(b)) => {
+            for v in a.iter_mut().chain(b.iter_mut()) {
+                match v {
+                    Value::Object(v) => {
+                        for (k, v) in v {
+                            normalize(&k, v);
+                        }
+                    }
+
+                    _ => {}
+                }
+            }
+
             if a.len() == b.len() {
                 for (a_v, b_v) in a.iter_mut().zip(b.iter_mut()) {
                     diff_json_value(a_v, b_v, normalize);
