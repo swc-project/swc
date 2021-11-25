@@ -164,11 +164,24 @@ fn run_test(src: String, expected: String, syntax: Syntax, is_module: bool) {
             *v = Value::Null;
         }
 
-        "optional" => {
+        "optional" | "computed" | "static" | "abstract" | "declare" | "definite" => {
             // TODO(kdy1): Remove this
             match v {
                 Value::Bool(false) => {
                     *v = Value::Null;
+                }
+
+                _ => {}
+            }
+        }
+
+        "decorators" | "implements" => {
+            // TODO(kdy1): Remove this
+            match v {
+                Value::Array(arr) => {
+                    if arr.is_empty() {
+                        *v = Value::Null;
+                    }
                 }
 
                 _ => {}
