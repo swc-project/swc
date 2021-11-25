@@ -1,3 +1,5 @@
+use std::borrow::Cow;
+
 use crate::{common::BaseNode, expr::Expression, flavor::Flavor, typescript::TSType};
 use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
@@ -35,25 +37,54 @@ impl Serialize for Literal {
                 BabelLiteral::serialize(&b, serializer)
             }
             Flavor::Acorn => {
-                let (base, value) = match self {
-                    Literal::String(l) => (&l.base, AcornLiteralValue::String(l.value.clone())),
-                    Literal::Numeric(l) => (&l.base, AcornLiteralValue::Numeric(l.value.clone())),
-                    Literal::Null(l) => (&l.base, AcornLiteralValue::Null(None)),
-                    Literal::Boolean(l) => (&l.base, AcornLiteralValue::Boolean(l.value.clone())),
+                let (base, value, raw) = match self {
+                    Literal::String(l) => (
+                        &l.base,
+                        AcornLiteralValue::String(l.value.clone()),
+                        Cow::Borrowed(&*l.value),
+                    ),
+                    Literal::Numeric(l) => (
+                        &l.base,
+                        AcornLiteralValue::Numeric(l.value.clone()),
+                        Cow::Owned(l.value.to_string()),
+                    ),
+                    Literal::Null(l) => (
+                        &l.base,
+                        AcornLiteralValue::Null(None),
+                        Cow::Borrowed("null"),
+                    ),
+                    Literal::Boolean(l) => (
+                        &l.base,
+                        AcornLiteralValue::Boolean(l.value.clone()),
+                        if l.value {
+                            Cow::Borrowed("true")
+                        } else {
+                            Cow::Borrowed("false")
+                        },
+                    ),
                     Literal::RegExp(l) => (
                         &l.base,
                         AcornLiteralValue::RegExp {
                             pattern: l.pattern.clone(),
                             flags: l.flags.clone(),
                         },
+                        Cow::Borrowed(""),
                     ),
                     Literal::Template(..) => todo!(),
-                    Literal::BigInt(l) => (&l.base, AcornLiteralValue::BigInt(l.value.clone())),
-                    Literal::Decimal(l) => (&l.base, AcornLiteralValue::Decimal(l.value.clone())),
+                    Literal::BigInt(l) => (
+                        &l.base,
+                        AcornLiteralValue::BigInt(l.value.clone()),
+                        Cow::Owned(l.value.to_string()),
+                    ),
+                    Literal::Decimal(l) => (
+                        &l.base,
+                        AcornLiteralValue::Decimal(l.value.clone()),
+                        Cow::Owned(l.value.to_string()),
+                    ),
                 };
                 let acorn = AcornLiteral {
                     type_: "Literal",
-                    raw: "",
+                    raw: &raw,
                     base,
                     value,
                 };
