@@ -1,4 +1,4 @@
-use serde::{Deserialize, Serialize};
+use serde::{ser::SerializeMap, Deserialize, Serialize};
 use swc_common::ast_serde;
 
 use crate::{
@@ -6,6 +6,7 @@ use crate::{
         BaseNode, Decorator, Identifier, Param, PatternLike, TypeAnnotOrNoop, TypeParamDeclOrNoop,
     },
     expr::Expression,
+    flavor::Flavor,
     flow::{
         ObjectTypeCallProperty, ObjectTypeIndexer, ObjectTypeInternalSlot, ObjectTypeProperty,
         ObjectTypeSpreadProperty,
@@ -101,8 +102,7 @@ pub enum ObjectPropVal {
     Expr(Box<Expression>),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, Deserialize, PartialEq)]
 pub struct ObjectProperty {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -114,4 +114,62 @@ pub struct ObjectProperty {
     pub shorthand: bool,
     #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_none")]
     pub decorators: Option<Vec<Decorator>>,
+}
+
+#[derive(Serialize)]
+struct BabelObjectProperty<'a> {
+    #[serde(flatten)]
+    base: &'a BaseNode,
+    key: &'a ObjectKey,
+    value: &'a ObjectPropVal,
+    computed: bool,
+    shorthand: bool,
+    #[serde(skip_serializing_if = "crate::flavor::Flavor::skip_none")]
+    decorators: Option<&'a [Decorator]>,
+}
+
+impl Serialize for ObjectProperty {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        match Flavor::current() {
+            Flavor::Babel => {
+                let actual = BabelObjectProperty {
+                    base: &self.base,
+                    key: &self.key,
+                    value: &self.value,
+                    computed: self.computed,
+                    shorthand: self.shorthand,
+                    decorators: self.decorators.as_deref(),
+                };
+                actual.serialize(serializer)
+            }
+            Flavor::Acorn => {
+                let mut s = serializer.serialize_map(None)?;
+
+                {
+                    // TODO: This is bad.
+                    self.base
+                        .serialize(serde::__private::ser::FlatMapSerializer(&mut s))?;
+                }
+
+                s.serialize_entry("type", "Property")?;
+                s.serialize_entry("kind", "init")?;
+                s.serialize_entry("method", &false)?;
+                s.serialize_entry("shorthand", &false)?;
+                s.serialize_entry("key", &self.key)?;
+                s.serialize_entry("value", &self.value)?;
+                s.serialize_entry("computed", &self.computed)?;
+                if let Some(decorators) = &self.decorators {
+                    if !decorators.is_empty() {
+                        s.serialize_entry("decorators", decorators)?;
+                    }
+                }
+                s.serialize_entry("computed", &self.computed)?;
+
+                s.end()
+            }
+        }
+    }
 }
