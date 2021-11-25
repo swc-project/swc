@@ -1,0 +1,249 @@
+{
+  "body": [
+    {
+      "declarations": [
+        {
+          "end": 122,
+          "id": {
+            "end": 13,
+            "name": "Rectangle",
+            "range": [
+              4,
+              13
+            ],
+            "start": 4,
+            "type": "Identifier"
+          },
+          "init": {
+            "body": {
+              "body": [
+                {
+                  "computed": false,
+                  "end": 120,
+                  "key": {
+                    "end": 39,
+                    "name": "constructor",
+                    "range": [
+                      28,
+                      39
+                    ],
+                    "start": 28,
+                    "type": "Identifier"
+                  },
+                  "kind": "constructor",
+                  "range": [
+                    28,
+                    120
+                  ],
+                  "start": 28,
+                  "static": false,
+                  "type": "MethodDefinition",
+                  "value": {
+                    "async": false,
+                    "body": {
+                      "body": [
+                        {
+                          "end": 86,
+                          "expression": {
+                            "end": 85,
+                            "left": {
+                              "computed": false,
+                              "end": 76,
+                              "object": {
+                                "end": 69,
+                                "range": [
+                                  65,
+                                  69
+                                ],
+                                "start": 65,
+                                "type": "ThisExpression"
+                              },
+                              "optional": false,
+                              "property": {
+                                "end": 76,
+                                "name": "height",
+                                "range": [
+                                  70,
+                                  76
+                                ],
+                                "start": 70,
+                                "type": "Identifier"
+                              },
+                              "range": [
+                                65,
+                                76
+                              ],
+                              "start": 65,
+                              "type": "MemberExpression"
+                            },
+                            "operator": "=",
+                            "range": [
+                              65,
+                              85
+                            ],
+                            "right": {
+                              "end": 85,
+                              "name": "height",
+                              "range": [
+                                79,
+                                85
+                              ],
+                              "start": 79,
+                              "type": "Identifier"
+                            },
+                            "start": 65,
+                            "type": "AssignmentExpression"
+                          },
+                          "range": [
+                            65,
+                            86
+                          ],
+                          "start": 65,
+                          "type": "ExpressionStatement"
+                        },
+                        {
+                          "end": 114,
+                          "expression": {
+                            "end": 113,
+                            "left": {
+                              "computed": false,
+                              "end": 105,
+                              "object": {
+                                "end": 99,
+                                "range": [
+                                  95,
+                                  99
+                                ],
+                                "start": 95,
+                                "type": "ThisExpression"
+                              },
+                              "optional": false,
+                              "property": {
+                                "end": 105,
+                                "name": "width",
+                                "range": [
+                                  100,
+                                  105
+                                ],
+                                "start": 100,
+                                "type": "Identifier"
+                              },
+                              "range": [
+                                95,
+                                105
+                              ],
+                              "start": 95,
+                              "type": "MemberExpression"
+                            },
+                            "operator": "=",
+                            "range": [
+                              95,
+                              113
+                            ],
+                            "right": {
+                              "end": 113,
+                              "name": "width",
+                              "range": [
+                                108,
+                                113
+                              ],
+                              "start": 108,
+                              "type": "Identifier"
+                            },
+                            "start": 95,
+                            "type": "AssignmentExpression"
+                          },
+                          "range": [
+                            95,
+                            114
+                          ],
+                          "start": 95,
+                          "type": "ExpressionStatement"
+                        }
+                      ],
+                      "end": 120,
+                      "range": [
+                        55,
+                        120
+                      ],
+                      "start": 55,
+                      "type": "BlockStatement"
+                    },
+                    "end": 120,
+                    "generator": false,
+                    "params": [
+                      {
+                        "end": 46,
+                        "name": "height",
+                        "range": [
+                          40,
+                          46
+                        ],
+                        "start": 40,
+                        "type": "Identifier"
+                      },
+                      {
+                        "end": 53,
+                        "name": "width",
+                        "range": [
+                          48,
+                          53
+                        ],
+                        "start": 48,
+                        "type": "Identifier"
+                      }
+                    ],
+                    "range": [
+                      55,
+                      120
+                    ],
+                    "start": 55,
+                    "type": "FunctionExpression"
+                  }
+                }
+              ],
+              "end": 122,
+              "range": [
+                22,
+                122
+              ],
+              "start": 22,
+              "type": "ClassBody"
+            },
+            "end": 122,
+            "id": null,
+            "range": [
+              16,
+              122
+            ],
+            "start": 16,
+            "superClass": null,
+            "type": "ClassExpression"
+          },
+          "range": [
+            4,
+            122
+          ],
+          "start": 4,
+          "type": "VariableDeclarator"
+        }
+      ],
+      "end": 123,
+      "kind": "let",
+      "range": [
+        0,
+        123
+      ],
+      "start": 0,
+      "type": "VariableDeclaration"
+    }
+  ],
+  "end": 123,
+  "range": [
+    0,
+    123
+  ],
+  "sourceType": "script",
+  "start": 0,
+  "type": "Program"
+}
