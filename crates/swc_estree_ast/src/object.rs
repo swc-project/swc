@@ -149,7 +149,7 @@ impl Serialize for ObjectProperty {
                 let mut s = serializer.serialize_map(None)?;
 
                 {
-                    // TODO: This is bad.
+                    // TODO(kdy1): This is bad.
                     self.base
                         .serialize(serde::__private::ser::FlatMapSerializer(&mut s))?;
                 }
