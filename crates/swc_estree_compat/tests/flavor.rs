@@ -59,6 +59,7 @@ fn assert_flavor(flavor: Flavor, input: &Path, output_json_path: &Path) {
                 serde_json::to_string_pretty(&expected).unwrap()
             );
 
+            // We don't try to match fully.
             actual["end"] = Value::Null;
             expected["end"] = Value::Null;
 
