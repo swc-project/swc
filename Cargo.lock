@@ -3150,7 +3150,6 @@ dependencies = [
  "serde_json",
  "swc_atoms 0.2.9",
  "swc_common",
- "swc_estree_macros",
 ]
 
 [[package]]
@@ -3173,16 +3172,11 @@ dependencies = [
  "swc_ecma_utils",
  "swc_ecma_visit",
  "swc_estree_ast",
- "swc_estree_macros",
  "swc_node_base",
  "swc_node_comments",
  "testing",
  "walkdir",
 ]
-
-[[package]]
-name = "swc_estree_macros"
-version = "0.1.0"
 
 [[package]]
 name = "swc_fast_graph"
