@@ -43,10 +43,10 @@ error: TypeSelector
 error: Ident
 
 error: Ident
- --> $DIR/tests/fixture/esbuild/misc/UeHn9b5w6R3dVjrtRCGxkA/input.css:1:1
+ --> $DIR/tests/fixture/esbuild/misc/UeHn9b5w6R3dVjrtRCGxkA/input.css:1:2
   |
 1 | |* {}
-  | ^
+  |  ^
 
 error: Block
  --> $DIR/tests/fixture/esbuild/misc/UeHn9b5w6R3dVjrtRCGxkA/input.css:1:4
