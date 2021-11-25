@@ -148,7 +148,8 @@ impl<'a, I: Input> Lexer<'a, I> {
                 Some(c) => c,
                 None => {
                     let start = self.state.start;
-                    self.error(start, SyntaxError::UnterminatedStrLit)?
+                    self.emit_error(start, SyntaxError::UnterminatedStrLit);
+                    break;
                 }
             };
 
@@ -184,7 +185,13 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
         let cur_pos = self.input.cur_pos();
         out.push_str(self.input.slice(chunk_start, cur_pos));
-        self.input.bump();
+
+        // it might be at the end of the file when
+        // the string literal is unterminated
+        if self.input.peek_ahead().is_some() {
+            self.input.bump();
+        }
+
         Ok(Token::Str {
             value: out.into(),
             has_escape,
