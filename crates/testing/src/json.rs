@@ -9,12 +9,12 @@ fn normalize_value_recursively(v: &mut Value, normalize: &mut dyn FnMut(&str, &m
         }
 
         Value::Object(obj) => {
-            for (_, v) in obj.iter_mut() {
-                normalize_value_recursively(v, normalize);
-            }
-
             for (k, v) in obj.iter_mut() {
                 normalize(k, v);
+            }
+
+            for (_, v) in obj.iter_mut() {
+                normalize_value_recursively(v, normalize);
             }
         }
 
