@@ -1,3 +1,4 @@
+use anyhow::Context;
 use serde_json::{Number, Value};
 use std::{
     path::{Path, PathBuf},
@@ -49,8 +50,9 @@ fn assert_flavor(flavor: Flavor, input: &Path, output_json_path: &Path) {
             String::from_utf8(output.stdout).expect("./acorn.js generated non-utf8 output");
 
         {
-            let mut expected =
-                serde_json::from_str::<Value>(&expected).expect("acorn.js generated invalid json");
+            let mut expected = serde_json::from_str::<Value>(&expected)
+                .with_context(|| format!("acorn.js generated invalid json:\n {}", expected))
+                .unwrap();
 
             println!(
                 "----- Expected output -----\n{}",
