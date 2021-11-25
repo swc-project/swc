@@ -25,6 +25,10 @@ pub fn diff_json_value(
                 normalize(&k, v);
             }
 
+            if a.is_empty() && b.is_empty() {
+                return true;
+            }
+
             a.retain(|key, a_v| {
                 if let Some(b_v) = b.get_mut(key) {
                     if diff_json_value(a_v, b_v, normalize) {
