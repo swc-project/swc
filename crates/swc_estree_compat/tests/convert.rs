@@ -155,7 +155,7 @@ fn run_test(src: String, expected: String, syntax: Syntax, is_module: bool) {
     let mut expected: Value = serde_json::from_str(&expected).unwrap();
 
     diff_json_value(&mut actual, &mut expected, &mut |key, value| match key {
-        "identifierName" | "extra" => {
+        "identifierName" | "extra" | "errors" => {
             // Remove
             *value = Value::Null;
         }
