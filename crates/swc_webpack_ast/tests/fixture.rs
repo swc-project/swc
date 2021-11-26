@@ -5,7 +5,7 @@ use swc_ecma_transforms_base::resolver::resolver_with_mark;
 use swc_ecma_transforms_testing::test_fixture;
 use swc_ecma_visit::as_folder;
 use swc_estree_compat::babelify::Babelify;
-use swc_webpack_ast::ast_minimalizer;
+use swc_webpack_ast::reducer::ast_reducer;
 
 #[testing::fixture("tests/fixture/**/input.js")]
 fn fixture(input: PathBuf) {
@@ -21,7 +21,7 @@ fn fixture(input: PathBuf) {
 
             chain!(
                 resolver_with_mark(top_level_mark),
-                as_folder(ast_minimalizer(top_level_mark))
+                as_folder(ast_reducer(top_level_mark))
             )
         },
         &input,
