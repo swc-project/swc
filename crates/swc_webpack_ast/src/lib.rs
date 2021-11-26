@@ -29,7 +29,6 @@ pub fn webpack_ast(
             n.visit_mut_with(&mut resolver_with_mark(top_level_mark));
         }
         {
-            let _timer = timer!("minimal ast");
             n.visit_mut_with(&mut ast_minimalizer(top_level_mark));
         }
 
@@ -872,6 +871,8 @@ impl VisitMut for Minimalizer {
     }
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
+        let _timer = timer!("reduce ast");
+
         self.data = Arc::new(ScopeData::analyze(&stmts));
 
         self.visit_mut_stmt_likes(stmts);
