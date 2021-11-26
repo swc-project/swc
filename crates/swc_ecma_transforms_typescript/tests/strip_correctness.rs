@@ -4,11 +4,13 @@ use std::{
     sync::{Arc, RwLock},
 };
 use swc_common::FileName;
+use swc_common::Mark;
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{self, Emitter};
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_transforms_typescript::{strip, strip::strip_with_config};
+use swc_ecma_transforms_base::resolver::ts_resolver;
 use swc_ecma_visit::{Fold, FoldWith};
 
 #[testing::fixture("../swc_ecma_parser/tests/typescript/**/*.ts")]
@@ -123,10 +125,12 @@ fn identity(entry: PathBuf) {
             let module = parser
                 .parse_typescript_module()
                 .map(|p| {
-                    p.fold_with(&mut strip_with_config(strip::Config {
+                    let top_level_mark = Mark::fresh(Mark::root());
+                    p.fold_with(&mut ts_resolver(top_level_mark))
+                    .fold_with(&mut strip_with_config(strip::Config {
                         no_empty_export: true,
                         ..Default::default()
-                    }))
+                    }, top_level_mark))
                     .fold_with(&mut fixer(None))
                 })
                 .map_err(|e| {

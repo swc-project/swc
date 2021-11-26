@@ -400,7 +400,6 @@ impl<'a> VisitMut for Resolver<'a> {
     typed_ref!(visit_mut_ts_intersection_type, TsIntersectionType);
     typed_ref!(visit_mut_ts_type_ref, TsTypeRef);
     typed_decl!(visit_mut_ts_type_param_decl, TsTypeParamDecl);
-    typed!(visit_mut_ts_enum_member, TsEnumMember);
     typed!(visit_mut_ts_fn_param, TsFnParam);
     typed!(visit_mut_ts_indexed_access_type, TsIndexedAccessType);
     typed!(visit_mut_ts_index_signature, TsIndexSignature);
@@ -998,8 +997,7 @@ impl<'a> VisitMut for Resolver<'a> {
             return;
         }
 
-        self.in_type = false;
-        self.modify(&mut decl.id, None);
+        self.modify(&mut decl.id, Some(VarDeclKind::Let));
         decl.members.visit_mut_with(self);
     }
 
@@ -1123,8 +1121,7 @@ impl<'a> VisitMut for Resolver<'a> {
             return;
         }
 
-        self.in_type = true;
-        self.modify(&mut n.id, None);
+        self.modify(&mut n.id, Some(VarDeclKind::Let));
 
         n.body.visit_mut_with(self);
     }
@@ -1318,11 +1315,6 @@ impl VisitMut for Hoister<'_, '_> {
 
         if self.resolver.handle_types {
             match decl {
-                Decl::TsEnum(e) => {
-                    self.resolver.in_type = true;
-                    self.resolver.modify(&mut e.id, None);
-                }
-
                 Decl::TsInterface(i) => {
                     self.resolver.in_type = true;
                     self.resolver.modify(&mut i.id, None);

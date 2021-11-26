@@ -78,13 +78,15 @@ pub struct Config {
     pub pragma_frag: Option<String>,
 }
 
-pub fn strip_with_config(config: Config) -> impl Fold + VisitMut {
+pub fn strip_with_config(config: Config, top_level_mark: Mark) -> impl Fold + VisitMut {
     as_folder(Strip {
         config,
         comments: NoopComments,
         jsx: None,
+        top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
         non_top_level: Default::default(),
         scope: Default::default(),
+        is_module: Default::default(),
         is_side_effect_import: Default::default(),
         is_type_only_export: Default::default(),
         uninitialized_vars: Default::default(),
@@ -97,8 +99,8 @@ pub fn strip_with_config(config: Config) -> impl Fold + VisitMut {
 ///
 /// See the `examples` directory of the crate to see how you can transpile a
 /// typescript file to a javascript file.
-pub fn strip() -> impl Fold + VisitMut {
-    strip_with_config(Default::default())
+pub fn strip(top_level_mark: Mark) -> impl Fold + VisitMut {
+    strip_with_config(Default::default(), top_level_mark)
 }
 
 /// [strip], but aware of jsx.
@@ -145,8 +147,10 @@ where
             pragma_id,
             pragma_frag_id,
         }),
+        top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
         non_top_level: Default::default(),
         scope: Default::default(),
+        is_module: Default::default(),
         is_side_effect_import: Default::default(),
         is_type_only_export: Default::default(),
         uninitialized_vars: Default::default(),
@@ -189,8 +193,10 @@ where
     jsx: Option<JsxData>,
 
     non_top_level: bool,
+    top_level_ctxt: SyntaxContext,
     scope: Scope,
 
+    is_module: bool,
     is_side_effect_import: bool,
     is_type_only_export: bool,
     uninitialized_vars: Vec<VarDeclarator>,
@@ -1299,7 +1305,7 @@ where
             var.map(|var| {
                 Decl::Var(VarDecl {
                     span: module_span,
-                    kind: VarDeclKind::Var,
+                    kind: if self.is_module || module_name.span.ctxt != self.top_level_ctxt { VarDeclKind::Let } else { VarDeclKind::Var },
                     declare: false,
                     decls: vec![var],
                 })
@@ -1535,6 +1541,7 @@ where
                     stmts,
                 });
             }
+            BlockStmtOrExpr::BlockStmt(_) => n.visit_mut_children_with(self),
             _ => n.visit_mut_children_with(self),
         };
     }
@@ -1758,7 +1765,7 @@ where
                     if let Some(var) = self.create_uninit_var(e.span, e.id.to_id()) {
                         stmts.push(Stmt::Decl(Decl::Var(VarDecl {
                             span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
+                            kind: if self.is_module || e.id.span.ctxt != self.top_level_ctxt { VarDeclKind::Let } else { VarDeclKind::Var },
                             declare: false,
                             decls: vec![var],
                         })));
@@ -1880,7 +1887,7 @@ where
             );
         }
 
-        let is_module = module.body.iter().any(|item| match item {
+        self.is_module = module.body.iter().any(|item| match item {
             ModuleItem::ModuleDecl(..) => true,
             _ => false,
         });
@@ -1889,7 +1896,7 @@ where
         //
         // See https://github.com/swc-project/swc/issues/1698
         if was_module
-            && !is_module
+            && !self.is_module
             && !self.config.no_empty_export
             && module.body.iter().all(|item| match item {
                 ModuleItem::ModuleDecl(_) => false,
@@ -1911,6 +1918,7 @@ where
     }
 
     fn visit_mut_script(&mut self, n: &mut Script) {
+        self.is_module = false;
         self.parse_jsx_directives(n.span);
 
         for item in &n.body {
@@ -2077,7 +2085,7 @@ where
                             span: e.span,
                             decl: Decl::Var(VarDecl {
                                 span: DUMMY_SP,
-                                kind: VarDeclKind::Var,
+                                kind: VarDeclKind::Let,
                                 declare: false,
                                 decls: vec![var],
                             }),
@@ -2087,7 +2095,7 @@ where
                     self.handle_enum(e, &mut stmts)
                 }
                 ModuleItem::Stmt(Stmt::Decl(Decl::TsEnum(e))) => {
-                    // var Foo;
+                    // let Foo;
                     // (function (Foo) {
                     //     Foo[Foo["a"] = 0] = "a";
                     // })(Foo || (Foo = {}));
@@ -2096,7 +2104,7 @@ where
                         stmts.push(
                             Stmt::Decl(Decl::Var(VarDecl {
                                 span: DUMMY_SP,
-                                kind: VarDeclKind::Var,
+                                kind: VarDeclKind::Let,
                                 declare: false,
                                 decls: vec![var],
                             }))

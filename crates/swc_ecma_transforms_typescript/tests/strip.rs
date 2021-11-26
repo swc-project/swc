@@ -1,8 +1,9 @@
 use std::path::PathBuf;
 
 use swc_common::chain;
+use swc_common::Mark;
 use swc_ecma_parser::{Syntax, TsConfig};
-use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_base::resolver::{resolver, ts_resolver};
 use swc_ecma_transforms_compat::{
     es2017::async_to_generator,
     es2020::{nullish_coalescing, optional_chaining},
@@ -13,10 +14,18 @@ use swc_ecma_transforms_typescript::{strip, strip::strip_with_config};
 use swc_ecma_visit::Fold;
 
 fn tr() -> impl Fold {
-    strip_with_config(strip::Config {
+    tr_config(strip::Config {
         no_empty_export: true,
         ..Default::default()
     })
+}
+
+fn tr_config(config: strip::Config) -> impl Fold {
+    let top_level_mark = Mark::fresh(Mark::root());
+    chain!(
+        ts_resolver(top_level_mark),
+        strip_with_config(config, top_level_mark),
+    )
 }
 
 macro_rules! to {
@@ -42,7 +51,7 @@ macro_rules! test_with_config {
                 decorators: true,
                 ..Default::default()
             }),
-            |_| strip_with_config($config),
+            |_| tr_config($config),
             $name,
             $from,
             $to,
@@ -307,7 +316,7 @@ test!(
     enum_simple,
     "enum Foo{ a }",
     "
-var Foo;
+let Foo;
 (function (Foo) {
     Foo[Foo['a'] = 0] = 'a';
 })(Foo || (Foo = {}));",
@@ -325,7 +334,7 @@ test!(
   unmounted = 'unmounted',
 }",
     r#"
-var State;
+let State;
 (function (State) {
     State["closed"] = "closed";
     State["opened"] = "opened";
@@ -346,7 +355,7 @@ test!(
   mounted = 'mo2',
 }",
     r#"
-var StateNum;
+let StateNum;
 (function (StateNum) {
     StateNum["closed"] = "cl0";
     StateNum["opened"] = "op1";
@@ -366,7 +375,7 @@ test!(
   mounted = 'mounted',
   unmounted = 'unmounted',
 }",
-    r#"export var State;
+    r#"export let State;
 (function (State) {
     State["closed"] = "closed";
     State["opened"] = "opened";
@@ -436,7 +445,7 @@ to!(
   md = 'md',
   lg = 'lg',
 }",
-    "var FlexSize;
+    "let FlexSize;
 (function (FlexSize) {
     FlexSize['md'] = 'md';
     FlexSize['lg'] = 'lg';
@@ -450,7 +459,7 @@ to!(
   md,
   lg,
 }",
-    "var FlexSize;
+    "let FlexSize;
 (function (FlexSize) {
     FlexSize[FlexSize['md'] = 0] = 'md';
     FlexSize[FlexSize['lg'] = 1] = 'lg';
@@ -472,7 +481,7 @@ enum Foo {
 
 export default Foo;
 ",
-    "var Foo;
+    "let Foo;
     (function(Foo) {
         Foo[Foo['A'] = 0] = 'A';
         Foo[Foo['B'] = 1] = 'B';
@@ -3117,7 +3126,7 @@ test!(
         ..Default::default()
     }),
     |_| {
-        strip_with_config(strip::Config {
+        tr_config(strip::Config {
             no_empty_export: true,
             import_not_used_as_values: strip::ImportsNotUsedAsValues::Preserve,
             ..Default::default()
@@ -3250,7 +3259,7 @@ test!(
     Syntax::Typescript(TsConfig {
         ..Default::default()
     }),
-    |_| strip_with_config(strip::Config {
+    |_| tr_config(strip::Config {
         use_define_for_class_fields: true,
         no_empty_export: true,
         ..Default::default()
@@ -4201,6 +4210,43 @@ to!(
     Color['Aqua'] = '#00ffff';
     Color['Cyan'] = '#00ffff';
 })(Color || (Color = {}));"
+);
+
+to!(
+    issue_2886_enums_blocks,
+    "
+enum Enum {
+    test = 1
+}
+{
+    enum Enum {
+        test = 1
+    }
+}
+{
+    enum Enum {
+        test = 1
+    }
+}
+",
+    r#"
+let Enum;
+(function (Enum) {
+    Enum[Enum["test"] = 1] = "test";
+})(Enum || (Enum = {}));
+{
+    let Enum;
+    (function (Enum) {
+        Enum[Enum["test"] = 1] = "test";
+    })(Enum || (Enum = {}));
+}
+{
+    let Enum;
+    (function (Enum) {
+        Enum[Enum["test"] = 1] = "test";
+    })(Enum || (Enum = {}));
+}
+    "#
 );
 
 #[testing::fixture("tests/fixture/**/input.ts")]

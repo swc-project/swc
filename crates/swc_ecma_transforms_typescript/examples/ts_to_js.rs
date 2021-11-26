@@ -7,12 +7,14 @@ use swc_common::{
     self,
     comments::SingleThreadedComments,
     errors::{ColorConfig, Handler},
+    Mark,
     sync::Lrc,
     SourceMap,
 };
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms_base::fixer::fixer;
+use swc_ecma_transforms_base::resolver::ts_resolver;
 use swc_ecma_transforms_typescript::strip;
 use swc_ecma_visit::FoldWith;
 
@@ -56,11 +58,14 @@ fn main() {
         .parse_module()
         .map_err(|e| e.into_diagnostic(&handler).emit())
         .expect("failed to parse module.");
+    let top_level_mark = Mark::fresh(Mark::root());
+    // Conduct identifier scope analysis
+    let module = module.fold_with(&mut ts_resolver(top_level_mark));
 
     // Remove typescript types
-    let module = module.fold_with(&mut strip());
+    let module = module.fold_with(&mut strip(top_level_mark));
 
-    // Ensure that we have eenough parenthesis.
+    // Ensure that we have enough parenthesis.
     let module = module.fold_with(&mut fixer(Some(&comments)));
 
     let mut buf = vec![];
