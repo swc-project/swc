@@ -15,6 +15,7 @@ rustdoc-args = ["--cfg", "docsrs"]
 [dependencies]
 swc_css_ast = {version = "0.35.0", path = "../swc_css_ast"}
 swc_css_codegen = {version = "0.37.0", path = "../swc_css_codegen"}
+swc_css_minifier = {version = "0.1.0", path = "../swc_css_minifier", optional = true}
 swc_css_parser = {version = "0.39.0", path = "../swc_css_parser"}
 swc_css_utils = {version = "0.32.0", path = "../swc_css_utils/"}
 swc_css_visit = {version = "0.34.0", path = "../swc_css_visit"}
