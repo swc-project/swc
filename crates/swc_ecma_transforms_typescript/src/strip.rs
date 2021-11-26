@@ -1111,7 +1111,7 @@ where
             return None;
         }
 
-        let private_name = private_ident!(module_name.sym.clone());
+        let inner_name = module_name.clone();
         let mut delayed_vars = vec![];
 
         for item in body.body {
@@ -1154,7 +1154,7 @@ where
                                         let left =
                                             PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
                                                 span: DUMMY_SP,
-                                                obj: private_name.clone().as_obj(),
+                                                obj: inner_name.clone().as_obj(),
                                                 prop: Box::new(Expr::Ident(name.id.clone())),
                                                 computed: false,
                                             })));
@@ -1168,7 +1168,7 @@ where
                                     }
                                     _ => {
                                         let pat =
-                                            Box::new(create_prop_pat(&private_name, decl.name));
+                                            Box::new(create_prop_pat(&inner_name, decl.name));
                                         // Destructure the variable.
                                         exprs.push(Box::new(Expr::Assign(AssignExpr {
                                             span: DUMMY_SP,
@@ -1206,7 +1206,7 @@ where
                     //
                     let left = PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
                         span: DUMMY_SP,
-                        obj: private_name.clone().as_obj(),
+                        obj: inner_name.clone().as_obj(),
                         prop: Box::new(Expr::Ident(decl_name.clone())),
                         computed: false,
                     })));
@@ -1245,7 +1245,7 @@ where
                                 op: op!("="),
                                 left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
                                     span: DUMMY_SP,
-                                    obj: private_name.clone().as_obj(),
+                                    obj: inner_name.clone().as_obj(),
                                     prop: Box::new(Expr::Ident(prop)),
                                     computed: false,
                                 }))),
@@ -1264,7 +1264,7 @@ where
                 params: vec![Param {
                     span: DUMMY_SP,
                     decorators: Default::default(),
-                    pat: Pat::Ident(private_name.clone().into()),
+                    pat: Pat::Ident(inner_name.clone().into()),
                 }],
                 decorators: Default::default(),
                 span: DUMMY_SP,
