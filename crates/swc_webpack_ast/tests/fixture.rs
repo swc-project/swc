@@ -1,9 +1,10 @@
 use std::path::PathBuf;
 use swc_common::{chain, Mark};
-use swc_ecma_parser::{EsConfig, Syntax};
+use swc_ecma_parser::{EsConfig, Parser, StringInput, Syntax};
 use swc_ecma_transforms_base::resolver::resolver_with_mark;
 use swc_ecma_transforms_testing::test_fixture;
 use swc_ecma_visit::as_folder;
+use swc_estree_compat::babelify::Babelify;
 use swc_webpack_ast::ast_minimalizer;
 
 #[testing::fixture("tests/fixture/**/input.js")]
@@ -26,4 +27,44 @@ fn fixture(input: PathBuf) {
         &input,
         &output,
     );
+}
+
+#[testing::fixture("tests/fixture/**/input.js")]
+fn test_babelify(input: PathBuf) {
+    testing::run_test(false, |cm, handler| {
+        let fm = cm.load_file(&input).unwrap();
+
+        let module = {
+            let mut p = Parser::new(
+                Syntax::Es(EsConfig {
+                    jsx: true,
+                    ..Default::default()
+                }),
+                StringInput::from(&*fm),
+                None,
+            );
+            let res = p
+                .parse_module()
+                .map_err(|e| e.into_diagnostic(&handler).emit());
+
+            for e in p.take_errors() {
+                e.into_diagnostic(&handler).emit()
+            }
+
+            res?
+        };
+
+        let ctx = swc_estree_compat::babelify::Context {
+            fm,
+            cm: cm.clone(),
+            comments: Default::default(),
+        };
+
+        let babel_ast = module.babelify(&ctx);
+
+        serde_json::to_string(&babel_ast).expect("failed to serialize babel ast");
+
+        Ok(())
+    })
+    .unwrap();
 }
