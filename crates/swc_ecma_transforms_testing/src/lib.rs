@@ -685,7 +685,7 @@ fn test_fixture_inner<P>(
             as_folder(::swc_ecma_utils::DropSpan {
                 preserve_ctxt: true,
             }),
-            "output.js",
+            "expected.js",
             syntax,
             &expected,
         )?;
