@@ -41,7 +41,6 @@ pub fn async_to_generator() -> impl Fold + VisitMut {
 struct AsyncToGenerator;
 
 struct Actual {
-    in_object_prop: bool,
     in_prototype_assignment: bool,
     extra_stmts: Vec<Stmt>,
 }
@@ -69,7 +68,6 @@ impl AsyncToGenerator {
 
         for mut stmt in stmts.drain(..) {
             let mut actual = Actual {
-                in_object_prop: false,
                 in_prototype_assignment: false,
                 extra_stmts: vec![],
             };
@@ -451,15 +449,6 @@ impl VisitMut for Actual {
         }
     }
 
-    fn visit_mut_prop(&mut self, n: &mut Prop) {
-        let old = self.in_object_prop;
-        self.in_object_prop = true;
-
-        n.visit_mut_children_with(self);
-
-        self.in_object_prop = old;
-    }
-
     fn visit_mut_stmts(&mut self, _n: &mut Vec<Stmt>) {}
 }
 
@@ -784,10 +773,7 @@ impl Actual {
             });
         }
 
-        let callee = make_fn_ref(
-            callee.take(),
-            self.in_object_prop || self.in_prototype_assignment,
-        );
+        let callee = make_fn_ref(callee.take(), self.in_prototype_assignment);
 
         Expr::Call(CallExpr {
             span,
