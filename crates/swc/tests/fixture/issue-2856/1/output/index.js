@@ -1,5 +1,5 @@
 "use strict";
-var _a = _interopRequireWildcard(require("./A"));
+var _boo = _interopRequireWildcard(require("boo"));
 function _interopRequireWildcard(obj) {
     if (obj && obj.__esModule) {
         return obj;
@@ -23,4 +23,5 @@ function _interopRequireWildcard(obj) {
         return newObj;
     }
 }
-console.log(_a.default, _a.foo);
+_boo.default.some();
+(0, _boo).sdx();
