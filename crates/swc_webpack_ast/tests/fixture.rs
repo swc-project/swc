@@ -1,4 +1,4 @@
-use std::path::PathBuf;
+use std::{fs, path::PathBuf};
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Parser, StringInput, Syntax};
 use swc_ecma_transforms_base::resolver::resolver_with_mark;
@@ -30,6 +30,8 @@ fn fixture(input: PathBuf) {
 
 #[testing::fixture("tests/fixture/**/input.js")]
 fn test_babelify(input: PathBuf) {
+    let output_path = input.parent().unwrap().join("output.json");
+
     testing::run_test(false, |cm, handler| {
         let fm = cm.load_file(&input).unwrap();
 
@@ -55,6 +57,8 @@ fn test_babelify(input: PathBuf) {
 
         let s = swc_webpack_ast::webpack_ast(cm.clone(), fm.clone(), module).unwrap();
         println!("{} bytes", s.len());
+
+        fs::write(&output_path, s.as_bytes()).unwrap();
 
         Ok(())
     })
