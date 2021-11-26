@@ -8,6 +8,9 @@ name = "swc_css"
 repository = "https://github.com/swc-project/swc.git"
 version = "0.39.0"
 
+[features]
+minifier = ["swc_css_minifier"]
+
 [package.metadata.docs.rs]
 all-features = true
 rustdoc-args = ["--cfg", "docsrs"]
