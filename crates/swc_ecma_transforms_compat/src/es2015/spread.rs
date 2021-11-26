@@ -9,13 +9,16 @@ use swc_ecma_utils::{
     alias_ident_for, is_literal, member_expr, prepend, quote_ident, undefined, ExprFactory,
     StmtLike,
 };
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
+    VisitWith,
+};
 
-pub fn spread(c: Config) -> impl Fold {
-    Spread {
+pub fn spread(c: Config) -> impl Fold + VisitMut {
+    as_folder(Spread {
         c,
         vars: Default::default(),
-    }
+    })
 }
 
 #[derive(Debug, Clone, Copy, Default, Deserialize)]
@@ -31,21 +34,20 @@ struct Spread {
     vars: Vec<VarDeclarator>,
 }
 
-/// TODO: VisitMut
 #[fast_path(SpreadFinder)]
-impl Fold for Spread {
-    noop_fold_type!();
+impl VisitMut for Spread {
+    noop_visit_mut_type!();
 
-    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        self.fold_stmt_like(n)
+    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        self.visit_mut_stmt_like(n);
     }
 
-    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
-        self.fold_stmt_like(n)
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+        self.visit_mut_stmt_like(n);
     }
 
-    fn fold_expr(&mut self, e: Expr) -> Expr {
-        let e = e.fold_children_with(self);
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
 
         match e {
             Expr::Array(ArrayLit { span, elems }) => {
@@ -55,10 +57,10 @@ impl Fold for Spread {
                     }) => true,
                     _ => false,
                 }) {
-                    return Expr::Array(ArrayLit { span, elems });
+                    return;
                 }
 
-                self.concat_args(span, elems.into_iter(), true)
+                *e = self.concat_args(*span, elems.take().into_iter(), true);
             }
 
             // super(...spread) should be removed by es2015::classes pass
@@ -66,39 +68,35 @@ impl Fold for Spread {
                 callee: ExprOrSuper::Expr(callee),
                 args,
                 span,
-                type_args,
+                ..
             }) => {
                 let has_spread = args
                     .iter()
                     .any(|ExprOrSpread { spread, .. }| spread.is_some());
                 if !has_spread {
-                    return Expr::Call(CallExpr {
-                        callee: ExprOrSuper::Expr(callee),
-                        args,
-                        span,
-                        type_args,
-                    });
+                    return;
                 }
-                let (this, callee) = match *callee {
+
+                let (this, callee_updated) = match &**callee {
                     Expr::Member(MemberExpr {
                         obj: ExprOrSuper::Super(Super { span, .. }),
                         ..
-                    }) => (Box::new(Expr::This(ThisExpr { span })), callee),
+                    }) => (Box::new(Expr::This(ThisExpr { span: *span })), None),
 
                     Expr::Member(MemberExpr {
                         obj: ExprOrSuper::Expr(ref expr),
                         ..
-                    }) if expr.is_this() => (expr.clone(), callee),
+                    }) if expr.is_this() => (expr.clone(), None),
 
                     // Injected variables can be accessed without any side effect
                     Expr::Member(MemberExpr {
                         obj: ExprOrSuper::Expr(ref e),
                         ..
                     }) if e.as_ident().is_some() && e.as_ident().unwrap().span.is_dummy() => {
-                        (Box::new(Expr::Ident(e.as_ident().unwrap().clone())), callee)
+                        (Box::new(Expr::Ident(e.as_ident().unwrap().clone())), None)
                     }
 
-                    Expr::Ident(Ident { span, .. }) => (undefined(span), callee),
+                    Expr::Ident(Ident { span, .. }) => (undefined(*span), None),
 
                     Expr::Member(MemberExpr {
                         span,
@@ -121,16 +119,16 @@ impl Fold for Spread {
                             span: DUMMY_SP,
                             left: PatOrExpr::Pat(Box::new(Pat::Ident(ident.into()))),
                             op: op!("="),
-                            right: expr,
+                            right: expr.clone(),
                         });
                         (
                             this,
-                            Box::new(Expr::Member(MemberExpr {
-                                span,
+                            Some(Box::new(Expr::Member(MemberExpr {
+                                span: *span,
                                 obj: callee.as_obj(),
-                                prop,
-                                computed,
-                            })),
+                                prop: prop.clone(),
+                                computed: *computed,
+                            }))),
                         )
                     }
 
@@ -140,27 +138,28 @@ impl Fold for Spread {
                         Box::new(Expr::This(ThisExpr {
                             span: callee.span(),
                         })),
-                        callee,
+                        None,
                     ),
                 };
 
-                let args_array = if is_literal(&args) {
+                let args_array = if is_literal(args) {
                     Expr::Array(ArrayLit {
-                        span,
-                        elems: expand_literal_args(args.into_iter().map(Some)),
+                        span: *span,
+                        elems: expand_literal_args(args.take().into_iter().map(Some)),
                     })
                 } else {
-                    self.concat_args(span, args.into_iter().map(Some), false)
+                    self.concat_args(*span, args.take().into_iter().map(Some), false)
                 };
+
                 let apply = MemberExpr {
                     span: DUMMY_SP,
-                    obj: callee.as_callee(),
-                    prop: Box::new(Ident::new(js_word!("apply"), span).into()),
+                    obj: callee_updated.unwrap_or(callee.take()).as_callee(),
+                    prop: Box::new(Ident::new(js_word!("apply"), *span).into()),
                     computed: false,
                 };
 
-                Expr::Call(CallExpr {
-                    span,
+                *e = Expr::Call(CallExpr {
+                    span: *span,
                     callee: apply.as_callee(),
                     args: vec![this.as_arg(), args_array.as_arg()],
                     type_args: None,
@@ -170,46 +169,42 @@ impl Fold for Spread {
                 callee,
                 args: Some(args),
                 span,
-                type_args,
+                ..
             }) => {
                 let has_spread = args
                     .iter()
                     .any(|ExprOrSpread { spread, .. }| spread.is_some());
                 if !has_spread {
-                    return Expr::New(NewExpr {
-                        span,
-                        callee,
-                        args: Some(args),
-                        type_args,
-                    });
+                    return;
                 }
 
-                let args = self.concat_args(span, args.into_iter().map(Some), true);
+                let args = self.concat_args(*span, args.take().into_iter().map(Some), true);
 
-                Expr::Call(CallExpr {
-                    span,
+                *e = Expr::Call(CallExpr {
+                    span: *span,
                     callee: helper!(construct, "construct"),
-                    args: vec![callee.as_arg(), args.as_arg()],
+                    args: vec![callee.take().as_arg(), args.as_arg()],
                     type_args: Default::default(),
-                })
+                });
             }
-            _ => e,
-        }
+            _ => {}
+        };
     }
 }
 
 impl Spread {
-    fn fold_stmt_like<T>(&mut self, items: Vec<T>) -> Vec<T>
+    fn visit_mut_stmt_like<T>(&mut self, items: &mut Vec<T>)
     where
         T: StmtLike,
-        Vec<T>: FoldWith<Self>,
+        Vec<T>: VisitMutWith<Self>,
     {
         let orig = self.vars.take();
 
-        let mut items = items.fold_children_with(self);
+        items.visit_mut_children_with(self);
+
         if !self.vars.is_empty() {
             prepend(
-                &mut items,
+                items,
                 T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
@@ -220,8 +215,6 @@ impl Spread {
         }
 
         self.vars = orig;
-
-        items
     }
 }
 
