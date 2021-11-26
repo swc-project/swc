@@ -4,6 +4,7 @@ use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
     CodeGenerator, CodegenConfig, Emit,
 };
+use swc_css_minifier::minify;
 use swc_css_parser::parse_file;
 use testing::NormalizedOutput;
 
@@ -34,7 +35,10 @@ fn parser_fixture(input: PathBuf) {
             // We are not debugging parser
             return Ok(());
         }
-        let ss = res.unwrap();
+        let mut ss = res.unwrap();
+
+        // Apply transforms
+        minify(&mut ss);
 
         let mut css_str = String::new();
         {
