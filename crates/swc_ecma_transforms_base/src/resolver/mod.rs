@@ -408,8 +408,6 @@ impl<'a> VisitMut for Resolver<'a> {
     typed!(visit_mut_ts_parenthesized_type, TsParenthesizedType);
     typed!(visit_mut_ts_type_lit, TsTypeLit);
     typed!(visit_mut_ts_type_element, TsTypeElement);
-    typed!(visit_mut_ts_module_block, TsModuleBlock);
-    typed!(visit_mut_ts_namespace_body, TsNamespaceBody);
     typed!(visit_mut_ts_optional_type, TsOptionalType);
     typed!(visit_mut_ts_param_prop, TsParamProp);
     typed!(visit_mut_ts_rest_type, TsRestType);
@@ -993,10 +991,6 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_ts_enum_decl(&mut self, decl: &mut TsEnumDecl) {
-        if !self.handle_types {
-            return;
-        }
-
         self.modify(&mut decl.id, Some(VarDeclKind::Let));
         decl.members.visit_mut_with(self);
     }
@@ -1100,7 +1094,7 @@ impl<'a> VisitMut for Resolver<'a> {
     fn visit_mut_ts_module_decl(&mut self, decl: &mut TsModuleDecl) {
         match &mut decl.id {
             TsModuleName::Ident(i) => {
-                self.modify(i, None);
+                self.modify(i, Some(VarDeclKind::Let));
             }
             TsModuleName::Str(_) => {}
         }
@@ -1117,10 +1111,6 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_ts_namespace_decl(&mut self, n: &mut TsNamespaceDecl) {
-        if !self.handle_types {
-            return;
-        }
-
         self.modify(&mut n.id, Some(VarDeclKind::Let));
 
         n.body.visit_mut_with(self);

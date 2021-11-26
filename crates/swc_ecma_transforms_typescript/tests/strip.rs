@@ -3,6 +3,7 @@ use std::path::PathBuf;
 use swc_common::chain;
 use swc_common::Mark;
 use swc_ecma_parser::{Syntax, TsConfig};
+use swc_ecma_transforms_base::hygiene::hygiene;
 use swc_ecma_transforms_base::resolver::{resolver, ts_resolver};
 use swc_ecma_transforms_compat::{
     es2017::async_to_generator,
@@ -25,6 +26,7 @@ fn tr_config(config: strip::Config) -> impl Fold {
     chain!(
         ts_resolver(top_level_mark),
         strip_with_config(config, top_level_mark),
+        hygiene(),
     )
 }
 
@@ -643,7 +645,7 @@ to!(
     Down = 2,
     Left = Up + Down,
 }",
-    "var Direction;
+    "let Direction;
 (function (Direction) {
     Direction[Direction['Up'] = 1] = 'Up';
     Direction[Direction['Down'] = 2] = 'Down';
@@ -3472,7 +3474,7 @@ to!(
     "
     var Test1;
     (function(Test) {
-        var DummyValues;
+        let DummyValues;
         (function(DummyValues) {
             DummyValues['A'] = 'A';
             DummyValues['B'] = 'B';
@@ -4205,7 +4207,7 @@ to!(
     Aqua = '#00ffff',
     Cyan = Aqua,
 }",
-    "var Color;
+    "let Color;
 (function (Color) {
     Color['Aqua'] = '#00ffff';
     Color['Cyan'] = '#00ffff';
@@ -4213,19 +4215,37 @@ to!(
 );
 
 to!(
-    issue_2886_enums_blocks,
+    issue_2886_enum_namespace_block_scoping,
     "
 enum Enum {
     test = 1
 }
-{
-    enum Enum {
+namespace Namespace {
+    export enum Enum {
         test = 1
+    }
+    export enum Enum {
+        test2 = 1
     }
 }
 {
     enum Enum {
         test = 1
+    }
+    namespace Namespace {
+        export enum Enum {
+            test = 1
+        }
+    }
+}
+{
+    enum Enum {
+        test = 1
+    }
+    namespace Namespace {
+        export enum Enum {
+            test = 1
+        }
     }
 }
 ",
@@ -4234,17 +4254,51 @@ let Enum;
 (function (Enum) {
     Enum[Enum["test"] = 1] = "test";
 })(Enum || (Enum = {}));
+let Namespace;
+(function(Namespace) {
+    let Enum;
+    (function(Enum) {
+        Enum[Enum["test"] = 1] = "test";
+    })(Enum || (Enum = {
+    }));
+    (function(Enum) {
+        Enum[Enum["test2"] = 1] = "test2";
+    })(Enum || (Enum = {
+    }));
+    Namespace.Enum = Enum;
+})(Namespace || (Namespace = {
+}));
 {
     let Enum;
     (function (Enum) {
         Enum[Enum["test"] = 1] = "test";
     })(Enum || (Enum = {}));
+    let Namespace;
+    (function(Namespace) {
+        let Enum;
+        (function(Enum) {
+            Enum[Enum["test"] = 1] = "test";
+        })(Enum || (Enum = {
+        }));
+        Namespace.Enum = Enum;
+    })(Namespace || (Namespace = {
+    }));
 }
 {
     let Enum;
     (function (Enum) {
         Enum[Enum["test"] = 1] = "test";
     })(Enum || (Enum = {}));
+    let Namespace;
+    (function(Namespace) {
+        let Enum;
+        (function(Enum) {
+            Enum[Enum["test"] = 1] = "test";
+        })(Enum || (Enum = {
+        }));
+        Namespace.Enum = Enum;
+    })(Namespace || (Namespace = {
+    }));
 }
     "#
 );
