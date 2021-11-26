@@ -167,6 +167,7 @@ jobs:
           - swc_timer
           - swc_visit
           - swc_visit_macros
+          - swc_webpack_ast
           - testing
           - testing_macros
           - wasm
