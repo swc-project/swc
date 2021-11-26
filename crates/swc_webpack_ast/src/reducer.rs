@@ -1,8 +1,7 @@
-use crate::cleaner::clean_ast;
 use rayon::prelude::*;
 use std::sync::Arc;
 use swc_atoms::js_word;
-use swc_common::{chain, collections::AHashSet, util::take::Take, Mark, SyntaxContext, DUMMY_SP};
+use swc_common::{collections::AHashSet, util::take::Take, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, StmtLike, StmtOrModuleItem};
 use swc_ecma_visit::{VisitMut, VisitMutWith};
@@ -56,13 +55,10 @@ use swc_timer::timer;
 /// module.hot.accept("x", () => {     })
 /// ```
 pub fn ast_reducer(top_level_mark: Mark) -> impl VisitMut {
-    chain!(
-        Minimalizer {
-            top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
-            ..Default::default()
-        },
-        clean_ast()
-    )
+    Minimalizer {
+        top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
+        ..Default::default()
+    }
 }
 
 #[derive(Default)]
@@ -408,6 +404,10 @@ impl VisitMut for Minimalizer {
         }
 
         match e {
+            Expr::Paren(p) => {
+                *e = *p.expr.take();
+            }
+
             Expr::Ident(i) => {
                 if self.data.should_preserve(&i) {
                     return;
