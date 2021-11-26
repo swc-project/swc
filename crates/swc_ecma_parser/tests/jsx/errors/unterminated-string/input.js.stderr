@@ -4,3 +4,9 @@ error: Unexpected eof
 1 | <foo bar="
   |            ^
 
+error: Unterminated string constant
+ --> $DIR/tests/jsx/errors/unterminated-string/input.js:1:10
+  |
+1 | <foo bar="
+  |          ^^
+

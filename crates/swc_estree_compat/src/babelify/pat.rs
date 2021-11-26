@@ -55,7 +55,11 @@ impl From<PatOutput> for ObjectPropVal {
     fn from(pat: PatOutput) -> Self {
         match pat {
             PatOutput::Expr(e) => ObjectPropVal::Expr(e),
-            other => ObjectPropVal::Pattern(other.into()),
+            PatOutput::Id(p) => ObjectPropVal::Pattern(PatternLike::Id(p)),
+            PatOutput::Array(p) => ObjectPropVal::Pattern(PatternLike::ArrayPat(p)),
+            PatOutput::Rest(p) => ObjectPropVal::Pattern(PatternLike::RestEl(p)),
+            PatOutput::Object(p) => ObjectPropVal::Pattern(PatternLike::ObjectPat(p)),
+            PatOutput::Assign(p) => ObjectPropVal::Pattern(PatternLike::AssignmentPat(p)),
         }
     }
 }
@@ -119,7 +123,10 @@ impl From<PatOutput> for Param {
         match pat {
             PatOutput::Id(i) => Param::Id(i),
             PatOutput::Rest(r) => Param::Rest(r),
-            other => other.into(),
+            PatOutput::Array(p) => Param::Pat(Pattern::Array(p)),
+            PatOutput::Object(p) => Param::Pat(Pattern::Object(p)),
+            PatOutput::Assign(p) => Param::Pat(Pattern::Assignment(p)),
+            PatOutput::Expr(p) => panic!("Cannot convert {:?} to Param", p),
         }
     }
 }

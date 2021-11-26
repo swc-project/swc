@@ -1203,9 +1203,9 @@ dependencies = [
 
 [[package]]
 name = "napi-build"
-version = "1.1.1"
+version = "1.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "87375bacff0768dd606ccf870eae936efd21e3245af9e7b37ae44f969d48be8a"
+checksum = "d46af3cd13ef452354c8704da88bfc4bfa38724ddb38963a5113099749710788"
 
 [[package]]
 name = "napi-derive"
@@ -2777,7 +2777,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.78.8"
+version = "0.78.9"
 dependencies = [
  "either",
  "enum_kind",
@@ -3154,7 +3154,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3357,6 +3357,29 @@ dependencies = [
  "quote",
  "swc_macros_common",
  "syn",
+]
+
+[[package]]
+name = "swc_webpack_ast"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "rayon",
+ "serde_json",
+ "swc_atoms 0.2.9",
+ "swc_common",
+ "swc_ecma_ast",
+ "swc_ecma_parser",
+ "swc_ecma_transforms_base",
+ "swc_ecma_transforms_testing",
+ "swc_ecma_utils",
+ "swc_ecma_visit",
+ "swc_estree_ast",
+ "swc_estree_compat",
+ "swc_node_base",
+ "swc_timer",
+ "testing",
+ "tracing",
 ]
 
 [[package]]
