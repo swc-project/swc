@@ -319,6 +319,10 @@ impl Minimalizer {
                 }
             }
 
+            Expr::OptChain(opt) => {
+                *e = *opt.expr.take();
+            }
+
             Expr::Array(a) => {
                 if a.elems.is_empty() {
                     e.take();

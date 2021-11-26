@@ -4,7 +4,6 @@ use swc_ecma_parser::{EsConfig, Parser, StringInput, Syntax};
 use swc_ecma_transforms_base::resolver::resolver_with_mark;
 use swc_ecma_transforms_testing::test_fixture;
 use swc_ecma_visit::as_folder;
-use swc_estree_compat::babelify::Babelify;
 use swc_webpack_ast::reducer::ast_reducer;
 
 #[testing::fixture("tests/fixture/**/input.js")]
@@ -54,15 +53,7 @@ fn test_babelify(input: PathBuf) {
             res?
         };
 
-        let ctx = swc_estree_compat::babelify::Context {
-            fm,
-            cm: cm.clone(),
-            comments: Default::default(),
-        };
-
-        let babel_ast = module.babelify(&ctx);
-
-        serde_json::to_string(&babel_ast).expect("failed to serialize babel ast");
+        swc_webpack_ast::webpack_ast(cm.clone(), fm.clone(), module).unwrap();
 
         Ok(())
     })
