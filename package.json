@@ -77,6 +77,7 @@
         "acorn": "^8.6.0",
         "axios": "^0.21.1",
         "babel-plugin-transform-node-env-inline": "^0.4.3",
+        "benchmark": "^2.1.4",
         "class-validator": "^0.13.1",
         "core-js": "^2.6.11",
         "cross-env": "^7.0.3",
