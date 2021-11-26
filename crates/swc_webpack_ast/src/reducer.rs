@@ -1,4 +1,3 @@
-use rayon::prelude::*;
 use std::sync::Arc;
 use swc_atoms::js_word;
 use swc_common::{collections::AHashSet, util::take::Take, Mark, SyntaxContext, DUMMY_SP};
@@ -243,14 +242,7 @@ impl Minimalizer {
         T: StmtOrModuleItem + StmtLike + VisitMutWith<Self> + Take,
         Vec<T>: VisitMutWith<Self>,
     {
-        // Process in parallel, if required
-        if stmts.len() >= 8 {
-            stmts.par_iter_mut().for_each(|stmt| {
-                stmt.visit_mut_with(&mut self.clone());
-            });
-        } else {
-            stmts.visit_mut_children_with(&mut self.clone());
-        }
+        stmts.visit_mut_children_with(self);
 
         let mut new = Vec::with_capacity(stmts.len());
         for stmt in stmts.iter_mut() {
