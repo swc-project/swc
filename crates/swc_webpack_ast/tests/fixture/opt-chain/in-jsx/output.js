@@ -1,1 +1,1 @@
-export const foo = <Ad hash={}/>;
+export const foo = null;
