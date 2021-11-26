@@ -89,6 +89,31 @@ where
         // Used only if export * exists
         let mut exported_names: Option<Ident> = None;
 
+        // make a preliminary pass through to collect exported names ahead of time
+        for item in items.clone() {
+            match item {
+                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                    ref specifiers,
+                    ..
+                })) => {
+                    for ExportNamedSpecifier { orig, exported, .. } in
+                        specifiers.into_iter().filter_map(|e| match e {
+                            ExportSpecifier::Named(e) => Some(e),
+                            _ => None,
+                        })
+                    {
+                        if let Some(exported) = &exported {
+                            exports.push(exported.sym.clone());
+                        } else {
+                            exports.push(orig.sym.clone());
+                        }
+                    }
+                }
+
+                _ => {}
+            }
+        }
+
         for item in items {
             self.in_top_level = true;
 
@@ -158,21 +183,9 @@ where
                             ref specifiers,
                             ..
                         })) => {
-                            // handle: export {sym as alias1, alias2, ...} from "x"
-                            for ExportNamedSpecifier { orig, exported, .. } in
-                                specifiers.into_iter().filter_map(|e| match e {
-                                    ExportSpecifier::Named(e) => Some(e),
-                                    _ => None,
-                                })
-                            {
-                                if let Some(exported) = &exported {
-                                    exports.push(exported.sym.clone());
-                                } else {
-                                    exports.push(orig.sym.clone());
-                                }
-                            }
                             scope.import_to_export(&src, !specifiers.is_empty());
                         }
+
                         _ => {}
                     }
                     drop(scope);
