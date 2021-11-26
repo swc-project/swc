@@ -53,7 +53,8 @@ fn test_babelify(input: PathBuf) {
             res?
         };
 
-        swc_webpack_ast::webpack_ast(cm.clone(), fm.clone(), module).unwrap();
+        let s = swc_webpack_ast::webpack_ast(cm.clone(), fm.clone(), module).unwrap();
+        println!("{} bytes", s.len());
 
         Ok(())
     })
