@@ -2621,6 +2621,16 @@ dependencies = [
 [[package]]
 name = "swc_css_minifier"
 version = "0.1.0"
+dependencies = [
+ "swc_atoms 0.2.9",
+ "swc_common",
+ "swc_css_ast",
+ "swc_css_codegen",
+ "swc_css_parser",
+ "swc_css_utils",
+ "swc_css_visit",
+ "testing",
+]
 
 [[package]]
 name = "swc_css_parser"
