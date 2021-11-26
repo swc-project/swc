@@ -391,6 +391,11 @@ impl VisitMut for Minimalizer {
 
         match e {
             Expr::Seq(seq) => {
+                if seq.exprs.is_empty() {
+                    *e = null_expr();
+                    return;
+                }
+
                 if seq.exprs.len() == 1 {
                     *e = *seq.exprs.pop().unwrap();
                 }
@@ -994,7 +999,7 @@ impl VisitMut for Minimalizer {
             self.ignore_expr(&mut **elem);
         }
 
-        e.exprs.retain(|e| !e.is_invalid());
+        e.exprs.retain(|e| !can_remove(&e));
     }
 
     /// Normalize statements.
@@ -1199,6 +1204,7 @@ fn null_expr() -> Expr {
 
 fn can_remove(e: &Expr) -> bool {
     match e {
+        Expr::Invalid(..) => true,
         Expr::Lit(..) => true,
         Expr::Seq(seq) => seq.exprs.iter().all(|e| can_remove(e)),
         _ => false,
