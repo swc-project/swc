@@ -631,6 +631,11 @@ impl VisitMut for Minimalizer {
                 match &el.opening.name {
                     JSXElementName::Ident(name) => {
                         if name.sym.chars().next().unwrap().is_uppercase() {
+                            if el.opening.attrs.is_empty() && el.children.is_empty() {
+                                *e = Expr::Ident(name.clone());
+                                return;
+                            }
+
                             return;
                         }
                     }
