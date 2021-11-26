@@ -4,6 +4,7 @@ use std::path::Path;
 use swc_ecma_parser::{EsConfig, Parser, StringInput, Syntax};
 use test::Bencher;
 
+extern crate swc_node_base;
 extern crate test;
 
 #[bench]
