@@ -58,10 +58,9 @@ mod concurrent {
         MappedRwLockWriteGuard as MappedWriteGuard, MutexGuard as LockGuard,
         RwLockReadGuard as ReadGuard, RwLockWriteGuard as WriteGuard,
     };
-    pub use std::{
-        marker::{Send, Sync},
-        sync::Arc as Lrc,
-    };
+    pub use std::marker::{Send, Sync};
+    use std::sync::Arc;
+    pub type Lrc<T> = Arc<T>;
 }
 
 #[cfg(not(feature = "concurrent"))]
@@ -80,8 +79,9 @@ mod single {
             Ref as ReadGuard, RefMut as WriteGuard, RefMut as MappedWriteGuard,
             RefMut as LockGuard, RefMut as MappedLockGuard,
         },
-        rc::{Rc as Lrc, Weak},
+        rc::Weak,
     };
+    pub type Lrc<T> = Rc<T>;
 }
 
 #[derive(Debug)]
