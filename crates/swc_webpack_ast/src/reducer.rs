@@ -745,7 +745,13 @@ impl VisitMut for Minimalizer {
 
                 true
             }
-            JSXAttrOrSpread::SpreadElement(..) => true,
+            JSXAttrOrSpread::SpreadElement(s) => {
+                if can_remove(&s.expr) {
+                    return false;
+                }
+
+                true
+            }
         });
     }
 
