@@ -4217,7 +4217,7 @@ to!(
 to!(
     issue_2886_enum_namespace_block_scoping,
     "
-enum Enum {
+export enum Enum {
     test = 1
 }
 namespace Namespace {
@@ -4250,7 +4250,7 @@ namespace Namespace {
 }
 ",
     r#"
-let Enum;
+export let Enum;
 (function (Enum) {
     Enum[Enum["test"] = 1] = "test";
 })(Enum || (Enum = {}));

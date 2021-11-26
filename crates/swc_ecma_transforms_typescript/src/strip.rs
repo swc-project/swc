@@ -1863,6 +1863,7 @@ where
             ModuleItem::ModuleDecl(..) => true,
             _ => false,
         });
+        self.is_module = was_module;
 
         self.parse_jsx_directives(module.span);
 
@@ -1887,7 +1888,7 @@ where
             );
         }
 
-        self.is_module = module.body.iter().any(|item| match item {
+        let is_module = module.body.iter().any(|item| match item {
             ModuleItem::ModuleDecl(..) => true,
             _ => false,
         });
@@ -1896,7 +1897,7 @@ where
         //
         // See https://github.com/swc-project/swc/issues/1698
         if was_module
-            && !self.is_module
+            && !is_module
             && !self.config.no_empty_export
             && module.body.iter().all(|item| match item {
                 ModuleItem::ModuleDecl(_) => false,
