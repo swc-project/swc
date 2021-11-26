@@ -34,6 +34,24 @@ suite
             sourceType: 'module'
         })
     })
+    .add({
+        name: 'acorn-real',
+        fn: (deferred) => {
+            fs.promises.readFile(path.join(process.argv[2], "input.js"), 'utf8')
+                .then((src) => {
+                    parser.parse(src, {
+                        ecmaVersion: 2020,
+                        ranges: true,
+                        allowHashBang: true,
+                        sourceType: 'module'
+                    });
+                    deferred.resolve()
+                })
+        },
+        defer: true,
+        async: true,
+        queued: true
+    })
     .add('json', () => {
         JSON.parse(jsonStr)
     })

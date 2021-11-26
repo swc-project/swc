@@ -7,7 +7,10 @@ use test::Bencher;
 extern crate swc_node_base;
 extern crate test;
 
+/// this benchmark requires real input, which cannot be committed into git
+/// repository
 #[bench]
+#[cfg(not(all))]
 fn total(b: &mut Bencher) {
     let input = Path::new("tests/fixture/real/input.js");
 
