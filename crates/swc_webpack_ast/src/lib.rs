@@ -8,6 +8,7 @@ use swc_estree_ast::flavor::Flavor;
 use swc_estree_compat::babelify::Babelify;
 use swc_timer::timer;
 
+mod cleaner;
 pub mod reducer;
 
 /// `n` is expected to be pure (`resolver` is not applied)
