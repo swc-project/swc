@@ -383,6 +383,40 @@ impl VisitMut for Minimalizer {
         }
     }
 
+    fn visit_mut_class_members(&mut self, v: &mut Vec<ClassMember>) {
+        v.visit_mut_children_with(self);
+
+        v.retain(|m| {
+            match m {
+                ClassMember::ClassProp(p) => {
+                    if !p.computed
+                        && p.decorators.is_empty()
+                        && can_remove(&p.key)
+                        && p.value.as_deref().map(can_remove).unwrap_or(true)
+                    {
+                        return false;
+                    }
+                }
+                ClassMember::Method(m) => {
+                    if !m.key.is_computed()
+                        && m.function.decorators.is_empty()
+                        && m.function.params.is_empty()
+                        && m.function
+                            .body
+                            .as_ref()
+                            .map(|v| v.stmts.is_empty())
+                            .unwrap_or(true)
+                    {
+                        return false;
+                    }
+                }
+                _ => {}
+            }
+
+            true
+        });
+    }
+
     /// Normalize expressions.
     ///
     ///  - empty [Expr::Seq] => [Expr::Invalid]
