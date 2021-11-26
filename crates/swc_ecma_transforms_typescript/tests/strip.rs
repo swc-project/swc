@@ -694,7 +694,7 @@ to!(
   }
 });"#,
     r#"Deno.test("[ws] WebSocket should act as asyncIterator", async ()=>{
-    var Frames;
+    let Frames;
     (function(Frames) {
         Frames[Frames["ping"] = 0] = "ping";
         Frames[Frames["hello"] = 1] = "hello";
@@ -3393,8 +3393,7 @@ to!(
     }
     ",
     "
-    var util1;
-    export { util1 as util };
+    export let util;
     (function (util) {
         function assertNever(_x) {
             throw new Error();
@@ -3408,7 +3407,7 @@ to!(
         };
         util.objectValues = (obj) => {
         };
-    })(util1 || (util1 = {}));
+    })(util || (util = {}));
 
     "
 );
@@ -3422,12 +3421,11 @@ to!(
     }
     ",
     "
-    var util1;
-    export { util1 as util };
+    export let util;
     (function (util) {
         const c = 3;
         [util.a, util.b] = [1, 2, 3];
-    })(util1 || (util1 = {}));
+    })(util || (util = {}));
     "
 );
 
@@ -3446,8 +3444,7 @@ to!(
     }
     ",
     "
-    var util1;
-    export { util1 as util };
+    export let util;
     (function (util) {
         const c = 3;
         function foo() {
@@ -3455,7 +3452,7 @@ to!(
         util.foo = foo;
         function bar() {
         }
-    })(util1 || (util1 = {}));
+    })(util || (util = {}));
     "
 );
 
@@ -3472,7 +3469,7 @@ to!(
     console(Test.DummyValues.A);
     ",
     "
-    var Test1;
+    var Test;
     (function(Test) {
         let DummyValues;
         (function(DummyValues) {
@@ -3481,9 +3478,9 @@ to!(
         })(DummyValues || (DummyValues = {
         }));
         Test.DummyValues = DummyValues;
-    })(Test1 || (Test1 = {
+    })(Test || (Test = {
     }));
-    console(Test1.DummyValues.A);
+    console(Test.DummyValues.A);
     "
 );
 
@@ -3644,10 +3641,10 @@ to!(
     "
     export class A {
     }
-    (function(A1) {
+    (function(A) {
         class B extends A {
         }
-        A1.B = B;
+        A.B = B;
     })(A || (A = {
     }));
     "
@@ -3662,11 +3659,11 @@ to!(
     export enum A {}
 ",
     "
-    export var A;
-    (function(A1) {
+    export let A;
+    (function(A) {
         class B extends A {
         }
-        A1.B = B;
+        A.B = B;
     })(A || (A = {
     }));
     (function(A) {

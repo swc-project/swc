@@ -1,18 +1,20 @@
-var X1;
+var X;
 (function(X) {
-    var Z1;
+    let Z;
     (function(Z) {
         Z.foo = 0;
-    })(Z1 || (Z1 = {
+    })(Z || (Z = {
     }));
-    X.Z = Z1;
-})(X1 || (X1 = {
+    X.Z = Z;
+})(X || (X = {
 }));
 var Y;
 (function(Y) {
+    let Z;
     (function(Z) {
         Z.bar = 1;
-    })(Z1 || (Z1 = {
+    })(Z || (Z = {
     }));
+    Y.Z = Z;
 })(Y || (Y = {
 }));
