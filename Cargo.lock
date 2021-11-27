@@ -115,9 +115,9 @@ dependencies = [
 
 [[package]]
 name = "anyhow"
-version = "1.0.48"
+version = "1.0.49"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "62e1f47f7dc0422027a4e370dd4548d4d66b26782e513e98dca1e689e058a80e"
+checksum = "0a03e93e97a28fbc9f42fbc5ba0886a3c67eb637b476dbee711f80a6ffe8223d"
 
 [[package]]
 name = "arbitrary"
@@ -2922,7 +2922,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.52.14"
+version = "0.52.15"
 dependencies = [
  "ahash",
  "arrayvec",
