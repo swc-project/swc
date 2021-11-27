@@ -15,7 +15,7 @@ it("should resolve", async () => {
 })
 
 it("should error if it's not resolved", async () => {
-    expect(async () => await swc.transform(`console.log("Should be removed")`, {
+    await expect(swc.transform(`console.log("Should be removed")`, {
         jsc: {
             experimental: {
                 plugins: [
@@ -23,5 +23,5 @@ it("should error if it's not resolved", async () => {
                 ]
             }
         }
-    })).toThrow("failed to resolve plugin `unknown`");
+    })).rejects.toThrow("failed to resolve plugin `unknown`");
 })
