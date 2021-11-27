@@ -12,15 +12,25 @@ pub fn resolve(name: &str) -> Result<Arc<PathBuf>, Error> {
     let cwd = current_dir().context("failed to get current directory")?;
     let mut dir = Some(&*cwd);
 
+    let mut errors = vec![];
+
     while let Some(base_dir) = dir {
-        if let Ok(Some(path)) = check_node_modules(&base_dir, name) {
-            return Ok(Arc::new(path));
+        let res = check_node_modules(&base_dir, name);
+        match res {
+            Ok(Some(path)) => {
+                return Ok(Arc::new(path));
+            }
+            Err(err) => {
+                errors.push(err);
+            }
+
+            Ok(None) => {}
         }
 
         dir = cwd.parent();
     }
 
-    bail!("failed to resolve plugin `{}`", name)
+    bail!("failed to resolve plugin `{}`:\n{:?}", name, errors)
 }
 
 #[derive(Deserialize)]
