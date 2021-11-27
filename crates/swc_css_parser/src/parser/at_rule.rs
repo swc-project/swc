@@ -533,9 +533,7 @@ where
                 .map(KeyframeBlockRule::AtRule);
         }
 
-        self.parse()
-            .map(Box::new)
-            .map(KeyframeBlockRule::Block)
+        self.parse().map(Box::new).map(KeyframeBlockRule::Block)
     }
 }
 
