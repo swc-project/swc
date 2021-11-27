@@ -3279,6 +3279,7 @@ version = "0.14.0"
 dependencies = [
  "abi_stable",
  "anyhow",
+ "rplugin",
  "serde",
  "serde_json",
  "swc_atoms 0.2.9",
