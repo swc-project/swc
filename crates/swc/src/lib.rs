@@ -162,6 +162,7 @@ pub use swc_node_comments::SwcComments;
 
 mod builder;
 pub mod config;
+mod plugin;
 pub mod resolver {
     use crate::config::CompiledPaths;
     use std::path::PathBuf;

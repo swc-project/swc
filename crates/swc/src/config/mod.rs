@@ -1,5 +1,5 @@
 use self::util::BoolOrObject;
-use crate::{builder::PassBuilder, SwcComments, SwcImportResolver};
+use crate::{builder::PassBuilder, plugin::PluginConfig, SwcComments, SwcImportResolver};
 use anyhow::{bail, Context, Error};
 use dashmap::DashMap;
 use either::Either;
@@ -274,6 +274,7 @@ impl Options {
             base_url,
             paths,
             minify: js_minify,
+            experimental,
             ..
         } = config.jsc;
 
@@ -378,6 +379,7 @@ impl Options {
                 syntax.typescript()
             ),
             resolver_with_mark(top_level_mark),
+            crate::plugin::plugins(experimental.plugins),
             custom_before_pass(&program),
             // handle jsx
             Optional::new(
@@ -921,15 +923,13 @@ pub struct JscConfig {
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct JscExperimental {
-    #[cfg(feature = "plugin")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "plugin")))]
+    /// This requires cargo feature `plugin`.
     #[serde(default)]
-    pub plugins: Option<Vec<String>>,
+    pub plugins: Option<Vec<PluginConfig>>,
 }
 
 impl Merge for JscExperimental {
     fn merge(&mut self, from: &Self) {
-        #[cfg(feature = "plugin")]
         if self.plugins.is_none() {
             *self = from.clone();
         }
