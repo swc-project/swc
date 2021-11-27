@@ -3311,6 +3311,8 @@ dependencies = [
  "abi_stable",
  "anyhow",
  "libloading",
+ "once_cell",
+ "parking_lot 0.7.1",
  "rplugin",
  "serde",
  "serde_json",
