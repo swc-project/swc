@@ -1,4 +1,5 @@
-/// Creates a corresponding operator.
+/// Creates a corresponding operator. This macro is used to make code more
+/// readable.
 ///
 /// This can used to represent [UnaryOp](crate::UnaryOp),
 /// [BinaryOp](crate::BinaryOp), or [AssignOp](crate::AssignOp).
