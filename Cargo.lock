@@ -3107,7 +3107,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.52.3"
+version = "0.52.4"
 dependencies = [
  "once_cell",
  "rayon",
