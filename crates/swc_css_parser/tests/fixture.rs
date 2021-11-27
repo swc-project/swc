@@ -31,6 +31,7 @@ fn tokens_input(input: PathBuf) {
 
         let mut errors = vec![];
         let _ss: Stylesheet = parse_tokens(
+        let _: Stylesheet = parse_tokens(
             &tokens,
             ParserConfig {
                 parse_values: true,
