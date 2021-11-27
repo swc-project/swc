@@ -31,19 +31,24 @@ where
                         continue;
                     }
 
-                    rules.push(self.parse_qualified_rule()?);
+                    rules.push(self.parse()?);
                 }
                 Token::AtKeyword { .. } => {
                     rules.push(self.parse_at_rule(Default::default())?.into());
                 }
                 _ => {
-                    rules.push(self.parse_qualified_rule()?);
+                    rules.push(self.parse()?);
                 }
             }
         }
     }
+}
 
-    pub(crate) fn parse_qualified_rule(&mut self) -> PResult<Rule> {
+impl<I> Parse<Rule> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Rule> {
         let start_pos = self.input.cur_span()?.lo;
         let start_state = self.input.state();
 
@@ -100,6 +105,50 @@ where
         let span = span!(self, start);
 
         Ok(Block { span, items })
+    }
+}
+
+impl<I> Parse<Vec<Declaration>> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Vec<Declaration>> {
+        let mut declarations = vec![];
+
+        loop {
+            if is!(self, EOF) {
+                return Ok(declarations);
+            }
+
+            let cur = self.input.cur()?;
+
+            match cur {
+                Some(tok!(" ")) => {
+                    self.input.skip_ws()?;
+                }
+                Some(tok!(";")) => {
+                    bump!(self);
+                }
+                Some(Token::AtKeyword { .. }) => {
+                    // TODO: change on `parse_at_rule`
+                    declarations.push(self.parse()?);
+                }
+                Some(Token::Ident { .. }) => {
+                    declarations.push(self.parse()?);
+
+                    self.input.skip_ws()?;
+
+                    if !eat!(self, ";") {
+                        break;
+                    }
+
+                    self.input.skip_ws()?;
+                }
+                _ => {}
+            }
+        }
+
+        Ok(declarations)
     }
 }
 
@@ -265,18 +314,19 @@ where
             Ok(v) => return Ok(v),
             Err(err) => {
                 self.errors.push(err);
+                self.input.reset(&start);
+
+                let mut tokens = vec![];
+
+                while !is_one_of!(self, EOF, ";", "}") {
+                    tokens.extend(self.input.bump()?);
+                }
+
+                Ok(DeclarationBlockItem::Invalid(Tokens {
+                    span: span!(self, start_pos),
+                    tokens,
+                }))
             }
         }
-
-        self.input.reset(&start);
-        let mut tokens = vec![];
-        while !is_one_of!(self, EOF, ";", "}") {
-            tokens.extend(self.input.bump()?);
-        }
-
-        Ok(DeclarationBlockItem::Invalid(Tokens {
-            span: span!(self, start_pos),
-            tokens,
-        }))
     }
 }
