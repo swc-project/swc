@@ -32,6 +32,9 @@ concurrent = [
   "swc_ecma_transforms_compat/concurrent",
   "swc_ecma_transforms_optimization/concurrent",
 ]
+plugin = [
+  "swc_plugin_runner",
+]
 
 [dependencies]
 ahash = "0.7.4"
@@ -71,6 +74,7 @@ swc_ecma_utils = {version = "0.52.3", path = "../swc_ecma_utils"}
 swc_ecma_visit = {version = "0.44.0", path = "../swc_ecma_visit"}
 swc_ecmascript = {version = "0.88.1", path = "../swc_ecmascript"}
 swc_node_comments = {version = "0.1", path = "../swc_node_comments"}
+swc_plugin_runner = {version = "0.18.1", path = "../swc_plugin_runner"}
 swc_visit = {version = "0.2.3", path = "../swc_visit"}
 tracing = "0.1.28"
 
