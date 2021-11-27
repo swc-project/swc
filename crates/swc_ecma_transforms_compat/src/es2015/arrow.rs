@@ -3,7 +3,7 @@ use std::mem;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    function::{FunctionWrapper, WrapperState},
+    function::{init_this, FunctionWrapper, WrapperState},
     prepend,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, InjectVars, VisitMut, VisitMutWith};
@@ -62,6 +62,7 @@ pub fn arrow() -> impl Fold + VisitMut + InjectVars {
 
 #[derive(Default)]
 struct Arrow {
+    in_subclass: bool,
     state: WrapperState,
 }
 
@@ -69,7 +70,38 @@ impl VisitMut for Arrow {
     noop_visit_mut_type!();
 
     fn visit_mut_constructor(&mut self, c: &mut Constructor) {
+        c.params.visit_mut_children_with(self);
+
+        if let Some(BlockStmt { span: _, stmts }) = &mut c.body {
+            let old_rep = self.state.take();
+
+            stmts.visit_mut_children_with(self);
+
+            if self.in_subclass {
+                let (decl, this_id) = mem::replace(&mut self.state, old_rep).to_stmt_in_subclass();
+
+                if let Some(stmt) = decl {
+                    if let Some(this_id) = this_id {
+                        init_this(stmts, &this_id)
+                    }
+                    prepend(stmts, stmt);
+                }
+            } else {
+                let decl = mem::replace(&mut self.state, old_rep).to_stmt();
+
+                if let Some(stmt) = decl {
+                    prepend(stmts, stmt);
+                }
+            }
+        }
+    }
+
+    fn visit_mut_class(&mut self, c: &mut Class) {
+        if c.super_class.is_some() {
+            self.in_subclass = true;
+        }
         c.visit_mut_children_with(self);
+        self.in_subclass = false;
     }
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {

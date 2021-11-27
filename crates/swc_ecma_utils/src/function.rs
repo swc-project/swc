@@ -52,6 +52,45 @@ impl WrapperState {
             })))
         }
     }
+
+    pub fn to_stmt_in_subclass(self) -> (Option<Stmt>, Option<Ident>) {
+        let Self { this, args } = self;
+
+        let mut decls = Vec::with_capacity(2);
+        if let Some(this_id) = &this {
+            decls.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(this_id.clone().into()),
+                init: None,
+                definite: false,
+            });
+        }
+        if let Some(id) = args {
+            decls.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(id.into()),
+                init: Some(Box::new(Expr::Ident(Ident::new(
+                    js_word!("arguments"),
+                    DUMMY_SP,
+                )))),
+                definite: false,
+            });
+        }
+
+        if decls.is_empty() {
+            (None, None)
+        } else {
+            (
+                Some(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls,
+                }))),
+                this.clone(),
+            )
+        }
+    }
 }
 
 impl Take for WrapperState {
@@ -124,6 +163,59 @@ impl<'a> VisitMut for FunctionWrapper<'a> {
     fn visit_mut_method_prop(&mut self, p: &mut MethodProp) {
         if p.key.is_computed() {
             p.key.visit_mut_with(self);
+        }
+    }
+}
+
+pub fn init_this(stmts: &mut Vec<Stmt>, this_id: &Ident) {
+    stmts.visit_mut_children_with(&mut InitThis { this_id })
+}
+
+struct InitThis<'a> {
+    this_id: &'a Ident,
+}
+
+// babel is skip function and class property
+impl<'a> VisitMut for InitThis<'a> {
+    noop_visit_mut_type!();
+
+    fn visit_mut_class(&mut self, _: &mut Class) {}
+
+    // babel will transform super() to super(); _this = this
+    // hopefully it will be meaningless
+    // fn visit_mut_stmts(&mut self, stmt: &mut Vec<Stmt>) {}
+
+    fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        expr.visit_mut_children_with(self);
+
+        match expr {
+            Expr::Call(CallExpr {
+                callee: ExprOrSuper::Super(Super { span: super_span }),
+                span,
+                ..
+            }) => {
+                *expr = Expr::Paren(ParenExpr {
+                    span: *span,
+                    expr: Box::new(Expr::Seq(SeqExpr {
+                        span: *span,
+                        exprs: vec![
+                            Box::new(Expr::Call(CallExpr {
+                                span: *span,
+                                callee: ExprOrSuper::Super(Super { span: *super_span }),
+                                args: Vec::new(),
+                                type_args: None,
+                            })),
+                            Box::new(Expr::Assign(AssignExpr {
+                                span: DUMMY_SP,
+                                left: PatOrExpr::Pat(Box::new(self.this_id.clone().into())),
+                                op: AssignOp::Assign,
+                                right: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
+                            })),
+                        ],
+                    })),
+                })
+            }
+            _ => (),
         }
     }
 }
