@@ -19,6 +19,7 @@ swc_atoms = "0.2.7"
 swc_common = {version = "0.14.0", path = "../swc_common", features = ["plugin-rt"]}
 swc_ecma_ast = {version = "0.58.0", path = "../swc_ecma_ast"}
 swc_ecma_parser = {version = "0.78.0", path = "../swc_ecma_parser"}
+swc_ecma_plugin_ast = "0.2.0"
 swc_plugin_js_api = {version = "0.3.0", path = "../swc_plugin_js_api"}
 
 [dev-dependencies]

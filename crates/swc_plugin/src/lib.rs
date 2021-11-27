@@ -10,8 +10,8 @@ pub fn invoke_js_plugin<C, F>(
     rt: swc_common::plugin::Runtime,
     op: fn(C) -> F,
     config_json: RStr,
-    ast: RVec<u8>,
-) -> RResult<RVec<u8>, RString>
+    ast: swc_ecma_plugin_ast::Program,
+) -> RResult<swc_ecma_plugin_ast::Program, RString>
 where
     C: DeserializeOwned,
     F: swc_ecma_visit::Fold,
@@ -61,9 +61,9 @@ macro_rules! define_js_plugin {
             extern "C" fn swc_js_plugin(
                 rt: swc_common::plugin::Runtime,
                 config_json: abi_stable::std_types::RStr,
-                ast: abi_stable::std_types::RVec<u8>,
+                ast: swc_ecma_plugin_ast::Program,
             ) -> abi_stable::std_types::RResult<
-                abi_stable::std_types::RVec<u8>,
+                swc_ecma_plugin_ast::Program,
                 abi_stable::std_types::RString,
             > {
                 $crate::invoke_js_plugin(rt, $fn_name, config_json, ast)
