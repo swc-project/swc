@@ -27,7 +27,7 @@ pub fn resolve(name: &str) -> Result<Arc<PathBuf>, Error> {
             Ok(None) => {}
         }
 
-        dir = cwd.parent();
+        dir = base_dir.parent();
     }
 
     bail!("failed to resolve plugin `{}`:\n{:?}", name, errors)
