@@ -71,7 +71,7 @@ where
             }
         };
 
-        let block = self.parse_simple_block()?;
+        let block = self.parse()?;
         let span = span!(self, start_pos);
 
         Ok(Rule::QualifiedRule(QualifiedRule {
@@ -80,8 +80,13 @@ where
             block,
         }))
     }
+}
 
-    pub(crate) fn parse_simple_block(&mut self) -> PResult<Block> {
+impl<I> Parse<Block> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Block> {
         let start = self.input.cur_span()?.lo;
 
         expect!(self, "{");

@@ -359,7 +359,7 @@ where
 {
     fn parse(&mut self) -> PResult<ViewportRule> {
         let span = self.input.cur_span()?;
-        let block = self.parse_simple_block()?;
+        let block = self.parse()?;
 
         return Ok(ViewportRule {
             span: span!(self, span.lo),
@@ -432,7 +432,7 @@ where
 {
     fn parse(&mut self) -> PResult<FontFaceRule> {
         let span = self.input.cur_span()?;
-        let block = self.parse_simple_block()?;
+        let block = self.parse()?;
 
         return Ok(FontFaceRule {
             span: span!(self, span.lo),
@@ -533,7 +533,7 @@ where
                 .map(KeyframeBlockRule::AtRule);
         }
 
-        self.parse_simple_block()
+        self.parse()
             .map(Box::new)
             .map(KeyframeBlockRule::Block)
     }
