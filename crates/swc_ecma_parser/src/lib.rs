@@ -131,6 +131,7 @@ pub enum Syntax {
     Es(EsConfig),
     /// This variant requires the cargo feature `typescript` to be enabled.
     #[cfg(feature = "typescript")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "typescript")))]
     #[serde(rename = "typescript")]
     Typescript(TsConfig),
 }

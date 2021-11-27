@@ -27,7 +27,7 @@
 //!
 //! Allows replacing operations related to thread-local variables with a trait.
 #![deny(unused)]
-
+#![cfg_attr(docsrs, feature(doc_cfg))]
 pub use self::{
     eq::{EqIgnoreSpan, TypeEq},
     errors::{SourceMapper, SourceMapperDyn},
@@ -62,6 +62,7 @@ pub mod iter;
 pub mod macros;
 pub mod pass;
 #[cfg(feature = "plugin-base")]
+#[cfg_attr(docsrs, doc(cfg(any(feature = "plugin-rt", feature = "plugin-mode"))))]
 pub mod plugin;
 mod pos;
 mod rustc_data_structures;
