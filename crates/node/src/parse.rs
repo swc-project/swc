@@ -182,7 +182,7 @@ pub fn parse_file_sync(cx: CallContext) -> napi::Result<JsString> {
 pub fn parse_file(cx: CallContext) -> napi::Result<JsObject> {
     let c = get_compiler(&cx);
     let path = PathBuf::from(cx.get::<JsString>(0)?.into_utf8()?.as_str()?);
-    let options = cx.get::<JsString>(1)?.into_utf8()?.as_str()?.to_string();
+    let options = cx.get_buffer_as_string(1)?;
 
     cx.env
         .spawn(ParseFileTask { c, path, options })

@@ -150,6 +150,7 @@ struct FileWithAnnotatedLines {
 }
 
 #[cfg(feature = "tty-emitter")]
+#[cfg_attr(docsrs, doc(cfg(feature = "tty-emitter")))]
 impl EmitterWriter {
     pub fn stderr(
         color_config: ColorConfig,

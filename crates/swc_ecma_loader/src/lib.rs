@@ -1,3 +1,5 @@
+#![cfg_attr(docsrs, feature(doc_cfg))]
+
 use serde::{Deserialize, Serialize};
 
 pub mod resolve;

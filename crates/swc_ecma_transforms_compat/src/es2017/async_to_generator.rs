@@ -559,6 +559,7 @@ impl VisitMut for MethodFolder {
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         match expr {
+            // TODO: handle arrow with this in constructor once we remove all this bind
             Expr::Arrow(ArrowExpr { body, .. }) => {
                 body.visit_mut_with(&mut FunctionWrapper::new(&mut self.scope_ident));
             }

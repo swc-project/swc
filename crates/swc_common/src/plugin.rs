@@ -74,6 +74,7 @@ impl crate::errors::Emitter for PluginEmitter {
     }
 }
 
+#[cfg_attr(docsrs, doc(cfg(feature = "plugin-mode")))]
 #[cfg(feature = "plugin-mode")]
 pub fn with_runtime<F, Ret>(rt: &Runtime, op: F) -> Ret
 where
@@ -168,6 +169,7 @@ impl RuntimeImpl for PluginRt {
     }
 }
 
+#[cfg_attr(docsrs, doc(cfg(feature = "plugin-rt")))]
 #[cfg(feature = "plugin-rt")]
 pub fn get_runtime_for_plugin(plugin_name: String) -> Runtime {
     use abi_stable::erased_types::TD_Opaque;
