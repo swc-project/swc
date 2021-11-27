@@ -1,4 +1,6 @@
 use anyhow::{anyhow, bail, Context, Error};
+use once_cell::sync::Lazy;
+use parking_lot::Mutex;
 use serde::Deserialize;
 use std::{
     env::current_dir,
@@ -6,6 +8,7 @@ use std::{
     path::{Path, PathBuf},
     sync::Arc,
 };
+use swc_common::collections::AHashMap;
 
 /// TODO: Cache
 pub fn resolve(name: &str) -> Result<Arc<PathBuf>, Error> {
@@ -18,7 +21,7 @@ pub fn resolve(name: &str) -> Result<Arc<PathBuf>, Error> {
         let res = check_node_modules(&base_dir, name);
         match res {
             Ok(Some(path)) => {
-                return Ok(Arc::new(path));
+                return Ok(path);
             }
             Err(err) => {
                 errors.push(err);
@@ -101,47 +104,64 @@ fn resolve_using_package_json(dir: &Path, pkg_name: &str) -> Result<PathBuf, Err
     )
 }
 
-fn check_node_modules(base_dir: &Path, name: &str) -> Result<Option<PathBuf>, Error> {
-    let node_modules_dir = base_dir.join("node_modules");
-    if !node_modules_dir.is_dir() {
-        return Ok(None);
-    }
+fn check_node_modules(base_dir: &Path, name: &str) -> Result<Option<Arc<PathBuf>>, Error> {
+    fn inner(base_dir: &Path, name: &str) -> Result<Option<PathBuf>, Error> {
+        let node_modules_dir = base_dir.join("node_modules");
+        if !node_modules_dir.is_dir() {
+            return Ok(None);
+        }
 
-    let mut errors = vec![];
+        let mut errors = vec![];
 
-    if !name.contains("@") {
-        let swc_plugin_dir = node_modules_dir
-            .join("@swc")
-            .join(format!("plugin-{}", name));
-        if swc_plugin_dir.is_dir() {
-            let res = resolve_using_package_json(&swc_plugin_dir, &format!("@swc/plugin-{}", name));
+        if !name.contains("@") {
+            let swc_plugin_dir = node_modules_dir
+                .join("@swc")
+                .join(format!("plugin-{}", name));
+            if swc_plugin_dir.is_dir() {
+                let res =
+                    resolve_using_package_json(&swc_plugin_dir, &format!("@swc/plugin-{}", name));
 
-            match res {
-                Ok(v) => return Ok(Some(v)),
-                Err(err) => {
-                    errors.push(err);
+                match res {
+                    Ok(v) => return Ok(Some(v)),
+                    Err(err) => {
+                        errors.push(err);
+                    }
                 }
             }
         }
-    }
 
-    {
-        let exact = node_modules_dir.join(name);
-        if exact.is_dir() {
-            let res = resolve_using_package_json(&exact, pkg_name_without_scope(&name));
+        {
+            let exact = node_modules_dir.join(name);
+            if exact.is_dir() {
+                let res = resolve_using_package_json(&exact, pkg_name_without_scope(&name));
 
-            match res {
-                Ok(v) => return Ok(Some(v)),
-                Err(err) => {
-                    errors.push(err);
+                match res {
+                    Ok(v) => return Ok(Some(v)),
+                    Err(err) => {
+                        errors.push(err);
+                    }
                 }
             }
         }
+
+        if errors.is_empty() {
+            Ok(None)
+        } else {
+            Err(anyhow!("failed to resolve plugin `{}`: {:?}", name, errors))
+        }
     }
 
-    if errors.is_empty() {
-        Ok(None)
-    } else {
-        Err(anyhow!("failed to resolve plugin `{}`: {:?}", name, errors))
+    static CACHE: Lazy<Mutex<AHashMap<(PathBuf, String), Option<Arc<PathBuf>>>>> =
+        Lazy::new(|| Default::default());
+
+    let key = (base_dir.to_path_buf(), name.to_string());
+    if let Some(cached) = CACHE.lock().get(&key).cloned() {
+        return Ok(cached);
     }
+
+    let path = inner(base_dir, name)?.map(Arc::new);
+
+    CACHE.lock().insert(key, path.clone());
+
+    Ok(path)
 }
