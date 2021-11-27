@@ -4,7 +4,9 @@ it("should resolve", async () => {
     const { code } = await swc.transform(`console.log("Should be removed")`, {
         jsc: {
             experimental: {
-                plugins: ['internal-test', {}]
+                plugins: [
+                    ['internal-test', {}]
+                ]
             }
         }
     });
