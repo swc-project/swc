@@ -115,35 +115,74 @@ where
     fn parse(&mut self) -> PResult<Vec<DeclarationBlockItem>> {
         let mut declarations = vec![];
 
-        while is!(self, Ident) {
-            let state = self.input.state();
-            let span = self.input.cur_span()?;
-            let prop = match self.parse().map(DeclarationBlockItem::Declaration) {
-                Ok(v) => v,
-                Err(err) => {
-                    self.errors.push(err);
-                    self.input.reset(&state);
-
-                    let mut tokens = vec![];
-
-                    while !is_one_of!(self, EOF, ";", "}") {
-                        tokens.extend(self.input.bump()?);
-                    }
-
-                    DeclarationBlockItem::Invalid(Tokens {
-                        span: span!(self, span.lo),
-                        tokens,
-                    })
-                }
-            };
-
-            declarations.push(prop);
-
-            if !eat!(self, ";") {
-                break;
+        loop {
+            if is!(self, EOF) {
+                return Ok(declarations);
             }
 
-            self.input.skip_ws()?;
+            match cur!(self) {
+                tok!(" ") => {
+                    self.input.skip_ws()?;
+                }
+                tok!(";") => {
+                    bump!(self);
+                }
+                Token::AtKeyword { .. } => {
+                    let state = self.input.state();
+                    let span = self.input.cur_span()?;
+                    let prop = match self
+                        .parse_at_rule(Default::default())
+                        .map(DeclarationBlockItem::AtRule)
+                    {
+                        Ok(v) => v,
+                        Err(err) => {
+                            self.errors.push(err);
+                            self.input.reset(&state);
+
+                            let mut tokens = vec![];
+
+                            while !is_one_of!(self, EOF, ";", "}") {
+                                tokens.extend(self.input.bump()?);
+                            }
+
+                            DeclarationBlockItem::Invalid(Tokens {
+                                span: span!(self, span.lo),
+                                tokens,
+                            })
+                        }
+                    };
+
+                    declarations.push(prop);
+                }
+                Token::Ident { .. } => {
+                    let state = self.input.state();
+                    let span = self.input.cur_span()?;
+                    let prop = match self.parse().map(DeclarationBlockItem::Declaration) {
+                        Ok(v) => v,
+                        Err(err) => {
+                            self.errors.push(err);
+                            self.input.reset(&state);
+
+                            let mut tokens = vec![];
+
+                            while !is_one_of!(self, EOF, ";", "}") {
+                                tokens.extend(self.input.bump()?);
+                            }
+
+                            DeclarationBlockItem::Invalid(Tokens {
+                                span: span!(self, span.lo),
+                                tokens,
+                            })
+                        }
+                    };
+
+                    declarations.push(prop);
+                }
+
+                _ => {
+                    break;
+                }
+            }
         }
 
         Ok(declarations)
