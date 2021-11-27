@@ -119,10 +119,10 @@ error: Ident { value: Atom('test' type=inline), raw: Atom('test' type=inline) }
   |                     ^^^^
 
 error: RParen
- --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:16
+ --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:25
   |
 1 | p :global(span:not(.test)) {
-  |                ^^^^
+  |                         ^
 
 error: Block
  --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:28

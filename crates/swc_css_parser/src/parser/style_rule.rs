@@ -157,25 +157,35 @@ where
 
         self.input.skip_ws()?;
 
-        let property = self.parse()?;
+        let property: Ident = self.parse()?;
 
         self.input.skip_ws()?;
 
         expect!(self, ":");
 
-        let mut value = vec![];
         let mut end = self.input.cur_span()?.hi;
+        let mut value = vec![];
 
         if !is!(self, EOF) {
-            let ctx = Ctx {
-                allow_operation_in_value: false,
-                recover_from_property_value: true,
-                ..self.ctx
-            };
-            let (mut parsed_value, parsed_last_pos) = self.with_ctx(ctx).parse_property_values()?;
+            match &*property.value {
+                str if str.starts_with("--") => {
+                    let tokens = Value::Lazy(self.parse_declaration_value()?);
 
-            value.append(&mut parsed_value);
-            end = parsed_last_pos;
+                    value.push(tokens);
+                }
+                _ => {
+                    let ctx = Ctx {
+                        allow_operation_in_value: false,
+                        recover_from_property_value: true,
+                        ..self.ctx
+                    };
+                    let (parsed_value, parsed_last_pos) =
+                        self.with_ctx(ctx).parse_property_values()?;
+
+                    value.extend(parsed_value);
+                    end = parsed_last_pos;
+                }
+            }
         }
 
         let important = self.parse_bang_important()?;
@@ -229,21 +239,21 @@ where
     }
 }
 
-impl<I> Parse<Vec<Declaration>> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<Vec<Declaration>> {
-        self.parse_declaration_list()
-    }
-}
-
 impl<I> Parse<Vec<DeclarationBlockItem>> for Parser<I>
 where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Vec<DeclarationBlockItem>> {
         self.parse_decl_block_items()
+    }
+}
+
+impl<I> Parse<Vec<Declaration>> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Vec<Declaration>> {
+        self.parse_declaration_list()
     }
 }
 
