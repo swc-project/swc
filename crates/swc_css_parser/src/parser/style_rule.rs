@@ -179,10 +179,10 @@ where
                         recover_from_property_value: true,
                         ..self.ctx
                     };
-                    let (mut parsed_value, parsed_last_pos) =
+                    let (parsed_value, parsed_last_pos) =
                         self.with_ctx(ctx).parse_property_values()?;
 
-                    value.append(&mut parsed_value);
+                    value.extend(parsed_value);
                     end = parsed_last_pos;
                 }
             }
