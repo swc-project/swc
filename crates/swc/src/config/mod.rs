@@ -1498,6 +1498,7 @@ impl Merge for TransformConfig {
         self.optimizer.merge(&from.optimizer);
         self.const_modules.merge(&from.const_modules);
         self.react.merge(&from.react);
+        self.hidden.merge(&from.hidden);
     }
 }
 
@@ -1524,6 +1525,12 @@ impl Merge for react::Options {
 impl Merge for ConstModulesConfig {
     fn merge(&mut self, from: &Self) {
         *self = from.clone()
+    }
+}
+
+impl Merge for HiddenTransformConfig {
+    fn merge(&mut self, from: &Self) {
+        self.jest |= from.jest;
     }
 }
 
