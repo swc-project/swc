@@ -1,8 +1,8 @@
 /// Reexported for convenience.
-use abi_stable::std_types::{RResult, RStr, RString, RVec};
+use abi_stable::std_types::{RResult, RStr, RString};
 use anyhow::Context;
+use rplugin::StableAst;
 use serde::de::DeserializeOwned;
-use swc_ecma_ast::Program;
 pub use swc_plugin_js_api::*;
 
 #[doc(hidden)]
@@ -25,31 +25,16 @@ where
         Err(err) => return RResult::RErr(format!("{:?}", err).into()),
     };
 
-    let ast = deserialize_ast(ast.as_slice());
-    let ast: Program = match ast {
-        Ok(v) => v,
-        Err(err) => return RResult::RErr(format!("{:?}", err).into()),
-    };
-
     swc_common::plugin::with_runtime(&rt, || {
+        let ast = ast.into_unstable();
+
         let mut tr = op(config);
 
         let ast = ast.fold_with(&mut tr);
 
-        let res = match serialize_ast(&ast) {
-            Ok(v) => v,
-            Err(err) => {
-                return RResult::RErr(
-                    format!(
-                        "failed to serialize swc_ecma_ast::Program as json: {:?}",
-                        err
-                    )
-                    .into(),
-                )
-            }
-        };
+        let res = StableAst::from_unstable(ast);
 
-        RResult::ROk(res.into())
+        RResult::ROk(res)
     })
 }
 
