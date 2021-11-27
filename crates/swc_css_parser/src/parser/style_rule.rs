@@ -151,31 +151,6 @@ where
 
         Ok(declarations)
     }
-
-    fn parse_bang_important(&mut self) -> PResult<Option<Span>> {
-        self.input.skip_ws()?;
-
-        let start = self.input.cur_span()?.lo;
-
-        if !is!(self, EOF) && eat!(self, "!") {
-            self.input.skip_ws()?;
-
-            let is_important = match bump!(self) {
-                Token::Ident { value, .. } => &*value.to_ascii_lowercase() == "important",
-                _ => false,
-            };
-            if !is_important {
-                let span = Span::new(start, self.input.cur_span()?.hi, Default::default());
-                return Err(Error::new(span, ErrorKind::ExpectedButGot("!important")));
-            }
-
-            self.input.skip_ws()?;
-
-            Ok(Some(span!(self, start)))
-        } else {
-            Ok(None)
-        }
-    }
 }
 
 impl<I> Parse<Declaration> for Parser<I>
@@ -218,11 +193,37 @@ where
             }
         }
 
-        let important = self.parse_bang_important()?;
+        self.input.skip_ws()?;
 
-        if important.is_some() {
+        let span_import = self.input.cur_span()?;
+
+        let important = if !is!(self, EOF) && eat!(self, "!") {
+            self.input.skip_ws()?;
+
+            let is_important = match bump!(self) {
+                Token::Ident { value, .. } => &*value.to_ascii_lowercase() == "important",
+                _ => false,
+            };
+
+            if !is_important {
+                return Err(Error::new(
+                    Span::new(
+                        span_import.lo,
+                        self.input.cur_span()?.hi,
+                        Default::default(),
+                    ),
+                    ErrorKind::ExpectedButGot("!important"),
+                ));
+            }
+
+            self.input.skip_ws()?;
+
             end = self.input.last_pos()?;
-        }
+
+            Some(span!(self, span_import.lo))
+        } else {
+            None
+        };
 
         self.input.skip_ws()?;
 
