@@ -3305,7 +3305,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.18.0"
+version = "0.18.1"
 dependencies = [
  "abi_stable",
  "anyhow",
