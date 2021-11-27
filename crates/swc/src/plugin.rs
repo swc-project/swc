@@ -2,7 +2,8 @@
 //! expressions at the moment.
 
 use serde::{Deserialize, Serialize};
-use swc_ecma_ast::Program;
+#[cfg(feature = "plugin")]
+use swc_ecma_ast::*;
 #[cfg(not(feature = "plugin"))]
 use swc_ecma_transforms::pass::noop;
 use swc_ecma_visit::{noop_fold_type, Fold};
@@ -51,7 +52,16 @@ impl Fold for RustPlugins {
     noop_fold_type!();
 
     #[cfg(feature = "plugin")]
-    fn fold_program(&mut self, n: Program) -> Program {
-        self.apply(n).expect("failed to invoke plugin")
+    fn fold_module(&mut self, n: Module) -> Module {
+        self.apply(Program::Module(n))
+            .expect("failed to invoke plugin")
+            .expect_module()
+    }
+
+    #[cfg(feature = "plugin")]
+    fn fold_script(&mut self, n: Script) -> Script {
+        self.apply(Program::Script(n))
+            .expect("failed to invoke plugin")
+            .expect_script()
     }
 }
