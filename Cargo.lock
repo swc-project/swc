@@ -3309,6 +3309,7 @@ dependencies = [
  "abi_stable",
  "anyhow",
  "libloading",
+ "rplugin",
  "serde",
  "serde_json",
  "swc_atoms 0.2.9 (registry+https://github.com/rust-lang/crates.io-index)",

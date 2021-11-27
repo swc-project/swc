@@ -13,6 +13,7 @@ version = "0.17.0"
 abi_stable = "0.10.2"
 anyhow = "1.0.42"
 libloading = "0.7.0"
+rplugin = {version = "0.1.0", path = "../rplugin"}
 serde = {version = "1.0.126", features = ["derive"]}
 serde_json = "1.0.64"
 swc_atoms = "0.2.7"
