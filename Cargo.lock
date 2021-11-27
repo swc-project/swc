@@ -2538,7 +2538,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.14.6"
+version = "0.14.7"
 dependencies = [
  "abi_stable",
  "ahash",
@@ -2670,7 +2670,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.58.0"
+version = "0.58.1"
 dependencies = [
  "arbitrary",
  "is-macro",
@@ -2739,7 +2739,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_loader"
-version = "0.24.3"
+version = "0.24.4"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2792,7 +2792,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.78.9"
+version = "0.78.10"
 dependencies = [
  "either",
  "enum_kind",
@@ -2862,7 +2862,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.95.1"
+version = "0.95.2"
 dependencies = [
  "pretty_assertions 0.6.1",
  "sourcemap",
@@ -3133,7 +3133,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.88.1"
+version = "0.88.2"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",

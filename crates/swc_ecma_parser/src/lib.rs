@@ -103,6 +103,7 @@
 //!
 //! [tc39/test262]:https://github.com/tc39/test262
 
+#![cfg_attr(docsrs, feature(doc_cfg))]
 #![cfg_attr(test, feature(bench_black_box))]
 #![cfg_attr(test, feature(test))]
 #![deny(unused)]
@@ -131,6 +132,7 @@ pub enum Syntax {
     Es(EsConfig),
     /// This variant requires the cargo feature `typescript` to be enabled.
     #[cfg(feature = "typescript")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "typescript")))]
     #[serde(rename = "typescript")]
     Typescript(TsConfig),
 }

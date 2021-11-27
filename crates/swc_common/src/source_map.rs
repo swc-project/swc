@@ -1070,12 +1070,14 @@ impl SourceMap {
 
     ///
     #[cfg(feature = "sourcemap")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "sourcemap")))]
     pub fn build_source_map(&self, mappings: &mut Vec<(BytePos, LineCol)>) -> sourcemap::SourceMap {
         self.build_source_map_from(mappings, None)
     }
 
     /// Creates a `.map` file.
     #[cfg(feature = "sourcemap")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "sourcemap")))]
     pub fn build_source_map_from(
         &self,
         mappings: &mut Vec<(BytePos, LineCol)>,
@@ -1085,6 +1087,7 @@ impl SourceMap {
     }
 
     #[cfg(feature = "sourcemap")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "sourcemap")))]
     pub fn build_source_map_with_config(
         &self,
         mappings: &mut Vec<(BytePos, LineCol)>,
