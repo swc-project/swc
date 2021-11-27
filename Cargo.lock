@@ -2076,7 +2076,7 @@ checksum = "448296241d034b96c11173591deaa1302f2c17b56092106c1f92c1bc0183a8c9"
 
 [[package]]
 name = "rplugin"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "abi_stable",
  "rplugin_macros",
@@ -2817,7 +2817,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_plugin_ast"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "abi_stable",
  "num-bigint",
@@ -3275,7 +3275,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.13.0"
+version = "0.14.0"
 dependencies = [
  "abi_stable",
  "anyhow",
@@ -3291,7 +3291,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_js_api"
-version = "0.3.1"
+version = "0.1.0"
 dependencies = [
  "abi_stable",
  "anyhow",
@@ -3304,7 +3304,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.17.0"
+version = "0.18.0"
 dependencies = [
  "abi_stable",
  "anyhow",
@@ -3324,7 +3324,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_testing"
-version = "0.19.1"
+version = "0.20.0"
 dependencies = [
  "anyhow",
  "swc_atoms 0.2.9",
