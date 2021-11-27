@@ -5,7 +5,7 @@ use abi_stable::{
 use anyhow::{anyhow, Context, Error};
 use std::path::Path;
 use swc_ecma_ast::Program;
-use swc_plugin_js_api::{deserialize_ast, serialize_ast, SwcPluginRef};
+use swc_plugin_js_api::{deserialize_ast, serialize_ast, SwcJsPluginRef};
 
 pub fn apply_js_plugin(
     plugin_name: &str,
@@ -16,7 +16,7 @@ pub fn apply_js_plugin(
     (|| -> Result<_, Error> {
         let plugin_rt = swc_common::plugin::get_runtime_for_plugin(plugin_name.to_string());
 
-        let plugin = SwcPluginRef::load_from_file(path).context("failed to load plugin")?;
+        let plugin = SwcJsPluginRef::load_from_file(path).context("failed to load plugin")?;
 
         let ast_serde = serialize_ast(&program).context("failed to serialize ast")?;
 

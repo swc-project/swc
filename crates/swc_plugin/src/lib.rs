@@ -57,7 +57,7 @@ where
 macro_rules! define_js_plugin {
     ($fn_name:ident) => {
         #[abi_stable::export_root_module]
-        pub fn swc_library() -> $crate::SwcPluginRef {
+        pub fn swc_library() -> $crate::SwcJsPluginRef {
             extern "C" fn swc_js_plugin(
                 rt: swc_common::plugin::Runtime,
                 config_json: abi_stable::std_types::RStr,
@@ -70,7 +70,7 @@ macro_rules! define_js_plugin {
             }
             use abi_stable::prefix_type::PrefixTypeTrait;
 
-            $crate::SwcPlugin {
+            $crate::SwcJsPlugin {
                 process_js: Some(swc_js_plugin),
             }
             .leak_into_prefix()

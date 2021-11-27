@@ -36,9 +36,9 @@ where
 /// Don't use this directly.
 #[repr(C)]
 #[derive(StableAbi)]
-#[sabi(kind(Prefix(prefix_ref = "SwcPluginRef")))]
+#[sabi(kind(Prefix(prefix_ref = "SwcJsPluginRef")))]
 #[sabi(missing_field(panic))]
-pub struct SwcPlugin {
+pub struct SwcJsPlugin {
     #[sabi(last_prefix_field)]
     pub process_js: Option<
         extern "C" fn(
@@ -49,8 +49,8 @@ pub struct SwcPlugin {
     >,
 }
 
-impl RootModule for SwcPluginRef {
-    abi_stable::declare_root_module_statics! {SwcPluginRef}
+impl RootModule for SwcJsPluginRef {
+    abi_stable::declare_root_module_statics! {SwcJsPluginRef}
 
     const BASE_NAME: &'static str = "swc_plugin";
     const NAME: &'static str = "swc_plugin";
