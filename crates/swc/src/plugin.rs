@@ -9,10 +9,7 @@ use swc_ecma_visit::{noop_fold_type, Fold};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
-pub struct PluginConfig {
-    name: String,
-    config: serde_json::Value,
-}
+pub struct PluginConfig(String, serde_json::Value);
 
 pub fn plugins(names: Option<Vec<PluginConfig>>) -> impl Fold {
     #[cfg(feature = "plugin")]
@@ -37,12 +34,12 @@ impl RustPlugins {
 
         if let Some(plugins) = &self.plugins {
             for p in plugins {
-                let config_json = serde_json::to_string(&p.config)
+                let config_json = serde_json::to_string(&p.1)
                     .context("failed to serialize plugin config as json")?;
 
-                let path = swc_plugin_runner::resolve::resolve(&p.name)?;
+                let path = swc_plugin_runner::resolve::resolve(&p.0)?;
 
-                n = swc_plugin_runner::apply_js_plugin(&p.name, &path, &config_json, n)?;
+                n = swc_plugin_runner::apply_js_plugin(&p.0, &path, &config_json, n)?;
             }
         }
 
