@@ -108,57 +108,12 @@ where
     }
 }
 
-impl<I> Parse<Vec<Declaration>> for Parser<I>
+impl<I> Parse<Vec<DeclarationBlockItem>> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<Vec<Declaration>> {
-        let mut declarations = vec![];
-
-        loop {
-            if is!(self, EOF) {
-                return Ok(declarations);
-            }
-
-            let cur = self.input.cur()?;
-
-            match cur {
-                Some(tok!(" ")) => {
-                    self.input.skip_ws()?;
-                }
-                Some(tok!(";")) => {
-                    bump!(self);
-                }
-                Some(Token::AtKeyword { .. }) => {
-                    // TODO: change on `parse_at_rule`
-                    declarations.push(self.parse()?);
-                }
-                Some(Token::Ident { .. }) => {
-                    declarations.push(self.parse()?);
-
-                    self.input.skip_ws()?;
-
-                    if !eat!(self, ";") {
-                        break;
-                    }
-
-                    self.input.skip_ws()?;
-                }
-                _ => {}
-            }
-        }
-
-        Ok(declarations)
-    }
-}
-
-
-impl<I> Parse<Vec<DeclarationBlockItem>> for Parser<I>
-    where
-        I: ParserInput,
-{
     fn parse(&mut self) -> PResult<Vec<DeclarationBlockItem>> {
-        let mut items = vec![];
+        let mut declarations = vec![];
 
         while is!(self, Ident) {
             let state = self.input.state();
@@ -182,7 +137,7 @@ impl<I> Parse<Vec<DeclarationBlockItem>> for Parser<I>
                 }
             };
 
-            items.push(prop);
+            declarations.push(prop);
 
             if !eat!(self, ";") {
                 break;
@@ -191,7 +146,7 @@ impl<I> Parse<Vec<DeclarationBlockItem>> for Parser<I>
             self.input.skip_ws()?;
         }
 
-        Ok(items)
+        Ok(declarations)
     }
 }
 
