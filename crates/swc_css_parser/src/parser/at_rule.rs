@@ -617,7 +617,7 @@ where
                     query,
                 })
             } else {
-                let declaration = self.parse_declaration()?;
+                let declaration = self.parse()?;
 
                 SupportQuery::Declaration(declaration)
             };
@@ -898,7 +898,7 @@ where
             Token::AtKeyword { .. } => Ok(PageRuleBlockItem::Nested(self.parse()?)),
             _ => {
                 let p = self
-                    .parse_declaration()
+                    .parse()
                     .map(Box::new)
                     .map(PageRuleBlockItem::Declaration)?;
                 eat!(self, ";");

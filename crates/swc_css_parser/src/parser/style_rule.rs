@@ -152,7 +152,37 @@ where
         Ok(declarations)
     }
 
-    pub(crate) fn parse_declaration(&mut self) -> PResult<Declaration> {
+    fn parse_bang_important(&mut self) -> PResult<Option<Span>> {
+        self.input.skip_ws()?;
+
+        let start = self.input.cur_span()?.lo;
+
+        if !is!(self, EOF) && eat!(self, "!") {
+            self.input.skip_ws()?;
+
+            let is_important = match bump!(self) {
+                Token::Ident { value, .. } => &*value.to_ascii_lowercase() == "important",
+                _ => false,
+            };
+            if !is_important {
+                let span = Span::new(start, self.input.cur_span()?.hi, Default::default());
+                return Err(Error::new(span, ErrorKind::ExpectedButGot("!important")));
+            }
+
+            self.input.skip_ws()?;
+
+            Ok(Some(span!(self, start)))
+        } else {
+            Ok(None)
+        }
+    }
+}
+
+impl<I> Parse<Declaration> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Declaration> {
         let start = self.input.cur_span()?.lo;
 
         self.input.skip_ws()?;
@@ -202,40 +232,6 @@ where
             value,
             important,
         })
-    }
-
-    fn parse_bang_important(&mut self) -> PResult<Option<Span>> {
-        self.input.skip_ws()?;
-
-        let start = self.input.cur_span()?.lo;
-
-        if !is!(self, EOF) && eat!(self, "!") {
-            self.input.skip_ws()?;
-
-            let is_important = match bump!(self) {
-                Token::Ident { value, .. } => &*value.to_ascii_lowercase() == "important",
-                _ => false,
-            };
-            if !is_important {
-                let span = Span::new(start, self.input.cur_span()?.hi, Default::default());
-                return Err(Error::new(span, ErrorKind::ExpectedButGot("!important")));
-            }
-
-            self.input.skip_ws()?;
-
-            Ok(Some(span!(self, start)))
-        } else {
-            Ok(None)
-        }
-    }
-}
-
-impl<I> Parse<Declaration> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<Declaration> {
-        self.parse_declaration()
     }
 }
 
