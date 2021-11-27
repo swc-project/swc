@@ -243,7 +243,28 @@ where
         let mut items = vec![];
 
         while is!(self, Ident) {
-            items.push(self.parse()?);
+            let start = self.input.state();
+            let start_pos = self.input.cur_span()?.lo;
+            let prop = match self.parse().map(DeclarationBlockItem::Declaration) {
+                Ok(v) => v,
+                Err(err) => {
+                    self.errors.push(err);
+                    self.input.reset(&start);
+
+                    let mut tokens = vec![];
+
+                    while !is_one_of!(self, EOF, ";", "}") {
+                        tokens.extend(self.input.bump()?);
+                    }
+
+                    DeclarationBlockItem::Invalid(Tokens {
+                        span: span!(self, start_pos),
+                        tokens,
+                    })
+                }
+            };
+
+            items.push(prop);
 
             if !eat!(self, ";") {
                 break;
