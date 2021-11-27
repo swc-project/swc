@@ -2467,6 +2467,7 @@ dependencies = [
  "swc_ecmascript",
  "swc_node_base",
  "swc_node_comments",
+ "swc_plugin_runner",
  "swc_visit",
  "testing",
  "tracing",
