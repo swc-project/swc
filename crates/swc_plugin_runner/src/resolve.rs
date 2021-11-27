@@ -43,6 +43,10 @@ fn pkg_name_without_scope(pkg_name: &str) -> &str {
     }
 }
 
+const fn is_musl() -> bool {
+    cfg!(target_env = "musl")
+}
+
 fn resolve_using_package_json(dir: &Path, pkg_name: &str) -> Result<PathBuf, Error> {
     let node_modules = dir
         .parent()
@@ -64,11 +68,9 @@ fn resolve_using_package_json(dir: &Path, pkg_name: &str) -> Result<PathBuf, Err
         .as_object()
         .ok_or_else(|| anyhow!("`optionalDependencies` of main package.json is not an object"))?;
 
-    let is_musl = env!("TARGET").contains("musl");
-
     for dep_pkg_name in opt_deps.keys() {
         if dep_pkg_name.starts_with(&pkg_name) {
-            if is_musl && !dep_pkg_name.contains("musl") {
+            if is_musl() && !dep_pkg_name.contains("musl") {
                 continue;
             }
 
