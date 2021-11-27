@@ -90,7 +90,7 @@ where
         let mut exported_names: Option<Ident> = None;
 
         // make a preliminary pass through to collect exported names ahead of time
-        for item in items.clone() {
+        for item in &items {
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
                     ref specifiers,
