@@ -920,10 +920,20 @@ pub struct JscConfig {
 /// `jsc.experimental` in `.swcrc`
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
-pub struct JscExperimental {}
+pub struct JscExperimental {
+    #[cfg(feature = "plugin")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "plugin")))]
+    #[serde(default)]
+    pub plugins: Option<Vec<String>>,
+}
 
 impl Merge for JscExperimental {
-    fn merge(&mut self, _from: &Self) {}
+    fn merge(&mut self, from: &Self) {
+        #[cfg(feature = "plugin")]
+        if self.plugins.is_none() {
+            *self = from.clone();
+        }
+    }
 }
 
 /// `paths` section of `tsconfig.json`.
