@@ -3,7 +3,7 @@ use abi_stable::std_types::{RResult, RStr, RString, RVec};
 use anyhow::Context;
 use serde::de::DeserializeOwned;
 use swc_ecma_ast::Program;
-pub use swc_plugin_api::*;
+pub use swc_plugin_js_api::*;
 
 #[doc(hidden)]
 pub fn invoke_js_plugin<C, F>(

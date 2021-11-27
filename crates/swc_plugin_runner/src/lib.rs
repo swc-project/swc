@@ -5,7 +5,7 @@ use abi_stable::{
 use anyhow::{anyhow, Context, Error};
 use std::path::Path;
 use swc_ecma_ast::Program;
-use swc_plugin_api::{deserialize_ast, serialize_ast, SwcPluginRef};
+use swc_plugin_js_api::{deserialize_ast, serialize_ast, SwcPluginRef};
 
 pub fn apply_js_plugin(
     plugin_name: &str,

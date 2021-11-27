@@ -4,7 +4,7 @@ description = "API for the swc plugins"
 documentation = "https://rustdoc.swc.rs/swc_plugin/"
 edition = "2018"
 license = "Apache-2.0/MIT"
-name = "swc_plugin_api"
+name = "swc_plugin_js_api"
 repository = "https://github.com/swc-project/swc.git"
 version = "0.3.1"
 

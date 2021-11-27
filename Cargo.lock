@@ -3285,11 +3285,11 @@ dependencies = [
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_visit",
- "swc_plugin_api",
+ "swc_plugin_js_api",
 ]
 
 [[package]]
-name = "swc_plugin_api"
+name = "swc_plugin_js_api"
 version = "0.3.1"
 dependencies = [
  "abi_stable",
@@ -3314,7 +3314,7 @@ dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
  "swc_ecma_parser",
- "swc_plugin_api",
+ "swc_plugin_js_api",
  "testing",
 ]
 
@@ -3329,7 +3329,7 @@ dependencies = [
  "swc_ecma_codegen",
  "swc_ecma_utils",
  "swc_ecma_visit",
- "swc_plugin_api",
+ "swc_plugin_js_api",
 ]
 
 [[package]]
