@@ -152,6 +152,49 @@ where
     }
 }
 
+
+impl<I> Parse<Vec<DeclarationBlockItem>> for Parser<I>
+    where
+        I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Vec<DeclarationBlockItem>> {
+        let mut items = vec![];
+
+        while is!(self, Ident) {
+            let state = self.input.state();
+            let span = self.input.cur_span()?;
+            let prop = match self.parse().map(DeclarationBlockItem::Declaration) {
+                Ok(v) => v,
+                Err(err) => {
+                    self.errors.push(err);
+                    self.input.reset(&state);
+
+                    let mut tokens = vec![];
+
+                    while !is_one_of!(self, EOF, ";", "}") {
+                        tokens.extend(self.input.bump()?);
+                    }
+
+                    DeclarationBlockItem::Invalid(Tokens {
+                        span: span!(self, span.lo),
+                        tokens,
+                    })
+                }
+            };
+
+            items.push(prop);
+
+            if !eat!(self, ";") {
+                break;
+            }
+
+            self.input.skip_ws()?;
+        }
+
+        Ok(items)
+    }
+}
+
 impl<I> Parse<Declaration> for Parser<I>
 where
     I: ParserInput,
