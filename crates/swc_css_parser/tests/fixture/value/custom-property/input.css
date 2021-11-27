@@ -1,4 +1,19 @@
 :root {
+    --:value;
+
+    --important:value!important;
+    --important1: value!important;
+    --important2: value !important;
+    --important3:value !important;
+    --important4: calc(1)!important;
+
+    --empty: ;
+    --empty2: /**/;
+    --empty3: !important;
+    --empty4:/**/ !important;
+    --empty5:/* 1 */ /* 2 */;
+
+    --no-whitespace:ident;
     --number: 1;
     --unit: 100vw;
     --color: #06c;
@@ -10,12 +25,30 @@
     --string: "double quoted string";
 
     --square-block: [1, 2, 3];
+    --square-block1: [];
+    --square-block2:[];
     --round-block: (1, 2, 3);
-
+    --round-block1: ();
+    --round-block2:();
     --bracket-block: {1, 2, 3};
+    --bracket-block1: {};
+    --bracket-block2:{};
+
+
     --JSON: [1, "2", {"three": {"a":1}}, [4]];
     --javascript: function(rule) { console.log(rule) };
 
     --CDO: <!--;
     --CDC: -->;
+
+    --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
+    --fake-important:{!important};
+    --semicolon-not-top-level: (;);
+    --delim-not-top-level: (!);
+}
+
+:root{--a:1}
+:root {--foo: }
+:root {
+    --foo: 
 }
