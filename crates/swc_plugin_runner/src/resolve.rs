@@ -84,24 +84,54 @@ fn resolve_using_package_json(dir: &Path, pkg_name: &str) -> Result<PathBuf, Err
         }
     }
 
-    todo!("JSON: {}", json)
+    bail!(
+        "tried to resolve `{}` using package.json in `{}`",
+        pkg_name,
+        dir.display()
+    )
 }
 
 fn check_node_modules(base_dir: &Path, name: &str) -> Result<Option<PathBuf>, Error> {
-    let modules_dir = base_dir.join("node_modules");
-    if !modules_dir.is_dir() {
+    let node_modules_dir = base_dir.join("node_modules");
+    if !node_modules_dir.is_dir() {
         return Ok(None);
     }
 
+    let mut errors = vec![];
+
     if !name.contains("@") {
-        let swc_plugin_dir = modules_dir.join("@swc").join(format!("plugin-{}", name));
+        let swc_plugin_dir = node_modules_dir
+            .join("@swc")
+            .join(format!("plugin-{}", name));
         if swc_plugin_dir.is_dir() {
-            return Ok(Some(resolve_using_package_json(
-                &swc_plugin_dir,
-                &format!("@swc/plugin-{}", name),
-            )?));
+            let res = resolve_using_package_json(&swc_plugin_dir, &format!("@swc/plugin-{}", name));
+
+            match res {
+                Ok(v) => return Ok(Some(v)),
+                Err(err) => {
+                    errors.push(err);
+                }
+            }
         }
     }
 
-    todo!("resolve: Non-official plugins: {}", name)
+    {
+        let exact = node_modules_dir.join(name);
+        if exact.is_dir() {
+            let res = resolve_using_package_json(&exact, pkg_name_without_scope(&name));
+
+            match res {
+                Ok(v) => return Ok(Some(v)),
+                Err(err) => {
+                    errors.push(err);
+                }
+            }
+        }
+    }
+
+    if errors.is_empty() {
+        Ok(None)
+    } else {
+        Err(anyhow!("failed to resolve plugin `{}`: {:?}", name, errors))
+    }
 }
