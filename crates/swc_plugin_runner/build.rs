@@ -3,4 +3,4 @@ fn main() {
         "cargo:rustc-env=TARGET={}",
         std::env::var("TARGET").unwrap()
     );
-} 
+}
