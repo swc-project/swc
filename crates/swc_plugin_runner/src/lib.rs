@@ -8,6 +8,8 @@ use std::path::Path;
 use swc_ecma_ast::Program;
 use swc_plugin_js_api::SwcJsPluginRef;
 
+mod resolve;
+
 pub fn apply_js_plugin(
     plugin_name: &str,
     path: &Path,
