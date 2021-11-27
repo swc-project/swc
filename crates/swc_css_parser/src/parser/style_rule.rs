@@ -112,45 +112,6 @@ where
 
         Ok(items)
     }
-
-    fn parse_declaration_list(&mut self) -> PResult<Vec<Declaration>> {
-        let mut declarations = vec![];
-
-        loop {
-            if is!(self, EOF) {
-                return Ok(declarations);
-            }
-
-            let cur = self.input.cur()?;
-
-            match cur {
-                Some(tok!(" ")) => {
-                    self.input.skip_ws()?;
-                }
-                Some(tok!(";")) => {
-                    bump!(self);
-                }
-                Some(Token::AtKeyword { .. }) => {
-                    // TODO: change on `parse_at_rule`
-                    declarations.push(self.parse()?);
-                }
-                Some(Token::Ident { .. }) => {
-                    declarations.push(self.parse()?);
-
-                    self.input.skip_ws()?;
-
-                    if !eat!(self, ";") {
-                        break;
-                    }
-
-                    self.input.skip_ws()?;
-                }
-                _ => {}
-            }
-        }
-
-        Ok(declarations)
-    }
 }
 
 impl<I> Parse<Declaration> for Parser<I>
@@ -250,7 +211,42 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Vec<Declaration>> {
-        self.parse_declaration_list()
+        let mut declarations = vec![];
+
+        loop {
+            if is!(self, EOF) {
+                return Ok(declarations);
+            }
+
+            let cur = self.input.cur()?;
+
+            match cur {
+                Some(tok!(" ")) => {
+                    self.input.skip_ws()?;
+                }
+                Some(tok!(";")) => {
+                    bump!(self);
+                }
+                Some(Token::AtKeyword { .. }) => {
+                    // TODO: change on `parse_at_rule`
+                    declarations.push(self.parse()?);
+                }
+                Some(Token::Ident { .. }) => {
+                    declarations.push(self.parse()?);
+
+                    self.input.skip_ws()?;
+
+                    if !eat!(self, ";") {
+                        break;
+                    }
+
+                    self.input.skip_ws()?;
+                }
+                _ => {}
+            }
+        }
+
+        Ok(declarations)
     }
 }
 
