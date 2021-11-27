@@ -88,29 +88,13 @@ where
 
         self.input.skip_ws()?;
 
-        let items = self.parse_decl_block_items()?;
+        let items = self.parse()?;
 
         expect!(self, "}");
 
         let span = span!(self, start);
 
         Ok(Block { span, items })
-    }
-
-    fn parse_decl_block_items(&mut self) -> PResult<Vec<DeclarationBlockItem>> {
-        let mut items = vec![];
-
-        while is!(self, Ident) {
-            items.push(self.parse()?);
-
-            if !eat!(self, ";") {
-                break;
-            }
-
-            self.input.skip_ws()?;
-        }
-
-        Ok(items)
     }
 }
 
@@ -202,7 +186,19 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Vec<DeclarationBlockItem>> {
-        self.parse_decl_block_items()
+        let mut items = vec![];
+
+        while is!(self, Ident) {
+            items.push(self.parse()?);
+
+            if !eat!(self, ";") {
+                break;
+            }
+
+            self.input.skip_ws()?;
+        }
+
+        Ok(items)
     }
 }
 
