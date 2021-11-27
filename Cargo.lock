@@ -2076,7 +2076,7 @@ checksum = "448296241d034b96c11173591deaa1302f2c17b56092106c1f92c1bc0183a8c9"
 
 [[package]]
 name = "rplugin"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "abi_stable",
  "rplugin_macros",
@@ -2817,7 +2817,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_plugin_ast"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "abi_stable",
  "num-bigint",
@@ -3275,22 +3275,24 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.13.0"
+version = "0.14.0"
 dependencies = [
  "abi_stable",
  "anyhow",
+ "rplugin",
  "serde",
  "serde_json",
  "swc_atoms 0.2.9",
  "swc_common",
  "swc_ecma_ast",
+ "swc_ecma_plugin_ast",
  "swc_ecma_visit",
- "swc_plugin_api",
+ "swc_plugin_js_api",
 ]
 
 [[package]]
-name = "swc_plugin_api"
-version = "0.3.1"
+name = "swc_plugin_js_api"
+version = "0.1.0"
 dependencies = [
  "abi_stable",
  "anyhow",
@@ -3298,15 +3300,17 @@ dependencies = [
  "serde_json",
  "swc_atoms 0.2.9",
  "swc_common",
+ "swc_ecma_plugin_ast",
 ]
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.17.0"
+version = "0.18.0"
 dependencies = [
  "abi_stable",
  "anyhow",
  "libloading",
+ "rplugin",
  "serde",
  "serde_json",
  "swc_atoms 0.2.9 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -3314,13 +3318,14 @@ dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
  "swc_ecma_parser",
- "swc_plugin_api",
+ "swc_ecma_plugin_ast",
+ "swc_plugin_js_api",
  "testing",
 ]
 
 [[package]]
 name = "swc_plugin_testing"
-version = "0.19.1"
+version = "0.20.0"
 dependencies = [
  "anyhow",
  "swc_atoms 0.2.9",
@@ -3329,7 +3334,7 @@ dependencies = [
  "swc_ecma_codegen",
  "swc_ecma_utils",
  "swc_ecma_visit",
- "swc_plugin_api",
+ "swc_plugin_js_api",
 ]
 
 [[package]]
