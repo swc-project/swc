@@ -61,11 +61,6 @@ impl VisitMut for OptChaining {
             Expr::OptChain(e) => {
                 *expr = Expr::Cond(self.unwrap(e));
             }
-            Expr::Unary(e) => {
-                if let Some(unary) = self.handle_unary(e) {
-                    *expr = unary;
-                }
-            }
             Expr::Member(e) => match self.handle_member(e).map(Expr::Cond) {
                 Ok(v) => *expr = v,
                 Err(v) => *expr = v,
@@ -74,7 +69,9 @@ impl VisitMut for OptChaining {
                 Ok(v) => *expr = v,
                 Err(v) => *expr = v,
             },
-            _ => {}
+            _ => {
+                self.handle_unary(expr);
+            }
         }
 
         expr.visit_mut_children_with(self);
@@ -183,60 +180,59 @@ impl OptChaining {
 
 impl OptChaining {
     /// Only called from [VisitMut].
-    fn handle_unary(&mut self, e: &mut UnaryExpr) -> Option<Expr> {
-        let span = e.span;
+    fn handle_unary(&mut self, e: &mut Expr) {
+        match e {
+            Expr::Unary(unary_expr) => {
+                let span = unary_expr.span;
 
-        if let op!("delete") = e.op {
-            match &*e.arg {
-                Expr::OptChain(o) => {
-                    let expr = self.unwrap(&mut o.clone());
+                if let op!("delete") = unary_expr.op {
+                    match &mut *unary_expr.arg {
+                        Expr::OptChain(o) => {
+                            let expr = self.unwrap(o);
 
-                    return Some(
-                        CondExpr {
-                            span,
-                            alt: Box::new(Expr::Unary(UnaryExpr {
+                            *e = CondExpr {
                                 span,
-                                op: op!("delete"),
-                                arg: expr.alt,
-                            })),
-                            ..expr
-                        }
-                        .into(),
-                    );
-                }
-
-                Expr::Member(MemberExpr {
-                    span,
-                    obj: ExprOrSuper::Expr(obj),
-                    prop,
-                    computed,
-                }) if obj.is_opt_chain() => {
-                    let mut obj = obj.clone().opt_chain().unwrap();
-                    let expr = self.unwrap(&mut obj);
-
-                    return Some(
-                        CondExpr {
-                            span: DUMMY_SP,
-                            alt: Box::new(Expr::Unary(UnaryExpr {
-                                span: *span,
-                                op: op!("delete"),
-                                arg: Box::new(Expr::Member(MemberExpr {
-                                    span: *span,
-                                    obj: ExprOrSuper::Expr(expr.alt),
-                                    prop: prop.clone(),
-                                    computed: *computed,
+                                alt: Box::new(Expr::Unary(UnaryExpr {
+                                    span,
+                                    op: op!("delete"),
+                                    arg: expr.alt,
                                 })),
-                            })),
-                            ..expr
+                                ..expr
+                            }
+                            .into();
                         }
-                        .into(),
-                    );
-                }
-                _ => {}
-            }
-        }
 
-        None
+                        Expr::Member(MemberExpr {
+                            span,
+                            obj: ExprOrSuper::Expr(obj),
+                            prop,
+                            computed,
+                        }) if obj.is_opt_chain() => {
+                            let mut obj = obj.take().opt_chain().unwrap();
+                            let expr = self.unwrap(&mut obj);
+
+                            *e = CondExpr {
+                                span: DUMMY_SP,
+                                alt: Box::new(Expr::Unary(UnaryExpr {
+                                    span: *span,
+                                    op: op!("delete"),
+                                    arg: Box::new(Expr::Member(MemberExpr {
+                                        span: *span,
+                                        obj: ExprOrSuper::Expr(expr.alt),
+                                        prop: prop.clone(),
+                                        computed: *computed,
+                                    })),
+                                })),
+                                ..expr
+                            }
+                            .into();
+                        }
+                        _ => {}
+                    }
+                };
+            }
+            _ => {}
+        };
     }
 
     /// Only called from [Fold].
