@@ -22,6 +22,10 @@ impl<T> Default for BoolOrObject<T> {
 }
 
 impl<T> BoolOrObject<T> {
+    pub fn default_true() -> Self {
+        Self::Bool(true)
+    }
+
     pub fn into_obj(self) -> Option<T>
     where
         T: Default,
