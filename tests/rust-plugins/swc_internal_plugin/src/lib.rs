@@ -1,8 +1,12 @@
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        let result = 2 + 2;
-        assert_eq!(result, 4);
-    }
+use swc_ecma_visit::Fold;
+use swc_plugin::define_js_plugin;
+
+define_js_plugin!(internal_test);
+
+fn internal_test(_: ()) -> impl Fold {
+    InternalTest
 }
+
+struct InternalTest;
+
+impl Fold for InternalTest {}

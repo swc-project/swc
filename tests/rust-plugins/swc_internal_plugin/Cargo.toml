@@ -11,3 +11,7 @@ version = "0.1.0"
 type = ["rlib", "cdylib"]
 
 [dependencies]
+swc_atoms = {path = "../../../crates/swc_atoms/"}
+swc_common = {path = "../../../crates/swc_common/"}
+swc_plugin = {path = "../../../crates/swc_plugin"}
+swc_plugin_js_api = {path = "../../../crates/swc_plugin_js_api/"}
