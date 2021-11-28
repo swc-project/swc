@@ -62,13 +62,13 @@ impl VisitMut for OptChaining {
                 Ok(v) => *expr = v,
                 Err(v) => *expr = v,
             },
+            Expr::Unary(e) => *expr = self.handle_unary(e),
             Expr::Member(e) => match self.handle_member(e).map(Expr::Cond) {
                 Ok(v) => *expr = v,
                 Err(v) => *expr = v,
             },
             _ => {
                 self.unwrap(expr);
-                self.handle_unary(expr);
             }
         }
 
@@ -178,66 +178,63 @@ impl OptChaining {
 
 impl OptChaining {
     /// Only called from [VisitMut].
-    fn handle_unary(&mut self, e: &mut Expr) {
-        match e {
-            Expr::Unary(unary_expr) => {
-                let span = unary_expr.span;
+    fn handle_unary(&mut self, e: &mut UnaryExpr) -> Expr {
+        let span = e.span;
 
-                if let op!("delete") = unary_expr.op {
-                    match &mut *unary_expr.arg {
-                        Expr::OptChain(..) => {
-                            let mut expr = *unary_expr.arg.take();
-                            self.unwrap(&mut expr);
+        if let op!("delete") = e.op {
+            match &mut *e.arg {
+                Expr::OptChain(..) => {
+                    let mut expr = *e.arg.take();
+                    self.unwrap(&mut expr);
 
-                            if let Expr::Cond(expr) = expr {
-                                *e = CondExpr {
-                                    span,
-                                    alt: Box::new(Expr::Unary(UnaryExpr {
-                                        span,
-                                        op: op!("delete"),
-                                        arg: expr.alt,
-                                    })),
-                                    test: expr.test,
-                                    cons: expr.cons,
-                                }
-                                .into();
-                            }
-                        }
-
-                        Expr::Member(MemberExpr {
+                    if let Expr::Cond(expr) = expr {
+                        return CondExpr {
                             span,
-                            obj: ExprOrSuper::Expr(obj),
-                            prop,
-                            computed,
-                        }) if obj.is_opt_chain() => {
-                            let mut obj = *obj.take();
-
-                            self.unwrap(&mut obj);
-
-                            if let Expr::Cond(expr) = obj {
-                                *e = CondExpr {
-                                    span: DUMMY_SP,
-                                    alt: Box::new(Expr::Unary(UnaryExpr {
-                                        span: *span,
-                                        op: op!("delete"),
-                                        arg: Box::new(Expr::Member(MemberExpr {
-                                            span: *span,
-                                            obj: ExprOrSuper::Expr(expr.alt),
-                                            prop: prop.clone(),
-                                            computed: *computed,
-                                        })),
-                                    })),
-                                    ..expr
-                                }
-                                .into();
-                            }
+                            alt: Box::new(Expr::Unary(UnaryExpr {
+                                span,
+                                op: op!("delete"),
+                                arg: expr.alt,
+                            })),
+                            test: expr.test,
+                            cons: expr.cons,
                         }
-                        _ => {}
+                        .into();
                     }
-                };
+                }
+
+                Expr::Member(MemberExpr {
+                    span,
+                    obj: ExprOrSuper::Expr(obj),
+                    prop,
+                    computed,
+                }) if obj.is_opt_chain() => {
+                    let mut obj = *obj.take();
+
+                    self.unwrap(&mut obj);
+
+                    if let Expr::Cond(expr) = obj {
+                        return CondExpr {
+                            span: DUMMY_SP,
+                            alt: Box::new(Expr::Unary(UnaryExpr {
+                                span: *span,
+                                op: op!("delete"),
+                                arg: Box::new(Expr::Member(MemberExpr {
+                                    span: *span,
+                                    obj: ExprOrSuper::Expr(expr.alt),
+                                    prop: prop.clone(),
+                                    computed: *computed,
+                                })),
+                            })),
+                            ..expr
+                        }
+                        .into();
+                    }
+                }
+                _ => {}
             }
-            _ => {}
-        };
+        }
+
+        Expr::Unary(e.take())
     }
 
     /// Only called from [VisitMut].
