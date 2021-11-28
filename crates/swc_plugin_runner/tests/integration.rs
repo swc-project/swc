@@ -22,7 +22,7 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
 
         let s = entry.file_name().to_string_lossy().into_owned();
         if (s.starts_with("libswc_internal") && (s.ends_with(".so") || s.ends_with(".dylib")))
-            || s.ends_with(".dll")
+            || (s.starts_with("swc_internal") && s.ends_with(".dll"))
         {
             return Ok(entry.path());
         }
