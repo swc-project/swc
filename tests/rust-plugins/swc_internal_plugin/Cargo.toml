@@ -3,8 +3,11 @@
 [package]
 edition = "2021"
 name = "swc_internal_plugin"
+publish = false
 version = "0.1.0"
-
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+type = ["rlib", "cdylib"]
 
 [dependencies]
