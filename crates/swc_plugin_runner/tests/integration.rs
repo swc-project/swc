@@ -1,6 +1,6 @@
-use anyhow::Error;
+use anyhow::{anyhow, Error};
 use std::{
-    env,
+    env, fs,
     path::{Path, PathBuf},
     process::{Command, Stdio},
 };
@@ -11,17 +11,27 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
         let mut cmd = Command::new("cargo");
         cmd.current_dir(dir);
         cmd.arg("build").stderr(Stdio::inherit());
-        let output = cmd.output()?;
-        let s = String::from_utf8(output.stdout)?;
-        dbg!(&s);
+        cmd.output()?;
     }
 
-    todo!()
+    for entry in fs::read_dir(&dir.join("target").join("debug"))? {
+        let entry = entry?;
+
+        if entry
+            .file_name()
+            .to_string_lossy()
+            .starts_with("libswc_internal")
+        {
+            return Ok(entry.path());
+        }
+    }
+
+    Err(anyhow!("Could not find built plugin"))
 }
 
 #[test]
 fn internal() -> Result<(), Error> {
-    build_plugin(
+    let path = build_plugin(
         &PathBuf::from(env::var("CARGO_MANIFEST_DIR")?)
             .join("..")
             .join("..")

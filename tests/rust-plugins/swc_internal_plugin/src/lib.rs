@@ -1,4 +1,4 @@
-use swc_ecmascript::Fold;
+use swc_ecmascript::visit::Fold;
 use swc_plugin::define_js_plugin;
 
 define_js_plugin!(internal_test);
