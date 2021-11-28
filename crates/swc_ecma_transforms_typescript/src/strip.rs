@@ -1097,8 +1097,6 @@ where
 
         let mut init_stmts = vec![];
 
-        let var = self.create_uninit_var(module_name.span, module_name.to_id());
-
         // This makes body valid javascript.
         body.body.visit_mut_with(self);
         if body.body.is_empty() {
@@ -1112,6 +1110,8 @@ where
         if module.declare {
             return None;
         }
+
+        let var = self.create_uninit_var(module_name.span, module_name.to_id());
 
         let private_name = private_ident!(module_name.sym.clone());
         let mut delayed_vars = vec![];
