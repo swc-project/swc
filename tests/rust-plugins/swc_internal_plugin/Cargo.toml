@@ -12,6 +12,7 @@ crate-type = ["rlib", "cdylib"]
 
 [dependencies]
 abi_stable = "0.10.3"
+serde = "1"
 swc_atoms = {path = "../../../crates/swc_atoms/"}
 swc_common = {path = "../../../crates/swc_common/"}
 swc_ecmascript = {path = "../../../crates/swc_ecmascript/", features = ["visit"]}
