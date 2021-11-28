@@ -7,74 +7,8 @@ use swc_css_parser::{
     parse_tokens,
     parser::{input::ParserInput, Parser, ParserConfig},
 };
-use swc_css_visit::{Node, Visit, VisitWith};
+use swc_css_visit::{Visit, VisitWith};
 use testing::NormalizedOutput;
-
-struct AssertValid;
-
-impl Visit for AssertValid {
-    fn visit_pseudo_element_selector(&mut self, s: &PseudoElementSelector, _: &dyn Node) {
-        if let Some(tokens) = &s.children {
-            if tokens.tokens.is_empty() {
-                return;
-            }
-
-            match &tokens.tokens[0].token {
-                Token::Colon | Token::Num { .. } => return,
-                _ => {}
-            }
-
-            let mut errors = vec![];
-
-            let _selectors: SelectorList = parse_tokens(
-                &tokens,
-                ParserConfig {
-                    parse_values: true,
-
-                    ..Default::default()
-                },
-                &mut errors,
-            )
-            .unwrap_or_else(|err| panic!("failed to parse tokens: {:?}\n{:?}", err, s.children));
-
-            for err in errors {
-                panic!("{:?}", err);
-            }
-        }
-    }
-
-    fn visit_pseudo_class_selector(&mut self, s: &PseudoClassSelector, _: &dyn Node) {
-        s.visit_children_with(self);
-
-        if let Some(PseudoSelectorChildren::Tokens(args)) = &s.children {
-            if args.tokens.is_empty() {
-                return;
-            }
-
-            match &args.tokens[0].token {
-                Token::Colon | Token::Num { .. } => return,
-                _ => {}
-            }
-
-            let mut errors = vec![];
-
-            let _selectors: SelectorList = parse_tokens(
-                &args,
-                ParserConfig {
-                    parse_values: true,
-
-                    ..Default::default()
-                },
-                &mut errors,
-            )
-            .unwrap_or_else(|err| panic!("failed to parse tokens: {:?}\n{:?}", err, s.children));
-
-            for err in errors {
-                panic!("{:?}", err);
-            }
-        }
-    }
-}
 
 #[testing::fixture("tests/fixture/**/input.css")]
 fn tokens_input(input: PathBuf) {
@@ -96,7 +30,7 @@ fn tokens_input(input: PathBuf) {
         };
 
         let mut errors = vec![];
-        let ss: Stylesheet = parse_tokens(
+        let _ss: Stylesheet = parse_tokens(
             &tokens,
             ParserConfig {
                 parse_values: true,
@@ -110,8 +44,6 @@ fn tokens_input(input: PathBuf) {
         for err in errors {
             err.to_diagnostics(&handler).emit();
         }
-
-        ss.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
 
         if handler.has_errors() {
             return Err(());
@@ -213,7 +145,7 @@ fn pass(input: PathBuf) {
 }
 
 #[testing::fixture("tests/line-comment/**/input.css")]
-fn line_commetns(input: PathBuf) {
+fn line_comments(input: PathBuf) {
     test_pass(
         input,
         ParserConfig {

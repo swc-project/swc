@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 157,
+    "end": 207,
     "ctxt": 0
   },
   "rules": [
@@ -10,7 +10,7 @@
       "type": "QualifiedRule",
       "span": {
         "start": 0,
-        "end": 156,
+        "end": 206,
         "ctxt": 0
       },
       "prelude": {
@@ -66,7 +66,7 @@
         "type": "Block",
         "span": {
           "start": 4,
-          "end": 156,
+          "end": 206,
           "ctxt": 0
         },
         "items": [
@@ -175,7 +175,7 @@
             "type": "Declaration",
             "span": {
               "start": 66,
-              "end": 88,
+              "end": 110,
               "ctxt": 0
             },
             "property": {
@@ -193,15 +193,56 @@
                 "type": "SquareBracketBlock",
                 "span": {
                   "start": 73,
-                  "end": 88,
+                  "end": 110,
                   "ctxt": 0
                 },
                 "children": [
                   {
                     "type": "Identifier",
                     "span": {
-                      "start": 74,
-                      "end": 77,
+                      "start": 77,
+                      "end": 106,
+                      "ctxt": 0
+                    },
+                    "value": "row1-start-with-spaces-around",
+                    "raw": "row1-start-with-spaces-around"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 116,
+              "end": 138,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 116,
+                "end": 120,
+                "ctxt": 0
+              },
+              "value": "prop",
+              "raw": "prop"
+            },
+            "value": [
+              {
+                "type": "SquareBracketBlock",
+                "span": {
+                  "start": 123,
+                  "end": 138,
+                  "ctxt": 0
+                },
+                "children": [
+                  {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 124,
+                      "end": 127,
                       "ctxt": 0
                     },
                     "value": "red",
@@ -210,8 +251,8 @@
                   {
                     "type": "HashValue",
                     "span": {
-                      "start": 78,
-                      "end": 82,
+                      "start": 128,
+                      "end": 132,
                       "ctxt": 0
                     },
                     "value": "fff",
@@ -220,15 +261,15 @@
                   {
                     "type": "UnitValue",
                     "span": {
-                      "start": 83,
-                      "end": 87,
+                      "start": 133,
+                      "end": 137,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 83,
-                        "end": 85,
+                        "start": 133,
+                        "end": 135,
                         "ctxt": 0
                       },
                       "value": 12.0,
@@ -236,8 +277,8 @@
                     },
                     "unit": {
                       "span": {
-                        "start": 85,
-                        "end": 87,
+                        "start": 135,
+                        "end": 137,
                         "ctxt": 0
                       },
                       "value": "px",
@@ -252,15 +293,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 94,
-              "end": 153,
+              "start": 144,
+              "end": 203,
               "ctxt": 0
             },
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 94,
-                "end": 98,
+                "start": 144,
+                "end": 148,
                 "ctxt": 0
               },
               "value": "prop",
@@ -270,16 +311,16 @@
               {
                 "type": "SquareBracketBlock",
                 "span": {
-                  "start": 100,
-                  "end": 112,
+                  "start": 150,
+                  "end": 162,
                   "ctxt": 0
                 },
                 "children": [
                   {
                     "type": "Identifier",
                     "span": {
-                      "start": 101,
-                      "end": 111,
+                      "start": 151,
+                      "end": 161,
                       "ctxt": 0
                     },
                     "value": "row1-start",
@@ -290,15 +331,15 @@
               {
                 "type": "PercentValue",
                 "span": {
-                  "start": 113,
-                  "end": 116,
+                  "start": 163,
+                  "end": 166,
                   "ctxt": 0
                 },
                 "value": {
                   "type": "Number",
                   "span": {
-                    "start": 113,
-                    "end": 115,
+                    "start": 163,
+                    "end": 165,
                     "ctxt": 0
                   },
                   "value": 25.0,
@@ -308,16 +349,16 @@
               {
                 "type": "SquareBracketBlock",
                 "span": {
-                  "start": 117,
-                  "end": 138,
+                  "start": 167,
+                  "end": 188,
                   "ctxt": 0
                 },
                 "children": [
                   {
                     "type": "Identifier",
                     "span": {
-                      "start": 118,
-                      "end": 126,
+                      "start": 168,
+                      "end": 176,
                       "ctxt": 0
                     },
                     "value": "row1-end",
@@ -326,8 +367,8 @@
                   {
                     "type": "Identifier",
                     "span": {
-                      "start": 127,
-                      "end": 137,
+                      "start": 177,
+                      "end": 187,
                       "ctxt": 0
                     },
                     "value": "row2-start",
@@ -338,15 +379,15 @@
               {
                 "type": "PercentValue",
                 "span": {
-                  "start": 139,
-                  "end": 142,
+                  "start": 189,
+                  "end": 192,
                   "ctxt": 0
                 },
                 "value": {
                   "type": "Number",
                   "span": {
-                    "start": 139,
-                    "end": 141,
+                    "start": 189,
+                    "end": 191,
                     "ctxt": 0
                   },
                   "value": 25.0,
@@ -356,16 +397,16 @@
               {
                 "type": "SquareBracketBlock",
                 "span": {
-                  "start": 143,
-                  "end": 153,
+                  "start": 193,
+                  "end": 203,
                   "ctxt": 0
                 },
                 "children": [
                   {
                     "type": "Identifier",
                     "span": {
-                      "start": 144,
-                      "end": 152,
+                      "start": 194,
+                      "end": 202,
                       "ctxt": 0
                     },
                     "value": "row2-end",

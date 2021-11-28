@@ -713,11 +713,11 @@ where
                         Err(_) => {
                             self.input.reset(&state);
 
-                            PseudoSelectorChildren::Tokens(self.parse_any_value(false)?)
+                            PseudoSelectorChildren::Tokens(self.parse_any_value()?)
                         }
                     }
                 }
-                _ => PseudoSelectorChildren::Tokens(self.parse_any_value(false)?),
+                _ => PseudoSelectorChildren::Tokens(self.parse_any_value()?),
             };
 
             expect!(self, ")");
@@ -769,7 +769,7 @@ where
                 _ => unreachable!(),
             };
 
-            let children = self.parse_any_value(false)?;
+            let children = self.parse_any_value()?;
 
             expect!(self, ")");
 
