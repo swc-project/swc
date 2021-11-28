@@ -1,6 +1,7 @@
 use swc::{
     config::{
-        Config, InputSourceMap, IsModule, JscConfig, ModuleConfig, Options, SourceMapsConfig,
+        Config, InputSourceMap, IsModule, JsMinifyOptions, JscConfig, ModuleConfig, Options,
+        SourceMapsConfig,
     },
     Compiler,
 };
@@ -314,4 +315,9 @@ fn shopify_4_reduce_more() {
         Ok(())
     })
     .unwrap()
+}
+
+#[test]
+fn js_minify_options_default() {
+    let _ = JsMinifyOptions::default();
 }
