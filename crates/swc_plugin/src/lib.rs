@@ -1,8 +1,20 @@
-/// Reexported for convenience.
+/// **Don't use this**
+#[doc(hidden)]
+pub extern crate abi_stable;
+/// **Don't use this**
+#[doc(hidden)]
+pub extern crate swc_common;
+/// **Don't use this**
+#[doc(hidden)]
+pub extern crate swc_ecma_plugin_ast;
+/// Fix malloc.
+extern crate swc_node_base;
+
 use abi_stable::std_types::{RResult, RStr, RString};
 use anyhow::Context;
 use rplugin::StableAst;
 use serde::de::DeserializeOwned;
+/// Reexported for convenience.
 pub use swc_plugin_js_api::*;
 
 #[doc(hidden)]
@@ -44,16 +56,16 @@ macro_rules! define_js_plugin {
         #[abi_stable::export_root_module]
         pub fn swc_library() -> $crate::SwcJsPluginRef {
             extern "C" fn swc_js_plugin(
-                rt: swc_common::plugin::Runtime,
-                config_json: abi_stable::std_types::RStr,
-                ast: swc_ecma_plugin_ast::Program,
-            ) -> abi_stable::std_types::RResult<
-                swc_ecma_plugin_ast::Program,
-                abi_stable::std_types::RString,
+                rt: $crate::swc_common::plugin::Runtime,
+                config_json: $crate::abi_stable::std_types::RStr,
+                ast: $crate::swc_ecma_plugin_ast::Program,
+            ) -> $crate::abi_stable::std_types::RResult<
+                $crate::swc_ecma_plugin_ast::Program,
+                $crate::abi_stable::std_types::RString,
             > {
                 $crate::invoke_js_plugin(rt, $fn_name, config_json, ast)
             }
-            use abi_stable::prefix_type::PrefixTypeTrait;
+            use $crate::abi_stable::prefix_type::PrefixTypeTrait;
 
             $crate::SwcJsPlugin {
                 process_js: Some(swc_js_plugin),

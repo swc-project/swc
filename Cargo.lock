@@ -3288,6 +3288,7 @@ dependencies = [
  "swc_ecma_ast",
  "swc_ecma_plugin_ast",
  "swc_ecma_visit",
+ "swc_node_base",
  "swc_plugin_js_api",
 ]
 
