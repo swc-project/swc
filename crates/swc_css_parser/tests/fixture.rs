@@ -7,7 +7,7 @@ use swc_css_parser::{
     parse_tokens,
     parser::{input::ParserInput, Parser, ParserConfig},
 };
-use swc_css_visit::{Node, Visit, VisitWith};
+use swc_css_visit::{Visit, VisitWith};
 use testing::NormalizedOutput;
 
 #[testing::fixture("tests/fixture/**/input.css")]
@@ -30,7 +30,7 @@ fn tokens_input(input: PathBuf) {
         };
 
         let mut errors = vec![];
-        let ss: Stylesheet = parse_tokens(
+        let _ss: Stylesheet = parse_tokens(
             &tokens,
             ParserConfig {
                 parse_values: true,
@@ -145,7 +145,7 @@ fn pass(input: PathBuf) {
 }
 
 #[testing::fixture("tests/line-comment/**/input.css")]
-fn line_commetns(input: PathBuf) {
+fn line_comments(input: PathBuf) {
     test_pass(
         input,
         ParserConfig {
