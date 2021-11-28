@@ -1,6 +1,8 @@
 //! This module always exists because cfg attributes are not stabilized in
 //! expressions at the moment.
 
+#![cfg_attr(not(feature = "plugin"), allow(unused))]
+
 use serde::{Deserialize, Serialize};
 #[cfg(feature = "plugin")]
 use swc_ecma_ast::*;
