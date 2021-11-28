@@ -611,10 +611,10 @@ pub struct Config {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct JsMinifyOptions {
-    #[serde(default = "BoolOrObject::default_true")]
+    #[serde(default)]
     pub compress: BoolOrObject<TerserCompressorOptions>,
 
-    #[serde(default = "BoolOrObject::default_true")]
+    #[serde(default)]
     pub mangle: BoolOrObject<MangleOptions>,
 
     #[serde(default)]

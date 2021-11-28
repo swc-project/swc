@@ -1,7 +1,6 @@
 use swc::{
     config::{
-        Config, InputSourceMap, IsModule, JsMinifyOptions, JscConfig, ModuleConfig, Options,
-        SourceMapsConfig,
+        Config, InputSourceMap, IsModule, JscConfig, ModuleConfig, Options, SourceMapsConfig,
     },
     Compiler,
 };
