@@ -43,6 +43,36 @@ test!(
 
 test!(
     syntax(),
+    |_| destructuring(Config { loose: false }),
+    issue_2841,
+    r#"function foo(a,b)
+    {
+        [a,b,...restParam] = arguments;
+    }"#,
+    r#"function foo(a, b) {
+    var ref;
+    ref = Array.prototype.slice.call(arguments), a = ref[0], b = ref[1], restParam = ref.slice(2), ref;
+}"#,
+    ok_if_code_eq
+);
+
+test!(
+    syntax(),
+    |_| destructuring(Config { loose: true }),
+    issue_2841_loose,
+    r#"function foo(a,b)
+    {
+        [a,b,...restParam] = arguments;
+    }"#,
+    r#"function foo(a, b) {
+    var ref;
+    ref = arguments, a = ref[0], b = ref[1], restParam = ref.slice(2), ref;
+}"#,
+    ok_if_code_eq
+);
+
+test!(
+    syntax(),
     |_| tr(),
     issue_169,
     "export class Foo {
