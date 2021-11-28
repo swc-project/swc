@@ -650,6 +650,12 @@ fn true_by_default() -> bool {
     true
 }
 
+impl Default for JsMinifyOptions {
+    fn default() -> Self {
+        serde_json::from_value(serde_json::Value::Object(Default::default())).unwrap()
+    }
+}
+
 /// `jsc.minify.sourceMap`
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
