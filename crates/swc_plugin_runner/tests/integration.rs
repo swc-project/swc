@@ -20,10 +20,9 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
     for entry in fs::read_dir(&dir.join("target").join("debug"))? {
         let entry = entry?;
 
-        if entry
-            .file_name()
-            .to_string_lossy()
-            .starts_with("libswc_internal")
+        let s = entry.file_name().to_string_lossy().into_owned();
+        if s.starts_with("libswc_internal")
+            && (s.ends_with(".so") || s.ends_with(".dylib") || s.ends_with(".dll"))
         {
             return Ok(entry.path());
         }
