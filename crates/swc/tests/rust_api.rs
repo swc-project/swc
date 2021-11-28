@@ -316,8 +316,3 @@ fn shopify_4_reduce_more() {
     })
     .unwrap()
 }
-
-#[test]
-fn js_minify_options_default() {
-    let _ = JsMinifyOptions::default();
-}
