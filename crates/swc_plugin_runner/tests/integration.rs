@@ -4,6 +4,9 @@ use std::{
     path::{Path, PathBuf},
     process::{Command, Stdio},
 };
+use swc_common::FileName;
+use swc_ecma_ast::EsVersion;
+use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
 
 /// Returns the path to the built plugin
 fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
@@ -39,6 +42,28 @@ fn internal() -> Result<(), Error> {
             .join("rust-plugins")
             .join("swc_internal_plugin"),
     )?;
+
+    testing::run_test(false, |cm, _handler| {
+        let fm = cm.new_source_file(FileName::Anon, "console.log(foo)".into());
+
+        let lexer = Lexer::new(
+            Syntax::Es(EsConfig {
+                ..Default::default()
+            }),
+            EsVersion::latest(),
+            StringInput::from(&*fm),
+            None,
+        );
+        let mut parser = Parser::new_from(lexer);
+
+        let program = parser.parse_program().unwrap();
+
+        let _program =
+            swc_plugin_runner::apply_js_plugin("internal-test", &path, "{}", program).unwrap();
+
+        Ok(())
+    })
+    .unwrap();
 
     Ok(())
 }
