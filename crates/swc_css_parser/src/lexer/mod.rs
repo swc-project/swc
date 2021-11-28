@@ -476,7 +476,7 @@ where
                 raw_value: number.1.into(),
                 unit: "".into(),
                 raw_unit: "".into(),
-                type_flag: number.2
+                type_flag: number.2,
             };
 
             // Consume a name. Set the <dimension-token>’s unit to the returned value.
@@ -515,7 +515,7 @@ where
         Ok(Token::Num {
             value: number.0,
             raw: number.1.into(),
-            type_flag: number.2
+            type_flag: number.2,
         })
     }
 
@@ -1127,7 +1127,7 @@ where
                     // Append them to repr.
                     repr.push(next.unwrap());
                     repr.push(n);
-                    
+
                     // Set type to "number".
                     type_flag = NumberType::Number;
 
