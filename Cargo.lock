@@ -2467,6 +2467,7 @@ dependencies = [
  "swc_ecmascript",
  "swc_node_base",
  "swc_node_comments",
+ "swc_plugin_runner",
  "swc_visit",
  "testing",
  "tracing",
@@ -3287,6 +3288,7 @@ dependencies = [
  "swc_ecma_ast",
  "swc_ecma_plugin_ast",
  "swc_ecma_visit",
+ "swc_node_base",
  "swc_plugin_js_api",
 ]
 
@@ -3305,11 +3307,13 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.18.0"
+version = "0.18.1"
 dependencies = [
  "abi_stable",
  "anyhow",
  "libloading",
+ "once_cell",
+ "parking_lot 0.7.1",
  "rplugin",
  "serde",
  "serde_json",
