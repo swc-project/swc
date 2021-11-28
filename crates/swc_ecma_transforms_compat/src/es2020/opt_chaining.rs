@@ -61,11 +61,8 @@ impl VisitMut for OptChaining {
             Expr::OptChain(e) => {
                 *expr = Expr::Cond(self.unwrap(e));
             }
-            Expr::Member(e) => match self.handle_member(e).map(Expr::Cond) {
-                Ok(v) => *expr = v,
-                Err(v) => *expr = v,
-            },
             _ => {
+                self.handle_member(expr);
                 self.handle_call(expr);
                 self.handle_unary(expr);
             }
@@ -252,32 +249,31 @@ impl OptChaining {
                     return true;
                 }
                 ExprOrSuper::Expr(callee) if callee.is_member() => {
-                    let mut callee = (&mut *callee).take().member().unwrap();
-                    let callee = self.handle_member(&mut callee);
+                    let mut callee = (&mut *callee).take();
+                    let handled = self.handle_member(&mut callee);
 
-                    match callee {
-                        Ok(expr) => {
+                    if handled {
+                        if let Expr::Cond(callee) = *callee {
                             *e = CondExpr {
                                 span: call_expr.span,
                                 alt: Box::new(Expr::Call(CallExpr {
                                     span: DUMMY_SP,
-                                    callee: expr.alt.as_callee(),
+                                    callee: callee.alt.as_callee(),
                                     args: call_expr.args.take(),
                                     type_args: call_expr.type_args.take(),
                                 })),
-                                ..expr
+                                ..callee
                             }
                             .into();
-                            return true;
                         }
-                        Err(callee) => {
-                            *e = Expr::Call(CallExpr {
-                                callee: callee.as_callee(),
-                                ..call_expr.take()
-                            });
-                            return false;
-                        }
-                    };
+                    } else {
+                        *e = Expr::Call(CallExpr {
+                            callee: callee.as_callee(),
+                            ..call_expr.take()
+                        });
+                    }
+
+                    return handled;
                 }
                 _ => {}
             },
@@ -286,82 +282,78 @@ impl OptChaining {
         return false;
     }
 
-    /// Returns `Ok` if it handled optional chaining.
-    fn handle_member(&mut self, e: &mut MemberExpr) -> Result<CondExpr, Expr> {
-        let mut obj = match &e.obj {
-            ExprOrSuper::Expr(obj) if obj.is_member() => {
-                let mut obj = obj.clone().member().unwrap();
-                let obj = self.handle_member(&mut obj).map(Expr::Cond);
-                let (obj, handled) = match obj {
-                    Ok(v) => (v, true),
-                    Err(v) => (v, false),
+    fn handle_member(&mut self, e: &mut Expr) -> bool {
+        match e {
+            Expr::Member(member_expr) => {
+                let mut obj = match &mut member_expr.obj {
+                    ExprOrSuper::Expr(obj) if obj.is_member() => {
+                        let mut obj = obj.take();
+                        let handled = self.handle_member(&mut obj);
+
+                        match *obj {
+                            Expr::Cond(obj) => {
+                                let cond_expr = CondExpr {
+                                    span: DUMMY_SP,
+                                    alt: Box::new(Expr::Member(MemberExpr {
+                                        obj: ExprOrSuper::Expr(obj.alt),
+                                        ..member_expr.take()
+                                    })),
+                                    ..obj
+                                };
+
+                                *e = cond_expr.into();
+                                return handled;
+                            }
+                            _ => ExprOrSuper::Expr(Box::new(*obj)),
+                        }
+                    }
+                    ExprOrSuper::Expr(obj) if obj.is_call() => {
+                        let mut obj = obj.take();
+                        let handled = self.handle_call(&mut obj);
+
+                        match *obj {
+                            Expr::Cond(obj) => {
+                                let cond_expr = CondExpr {
+                                    span: DUMMY_SP,
+                                    alt: Box::new(Expr::Member(MemberExpr {
+                                        obj: ExprOrSuper::Expr(obj.alt),
+                                        ..member_expr.take()
+                                    })),
+                                    ..obj
+                                };
+
+                                *e = cond_expr.into();
+                                return handled;
+                            }
+                            _ => ExprOrSuper::Expr(obj.take()),
+                        }
+                    }
+                    _ => member_expr.obj.take(),
                 };
 
-                match obj {
-                    Expr::Cond(obj) => {
-                        let cond_expr = CondExpr {
+                if let ExprOrSuper::Expr(expr) = obj {
+                    if let Expr::OptChain(mut obj) = *expr {
+                        let expr = self.unwrap(&mut obj);
+
+                        *e = CondExpr {
                             span: DUMMY_SP,
                             alt: Box::new(Expr::Member(MemberExpr {
-                                obj: ExprOrSuper::Expr(obj.alt),
-                                ..e.take()
+                                obj: ExprOrSuper::Expr(expr.alt),
+                                ..member_expr.take()
                             })),
-                            ..obj
-                        };
-                        //
-                        return if handled {
-                            Ok(cond_expr)
-                        } else {
-                            Err(Expr::Cond(cond_expr))
-                        };
+                            ..expr
+                        }
+                        .into();
+                        return true;
                     }
-                    _ => ExprOrSuper::Expr(Box::new(obj)),
+                    obj = ExprOrSuper::Expr(expr);
                 }
+
+                member_expr.obj = obj;
+                return false;
             }
-
-            ExprOrSuper::Expr(obj) if obj.is_call() => {
-                let mut obj = obj.clone();
-                let handled = self.handle_call(&mut obj);
-
-                match *obj {
-                    Expr::Cond(obj) => {
-                        let cond_expr = CondExpr {
-                            span: DUMMY_SP,
-                            alt: Box::new(Expr::Member(MemberExpr {
-                                obj: ExprOrSuper::Expr(obj.alt),
-                                ..e.take()
-                            })),
-                            ..obj
-                        };
-                        //
-                        return if handled {
-                            Ok(cond_expr)
-                        } else {
-                            Err(Expr::Cond(cond_expr))
-                        };
-                    }
-                    _ => ExprOrSuper::Expr(obj.take()),
-                }
-            }
-            _ => e.obj.clone(),
-        };
-
-        if let ExprOrSuper::Expr(expr) = obj {
-            if let Expr::OptChain(mut obj) = *expr {
-                let expr = self.unwrap(&mut obj);
-
-                return Ok(CondExpr {
-                    span: DUMMY_SP,
-                    alt: Box::new(Expr::Member(MemberExpr {
-                        obj: ExprOrSuper::Expr(expr.alt),
-                        ..e.take()
-                    })),
-                    ..expr
-                });
-            }
-            obj = ExprOrSuper::Expr(expr);
+            _ => return false,
         }
-
-        Err(Expr::Member(MemberExpr { obj, ..e.take() }))
     }
 
     fn unwrap(&mut self, e: &mut OptChainExpr) -> CondExpr {
