@@ -57,16 +57,10 @@ impl VisitMut for OptChaining {
     }
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        match expr {
-            Expr::OptChain(e) => {
-                *expr = Expr::Cond(self.unwrap(e));
-            }
-            _ => {
-                self.handle_member(expr);
-                self.handle_call(expr);
-                self.handle_unary(expr);
-            }
-        }
+        self.unwrap(expr);
+        self.handle_member(expr);
+        self.handle_call(expr);
+        self.handle_unary(expr);
 
         expr.visit_mut_children_with(self);
     }
@@ -86,7 +80,7 @@ impl OptChaining {
     where
         T: StmtLike + VisitMutWith<Self>,
     {
-        (&mut stmt).visit_mut_with(self);
+        stmt.visit_mut_with(self);
 
         if !self.vars_with_init.is_empty() {
             new.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
@@ -181,19 +175,23 @@ impl OptChaining {
 
                 if let op!("delete") = unary_expr.op {
                     match &mut *unary_expr.arg {
-                        Expr::OptChain(o) => {
-                            let expr = self.unwrap(o);
+                        Expr::OptChain(..) => {
+                            let mut expr = *unary_expr.arg.take();
+                            self.unwrap(&mut expr);
 
-                            *e = CondExpr {
-                                span,
-                                alt: Box::new(Expr::Unary(UnaryExpr {
+                            if let Expr::Cond(expr) = expr {
+                                *e = CondExpr {
                                     span,
-                                    op: op!("delete"),
-                                    arg: expr.alt,
-                                })),
-                                ..expr
+                                    alt: Box::new(Expr::Unary(UnaryExpr {
+                                        span,
+                                        op: op!("delete"),
+                                        arg: expr.alt,
+                                    })),
+                                    test: expr.test,
+                                    cons: expr.cons,
+                                }
+                                .into();
                             }
-                            .into();
                         }
 
                         Expr::Member(MemberExpr {
@@ -202,24 +200,27 @@ impl OptChaining {
                             prop,
                             computed,
                         }) if obj.is_opt_chain() => {
-                            let mut obj = obj.take().opt_chain().unwrap();
-                            let expr = self.unwrap(&mut obj);
+                            let mut obj = *obj.take();
 
-                            *e = CondExpr {
-                                span: DUMMY_SP,
-                                alt: Box::new(Expr::Unary(UnaryExpr {
-                                    span: *span,
-                                    op: op!("delete"),
-                                    arg: Box::new(Expr::Member(MemberExpr {
+                            self.unwrap(&mut obj);
+
+                            if let Expr::Cond(expr) = obj {
+                                *e = CondExpr {
+                                    span: DUMMY_SP,
+                                    alt: Box::new(Expr::Unary(UnaryExpr {
                                         span: *span,
-                                        obj: ExprOrSuper::Expr(expr.alt),
-                                        prop: prop.clone(),
-                                        computed: *computed,
+                                        op: op!("delete"),
+                                        arg: Box::new(Expr::Member(MemberExpr {
+                                            span: *span,
+                                            obj: ExprOrSuper::Expr(expr.alt),
+                                            prop: prop.clone(),
+                                            computed: *computed,
+                                        })),
                                     })),
-                                })),
-                                ..expr
+                                    ..expr
+                                }
+                                .into();
                             }
-                            .into();
                         }
                         _ => {}
                     }
@@ -234,19 +235,22 @@ impl OptChaining {
         match e {
             Expr::Call(call_expr) => match &mut call_expr.callee {
                 ExprOrSuper::Expr(callee) if callee.is_opt_chain() => {
-                    let mut callee = (&mut *callee).take().opt_chain().unwrap();
-                    let expr = self.unwrap(&mut callee);
+                    self.unwrap(&mut *callee);
 
-                    *e = CondExpr {
-                        span: DUMMY_SP,
-                        alt: Box::new(Expr::Call(CallExpr {
-                            callee: ExprOrSuper::Expr(expr.alt),
-                            ..call_expr.take()
-                        })),
-                        ..expr
+                    if let Expr::Cond(expr) = &mut **callee {
+                        let expr = expr.take();
+                        *e = CondExpr {
+                            span: DUMMY_SP,
+                            alt: Box::new(Expr::Call(CallExpr {
+                                callee: ExprOrSuper::Expr(expr.alt),
+                                ..call_expr.take()
+                            })),
+                            test: expr.test,
+                            cons: expr.cons,
+                        }
+                        .into();
+                        return true;
                     }
-                    .into();
-                    return true;
                 }
                 ExprOrSuper::Expr(callee) if callee.is_member() => {
                     let mut callee = (&mut *callee).take();
@@ -331,20 +335,22 @@ impl OptChaining {
                     _ => member_expr.obj.take(),
                 };
 
-                if let ExprOrSuper::Expr(expr) = obj {
-                    if let Expr::OptChain(mut obj) = *expr {
-                        let expr = self.unwrap(&mut obj);
+                if let ExprOrSuper::Expr(mut expr) = obj {
+                    if let Expr::OptChain(..) = *expr {
+                        self.unwrap(&mut *expr);
 
-                        *e = CondExpr {
-                            span: DUMMY_SP,
-                            alt: Box::new(Expr::Member(MemberExpr {
-                                obj: ExprOrSuper::Expr(expr.alt),
-                                ..member_expr.take()
-                            })),
-                            ..expr
+                        if let Expr::Cond(expr) = *expr {
+                            *e = CondExpr {
+                                span: DUMMY_SP,
+                                alt: Box::new(Expr::Member(MemberExpr {
+                                    obj: ExprOrSuper::Expr(expr.alt),
+                                    ..member_expr.take()
+                                })),
+                                ..expr
+                            }
+                            .into();
+                            return true;
                         }
-                        .into();
-                        return true;
                     }
                     obj = ExprOrSuper::Expr(expr);
                 }
@@ -356,310 +362,336 @@ impl OptChaining {
         }
     }
 
-    fn unwrap(&mut self, e: &mut OptChainExpr) -> CondExpr {
-        let span = e.span;
-        let cons = undefined(span);
+    fn unwrap(&mut self, opt_expr: &mut Expr) {
+        match opt_expr {
+            Expr::OptChain(e) => {
+                let span = e.span;
+                let cons = undefined(span);
 
-        match &*e.expr {
-            Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(obj),
-                prop,
-                computed,
-                span: m_span,
-            }) if obj.is_opt_chain() => {
-                let mut obj = obj.clone().opt_chain().unwrap();
-                let question_dot_token = obj.question_dot_token;
-
-                let obj_span = obj.span;
-                let obj = self.unwrap(&mut obj);
-
-                let alt = Box::new(Expr::Member(MemberExpr {
-                    span: *m_span,
-                    obj: ExprOrSuper::Expr(obj.alt),
-                    prop: prop.clone(),
-                    computed: *computed,
-                }));
-                let alt = Box::new(Expr::OptChain(OptChainExpr {
-                    span: obj_span,
-                    question_dot_token,
-                    expr: alt,
-                }));
-
-                return CondExpr { alt, ..obj };
-            }
-
-            Expr::Call(CallExpr {
-                span,
-                callee: ExprOrSuper::Expr(callee),
-                args,
-                type_args,
-            }) if callee.is_opt_chain() => {
-                let mut callee = callee.clone().opt_chain().unwrap();
-                let question_dot_token = callee.question_dot_token;
-
-                let obj = self.unwrap(&mut callee);
-
-                let alt = Box::new(Expr::Call(CallExpr {
-                    span: *span,
-                    callee: ExprOrSuper::Expr(obj.alt),
-                    args: args.clone(),
-                    type_args: type_args.clone(),
-                }));
-                let alt = Box::new(Expr::OptChain(OptChainExpr {
-                    span: *span,
-                    question_dot_token,
-                    expr: alt,
-                }));
-
-                return CondExpr {
-                    span: DUMMY_SP,
-                    alt,
-                    ..obj
-                };
-            }
-
-            _ => {}
-        }
-
-        e.expr.visit_mut_children_with(self);
-
-        match *e.expr.clone() {
-            Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(obj),
-                prop,
-                computed,
-                ..
-            }) => {
-                let obj = *obj;
-                let obj_span = obj.span();
-
-                let (left, right, alt) = match obj {
-                    Expr::Ident(..) => (Box::new(obj.clone()), Box::new(obj), e.expr.take()),
-                    _ => {
-                        let i = private_ident!(obj_span, "ref");
-                        self.vars_without_init.push(VarDeclarator {
-                            span: obj_span,
-                            definite: false,
-                            name: Pat::Ident(i.clone().into()),
-                            init: None,
-                        });
-
-                        (
-                            Box::new(Expr::Assign(AssignExpr {
-                                span: DUMMY_SP,
-                                left: PatOrExpr::Pat(Box::new(Pat::Ident(i.clone().into()))),
-                                op: op!("="),
-                                right: Box::new(obj),
-                            })),
-                            Box::new(Expr::Ident(i.clone())),
-                            Box::new(Expr::Member(MemberExpr {
-                                obj: ExprOrSuper::Expr(Box::new(Expr::Ident(i))),
-                                computed,
-                                span: DUMMY_SP,
-                                prop,
-                            })),
-                        )
-                    }
-                };
-
-                let test = Box::new(Expr::Bin(if self.c.no_document_all {
-                    BinExpr {
-                        span: obj_span,
-                        left,
-                        op: op!("=="),
-                        right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
-                    }
-                } else {
-                    BinExpr {
-                        span,
-                        left: Box::new(Expr::Bin(BinExpr {
-                            span: obj_span,
-                            left,
-                            op: op!("==="),
-                            right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
-                        })),
-                        op: op!("||"),
-                        right: Box::new(Expr::Bin(BinExpr {
-                            span: DUMMY_SP,
-                            left: right,
-                            op: op!("==="),
-                            right: undefined(span),
-                        })),
-                    }
-                }));
-
-                CondExpr {
-                    span,
-                    test,
-                    cons,
-                    alt,
-                }
-            }
-
-            Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(obj),
-                args,
-                type_args,
-                ..
-            }) => {
-                let obj_span = obj.span();
-                let is_super_access = match *obj {
+                match &mut *e.expr {
                     Expr::Member(MemberExpr {
-                        obj: ExprOrSuper::Super(..),
-                        ..
-                    }) => true,
-                    _ => false,
-                };
+                        obj: ExprOrSuper::Expr(obj),
+                        prop,
+                        computed,
+                        span: m_span,
+                    }) if obj.is_opt_chain() => {
+                        let obj = (&mut *obj).take().opt_chain().unwrap();
+                        let question_dot_token = obj.question_dot_token;
 
-                let (left, right, alt) = match *obj {
-                    Expr::Ident(..) => (obj.clone(), obj, e.expr.take()),
-                    _ if is_simple_expr(&obj) && self.c.pure_getter => {
-                        (obj.clone(), obj, e.expr.take())
-                    }
-                    _ => {
-                        let this_as_super;
-                        let should_call = obj.is_member();
-                        let (this_obj, aliased) = if should_call {
-                            alias_if_required(
-                                match &*obj {
-                                    Expr::Member(m) => match &m.obj {
-                                        ExprOrSuper::Super(s) => {
-                                            this_as_super = Expr::This(ThisExpr { span: s.span });
-                                            &this_as_super
-                                        }
-                                        ExprOrSuper::Expr(obj) => &**obj,
-                                    },
-                                    _ => &*obj,
-                                },
-                                "_obj",
-                            )
-                        } else {
-                            (Ident::dummy(), false)
-                        };
-                        let obj_expr = if !is_super_access && aliased {
-                            self.vars_without_init.push(VarDeclarator {
+                        let obj_span = obj.span;
+                        let mut obj = obj.into();
+                        self.unwrap(&mut obj);
+
+                        if let Expr::Cond(obj) = obj {
+                            let alt = Box::new(Expr::Member(MemberExpr {
+                                span: *m_span,
+                                obj: ExprOrSuper::Expr(obj.alt),
+                                prop: prop.take(),
+                                computed: *computed,
+                            }));
+                            let alt = Box::new(Expr::OptChain(OptChainExpr {
                                 span: obj_span,
-                                definite: false,
-                                name: Pat::Ident(this_obj.clone().into()),
-                                init: None,
-                            });
+                                question_dot_token,
+                                expr: alt,
+                            }));
 
-                            match *obj {
-                                Expr::Member(
-                                    obj @ MemberExpr {
-                                        obj: ExprOrSuper::Expr(..),
-                                        ..
-                                    },
-                                ) => Box::new(Expr::Member(MemberExpr {
-                                    span: obj.span,
-                                    obj: Expr::Assign(AssignExpr {
+                            *opt_expr = CondExpr { alt, ..obj }.into();
+                        }
+                        return;
+                    }
+                    Expr::Call(CallExpr {
+                        span,
+                        callee: ExprOrSuper::Expr(callee),
+                        args,
+                        type_args,
+                    }) if callee.is_opt_chain() => {
+                        let callee = (&mut *callee).take().opt_chain().unwrap();
+                        let question_dot_token = callee.question_dot_token;
+
+                        let mut obj = callee.into();
+                        self.unwrap(&mut obj);
+
+                        if let Expr::Cond(obj) = obj {
+                            let alt = Box::new(Expr::Call(CallExpr {
+                                span: *span,
+                                callee: ExprOrSuper::Expr(obj.alt),
+                                args: args.take(),
+                                type_args: type_args.take(),
+                            }));
+                            let alt = Box::new(Expr::OptChain(OptChainExpr {
+                                span: *span,
+                                question_dot_token,
+                                expr: alt,
+                            }));
+
+                            *opt_expr = CondExpr {
+                                span: DUMMY_SP,
+                                alt,
+                                ..obj
+                            }
+                            .into();
+
+                            return;
+                        }
+                    }
+                    _ => {}
+                }
+
+                e.expr.visit_mut_children_with(self);
+
+                match &mut *e.expr {
+                    Expr::Member(MemberExpr {
+                        obj: ExprOrSuper::Expr(obj),
+                        prop,
+                        computed,
+                        ..
+                    }) => {
+                        let obj_span = obj.span();
+
+                        let (left, right, alt) = match &mut **obj {
+                            Expr::Ident(..) => (obj.clone(), obj.clone(), e.expr.take()),
+                            _ => {
+                                let i = private_ident!(obj_span, "ref");
+                                self.vars_without_init.push(VarDeclarator {
+                                    span: obj_span,
+                                    definite: false,
+                                    name: Pat::Ident(i.clone().into()),
+                                    init: None,
+                                });
+
+                                (
+                                    Box::new(Expr::Assign(AssignExpr {
                                         span: DUMMY_SP,
-                                        op: op!("="),
                                         left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                                            this_obj.clone().into(),
+                                            i.clone().into(),
                                         ))),
-                                        right: obj.obj.expect_expr(),
-                                    })
-                                    .as_obj(),
-                                    prop: obj.prop,
-                                    computed: obj.computed,
-                                })),
-                                _ => Box::new(Expr::Assign(AssignExpr {
-                                    span: DUMMY_SP,
-                                    op: op!("="),
-                                    left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                                        this_obj.clone().into(),
-                                    ))),
-                                    right: obj,
-                                })),
+                                        op: op!("="),
+                                        right: obj.take(),
+                                    })),
+                                    Box::new(Expr::Ident(i.clone())),
+                                    Box::new(Expr::Member(MemberExpr {
+                                        obj: ExprOrSuper::Expr(Box::new(Expr::Ident(i))),
+                                        computed: *computed,
+                                        span: DUMMY_SP,
+                                        prop: prop.take(),
+                                    })),
+                                )
+                            }
+                        };
+
+                        let test = Box::new(Expr::Bin(if self.c.no_document_all {
+                            BinExpr {
+                                span: obj_span,
+                                left,
+                                op: op!("=="),
+                                right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
                             }
                         } else {
-                            obj
+                            BinExpr {
+                                span,
+                                left: Box::new(Expr::Bin(BinExpr {
+                                    span: obj_span,
+                                    left,
+                                    op: op!("==="),
+                                    right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+                                })),
+                                op: op!("||"),
+                                right: Box::new(Expr::Bin(BinExpr {
+                                    span: DUMMY_SP,
+                                    left: right,
+                                    op: op!("==="),
+                                    right: undefined(span),
+                                })),
+                            }
+                        }));
+
+                        *opt_expr = CondExpr {
+                            span,
+                            test,
+                            cons,
+                            alt,
+                        }
+                        .into();
+
+                        //println!("{:#?}", opt_expr);
+
+                        return;
+                    }
+
+                    Expr::Call(CallExpr {
+                        callee: ExprOrSuper::Expr(obj),
+                        args,
+                        type_args,
+                        ..
+                    }) => {
+                        let obj_span = obj.span();
+                        let is_super_access = match **obj {
+                            Expr::Member(MemberExpr {
+                                obj: ExprOrSuper::Super(..),
+                                ..
+                            }) => true,
+                            _ => false,
                         };
 
-                        let tmp = private_ident!(obj_span, "ref");
+                        let (left, right, alt) = match **obj {
+                            Expr::Ident(..) => (obj.clone(), obj.clone(), e.expr.take()),
+                            _ if is_simple_expr(&obj) && self.c.pure_getter => {
+                                (obj.clone(), obj.clone(), e.expr.take())
+                            }
+                            _ => {
+                                let this_as_super;
+                                let should_call = obj.is_member();
+                                let (this_obj, aliased) = if should_call {
+                                    alias_if_required(
+                                        match &**obj {
+                                            Expr::Member(m) => match &m.obj {
+                                                ExprOrSuper::Super(s) => {
+                                                    this_as_super =
+                                                        Expr::This(ThisExpr { span: s.span });
+                                                    &this_as_super
+                                                }
+                                                ExprOrSuper::Expr(obj) => &**obj,
+                                            },
+                                            _ => &*obj,
+                                        },
+                                        "_obj",
+                                    )
+                                } else {
+                                    (Ident::dummy(), false)
+                                };
+                                let obj_expr = if !is_super_access && aliased {
+                                    self.vars_without_init.push(VarDeclarator {
+                                        span: obj_span,
+                                        definite: false,
+                                        name: Pat::Ident(this_obj.clone().into()),
+                                        init: None,
+                                    });
 
-                        self.vars_without_init.push(VarDeclarator {
-                            span: obj_span,
-                            definite: false,
-                            name: Pat::Ident(tmp.clone().into()),
-                            init: None,
-                        });
+                                    match &mut **obj {
+                                        Expr::Member(
+                                            obj @ MemberExpr {
+                                                obj: ExprOrSuper::Expr(..),
+                                                ..
+                                            },
+                                        ) => Box::new(Expr::Member(MemberExpr {
+                                            span: obj.span,
+                                            obj: Expr::Assign(AssignExpr {
+                                                span: DUMMY_SP,
+                                                op: op!("="),
+                                                left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                                                    this_obj.clone().into(),
+                                                ))),
+                                                right: obj.obj.take().expect_expr(),
+                                            })
+                                            .as_obj(),
+                                            prop: obj.prop.take(),
+                                            computed: obj.computed,
+                                        })),
+                                        _ => Box::new(Expr::Assign(AssignExpr {
+                                            span: DUMMY_SP,
+                                            op: op!("="),
+                                            left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                                                this_obj.clone().into(),
+                                            ))),
+                                            right: obj.take(),
+                                        })),
+                                    }
+                                } else {
+                                    obj.take()
+                                };
 
-                        (
-                            Box::new(Expr::Assign(AssignExpr {
-                                span: DUMMY_SP,
-                                left: PatOrExpr::Pat(Box::new(Pat::Ident(tmp.clone().into()))),
-                                op: op!("="),
-                                right: obj_expr,
-                            })),
-                            Box::new(Expr::Ident(tmp.clone())),
-                            Box::new(Expr::Call(CallExpr {
-                                span,
-                                callee: ExprOrSuper::Expr(Box::new(if should_call {
-                                    Expr::Member(MemberExpr {
+                                let tmp = private_ident!(obj_span, "ref");
+
+                                self.vars_without_init.push(VarDeclarator {
+                                    span: obj_span,
+                                    definite: false,
+                                    name: Pat::Ident(tmp.clone().into()),
+                                    init: None,
+                                });
+
+                                (
+                                    Box::new(Expr::Assign(AssignExpr {
                                         span: DUMMY_SP,
-                                        obj: ExprOrSuper::Expr(Box::new(Expr::Ident(tmp.clone()))),
-                                        prop: Box::new(Expr::Ident(Ident::new(
-                                            "call".into(),
-                                            span,
+                                        left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                                            tmp.clone().into(),
                                         ))),
-                                        computed: false,
-                                    })
-                                } else {
-                                    Expr::Ident(tmp.clone())
+                                        op: op!("="),
+                                        right: obj_expr,
+                                    })),
+                                    Box::new(Expr::Ident(tmp.clone())),
+                                    Box::new(Expr::Call(CallExpr {
+                                        span,
+                                        callee: ExprOrSuper::Expr(Box::new(if should_call {
+                                            Expr::Member(MemberExpr {
+                                                span: DUMMY_SP,
+                                                obj: ExprOrSuper::Expr(Box::new(Expr::Ident(
+                                                    tmp.clone(),
+                                                ))),
+                                                prop: Box::new(Expr::Ident(Ident::new(
+                                                    "call".into(),
+                                                    span,
+                                                ))),
+                                                computed: false,
+                                            })
+                                        } else {
+                                            Expr::Ident(tmp.clone())
+                                        })),
+                                        args: if should_call {
+                                            once(if is_super_access {
+                                                ThisExpr { span }.as_arg()
+                                            } else {
+                                                this_obj.as_arg()
+                                            })
+                                            .chain(args.take())
+                                            .collect()
+                                        } else {
+                                            args.take()
+                                        },
+                                        type_args: type_args.take(),
+                                    })),
+                                )
+                            }
+                        };
+
+                        let test = Box::new(Expr::Bin(if self.c.no_document_all {
+                            BinExpr {
+                                span: DUMMY_SP,
+                                left,
+                                op: op!("=="),
+                                right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+                            }
+                        } else {
+                            BinExpr {
+                                span,
+                                left: Box::new(Expr::Bin(BinExpr {
+                                    span: DUMMY_SP,
+                                    left,
+                                    op: op!("==="),
+                                    right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
                                 })),
-                                args: if should_call {
-                                    once(if is_super_access {
-                                        ThisExpr { span }.as_arg()
-                                    } else {
-                                        this_obj.as_arg()
-                                    })
-                                    .chain(args)
-                                    .collect()
-                                } else {
-                                    args
-                                },
-                                type_args,
-                            })),
-                        )
-                    }
-                };
+                                op: op!("||"),
+                                right: Box::new(Expr::Bin(BinExpr {
+                                    span: DUMMY_SP,
+                                    left: right,
+                                    op: op!("==="),
+                                    right: undefined(span),
+                                })),
+                            }
+                        }));
 
-                let test = Box::new(Expr::Bin(if self.c.no_document_all {
-                    BinExpr {
-                        span: DUMMY_SP,
-                        left,
-                        op: op!("=="),
-                        right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
-                    }
-                } else {
-                    BinExpr {
-                        span,
-                        left: Box::new(Expr::Bin(BinExpr {
+                        *opt_expr = CondExpr {
                             span: DUMMY_SP,
-                            left,
-                            op: op!("==="),
-                            right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
-                        })),
-                        op: op!("||"),
-                        right: Box::new(Expr::Bin(BinExpr {
-                            span: DUMMY_SP,
-                            left: right,
-                            op: op!("==="),
-                            right: undefined(span),
-                        })),
+                            test,
+                            cons,
+                            alt,
+                        }
+                        .into();
+                        return;
                     }
-                }));
-
-                CondExpr {
-                    span: DUMMY_SP,
-                    test,
-                    cons,
-                    alt,
+                    _ => unreachable!("TsOptChain.expr = {:?}", e.expr),
                 }
             }
-            _ => unreachable!("TsOptChain.expr = {:?}", e.expr),
+            _ => {}
         }
     }
 }
