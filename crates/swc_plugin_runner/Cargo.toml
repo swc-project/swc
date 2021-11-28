@@ -6,13 +6,15 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_plugin_runner"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.18.0"
+version = "0.18.1"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 abi_stable = "0.10.2"
 anyhow = "1.0.42"
 libloading = "0.7.0"
+once_cell = "1.8.0"
+parking_lot = "0.7"
 rplugin = {version = "0.2.0", path = "../rplugin"}
 serde = {version = "1.0.126", features = ["derive"]}
 serde_json = "1.0.64"
