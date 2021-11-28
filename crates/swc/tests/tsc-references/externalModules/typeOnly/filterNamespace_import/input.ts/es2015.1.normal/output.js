@@ -15,6 +15,7 @@ var ns1;
     ns.nested = nested1;
 })(ns1 || (ns1 = {
 }));
+export default ns1;
 ns1.Class; // Error
 ns1.Value; // Error
 let c;
@@ -22,4 +23,3 @@ let t = "";
 let n = {
     a: ''
 };
-export { };

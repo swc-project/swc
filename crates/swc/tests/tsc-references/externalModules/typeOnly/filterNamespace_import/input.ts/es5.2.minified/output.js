@@ -13,5 +13,5 @@ function _classCallCheck(instance, Constructor) {
         _classCallCheck(this, NestedClass);
     }, nested1.NestedClass = NestedClass, ns.nested = nested;
 }(ns1 || (ns1 = {
-})), ns1.Class, ns1.Value;
-export { };
+}));
+export default ns1;

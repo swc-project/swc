@@ -6,5 +6,6 @@ var ns1;
     })).NestedClass = class {
     }, ns.nested = nested;
 }(ns1 || (ns1 = {
-})), ns1.Class, ns1.Value;
-export { };
+}));
+export default ns1;
+ns1.Class, ns1.Value;
