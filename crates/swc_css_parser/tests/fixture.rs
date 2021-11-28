@@ -145,7 +145,7 @@ fn pass(input: PathBuf) {
 }
 
 #[testing::fixture("tests/line-comment/**/input.css")]
-fn line_commetns(input: PathBuf) {
+fn line_comments(input: PathBuf) {
     test_pass(
         input,
         ParserConfig {
