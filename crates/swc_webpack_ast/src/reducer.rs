@@ -1150,6 +1150,14 @@ impl VisitMut for ReduceAst {
         }
     }
 
+    fn visit_mut_opt_pat(&mut self, p: &mut Option<Pat>) {
+        p.visit_mut_children_with(self);
+
+        if let Some(Pat::Invalid(..)) = &p {
+            *p = None;
+        }
+    }
+
     fn visit_mut_param_or_ts_param_props(&mut self, ps: &mut Vec<ParamOrTsParamProp>) {
         let old = self.can_remove_pat;
         self.can_remove_pat = true;
