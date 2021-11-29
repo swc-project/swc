@@ -1202,7 +1202,12 @@ impl VisitMut for ReduceAst {
             _ => {}
         }
 
-        pat.visit_mut_children_with(self);
+        match pat {
+            Pat::Assign(..) => {}
+            _ => {
+                pat.visit_mut_children_with(self);
+            }
+        }
 
         if !self.can_remove_pat {
             return;
@@ -1232,6 +1237,8 @@ impl VisitMut for ReduceAst {
 
             Pat::Assign(a) => {
                 if can_remove(&a.right) {
+                    a.left.visit_mut_with(self);
+
                     *pat = *a.left.take();
                     self.changed = true;
                     return;
