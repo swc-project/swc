@@ -44,6 +44,15 @@ class BufReader {
     /** return new BufReader unless r is BufReader */ static create(r2, size1 = DEFAULT_BUF_SIZE) {
         return r2 instanceof BufReader ? r2 : new BufReader(r2, size1);
     }
+    constructor(rd, size = DEFAULT_BUF_SIZE){
+        this.r // buf read position.
+         = 0;
+        this.w // buf write position.
+         = 0;
+        this.eof = false;
+        if (size < MIN_BUF_SIZE) size = MIN_BUF_SIZE;
+        this._reset(new Uint8Array(size), rd);
+    }
     /** Returns the size of the underlying buffer in bytes. */ size() {
         return this.buf.byteLength;
     }
@@ -77,9 +86,9 @@ class BufReader {
    */ reset(r1) {
         this._reset(this.buf, r1);
     }
-    _reset(buf1, rd1) {
+    _reset(buf1, rd) {
         this.buf = buf1;
-        this.rd = rd1;
+        this.rd = rd;
         this.eof = false;
     // this.lastByte = -1;
     // this.lastCharSize = -1;
@@ -319,15 +328,6 @@ class BufReader {
         else if (avail < n1) throw new BufferFullError(this.buf.subarray(this.r, this.w));
         return this.buf.subarray(this.r, this.r + n1);
     }
-    constructor(rd, size = DEFAULT_BUF_SIZE){
-        this.r // buf read position.
-         = 0;
-        this.w // buf write position.
-         = 0;
-        this.eof = false;
-        if (size < MIN_BUF_SIZE) size = MIN_BUF_SIZE;
-        this._reset(new Uint8Array(size), rd);
-    }
 }
 class AbstractBufBase {
     /** Size returns the size of the underlying buffer in bytes. */ size() {
@@ -349,6 +349,12 @@ class AbstractBufBase {
 class BufWriter extends AbstractBufBase {
     /** return new BufWriter unless writer is BufWriter */ static create(writer1, size2 = DEFAULT_BUF_SIZE) {
         return writer1 instanceof BufWriter ? writer1 : new BufWriter(writer1, size2);
+    }
+    constructor(writer, size = DEFAULT_BUF_SIZE){
+        super();
+        this.writer = writer;
+        if (size <= 0) size = DEFAULT_BUF_SIZE;
+        this.buf = new Uint8Array(size);
     }
     /** Discards any unflushed buffered data, clears any error, and
    * resets buffer to write its output to w.
@@ -402,16 +408,16 @@ class BufWriter extends AbstractBufBase {
         totalBytesWritten += numBytesWritten;
         return totalBytesWritten;
     }
+}
+class BufWriterSync extends AbstractBufBase {
+    /** return new BufWriterSync unless writer is BufWriterSync */ static create(writer2, size3 = DEFAULT_BUF_SIZE) {
+        return writer2 instanceof BufWriterSync ? writer2 : new BufWriterSync(writer2, size3);
+    }
     constructor(writer, size = DEFAULT_BUF_SIZE){
         super();
         this.writer = writer;
         if (size <= 0) size = DEFAULT_BUF_SIZE;
         this.buf = new Uint8Array(size);
-    }
-}
-class BufWriterSync extends AbstractBufBase {
-    /** return new BufWriterSync unless writer is BufWriterSync */ static create(writer2, size3 = DEFAULT_BUF_SIZE) {
-        return writer2 instanceof BufWriterSync ? writer2 : new BufWriterSync(writer2, size3);
     }
     /** Discards any unflushed buffered data, clears any error, and
    * resets buffer to write its output to w.
@@ -465,12 +471,6 @@ class BufWriterSync extends AbstractBufBase {
         totalBytesWritten += numBytesWritten;
         return totalBytesWritten;
     }
-    constructor(writer, size = DEFAULT_BUF_SIZE){
-        super();
-        this.writer = writer;
-        if (size <= 0) size = DEFAULT_BUF_SIZE;
-        this.buf = new Uint8Array(size);
-    }
 }
 const encoder = new TextEncoder();
 function encode(input) {
@@ -490,6 +490,9 @@ function charCode(s) {
     return s.charCodeAt(0);
 }
 class TextProtoReader {
+    constructor(r){
+        this.r = r;
+    }
     /** readLine() reads a single line from the TextProtoReader,
    * eliding the final \n or \r\n from the returned string.
    */ async readLine() {
@@ -582,9 +585,6 @@ class TextProtoReader {
         }
         return n;
     }
-    constructor(r){
-        this.r = r;
-    }
 }
 let Status;
 (function(Status) {
@@ -601,7 +601,6 @@ function deferred() {
     });
     return Object.assign(promise, methods);
 }
-var tmp = Symbol.asyncIterator;
 class MuxAsyncIterator {
     add(iterator) {
         ++this.iteratorCount;
@@ -639,7 +638,7 @@ class MuxAsyncIterator {
             this.signal = deferred();
         }
     }
-    [tmp]() {
+    [Symbol.asyncIterator]() {
         return this.iterate();
     }
     constructor(){
@@ -919,7 +918,6 @@ class ServerRequest {
         this.finalized = false;
     }
 }
-var tmp1 = Symbol.asyncIterator;
 function parseHTTPVersion(vers) {
     switch(vers){
         case "HTTP/1.1":
@@ -968,6 +966,11 @@ async function readRequest(conn, bufr) {
     return req;
 }
 class Server {
+    constructor(listener){
+        this.listener = listener;
+        this.closing = false;
+        this.connections = [];
+    }
     close() {
         this.closing = true;
         this.listener.close();
@@ -1044,15 +1047,10 @@ class Server {
         // Yield the requests that arrive on the just-accepted connection.
         yield* this.iterateHttpRequests(conn);
     }
-    [tmp1]() {
+    [Symbol.asyncIterator]() {
         const mux = new MuxAsyncIterator();
         mux.add(this.acceptConnAndIterateHttpRequests(mux));
         return mux.iterate();
-    }
-    constructor(listener){
-        this.listener = listener;
-        this.closing = false;
-        this.connections = [];
     }
 }
 function _parseAddrFromStr(addr) {
