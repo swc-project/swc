@@ -1079,6 +1079,14 @@ impl VisitMut for ReduceAst {
                 }
             }
 
+            Pat::Assign(a) => {
+                if can_remove(&a.right) {
+                    *pat = *a.left.take();
+                    self.changed = true;
+                    return;
+                }
+            }
+
             _ => {}
         }
     }
