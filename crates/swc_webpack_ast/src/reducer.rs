@@ -297,6 +297,7 @@ impl ReduceAst {
 
             Expr::Ident(i) => {
                 if !self.data.should_preserve(&*i) {
+                    self.changed = true;
                     e.take();
                 }
                 return;
@@ -335,6 +336,7 @@ impl ReduceAst {
 
             Expr::Array(a) => {
                 if a.elems.is_empty() {
+                    self.changed = true;
                     e.take();
                     return;
                 }
@@ -342,6 +344,7 @@ impl ReduceAst {
 
             Expr::Object(obj) => {
                 if obj.props.is_empty() {
+                    self.changed = true;
                     e.take();
                     return;
                 }
