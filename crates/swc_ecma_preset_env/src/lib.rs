@@ -592,9 +592,10 @@ impl Query {
         {
             let distribs = browserslist::resolve(
                 s,
-                browserslist::Opts::new()
-                    .mobile_to_desktop(true)
-                    .ignore_unknown_versions(true),
+                &browserslist::Opts {
+                    mobile_to_desktop: true,
+                    ignore_unknown_versions: true,
+                },
             )
             .with_context(|| {
                 format!(
