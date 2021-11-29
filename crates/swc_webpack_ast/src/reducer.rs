@@ -287,7 +287,6 @@ impl ReduceAst {
                 ..
             })
             | Expr::Yield(YieldExpr { arg: None, .. }) => {
-                self.changed = true;
                 e.take();
                 return;
             }
