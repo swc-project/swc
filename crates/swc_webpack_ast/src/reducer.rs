@@ -1310,6 +1310,17 @@ impl VisitMut for ReduceAst {
                 return;
             }
 
+            Stmt::Switch(s) => {
+                if s.cases.is_empty() {
+                    *stmt = Stmt::Expr(ExprStmt {
+                        span: DUMMY_SP,
+                        expr: s.discriminant.take(),
+                    });
+                    self.changed = true;
+                    return;
+                }
+            }
+
             // TODO: Flatten loops
             // TODO: Flatten try catch
             _ => {}
