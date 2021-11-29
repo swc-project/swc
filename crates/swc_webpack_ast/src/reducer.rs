@@ -1109,28 +1109,6 @@ impl VisitMut for ReduceAst {
                 });
             }
 
-            Stmt::While(s) => {
-                if s.body.is_empty() {
-                    *stmt = Stmt::Expr(ExprStmt {
-                        span: DUMMY_SP,
-                        expr: s.test.take(),
-                    });
-                    self.changed = true;
-                    return;
-                }
-            }
-
-            Stmt::DoWhile(s) => {
-                if s.body.is_empty() {
-                    *stmt = Stmt::Expr(ExprStmt {
-                        span: DUMMY_SP,
-                        expr: s.test.take(),
-                    });
-                    self.changed = true;
-                    return;
-                }
-            }
-
             _ => {}
         }
 
@@ -1188,6 +1166,28 @@ impl VisitMut for ReduceAst {
                         *stmt = *is.cons.take();
                         return;
                     }
+                }
+            }
+
+            Stmt::While(s) => {
+                if s.body.is_empty() {
+                    *stmt = Stmt::Expr(ExprStmt {
+                        span: DUMMY_SP,
+                        expr: s.test.take(),
+                    });
+                    self.changed = true;
+                    return;
+                }
+            }
+
+            Stmt::DoWhile(s) => {
+                if s.body.is_empty() {
+                    *stmt = Stmt::Expr(ExprStmt {
+                        span: DUMMY_SP,
+                        expr: s.test.take(),
+                    });
+                    self.changed = true;
+                    return;
                 }
             }
 
