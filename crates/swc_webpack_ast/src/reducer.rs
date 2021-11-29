@@ -961,7 +961,7 @@ impl VisitMut for ReduceAst {
     fn visit_mut_opt_expr(&mut self, e: &mut Option<Box<Expr>>) {
         e.visit_mut_children_with(self);
 
-        if let Some(Expr::Invalid(..)) = e.as_deref() {
+        if let Some(Expr::Invalid(..) | Expr::Lit(Lit::Null(..))) = e.as_deref() {
             e.take();
         }
     }
@@ -970,7 +970,7 @@ impl VisitMut for ReduceAst {
         e.visit_mut_children_with(self);
 
         if let Some(elem) = e {
-            if elem.expr.is_invalid() {
+            if elem.expr.is_invalid() || elem.expr.is_lit() {
                 *e = None;
             }
         }
