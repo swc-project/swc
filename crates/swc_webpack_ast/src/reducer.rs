@@ -865,7 +865,26 @@ impl VisitMut for ReduceAst {
     fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {
         s.visit_mut_children_with(self);
 
-        match &s.init {
+        match &mut s.init {
+            Some(VarDeclOrExpr::VarDecl(v)) => {
+                self.changed = true;
+                let mut exprs = vec![];
+
+                for decl in v.decls.take() {
+                    preserve_pat(&mut exprs, decl.name);
+                    exprs.extend(decl.init);
+                }
+
+                if exprs.is_empty() {
+                    s.init = None;
+                } else {
+                    s.init = Some(VarDeclOrExpr::Expr(Box::new(Expr::Seq(SeqExpr {
+                        span: DUMMY_SP,
+                        exprs,
+                    }))))
+                }
+            }
+
             Some(VarDeclOrExpr::Expr(init)) => {
                 if can_remove(&init) {
                     s.init = None;
