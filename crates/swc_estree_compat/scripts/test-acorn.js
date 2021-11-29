@@ -8,7 +8,6 @@ const parserOptions = {
     ecmaVersion: "latest",
     // https://github.com/tc39/proposal-hashbang
     allowHashBang: true,
-    onInsertedSemicolon: pos => semicolons.add(pos),
 };
 
 const acorn = require("acorn");
