@@ -1174,7 +1174,14 @@ impl VisitMut for ReduceAst {
 
                     true
                 }
-                TsParamPropParam::Assign(_) => true,
+                TsParamPropParam::Assign(p) => {
+                    if p.left.is_invalid() && can_remove(&p.right) {
+                        self.changed = true;
+                        return false;
+                    }
+
+                    true
+                }
             },
             ParamOrTsParamProp::Param(p) => !p.pat.is_invalid(),
         });
