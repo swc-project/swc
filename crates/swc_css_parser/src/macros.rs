@@ -12,6 +12,14 @@ macro_rules! tok {
         swc_css_ast::Token::Function { .. }
     };
 
+    ("bad-string") => {
+        swc_css_ast::Token::BadStr { .. }
+    };
+
+    ("bad-url") => {
+        swc_css_ast::Token::BadUrl { .. }
+    };
+
     ("[") => {
         swc_css_ast::Token::LBracket
     };

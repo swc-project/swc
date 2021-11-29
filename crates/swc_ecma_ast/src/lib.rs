@@ -1,3 +1,4 @@
+#![cfg_attr(docsrs, feature(doc_cfg))]
 #![deny(unreachable_patterns)]
 #![deny(missing_copy_implementations)]
 #![deny(missing_debug_implementations)]

@@ -351,16 +351,27 @@ where
     fn emit_declaration(&mut self, n: &Declaration) -> Result {
         emit!(self, n.property);
         punct!(self, ":");
-        formatting_space!(self);
 
-        self.emit_list(
-            &n.value,
-            ListFormat::SpaceDelimited | ListFormat::SingleLine,
-        )?;
+        let is_custom_property = n.property.value.starts_with("--");
+
+        if !is_custom_property {
+            formatting_space!(self);
+        }
+
+        let format = match is_custom_property {
+            true => ListFormat::NotDelimited,
+            false => ListFormat::SpaceDelimited | ListFormat::SingleLine,
+        };
+
+        self.emit_list(&n.value, format)?;
 
         if let Some(tok) = n.important {
-            formatting_space!(self);
+            if !is_custom_property {
+                formatting_space!(self);
+            }
+
             punct!(self, tok, "!");
+
             self.wr.write_raw(Some(tok), "important")?;
         }
 

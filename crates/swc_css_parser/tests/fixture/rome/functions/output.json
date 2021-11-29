@@ -75,7 +75,7 @@
             "type": "Declaration",
             "span": {
               "start": 10,
-              "end": 22,
+              "end": 19,
               "ctxt": 0
             },
             "property": {
@@ -90,31 +90,41 @@
             },
             "value": [
               {
-                "type": "UnitValue",
+                "type": "Tokens",
                 "span": {
-                  "start": 19,
+                  "start": 18,
                   "end": 22,
                   "ctxt": 0
                 },
-                "value": {
-                  "type": "Number",
-                  "span": {
-                    "start": 19,
-                    "end": 20,
-                    "ctxt": 0
+                "tokens": [
+                  {
+                    "span": {
+                      "start": 18,
+                      "end": 19,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
                   },
-                  "value": 2.0,
-                  "raw": "2"
-                },
-                "unit": {
-                  "span": {
-                    "start": 20,
-                    "end": 22,
-                    "ctxt": 0
-                  },
-                  "value": "px",
-                  "raw": "px"
-                }
+                  {
+                    "span": {
+                      "start": 19,
+                      "end": 22,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Dimension": {
+                        "value": 2.0,
+                        "raw_value": "2",
+                        "unit": "px",
+                        "raw_unit": "px"
+                      }
+                    }
+                  }
+                ]
               }
             ],
             "important": null
