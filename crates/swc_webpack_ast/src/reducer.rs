@@ -1272,9 +1272,24 @@ impl VisitMut for ReduceAst {
             }
 
             Stmt::Decl(Decl::Var(var)) => {
-                if var.decls.is_empty() {
+                self.changed = true;
+                let mut exprs = vec![];
+
+                for decl in var.decls.take() {
+                    preserve_pat(&mut exprs, decl.name);
+                    exprs.extend(decl.init);
+                }
+
+                if exprs.is_empty() {
                     *stmt = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                    return;
+                } else {
+                    *stmt = Stmt::Expr(ExprStmt {
+                        span: DUMMY_SP,
+                        expr: Box::new(Expr::Seq(SeqExpr {
+                            span: DUMMY_SP,
+                            exprs,
+                        })),
+                    });
                 }
             }
 
