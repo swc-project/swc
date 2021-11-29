@@ -3204,7 +3204,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_ast"
-version = "0.2.0"
+version = "0.2.1"
 dependencies = [
  "scoped-tls",
  "serde",
@@ -3215,7 +3215,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.4.0"
+version = "0.4.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3430,7 +3430,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.2.0"
+version = "0.2.1"
 dependencies = [
  "anyhow",
  "rayon",
