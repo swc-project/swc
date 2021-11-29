@@ -1288,6 +1288,18 @@ impl VisitMut for ReduceAst {
                 }
             }
 
+            Stmt::For(ForStmt {
+                init: None,
+                test: None,
+                update: None,
+                body,
+                ..
+            }) => {
+                *stmt = *body.take();
+                self.changed = true;
+                return;
+            }
+
             // TODO: Flatten loops
             // TODO: Flatten try catch
             _ => {}
