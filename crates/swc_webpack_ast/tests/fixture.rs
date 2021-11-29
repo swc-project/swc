@@ -34,6 +34,10 @@ struct DropModuleItem;
 impl VisitMut for DropModuleItem {
     noop_visit_mut_type!();
 
+    fn visit_mut_invalid(&mut self, _: &mut Invalid) {
+        panic!("found invaid")
+    }
+
     fn visit_mut_module_item(&mut self, item: &mut ModuleItem) {
         if let ModuleItem::ModuleDecl(..) = item {
             *item = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }));
