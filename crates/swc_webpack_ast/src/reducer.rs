@@ -1014,9 +1014,11 @@ impl VisitMut for ReduceAst {
     fn visit_mut_opt_expr_or_spread(&mut self, e: &mut Option<ExprOrSpread>) {
         e.visit_mut_children_with(self);
 
-        if let Some(elem) = e {
-            if can_remove(&elem.expr) {
-                *e = None;
+        if !self.preserve_fn {
+            if let Some(elem) = e {
+                if can_remove(&elem.expr) {
+                    *e = None;
+                }
             }
         }
     }
