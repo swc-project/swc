@@ -761,6 +761,19 @@ impl VisitMut for ReduceAst {
                 }
             }
 
+            Expr::New(NewExpr { callee, args, .. }) => {
+                let mut exprs = vec![];
+                exprs.push(callee.take());
+                exprs.extend(args.take().into_iter().flatten().map(|v| v.expr));
+
+                *e = Expr::Seq(SeqExpr {
+                    span: DUMMY_SP,
+                    exprs,
+                });
+                self.changed = true;
+                return;
+            }
+
             // TODO:
             // Expr::Class(_) => todo!(),
             // Expr::MetaProp(_) => todo!(),
