@@ -279,14 +279,18 @@ impl ReduceAst {
 
     fn ignore_expr(&mut self, e: &mut Expr) {
         match e {
-            Expr::Lit(..)
-            | Expr::This(..)
+            Expr::Lit(..) => {
+                e.take();
+                return;
+            }
+            Expr::This(..)
             | Expr::Member(MemberExpr {
                 obj: ExprOrSuper::Super(..),
                 computed: false,
                 ..
             })
             | Expr::Yield(YieldExpr { arg: None, .. }) => {
+                self.changed = true;
                 e.take();
                 return;
             }
