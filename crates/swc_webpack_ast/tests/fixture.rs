@@ -57,30 +57,6 @@ impl VisitMut for DropModuleItem {
     }
 }
 
-#[testing::fixture("../swc_bundler/tests/fixture/**/output/entry.js")]
-#[testing::fixture("../swc_bundler/tests/fixture/**/output/entry.ts")]
-fn fixture_bundler(input: PathBuf) {
-    let output = input.parent().unwrap().join("output___truncated.js");
-
-    test_fixture(
-        Syntax::Es(EsConfig {
-            jsx: true,
-            ..Default::default()
-        }),
-        &|_| {
-            let top_level_mark = Mark::fresh(Mark::root());
-
-            chain!(
-                resolver_with_mark(top_level_mark),
-                as_folder(ast_reducer(top_level_mark)),
-                as_folder(DropModuleItem)
-            )
-        },
-        &input,
-        &output,
-    );
-}
-
 #[testing::fixture("tests/fixture/**/input.js")]
 fn test_babelify(input: PathBuf) {
     let output_path = input.parent().unwrap().join("output.json");
