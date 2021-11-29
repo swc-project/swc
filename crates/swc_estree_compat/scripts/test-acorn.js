@@ -6,11 +6,9 @@ const parserOptions = {
     ranges: true,
     locations: true,
     ecmaVersion: "latest",
-    sourceType: "module",
     // https://github.com/tc39/proposal-hashbang
     allowHashBang: true,
     onInsertedSemicolon: pos => semicolons.add(pos),
-    sourceType: "module"
 };
 
 const acorn = require("acorn");
