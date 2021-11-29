@@ -3,10 +3,10 @@ class clodule {
         return 42;
     }
 }
-(function(clodule1) {
+(function(clodule) {
     function fn(x, y) {
         return clodule.sfn('a');
     }
-    clodule1.fn = fn;
+    clodule.fn = fn;
 })(clodule || (clodule = {
 }));

@@ -4,7 +4,7 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 // expect no errors here
-var A1;
+var A;
 (function(A) {
     A.x = 'hello world';
     var Point = function Point(x, y) {
@@ -14,18 +14,18 @@ var A1;
         this.y = y;
     };
     A.Point = Point;
-})(A1 || (A1 = {
+})(A || (A = {
 }));
-var C1;
+var C;
 (function(C) {
-    C.a = A1;
-})(C1 || (C1 = {
+    C.a = A;
+})(C || (C = {
 }));
-var a = C1.a.x;
-var b = new C1.a.Point(0, 0);
+var a = C.a.x;
+var b = new C.a.Point(0, 0);
 var c;
 var c;
-var X1;
+var X;
 (function(X) {
     var Y = function Y() {
         return 42;
@@ -41,16 +41,16 @@ var X1;
         Y.Point = Point;
     })(Y || (Y = {
     }));
-})(X1 || (X1 = {
+})(X || (X = {
 }));
-var Z1;
+var Z;
 (function(Z) {
-    Z.y = X1.Y;
-})(Z1 || (Z1 = {
+    Z.y = X.Y;
+})(Z || (Z = {
 }));
-var m = Z1.y();
-var n = new Z1.y.Point(0, 0);
-var K1;
+var m = Z.y();
+var n = new Z.y.Point(0, 0);
+var K;
 (function(K) {
     var L = function L(name) {
         "use strict";
@@ -62,14 +62,14 @@ var K1;
         L.y = 12;
     })(L || (L = {
     }));
-})(K1 || (K1 = {
+})(K || (K = {
 }));
-var M1;
+var M;
 (function(M) {
-    M.D = K1.L;
-})(M1 || (M1 = {
+    M.D = K.L;
+})(M || (M = {
 }));
 var o;
-var o = new M1.D('Hello');
+var o = new M.D('Hello');
 var p;
 var p;

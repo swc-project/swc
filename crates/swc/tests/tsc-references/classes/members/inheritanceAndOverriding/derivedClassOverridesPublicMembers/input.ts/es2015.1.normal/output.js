@@ -15,25 +15,25 @@ class Base {
     }
     static set t(v1) {
     }
-    constructor(a2){
+    constructor(a){
     }
 }
 class Derived extends Base {
-    b(a3) {
+    b(a2) {
     }
     get c() {
         return y;
     }
     set c(v2) {
     }
-    static s(a4) {
+    static s(a3) {
     }
     static get t() {
         return y;
     }
-    static set t(a5) {
+    static set t(a4) {
     }
-    constructor(a6){
+    constructor(a){
         super(x);
     }
 }

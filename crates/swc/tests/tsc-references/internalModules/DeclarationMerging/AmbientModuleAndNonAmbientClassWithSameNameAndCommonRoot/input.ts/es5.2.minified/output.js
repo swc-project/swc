@@ -1,4 +1,4 @@
-var A1;
+var A;
 !function(A) {
     var Point = function(x, y) {
         "use strict";
@@ -7,5 +7,5 @@ var A1;
         })(this, Point), this.x = x, this.y = y;
     };
     A.Point = Point;
-}(A1 || (A1 = {
-})), A1.Point.Origin, new A1.Point(0, 0);
+}(A || (A = {
+})), A.Point.Origin, new A.Point(0, 0);

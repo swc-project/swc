@@ -85,24 +85,24 @@ class B extends A {
 var i;
 for(var x1 in i[42]){
 }
-var M1;
+var M;
 (function(M) {
     class X {
     }
     M.X = X;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
-for(var x1 in M1){
+for(var x1 in M){
 }
-for(var x1 in M1.X){
+for(var x1 in M.X){
 }
-var Color1;
+let Color;
 (function(Color) {
     Color[Color["Red"] = 0] = "Red";
     Color[Color["Blue"] = 1] = "Blue";
-})(Color1 || (Color1 = {
+})(Color || (Color = {
 }));
-for(var x1 in Color1){
+for(var x1 in Color){
 }
-for(var x1 in Color1.Blue){
+for(var x1 in Color.Blue){
 }

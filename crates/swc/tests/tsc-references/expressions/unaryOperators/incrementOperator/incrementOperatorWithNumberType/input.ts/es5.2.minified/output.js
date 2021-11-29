@@ -1,4 +1,4 @@
-var NUMBER, M1, NUMBER1 = [
+var NUMBER, M, NUMBER1 = [
     1,
     2
 ], A = function() {
@@ -10,7 +10,7 @@ var NUMBER, M1, NUMBER1 = [
 !function(M) {
     var n;
     M.n = n;
-}(M1 || (M1 = {
+}(M || (M = {
 }));
 var objA = new A();
-++NUMBER, NUMBER++, ++objA.a, ++M1.n, objA.a++, M1.n++, NUMBER1[0]++, ++NUMBER, ++NUMBER1[0], ++objA.a, ++M1.n, ++objA.a, M1.n, NUMBER++, NUMBER1[0]++, objA.a++, M1.n++, objA.a++, M1.n++;
+++NUMBER, NUMBER++, ++objA.a, ++M.n, objA.a++, M.n++, NUMBER1[0]++, ++NUMBER, ++NUMBER1[0], ++objA.a, ++M.n, ++objA.a, M.n, NUMBER++, NUMBER1[0]++, objA.a++, M.n++, objA.a++, M.n++;

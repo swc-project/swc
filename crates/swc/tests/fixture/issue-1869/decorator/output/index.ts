@@ -5,7 +5,7 @@ function _classCallCheck(instance, Constructor) {
 }
 var _class;
 var _class1;
-var TestClass1 = _class1 = someClassDecorator((_class1 = (_class = function TestClass() {
+var TestClass = _class1 = someClassDecorator((_class1 = (_class = function TestClass() {
     "use strict";
     _classCallCheck(this, TestClass);
 }, _class.Something = 'hello', _class.SomeProperties = {

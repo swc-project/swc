@@ -1,5 +1,5 @@
-var M, M1;
-throw (M = M1 || (M1 = {
+var M, M;
+throw (M = M || (M = {
 })).A = class {
 }, M.F2 = function(x) {
     return x.toString();

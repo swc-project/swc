@@ -12,7 +12,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
 }
 !function(NonGeneric) {
-    var C = function() {
+    var C, C = function() {
         "use strict";
         function C(a, b) {
             _classCallCheck(this, C), this.a = a, this.b = b;
@@ -35,13 +35,13 @@ function _createClass(Constructor, protoProps, staticProps) {
             }
         ]), C;
     }();
-    (C || (C = {
+    (C = C || (C = {
     })).bar = "";
     var c = new C(1, 2);
     c.fn(), c.foo, c.bar, c.x;
 }(NonGeneric || (NonGeneric = {
 })), (function(Generic) {
-    var C = function() {
+    var C, C = function() {
         "use strict";
         function C(a, b) {
             _classCallCheck(this, C), this.a = a, this.b = b;
@@ -64,7 +64,7 @@ function _createClass(Constructor, protoProps, staticProps) {
             }
         ]), C;
     }();
-    (C || (C = {
+    (C = C || (C = {
     })).bar = "";
     var c = new C(1, "");
     c.fn(), c.foo, c.bar, c.x;

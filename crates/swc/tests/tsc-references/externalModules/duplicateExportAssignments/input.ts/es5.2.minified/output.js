@@ -7,17 +7,20 @@ var x = 10, y = function() {
     "use strict";
     _classCallCheck(this, y);
 };
-module.exports = x, module.exports = y, (x || (x = {
+module.exports = x, module.exports = y, (x = x || (x = {
 })).x = 10;
 var y = function() {
     "use strict";
     _classCallCheck(this, y);
 };
+function x() {
+    return 42;
+}
 function y() {
     return 42;
 }
 module.exports = x, module.exports = y, module.exports = x, module.exports = y;
-var x = 5, y = "test";
+var x, x = 5, y = "test";
 module.exports = x, module.exports = y, module.exports = {
 };
 export { };

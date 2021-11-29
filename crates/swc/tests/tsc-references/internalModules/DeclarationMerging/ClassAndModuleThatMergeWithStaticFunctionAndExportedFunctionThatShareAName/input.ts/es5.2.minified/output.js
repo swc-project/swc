@@ -10,7 +10,7 @@ function _defineProperties(target, props) {
 function _createClass(Constructor, protoProps, staticProps) {
     return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
 }
-var A1, Point = function() {
+var A, Point, Point = function() {
     "use strict";
     function Point(x, y) {
         _classCallCheck(this, Point), this.x = x, this.y = y;
@@ -27,11 +27,11 @@ var A1, Point = function() {
         }
     ]), Point;
 }();
-(Point || (Point = {
+(Point = Point || (Point = {
 })).Origin = function() {
     return null;
 }, (function(A) {
-    var Point = function() {
+    var Point, Point = function() {
         "use strict";
         function Point(x, y) {
             _classCallCheck(this, Point), this.x = x, this.y = y;
@@ -48,9 +48,9 @@ var A1, Point = function() {
             }
         ]), Point;
     }();
-    A.Point = Point, (Point || (Point = {
+    A.Point = Point, (Point = Point || (Point = {
     })).Origin = function() {
         return "";
     };
-})(A1 || (A1 = {
+})(A || (A = {
 }));

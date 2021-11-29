@@ -1,6 +1,6 @@
-var enumdule2, enumdule1;
-(enumdule2 = enumdule1 || (enumdule1 = {
-}))[enumdule2.Red = 0] = "Red", enumdule2[enumdule2.Blue = 1] = "Blue", (function(enumdule) {
+var enumdule, enumdule;
+(enumdule = enumdule || (enumdule = {
+}))[enumdule.Red = 0] = "Red", enumdule[enumdule.Blue = 1] = "Blue", (function(enumdule) {
     var Point = function(x, y) {
         "use strict";
         (function(instance, Constructor) {
@@ -8,5 +8,5 @@ var enumdule2, enumdule1;
         })(this, Point), this.x = x, this.y = y;
     };
     enumdule.Point = Point;
-})(enumdule1 || (enumdule1 = {
-})), enumdule1.Red, new enumdule1.Point(0, 0);
+})(enumdule || (enumdule = {
+})), enumdule.Red, new enumdule.Point(0, 0);

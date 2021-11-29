@@ -1,9 +1,9 @@
-var M, M1;
+var M, M;
 class C {
 }
-(M = M1 || (M1 = {
+(M = M || (M = {
 })).A = class {
 }, M.F2 = function(x) {
     return x.toString();
 }, new Date(12), new Object(), new C(), new C(), new class {
-}(), new M1.A(), M1.F2;
+}(), new M.A(), M.F2;

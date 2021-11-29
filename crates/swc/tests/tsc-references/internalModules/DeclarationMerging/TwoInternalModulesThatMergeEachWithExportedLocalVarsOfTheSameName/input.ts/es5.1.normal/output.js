@@ -3,11 +3,10 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-var A1;
 //@filename: part1.ts
-export { A1 as A };
+export var A;
 (function(A) {
-    var Utils1;
+    var Utils;
     (function(Utils) {
         function mirror(p) {
             return {
@@ -16,20 +15,21 @@ export { A1 as A };
             };
         }
         Utils.mirror = mirror;
-    })(Utils1 || (Utils1 = {
+    })(Utils || (Utils = {
     }));
     A.Origin = {
         x: 0,
         y: 0
     };
-    A.Utils = Utils1;
-})(A1 || (A1 = {
+    A.Utils = Utils;
+})(A || (A = {
 }));
 (function(A) {
     A.Origin = {
         x: 0,
         y: 0
     };
+    var Utils;
     (function(Utils) {
         var Plane = function Plane(tl, br) {
             "use strict";
@@ -40,5 +40,6 @@ export { A1 as A };
         Utils.Plane = Plane;
     })(Utils || (Utils = {
     }));
-})(A1 || (A1 = {
+    A.Utils = Utils;
+})(A || (A = {
 }));

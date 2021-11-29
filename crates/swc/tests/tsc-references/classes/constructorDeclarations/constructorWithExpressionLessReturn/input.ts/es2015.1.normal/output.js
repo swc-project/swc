@@ -15,8 +15,8 @@ class E {
     }
 }
 class F {
-    constructor(x1){
-        this.x = x1;
+    constructor(x){
+        this.x = x;
         return;
     }
 }

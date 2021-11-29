@@ -30,7 +30,7 @@ function defaultArgArrow(a = ()=>()=>b
 class C {
     method(a = b, b1 = 1) {
     }
-    constructor(a1 = b, b2 = 1){
+    constructor(a = b, b = 1){
     }
 }
 // Function expressions

@@ -1,4 +1,4 @@
-var A1;
+var A;
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
         var descriptor = props[i];
@@ -24,5 +24,5 @@ function _defineProperties(target, props) {
         ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Point2d;
     }();
     A.Point2d = Point2d;
-}(A1 || (A1 = {
+}(A || (A = {
 }));

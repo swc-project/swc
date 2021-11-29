@@ -1,6 +1,6 @@
-var Foo;
 export default function Foo() {
 };
+let Foo;
 !function(Foo) {
     var x;
     Foo.x = x;

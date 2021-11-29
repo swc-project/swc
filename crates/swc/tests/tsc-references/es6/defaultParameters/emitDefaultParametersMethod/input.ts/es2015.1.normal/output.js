@@ -8,14 +8,14 @@ class C {
     }
     boo(t3 = false, ...rest1) {
     }
-    constructor(t4, z, x2, y = "hello"){
+    constructor(t, z, x, y = "hello"){
     }
 }
 class D {
-    constructor(y1 = "hello"){
+    constructor(y = "hello"){
     }
 }
 class E {
-    constructor(y2 = "hello", ...rest2){
+    constructor(y = "hello", ...rest){
     }
 }

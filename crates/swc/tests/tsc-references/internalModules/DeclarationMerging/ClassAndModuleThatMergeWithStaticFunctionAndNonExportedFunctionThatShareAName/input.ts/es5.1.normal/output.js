@@ -44,7 +44,7 @@ var Point = /*#__PURE__*/ function() {
     ;
 })(Point || (Point = {
 }));
-var A1;
+var A;
 (function(A) {
     var Point = /*#__PURE__*/ function() {
         "use strict";
@@ -73,5 +73,5 @@ var A1;
         } // not an error since not exported
     })(Point || (Point = {
     }));
-})(A1 || (A1 = {
+})(A || (A = {
 }));

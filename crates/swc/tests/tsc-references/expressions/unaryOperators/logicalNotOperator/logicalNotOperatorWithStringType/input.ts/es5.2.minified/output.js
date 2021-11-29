@@ -1,7 +1,7 @@
 function foo() {
     return "abc";
 }
-var STRING, M1, A = function() {
+var STRING, M, A = function() {
     "use strict";
     var Constructor;
     function A() {
@@ -26,7 +26,7 @@ var STRING, M1, A = function() {
 !function(M) {
     var n;
     M.n = n;
-}(M1 || (M1 = {
+}(M || (M = {
 }));
 var objA = new A();
-objA.a, M1.n, foo(), A.foo(), STRING.charAt(0), foo(), objA.a, M1.n;
+objA.a, M.n, foo(), A.foo(), STRING.charAt(0), foo(), objA.a, M.n;

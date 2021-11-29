@@ -33,18 +33,18 @@ var C = /*#__PURE__*/ function() {
     ]);
     return C;
 }();
-var E1;
+var E;
 (function(E) {
     E[E["a"] = 0] = "a";
     E[E["b"] = 1] = "b";
     E[E["c"] = 2] = "c";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
-var M1;
+var M;
 (function(M) {
     var a;
     M.a = a;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
 var a1;
 var b;
@@ -73,6 +73,6 @@ var r14 = b + d;
 var r15 = b + foo;
 var r16 = b + foo();
 var r17 = b + C;
-var r18 = E1.a + new C();
-var r19 = E1.a + C.foo();
-var r20 = E1.a + M1;
+var r18 = E.a + new C();
+var r19 = E.a + C.foo();
+var r20 = E.a + M;

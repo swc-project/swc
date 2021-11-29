@@ -15,13 +15,13 @@ var e = undefined;
 x1 = e;
 var e2;
 x1 = e2;
-var E1;
+let E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
-x1 = E1.A;
-var f = E1.A;
+x1 = E.A;
+var f = E.A;
 x1 = f;
 var g;
 x1 = g;

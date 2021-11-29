@@ -1,9 +1,9 @@
-var A1;
+var A;
 (function(A) {
     class Point {
     }
     A.Point = Point;
-})(A1 || (A1 = {
+})(A || (A = {
 }));
 (function(A) {
     class Point {
@@ -14,26 +14,26 @@ var A1;
             };
         }
     }
-})(A1 || (A1 = {
+})(A || (A = {
 }));
 // ensure merges as expected
 var p1;
 var p1;
-var X1;
+var X;
 (function(X) {
-    var Y1;
+    let Y;
     (function(Y) {
-        var Z;
+        let Z;
         (function(Z) {
             class Line {
             }
         })(Z || (Z = {
         }));
         Y.Z = Z;
-    })(Y1 || (Y1 = {
+    })(Y || (Y = {
     }));
-    X.Y = Y1;
-})(X1 || (X1 = {
+    X.Y = Y;
+})(X || (X = {
 }));
 // ensure merges as expected
 var l;

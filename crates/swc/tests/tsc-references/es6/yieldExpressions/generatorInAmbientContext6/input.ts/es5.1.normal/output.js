@@ -1,7 +1,7 @@
 import regeneratorRuntime from "regenerator-runtime";
 //@target: ES6
 //@declaration: true
-var M1;
+var M;
 (function(M) {
     var generator = regeneratorRuntime.mark(function generator() {
         return regeneratorRuntime.wrap(function generator$(_ctx) {
@@ -13,5 +13,5 @@ var M1;
         }, generator);
     });
     M.generator = generator;
-})(M1 || (M1 = {
+})(M || (M = {
 }));

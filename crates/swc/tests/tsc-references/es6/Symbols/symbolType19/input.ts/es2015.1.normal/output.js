@@ -1,4 +1,4 @@
-var //@target: ES6
+let //@target: ES6
 E;
 (function(E) {
 })(E || (E = {

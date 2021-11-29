@@ -41,11 +41,11 @@ var A = /*#__PURE__*/ function() {
     ]);
     return A;
 }();
-var M1;
+var M;
 (function(M) {
     var n;
     M.n = n;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
 var objA = new A();
 // string type var
@@ -65,7 +65,7 @@ var ResultIsBoolean5 = !{
 };
 // string type expressions
 var ResultIsBoolean6 = !objA.a;
-var ResultIsBoolean7 = !M1.n;
+var ResultIsBoolean7 = !M.n;
 var ResultIsBoolean8 = !STRING1[0];
 var ResultIsBoolean9 = !foo();
 var ResultIsBoolean10 = !A.foo();
@@ -79,4 +79,4 @@ var ResultIsBoolean14 = !!!(STRING + STRING);
 !STRING;
 !STRING1;
 !foo();
-!objA.a, M1.n;
+!objA.a, M.n;

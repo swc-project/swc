@@ -45,7 +45,7 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var x193, x194, x195, x196, x197, x198, x199, x200, x201, x202, x203, x204, Base1 = function() {
+var x193, x194, x195, x196, x197, x198, x199, x200, x201, x202, x203, x204, x193, x194, x195, x196, x197, x198, x199, x200, x201, x202, x203, x204, Base1 = function() {
     "use strict";
     _classCallCheck(this, Base1);
 }, Derived1 = function(Base) {
@@ -887,64 +887,64 @@ var x85 = function(param) {
         }
     } : param;
 };
-(x193 || (x193 = {
+(x193 = x193 || (x193 = {
 })).t = function() {
     return [
         d1,
         d2
     ];
-}, (x194 || (x194 = {
+}, (x194 = x194 || (x194 = {
 })).t = function() {
     return [
         d1,
         d2
     ];
-}, (x195 || (x195 = {
+}, (x195 = x195 || (x195 = {
 })).t = function() {
     return [
         d1,
         d2
     ];
-}, (x196 || (x196 = {
+}, (x196 = x196 || (x196 = {
 })).t = function() {
     return [
         d1,
         d2
     ];
-}, (x197 || (x197 = {
+}, (x197 = x197 || (x197 = {
 })).t = function() {
     return [
         d1,
         d2
     ];
-}, (x198 || (x198 = {
+}, (x198 = x198 || (x198 = {
 })).t = function() {
     return [
         d1,
         d2
     ];
-}, (x199 || (x199 = {
+}, (x199 = x199 || (x199 = {
 })).t = [
     d1,
     d2
-], (x200 || (x200 = {
+], (x200 = x200 || (x200 = {
 })).t = [
     d1,
     d2
-], (x201 || (x201 = {
+], (x201 = x201 || (x201 = {
 })).t = [
     d1,
     d2
-], (x202 || (x202 = {
+], (x202 = x202 || (x202 = {
 })).t = {
     n: [
         d1,
         d2
     ]
-}, (x203 || (x203 = {
+}, (x203 = x203 || (x203 = {
 })).t = function(n) {
     return null;
-}, (x204 || (x204 = {
+}, (x204 = x204 || (x204 = {
 })).t = {
     func: function(n) {
         return [

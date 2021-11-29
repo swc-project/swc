@@ -1,4 +1,3 @@
-var M1;
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     try {
         var info = gen[key](arg), value = info.value;
@@ -49,7 +48,9 @@ _asyncToGenerator(function*() {
     return mp;
 }), _asyncToGenerator(function*() {
     return p;
-}), (function(M) {
+});
+let M;
+!function(M) {
     function _f1() {
         return (_f1 = _asyncToGenerator(function*() {
         })).apply(this, arguments);
@@ -57,6 +58,6 @@ _asyncToGenerator(function*() {
     M.f1 = function() {
         return _f1.apply(this, arguments);
     };
-})(M1 || (M1 = {
+}(M || (M = {
 }));
 export { };

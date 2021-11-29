@@ -64,7 +64,7 @@ for(var x1 in function(x) {
 for(var x1 in function(x, y) {
     return x + y;
 });
-var Color, aString, anAny, c, d, e, i1, M1, Color1, A = function() {
+var A = function() {
     "use strict";
     function A() {
         _classCallCheck(this, A);
@@ -150,9 +150,10 @@ for(var x1 in !function(M) {
         _classCallCheck(this, X);
     };
     M.X = X;
-}(M1 || (M1 = {
-})), M1);
-for(var x1 in M1.X);
-for(var x1 in (Color = Color1 || (Color1 = {
-}))[Color.Red = 0] = "Red", Color[Color.Blue = 1] = "Blue", Color1);
-for(var x1 in Color1.Blue);
+}(M || (M = {
+})), M);
+for(var x1 in M.X);
+var aString, anAny, c, d, e, i1, M, Color, Color = void 0;
+for(var x1 in (Color = Color || (Color = {
+}))[Color.Red = 0] = "Red", Color[Color.Blue = 1] = "Blue", Color);
+for(var x1 in Color.Blue);

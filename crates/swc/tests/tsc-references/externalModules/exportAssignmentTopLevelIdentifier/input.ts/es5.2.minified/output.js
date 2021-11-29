@@ -1,4 +1,4 @@
-var Foo;
-(Foo || (Foo = {
+var Foo, Foo;
+(Foo = Foo || (Foo = {
 })).answer = 42, module.exports = Foo, 42 === require("./foo_0").answer;
 export { };

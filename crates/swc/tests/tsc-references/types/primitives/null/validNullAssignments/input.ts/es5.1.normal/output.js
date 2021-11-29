@@ -9,12 +9,12 @@ var c = null;
 var d = null;
 var e = null;
 e = null; // ok
-var E1;
+var E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
-E1.A = null; // error
+E.A = null; // error
 var C = function C() {
     "use strict";
     _classCallCheck(this, C);
@@ -25,12 +25,12 @@ C = null; // error
 var g;
 g = null; // ok
 I = null; // error
-var M1;
+var M;
 (function(M) {
     M.x = 1;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
-M1 = null; // error
+M = null; // error
 var h = null;
 function i(a) {
     a = null;

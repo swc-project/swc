@@ -9,7 +9,7 @@ class A {
 !function(M) {
     var n;
     M.n = n;
-}(M1 || (M1 = {
+}(M || (M = {
 }));
-var M1, objA = new A();
-objA.a, foo(), A.foo(), foo(), objA.a;
+var M, objA = new A();
+objA.a, M.n, foo(), A.foo(), foo(), objA.a, M.n;

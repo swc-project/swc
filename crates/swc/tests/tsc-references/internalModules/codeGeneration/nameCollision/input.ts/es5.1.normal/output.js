@@ -11,6 +11,7 @@ var A;
     var _A = '';
 })(A || (A = {
 }));
+var B;
 (function(B) {
     var A = 12;
 })(B || (B = {
@@ -22,10 +23,10 @@ var A;
     };
 })(B || (B = {
 }));
-var X2;
+var X;
 (function(X) {
     var X1 = 13;
-    var Y2;
+    var Y;
     (function(Y) {
         var Y1 = 13;
         var Z;
@@ -36,15 +37,15 @@ var X2;
         })(Z || (Z = {
         }));
         Y.Z = Z;
-    })(Y2 || (Y2 = {
+    })(Y || (Y = {
     }));
-    X.Y = Y2;
-})(X2 || (X2 = {
+    X.Y = Y;
+})(X || (X = {
 }));
 // no collision, since interface doesn't
 // generate code.
-var D1;
+var D;
 (function(D) {
     D.E = 'hello';
-})(D1 || (D1 = {
+})(D || (D = {
 }));

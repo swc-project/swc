@@ -8,12 +8,12 @@ class Item {
 }
 class Options {
 }
-var E1;
+let E;
 (function(E) {
     E[E["A"] = 0] = "A";
     E[E["B"] = 1] = "B";
     E[E["C"] = 2] = "C";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
 function getProperty(obj, key) {
     return obj[key];
@@ -310,8 +310,8 @@ class OtherPerson {
     getParts() {
         return getProperty(this, "parts");
     }
-    constructor(parts1){
-        setProperty(this, "parts", parts1);
+    constructor(parts){
+        setProperty(this, "parts", parts);
     }
 }
 function path(obj, ...keys) {
@@ -404,11 +404,11 @@ class AnotherSampleClass extends SampleClass {
     brokenMethod() {
         this.props.foo.concat;
     }
-    constructor(props1){
+    constructor(props){
         const foo = {
             foo: "bar"
         };
-        super(merge(props1, foo));
+        super(merge(props, foo));
     }
 }
 new AnotherSampleClass({
@@ -421,11 +421,11 @@ function f3(t, k, tk) {
         t[key] = tk; // ok, T[K] ==> T[keyof T]
     }
 }
-var Flag1;
+let Flag;
 (function(Flag) {
     Flag["FLAG_1"] = "flag_1";
     Flag["FLAG_2"] = "flag_2";
-})(Flag1 || (Flag1 = {
+})(Flag || (Flag = {
 }));
 function getFlagsFromSimpleRecord(record, flags) {
     return record[flags[0]];

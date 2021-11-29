@@ -7,7 +7,7 @@ function fun2(x, y) {
 function fun3(...args) {
     return args[+randBool()];
 }
-var n11;
+var n1;
 (function(n1) {
     n1.a = fun1("Hello", "World");
     n1.b = fun1("Hello", "Hello");
@@ -32,9 +32,9 @@ var n11;
     c = takeReturnHelloWorld(c);
     d = takeReturnHelloWorld(d);
     e = takeReturnHelloWorld(e);
-})(n11 || (n11 = {
+})(n1 || (n1 = {
 }));
-var n21;
+var n2;
 (function(n2) {
     n2.a = fun1("Hello", "Hello");
     n2.b = fun1("Hello", "World");
@@ -59,9 +59,9 @@ var n21;
     c = takeReturnHelloWorld(c);
     d = takeReturnHelloWorld(d);
     e = takeReturnHelloWorld(e);
-})(n21 || (n21 = {
+})(n2 || (n2 = {
 }));
-var n31;
+var n3;
 (function(n3) {
     n3.a = fun2("Hello", "World");
     n3.b = fun2("World", "Hello");
@@ -86,5 +86,5 @@ var n31;
     c = takeReturnHelloWorld(c);
     d = takeReturnHelloWorld(d);
     e = takeReturnHelloWorld(e);
-})(n31 || (n31 = {
+})(n3 || (n3 = {
 }));

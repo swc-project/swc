@@ -1,11 +1,11 @@
-var M1;
+let M;
 (function(M) {
     class A {
     }
     M.A = A;
     new A;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
-var myA = M1.A;
+var myA = M.A;
 new myA;
 export { };

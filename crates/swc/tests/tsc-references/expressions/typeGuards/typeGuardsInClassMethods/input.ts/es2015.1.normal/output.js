@@ -5,14 +5,14 @@ var num;
 var var1;
 class C1 {
     // Inside function declaration
-    p1(param) {
+    p1(param4) {
         // global vars in function declaration
         num = typeof var1 === "string" && var1.length; // string
         // variables in function declaration
         var var2;
         num = typeof var2 === "string" && var2.length; // string
         // parameters in function declaration
-        num = typeof param === "string" && param.length; // string
+        num = typeof param4 === "string" && param4.length; // string
     }
     // Inside function declaration
     p2(param1) {
@@ -44,13 +44,13 @@ class C1 {
         // parameters in function declaration
         num = typeof param3 === "string" && param3.length; // string
     }
-    constructor(param4){
+    constructor(param){
         // global vars in function declaration
         num = typeof var1 === "string" && var1.length; // string
         // variables in function declaration
         var var2;
         num = typeof var2 === "string" && var2.length; // string
         // parameters in function declaration
-        num = typeof param4 === "string" && param4.length; // string
+        num = typeof param === "string" && param.length; // string
     }
 }

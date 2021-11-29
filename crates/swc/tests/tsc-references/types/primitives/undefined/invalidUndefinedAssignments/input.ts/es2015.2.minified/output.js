@@ -1,4 +1,5 @@
-var x, E, M, E1;
-(E1 = E || (E = {
-}))[E1.A = 0] = "A", (E = x).A = x, I = x, (M || (M = {
+var x, M, E, M;
+let E;
+(E = E || (E = {
+}))[E.A = 0] = "A", (E = x).A = x, I = x, (M = M || (M = {
 })).x = 1, M = x;

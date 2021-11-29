@@ -1,3 +1,4 @@
-var E, E1;
-(E = E1 || (E1 = {
+var E;
+let E;
+(E = E || (E = {
 }))[E.A = 0] = "A";

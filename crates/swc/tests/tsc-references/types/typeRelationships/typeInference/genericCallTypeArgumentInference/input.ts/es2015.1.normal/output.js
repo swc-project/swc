@@ -13,8 +13,8 @@ function foo2b(u) {
 var r2 = foo2('', 1); // number
 var r3 = foo2b(1); // {}
 class C {
-    foo(t, u) {
-        return t;
+    foo(t5, u6) {
+        return t5;
     }
     foo2(t1, u1) {
         return u1;
@@ -40,9 +40,9 @@ class C {
         var x;
         return x;
     }
-    constructor(t5, u6){
-        this.t = t5;
-        this.u = u6;
+    constructor(t, u){
+        this.t = t;
+        this.u = u;
     }
 }
 var c = new C('', 1);

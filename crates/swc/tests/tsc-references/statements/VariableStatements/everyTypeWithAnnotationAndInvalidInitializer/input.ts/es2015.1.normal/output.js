@@ -8,7 +8,7 @@ function F(x) {
 function F21(x) {
     return x < 42;
 }
-var M1;
+var M;
 (function(M) {
     class A {
     }
@@ -17,9 +17,9 @@ var M1;
         return x.toString();
     }
     M.F2 = F2;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
-var N1;
+var N;
 (function(N) {
     class A {
     }
@@ -28,7 +28,7 @@ var N1;
         return x.toString();
     }
     N.F2 = F2;
-})(N1 || (N1 = {
+})(N || (N = {
 }));
 var aNumber = 'this is a string';
 var aString = 9.9;
@@ -45,6 +45,6 @@ var aFunction = F21;
 var anOtherFunction = F21;
 var aLambda = (x)=>'a string'
 ;
-var aModule = N1;
-var aClassInModule = new N1.A();
+var aModule = N;
+var aClassInModule = new N.A();
 var aFunctionInModule = F21;

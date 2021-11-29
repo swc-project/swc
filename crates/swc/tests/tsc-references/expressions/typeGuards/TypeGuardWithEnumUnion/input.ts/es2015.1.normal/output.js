@@ -1,9 +1,9 @@
-var Color1;
+let Color;
 (function(Color) {
     Color[Color["R"] = 0] = "R";
     Color[Color["G"] = 1] = "G";
     Color[Color["B"] = 2] = "B";
-})(Color1 || (Color1 = {
+})(Color || (Color = {
 }));
 function f1(x) {
     if (typeof x === "number") {

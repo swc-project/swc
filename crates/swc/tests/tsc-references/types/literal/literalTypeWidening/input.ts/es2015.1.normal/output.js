@@ -168,11 +168,11 @@ function test(obj) {
         a: 'hello'
     }, rest);
 }
-var E1;
+let E;
 (function(E) {
     E[E["A"] = 0] = "A";
     E[E["B"] = 1] = "B";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
-const a = f(E1.A);
+const a = f(E.A);
 const b = a;

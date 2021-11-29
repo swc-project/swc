@@ -1,4 +1,4 @@
-var A1;
+var A;
 (function(A) {
     A.Origin = {
         x: 0,
@@ -9,5 +9,5 @@ var A1;
         y: 0,
         z: 0
     };
-})(A1 || (A1 = {
+})(A || (A = {
 }));

@@ -57,16 +57,16 @@ function foo10(x) {
     return c;
 }
 var r10 = foo10(1);
-var M1;
+var M;
 (function(M) {
     M.x = 1;
     class C {
     }
     M.C = C;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
 function foo11() {
-    return M1;
+    return M;
 }
 var r11 = foo11();
 function foo12() {
@@ -74,39 +74,39 @@ function foo12() {
     return i2;
 }
 var r12 = foo12();
-function m11() {
+function m1() {
     return 1;
 }
 (function(m1) {
     m1.y = 2;
-})(m11 || (m11 = {
+})(m1 || (m1 = {
 }));
 function foo13() {
-    return m11;
+    return m1;
 }
 var r13 = foo13();
-class c11 {
+class c1 {
     constructor(x){
     }
 }
 (function(c1) {
     c1.x = 1;
-})(c11 || (c11 = {
+})(c1 || (c1 = {
 }));
 function foo14() {
-    return c11;
+    return c1;
 }
 var r14 = foo14();
-var e11;
+let e1;
 (function(e1) {
     e1[e1["A"] = 0] = "A";
-})(e11 || (e11 = {
+})(e1 || (e1 = {
 }));
 (function(e1) {
     e1.y = 1;
-})(e11 || (e11 = {
+})(e1 || (e1 = {
 }));
 function foo15() {
-    return e11;
+    return e1;
 }
 var r15 = foo15();

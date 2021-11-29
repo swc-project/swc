@@ -1,27 +1,27 @@
-var Root1, otherRoot;
+var Root, otherRoot;
 !function(Root) {
-    var A, A1, Utils;
-    A1 = A || (A = {
-    }), (Utils || (Utils = {
+    var A, A, Utils, Utils;
+    A = A || (A = {
+    }), (Utils = Utils || (Utils = {
     })).mirror = function(p) {
         return {
             x: p.y,
             y: p.x
         };
-    }, A1.Utils = Utils, Root.A = A;
-}(Root1 || (Root1 = {
+    }, A.Utils = Utils, Root.A = A;
+}(Root || (Root = {
 })), (function(otherRoot) {
-    var Utils1, Plane;
-    (A || (A = {
+    var A, A, Utils, Utils, Plane;
+    (A = A || (A = {
     })).Origin = {
         x: 0,
         y: 0
-    }, Utils1 = Utils || (Utils = {
+    }, Utils = Utils || (Utils = {
     }), Plane = function(tl, br) {
         "use strict";
         (function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
         })(this, Plane), this.tl = tl, this.br = br;
-    }, Utils1.Plane = Plane;
+    }, Utils.Plane = Plane, A.Utils = Utils, otherRoot.A = A;
 })(otherRoot || (otherRoot = {
 }));

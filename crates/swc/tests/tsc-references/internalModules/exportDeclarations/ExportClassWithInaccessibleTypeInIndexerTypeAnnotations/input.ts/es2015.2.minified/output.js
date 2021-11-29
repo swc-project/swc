@@ -1,4 +1,4 @@
-var A;
-(A || (A = {
+var A, A;
+(A = A || (A = {
 })).points = class {
 };

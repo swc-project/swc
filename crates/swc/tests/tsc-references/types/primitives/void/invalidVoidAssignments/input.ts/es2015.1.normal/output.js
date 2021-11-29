@@ -9,23 +9,23 @@ var e = x;
 var f = x;
 var g = 1;
 var g2 = 1;
-var M1;
+var M;
 (function(M) {
     M.x = 1;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
-M1 = x;
+M = x;
 function i(a) {
     a = x;
 }
 i = x;
-var E1;
+let E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
-x = E1;
-x = E1.A;
+x = E;
+x = E.A;
 x = {
     f () {
     }

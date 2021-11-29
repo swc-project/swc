@@ -85,11 +85,11 @@ b2("string", {
     x: 200,
     y: true
 });
-var // If the declaration specifies a binding pattern, the parameter type is the implied type of that binding pattern (section 5.1.3)
-Foo1;
+let // If the declaration specifies a binding pattern, the parameter type is the implied type of that binding pattern (section 5.1.3)
+Foo;
 (function(Foo) {
     Foo[Foo["a"] = 0] = "a";
-})(Foo1 || (Foo1 = {
+})(Foo || (Foo = {
 }));
 function c0({ z: { x , y: { j  }  }  }) {
 }

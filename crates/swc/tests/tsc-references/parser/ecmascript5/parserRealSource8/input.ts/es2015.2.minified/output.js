@@ -1,4 +1,4 @@
-var TypeScript1;
+var TypeScript;
 !function(TypeScript) {
     function pushAssignScope(scope, context, type, classType, fnc) {
         var chain = new ScopeChain(null, context.scopeChain, scope);
@@ -54,7 +54,7 @@ var TypeScript1;
     function preAssignWithScopes(ast, context) {
         var withStmt = ast, withType = withStmt.type, members = new ScopedMembers(new DualStringHashTable(new StringHashTable(), new StringHashTable())), ambientMembers = new ScopedMembers(new DualStringHashTable(new StringHashTable(), new StringHashTable())), withType = new Type(), withSymbol = new WithSymbol(withStmt.minChar, context.typeFlow.checker.locationInfo.unitIndex, withType);
         withType.members = members, withType.ambientMembers = ambientMembers, withType.symbol = withSymbol, withType.setHasImplementation(), withStmt.type = withType;
-        var withScope = new TypeScript1.SymbolScopeBuilder(withType.members, withType.ambientMembers, null, null, context.scopeChain.scope, withType.symbol);
+        var withScope = new TypeScript.SymbolScopeBuilder(withType.members, withType.ambientMembers, null, null, context.scopeChain.scope, withType.symbol);
         pushAssignScope(withScope, context, null, null, null), withType.containedScope = withScope;
     }
     function preAssignFuncDeclScopes(ast, context) {
@@ -112,5 +112,5 @@ var TypeScript1;
         } else ast.nodeType == NodeType.Catch ? ast.param && popAssignScope(context) : go = !1;
         return walker.options.goChildren = go, ast;
     };
-}(TypeScript1 || (TypeScript1 = {
+}(TypeScript || (TypeScript = {
 }));

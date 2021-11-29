@@ -1,4 +1,4 @@
-var M1;
+var M;
 !function(M) {
     var A = function() {
         "use strict";
@@ -7,6 +7,6 @@ var M1;
         }(this, A);
     };
     M.A = A, new A;
-}(M1 || (M1 = {
-})), new M1.A;
+}(M || (M = {
+})), new M.A;
 export { };

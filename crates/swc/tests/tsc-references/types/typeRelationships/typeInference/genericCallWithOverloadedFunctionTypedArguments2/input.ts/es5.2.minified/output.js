@@ -1,5 +1,5 @@
-var NonGenericParameter, GenericParameter;
-NonGenericParameter || (NonGenericParameter = {
+var NonGenericParameter, GenericParameter, NonGenericParameter;
+NonGenericParameter = NonGenericParameter || (NonGenericParameter = {
 }), (function(cb) {
 })(function(x) {
 }), (function(GenericParameter) {

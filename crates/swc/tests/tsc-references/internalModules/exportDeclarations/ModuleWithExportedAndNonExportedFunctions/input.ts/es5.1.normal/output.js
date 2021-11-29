@@ -1,4 +1,4 @@
-var A1;
+var A;
 (function(A) {
     var fn = function fn(s) {
         return true;
@@ -14,13 +14,13 @@ var A1;
     };
     A.fn = fn;
     A.fng = fng;
-})(A1 || (A1 = {
+})(A || (A = {
 }));
 // these should not be errors since the functions are exported
 var fn1;
-var fn1 = A1.fn;
+var fn1 = A.fn;
 var fng1;
-var fng1 = A1.fng; // bug 838015
+var fng1 = A.fng; // bug 838015
 // these should be errors since the functions are not exported
-var fn2 = A1.fn2;
-var fng2 = A1.fng2;
+var fn2 = A.fn2;
+var fng2 = A.fng2;

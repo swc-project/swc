@@ -1,4 +1,4 @@
-var Generic;
+var Generic, Generic;
 new class {
     constructor(x){
         this.x = x;
@@ -11,7 +11,7 @@ new class {
     constructor(x){
         this.x = x;
     }
-}(1), Generic || (Generic = {
+}(1), Generic = Generic || (Generic = {
 }), new class {
     constructor(x){
         this.x = x;

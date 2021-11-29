@@ -1,5 +1,5 @@
 // expect no errors here
-var A1;
+var A;
 (function(A) {
     A.x = 'hello world';
     class Point {
@@ -9,23 +9,23 @@ var A1;
         }
     }
     A.Point = Point;
-})(A1 || (A1 = {
+})(A || (A = {
 }));
-var C1;
+var C;
 (function(C) {
-    C.a = A1;
-})(C1 || (C1 = {
+    C.a = A;
+})(C || (C = {
 }));
-var a = C1.a.x;
-var b = new C1.a.Point(0, 0);
+var a = C.a.x;
+var b = new C.a.Point(0, 0);
 var c;
 var c;
-var X1;
+var X;
 (function(X) {
-    function Y1() {
+    function Y() {
         return 42;
     }
-    X.Y = Y1;
+    X.Y = Y;
     (function(Y) {
         class Point {
             constructor(x, y){
@@ -34,37 +34,37 @@ var X1;
             }
         }
         Y.Point = Point;
-    })(Y1 || (Y1 = {
+    })(Y || (Y = {
     }));
-})(X1 || (X1 = {
+})(X || (X = {
 }));
-var Z1;
+var Z;
 (function(Z) {
-    Z.y = X1.Y;
-})(Z1 || (Z1 = {
+    Z.y = X.Y;
+})(Z || (Z = {
 }));
-var m = Z1.y();
-var n = new Z1.y.Point(0, 0);
-var K1;
+var m = Z.y();
+var n = new Z.y.Point(0, 0);
+var K;
 (function(K) {
-    class L1 {
+    class L {
         constructor(name){
             this.name = name;
         }
     }
-    K.L = L1;
+    K.L = L;
     (function(L) {
         L.y = 12;
-    })(L1 || (L1 = {
+    })(L || (L = {
     }));
-})(K1 || (K1 = {
+})(K || (K = {
 }));
-var M1;
+var M;
 (function(M) {
-    M.D = K1.L;
-})(M1 || (M1 = {
+    M.D = K.L;
+})(M || (M = {
 }));
 var o;
-var o = new M1.D('Hello');
+var o = new M.D('Hello');
 var p;
 var p;

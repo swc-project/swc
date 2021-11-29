@@ -11,7 +11,7 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var M1, N1, C1 = function() {
+var M, N, C1 = function() {
     "use strict";
     _classCallCheck(this, C1);
 }, C2 = function(C) {
@@ -66,7 +66,7 @@ for(!function(M) {
     M.A = A, M.F2 = function(x) {
         return x.toString();
     };
-}(M1 || (M1 = {
+}(M || (M = {
 })), (function(N) {
     var A = function() {
         "use strict";
@@ -75,7 +75,7 @@ for(!function(M) {
     N.A = A, N.F2 = function(x) {
         return x.toString();
     };
-})(N1 || (N1 = {
+})(N || (N = {
 }));;);
 for(;;);
 do ;

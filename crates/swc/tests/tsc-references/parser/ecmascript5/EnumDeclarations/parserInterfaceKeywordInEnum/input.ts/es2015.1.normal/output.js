@@ -1,5 +1,5 @@
-var Bar1;
+let Bar;
 (function(Bar) {
     Bar[Bar["interface"] = 0] = "interface";
-})(Bar1 || (Bar1 = {
+})(Bar || (Bar = {
 }));

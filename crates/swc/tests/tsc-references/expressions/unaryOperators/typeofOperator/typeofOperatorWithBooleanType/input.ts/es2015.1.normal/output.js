@@ -9,11 +9,11 @@ class A {
         return false;
     }
 }
-var M1;
+var M;
 (function(M) {
     var n;
     M.n = n;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
 var objA = new A();
 // boolean type var
@@ -26,7 +26,7 @@ var ResultIsString3 = typeof {
 };
 // boolean type expressions
 var ResultIsString4 = typeof objA.a;
-var ResultIsString5 = typeof M1.n;
+var ResultIsString5 = typeof M.n;
 var ResultIsString6 = typeof foo();
 var ResultIsString7 = typeof A.foo();
 // multiple typeof  operator
@@ -37,7 +37,7 @@ typeof BOOLEAN;
 typeof foo();
 typeof true, false;
 typeof objA.a;
-typeof M1.n;
+typeof M.n;
 // use typeof in type query
 var z;
 var x;
@@ -51,4 +51,4 @@ var y = {
 z: typeof y.a;
 z: typeof objA.a;
 z: typeof A.foo;
-z: typeof M1.n;
+z: typeof M.n;

@@ -11,7 +11,7 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var _typeof = function(obj) {
+var D, _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
 }, C1 = function() {
     "use strict";
@@ -57,5 +57,5 @@ var _typeof = function(obj) {
     }
     return D;
 }(C1);
-(D || (D = {
+(D = D || (D = {
 })).y = D.bar;

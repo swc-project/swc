@@ -1,18 +1,18 @@
-var my1;
+var my;
 (function(my) {
     var div;
     my.div = div;
-})(my1 || (my1 = {
+})(my || (my = {
 }));
 // OK
-/*#__PURE__*/ React.createElement(my1.div, {
+/*#__PURE__*/ React.createElement(my.div, {
     n: "x"
 });
 // Error
-/*#__PURE__*/ React.createElement(my1.other, null);
+/*#__PURE__*/ React.createElement(my.other, null);
 var q;
 (function(q) {
-    var mine = my1;
+    var mine = my;
     // OK
     /*#__PURE__*/ React.createElement(mine.div, {
         n: "x"

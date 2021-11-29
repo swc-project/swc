@@ -1,4 +1,4 @@
-var moduleA1;
+let moduleA;
 (function(moduleA) {
     class Point {
         constructor(x, y){
@@ -7,7 +7,7 @@ var moduleA1;
         }
     }
     moduleA.Point = Point;
-})(moduleA1 || (moduleA1 = {
+})(moduleA || (moduleA = {
 }));
 var p;
 var p;

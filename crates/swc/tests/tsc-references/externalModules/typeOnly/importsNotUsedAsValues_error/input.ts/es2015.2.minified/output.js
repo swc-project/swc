@@ -1,9 +1,10 @@
-var C, K, C1, K1;
+var C, K;
 export { _class as default };
 export class A {
 }
-(C1 = C || (C = {
-}))[C1.One = 0] = "One", C1[C1.Two = 1] = "Two";
+export let C;
+(C = C || (C = {
+}))[C.One = 0] = "One", C[C.Two = 1] = "Two";
 let a, b;
 console.log(a, b);
 let a, b;
@@ -22,7 +23,8 @@ const H = require("./h");
 console.log({
 });
 const H = require("./h");
-(K1 = K || (K = {
-}))[K1.One = 0] = "One", K1[K1.Two = 1] = "Two", module.exports = K;
+let K;
+(K = K || (K = {
+}))[K.One = 0] = "One", K[K.Two = 1] = "Two", module.exports = K;
 const K = require("./k");
 K.One;

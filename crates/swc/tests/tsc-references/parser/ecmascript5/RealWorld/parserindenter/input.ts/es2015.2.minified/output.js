@@ -1,4 +1,4 @@
-var Formatting1;
+var Formatting;
 !function(Formatting) {
     class Indenter {
         GetIndentationEdits(token, nextToken, node, sameLineIndent) {
@@ -41,8 +41,8 @@ var Formatting1;
             }
             return result;
         }
-        static GetIndentSizeFromIndentText(indentText, editorOptions) {
-            return GetIndentSizeFromText(indentText, editorOptions, !1);
+        static GetIndentSizeFromIndentText(indentText, editorOptions2) {
+            return GetIndentSizeFromText(indentText, editorOptions2, !1);
         }
         static GetIndentSizeFromText(text, editorOptions1, includeNonIndentChars) {
             for(var indentSize = 0, i = 0; i < text.length; i++){
@@ -117,10 +117,10 @@ var Formatting1;
             }
             return !1;
         }
-        ApplyScriptBlockIndentation(languageHostIndentation, tree) {
-            if (null != languageHostIndentation && null != tree.StartNodeSelf) {
-                var scriptBlockIndentation = this.ApplyIndentationLevel(languageHostIndentation, 1);
-                tree.Root.SetIndentationOverride(scriptBlockIndentation);
+        ApplyScriptBlockIndentation(languageHostIndentation1, tree2) {
+            if (null != languageHostIndentation1 && null != tree2.StartNodeSelf) {
+                var scriptBlockIndentation = this.ApplyIndentationLevel(languageHostIndentation1, 1);
+                tree2.Root.SetIndentationOverride(scriptBlockIndentation);
             }
         }
         GetIndentEdit(indentInfo, tokenStartPosition, sameLineIndent2) {
@@ -254,10 +254,10 @@ var Formatting1;
         IsMultiLineString(token9) {
             return token9.tokenID === TypeScript.TokenID.StringLiteral && this.snapshot.GetLineNumberFromPosition(token9.Span.endPosition()) > this.snapshot.GetLineNumberFromPosition(token9.Span.startPosition());
         }
-        constructor(logger, tree2, snapshot, languageHostIndentation1, editorOptions2, firstToken, smartIndent){
-            this.logger = logger, this.tree = tree2, this.snapshot = snapshot, this.languageHostIndentation = languageHostIndentation1, this.editorOptions = editorOptions2, this.firstToken = firstToken, this.smartIndent = smartIndent, this.indentationBag = new IndentationBag(this.snapshot), this.scriptBlockBeginLineNumber = -1, this.offsetIndentationDeltas = new Dictionary_int_int(), this.tree.Root.SetIndentationOverride(""), this.ApplyScriptBlockIndentation(this.languageHostIndentation, this.tree), this.FillInheritedIndentation(this.tree);
+        constructor(logger, tree, snapshot, languageHostIndentation, editorOptions, firstToken, smartIndent){
+            this.logger = logger, this.tree = tree, this.snapshot = snapshot, this.languageHostIndentation = languageHostIndentation, this.editorOptions = editorOptions, this.firstToken = firstToken, this.smartIndent = smartIndent, this.indentationBag = new IndentationBag(this.snapshot), this.scriptBlockBeginLineNumber = -1, this.offsetIndentationDeltas = new Dictionary_int_int(), this.tree.Root.SetIndentationOverride(""), this.ApplyScriptBlockIndentation(this.languageHostIndentation, this.tree), this.FillInheritedIndentation(this.tree);
         }
     }
     Formatting.Indenter = Indenter;
-}(Formatting1 || (Formatting1 = {
+}(Formatting || (Formatting = {
 }));

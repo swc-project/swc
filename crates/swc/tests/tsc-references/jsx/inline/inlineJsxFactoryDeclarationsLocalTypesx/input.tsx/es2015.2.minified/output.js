@@ -6,8 +6,8 @@ export class MyClass {
     render() {
         return predom("p", null, this.props.x, " + ", this.props.y, " = ", this.props.x + this.props.y);
     }
-    constructor(props1){
-        this.props = props1;
+    constructor(props){
+        this.props = props;
     }
 }
 export const tree = predom(MySFC, {

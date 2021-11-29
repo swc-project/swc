@@ -1,5 +1,5 @@
 class C {
-    static foo(x) {
+    static foo(x5) {
     }
     static bar(x1) {
     }
@@ -22,8 +22,8 @@ class C {
     get id() {
         return 1;
     }
-    constructor(x5){
-        this.x = x5, this.ia = 1, this.ib = ()=>this.ia
+    constructor(x){
+        this.x = x, this.ia = 1, this.ib = ()=>this.ia
         ;
     }
 }

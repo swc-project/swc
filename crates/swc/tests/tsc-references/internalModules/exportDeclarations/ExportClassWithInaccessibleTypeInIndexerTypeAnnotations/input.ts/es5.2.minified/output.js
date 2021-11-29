@@ -1,4 +1,4 @@
-var A1;
+var A;
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
@@ -11,5 +11,5 @@ function _classCallCheck(instance, Constructor) {
         _classCallCheck(this, points);
     };
     A.points = points;
-}(A1 || (A1 = {
+}(A || (A = {
 }));

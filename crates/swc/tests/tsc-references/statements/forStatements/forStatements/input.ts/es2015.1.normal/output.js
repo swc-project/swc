@@ -5,7 +5,7 @@ class D {
 function F(x) {
     return 42;
 }
-var M1;
+var M;
 (function(M) {
     class A {
     }
@@ -14,7 +14,7 @@ var M1;
         return x.toString();
     }
     M.F2 = F2;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
 for(var aNumber = 9.9;;){
 }
@@ -49,9 +49,9 @@ for(var anOtherFunction = F;;){
 for(var aLambda = (x)=>2
 ;;){
 }
-for(var aModule = M1;;){
+for(var aModule = M;;){
 }
-for(var aClassInModule = new M1.A();;){
+for(var aClassInModule = new M.A();;){
 }
 for(var aFunctionInModule = (x)=>'this is a string'
 ;;){

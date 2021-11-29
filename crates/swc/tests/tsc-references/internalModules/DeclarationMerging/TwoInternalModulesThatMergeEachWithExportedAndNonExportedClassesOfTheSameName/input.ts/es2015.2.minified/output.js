@@ -1,9 +1,10 @@
-var A, X1;
-(A || (A = {
+var A, X, A;
+(A = A || (A = {
 })).Point = class {
 }, (function(X) {
-    var Y, Z;
-    (Y || (Y = {
+    var Y;
+    let Y, Z;
+    (Y = Y || (Y = {
     })).Z = Z, X.Y = Y;
-})(X1 || (X1 = {
+})(X || (X = {
 }));

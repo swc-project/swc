@@ -1,5 +1,5 @@
 // @filename: t3.ts
-import { I, M as M1, N, T, a } from "./t1";
+import { I, M, N, T, a } from "./t1";
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
@@ -15,28 +15,28 @@ var C = function C() {
     "use strict";
     _classCallCheck(this, C);
 };
-var E1;
+var E;
 (function(E) {
     E[E["A"] = 0] = "A";
     E[E["B"] = 1] = "B";
     E[E["C"] = 2] = "C";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
-var D1;
+var D;
 (function(D) {
     D[D["A"] = 0] = "A";
     D[D["B"] = 1] = "B";
     D[D["C"] = 2] = "C";
-})(D1 || (D1 = {
+})(D || (D = {
 }));
-var M1;
+var M;
 (function(M) {
     var x;
     M.x = x;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
-var a = M1.x;
-export { v, f, C, E1 as E, D1 as D, a };
+var a = M.x;
+export { v, f, C, E, D, a };
 // @filename: t2.ts
-export { v, f, C, E1 as E, D1 as D, a } from "./t1";
-export { v, f, C, E1 as E, D1 as D, a };
+export { v, f, C, E, D, a } from "./t1";
+export { v, f, C, E, D, a };

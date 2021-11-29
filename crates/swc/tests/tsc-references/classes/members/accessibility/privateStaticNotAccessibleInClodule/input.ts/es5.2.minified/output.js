@@ -1,8 +1,8 @@
-var C = function() {
+var C, C = function() {
     "use strict";
     !function(instance, Constructor) {
         if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
     }(this, C);
 };
-(C || (C = {
+(C = C || (C = {
 })).y = C.bar;

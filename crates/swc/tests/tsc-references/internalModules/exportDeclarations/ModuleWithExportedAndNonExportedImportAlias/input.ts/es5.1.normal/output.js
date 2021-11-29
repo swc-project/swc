@@ -3,7 +3,7 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-var B1;
+var B;
 (function(B) {
     var Line = function Line(start, end) {
         "use strict";
@@ -12,12 +12,12 @@ var B1;
         this.end = end;
     };
     B.Line = Line;
-})(B1 || (B1 = {
+})(B || (B = {
 }));
-var Geometry1;
+var Geometry;
 (function(Geometry) {
     Geometry.Points = A;
-    var Lines = B1;
+    var Lines = B;
     Geometry.Origin = {
         x: 0,
         y: 0
@@ -26,13 +26,13 @@ var Geometry1;
         x: 1,
         y: 0
     });
-})(Geometry1 || (Geometry1 = {
+})(Geometry || (Geometry = {
 }));
 // expected to work since all are exported
 var p;
 var p;
-var p = Geometry1.Origin;
+var p = Geometry.Origin;
 var line;
-var line = Geometry1.Unit;
+var line = Geometry.Unit;
 // not expected to work since non are exported
-var line = Geometry1.Lines.Line;
+var line = Geometry.Lines.Line;

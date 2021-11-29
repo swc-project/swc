@@ -1,8 +1,8 @@
-var A1;
+var A;
 (function(A) {
     A.Origin = {
         x: 0,
         y: 0
     };
-})(A1 || (A1 = {
+})(A || (A = {
 }));

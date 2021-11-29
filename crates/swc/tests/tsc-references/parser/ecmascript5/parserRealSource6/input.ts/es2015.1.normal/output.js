@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
-var TypeScript1;
+var TypeScript;
 (function(TypeScript) {
     class TypeCollectionContext {
         constructor(scopeChain, checker){
@@ -12,9 +12,9 @@ var TypeScript1;
     }
     TypeScript.TypeCollectionContext = TypeCollectionContext;
     class MemberScopeContext {
-        constructor(flow, pos2, matchFlag){
+        constructor(flow, pos, matchFlag){
             this.flow = flow;
-            this.pos = pos2;
+            this.pos = pos;
             this.matchFlag = matchFlag;
             this.type = null;
             this.ast = null;
@@ -46,16 +46,16 @@ var TypeScript1;
                 var ast = this.getScriptFragmentStartAST();
                 var minChar = ast.minChar;
                 var limChar = this.isMemberCompletion ? this.pos : this.pos + 1;
-                this.scriptFragment = TypeScript1.quickParse(this.logger, ast, this.text, minChar, limChar, null).Script;
+                this.scriptFragment = TypeScript.quickParse(this.logger, ast, this.text, minChar, limChar, null).Script;
             }
             return this.scriptFragment;
         }
-        constructor(logger1, script1, text1, pos1, isMemberCompletion1){
-            this.logger = logger1;
-            this.script = script1;
-            this.text = text1;
-            this.pos = pos1;
-            this.isMemberCompletion = isMemberCompletion1;
+        constructor(logger, script, text, pos, isMemberCompletion){
+            this.logger = logger;
+            this.script = script;
+            this.text = text;
+            this.pos = pos;
+            this.isMemberCompletion = isMemberCompletion;
             this.scopeGetter = null;
             this.objectLiteralScopeGetter = null;
             this.scopeStartAST = null;
@@ -178,10 +178,10 @@ var TypeScript1;
     TypeScript.preFindEnclosingScope = preFindEnclosingScope;
     function findEnclosingScopeAt(logger, script, text, pos, isMemberCompletion) {
         var context = new EnclosingScopeContext(logger, script, text, pos, isMemberCompletion);
-        TypeScript1.getAstWalkerFactory().walk(script, preFindEnclosingScope, null, null, context);
+        TypeScript.getAstWalkerFactory().walk(script, preFindEnclosingScope, null, null, context);
         if (context.scopeStartAST === null) return null;
         return context;
     }
     TypeScript.findEnclosingScopeAt = findEnclosingScopeAt;
-})(TypeScript1 || (TypeScript1 = {
+})(TypeScript || (TypeScript = {
 }));

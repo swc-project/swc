@@ -4,12 +4,12 @@ class C {
     }
 }
 class D {
-    constructor(x1 = null){
-        var y = x1;
+    constructor(x = null){
+        var y = x;
     }
 }
 class E {
-    constructor(x2 = null){
-        var y = x2;
+    constructor(x = null){
+        var y = x;
     }
 }

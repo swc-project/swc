@@ -1,4 +1,4 @@
-var A1;
+var A;
 (function(A) {
     class Point {
         constructor(x, y){
@@ -7,5 +7,5 @@ var A1;
         }
     }
     A.UnitSquare = null;
-})(A1 || (A1 = {
+})(A || (A = {
 }));

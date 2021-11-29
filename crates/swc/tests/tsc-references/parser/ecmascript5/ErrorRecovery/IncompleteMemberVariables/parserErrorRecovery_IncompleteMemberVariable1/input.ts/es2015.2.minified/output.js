@@ -1,4 +1,4 @@
-var Shapes1;
+var Shapes;
 !function(Shapes) {
     class Point {
         getDist() {
@@ -9,5 +9,5 @@ var Shapes1;
         }
     }
     Shapes.Point = Point, Point.origin = new Point(0, 0);
-}(Shapes1 || (Shapes1 = {
-})), new Shapes1.Point(3, 4).getDist();
+}(Shapes || (Shapes = {
+})), new Shapes.Point(3, 4).getDist();

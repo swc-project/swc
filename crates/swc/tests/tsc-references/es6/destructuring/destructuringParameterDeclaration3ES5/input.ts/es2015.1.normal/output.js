@@ -70,19 +70,19 @@ function foo(...a) {
 }
 foo("hello", 1, 2);
 foo("hello", "world");
-var E2;
+let E;
 (function(E) {
     E[E["a"] = 0] = "a";
     E[E["b"] = 1] = "b";
-})(E2 || (E2 = {
+})(E || (E = {
 }));
-var E11;
+let E1;
 (function(E1) {
     E1[E1["a"] = 0] = "a";
     E1[E1["b"] = 1] = "b";
-})(E11 || (E11 = {
+})(E1 || (E1 = {
 }));
 function foo1(...a) {
 }
-foo1(1, 2, 3, E2.a);
-foo1(1, 2, 3, E11.a, E2.b);
+foo1(1, 2, 3, E.a);
+foo1(1, 2, 3, E1.a, E.b);

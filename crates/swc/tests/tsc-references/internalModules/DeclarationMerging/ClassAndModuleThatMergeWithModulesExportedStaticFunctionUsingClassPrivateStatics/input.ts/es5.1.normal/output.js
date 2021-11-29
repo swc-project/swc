@@ -32,10 +32,10 @@ var clodule = /*#__PURE__*/ function() {
     ]);
     return clodule;
 }();
-(function(clodule1) {
+(function(clodule) {
     var fn = function fn(x, y) {
         return clodule.sfn('a');
     };
-    clodule1.fn = fn;
+    clodule.fn = fn;
 })(clodule || (clodule = {
 }));

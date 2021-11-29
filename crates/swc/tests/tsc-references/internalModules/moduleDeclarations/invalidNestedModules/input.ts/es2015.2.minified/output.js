@@ -1,13 +1,15 @@
-var A1, M21;
+var A, M2;
 !function(A) {
     var B;
-    (B || (B = {
+    let B;
+    (B = B || (B = {
     })).C = class {
     }, A.B = B;
-}(A1 || (A1 = {
+}(A || (A = {
 })), (function(M2) {
     var X, Point;
-    (X || (X = {
+    let X;
+    (X = X || (X = {
     })).Point = Point, M2.X = X;
-})(M21 || (M21 = {
+})(M2 || (M2 = {
 }));

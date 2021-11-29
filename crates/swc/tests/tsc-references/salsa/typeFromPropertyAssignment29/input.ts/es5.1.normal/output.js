@@ -40,20 +40,20 @@ function ExpandoNested(n) {
     return nested;
 }
 ExpandoNested.also = -1;
-function ExpandoMerge1(n) {
+function ExpandoMerge(n) {
     return n * 100;
 }
-ExpandoMerge1.p1 = 111;
+ExpandoMerge.p1 = 111;
 (function(ExpandoMerge) {
     ExpandoMerge.p2 = 222;
-})(ExpandoMerge1 || (ExpandoMerge1 = {
+})(ExpandoMerge || (ExpandoMerge = {
 }));
 (function(ExpandoMerge) {
     ExpandoMerge.p3 = 333;
-})(ExpandoMerge1 || (ExpandoMerge1 = {
+})(ExpandoMerge || (ExpandoMerge = {
 }));
-var n1 = ExpandoMerge1.p1 + ExpandoMerge1.p2 + ExpandoMerge1.p3 + ExpandoMerge1(1);
-var Ns1;
+var n1 = ExpandoMerge.p1 + ExpandoMerge.p2 + ExpandoMerge.p3 + ExpandoMerge(1);
+var Ns;
 (function(Ns) {
     var ExpandoNamespace = function ExpandoNamespace() {
     };
@@ -62,7 +62,7 @@ var Ns1;
     };
     ExpandoNamespace.p6 = 42;
     Ns.foo = foo;
-})(Ns1 || (Ns1 = {
+})(Ns || (Ns = {
 }));
 // Should not work in Typescript -- must be const
 var ExpandoExpr2 = function ExpandoExpr2(n) {

@@ -1,5 +1,5 @@
-var E;
-(E || (E = {
+var E, E;
+(E = E || (E = {
 })).xDist = function(x) {
     return 0 - x.x;
 };

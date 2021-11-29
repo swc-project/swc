@@ -1,4 +1,5 @@
 var types;
-(types || (types = {
+export let types;
+(types = types || (types = {
 })).A = class {
 };

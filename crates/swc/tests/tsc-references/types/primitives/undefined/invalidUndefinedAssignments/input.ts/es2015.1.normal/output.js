@@ -1,11 +1,11 @@
 var x;
-var E1;
+let E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
-E1 = x;
-E1.A = x;
+E = x;
+E.A = x;
 class C {
 }
 var f;
@@ -13,12 +13,12 @@ C = x;
 var g;
 g = x;
 I = x;
-var M1;
+var M;
 (function(M) {
     M.x = 1;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
-M1 = x;
+M = x;
 function i(a) {
 }
 // BUG 767030

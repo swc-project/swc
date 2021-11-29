@@ -17,11 +17,11 @@ var D;
 })(D || (D = {
 }));
 // no code gen expected
-var E1;
+var E;
 (function(E) {
     var xDist = function xDist(x) {
         return 0 - x.x;
     };
     E.xDist = xDist;
-})(E1 || (E1 = {
+})(E || (E = {
 }));

@@ -1,5 +1,5 @@
-var CallSignature;
-CallSignature || (CallSignature = {
+var CallSignature, CallSignature;
+CallSignature = CallSignature || (CallSignature = {
 }), foo1(function(x) {
     return 1;
 }), foo1(function(x) {

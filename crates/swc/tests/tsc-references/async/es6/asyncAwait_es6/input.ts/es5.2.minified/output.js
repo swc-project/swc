@@ -151,7 +151,7 @@ _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         }
     }, _callee);
 }));
-var M1, C = function() {
+var M, C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C() {
@@ -277,5 +277,5 @@ function _f14() {
     M.f1 = function() {
         return _f1.apply(this, arguments);
     };
-}(M1 || (M1 = {
+}(M || (M = {
 }));

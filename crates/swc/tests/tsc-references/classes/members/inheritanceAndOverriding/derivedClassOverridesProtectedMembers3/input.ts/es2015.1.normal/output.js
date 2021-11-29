@@ -2,7 +2,7 @@
 var x;
 var y;
 class Base {
-    b(a) {
+    b(a2) {
     }
     get c() {
         return x;
@@ -16,72 +16,72 @@ class Base {
     }
     static set t(v1) {
     }
-    constructor(a2){
+    constructor(a){
     }
 }
 // Errors
 // decrease visibility of all public members to protected
 class Derived1 extends Base {
-    constructor(a3){
-        super(a3);
+    constructor(a){
+        super(a);
     }
 }
 class Derived2 extends Base {
-    b(a4) {
+    b(a3) {
     }
-    constructor(a5){
-        super(a5);
+    constructor(a){
+        super(a);
     }
 }
 class Derived3 extends Base {
     get c() {
         return x;
     }
-    constructor(a6){
-        super(a6);
+    constructor(a){
+        super(a);
     }
 }
 class Derived4 extends Base {
     set c(v2) {
     }
-    constructor(a7){
-        super(a7);
+    constructor(a){
+        super(a);
     }
 }
 class Derived5 extends Base {
-    constructor(a8){
-        super(a8);
+    constructor(a){
+        super(a);
     }
 }
 class Derived6 extends Base {
-    constructor(a9){
-        super(a9);
+    constructor(a){
+        super(a);
     }
 }
 class Derived7 extends Base {
-    static s(a10) {
+    static s(a4) {
     }
-    constructor(a11){
-        super(a11);
+    constructor(a){
+        super(a);
     }
 }
 class Derived8 extends Base {
     static get t() {
         return x;
     }
-    constructor(a12){
-        super(a12);
+    constructor(a){
+        super(a);
     }
 }
 class Derived9 extends Base {
     static set t(v3) {
     }
-    constructor(a13){
-        super(a13);
+    constructor(a){
+        super(a);
     }
 }
 class Derived10 extends Base {
-    constructor(a14){
-        super(a14);
+    constructor(a){
+        super(a);
     }
 }

@@ -45,7 +45,7 @@ var column = function() {
         Reflect.defineMetadata(COL_KEY, 'value', object, key);
     };
 };
-var User1 = ((_class = function User() {
+var User = ((_class = function User() {
     "use strict";
     _classCallCheck(this, User);
     _initializerDefineProperty(this, "currency", _descriptor, this);

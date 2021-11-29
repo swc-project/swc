@@ -1,11 +1,11 @@
 // @module: amd
 // @Filename: foo_0.ts
-var Foo1;
+var Foo;
 (function(Foo) {
     Foo.answer = 42;
-})(Foo1 || (Foo1 = {
+})(Foo || (Foo = {
 }));
-module.exports = Foo1;
+module.exports = Foo;
 // @Filename: foo_1.ts
 var foo = require("./foo_0");
 if (foo.answer === 42) {

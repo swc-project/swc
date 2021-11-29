@@ -1,16 +1,17 @@
-(M || (M = {
+var M;
+(M = M || (M = {
 })).a = 1;
-var M, m, M21, M31, m = M;
-m.a, (function(M2) {
-    var Point;
-    (Point || (Point = {
+var M, m, M2, M3, m = M;
+M.a, m.a, (function(M2) {
+    var Point, Point;
+    (Point = Point || (Point = {
     })).Origin = function() {
         return {
             x: 0,
             y: 0
         };
     }, M2.Point = Point;
-})(M21 || (M21 = {
+})(M2 || (M2 = {
 })), (function(M3) {
     var Utils = function() {
         "use strict";
@@ -19,5 +20,5 @@ m.a, (function(M2) {
         }(this, Utils);
     };
     M3.Utils = Utils;
-})(M31 || (M31 = {
+})(M3 || (M3 = {
 }));

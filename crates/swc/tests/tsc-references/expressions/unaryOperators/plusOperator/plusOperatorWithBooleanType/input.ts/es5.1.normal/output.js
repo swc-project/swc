@@ -37,11 +37,11 @@ var A = /*#__PURE__*/ function() {
     ]);
     return A;
 }();
-var M1;
+var M;
 (function(M) {
     var n;
     M.n = n;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
 var objA = new A();
 // boolean type var
@@ -54,7 +54,7 @@ var ResultIsNumber3 = +{
 };
 // boolean type expressions
 var ResultIsNumber4 = +objA.a;
-var ResultIsNumber5 = +M1.n;
+var ResultIsNumber5 = +M.n;
 var ResultIsNumber6 = +foo();
 var ResultIsNumber7 = +A.foo();
 // miss assignment operators
@@ -63,4 +63,4 @@ var ResultIsNumber7 = +A.foo();
 +foo();
 +true, false;
 +objA.a;
-+M1.n;
++M.n;

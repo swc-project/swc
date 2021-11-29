@@ -1,15 +1,22 @@
-var M1;
+var M, M, M;
 !function(M) {
     var S;
     M.Foo = class {
         constructor(){
         }
-    }, (S || (S = {
+    };
+    let S;
+    (S = S || (S = {
     })).Bar = class {
     }, M.S = S;
-}(M1 || (M1 = {
-})), M1 || (M1 = {
-}), React.createElement(Foo, null), S || (S = {
-}), React.createElement(Foo, null), React.createElement(Bar, null), M1 || (M1 = {
-}), React.createElement(S.Bar, null), M1 || (M1 = {
+}(M || (M = {
+})), (function(M) {
+    var S;
+    React.createElement(Foo, null);
+    let S;
+    S = S || (S = {
+    }), React.createElement(Foo, null), React.createElement(Bar, null), M.S = S;
+})(M || (M = {
+})), M = M || (M = {
+}), React.createElement(S.Bar, null), M = M || (M = {
 }), React.createElement(Foo, null);

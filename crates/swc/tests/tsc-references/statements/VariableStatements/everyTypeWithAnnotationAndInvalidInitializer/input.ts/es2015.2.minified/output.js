@@ -1,14 +1,14 @@
-var M, N, M1, N1;
+var M, N, M, N;
 class C {
 }
 class D {
 }
-(M = M1 || (M1 = {
+(M = M || (M = {
 })).A = class {
 }, M.F2 = function(x) {
     return x.toString();
-}, (N = N1 || (N1 = {
+}, (N = N || (N = {
 })).A = class {
 }, N.F2 = function(x) {
     return x.toString();
-}, new D(), new D(), new C(), new C(), new N1.A();
+}, new D(), new D(), new C(), new C(), new N.A();

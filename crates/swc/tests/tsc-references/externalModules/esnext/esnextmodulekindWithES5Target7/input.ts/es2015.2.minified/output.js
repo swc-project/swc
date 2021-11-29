@@ -1,1 +1,1 @@
-export var N;
+export let N;

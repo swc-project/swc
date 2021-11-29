@@ -83,21 +83,21 @@ var B = /*#__PURE__*/ function(A) {
     }
     return B;
 }(A);
-var Compass1;
+var Compass;
 (function(Compass) {
     Compass[Compass["North"] = 0] = "North";
     Compass[Compass["South"] = 1] = "South";
     Compass[Compass["East"] = 2] = "East";
     Compass[Compass["West"] = 3] = "West";
-})(Compass1 || (Compass1 = {
+})(Compass || (Compass = {
 }));
 var numIndex = {
     3: 'three',
     'three': 'three'
 };
 var strIndex = {
-    'N': Compass1.North,
-    'E': Compass1.East
+    'N': Compass.North,
+    'E': Compass.East
 };
 var bothIndex;
 function noIndex() {
@@ -145,7 +145,7 @@ var gg;
 var hh = numIndex[3];
 var hh;
 // Bracket notation property access using enum value on type with numeric index signature
-var ii = numIndex[Compass1.South];
+var ii = numIndex[Compass.South];
 var ii;
 // Bracket notation property access using value of type 'any' on type with numeric index signature
 var jj = numIndex[anyVar];
@@ -164,7 +164,7 @@ var mm2;
 var nn = strIndex[10];
 var nn;
 // Bracket notation property access using enum value on type with string index signature and no numeric index signature
-var oo = strIndex[Compass1.East];
+var oo = strIndex[Compass.East];
 var oo;
 // Bracket notation property access using value of type 'any' on type with string index signature and no numeric index signature
 var pp = strIndex[null];
@@ -176,7 +176,7 @@ var qq;
 var rr = noIndex['zzzz'];
 var rr;
 // Bracket notation property access using enum value on type with no index signatures
-var ss = noIndex[Compass1.South];
+var ss = noIndex[Compass.South];
 var ss;
 // Bracket notation property access using value of type 'any' on type with no index signatures
 var tt = noIndex[null];
@@ -187,7 +187,7 @@ var uu = noIndex[someObject]; // Error
 var vv = noIndex[32];
 var vv;
 // Bracket notation property access using enum value on type with numeric index signature and string index signature
-var ww = bothIndex[Compass1.East];
+var ww = bothIndex[Compass.East];
 var ww;
 // Bracket notation property access using value of type 'any' on type with numeric index signature and string index signature
 var xx = bothIndex[null];

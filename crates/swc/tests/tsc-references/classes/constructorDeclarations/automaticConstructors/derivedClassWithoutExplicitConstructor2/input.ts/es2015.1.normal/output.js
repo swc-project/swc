@@ -16,13 +16,13 @@ var r2 = new Derived(1);
 var r3 = new Derived(1, 2);
 var r4 = new Derived(1, 2, 3);
 class Base2 {
-    constructor(x1){
-        this.a = x1;
+    constructor(x){
+        this.a = x;
     }
 }
 class D extends Base2 {
-    constructor(...args1){
-        super(...args1);
+    constructor(...args){
+        super(...args);
         this.x = 2;
         this.y = null;
     }

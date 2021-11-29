@@ -1,4 +1,4 @@
-var A1;
+var A;
 !function(A) {
     class Line {
         constructor(start, end){
@@ -11,5 +11,5 @@ var A1;
             y: 0
         }, p);
     };
-}(A1 || (A1 = {
+}(A || (A = {
 }));

@@ -1,4 +1,4 @@
-var Tools;
-(Tools || (Tools = {
+var Tools, Tools;
+(Tools = Tools || (Tools = {
 })).NullLogger = class {
 }, Tools.NullLogger();

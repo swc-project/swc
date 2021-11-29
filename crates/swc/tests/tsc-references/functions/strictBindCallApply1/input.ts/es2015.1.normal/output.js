@@ -34,7 +34,7 @@ class C {
     generic(x1) {
         return x1;
     }
-    constructor(a1, b1){
+    constructor(a, b){
     }
 }
 let f10 = c.foo.bind(c);

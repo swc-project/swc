@@ -1,9 +1,9 @@
-var Example1, Example2, Example3, Example4, Example5, GH14865, GH12052;
-Example1 || (Example1 = {
-}), t = s, Example2 || (Example2 = {
-}), t = s, Example3 || (Example3 = {
-}), t = s, Example4 || (Example4 = {
-}), t = s, Example5 || (Example5 = {
+var Example1, Example2, Example3, Example4, Example5, GH14865, GH12052, Example1, Example2, Example3, Example4, Example5;
+Example1 = Example1 || (Example1 = {
+}), t = s, Example2 = Example2 || (Example2 = {
+}), t = s, Example3 = Example3 || (Example3 = {
+}), t = s, Example4 = Example4 || (Example4 = {
+}), t = s, Example5 = Example5 || (Example5 = {
 }), t = s, (function(GH14865) {
     var b;
     b.type, b = {

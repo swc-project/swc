@@ -1,4 +1,4 @@
-var A1;
+var A, Point1;
 class Point1 {
     static Origin() {
         return {
@@ -6,14 +6,15 @@ class Point1 {
             y: 0
         };
     }
-    constructor(x1, y1){
-        this.x = x1, this.y = y1;
+    constructor(x, y){
+        this.x = x, this.y = y;
     }
 }
-(Point1 || (Point1 = {
+(Point1 = Point1 || (Point1 = {
 })).Origin = function() {
     return null;
 }, (function(A) {
+    var Point;
     class Point {
         static Origin() {
             return {
@@ -25,9 +26,9 @@ class Point1 {
             this.x = x, this.y = y;
         }
     }
-    A.Point = Point, (Point || (Point = {
+    A.Point = Point, (Point = Point || (Point = {
     })).Origin = function() {
         return "";
     };
-})(A1 || (A1 = {
+})(A || (A = {
 }));

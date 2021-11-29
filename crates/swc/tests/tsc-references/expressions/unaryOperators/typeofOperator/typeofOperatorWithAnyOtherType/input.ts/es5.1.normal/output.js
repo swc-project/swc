@@ -53,18 +53,18 @@ var A = /*#__PURE__*/ function() {
     ]);
     return A;
 }();
-var M1;
+var M;
 (function(M) {
     var n;
     M.n = n;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
 var objA = new A();
 // any type var
 var ResultIsString1 = typeof ANY1 === "undefined" ? "undefined" : _typeof(ANY1);
 var ResultIsString2 = typeof ANY2 === "undefined" ? "undefined" : _typeof(ANY2);
 var ResultIsString3 = typeof A === "undefined" ? "undefined" : _typeof(A);
-var ResultIsString4 = typeof M1 === "undefined" ? "undefined" : _typeof(M1);
+var ResultIsString4 = typeof M === "undefined" ? "undefined" : _typeof(M);
 var ResultIsString5 = typeof obj2 === "undefined" ? "undefined" : _typeof(obj2);
 var ResultIsString6 = typeof obj1 === "undefined" ? "undefined" : _typeof(obj1);
 // any type literal
@@ -76,7 +76,7 @@ var ResultIsString9 = _typeof({
 var ResultIsString10 = _typeof(ANY2[0]);
 var ResultIsString11 = _typeof(objA.a);
 var ResultIsString12 = _typeof(obj1.x);
-var ResultIsString13 = _typeof(M1.n);
+var ResultIsString13 = _typeof(M.n);
 var ResultIsString14 = _typeof(foo());
 var ResultIsString15 = _typeof(A.foo());
 var ResultIsString16 = _typeof(ANY + ANY1);
@@ -94,7 +94,7 @@ typeof ANY === "undefined" ? "undefined" : _typeof(ANY), ANY1;
 typeof obj1 === "undefined" ? "undefined" : _typeof(obj1);
 _typeof(obj1.x);
 _typeof(objA.a);
-_typeof(M1.n);
+_typeof(M.n);
 // use typeof in type query
 var z;
 var x;
@@ -104,5 +104,5 @@ x: typeof ANY2 === "undefined" ? "undefined" : _typeof(ANY2);
 r: typeof foo === "undefined" ? "undefined" : _typeof(foo);
 z: _typeof(objA.a);
 z: _typeof(A.foo);
-z: _typeof(M1.n);
+z: _typeof(M.n);
 z: _typeof(obj1.x);

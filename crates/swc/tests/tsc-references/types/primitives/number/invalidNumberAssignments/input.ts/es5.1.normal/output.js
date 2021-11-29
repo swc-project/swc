@@ -16,12 +16,12 @@ var e = x;
 var f = x;
 var g = 1;
 var g2 = 1;
-var M1;
+var M;
 (function(M) {
     M.x = 1;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
-M1 = x;
+M = x;
 function i(a) {
     a = x;
 }

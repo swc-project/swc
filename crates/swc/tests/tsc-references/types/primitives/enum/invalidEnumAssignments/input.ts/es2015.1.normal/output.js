@@ -1,19 +1,19 @@
-var E1;
+let E;
 (function(E) {
     E[E["A"] = 0] = "A";
     E[E["B"] = 1] = "B";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
-var E21;
+let E2;
 (function(E2) {
     E2[E2["A"] = 0] = "A";
     E2[E2["B"] = 1] = "B";
-})(E21 || (E21 = {
+})(E2 || (E2 = {
 }));
 var e;
 var e2;
-e = E21.A;
-e2 = E1.A;
+e = E2.A;
+e2 = E.A;
 e = null;
 e = {
 };

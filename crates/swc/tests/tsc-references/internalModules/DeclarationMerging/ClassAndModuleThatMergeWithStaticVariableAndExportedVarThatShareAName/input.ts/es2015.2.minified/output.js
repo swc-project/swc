@@ -1,14 +1,15 @@
-var A1;
+var A, Point1;
 class Point1 {
-    constructor(x1, y1){
-        this.x = x1, this.y = y1;
+    constructor(x, y){
+        this.x = x, this.y = y;
     }
 }
 Point1.Origin = {
     x: 0,
     y: 0
-}, (Point1 || (Point1 = {
+}, (Point1 = Point1 || (Point1 = {
 })).Origin = "", (function(A) {
+    var Point;
     class Point {
         constructor(x, y){
             this.x = x, this.y = y;
@@ -17,7 +18,7 @@ Point1.Origin = {
     A.Point = Point, Point.Origin = {
         x: 0,
         y: 0
-    }, (Point || (Point = {
+    }, (Point = Point || (Point = {
     })).Origin = "";
-})(A1 || (A1 = {
+})(A || (A = {
 }));

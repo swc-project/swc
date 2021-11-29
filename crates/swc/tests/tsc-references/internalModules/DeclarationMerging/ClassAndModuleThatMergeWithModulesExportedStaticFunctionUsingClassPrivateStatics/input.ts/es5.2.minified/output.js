@@ -21,10 +21,10 @@ var clodule = function() {
         }
     ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), clodule;
 }();
-!function(clodule1) {
+!function(clodule) {
     var fn = function(x, y) {
         return clodule.sfn("a");
     };
-    clodule1.fn = fn;
+    clodule.fn = fn;
 }(clodule || (clodule = {
 }));

@@ -69,6 +69,7 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
+var A2;
 (function(A2) {
     var F = function F(s) {
         return 2;
@@ -109,11 +110,11 @@ function _createSuper(Derived) {
         };
     })(Module || (Module = {
     }));
-    var Color1;
+    var Color;
     (function(Color) {
         Color[Color["Blue"] = 0] = "Blue";
         Color[Color["Red"] = 1] = "Red";
-    })(Color1 || (Color1 = {
+    })(Color || (Color = {
     }));
     var x = 12;
     var array = null;
@@ -125,9 +126,9 @@ function _createSuper(Derived) {
         id: 2,
         isvalid: true
     };
-})(A || (A = {
+})(A2 || (A2 = {
 }));
-var Y1;
+var Y;
 (function(Y) {
     var F = function F(s) {
         return 2;
@@ -164,6 +165,7 @@ var Y1;
         return BB;
     }(A);
     Y.BB = BB;
+    var Module;
     (function(Module) {
         var A = function A() {
             "use strict";
@@ -171,6 +173,7 @@ var Y1;
         };
     })(Module || (Module = {
     }));
+    var Color;
     (function(Color) {
         Color[Color["Blue"] = 0] = "Blue";
         Color[Color["Red"] = 1] = "Red";
@@ -187,5 +190,6 @@ var Y1;
         id: 2,
         isvalid: true
     };
-})(Y1 || (Y1 = {
+    Y.Module = Module, Y.Color = Color;
+})(Y || (Y = {
 }));

@@ -1,5 +1,5 @@
-var obj, key, M;
-M || (M = {
+var obj, key, M, M;
+M = M || (M = {
 }), (obj = {
 }, (key = Symbol.iterator) in obj ? Object.defineProperty(obj, key, {
     value: 0,

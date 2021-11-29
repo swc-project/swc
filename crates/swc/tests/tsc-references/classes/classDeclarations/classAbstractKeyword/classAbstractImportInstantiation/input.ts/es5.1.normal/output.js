@@ -3,7 +3,7 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-var M1;
+var M;
 (function(M) {
     var A = function A() {
         "use strict";
@@ -11,8 +11,8 @@ var M1;
     };
     M.A = A;
     new A;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
-var myA = M1.A;
+var myA = M.A;
 new myA;
 export { };

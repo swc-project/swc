@@ -122,12 +122,12 @@ var Options = function Options() {
     "use strict";
     _classCallCheck(this, Options);
 };
-var E1;
+var E;
 (function(E) {
     E[E["A"] = 0] = "A";
     E[E["B"] = 1] = "B";
     E[E["C"] = 2] = "C";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
 function getProperty(obj, key) {
     return obj[key];
@@ -675,11 +675,11 @@ function f3(t, k, tk) {
         t[key] = tk; // ok, T[K] ==> T[keyof T]
     }
 }
-var Flag1;
+var Flag;
 (function(Flag) {
     Flag["FLAG_1"] = "flag_1";
     Flag["FLAG_2"] = "flag_2";
-})(Flag1 || (Flag1 = {
+})(Flag || (Flag = {
 }));
 function getFlagsFromSimpleRecord(record, flags) {
     return record[flags[0]];

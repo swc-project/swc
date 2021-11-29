@@ -11,11 +11,11 @@ var obj = {
 };
 class A {
 }
-var M1;
+var M;
 (function(M) {
     var n;
     M.n = n;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
 var objA = new A();
 // any type var
@@ -28,22 +28,22 @@ var ResultIsNumber5 = --ANY2[0];
 var ResultIsNumber6 = --obj.x;
 var ResultIsNumber7 = --obj.y;
 var ResultIsNumber8 = --objA.a;
-var ResultIsNumber = --M1.n;
+var ResultIsNumber = --M.n;
 var ResultIsNumber9 = ANY2[0]--;
 var ResultIsNumber10 = obj.x--;
 var ResultIsNumber11 = obj.y--;
 var ResultIsNumber12 = objA.a--;
-var ResultIsNumber13 = M1.n--;
+var ResultIsNumber13 = M.n--;
 // miss assignment opertors
 --ANY;
 --ANY1;
 --ANY2[0];
 --ANY, --ANY1;
 --objA.a;
---M1.n;
+--M.n;
 ANY--;
 ANY1--;
 ANY2[0]--;
 ANY--, ANY1--;
 objA.a--;
-M1.n--;
+M.n--;

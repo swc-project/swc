@@ -1,4 +1,4 @@
-var A1, X1;
+var A, X;
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
@@ -14,7 +14,7 @@ function _defineProperties(target, props) {
         _classCallCheck(this, Point);
     };
     A.Point = Point;
-}(A1 || (A1 = {
+}(A || (A = {
 })), (function(A) {
     var Point = function() {
         "use strict";
@@ -34,14 +34,14 @@ function _defineProperties(target, props) {
             }
         ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Point;
     }();
-})(A1 || (A1 = {
+})(A || (A = {
 })), (function(X) {
-    var Y, Y1, Z, Line;
-    Y1 = Y || (Y = {
-    }), Z || (Z = {
+    var Y, Y, Z, Z, Line;
+    Y = Y || (Y = {
+    }), Z = Z || (Z = {
     }), Line = function() {
         "use strict";
         _classCallCheck(this, Line);
-    }, Y1.Z = Z, X.Y = Y;
-})(X1 || (X1 = {
+    }, Y.Z = Z, X.Y = Y;
+})(X || (X = {
 }));

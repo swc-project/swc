@@ -1,4 +1,4 @@
-var A1;
+var A;
 (class {
     constructor(x, y){
         this.x = x, this.y = y;
@@ -16,5 +16,5 @@ var A1;
         x: 0,
         y: 0
     };
-})(A1 || (A1 = {
+})(A || (A = {
 }));

@@ -22,7 +22,7 @@ export var i;
 var i2;
 export var r5;
 export var r5;
-var M1;
+var M;
 (function(M) {
     M.foo = '';
     var C = function C() {
@@ -30,21 +30,21 @@ var M1;
         _classCallCheck(this, C);
     };
     M.C = C;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
 export var r6;
 export var r7;
 export var r8;
 export var r9;
-var E1;
+var E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
 export var r10;
 export var r11;
 export var r12;
-function foo1() {
+function foo() {
 }
 (function(foo) {
     foo.y = 1;
@@ -53,6 +53,6 @@ function foo1() {
         _classCallCheck(this, C);
     };
     foo.C = C;
-})(foo1 || (foo1 = {
+})(foo || (foo = {
 }));
 export var r13;

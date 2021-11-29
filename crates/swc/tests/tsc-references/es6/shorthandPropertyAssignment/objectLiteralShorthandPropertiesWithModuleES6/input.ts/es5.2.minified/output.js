@@ -1,6 +1,6 @@
-var m1;
+var m;
 !function(m) {
     var x;
     m.x = x;
-}(m1 || (m1 = {
+}(m || (m = {
 }));

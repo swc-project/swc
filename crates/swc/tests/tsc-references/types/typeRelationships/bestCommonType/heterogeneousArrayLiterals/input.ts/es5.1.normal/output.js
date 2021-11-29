@@ -199,7 +199,7 @@ var Derived2 = /*#__PURE__*/ function(Base) {
 var base;
 var derived;
 var derived2;
-(function(Derived) {
+(function(Derived1) {
     var h = [
         {
             foo: base,

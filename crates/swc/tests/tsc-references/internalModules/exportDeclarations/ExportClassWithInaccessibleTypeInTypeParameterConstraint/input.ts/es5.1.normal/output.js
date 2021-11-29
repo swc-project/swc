@@ -83,7 +83,7 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
-var A1;
+var A;
 (function(A) {
     var Point = function Point() {
         "use strict";
@@ -127,5 +127,5 @@ var A1;
         return Line;
     }();
     A.Line = Line;
-})(A1 || (A1 = {
+})(A || (A = {
 }));

@@ -238,10 +238,10 @@ f14([
         }
     ]
 ]); // Error, no x
-var M1;
+var M;
 (function(M) {
     M.a = 1, M.b = 2;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
 function f15() {
     var a = "hello";

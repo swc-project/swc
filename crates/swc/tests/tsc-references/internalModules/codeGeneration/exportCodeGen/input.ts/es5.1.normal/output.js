@@ -5,13 +5,13 @@ function _classCallCheck(instance, Constructor) {
 }
 // should replace all refs to 'x' in the body,
 // with fully qualified
-var A1;
+var A;
 (function(A) {
     var lt12 = function lt12() {
         return x < 12;
     };
     A.x = 12;
-})(A1 || (A1 = {
+})(A || (A = {
 }));
 // should not fully qualify 'x'
 var B;
@@ -22,6 +22,8 @@ var B;
     var x = 12;
 })(B || (B = {
 }));
+// not copied, since not exported
+var C;
 (function(C) {
     var no = function no() {
         return false;
@@ -29,23 +31,23 @@ var B;
 })(C || (C = {
 }));
 // copies, since exported
-var D1;
+var D;
 (function(D) {
     var yes = function yes() {
         return true;
     };
     D.yes = yes;
-})(D1 || (D1 = {
+})(D || (D = {
 }));
 // validate all exportable statements
-var E1;
+var E;
 (function(E) {
     var fn = function fn() {
     };
-    var Color1;
+    var Color;
     (function(Color) {
         Color[Color["Red"] = 0] = "Red";
-    })(Color1 || (Color1 = {
+    })(Color || (Color = {
     }));
     E.fn = fn;
     var C = function C() {
@@ -53,13 +55,13 @@ var E1;
         _classCallCheck(this, C);
     };
     E.C = C;
-    var M1;
+    var M;
     (function(M) {
         M.x = 42;
-    })(M1 || (M1 = {
+    })(M || (M = {
     }));
-    E.Color = Color1, E.M = M1;
-})(E1 || (E1 = {
+    E.Color = Color, E.M = M;
+})(E || (E = {
 }));
 // validate all exportable statements,
 // which are not exported
@@ -67,6 +69,7 @@ var F;
 (function(F) {
     var fn = function fn() {
     };
+    var Color;
     (function(Color) {
         Color[Color["Red"] = 0] = "Red";
     })(Color || (Color = {
@@ -75,6 +78,7 @@ var F;
         "use strict";
         _classCallCheck(this, C);
     };
+    var M;
     (function(M) {
         var x = 42;
     })(M || (M = {

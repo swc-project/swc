@@ -1,3 +1,4 @@
-var E, E1, a, b;
-(E = E1 || (E1 = {
-}))[E.a = 0] = "a", E[E.b = 1] = "b", E[E.c = 2] = "c", a < b, b < a, E1.a < b, b < E1.a, E1.a < 0, 0 < E1.a, E1.a > b, b > E1.a, E1.a > 0, 0 > E1.a, E1.a <= b, b <= E1.a, E1.a <= 0, 0 <= E1.a, E1.a >= b, b >= E1.a, E1.a >= 0, 0 >= E1.a, E1.a == b, b == E1.a, 0 == E1.a, 0 == E1.a, E1.a != b, b != E1.a, 0 != E1.a, 0 != E1.a, E1.a === b, b === E1.a, 0 === E1.a, 0 === E1.a, E1.a !== b, b !== E1.a, 0 !== E1.a, 0 !== E1.a;
+var E, a, b;
+let E;
+(E = E || (E = {
+}))[E.a = 0] = "a", E[E.b = 1] = "b", E[E.c = 2] = "c", a < b, b < a, E.a < b, b < E.a, E.a < 0, 0 < E.a, E.a > b, b > E.a, E.a > 0, 0 > E.a, E.a <= b, b <= E.a, E.a <= 0, 0 <= E.a, E.a >= b, b >= E.a, E.a >= 0, 0 >= E.a, E.a == b, b == E.a, 0 == E.a, 0 == E.a, E.a != b, b != E.a, 0 != E.a, 0 != E.a, E.a === b, b === E.a, 0 === E.a, 0 === E.a, E.a !== b, b !== E.a, 0 !== E.a, 0 !== E.a;

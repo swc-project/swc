@@ -7,10 +7,10 @@ var Foo = function Foo() {
     "use strict";
     _classCallCheck(this, Foo);
 };
-var E1;
+var E;
 (function(E) {
     E[E["a"] = 0] = "a";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
 var x;
 // invalid left operands
@@ -27,7 +27,7 @@ var ra3 = a3 in x;
 var ra4 = a4 in x;
 var ra5 = null in x;
 var ra6 = undefined in x;
-var ra7 = E1.a in x;
+var ra7 = E.a in x;
 var ra8 = false in x;
 var ra9 = {
 } in x;

@@ -2,11 +2,11 @@ class C {
 }
 class D {
 }
-for((M = M1 || (M1 = {
+for((M = M || (M = {
 })).A = class {
 }, M.F2 = function(x) {
     return x.toString();
-}, (N = N1 || (N1 = {
+}, (N = N || (N = {
 })).A = class {
 }, N.F2 = function(x) {
     return x.toString();
@@ -44,7 +44,7 @@ while (new C())
 for(new D(); new D(););
 do ;
 while (new D())
-for(var M, N, M1, N1, a = !0; a;);
+for(var M, N, M, N, a = !0; a;);
 do ;
 while (a)
 do ;

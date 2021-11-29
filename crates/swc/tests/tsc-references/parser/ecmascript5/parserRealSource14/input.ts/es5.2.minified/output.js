@@ -8,7 +8,7 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-!function(TypeScript1) {
+!function(TypeScript) {
     var GetAstPathOptions, lastOf = function(items) {
         return null === items || 0 === items.length ? null : items[items.length - 1];
     }, max = function(a, b) {
@@ -47,7 +47,7 @@ function _defineProperties(target, props) {
         }, path1 = new AstPath();
         TypeScript.getAstWalkerFactory().walk(ast, pre, post, null, path1);
     };
-    TypeScript1.lastOf = lastOf, TypeScript1.max = max, TypeScript1.min = function(a, b) {
+    TypeScript.lastOf = lastOf, TypeScript.max = max, TypeScript.min = function(a, b) {
         return a <= b ? a : b;
     };
     var AstPath = function() {
@@ -433,12 +433,12 @@ function _defineProperties(target, props) {
             }
         ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), AstPath;
     }();
-    TypeScript1.AstPath = AstPath, TypeScript1.isValidAstNode = isValidAstNode;
-    var GetAstPathOptions1, AstPathContext = function AstPathContext() {
+    TypeScript.AstPath = AstPath, TypeScript.isValidAstNode = isValidAstNode;
+    var GetAstPathOptions, AstPathContext = function AstPathContext() {
         "use strict";
         _classCallCheck(this, AstPathContext), this.path = new TypeScript.AstPath();
     };
-    TypeScript1.AstPathContext = AstPathContext, (GetAstPathOptions1 = GetAstPathOptions || (GetAstPathOptions = {
-    }))[GetAstPathOptions1.Default = 0] = "Default", GetAstPathOptions1[GetAstPathOptions1.EdgeInclusive = 1] = "EdgeInclusive", GetAstPathOptions1[GetAstPathOptions1.DontPruneSearchBasedOnPosition = 2] = "DontPruneSearchBasedOnPosition", TypeScript1.getAstPathToPosition = getAstPathToPosition, TypeScript1.getTokenizationOffset = getTokenizationOffset, TypeScript1.walkAST = walkAST, TypeScript1.GetAstPathOptions = GetAstPathOptions;
+    TypeScript.AstPathContext = AstPathContext, (GetAstPathOptions = GetAstPathOptions || (GetAstPathOptions = {
+    }))[GetAstPathOptions.Default = 0] = "Default", GetAstPathOptions[GetAstPathOptions.EdgeInclusive = 1] = "EdgeInclusive", GetAstPathOptions[GetAstPathOptions.DontPruneSearchBasedOnPosition = 2] = "DontPruneSearchBasedOnPosition", TypeScript.getAstPathToPosition = getAstPathToPosition, TypeScript.getTokenizationOffset = getTokenizationOffset, TypeScript.walkAST = walkAST, TypeScript.GetAstPathOptions = GetAstPathOptions;
 }(TypeScript || (TypeScript = {
 }));

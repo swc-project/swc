@@ -11,14 +11,14 @@ var Other = function Other() {
     "use strict";
     _classCallCheck(this, Other);
 };
-var Dotted1;
+var Dotted;
 (function(Dotted) {
     var Name = function Name() {
         "use strict";
         _classCallCheck(this, Name);
     };
     Dotted.Name = Name;
-})(Dotted1 || (Dotted1 = {
+})(Dotted || (Dotted = {
 }));
 // Should find the intrinsic element, not the class element
 var a = /*#__PURE__*/ React.createElement("foundFirst", {
@@ -29,4 +29,4 @@ var b = /*#__PURE__*/ React.createElement("string_named", null);
 //        parse a property name here, not identifier)
 // var c = <var />;
 var d = /*#__PURE__*/ React.createElement(Other, null);
-var e = /*#__PURE__*/ React.createElement(Dotted1.Name, null);
+var e = /*#__PURE__*/ React.createElement(Dotted.Name, null);

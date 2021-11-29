@@ -70,9 +70,9 @@ function _createSuper(Derived) {
     };
 }
 // expected no error
-var B1;
+var B;
 (function(B) {
-    B.a = A1;
+    B.a = A;
     var D = /*#__PURE__*/ function(_C) {
         "use strict";
         _inherits(D, _C);
@@ -84,17 +84,17 @@ var B1;
         return D;
     }(a.C);
     B.D = D;
-})(B1 || (B1 = {
+})(B || (B = {
 }));
-var A1;
+var A;
 (function(A) {
     var C = function C() {
         "use strict";
         _classCallCheck(this, C);
     };
     A.C = C;
-    A.b = B1;
-})(A1 || (A1 = {
+    A.b = B;
+})(A || (A = {
 }));
 var c;
-var c = new B1.a.C();
+var c = new B.a.C();

@@ -7,9 +7,9 @@ function _defineProperties(target, props) {
 !function(M1) {
     var s;
     M1.s = s;
-}(M11 || (M11 = {
+}(M1 || (M1 = {
 }));
-var M11, C = function() {
+var M1, C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C() {

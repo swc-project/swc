@@ -1,4 +1,4 @@
-var Errors, WithGenericSignaturesInBaseType;
+var Errors, WithGenericSignaturesInBaseType, WithGenericSignaturesInBaseType;
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
@@ -102,7 +102,7 @@ function _createSuper(Derived) {
         return null;
     });
 }(Errors || (Errors = {
-})), WithGenericSignaturesInBaseType || (WithGenericSignaturesInBaseType = {
+})), WithGenericSignaturesInBaseType = WithGenericSignaturesInBaseType || (WithGenericSignaturesInBaseType = {
 }), foo2(function(x) {
     return [
         ""

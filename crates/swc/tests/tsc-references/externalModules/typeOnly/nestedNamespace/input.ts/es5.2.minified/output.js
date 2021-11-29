@@ -1,5 +1,4 @@
-var types1;
-export { types1 as types };
+export var types;
 !function(types) {
     var A = function() {
         "use strict";
@@ -8,5 +7,5 @@ export { types1 as types };
         }(this, A);
     };
     types.A = A;
-}(types1 || (types1 = {
+}(types || (types = {
 }));

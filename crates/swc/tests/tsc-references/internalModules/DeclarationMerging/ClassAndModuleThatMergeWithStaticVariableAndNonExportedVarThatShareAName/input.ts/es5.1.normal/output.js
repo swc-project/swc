@@ -17,7 +17,7 @@ Point.Origin = {
     var Origin = ""; // not an error, since not exported
 })(Point || (Point = {
 }));
-var A1;
+var A;
 (function(A) {
     var Point = function Point(x, y) {
         "use strict";
@@ -34,5 +34,5 @@ var A1;
         var Origin = ""; // not an error since not exported
     })(Point || (Point = {
     }));
-})(A1 || (A1 = {
+})(A || (A = {
 }));

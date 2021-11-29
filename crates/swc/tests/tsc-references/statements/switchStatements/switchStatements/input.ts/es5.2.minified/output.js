@@ -11,10 +11,10 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var M, x, _typeof = function(obj) {
+var M, x, M, _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
-switch((M || (M = {
+switch((M = M || (M = {
 })).fn = function(x) {
     return "";
 }, x){

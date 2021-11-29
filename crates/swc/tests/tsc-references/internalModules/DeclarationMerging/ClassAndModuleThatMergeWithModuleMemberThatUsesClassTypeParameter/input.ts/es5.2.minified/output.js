@@ -15,11 +15,11 @@ var clodule1 = function() {
     };
 }(clodule2 || (clodule2 = {
 }));
-var clodule3 = function() {
+var clodule3, clodule3 = function() {
     "use strict";
     _classCallCheck(this, clodule3);
 };
-(clodule3 || (clodule3 = {
+(clodule3 = clodule3 || (clodule3 = {
 })).y = {
     id: T
 };

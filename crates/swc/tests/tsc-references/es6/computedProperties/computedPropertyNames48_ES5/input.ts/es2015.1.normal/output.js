@@ -1,14 +1,14 @@
-var E1;
+let E;
 (function(E) {
     E[E["x"] = 0] = "x";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
 var a;
 extractIndexer({
     [a]: ""
 }); // Should return string
 extractIndexer({
-    [E1.x]: ""
+    [E.x]: ""
 }); // Should return string
 extractIndexer({
     ["" || 0]: ""

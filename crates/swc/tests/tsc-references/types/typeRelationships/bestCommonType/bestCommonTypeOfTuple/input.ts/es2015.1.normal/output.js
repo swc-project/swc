@@ -7,15 +7,15 @@ function f2(x) {
 function f3(x) {
     return true;
 }
-var E11;
+let E1;
 (function(E1) {
     E1[E1["one"] = 0] = "one";
-})(E11 || (E11 = {
+})(E1 || (E1 = {
 }));
-var E21;
+let E2;
 (function(E2) {
     E2[E2["two"] = 0] = "two";
-})(E21 || (E21 = {
+})(E2 || (E2 = {
 }));
 var t1;
 var t2;
@@ -27,16 +27,16 @@ t1 = [
     f2
 ];
 t2 = [
-    E11.one,
-    E21.two
+    E1.one,
+    E2.two
 ];
 t3 = [
     5,
     undefined
 ];
 t4 = [
-    E11.one,
-    E21.two,
+    E1.one,
+    E2.two,
     20
 ];
 var e1 = t1[2]; // {}

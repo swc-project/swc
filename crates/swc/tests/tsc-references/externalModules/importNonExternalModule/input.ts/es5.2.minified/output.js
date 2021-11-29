@@ -1,5 +1,5 @@
-var foo;
-(foo || (foo = {
+var foo, foo;
+(foo = foo || (foo = {
 })).answer = 42;
 var foo = require("./foo_0");
 42 === foo.answer;

@@ -1,13 +1,14 @@
-var A, X1;
-(A || (A = {
+var A, X, A, A;
+(A = A || (A = {
 })).Point = class {
-}, (A || (A = {
+}, (A = A || (A = {
 })).Point = class {
 }, (function(X) {
-    var Y, Y1, Z;
-    Y1 = Y || (Y = {
-    }), (Z || (Z = {
+    var Y, Z;
+    let Y, Z;
+    Y = Y || (Y = {
+    }), (Z = Z || (Z = {
     })).Line = class {
-    }, Y1.Z = Z, X.Y = Y;
-})(X1 || (X1 = {
+    }, Y.Z = Z, X.Y = Y;
+})(X || (X = {
 }));

@@ -17,7 +17,7 @@ Point.Origin = {
     Point.Origin = "";
 })(Point || (Point = {
 }));
-var A1;
+var A;
 (function(A) {
     var Point = function Point(x, y) {
         "use strict";
@@ -34,5 +34,5 @@ var A1;
         Point.Origin = "";
     })(Point || (Point = {
     }));
-})(A1 || (A1 = {
+})(A || (A = {
 }));

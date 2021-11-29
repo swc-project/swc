@@ -17,14 +17,14 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var A1;
+var A;
 (function(A) {
     var Point = function Point() {
         "use strict";
         _classCallCheck(this, Point);
     };
     A.Point = Point;
-})(A1 || (A1 = {
+})(A || (A = {
 }));
 (function(A) {
     var Point = /*#__PURE__*/ function() {
@@ -45,14 +45,14 @@ var A1;
         ]);
         return Point;
     }();
-})(A1 || (A1 = {
+})(A || (A = {
 }));
 // ensure merges as expected
 var p1;
 var p1;
-var X1;
+var X;
 (function(X) {
-    var Y1;
+    var Y;
     (function(Y) {
         var Z;
         (function(Z) {
@@ -63,10 +63,10 @@ var X1;
         })(Z || (Z = {
         }));
         Y.Z = Z;
-    })(Y1 || (Y1 = {
+    })(Y || (Y = {
     }));
-    X.Y = Y1;
-})(X1 || (X1 = {
+    X.Y = Y;
+})(X || (X = {
 }));
 // ensure merges as expected
 var l;

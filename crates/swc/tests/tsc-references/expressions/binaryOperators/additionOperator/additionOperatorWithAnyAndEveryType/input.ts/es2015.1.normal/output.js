@@ -4,18 +4,18 @@ class C {
     static foo() {
     }
 }
-var E1;
+let E;
 (function(E) {
     E[E["a"] = 0] = "a";
     E[E["b"] = 1] = "b";
     E[E["c"] = 2] = "c";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
-var M1;
+var M;
 (function(M) {
     var a;
     M.a = a;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
 var a1;
 var b;
@@ -38,9 +38,9 @@ var r10 = a1 + foo;
 var r11 = a1 + foo();
 var r12 = a1 + C;
 var r13 = a1 + new C();
-var r14 = a1 + E1;
-var r15 = a1 + E1.a;
-var r16 = a1 + M1;
+var r14 = a1 + E;
+var r15 = a1 + E.a;
+var r16 = a1 + M;
 var r17 = a1 + '';
 var r18 = a1 + 123;
 var r19 = a1 + {

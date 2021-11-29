@@ -1,4 +1,7 @@
-var TerrestrialAnimalTypes, AlienAnimalTypes, TerrestrialAnimalTypes1;
-(TerrestrialAnimalTypes1 = TerrestrialAnimalTypes || (TerrestrialAnimalTypes = {
-})).CAT = "cat", TerrestrialAnimalTypes1.DOG = "dog", (AlienAnimalTypes || (AlienAnimalTypes = {
+var TerrestrialAnimalTypes, AlienAnimalTypes;
+let TerrestrialAnimalTypes;
+(TerrestrialAnimalTypes = TerrestrialAnimalTypes || (TerrestrialAnimalTypes = {
+})).CAT = "cat", TerrestrialAnimalTypes.DOG = "dog";
+let AlienAnimalTypes;
+(AlienAnimalTypes = AlienAnimalTypes || (AlienAnimalTypes = {
 })).CAT = "cat", TerrestrialAnimalTypes.CAT, AlienAnimalTypes.CAT;

@@ -51,18 +51,18 @@ var A = /*#__PURE__*/ function() {
     ]);
     return A;
 }();
-var M1;
+var M;
 (function(M) {
     var n;
     M.n = n;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
 var objA = new A();
 // any other type var
 var ResultIsNumber = ~ANY1;
 var ResultIsNumber1 = ~ANY2;
 var ResultIsNumber2 = ~A;
-var ResultIsNumber3 = ~M1;
+var ResultIsNumber3 = ~M;
 var ResultIsNumber4 = ~obj;
 var ResultIsNumber5 = ~obj1;
 // any type literal
@@ -73,7 +73,7 @@ var ResultIsNumber8 = ~ANY2[0];
 var ResultIsNumber9 = ~obj1.x;
 var ResultIsNumber10 = ~obj1.y;
 var ResultIsNumber11 = ~objA.a;
-var ResultIsNumber12 = ~M1.n;
+var ResultIsNumber12 = ~M.n;
 var ResultIsNumber13 = ~foo();
 var ResultIsNumber14 = ~A.foo();
 var ResultIsNumber15 = ~(ANY + ANY1);
@@ -90,5 +90,5 @@ var ResultIsNumber20 = ~~~(ANY + ANY1);
 ~ANY, ANY1;
 ~obj1.y;
 ~objA.a;
-~M1.n;
+~M.n;
 ~~obj1.x;

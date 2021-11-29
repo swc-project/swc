@@ -7,13 +7,13 @@ var x;
 x = 1;
 x = '';
 x = true;
-var E1;
+var E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
-x = E1;
-x = E1.A;
+x = E;
+x = E.A;
 var C = function C() {
     "use strict";
     _classCallCheck(this, C);
@@ -26,12 +26,12 @@ x = {
     f: function() {
     }
 };
-var M1;
+var M;
 (function(M) {
     M.x = 1;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
-x = M1;
+x = M;
 function f(a) {
     x = a;
 }

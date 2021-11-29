@@ -1,4 +1,4 @@
-var TypeScript1;
+var TypeScript;
 !function(TypeScript) {
     TypeScript.TypeCollectionContext = class {
         constructor(scopeChain, checker){
@@ -31,12 +31,12 @@ var TypeScript1;
         getScriptFragment() {
             if (null == this.scriptFragment) {
                 var ast = this.getScriptFragmentStartAST(), minChar = ast.minChar, limChar = this.isMemberCompletion ? this.pos : this.pos + 1;
-                this.scriptFragment = TypeScript1.quickParse(this.logger, ast, this.text, minChar, limChar, null).Script;
+                this.scriptFragment = TypeScript.quickParse(this.logger, ast, this.text, minChar, limChar, null).Script;
             }
             return this.scriptFragment;
         }
-        constructor(logger1, script1, text1, pos1, isMemberCompletion1){
-            this.logger = logger1, this.script = script1, this.text = text1, this.pos = pos1, this.isMemberCompletion = isMemberCompletion1, this.scopeGetter = null, this.objectLiteralScopeGetter = null, this.scopeStartAST = null, this.skipNextFuncDeclForClass = !1, this.deepestModuleDecl = null, this.enclosingClassDecl = null, this.enclosingObjectLit = null, this.publicsOnly = !0, this.useFullAst = !1;
+        constructor(logger, script, text, pos, isMemberCompletion){
+            this.logger = logger, this.script = script, this.text = text, this.pos = pos, this.isMemberCompletion = isMemberCompletion, this.scopeGetter = null, this.objectLiteralScopeGetter = null, this.scopeStartAST = null, this.skipNextFuncDeclForClass = !1, this.deepestModuleDecl = null, this.enclosingClassDecl = null, this.enclosingObjectLit = null, this.publicsOnly = !0, this.useFullAst = !1;
         }
     }
     function preFindEnclosingScope(ast, parent, walker) {
@@ -93,7 +93,7 @@ var TypeScript1;
         context.scopeChain = context.scopeChain.previous;
     }, TypeScript.preFindEnclosingScope = preFindEnclosingScope, TypeScript.findEnclosingScopeAt = function(logger, script, text, pos, isMemberCompletion) {
         var context = new EnclosingScopeContext(logger, script, text, pos, isMemberCompletion);
-        return (TypeScript1.getAstWalkerFactory().walk(script, preFindEnclosingScope, null, null, context), null === context.scopeStartAST) ? null : context;
+        return (TypeScript.getAstWalkerFactory().walk(script, preFindEnclosingScope, null, null, context), null === context.scopeStartAST) ? null : context;
     };
-}(TypeScript1 || (TypeScript1 = {
+}(TypeScript || (TypeScript = {
 }));

@@ -96,12 +96,12 @@ var propAcc1 = {
 };
 var propAcc1;
 // Property access of module member
-var M21;
+var M2;
 (function(M2) {
-    M2.x = M21.x;
+    M2.x = M2.x;
     var y = x;
     var y;
-})(M21 || (M21 = {
+})(M2 || (M2 = {
 }));
 // Property access of class instance type
 class C2 {

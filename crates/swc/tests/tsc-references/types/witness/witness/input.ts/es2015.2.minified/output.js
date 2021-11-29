@@ -16,10 +16,10 @@ function fn5() {
     return new (void 0)(fn5);
 }
 fnCall(), fn5();
-var propAcc1 = {
+var M2, propAcc1 = {
     m: propAcc1.m
 };
-(M2 || (M2 = {
+(M2 = M2 || (M2 = {
 })).x = M2.x, new class {
     constructor(){
         this.n = this.n;

@@ -5,7 +5,7 @@ class D {
 function F(x) {
     return 42;
 }
-var M1;
+var M;
 (function(M) {
     class A {
     }
@@ -14,7 +14,7 @@ var M1;
         return x.toString();
     }
     M.F2 = F2;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
 var aNumber = 9.9;
 throw aNumber;
@@ -45,12 +45,12 @@ var aLambda = (x)=>2
 ;
 throw aLambda;
 throw aLambda(1);
-var aModule = M1;
+var aModule = M;
 throw aModule;
-throw typeof M1;
-var aClassInModule = new M1.A();
+throw typeof M;
+var aClassInModule = new M.A();
 throw aClassInModule;
-var aFunctionInModule = M1.F2;
+var aFunctionInModule = M.F2;
 throw aFunctionInModule;
 // no initializer or annotation, so this is an 'any'
 var x1;

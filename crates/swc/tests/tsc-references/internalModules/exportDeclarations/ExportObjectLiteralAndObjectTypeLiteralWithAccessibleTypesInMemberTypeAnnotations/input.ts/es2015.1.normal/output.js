@@ -1,4 +1,4 @@
-var A1;
+var A;
 (function(A) {
     class Point {
         constructor(x, y){
@@ -14,5 +14,5 @@ var A1;
         start: new Point(0, 0),
         end: new Point(1, 0)
     };
-})(A1 || (A1 = {
+})(A || (A = {
 }));

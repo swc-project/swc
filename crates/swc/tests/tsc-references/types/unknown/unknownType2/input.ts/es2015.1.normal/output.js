@@ -48,49 +48,49 @@ if (u1 === anIntersection) {
 if (u1 === aFunction) {
     let uFunction = u1;
 }
-var NumberEnum1;
+let NumberEnum;
 (function(NumberEnum) {
     NumberEnum[NumberEnum["A"] = 0] = "A";
     NumberEnum[NumberEnum["B"] = 1] = "B";
     NumberEnum[NumberEnum["C"] = 2] = "C";
-})(NumberEnum1 || (NumberEnum1 = {
+})(NumberEnum || (NumberEnum = {
 }));
-var StringEnum1;
+let StringEnum;
 (function(StringEnum) {
     StringEnum["A"] = "A";
     StringEnum["B"] = "B";
     StringEnum["C"] = "C";
-})(StringEnum1 || (StringEnum1 = {
+})(StringEnum || (StringEnum = {
 }));
-if (u1 === NumberEnum1 || u1 === StringEnum1) {
+if (u1 === NumberEnum || u1 === StringEnum) {
     let enumObj = u1;
 }
-if (u1 === NumberEnum1.A) {
+if (u1 === NumberEnum.A) {
     let a = u1;
 }
-if (u1 === StringEnum1.B) {
+if (u1 === StringEnum.B) {
     let b = u1;
 }
 function switchTestEnum(x) {
     switch(x){
-        case StringEnum1.A:
+        case StringEnum.A:
             const a = x;
             break;
-        case StringEnum1.B:
+        case StringEnum.B:
             const b = x;
             break;
-        case StringEnum1.C:
+        case StringEnum.C:
             const c = x;
             break;
     }
 }
 function switchTestCollectEnum(x) {
     switch(x){
-        case StringEnum1.A:
+        case StringEnum.A:
             const a = x;
-        case StringEnum1.B:
+        case StringEnum.B:
             const b = x;
-        case StringEnum1.C:
+        case StringEnum.C:
             const c = x;
             const all = x;
             return;
@@ -172,20 +172,20 @@ function f2(x) {
     return x;
 }
 function notNotEquals(u) {
-    if (u !== NumberEnum1) {
+    if (u !== NumberEnum) {
     } else {
         const o = u;
     }
-    if (u !== NumberEnum1.A) {
+    if (u !== NumberEnum.A) {
     } else {
         const a = u;
     }
-    if (u !== NumberEnum1.A && u !== NumberEnum1.B && u !== StringEnum1.A) {
+    if (u !== NumberEnum.A && u !== NumberEnum.B && u !== StringEnum.A) {
     } else {
         const aOrB = u;
     }
     // equivalent to
-    if (!(u === NumberEnum1.A || u === NumberEnum1.B || u === StringEnum1.A)) {
+    if (!(u === NumberEnum.A || u === NumberEnum.B || u === StringEnum.A)) {
     } else {
         const aOrB = u;
     }

@@ -41,11 +41,11 @@ var A = /*#__PURE__*/ function() {
     ]);
     return A;
 }();
-var M1;
+var M;
 (function(M) {
     var n;
     M.n = n;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
 var objA = new A();
 // number type var
@@ -65,7 +65,7 @@ var ResultIsAny5 = void {
 };
 // number type expressions
 var ResultIsAny6 = void objA.a;
-var ResultIsAny7 = void M1.n;
+var ResultIsAny7 = void M.n;
 var ResultIsAny8 = void NUMBER1[0];
 var ResultIsAny9 = void foo();
 var ResultIsAny10 = void A.foo();
@@ -79,5 +79,5 @@ void NUMBER;
 void NUMBER1;
 void foo();
 void objA.a;
-void M1.n;
-objA.a, M1.n;
+void M.n;
+objA.a, M.n;

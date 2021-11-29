@@ -4,13 +4,13 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 // all errors imported modules conflict with local variables
-var A1;
+var A;
 (function(A) {
     A.Point = {
         x: 0,
         y: 0
     };
-})(A1 || (A1 = {
+})(A || (A = {
 }));
 var B;
 (function(B) {
@@ -20,14 +20,14 @@ var B;
     };
 })(B || (B = {
 }));
-var X1;
+var X;
 (function(X) {
     var Y = function Y() {
         "use strict";
         _classCallCheck(this, Y);
     };
     X.Y = Y;
-})(X1 || (X1 = {
+})(X || (X = {
 }));
 var Z;
 (function(Z) {

@@ -1,27 +1,27 @@
-var // enums are only subtypes of number, any and no other types
-E1;
+let // enums are only subtypes of number, any and no other types
+E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
 class A {
 }
 class A2 {
 }
-var E21;
+let E2;
 (function(E2) {
     E2[E2["A"] = 0] = "A";
-})(E21 || (E21 = {
+})(E2 || (E2 = {
 }));
-function f1() {
+function f() {
 }
 (function(f) {
     f.bar = 1;
-})(f1 || (f1 = {
+})(f || (f = {
 }));
-class c1 {
+class c {
 }
 (function(c) {
     c.bar = 1;
-})(c1 || (c1 = {
+})(c || (c = {
 }));

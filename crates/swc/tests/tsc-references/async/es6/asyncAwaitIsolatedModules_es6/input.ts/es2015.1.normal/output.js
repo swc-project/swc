@@ -130,7 +130,7 @@ class C {
         })();
     }
 }
-var M1;
+let M;
 (function(M) {
     function f1() {
         return _f1.apply(this, arguments);
@@ -141,7 +141,7 @@ var M1;
         return _f1.apply(this, arguments);
     }
     M.f1 = f1;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
 // @target: ES6
 // @isolatedModules: true

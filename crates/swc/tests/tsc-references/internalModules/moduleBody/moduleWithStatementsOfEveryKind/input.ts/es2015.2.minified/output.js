@@ -1,11 +1,12 @@
-var Y1;
+var A, Y;
 !function(A) {
-    var Color, Color1;
-    (Color = Color1 || (Color1 = {
+    var Color;
+    let Color;
+    (Color = Color || (Color = {
     }))[Color.Blue = 0] = "Blue", Color[Color.Red = 1] = "Red";
 }(A || (A = {
 })), (function(Y) {
-    var Color2;
+    var Color;
     class A {
     }
     Y.A = A;
@@ -13,14 +14,16 @@ var Y1;
     }
     Y.AA = AA, Y.B = class extends AA {
     }, Y.BB = class extends A {
-    }, (Color2 = Color || (Color = {
-    }))[Color2.Blue = 0] = "Blue", Color2[Color2.Red = 1] = "Red", Y.x = 12, Y.F = function(s) {
+    };
+    let Module, Color;
+    (Color = Color || (Color = {
+    }))[Color.Blue = 0] = "Blue", Color[Color.Red = 1] = "Red", Y.x = 12, Y.F = function(s) {
         return 2;
     }, Y.array = null, Y.fn = (s)=>"hello " + s
     , Y.ol = {
         s: "hello",
         id: 2,
         isvalid: !0
-    };
-})(Y1 || (Y1 = {
+    }, Y.Module = Module, Y.Color = Color;
+})(Y || (Y = {
 }));

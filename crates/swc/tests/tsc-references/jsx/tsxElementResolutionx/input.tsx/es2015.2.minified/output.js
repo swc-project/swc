@@ -1,5 +1,5 @@
-var Dotted;
-(Dotted || (Dotted = {
+var Dotted, Dotted;
+(Dotted = Dotted || (Dotted = {
 })).Name = class {
 }, React.createElement("foundFirst", {
     x: "hello"

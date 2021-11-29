@@ -17,7 +17,7 @@ var D = function D() {
 function F(x) {
     return 42;
 }
-var M1;
+var M;
 (function(M) {
     var F2 = function F2(x) {
         return x.toString();
@@ -28,7 +28,7 @@ var M1;
     };
     M.A = A;
     M.F2 = F2;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
 var aNumber = 9.9;
 throw aNumber;
@@ -60,12 +60,12 @@ var aLambda = function(x) {
 };
 throw aLambda;
 throw aLambda(1);
-var aModule = M1;
+var aModule = M;
 throw aModule;
-throw typeof M1 === "undefined" ? "undefined" : _typeof(M1);
-var aClassInModule = new M1.A();
+throw typeof M === "undefined" ? "undefined" : _typeof(M);
+var aClassInModule = new M.A();
 throw aClassInModule;
-var aFunctionInModule = M1.F2;
+var aFunctionInModule = M.F2;
 throw aFunctionInModule;
 // no initializer or annotation, so this is an 'any'
 var x1;

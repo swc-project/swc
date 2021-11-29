@@ -21,18 +21,18 @@ class A {
         return a;
     }
 }
-var M1;
+var M;
 (function(M) {
     var n;
     M.n = n;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
 var objA = new A();
 // any type var
 var ResultIsBoolean1 = !ANY1;
 var ResultIsBoolean2 = !ANY2;
 var ResultIsBoolean3 = !A;
-var ResultIsBoolean4 = !M1;
+var ResultIsBoolean4 = !M;
 var ResultIsBoolean5 = !obj;
 var ResultIsBoolean6 = !obj1;
 // any type literal
@@ -43,7 +43,7 @@ var ResultIsBoolean9 = !ANY2[0];
 var ResultIsBoolean10 = !obj1.x;
 var ResultIsBoolean11 = !obj1.y;
 var ResultIsBoolean12 = !objA.a;
-var ResultIsBoolean13 = !M1.n;
+var ResultIsBoolean13 = !M.n;
 var ResultIsBoolean14 = !foo();
 var ResultIsBoolean15 = !A.foo();
 var ResultIsBoolean16 = !(ANY + ANY1);
@@ -59,4 +59,4 @@ var ResultIsBoolean21 = !!!(ANY + ANY1);
 !ANY2[0];
 !ANY, ANY1;
 !objA.a;
-!M1.n;
+!M.n;

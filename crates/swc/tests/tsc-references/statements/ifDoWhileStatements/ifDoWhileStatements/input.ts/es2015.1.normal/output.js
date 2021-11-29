@@ -10,7 +10,7 @@ function F(x) {
 function F21(x) {
     return x < 42;
 }
-var M1;
+var M;
 (function(M) {
     class A {
     }
@@ -19,9 +19,9 @@ var M1;
         return x.toString();
     }
     M.F2 = F2;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
-var N1;
+var N;
 (function(N) {
     class A {
     }
@@ -30,7 +30,7 @@ var N1;
         return x.toString();
     }
     N.F2 = F2;
-})(N1 || (N1 = {
+})(N || (N = {
 }));
 // literals
 if (true) {

@@ -1,5 +1,5 @@
-var M, x;
-switch((M || (M = {
+var M, x, M;
+switch((M = M || (M = {
 })).fn = function(x) {
     return "";
 }, x){

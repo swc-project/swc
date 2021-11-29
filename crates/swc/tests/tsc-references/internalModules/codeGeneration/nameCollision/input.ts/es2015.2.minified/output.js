@@ -1,8 +1,9 @@
-var X1, D;
+var X, D, D;
 !function(X) {
-    var Y, Z;
-    (Y || (Y = {
+    var Y;
+    let Y, Z;
+    (Y = Y || (Y = {
     })).Z = Z, X.Y = Y;
-}(X1 || (X1 = {
-})), (D || (D = {
+}(X || (X = {
+})), (D = D || (D = {
 })).E = "hello";

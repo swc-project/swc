@@ -8,10 +8,10 @@ function foo4(x) {
 }
 function foo5(x) {
 }
-var E1;
+let E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
 function foo6(x) {
 }

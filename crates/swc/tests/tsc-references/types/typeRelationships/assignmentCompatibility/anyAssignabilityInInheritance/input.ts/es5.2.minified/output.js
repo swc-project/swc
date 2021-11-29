@@ -13,12 +13,12 @@ var A2 = function() {
 };
 function f() {
 }
-foo3(a), foo3(a), foo3(a), (E1 = E || (E = {
-}))[E1.A = 0] = "A", foo3(a), (f || (f = {
+foo3(a), foo3(a), foo3(a), (E = E || (E = {
+}))[E.A = 0] = "A", foo3(a), (f = f || (f = {
 })).bar = 1, foo3(a);
-var a, E, E1, CC = function() {
+var a, E, E, f, CC, CC = function() {
     "use strict";
     _classCallCheck(this, CC);
 };
-(CC || (CC = {
+(CC = CC || (CC = {
 })).bar = 1, foo3(a), foo3(a), foo3(a);

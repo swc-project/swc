@@ -27,12 +27,12 @@ var x13_2;
 foo13(x13_1, x13_2);
 foo13(x13_2, x13_1);
 var x14;
-var E1;
+let E;
 (function(E) {
     E[E["x"] = 10] = "x";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
-f15(E1.x).toLowerCase();
+f15(E.x).toLowerCase();
 var x;
 f16(x);
 var y = [

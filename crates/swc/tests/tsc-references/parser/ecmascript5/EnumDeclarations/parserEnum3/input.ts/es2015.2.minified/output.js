@@ -1,1 +1,1 @@
-export var SignatureFlags;
+export let SignatureFlags;

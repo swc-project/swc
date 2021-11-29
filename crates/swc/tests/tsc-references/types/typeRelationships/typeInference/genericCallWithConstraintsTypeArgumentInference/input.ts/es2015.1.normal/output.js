@@ -27,8 +27,8 @@ function foo2c() {
 var r3 = foo2b(d1); // Base
 var r3b = foo2c(); // Base
 class C {
-    foo(t, u) {
-        return t;
+    foo(t5, u6) {
+        return t5;
     }
     foo2(t1, u1) {
         return u1;
@@ -54,9 +54,9 @@ class C {
         var x;
         return x;
     }
-    constructor(t5, u6){
-        this.t = t5;
-        this.u = u6;
+    constructor(t, u){
+        this.t = t;
+        this.u = u;
     }
 }
 var c = new C(b, d1);

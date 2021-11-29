@@ -32,7 +32,7 @@ function _createClass(Constructor, protoProps, staticProps) {
 // limitations under the License.
 //
 ///<reference path='formatting.ts' />
-var Formatting1;
+var Formatting;
 (function(Formatting) {
     var Indenter = /*#__PURE__*/ function() {
         "use strict";
@@ -654,5 +654,5 @@ var Formatting1;
         return Indenter;
     }();
     Formatting.Indenter = Indenter;
-})(Formatting1 || (Formatting1 = {
+})(Formatting || (Formatting = {
 }));

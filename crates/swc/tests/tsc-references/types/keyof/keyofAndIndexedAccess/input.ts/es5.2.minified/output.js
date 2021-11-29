@@ -54,7 +54,7 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var Flag, E, Flag1, E1, Shape1 = function() {
+var Flag, E, Flag, E, Shape1 = function() {
     "use strict";
     _classCallCheck(this, Shape1);
 }, TaggedShape = function(Shape) {
@@ -78,8 +78,8 @@ function getProperty(obj, key) {
 function setProperty(obj, key, value) {
     obj[key] = value;
 }
-(E1 = E || (E = {
-}))[E1.A = 0] = "A", E1[E1.B = 1] = "B", E1[E1.C = 2] = "C";
+(E = E || (E = {
+}))[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C";
 var Component = function() {
     "use strict";
     function Component() {
@@ -244,7 +244,7 @@ var A1 = function() {
     ]), AnotherSampleClass;
 }(SampleClass1);
 new AnotherSampleClass({
-}), (Flag = Flag1 || (Flag1 = {
+}), (Flag = Flag || (Flag = {
 })).FLAG_1 = "flag_1", Flag.FLAG_2 = "flag_2";
 var Unbounded = function() {
     "use strict";

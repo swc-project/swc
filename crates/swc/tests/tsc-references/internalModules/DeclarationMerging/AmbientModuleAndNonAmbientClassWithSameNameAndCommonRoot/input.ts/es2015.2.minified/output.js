@@ -1,5 +1,5 @@
-var A;
-(A || (A = {
+var A, A;
+(A = A || (A = {
 })).Point = class {
     constructor(x, y){
         this.x = x, this.y = y;

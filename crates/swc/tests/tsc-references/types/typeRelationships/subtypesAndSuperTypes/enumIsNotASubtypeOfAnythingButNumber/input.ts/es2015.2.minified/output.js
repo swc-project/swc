@@ -1,11 +1,14 @@
-var E, E2, E1, E21;
+var E, E2, f, c;
+let E;
+(E = E || (E = {
+}))[E.A = 0] = "A";
+let E2;
 function f() {
 }
-(E1 = E || (E = {
-}))[E1.A = 0] = "A", (E21 = E2 || (E2 = {
-}))[E21.A = 0] = "A", (f || (f = {
+(E2 = E2 || (E2 = {
+}))[E2.A = 0] = "A", (f = f || (f = {
 })).bar = 1;
 class c {
 }
-(c || (c = {
+(c = c || (c = {
 })).bar = 1;

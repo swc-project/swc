@@ -3,14 +3,14 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-var A1;
+var A;
 (function(A) {
     var Point = function Point() {
         "use strict";
         _classCallCheck(this, Point);
     };
     A.Point = Point;
-})(A1 || (A1 = {
+})(A || (A = {
 }));
 (function(A) {
     var Point = function Point() {
@@ -18,24 +18,24 @@ var A1;
         _classCallCheck(this, Point);
     };
     A.Point = Point;
-})(A1 || (A1 = {
+})(A || (A = {
 }));
-var X1;
+var X;
 (function(X) {
-    var Y1;
+    var Y;
     (function(Y) {
-        var Z1;
+        var Z;
         (function(Z) {
             var Line = function Line() {
                 "use strict";
                 _classCallCheck(this, Line);
             };
             Z.Line = Line;
-        })(Z1 || (Z1 = {
+        })(Z || (Z = {
         }));
-        Y.Z = Z1;
-    })(Y1 || (Y1 = {
+        Y.Z = Z;
+    })(Y || (Y = {
     }));
-    X.Y = Y1;
-})(X1 || (X1 = {
+    X.Y = Y;
+})(X || (X = {
 }));

@@ -1,5 +1,5 @@
 //@target: ES6
-var M1;
+var M;
 (function(M) {
     var Symbol;
     var tmp = Symbol.iterator;
@@ -8,5 +8,5 @@ var M1;
         }
     }
     M.Symbol = Symbol;
-})(M1 || (M1 = {
+})(M || (M = {
 }));

@@ -1,5 +1,6 @@
 var moduleA;
-(moduleA || (moduleA = {
+let moduleA;
+(moduleA = moduleA || (moduleA = {
 })).Point = class {
     constructor(x, y){
         this.x = x, this.y = y;

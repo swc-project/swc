@@ -1,4 +1,4 @@
-var M, M1;
+var M, M;
 function _slicedToArray(arr, i) {
     return (function(arr) {
         if (Array.isArray(arr)) return arr;
@@ -52,8 +52,8 @@ f14([
             y: !1
         }
     ]
-]), (M1 = M || (M = {
-})).a = 1, M1.b = 2, f17({
+]), (M = M || (M = {
+})).a = 1, M.b = 2, f17({
 }), f17({
     a: "hello"
 }), f17({

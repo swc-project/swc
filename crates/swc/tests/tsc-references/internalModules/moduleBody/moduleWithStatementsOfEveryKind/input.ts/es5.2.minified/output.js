@@ -1,4 +1,4 @@
-var Y1;
+var A3, Y;
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
@@ -47,7 +47,7 @@ function _createSuper(Derived) {
     };
 }
 !function(A3) {
-    var Module, Color, A1, Color1, A2 = function() {
+    var Module, Color, Module, A1, Color, A2 = function() {
         "use strict";
         _classCallCheck(this, A2);
     }, AA1 = function() {
@@ -70,15 +70,15 @@ function _createSuper(Derived) {
         }
         return BB;
     }(A2);
-    Module || (Module = {
+    Module = Module || (Module = {
     }), A1 = function() {
         "use strict";
         _classCallCheck(this, A1);
-    }, (Color1 = Color || (Color = {
-    }))[Color1.Blue = 0] = "Blue", Color1[Color1.Red = 1] = "Red";
-}(A || (A = {
+    }, (Color = Color || (Color = {
+    }))[Color.Blue = 0] = "Blue", Color[Color.Red = 1] = "Red";
+}(A3 || (A3 = {
 })), (function(Y) {
-    var A5 = function() {
+    var Module, Color, A5 = function() {
         "use strict";
         _classCallCheck(this, A5);
     };
@@ -98,7 +98,7 @@ function _createSuper(Derived) {
         return B;
     }(AA2);
     Y.B = B;
-    var A4, Color2, BB = function(A) {
+    var Module, A4, Color, BB = function(A) {
         "use strict";
         _inherits(BB, A);
         var _super = _createSuper(BB);
@@ -107,12 +107,12 @@ function _createSuper(Derived) {
         }
         return BB;
     }(A5);
-    Y.BB = BB, Module || (Module = {
+    Y.BB = BB, Module = Module || (Module = {
     }), A4 = function() {
         "use strict";
         _classCallCheck(this, A4);
-    }, (Color2 = Color || (Color = {
-    }))[Color2.Blue = 0] = "Blue", Color2[Color2.Red = 1] = "Red", Y.x = 12, Y.F = function(s) {
+    }, (Color = Color || (Color = {
+    }))[Color.Blue = 0] = "Blue", Color[Color.Red = 1] = "Red", Y.x = 12, Y.F = function(s) {
         return 2;
     }, Y.array = null, Y.fn = function(s) {
         return "hello " + s;
@@ -120,6 +120,6 @@ function _createSuper(Derived) {
         s: "hello",
         id: 2,
         isvalid: !0
-    };
-})(Y1 || (Y1 = {
+    }, Y.Module = Module, Y.Color = Color;
+})(Y || (Y = {
 }));

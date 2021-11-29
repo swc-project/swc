@@ -7,7 +7,7 @@ class D {
 function F(x) {
     return 42;
 }
-var M1;
+var M;
 (function(M) {
     class A {
     }
@@ -16,7 +16,7 @@ var M1;
         return x.toString();
     }
     M.F2 = F2;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
 // all of these are errors
 for(var a;;){
@@ -29,7 +29,7 @@ for(var a = new C();;){
 }
 for(var a = new D();;){
 }
-for(var a = M1;;){
+for(var a = M;;){
 }
 for(var b;;){
 }
@@ -65,5 +65,5 @@ for(var arr2 = new Array();;){
 }
 for(var m;;){
 }
-for(var m = M1.A;;){
+for(var m = M.A;;){
 }

@@ -1,3 +1,4 @@
-var E, E1;
-(E1 = E || (E = {
-})).A = "a", E1.B = "b", E1.C = "c", item[e];
+var E;
+let E;
+(E = E || (E = {
+})).A = "a", E.B = "b", E.C = "c", item[e];

@@ -17,7 +17,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var A1;
+var A;
 (function(A) {
     var Point = function Point(x, y) {
         "use strict";
@@ -26,7 +26,7 @@ var A1;
         this.y = y;
     };
     A.Point = Point;
-    var B1;
+    var B;
     (function(B) {
         B.Origin = new Point(0, 0);
         var Line = /*#__PURE__*/ function() {
@@ -48,8 +48,8 @@ var A1;
             return Line;
         }();
         B.Line = Line;
-    })(B1 || (B1 = {
+    })(B || (B = {
     }));
-    A.B = B1;
-})(A1 || (A1 = {
+    A.B = B;
+})(A || (A = {
 }));

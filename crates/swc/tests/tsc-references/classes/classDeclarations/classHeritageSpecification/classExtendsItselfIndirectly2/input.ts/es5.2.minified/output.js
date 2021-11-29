@@ -45,7 +45,7 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var M1, N1, O, C = function(_E) {
+var M, N, O, C = function(_E) {
     "use strict";
     _inherits(C, _E);
     var _super = _createSuper(C);
@@ -53,7 +53,7 @@ var M1, N1, O, C = function(_E) {
         return _classCallCheck(this, C), _super.apply(this, arguments);
     }
     return C;
-}(N1.E);
+}(N.E);
 !function(M) {
     var D = function(C) {
         "use strict";
@@ -65,7 +65,7 @@ var M1, N1, O, C = function(_E) {
         return D;
     }(C);
     M.D = D;
-}(M1 || (M1 = {
+}(M || (M = {
 })), (function(N) {
     var E = function(_D) {
         "use strict";
@@ -75,11 +75,11 @@ var M1, N1, O, C = function(_E) {
             return _classCallCheck(this, E), _super.apply(this, arguments);
         }
         return E;
-    }(M1.D);
+    }(M.D);
     N.E = E;
-})(N1 || (N1 = {
+})(N || (N = {
 })), (function(O) {
-    var P1, Q1, C2 = function(_E2) {
+    var P, Q1, C2 = function(_E2) {
         "use strict";
         _inherits(C2, _E2);
         var _super = _createSuper(C2);
@@ -87,7 +87,7 @@ var M1, N1, O, C = function(_E) {
             return _classCallCheck(this, C2), _super.apply(this, arguments);
         }
         return C2;
-    }(Q1.E2);
+    }(Q.E2);
     (function(P) {
         var D2 = function(C2) {
             "use strict";
@@ -99,8 +99,8 @@ var M1, N1, O, C = function(_E) {
             return D2;
         }(C2);
         P.D2 = D2;
-    })(P1 || (P1 = {
-    })), (function(Q) {
+    })(P || (P = {
+    })), (function(Q1) {
         var E2 = function(_D2) {
             "use strict";
             _inherits(E2, _D2);
@@ -109,8 +109,8 @@ var M1, N1, O, C = function(_E) {
                 return _classCallCheck(this, E2), _super.apply(this, arguments);
             }
             return E2;
-        }(P1.D2);
-        Q.E2 = E2;
+        }(P.D2);
+        Q1.E2 = E2;
     })(Q1 || (Q1 = {
     }));
 })(O || (O = {

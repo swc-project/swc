@@ -1,4 +1,4 @@
-var A1, D, E1;
+var A, D, E, D;
 !function(A) {
     class Point {
         constructor(x, y){
@@ -6,12 +6,12 @@ var A1, D, E1;
         }
     }
     A.Point = Point, A.Origin = new Point(0, 0);
-}(A1 || (A1 = {
-})), D || (D = {
-}), new A1.Point(1, 1), (function(E) {
-    var a = A1;
+}(A || (A = {
+})), D = D || (D = {
+}), new A.Point(1, 1), (function(E) {
+    var a = A;
     E.xDist = function(x) {
         return a.Origin.x - x.x;
     };
-})(E1 || (E1 = {
+})(E || (E = {
 }));

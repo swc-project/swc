@@ -1,9 +1,9 @@
-var E1;
+let E;
 (function(E) {
     E[E["a"] = 0] = "a";
     E[E["b"] = 1] = "b";
     E[E["c"] = 2] = "c";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
 var a;
 var b;

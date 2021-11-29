@@ -1,6 +1,6 @@
-var M1;
+var M;
 !function(M) {
     var Symbol;
     Symbol.iterator, M.Symbol = Symbol;
-}(M1 || (M1 = {
+}(M || (M = {
 }));

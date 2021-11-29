@@ -1,7 +1,7 @@
-var M, M1;
+var M, M;
 class C {
 }
-for((M = M1 || (M1 = {
+for((M = M || (M = {
 })).A = class {
 }, M.F2 = function(x) {
     return x.toString();
@@ -23,6 +23,6 @@ for(;;);
 for((x)=>2
 ;;);
 for(;;);
-for(new M1.A();;);
+for(new M.A();;);
 for((x)=>"this is a string"
 ;;);

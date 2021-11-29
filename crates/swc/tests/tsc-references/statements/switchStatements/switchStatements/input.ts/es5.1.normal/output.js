@@ -69,13 +69,13 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
-var M1;
+var M;
 (function(M) {
     var fn = function fn(x) {
         return '';
     };
     M.fn = fn;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
 var x;
 switch(x){
@@ -97,8 +97,8 @@ switch(x){
         'a'
     ]:
     case typeof x === "undefined" ? "undefined" : _typeof(x):
-    case typeof M1 === "undefined" ? "undefined" : _typeof(M1):
-    case M1.fn(1):
+    case typeof M === "undefined" ? "undefined" : _typeof(M):
+    case M.fn(1):
     case function(x) {
         return '';
     }:

@@ -1,4 +1,4 @@
-var E, E1;
+var E, E;
 export function Set() {
     for(var _len = arguments.length, keys = new Array(_len), _key = 0; _key < _len; _key++)keys[_key] = arguments[_key];
     var result = {
@@ -17,5 +17,5 @@ langCodes.map(function(code) {
     return {
         code: code
     };
-}), (E = E1 || (E1 = {
-}))[E.A = 0] = "A", E[E.B = 1] = "B", f(E1.A);
+}), (E = E || (E = {
+}))[E.A = 0] = "A", E[E.B = 1] = "B", f(E.A);

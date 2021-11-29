@@ -3,6 +3,7 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
+var A;
 (function(A) {
     var A1 = function A1() {
         "use strict";

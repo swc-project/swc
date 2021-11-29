@@ -3,7 +3,7 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-var moduleA1;
+var moduleA;
 (function(moduleA) {
     var Point = function Point(x, y) {
         "use strict";
@@ -12,7 +12,7 @@ var moduleA1;
         this.y = y;
     };
     moduleA.Point = Point;
-})(moduleA1 || (moduleA1 = {
+})(moduleA || (moduleA = {
 }));
 var p;
 var p;

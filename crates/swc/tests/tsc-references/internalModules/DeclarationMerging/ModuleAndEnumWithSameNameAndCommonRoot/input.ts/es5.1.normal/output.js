@@ -3,7 +3,7 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-var enumdule1;
+var enumdule;
 (function(enumdule) {
     var Point = function Point(x, y) {
         "use strict";
@@ -12,14 +12,14 @@ var enumdule1;
         this.y = y;
     };
     enumdule.Point = Point;
-})(enumdule1 || (enumdule1 = {
+})(enumdule || (enumdule = {
 }));
 (function(enumdule) {
     enumdule[enumdule["Red"] = 0] = "Red";
     enumdule[enumdule["Blue"] = 1] = "Blue";
-})(enumdule1 || (enumdule1 = {
+})(enumdule || (enumdule = {
 }));
 var x1;
-var x1 = enumdule1.Red;
+var x1 = enumdule.Red;
 var y1;
-var y1 = new enumdule1.Point(0, 0);
+var y1 = new enumdule.Point(0, 0);

@@ -4,7 +4,7 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-var clodule = function() {
+var clodule, clodule = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function clodule() {
@@ -20,7 +20,7 @@ var clodule = function() {
         }
     ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), clodule;
 }();
-(clodule || (clodule = {
+(clodule = clodule || (clodule = {
 })).fn = function(x, y) {
     return x;
 };

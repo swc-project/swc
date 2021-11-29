@@ -83,7 +83,7 @@ var D = /*#__PURE__*/ function(C) {
     }
     return D;
 }(C);
-(function(D1) {
-    D1.y = D.bar;
+(function(D) {
+    D.y = D.bar;
 })(D || (D = {
 }));

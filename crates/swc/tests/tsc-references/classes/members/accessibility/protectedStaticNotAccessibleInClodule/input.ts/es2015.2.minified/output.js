@@ -1,5 +1,5 @@
 var C;
-class C1 {
+class C {
 }
-(C = C1 || (C1 = {
-})).f = C1.foo, C.b = C1.bar;
+(C = C || (C = {
+})).f = C.foo, C.b = C.bar;

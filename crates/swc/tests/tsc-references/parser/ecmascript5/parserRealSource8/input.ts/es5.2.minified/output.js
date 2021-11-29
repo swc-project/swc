@@ -8,7 +8,7 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-!function(TypeScript1) {
+!function(TypeScript) {
     var pushAssignScope = function(scope, context, type, classType, fnc) {
         var chain = new ScopeChain(null, context.scopeChain, scope);
         chain.thisType = type, chain.classType = classType, chain.fnc = fnc, context.scopeChain = chain;
@@ -98,7 +98,7 @@ function _defineProperties(target, props) {
         "use strict";
         _classCallCheck(this, AssignScopeContext), this.scopeChain = scopeChain, this.typeFlow = typeFlow, this.modDeclChain = modDeclChain;
     };
-    TypeScript1.AssignScopeContext = AssignScopeContext, TypeScript1.pushAssignScope = pushAssignScope, TypeScript1.popAssignScope = popAssignScope, TypeScript1.instanceCompare = instanceCompare, TypeScript1.instanceFilterStop = instanceFilterStop;
+    TypeScript.AssignScopeContext = AssignScopeContext, TypeScript.pushAssignScope = pushAssignScope, TypeScript.popAssignScope = popAssignScope, TypeScript.instanceCompare = instanceCompare, TypeScript.instanceFilterStop = instanceFilterStop;
     var ScopeSearchFilter = function() {
         "use strict";
         var Constructor, protoProps, staticProps;
@@ -120,6 +120,6 @@ function _defineProperties(target, props) {
             }
         ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), ScopeSearchFilter;
     }();
-    TypeScript1.ScopeSearchFilter = ScopeSearchFilter, TypeScript1.instanceFilter = new ScopeSearchFilter(instanceCompare, instanceFilterStop), TypeScript1.preAssignModuleScopes = preAssignModuleScopes, TypeScript1.preAssignClassScopes = preAssignClassScopes, TypeScript1.preAssignInterfaceScopes = preAssignInterfaceScopes, TypeScript1.preAssignWithScopes = preAssignWithScopes, TypeScript1.preAssignFuncDeclScopes = preAssignFuncDeclScopes, TypeScript1.preAssignCatchScopes = preAssignCatchScopes, TypeScript1.preAssignScopes = preAssignScopes, TypeScript1.postAssignScopes = postAssignScopes;
+    TypeScript.ScopeSearchFilter = ScopeSearchFilter, TypeScript.instanceFilter = new ScopeSearchFilter(instanceCompare, instanceFilterStop), TypeScript.preAssignModuleScopes = preAssignModuleScopes, TypeScript.preAssignClassScopes = preAssignClassScopes, TypeScript.preAssignInterfaceScopes = preAssignInterfaceScopes, TypeScript.preAssignWithScopes = preAssignWithScopes, TypeScript.preAssignFuncDeclScopes = preAssignFuncDeclScopes, TypeScript.preAssignCatchScopes = preAssignCatchScopes, TypeScript.preAssignScopes = preAssignScopes, TypeScript.postAssignScopes = postAssignScopes;
 }(TypeScript || (TypeScript = {
 }));

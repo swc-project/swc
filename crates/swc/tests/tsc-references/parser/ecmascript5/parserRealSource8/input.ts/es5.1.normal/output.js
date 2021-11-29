@@ -21,7 +21,7 @@ function _createClass(Constructor, protoProps, staticProps) {
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
 var TypeScript;
-(function(TypeScript1) {
+(function(TypeScript) {
     var pushAssignScope = function pushAssignScope(scope, context, type, classType, fnc) {
         var chain = new ScopeChain(null, context.scopeChain, scope);
         chain.thisType = type;
@@ -350,11 +350,11 @@ var TypeScript;
         this.typeFlow = typeFlow;
         this.modDeclChain = modDeclChain;
     };
-    TypeScript1.AssignScopeContext = AssignScopeContext;
-    TypeScript1.pushAssignScope = pushAssignScope;
-    TypeScript1.popAssignScope = popAssignScope;
-    TypeScript1.instanceCompare = instanceCompare;
-    TypeScript1.instanceFilterStop = instanceFilterStop;
+    TypeScript.AssignScopeContext = AssignScopeContext;
+    TypeScript.pushAssignScope = pushAssignScope;
+    TypeScript.popAssignScope = popAssignScope;
+    TypeScript.instanceCompare = instanceCompare;
+    TypeScript.instanceFilterStop = instanceFilterStop;
     var ScopeSearchFilter = /*#__PURE__*/ function() {
         "use strict";
         function ScopeSearchFilter(select, stop) {
@@ -384,15 +384,15 @@ var TypeScript;
         ]);
         return ScopeSearchFilter;
     }();
-    TypeScript1.ScopeSearchFilter = ScopeSearchFilter;
-    TypeScript1.instanceFilter = new ScopeSearchFilter(instanceCompare, instanceFilterStop);
-    TypeScript1.preAssignModuleScopes = preAssignModuleScopes;
-    TypeScript1.preAssignClassScopes = preAssignClassScopes;
-    TypeScript1.preAssignInterfaceScopes = preAssignInterfaceScopes;
-    TypeScript1.preAssignWithScopes = preAssignWithScopes;
-    TypeScript1.preAssignFuncDeclScopes = preAssignFuncDeclScopes;
-    TypeScript1.preAssignCatchScopes = preAssignCatchScopes;
-    TypeScript1.preAssignScopes = preAssignScopes;
-    TypeScript1.postAssignScopes = postAssignScopes;
+    TypeScript.ScopeSearchFilter = ScopeSearchFilter;
+    TypeScript.instanceFilter = new ScopeSearchFilter(instanceCompare, instanceFilterStop);
+    TypeScript.preAssignModuleScopes = preAssignModuleScopes;
+    TypeScript.preAssignClassScopes = preAssignClassScopes;
+    TypeScript.preAssignInterfaceScopes = preAssignInterfaceScopes;
+    TypeScript.preAssignWithScopes = preAssignWithScopes;
+    TypeScript.preAssignFuncDeclScopes = preAssignFuncDeclScopes;
+    TypeScript.preAssignCatchScopes = preAssignCatchScopes;
+    TypeScript.preAssignScopes = preAssignScopes;
+    TypeScript.postAssignScopes = postAssignScopes;
 })(TypeScript || (TypeScript = {
 }));

@@ -1,3 +1,4 @@
+var A;
 (function(A) {
     class A1 {
     }

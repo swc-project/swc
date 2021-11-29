@@ -45,7 +45,7 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var TargetHasOptional, SourceHasOptional, Base1 = function() {
+var TargetHasOptional, SourceHasOptional, TargetHasOptional, Base1 = function() {
     "use strict";
     _classCallCheck(this, Base1);
 }, Derived1 = function(Base) {
@@ -65,7 +65,7 @@ var TargetHasOptional, SourceHasOptional, Base1 = function() {
     }
     return Derived2;
 }(Derived1);
-TargetHasOptional || (TargetHasOptional = {
+TargetHasOptional = TargetHasOptional || (TargetHasOptional = {
 }), new Base1(), (function(SourceHasOptional) {
     var c, a, d, e, f;
     new Base1(), c = d, c = e, c = f, c = a, a = d, a = e, a = f, a = c;

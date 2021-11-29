@@ -1,9 +1,12 @@
-var M, E, M1, E1, foo;
-function foo1() {
+var M, E, foo;
+let M;
+(M = M || (M = {
+})).foo = "", M.C = class {
+};
+let E;
+function foo() {
 }
-(M1 = M || (M = {
-})).foo = "", M1.C = class {
-}, (E1 = E || (E = {
-}))[E1.A = 0] = "A", (foo = foo1 || (foo1 = {
+(E = E || (E = {
+}))[E.A = 0] = "A", (foo = foo || (foo = {
 })).y = 1, foo.C = class {
 };

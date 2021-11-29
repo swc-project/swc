@@ -1,4 +1,4 @@
-var Formatting1;
+var Formatting;
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
         var descriptor = props[i];
@@ -344,5 +344,5 @@ function _defineProperties(target, props) {
         ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Indenter;
     }();
     Formatting.Indenter = Indenter;
-}(Formatting1 || (Formatting1 = {
+}(Formatting || (Formatting = {
 }));

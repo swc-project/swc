@@ -1,7 +1,7 @@
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
-var Dotted1, foundFirst = function() {
+var Dotted, foundFirst = function() {
     "use strict";
     _classCallCheck(this, foundFirst);
 }, Other = function() {
@@ -14,7 +14,7 @@ var Dotted1, foundFirst = function() {
         _classCallCheck(this, Name);
     };
     Dotted.Name = Name;
-})(Dotted1 || (Dotted1 = {
+})(Dotted || (Dotted = {
 })), React.createElement("foundFirst", {
     x: "hello"
-}), React.createElement("string_named", null), React.createElement(Other, null), React.createElement(Dotted1.Name, null);
+}), React.createElement("string_named", null), React.createElement(Other, null), React.createElement(Dotted.Name, null);

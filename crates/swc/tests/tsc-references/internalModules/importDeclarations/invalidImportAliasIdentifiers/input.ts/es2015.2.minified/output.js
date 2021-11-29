@@ -1,4 +1,5 @@
-var E, E1;
-(E1 = E || (E = {
-}))[E1.Red = 0] = "Red", E1[E1.Blue = 1] = "Blue";
+var E;
+let E;
+(E = E || (E = {
+}))[E.Red = 0] = "Red", E[E.Blue = 1] = "Blue";
 export { };

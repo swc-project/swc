@@ -4,10 +4,10 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 (function(A) {
-    A.Instance = new A1();
-})(A1 || (A1 = {
+    A.Instance = new A();
+})(A || (A = {
 }));
-var A1 = function A1() {
+var A = function A() {
     "use strict";
-    _classCallCheck(this, A1);
+    _classCallCheck(this, A);
 };

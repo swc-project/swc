@@ -1,8 +1,8 @@
-var M1;
+var M;
 !function(M) {
     class A {
     }
     M.A = A, M.B = class extends A {
     };
-}(M1 || (M1 = {
-})), new M1.A, new M1.B;
+}(M || (M = {
+})), new M.A, new M.B;

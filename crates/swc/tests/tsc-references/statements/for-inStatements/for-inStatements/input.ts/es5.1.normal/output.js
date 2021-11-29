@@ -221,26 +221,26 @@ var B = /*#__PURE__*/ function(A) {
 var i1;
 for(var x1 in i1[42]){
 }
-var M1;
+var M;
 (function(M) {
     var X = function X() {
         "use strict";
         _classCallCheck(this, X);
     };
     M.X = X;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
-for(var x1 in M1){
+for(var x1 in M){
 }
-for(var x1 in M1.X){
+for(var x1 in M.X){
 }
-var Color1;
+var Color = void 0;
 (function(Color) {
     Color[Color["Red"] = 0] = "Red";
     Color[Color["Blue"] = 1] = "Blue";
-})(Color1 || (Color1 = {
+})(Color || (Color = {
 }));
-for(var x1 in Color1){
+for(var x1 in Color){
 }
-for(var x1 in Color1.Blue){
+for(var x1 in Color.Blue){
 }

@@ -1,24 +1,27 @@
-var M, N1, O;
-class C extends N1.E {
+var M, N, O, M;
+class C extends N.E {
 }
-(M || (M = {
+(M = M || (M = {
 })).D = class extends C {
 }, (function(N) {
     class E extends M.D {
     }
     N.E = E;
-})(N1 || (N1 = {
+})(N || (N = {
 })), (function(O) {
-    var P, Q1;
-    class C2 extends Q1.E2 {
+    var P;
+    class C2 extends Q.E2 {
     }
-    (P || (P = {
+    let P;
+    (P = P || (P = {
     })).D2 = class extends C2 {
-    }, (function(Q) {
+    };
+    let Q1;
+    !function(Q1) {
         class E2 extends P.D2 {
         }
-        Q.E2 = E2;
-    })(Q1 || (Q1 = {
+        Q1.E2 = E2;
+    }(Q1 || (Q1 = {
     }));
 })(O || (O = {
 }));

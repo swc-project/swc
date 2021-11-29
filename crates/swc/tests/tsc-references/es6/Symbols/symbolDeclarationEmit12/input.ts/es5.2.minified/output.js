@@ -1,4 +1,4 @@
-var M1;
+var M;
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
         var descriptor = props[i];
@@ -38,5 +38,5 @@ function _defineProperties(target, props) {
         ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
     }();
     M.C = C;
-}(M1 || (M1 = {
+}(M || (M = {
 }));

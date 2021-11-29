@@ -1,4 +1,4 @@
-var M;
-(M || (M = {
+var M, M;
+(M = M || (M = {
 })).generator = function*() {
 };

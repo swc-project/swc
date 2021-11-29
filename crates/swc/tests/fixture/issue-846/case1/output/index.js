@@ -454,7 +454,7 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
-var SomeClass1 = _decorate([], function(_initialize) {
+var SomeClass = _decorate([], function(_initialize) {
     var SomeClass = function SomeClass() {
         "use strict";
         _classCallCheck(this, SomeClass);
@@ -475,7 +475,7 @@ var SomeClass1 = _decorate([], function(_initialize) {
         ]
     };
 });
-var OtherClass1 = _decorate([], function(_initialize, _SomeClass1) {
+var OtherClass = _decorate([], function(_initialize, _SomeClass1) {
     var OtherClass = /*#__PURE__*/ function(_SomeClass) {
         "use strict";
         _inherits(OtherClass, _SomeClass);
@@ -504,4 +504,4 @@ var OtherClass1 = _decorate([], function(_initialize, _SomeClass1) {
             }
         ]
     };
-}, SomeClass1);
+}, SomeClass);

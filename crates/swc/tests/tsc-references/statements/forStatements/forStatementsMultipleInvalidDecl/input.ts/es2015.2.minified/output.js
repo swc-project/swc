@@ -1,11 +1,11 @@
-var M, M1;
+var M, M;
 class C {
 }
 class C2 extends C {
 }
 class D {
 }
-for((M = M1 || (M1 = {
+for((M = M || (M = {
 })).A = class {
 }, M.F2 = function(x) {
     return x.toString();
@@ -27,4 +27,4 @@ for(new C(), new C2(), new D();;);
 for(new D();;);
 for(new Array();;);
 for(;;);
-for(;;);
+for(M.A;;);

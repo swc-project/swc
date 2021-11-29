@@ -1,5 +1,5 @@
 // @filename: classPoint.ts
-var A1;
+var A;
 (function(A) {
     class Point {
         constructor(x, y){
@@ -8,9 +8,9 @@ var A1;
         }
     }
     A.Point = Point;
-})(A1 || (A1 = {
+})(A || (A = {
 }));
 // @filename: test.ts
 var p;
-var p = A1.Point.Origin;
-var p = new A1.Point(0, 0); // unexpected error here, bug 840000
+var p = A.Point.Origin;
+var p = new A.Point(0, 0); // unexpected error here, bug 840000

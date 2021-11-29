@@ -1,4 +1,4 @@
-var ANY, ANY1, M1, ANY2 = [
+var ANY, ANY1, M, ANY2 = [
     "",
     ""
 ], obj = {
@@ -13,7 +13,7 @@ var ANY, ANY1, M1, ANY2 = [
 !function(M) {
     var n;
     M.n = n;
-}(M1 || (M1 = {
+}(M || (M = {
 }));
 var objA = new A();
-++ANY, ++ANY1, ANY1++, ANY1++, ++ANY2[0], ++obj.x, ++obj.y, ++objA.a, ++M1.n, ANY2[0]++, obj.x++, obj.y++, objA.a++, M1.n++, ++ANY, ++ANY1, ++ANY2[0], ++ANY, ++ANY1, ++objA.a, ++M1.n, ANY++, ANY1++, ANY2[0]++, ANY++, ANY1++, objA.a++, M1.n++;
+++ANY, ++ANY1, ANY1++, ANY1++, ++ANY2[0], ++obj.x, ++obj.y, ++objA.a, ++M.n, ANY2[0]++, obj.x++, obj.y++, objA.a++, M.n++, ++ANY, ++ANY1, ++ANY2[0], ++ANY, ++ANY1, ++objA.a, ++M.n, ANY++, ANY1++, ANY2[0]++, ANY++, ANY1++, objA.a++, M.n++;

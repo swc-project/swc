@@ -13,13 +13,13 @@ var e = null;
 e = x;
 var f = undefined;
 f = x;
-var E1;
+var E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
 var g = x;
-var g2 = E1.A;
+var g2 = E.A;
 g2 = x;
 var C = function C() {
     "use strict";
@@ -29,12 +29,12 @@ var h = x;
 var i = x;
 var j = x;
 var j2 = x;
-var M1;
+var M;
 (function(M) {
     M.foo = 1;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
-M1 = x;
+M = x;
 function k(a) {
     a = x;
 }

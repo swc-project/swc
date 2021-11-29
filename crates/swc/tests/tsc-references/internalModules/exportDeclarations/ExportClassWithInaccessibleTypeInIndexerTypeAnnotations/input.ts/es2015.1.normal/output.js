@@ -1,9 +1,9 @@
-var A1;
+var A;
 (function(A) {
     class Point {
     }
     class points {
     }
     A.points = points;
-})(A1 || (A1 = {
+})(A || (A = {
 }));

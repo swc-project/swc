@@ -1,28 +1,28 @@
 // @module: commonjs
 // @Filename: foo_0.ts
-var Foo1;
+let Foo;
 (function(Foo) {
     function a() {
         return 5;
     }
     Foo.a = a;
     Foo.b = true;
-})(Foo1 || (Foo1 = {
+})(Foo || (Foo = {
 }));
 (function(Foo) {
     function c(a) {
         return a;
     }
     Foo.c = c;
-    var Test1;
+    let Test;
     (function(Test) {
         Test.answer = 42;
-    })(Test1 || (Test1 = {
+    })(Test || (Test = {
     }));
-    Foo.Test = Test1;
-})(Foo1 || (Foo1 = {
+    Foo.Test = Test;
+})(Foo || (Foo = {
 }));
-module.exports = Foo1;
+module.exports = Foo;
 // @Filename: foo_1.ts
 const foo = require("./foo_0");
 var a1 = foo.a();

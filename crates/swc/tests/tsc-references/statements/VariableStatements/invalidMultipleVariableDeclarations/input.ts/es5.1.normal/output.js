@@ -90,7 +90,7 @@ var D = function D() {
 function F(x) {
     return 42;
 }
-var M1;
+var M;
 (function(M) {
     var F2 = function F2(x) {
         return x.toString();
@@ -101,7 +101,7 @@ var M1;
     };
     M.A = A;
     M.F2 = F2;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
 // all of these are errors
 var a;
@@ -109,7 +109,7 @@ var a = 1;
 var a = 'a string';
 var a = new C();
 var a = new D();
-var a = M1;
+var a = M;
 var b;
 var b = new C();
 var b = new C2();
@@ -134,4 +134,4 @@ var arr2 = [
 ];
 var arr2 = new Array();
 var m;
-var m = M1.A;
+var m = M.A;

@@ -11,8 +11,8 @@ var A = function A() {
     "use strict";
     _classCallCheck(this, A);
 };
-(function(A1) {
-    A1.Instance = new A();
+(function(A) {
+    A.Instance = new A();
 })(A || (A = {
 }));
 // ensure merging works as expected

@@ -13,9 +13,9 @@ var NonGeneric, Generic;
             this.a = a, this.b = b;
         }
     }
-    (C || (C = {
+    (C = C || (C = {
     })).bar = "";
-    var c = new C(1, 2);
+    var C, c = new C(1, 2);
     c.fn(), c.foo, c.bar, c.x;
 }(NonGeneric || (NonGeneric = {
 })), (function(Generic) {
@@ -32,9 +32,9 @@ var NonGeneric, Generic;
             this.a = a, this.b = b;
         }
     }
-    (C || (C = {
+    (C = C || (C = {
     })).bar = "";
-    var c = new C(1, "");
+    var C, c = new C(1, "");
     c.fn(), c.foo, c.bar, c.x;
 })(Generic || (Generic = {
 }));

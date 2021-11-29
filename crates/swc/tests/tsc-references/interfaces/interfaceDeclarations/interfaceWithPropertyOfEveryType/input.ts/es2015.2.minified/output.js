@@ -1,5 +1,7 @@
-var E, M, E1;
-(M || (M = {
-})).y = 1, (E = E1 || (E1 = {
+var M, E, M;
+(M = M || (M = {
+})).y = 1;
+let E;
+(E = E || (E = {
 }))[E.A = 0] = "A", new class {
-}(), E1.A;
+}(), E.A;

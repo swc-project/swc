@@ -86,10 +86,10 @@ function f12(x) {
 }
 function f13(x) {
 }
-var E1;
+let E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
 function f14(x) {
 }

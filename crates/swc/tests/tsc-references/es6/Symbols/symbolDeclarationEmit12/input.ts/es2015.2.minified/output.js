@@ -1,4 +1,4 @@
-var M1;
+var M;
 !function(M) {
     var tmp = Symbol.toPrimitive, tmp1 = Symbol.isConcatSpreadable, tmp2 = Symbol.toPrimitive, tmp3 = Symbol.toPrimitive;
     M.C = class {
@@ -11,5 +11,5 @@ var M1;
         set [tmp3](x1) {
         }
     };
-}(M1 || (M1 = {
+}(M || (M = {
 }));

@@ -1,4 +1,4 @@
-var TypeScript1;
+var TypeScript;
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
         var descriptor = props[i];
@@ -60,5 +60,5 @@ function _defineProperties(target, props) {
     }, TypeScript.postPrintAST = function(ast, parent, walker) {
         return walker.state.decreaseIndent(), ast;
     };
-}(TypeScript1 || (TypeScript1 = {
+}(TypeScript || (TypeScript = {
 }));

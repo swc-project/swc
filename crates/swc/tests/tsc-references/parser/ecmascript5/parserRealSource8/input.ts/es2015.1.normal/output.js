@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
-var TypeScript1;
+var TypeScript;
 (function(TypeScript) {
     class AssignScopeContext {
         constructor(scopeChain, typeFlow, modDeclChain){
@@ -138,7 +138,7 @@ var TypeScript1;
         withType.symbol = withSymbol;
         withType.setHasImplementation();
         withStmt.type = withType;
-        var withScope = new TypeScript1.SymbolScopeBuilder(withType.members, withType.ambientMembers, null, null, context.scopeChain.scope, withType.symbol);
+        var withScope = new TypeScript.SymbolScopeBuilder(withType.members, withType.ambientMembers, null, null, context.scopeChain.scope, withType.symbol);
         pushAssignScope(withScope, context, null, null, null);
         withType.containedScope = withScope;
     }
@@ -364,5 +364,5 @@ var TypeScript1;
         return ast;
     }
     TypeScript.postAssignScopes = postAssignScopes;
-})(TypeScript1 || (TypeScript1 = {
+})(TypeScript || (TypeScript = {
 }));

@@ -1,4 +1,4 @@
-var M1, ANY2 = [
+var M, ANY2 = [
     "",
     ""
 ];
@@ -9,7 +9,7 @@ class A {
 !function(M) {
     var n;
     M.n = n;
-}(M1 || (M1 = {
+}(M || (M = {
 }));
 var objA = new A();
-ANY2[0], objA.a, M1.n, A.foo(), ANY2[0], objA.a, M1.n;
+ANY2[0], objA.a, M.n, A.foo(), ANY2[0], objA.a, M.n;

@@ -1,4 +1,4 @@
-var B1, Geometry, Geometry1;
+var B, Geometry, Geometry;
 (function(B) {
     var Line = function(start, end) {
         "use strict";
@@ -7,12 +7,12 @@ var B1, Geometry, Geometry1;
         })(this, Line), this.start = start, this.end = end;
     };
     B.Line = Line;
-})(B1 || (B1 = {
-})), (Geometry1 = Geometry || (Geometry = {
-})).Points = A, Geometry1.Origin = {
+})(B || (B = {
+})), (Geometry = Geometry || (Geometry = {
+})).Points = A, Geometry.Origin = {
     x: 0,
     y: 0
-}, Geometry1.Unit = new B1.Line(Origin, {
+}, Geometry.Unit = new B.Line(Origin, {
     x: 1,
     y: 0
 }), Geometry.Origin, Geometry.Unit, Geometry.Lines.Line;

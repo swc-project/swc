@@ -1,6 +1,6 @@
-var TypeScript1;
+var TypeScript;
 !function(TypeScript) {
-    var CompilerDiagnostics1;
+    let CompilerDiagnostics;
     !function(CompilerDiagnostics) {
         function Alert(output) {
             diagnosticWriter && diagnosticWriter.Alert(output);
@@ -10,7 +10,7 @@ var TypeScript1;
         }, CompilerDiagnostics.assert = function(condition, s) {
             debug && (condition || Alert(s));
         };
-    }(CompilerDiagnostics1 || (CompilerDiagnostics1 = {
+    }(CompilerDiagnostics || (CompilerDiagnostics = {
     })), TypeScript.NullLogger = class {
         information() {
             return !1;
@@ -117,6 +117,6 @@ var TypeScript1;
             for(var i = 0; i < length; i++)addChar(i);
         }
         return result;
-    }, TypeScript.CompilerDiagnostics = CompilerDiagnostics1;
-}(TypeScript1 || (TypeScript1 = {
+    }, TypeScript.CompilerDiagnostics = CompilerDiagnostics;
+}(TypeScript || (TypeScript = {
 }));

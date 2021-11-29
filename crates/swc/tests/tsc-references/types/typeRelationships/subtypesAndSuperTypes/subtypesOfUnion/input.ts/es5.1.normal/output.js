@@ -3,11 +3,11 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-var E1;
+var E;
 (function(E) {
     E[E["e1"] = 0] = "e1";
     E[E["e2"] = 1] = "e2";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
 var A = function A() {
     "use strict";
@@ -17,11 +17,11 @@ var A2 = function A2() {
     "use strict";
     _classCallCheck(this, A2);
 };
-function f1() {
+function f() {
 }
 (function(f) {
     f.bar = 1;
-})(f1 || (f1 = {
+})(f || (f = {
 }));
 var c = function c() {
     "use strict";

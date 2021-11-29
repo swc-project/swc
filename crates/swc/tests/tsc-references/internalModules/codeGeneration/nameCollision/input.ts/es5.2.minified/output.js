@@ -1,4 +1,4 @@
-var X1, D;
+var B, X, D, D;
 !function(B) {
     var B1 = function() {
         "use strict";
@@ -8,9 +8,9 @@ var X1, D;
     };
 }(B || (B = {
 })), (function(X) {
-    var Y, Z;
-    (Y || (Y = {
+    var Y, Y, Z;
+    (Y = Y || (Y = {
     })).Z = Z, X.Y = Y;
-})(X1 || (X1 = {
-})), (D || (D = {
+})(X || (X = {
+})), (D = D || (D = {
 })).E = "hello";

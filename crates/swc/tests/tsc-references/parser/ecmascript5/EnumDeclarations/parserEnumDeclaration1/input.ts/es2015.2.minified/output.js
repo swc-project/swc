@@ -1,3 +1,4 @@
-var E, E1;
-(E1 = E || (E = {
-}))[E1.Foo = 1] = "Foo", E1[E1.Bar = 2] = "Bar";
+var E;
+let E;
+(E = E || (E = {
+}))[E.Foo = 1] = "Foo", E[E.Bar = 2] = "Bar";
