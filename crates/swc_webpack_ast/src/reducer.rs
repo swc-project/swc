@@ -54,7 +54,7 @@ use swc_timer::timer;
 /// module.hot.accept("x", () => {     })
 /// ```
 pub fn ast_reducer(top_level_mark: Mark) -> impl VisitMut {
-    Minimalizer {
+    ReduceAst {
         top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
         ..Default::default()
     }
@@ -116,7 +116,7 @@ impl ScopeData {
 }
 
 #[derive(Clone, Default)]
-struct Minimalizer {
+struct ReduceAst {
     data: Arc<ScopeData>,
     top_level_ctxt: SyntaxContext,
 
@@ -125,7 +125,7 @@ struct Minimalizer {
     can_remove_pat: bool,
 }
 
-impl Minimalizer {
+impl ReduceAst {
     fn flatten_stmt<T>(&mut self, to: &mut Vec<T>, item: &mut T)
     where
         T: StmtOrModuleItem + StmtLike + Take,
@@ -346,7 +346,7 @@ impl Minimalizer {
     }
 }
 
-impl VisitMut for Minimalizer {
+impl VisitMut for ReduceAst {
     fn visit_mut_arrow_expr(&mut self, e: &mut ArrowExpr) {
         let old_can_remove_pat = self.can_remove_pat;
         self.can_remove_pat = true;
