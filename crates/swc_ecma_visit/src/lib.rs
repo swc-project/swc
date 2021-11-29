@@ -130,10 +130,10 @@ macro_rules! assert_eq_ignore_span {
     }};
 }
 
-/// Implemeented for passes which inject varaibles.
+/// Implemented for passes which inject variables.
 ///
 /// If a pass depends on other pass which injects variables, this trait can be
-/// used to keep the varaibles.
+/// used to keep the variables.
 pub trait InjectVars {
     fn take_vars(&mut self) -> Vec<VarDeclarator>;
 }
@@ -145,6 +145,82 @@ where
     fn take_vars(&mut self) -> Vec<VarDeclarator> {
         self.0.take_vars()
     }
+}
+
+#[inline]
+pub fn as_es_program_folder<V>(v: V) -> EsProgramFolder<V>
+where
+    V: VisitMut,
+{
+    EsProgramFolder(v)
+}
+
+/// Wrap a [VisitMut] as a [Fold]
+#[derive(Debug, Clone, Copy)]
+pub struct EsProgramFolder<V: VisitMut>(V);
+
+impl<V> Repeated for EsProgramFolder<V>
+where
+    V: Repeated + VisitMut,
+{
+    #[inline(always)]
+    fn changed(&self) -> bool {
+        self.0.changed()
+    }
+
+    #[inline(always)]
+    fn reset(&mut self) {
+        self.0.reset();
+    }
+}
+
+impl<V> CompilerPass for EsProgramFolder<V>
+where
+    V: VisitMut + CompilerPass,
+{
+    fn name() -> Cow<'static, str> {
+        V::name()
+    }
+}
+
+macro_rules! delegate {
+    ($name:ident, $T:ty) => {
+        #[inline(always)]
+        fn $name(&mut self, n: &mut $T) {
+            n.visit_mut_with(&mut self.0);
+        }
+    };
+}
+
+/// This only proxies subset of methods.
+impl<V> VisitMut for EsProgramFolder<V>
+where
+    V: VisitMut,
+{
+    noop_visit_mut_type!();
+
+    delegate!(visit_mut_script, Script);
+    delegate!(visit_mut_program, Program);
+}
+
+macro_rules! method {
+    ($name:ident, $T:ty) => {
+        #[inline(always)]
+        fn $name(&mut self, mut n: $T) -> $T {
+            n.visit_mut_with(&mut self.0);
+            n
+        }
+    };
+}
+
+impl<V> Fold for EsProgramFolder<V>
+where
+    V: VisitMut,
+{
+    noop_fold_type!();
+
+    method!(fold_module, Module);
+    method!(fold_script, Script);
 }
 
 #[inline]
@@ -183,15 +259,6 @@ where
     }
 }
 
-macro_rules! delegate {
-    ($name:ident, $T:ty) => {
-        #[inline(always)]
-        fn $name(&mut self, n: &mut $T) {
-            n.visit_mut_with(&mut self.0);
-        }
-    };
-}
-
 /// This only proxies subset of methods.
 impl<V> VisitMut for Folder<V>
 where
@@ -210,16 +277,6 @@ where
     delegate!(visit_mut_module, Module);
     delegate!(visit_mut_script, Script);
     delegate!(visit_mut_program, Program);
-}
-
-macro_rules! method {
-    ($name:ident, $T:ty) => {
-        #[inline(always)]
-        fn $name(&mut self, mut n: $T) -> $T {
-            n.visit_mut_with(&mut self.0);
-            n
-        }
-    };
 }
 
 impl<V> Fold for Folder<V>
