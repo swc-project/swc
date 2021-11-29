@@ -1014,16 +1014,6 @@ impl VisitMut for ReduceAst {
         });
     }
 
-    fn visit_mut_opt_expr(&mut self, opt: &mut Option<Box<Expr>>) {
-        opt.visit_mut_children_with(self);
-
-        if let Some(e) = opt {
-            if can_remove(e) {
-                *opt = None;
-            }
-        }
-    }
-
     fn visit_mut_opt_expr_or_spread(&mut self, e: &mut Option<ExprOrSpread>) {
         e.visit_mut_children_with(self);
 
