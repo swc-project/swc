@@ -397,6 +397,16 @@ impl VisitMut for ReduceAst {
         }
     }
 
+    fn visit_mut_class(&mut self, c: &mut Class) {
+        c.visit_mut_children_with(self);
+
+        if let Some(s) = &c.super_class {
+            if can_remove(&s) {
+                c.super_class = None;
+            }
+        }
+    }
+
     fn visit_mut_class_members(&mut self, v: &mut Vec<ClassMember>) {
         v.visit_mut_children_with(self);
 
