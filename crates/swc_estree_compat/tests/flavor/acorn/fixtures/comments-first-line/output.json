@@ -6,6 +6,16 @@
           "end": 36,
           "id": {
             "end": 28,
+            "loc": {
+              "end": {
+                "column": 5,
+                "line": 2
+              },
+              "start": {
+                "column": 4,
+                "line": 2
+              }
+            },
             "name": "a",
             "range": [
               27,
@@ -16,6 +26,16 @@
           },
           "init": {
             "end": 36,
+            "loc": {
+              "end": {
+                "column": 13,
+                "line": 2
+              },
+              "start": {
+                "column": 8,
+                "line": 2
+              }
+            },
             "range": [
               31,
               36
@@ -24,6 +44,16 @@
             "start": 31,
             "type": "Literal",
             "value": false
+          },
+          "loc": {
+            "end": {
+              "column": 13,
+              "line": 2
+            },
+            "start": {
+              "column": 4,
+              "line": 2
+            }
           },
           "range": [
             27,
@@ -35,6 +65,16 @@
       ],
       "end": 37,
       "kind": "let",
+      "loc": {
+        "end": {
+          "column": 14,
+          "line": 2
+        },
+        "start": {
+          "column": 0,
+          "line": 2
+        }
+      },
       "range": [
         23,
         37
@@ -43,10 +83,20 @@
       "type": "VariableDeclaration"
     }
   ],
-  "end": 37,
+  "end": 38,
+  "loc": {
+    "end": {
+      "column": 0,
+      "line": 3
+    },
+    "start": {
+      "column": 0,
+      "line": 1
+    }
+  },
   "range": [
     0,
-    37
+    38
   ],
   "sourceType": "script",
   "start": 0,

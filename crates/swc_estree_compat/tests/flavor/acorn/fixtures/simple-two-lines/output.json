@@ -6,6 +6,16 @@
           "end": 17,
           "id": {
             "end": 7,
+            "loc": {
+              "end": {
+                "column": 7,
+                "line": 1
+              },
+              "start": {
+                "column": 6,
+                "line": 1
+              }
+            },
             "name": "n",
             "range": [
               6,
@@ -16,6 +26,16 @@
           },
           "init": {
             "end": 17,
+            "loc": {
+              "end": {
+                "column": 17,
+                "line": 1
+              },
+              "start": {
+                "column": 10,
+                "line": 1
+              }
+            },
             "range": [
               10,
               17
@@ -24,6 +44,16 @@
             "start": 10,
             "type": "Literal",
             "value": "hello"
+          },
+          "loc": {
+            "end": {
+              "column": 17,
+              "line": 1
+            },
+            "start": {
+              "column": 6,
+              "line": 1
+            }
           },
           "range": [
             6,
@@ -35,6 +65,16 @@
       ],
       "end": 18,
       "kind": "const",
+      "loc": {
+        "end": {
+          "column": 18,
+          "line": 1
+        },
+        "start": {
+          "column": 0,
+          "line": 1
+        }
+      },
       "range": [
         0,
         18
@@ -48,6 +88,16 @@
         "arguments": [
           {
             "end": 32,
+            "loc": {
+              "end": {
+                "column": 13,
+                "line": 2
+              },
+              "start": {
+                "column": 12,
+                "line": 2
+              }
+            },
             "name": "n",
             "range": [
               31,
@@ -60,8 +110,28 @@
         "callee": {
           "computed": false,
           "end": 30,
+          "loc": {
+            "end": {
+              "column": 11,
+              "line": 2
+            },
+            "start": {
+              "column": 0,
+              "line": 2
+            }
+          },
           "object": {
             "end": 26,
+            "loc": {
+              "end": {
+                "column": 7,
+                "line": 2
+              },
+              "start": {
+                "column": 0,
+                "line": 2
+              }
+            },
             "name": "console",
             "range": [
               19,
@@ -73,6 +143,16 @@
           "optional": false,
           "property": {
             "end": 30,
+            "loc": {
+              "end": {
+                "column": 11,
+                "line": 2
+              },
+              "start": {
+                "column": 8,
+                "line": 2
+              }
+            },
             "name": "log",
             "range": [
               27,
@@ -89,6 +169,16 @@
           "type": "MemberExpression"
         },
         "end": 33,
+        "loc": {
+          "end": {
+            "column": 14,
+            "line": 2
+          },
+          "start": {
+            "column": 0,
+            "line": 2
+          }
+        },
         "optional": false,
         "range": [
           19,
@@ -96,6 +186,16 @@
         ],
         "start": 19,
         "type": "CallExpression"
+      },
+      "loc": {
+        "end": {
+          "column": 15,
+          "line": 2
+        },
+        "start": {
+          "column": 0,
+          "line": 2
+        }
       },
       "range": [
         19,
@@ -105,10 +205,20 @@
       "type": "ExpressionStatement"
     }
   ],
-  "end": 34,
+  "end": 35,
+  "loc": {
+    "end": {
+      "column": 0,
+      "line": 3
+    },
+    "start": {
+      "column": 0,
+      "line": 1
+    }
+  },
   "range": [
     0,
-    34
+    35
   ],
   "sourceType": "script",
   "start": 0,
