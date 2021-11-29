@@ -462,12 +462,14 @@ impl VisitMut for ReduceAst {
                     if !m.key.is_computed()
                         && m.function.decorators.is_empty()
                         && m.function.params.is_empty()
-                        && m.function
-                            .body
-                            .as_ref()
-                            .map(|v| v.stmts.is_empty())
-                            .unwrap_or(true)
+                        && m.function.body.is_empty()
                     {
+                        return false;
+                    }
+                }
+
+                ClassMember::Constructor(c) => {
+                    if !c.key.is_computed() && c.params.is_empty() && c.body.is_empty() {
                         return false;
                     }
                 }
