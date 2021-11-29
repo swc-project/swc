@@ -781,7 +781,13 @@ impl VisitMut for ReduceAst {
     fn visit_mut_expr_or_spreads(&mut self, elems: &mut Vec<ExprOrSpread>) {
         elems.visit_mut_children_with(self);
 
-        elems.retain(|e| !e.expr.is_invalid());
+        elems.retain(|e| {
+            if let Expr::Lit(Lit::Null(..)) | Expr::Invalid(..) = &*e.expr {
+                return false;
+            }
+
+            true
+        });
     }
 
     fn visit_mut_expr_stmt(&mut self, s: &mut ExprStmt) {
