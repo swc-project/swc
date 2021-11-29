@@ -125,11 +125,11 @@
       "type": "VariableDeclaration"
     }
   ],
-  "end": 29,
+  "end": 30,
   "loc": {
     "end": {
-      "column": 29,
-      "line": 1
+      "column": 0,
+      "line": 2
     },
     "start": {
       "column": 0,
@@ -138,7 +138,7 @@
   },
   "range": [
     0,
-    29
+    30
   ],
   "sourceType": "script",
   "start": 0,
