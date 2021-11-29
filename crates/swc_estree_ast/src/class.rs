@@ -260,8 +260,7 @@ pub struct ClassPrivateMethod {
     pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
 
-#[derive(Debug, Clone, PartialEq)]
-#[ast_serde("ClassProperty")]
+#[derive(Debug, Clone, PartialEq, Deserialize)]
 pub struct ClassProperty {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -288,6 +287,88 @@ pub struct ClassProperty {
     pub optional: Option<bool>,
     #[serde(default)]
     pub readonly: Option<bool>,
+}
+#[derive(Serialize)]
+struct BabelClassProperty<'a> {
+    #[serde(rename = "type")]
+    type_: &'static str,
+    #[serde(flatten)]
+    pub base: &'a BaseNode,
+    pub key: &'a ObjectKey,
+    #[serde(default)]
+    pub value: Option<&'a Expression>,
+    #[serde(default)]
+    pub type_annotation: Option<&'a TypeAnnotOrNoop>,
+    #[serde(default)]
+    pub decorators: Option<&'a [Decorator]>,
+    #[serde(default)]
+    pub computed: Option<bool>,
+    #[serde(default, rename = "static")]
+    pub is_static: Option<bool>,
+    #[serde(default, rename = "abstract")]
+    pub is_abstract: Option<bool>,
+    #[serde(default)]
+    pub accessibility: Option<&'a Access>,
+    #[serde(default)]
+    pub declare: Option<bool>,
+    #[serde(default)]
+    pub definite: Option<bool>,
+    #[serde(default)]
+    pub optional: Option<bool>,
+    #[serde(default)]
+    pub readonly: Option<bool>,
+}
+
+impl Serialize for ClassProperty {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        match Flavor::current() {
+            Flavor::Babel => {
+                let actual = BabelClassProperty {
+                    type_: "ClassProperty",
+                    base: &self.base,
+                    key: &self.key,
+                    value: self.value.as_deref(),
+                    type_annotation: self.type_annotation.as_deref(),
+                    decorators: self.decorators.as_deref(),
+                    computed: self.computed,
+                    is_static: self.is_static,
+                    is_abstract: self.is_abstract,
+                    accessibility: self.accessibility.as_ref(),
+                    declare: self.declare,
+                    definite: self.definite,
+                    optional: self.optional,
+                    readonly: self.readonly,
+                };
+                actual.serialize(serializer)
+            }
+            Flavor::Acorn => {
+                let mut s = serializer.serialize_map(None)?;
+
+                {
+                    // TODO(kdy1): This is bad.
+                    self.base
+                        .serialize(serde::__private::ser::FlatMapSerializer(&mut s))?;
+                }
+
+                s.serialize_entry("type", "PropertyDefinition")?;
+                s.serialize_entry("static", &self.is_static)?;
+                s.serialize_entry("key", &self.key)?;
+                s.serialize_entry("value", &self.value)?;
+                s.serialize_entry("computed", &self.computed)?;
+                if let Some(decorators) = &self.decorators {
+                    if !decorators.is_empty() {
+                        s.serialize_entry("decorators", decorators)?;
+                    }
+                }
+                s.serialize_entry("computed", &self.computed)?;
+
+                s.end()
+            }
+        }
+    }
 }
 
 #[derive(Debug, Clone, PartialEq)]
