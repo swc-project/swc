@@ -1004,7 +1004,7 @@ impl VisitMut for ReduceAst {
         e.visit_mut_children_with(self);
 
         if let Some(elem) = e {
-            if elem.expr.is_invalid() || elem.expr.is_lit() {
+            if let Expr::Lit(Lit::Null(..)) | Expr::Invalid(..) = &*elem.expr {
                 *e = None;
             }
         }
