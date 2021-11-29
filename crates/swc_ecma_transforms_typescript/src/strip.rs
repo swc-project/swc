@@ -1167,8 +1167,7 @@ where
                                         })))
                                     }
                                     _ => {
-                                        let pat =
-                                            Box::new(create_prop_pat(&inner_name, decl.name));
+                                        let pat = Box::new(create_prop_pat(&inner_name, decl.name));
                                         // Destructure the variable.
                                         exprs.push(Box::new(Expr::Assign(AssignExpr {
                                             span: DUMMY_SP,
@@ -1305,7 +1304,11 @@ where
             var.map(|var| {
                 Decl::Var(VarDecl {
                     span: module_span,
-                    kind: if self.is_module || module_name.span.ctxt != self.top_level_ctxt { VarDeclKind::Let } else { VarDeclKind::Var },
+                    kind: if self.is_module || module_name.span.ctxt != self.top_level_ctxt {
+                        VarDeclKind::Let
+                    } else {
+                        VarDeclKind::Var
+                    },
                     declare: false,
                     decls: vec![var],
                 })
@@ -1765,7 +1768,11 @@ where
                     if let Some(var) = self.create_uninit_var(e.span, e.id.to_id()) {
                         stmts.push(Stmt::Decl(Decl::Var(VarDecl {
                             span: DUMMY_SP,
-                            kind: if self.is_module || e.id.span.ctxt != self.top_level_ctxt { VarDeclKind::Let } else { VarDeclKind::Var },
+                            kind: if self.is_module || e.id.span.ctxt != self.top_level_ctxt {
+                                VarDeclKind::Let
+                            } else {
+                                VarDeclKind::Var
+                            },
                             declare: false,
                             decls: vec![var],
                         })));

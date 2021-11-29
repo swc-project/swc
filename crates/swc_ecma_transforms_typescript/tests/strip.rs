@@ -1,10 +1,11 @@
 use std::path::PathBuf;
 
-use swc_common::chain;
-use swc_common::Mark;
+use swc_common::{chain, Mark};
 use swc_ecma_parser::{Syntax, TsConfig};
-use swc_ecma_transforms_base::hygiene::hygiene;
-use swc_ecma_transforms_base::resolver::{resolver, ts_resolver};
+use swc_ecma_transforms_base::{
+    hygiene::hygiene,
+    resolver::{resolver, ts_resolver},
+};
 use swc_ecma_transforms_compat::{
     es2017::async_to_generator,
     es2020::{nullish_coalescing, optional_chaining},
@@ -3464,7 +3465,7 @@ to!(
             A = 'A',
             B = 'B',
         }
-      }
+    }
 
     console(Test.DummyValues.A);
     ",
