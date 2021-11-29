@@ -315,7 +315,7 @@ impl ReduceAst {
                     self.ignore_expr(prop);
                 }
 
-                match (obj.is_invalid(), prop.is_invalid()) {
+                match (can_remove(&obj), can_remove(&prop)) {
                     (true, true) => {
                         e.take();
                         return;
