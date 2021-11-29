@@ -1,4 +1,3 @@
-use crate::Loc;
 use scoped_tls::scoped_thread_local;
 
 scoped_thread_local!(static FLAVOR: Flavor);
