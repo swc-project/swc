@@ -441,6 +441,28 @@ impl VisitMut for ReduceAst {
         }
     }
 
+    fn visit_mut_param_or_ts_param_props(&mut self, ps: &mut Vec<ParamOrTsParamProp>) {
+        let old = self.can_remove_pat;
+        self.can_remove_pat = true;
+        ps.visit_mut_children_with(self);
+        self.can_remove_pat = old;
+
+        ps.retain(|p| match p {
+            ParamOrTsParamProp::TsParamProp(p) => match &   p.param {
+                TsParamPropParam::Ident(p) => {
+                    if !self.data.should_preserve(&p.id) {
+                        self.changed = true;
+                        return false;
+                    }
+
+                    true
+                }
+                TsParamPropParam::Assign(_) => true,
+            },
+            ParamOrTsParamProp::Param(p) => !p.pat.is_invalid(),
+        });
+    }
+
     fn visit_mut_class_members(&mut self, v: &mut Vec<ClassMember>) {
         v.visit_mut_children_with(self);
 
