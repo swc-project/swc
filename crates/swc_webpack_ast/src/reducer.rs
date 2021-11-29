@@ -821,6 +821,15 @@ impl VisitMut for ReduceAst {
     fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {
         s.visit_mut_children_with(self);
 
+        match &s.init {
+            Some(VarDeclOrExpr::Expr(init)) => {
+                if can_remove(&init) {
+                    s.init = None;
+                }
+            }
+            _ => {}
+        }
+
         if let Some(test) = &s.test {
             if can_remove(&test) {
                 s.test = None;
