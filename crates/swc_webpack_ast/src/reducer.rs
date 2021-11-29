@@ -1321,6 +1321,17 @@ impl VisitMut for ReduceAst {
                 }
             }
 
+            Stmt::Decl(Decl::Class(c)) => {
+                // Remove trivial classes
+                if c.class.super_class.is_none()
+                    && c.class.decorators.is_empty()
+                    && c.class.body.is_empty()
+                {
+                    stmt.take();
+                    return;
+                }
+            }
+
             // TODO: Flatten loops
             // TODO: Flatten try catch
             _ => {}
