@@ -1,6 +1,11 @@
 use std::sync::Arc;
 use swc_atoms::js_word;
-use swc_common::{collections::AHashSet, util::take::Take, Mark, SyntaxContext, DUMMY_SP};
+use swc_common::{
+    collections::AHashSet,
+    pass::{Repeat, Repeated},
+    util::take::Take,
+    Mark, SyntaxContext, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, StmtLike, StmtOrModuleItem};
 use swc_ecma_visit::{VisitMut, VisitMutWith};
@@ -54,10 +59,10 @@ use swc_timer::timer;
 /// module.hot.accept("x", () => {     })
 /// ```
 pub fn ast_reducer(top_level_mark: Mark) -> impl VisitMut {
-    ReduceAst {
+    Repeat::new(ReduceAst {
         top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
         ..Default::default()
-    }
+    })
 }
 
 #[derive(Default)]
@@ -117,12 +122,25 @@ impl ScopeData {
 
 #[derive(Clone, Default)]
 struct ReduceAst {
+    collected_data: bool,
     data: Arc<ScopeData>,
     top_level_ctxt: SyntaxContext,
 
     var_decl_kind: Option<VarDeclKind>,
 
     can_remove_pat: bool,
+
+    changed: bool,
+}
+
+impl Repeated for ReduceAst {
+    fn changed(&self) -> bool {
+        self.changed
+    }
+
+    fn reset(&mut self) {
+        self.changed = false;
+    }
 }
 
 impl ReduceAst {
@@ -269,6 +287,7 @@ impl ReduceAst {
                 ..
             })
             | Expr::Yield(YieldExpr { arg: None, .. }) => {
+                self.changed = true;
                 e.take();
                 return;
             }
@@ -880,9 +899,13 @@ impl VisitMut for ReduceAst {
     }
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
-        let _timer = timer!("reduce ast");
+        if !self.collected_data {
+            let _timer = timer!("analyze before reducing");
+            self.collected_data = true;
+            self.data = Arc::new(ScopeData::analyze(&stmts));
+        }
 
-        self.data = Arc::new(ScopeData::analyze(&stmts));
+        let _timer = timer!("reduce ast (single pass)");
 
         self.visit_mut_stmt_likes(stmts);
     }
