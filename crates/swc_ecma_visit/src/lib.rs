@@ -150,7 +150,7 @@ where
 /// The returned folder only handles `fold_script` and `fold_module`, and
 /// typescript nodes are ignored. So if your visitor needs to handle typescript
 /// or low-level nodes, you should use [as_folder] instead.
-#[inline(always)]
+#[inline]
 pub fn as_es_program_folder<V>(v: V) -> EsProgramFolder<V>
 where
     V: VisitMut,
@@ -226,7 +226,7 @@ where
     method!(fold_script, Script);
 }
 
-#[inline(always)]
+#[inline]
 pub fn as_folder<V>(v: V) -> Folder<V>
 where
     V: VisitMut,
@@ -305,7 +305,7 @@ where
 #[macro_export]
 macro_rules! noop_fold_type {
     ($name:ident, $N:tt) => {
-        #[cfg_attr(not(debug_assertions), inline(always))]
+        #[inline]
         fn $name(&mut self, node: $crate::swc_ecma_ast::$N) -> $crate::swc_ecma_ast::$N {
             node
         }
@@ -382,7 +382,7 @@ macro_rules! noop_fold_type {
 #[macro_export]
 macro_rules! noop_visit_type {
     ($name:ident, $N:tt) => {
-        #[cfg_attr(not(debug_assertions), inline(always))]
+        #[inline]
         fn $name(&mut self, _: &$crate::swc_ecma_ast::$N, _: &dyn $crate::Node) {}
     };
     () => {
@@ -457,7 +457,7 @@ macro_rules! noop_visit_type {
 #[macro_export]
 macro_rules! noop_visit_mut_type {
     ($name:ident, $N:ident) => {
-        #[cfg_attr(not(debug_assertions), inline(always))]
+        #[inline]
         fn $name(&mut self, _: &mut $crate::swc_ecma_ast::$N) {}
     };
     () => {
