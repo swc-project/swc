@@ -115,9 +115,9 @@ dependencies = [
 
 [[package]]
 name = "anyhow"
-version = "1.0.50"
+version = "1.0.51"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ecc78c299ae753905840c5d3ba036c51f61ce5a98a83f98d9c9d29dffd427f71"
+checksum = "8b26702f315f53b6071259e15dd9d64528213b44d61de1ec926eca7715d62203"
 
 [[package]]
 name = "arbitrary"
@@ -2121,7 +2121,7 @@ checksum = "448296241d034b96c11173591deaa1302f2c17b56092106c1f92c1bc0183a8c9"
 
 [[package]]
 name = "rplugin"
-version = "0.2.0"
+version = "0.2.1"
 dependencies = [
  "abi_stable",
  "rplugin_macros",
@@ -2131,7 +2131,7 @@ dependencies = [
 
 [[package]]
 name = "rplugin_macros"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "pmutil",
  "proc-macro2",
@@ -2478,7 +2478,7 @@ checksum = "6446ced80d6c486436db5c078dde11a9f73d42b57fb273121e160b84f63d894c"
 
 [[package]]
 name = "swc"
-version = "0.88.0"
+version = "0.88.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2863,7 +2863,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_plugin_ast"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "abi_stable",
  "num-bigint",
@@ -3215,7 +3215,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.4.1"
+version = "0.4.2"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3321,7 +3321,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.14.0"
+version = "0.14.1"
 dependencies = [
  "abi_stable",
  "anyhow",
@@ -3339,7 +3339,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_js_api"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "abi_stable",
  "anyhow",
@@ -3352,7 +3352,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.18.1"
+version = "0.18.2"
 dependencies = [
  "abi_stable",
  "anyhow",
@@ -3374,7 +3374,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_testing"
-version = "0.20.0"
+version = "0.20.1"
 dependencies = [
  "anyhow",
  "swc_atoms 0.2.9",
@@ -3430,7 +3430,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "anyhow",
  "rayon",
