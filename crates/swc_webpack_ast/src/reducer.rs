@@ -246,6 +246,40 @@ impl ReduceAst {
                         to.push(T::from_stmt(s));
                     }
                 }
+
+                Stmt::ForOf(ForOfStmt {
+                    left, right, body, ..
+                })
+                | Stmt::ForIn(ForInStmt {
+                    left, right, body, ..
+                }) => {
+                    self.changed = true;
+
+                    let mut exprs = vec![];
+
+                    match left {
+                        VarDeclOrPat::VarDecl(mut v) => {
+                            assert_eq!(v.decls.len(), 1);
+                            v.decls[0].init = Some(right);
+                            to.push(T::from_stmt(Stmt::Decl(Decl::Var(v))))
+                        }
+                        VarDeclOrPat::Pat(p) => {
+                            preserve_pat(&mut exprs, p);
+                        }
+                    }
+
+                    if !exprs.is_empty() {
+                        to.push(T::from_stmt(Stmt::Expr(ExprStmt {
+                            span: DUMMY_SP,
+                            expr: Box::new(Expr::Seq(SeqExpr {
+                                span: DUMMY_SP,
+                                exprs,
+                            })),
+                        })));
+                    }
+                    to.push(T::from_stmt(*body));
+                }
+
                 _ => {
                     to.push(T::from_stmt(stmt));
                 }
