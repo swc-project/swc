@@ -818,6 +818,22 @@ impl VisitMut for ReduceAst {
         exprs.retain(|e| !e.is_invalid());
     }
 
+    fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {
+        s.visit_mut_children_with(self);
+
+        if let Some(test) = &s.test {
+            if can_remove(&test) {
+                s.test = None;
+            }
+        }
+
+        if let Some(update) = &s.update {
+            if can_remove(&update) {
+                s.update = None;
+            }
+        }
+    }
+
     fn visit_mut_function(&mut self, f: &mut Function) {
         f.decorators.visit_mut_with(self);
 
