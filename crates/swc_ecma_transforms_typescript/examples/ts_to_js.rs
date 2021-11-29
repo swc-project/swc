@@ -12,7 +12,7 @@ use swc_common::{
 };
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
-use swc_ecma_transforms_base::{fixer::fixer, resolver::ts_resolver};
+use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver::ts_resolver};
 use swc_ecma_transforms_typescript::strip;
 use swc_ecma_visit::FoldWith;
 
@@ -65,6 +65,9 @@ fn main() {
 
     // Ensure that we have enough parenthesis.
     let module = module.fold_with(&mut fixer(Some(&comments)));
+
+    // Fix up any identifiers with the same name, but different contexts
+    let module = module.fold_with(&mut hygiene());
 
     let mut buf = vec![];
     {

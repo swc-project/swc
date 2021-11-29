@@ -1,18 +1,21 @@
 //! Copied from https://github.com/google/closure-compiler/blob/6ca3b62990064488074a1a8931b9e8dc39b148b3/test/com/google/javascript/jscomp/InlineVariablesTest.java
 
-use swc_common::chain;
+use swc_common::{chain, Mark};
 use swc_ecma_parser::{Syntax, TsConfig};
-use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_base::resolver::{resolver, ts_resolver};
 use swc_ecma_transforms_optimization::simplify::inlining::inlining;
 use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_typescript::strip;
 use swc_ecma_visit::Fold;
 
-fn simple_strip() -> impl Fold {
-    strip::strip_with_config(strip::Config {
-        no_empty_export: true,
-        ..Default::default()
-    })
+fn simple_strip(mark: Mark) -> impl Fold {
+    strip::strip_with_config(
+        strip::Config {
+            no_empty_export: true,
+            ..Default::default()
+        },
+        mark,
+    )
 }
 
 macro_rules! to {
@@ -2150,7 +2153,14 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(simple_strip(), resolver(), inlining(Default::default())),
+    |_| {
+        let mark = Mark::fresh(Mark::root());
+        chain!(
+            ts_resolver(mark),
+            simple_strip(mark),
+            inlining(Default::default())
+        )
+    },
     issue_1156_1,
     "
     export interface D {
@@ -2185,7 +2195,14 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(simple_strip(), resolver(), inlining(Default::default())),
+    |_| {
+        let mark = Mark::fresh(Mark::root());
+        chain!(
+            ts_resolver(mark),
+            simple_strip(mark),
+            inlining(Default::default())
+        )
+    },
     issue_1156_2,
     "
     interface D {
@@ -2246,7 +2263,14 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(simple_strip(), resolver(), inlining(Default::default())),
+    |_| {
+        let mark = Mark::fresh(Mark::root());
+        chain!(
+            ts_resolver(mark),
+            simple_strip(mark),
+            inlining(Default::default())
+        )
+    },
     deno_8180_1,
     r#"
     var Status;
@@ -2290,7 +2314,14 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(simple_strip(), resolver(), inlining(Default::default())),
+    |_| {
+        let mark = Mark::fresh(Mark::root());
+        chain!(
+            ts_resolver(mark),
+            simple_strip(mark),
+            inlining(Default::default())
+        )
+    },
     deno_8189_1,
     "
     let A, I = null;

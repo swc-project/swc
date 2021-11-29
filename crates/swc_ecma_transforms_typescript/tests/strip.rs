@@ -1,11 +1,8 @@
 use std::path::PathBuf;
 
-use swc_common::{chain, Mark};
+use swc_common::{chain, pass::Optional, Mark};
 use swc_ecma_parser::{Syntax, TsConfig};
-use swc_ecma_transforms_base::{
-    hygiene::hygiene,
-    resolver::{resolver, ts_resolver},
-};
+use swc_ecma_transforms_base::{hygiene::hygiene, resolver::ts_resolver};
 use swc_ecma_transforms_compat::{
     es2017::async_to_generator,
     es2020::{nullish_coalescing, optional_chaining},
@@ -16,16 +13,25 @@ use swc_ecma_transforms_typescript::{strip, strip::strip_with_config};
 use swc_ecma_visit::Fold;
 
 fn tr() -> impl Fold {
-    tr_config(strip::Config {
-        no_empty_export: true,
-        ..Default::default()
-    })
+    tr_config(None, None)
 }
 
-fn tr_config(config: strip::Config) -> impl Fold {
+fn tr_config(
+    config: Option<strip::Config>,
+    decorators_config: Option<decorators::Config>,
+) -> impl Fold {
     let top_level_mark = Mark::fresh(Mark::root());
+    let has_decorators = decorators_config.is_some();
+    let config = config.unwrap_or_else(|| strip::Config {
+        no_empty_export: true,
+        ..Default::default()
+    });
     chain!(
         ts_resolver(top_level_mark),
+        Optional::new(
+            decorators(decorators_config.unwrap_or_default()),
+            has_decorators,
+        ),
         strip_with_config(config, top_level_mark),
         hygiene(),
     )
@@ -54,7 +60,7 @@ macro_rules! test_with_config {
                 decorators: true,
                 ..Default::default()
             }),
-            |_| tr_config($config),
+            |_| tr_config(Some($config), None),
             $name,
             $from,
             $to,
@@ -227,7 +233,7 @@ const dict = {};"
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| chain!(tr(), resolver()),
+    |_| tr(),
     issue_392_2,
     "
 import { PlainObject } from 'simplytyped';
@@ -857,13 +863,15 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        tr()
-    ),
+    |_| {
+        tr_config(
+            None,
+            Some(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            }),
+        )
+    },
     issue_960_1,
     "
     function DefineAction() {
@@ -921,13 +929,15 @@ test_exec!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        tr()
-    ),
+    |_| {
+        tr_config(
+            None,
+            Some(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            }),
+        )
+    },
     issue_960_2,
     "function DefineAction() { return function(_a, _b, c) { return c } }
 
@@ -3129,11 +3139,14 @@ test!(
         ..Default::default()
     }),
     |_| {
-        tr_config(strip::Config {
-            no_empty_export: true,
-            import_not_used_as_values: strip::ImportsNotUsedAsValues::Preserve,
-            ..Default::default()
-        })
+        tr_config(
+            Some(strip::Config {
+                no_empty_export: true,
+                import_not_used_as_values: strip::ImportsNotUsedAsValues::Preserve,
+                ..Default::default()
+            }),
+            None,
+        )
     },
     deno_7413_3,
     "
@@ -3262,11 +3275,14 @@ test!(
     Syntax::Typescript(TsConfig {
         ..Default::default()
     }),
-    |_| tr_config(strip::Config {
-        use_define_for_class_fields: true,
-        no_empty_export: true,
-        ..Default::default()
-    }),
+    |_| tr_config(
+        Some(strip::Config {
+            use_define_for_class_fields: true,
+            no_empty_export: true,
+            ..Default::default()
+        }),
+        None
+    ),
     compile_to_class_constructor_collision_ignores_types,
     r#"
 class C {
@@ -3295,7 +3311,7 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(resolver(), decorators(Default::default()), tr()),
+    |_| { tr_config(None, Some(Default::default())) },
     issue_367,
     "
 

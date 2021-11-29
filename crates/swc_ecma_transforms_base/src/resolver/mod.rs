@@ -409,7 +409,6 @@ impl<'a> VisitMut for Resolver<'a> {
     typed!(visit_mut_ts_type_lit, TsTypeLit);
     typed!(visit_mut_ts_type_element, TsTypeElement);
     typed!(visit_mut_ts_optional_type, TsOptionalType);
-    typed!(visit_mut_ts_param_prop, TsParamProp);
     typed!(visit_mut_ts_rest_type, TsRestType);
     typed!(visit_mut_ts_type_predicate, TsTypePredicate);
     typed_ref!(visit_mut_ts_this_type_or_ident, TsThisTypeOrIdent);
@@ -1117,10 +1116,6 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_ts_param_prop_param(&mut self, n: &mut TsParamPropParam) {
-        if !self.handle_types {
-            return;
-        }
-
         self.in_type = false;
         self.ident_type = IdentType::Binding;
         n.visit_mut_children_with(self)
