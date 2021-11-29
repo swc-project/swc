@@ -13,6 +13,16 @@
                     "end": 86,
                     "left": {
                       "end": 82,
+                      "loc": {
+                        "end": {
+                          "column": 38,
+                          "line": 2
+                        },
+                        "start": {
+                          "column": 28,
+                          "line": 2
+                        }
+                      },
                       "name": "multiplier",
                       "range": [
                         72,
@@ -21,6 +31,16 @@
                       "start": 72,
                       "type": "Identifier"
                     },
+                    "loc": {
+                      "end": {
+                        "column": 42,
+                        "line": 2
+                      },
+                      "start": {
+                        "column": 28,
+                        "line": 2
+                      }
+                    },
                     "operator": "*",
                     "range": [
                       72,
@@ -28,6 +48,16 @@
                     ],
                     "right": {
                       "end": 86,
+                      "loc": {
+                        "end": {
+                          "column": 42,
+                          "line": 2
+                        },
+                        "start": {
+                          "column": 41,
+                          "line": 2
+                        }
+                      },
                       "name": "x",
                       "range": [
                         85,
@@ -42,9 +72,29 @@
                   "end": 86,
                   "expression": true,
                   "generator": false,
+                  "loc": {
+                    "end": {
+                      "column": 42,
+                      "line": 2
+                    },
+                    "start": {
+                      "column": 23,
+                      "line": 2
+                    }
+                  },
                   "params": [
                     {
                       "end": 68,
+                      "loc": {
+                        "end": {
+                          "column": 24,
+                          "line": 2
+                        },
+                        "start": {
+                          "column": 23,
+                          "line": 2
+                        }
+                      },
                       "name": "x",
                       "range": [
                         67,
@@ -65,8 +115,28 @@
               "callee": {
                 "computed": false,
                 "end": 66,
+                "loc": {
+                  "end": {
+                    "column": 22,
+                    "line": 2
+                  },
+                  "start": {
+                    "column": 11,
+                    "line": 2
+                  }
+                },
                 "object": {
                   "end": 62,
+                  "loc": {
+                    "end": {
+                      "column": 18,
+                      "line": 2
+                    },
+                    "start": {
+                      "column": 11,
+                      "line": 2
+                    }
+                  },
                   "name": "theArgs",
                   "range": [
                     55,
@@ -78,6 +148,16 @@
                 "optional": false,
                 "property": {
                   "end": 66,
+                  "loc": {
+                    "end": {
+                      "column": 22,
+                      "line": 2
+                    },
+                    "start": {
+                      "column": 19,
+                      "line": 2
+                    }
+                  },
                   "name": "map",
                   "range": [
                     63,
@@ -94,6 +174,16 @@
                 "type": "MemberExpression"
               },
               "end": 87,
+              "loc": {
+                "end": {
+                  "column": 43,
+                  "line": 2
+                },
+                "start": {
+                  "column": 11,
+                  "line": 2
+                }
+              },
               "optional": false,
               "range": [
                 55,
@@ -103,6 +193,16 @@
               "type": "CallExpression"
             },
             "end": 88,
+            "loc": {
+              "end": {
+                "column": 44,
+                "line": 2
+              },
+              "start": {
+                "column": 4,
+                "line": 2
+              }
+            },
             "range": [
               48,
               88
@@ -112,6 +212,16 @@
           }
         ],
         "end": 90,
+        "loc": {
+          "end": {
+            "column": 1,
+            "line": 3
+          },
+          "start": {
+            "column": 42,
+            "line": 1
+          }
+        },
         "range": [
           42,
           90
@@ -124,6 +234,16 @@
       "generator": false,
       "id": {
         "end": 17,
+        "loc": {
+          "end": {
+            "column": 17,
+            "line": 1
+          },
+          "start": {
+            "column": 9,
+            "line": 1
+          }
+        },
         "name": "multiply",
         "range": [
           9,
@@ -132,9 +252,29 @@
         "start": 9,
         "type": "Identifier"
       },
+      "loc": {
+        "end": {
+          "column": 1,
+          "line": 3
+        },
+        "start": {
+          "column": 0,
+          "line": 1
+        }
+      },
       "params": [
         {
           "end": 28,
+          "loc": {
+            "end": {
+              "column": 28,
+              "line": 1
+            },
+            "start": {
+              "column": 18,
+              "line": 1
+            }
+          },
           "name": "multiplier",
           "range": [
             18,
@@ -146,6 +286,16 @@
         {
           "argument": {
             "end": 40,
+            "loc": {
+              "end": {
+                "column": 40,
+                "line": 1
+              },
+              "start": {
+                "column": 33,
+                "line": 1
+              }
+            },
             "name": "theArgs",
             "range": [
               33,
@@ -155,6 +305,16 @@
             "type": "Identifier"
           },
           "end": 40,
+          "loc": {
+            "end": {
+              "column": 40,
+              "line": 1
+            },
+            "start": {
+              "column": 30,
+              "line": 1
+            }
+          },
           "range": [
             30,
             40
@@ -171,10 +331,20 @@
       "type": "FunctionDeclaration"
     }
   ],
-  "end": 90,
+  "end": 91,
+  "loc": {
+    "end": {
+      "column": 0,
+      "line": 4
+    },
+    "start": {
+      "column": 0,
+      "line": 1
+    }
+  },
   "range": [
     0,
-    90
+    91
   ],
   "sourceType": "script",
   "start": 0,

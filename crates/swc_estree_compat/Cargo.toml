@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_estree_compat"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.4.0"
+version = "0.4.1"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -24,7 +24,7 @@ swc_ecma_ast = {version = "0.58", path = "../swc_ecma_ast"}
 swc_ecma_parser = {version = "0.78", path = "../swc_ecma_parser"}
 swc_ecma_utils = {version = "0.52.3", path = "../swc_ecma_utils"}
 swc_ecma_visit = {version = "0.44", path = "../swc_ecma_visit"}
-swc_estree_ast = {version = "0.2.0", path = "../swc_estree_ast"}
+swc_estree_ast = {version = "0.2.1", path = "../swc_estree_ast"}
 swc_node_comments = {version = "0.1", path = "../swc_node_comments/"}
 
 [dev-dependencies]

@@ -6,6 +6,16 @@
           "end": 23,
           "id": {
             "end": 9,
+            "loc": {
+              "end": {
+                "column": 9,
+                "line": 1
+              },
+              "start": {
+                "column": 6,
+                "line": 1
+              }
+            },
             "name": "arr",
             "range": [
               6,
@@ -18,6 +28,16 @@
             "elements": [
               {
                 "end": 15,
+                "loc": {
+                  "end": {
+                    "column": 15,
+                    "line": 1
+                  },
+                  "start": {
+                    "column": 14,
+                    "line": 1
+                  }
+                },
                 "range": [
                   14,
                   15
@@ -29,6 +49,16 @@
               },
               {
                 "end": 18,
+                "loc": {
+                  "end": {
+                    "column": 18,
+                    "line": 1
+                  },
+                  "start": {
+                    "column": 17,
+                    "line": 1
+                  }
+                },
                 "range": [
                   17,
                   18
@@ -40,6 +70,16 @@
               },
               {
                 "end": 21,
+                "loc": {
+                  "end": {
+                    "column": 21,
+                    "line": 1
+                  },
+                  "start": {
+                    "column": 20,
+                    "line": 1
+                  }
+                },
                 "range": [
                   20,
                   21
@@ -51,12 +91,32 @@
               }
             ],
             "end": 23,
+            "loc": {
+              "end": {
+                "column": 23,
+                "line": 1
+              },
+              "start": {
+                "column": 12,
+                "line": 1
+              }
+            },
             "range": [
               12,
               23
             ],
             "start": 12,
             "type": "ArrayExpression"
+          },
+          "loc": {
+            "end": {
+              "column": 23,
+              "line": 1
+            },
+            "start": {
+              "column": 6,
+              "line": 1
+            }
           },
           "range": [
             6,
@@ -68,6 +128,16 @@
       ],
       "end": 24,
       "kind": "const",
+      "loc": {
+        "end": {
+          "column": 24,
+          "line": 1
+        },
+        "start": {
+          "column": 0,
+          "line": 1
+        }
+      },
       "range": [
         0,
         24
@@ -76,10 +146,20 @@
       "type": "VariableDeclaration"
     }
   ],
-  "end": 24,
+  "end": 25,
+  "loc": {
+    "end": {
+      "column": 0,
+      "line": 2
+    },
+    "start": {
+      "column": 0,
+      "line": 1
+    }
+  },
   "range": [
     0,
-    24
+    25
   ],
   "sourceType": "script",
   "start": 0,

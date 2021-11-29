@@ -6,6 +6,16 @@
           "end": 18,
           "id": {
             "end": 5,
+            "loc": {
+              "end": {
+                "column": 5,
+                "line": 1
+              },
+              "start": {
+                "column": 4,
+                "line": 1
+              }
+            },
             "name": "r",
             "range": [
               4,
@@ -16,6 +26,16 @@
           },
           "init": {
             "end": 18,
+            "loc": {
+              "end": {
+                "column": 18,
+                "line": 1
+              },
+              "start": {
+                "column": 8,
+                "line": 1
+              }
+            },
             "range": [
               8,
               18
@@ -28,6 +48,16 @@
             "type": "Literal",
             "value": {}
           },
+          "loc": {
+            "end": {
+              "column": 18,
+              "line": 1
+            },
+            "start": {
+              "column": 4,
+              "line": 1
+            }
+          },
           "range": [
             4,
             18
@@ -38,6 +68,16 @@
       ],
       "end": 19,
       "kind": "let",
+      "loc": {
+        "end": {
+          "column": 19,
+          "line": 1
+        },
+        "start": {
+          "column": 0,
+          "line": 1
+        }
+      },
       "range": [
         0,
         19
@@ -46,10 +86,20 @@
       "type": "VariableDeclaration"
     }
   ],
-  "end": 19,
+  "end": 20,
+  "loc": {
+    "end": {
+      "column": 0,
+      "line": 2
+    },
+    "start": {
+      "column": 0,
+      "line": 1
+    }
+  },
   "range": [
     0,
-    19
+    20
   ],
   "sourceType": "script",
   "start": 0,
