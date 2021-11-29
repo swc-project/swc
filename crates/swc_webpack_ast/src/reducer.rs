@@ -446,6 +446,9 @@ impl VisitMut for ReduceAst {
 
         v.retain(|m| {
             match m {
+                ClassMember::PrivateProp(PrivateProp { value: None, .. })
+                | ClassMember::Empty(..) => return false,
+
                 ClassMember::ClassProp(p) => {
                     if !p.computed
                         && p.decorators.is_empty()
@@ -468,8 +471,6 @@ impl VisitMut for ReduceAst {
                         return false;
                     }
                 }
-
-                ClassMember::PrivateProp(PrivateProp { value: None, .. }) => return false,
 
                 ClassMember::PrivateProp(PrivateProp {
                     value: Some(value), ..
