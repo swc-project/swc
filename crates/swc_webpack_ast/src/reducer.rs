@@ -781,14 +781,16 @@ impl VisitMut for ReduceAst {
     fn visit_mut_expr_or_spreads(&mut self, elems: &mut Vec<ExprOrSpread>) {
         elems.visit_mut_children_with(self);
 
-        elems.retain(|e| {
-            if let Expr::Lit(Lit::Null(..)) | Expr::Invalid(..) = &*e.expr {
-                self.changed = true;
-                return false;
-            }
+        if !self.preserve_fn {
+            elems.retain(|e| {
+                if can_remove(&e.expr) {
+                    self.changed = true;
+                    return false;
+                }
 
-            true
-        });
+                true
+            });
+        }
     }
 
     fn visit_mut_expr_stmt(&mut self, s: &mut ExprStmt) {
@@ -999,11 +1001,13 @@ impl VisitMut for ReduceAst {
         });
     }
 
-    fn visit_mut_opt_expr(&mut self, e: &mut Option<Box<Expr>>) {
-        e.visit_mut_children_with(self);
+    fn visit_mut_opt_expr(&mut self, opt: &mut Option<Box<Expr>>) {
+        opt.visit_mut_children_with(self);
 
-        if let Some(Expr::Invalid(..) | Expr::Lit(Lit::Null(..))) = e.as_deref() {
-            e.take();
+        if let Some(e) = opt {
+            if can_remove(e) {
+                *opt = None;
+            }
         }
     }
 
@@ -1011,7 +1015,7 @@ impl VisitMut for ReduceAst {
         e.visit_mut_children_with(self);
 
         if let Some(elem) = e {
-            if let Expr::Lit(Lit::Null(..)) | Expr::Invalid(..) = &*elem.expr {
+            if can_remove(&elem.expr) {
                 *e = None;
             }
         }
