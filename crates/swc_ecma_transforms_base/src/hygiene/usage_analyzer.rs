@@ -431,6 +431,19 @@ impl Visit for UsageAnalyzer<'_> {
         })
     }
 
+    fn visit_constructor(&mut self, c: &Constructor, _: &dyn Node) {
+        self.visit_with_scope(c.span.ctxt, ScopeKind::Fn, |v| {
+            c.params.visit_with(c, v);
+
+            match c.body.as_ref() {
+                Some(body) => {
+                    body.visit_children_with(v);
+                }
+                None => {}
+            }
+        })
+    }
+
     fn visit_export_default_specifier(&mut self, n: &ExportDefaultSpecifier, _: &dyn Node) {
         self.add_usage(n.exported.to_id());
     }
