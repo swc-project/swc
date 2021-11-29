@@ -1,1 +1,1 @@
-export function example(a,b,c){console.log(void 0===a?"click":a,void 0===b?{}:b,void 0===c?1:c)}
+export function example(){var a=arguments.length>0&& void 0!==arguments[0]?arguments[0]:"click",b=arguments.length>1&& void 0!==arguments[1]?arguments[1]:{},c=arguments.length>2&& void 0!==arguments[2]?arguments[2]:1;console.log(a,b,c)}

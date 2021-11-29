@@ -4377,7 +4377,7 @@ test!(
     syntax(),
     |t| chain!(
         classes(Some(t.comments.clone()),),
-        parameters(),
+        parameters(Default::default()),
         destructuring(Default::default()),
         block_scoping(),
         common_js(Mark::fresh(Mark::root()), Default::default(), None),

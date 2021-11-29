@@ -3,7 +3,7 @@ use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-#[derive(Default)]
+#[derive(Clone, Default)]
 pub struct WrapperState {
     this: Option<Ident>,
     args: Option<Ident>,
@@ -12,6 +12,14 @@ pub struct WrapperState {
 impl WrapperState {
     pub fn new(this: Option<Ident>, args: Option<Ident>) -> Self {
         Self { this, args }
+    }
+    pub fn merge(&mut self, other: Self) {
+        if let Some(this) = other.this {
+            self.this = Some(this)
+        }
+        if let Some(args) = other.args {
+            self.args = Some(args)
+        }
     }
     pub fn to_decl(self) -> Vec<VarDeclarator> {
         let Self { this, args } = self;
