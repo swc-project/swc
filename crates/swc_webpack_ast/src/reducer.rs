@@ -460,7 +460,7 @@ impl VisitMut for ReduceAst {
                 } else {
                     // We should preserve the arguments if the callee is not invalid.
                     let old = self.preserve_fn;
-                    self.preserve_fn = true;
+                    self.preserve_fn = !callee.is_fn_expr() && !callee.is_arrow();
                     e.visit_mut_children_with(self);
                     self.preserve_fn = old;
                     return;
