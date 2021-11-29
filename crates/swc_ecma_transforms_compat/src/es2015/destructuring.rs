@@ -651,30 +651,60 @@ impl Fold for AssignFolder {
                                 elems.len()
                             }),
                         );
-                        let r = match *right {
-                            Expr::Ident(Ident {
-                                sym: js_word!("arguments"),
-                                ..
-                            }) => {
-                                if self.c.loose {
-                                    *right
-                                } else {
-                                    Expr::Call(CallExpr {
-                                        span,
-                                        callee: member_expr!(DUMMY_SP, Array.prototype.slice.call)
-                                            .as_callee(),
-                                        args: vec![right.as_arg()],
-                                        type_args: Default::default(),
-                                    })
-                                }
-                            }
-                            _ => *right,
-                        };
                         exprs.push(Box::new(Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
                             op: op!("="),
                             left: PatOrExpr::Pat(Box::new(Pat::Ident(ref_ident.clone().into()))),
-                            right: Box::new(r),
+                            right: match self.c.loose {
+                                true => right,
+                                false => match *right {
+                                    Expr::Ident(Ident {
+                                        sym: js_word!("arguments"),
+                                        ..
+                                    }) => Box::new(Expr::Call(CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: member_expr!(DUMMY_SP, Array.prototype.slice.call)
+                                            .as_callee(),
+                                        args: vec![right.as_arg()],
+                                        type_args: Default::default(),
+                                    })),
+                                    Expr::Array(..) => right,
+                                    _ => {
+                                        // if left has rest then need `_toArray`
+                                        // else `_slicedToArray`
+                                        match elems.iter().find(|elem| match elem {
+                                            Some(Pat::Rest(..)) => true,
+                                            _ => false,
+                                        }) {
+                                            Some(_) => Box::new(Expr::Call(CallExpr {
+                                                span: DUMMY_SP,
+                                                callee: helper!(to_array, "toArray"),
+                                                args: vec![right.as_arg()],
+                                                type_args: Default::default(),
+                                            })),
+                                            None => Box::new(
+                                                CallExpr {
+                                                    span: DUMMY_SP,
+                                                    callee: helper!(
+                                                        sliced_to_array,
+                                                        "slicedToArray"
+                                                    ),
+                                                    args: vec![
+                                                        right.as_arg(),
+                                                        Lit::Num(Number {
+                                                            span: DUMMY_SP,
+                                                            value: elems.len() as _,
+                                                        })
+                                                        .as_arg(),
+                                                    ],
+                                                    type_args: Default::default(),
+                                                }
+                                                .into(),
+                                            ),
+                                        }
+                                    }
+                                },
+                            },
                         })));
 
                         for (i, elem) in elems.into_iter().enumerate() {

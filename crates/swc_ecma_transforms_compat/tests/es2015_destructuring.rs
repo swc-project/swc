@@ -44,6 +44,24 @@ test!(
 test!(
     syntax(),
     |_| destructuring(Config { loose: false }),
+    need_to_array,
+    r#"const [x, y, ...z] = o;"#,
+    r#"const _o = _toArray(o), x = _o[0], y = _o[1], z = _o.slice(2);"#,
+    ok_if_code_eq
+);
+
+test!(
+    syntax(),
+    |_| destructuring(Config { loose: true }),
+    need_to_array_loose,
+    r#"const [x, y, ...z] = o;"#,
+    r#"const x = o[0], y = o[1], z = o.slice(2);"#,
+    ok_if_code_eq
+);
+
+test!(
+    syntax(),
+    |_| destructuring(Config { loose: false }),
     issue_2841,
     r#"function foo(a,b)
     {
@@ -730,7 +748,7 @@ for (var ref2 of test.expectation.registers){
 }
 var ref1;
 for (ref of test.expectation.registers){
-    ref1 = ref, name = ref1[0], before = ref1[1], after = ref1[2], ref1;
+    ref1 = _slicedToArray(ref, 3), name = ref1[0], before = ref1[1], after = ref1[2], ref1;
 }
 
 "#
@@ -1394,6 +1412,27 @@ test!(
         block_scoping(),
         object_rest_spread(Default::default())
     ),
+    destructuring_assignment_statement_no_loose,
+    r#"
+[a, b] = f();
+"#,
+    r#"
+            var ref;
+ref = _slicedToArray(f(), 2), a = ref[0], b = ref[1], ref;
+"#
+);
+
+// destructuring_assignment_statement_loose
+test!(
+    syntax(),
+    |_| chain!(
+        destructuring(Config { loose: true }),
+        spread(spread::Config {
+            ..Default::default()
+        }),
+        block_scoping(),
+        object_rest_spread(Default::default())
+    ),
     destructuring_assignment_statement,
     r#"
 [a, b] = f();
@@ -1544,6 +1583,41 @@ for ([name, value] in obj) {
     r#"
 for(var ref2 in obj){
     var _ref = _slicedToArray(ref2, 2), name = _ref[0], value = _ref[1];
+    print('Name: ' + name + ', Value: ' + value);
+}
+var ref1;
+for(ref in obj){
+    ref1 = _slicedToArray(ref, 2), name = ref1[0], value = ref1[1], ref1;
+    print('Name: ' + name + ', Value: ' + value);
+}"#
+);
+
+// destructuring_for_in_loose
+test!(
+    syntax(),
+    |_| chain!(
+        spread(spread::Config {
+            ..Default::default()
+        }),
+        parameters(),
+        destructuring(Config { loose: true }),
+        block_scoping(),
+        object_rest_spread(Default::default()),
+    ),
+    destructuring_for_in_loose,
+    r#"
+for (var [name, value] in obj) {
+  print("Name: " + name + ", Value: " + value);
+}
+
+for ([name, value] in obj) {
+  print("Name: " + name + ", Value: " + value);
+}
+
+"#,
+    r#"
+for(var ref2 in obj){
+    var name = ref2[0], value = ref2[1];
     print('Name: ' + name + ', Value: ' + value);
 }
 var ref1;
