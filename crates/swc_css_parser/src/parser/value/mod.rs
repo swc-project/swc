@@ -127,54 +127,142 @@ where
         Ok(val)
     }
 
-    /// Parse value as tokens.
-    pub(super) fn parse_any_value(&mut self, terminate_on_semi: bool) -> PResult<Tokens> {
+    /// Parse value as <declaration-value>.
+    pub(super) fn parse_declaration_value(&mut self) -> PResult<Tokens> {
         let start = self.input.cur_span()?.lo;
 
         let mut tokens = vec![];
+        let mut balance_stack: Vec<Option<char>> = vec![];
 
+        // The <declaration-value> production matches any sequence of one or more
+        // tokens, so long as the sequence does not contain ...
         loop {
-            if is_one_of!(self, EOF, ")", "}", "]") {
-                break;
-            }
-
-            if terminate_on_semi {
-                if is!(self, ";") {
+            match cur!(self) {
+                // ... <bad-string-token>, <bad-url-token>,
+                tok!("bad-string") | tok!("bad-url") => {
                     break;
                 }
-            }
 
-            let span = self.input.cur_span()?;
-
-            macro_rules! try_group {
-                ($start:tt,$end:tt) => {{
-                    if is!(self, $start) {
-                        tokens.push(TokenAndSpan {
-                            span,
-                            token: bump!(self),
-                        });
-
-                        tokens.extend(self.parse_any_value(false)?.tokens);
-
-                        if is!(self, $end) {
-                            tokens.push(TokenAndSpan {
-                                span,
-                                token: bump!(self),
-                            });
-                        } else {
-                            break;
+                // ... unmatched <)-token>, <]-token>, or <}-token>,
+                tok!(")") | tok!("]") | tok!("}") => {
+                    let value = match cur!(self) {
+                        tok!(")") => ')',
+                        tok!("]") => ']',
+                        tok!("}") => '}',
+                        _ => {
+                            unreachable!();
                         }
-                        continue;
-                    }
-                }};
-            }
+                    };
 
-            try_group!("(", ")");
-            try_group!("function", ")");
-            try_group!("[", "]");
-            try_group!("{", "}");
+                    let balance_close_type = match balance_stack.pop() {
+                        Some(v) => v,
+                        None => None,
+                    };
+
+                    if Some(value) != balance_close_type {
+                        break;
+                    }
+                }
+
+                tok!("function") | tok!("(") | tok!("[") | tok!("{") => {
+                    let value = match cur!(self) {
+                        tok!("function") | tok!("(") => ')',
+                        tok!("[") => ']',
+                        tok!("{") => '}',
+                        _ => {
+                            unreachable!();
+                        }
+                    };
+
+                    balance_stack.push(Some(value));
+                }
+
+                // ... or top-level <semicolon-token> tokens
+                tok!(";") => {
+                    if balance_stack.len() == 0 {
+                        break;
+                    }
+                }
+
+                // ... or <delim-token> tokens with a value of "!"
+                tok!("!") => {
+                    if balance_stack.len() == 0 {
+                        break;
+                    }
+                }
+
+                _ => {}
+            }
 
             let token = self.input.bump()?;
+
+            match token {
+                Some(token) => tokens.push(token),
+                None => break,
+            }
+        }
+
+        Ok(Tokens {
+            span: span!(self, start),
+            tokens,
+        })
+    }
+
+    /// Parse value as <any-value>.
+    pub(super) fn parse_any_value(&mut self) -> PResult<Tokens> {
+        let start = self.input.cur_span()?.lo;
+
+        let mut tokens = vec![];
+        let mut balance_stack: Vec<Option<char>> = vec![];
+
+        // The <any-value> production matches any sequence of one or more tokens,
+        // so long as the sequence ...
+        loop {
+            match cur!(self) {
+                // ... <bad-string-token>, <bad-url-token>,
+                tok!("bad-string") | tok!("bad-url") => {
+                    break;
+                }
+
+                // ... unmatched <)-token>, <]-token>, or <}-token>,
+                tok!(")") | tok!("]") | tok!("}") => {
+                    let value = match cur!(self) {
+                        tok!(")") => ')',
+                        tok!("]") => ']',
+                        tok!("}") => '}',
+                        _ => {
+                            unreachable!();
+                        }
+                    };
+
+                    let balance_close_type = match balance_stack.pop() {
+                        Some(v) => v,
+                        None => None,
+                    };
+
+                    if Some(value) != balance_close_type {
+                        break;
+                    }
+                }
+
+                tok!("function") | tok!("(") | tok!("[") | tok!("{") => {
+                    let value = match cur!(self) {
+                        tok!("function") | tok!("(") => ')',
+                        tok!("[") => ']',
+                        tok!("{") => '}',
+                        _ => {
+                            unreachable!();
+                        }
+                    };
+
+                    balance_stack.push(Some(value));
+                }
+
+                _ => {}
+            }
+
+            let token = self.input.bump()?;
+
             match token {
                 Some(token) => tokens.push(token),
                 None => break,
@@ -196,7 +284,7 @@ where
 
             Token::Num { .. } => return self.parse_numeric_value(),
 
-            Token::Function { .. } => return self.parse_value_ident_or_fn(),
+            Token::Function { .. } => return Ok(Value::Fn(self.parse()?)),
 
             Token::Percent { .. } => return self.parse_numeric_value(),
 
@@ -256,9 +344,7 @@ where
             _ => {}
         }
 
-        if is_one_of!(self, "<!--", "-->")
-            || (self.ctx.is_in_delimited_value && is_one_of!(self, "!", ";"))
-        {
+        if is_one_of!(self, "<!--", "-->", "!", ";") {
             let token = self.input.bump()?.unwrap();
             return Ok(Value::Lazy(Tokens {
                 span,
@@ -409,54 +495,6 @@ where
         }
     }
 
-    fn parse_value_ident_or_fn(&mut self) -> PResult<Value> {
-        let span = self.input.cur_span()?;
-
-        let mut is_fn = false;
-        let values = match bump!(self) {
-            Token::Ident { value, raw } => (value, raw),
-            Token::Function { value, raw } => {
-                is_fn = true;
-
-                (value, raw)
-            }
-            _ => {
-                unreachable!()
-            }
-        };
-
-        let name = Ident {
-            span: if is_fn {
-                swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default())
-            } else {
-                span
-            },
-            value: values.0,
-            raw: values.1,
-        };
-
-        if eat!(self, "(") || is_fn {
-            let is_url = name.value.to_ascii_lowercase() == js_word!("url");
-            let ctx = Ctx {
-                allow_operation_in_value: if is_url { false } else { true },
-                allow_separating_value_with_space: if is_url { false } else { true },
-                allow_separating_value_with_comma: false,
-                ..self.ctx
-            };
-            let args = self.with_ctx(ctx).parse_comma_separated_value()?;
-
-            expect!(self, ")");
-
-            return Ok(Value::Fn(FnValue {
-                span: span!(self, span.lo),
-                name,
-                args,
-            }));
-        }
-
-        Ok(Value::Ident(name))
-    }
-
     /// Parse comma separated values.
     fn parse_comma_separated_value(&mut self) -> PResult<Vec<Value>> {
         let mut args = vec![];
@@ -486,8 +524,7 @@ where
         self.input.skip_ws()?;
 
         let ctx = Ctx {
-            is_in_delimited_value: true,
-            allow_separating_value_with_space: true,
+            allow_separating_value_with_space: false,
             ..self.ctx
         };
 
@@ -515,7 +552,6 @@ where
         } else {
             let ctx = Ctx {
                 allow_operation_in_value: true,
-                is_in_delimited_value: true,
                 ..self.ctx
             };
 
@@ -658,25 +694,27 @@ where
                 unreachable!()
             }
         };
+
         let name = Ident {
             span: swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default()),
             value: name.0,
             raw: name.1,
         };
-
+        let is_url = name.value.to_ascii_lowercase() == js_word!("url");
         let ctx = Ctx {
-            allow_operation_in_value: true,
-            allow_separating_value_with_space: true,
+            allow_operation_in_value: if is_url { false } else { true },
+            allow_separating_value_with_space: if is_url { false } else { true },
+            allow_separating_value_with_comma: false,
             ..self.ctx
         };
         let args = self.with_ctx(ctx).parse_comma_separated_value()?;
 
         expect!(self, ")");
 
-        Ok(FnValue {
+        return Ok(FnValue {
             span: span!(self, span.lo),
             name,
             args,
-        })
+        });
     }
 }

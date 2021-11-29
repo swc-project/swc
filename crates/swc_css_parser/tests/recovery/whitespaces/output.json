@@ -71,176 +71,172 @@
         },
         "items": [
           {
-            "type": "Tokens",
+            "type": "Declaration",
             "span": {
               "start": 8,
-              "end": 14,
+              "end": 24,
               "ctxt": 0
             },
-            "tokens": [
-              {
-                "span": {
-                  "start": 8,
-                  "end": 12,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Ident": {
-                    "value": "prop",
-                    "raw": "prop"
-                  }
-                }
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 8,
+                "end": 12,
+                "ctxt": 0
               },
+              "value": "prop",
+              "raw": "prop"
+            },
+            "value": [
               {
-                "span": {
-                  "start": 12,
-                  "end": 13,
-                  "ctxt": 0
-                },
-                "token": "Colon"
-              },
-              {
+                "type": "Tokens",
                 "span": {
                   "start": 13,
                   "end": 14,
                   "ctxt": 0
                 },
-                "token": {
-                  "WhiteSpace": {
-                    "value": " "
+                "tokens": [
+                  {
+                    "span": {
+                      "start": 13,
+                      "end": 14,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
                   }
-                }
+                ]
               }
-            ]
+            ],
+            "important": null
           },
           {
-            "type": "Tokens",
+            "type": "Declaration",
             "span": {
               "start": 20,
-              "end": 29,
+              "end": 39,
               "ctxt": 0
             },
-            "tokens": [
-              {
-                "span": {
-                  "start": 20,
-                  "end": 24,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Ident": {
-                    "value": "prop",
-                    "raw": "prop"
-                  }
-                }
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 20,
+                "end": 24,
+                "ctxt": 0
               },
+              "value": "prop",
+              "raw": "prop"
+            },
+            "value": [
               {
-                "span": {
-                  "start": 24,
-                  "end": 25,
-                  "ctxt": 0
-                },
-                "token": "Colon"
-              },
-              {
+                "type": "Tokens",
                 "span": {
                   "start": 25,
                   "end": 29,
                   "ctxt": 0
                 },
-                "token": {
-                  "WhiteSpace": {
-                    "value": "    "
+                "tokens": [
+                  {
+                    "span": {
+                      "start": 25,
+                      "end": 29,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": "    "
+                      }
+                    }
                   }
-                }
+                ]
               }
-            ]
+            ],
+            "important": null
           },
           {
-            "type": "Tokens",
+            "type": "Declaration",
             "span": {
               "start": 35,
-              "end": 42,
+              "end": 52,
               "ctxt": 0
             },
-            "tokens": [
-              {
-                "span": {
-                  "start": 35,
-                  "end": 39,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Ident": {
-                    "value": "prop",
-                    "raw": "prop"
-                  }
-                }
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 35,
+                "end": 39,
+                "ctxt": 0
               },
+              "value": "prop",
+              "raw": "prop"
+            },
+            "value": [
               {
-                "span": {
-                  "start": 39,
-                  "end": 40,
-                  "ctxt": 0
-                },
-                "token": "Colon"
-              },
-              {
+                "type": "Tokens",
                 "span": {
                   "start": 40,
                   "end": 42,
                   "ctxt": 0
                 },
-                "token": {
-                  "WhiteSpace": {
-                    "value": "\n\n"
+                "tokens": [
+                  {
+                    "span": {
+                      "start": 40,
+                      "end": 42,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": "\n\n"
+                      }
+                    }
                   }
-                }
+                ]
               }
-            ]
+            ],
+            "important": null
           },
           {
-            "type": "Tokens",
+            "type": "Declaration",
             "span": {
               "start": 48,
-              "end": 63,
+              "end": 64,
               "ctxt": 0
             },
-            "tokens": [
-              {
-                "span": {
-                  "start": 48,
-                  "end": 52,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Ident": {
-                    "value": "prop",
-                    "raw": "prop"
-                  }
-                }
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 48,
+                "end": 52,
+                "ctxt": 0
               },
+              "value": "prop",
+              "raw": "prop"
+            },
+            "value": [
               {
+                "type": "Tokens",
                 "span": {
-                  "start": 52,
-                  "end": 53,
+                  "start": 63,
+                  "end": 64,
                   "ctxt": 0
                 },
-                "token": "Colon"
-              },
-              {
-                "span": {
-                  "start": 53,
-                  "end": 63,
-                  "ctxt": 0
-                },
-                "token": {
-                  "WhiteSpace": {
-                    "value": "    \n\n    "
+                "tokens": [
+                  {
+                    "span": {
+                      "start": 63,
+                      "end": 64,
+                      "ctxt": 0
+                    },
+                    "token": "Semi"
                   }
-                }
+                ]
               }
-            ]
+            ],
+            "important": null
           }
         ]
       }

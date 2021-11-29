@@ -6,6 +6,16 @@
           "end": 16,
           "id": {
             "end": 7,
+            "loc": {
+              "end": {
+                "column": 7,
+                "line": 1
+              },
+              "start": {
+                "column": 6,
+                "line": 1
+              }
+            },
             "name": "x",
             "range": [
               6,
@@ -18,6 +28,16 @@
             "end": 16,
             "left": {
               "end": 11,
+              "loc": {
+                "end": {
+                  "column": 11,
+                  "line": 1
+                },
+                "start": {
+                  "column": 10,
+                  "line": 1
+                }
+              },
               "range": [
                 10,
                 11
@@ -27,6 +47,16 @@
               "type": "Literal",
               "value": 2.0
             },
+            "loc": {
+              "end": {
+                "column": 16,
+                "line": 1
+              },
+              "start": {
+                "column": 10,
+                "line": 1
+              }
+            },
             "operator": "**",
             "range": [
               10,
@@ -34,6 +64,16 @@
             ],
             "right": {
               "end": 16,
+              "loc": {
+                "end": {
+                  "column": 16,
+                  "line": 1
+                },
+                "start": {
+                  "column": 15,
+                  "line": 1
+                }
+              },
               "range": [
                 15,
                 16
@@ -46,6 +86,16 @@
             "start": 10,
             "type": "BinaryExpression"
           },
+          "loc": {
+            "end": {
+              "column": 16,
+              "line": 1
+            },
+            "start": {
+              "column": 6,
+              "line": 1
+            }
+          },
           "range": [
             6,
             16
@@ -56,6 +106,16 @@
       ],
       "end": 17,
       "kind": "const",
+      "loc": {
+        "end": {
+          "column": 17,
+          "line": 1
+        },
+        "start": {
+          "column": 0,
+          "line": 1
+        }
+      },
       "range": [
         0,
         17
@@ -64,10 +124,20 @@
       "type": "VariableDeclaration"
     }
   ],
-  "end": 17,
+  "end": 18,
+  "loc": {
+    "end": {
+      "column": 0,
+      "line": 2
+    },
+    "start": {
+      "column": 0,
+      "line": 1
+    }
+  },
   "range": [
     0,
-    17
+    18
   ],
   "sourceType": "script",
   "start": 0,

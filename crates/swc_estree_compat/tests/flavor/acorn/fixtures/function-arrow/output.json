@@ -6,6 +6,16 @@
           "end": 72,
           "id": {
             "end": 5,
+            "loc": {
+              "end": {
+                "column": 5,
+                "line": 1
+              },
+              "start": {
+                "column": 4,
+                "line": 1
+              }
+            },
             "name": "a",
             "range": [
               4,
@@ -18,6 +28,16 @@
             "elements": [
               {
                 "end": 24,
+                "loc": {
+                  "end": {
+                    "column": 14,
+                    "line": 2
+                  },
+                  "start": {
+                    "column": 4,
+                    "line": 2
+                  }
+                },
                 "range": [
                   14,
                   24
@@ -29,6 +49,16 @@
               },
               {
                 "end": 38,
+                "loc": {
+                  "end": {
+                    "column": 12,
+                    "line": 3
+                  },
+                  "start": {
+                    "column": 4,
+                    "line": 3
+                  }
+                },
                 "range": [
                   30,
                   38
@@ -40,6 +70,16 @@
               },
               {
                 "end": 53,
+                "loc": {
+                  "end": {
+                    "column": 13,
+                    "line": 4
+                  },
+                  "start": {
+                    "column": 4,
+                    "line": 4
+                  }
+                },
                 "range": [
                   44,
                   53
@@ -51,6 +91,16 @@
               },
               {
                 "end": 70,
+                "loc": {
+                  "end": {
+                    "column": 15,
+                    "line": 5
+                  },
+                  "start": {
+                    "column": 4,
+                    "line": 5
+                  }
+                },
                 "range": [
                   59,
                   70
@@ -62,12 +112,32 @@
               }
             ],
             "end": 72,
+            "loc": {
+              "end": {
+                "column": 1,
+                "line": 6
+              },
+              "start": {
+                "column": 8,
+                "line": 1
+              }
+            },
             "range": [
               8,
               72
             ],
             "start": 8,
             "type": "ArrayExpression"
+          },
+          "loc": {
+            "end": {
+              "column": 1,
+              "line": 6
+            },
+            "start": {
+              "column": 4,
+              "line": 1
+            }
           },
           "range": [
             4,
@@ -79,6 +149,16 @@
       ],
       "end": 73,
       "kind": "var",
+      "loc": {
+        "end": {
+          "column": 2,
+          "line": 6
+        },
+        "start": {
+          "column": 0,
+          "line": 1
+        }
+      },
       "range": [
         0,
         73
@@ -92,6 +172,16 @@
           "end": 103,
           "id": {
             "end": 80,
+            "loc": {
+              "end": {
+                "column": 6,
+                "line": 7
+              },
+              "start": {
+                "column": 4,
+                "line": 7
+              }
+            },
             "name": "a3",
             "range": [
               78,
@@ -107,8 +197,28 @@
                 "body": {
                   "computed": false,
                   "end": 102,
+                  "loc": {
+                    "end": {
+                      "column": 28,
+                      "line": 7
+                    },
+                    "start": {
+                      "column": 20,
+                      "line": 7
+                    }
+                  },
                   "object": {
                     "end": 95,
+                    "loc": {
+                      "end": {
+                        "column": 21,
+                        "line": 7
+                      },
+                      "start": {
+                        "column": 20,
+                        "line": 7
+                      }
+                    },
                     "name": "s",
                     "range": [
                       94,
@@ -120,6 +230,16 @@
                   "optional": false,
                   "property": {
                     "end": 102,
+                    "loc": {
+                      "end": {
+                        "column": 28,
+                        "line": 7
+                      },
+                      "start": {
+                        "column": 22,
+                        "line": 7
+                      }
+                    },
                     "name": "length",
                     "range": [
                       96,
@@ -138,9 +258,29 @@
                 "end": 102,
                 "expression": true,
                 "generator": false,
+                "loc": {
+                  "end": {
+                    "column": 28,
+                    "line": 7
+                  },
+                  "start": {
+                    "column": 15,
+                    "line": 7
+                  }
+                },
                 "params": [
                   {
                     "end": 90,
+                    "loc": {
+                      "end": {
+                        "column": 16,
+                        "line": 7
+                      },
+                      "start": {
+                        "column": 15,
+                        "line": 7
+                      }
+                    },
                     "name": "s",
                     "range": [
                       89,
@@ -161,8 +301,28 @@
             "callee": {
               "computed": false,
               "end": 88,
+              "loc": {
+                "end": {
+                  "column": 14,
+                  "line": 7
+                },
+                "start": {
+                  "column": 9,
+                  "line": 7
+                }
+              },
               "object": {
                 "end": 84,
+                "loc": {
+                  "end": {
+                    "column": 10,
+                    "line": 7
+                  },
+                  "start": {
+                    "column": 9,
+                    "line": 7
+                  }
+                },
                 "name": "a",
                 "range": [
                   83,
@@ -174,6 +334,16 @@
               "optional": false,
               "property": {
                 "end": 88,
+                "loc": {
+                  "end": {
+                    "column": 14,
+                    "line": 7
+                  },
+                  "start": {
+                    "column": 11,
+                    "line": 7
+                  }
+                },
                 "name": "map",
                 "range": [
                   85,
@@ -190,6 +360,16 @@
               "type": "MemberExpression"
             },
             "end": 103,
+            "loc": {
+              "end": {
+                "column": 29,
+                "line": 7
+              },
+              "start": {
+                "column": 9,
+                "line": 7
+              }
+            },
             "optional": false,
             "range": [
               83,
@@ -197,6 +377,16 @@
             ],
             "start": 83,
             "type": "CallExpression"
+          },
+          "loc": {
+            "end": {
+              "column": 29,
+              "line": 7
+            },
+            "start": {
+              "column": 4,
+              "line": 7
+            }
           },
           "range": [
             78,
@@ -208,6 +398,16 @@
       ],
       "end": 104,
       "kind": "var",
+      "loc": {
+        "end": {
+          "column": 30,
+          "line": 7
+        },
+        "start": {
+          "column": 0,
+          "line": 7
+        }
+      },
       "range": [
         74,
         104
@@ -216,10 +416,20 @@
       "type": "VariableDeclaration"
     }
   ],
-  "end": 104,
+  "end": 105,
+  "loc": {
+    "end": {
+      "column": 0,
+      "line": 8
+    },
+    "start": {
+      "column": 0,
+      "line": 1
+    }
+  },
   "range": [
     0,
-    104
+    105
   ],
   "sourceType": "script",
   "start": 0,

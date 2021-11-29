@@ -289,8 +289,6 @@ test!(
 );
 
 test!(
-    // TODO: issue#2811
-    ignore,
     ::swc_ecma_parser::Syntax::default(),
     |_| arrow(),
     fixture_this,
@@ -332,8 +330,7 @@ class Foo extends function () {} {
     if (true) {
       console.log((super(), _this = this), foo());
     } else {
-      super();
-      _this = this;
+      super(), _this = this;
       console.log(foo());
     }
   }

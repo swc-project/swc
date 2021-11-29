@@ -10,6 +10,16 @@
                 "end": 51,
                 "id": {
                   "end": 44,
+                  "loc": {
+                    "end": {
+                      "column": 9,
+                      "line": 3
+                    },
+                    "start": {
+                      "column": 8,
+                      "line": 3
+                    }
+                  },
                   "name": "a",
                   "range": [
                     43,
@@ -20,6 +30,16 @@
                 },
                 "init": {
                   "end": 51,
+                  "loc": {
+                    "end": {
+                      "column": 16,
+                      "line": 3
+                    },
+                    "start": {
+                      "column": 12,
+                      "line": 3
+                    }
+                  },
                   "range": [
                     47,
                     51
@@ -28,6 +48,16 @@
                   "start": 47,
                   "type": "Literal",
                   "value": true
+                },
+                "loc": {
+                  "end": {
+                    "column": 16,
+                    "line": 3
+                  },
+                  "start": {
+                    "column": 8,
+                    "line": 3
+                  }
                 },
                 "range": [
                   43,
@@ -39,6 +69,16 @@
             ],
             "end": 52,
             "kind": "let",
+            "loc": {
+              "end": {
+                "column": 17,
+                "line": 3
+              },
+              "start": {
+                "column": 4,
+                "line": 3
+              }
+            },
             "range": [
               39,
               52
@@ -48,6 +88,16 @@
           }
         ],
         "end": 74,
+        "loc": {
+          "end": {
+            "column": 1,
+            "line": 4
+          },
+          "start": {
+            "column": 13,
+            "line": 1
+          }
+        },
         "range": [
           13,
           74
@@ -60,6 +110,16 @@
       "generator": false,
       "id": {
         "end": 10,
+        "loc": {
+          "end": {
+            "column": 10,
+            "line": 1
+          },
+          "start": {
+            "column": 9,
+            "line": 1
+          }
+        },
         "name": "x",
         "range": [
           9,
@@ -67,6 +127,16 @@
         ],
         "start": 9,
         "type": "Identifier"
+      },
+      "loc": {
+        "end": {
+          "column": 1,
+          "line": 4
+        },
+        "start": {
+          "column": 0,
+          "line": 1
+        }
       },
       "params": [],
       "range": [
@@ -77,10 +147,20 @@
       "type": "FunctionDeclaration"
     }
   ],
-  "end": 74,
+  "end": 75,
+  "loc": {
+    "end": {
+      "column": 0,
+      "line": 5
+    },
+    "start": {
+      "column": 0,
+      "line": 1
+    }
+  },
   "range": [
     0,
-    74
+    75
   ],
   "sourceType": "script",
   "start": 0,

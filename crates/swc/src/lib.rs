@@ -105,6 +105,7 @@
 //!
 //! See [swc_ecma_minifier::eval::Evaluator].
 #![deny(unused)]
+#![cfg_attr(docsrs, feature(doc_cfg))]
 
 pub extern crate swc_atoms as atoms;
 pub extern crate swc_common as common;
@@ -161,6 +162,7 @@ pub use swc_node_comments::SwcComments;
 
 mod builder;
 pub mod config;
+mod plugin;
 pub mod resolver {
     use crate::config::CompiledPaths;
     use std::path::PathBuf;

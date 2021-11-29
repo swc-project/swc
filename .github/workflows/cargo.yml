@@ -160,7 +160,7 @@ jobs:
           - swc_node_bundler
           - swc_node_comments
           - swc_plugin
-          - swc_plugin_api
+          - swc_plugin_js_api
           - swc_plugin_runner
           - swc_plugin_testing
           - swc_stylis
@@ -174,6 +174,9 @@ jobs:
         exclude:
           - os: windows-latest
             crate: swc_node_bundler
+        include:
+          - os: macos-latest
+            crate: swc_plugin_runner
 
     steps:
       - name: Handle line endings

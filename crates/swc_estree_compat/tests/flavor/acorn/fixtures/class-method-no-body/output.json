@@ -8,6 +8,16 @@
             "end": 26,
             "key": {
               "end": 21,
+              "loc": {
+                "end": {
+                  "column": 8,
+                  "line": 2
+                },
+                "start": {
+                  "column": 4,
+                  "line": 2
+                }
+              },
               "name": "stub",
               "range": [
                 17,
@@ -17,6 +27,16 @@
               "type": "Identifier"
             },
             "kind": "method",
+            "loc": {
+              "end": {
+                "column": 13,
+                "line": 2
+              },
+              "start": {
+                "column": 4,
+                "line": 2
+              }
+            },
             "range": [
               17,
               26
@@ -29,6 +49,16 @@
               "body": {
                 "body": [],
                 "end": 26,
+                "loc": {
+                  "end": {
+                    "column": 13,
+                    "line": 2
+                  },
+                  "start": {
+                    "column": 11,
+                    "line": 2
+                  }
+                },
                 "range": [
                   24,
                   26
@@ -38,6 +68,16 @@
               },
               "end": 26,
               "generator": false,
+              "loc": {
+                "end": {
+                  "column": 13,
+                  "line": 2
+                },
+                "start": {
+                  "column": 11,
+                  "line": 2
+                }
+              },
               "params": [],
               "range": [
                 24,
@@ -49,6 +89,16 @@
           }
         ],
         "end": 28,
+        "loc": {
+          "end": {
+            "column": 1,
+            "line": 3
+          },
+          "start": {
+            "column": 11,
+            "line": 1
+          }
+        },
         "range": [
           11,
           28
@@ -59,6 +109,16 @@
       "end": 28,
       "id": {
         "end": 10,
+        "loc": {
+          "end": {
+            "column": 10,
+            "line": 1
+          },
+          "start": {
+            "column": 6,
+            "line": 1
+          }
+        },
         "name": "None",
         "range": [
           6,
@@ -66,6 +126,16 @@
         ],
         "start": 6,
         "type": "Identifier"
+      },
+      "loc": {
+        "end": {
+          "column": 1,
+          "line": 3
+        },
+        "start": {
+          "column": 0,
+          "line": 1
+        }
       },
       "range": [
         0,
@@ -76,10 +146,20 @@
       "type": "ClassDeclaration"
     }
   ],
-  "end": 28,
+  "end": 29,
+  "loc": {
+    "end": {
+      "column": 0,
+      "line": 4
+    },
+    "start": {
+      "column": 0,
+      "line": 1
+    }
+  },
   "range": [
     0,
-    28
+    29
   ],
   "sourceType": "script",
   "start": 0,

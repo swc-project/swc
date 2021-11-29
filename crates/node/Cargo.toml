@@ -22,7 +22,7 @@ napi-derive = {version = "1"}
 path-clean = "0.1"
 serde = {version = "1", features = ["derive"]}
 serde_json = {version = "1", features = ["unbounded_depth"]}
-swc = {path = "../swc", features = ["concurrent", "wrong-target"]}
+swc = {path = "../swc", features = ["concurrent", "wrong-target", "plugin"]}
 swc_atoms = {version = "0.2.4", path = "../swc_atoms"}
 swc_bundler = {path = "../swc_bundler"}
 swc_common = {path = "../swc_common", features = ["sourcemap"]}

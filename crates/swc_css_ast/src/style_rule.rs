@@ -1,4 +1,4 @@
-use crate::{Ident, SelectorList, Tokens, Value};
+use crate::{AtRule, Ident, SelectorList, Tokens, Value};
 use swc_common::{ast_node, Span};
 
 #[ast_node("QualifiedRule")]
@@ -20,6 +20,8 @@ pub enum DeclarationBlockItem {
     Invalid(Tokens),
     #[tag("Declaration")]
     Declaration(Declaration),
+    #[tag("*")]
+    AtRule(AtRule),
 }
 
 #[ast_node("Declaration")]
