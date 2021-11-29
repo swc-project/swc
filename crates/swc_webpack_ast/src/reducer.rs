@@ -1191,6 +1191,20 @@ impl VisitMut for ReduceAst {
                 }
             }
 
+            Stmt::For(ForStmt {
+                init: Some(VarDeclOrExpr::VarDecl(v)),
+                test: None,
+                update: None,
+                body,
+                ..
+            }) => {
+                if body.is_empty() {
+                    *stmt = Stmt::Decl(Decl::Var(v.take()));
+                    self.changed = true;
+                    return;
+                }
+            }
+
             // TODO: Flatten loops
             // TODO: Flatten try catch
             _ => {}
