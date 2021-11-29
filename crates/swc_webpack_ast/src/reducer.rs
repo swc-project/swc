@@ -786,6 +786,15 @@ impl VisitMut for ReduceAst {
         f.return_type.visit_mut_with(self);
     }
 
+    fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
+        s.visit_mut_children_with(self);
+
+        self.ignore_expr(&mut s.test);
+        if s.test.is_invalid() {
+            s.test = Box::new(null_expr());
+        }
+    }
+
     fn visit_mut_jsx_attr_or_spreads(&mut self, attrs: &mut Vec<JSXAttrOrSpread>) {
         attrs.visit_mut_children_with(self);
 
