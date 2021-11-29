@@ -48,6 +48,7 @@ define!({
     pub enum DeclarationBlockItem {
         Invalid(Tokens),
         Declaration(Declaration),
+        AtRule(AtRule),
     }
 
     pub struct Tokens {

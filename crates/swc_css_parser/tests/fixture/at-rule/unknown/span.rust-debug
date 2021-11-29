@@ -7,8 +7,8 @@ error: Stylesheet
 3  | | /*@unknown \"blah\";*/
 4  | | /*@unknown!*test*!;*/
 ...  |
-35 | |     <!-- {}
-36 | | }
+51 | |     color: red;
+52 | | }
    | |__^
 
 error: Rule
@@ -422,4 +422,474 @@ error: RBrace
    |
 36 | }
    | ^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:38:1
+   |
+38 | / @unknown {
+39 | |     @unknown {s{p:v}}
+40 | | }
+   | |_^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:38:1
+   |
+38 | / @unknown {
+39 | |     @unknown {s{p:v}}
+40 | | }
+   | |_^
+
+error: UnknownAtRule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:38:1
+   |
+38 | / @unknown {
+39 | |     @unknown {s{p:v}}
+40 | | }
+   | |_^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:38:1
+   |
+38 | @unknown {
+   | ^^^^^^^^
+
+error: Tokens
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:38:10
+   |
+38 |   @unknown {
+   |  __________^
+39 | |     @unknown {s{p:v}}
+40 | | }
+   | |_^
+
+error: LBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:38:10
+   |
+38 | @unknown {
+   |          ^
+
+error: WhiteSpace { value: Atom('
+    ' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:38:11
+   |
+38 |   @unknown {
+   |  ___________^
+39 | |     @unknown {s{p:v}}
+   | |____^
+
+error: AtKeyword { value: Atom('unknown' type=static), raw: Atom('unknown' type=static) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:39:5
+   |
+39 |     @unknown {s{p:v}}
+   |     ^^^^^^^^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:39:13
+   |
+39 |     @unknown {s{p:v}}
+   |             ^
+
+error: LBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:39:14
+   |
+39 |     @unknown {s{p:v}}
+   |              ^
+
+error: Ident { value: Atom('s' type=inline), raw: Atom('s' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:39:15
+   |
+39 |     @unknown {s{p:v}}
+   |               ^
+
+error: LBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:39:16
+   |
+39 |     @unknown {s{p:v}}
+   |                ^
+
+error: Ident { value: Atom('p' type=inline), raw: Atom('p' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:39:17
+   |
+39 |     @unknown {s{p:v}}
+   |                 ^
+
+error: Colon
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:39:18
+   |
+39 |     @unknown {s{p:v}}
+   |                  ^
+
+error: Ident { value: Atom('v' type=inline), raw: Atom('v' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:39:19
+   |
+39 |     @unknown {s{p:v}}
+   |                   ^
+
+error: RBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:39:20
+   |
+39 |     @unknown {s{p:v}}
+   |                    ^
+
+error: RBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:39:21
+   |
+39 |     @unknown {s{p:v}}
+   |                     ^
+
+error: WhiteSpace { value: Atom('
+' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:39:22
+   |
+39 |       @unknown {s{p:v}}
+   |  ______________________^
+40 | | }
+   | |_
+
+error: RBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:40:1
+   |
+40 | }
+   | ^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:42:1
+   |
+42 | / @unknown {
+43 | |     @unknown {s{p:v}}
+44 | |     
+45 | |     color: red;
+46 | | }
+   | |_^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:42:1
+   |
+42 | / @unknown {
+43 | |     @unknown {s{p:v}}
+44 | |     
+45 | |     color: red;
+46 | | }
+   | |_^
+
+error: UnknownAtRule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:42:1
+   |
+42 | / @unknown {
+43 | |     @unknown {s{p:v}}
+44 | |     
+45 | |     color: red;
+46 | | }
+   | |_^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:42:1
+   |
+42 | @unknown {
+   | ^^^^^^^^
+
+error: Tokens
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:42:10
+   |
+42 |   @unknown {
+   |  __________^
+43 | |     @unknown {s{p:v}}
+44 | |     
+45 | |     color: red;
+46 | | }
+   | |_^
+
+error: LBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:42:10
+   |
+42 | @unknown {
+   |          ^
+
+error: WhiteSpace { value: Atom('
+    ' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:42:11
+   |
+42 |   @unknown {
+   |  ___________^
+43 | |     @unknown {s{p:v}}
+   | |____^
+
+error: AtKeyword { value: Atom('unknown' type=static), raw: Atom('unknown' type=static) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:43:5
+   |
+43 |     @unknown {s{p:v}}
+   |     ^^^^^^^^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:43:13
+   |
+43 |     @unknown {s{p:v}}
+   |             ^
+
+error: LBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:43:14
+   |
+43 |     @unknown {s{p:v}}
+   |              ^
+
+error: Ident { value: Atom('s' type=inline), raw: Atom('s' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:43:15
+   |
+43 |     @unknown {s{p:v}}
+   |               ^
+
+error: LBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:43:16
+   |
+43 |     @unknown {s{p:v}}
+   |                ^
+
+error: Ident { value: Atom('p' type=inline), raw: Atom('p' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:43:17
+   |
+43 |     @unknown {s{p:v}}
+   |                 ^
+
+error: Colon
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:43:18
+   |
+43 |     @unknown {s{p:v}}
+   |                  ^
+
+error: Ident { value: Atom('v' type=inline), raw: Atom('v' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:43:19
+   |
+43 |     @unknown {s{p:v}}
+   |                   ^
+
+error: RBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:43:20
+   |
+43 |     @unknown {s{p:v}}
+   |                    ^
+
+error: RBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:43:21
+   |
+43 |     @unknown {s{p:v}}
+   |                     ^
+
+error: WhiteSpace { value: Atom('
+    
+    ' type=dynamic) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:43:22
+   |
+43 |       @unknown {s{p:v}}
+   |  ______________________^
+44 | |     
+45 | |     color: red;
+   | |____^
+
+error: Ident { value: Atom('color' type=inline), raw: Atom('color' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:45:5
+   |
+45 |     color: red;
+   |     ^^^^^
+
+error: Colon
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:45:10
+   |
+45 |     color: red;
+   |          ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:45:11
+   |
+45 |     color: red;
+   |           ^
+
+error: Ident { value: Atom('red' type=inline), raw: Atom('red' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:45:12
+   |
+45 |     color: red;
+   |            ^^^
+
+error: Semi
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:45:15
+   |
+45 |     color: red;
+   |               ^
+
+error: WhiteSpace { value: Atom('
+' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:45:16
+   |
+45 |       color: red;
+   |  ________________^
+46 | | }
+   | |_
+
+error: RBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:46:1
+   |
+46 | }
+   | ^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:48:1
+   |
+48 | / .foo {
+49 | |     @unknown {s{p:v}}
+50 | |
+51 | |     color: red;
+52 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:48:1
+   |
+48 | / .foo {
+49 | |     @unknown {s{p:v}}
+50 | |
+51 | |     color: red;
+52 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:48:1
+   |
+48 | .foo {
+   | ^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:48:1
+   |
+48 | .foo {
+   | ^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:48:1
+   |
+48 | .foo {
+   | ^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:48:1
+   |
+48 | .foo {
+   | ^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:48:1
+   |
+48 | .foo {
+   | ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:48:2
+   |
+48 | .foo {
+   |  ^^^
+
+error: Block
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:48:6
+   |
+48 |   .foo {
+   |  ______^
+49 | |     @unknown {s{p:v}}
+50 | |
+51 | |     color: red;
+52 | | }
+   | |_^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:49:5
+   |
+49 |     @unknown {s{p:v}}
+   |     ^^^^^^^^^^^^^^^^^
+
+error: UnknownAtRule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:49:5
+   |
+49 |     @unknown {s{p:v}}
+   |     ^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:49:5
+   |
+49 |     @unknown {s{p:v}}
+   |     ^^^^^^^^
+
+error: Tokens
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:49:14
+   |
+49 |     @unknown {s{p:v}}
+   |              ^^^^^^^^
+
+error: LBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:49:14
+   |
+49 |     @unknown {s{p:v}}
+   |              ^
+
+error: Ident { value: Atom('s' type=inline), raw: Atom('s' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:49:15
+   |
+49 |     @unknown {s{p:v}}
+   |               ^
+
+error: LBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:49:16
+   |
+49 |     @unknown {s{p:v}}
+   |                ^
+
+error: Ident { value: Atom('p' type=inline), raw: Atom('p' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:49:17
+   |
+49 |     @unknown {s{p:v}}
+   |                 ^
+
+error: Colon
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:49:18
+   |
+49 |     @unknown {s{p:v}}
+   |                  ^
+
+error: Ident { value: Atom('v' type=inline), raw: Atom('v' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:49:19
+   |
+49 |     @unknown {s{p:v}}
+   |                   ^
+
+error: RBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:49:20
+   |
+49 |     @unknown {s{p:v}}
+   |                    ^
+
+error: RBrace
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:49:21
+   |
+49 |     @unknown {s{p:v}}
+   |                     ^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:51:5
+   |
+51 |     color: red;
+   |     ^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:51:5
+   |
+51 |     color: red;
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:51:12
+   |
+51 |     color: red;
+   |            ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:51:12
+   |
+51 |     color: red;
+   |            ^^^
 
