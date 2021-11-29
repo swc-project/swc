@@ -590,19 +590,14 @@ impl Query {
         where
             T: AsRef<str>,
         {
-            let distribs = browserslist::resolve(
-                s,
-                &browserslist::Opts {
-                    mobile_to_desktop: false,
-                    ignore_unknown_versions: true,
-                },
-            )
-            .with_context(|| {
-                format!(
-                    "failed to resolve browserslist query: {:?}",
-                    s.iter().map(|v| v.as_ref()).collect::<Vec<_>>()
-                )
-            })?;
+            let distribs =
+                browserslist::resolve(s, browserslist::Opts::new().ignore_unknown_versions(true))
+                    .with_context(|| {
+                    format!(
+                        "failed to resolve browserslist query: {:?}",
+                        s.iter().map(|v| v.as_ref()).collect::<Vec<_>>()
+                    )
+                })?;
 
             let versions =
                 BrowserData::parse_versions(distribs).expect("failed to parse browser version");
