@@ -1273,6 +1273,18 @@ impl VisitMut for ReduceAst {
         self.visit_mut_stmt_likes(stmts);
     }
 
+    fn visit_mut_switch_cases(&mut self, cases: &mut Vec<SwitchCase>) {
+        cases.visit_mut_children_with(self);
+
+        cases.retain(|case| {
+            if case.test.as_deref().map(can_remove).unwrap_or(true) && case.cons.is_empty() {
+                return false;
+            }
+
+            true
+        })
+    }
+
     fn visit_mut_var_decl(&mut self, var: &mut VarDecl) {
         let old_var_decl_kind = self.var_decl_kind;
         self.var_decl_kind = Some(var.kind);
