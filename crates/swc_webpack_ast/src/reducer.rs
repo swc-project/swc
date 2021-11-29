@@ -1429,6 +1429,21 @@ impl VisitMut for ReduceAst {
         })
     }
 
+    fn visit_mut_ts_param_prop_param(&mut self, p: &mut TsParamPropParam) {
+        p.visit_mut_children_with(self);
+
+        match p {
+            TsParamPropParam::Ident(_) => {}
+            TsParamPropParam::Assign(ap) => {
+                self.ignore_expr(&mut ap.right);
+
+                if ap.right.is_invalid() {
+                    ap.right = Box::new(null_expr());
+                }
+            }
+        }
+    }
+
     fn visit_mut_var_decl(&mut self, var: &mut VarDecl) {
         let old_var_decl_kind = self.var_decl_kind;
         self.var_decl_kind = Some(var.kind);
