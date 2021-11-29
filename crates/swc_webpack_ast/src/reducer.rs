@@ -893,13 +893,17 @@ impl VisitMut for ReduceAst {
             _ => {}
         }
 
-        if let Some(test) = &s.test {
+        if let Some(test) = &mut s.test {
+            self.ignore_expr(&mut **test);
+
             if can_remove(&test) {
                 s.test = None;
             }
         }
 
-        if let Some(update) = &s.update {
+        if let Some(update) = &mut s.update {
+            self.ignore_expr(&mut **update);
+
             if can_remove(&update) {
                 s.update = None;
             }
