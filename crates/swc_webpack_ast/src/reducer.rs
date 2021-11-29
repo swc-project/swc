@@ -7,7 +7,7 @@ use swc_common::{
     Mark, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, Id, StmtLike, StmtOrModuleItem};
+use swc_ecma_utils::{ident::IdentLike, Id, IsEmpty, StmtLike, StmtOrModuleItem};
 use swc_ecma_visit::{VisitMut, VisitMutWith};
 use swc_timer::timer;
 
@@ -723,6 +723,17 @@ impl VisitMut for ReduceAst {
                 seq.visit_mut_with(self);
 
                 *e = seq;
+            }
+
+            Expr::Fn(FnExpr { function, .. }) => {
+                if function.decorators.is_empty()
+                    && function.params.is_empty()
+                    && function.body.is_empty()
+                {
+                    *e = null_expr();
+                    self.changed = true;
+                    return;
+                }
             }
 
             // TODO:
