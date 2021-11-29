@@ -129,6 +129,7 @@ struct ReduceAst {
     var_decl_kind: Option<VarDeclKind>,
 
     can_remove_pat: bool,
+    preserve_fn: bool,
 
     changed: bool,
 }
@@ -434,6 +435,41 @@ impl VisitMut for ReduceAst {
     ///
     ///  - empty [Expr::Seq] => [Expr::Invalid]
     fn visit_mut_expr(&mut self, e: &mut Expr) {
+        match e {
+            Expr::Call(CallExpr {
+                callee: ExprOrSuper::Expr(callee),
+                args,
+                ..
+            })
+            | Expr::New(NewExpr {
+                callee,
+                args: Some(args),
+                ..
+            }) => {
+                self.ignore_expr(callee);
+
+                if callee.is_invalid() {
+                    let mut seq = Expr::Seq(SeqExpr {
+                        span: DUMMY_SP,
+                        exprs: args.take().into_iter().map(|arg| arg.expr).collect(),
+                    });
+
+                    seq.visit_mut_with(self);
+
+                    *e = seq;
+                } else {
+                    // We should preserve the arguments if the callee is not invalid.
+                    let old = self.preserve_fn;
+                    self.preserve_fn = true;
+                    e.visit_mut_children_with(self);
+                    self.preserve_fn = old;
+                    return;
+                }
+            }
+
+            _ => {}
+        }
+
         e.visit_mut_children_with(self);
 
         match e {
@@ -657,30 +693,6 @@ impl VisitMut for ReduceAst {
                 }
             }
 
-            Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(callee),
-                args,
-                ..
-            })
-            | Expr::New(NewExpr {
-                callee,
-                args: Some(args),
-                ..
-            }) => {
-                self.ignore_expr(callee);
-
-                if callee.is_invalid() {
-                    let mut seq = Expr::Seq(SeqExpr {
-                        span: DUMMY_SP,
-                        exprs: args.take().into_iter().map(|arg| arg.expr).collect(),
-                    });
-
-                    seq.visit_mut_with(self);
-
-                    *e = seq;
-                }
-            }
-
             Expr::JSXElement(el) => {
                 // Remove empty, non-component elements.
                 match &el.opening.name {
@@ -726,10 +738,23 @@ impl VisitMut for ReduceAst {
             }
 
             Expr::Fn(FnExpr { function, .. }) => {
-                if function.decorators.is_empty()
+                if !self.preserve_fn
+                    && function.decorators.is_empty()
                     && function.params.is_empty()
                     && function.body.is_empty()
                 {
+                    *e = null_expr();
+                    self.changed = true;
+                    return;
+                }
+            }
+
+            Expr::Arrow(ArrowExpr {
+                params,
+                body: BlockStmtOrExpr::BlockStmt(body),
+                ..
+            }) => {
+                if !self.preserve_fn && params.is_empty() && body.is_empty() {
                     *e = null_expr();
                     self.changed = true;
                     return;
