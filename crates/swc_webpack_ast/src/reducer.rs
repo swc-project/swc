@@ -1220,6 +1220,7 @@ impl VisitMut for ReduceAst {
 
             Stmt::Return(s) => {
                 if let Some(arg) = s.arg.take() {
+                    self.changed = true;
                     *stmt = Stmt::Expr(ExprStmt {
                         span: DUMMY_SP,
                         expr: arg,
@@ -1230,6 +1231,7 @@ impl VisitMut for ReduceAst {
                 }
             }
             Stmt::Throw(s) => {
+                self.changed = true;
                 *stmt = Stmt::Expr(ExprStmt {
                     span: DUMMY_SP,
                     expr: s.arg.take(),
@@ -1252,6 +1254,7 @@ impl VisitMut for ReduceAst {
         match stmt {
             Stmt::Expr(e) => {
                 if e.expr.is_invalid() {
+                    self.changed = true;
                     *stmt = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                     return;
                 }
