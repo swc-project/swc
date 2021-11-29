@@ -783,6 +783,7 @@ impl VisitMut for ReduceAst {
 
         elems.retain(|e| {
             if let Expr::Lit(Lit::Null(..)) | Expr::Invalid(..) = &*e.expr {
+                self.changed = true;
                 return false;
             }
 
