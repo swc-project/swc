@@ -831,6 +831,25 @@ impl VisitMut for ReduceAst {
                 return;
             }
 
+            Expr::Call(CallExpr {
+                callee: ExprOrSuper::Super(..),
+                args,
+                ..
+            }) => {
+                self.changed = true;
+                let exprs: Vec<_> = args.take().into_iter().map(|arg| arg.expr).collect();
+                if exprs.is_empty() {
+                    *e = null_expr();
+                    return;
+                }
+                let seq = Expr::Seq(SeqExpr {
+                    span: DUMMY_SP,
+                    exprs,
+                });
+
+                *e = seq;
+            }
+
             // TODO:
             // Expr::Class(_) => todo!(),
             // Expr::MetaProp(_) => todo!(),
