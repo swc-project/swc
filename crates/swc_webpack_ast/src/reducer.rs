@@ -1109,6 +1109,28 @@ impl VisitMut for ReduceAst {
                 });
             }
 
+            Stmt::While(s) => {
+                if s.body.is_empty() {
+                    *stmt = Stmt::Expr(ExprStmt {
+                        span: DUMMY_SP,
+                        expr: s.test.take(),
+                    });
+                    self.changed = true;
+                    return;
+                }
+            }
+
+            Stmt::DoWhile(s) => {
+                if s.body.is_empty() {
+                    *stmt = Stmt::Expr(ExprStmt {
+                        span: DUMMY_SP,
+                        expr: s.test.take(),
+                    });
+                    self.changed = true;
+                    return;
+                }
+            }
+
             _ => {}
         }
 
@@ -1189,6 +1211,7 @@ impl VisitMut for ReduceAst {
     }
 
     fn visit_mut_var_declarator(&mut self, v: &mut VarDeclarator) {
+        let had_init = v.init.is_some();
         v.visit_mut_children_with(self);
 
         if let Some(e) = &mut v.init {
@@ -1199,7 +1222,7 @@ impl VisitMut for ReduceAst {
             }
         }
 
-        if v.init.is_none() && matches!(self.var_decl_kind, Some(VarDeclKind::Const)) {
+        if had_init && v.init.is_none() && matches!(self.var_decl_kind, Some(VarDeclKind::Const)) {
             v.init = Some(Box::new(null_expr()));
         }
     }
