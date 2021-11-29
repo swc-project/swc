@@ -13,7 +13,7 @@ use swc::config::{Config, IsModule, JscConfig, Options, SourceMapsConfig};
 use swc_common::{errors::Handler, FileName, FilePathMapping, SourceFile, SourceMap};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::{Syntax, TsConfig};
-use swc_ecma_transforms::{fixer, hygiene, resolver, typescript};
+use swc_ecma_transforms::{fixer, hygiene, resolver::{self, ts_resolver}, typescript};
 use swc_ecma_visit::FoldWith;
 use test::Bencher;
 
@@ -48,16 +48,17 @@ fn parse(c: &swc::Compiler) -> (Arc<SourceFile>, Program) {
     )
 }
 
-fn as_es(c: &swc::Compiler) -> Program {
-    let program = parse(c).1;
-
-    program.fold_with(&mut typescript::strip())
+fn as_es(program: Program) -> Program {
+    let mark = Mark::fresh(Mark::root());
+    program.fold_with(&mut ts_resolver(mark))
+        .fold_with(&mut typescript::strip(mark))
+        .fold_with(&mut hygiene())
 }
 
 #[bench]
 fn base_tr_fixer(b: &mut Bencher) {
     let c = mk();
-    let module = as_es(&c);
+    let module = as_es(parse(&c).1);
 
     b.iter(|| {
         let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
@@ -71,16 +72,13 @@ fn base_tr_fixer(b: &mut Bencher) {
 #[bench]
 fn base_tr_resolver_and_hygiene(b: &mut Bencher) {
     let c = mk();
-    let module = as_es(&c);
+    let module = parse(&c).1;
 
     b.iter(|| {
         let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
 
         black_box(c.run_transform(&handler, true, || {
-            module
-                .clone()
-                .fold_with(&mut resolver())
-                .fold_with(&mut hygiene())
+            as_es(module.clone())
         }))
     });
 }

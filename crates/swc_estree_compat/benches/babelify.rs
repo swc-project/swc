@@ -8,7 +8,7 @@ use swc::config::IsModule;
 use swc_common::{errors::Handler, FileName, FilePathMapping, SourceFile, SourceMap};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::Syntax;
-use swc_ecma_transforms::{compat::es2020, typescript};
+use swc_ecma_transforms::{compat::es2020, hygiene, resolver::ts_resolver, typescript};
 use swc_ecma_visit::FoldWith;
 use swc_estree_compat::babelify::{Babelify, Context};
 use test::Bencher;
@@ -54,9 +54,12 @@ fn babelify_only(b: &mut Bencher) {
     let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
 
     let module = c.run_transform(&handler, false, || {
+        let mark = Mark::fresh(Mark::root());
         module
-            .fold_with(&mut typescript::strip())
+            .fold_with(&mut ts_resolver(mark))
+            .fold_with(&mut typescript::strip(mark))
             .fold_with(&mut es2020(Default::default()))
+            .fold_with(&mut hygiene())
     });
 
     b.iter(|| {
