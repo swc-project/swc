@@ -1435,6 +1435,10 @@ impl VisitMut for ReduceAst {
         match p {
             TsParamPropParam::Ident(_) => {}
             TsParamPropParam::Assign(ap) => {
+                if ap.right.is_invalid() {
+                    return;
+                }
+
                 self.ignore_expr(&mut ap.right);
 
                 if ap.right.is_invalid() {
