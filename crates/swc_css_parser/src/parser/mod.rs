@@ -38,8 +38,6 @@ struct Ctx {
 
     disallow_comma_in_media_query: bool,
 
-    is_in_delimited_value: bool,
-
     allow_at_selector: bool,
 
     recover_from_property_value: bool,
