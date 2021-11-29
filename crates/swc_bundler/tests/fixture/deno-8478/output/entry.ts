@@ -1,4 +1,4 @@
-var Bar1;
+let Bar1;
 (function(Bar) {
     function foo() {
         console.log("foo");

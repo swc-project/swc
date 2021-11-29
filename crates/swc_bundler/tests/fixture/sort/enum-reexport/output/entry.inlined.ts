@@ -1,4 +1,4 @@
-var Status1;
+let Status1;
 (function(Status) {
     Status[Status["Continue"] = 100] = "Continue";
 })(Status1 || (Status1 = {

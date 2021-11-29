@@ -1,4 +1,4 @@
-var A1;
+let A1;
 (function(A) {
     A[A["b"] = 5] = "b";
     A[A["c"] = 28] = "c";

@@ -5,7 +5,7 @@ extern crate test;
 use swc_common::{chain, comments::SingleThreadedComments, sync::Lrc, FileName, Mark, SourceMap};
 use swc_ecma_ast::Module;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
-use swc_ecma_transforms_base::helpers;
+use swc_ecma_transforms_base::{helpers, hygiene::hygiene, resolver::ts_resolver};
 use swc_ecma_transforms_typescript::strip;
 use swc_ecma_visit::{Fold, FoldWith};
 use test::Bencher;
@@ -25,6 +25,13 @@ fn module(cm: Lrc<SourceMap>) -> Module {
     module
 }
 
+fn strip_with_resolver(module: Module) -> Module {
+    let mark = Mark::fresh(Mark::root());
+    let module = module.fold_with(&mut ts_resolver(mark));
+    let module = module.fold_with(&mut strip(mark));
+    module.fold_with(&mut hygiene())
+}
+
 fn run<V>(b: &mut Bencher, tr: impl Fn() -> V)
 where
     V: Fold,
@@ -33,7 +40,7 @@ where
 
     let _ = ::testing::run_test(false, |cm, _| {
         let module = module(cm);
-        let module = module.fold_with(&mut strip());
+        let module = strip_with_resolver(module);
 
         b.iter(|| {
             let module = module.clone();
@@ -67,13 +74,13 @@ fn common_typescript(b: &mut Bencher) {
 
     let _ = ::testing::run_test(false, |cm, _| {
         let module = module(cm);
-        let module = module.fold_with(&mut strip());
+        let module = strip_with_resolver(module);
 
         b.iter(|| {
             let module = module.clone();
 
             let _ = helpers::HELPERS.set(&Default::default(), || {
-                test::black_box(module.fold_with(&mut strip()));
+                test::black_box(strip_with_resolver(module));
             });
         });
 

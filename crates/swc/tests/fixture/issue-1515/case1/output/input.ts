@@ -11,7 +11,7 @@ class ServiceError extends Error {
 }
 exports.ServiceError = ServiceError;
 (function(ServiceError1) {
-    var Code1;
+    let Code1;
     (function(Code) {
         Code[Code["serviceNotFound"] = 404] = "serviceNotFound";
         Code[Code["serviceNotCompatible"] = 426] = "serviceNotCompatible";

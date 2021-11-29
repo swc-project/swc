@@ -82,12 +82,12 @@
                 }
             }
             class ErrorFactory {
-                constructor(service1, serviceName, errors){
-                    this.service = service1, this.serviceName = serviceName, this.errors = errors;
+                constructor(service, serviceName, errors){
+                    this.service = service, this.serviceName = serviceName, this.errors = errors;
                 }
-                create(code1, ...data1) {
+                create(code, ...data1) {
                     const customData = data1[0] || {
-                    }, fullCode = `${this.service}/${code1}`, template = this.errors[code1], message = template ? replaceTemplate(template, customData) : "Error", fullMessage = `${this.serviceName}: ${message} (${fullCode}).`, error = new FirebaseError(fullCode, fullMessage, customData);
+                    }, fullCode = `${this.service}/${code}`, template = this.errors[code], message = template ? replaceTemplate(template, customData) : "Error", fullMessage = `${this.serviceName}: ${message} (${fullCode}).`, error = new FirebaseError(fullCode, fullMessage, customData);
                     return error;
                 }
             }
@@ -581,8 +581,8 @@
                 Eb.Z.M.call(this), Fb(this), delete this.g;
             };
             class Ib extends v {
-                constructor(a5, b2){
-                    super(), this.m = a5, this.j = b2, this.h = null, this.i = !1, this.g = null;
+                constructor(a, b){
+                    super(), this.m = a, this.j = b, this.h = null, this.i = !1, this.g = null;
                 }
                 l(a4) {
                     this.h = arguments, this.g ? this.i = !0 : Hb(this);
@@ -742,13 +742,13 @@
             function ic(a, b, c) {
                 a.K = 1, a.v = jc(N(b)), a.s = c, a.U = !0, kc(a, null);
             }
-            function kc(a6, b3) {
-                a6.F = Date.now(), lc(a6), a6.A = N(a6.v);
-                var c1 = a6.A, d1 = a6.X;
+            function kc(a5, b2) {
+                a5.F = Date.now(), lc(a5), a5.A = N(a5.v);
+                var c1 = a5.A, d1 = a5.X;
                 Array.isArray(d1) || (d1 = [
                     String(d1)
-                ]), mc(c1.h, "t", d1), a6.C = 0, c1 = a6.l.H, a6.h = new fc, a6.g = nc(a6.l, c1 ? b3 : null, !a6.s), 0 < a6.O && (a6.L = new Ib(q(a6.Ia, a6, a6.g), a6.O)), Kb(a6.V, a6.g, "readystatechange", a6.gb), b3 = a6.H ? ya(a6.H) : {
-                }, a6.s ? (a6.u || (a6.u = "POST"), b3["Content-Type"] = "application/x-www-form-urlencoded", a6.g.ea(a6.A, a6.u, a6.s, b3)) : (a6.u = "GET", a6.g.ea(a6.A, a6.u, null, b3)), I(1), (function(a, b, c, d, e, f) {
+                ]), mc(c1.h, "t", d1), a5.C = 0, c1 = a5.l.H, a5.h = new fc, a5.g = nc(a5.l, c1 ? b2 : null, !a5.s), 0 < a5.O && (a5.L = new Ib(q(a5.Ia, a5, a5.g), a5.O)), Kb(a5.V, a5.g, "readystatechange", a5.gb), b2 = a5.H ? ya(a5.H) : {
+                }, a5.s ? (a5.u || (a5.u = "POST"), b2["Content-Type"] = "application/x-www-form-urlencoded", a5.g.ea(a5.A, a5.u, a5.s, b2)) : (a5.u = "GET", a5.g.ea(a5.A, a5.u, null, b2)), I(1), (function(a, b, c, d, e, f) {
                     a.info(function() {
                         if (a.g) if (f) for(var h = "", n = f.split("&"), u = 0; u < n.length; u++){
                             var m = n[u].split("=");
@@ -763,7 +763,7 @@
                         else h = f;
                         return "XMLHTTP REQ (" + d + ") [attempt " + e + "]: " + b + "\n" + c + "\n" + h;
                     });
-                })(a6.j, a6.u, a6.A, a6.m, a6.X, a6.s);
+                })(a5.j, a5.u, a5.A, a5.m, a5.X, a5.s);
             }
             function qc(a) {
                 return !!a.g && "GET" == a.u && 2 != a.K && a.l.Ba;
@@ -866,16 +866,16 @@
                 } catch (m) {
                 }
             }
-            function Kc(a7, b4) {
-                if (a7.forEach && "function" == typeof a7.forEach) a7.forEach(b4, void 0);
-                else if (ba(a7) || "string" == typeof a7) na(a7, b4, void 0);
+            function Kc(a6, b3) {
+                if (a6.forEach && "function" == typeof a6.forEach) a6.forEach(b3, void 0);
+                else if (ba(a6) || "string" == typeof a6) na(a6, b3, void 0);
                 else {
-                    if (a7.T && "function" == typeof a7.T) var c2 = a7.T();
-                    else if (a7.R && "function" == typeof a7.R) c2 = void 0;
-                    else if (ba(a7) || "string" == typeof a7) {
+                    if (a6.T && "function" == typeof a6.T) var c2 = a6.T();
+                    else if (a6.R && "function" == typeof a6.R) c2 = void 0;
+                    else if (ba(a6) || "string" == typeof a6) {
                         c2 = [];
-                        for(var d = a7.length, e = 0; e < d; e++)c2.push(e);
-                    } else for(e in c2 = [], d = 0, a7)c2[d++] = e;
+                        for(var d = a6.length, e = 0; e < d; e++)c2.push(e);
+                    } else for(e in c2 = [], d = 0, a6)c2[d++] = e;
                     e = (d = (function(a) {
                         if (a.R && "function" == typeof a.R) return a.R();
                         if ("string" == typeof a) return a.split("");
@@ -885,8 +885,8 @@
                         }
                         for(d in b = [], c = 0, a)b[c++] = a[d];
                         return b;
-                    })(a7)).length;
-                    for(var f = 0; f < e; f++)b4.call(void 0, d[f], c2 && c2[f], a7);
+                    })(a6)).length;
+                    for(var f = 0; f < e; f++)b3.call(void 0, d[f], c2 && c2[f], a6);
                 }
             }
             function S(a, b) {
@@ -923,19 +923,19 @@
                 a = a.target;
                 const b = this.L;
                 b && 3 == O(a) ? b.l() : this.Ia(a);
-            }, k.Ia = function(a8) {
+            }, k.Ia = function(a7) {
                 try {
-                    if (a8 == this.g) a: {
+                    if (a7 == this.g) a: {
                         const r = O(this.g);
-                        var b5 = this.g.Da();
+                        var b4 = this.g.Da();
                         const G = this.g.ba();
                         if (!(3 > r) && (3 != r || Ja || this.g && (this.h.h || this.g.ga() || oc(this.g)))) {
-                            this.I || 4 != r || 7 == b5 || (8 == b5 || 0 >= G ? I(3) : I(2)), pc(this);
+                            this.I || 4 != r || 7 == b4 || (8 == b4 || 0 >= G ? I(3) : I(2)), pc(this);
                             var c3 = this.g.ba();
                             this.N = c3;
                             b: if (qc(this)) {
                                 var d = oc(this.g);
-                                a8 = "";
+                                a7 = "";
                                 var e = d.length, f = 4 == O(this.g);
                                 if (!this.h.i) {
                                     if ("undefined" == typeof TextDecoder) {
@@ -945,10 +945,10 @@
                                     }
                                     this.h.i = new l.TextDecoder;
                                 }
-                                for(b5 = 0; b5 < e; b5++)this.h.h = !0, a8 += this.h.i.decode(d[b5], {
-                                    stream: f && b5 == e - 1
+                                for(b4 = 0; b4 < e; b4++)this.h.h = !0, a7 += this.h.i.decode(d[b4], {
+                                    stream: f && b4 == e - 1
                                 });
-                                d.splice(0, e), this.h.g += a8, this.C = 0, h = this.h.g;
+                                d.splice(0, e), this.h.g += a7, this.C = 0, h = this.h.g;
                             } else h = this.g.ga();
                             if (this.i = 200 == c3, (function(a, b, c, d, e, f, h) {
                                 a.info(function() {
@@ -988,12 +988,12 @@
                 this.I = !0, P(this);
             }, k.eb = function() {
                 this.B = null;
-                const a9 = Date.now();
-                0 <= a9 - this.Y ? ((function(a, b) {
+                const a8 = Date.now();
+                0 <= a8 - this.Y ? ((function(a, b) {
                     a.info(function() {
                         return "TIMEOUT: " + b;
                     });
-                })(this.j, this.A), 2 != this.K && (I(3), J(17)), P(this), this.o = 2, rc(this)) : xc(this, this.Y - a9);
+                })(this.j, this.A), 2 != this.K && (I(3), J(17)), P(this), this.o = 2, rc(this)) : xc(this, this.Y - a8);
             }, (k = S.prototype).R = function() {
                 Lc(this);
                 for(var a = [], b = 0; b < this.g.length; b++)a.push(this.h[this.g[b]]);
@@ -1061,8 +1061,8 @@
             function Rc(a, b) {
                 this.h = this.g = null, this.i = a || null, this.j = !!b;
             }
-            function V(a10) {
-                a10.g || (a10.g = new S, a10.h = 0, a10.i && (function(a, b) {
+            function V(a9) {
+                a9.g || (a9.g = new S, a9.h = 0, a9.i && (function(a, b) {
                     if (a) {
                         a = a.split("&");
                         for(var c = 0; c < a.length; c++){
@@ -1074,8 +1074,8 @@
                             b(f, e ? decodeURIComponent(e.replace(/\+/g, " ")) : "");
                         }
                     }
-                })(a10.i, function(b, c) {
-                    a10.add(decodeURIComponent(b.replace(/\+/g, " ")), c);
+                })(a9.i, function(b, c) {
+                    a9.add(decodeURIComponent(b.replace(/\+/g, " ")), c);
                 }));
             }
             function dd(a, b) {
@@ -1389,10 +1389,10 @@
                     }
                     d = !0;
                 }
-                let b6;
-                d || (b6 = "", xa(c4, function(c, d) {
-                    b6 += d, b6 += ":", b6 += c, b6 += "\r\n";
-                }), c4 = b6, "string" == typeof a ? null != c4 && encodeURIComponent(String(c4)) : R(a, b, c4));
+                let b5;
+                d || (b5 = "", xa(c4, function(c, d) {
+                    b5 += d, b5 += ":", b5 += c, b5 += "\r\n";
+                }), c4 = b5, "string" == typeof a ? null != c4 && encodeURIComponent(String(c4)) : R(a, b, c4));
             }
             function Hd(a, b, c) {
                 return c && c.internalChannelParams ? c.internalChannelParams[a] || b : b;
@@ -1481,7 +1481,7 @@
                 null != a.v && (l.clearTimeout(a.v), a.v = null);
             }
             function uc(a, b) {
-                var a11, b7, c = null;
+                var a10, b6, c = null;
                 if (a.g == b) {
                     zc(a), wc(a), a.g = null;
                     var d = 2;
@@ -1495,7 +1495,7 @@
                         var e = a.C;
                         D(d = Sb(), new Vb(d, c, b, e)), Hc(a);
                     } else Gc(a);
-                    else if (3 == (e = b.o) || 0 == e && 0 < a.I || !(1 == d && (a11 = a, b7 = b, !(Cc(a11.i) >= a11.i.j - (a11.m ? 1 : 0)) && (a11.m ? (a11.l = b7.D.concat(a11.l), !0) : 1 != a11.G && 2 != a11.G && !(a11.C >= (a11.Xa ? 0 : a11.Ya)) && (a11.m = K(q(a11.Ha, a11, b7), Od(a11, a11.C)), a11.C++, !0))) || 2 == d && Bc(a))) switch(c && 0 < c.length && ((b = a.i).i = b.i.concat(c)), e){
+                    else if (3 == (e = b.o) || 0 == e && 0 < a.I || !(1 == d && (a10 = a, b6 = b, !(Cc(a10.i) >= a10.i.j - (a10.m ? 1 : 0)) && (a10.m ? (a10.l = b6.D.concat(a10.l), !0) : 1 != a10.G && 2 != a10.G && !(a10.C >= (a10.Xa ? 0 : a10.Ya)) && (a10.m = K(q(a10.Ha, a10, b6), Od(a10, a10.C)), a10.C++, !0))) || 2 == d && Bc(a))) switch(c && 0 < c.length && ((b = a.i).i = b.i.concat(c)), e){
                         case 1:
                             Q(a, 5);
                             break;
@@ -1514,11 +1514,11 @@
                 let c = a.Pa + Math.floor(Math.random() * a.$a);
                 return a.j || (c *= 2), c * b;
             }
-            function Q(a12, b8) {
-                if (a12.h.info("Error code " + b8), 2 == b8) {
+            function Q(a11, b7) {
+                if (a11.h.info("Error code " + b7), 2 == b7) {
                     var c5 = null;
-                    a12.j && (c5 = null);
-                    var d2 = q(a12.jb, a12);
+                    a11.j && (c5 = null);
+                    var d2 = q(a11.jb, a11);
                     c5 || (c5 = new U("//www.google.com/images/cleardot.gif"), l.location && "http" == l.location.protocol || Oc(c5, "https"), jc(c5)), (function(a, b) {
                         const c = new Mb;
                         if (l.Image) {
@@ -1529,18 +1529,18 @@
                         } else b(!1);
                     })(c5.toString(), d2);
                 } else J(2);
-                a12.G = 0, a12.j && a12.j.va(b8), Ld(a12), Jd(a12);
+                a11.G = 0, a11.j && a11.j.va(b7), Ld(a11), Jd(a11);
             }
             function Ld(a) {
                 a.G = 0, a.I = -1, a.j && ((0 != jd(a.i).length || 0 != a.l.length) && (a.i.i.length = 0, ra(a.l), a.l.length = 0), a.j.ua());
             }
             function Ec(a, b, c) {
-                var a13, a14, b9, c6, d, e2;
-                let d3 = (a13 = c) instanceof U ? N(a13) : new U(a13, void 0);
+                var a12, a13, b8, c6, d, e2;
+                let d3 = (a12 = c) instanceof U ? N(a12) : new U(a12, void 0);
                 if ("" != d3.i) b && Pc(d3, b + "." + d3.i), Qc(d3, d3.m);
                 else {
                     const e1 = l.location;
-                    d3 = (a14 = e1.protocol, b9 = b ? b + "." + e1.hostname : e1.hostname, c6 = +e1.port, d = c, e2 = new U(null, void 0), a14 && Oc(e2, a14), b9 && Pc(e2, b9), c6 && Qc(e2, c6), d && (e2.l = d), e2);
+                    d3 = (a13 = e1.protocol, b8 = b ? b + "." + e1.hostname : e1.hostname, c6 = +e1.port, d = c, e2 = new U(null, void 0), a13 && Oc(e2, a13), b8 && Pc(e2, b8), c6 && Qc(e2, c6), d && (e2.l = d), e2);
                 }
                 return a.aa && xa(a.aa, function(e, f) {
                     R(d3, f, e);
@@ -1586,16 +1586,16 @@
             function Z(a) {
                 this.g = a;
             }
-            (k = X.prototype).ea = function(a16, b10, c7, d4) {
-                if (this.g) throw Error("[goog.net.XhrIo] Object is active with another request=" + this.H + "; newUri=" + a16);
-                b10 = b10 ? b10.toUpperCase() : "GET", this.H = a16, this.j = "", this.m = 0, this.D = !1, this.h = !0, this.g = this.u ? this.u.g() : cc.g(), this.C = this.u ? Zb(this.u) : Zb(cc), this.g.onreadystatechange = q(this.Fa, this);
+            (k = X.prototype).ea = function(a15, b9, c7, d4) {
+                if (this.g) throw Error("[goog.net.XhrIo] Object is active with another request=" + this.H + "; newUri=" + a15);
+                b9 = b9 ? b9.toUpperCase() : "GET", this.H = a15, this.j = "", this.m = 0, this.D = !1, this.h = !0, this.g = this.u ? this.u.g() : cc.g(), this.C = this.u ? Zb(this.u) : Zb(cc), this.g.onreadystatechange = q(this.Fa, this);
                 try {
-                    this.F = !0, this.g.open(b10, String(a16), !0), this.F = !1;
+                    this.F = !0, this.g.open(b9, String(a15), !0), this.F = !1;
                 } catch (f1) {
                     zd(this, f1);
                     return;
                 }
-                a16 = c7 || "";
+                a15 = c7 || "";
                 const e3 = new S(this.headers);
                 d4 && Kc(d4, function(f, h) {
                     e3.set(h, f);
@@ -1610,12 +1610,12 @@
                         b = -1;
                     }
                     return 0 > b ? null : "string" == typeof a ? a.charAt(b) : a[b];
-                })(e3.T()), c7 = l.FormData && a16 instanceof l.FormData, !(0 <= ma(yd, b10)) || d4 || c7 || e3.set("Content-Type", "application/x-www-form-urlencoded;charset=utf-8"), e3.forEach(function(f, h) {
+                })(e3.T()), c7 = l.FormData && a15 instanceof l.FormData, !(0 <= ma(yd, b9)) || d4 || c7 || e3.set("Content-Type", "application/x-www-form-urlencoded;charset=utf-8"), e3.forEach(function(f, h) {
                     this.g.setRequestHeader(h, f);
                 }, this), this.J && (this.g.responseType = this.J), "withCredentials" in this.g && this.g.withCredentials !== this.L && (this.g.withCredentials = this.L);
                 try {
-                    var a15;
-                    Ad(this), 0 < this.B && ((this.K = (a15 = this.g, y && (function(a) {
+                    var a14;
+                    Ad(this), 0 < this.B && ((this.K = (a14 = this.g, y && (function(a) {
                         var b = Ga;
                         return Object.prototype.hasOwnProperty.call(b, 9) ? b[9] : b[9] = a(9);
                     })(function() {
@@ -1639,7 +1639,7 @@
                             }while (0 == a)
                         }
                         return 0 <= a;
-                    }) && "number" == typeof a15.timeout && void 0 !== a15.ontimeout)) ? (this.g.timeout = this.B, this.g.ontimeout = q(this.pa, this)) : this.A = Gb(this.pa, this.B, this)), this.v = !0, this.g.send(a16), this.v = !1;
+                    }) && "number" == typeof a14.timeout && void 0 !== a14.ontimeout)) ? (this.g.timeout = this.B, this.g.ontimeout = q(this.pa, this)) : this.A = Gb(this.pa, this.B, this)), this.v = !0, this.g.send(a15), this.v = !1;
                 } catch (f) {
                     zd(this, f);
                 }
@@ -2326,8 +2326,8 @@
             });
             var _firebase_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8463), _firebase_logger__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3333), _firebase_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4444);
             class PlatformLoggerServiceImpl {
-                constructor(container1){
-                    this.container = container1;
+                constructor(container){
+                    this.container = container;
                 }
                 getPlatformInfoString() {
                     const providers = this.container.getProviders();

@@ -122,8 +122,8 @@ async function copyN(r, dest, size) {
 }
 BigInt(Number.MAX_SAFE_INTEGER);
 class StringReader extends Deno.Buffer {
-    constructor(s1){
-        super(new TextEncoder().encode(s1).buffer);
+    constructor(s){
+        super(new TextEncoder().encode(s).buffer);
     }
 }
 class MultiReader {
@@ -405,7 +405,7 @@ function normalize(path) {
         return device;
     }
 }
-function isAbsolute3(path) {
+function isAbsolute1(path) {
     assertPath(path);
     const len = path.length;
     if (len === 0) return false;
@@ -834,7 +834,7 @@ function fromFileUrl(url) {
     return path;
 }
 function toFileUrl(path) {
-    if (!isAbsolute3(path)) {
+    if (!isAbsolute1(path)) {
         throw new TypeError("Must be an absolute path.");
     }
     const [, hostname, pathname] = path.match(/^(?:[/\\]{2}([^/\\]+)(?=[/\\][^/\\]))?(.*)/);
@@ -849,11 +849,11 @@ function toFileUrl(path) {
     return url;
 }
 const mod = {
+    isAbsolute: isAbsolute1,
     sep: sep3,
     delimiter: delimiter,
     resolve: resolve,
     normalize: normalize,
-    isAbsolute: isAbsolute3,
     join: join,
     relative: relative,
     toNamespacedPath: toNamespacedPath,
@@ -904,7 +904,7 @@ function normalize1(path) {
     if (isAbsolute) return `/${path}`;
     return path;
 }
-function isAbsolute1(path) {
+function isAbsolute11(path) {
     assertPath(path);
     return path.length > 0 && path.charCodeAt(0) === 47;
 }
@@ -1171,7 +1171,7 @@ function fromFileUrl1(url) {
     return decodeURIComponent(url.pathname.replace(/%(?![0-9A-Fa-f]{2})/g, "%25"));
 }
 function toFileUrl1(path) {
-    if (!isAbsolute1(path)) {
+    if (!isAbsolute11(path)) {
         throw new TypeError("Must be an absolute path.");
     }
     const url = new URL("file:///");
@@ -1179,11 +1179,11 @@ function toFileUrl1(path) {
     return url;
 }
 const mod1 = {
+    isAbsolute: isAbsolute11,
     sep: sep1,
     delimiter: delimiter1,
     resolve: resolve1,
     normalize: normalize1,
-    isAbsolute: isAbsolute1,
     join: join1,
     relative: relative1,
     toNamespacedPath: toNamespacedPath1,
@@ -1215,17 +1215,17 @@ class PartialReadError extends Deno.errors.UnexpectedEof {
     }
 }
 class BufReader {
-    static create(r, size = 4096) {
-        return r instanceof BufReader ? r : new BufReader(r, size);
+    static create(r2, size1 = 4096) {
+        return r2 instanceof BufReader ? r2 : new BufReader(r2, size1);
     }
-    constructor(rd, size1 = 4096){
+    constructor(rd, size = 4096){
         this.r = 0;
         this.w = 0;
         this.eof = false;
-        if (size1 < 16) {
-            size1 = MIN_BUF_SIZE;
+        if (size < 16) {
+            size = MIN_BUF_SIZE;
         }
-        this._reset(new Uint8Array(size1), rd);
+        this._reset(new Uint8Array(size), rd);
     }
     size() {
         return this.buf.byteLength;
@@ -1259,9 +1259,9 @@ class BufReader {
     reset(r1) {
         this._reset(this.buf, r1);
     }
-    _reset(buf1, rd1) {
+    _reset(buf1, rd) {
         this.buf = buf1;
-        this.rd = rd1;
+        this.rd = rd;
         this.eof = false;
     }
     async read(p1) {
@@ -1285,11 +1285,11 @@ class BufReader {
         this.r += copied;
         return copied;
     }
-    async readFull(p2) {
+    async readFull(p1) {
         let bytesRead = 0;
-        while(bytesRead < p2.length){
+        while(bytesRead < p1.length){
             try {
-                const rr = await this.read(p2.subarray(bytesRead));
+                const rr = await this.read(p1.subarray(bytesRead));
                 if (rr === null) {
                     if (bytesRead === 0) {
                         return null;
@@ -1299,11 +1299,11 @@ class BufReader {
                 }
                 bytesRead += rr;
             } catch (err) {
-                err.partial = p2.subarray(0, bytesRead);
+                err.partial = p1.subarray(0, bytesRead);
                 throw err;
             }
         }
-        return p2;
+        return p1;
     }
     async readByte() {
         while(this.r === this.w){
@@ -1314,11 +1314,11 @@ class BufReader {
         this.r++;
         return c;
     }
-    async readString(delim) {
-        if (delim.length !== 1) {
+    async readString(delim2) {
+        if (delim2.length !== 1) {
             throw new Error("Delimiter should be a single character");
         }
-        const buffer = await this.readSlice(delim.charCodeAt(0));
+        const buffer = await this.readSlice(delim2.charCodeAt(0));
         if (buffer === null) return null;
         return new TextDecoder().decode(buffer);
     }
@@ -1439,16 +1439,16 @@ class AbstractBufBase {
     }
 }
 class BufWriter extends AbstractBufBase {
-    static create(writer, size2 = 4096) {
-        return writer instanceof BufWriter ? writer : new BufWriter(writer, size2);
+    static create(writer1, size2 = 4096) {
+        return writer1 instanceof BufWriter ? writer1 : new BufWriter(writer1, size2);
     }
-    constructor(writer1, size3 = 4096){
+    constructor(writer, size = 4096){
         super();
-        this.writer = writer1;
-        if (size3 <= 0) {
-            size3 = DEFAULT_BUF_SIZE;
+        this.writer = writer;
+        if (size <= 0) {
+            size = DEFAULT_BUF_SIZE;
         }
-        this.buf = new Uint8Array(size3);
+        this.buf = new Uint8Array(size);
     }
     reset(w) {
         this.err = null;
@@ -1495,16 +1495,16 @@ class BufWriter extends AbstractBufBase {
     }
 }
 class BufWriterSync extends AbstractBufBase {
-    static create(writer2, size4 = 4096) {
-        return writer2 instanceof BufWriterSync ? writer2 : new BufWriterSync(writer2, size4);
+    static create(writer2, size3 = 4096) {
+        return writer2 instanceof BufWriterSync ? writer2 : new BufWriterSync(writer2, size3);
     }
-    constructor(writer3, size5 = 4096){
+    constructor(writer, size = 4096){
         super();
-        this.writer = writer3;
-        if (size5 <= 0) {
-            size5 = DEFAULT_BUF_SIZE;
+        this.writer = writer;
+        if (size <= 0) {
+            size = DEFAULT_BUF_SIZE;
         }
-        this.buf = new Uint8Array(size5);
+        this.buf = new Uint8Array(size);
     }
     reset(w1) {
         this.err = null;
@@ -1562,8 +1562,8 @@ function charCode(s) {
     return s.charCodeAt(0);
 }
 class TextProtoReader {
-    constructor(r2){
-        this.r = r2;
+    constructor(r){
+        this.r = r;
     }
     async readLine() {
         const s = await this.readLineSlice();
@@ -1692,7 +1692,7 @@ class PartReader {
         this.n = 0;
         this.total = 0;
     }
-    async read(p3) {
+    async read(p2) {
         const br = this.mr.bufReader;
         let peekLength = 1;
         while(this.n === 0){
@@ -1711,8 +1711,8 @@ class PartReader {
         if (this.n === null) {
             return null;
         }
-        const nread = Math.min(p3.length, this.n);
-        const buf = p3.subarray(0, nread);
+        const nread = Math.min(p2.length, this.n);
+        const buf = p2.subarray(0, nread);
         const r = await br.readFull(buf);
         assert(r === buf);
         this.n -= nread;
@@ -1767,8 +1767,8 @@ function skipLWSPChar(u) {
     return ret.slice(0, j);
 }
 class MultipartReader {
-    constructor(reader, boundary1){
-        this.boundary = boundary1;
+    constructor(reader, boundary){
+        this.boundary = boundary;
         this.newLine = encoder.encode("\r\n");
         this.newLineDashBoundary = encoder.encode(`\r\n--${this.boundary}`);
         this.dashBoundaryDash = encoder.encode(`--${this.boundary}--`);
@@ -1952,10 +1952,10 @@ Content-Type: text/plain\r
 \r
 CONTENT\r
 --------------------------366796e1c748a2fb--`;
-const boundary = "------------------------366796e1c748a2fb";
+const boundary1 = "------------------------366796e1c748a2fb";
 const stringReader = new StringReader(content);
 console.log(content);
-const multipartReader = new MultipartReader(stringReader, boundary);
+const multipartReader = new MultipartReader(stringReader, boundary1);
 const formData = await multipartReader.readForm();
 for (const entry of formData.entries()){
     console.log("entry", entry);

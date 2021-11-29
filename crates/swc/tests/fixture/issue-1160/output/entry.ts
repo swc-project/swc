@@ -33,7 +33,7 @@ function _initializerDefineProperty(target, property, descriptor, context) {
     });
 }
 var _class, _descriptor, _dec, _dec1;
-var MyEnum1;
+let MyEnum1;
 (function(MyEnum) {
     MyEnum["x"] = "xxx";
     MyEnum["y"] = "yyy";

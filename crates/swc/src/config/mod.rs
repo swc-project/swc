@@ -47,7 +47,9 @@ use swc_ecma_transforms::{
     optimization::{const_modules, json_parse, simplifier},
     pass::{noop, Optional},
     proposals::{decorators, export_default_from, import_assertions},
-    react, resolver_with_mark, typescript,
+    react,
+    resolver::ts_resolver,
+    resolver_with_mark, typescript,
 };
 use swc_ecma_transforms_compat::es2015::regenerator;
 use swc_ecma_transforms_optimization::{inline_globals2, GlobalExprMap};
@@ -356,6 +358,8 @@ impl Options {
             );
 
         let pass = chain!(
+            Optional::new(resolver_with_mark(top_level_mark), !syntax.typescript()),
+            Optional::new(ts_resolver(top_level_mark), syntax.typescript()),
             // Decorators may use type information
             Optional::new(
                 decorators(decorators::Config {
@@ -378,7 +382,6 @@ impl Options {
                 ),
                 syntax.typescript()
             ),
-            resolver_with_mark(top_level_mark),
             crate::plugin::plugins(experimental.plugins),
             custom_before_pass(&program),
             // handle jsx

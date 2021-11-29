@@ -6,10 +6,10 @@ class Comparator {
     constructor(comp, optionsOrLoose = {
     }){
     }
-    parse(comp1) {
+    parse(comp) {
         const m = "another";
         if (!m) {
-            throw new TypeError("Invalid comparator: " + comp1);
+            throw new TypeError("Invalid comparator: " + comp);
         }
         const m1 = m[1];
         console.log(m1);

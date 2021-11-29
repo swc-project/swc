@@ -433,7 +433,9 @@ impl Visit for UsageAnalyzer<'_> {
 
     fn visit_constructor(&mut self, c: &Constructor, _: &dyn Node) {
         self.visit_with_scope(c.span.ctxt, ScopeKind::Fn, |v| {
+            v.is_pat_decl = true;
             c.params.visit_with(c, v);
+            v.is_pat_decl = false;
 
             match c.body.as_ref() {
                 Some(body) => {

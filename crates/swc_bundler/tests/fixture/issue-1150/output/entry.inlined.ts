@@ -1,7 +1,7 @@
 function a() {
     console.log("a");
 }
-var O1;
+let O1;
 (function(O) {
     O[O["A"] = 0] = "A";
     O[O["B"] = 1] = "B";

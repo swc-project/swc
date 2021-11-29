@@ -7,6 +7,7 @@
 
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
+use swc_ecma_transforms::{hygiene, resolver::ts_resolver};
 use swc_ecma_transforms_base::resolver::resolver;
 use swc_ecma_transforms_compat::{
     es2015::{classes, function_name},
@@ -43,25 +44,31 @@ fn tr() -> impl Fold {
 }
 
 fn ts_transform() -> impl Fold {
-    chain!(
-        decorators(Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        simple_strip(),
-    )
-}
-
-fn simple_strip() -> impl Fold {
-    strip::strip_with_config(strip::Config {
-        no_empty_export: true,
+    simple_strip(Config {
+        legacy: true,
         ..Default::default()
     })
 }
 
+fn simple_strip(config: Config) -> impl Fold {
+    let mark = Mark::fresh(Mark::root());
+    chain!(
+        ts_resolver(mark),
+        decorators(config),
+        strip::strip_with_config(
+            strip::Config {
+                no_empty_export: true,
+                ..Default::default()
+            },
+            mark
+        ),
+        hygiene(),
+    )
+}
+
 /// Folder for `transformation_*` tests
 fn transformation() -> impl Fold {
-    chain!(decorators(Default::default()), simple_strip(),)
+    simple_strip(Default::default())
 }
 
 // transformation_declaration
@@ -2040,13 +2047,10 @@ expect(typeof Parent.prototype.child).toBe("function");
 // legacy_regression_10264
 test!(
     syntax(true),
-    |_| chain!(
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        simple_strip()
-    ),
+    |_| simple_strip(decorators::Config {
+        legacy: true,
+        ..Default::default()
+    }),
     legacy_regression_10264,
     r#"
 function myDecorator(decoratee) {}
@@ -4288,13 +4292,10 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(
-        decorators(Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        simple_strip()
-    ),
+    |_| simple_strip(Config {
+        legacy: true,
+        ..Default::default()
+    }),
     issue_823_1,
     "import {Debounce} from 'lodash-decorators';
 class Person {
@@ -4328,14 +4329,10 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(
-        decorators(Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        simple_strip(),
-        // classes(Some(t.comments.clone())),
-    ),
+    |_| simple_strip(Config {
+        legacy: true,
+        ..Default::default()
+    }),
     issue_823_2,
     "import {Debounce} from 'lodash-decorators';
 class Person {
@@ -4371,11 +4368,10 @@ test!(
         ..Default::default()
     }),
     |t| chain!(
-        decorators(Config {
+        simple_strip(Config {
             legacy: true,
             ..Default::default()
         }),
-        simple_strip(),
         classes(Some(t.comments.clone())),
     ),
     issue_823_3,
@@ -4623,11 +4619,10 @@ test!(
     ts(),
     |_| chain!(
         inlining::inlining(inlining::Config {}),
-        decorators(Config {
+        simple_strip(Config {
             legacy: true,
             ..Default::default()
         }),
-        simple_strip(),
     ),
     issue_879_1,
     "export default class X {
@@ -5992,14 +5987,11 @@ test_exec!(
         ..Default::default()
     }),
     |_| {
-        chain!(
-            decorators(Config {
-                legacy: true,
-                emit_metadata: true,
-                ..Default::default()
-            }),
-            strip()
-        )
+        simple_strip(Config {
+            legacy: true,
+            emit_metadata: true,
+            ..Default::default()
+        })
     },
     issue_1362_1,
     "
