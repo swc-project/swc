@@ -401,10 +401,28 @@ where
                     }
                 }
 
+                let args = vec![fragment.as_arg(), props_obj.as_arg()];
+
+                let args = if self.development {
+                    args.into_iter().chain(vec![
+                        ExprOrSpread {
+                            spread: None,
+                            expr: Box::new(*undefined(DUMMY_SP)),
+                        },
+                        Lit::Bool(Bool {
+                            span: DUMMY_SP,
+                            value: use_jsxs,
+                        })
+                        .as_arg(),
+                    ].into_iter()).collect()
+                } else {
+                    args
+                };
+
                 Expr::Call(CallExpr {
                     span,
                     callee: jsx.as_callee(),
-                    args: vec![fragment.as_arg(), props_obj.as_arg()],
+                    args,
                     type_args: None,
                 })
             }
