@@ -1513,6 +1513,56 @@ impl VisitMut for ReduceAst {
                 return;
             }
 
+            Stmt::For(ForStmt {
+                init,
+                test,
+                update,
+                body,
+                ..
+            }) => {
+                self.changed = true;
+                let mut stmts = vec![];
+
+                {
+                    let mut exprs = vec![];
+
+                    if let Some(init) = init.take() {
+                        match init {
+                            VarDeclOrExpr::VarDecl(v) => {
+                                for d in v.decls {
+                                    preserve_pat(&mut exprs, d.name);
+                                    exprs.extend(d.init);
+                                }
+                            }
+                            VarDeclOrExpr::Expr(e) => {
+                                exprs.push(e);
+                            }
+                        }
+                    }
+
+                    exprs.extend(test.take());
+                    exprs.extend(update.take());
+
+                    if !exprs.is_empty() {
+                        stmts.push(Stmt::Expr(ExprStmt {
+                            span: DUMMY_SP,
+                            expr: Box::new(Expr::Seq(SeqExpr {
+                                span: DUMMY_SP,
+                                exprs,
+                            })),
+                        }));
+                    }
+                }
+
+                stmts.push(*body.take());
+
+                *stmt = Stmt::Block(BlockStmt {
+                    span: DUMMY_SP,
+                    stmts,
+                });
+                return;
+            }
+
             // TODO: Flatten loops
             // TODO: Flatten try catch
             _ => {}
