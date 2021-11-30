@@ -4,7 +4,7 @@ use crate::{
 };
 use swc_atoms::{js_word, JsWord};
 use swc_common::{input::Input, BytePos, Span};
-use swc_css_ast::{Token, TokenAndSpan};
+use swc_css_ast::{NumberType, Token, TokenAndSpan};
 
 pub(crate) type LexResult<T> = Result<T, ErrorKind>;
 
@@ -476,6 +476,7 @@ where
                 raw_value: number.1.into(),
                 unit: "".into(),
                 raw_unit: "".into(),
+                type_flag: number.2,
             };
 
             // Consume a name. Set the <dimension-token>’s unit to the returned value.
@@ -514,6 +515,7 @@ where
         Ok(Token::Num {
             value: number.0,
             raw: number.1.into(),
+            type_flag: number.2,
         })
     }
 
@@ -1085,9 +1087,10 @@ where
 
     // This section describes how to consume a number from a stream of code points.
     // It returns a numeric value, and a type which is either "integer" or "number".
-    fn read_number(&mut self) -> (f64, String) {
+    fn read_number(&mut self) -> (f64, String, NumberType) {
         // Initially set type to "integer". Let repr be the empty string.
         let mut repr = String::new();
+        let mut type_flag = NumberType::Integer;
 
         // If the next input code point is U+002B PLUS SIGN (+) or U+002D HYPHEN-MINUS
         // (-), consume it and append it to repr.
@@ -1120,9 +1123,13 @@ where
                     // Consume them.
                     self.consume();
                     self.consume();
+
                     // Append them to repr.
                     repr.push(next.unwrap());
                     repr.push(n);
+
+                    // Set type to "number".
+                    type_flag = NumberType::Number;
 
                     // While the next input code point is a digit, consume it and append it to
                     // repr.
@@ -1162,6 +1169,9 @@ where
                 repr.push(next.unwrap());
                 repr.push(next_next.unwrap());
 
+                // Set type to "number".
+                type_flag = NumberType::Number;
+
                 // While the next input code point is a digit, consume it and append it
                 // to repr.
                 while let Some(c) = self.next() {
@@ -1182,7 +1192,7 @@ where
         });
 
         // Return value and type.
-        (parsed, repr)
+        (parsed, repr, type_flag)
     }
 
     // Consume the remnants of a bad url
