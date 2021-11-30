@@ -28,7 +28,7 @@ error: Ident
 1 | @namespace \6es 'path';
   |            ^^^^
 
-error: NamespaceValue
+error: NamespaceUri
  --> $DIR/tests/fixture/esbuild/misc/IX2tz8hkGmrHq2cazP46_A/input.css:1:17
   |
 1 | @namespace \6es 'path';

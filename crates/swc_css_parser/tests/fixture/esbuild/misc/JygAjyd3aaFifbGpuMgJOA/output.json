@@ -23,7 +23,7 @@
         "value": ",s",
         "raw": "\\,s"
       },
-      "value": {
+      "uri": {
         "type": "String",
         "span": {
           "start": 15,
