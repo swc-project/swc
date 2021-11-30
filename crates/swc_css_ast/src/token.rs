@@ -16,6 +16,14 @@ pub struct TokenAndSpan {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub enum NumberType {
+    #[serde(rename = "integer")]
+    Integer,
+    #[serde(rename = "number")]
+    Number,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum Token {
     Ident {
         value: JsWord,
@@ -68,6 +76,8 @@ pub enum Token {
     Num {
         value: f64,
         raw: JsWord,
+        #[serde(rename = "type")]
+        type_flag: NumberType,
     },
 
     Percent {
@@ -80,6 +90,8 @@ pub enum Token {
         raw_value: JsWord,
         unit: JsWord,
         raw_unit: JsWord,
+        #[serde(rename = "type")]
+        type_flag: NumberType,
     },
 
     /// One or more whitespace.

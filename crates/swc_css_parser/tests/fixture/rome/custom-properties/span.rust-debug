@@ -221,7 +221,7 @@ error: WhiteSpace { value: Atom(' ' type=inline) }
 5 |     --test: 1987;
   |            ^
 
-error: Num { value: 1987.0, raw: Atom('1987' type=inline) }
+error: Num { value: 1987.0, raw: Atom('1987' type=inline), type_flag: Integer }
  --> $DIR/tests/fixture/rome/custom-properties/input.css:5:10
   |
 5 |     --test: 1987;
@@ -293,7 +293,7 @@ error: WhiteSpace { value: Atom(' ' type=inline) }
 7 |     --number: 37;
   |              ^
 
-error: Num { value: 37.0, raw: Atom('37' type=inline) }
+error: Num { value: 37.0, raw: Atom('37' type=inline), type_flag: Integer }
  --> $DIR/tests/fixture/rome/custom-properties/input.css:7:12
   |
 7 |     --number: 37;
@@ -329,7 +329,7 @@ error: WhiteSpace { value: Atom(' ' type=inline) }
 8 |     --length: 12em;
   |              ^
 
-error: Dimension { value: 12.0, raw_value: Atom('12' type=inline), unit: Atom('em' type=inline), raw_unit: Atom('em' type=inline) }
+error: Dimension { value: 12.0, raw_value: Atom('12' type=inline), unit: Atom('em' type=inline), raw_unit: Atom('em' type=inline), type_flag: Integer }
  --> $DIR/tests/fixture/rome/custom-properties/input.css:8:12
   |
 8 |     --length: 12em;
@@ -365,7 +365,7 @@ error: WhiteSpace { value: Atom(' ' type=inline) }
 9 |     --time: 75ms;
   |            ^
 
-error: Dimension { value: 75.0, raw_value: Atom('75' type=inline), unit: Atom('ms' type=inline), raw_unit: Atom('ms' type=inline) }
+error: Dimension { value: 75.0, raw_value: Atom('75' type=inline), unit: Atom('ms' type=inline), raw_unit: Atom('ms' type=inline), type_flag: Integer }
  --> $DIR/tests/fixture/rome/custom-properties/input.css:9:10
   |
 9 |     --time: 75ms;

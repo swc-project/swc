@@ -286,7 +286,8 @@
                     "token": {
                       "Num": {
                         "value": 1987.0,
-                        "raw": "1987"
+                        "raw": "1987",
+                        "type": "integer"
                       }
                     }
                   }
@@ -398,7 +399,8 @@
                     "token": {
                       "Num": {
                         "value": 37.0,
-                        "raw": "37"
+                        "raw": "37",
+                        "type": "integer"
                       }
                     }
                   }
@@ -456,7 +458,8 @@
                         "value": 12.0,
                         "raw_value": "12",
                         "unit": "em",
-                        "raw_unit": "em"
+                        "raw_unit": "em",
+                        "type": "integer"
                       }
                     }
                   }
@@ -514,7 +517,8 @@
                         "value": 75.0,
                         "raw_value": "75",
                         "unit": "ms",
-                        "raw_unit": "ms"
+                        "raw_unit": "ms",
+                        "type": "integer"
                       }
                     }
                   }
