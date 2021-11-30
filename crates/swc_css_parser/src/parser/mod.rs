@@ -32,8 +32,6 @@ pub struct ParserConfig {
 
 #[derive(Debug, Default, Clone, Copy)]
 struct Ctx {
-    component_value: bool,
-
     allow_operation_in_value: bool,
     allow_separating_value_with_space: bool,
     allow_separating_value_with_comma: bool,
