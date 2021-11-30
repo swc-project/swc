@@ -332,13 +332,13 @@ function f20(v) {
     var _v2 = _toArray(v), x = _v2[0], y = _v2[1], a1 = _v2.slice(2);
     var _v3 = _toArray(v), x = _v3[0], y = _v3[1], z = _v3[2], a0 = _v3.slice(3);
     var ref;
-    ref = v, a3 = ref.slice(0), ref;
+    ref = _toArray(v), a3 = ref.slice(0), ref;
     var ref23;
-    ref23 = v, x = ref23[0], a2 = ref23.slice(1), ref23;
+    ref23 = _toArray(v), x = ref23[0], a2 = ref23.slice(1), ref23;
     var ref24;
-    ref24 = v, x = ref24[0], y = ref24[1], a1 = ref24.slice(2), ref24;
+    ref24 = _toArray(v), x = ref24[0], y = ref24[1], a1 = ref24.slice(2), ref24;
     var ref25;
-    ref25 = v, x = ref25[0], y = ref25[1], z = ref25[2], a0 = ref25.slice(3), ref25;
+    ref25 = _toArray(v), x = ref25[0], y = ref25[1], z = ref25[2], a0 = ref25.slice(3), ref25;
 }
 function f21(v) {
     var x;
@@ -353,11 +353,11 @@ function f21(v) {
     var _v5 = _toArray(v), x = _v5[0], y = _v5[1], a2 = _v5.slice(2);
     var _v6 = _toArray(v), x = _v6[0], y = _v6[1], z = _v6[2], a3 = _v6.slice(3);
     var ref;
-    ref = v, a0 = ref.slice(0), ref;
+    ref = _toArray(v), a0 = ref.slice(0), ref;
     var ref26;
-    ref26 = v, x = ref26[0], a1 = ref26.slice(1), ref26;
+    ref26 = _toArray(v), x = ref26[0], a1 = ref26.slice(1), ref26;
     var ref27;
-    ref27 = v, x = ref27[0], y = ref27[1], a2 = ref27.slice(2), ref27;
+    ref27 = _toArray(v), x = ref27[0], y = ref27[1], a2 = ref27.slice(2), ref27;
     var ref28;
-    ref28 = v, x = ref28[0], y = ref28[1], z = ref28[2], a3 = ref28.slice(3), ref28;
+    ref28 = _toArray(v), x = ref28[0], y = ref28[1], z = ref28[2], a3 = ref28.slice(3), ref28;
 }

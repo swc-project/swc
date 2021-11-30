@@ -1,12 +1,13 @@
 use serde::Deserialize;
 use std::iter;
+use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
-    alias_ident_for, alias_if_required, has_rest_pat, is_literal, private_ident, prop_name_to_expr,
-    quote_ident, undefined, ExprFactory, StmtLike,
+    alias_ident_for, alias_if_required, has_rest_pat, is_literal, member_expr, private_ident,
+    prop_name_to_expr, quote_ident, undefined, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
 
@@ -650,12 +651,62 @@ impl Fold for AssignFolder {
                                 elems.len()
                             }),
                         );
-
                         exprs.push(Box::new(Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
                             op: op!("="),
                             left: PatOrExpr::Pat(Box::new(Pat::Ident(ref_ident.clone().into()))),
-                            right,
+                            right: if self.c.loose {
+                                right
+                            } else {
+                                match *right {
+                                    Expr::Ident(Ident {
+                                        sym: js_word!("arguments"),
+                                        ..
+                                    }) => Box::new(Expr::Call(CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: member_expr!(DUMMY_SP, Array.prototype.slice.call)
+                                            .as_callee(),
+                                        args: vec![right.as_arg()],
+                                        type_args: Default::default(),
+                                    })),
+                                    Expr::Array(..) => right,
+                                    _ => {
+                                        // if left has rest then need `_toArray`
+                                        // else `_slicedToArray`
+                                        if elems.iter().any(|elem| match elem {
+                                            Some(Pat::Rest(..)) => true,
+                                            _ => false,
+                                        }) {
+                                            Box::new(Expr::Call(CallExpr {
+                                                span: DUMMY_SP,
+                                                callee: helper!(to_array, "toArray"),
+                                                args: vec![right.as_arg()],
+                                                type_args: Default::default(),
+                                            }))
+                                        } else {
+                                            Box::new(
+                                                CallExpr {
+                                                    span: DUMMY_SP,
+                                                    callee: helper!(
+                                                        sliced_to_array,
+                                                        "slicedToArray"
+                                                    ),
+                                                    args: vec![
+                                                        right.as_arg(),
+                                                        Lit::Num(Number {
+                                                            span: DUMMY_SP,
+                                                            value: elems.len() as _,
+                                                        })
+                                                        .as_arg(),
+                                                    ],
+                                                    type_args: Default::default(),
+                                                }
+                                                .into(),
+                                            )
+                                        }
+                                    }
+                                }
+                            },
                         })));
 
                         for (i, elem) in elems.into_iter().enumerate() {

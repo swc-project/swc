@@ -1,0 +1,11 @@
+error: Expected a property value
+ --> $DIR/tests/recovery/number/input.css:2:10
+  |
+2 |       prop: 10.10px
+  |  __________^
+3 | |     prop1: 10px
+4 | |     prop2: 10
+5 | |     prop3: 10.10
+6 | | }
+  | |_
+

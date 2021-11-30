@@ -107,11 +107,11 @@ t2.z.toString(); // Should error
     q.y.toFixed(); // Should OK
     q.z.toFixed(); // Should error
 }var ref;
-ref = strArray, target_string = ref[0], ref; // Should error
+ref = _slicedToArray(strArray, 1), target_string = ref[0], ref; // Should error
 var ref1;
-ref1 = strArray, target_string_undef = ref1[0], ref1; // Should OK
+ref1 = _slicedToArray(strArray, 1), target_string_undef = ref1[0], ref1; // Should OK
 var ref2;
-ref2 = strArray, target_string_arr = ref2.slice(3), ref2; // Should OK
+ref2 = _toArray(strArray), target_string_arr = ref2.slice(3), ref2; // Should OK
 {
     var x2, y1, z1;
     var ref3;

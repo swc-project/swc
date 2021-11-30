@@ -444,7 +444,7 @@ where
             // <integer>
             Token::Num { .. } => {
                 let num = match bump!(self) {
-                    Token::Num { value, raw } => (value, raw),
+                    Token::Num { value, raw, .. } => (value, raw),
                     _ => {
                         unreachable!();
                     }

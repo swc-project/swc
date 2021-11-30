@@ -96,6 +96,33 @@ where
     }
 }
 
+impl<V> VisitMut for Repeat<V>
+where
+    V: VisitMut + Repeated,
+{
+    fn visit_mut_module(&mut self, node: &mut Module) {
+        loop {
+            self.pass.reset();
+            node.visit_mut_with(&mut self.pass);
+
+            if !self.pass.changed() {
+                break;
+            }
+        }
+    }
+
+    fn visit_mut_script(&mut self, node: &mut Script) {
+        loop {
+            self.pass.reset();
+            node.visit_mut_with(&mut self.pass);
+
+            if !self.pass.changed() {
+                break;
+            }
+        }
+    }
+}
+
 /// Not a public api.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
 struct SpanRemover;

@@ -416,7 +416,8 @@
                     "token": {
                       "Num": {
                         "value": 1.0,
-                        "raw": "1"
+                        "raw": "1",
+                        "type": "integer"
                       }
                     }
                   },
@@ -751,7 +752,8 @@
                     "token": {
                       "Num": {
                         "value": 1.0,
-                        "raw": "1"
+                        "raw": "1",
+                        "type": "integer"
                       }
                     }
                   }
@@ -809,7 +811,8 @@
                         "value": 100.0,
                         "raw_value": "100",
                         "unit": "vw",
-                        "raw_unit": "vw"
+                        "raw_unit": "vw",
+                        "type": "integer"
                       }
                     }
                   }
@@ -935,7 +938,8 @@
                     "token": {
                       "Num": {
                         "value": 1.0,
-                        "raw": "1"
+                        "raw": "1",
+                        "type": "integer"
                       }
                     }
                   },
@@ -984,7 +988,8 @@
                     "token": {
                       "Num": {
                         "value": 1.0,
-                        "raw": "1"
+                        "raw": "1",
+                        "type": "integer"
                       }
                     }
                   },
@@ -1245,7 +1250,8 @@
                     "token": {
                       "Num": {
                         "value": 1.0,
-                        "raw": "1"
+                        "raw": "1",
+                        "type": "integer"
                       }
                     }
                   },
@@ -1278,7 +1284,8 @@
                     "token": {
                       "Num": {
                         "value": 2.0,
-                        "raw": "2"
+                        "raw": "2",
+                        "type": "integer"
                       }
                     }
                   },
@@ -1311,7 +1318,8 @@
                     "token": {
                       "Num": {
                         "value": 3.0,
-                        "raw": "3"
+                        "raw": "3",
+                        "type": "integer"
                       }
                     }
                   },
@@ -1489,7 +1497,8 @@
                     "token": {
                       "Num": {
                         "value": 1.0,
-                        "raw": "1"
+                        "raw": "1",
+                        "type": "integer"
                       }
                     }
                   },
@@ -1522,7 +1531,8 @@
                     "token": {
                       "Num": {
                         "value": 2.0,
-                        "raw": "2"
+                        "raw": "2",
+                        "type": "integer"
                       }
                     }
                   },
@@ -1555,7 +1565,8 @@
                     "token": {
                       "Num": {
                         "value": 3.0,
-                        "raw": "3"
+                        "raw": "3",
+                        "type": "integer"
                       }
                     }
                   },
@@ -1733,7 +1744,8 @@
                     "token": {
                       "Num": {
                         "value": 1.0,
-                        "raw": "1"
+                        "raw": "1",
+                        "type": "integer"
                       }
                     }
                   },
@@ -1766,7 +1778,8 @@
                     "token": {
                       "Num": {
                         "value": 2.0,
-                        "raw": "2"
+                        "raw": "2",
+                        "type": "integer"
                       }
                     }
                   },
@@ -1799,7 +1812,8 @@
                     "token": {
                       "Num": {
                         "value": 3.0,
-                        "raw": "3"
+                        "raw": "3",
+                        "type": "integer"
                       }
                     }
                   },
@@ -1977,7 +1991,8 @@
                     "token": {
                       "Num": {
                         "value": 1.0,
-                        "raw": "1"
+                        "raw": "1",
+                        "type": "integer"
                       }
                     }
                   },
@@ -2113,7 +2128,8 @@
                     "token": {
                       "Num": {
                         "value": 1.0,
-                        "raw": "1"
+                        "raw": "1",
+                        "type": "integer"
                       }
                     }
                   },
@@ -2170,7 +2186,8 @@
                     "token": {
                       "Num": {
                         "value": 4.0,
-                        "raw": "4"
+                        "raw": "4",
+                        "type": "integer"
                       }
                     }
                   },
@@ -3070,7 +3087,8 @@
                     "token": {
                       "Num": {
                         "value": 1.0,
-                        "raw": "1"
+                        "raw": "1",
+                        "type": "integer"
                       }
                     }
                   }
