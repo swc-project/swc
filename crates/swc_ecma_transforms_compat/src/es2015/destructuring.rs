@@ -655,9 +655,10 @@ impl Fold for AssignFolder {
                             span: DUMMY_SP,
                             op: op!("="),
                             left: PatOrExpr::Pat(Box::new(Pat::Ident(ref_ident.clone().into()))),
-                            right: match self.c.loose {
-                                true => right,
-                                false => match *right {
+                            right: if self.c.loose {
+                                right
+                            } else {
+                                match *right {
                                     Expr::Ident(Ident {
                                         sym: js_word!("arguments"),
                                         ..
@@ -672,17 +673,18 @@ impl Fold for AssignFolder {
                                     _ => {
                                         // if left has rest then need `_toArray`
                                         // else `_slicedToArray`
-                                        match elems.iter().find(|elem| match elem {
+                                        if elems.iter().any(|elem| match elem {
                                             Some(Pat::Rest(..)) => true,
                                             _ => false,
                                         }) {
-                                            Some(_) => Box::new(Expr::Call(CallExpr {
+                                            Box::new(Expr::Call(CallExpr {
                                                 span: DUMMY_SP,
                                                 callee: helper!(to_array, "toArray"),
                                                 args: vec![right.as_arg()],
                                                 type_args: Default::default(),
-                                            })),
-                                            None => Box::new(
+                                            }))
+                                        } else {
+                                            Box::new(
                                                 CallExpr {
                                                     span: DUMMY_SP,
                                                     callee: helper!(
@@ -700,10 +702,10 @@ impl Fold for AssignFolder {
                                                     type_args: Default::default(),
                                                 }
                                                 .into(),
-                                            ),
+                                            )
                                         }
                                     }
-                                },
+                                }
                             },
                         })));
 
