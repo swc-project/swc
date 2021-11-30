@@ -1,3 +1,6 @@
+function _arrayWithHoles(arr) {
+    if (Array.isArray(arr)) return arr;
+}
 function _assertThisInitialized(self) {
     if (self === void 0) {
         throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -42,6 +45,12 @@ function _inherits(subClass, superClass) {
     });
     if (superClass) _setPrototypeOf(subClass, superClass);
 }
+function _iterableToArray(iter) {
+    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+}
+function _nonIterableRest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance");
+}
 function _possibleConstructorReturn(self, call) {
     if (call && (_typeof(call) === "object" || typeof call === "function")) {
         return call;
@@ -54,6 +63,9 @@ function _setPrototypeOf(o, p) {
         return o;
     };
     return _setPrototypeOf(o, p);
+}
+function _toArray(arr) {
+    return _arrayWithHoles(arr) || _iterableToArray(arr) || _nonIterableRest();
 }
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
@@ -124,4 +136,4 @@ var FooIterator = /*#__PURE__*/ function() {
 }();
 var a, b;
 var ref;
-ref = new FooIterator, a = ref[0], b = ref.slice(1), ref;
+ref = _toArray(new FooIterator), a = ref[0], b = ref.slice(1), ref;

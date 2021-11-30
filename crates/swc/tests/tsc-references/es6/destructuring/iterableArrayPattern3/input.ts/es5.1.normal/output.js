@@ -1,3 +1,6 @@
+function _arrayWithHoles(arr) {
+    if (Array.isArray(arr)) return arr;
+}
 function _assertThisInitialized(self) {
     if (self === void 0) {
         throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -42,6 +45,31 @@ function _inherits(subClass, superClass) {
     });
     if (superClass) _setPrototypeOf(subClass, superClass);
 }
+function _iterableToArrayLimit(arr, i) {
+    var _arr = [];
+    var _n = true;
+    var _d = false;
+    var _e = undefined;
+    try {
+        for(var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true){
+            _arr.push(_s.value);
+            if (i && _arr.length === i) break;
+        }
+    } catch (err) {
+        _d = true;
+        _e = err;
+    } finally{
+        try {
+            if (!_n && _i["return"] != null) _i["return"]();
+        } finally{
+            if (_d) throw _e;
+        }
+    }
+    return _arr;
+}
+function _nonIterableRest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance");
+}
 function _possibleConstructorReturn(self, call) {
     if (call && (_typeof(call) === "object" || typeof call === "function")) {
         return call;
@@ -54,6 +82,9 @@ function _setPrototypeOf(o, p) {
         return o;
     };
     return _setPrototypeOf(o, p);
+}
+function _slicedToArray(arr, i) {
+    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
 }
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
@@ -124,4 +155,4 @@ var FooIterator = /*#__PURE__*/ function() {
 }();
 var a, b;
 var ref;
-ref = new FooIterator, a = ref[0], b = ref[1], ref;
+ref = _slicedToArray(new FooIterator, 2), a = ref[0], b = ref[1], ref;
