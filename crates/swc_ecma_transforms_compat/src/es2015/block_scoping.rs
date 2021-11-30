@@ -742,6 +742,14 @@ impl VisitMut for FlowHelper<'_> {
     }
 
     /// https://github.com/swc-project/swc/pull/2916
+    fn visit_mut_do_while_stmt(&mut self, s: &mut DoWhileStmt) {
+        let old = self.in_nested_loop;
+        self.in_nested_loop = true;
+        s.visit_mut_children_with(self);
+        self.in_nested_loop = old;
+    }
+
+    /// https://github.com/swc-project/swc/pull/2916
     fn visit_mut_for_in_stmt(&mut self, s: &mut ForInStmt) {
         let old = self.in_nested_loop;
         self.in_nested_loop = true;
@@ -846,6 +854,14 @@ impl VisitMut for FlowHelper<'_> {
             _ => {}
         }
         n.visit_mut_children_with(self);
+    }
+
+    /// https://github.com/swc-project/swc/pull/2916
+    fn visit_mut_while_stmt(&mut self, s: &mut WhileStmt) {
+        let old = self.in_nested_loop;
+        self.in_nested_loop = true;
+        s.visit_mut_children_with(self);
+        self.in_nested_loop = old;
     }
 }
 
