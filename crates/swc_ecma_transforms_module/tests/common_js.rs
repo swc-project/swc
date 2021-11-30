@@ -4161,6 +4161,9 @@ test!(
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+var _exportNames = {
+    Scope: true
+};
 Object.defineProperty(exports, "Scope", {
   enumerable: true,
   get: function() {
@@ -4170,6 +4173,7 @@ Object.defineProperty(exports, "Scope", {
 var _http = require("./http");
 Object.keys(_http).forEach(function(key) {
     if (key === "default" || key === "__esModule") return;
+    if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
     if (key in exports && exports[key] === _http[key]) return;
     Object.defineProperty(exports, key, {
         enumerable: true,
@@ -4200,15 +4204,15 @@ export * from './pipes';
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
+    var _exportNames = {
+      id: true
+    };
     Object.defineProperty(exports, "id", {
         enumerable: true,
         get: function() {
             return _interfaces.id;
         }
     });
-    var _exportNames = {
-        id: true
-    };
     require("reflect-metadata");
     var _http = require("./http");
     Object.keys(_http).forEach(function(key) {

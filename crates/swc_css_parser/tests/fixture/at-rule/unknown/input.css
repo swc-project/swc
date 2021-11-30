@@ -34,3 +34,19 @@
     --> {}
     <!-- {}
 }
+
+@unknown {
+    @unknown {s{p:v}}
+}
+
+@unknown {
+    @unknown {s{p:v}}
+    
+    color: red;
+}
+
+.foo {
+    @unknown {s{p:v}}
+
+    color: red;
+}

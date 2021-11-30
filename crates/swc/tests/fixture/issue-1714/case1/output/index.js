@@ -2,6 +2,9 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+var _exportNames = {
+    render: true
+};
 Object.defineProperty(exports, "render", {
     enumerable: true,
     get: function() {
@@ -12,6 +15,7 @@ var _customRender = require("./customRender");
 var _react = _interopRequireWildcard(require("@testing-library/react"));
 Object.keys(_react).forEach(function(key) {
     if (key === "default" || key === "__esModule") return;
+    if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
     if (key in exports && exports[key] === _react[key]) return;
     Object.defineProperty(exports, key, {
         enumerable: true,

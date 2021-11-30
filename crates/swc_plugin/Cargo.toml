@@ -6,19 +6,20 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_plugin"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.14.0"
+version = "0.14.1"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 abi_stable = "0.10.2"
 anyhow = "1.0.41"
-rplugin = {version = "0.2.0", path = "../rplugin"}
-serde = "1.0.126"
+rplugin = {version = "0.2.1", path = "../rplugin"}
+serde = {version = "1.0.126", features = ["derive"]}
 serde_json = "1.0.64"
 swc_atoms = {version = "0.2.7", path = "../swc_atoms"}
 swc_common = {version = "0.14.0", path = "../swc_common", features = ["plugin-mode"]}
 swc_ecma_ast = {version = "0.58.0", path = "../swc_ecma_ast"}
-swc_ecma_plugin_ast = {version = "0.3.0", path = "../swc_ecma_plugin_ast"}
+swc_ecma_plugin_ast = {version = "0.3.1", path = "../swc_ecma_plugin_ast"}
 swc_ecma_visit = {version = "0.44.0", path = "../swc_ecma_visit"}
-swc_plugin_js_api = {version = "0.1.0", path = "../swc_plugin_js_api"}
+swc_node_base = {version = "0.5.1", path = "../swc_node_base"}
+swc_plugin_js_api = {version = "0.1.1", path = "../swc_plugin_js_api"}

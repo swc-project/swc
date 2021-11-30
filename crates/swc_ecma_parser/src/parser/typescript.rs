@@ -1110,34 +1110,10 @@ impl<I: Tokens> Parser<I> {
             return Ok(true);
         }
 
-        if is!(self, '{') {
-            let mut brace_stack_counter = 1;
-            bump!(self);
-
-            while brace_stack_counter > 0 {
-                if is!(self, '{') {
-                    brace_stack_counter += 1;
-                } else if is!(self, '}') {
-                    brace_stack_counter -= 1;
-                }
-                bump!(self);
+        if (is!(self, '{') || is!(self, '[')) {
+            if self.parse_binding_pat_or_ident().is_ok() {
+                return Ok(true);
             }
-            return Ok(true);
-        }
-
-        if is!(self, '[') {
-            let mut bracket_stack_counter = 1;
-            bump!(self);
-
-            while bracket_stack_counter > 0 {
-                if is!(self, '[') {
-                    bracket_stack_counter += 1;
-                } else if is!(self, ']') {
-                    bracket_stack_counter -= 1;
-                }
-                bump!(self);
-            }
-            return Ok(true);
         }
 
         Ok(false)

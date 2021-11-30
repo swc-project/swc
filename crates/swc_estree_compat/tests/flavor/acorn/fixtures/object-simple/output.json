@@ -6,6 +6,16 @@
           "end": 37,
           "id": {
             "end": 7,
+            "loc": {
+              "end": {
+                "column": 7,
+                "line": 1
+              },
+              "start": {
+                "column": 4,
+                "line": 1
+              }
+            },
             "name": "obj",
             "range": [
               4,
@@ -16,12 +26,32 @@
           },
           "init": {
             "end": 37,
+            "loc": {
+              "end": {
+                "column": 1,
+                "line": 4
+              },
+              "start": {
+                "column": 10,
+                "line": 1
+              }
+            },
             "properties": [
               {
                 "computed": false,
                 "end": 20,
                 "key": {
                   "end": 17,
+                  "loc": {
+                    "end": {
+                      "column": 5,
+                      "line": 2
+                    },
+                    "start": {
+                      "column": 4,
+                      "line": 2
+                    }
+                  },
                   "name": "a",
                   "range": [
                     16,
@@ -31,6 +61,16 @@
                   "type": "Identifier"
                 },
                 "kind": "init",
+                "loc": {
+                  "end": {
+                    "column": 8,
+                    "line": 2
+                  },
+                  "start": {
+                    "column": 4,
+                    "line": 2
+                  }
+                },
                 "method": false,
                 "range": [
                   16,
@@ -41,6 +81,16 @@
                 "type": "Property",
                 "value": {
                   "end": 20,
+                  "loc": {
+                    "end": {
+                      "column": 8,
+                      "line": 2
+                    },
+                    "start": {
+                      "column": 7,
+                      "line": 2
+                    }
+                  },
                   "range": [
                     19,
                     20
@@ -56,6 +106,16 @@
                 "end": 34,
                 "key": {
                   "end": 27,
+                  "loc": {
+                    "end": {
+                      "column": 5,
+                      "line": 3
+                    },
+                    "start": {
+                      "column": 4,
+                      "line": 3
+                    }
+                  },
                   "name": "b",
                   "range": [
                     26,
@@ -65,6 +125,16 @@
                   "type": "Identifier"
                 },
                 "kind": "init",
+                "loc": {
+                  "end": {
+                    "column": 12,
+                    "line": 3
+                  },
+                  "start": {
+                    "column": 4,
+                    "line": 3
+                  }
+                },
                 "method": false,
                 "range": [
                   26,
@@ -75,6 +145,16 @@
                 "type": "Property",
                 "value": {
                   "end": 34,
+                  "loc": {
+                    "end": {
+                      "column": 12,
+                      "line": 3
+                    },
+                    "start": {
+                      "column": 7,
+                      "line": 3
+                    }
+                  },
                   "range": [
                     29,
                     34
@@ -93,6 +173,16 @@
             "start": 10,
             "type": "ObjectExpression"
           },
+          "loc": {
+            "end": {
+              "column": 1,
+              "line": 4
+            },
+            "start": {
+              "column": 4,
+              "line": 1
+            }
+          },
           "range": [
             4,
             37
@@ -103,6 +193,16 @@
       ],
       "end": 38,
       "kind": "let",
+      "loc": {
+        "end": {
+          "column": 2,
+          "line": 4
+        },
+        "start": {
+          "column": 0,
+          "line": 1
+        }
+      },
       "range": [
         0,
         38
@@ -111,10 +211,20 @@
       "type": "VariableDeclaration"
     }
   ],
-  "end": 38,
+  "end": 39,
+  "loc": {
+    "end": {
+      "column": 0,
+      "line": 5
+    },
+    "start": {
+      "column": 0,
+      "line": 1
+    }
+  },
   "range": [
     0,
-    38
+    39
   ],
   "sourceType": "script",
   "start": 0,

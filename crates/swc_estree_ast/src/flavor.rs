@@ -1,4 +1,3 @@
-use crate::Loc;
 use scoped_tls::scoped_thread_local;
 
 scoped_thread_local!(static FLAVOR: Flavor);
@@ -33,15 +32,11 @@ impl Flavor {
     }
 
     pub fn emit_loc(&self) -> bool {
-        matches!(Self::current(), Flavor::Babel)
+        true
     }
 
     pub(crate) fn skip_range(_: &Option<[usize; 2]>) -> bool {
         matches!(Self::current(), Flavor::Babel)
-    }
-
-    pub(crate) fn skip_loc(_: &Option<Loc>) -> bool {
-        !Self::current().emit_loc()
     }
 
     pub(crate) fn skip_empty<T>(v: &T) -> bool

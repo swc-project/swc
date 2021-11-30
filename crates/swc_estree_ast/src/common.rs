@@ -53,7 +53,7 @@ pub struct BaseNode {
     #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_range")]
     pub range: Option<[usize; 2]>,
 
-    #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_loc")]
+    #[serde(default)]
     pub loc: Option<Loc>,
 }
 

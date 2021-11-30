@@ -6,6 +6,16 @@
           "end": 17,
           "id": {
             "end": 7,
+            "loc": {
+              "end": {
+                "column": 7,
+                "line": 1
+              },
+              "start": {
+                "column": 4,
+                "line": 1
+              }
+            },
             "name": "obj",
             "range": [
               4,
@@ -16,12 +26,32 @@
           },
           "init": {
             "end": 17,
+            "loc": {
+              "end": {
+                "column": 17,
+                "line": 1
+              },
+              "start": {
+                "column": 10,
+                "line": 1
+              }
+            },
             "properties": [
               {
                 "computed": false,
                 "end": 16,
                 "key": {
                   "end": 12,
+                  "loc": {
+                    "end": {
+                      "column": 12,
+                      "line": 1
+                    },
+                    "start": {
+                      "column": 11,
+                      "line": 1
+                    }
+                  },
                   "name": "a",
                   "range": [
                     11,
@@ -31,6 +61,16 @@
                   "type": "Identifier"
                 },
                 "kind": "init",
+                "loc": {
+                  "end": {
+                    "column": 16,
+                    "line": 1
+                  },
+                  "start": {
+                    "column": 11,
+                    "line": 1
+                  }
+                },
                 "method": false,
                 "range": [
                   11,
@@ -41,6 +81,16 @@
                 "type": "Property",
                 "value": {
                   "end": 16,
+                  "loc": {
+                    "end": {
+                      "column": 16,
+                      "line": 1
+                    },
+                    "start": {
+                      "column": 14,
+                      "line": 1
+                    }
+                  },
                   "range": [
                     14,
                     16
@@ -59,6 +109,16 @@
             "start": 10,
             "type": "ObjectExpression"
           },
+          "loc": {
+            "end": {
+              "column": 17,
+              "line": 1
+            },
+            "start": {
+              "column": 4,
+              "line": 1
+            }
+          },
           "range": [
             4,
             17
@@ -69,6 +129,16 @@
       ],
       "end": 18,
       "kind": "let",
+      "loc": {
+        "end": {
+          "column": 18,
+          "line": 1
+        },
+        "start": {
+          "column": 0,
+          "line": 1
+        }
+      },
       "range": [
         0,
         18
@@ -82,8 +152,28 @@
         "argument": {
           "computed": false,
           "end": 31,
+          "loc": {
+            "end": {
+              "column": 12,
+              "line": 2
+            },
+            "start": {
+              "column": 7,
+              "line": 2
+            }
+          },
           "object": {
             "end": 29,
+            "loc": {
+              "end": {
+                "column": 10,
+                "line": 2
+              },
+              "start": {
+                "column": 7,
+                "line": 2
+              }
+            },
             "name": "obj",
             "range": [
               26,
@@ -95,6 +185,16 @@
           "optional": false,
           "property": {
             "end": 31,
+            "loc": {
+              "end": {
+                "column": 12,
+                "line": 2
+              },
+              "start": {
+                "column": 11,
+                "line": 2
+              }
+            },
             "name": "a",
             "range": [
               30,
@@ -111,6 +211,16 @@
           "type": "MemberExpression"
         },
         "end": 31,
+        "loc": {
+          "end": {
+            "column": 12,
+            "line": 2
+          },
+          "start": {
+            "column": 0,
+            "line": 2
+          }
+        },
         "operator": "delete",
         "prefix": true,
         "range": [
@@ -120,6 +230,16 @@
         "start": 19,
         "type": "UnaryExpression"
       },
+      "loc": {
+        "end": {
+          "column": 13,
+          "line": 2
+        },
+        "start": {
+          "column": 0,
+          "line": 2
+        }
+      },
       "range": [
         19,
         32
@@ -128,10 +248,20 @@
       "type": "ExpressionStatement"
     }
   ],
-  "end": 32,
+  "end": 33,
+  "loc": {
+    "end": {
+      "column": 0,
+      "line": 3
+    },
+    "start": {
+      "column": 0,
+      "line": 1
+    }
+  },
   "range": [
     0,
-    32
+    33
   ],
   "sourceType": "script",
   "start": 0,

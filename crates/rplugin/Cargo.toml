@@ -6,12 +6,12 @@ include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0/MIT"
 name = "rplugin"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.2.0"
+version = "0.2.1"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 abi_stable = "0.10.3"
-rplugin_macros = {version = "0.1", path = "../rplugin_macros"}
+rplugin_macros = {version = "0.1.1", path = "../rplugin_macros"}
 string_cache = "0.8.2"
 swc_common = {version = "0.14.6", path = "../swc_common", features = ["plugin-base"]}
