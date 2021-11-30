@@ -1422,6 +1422,12 @@ impl VisitMut for ReduceAst {
                     self.changed = true;
                     return;
                 }
+
+                if can_remove(&s.test) {
+                    *stmt = *s.body.take();
+                    self.changed = true;
+                    return;
+                }
             }
 
             Stmt::DoWhile(s) => {
@@ -1430,6 +1436,12 @@ impl VisitMut for ReduceAst {
                         span: DUMMY_SP,
                         expr: s.test.take(),
                     });
+                    self.changed = true;
+                    return;
+                }
+
+                if can_remove(&s.test) {
+                    *stmt = *s.body.take();
                     self.changed = true;
                     return;
                 }
