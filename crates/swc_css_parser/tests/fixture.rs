@@ -10,6 +10,10 @@ use swc_css_parser::{
 use swc_css_visit::{Visit, VisitWith};
 use testing::NormalizedOutput;
 
+pub struct Invalid {
+    pub span: Span,
+}
+
 #[testing::fixture("tests/fixture/**/input.css")]
 fn tokens_input(input: PathBuf) {
     testing::run_test2(false, |cm, handler| {

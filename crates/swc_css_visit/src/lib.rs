@@ -324,10 +324,6 @@ define!({
         Invalid(Tokens),
     }
 
-    pub struct Invalid {
-        pub span: Span,
-    }
-
     pub enum AtRule {
         Charset(CharsetRule),
         Import(ImportRule),
