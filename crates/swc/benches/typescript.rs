@@ -15,7 +15,7 @@ use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::{Syntax, TsConfig};
 use swc_ecma_transforms::{
     fixer, hygiene,
-    resolver::{self, ts_resolver},
+    resolver::{resolver, ts_resolver},
     typescript,
 };
 use swc_ecma_visit::FoldWith;
