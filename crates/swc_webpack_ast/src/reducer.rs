@@ -1387,6 +1387,11 @@ impl VisitMut for ReduceAst {
                         *stmt = *is.cons.take();
                         return;
                     }
+
+                    if is.cons.is_empty() {
+                        *stmt = *is.alt.take().unwrap();
+                        return;
+                    }
                 }
             }
 
