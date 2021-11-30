@@ -1,6 +1,11 @@
 use std::{fs::read_to_string, path::PathBuf};
+use swc_common::{chain, comments::NoopComments, Mark};
 use swc_ecma_parser::Syntax;
-use swc_ecma_transforms_compat::es2015::for_of::{for_of, Config};
+use swc_ecma_transforms_base::resolver::resolver_with_mark;
+use swc_ecma_transforms_compat::es2015::{
+    self,
+    for_of::{for_of, Config},
+};
 use swc_ecma_transforms_testing::{compare_stdout, test, test_exec};
 
 fn syntax() -> Syntax {
@@ -579,9 +584,32 @@ fn fixture(input: PathBuf) {
     compare_stdout(
         Syntax::default(),
         |_| {
-            for_of(Config {
-                assume_array: false,
-            })
+            let top_level_mark = Mark::fresh(Mark::root());
+
+            chain!(
+                resolver_with_mark(top_level_mark),
+                for_of(Config {
+                    assume_array: false,
+                })
+            )
+        },
+        &input,
+    );
+}
+
+#[testing::fixture("tests/fixture/for-of/**/exec.js")]
+fn fixture_es2015(input: PathBuf) {
+    let input = read_to_string(&input).unwrap();
+
+    compare_stdout(
+        Syntax::default(),
+        |_| {
+            let top_level_mark = Mark::fresh(Mark::root());
+
+            chain!(
+                resolver_with_mark(top_level_mark),
+                es2015::es2015(top_level_mark, Some(NoopComments), Default::default())
+            )
         },
         &input,
     );
