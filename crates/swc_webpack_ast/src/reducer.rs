@@ -1401,12 +1401,12 @@ impl VisitMut for ReduceAst {
 
                 //
                 if can_remove(&is.test) {
-                    if is.cons.is_empty() && is.alt.is_none() {
+                    if is.cons.is_empty() && is.alt.is_empty() {
                         *stmt = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                         return;
                     }
 
-                    if is.alt.is_none() {
+                    if is.alt.is_empty() {
                         *stmt = *is.cons.take();
                         return;
                     }
