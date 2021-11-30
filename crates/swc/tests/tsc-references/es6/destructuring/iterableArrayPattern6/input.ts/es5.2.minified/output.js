@@ -17,7 +17,7 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var ref, Bar1 = function() {
+var ref, arr, Bar1 = function() {
     "use strict";
     _classCallCheck(this, Bar1);
 }, Foo = function(Bar) {
@@ -84,4 +84,10 @@ var ref, Bar1 = function() {
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), FooIterator;
 }();
-(ref = new FooIterator)[0], ref.slice(1);
+(ref = (function(arr) {
+    if (Array.isArray(arr)) return arr;
+})(arr = new FooIterator) || (function(iter) {
+    if (Symbol.iterator in Object(iter) || "[object Arguments]" === Object.prototype.toString.call(iter)) return Array.from(iter);
+})(arr) || (function() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance");
+})())[0], ref.slice(1);
