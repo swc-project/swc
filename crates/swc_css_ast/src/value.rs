@@ -166,3 +166,20 @@ pub struct UrlValue {
     pub url: JsWord,
     pub raw: JsWord,
 }
+
+#[ast_node("SimpleBlock")]
+pub struct SimpleBlock {
+    pub span: Span,
+    pub name: char,
+    pub value: Tokens,
+}
+
+#[ast_node]
+pub enum ComponentValue {
+    #[tag("SimpleBlock")]
+    SimpleBlock(SimpleBlock),
+    #[tag("Function")]
+    Function(Function),
+    #[tag("Tokens")]
+    Tokens(Tokens),
+}

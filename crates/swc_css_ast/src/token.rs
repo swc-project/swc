@@ -1,4 +1,3 @@
-use crate::Function;
 use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
 use swc_common::{ast_node, Span};
@@ -14,24 +13,6 @@ pub struct TokenAndSpan {
 pub struct Tokens {
     pub span: Span,
     pub tokens: Vec<TokenAndSpan>,
-}
-
-#[ast_node("SimpleBlock")]
-#[derive(Default)]
-pub struct SimpleBlock {
-    pub span: Span,
-    pub name: char,
-    pub value: Tokens,
-}
-
-#[ast_node]
-pub enum ComponentValue {
-    #[tag("SimpleBlock")]
-    SimpleBlock(SimpleBlock),
-    #[tag("Function")]
-    Function(Function),
-    #[tag("Tokens")]
-    Tokens(Tokens),
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
