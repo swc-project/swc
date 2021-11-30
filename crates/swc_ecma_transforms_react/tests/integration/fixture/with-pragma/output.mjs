@@ -15,7 +15,7 @@ const App = _jsxDEV("div", {
                 lineNumber: 6,
                 columnNumber: 13
             }, this)
-        })
+        }, void 0, false)
     ]
 }, void 0, true, {
     fileName: "input.js",
