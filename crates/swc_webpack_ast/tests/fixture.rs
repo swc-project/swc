@@ -35,9 +35,14 @@ impl Visit for AssertValid {
     fn visit_invalid(&mut self, i: &Invalid, _: &dyn Node) {
         panic!("found invalid: {:?}", i)
     }
+
+    fn visit_empty_stmt(&mut self, i: &EmptyStmt, _: &dyn Node) {
+        panic!("found empty: {:?}", i)
+    }
 }
 
 #[testing::fixture("../swc_ecma_parser/tests/typescript/tsc/**/input.ts")]
+#[testing::fixture("../swc/tests/tsc-references/**/output.js")]
 fn assert_no_invalid(input: PathBuf) {
     testing::run_test(false, |cm, _handler| {
         let fm = cm.load_file(&input).unwrap();
@@ -72,6 +77,7 @@ fn assert_no_invalid(input: PathBuf) {
         };
 
         module.visit_mut_with(&mut pass);
+        dbg!(&module);
         module.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
 
         Ok(())

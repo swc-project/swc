@@ -202,30 +202,7 @@ impl ReduceAst {
                         to.extend(body.stmts.into_iter().map(T::from_stmt));
                     }
                 }
-                Stmt::Try(ts) => {
-                    to.extend(ts.block.stmts.into_iter().map(T::from_stmt));
-                    if let Some(h) = ts.handler {
-                        if let Some(p) = h.param {
-                            let mut exprs = vec![];
-                            preserve_pat(&mut exprs, p);
 
-                            if !exprs.is_empty() {
-                                to.push(T::from_stmt(Stmt::Expr(ExprStmt {
-                                    span: DUMMY_SP,
-                                    expr: Box::new(Expr::Seq(SeqExpr {
-                                        span: DUMMY_SP,
-                                        exprs,
-                                    })),
-                                })));
-                            }
-                        }
-                        to.extend(h.body.stmts.into_iter().map(T::from_stmt));
-                    }
-
-                    if let Some(f) = ts.finalizer {
-                        to.extend(f.stmts.into_iter().map(T::from_stmt));
-                    }
-                }
                 Stmt::Decl(Decl::Var(d)) => {
                     let mut exprs = vec![];
 
@@ -581,6 +558,9 @@ impl VisitMut for ReduceAst {
             Expr::Yield(expr) => {
                 if let Some(arg) = expr.arg.take() {
                     *e = *arg;
+                } else {
+                    *e = null_expr();
+                    return;
                 }
             }
 
@@ -1357,6 +1337,73 @@ impl VisitMut for ReduceAst {
                     *stmt = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                     return;
                 }
+
+                match &mut *e.expr {
+                    // Optimize IIFE
+                    Expr::Call(CallExpr {
+                        callee: ExprOrSuper::Expr(callee),
+                        args,
+                        ..
+                    }) => match &mut **callee {
+                        Expr::Fn(callee) => {
+                            self.changed = true;
+                            let mut stmts = vec![];
+                            let Function {
+                                params,
+                                decorators,
+                                body,
+                                ..
+                            } = callee.function.take();
+
+                            if !decorators.is_empty() {
+                                let mut s = Stmt::Expr(ExprStmt {
+                                    span: DUMMY_SP,
+                                    expr: Box::new(Expr::Seq(SeqExpr {
+                                        span: DUMMY_SP,
+                                        exprs: decorators.into_iter().map(|d| d.expr).collect(),
+                                    })),
+                                });
+                                s.visit_mut_with(self);
+                                stmts.push(s);
+                            }
+
+                            if !params.is_empty() {
+                                let mut exprs = Vec::with_capacity(params.len());
+
+                                for p in params {
+                                    exprs.extend(p.decorators.into_iter().map(|d| d.expr));
+
+                                    preserve_pat(&mut exprs, p.pat);
+                                }
+
+                                exprs.extend(args.into_iter().map(|arg| arg.expr.take()));
+
+                                let mut s = Stmt::Expr(ExprStmt {
+                                    span: DUMMY_SP,
+                                    expr: Box::new(Expr::Seq(SeqExpr {
+                                        span: DUMMY_SP,
+                                        exprs,
+                                    })),
+                                });
+                                s.visit_mut_with(self);
+                                stmts.push(s);
+                            }
+
+                            if let Some(body) = body {
+                                stmts.extend(body.stmts);
+                            }
+
+                            *stmt = Stmt::Block(BlockStmt {
+                                span: DUMMY_SP,
+                                stmts,
+                            });
+                            return;
+                        }
+                        _ => {}
+                    },
+
+                    _ => {}
+                }
             }
 
             Stmt::Block(block) => {
@@ -1401,13 +1448,18 @@ impl VisitMut for ReduceAst {
 
                 //
                 if can_remove(&is.test) {
-                    if is.cons.is_empty() && is.alt.is_none() {
+                    if is.cons.is_empty() && is.alt.is_empty() {
                         *stmt = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                         return;
                     }
 
-                    if is.alt.is_none() {
+                    if is.alt.is_empty() {
                         *stmt = *is.cons.take();
+                        return;
+                    }
+
+                    if is.cons.is_empty() {
+                        *stmt = *is.alt.take().unwrap();
                         return;
                     }
                 }
@@ -1422,6 +1474,12 @@ impl VisitMut for ReduceAst {
                     self.changed = true;
                     return;
                 }
+
+                if can_remove(&s.test) {
+                    *stmt = *s.body.take();
+                    self.changed = true;
+                    return;
+                }
             }
 
             Stmt::DoWhile(s) => {
@@ -1430,6 +1488,12 @@ impl VisitMut for ReduceAst {
                         span: DUMMY_SP,
                         expr: s.test.take(),
                     });
+                    self.changed = true;
+                    return;
+                }
+
+                if can_remove(&s.test) {
+                    *stmt = *s.body.take();
                     self.changed = true;
                     return;
                 }
@@ -1481,6 +1545,89 @@ impl VisitMut for ReduceAst {
                     stmt.take();
                     return;
                 }
+            }
+
+            Stmt::Try(ts) => {
+                self.changed = true;
+
+                let mut stmts = ts.block.stmts.take();
+                if let Some(h) = ts.handler.take() {
+                    if let Some(p) = h.param {
+                        let mut exprs = vec![];
+                        preserve_pat(&mut exprs, p);
+
+                        if !exprs.is_empty() {
+                            stmts.push(Stmt::Expr(ExprStmt {
+                                span: DUMMY_SP,
+                                expr: Box::new(Expr::Seq(SeqExpr {
+                                    span: DUMMY_SP,
+                                    exprs,
+                                })),
+                            }));
+                        }
+                    }
+                    stmts.extend(h.body.stmts);
+                }
+
+                if let Some(f) = ts.finalizer.take() {
+                    stmts.extend(f.stmts);
+                }
+
+                *stmt = Stmt::Block(BlockStmt {
+                    span: DUMMY_SP,
+                    stmts,
+                });
+                return;
+            }
+
+            Stmt::For(ForStmt {
+                init,
+                test,
+                update,
+                body,
+                ..
+            }) => {
+                self.changed = true;
+                let mut stmts = vec![];
+
+                {
+                    let mut exprs = vec![];
+
+                    if let Some(init) = init.take() {
+                        match init {
+                            VarDeclOrExpr::VarDecl(v) => {
+                                for d in v.decls {
+                                    preserve_pat(&mut exprs, d.name);
+                                    exprs.extend(d.init);
+                                }
+                            }
+                            VarDeclOrExpr::Expr(e) => {
+                                exprs.push(e);
+                            }
+                        }
+                    }
+
+                    exprs.extend(test.take());
+                    exprs.extend(update.take());
+
+                    if !exprs.is_empty() {
+                        stmts.push(Stmt::Expr(ExprStmt {
+                            span: DUMMY_SP,
+                            expr: Box::new(Expr::Seq(SeqExpr {
+                                span: DUMMY_SP,
+                                exprs,
+                            })),
+                        }));
+                    }
+                }
+
+                stmts.push(*body.take());
+
+                *stmt = Stmt::Block(BlockStmt {
+                    span: DUMMY_SP,
+                    stmts,
+                });
+                return;
             }
 
             // TODO: Flatten loops
