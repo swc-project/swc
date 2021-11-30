@@ -986,15 +986,23 @@ impl Visit for FunctionFinder {
     }
 
     /// Do not recurse into nested loop.
+    ///
+    /// https://github.com/swc-project/swc/issues/2622
     fn visit_do_while_stmt(&mut self, _: &DoWhileStmt, _: &dyn Node) {}
 
     /// Do not recurse into nested loop.
+    ///
+    /// https://github.com/swc-project/swc/issues/2622
     fn visit_for_in_stmt(&mut self, _: &ForInStmt, _: &dyn Node) {}
 
     /// Do not recurse into nested loop.
+    ///
+    /// https://github.com/swc-project/swc/issues/2622
     fn visit_for_of_stmt(&mut self, _: &ForOfStmt, _: &dyn Node) {}
 
     /// Do not recurse into nested loop.
+    ///
+    /// https://github.com/swc-project/swc/issues/2622
     fn visit_for_stmt(&mut self, _: &ForStmt, _: &dyn Node) {}
 
     fn visit_function(&mut self, _: &Function, _: &dyn Node) {
@@ -1002,5 +1010,7 @@ impl Visit for FunctionFinder {
     }
 
     /// Do not recurse into nested loop.
+    ///
+    /// https://github.com/swc-project/swc/issues/2622
     fn visit_while_stmt(&mut self, _: &WhileStmt, _: &dyn Node) {}
 }
