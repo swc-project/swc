@@ -42,6 +42,7 @@ impl Visit for AssertValid {
 }
 
 #[testing::fixture("../swc_ecma_parser/tests/typescript/tsc/**/input.ts")]
+#[testing::fixture("../swc/tests/tsc-references/**/output.js")]
 fn assert_no_invalid(input: PathBuf) {
     testing::run_test(false, |cm, _handler| {
         let fm = cm.load_file(&input).unwrap();
