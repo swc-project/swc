@@ -1,9 +1,10 @@
 use std::{fs, path::PathBuf};
-use swc_common::{chain, Mark};
-use swc_ecma_parser::{EsConfig, Parser, StringInput, Syntax};
+use swc_common::{chain, Mark, DUMMY_SP};
+use swc_ecma_ast::*;
+use swc_ecma_parser::{EsConfig, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::resolver_with_mark;
 use swc_ecma_transforms_testing::test_fixture;
-use swc_ecma_visit::as_folder;
+use swc_ecma_visit::{as_folder, Node, Visit, VisitMutWith, VisitWith};
 use swc_webpack_ast::reducer::ast_reducer;
 
 #[testing::fixture("tests/fixture/**/input.js")]
@@ -26,6 +27,56 @@ fn fixture(input: PathBuf) {
         &input,
         &output,
     );
+}
+
+struct AssertValid;
+
+impl Visit for AssertValid {
+    fn visit_invalid(&mut self, i: &Invalid, _: &dyn Node) {
+        panic!("found invalid: {:?}", i)
+    }
+}
+
+#[testing::fixture("../swc_ecma_parser/tests/typescript/tsc/**/input.ts")]
+fn assert_no_invalid(input: PathBuf) {
+    testing::run_test(false, |cm, _handler| {
+        let fm = cm.load_file(&input).unwrap();
+
+        let mut module = {
+            let mut p = Parser::new(
+                Syntax::Typescript(TsConfig {
+                    ..Default::default()
+                }),
+                StringInput::from(&*fm),
+                None,
+            );
+            let res = p.parse_module();
+
+            if res.is_err() {
+                return Ok(());
+            }
+            for _ in p.take_errors() {
+                return Ok(());
+            }
+
+            res.unwrap()
+        };
+
+        let mut pass = {
+            let top_level_mark = Mark::fresh(Mark::root());
+
+            chain!(
+                resolver_with_mark(top_level_mark),
+                as_folder(ast_reducer(top_level_mark))
+            )
+        };
+
+        module.visit_mut_with(&mut pass);
+        module.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+
+        Ok(())
+    })
+    .unwrap();
 }
 
 #[testing::fixture("tests/fixture/**/input.js")]

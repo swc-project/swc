@@ -1,8 +1,13 @@
 use std::sync::Arc;
 use swc_atoms::js_word;
-use swc_common::{collections::AHashSet, util::take::Take, Mark, SyntaxContext, DUMMY_SP};
+use swc_common::{
+    collections::AHashSet,
+    pass::{Repeat, Repeated},
+    util::take::Take,
+    Mark, SyntaxContext, DUMMY_SP,
+};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, Id, StmtLike, StmtOrModuleItem};
+use swc_ecma_utils::{ident::IdentLike, Id, IsEmpty, StmtLike, StmtOrModuleItem};
 use swc_ecma_visit::{VisitMut, VisitMutWith};
 use swc_timer::timer;
 
@@ -54,10 +59,10 @@ use swc_timer::timer;
 /// module.hot.accept("x", () => {     })
 /// ```
 pub fn ast_reducer(top_level_mark: Mark) -> impl VisitMut {
-    Minimalizer {
+    Repeat::new(ReduceAst {
         top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
         ..Default::default()
-    }
+    })
 }
 
 #[derive(Default)]
@@ -116,16 +121,30 @@ impl ScopeData {
 }
 
 #[derive(Clone, Default)]
-struct Minimalizer {
+struct ReduceAst {
+    collected_data: bool,
     data: Arc<ScopeData>,
     top_level_ctxt: SyntaxContext,
 
     var_decl_kind: Option<VarDeclKind>,
 
     can_remove_pat: bool,
+    preserve_fn: bool,
+
+    changed: bool,
 }
 
-impl Minimalizer {
+impl Repeated for ReduceAst {
+    fn changed(&self) -> bool {
+        self.changed
+    }
+
+    fn reset(&mut self) {
+        self.changed = false;
+    }
+}
+
+impl ReduceAst {
     fn flatten_stmt<T>(&mut self, to: &mut Vec<T>, item: &mut T)
     where
         T: StmtOrModuleItem + StmtLike + Take,
@@ -227,6 +246,40 @@ impl Minimalizer {
                         to.push(T::from_stmt(s));
                     }
                 }
+
+                Stmt::ForOf(ForOfStmt {
+                    left, right, body, ..
+                })
+                | Stmt::ForIn(ForInStmt {
+                    left, right, body, ..
+                }) => {
+                    self.changed = true;
+
+                    let mut exprs = vec![];
+
+                    match left {
+                        VarDeclOrPat::VarDecl(mut v) => {
+                            assert_eq!(v.decls.len(), 1);
+                            v.decls[0].init = Some(right);
+                            to.push(T::from_stmt(Stmt::Decl(Decl::Var(v))))
+                        }
+                        VarDeclOrPat::Pat(p) => {
+                            preserve_pat(&mut exprs, p);
+                        }
+                    }
+
+                    if !exprs.is_empty() {
+                        to.push(T::from_stmt(Stmt::Expr(ExprStmt {
+                            span: DUMMY_SP,
+                            expr: Box::new(Expr::Seq(SeqExpr {
+                                span: DUMMY_SP,
+                                exprs,
+                            })),
+                        })));
+                    }
+                    to.push(T::from_stmt(*body));
+                }
+
                 _ => {
                     to.push(T::from_stmt(stmt));
                 }
@@ -261,20 +314,25 @@ impl Minimalizer {
 
     fn ignore_expr(&mut self, e: &mut Expr) {
         match e {
-            Expr::Lit(..)
-            | Expr::This(..)
+            Expr::Lit(..) => {
+                e.take();
+                return;
+            }
+            Expr::This(..)
             | Expr::Member(MemberExpr {
                 obj: ExprOrSuper::Super(..),
                 computed: false,
                 ..
             })
             | Expr::Yield(YieldExpr { arg: None, .. }) => {
+                self.changed = true;
                 e.take();
                 return;
             }
 
             Expr::Ident(i) => {
                 if !self.data.should_preserve(&*i) {
+                    self.changed = true;
                     e.take();
                 }
                 return;
@@ -291,7 +349,7 @@ impl Minimalizer {
                     self.ignore_expr(prop);
                 }
 
-                match (obj.is_invalid(), prop.is_invalid()) {
+                match (can_remove(&obj), can_remove(&prop)) {
                     (true, true) => {
                         e.take();
                         return;
@@ -313,6 +371,7 @@ impl Minimalizer {
 
             Expr::Array(a) => {
                 if a.elems.is_empty() {
+                    self.changed = true;
                     e.take();
                     return;
                 }
@@ -320,6 +379,7 @@ impl Minimalizer {
 
             Expr::Object(obj) => {
                 if obj.props.is_empty() {
+                    self.changed = true;
                     e.take();
                     return;
                 }
@@ -346,7 +406,7 @@ impl Minimalizer {
     }
 }
 
-impl VisitMut for Minimalizer {
+impl VisitMut for ReduceAst {
     fn visit_mut_arrow_expr(&mut self, e: &mut ArrowExpr) {
         let old_can_remove_pat = self.can_remove_pat;
         self.can_remove_pat = true;
@@ -371,11 +431,24 @@ impl VisitMut for Minimalizer {
         }
     }
 
+    fn visit_mut_class(&mut self, c: &mut Class) {
+        c.visit_mut_children_with(self);
+
+        if let Some(s) = &c.super_class {
+            if can_remove(&s) {
+                c.super_class = None;
+            }
+        }
+    }
+
     fn visit_mut_class_members(&mut self, v: &mut Vec<ClassMember>) {
         v.visit_mut_children_with(self);
 
         v.retain(|m| {
             match m {
+                ClassMember::PrivateProp(PrivateProp { value: None, .. })
+                | ClassMember::Empty(..) => return false,
+
                 ClassMember::ClassProp(p) => {
                     if !p.computed
                         && p.decorators.is_empty()
@@ -389,12 +462,22 @@ impl VisitMut for Minimalizer {
                     if !m.key.is_computed()
                         && m.function.decorators.is_empty()
                         && m.function.params.is_empty()
-                        && m.function
-                            .body
-                            .as_ref()
-                            .map(|v| v.stmts.is_empty())
-                            .unwrap_or(true)
+                        && m.function.body.is_empty()
                     {
+                        return false;
+                    }
+                }
+
+                ClassMember::Constructor(c) => {
+                    if !c.key.is_computed() && c.params.is_empty() && c.body.is_empty() {
+                        return false;
+                    }
+                }
+
+                ClassMember::PrivateProp(PrivateProp {
+                    value: Some(value), ..
+                }) => {
+                    if can_remove(&value) {
                         return false;
                     }
                 }
@@ -409,6 +492,41 @@ impl VisitMut for Minimalizer {
     ///
     ///  - empty [Expr::Seq] => [Expr::Invalid]
     fn visit_mut_expr(&mut self, e: &mut Expr) {
+        match e {
+            Expr::Call(CallExpr {
+                callee: ExprOrSuper::Expr(callee),
+                args,
+                ..
+            })
+            | Expr::New(NewExpr {
+                callee,
+                args: Some(args),
+                ..
+            }) => {
+                self.ignore_expr(callee);
+
+                if callee.is_invalid() {
+                    let mut seq = Expr::Seq(SeqExpr {
+                        span: DUMMY_SP,
+                        exprs: args.take().into_iter().map(|arg| arg.expr).collect(),
+                    });
+
+                    seq.visit_mut_with(self);
+
+                    *e = seq;
+                } else {
+                    // We should preserve the arguments if the callee is not invalid.
+                    let old = self.preserve_fn;
+                    self.preserve_fn = !callee.is_fn_expr() && !callee.is_arrow();
+                    e.visit_mut_children_with(self);
+                    self.preserve_fn = old;
+                    return;
+                }
+            }
+
+            _ => {}
+        }
+
         e.visit_mut_children_with(self);
 
         match e {
@@ -632,30 +750,6 @@ impl VisitMut for Minimalizer {
                 }
             }
 
-            Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(callee),
-                args,
-                ..
-            })
-            | Expr::New(NewExpr {
-                callee,
-                args: Some(args),
-                ..
-            }) => {
-                self.ignore_expr(callee);
-
-                if callee.is_invalid() {
-                    let mut seq = Expr::Seq(SeqExpr {
-                        span: DUMMY_SP,
-                        exprs: args.take().into_iter().map(|arg| arg.expr).collect(),
-                    });
-
-                    seq.visit_mut_with(self);
-
-                    *e = seq;
-                }
-            }
-
             Expr::JSXElement(el) => {
                 // Remove empty, non-component elements.
                 match &el.opening.name {
@@ -700,6 +794,62 @@ impl VisitMut for Minimalizer {
                 *e = seq;
             }
 
+            Expr::Fn(FnExpr { function, .. }) => {
+                if !self.preserve_fn
+                    && function.decorators.is_empty()
+                    && function.params.is_empty()
+                    && function.body.is_empty()
+                {
+                    *e = null_expr();
+                    self.changed = true;
+                    return;
+                }
+            }
+
+            Expr::Arrow(ArrowExpr {
+                params,
+                body: BlockStmtOrExpr::BlockStmt(body),
+                ..
+            }) => {
+                if !self.preserve_fn && params.is_empty() && body.is_empty() {
+                    *e = null_expr();
+                    self.changed = true;
+                    return;
+                }
+            }
+
+            Expr::New(NewExpr { callee, args, .. }) => {
+                let mut exprs = vec![];
+                exprs.push(callee.take());
+                exprs.extend(args.take().into_iter().flatten().map(|v| v.expr));
+
+                *e = Expr::Seq(SeqExpr {
+                    span: DUMMY_SP,
+                    exprs,
+                });
+                self.changed = true;
+                return;
+            }
+
+            Expr::Call(CallExpr {
+                callee: ExprOrSuper::Super(..),
+                args,
+                ..
+            }) => {
+                self.changed = true;
+                let exprs: Vec<_> = args.take().into_iter().map(|arg| arg.expr).collect();
+                if exprs.is_empty() {
+                    *e = null_expr();
+                    return;
+                }
+                let seq = Expr::Seq(SeqExpr {
+                    span: DUMMY_SP,
+                    exprs,
+                });
+
+                *e = seq;
+            }
+
             // TODO:
             // Expr::Class(_) => todo!(),
             // Expr::MetaProp(_) => todo!(),
@@ -720,7 +870,16 @@ impl VisitMut for Minimalizer {
     fn visit_mut_expr_or_spreads(&mut self, elems: &mut Vec<ExprOrSpread>) {
         elems.visit_mut_children_with(self);
 
-        elems.retain(|e| !e.expr.is_invalid());
+        if !self.preserve_fn {
+            elems.retain(|e| {
+                if can_remove(&e.expr) {
+                    self.changed = true;
+                    return false;
+                }
+
+                true
+            });
+        }
     }
 
     fn visit_mut_expr_stmt(&mut self, s: &mut ExprStmt) {
@@ -733,6 +892,54 @@ impl VisitMut for Minimalizer {
         exprs.visit_mut_children_with(self);
 
         exprs.retain(|e| !e.is_invalid());
+    }
+
+    fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {
+        s.visit_mut_children_with(self);
+
+        match &mut s.init {
+            Some(VarDeclOrExpr::VarDecl(v)) => {
+                self.changed = true;
+                let mut exprs = vec![];
+
+                for decl in v.decls.take() {
+                    preserve_pat(&mut exprs, decl.name);
+                    exprs.extend(decl.init);
+                }
+
+                if exprs.is_empty() {
+                    s.init = None;
+                } else {
+                    s.init = Some(VarDeclOrExpr::Expr(Box::new(Expr::Seq(SeqExpr {
+                        span: DUMMY_SP,
+                        exprs,
+                    }))))
+                }
+            }
+
+            Some(VarDeclOrExpr::Expr(init)) => {
+                if can_remove(&init) {
+                    s.init = None;
+                }
+            }
+            _ => {}
+        }
+
+        if let Some(test) = &mut s.test {
+            self.ignore_expr(&mut **test);
+
+            if can_remove(&test) {
+                s.test = None;
+            }
+        }
+
+        if let Some(update) = &mut s.update {
+            self.ignore_expr(&mut **update);
+
+            if can_remove(&update) {
+                s.update = None;
+            }
+        }
     }
 
     fn visit_mut_function(&mut self, f: &mut Function) {
@@ -748,6 +955,15 @@ impl VisitMut for Minimalizer {
         f.type_params.visit_mut_with(self);
 
         f.return_type.visit_mut_with(self);
+    }
+
+    fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
+        s.visit_mut_children_with(self);
+
+        self.ignore_expr(&mut s.test);
+        if s.test.is_invalid() {
+            s.test = Box::new(null_expr());
+        }
     }
 
     fn visit_mut_jsx_attr_or_spreads(&mut self, attrs: &mut Vec<JSXAttrOrSpread>) {
@@ -880,9 +1096,13 @@ impl VisitMut for Minimalizer {
     }
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
-        let _timer = timer!("reduce ast");
+        if !self.collected_data {
+            let _timer = timer!("analyze before reducing");
+            self.collected_data = true;
+            self.data = Arc::new(ScopeData::analyze(&stmts));
+        }
 
-        self.data = Arc::new(ScopeData::analyze(&stmts));
+        let _timer = timer!("reduce ast (single pass)");
 
         self.visit_mut_stmt_likes(stmts);
     }
@@ -918,22 +1138,53 @@ impl VisitMut for Minimalizer {
         });
     }
 
-    fn visit_mut_opt_expr(&mut self, e: &mut Option<Box<Expr>>) {
-        e.visit_mut_children_with(self);
-
-        if let Some(Expr::Invalid(..)) = e.as_deref() {
-            e.take();
-        }
-    }
-
     fn visit_mut_opt_expr_or_spread(&mut self, e: &mut Option<ExprOrSpread>) {
         e.visit_mut_children_with(self);
 
-        if let Some(elem) = e {
-            if elem.expr.is_invalid() {
-                *e = None;
+        if !self.preserve_fn {
+            if let Some(elem) = e {
+                if can_remove(&elem.expr) {
+                    *e = None;
+                }
             }
         }
+    }
+
+    fn visit_mut_opt_pat(&mut self, p: &mut Option<Pat>) {
+        p.visit_mut_children_with(self);
+
+        if let Some(Pat::Invalid(..)) = &p {
+            *p = None;
+        }
+    }
+
+    fn visit_mut_param_or_ts_param_props(&mut self, ps: &mut Vec<ParamOrTsParamProp>) {
+        let old = self.can_remove_pat;
+        self.can_remove_pat = true;
+        ps.visit_mut_children_with(self);
+        self.can_remove_pat = old;
+
+        ps.retain(|p| match p {
+            ParamOrTsParamProp::TsParamProp(p) => match &p.param {
+                TsParamPropParam::Ident(p) => {
+                    if !self.data.should_preserve(&p.id) {
+                        self.changed = true;
+                        return false;
+                    }
+
+                    true
+                }
+                TsParamPropParam::Assign(p) => {
+                    if p.left.is_invalid() && can_remove(&p.right) {
+                        self.changed = true;
+                        return false;
+                    }
+
+                    true
+                }
+            },
+            ParamOrTsParamProp::Param(p) => !p.pat.is_invalid(),
+        });
     }
 
     fn visit_mut_params(&mut self, ps: &mut Vec<Param>) {
@@ -951,7 +1202,12 @@ impl VisitMut for Minimalizer {
             _ => {}
         }
 
-        pat.visit_mut_children_with(self);
+        match pat {
+            Pat::Assign(..) => {}
+            _ => {
+                pat.visit_mut_children_with(self);
+            }
+        }
 
         if !self.can_remove_pat {
             return;
@@ -975,6 +1231,16 @@ impl VisitMut for Minimalizer {
             Pat::Object(obj) => {
                 if obj.props.is_empty() {
                     pat.take();
+                    return;
+                }
+            }
+
+            Pat::Assign(a) => {
+                if can_remove(&a.right) {
+                    a.left.visit_mut_with(self);
+
+                    *pat = *a.left.take();
+                    self.changed = true;
                     return;
                 }
             }
@@ -1053,6 +1319,7 @@ impl VisitMut for Minimalizer {
 
             Stmt::Return(s) => {
                 if let Some(arg) = s.arg.take() {
+                    self.changed = true;
                     *stmt = Stmt::Expr(ExprStmt {
                         span: DUMMY_SP,
                         expr: arg,
@@ -1063,6 +1330,7 @@ impl VisitMut for Minimalizer {
                 }
             }
             Stmt::Throw(s) => {
+                self.changed = true;
                 *stmt = Stmt::Expr(ExprStmt {
                     span: DUMMY_SP,
                     expr: s.arg.take(),
@@ -1085,6 +1353,7 @@ impl VisitMut for Minimalizer {
         match stmt {
             Stmt::Expr(e) => {
                 if e.expr.is_invalid() {
+                    self.changed = true;
                     *stmt = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                     return;
                 }
@@ -1102,9 +1371,24 @@ impl VisitMut for Minimalizer {
             }
 
             Stmt::Decl(Decl::Var(var)) => {
-                if var.decls.is_empty() {
+                self.changed = true;
+                let mut exprs = vec![];
+
+                for decl in var.decls.take() {
+                    preserve_pat(&mut exprs, decl.name);
+                    exprs.extend(decl.init);
+                }
+
+                if exprs.is_empty() {
                     *stmt = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                    return;
+                } else {
+                    *stmt = Stmt::Expr(ExprStmt {
+                        span: DUMMY_SP,
+                        expr: Box::new(Expr::Seq(SeqExpr {
+                            span: DUMMY_SP,
+                            exprs,
+                        })),
+                    });
                 }
             }
 
@@ -1129,6 +1413,76 @@ impl VisitMut for Minimalizer {
                 }
             }
 
+            Stmt::While(s) => {
+                if s.body.is_empty() {
+                    *stmt = Stmt::Expr(ExprStmt {
+                        span: DUMMY_SP,
+                        expr: s.test.take(),
+                    });
+                    self.changed = true;
+                    return;
+                }
+            }
+
+            Stmt::DoWhile(s) => {
+                if s.body.is_empty() {
+                    *stmt = Stmt::Expr(ExprStmt {
+                        span: DUMMY_SP,
+                        expr: s.test.take(),
+                    });
+                    self.changed = true;
+                    return;
+                }
+            }
+
+            Stmt::For(ForStmt {
+                init: Some(VarDeclOrExpr::VarDecl(v)),
+                test: None,
+                update: None,
+                body,
+                ..
+            }) => {
+                if body.is_empty() {
+                    *stmt = Stmt::Decl(Decl::Var(v.take()));
+                    self.changed = true;
+                    return;
+                }
+            }
+
+            Stmt::For(ForStmt {
+                init: None,
+                test: None,
+                update: None,
+                body,
+                ..
+            }) => {
+                *stmt = *body.take();
+                self.changed = true;
+                return;
+            }
+
+            Stmt::Switch(s) => {
+                if s.cases.is_empty() {
+                    *stmt = Stmt::Expr(ExprStmt {
+                        span: DUMMY_SP,
+                        expr: s.discriminant.take(),
+                    });
+                    self.changed = true;
+                    return;
+                }
+            }
+
+            Stmt::Decl(Decl::Class(c)) => {
+                // Remove trivial classes
+                if c.class.super_class.is_none()
+                    && c.class.decorators.is_empty()
+                    && c.class.body.is_empty()
+                {
+                    stmt.take();
+                    return;
+                }
+            }
+
             // TODO: Flatten loops
             // TODO: Flatten try catch
             _ => {}
@@ -1137,6 +1491,37 @@ impl VisitMut for Minimalizer {
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
         self.visit_mut_stmt_likes(stmts);
+    }
+
+    fn visit_mut_switch_cases(&mut self, cases: &mut Vec<SwitchCase>) {
+        cases.visit_mut_children_with(self);
+
+        cases.retain(|case| {
+            if case.test.as_deref().map(can_remove).unwrap_or(true) && case.cons.is_empty() {
+                return false;
+            }
+
+            true
+        })
+    }
+
+    fn visit_mut_ts_param_prop_param(&mut self, p: &mut TsParamPropParam) {
+        p.visit_mut_children_with(self);
+
+        match p {
+            TsParamPropParam::Ident(_) => {}
+            TsParamPropParam::Assign(ap) => {
+                if ap.right.is_invalid() {
+                    return;
+                }
+
+                self.ignore_expr(&mut ap.right);
+
+                if ap.right.is_invalid() {
+                    ap.right = Box::new(null_expr());
+                }
+            }
+        }
     }
 
     fn visit_mut_var_decl(&mut self, var: &mut VarDecl) {
@@ -1149,6 +1534,7 @@ impl VisitMut for Minimalizer {
     }
 
     fn visit_mut_var_declarator(&mut self, v: &mut VarDeclarator) {
+        let had_init = v.init.is_some();
         v.visit_mut_children_with(self);
 
         if let Some(e) = &mut v.init {
@@ -1159,7 +1545,7 @@ impl VisitMut for Minimalizer {
             }
         }
 
-        if v.init.is_none() && matches!(self.var_decl_kind, Some(VarDeclKind::Const)) {
+        if had_init && v.init.is_none() && matches!(self.var_decl_kind, Some(VarDeclKind::Const)) {
             v.init = Some(Box::new(null_expr()));
         }
     }
