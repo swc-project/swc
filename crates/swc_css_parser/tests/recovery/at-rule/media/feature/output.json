@@ -23,31 +23,32 @@
         "value": "media",
         "raw": "media"
       },
-      "tokens": {
+      "prelude": {
         "type": "Tokens",
+        "span": {
+          "start": 18,
+          "end": 18,
+          "ctxt": 0
+        },
+        "tokens": []
+      },
+      "block": {
+        "type": "SimpleBlock",
         "span": {
           "start": 18,
           "end": 20,
           "ctxt": 0
         },
-        "tokens": [
-          {
-            "span": {
-              "start": 18,
-              "end": 19,
-              "ctxt": 0
-            },
-            "token": "LBrace"
+        "name": "{",
+        "value": {
+          "type": "Tokens",
+          "span": {
+            "start": 19,
+            "end": 19,
+            "ctxt": 0
           },
-          {
-            "span": {
-              "start": 19,
-              "end": 20,
-              "ctxt": 0
-            },
-            "token": "RBrace"
-          }
-        ]
+          "tokens": []
+        }
       }
     }
   ]

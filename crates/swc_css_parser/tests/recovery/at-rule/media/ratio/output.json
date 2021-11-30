@@ -10,7 +10,7 @@
       "type": "UnknownAtRule",
       "span": {
         "start": 0,
-        "end": 30,
+        "end": 29,
         "ctxt": 0
       },
       "name": {
@@ -23,11 +23,11 @@
         "value": "media",
         "raw": "media"
       },
-      "tokens": {
+      "prelude": {
         "type": "Tokens",
         "span": {
           "start": 25,
-          "end": 30,
+          "end": 27,
           "ctxt": 0
         },
         "tokens": [
@@ -50,36 +50,26 @@
                 "value": " "
               }
             }
-          },
-          {
-            "span": {
-              "start": 27,
-              "end": 28,
-              "ctxt": 0
-            },
-            "token": "LBrace"
-          },
-          {
-            "span": {
-              "start": 28,
-              "end": 29,
-              "ctxt": 0
-            },
-            "token": "RBrace"
-          },
-          {
-            "span": {
-              "start": 29,
-              "end": 30,
-              "ctxt": 0
-            },
-            "token": {
-              "WhiteSpace": {
-                "value": "\n"
-              }
-            }
           }
         ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 27,
+          "end": 29,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": {
+          "type": "Tokens",
+          "span": {
+            "start": 28,
+            "end": 28,
+            "ctxt": 0
+          },
+          "tokens": []
+        }
       }
     }
   ]

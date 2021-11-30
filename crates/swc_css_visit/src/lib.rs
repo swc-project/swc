@@ -9,6 +9,33 @@ pub trait Node {}
 impl<T: ?Sized> Node for T {}
 
 define!({
+    pub struct Tokens {
+        pub span: Span,
+        pub tokens: Vec<TokenAndSpan>,
+    }
+
+    pub struct TokenAndSpan {
+        pub span: Span,
+        pub token: Token,
+    }
+
+    pub struct SimpleBlock {
+        pub span: Span,
+        pub name: char,
+        pub value: Tokens,
+    }
+
+    pub struct Function {
+        pub span: Span,
+        pub value: Tokens,
+    }
+
+    pub enum ComponentValue {
+        SimpleBlock(SimpleBlock),
+        Function(Function),
+        Tokens(Tokens),
+    }
+
     pub struct Ident {
         pub span: Span,
         pub value: JsWord,
@@ -49,16 +76,6 @@ define!({
         Invalid(Tokens),
         Declaration(Declaration),
         AtRule(AtRule),
-    }
-
-    pub struct Tokens {
-        pub span: Span,
-        pub tokens: Vec<TokenAndSpan>,
-    }
-
-    pub struct TokenAndSpan {
-        pub span: Span,
-        pub token: Token,
     }
 
     pub struct Unit {
@@ -366,7 +383,8 @@ define!({
     pub struct UnknownAtRule {
         pub span: Span,
         pub name: Ident,
-        pub tokens: Tokens,
+        pub prelude: Tokens,
+        pub block: Option<SimpleBlock>,
     }
 
     pub struct DocumentRule {

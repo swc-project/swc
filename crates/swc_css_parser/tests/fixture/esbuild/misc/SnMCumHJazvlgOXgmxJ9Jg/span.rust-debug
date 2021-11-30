@@ -29,10 +29,16 @@ error: Ident
   | ^^^^^^^^
 
 error: Tokens
- --> $DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:10
+ --> $DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:9
   |
 1 | @unknown x;
-  |          ^^
+  |         ^^^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+ --> $DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:9
+  |
+1 | @unknown x;
+  |         ^
 
 error: Ident { value: Atom('x' type=inline), raw: Atom('x' type=inline) }
  --> $DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:10

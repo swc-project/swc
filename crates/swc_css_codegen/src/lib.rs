@@ -303,9 +303,13 @@ where
     fn emit_unknown_at_rule(&mut self, n: &UnknownAtRule) -> Result {
         punct!(self, "@");
         emit!(self, n.name);
-        space!(self);
+        emit!(self, n.prelude);
 
-        emit!(self, n.tokens)
+        if n.block.is_some() {
+            emit!(self, n.block)
+        } else {
+            punct!(self, ";");
+        }
     }
 
     #[emitter]
@@ -328,6 +332,22 @@ where
             }
             MediaQuery::Comma(n) => emit!(self, n),
         }
+    }
+
+    #[emitter]
+    fn emit_simple_block(&mut self, n: &SimpleBlock) -> Result {
+        let ending = match n.name {
+            '[' => ']',
+            '(' => ')',
+            '{' => '}',
+            _ => {
+                unreachable!();
+            }
+        };
+
+        self.wr.write_raw_char(None, n.name)?;
+        emit!(self, n.value);
+        self.wr.write_raw_char(None, ending)?;
     }
 
     #[emitter]

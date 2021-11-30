@@ -565,6 +565,125 @@ where
             children,
         })
     }
+
+    pub fn parse_simple_block(&mut self, ending: char) -> PResult<SimpleBlock> {
+        let start_pos = self.input.last_pos()? - BytePos(1);
+        let span = self.input.cur_span()?;
+        let mut simple_block = SimpleBlock {
+            span: Default::default(),
+            name: Default::default(),
+            value: Tokens {
+                span: Default::default(),
+                tokens: vec![],
+            },
+        };
+
+        loop {
+            match cur!(self) {
+                tok!("}") if ending == '}' => {
+                    simple_block.value.span = span!(self, span.lo);
+
+                    self.input.bump()?;
+
+                    let ending_pos = self.input.last_pos()?;
+
+                    simple_block.span =
+                        swc_common::Span::new(ending_pos, start_pos, Default::default());
+                    simple_block.name = '{';
+
+                    return Ok(simple_block);
+                }
+                tok!(")") if ending == ')' => {
+                    simple_block.value.span = span!(self, span.lo);
+
+                    self.input.bump()?;
+
+                    let ending_pos = self.input.last_pos()?;
+
+                    simple_block.span =
+                        swc_common::Span::new(ending_pos, start_pos, Default::default());
+                    simple_block.name = '(';
+
+                    return Ok(simple_block);
+                }
+                tok!("]") if ending == ']' => {
+                    simple_block.value.span = span!(self, span.lo);
+
+                    self.input.bump()?;
+
+                    let ending_pos = self.input.last_pos()?;
+
+                    simple_block.span =
+                        swc_common::Span::new(ending_pos, start_pos, Default::default());
+                    simple_block.name = '[';
+
+                    return Ok(simple_block);
+                }
+                _ => {
+                    simple_block.value.tokens.extend(self.input.bump()?);
+                }
+            }
+        }
+    }
+
+    pub fn parse_function(&mut self) -> PResult<Function> {
+        let start_pos = self.input.last_pos()? - BytePos(1);
+        let span = self.input.cur_span()?;
+        let mut function = Function {
+            span: Default::default(),
+            value: Tokens {
+                span: Default::default(),
+                tokens: vec![],
+            },
+        };
+
+        loop {
+            match cur!(self) {
+                tok!(")") => {
+                    function.value.span = span!(self, span.lo);
+
+                    // TODO fix me
+                    // self.input.bump()?;
+
+                    let ending_pos = self.input.last_pos()?;
+
+                    function.span =
+                        swc_common::Span::new(ending_pos, start_pos, Default::default());
+
+                    return Ok(function);
+                }
+                _ => {
+                    function.value.tokens.extend(self.input.bump()?);
+                }
+            }
+        }
+    }
+
+    pub fn parse_component_value(&mut self) -> PResult<ComponentValue> {
+        match cur!(self) {
+            tok!("[") => return Ok(ComponentValue::SimpleBlock(self.parse_simple_block(']')?)),
+            tok!("(") => return Ok(ComponentValue::SimpleBlock(self.parse_simple_block(')')?)),
+            tok!("{") => return Ok(ComponentValue::SimpleBlock(self.parse_simple_block('}')?)),
+            tok!("function") => return Ok(ComponentValue::Function(self.parse_function()?)),
+            _ => {
+                let token = self.input.bump()?;
+
+                return match token {
+                    Some(t) => {
+                        let span = self.input.cur_span()?;
+
+                        Ok(ComponentValue::Tokens(Tokens {
+                            span: span!(self, span.lo),
+                            tokens: vec![t],
+                        }))
+                    }
+                    _ => {
+                        unreachable!();
+                    }
+                };
+            }
+        }
+    }
 }
 
 impl<I> Parse<Num> for Parser<I>

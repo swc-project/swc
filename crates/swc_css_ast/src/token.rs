@@ -2,6 +2,12 @@ use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
 use swc_common::{ast_node, Span};
 
+#[ast_node]
+pub struct TokenAndSpan {
+    pub span: Span,
+    pub token: Token,
+}
+
 #[ast_node("Tokens")]
 #[derive(Default)]
 pub struct Tokens {
@@ -9,10 +15,28 @@ pub struct Tokens {
     pub tokens: Vec<TokenAndSpan>,
 }
 
-#[ast_node]
-pub struct TokenAndSpan {
+#[ast_node("SimpleBlock")]
+#[derive(Default)]
+pub struct SimpleBlock {
     pub span: Span,
-    pub token: Token,
+    pub name: char,
+    pub value: Tokens,
+}
+
+#[ast_node("Function")]
+pub struct Function {
+    pub span: Span,
+    pub value: Tokens,
+}
+
+#[ast_node]
+pub enum ComponentValue {
+    #[tag("SimpleBlock")]
+    SimpleBlock(SimpleBlock),
+    #[tag("Function")]
+    Function(Function),
+    #[tag("Tokens")]
+    Tokens(Tokens),
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

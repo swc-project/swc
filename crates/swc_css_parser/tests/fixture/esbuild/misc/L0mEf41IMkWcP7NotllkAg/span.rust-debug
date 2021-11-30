@@ -43,18 +43,18 @@ error: Ident
 error: Tokens
  --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:9
   |
+1 | @unknown{
+  |         ^
+
+error: Tokens
+ --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:10
+  |
 1 |   @unknown{
-  |  _________^
+  |  __________^
 2 | | a: b;
 3 | | c: d;
 4 | | }
-  | |_^
-
-error: LBrace
- --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:9
-  |
-1 | @unknown{
-  |         ^
+  | |_
 
 error: WhiteSpace { value: Atom('
 ' type=inline) }
@@ -142,10 +142,4 @@ error: WhiteSpace { value: Atom('
   |  ______^
 4 | | }
   | |_
-
-error: RBrace
- --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:4:1
-  |
-4 | }
-  | ^
 

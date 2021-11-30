@@ -16,7 +16,7 @@ where
     I: ParserInput,
 {
     pub(super) fn parse_at_rule(&mut self, _ctx: AtRuleContext) -> PResult<AtRule> {
-        let start = self.input.cur_span()?.lo;
+        let at_rule_span = self.input.cur_span()?;
 
         assert!(matches!(cur!(self), Token::AtKeyword { .. }));
 
@@ -36,7 +36,7 @@ where
                 if at_rule_charset.is_ok() {
                     return at_rule_charset
                         .map(|mut r: CharsetRule| {
-                            r.span.lo = start;
+                            r.span.lo = at_rule_span.lo;
                             r
                         })
                         .map(AtRule::Charset);
@@ -51,7 +51,7 @@ where
                 if at_rule_import.is_ok() {
                     return at_rule_import
                         .map(|mut r: ImportRule| {
-                            r.span.lo = start;
+                            r.span.lo = at_rule_span.lo;
                             r
                         })
                         .map(AtRule::Import);
@@ -67,7 +67,7 @@ where
                 if at_rule_keyframe.is_ok() {
                     return at_rule_keyframe
                         .map(|mut r: KeyframesRule| {
-                            r.span.lo = start;
+                            r.span.lo = at_rule_span.lo;
                             r
                         })
                         .map(AtRule::Keyframes);
@@ -82,7 +82,7 @@ where
                 if at_rule_font_face.is_ok() {
                     return at_rule_font_face
                         .map(|mut r: FontFaceRule| {
-                            r.span.lo = start;
+                            r.span.lo = at_rule_span.lo;
                             r
                         })
                         .map(AtRule::FontFace);
@@ -97,7 +97,7 @@ where
                 if at_rule_supports.is_ok() {
                     return at_rule_supports
                         .map(|mut r: SupportsRule| {
-                            r.span.lo = start;
+                            r.span.lo = at_rule_span.lo;
                             r
                         })
                         .map(AtRule::Supports);
@@ -112,7 +112,7 @@ where
                 if at_rule_media.is_ok() {
                     return at_rule_media
                         .map(|mut r: MediaRule| {
-                            r.span.lo = start;
+                            r.span.lo = at_rule_span.lo;
                             r
                         })
                         .map(AtRule::Media);
@@ -127,7 +127,7 @@ where
                 if at_rule_page.is_ok() {
                     return at_rule_page
                         .map(|mut r: PageRule| {
-                            r.span.lo = start;
+                            r.span.lo = at_rule_span.lo;
                             r
                         })
                         .map(AtRule::Page);
@@ -142,7 +142,7 @@ where
                 if at_rule_document.is_ok() {
                     return at_rule_document
                         .map(|mut r: DocumentRule| {
-                            r.span.lo = start;
+                            r.span.lo = at_rule_span.lo;
                             r
                         })
                         .map(AtRule::Document);
@@ -157,7 +157,7 @@ where
                 if at_rule_namespace.is_ok() {
                     return at_rule_namespace
                         .map(|mut r: NamespaceRule| {
-                            r.span.lo = start;
+                            r.span.lo = at_rule_span.lo;
                             r
                         })
                         .map(AtRule::Namespace);
@@ -172,7 +172,7 @@ where
                 if at_rule_viewport.is_ok() {
                     return at_rule_viewport
                         .map(|mut r: ViewportRule| {
-                            r.span.lo = start;
+                            r.span.lo = at_rule_span.lo;
                             r
                         })
                         .map(AtRule::Viewport);
@@ -182,71 +182,78 @@ where
             _ => {}
         }
 
-        let name = Ident {
-            span: span!(self, start),
-            value: name.0,
-            raw: name.1,
+        let prelude_span = self.input.cur_span()?;
+
+        // Consume the next input token. Create a new at-rule with its name set to the
+        // value of the current input token, its prelude initially set to an empty list,
+        // and its value initially set to nothing.
+        let mut at_rule = UnknownAtRule {
+            span: span!(self, at_rule_span.lo),
+            name: Ident {
+                span: span!(self, at_rule_span.lo),
+                value: name.0,
+                raw: name.1,
+            },
+            prelude: Tokens {
+                span: span!(self, prelude_span.lo),
+                tokens: vec![],
+            },
+            block: None,
         };
 
-        self.input.skip_ws()?;
+        loop {
+            // <EOF-token>
+            // This is a parse error. Return the at-rule.
+            if is!(self, EOF) {
+                at_rule.prelude.span = span!(self, prelude_span.lo);
+                at_rule.span = span!(self, at_rule_span.lo);
 
-        let token_start = self.input.cur_span()?.lo;
-        let mut tokens = vec![];
-
-        if is!(self, "{") {
-            tokens.push(self.input.bump()?.unwrap());
-
-            let mut brace_cnt = 1;
-            loop {
-                if is!(self, "}") {
-                    brace_cnt -= 1;
-                    if brace_cnt == 0 {
-                        tokens.push(self.input.bump()?.unwrap());
-                        break;
-                    }
-                }
-                if is!(self, "{") {
-                    brace_cnt += 1;
-                }
-
-                let token = self.input.bump()?;
-                match token {
-                    Some(token) => tokens.push(token),
-                    None => break,
-                }
-            }
-        } else {
-            loop {
-                if eat!(self, ";") {
-                    break;
-                }
-
-                if is!(self, EOF) {
-                    break;
-                }
-                let token = self.input.bump()?;
-                match token {
-                    Some(token) => tokens.push(token),
-                    None => break,
-                }
+                return Ok(AtRule::Unknown(at_rule));
             }
 
-            if !is_one_of!(self, EOF, ";") {
-                return Err(Error::new(
-                    span!(self, start),
-                    ErrorKind::UnknownAtRuleNotTerminated,
-                ));
+            match cur!(self) {
+                // <semicolon-token>
+                // Return the at-rule.
+                tok!(";") => {
+                    self.input.bump()?;
+
+                    at_rule.prelude.span = span!(self, prelude_span.lo);
+                    at_rule.span = span!(self, at_rule_span.lo);
+
+                    return Ok(AtRule::Unknown(at_rule));
+                }
+                // <{-token>
+                // Consume a simple block and assign it to the at-rule’s block. Return the at-rule.
+                tok!("{") => {
+                    at_rule.prelude.span = span!(self, prelude_span.lo);
+
+                    self.input.bump()?;
+
+                    at_rule.block = Some(self.parse_simple_block('}')?);
+                    at_rule.span = span!(self, at_rule_span.lo);
+
+                    return Ok(AtRule::Unknown(at_rule));
+                }
+                // anything else
+                // Reconsume the current input token. Consume a component value. Append the returned
+                // value to the at-rule’s prelude.
+                _ => {
+                    let token = match self.parse_component_value()? {
+                        ComponentValue::SimpleBlock(i) => {
+                            at_rule.prelude.tokens.extend(i.value.tokens);
+                        }
+                        ComponentValue::Function(i) => {
+                            at_rule.prelude.tokens.extend(i.value.tokens);
+                        }
+                        ComponentValue::Tokens(i) => {
+                            at_rule.prelude.tokens.extend(i.tokens);
+                        }
+                    };
+
+                    token
+                }
             }
         }
-
-        Ok(AtRule::Unknown(UnknownAtRule {
-            span: span!(self, start),
-            name,
-            tokens: Tokens {
-                span: span!(self, token_start),
-                tokens,
-            },
-        }))
     }
 }
 
