@@ -2923,7 +2923,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.52.18"
+version = "0.52.19"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -3385,7 +3385,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.2.4"
+version = "0.2.5"
 dependencies = [
  "anyhow",
  "rayon",
