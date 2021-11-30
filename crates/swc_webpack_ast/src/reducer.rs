@@ -202,30 +202,7 @@ impl ReduceAst {
                         to.extend(body.stmts.into_iter().map(T::from_stmt));
                     }
                 }
-                Stmt::Try(ts) => {
-                    to.extend(ts.block.stmts.into_iter().map(T::from_stmt));
-                    if let Some(h) = ts.handler {
-                        if let Some(p) = h.param {
-                            let mut exprs = vec![];
-                            preserve_pat(&mut exprs, p);
 
-                            if !exprs.is_empty() {
-                                to.push(T::from_stmt(Stmt::Expr(ExprStmt {
-                                    span: DUMMY_SP,
-                                    expr: Box::new(Expr::Seq(SeqExpr {
-                                        span: DUMMY_SP,
-                                        exprs,
-                                    })),
-                                })));
-                            }
-                        }
-                        to.extend(h.body.stmts.into_iter().map(T::from_stmt));
-                    }
-
-                    if let Some(f) = ts.finalizer {
-                        to.extend(f.stmts.into_iter().map(T::from_stmt));
-                    }
-                }
                 Stmt::Decl(Decl::Var(d)) => {
                     let mut exprs = vec![];
 
@@ -1493,6 +1470,39 @@ impl VisitMut for ReduceAst {
                     stmt.take();
                     return;
                 }
+            }
+
+            Stmt::Try(ts) => {
+                self.changed = true;
+
+                let mut stmts = ts.block.stmts.take();
+                if let Some(h) = ts.handler.take() {
+                    if let Some(p) = h.param {
+                        let mut exprs = vec![];
+                        preserve_pat(&mut exprs, p);
+
+                        if !exprs.is_empty() {
+                            stmts.push(Stmt::Expr(ExprStmt {
+                                span: DUMMY_SP,
+                                expr: Box::new(Expr::Seq(SeqExpr {
+                                    span: DUMMY_SP,
+                                    exprs,
+                                })),
+                            }));
+                        }
+                    }
+                    stmts.extend(h.body.stmts);
+                }
+
+                if let Some(f) = ts.finalizer.take() {
+                    stmts.extend(f.stmts);
+                }
+
+                *stmt = Stmt::Block(BlockStmt {
+                    span: DUMMY_SP,
+                    stmts,
+                });
+                return;
             }
 
             // TODO: Flatten loops
