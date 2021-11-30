@@ -35,6 +35,10 @@ impl Visit for AssertValid {
     fn visit_invalid(&mut self, i: &Invalid, _: &dyn Node) {
         panic!("found invalid: {:?}", i)
     }
+
+    fn visit_empty_stmt(&mut self, i: &EmptyStmt, _: &dyn Node) {
+        panic!("found empty: {:?}", i)
+    }
 }
 
 #[testing::fixture("../swc_ecma_parser/tests/typescript/tsc/**/input.ts")]
