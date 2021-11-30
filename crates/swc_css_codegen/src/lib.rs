@@ -354,7 +354,7 @@ where
     fn emit_block(&mut self, n: &Block) -> Result {
         punct!(self, "{");
 
-        self.emit_list(&n.items, ListFormat::SemiDelimited | ListFormat::MultiLine)?;
+        self.emit_list(&n.value, ListFormat::SemiDelimited | ListFormat::MultiLine)?;
 
         punct!(self, "}");
     }

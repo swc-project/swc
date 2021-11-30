@@ -106,7 +106,7 @@
               "end": 168,
               "ctxt": 0
             },
-            "items": [
+            "value": [
               {
                 "type": "Declaration",
                 "span": {
@@ -194,7 +194,7 @@
               "end": 221,
               "ctxt": 0
             },
-            "items": [
+            "value": [
               {
                 "type": "Declaration",
                 "span": {
@@ -310,7 +310,7 @@
               "end": 276,
               "ctxt": 0
             },
-            "items": [
+            "value": [
               {
                 "type": "Declaration",
                 "span": {
@@ -409,7 +409,7 @@
               "end": 299,
               "ctxt": 0
             },
-            "items": [
+            "value": [
               {
                 "type": "Declaration",
                 "span": {
@@ -512,7 +512,7 @@
               "end": 328,
               "ctxt": 0
             },
-            "items": [
+            "value": [
               {
                 "type": "Declaration",
                 "span": {
@@ -597,7 +597,7 @@
               "end": 365,
               "ctxt": 0
             },
-            "items": [
+            "value": [
               {
                 "type": "Declaration",
                 "span": {

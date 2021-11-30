@@ -64,7 +64,7 @@ define!({
 
     pub struct Block {
         pub span: Span,
-        pub items: Vec<DeclarationBlockItem>,
+        pub value: Vec<DeclarationBlockItem>,
     }
 
     pub enum DeclarationBlockItem {

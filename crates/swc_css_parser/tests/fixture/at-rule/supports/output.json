@@ -108,7 +108,7 @@
               "end": 66,
               "ctxt": 0
             },
-            "items": [
+            "value": [
               {
                 "type": "Declaration",
                 "span": {
@@ -247,7 +247,7 @@
               "end": 135,
               "ctxt": 0
             },
-            "items": [
+            "value": [
               {
                 "type": "Declaration",
                 "span": {
@@ -419,7 +419,7 @@
                   "end": 234,
                   "ctxt": 0
                 },
-                "items": [
+                "value": [
                   {
                     "type": "Declaration",
                     "span": {

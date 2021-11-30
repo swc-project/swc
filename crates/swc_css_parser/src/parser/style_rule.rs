@@ -107,13 +107,13 @@ where
 
         self.input.skip_ws()?;
 
-        let items = self.parse()?;
+        let value = self.parse()?;
 
         expect!(self, "}");
 
         let span = span!(self, start);
 
-        Ok(Block { span, items })
+        Ok(Block { span, value })
     }
 }
 
