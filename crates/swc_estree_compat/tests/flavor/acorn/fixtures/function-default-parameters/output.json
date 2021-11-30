@@ -9,6 +9,16 @@
               "end": 44,
               "left": {
                 "end": 40,
+                "loc": {
+                  "end": {
+                    "column": 10,
+                    "line": 2
+                  },
+                  "start": {
+                    "column": 9,
+                    "line": 2
+                  }
+                },
                 "name": "a",
                 "range": [
                   39,
@@ -17,6 +27,16 @@
                 "start": 39,
                 "type": "Identifier"
               },
+              "loc": {
+                "end": {
+                  "column": 14,
+                  "line": 2
+                },
+                "start": {
+                  "column": 9,
+                  "line": 2
+                }
+              },
               "operator": "*",
               "range": [
                 39,
@@ -24,6 +44,16 @@
               ],
               "right": {
                 "end": 44,
+                "loc": {
+                  "end": {
+                    "column": 14,
+                    "line": 2
+                  },
+                  "start": {
+                    "column": 13,
+                    "line": 2
+                  }
+                },
                 "name": "b",
                 "range": [
                   43,
@@ -36,6 +66,16 @@
               "type": "BinaryExpression"
             },
             "end": 45,
+            "loc": {
+              "end": {
+                "column": 15,
+                "line": 2
+              },
+              "start": {
+                "column": 2,
+                "line": 2
+              }
+            },
             "range": [
               32,
               45
@@ -45,6 +85,16 @@
           }
         ],
         "end": 47,
+        "loc": {
+          "end": {
+            "column": 1,
+            "line": 3
+          },
+          "start": {
+            "column": 28,
+            "line": 1
+          }
+        },
         "range": [
           28,
           47
@@ -57,6 +107,16 @@
       "generator": false,
       "id": {
         "end": 17,
+        "loc": {
+          "end": {
+            "column": 17,
+            "line": 1
+          },
+          "start": {
+            "column": 9,
+            "line": 1
+          }
+        },
         "name": "multiply",
         "range": [
           9,
@@ -65,9 +125,29 @@
         "start": 9,
         "type": "Identifier"
       },
+      "loc": {
+        "end": {
+          "column": 1,
+          "line": 3
+        },
+        "start": {
+          "column": 0,
+          "line": 1
+        }
+      },
       "params": [
         {
           "end": 19,
+          "loc": {
+            "end": {
+              "column": 19,
+              "line": 1
+            },
+            "start": {
+              "column": 18,
+              "line": 1
+            }
+          },
           "name": "a",
           "range": [
             18,
@@ -80,6 +160,16 @@
           "end": 26,
           "left": {
             "end": 22,
+            "loc": {
+              "end": {
+                "column": 22,
+                "line": 1
+              },
+              "start": {
+                "column": 21,
+                "line": 1
+              }
+            },
             "name": "b",
             "range": [
               21,
@@ -88,12 +178,32 @@
             "start": 21,
             "type": "Identifier"
           },
+          "loc": {
+            "end": {
+              "column": 26,
+              "line": 1
+            },
+            "start": {
+              "column": 21,
+              "line": 1
+            }
+          },
           "range": [
             21,
             26
           ],
           "right": {
             "end": 26,
+            "loc": {
+              "end": {
+                "column": 26,
+                "line": 1
+              },
+              "start": {
+                "column": 25,
+                "line": 1
+              }
+            },
             "range": [
               25,
               26
@@ -115,10 +225,20 @@
       "type": "FunctionDeclaration"
     }
   ],
-  "end": 47,
+  "end": 48,
+  "loc": {
+    "end": {
+      "column": 0,
+      "line": 4
+    },
+    "start": {
+      "column": 0,
+      "line": 1
+    }
+  },
   "range": [
     0,
-    47
+    48
   ],
   "sourceType": "script",
   "start": 0,

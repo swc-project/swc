@@ -40,7 +40,8 @@
             "token": {
               "Num": {
                 "value": 10.0,
-                "raw": "10"
+                "raw": "10",
+                "type": "integer"
               }
             }
           },

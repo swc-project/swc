@@ -6,6 +6,16 @@
           "end": 37,
           "id": {
             "end": 29,
+            "loc": {
+              "end": {
+                "column": 7,
+                "line": 3
+              },
+              "start": {
+                "column": 6,
+                "line": 3
+              }
+            },
             "name": "x",
             "range": [
               28,
@@ -16,6 +26,16 @@
           },
           "init": {
             "end": 37,
+            "loc": {
+              "end": {
+                "column": 15,
+                "line": 3
+              },
+              "start": {
+                "column": 10,
+                "line": 3
+              }
+            },
             "range": [
               32,
               37
@@ -24,6 +44,16 @@
             "start": 32,
             "type": "Literal",
             "value": "abc"
+          },
+          "loc": {
+            "end": {
+              "column": 15,
+              "line": 3
+            },
+            "start": {
+              "column": 6,
+              "line": 3
+            }
           },
           "range": [
             28,
@@ -35,6 +65,16 @@
       ],
       "end": 38,
       "kind": "const",
+      "loc": {
+        "end": {
+          "column": 16,
+          "line": 3
+        },
+        "start": {
+          "column": 0,
+          "line": 3
+        }
+      },
       "range": [
         22,
         38
@@ -43,10 +83,20 @@
       "type": "VariableDeclaration"
     }
   ],
-  "end": 38,
+  "end": 39,
+  "loc": {
+    "end": {
+      "column": 0,
+      "line": 4
+    },
+    "start": {
+      "column": 0,
+      "line": 1
+    }
+  },
   "range": [
     0,
-    38
+    39
   ],
   "sourceType": "script",
   "start": 0,

@@ -125,6 +125,14 @@ fn assert_flavor(flavor: Flavor, input: &Path, output_json_path: &Path) {
                         }
                     }
 
+                    // We don't try to match fully.
+                    "column" | "line" => match value {
+                        Value::Number(..) => {
+                            *value = Value::Null;
+                        }
+                        _ => {}
+                    },
+
                     _ => {}
                 }
             });

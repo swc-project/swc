@@ -6,6 +6,16 @@
           "end": 58,
           "id": {
             "end": 12,
+            "loc": {
+              "end": {
+                "column": 12,
+                "line": 1
+              },
+              "start": {
+                "column": 6,
+                "line": 1
+              }
+            },
             "name": "square",
             "range": [
               6,
@@ -23,6 +33,16 @@
                     "end": 56,
                     "left": {
                       "end": 47,
+                      "loc": {
+                        "end": {
+                          "column": 47,
+                          "line": 1
+                        },
+                        "start": {
+                          "column": 41,
+                          "line": 1
+                        }
+                      },
                       "name": "number",
                       "range": [
                         41,
@@ -31,6 +51,16 @@
                       "start": 41,
                       "type": "Identifier"
                     },
+                    "loc": {
+                      "end": {
+                        "column": 56,
+                        "line": 1
+                      },
+                      "start": {
+                        "column": 41,
+                        "line": 1
+                      }
+                    },
                     "operator": "*",
                     "range": [
                       41,
@@ -38,6 +68,16 @@
                     ],
                     "right": {
                       "end": 56,
+                      "loc": {
+                        "end": {
+                          "column": 56,
+                          "line": 1
+                        },
+                        "start": {
+                          "column": 50,
+                          "line": 1
+                        }
+                      },
                       "name": "number",
                       "range": [
                         50,
@@ -50,6 +90,16 @@
                     "type": "BinaryExpression"
                   },
                   "end": 56,
+                  "loc": {
+                    "end": {
+                      "column": 56,
+                      "line": 1
+                    },
+                    "start": {
+                      "column": 34,
+                      "line": 1
+                    }
+                  },
                   "range": [
                     34,
                     56
@@ -59,6 +109,16 @@
                 }
               ],
               "end": 58,
+              "loc": {
+                "end": {
+                  "column": 58,
+                  "line": 1
+                },
+                "start": {
+                  "column": 32,
+                  "line": 1
+                }
+              },
               "range": [
                 32,
                 58
@@ -69,9 +129,29 @@
             "end": 58,
             "generator": false,
             "id": null,
+            "loc": {
+              "end": {
+                "column": 58,
+                "line": 1
+              },
+              "start": {
+                "column": 15,
+                "line": 1
+              }
+            },
             "params": [
               {
                 "end": 30,
+                "loc": {
+                  "end": {
+                    "column": 30,
+                    "line": 1
+                  },
+                  "start": {
+                    "column": 24,
+                    "line": 1
+                  }
+                },
                 "name": "number",
                 "range": [
                   24,
@@ -88,6 +168,16 @@
             "start": 15,
             "type": "FunctionExpression"
           },
+          "loc": {
+            "end": {
+              "column": 58,
+              "line": 1
+            },
+            "start": {
+              "column": 6,
+              "line": 1
+            }
+          },
           "range": [
             6,
             58
@@ -98,6 +188,16 @@
       ],
       "end": 58,
       "kind": "const",
+      "loc": {
+        "end": {
+          "column": 58,
+          "line": 1
+        },
+        "start": {
+          "column": 0,
+          "line": 1
+        }
+      },
       "range": [
         0,
         58
@@ -106,10 +206,20 @@
       "type": "VariableDeclaration"
     }
   ],
-  "end": 58,
+  "end": 59,
+  "loc": {
+    "end": {
+      "column": 0,
+      "line": 2
+    },
+    "start": {
+      "column": 0,
+      "line": 1
+    }
+  },
   "range": [
     0,
-    58
+    59
   ],
   "sourceType": "script",
   "start": 0,

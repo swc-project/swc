@@ -9,6 +9,16 @@
               "end": 50,
               "left": {
                 "end": 41,
+                "loc": {
+                  "end": {
+                    "column": 15,
+                    "line": 2
+                  },
+                  "start": {
+                    "column": 9,
+                    "line": 2
+                  }
+                },
                 "name": "number",
                 "range": [
                   35,
@@ -17,6 +27,16 @@
                 "start": 35,
                 "type": "Identifier"
               },
+              "loc": {
+                "end": {
+                  "column": 24,
+                  "line": 2
+                },
+                "start": {
+                  "column": 9,
+                  "line": 2
+                }
+              },
               "operator": "*",
               "range": [
                 35,
@@ -24,6 +44,16 @@
               ],
               "right": {
                 "end": 50,
+                "loc": {
+                  "end": {
+                    "column": 24,
+                    "line": 2
+                  },
+                  "start": {
+                    "column": 18,
+                    "line": 2
+                  }
+                },
                 "name": "number",
                 "range": [
                   44,
@@ -36,6 +66,16 @@
               "type": "BinaryExpression"
             },
             "end": 51,
+            "loc": {
+              "end": {
+                "column": 25,
+                "line": 2
+              },
+              "start": {
+                "column": 2,
+                "line": 2
+              }
+            },
             "range": [
               28,
               51
@@ -45,6 +85,16 @@
           }
         ],
         "end": 53,
+        "loc": {
+          "end": {
+            "column": 1,
+            "line": 3
+          },
+          "start": {
+            "column": 24,
+            "line": 1
+          }
+        },
         "range": [
           24,
           53
@@ -57,6 +107,16 @@
       "generator": false,
       "id": {
         "end": 15,
+        "loc": {
+          "end": {
+            "column": 15,
+            "line": 1
+          },
+          "start": {
+            "column": 9,
+            "line": 1
+          }
+        },
         "name": "square",
         "range": [
           9,
@@ -65,9 +125,29 @@
         "start": 9,
         "type": "Identifier"
       },
+      "loc": {
+        "end": {
+          "column": 1,
+          "line": 3
+        },
+        "start": {
+          "column": 0,
+          "line": 1
+        }
+      },
       "params": [
         {
           "end": 22,
+          "loc": {
+            "end": {
+              "column": 22,
+              "line": 1
+            },
+            "start": {
+              "column": 16,
+              "line": 1
+            }
+          },
           "name": "number",
           "range": [
             16,
@@ -85,10 +165,20 @@
       "type": "FunctionDeclaration"
     }
   ],
-  "end": 53,
+  "end": 54,
+  "loc": {
+    "end": {
+      "column": 0,
+      "line": 4
+    },
+    "start": {
+      "column": 0,
+      "line": 1
+    }
+  },
   "range": [
     0,
-    53
+    54
   ],
   "sourceType": "script",
   "start": 0,

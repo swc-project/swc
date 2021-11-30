@@ -120,7 +120,8 @@
                         "value": 2.0,
                         "raw_value": "2",
                         "unit": "px",
-                        "raw_unit": "px"
+                        "raw_unit": "px",
+                        "type": "integer"
                       }
                     }
                   }

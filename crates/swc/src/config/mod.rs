@@ -1,5 +1,5 @@
 use self::util::BoolOrObject;
-use crate::{builder::PassBuilder, SwcComments, SwcImportResolver};
+use crate::{builder::PassBuilder, plugin::PluginConfig, SwcComments, SwcImportResolver};
 use anyhow::{bail, Context, Error};
 use dashmap::DashMap;
 use either::Either;
@@ -274,6 +274,7 @@ impl Options {
             base_url,
             paths,
             minify: js_minify,
+            experimental,
             ..
         } = config.jsc;
 
@@ -378,6 +379,7 @@ impl Options {
                 syntax.typescript()
             ),
             resolver_with_mark(top_level_mark),
+            crate::plugin::plugins(experimental.plugins),
             custom_before_pass(&program),
             // handle jsx
             Optional::new(
@@ -650,12 +652,6 @@ fn true_by_default() -> bool {
     true
 }
 
-impl Default for JsMinifyOptions {
-    fn default() -> Self {
-        serde_json::from_value(serde_json::Value::Object(Default::default())).unwrap()
-    }
-}
-
 /// `jsc.minify.sourceMap`
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
@@ -926,10 +922,18 @@ pub struct JscConfig {
 /// `jsc.experimental` in `.swcrc`
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
-pub struct JscExperimental {}
+pub struct JscExperimental {
+    /// This requires cargo feature `plugin`.
+    #[serde(default)]
+    pub plugins: Option<Vec<PluginConfig>>,
+}
 
 impl Merge for JscExperimental {
-    fn merge(&mut self, _from: &Self) {}
+    fn merge(&mut self, from: &Self) {
+        if self.plugins.is_none() {
+            *self = from.clone();
+        }
+    }
 }
 
 /// `paths` section of `tsconfig.json`.
