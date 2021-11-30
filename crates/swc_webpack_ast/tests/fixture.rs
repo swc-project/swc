@@ -77,6 +77,7 @@ fn assert_no_invalid(input: PathBuf) {
         };
 
         module.visit_mut_with(&mut pass);
+        dbg!(&module);
         module.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
 
         Ok(())
