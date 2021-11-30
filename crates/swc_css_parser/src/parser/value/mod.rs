@@ -631,7 +631,11 @@ where
             tok!("[") => return Ok(ComponentValue::SimpleBlock(self.parse_simple_block(']')?)),
             tok!("(") => return Ok(ComponentValue::SimpleBlock(self.parse_simple_block(')')?)),
             tok!("{") => return Ok(ComponentValue::SimpleBlock(self.parse_simple_block('}')?)),
-            tok!("function") => return Ok(ComponentValue::Function(self.parse()?)),
+            tok!("function") => {
+                self.ctx.component_value = true;
+
+                return Ok(ComponentValue::Function(self.parse()?));
+            }
             _ => {
                 let token = self.input.bump()?;
 

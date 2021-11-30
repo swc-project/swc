@@ -243,8 +243,16 @@ where
                             at_rule.prelude.tokens.extend(i.value.tokens);
                         }
                         ComponentValue::Function(i) => {
-                            // TODO fix me
-                            // at_rule.prelude.tokens.extend(i.value.tokens);
+                            for val in i.value.into_iter() {
+                                match val {
+                                    Value::Lazy(token) => {
+                                        at_rule.prelude.tokens.extend(token.tokens);
+                                    }
+                                    _ => {
+                                        unreachable!();
+                                    }
+                                }
+                            }
                         }
                         ComponentValue::Tokens(i) => {
                             at_rule.prelude.tokens.extend(i.tokens);

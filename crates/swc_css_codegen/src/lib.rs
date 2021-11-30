@@ -92,7 +92,7 @@ where
     #[emitter]
     fn emit_import_source(&mut self, n: &ImportSource) -> Result {
         match n {
-            ImportSource::Fn(n) => emit!(self, n),
+            ImportSource::Function(n) => emit!(self, n),
             ImportSource::Url(n) => emit!(self, n),
             ImportSource::Str(n) => emit!(self, n),
         }
@@ -269,11 +269,11 @@ where
     }
 
     #[emitter]
-    fn emit_fn_value(&mut self, n: &FnValue) -> Result {
+    fn emit_function(&mut self, n: &Function) -> Result {
         emit!(self, n.name);
 
         punct!(self, "(");
-        self.emit_list(&n.args, ListFormat::CommaDelimited)?;
+        self.emit_list(&n.value, ListFormat::CommaDelimited)?;
         punct!(self, ")");
     }
 
@@ -286,7 +286,7 @@ where
             Value::Hash(n) => emit!(self, n),
             Value::Ident(n) => emit!(self, n),
             Value::Str(n) => emit!(self, n),
-            Value::Fn(n) => emit!(self, n),
+            Value::Function(n) => emit!(self, n),
             Value::Bin(n) => emit!(self, n),
             Value::Brace(n) => emit!(self, n),
             Value::SquareBracketBlock(n) => emit!(self, n),

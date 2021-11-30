@@ -1,4 +1,4 @@
-use crate::{Function};
+use crate::Function;
 use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
 use swc_common::{ast_node, Span};
