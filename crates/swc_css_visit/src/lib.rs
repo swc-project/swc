@@ -25,12 +25,6 @@ define!({
         pub value: Tokens,
     }
 
-    pub enum ComponentValue {
-        SimpleBlock(SimpleBlock),
-        Function(Function),
-        Tokens(Tokens),
-    }
-
     pub struct Ident {
         pub span: Span,
         pub value: JsWord,
@@ -80,6 +74,8 @@ define!({
     }
 
     pub enum Value {
+        SimpleBlock(SimpleBlock),
+
         SquareBracketBlock(SquareBracketBlock),
 
         RoundBracketBlock(RoundBracketBlock),

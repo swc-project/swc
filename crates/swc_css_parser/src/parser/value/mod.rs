@@ -626,12 +626,12 @@ where
         }
     }
 
-    pub fn parse_component_value(&mut self) -> PResult<ComponentValue> {
+    pub fn parse_component_value(&mut self) -> PResult<Value> {
         match cur!(self) {
-            tok!("[") => return Ok(ComponentValue::SimpleBlock(self.parse_simple_block(']')?)),
-            tok!("(") => return Ok(ComponentValue::SimpleBlock(self.parse_simple_block(')')?)),
-            tok!("{") => return Ok(ComponentValue::SimpleBlock(self.parse_simple_block('}')?)),
-            tok!("function") => return Ok(ComponentValue::Function(self.parse()?)),
+            tok!("[") => return Ok(Value::SimpleBlock(self.parse_simple_block(']')?)),
+            tok!("(") => return Ok(Value::SimpleBlock(self.parse_simple_block(')')?)),
+            tok!("{") => return Ok(Value::SimpleBlock(self.parse_simple_block('}')?)),
+            tok!("function") => return Ok(Value::Function(self.parse()?)),
             _ => {
                 let token = self.input.bump()?;
 
@@ -639,7 +639,7 @@ where
                     Some(t) => {
                         let span = self.input.cur_span()?;
 
-                        Ok(ComponentValue::Tokens(Tokens {
+                        Ok(Value::Lazy(Tokens {
                             span: span!(self, span.lo),
                             tokens: vec![t],
                         }))

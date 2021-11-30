@@ -5,6 +5,9 @@ use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 #[ast_node]
 pub enum Value {
+    #[tag("SimpleBlock")]
+    SimpleBlock(SimpleBlock),
+
     #[tag("SquareBracketBlock")]
     SquareBracketBlock(SquareBracketBlock),
 
@@ -172,14 +175,4 @@ pub struct SimpleBlock {
     pub span: Span,
     pub name: char,
     pub value: Tokens,
-}
-
-#[ast_node]
-pub enum ComponentValue {
-    #[tag("SimpleBlock")]
-    SimpleBlock(SimpleBlock),
-    #[tag("Function")]
-    Function(Function),
-    #[tag("Tokens")]
-    Tokens(Tokens),
 }

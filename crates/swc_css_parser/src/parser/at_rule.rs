@@ -239,10 +239,10 @@ where
                 // value to the at-rule’s prelude.
                 _ => {
                     let token = match self.parse_component_value()? {
-                        ComponentValue::SimpleBlock(i) => {
+                        Value::SimpleBlock(i) => {
                             at_rule.prelude.tokens.extend(i.value.tokens);
                         }
-                        ComponentValue::Function(i) => {
+                        Value::Function(i) => {
                             for val in i.value.into_iter() {
                                 match val {
                                     Value::Lazy(token) => {
@@ -254,8 +254,11 @@ where
                                 }
                             }
                         }
-                        ComponentValue::Tokens(i) => {
+                        Value::Lazy(i) => {
                             at_rule.prelude.tokens.extend(i.tokens);
+                        }
+                        _ => {
+                            unreachable!();
                         }
                     };
 
