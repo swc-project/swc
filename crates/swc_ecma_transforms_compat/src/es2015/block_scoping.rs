@@ -163,6 +163,7 @@ impl BlockScoping {
                 has_return: false,
                 mutated,
                 in_switch_case: false,
+                in_nested_loop: false,
             };
 
             body_stmt.visit_mut_with(&mut flow_helper);
@@ -699,6 +700,8 @@ struct FlowHelper<'a> {
     all: &'a Vec<Id>,
     mutated: AHashMap<Id, SyntaxContext>,
     in_switch_case: bool,
+
+    in_nested_loop: bool,
 }
 
 impl<'a> FlowHelper<'a> {
@@ -738,6 +741,30 @@ impl VisitMut for FlowHelper<'_> {
         n.visit_mut_children_with(self);
     }
 
+    /// https://github.com/swc-project/swc/pull/2916
+    fn visit_mut_for_in_stmt(&mut self, s: &mut ForInStmt) {
+        let old = self.in_nested_loop;
+        self.in_nested_loop = true;
+        s.visit_mut_children_with(self);
+        self.in_nested_loop = old;
+    }
+
+    /// https://github.com/swc-project/swc/pull/2916
+    fn visit_mut_for_of_stmt(&mut self, s: &mut ForOfStmt) {
+        let old = self.in_nested_loop;
+        self.in_nested_loop = true;
+        s.visit_mut_children_with(self);
+        self.in_nested_loop = old;
+    }
+
+    /// https://github.com/swc-project/swc/pull/2916
+    fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {
+        let old = self.in_nested_loop;
+        self.in_nested_loop = true;
+        s.visit_mut_children_with(self);
+        self.in_nested_loop = old;
+    }
+
     /// noop
     fn visit_mut_function(&mut self, _f: &mut Function) {}
 
@@ -746,6 +773,10 @@ impl VisitMut for FlowHelper<'_> {
 
         match node {
             Stmt::Continue(..) => {
+                if self.in_nested_loop {
+                    return;
+                }
+
                 self.has_continue = true;
                 *node = Stmt::Return(ReturnStmt {
                     span,
@@ -761,7 +792,7 @@ impl VisitMut for FlowHelper<'_> {
                 });
             }
             Stmt::Break(..) => {
-                if self.in_switch_case {
+                if self.in_switch_case || self.in_nested_loop {
                     return;
                 }
                 self.has_break = true;
