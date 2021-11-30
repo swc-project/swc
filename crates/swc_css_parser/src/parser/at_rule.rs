@@ -243,7 +243,8 @@ where
                             at_rule.prelude.tokens.extend(i.value.tokens);
                         }
                         ComponentValue::Function(i) => {
-                            at_rule.prelude.tokens.extend(i.value.tokens);
+                            // TODO fix me
+                            // at_rule.prelude.tokens.extend(i.value.tokens);
                         }
                         ComponentValue::Tokens(i) => {
                             at_rule.prelude.tokens.extend(i.tokens);
@@ -287,9 +288,7 @@ where
         let src = match cur!(self) {
             Token::Str { .. } => Ok(ImportSource::Str(self.parse()?)),
             Token::Function { value, .. } if *value.to_ascii_lowercase() == js_word!("url") => {
-                let func = self.parse()?;
-
-                Ok(ImportSource::Fn(func))
+                Ok(ImportSource::Function(self.parse()?))
             }
             Token::Url { .. } => Ok(ImportSource::Url(self.parse()?)),
             _ => Err(Error::new(
@@ -483,7 +482,7 @@ where
             let mut items = vec![];
 
             loop {
-                let res: FnValue = self.parse()?;
+                let res: Function = self.parse()?;
                 items.push(res);
 
                 self.input.skip_ws()?;

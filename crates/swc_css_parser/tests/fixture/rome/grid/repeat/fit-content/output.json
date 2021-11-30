@@ -90,7 +90,7 @@
             },
             "value": [
               {
-                "type": "FnValue",
+                "type": "Function",
                 "span": {
                   "start": 33,
                   "end": 62,
@@ -106,7 +106,7 @@
                   "value": "repeat",
                   "raw": "repeat"
                 },
-                "args": [
+                "value": [
                   {
                     "type": "Number",
                     "span": {
@@ -118,7 +118,7 @@
                     "raw": "4"
                   },
                   {
-                    "type": "FnValue",
+                    "type": "Function",
                     "span": {
                       "start": 43,
                       "end": 61,
@@ -134,7 +134,7 @@
                       "value": "fit-content",
                       "raw": "fit-content"
                     },
-                    "args": [
+                    "value": [
                       {
                         "type": "UnitValue",
                         "span": {

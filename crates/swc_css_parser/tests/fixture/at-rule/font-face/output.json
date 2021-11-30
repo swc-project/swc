@@ -71,7 +71,7 @@
             },
             "value": [
               {
-                "type": "FnValue",
+                "type": "Function",
                 "span": {
                   "start": 52,
                   "end": 96,
@@ -87,7 +87,7 @@
                   "value": "url",
                   "raw": "url"
                 },
-                "args": [
+                "value": [
                   {
                     "type": "String",
                     "span": {
@@ -109,7 +109,7 @@
                 },
                 "values": [
                   {
-                    "type": "FnValue",
+                    "type": "Function",
                     "span": {
                       "start": 97,
                       "end": 112,
@@ -125,7 +125,7 @@
                       "value": "format",
                       "raw": "format"
                     },
-                    "args": [
+                    "value": [
                       {
                         "type": "String",
                         "span": {
@@ -139,7 +139,7 @@
                     ]
                   },
                   {
-                    "type": "FnValue",
+                    "type": "Function",
                     "span": {
                       "start": 118,
                       "end": 161,
@@ -155,7 +155,7 @@
                       "value": "url",
                       "raw": "url"
                     },
-                    "args": [
+                    "value": [
                       {
                         "type": "String",
                         "span": {
@@ -171,7 +171,7 @@
                 ]
               },
               {
-                "type": "FnValue",
+                "type": "Function",
                 "span": {
                   "start": 162,
                   "end": 176,
@@ -187,7 +187,7 @@
                   "value": "format",
                   "raw": "format"
                 },
-                "args": [
+                "value": [
                   {
                     "type": "String",
                     "span": {

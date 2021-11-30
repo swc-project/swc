@@ -85,7 +85,7 @@ error: Value
 2 |     grid-template-columns: repeat(4, [col-start]);
   |                            ^^^^^^^^^^^^^^^^^^^^^^
 
-error: FnValue
+error: Function
  --> $DIR/tests/fixture/rome/grid/repeat/line-name/input.css:2:25
   |
 2 |     grid-template-columns: repeat(4, [col-start]);

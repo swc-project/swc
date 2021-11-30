@@ -120,7 +120,7 @@
             },
             "value": [
               {
-                "type": "FnValue",
+                "type": "Function",
                 "span": {
                   "start": 133,
                   "end": 155,
@@ -136,7 +136,7 @@
                   "value": "url",
                   "raw": "url"
                 },
-                "args": [
+                "value": [
                   {
                     "type": "String",
                     "span": {
@@ -171,7 +171,7 @@
             },
             "value": [
               {
-                "type": "FnValue",
+                "type": "Function",
                 "span": {
                   "start": 179,
                   "end": 201,
@@ -187,7 +187,7 @@
                   "value": "url",
                   "raw": "url"
                 },
-                "args": [
+                "value": [
                   {
                     "type": "String",
                     "span": {
@@ -222,7 +222,7 @@
             },
             "value": [
               {
-                "type": "FnValue",
+                "type": "Function",
                 "span": {
                   "start": 225,
                   "end": 247,
@@ -238,7 +238,7 @@
                   "value": "URL",
                   "raw": "URL"
                 },
-                "args": [
+                "value": [
                   {
                     "type": "String",
                     "span": {
@@ -273,7 +273,7 @@
             },
             "value": [
               {
-                "type": "FnValue",
+                "type": "Function",
                 "span": {
                   "start": 271,
                   "end": 296,
@@ -289,7 +289,7 @@
                   "value": "url",
                   "raw": "url"
                 },
-                "args": [
+                "value": [
                   {
                     "type": "String",
                     "span": {
@@ -324,7 +324,7 @@
             },
             "value": [
               {
-                "type": "FnValue",
+                "type": "Function",
                 "span": {
                   "start": 320,
                   "end": 345,
@@ -340,7 +340,7 @@
                   "value": "url",
                   "raw": "url"
                 },
-                "args": [
+                "value": [
                   {
                     "type": "String",
                     "span": {
@@ -375,7 +375,7 @@
             },
             "value": [
               {
-                "type": "FnValue",
+                "type": "Function",
                 "span": {
                   "start": 369,
                   "end": 397,
@@ -391,7 +391,7 @@
                   "value": "url",
                   "raw": "url"
                 },
-                "args": [
+                "value": [
                   {
                     "type": "String",
                     "span": {
@@ -426,7 +426,7 @@
             },
             "value": [
               {
-                "type": "FnValue",
+                "type": "Function",
                 "span": {
                   "start": 421,
                   "end": 459,
@@ -442,7 +442,7 @@
                   "value": "url",
                   "raw": "url"
                 },
-                "args": [
+                "value": [
                   {
                     "type": "String",
                     "span": {
@@ -539,7 +539,7 @@
             },
             "value": [
               {
-                "type": "FnValue",
+                "type": "Function",
                 "span": {
                   "start": 544,
                   "end": 551,
@@ -555,7 +555,7 @@
                   "value": "url",
                   "raw": "url"
                 },
-                "args": [
+                "value": [
                   {
                     "type": "String",
                     "span": {
@@ -590,7 +590,7 @@
             },
             "value": [
               {
-                "type": "FnValue",
+                "type": "Function",
                 "span": {
                   "start": 575,
                   "end": 588,
@@ -606,7 +606,7 @@
                   "value": "url",
                   "raw": "url"
                 },
-                "args": [
+                "value": [
                   {
                     "type": "String",
                     "span": {
@@ -641,7 +641,7 @@
             },
             "value": [
               {
-                "type": "FnValue",
+                "type": "Function",
                 "span": {
                   "start": 612,
                   "end": 619,
@@ -657,7 +657,7 @@
                   "value": "url",
                   "raw": "url"
                 },
-                "args": [
+                "value": [
                   {
                     "type": "String",
                     "span": {
@@ -692,7 +692,7 @@
             },
             "value": [
               {
-                "type": "FnValue",
+                "type": "Function",
                 "span": {
                   "start": 643,
                   "end": 656,
@@ -708,7 +708,7 @@
                   "value": "url",
                   "raw": "url"
                 },
-                "args": [
+                "value": [
                   {
                     "type": "String",
                     "span": {
@@ -743,7 +743,7 @@
             },
             "value": [
               {
-                "type": "FnValue",
+                "type": "Function",
                 "span": {
                   "start": 680,
                   "end": 694,
@@ -759,7 +759,7 @@
                   "value": "url",
                   "raw": "url"
                 },
-                "args": [
+                "value": [
                   {
                     "type": "String",
                     "span": {

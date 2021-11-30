@@ -1,3 +1,4 @@
+use crate::{Function};
 use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
 use swc_common::{ast_node, Span};
@@ -20,12 +21,6 @@ pub struct Tokens {
 pub struct SimpleBlock {
     pub span: Span,
     pub name: char,
-    pub value: Tokens,
-}
-
-#[ast_node("Function")]
-pub struct Function {
-    pub span: Span,
     pub value: Tokens,
 }
 

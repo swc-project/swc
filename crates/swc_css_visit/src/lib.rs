@@ -25,11 +25,6 @@ define!({
         pub value: Tokens,
     }
 
-    pub struct Function {
-        pub span: Span,
-        pub value: Tokens,
-    }
-
     pub enum ComponentValue {
         SimpleBlock(SimpleBlock),
         Function(Function),
@@ -101,7 +96,7 @@ define!({
 
         Str(Str),
 
-        Fn(FnValue),
+        Function(Function),
 
         Bin(BinValue),
 
@@ -138,10 +133,10 @@ define!({
         pub right: Box<Value>,
     }
 
-    pub struct FnValue {
+    pub struct Function {
         pub span: Span,
         pub name: Ident,
-        pub args: Vec<Value>,
+        pub value: Vec<Value>,
     }
 
     pub struct RoundBracketBlock {
@@ -344,7 +339,7 @@ define!({
     }
 
     pub enum ImportSource {
-        Fn(FnValue),
+        Function(Function),
         Url(UrlValue),
         Str(Str),
     }
@@ -385,7 +380,7 @@ define!({
 
     pub struct DocumentRule {
         pub span: Span,
-        pub selectors: Vec<FnValue>,
+        pub selectors: Vec<Function>,
         pub block: Vec<Rule>,
     }
 

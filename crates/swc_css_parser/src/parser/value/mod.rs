@@ -284,7 +284,7 @@ where
 
             Token::Num { .. } => return self.parse_numeric_value(),
 
-            Token::Function { .. } => return Ok(Value::Fn(self.parse()?)),
+            Token::Function { .. } => return Ok(Value::Function(self.parse()?)),
 
             Token::Percent { .. } => return self.parse_numeric_value(),
 
@@ -626,45 +626,12 @@ where
         }
     }
 
-    pub fn parse_function(&mut self) -> PResult<Function> {
-        let start_pos = self.input.last_pos()? - BytePos(1);
-        let span = self.input.cur_span()?;
-        let mut function = Function {
-            span: Default::default(),
-            value: Tokens {
-                span: Default::default(),
-                tokens: vec![],
-            },
-        };
-
-        loop {
-            match cur!(self) {
-                tok!(")") => {
-                    function.value.span = span!(self, span.lo);
-
-                    // TODO fix me
-                    // self.input.bump()?;
-
-                    let ending_pos = self.input.last_pos()?;
-
-                    function.span =
-                        swc_common::Span::new(ending_pos, start_pos, Default::default());
-
-                    return Ok(function);
-                }
-                _ => {
-                    function.value.tokens.extend(self.input.bump()?);
-                }
-            }
-        }
-    }
-
     pub fn parse_component_value(&mut self) -> PResult<ComponentValue> {
         match cur!(self) {
             tok!("[") => return Ok(ComponentValue::SimpleBlock(self.parse_simple_block(']')?)),
             tok!("(") => return Ok(ComponentValue::SimpleBlock(self.parse_simple_block(')')?)),
             tok!("{") => return Ok(ComponentValue::SimpleBlock(self.parse_simple_block('}')?)),
-            tok!("function") => return Ok(ComponentValue::Function(self.parse_function()?)),
+            tok!("function") => return Ok(ComponentValue::Function(self.parse()?)),
             _ => {
                 let token = self.input.bump()?;
 
@@ -800,11 +767,11 @@ where
     }
 }
 
-impl<I> Parse<FnValue> for Parser<I>
+impl<I> Parse<Function> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<FnValue> {
+    fn parse(&mut self) -> PResult<Function> {
         let span = self.input.cur_span()?;
 
         let name = match bump!(self) {
@@ -826,14 +793,14 @@ where
             allow_separating_value_with_comma: false,
             ..self.ctx
         };
-        let args = self.with_ctx(ctx).parse_comma_separated_value()?;
+        let value = self.with_ctx(ctx).parse_comma_separated_value()?;
 
         expect!(self, ")");
 
-        return Ok(FnValue {
+        return Ok(Function {
             span: span!(self, span.lo),
             name,
-            args,
+            value,
         });
     }
 }

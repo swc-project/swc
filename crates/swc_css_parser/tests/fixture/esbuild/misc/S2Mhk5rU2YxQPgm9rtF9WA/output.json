@@ -15,7 +15,7 @@
       },
       "selectors": [
         {
-          "type": "FnValue",
+          "type": "Function",
           "span": {
             "start": 10,
             "end": 41,
@@ -31,7 +31,7 @@
             "value": "url",
             "raw": "url"
           },
-          "args": [
+          "value": [
             {
               "type": "String",
               "span": {

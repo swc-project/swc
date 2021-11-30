@@ -120,7 +120,7 @@
             },
             "value": [
               {
-                "type": "FnValue",
+                "type": "Function",
                 "span": {
                   "start": 61,
                   "end": 75,
@@ -136,7 +136,7 @@
                   "value": "calc",
                   "raw": "calc"
                 },
-                "args": [
+                "value": [
                   {
                     "type": "BinValue",
                     "span": {

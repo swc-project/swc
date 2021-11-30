@@ -97,7 +97,7 @@
                 },
                 "values": [
                   {
-                    "type": "FnValue",
+                    "type": "Function",
                     "span": {
                       "start": 16,
                       "end": 42,
@@ -113,7 +113,7 @@
                       "value": "image-set",
                       "raw": "image-set"
                     },
-                    "args": [
+                    "value": [
                       {
                         "type": "SpaceValues",
                         "span": {

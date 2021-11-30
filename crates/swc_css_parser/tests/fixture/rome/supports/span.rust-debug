@@ -668,7 +668,7 @@ error: Value
 12 |           (transform: rotate(10deg)) {}
    |                       ^^^^^^^^^^^^^
 
-error: FnValue
+error: Function
   --> $DIR/tests/fixture/rome/supports/input.css:12:23
    |
 12 |           (transform: rotate(10deg)) {}

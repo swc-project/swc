@@ -22,7 +22,7 @@ error: DocumentRule
 1 | @document url("https://www.example.com/") { h1 { color: green } }
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: FnValue
+error: Function
  --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:11
   |
 1 | @document url("https://www.example.com/") { h1 { color: green } }

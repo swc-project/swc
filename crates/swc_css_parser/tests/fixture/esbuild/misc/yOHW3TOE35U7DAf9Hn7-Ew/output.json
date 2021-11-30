@@ -89,7 +89,7 @@
             },
             "value": [
               {
-                "type": "FnValue",
+                "type": "Function",
                 "span": {
                   "start": 11,
                   "end": 17,
@@ -105,7 +105,7 @@
                   "value": ",x",
                   "raw": "\\2cx"
                 },
-                "args": []
+                "value": []
               }
             ],
             "important": null

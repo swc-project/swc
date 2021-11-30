@@ -126,7 +126,7 @@
                 },
                 "value": [
                   {
-                    "type": "FnValue",
+                    "type": "Function",
                     "span": {
                       "start": 147,
                       "end": 161,
@@ -142,7 +142,7 @@
                       "value": "translateX",
                       "raw": "translateX"
                     },
-                    "args": [
+                    "value": [
                       {
                         "type": "PercentValue",
                         "span": {
@@ -214,7 +214,7 @@
                 },
                 "value": [
                   {
-                    "type": "FnValue",
+                    "type": "Function",
                     "span": {
                       "start": 198,
                       "end": 214,
@@ -230,7 +230,7 @@
                       "value": "translateX",
                       "raw": "translateX"
                     },
-                    "args": [
+                    "value": [
                       {
                         "type": "PercentValue",
                         "span": {

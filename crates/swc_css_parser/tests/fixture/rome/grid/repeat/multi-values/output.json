@@ -90,7 +90,7 @@
             },
             "value": [
               {
-                "type": "FnValue",
+                "type": "Function",
                 "span": {
                   "start": 33,
                   "end": 102,
@@ -106,7 +106,7 @@
                   "value": "repeat",
                   "raw": "repeat"
                 },
-                "args": [
+                "value": [
                   {
                     "type": "Number",
                     "span": {
