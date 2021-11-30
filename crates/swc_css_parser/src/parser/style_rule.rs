@@ -38,7 +38,8 @@ where
                         continue;
                     }
 
-                    // Otherwise, reconsume the current input token. Consume a qualified rule. If anything is returned, append it to the list of rules.
+                    // Otherwise, reconsume the current input token. Consume a qualified rule. If
+                    // anything is returned, append it to the list of rules.
                     rules.push(self.parse()?);
                 }
                 Token::AtKeyword { .. } => {
