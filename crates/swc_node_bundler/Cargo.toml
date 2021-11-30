@@ -29,6 +29,7 @@ swc_ecma_ast = {path = "../swc_ecma_ast"}
 swc_ecma_codegen = {path = "../swc_ecma_codegen"}
 swc_ecma_loader = {path = "../swc_ecma_loader"}
 swc_ecma_parser = {path = "../swc_ecma_parser"}
+swc_ecma_transforms_base = {path = "../swc_ecma_transforms_base"}
 swc_ecma_transforms = {path = "../swc_ecma_transforms"}
 swc_ecma_utils = {path = "../swc_ecma_utils"}
 swc_ecma_visit = {path = "../swc_ecma_visit"}

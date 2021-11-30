@@ -14,7 +14,7 @@ use std::{
 use swc::resolver::NodeResolver;
 use swc_atoms::js_word;
 use swc_bundler::{Bundler, Load, ModuleData, ModuleRecord};
-use swc_common::{sync::Lrc, FileName, SourceMap, Span, GLOBALS};
+use swc_common::{sync::Lrc, FileName, Mark, SourceMap, Span, GLOBALS};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::typescript::strip;
