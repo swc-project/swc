@@ -10,12 +10,12 @@ use std::{
     sync::Arc,
 };
 use swc::config::{Config, IsModule, JscConfig, Options, SourceMapsConfig};
-use swc_common::{errors::Handler, FileName, FilePathMapping, SourceFile, SourceMap};
+use swc_common::{FileName, FilePathMapping, Mark, SourceFile, SourceMap, errors::Handler};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::{Syntax, TsConfig};
 use swc_ecma_transforms::{
     fixer, hygiene,
-    resolver::{self, ts_resolver},
+    resolver::ts_resolver,
     typescript,
 };
 use swc_ecma_visit::FoldWith;
@@ -90,7 +90,7 @@ fn base_tr_resolver_and_hygiene(b: &mut Bencher) {
 
 fn bench_codegen(b: &mut Bencher, _target: EsVersion) {
     let c = mk();
-    let module = as_es(&c);
+    let module = as_es(parse(&c).1);
 
     //TODO: Use target
 

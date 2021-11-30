@@ -5188,9 +5188,9 @@ Add a <Suspense fallback=...> component higher in the tree to provide a loading 
                     }
                     g = g.nextEffect;
                 }
-            } catch (P1) {
+            } catch (P2) {
                 if (g === null) throw Error(v(330));
-                Qe(g, P1), g = g.nextEffect;
+                Qe(g, P2), g = g.nextEffect;
             }
             while (g !== null)
             if (m = oi, p = Nu(), f = m.focusedElem, o = m.selectionRange, p !== f && f && f.ownerDocument && Cu(f.ownerDocument.documentElement, f)) {
@@ -5222,9 +5222,9 @@ Add a <Suspense fallback=...> component higher in the tree to provide a loading 
                     }
                     g = g.nextEffect;
                 }
-            } catch (P2) {
+            } catch (P3) {
                 if (g === null) throw Error(v(330));
-                Qe(g, P2), g = g.nextEffect;
+                Qe(g, P3), g = g.nextEffect;
             }
             while (g !== null)
             g = null, Hf(), x = l;

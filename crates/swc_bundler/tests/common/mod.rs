@@ -17,7 +17,7 @@ use swc_common::{
 };
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
-use swc_ecma_transforms_base::{hygiene::hygiene, resolver::ts_resolver};
+use swc_ecma_transforms_base::resolver::ts_resolver;
 use swc_ecma_transforms_react::react;
 use swc_ecma_transforms_typescript::strip;
 use swc_ecma_visit::FoldWith;
@@ -140,8 +140,7 @@ impl Load for Loader {
                 None,
                 Default::default(),
                 top_level_mark,
-            ))
-            .fold_with(&mut hygiene());
+            ));
 
         Ok(ModuleData {
             fm,

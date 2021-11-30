@@ -405,7 +405,7 @@ function normalize(path) {
         return device;
     }
 }
-function isAbsolute1(path) {
+function isAbsolute3(path) {
     assertPath(path);
     const len = path.length;
     if (len === 0) return false;
@@ -834,7 +834,7 @@ function fromFileUrl(url) {
     return path;
 }
 function toFileUrl(path) {
-    if (!isAbsolute1(path)) {
+    if (!isAbsolute3(path)) {
         throw new TypeError("Must be an absolute path.");
     }
     const [, hostname, pathname] = path.match(/^(?:[/\\]{2}([^/\\]+)(?=[/\\][^/\\]))?(.*)/);
@@ -849,11 +849,11 @@ function toFileUrl(path) {
     return url;
 }
 const mod = {
-    isAbsolute: isAbsolute1,
     sep: sep3,
     delimiter: delimiter,
     resolve: resolve,
     normalize: normalize,
+    isAbsolute: isAbsolute3,
     join: join,
     relative: relative,
     toNamespacedPath: toNamespacedPath,
@@ -904,7 +904,7 @@ function normalize1(path) {
     if (isAbsolute) return `/${path}`;
     return path;
 }
-function isAbsolute11(path) {
+function isAbsolute1(path) {
     assertPath(path);
     return path.length > 0 && path.charCodeAt(0) === 47;
 }
@@ -1171,7 +1171,7 @@ function fromFileUrl1(url) {
     return decodeURIComponent(url.pathname.replace(/%(?![0-9A-Fa-f]{2})/g, "%25"));
 }
 function toFileUrl1(path) {
-    if (!isAbsolute11(path)) {
+    if (!isAbsolute1(path)) {
         throw new TypeError("Must be an absolute path.");
     }
     const url = new URL("file:///");
@@ -1179,11 +1179,11 @@ function toFileUrl1(path) {
     return url;
 }
 const mod1 = {
-    isAbsolute: isAbsolute11,
     sep: sep1,
     delimiter: delimiter1,
     resolve: resolve1,
     normalize: normalize1,
+    isAbsolute: isAbsolute1,
     join: join1,
     relative: relative1,
     toNamespacedPath: toNamespacedPath1,
@@ -1285,11 +1285,11 @@ class BufReader {
         this.r += copied;
         return copied;
     }
-    async readFull(p1) {
+    async readFull(p2) {
         let bytesRead = 0;
-        while(bytesRead < p1.length){
+        while(bytesRead < p2.length){
             try {
-                const rr = await this.read(p1.subarray(bytesRead));
+                const rr = await this.read(p2.subarray(bytesRead));
                 if (rr === null) {
                     if (bytesRead === 0) {
                         return null;
@@ -1299,11 +1299,11 @@ class BufReader {
                 }
                 bytesRead += rr;
             } catch (err) {
-                err.partial = p1.subarray(0, bytesRead);
+                err.partial = p2.subarray(0, bytesRead);
                 throw err;
             }
         }
-        return p1;
+        return p2;
     }
     async readByte() {
         while(this.r === this.w){
@@ -1314,11 +1314,11 @@ class BufReader {
         this.r++;
         return c;
     }
-    async readString(delim2) {
-        if (delim2.length !== 1) {
+    async readString(delim) {
+        if (delim.length !== 1) {
             throw new Error("Delimiter should be a single character");
         }
-        const buffer = await this.readSlice(delim2.charCodeAt(0));
+        const buffer = await this.readSlice(delim.charCodeAt(0));
         if (buffer === null) return null;
         return new TextDecoder().decode(buffer);
     }
@@ -1692,7 +1692,7 @@ class PartReader {
         this.n = 0;
         this.total = 0;
     }
-    async read(p2) {
+    async read(p3) {
         const br = this.mr.bufReader;
         let peekLength = 1;
         while(this.n === 0){
@@ -1711,8 +1711,8 @@ class PartReader {
         if (this.n === null) {
             return null;
         }
-        const nread = Math.min(p2.length, this.n);
-        const buf = p2.subarray(0, nread);
+        const nread = Math.min(p3.length, this.n);
+        const buf = p3.subarray(0, nread);
         const r = await br.readFull(buf);
         assert(r === buf);
         this.n -= nread;

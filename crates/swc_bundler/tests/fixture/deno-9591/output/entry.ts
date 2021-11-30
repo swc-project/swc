@@ -518,7 +518,7 @@ function normalize(path) {
         return device;
     }
 }
-function isAbsolute1(path) {
+function isAbsolute3(path) {
     assertPath(path);
     const len = path.length;
     if (len === 0) return false;
@@ -947,7 +947,7 @@ function fromFileUrl(url) {
     return path;
 }
 function toFileUrl(path) {
-    if (!isAbsolute1(path)) {
+    if (!isAbsolute3(path)) {
         throw new TypeError("Must be an absolute path.");
     }
     const [, hostname, pathname] = path.match(/^(?:[/\\]{2}([^/\\]+)(?=[/\\][^/\\]))?(.*)/);
@@ -962,11 +962,11 @@ function toFileUrl(path) {
     return url;
 }
 const mod1 = {
-    isAbsolute: isAbsolute1,
     sep: sep3,
     delimiter: delimiter,
     resolve: resolve,
     normalize: normalize,
+    isAbsolute: isAbsolute3,
     join: join,
     relative: relative,
     toNamespacedPath: toNamespacedPath,
@@ -1017,7 +1017,7 @@ function normalize1(path) {
     if (isAbsolute) return `/${path}`;
     return path;
 }
-function isAbsolute11(path) {
+function isAbsolute1(path) {
     assertPath(path);
     return path.length > 0 && path.charCodeAt(0) === CHAR_FORWARD_SLASH;
 }
@@ -1284,7 +1284,7 @@ function fromFileUrl1(url) {
     return decodeURIComponent(url.pathname.replace(/%(?![0-9A-Fa-f]{2})/g, "%25"));
 }
 function toFileUrl1(path) {
-    if (!isAbsolute11(path)) {
+    if (!isAbsolute1(path)) {
         throw new TypeError("Must be an absolute path.");
     }
     const url = new URL("file:///");
@@ -1292,11 +1292,11 @@ function toFileUrl1(path) {
     return url;
 }
 const mod2 = {
-    isAbsolute: isAbsolute11,
     sep: sep1,
     delimiter: delimiter1,
     resolve: resolve1,
     normalize: normalize1,
+    isAbsolute: isAbsolute1,
     join: join1,
     relative: relative1,
     toNamespacedPath: toNamespacedPath1,
@@ -1734,17 +1734,17 @@ class Logger {
     get handlers() {
         return this.#handlers;
     }
-    _log(level1, msg7, ...args6) {
+    _log(level1, msg9, ...args6) {
         if (this.level > level1) {
-            return msg7 instanceof Function ? undefined : msg7;
+            return msg9 instanceof Function ? undefined : msg9;
         }
         let fnResult;
         let logMessage;
-        if (msg7 instanceof Function) {
-            fnResult = msg7();
+        if (msg9 instanceof Function) {
+            fnResult = msg9();
             logMessage = this.asString(fnResult);
         } else {
-            logMessage = this.asString(msg7);
+            logMessage = this.asString(msg9);
         }
         const record = new LogRecord({
             msg: logMessage,
@@ -1755,15 +1755,15 @@ class Logger {
         this.#handlers.forEach((handler)=>{
             handler.handle(record);
         });
-        return msg7 instanceof Function ? fnResult : msg7;
+        return msg9 instanceof Function ? fnResult : msg9;
     }
-    asString(data2) {
-        if (typeof data2 === "string") {
-            return data2;
-        } else if (data2 === null || typeof data2 === "number" || typeof data2 === "bigint" || typeof data2 === "boolean" || typeof data2 === "undefined" || typeof data2 === "symbol") {
-            return String(data2);
-        } else if (typeof data2 === "object") {
-            return JSON.stringify(data2);
+    asString(data3) {
+        if (typeof data3 === "string") {
+            return data3;
+        } else if (data3 === null || typeof data3 === "number" || typeof data3 === "bigint" || typeof data3 === "boolean" || typeof data3 === "undefined" || typeof data3 === "symbol") {
+            return String(data3);
+        } else if (typeof data3 === "object") {
+            return JSON.stringify(data3);
         }
         return "undefined";
     }
@@ -1869,8 +1869,8 @@ class PartialReadError extends Deno.errors.UnexpectedEof {
     }
 }
 class BufReader {
-    static create(r1, size1 = DEFAULT_BUF_SIZE) {
-        return r1 instanceof BufReader ? r1 : new BufReader(r1, size1);
+    static create(r2, size1 = DEFAULT_BUF_SIZE) {
+        return r2 instanceof BufReader ? r2 : new BufReader(r2, size1);
     }
     constructor(rd, size = DEFAULT_BUF_SIZE){
         this.r = 0;
@@ -1910,8 +1910,8 @@ class BufReader {
         }
         throw new Error(`No progress after ${MAX_CONSECUTIVE_EMPTY_READS} read() calls`);
     }
-    reset(r11) {
-        this._reset(this.buf, r11);
+    reset(r1) {
+        this._reset(this.buf, r1);
     }
     _reset(buf1, rd) {
         this.buf = buf1;
@@ -1968,11 +1968,11 @@ class BufReader {
         this.r++;
         return c;
     }
-    async readString(delim2) {
-        if (delim2.length !== 1) {
+    async readString(delim) {
+        if (delim.length !== 1) {
             throw new Error("Delimiter should be a single character");
         }
-        const buffer = await this.readSlice(delim2.charCodeAt(0));
+        const buffer = await this.readSlice(delim.charCodeAt(0));
         if (buffer === null) return null;
         return new TextDecoder().decode(buffer);
     }
@@ -2177,28 +2177,28 @@ class BufWriterSync extends AbstractBufBase {
         this.buf = new Uint8Array(this.buf.length);
         this.usedBufferBytes = 0;
     }
-    writeSync(data1) {
+    writeSync(data2) {
         if (this.err !== null) throw this.err;
-        if (data1.length === 0) return 0;
+        if (data2.length === 0) return 0;
         let totalBytesWritten = 0;
         let numBytesWritten = 0;
-        while(data1.byteLength > this.available()){
+        while(data2.byteLength > this.available()){
             if (this.buffered() === 0) {
                 try {
-                    numBytesWritten = this.writer.writeSync(data1);
+                    numBytesWritten = this.writer.writeSync(data2);
                 } catch (e) {
                     this.err = e;
                     throw e;
                 }
             } else {
-                numBytesWritten = copyBytes(data1, this.buf, this.usedBufferBytes);
+                numBytesWritten = copyBytes(data2, this.buf, this.usedBufferBytes);
                 this.usedBufferBytes += numBytesWritten;
                 this.flush();
             }
             totalBytesWritten += numBytesWritten;
-            data1 = data1.subarray(numBytesWritten);
+            data2 = data2.subarray(numBytesWritten);
         }
-        numBytesWritten = copyBytes(data1, this.buf, this.usedBufferBytes);
+        numBytesWritten = copyBytes(data2, this.buf, this.usedBufferBytes);
         this.usedBufferBytes += numBytesWritten;
         totalBytesWritten += numBytesWritten;
         return totalBytesWritten;
@@ -2292,8 +2292,8 @@ class FileHandler extends WriterHandler {
             this.flush();
         }
     }
-    log(msg11) {
-        this._buf.writeSync(this._encoder.encode(msg11 + "\n"));
+    log(msg7) {
+        this._buf.writeSync(this._encoder.encode(msg7 + "\n"));
     }
     flush() {
         if (this._buf?.buffered() > 0) {
@@ -2344,13 +2344,13 @@ class RotatingFileHandler extends FileHandler {
             this.#currentFileSize = (await Deno.stat(this._filename)).size;
         }
     }
-    log(msg21) {
-        const msgByteLength = this._encoder.encode(msg21).byteLength + 1;
+    log(msg8) {
+        const msgByteLength = this._encoder.encode(msg8).byteLength + 1;
         if (this.#currentFileSize + msgByteLength > this.#maxBytes) {
             this.rotateLogFiles();
             this.#currentFileSize = 0;
         }
-        this._buf.writeSync(this._encoder.encode(msg21 + "\n"));
+        this._buf.writeSync(this._encoder.encode(msg8 + "\n"));
         this.#currentFileSize += msgByteLength;
     }
     rotateLogFiles() {
@@ -2489,8 +2489,8 @@ const mod4 = await async function() {
     return {
         LogLevels: LogLevels1,
         Logger: Logger,
-        handlers: handlers1,
         LoggerConfig: LoggerConfig,
+        handlers: handlers1,
         getLogger: getLogger,
         debug: debug,
         info: info1,
@@ -2862,8 +2862,8 @@ async function* expandGlob(glob, { root =Deno.cwd() , exclude =[] , includeDirs 
     let fixedRootInfo;
     try {
         fixedRootInfo = await _createWalkEntry(fixedRoot);
-    } catch (error1) {
-        return throwUnlessNotFound(error1);
+    } catch (error2) {
+        return throwUnlessNotFound(error2);
     }
     async function* advanceMatch(walkInfo, globSegment) {
         if (!walkInfo.isDirectory) {
@@ -2955,8 +2955,8 @@ function* expandGlobSync(glob, { root =Deno.cwd() , exclude =[] , includeDirs =t
     let fixedRootInfo;
     try {
         fixedRootInfo = _createWalkEntrySync(fixedRoot);
-    } catch (error2) {
-        return throwUnlessNotFound(error2);
+    } catch (error3) {
+        return throwUnlessNotFound(error3);
     }
     function* advanceMatch(walkInfo, globSegment) {
         if (!walkInfo.isDirectory) {
@@ -3606,13 +3606,13 @@ class Hash {
         this.#hash = create_hash(algorithm);
         this.#digested = false;
     }
-    update(data3) {
+    update(data4) {
         let msg;
-        if (typeof data3 === "string") {
-            msg = new TextEncoder().encode(data3);
-        } else if (typeof data3 === "object") {
-            if (data3 instanceof ArrayBuffer || ArrayBuffer.isView(data3)) {
-                msg = new Uint8Array(data3);
+        if (typeof data4 === "string") {
+            msg = new TextEncoder().encode(data4);
+        } else if (typeof data4 === "object") {
+            if (data4 instanceof ArrayBuffer || ArrayBuffer.isView(data4)) {
+                msg = new Uint8Array(data4);
             } else {
                 throw new Error(TYPE_ERROR_MSG);
             }
@@ -4164,14 +4164,14 @@ class Comparator {
             this.semver = new SemVer(m[2], this.options.loose);
         }
     }
-    test(version2) {
-        if (this.semver === ANY || version2 === ANY) {
+    test(version3) {
+        if (this.semver === ANY || version3 === ANY) {
             return true;
         }
-        if (typeof version2 === "string") {
-            version2 = new SemVer(version2, this.options);
+        if (typeof version3 === "string") {
+            version3 = new SemVer(version3, this.options);
         }
-        return cmp(version2, this.operator, this.semver, this.options);
+        return cmp(version3, this.operator, this.semver, this.options);
     }
     intersects(comp1, optionsOrLoose1) {
         if (!(comp1 instanceof Comparator)) {
@@ -4268,23 +4268,23 @@ class Range {
         return set.map((comp)=>new Comparator(comp, this.options)
         );
     }
-    test(version12) {
-        if (typeof version12 === "string") {
-            version12 = new SemVer(version12, this.options);
+    test(version2) {
+        if (typeof version2 === "string") {
+            version2 = new SemVer(version2, this.options);
         }
         for(var i = 0; i < this.set.length; i++){
-            if (testSet(this.set[i], version12, this.options)) {
+            if (testSet(this.set[i], version2, this.options)) {
                 return true;
             }
         }
         return false;
     }
-    intersects(range21, optionsOrLoose2) {
-        if (!(range21 instanceof Range)) {
+    intersects(range2, optionsOrLoose2) {
+        if (!(range2 instanceof Range)) {
             throw new TypeError("a Range is required");
         }
         return this.set.some((thisComparators)=>{
-            return isSatisfiable(thisComparators, optionsOrLoose2) && range21.set.some((rangeComparators)=>{
+            return isSatisfiable(thisComparators, optionsOrLoose2) && range2.set.some((rangeComparators)=>{
                 return isSatisfiable(rangeComparators, optionsOrLoose2) && thisComparators.every((thisComparator)=>{
                     return rangeComparators.every((rangeComparator)=>{
                         return thisComparator.intersects(rangeComparator, optionsOrLoose2);
@@ -5840,17 +5840,17 @@ class ADLMap {
     has(k) {
         return this.findIndex(k) !== -1;
     }
-    get(k11) {
-        const ind = this.findIndex(k11);
+    get(k1) {
+        const ind = this.findIndex(k1);
         if (ind === -1) {
             return undefined;
         }
         return this.data[ind].v2;
     }
-    getOrInsert(k21, v) {
-        const existing = this.get(k21);
+    getOrInsert(k2, v) {
+        const existing = this.get(k2);
         if (existing === undefined) {
-            this.set(k21, v);
+            this.set(k2, v);
             return v;
         }
         return existing;
@@ -5973,22 +5973,22 @@ class Task {
     getTrackedFilesAsync(deps2) {
         return deps2.filter(isTrackedFileAsync);
     }
-    async setup(ctx8) {
+    async setup(ctx) {
         if (this.taskManifest === null) {
             for (const t of this.targets){
-                ctx8.targetRegister.set(t.path, this);
+                ctx.targetRegister.set(t.path, this);
             }
-            this.taskManifest = ctx8.manifest.tasks.getOrInsert(this.name, new TaskManifest({
+            this.taskManifest = ctx.manifest.tasks.getOrInsert(this.name, new TaskManifest({
                 lastExecution: null,
                 trackedFiles: []
             }));
             for (const taskDep of this.task_deps){
-                await taskDep.setup(ctx8);
+                await taskDep.setup(ctx);
             }
             for (const fDep of this.file_deps){
                 const fDepTask = fDep.getTask();
                 if (fDepTask !== null) {
-                    await fDepTask.setup(ctx8);
+                    await fDepTask.setup(ctx);
                 }
             }
         }
@@ -6160,9 +6160,9 @@ class TrackedFile {
             upToDate: false
         };
     }
-    setTask(t1) {
+    setTask(t) {
         if (this.fromTask === null) {
-            this.fromTask = t1;
+            this.fromTask = t;
         } else {
             throw new Error("Duplicate tasks generating TrackedFile as target - " + this.path);
         }
@@ -6202,8 +6202,8 @@ class StdErrPlainHandler extends mod4.handlers.BaseHandler {
     }
 }
 class StdErrHandler extends mod4.handlers.ConsoleHandler {
-    log(msg12) {
-        Deno.stderr.writeSync(new TextEncoder().encode(msg12 + "\n"));
+    log(msg10) {
+        Deno.stderr.writeSync(new TextEncoder().encode(msg10 + "\n"));
     }
 }
 async function setupLogging() {
