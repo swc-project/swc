@@ -1337,6 +1337,73 @@ impl VisitMut for ReduceAst {
                     *stmt = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                     return;
                 }
+
+                match &mut *e.expr {
+                    // Optimize IIFE
+                    Expr::Call(CallExpr {
+                        callee: ExprOrSuper::Expr(callee),
+                        args,
+                        ..
+                    }) => match &mut **callee {
+                        Expr::Fn(callee) => {
+                            self.changed = true;
+                            let mut stmts = vec![];
+                            let Function {
+                                params,
+                                decorators,
+                                body,
+                                ..
+                            } = callee.function.take();
+
+                            if !decorators.is_empty() {
+                                let mut s = Stmt::Expr(ExprStmt {
+                                    span: DUMMY_SP,
+                                    expr: Box::new(Expr::Seq(SeqExpr {
+                                        span: DUMMY_SP,
+                                        exprs: decorators.into_iter().map(|d| d.expr).collect(),
+                                    })),
+                                });
+                                s.visit_mut_with(self);
+                                stmts.push(s);
+                            }
+
+                            if !params.is_empty() {
+                                let mut exprs = Vec::with_capacity(params.len());
+
+                                for p in params {
+                                    exprs.extend(p.decorators.into_iter().map(|d| d.expr));
+
+                                    preserve_pat(&mut exprs, p.pat);
+                                }
+
+                                exprs.extend(args.into_iter().map(|arg| arg.expr.take()));
+
+                                let mut s = Stmt::Expr(ExprStmt {
+                                    span: DUMMY_SP,
+                                    expr: Box::new(Expr::Seq(SeqExpr {
+                                        span: DUMMY_SP,
+                                        exprs,
+                                    })),
+                                });
+                                s.visit_mut_with(self);
+                                stmts.push(s);
+                            }
+
+                            if let Some(body) = body {
+                                stmts.extend(body.stmts);
+                            }
+
+                            *stmt = Stmt::Block(BlockStmt {
+                                span: DUMMY_SP,
+                                stmts,
+                            });
+                            return;
+                        }
+                        _ => {}
+                    },
+
+                    _ => {}
+                }
             }
 
             Stmt::Block(block) => {
