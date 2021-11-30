@@ -1,3 +1,7 @@
-var param, param1, ref, ref1, param2, a = function() {
+var ref, ref1, a = function() {
 };
-void 0 === param2 && null !== (ref = a()) && void 0 !== ref, void 0 === param1, void 0 === param && null !== (ref1 = a()) && void 0 !== ref1;
+!function() {
+    arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : null !== (ref = a()) && void 0 !== ref;
+}(), (function() {
+    arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : null !== (ref1 = a()) && void 0 !== ref1, arguments.length > 1 && void 0 !== arguments[1] && arguments[1];
+})();

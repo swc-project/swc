@@ -75,7 +75,8 @@ var B = function() {
     return _createClass(B, [
         {
             key: "baz",
-            value: function(a, param) {
+            value: function(a) {
+                arguments.length > 1 && void 0 !== arguments[1] && arguments[1];
             }
         }
     ]), B;

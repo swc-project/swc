@@ -88,7 +88,7 @@ var C = function C() {
     var C;
 })();
 var x = "";
-(function(param, param1) {
+(function(param) {
     var tmp = param[/*#__PURE__*/ (_class1 = function(C) {
         "use strict";
         _inherits(_class, C);
@@ -98,6 +98,6 @@ var x = "";
             return _super.apply(this, arguments);
         }
         return _class;
-    }(C), _class1.x = 1, _class1).x], b = tmp === void 0 ? "" : tmp, d = param1 === void 0 ? x : param1;
+    }(C), _class1.x = 1, _class1).x], b = tmp === void 0 ? "" : tmp, d = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : x;
     var x1;
 })();

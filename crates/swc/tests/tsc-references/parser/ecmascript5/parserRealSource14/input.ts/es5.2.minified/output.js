@@ -15,8 +15,8 @@ function _defineProperties(target, props) {
         return a >= b ? a : b;
     }, isValidAstNode = function(ast) {
         return null !== ast && -1 !== ast.minChar && -1 !== ast.limChar;
-    }, getAstPathToPosition = function(script, pos, param) {
-        var options = void 0 === param ? GetAstPathOptions.Default : param, lookInComments = function(comments) {
+    }, getAstPathToPosition = function(script, pos) {
+        var options = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : GetAstPathOptions.Default, lookInComments = function(comments) {
             if (comments && comments.length > 0) for(var i = 0; i < comments.length; i++){
                 var minChar = comments[i].minChar, limChar = comments[i].limChar;
                 !comments[i].isBlockComment && limChar++, pos >= minChar && pos < limChar && ctx.path.push(comments[i]);

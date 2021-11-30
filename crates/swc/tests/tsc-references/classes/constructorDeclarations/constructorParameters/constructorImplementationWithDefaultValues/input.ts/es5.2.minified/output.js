@@ -1,13 +1,13 @@
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
-var C = function(param) {
+var C = function() {
     "use strict";
-    _classCallCheck(this, C), void 0 === param;
-}, D = function(param) {
+    arguments.length > 0 && void 0 !== arguments[0] && arguments[0], _classCallCheck(this, C);
+}, D = function() {
     "use strict";
-    _classCallCheck(this, D), void 0 === param;
-}, E = function(param) {
+    arguments.length > 0 && void 0 !== arguments[0] && arguments[0], _classCallCheck(this, D);
+}, E = function() {
     "use strict";
-    _classCallCheck(this, E), void 0 === param;
+    arguments.length > 0 && void 0 !== arguments[0] && arguments[0], _classCallCheck(this, E);
 };

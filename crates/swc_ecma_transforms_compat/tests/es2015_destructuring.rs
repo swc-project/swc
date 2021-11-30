@@ -1553,7 +1553,7 @@ test!(
         spread(spread::Config {
             ..Default::default()
         }),
-        parameters(),
+        parameters(Default::default()),
         destructuring(Config { loose: true }),
         block_scoping(),
         object_rest_spread(Default::default()),

@@ -85,37 +85,37 @@ a1([
 // If the declaration includes an initializer expression (which is permitted only
 // when the parameter list occurs in conjunction with a function body),
 // the parameter type is the widened form (section 3.11) of the type of the initializer expression.
-function b1(param) {
-    var z = param === void 0 ? [
+function b1() {
+    var z = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [
         undefined,
         null
-    ] : param;
+    ];
 }
-function b2(param, param1) {
-    var z = param === void 0 ? null : param, o = param1 === void 0 ? {
+function b2() {
+    var z = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : null, o = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {
         x: 0,
         y: undefined
-    } : param1;
+    };
 }
-function b3(param) {
-    var ref = param === void 0 ? {
+function b3() {
+    var ref = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
         z: {
             x: "hi",
             y: {
                 j: 1
             }
         }
-    } : param, _z = ref.z, x = _z.x, j = _z.y.j;
+    }, _z = ref.z, x = _z.x, j = _z.y.j;
 }
-function b6(param) {
-    var ref = _slicedToArray(param === void 0 ? [
+function b6() {
+    var ref = _slicedToArray(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [
         undefined,
         null,
         undefined
-    ] : param, 3), a = ref[0], z = ref[1], y = ref[2];
+    ], 3), a = ref[0], z = ref[1], y = ref[2];
 }
-function b7(param) {
-    var ref = _slicedToArray(param === void 0 ? [
+function b7() {
+    var ref = _slicedToArray(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [
         [
             undefined
         ],
@@ -126,7 +126,7 @@ function b7(param) {
                 undefined
             ]
         ]
-    ] : param, 3), ref2 = _slicedToArray(ref[0], 1), a = ref2[0], b = ref[1], ref3 = _slicedToArray(ref[2], 1), ref4 = _slicedToArray(ref3[0], 2), c = ref4[0], d = ref4[1];
+    ], 3), ref2 = _slicedToArray(ref[0], 1), a = ref2[0], b = ref[1], ref3 = _slicedToArray(ref[2], 1), ref4 = _slicedToArray(ref3[0], 2), c = ref4[0], d = ref4[1];
 }
 b1([
     1,
@@ -167,18 +167,18 @@ Foo1;
 function c0(param) {
     var _z = param.z, x = _z.x, j = _z.y.j;
 }
-function c1(param) {
-    var z = (param === void 0 ? {
+function c1() {
+    var z = (arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
         z: 10
-    } : param).z;
+    }).z;
 }
 function c2(param) {
     var _z = param.z, z = _z === void 0 ? 10 : _z;
 }
-function c3(param) {
-    var b = (param === void 0 ? {
+function c3() {
+    var b = (arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
         b: "hello"
-    } : param).b;
+    }).b;
 }
 function c5(param) {
     var _param = _slicedToArray(param, 3), a = _param[0], b = _param[1], ref = _slicedToArray(_param[2], 1), ref5 = _slicedToArray(ref[0], 1), c = ref5[0];
@@ -239,8 +239,8 @@ c5([
 // or by including an initializer.
 function d0(x) {
 }
-function d0(param) {
-    var x = param === void 0 ? 10 : param;
+function d0() {
+    var x = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 10;
 }
 var C2 = /*#__PURE__*/ function() {
     "use strict";
@@ -294,11 +294,11 @@ var C3 = /*#__PURE__*/ function() {
     ]);
     return C3;
 }();
-function d5(param) {
-    var ref = param === void 0 ? {
+function d5() {
+    var ref = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
         x: 1,
         y: 2
-    } : param, x = ref.x, y = ref.y;
+    }, x = ref.x, y = ref.y;
 }
 d5(); // Parameter is optional as its declaration included an initializer
 // Destructuring parameter declarations do not permit type annotations on the individual binding patterns,

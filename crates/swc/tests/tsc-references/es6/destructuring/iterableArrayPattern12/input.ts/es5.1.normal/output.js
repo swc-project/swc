@@ -134,7 +134,7 @@ var FooIterator = /*#__PURE__*/ function() {
     ]);
     return FooIterator;
 }();
-function fun(param) {
-    var ref = _toArray(param === void 0 ? new FooIterator : param), a = ref[0], b = ref.slice(1);
+function fun() {
+    var ref = _toArray(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : new FooIterator), a = ref[0], b = ref.slice(1);
 }
 fun(new FooIterator);

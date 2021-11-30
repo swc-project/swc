@@ -4,7 +4,7 @@ function _classCallCheck(instance, Constructor) {
 var C = function(x) {
     "use strict";
     _classCallCheck(this, C);
-}, D = function(x, param) {
+}, D = function(x) {
     "use strict";
-    _classCallCheck(this, D);
+    arguments.length > 1 && void 0 !== arguments[1] && arguments[1], _classCallCheck(this, D);
 };

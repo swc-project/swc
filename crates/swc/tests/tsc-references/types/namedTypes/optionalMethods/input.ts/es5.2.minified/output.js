@@ -22,8 +22,9 @@ function _setPrototypeOf(o, p) {
 }
 var Bar = function() {
     "use strict";
-    function Bar(d, param) {
-        _classCallCheck(this, Bar), this.d = d, this.e = void 0 === param ? 10 : param, this.c = 2;
+    function Bar(d) {
+        var e = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 10;
+        _classCallCheck(this, Bar), this.d = d, this.e = e, this.c = 2;
     }
     return _createClass(Bar, [
         {

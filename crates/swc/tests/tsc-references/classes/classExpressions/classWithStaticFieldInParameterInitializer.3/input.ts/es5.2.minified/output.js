@@ -49,8 +49,8 @@ var _class2, _class1, C1 = function() {
     "use strict";
     _classCallCheck(this, C1);
 };
-!function(param) {
-    (_class2 = (function(C) {
+!function() {
+    arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : (_class2 = (function(C) {
         "use strict";
         _inherits(_class, C);
         var _super = _createSuper(_class);
@@ -59,8 +59,8 @@ var _class2, _class1, C1 = function() {
         }
         return _class;
     })(C1)).x = 1;
-}(), (function(param, param1) {
-    (_class1 = (function(C) {
+}(), (function() {
+    arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : (_class1 = (function(C) {
         "use strict";
         _inherits(_class, C);
         var _super = _createSuper(_class);
@@ -68,5 +68,5 @@ var _class2, _class1, C1 = function() {
             return _classCallCheck(this, _class), _super.apply(this, arguments);
         }
         return _class;
-    })(C1)).x = 1;
+    })(C1)).x = 1, arguments.length > 1 && void 0 !== arguments[1] && arguments[1];
 })();

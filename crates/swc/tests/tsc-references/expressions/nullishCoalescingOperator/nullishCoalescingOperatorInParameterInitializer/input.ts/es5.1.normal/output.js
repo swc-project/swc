@@ -5,6 +5,6 @@ var a = function() {
     return undefined;
 };
 var ref;
-(function(param) {
-    var b = param === void 0 ? (ref = a()) !== null && ref !== void 0 ? ref : "d" : param;
+(function() {
+    var b = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : (ref = a()) !== null && ref !== void 0 ? ref : "d";
 })();

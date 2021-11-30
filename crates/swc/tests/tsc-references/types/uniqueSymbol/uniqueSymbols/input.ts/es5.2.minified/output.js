@@ -306,8 +306,9 @@ var C0 = function() {
         },
         {
             key: "method5",
-            value: function(param) {
-                return void 0 === param ? s : param;
+            value: function() {
+                var p = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : s;
+                return p;
             }
         }
     ]), C0;
