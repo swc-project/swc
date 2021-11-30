@@ -558,6 +558,9 @@ impl VisitMut for ReduceAst {
             Expr::Yield(expr) => {
                 if let Some(arg) = expr.arg.take() {
                     *e = *arg;
+                } else {
+                    *e = null_expr();
+                    return;
                 }
             }
 
