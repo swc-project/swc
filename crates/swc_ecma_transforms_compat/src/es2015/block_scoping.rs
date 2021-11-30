@@ -163,6 +163,7 @@ impl BlockScoping {
                 has_return: false,
                 mutated,
                 in_switch_case: false,
+                in_nested_loop: false,
             };
 
             body_stmt.visit_mut_with(&mut flow_helper);
@@ -699,6 +700,8 @@ struct FlowHelper<'a> {
     all: &'a Vec<Id>,
     mutated: AHashMap<Id, SyntaxContext>,
     in_switch_case: bool,
+
+    in_nested_loop: bool,
 }
 
 impl<'a> FlowHelper<'a> {
@@ -738,6 +741,38 @@ impl VisitMut for FlowHelper<'_> {
         n.visit_mut_children_with(self);
     }
 
+    /// https://github.com/swc-project/swc/pull/2916
+    fn visit_mut_do_while_stmt(&mut self, s: &mut DoWhileStmt) {
+        let old = self.in_nested_loop;
+        self.in_nested_loop = true;
+        s.visit_mut_children_with(self);
+        self.in_nested_loop = old;
+    }
+
+    /// https://github.com/swc-project/swc/pull/2916
+    fn visit_mut_for_in_stmt(&mut self, s: &mut ForInStmt) {
+        let old = self.in_nested_loop;
+        self.in_nested_loop = true;
+        s.visit_mut_children_with(self);
+        self.in_nested_loop = old;
+    }
+
+    /// https://github.com/swc-project/swc/pull/2916
+    fn visit_mut_for_of_stmt(&mut self, s: &mut ForOfStmt) {
+        let old = self.in_nested_loop;
+        self.in_nested_loop = true;
+        s.visit_mut_children_with(self);
+        self.in_nested_loop = old;
+    }
+
+    /// https://github.com/swc-project/swc/pull/2916
+    fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {
+        let old = self.in_nested_loop;
+        self.in_nested_loop = true;
+        s.visit_mut_children_with(self);
+        self.in_nested_loop = old;
+    }
+
     /// noop
     fn visit_mut_function(&mut self, _f: &mut Function) {}
 
@@ -746,6 +781,10 @@ impl VisitMut for FlowHelper<'_> {
 
         match node {
             Stmt::Continue(..) => {
+                if self.in_nested_loop {
+                    return;
+                }
+
                 self.has_continue = true;
                 *node = Stmt::Return(ReturnStmt {
                     span,
@@ -761,7 +800,7 @@ impl VisitMut for FlowHelper<'_> {
                 });
             }
             Stmt::Break(..) => {
-                if self.in_switch_case {
+                if self.in_switch_case || self.in_nested_loop {
                     return;
                 }
                 self.has_break = true;
@@ -815,6 +854,14 @@ impl VisitMut for FlowHelper<'_> {
             _ => {}
         }
         n.visit_mut_children_with(self);
+    }
+
+    /// https://github.com/swc-project/swc/pull/2916
+    fn visit_mut_while_stmt(&mut self, s: &mut WhileStmt) {
+        let old = self.in_nested_loop;
+        self.in_nested_loop = true;
+        s.visit_mut_children_with(self);
+        self.in_nested_loop = old;
     }
 }
 
@@ -938,7 +985,32 @@ impl Visit for FunctionFinder {
         self.found = true;
     }
 
+    /// Do not recurse into nested loop.
+    ///
+    /// https://github.com/swc-project/swc/issues/2622
+    fn visit_do_while_stmt(&mut self, _: &DoWhileStmt, _: &dyn Node) {}
+
+    /// Do not recurse into nested loop.
+    ///
+    /// https://github.com/swc-project/swc/issues/2622
+    fn visit_for_in_stmt(&mut self, _: &ForInStmt, _: &dyn Node) {}
+
+    /// Do not recurse into nested loop.
+    ///
+    /// https://github.com/swc-project/swc/issues/2622
+    fn visit_for_of_stmt(&mut self, _: &ForOfStmt, _: &dyn Node) {}
+
+    /// Do not recurse into nested loop.
+    ///
+    /// https://github.com/swc-project/swc/issues/2622
+    fn visit_for_stmt(&mut self, _: &ForStmt, _: &dyn Node) {}
+
     fn visit_function(&mut self, _: &Function, _: &dyn Node) {
         self.found = true
     }
+
+    /// Do not recurse into nested loop.
+    ///
+    /// https://github.com/swc-project/swc/issues/2622
+    fn visit_while_stmt(&mut self, _: &WhileStmt, _: &dyn Node) {}
 }
