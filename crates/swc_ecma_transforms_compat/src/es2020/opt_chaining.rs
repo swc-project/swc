@@ -181,7 +181,7 @@ impl OptChaining {
         let span = e.span;
 
         if let op!("delete") = e.op {
-            match &mut *e.arg.take() {
+            match &mut *e.arg {
                 Expr::OptChain(o) => {
                     let expr = self.unwrap(o);
 
@@ -235,7 +235,7 @@ impl OptChaining {
     fn handle_call(&mut self, e: &mut CallExpr) -> Result<CondExpr, Expr> {
         match &mut e.callee {
             ExprOrSuper::Expr(callee) if callee.is_opt_chain() => {
-                let mut callee = (&mut *callee).take().opt_chain().unwrap();
+                let mut callee = callee.take().opt_chain().unwrap();
                 let expr = self.unwrap(&mut callee);
 
                 return Ok(CondExpr {
@@ -244,12 +244,11 @@ impl OptChaining {
                         callee: ExprOrSuper::Expr(expr.alt),
                         ..e.take()
                     })),
-                    test: expr.test,
-                    cons: expr.cons,
+                    ..expr
                 });
             }
             ExprOrSuper::Expr(callee) if callee.is_member() => {
-                let mut callee = (&mut *callee).take().member().unwrap();
+                let mut callee = callee.take().member().unwrap();
                 let callee = self.handle_member(&mut callee);
 
                 return match callee {
@@ -369,7 +368,7 @@ impl OptChaining {
                 computed,
                 span: m_span,
             }) if obj.is_opt_chain() => {
-                let mut obj = (&mut *obj).take().opt_chain().unwrap();
+                let mut obj = obj.take().opt_chain().unwrap();
                 let question_dot_token = obj.question_dot_token;
 
                 let obj_span = obj.span;
@@ -395,7 +394,7 @@ impl OptChaining {
                 args,
                 type_args,
             }) if callee.is_opt_chain() => {
-                let mut callee = (&mut *callee).take().opt_chain().unwrap();
+                let mut callee = callee.take().opt_chain().unwrap();
                 let question_dot_token = callee.question_dot_token;
 
                 let obj = self.unwrap(&mut callee);
