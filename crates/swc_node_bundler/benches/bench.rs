@@ -18,6 +18,7 @@ use swc_common::{sync::Lrc, FileName, SourceMap, Span, GLOBALS};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::typescript::strip;
+use swc_ecma_transforms_base::{hygiene::hygiene, resolver::ts_resolver};
 use swc_ecma_visit::FoldWith;
 use test::Bencher;
 
@@ -88,7 +89,11 @@ impl Load for Loader {
 
         let mut parser = Parser::new_from(lexer);
         let module = parser.parse_module().unwrap();
-        let module = module.fold_with(&mut strip());
+        let mark = Mark::fresh(Mark::root());
+        let module = module
+            .fold_with(&mut ts_resolver(mark))
+            .fold_with(&mut strip(mark))
+            .fold_with(&mut hygiene());
         Ok(ModuleData {
             fm,
             module,

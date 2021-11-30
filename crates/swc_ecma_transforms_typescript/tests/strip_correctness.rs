@@ -7,7 +7,7 @@ use swc_common::{FileName, Mark};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{self, Emitter};
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax, TsConfig};
-use swc_ecma_transforms_base::{fixer::fixer, resolver::ts_resolver};
+use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver::ts_resolver};
 use swc_ecma_transforms_typescript::{strip, strip::strip_with_config};
 use swc_ecma_visit::{Fold, FoldWith};
 
@@ -132,6 +132,7 @@ fn identity(entry: PathBuf) {
                             },
                             top_level_mark,
                         ))
+                        .fold_with(&mut hygiene())
                         .fold_with(&mut fixer(None))
                 })
                 .map_err(|e| {

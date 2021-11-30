@@ -13,7 +13,11 @@ use swc::config::{Config, IsModule, JscConfig, Options, SourceMapsConfig};
 use swc_common::{errors::Handler, FileName, FilePathMapping, Mark, SourceFile, SourceMap};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::{Syntax, TsConfig};
-use swc_ecma_transforms::{fixer, hygiene, resolver::ts_resolver, typescript};
+use swc_ecma_transforms::{
+    fixer, hygiene,
+    resolver::{self, ts_resolver},
+    typescript,
+};
 use swc_ecma_visit::FoldWith;
 use test::Bencher;
 
@@ -73,12 +77,17 @@ fn base_tr_fixer(b: &mut Bencher) {
 #[bench]
 fn base_tr_resolver_and_hygiene(b: &mut Bencher) {
     let c = mk();
-    let module = parse(&c).1;
+    let module = as_es(parse(&c).1);
 
     b.iter(|| {
         let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
 
-        black_box(c.run_transform(&handler, true, || as_es(module.clone())))
+        black_box(c.run_transform(&handler, true, || {
+            module
+                .clone()
+                .fold_with(&mut resolver())
+                .fold_with(&mut hygiene())
+        }))
     });
 }
 
