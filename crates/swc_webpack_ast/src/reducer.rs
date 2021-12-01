@@ -565,9 +565,9 @@ impl VisitMut for ReduceAst {
             }) => {
                 self.ignore_expr(callee);
 
-                let is_define = match &**callee {
+                let is_string_lit_important = match &**callee {
                     Expr::Ident(callee) => {
-                        if &*callee.sym == "define" {
+                        if &*callee.sym == "define" || &*callee.sym == "require" {
                             true
                         } else {
                             false
@@ -590,7 +590,7 @@ impl VisitMut for ReduceAst {
                     let old_preserver_fn = self.preserve_fn;
                     self.preserve_fn = !callee.is_fn_expr() && !callee.is_arrow();
                     let old_preserve_lit = self.preserve_lit;
-                    self.preserve_lit |= is_define;
+                    self.preserve_lit |= is_string_lit_important;
                     e.visit_mut_children_with(self);
 
                     self.preserve_lit = old_preserve_lit;
