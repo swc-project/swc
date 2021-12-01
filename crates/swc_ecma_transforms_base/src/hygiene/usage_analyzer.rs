@@ -381,12 +381,13 @@ impl UsageAnalyzer<'_> {
                 }
             }
 
-            let renames = if top_match.0 == 1 {
+            let top_level_depth = 1; // 1 because script and module create a scope
+            let renames = if top_match.0 == top_level_depth {
                 let mut all_candidates = conflicts;
                 all_candidates.push((scope_depth, id.1.clone()));
                 all_candidates
                     .into_iter()
-                    .filter(|(scope, _)| *scope > 1)
+                    .filter(|(depth, _)| *depth > top_level_depth)
                     .collect()
             } else {
                 conflicts
