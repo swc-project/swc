@@ -28,21 +28,3 @@ error: Ident
 1 | @unknown{}
   | ^^^^^^^^
 
-error: Tokens
- --> $DIR/tests/fixture/esbuild/misc/_-29x4xnx6IaJMmYrOsypA/input.css:1:9
-  |
-1 | @unknown{}
-  |         ^^
-
-error: LBrace
- --> $DIR/tests/fixture/esbuild/misc/_-29x4xnx6IaJMmYrOsypA/input.css:1:9
-  |
-1 | @unknown{}
-  |         ^
-
-error: RBrace
- --> $DIR/tests/fixture/esbuild/misc/_-29x4xnx6IaJMmYrOsypA/input.css:1:10
-  |
-1 | @unknown{}
-  |          ^
-

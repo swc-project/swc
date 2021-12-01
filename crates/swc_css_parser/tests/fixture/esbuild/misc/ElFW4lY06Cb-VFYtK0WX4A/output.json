@@ -15,7 +15,7 @@
       },
       "selectors": [
         {
-          "type": "FnValue",
+          "type": "Function",
           "span": {
             "start": 15,
             "end": 27,
@@ -31,7 +31,7 @@
             "value": "url-prefix",
             "raw": "url-prefix"
           },
-          "args": []
+          "value": []
         }
       ],
       "block": [
@@ -98,7 +98,7 @@
               "end": 49,
               "ctxt": 0
             },
-            "items": [
+            "value": [
               {
                 "type": "Declaration",
                 "span": {

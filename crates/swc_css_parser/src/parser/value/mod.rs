@@ -284,7 +284,7 @@ where
 
             Token::Num { .. } => return self.parse_numeric_value(),
 
-            Token::Function { .. } => return Ok(Value::Fn(self.parse()?)),
+            Token::Function { .. } => return Ok(Value::Function(self.parse()?)),
 
             Token::Percent { .. } => return self.parse_numeric_value(),
 
@@ -565,6 +565,85 @@ where
             children,
         })
     }
+
+    pub fn parse_simple_block(&mut self, ending: char) -> PResult<SimpleBlock> {
+        let start_pos = self.input.last_pos()? - BytePos(1);
+        let mut simple_block = SimpleBlock {
+            span: Default::default(),
+            name: Default::default(),
+            value: vec![],
+        };
+
+        loop {
+            match cur!(self) {
+                tok!("}") if ending == '}' => {
+                    self.input.bump()?;
+
+                    let ending_pos = self.input.last_pos()?;
+
+                    simple_block.span =
+                        swc_common::Span::new(ending_pos, start_pos, Default::default());
+                    simple_block.name = '{';
+
+                    return Ok(simple_block);
+                }
+                tok!(")") if ending == ')' => {
+                    self.input.bump()?;
+
+                    let ending_pos = self.input.last_pos()?;
+
+                    simple_block.span =
+                        swc_common::Span::new(ending_pos, start_pos, Default::default());
+                    simple_block.name = '(';
+
+                    return Ok(simple_block);
+                }
+                tok!("]") if ending == ']' => {
+                    self.input.bump()?;
+
+                    let ending_pos = self.input.last_pos()?;
+
+                    simple_block.span =
+                        swc_common::Span::new(ending_pos, start_pos, Default::default());
+                    simple_block.name = '[';
+
+                    return Ok(simple_block);
+                }
+                _ => {
+                    let span = self.input.cur_span()?;
+                    let token = self.input.bump()?.unwrap();
+
+                    simple_block.value.push(Value::Lazy(Tokens {
+                        span: span!(self, span.lo),
+                        tokens: vec![token],
+                    }));
+                }
+            }
+        }
+    }
+
+    pub fn parse_component_value(&mut self) -> PResult<Value> {
+        match cur!(self) {
+            tok!("[") => return Ok(Value::SimpleBlock(self.parse_simple_block(']')?)),
+            tok!("(") => return Ok(Value::SimpleBlock(self.parse_simple_block(')')?)),
+            tok!("{") => return Ok(Value::SimpleBlock(self.parse_simple_block('}')?)),
+            tok!("function") => return Ok(Value::Function(self.parse()?)),
+            _ => {
+                let span = self.input.cur_span()?;
+                let token = self.input.bump()?;
+
+                return match token {
+                    Some(t) => Ok(Value::Lazy(Tokens {
+                        span: span!(self, span.lo),
+                        tokens: vec![t],
+                    })),
+                    _ => {
+                        unreachable!();
+                    }
+                };
+            }
+        }
+    }
 }
 
 impl<I> Parse<Num> for Parser<I>
@@ -681,11 +760,11 @@ where
     }
 }
 
-impl<I> Parse<FnValue> for Parser<I>
+impl<I> Parse<Function> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<FnValue> {
+    fn parse(&mut self) -> PResult<Function> {
         let span = self.input.cur_span()?;
 
         let name = match bump!(self) {
@@ -707,14 +786,14 @@ where
             allow_separating_value_with_comma: false,
             ..self.ctx
         };
-        let args = self.with_ctx(ctx).parse_comma_separated_value()?;
+        let value = self.with_ctx(ctx).parse_comma_separated_value()?;
 
         expect!(self, ")");
 
-        return Ok(FnValue {
+        return Ok(Function {
             span: span!(self, span.lo),
             name,
-            args,
+            value,
         });
     }
 }

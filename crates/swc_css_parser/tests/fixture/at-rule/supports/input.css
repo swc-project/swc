@@ -1,0 +1,17 @@
+@supports (display: grid) {
+    div {
+        display: grid;
+    }
+}
+
+@supports (display: flex) {
+    body {
+        color: blue;
+    }
+
+    @media screen and (min-width: 900px) {
+        article {
+            display: flex;
+        }
+    }
+}

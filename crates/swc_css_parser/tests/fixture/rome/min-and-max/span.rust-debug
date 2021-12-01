@@ -101,7 +101,7 @@ error: Value
 2 |     width: max(500px);
   |            ^^^^^^^^^^
 
-error: FnValue
+error: Function
  --> $DIR/tests/fixture/rome/min-and-max/input.css:2:9
   |
 2 |     width: max(500px);
@@ -155,7 +155,7 @@ error: Value
 3 |     width: max(500px, 6 / 4);
   |            ^^^^^^^^^^^^^^^^^
 
-error: FnValue
+error: Function
  --> $DIR/tests/fixture/rome/min-and-max/input.css:3:9
   |
 3 |     width: max(500px, 6 / 4);
@@ -245,7 +245,7 @@ error: Value
 4 |     width: max(500px, 40px + 5%);
   |            ^^^^^^^^^^^^^^^^^^^^^
 
-error: FnValue
+error: Function
  --> $DIR/tests/fixture/rome/min-and-max/input.css:4:9
   |
 4 |     width: max(500px, 40px + 5%);
@@ -353,7 +353,7 @@ error: Value
 5 |     width: max(500px, 5% * 400px + 2px);
   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: FnValue
+error: Function
  --> $DIR/tests/fixture/rome/min-and-max/input.css:5:9
   |
 5 |     width: max(500px, 5% * 400px + 2px);
@@ -509,7 +509,7 @@ error: Value
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: FnValue
+error: Function
  --> $DIR/tests/fixture/rome/min-and-max/input.css:6:9
   |
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -869,7 +869,7 @@ error: Value
 7 |     width: min(500px);
   |            ^^^^^^^^^^
 
-error: FnValue
+error: Function
  --> $DIR/tests/fixture/rome/min-and-max/input.css:7:9
   |
 7 |     width: min(500px);
@@ -923,7 +923,7 @@ error: Value
 8 |     width: min(500px, 6 / 4);
   |            ^^^^^^^^^^^^^^^^^
 
-error: FnValue
+error: Function
  --> $DIR/tests/fixture/rome/min-and-max/input.css:8:9
   |
 8 |     width: min(500px, 6 / 4);
@@ -1013,7 +1013,7 @@ error: Value
 9 |     width: min(500px, 40px + 5%);
   |            ^^^^^^^^^^^^^^^^^^^^^
 
-error: FnValue
+error: Function
  --> $DIR/tests/fixture/rome/min-and-max/input.css:9:9
   |
 9 |     width: min(500px, 40px + 5%);
@@ -1121,7 +1121,7 @@ error: Value
 10 |     width: min(500px, 5% * 400px + 2px);
    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: FnValue
+error: Function
   --> $DIR/tests/fixture/rome/min-and-max/input.css:10:9
    |
 10 |     width: min(500px, 5% * 400px + 2px);
@@ -1277,7 +1277,7 @@ error: Value
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: FnValue
+error: Function
   --> $DIR/tests/fixture/rome/min-and-max/input.css:11:9
    |
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);

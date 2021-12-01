@@ -70,7 +70,7 @@
           "end": 73,
           "ctxt": 0
         },
-        "items": [
+        "value": [
           {
             "type": "Declaration",
             "span": {
@@ -90,7 +90,7 @@
             },
             "value": [
               {
-                "type": "FnValue",
+                "type": "Function",
                 "span": {
                   "start": 33,
                   "end": 49,
@@ -106,7 +106,7 @@
                   "value": "fit-content",
                   "raw": "fit-content"
                 },
-                "args": [
+                "value": [
                   {
                     "type": "UnitValue",
                     "span": {
@@ -137,7 +137,7 @@
                 ]
               },
               {
-                "type": "FnValue",
+                "type": "Function",
                 "span": {
                   "start": 50,
                   "end": 66,
@@ -153,7 +153,7 @@
                   "value": "fit-content",
                   "raw": "fit-content"
                 },
-                "args": [
+                "value": [
                   {
                     "type": "UnitValue",
                     "span": {
