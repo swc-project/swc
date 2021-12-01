@@ -190,6 +190,7 @@ struct ReduceAst {
 
     can_remove_pat: bool,
     preserve_fn: bool,
+    preserve_lit: bool,
 
     changed: bool,
 }
@@ -542,6 +543,17 @@ impl VisitMut for ReduceAst {
             }) => {
                 self.ignore_expr(callee);
 
+                let is_define = match &**callee {
+                    Expr::Ident(callee) => {
+                        if &*callee.sym == "define" {
+                            true
+                        } else {
+                            false
+                        }
+                    }
+                    _ => false,
+                };
+
                 if callee.is_invalid() {
                     let mut seq = Expr::Seq(SeqExpr {
                         span: DUMMY_SP,
@@ -553,15 +565,24 @@ impl VisitMut for ReduceAst {
                     *e = seq;
                 } else {
                     // We should preserve the arguments if the callee is not invalid.
-                    let old = self.preserve_fn;
+                    let old_preserver_fn = self.preserve_fn;
                     self.preserve_fn = !callee.is_fn_expr() && !callee.is_arrow();
+                    let old_preserve_lit = self.preserve_lit;
+                    self.preserve_lit |= is_define;
                     e.visit_mut_children_with(self);
-                    self.preserve_fn = old;
+
+                    self.preserve_lit = old_preserve_lit;
+                    self.preserve_fn = old_preserver_fn;
+
                     return;
                 }
             }
 
             _ => {}
+        }
+
+        if self.preserve_lit && e.is_lit() {
+            return;
         }
 
         e.visit_mut_children_with(self);
