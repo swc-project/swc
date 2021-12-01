@@ -554,6 +554,15 @@ impl VisitMut for ReduceAst {
     ///  - empty [Expr::Seq] => [Expr::Invalid]
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         match e {
+            Expr::Bin(BinExpr { left, right, .. }) => {
+                if is_related_to_process(&left) || is_related_to_process(&right) {
+                    return;
+                }
+            }
+            _ => {}
+        }
+
+        match e {
             Expr::Call(CallExpr {
                 callee: ExprOrSuper::Expr(callee),
                 args,
@@ -1811,6 +1820,17 @@ impl VisitMut for ReduceAst {
         if had_init && v.init.is_none() && matches!(self.var_decl_kind, Some(VarDeclKind::Const)) {
             v.init = Some(Box::new(null_expr(v.span)));
         }
+    }
+}
+
+fn is_related_to_process(right: &Expr) -> bool {
+    match right {
+        Expr::Ident(i) => &*i.sym == "process",
+        Expr::Member(MemberExpr {
+            obj: ExprOrSuper::Expr(obj),
+            ..
+        }) => is_related_to_process(&obj),
+        _ => false,
     }
 }
 
