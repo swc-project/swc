@@ -5,10 +5,10 @@ use serde::Deserialize;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::Parallel;
-use swc_ecma_transforms_macros::parallel;
+// use swc_ecma_transforms_base::perf::Parallel;
+// use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{
-    function::{FunctionWrapper, WrapperState},
+    function::{init_this, FunctionWrapper, WrapperState},
     member_expr, prepend, prepend_stmts, private_ident, quote_ident, undefined, ExprFactory,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
@@ -25,6 +25,7 @@ struct Params {
     /// Used to store `this, in case if `arguments` is used and we should
     /// transform an arrow expression to a function expression.
     state: WrapperState,
+    in_subclass: bool,
     c: Config,
 }
 
@@ -35,32 +36,32 @@ pub struct Config {
     pub ignore_function_length: bool,
 }
 
-impl Parallel for Params {
-    fn create(&self) -> Self {
-        Params {
-            state: Default::default(),
-            c: self.c,
-        }
-    }
+// impl Parallel for Params {
+//     fn create(&self) -> Self {
+//         Params {
+//             state: Default::default(),
+//             c: self.c,
+//         }
+//     }
 
-    fn merge(&mut self, other: Self) {
-        self.state.merge(other.state);
-    }
+//     fn merge(&mut self, other: Self) {
+//         self.state.merge(other.state);
+//     }
 
-    fn after_stmts(&mut self, stmts: &mut Vec<Stmt>) {
-        let decls = self.state.take().to_stmt();
-        if let Some(decls) = decls {
-            prepend(stmts, decls)
-        }
-    }
+//     fn after_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+//         let decls = self.state.take().to_stmt();
+//         if let Some(decls) = decls {
+//             prepend(stmts, decls)
+//         }
+//     }
 
-    fn after_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
-        let decls = self.state.take().to_stmt();
-        if let Some(decls) = decls {
-            prepend(stmts, ModuleItem::Stmt(decls))
-        }
-    }
-}
+//     fn after_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
+//         let decls = self.state.take().to_stmt();
+//         if let Some(decls) = decls {
+//             prepend(stmts, ModuleItem::Stmt(decls))
+//         }
+//     }
+// }
 
 impl Params {
     fn visit_mut_fn_like(&mut self, ps: &mut Vec<Param>, body: &mut BlockStmt, is_setter: bool) {
@@ -392,7 +393,6 @@ impl Params {
     }
 }
 
-#[parallel]
 impl VisitMut for Params {
     noop_visit_mut_type!();
 
@@ -448,39 +448,33 @@ impl VisitMut for Params {
     }
 
     fn visit_mut_constructor(&mut self, f: &mut Constructor) {
-        if f.body.is_none() {
-            return;
-        }
+        f.params.visit_mut_with(self);
 
-        f.visit_mut_children_with(self);
+        if let Some(BlockStmt { span: _, stmts }) = &mut f.body {
+            let old_rep = self.state.take();
 
-        let mut params = f
-            .params
-            .take()
-            .into_iter()
-            .map(|pat| match pat {
-                ParamOrTsParamProp::Param(p) => p,
-                _ => {
-                    unreachable!("TsParameterProperty should be removed by typescript::strip pass")
+            stmts.visit_mut_children_with(self);
+
+            if self.in_subclass {
+                let (decl, this_id) = mem::replace(&mut self.state, old_rep).to_stmt_in_subclass();
+
+                if let Some(stmt) = decl {
+                    if let Some(this_id) = this_id {
+                        init_this(stmts, &this_id)
+                    }
+                    prepend(stmts, stmt);
                 }
-            })
-            .collect();
+            } else {
+                let decl = mem::replace(&mut self.state, old_rep).to_stmt();
 
-        let mut body = f.body.take().unwrap();
-        self.visit_mut_fn_like(&mut params, &mut body, false);
-
-        f.params = params.into_iter().map(ParamOrTsParamProp::Param).collect();
-        f.body = Some(body);
+                if let Some(stmt) = decl {
+                    prepend(stmts, stmt);
+                }
+            }
+        }
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
-        let mut state = self.state.take();
-
-        e.visit_mut_children_with(self);
-
-        state.merge(self.state.take());
-        self.state = state;
-
         match e {
             Expr::Arrow(f) => {
                 f.visit_mut_children_with(self);
@@ -569,7 +563,7 @@ impl VisitMut for Params {
                     return_type: f.return_type.take(),
                 });
             }
-            _ => {}
+            _ => e.visit_mut_children_with(self),
         }
     }
 
@@ -621,6 +615,36 @@ impl VisitMut for Params {
 
         f.param = params.pop().unwrap().pat;
         f.body = Some(body);
+    }
+
+    fn visit_mut_class(&mut self, c: &mut Class) {
+        if c.super_class.is_some() {
+            self.in_subclass = true;
+        }
+        c.visit_mut_children_with(self);
+        self.in_subclass = false;
+    }
+
+    fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
+        stmts.visit_mut_children_with(self);
+
+        let decl = self.state.take().to_stmt();
+
+        if let Some(stmt) = decl {
+            prepend(stmts, ModuleItem::Stmt(stmt));
+        }
+    }
+
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        let old_rep = self.state.take();
+
+        stmts.visit_mut_children_with(self);
+
+        let decl = mem::replace(&mut self.state, old_rep).to_stmt();
+
+        if let Some(stmt) = decl {
+            prepend(stmts, stmt);
+        }
     }
 }
 

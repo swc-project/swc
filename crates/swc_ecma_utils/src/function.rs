@@ -13,14 +13,6 @@ impl WrapperState {
     pub fn new(this: Option<Ident>, args: Option<Ident>) -> Self {
         Self { this, args }
     }
-    pub fn merge(&mut self, other: Self) {
-        if let Some(this) = other.this {
-            self.this = Some(this)
-        }
-        if let Some(args) = other.args {
-            self.args = Some(args)
-        }
-    }
     pub fn to_decl(self) -> Vec<VarDeclarator> {
         let Self { this, args } = self;
 

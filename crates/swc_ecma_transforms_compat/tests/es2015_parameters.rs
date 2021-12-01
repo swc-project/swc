@@ -1841,7 +1841,7 @@ class Foo extends function () {} {
 constructor() {
   var _this;
 
-  var foo = function foo() {
+  var foo = function() {
     for (var _len = arguments.length, rest = new Array(_len), _key = 0; _key < _len; _key++) {
       rest[_key] = arguments[_key];
     }
@@ -1852,8 +1852,7 @@ constructor() {
   if (true) {
     console.log((super(), _this = this), foo());
   } else {
-    super();
-    _this = this;
+    super(), _this = this;
     console.log(foo());
   }
 }
