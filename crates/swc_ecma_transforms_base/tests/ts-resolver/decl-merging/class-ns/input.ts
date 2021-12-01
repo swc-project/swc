@@ -1,7 +1,9 @@
+export namespace LikeGlobal {
 
 
-export class Foo { }
+    export class Foo { }
 
-interface Blocker { }
+    interface Blocker { }
 
-export namespace Foo { }
+    export namespace Foo { }
+}
