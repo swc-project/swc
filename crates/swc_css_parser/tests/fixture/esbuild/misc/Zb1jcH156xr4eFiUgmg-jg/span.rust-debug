@@ -28,7 +28,7 @@ error: Ident
 1 | @n\61mespace ns 'path';
   |              ^^
 
-error: NamespaceValue
+error: NamespaceUri
  --> $DIR/tests/fixture/esbuild/misc/Zb1jcH156xr4eFiUgmg-jg/input.css:1:17
   |
 1 | @n\61mespace ns 'path';

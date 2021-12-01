@@ -659,4 +659,22 @@ function _foo() {
     }));
     return _foo.apply(this, arguments);
 }
-foo();
+function main() {
+    return _main.apply(this, arguments);
+}
+function _main() {
+    _main = _asyncToGenerator(regeneratorRuntime1.mark(function _callee() {
+        return regeneratorRuntime1.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                    _ctx.next = 2;
+                    return foo();
+                case 2:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, _callee);
+    }));
+    return _main.apply(this, arguments);
+}
+console.log(main());
