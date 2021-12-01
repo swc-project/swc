@@ -16,21 +16,30 @@ where
 
         loop {
             // TODO: remove `}`
+            // <EOF-token>
+            // Return the list of rules.
             if is!(self, EOF) || is!(self, "}") {
                 return Ok(rules);
             }
 
             match cur!(self) {
+                // <whitespace-token>
+                // Do nothing.
                 tok!(" ") => {
                     self.input.skip_ws()?;
                 }
+                // <CDO-token>
+                // <CDC-token>
                 tok!("<!--") | tok!("-->") => {
+                    // If the top-level flag is set, do nothing.
                     if ctx.is_top_level {
                         self.input.bump()?;
 
                         continue;
                     }
 
+                    // Otherwise, reconsume the current input token. Consume a qualified rule. If
+                    // anything is returned, append it to the list of rules.
                     rules.push(self.parse()?);
                 }
                 Token::AtKeyword { .. } => {
@@ -98,13 +107,13 @@ where
 
         self.input.skip_ws()?;
 
-        let items = self.parse()?;
+        let value = self.parse()?;
 
         expect!(self, "}");
 
         let span = span!(self, start);
 
-        Ok(Block { span, items })
+        Ok(Block { span, value })
     }
 }
 

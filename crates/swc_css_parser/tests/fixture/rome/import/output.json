@@ -33,7 +33,7 @@
         "ctxt": 0
       },
       "src": {
-        "type": "FnValue",
+        "type": "Function",
         "span": {
           "start": 33,
           "end": 53,
@@ -49,7 +49,7 @@
           "value": "url",
           "raw": "url"
         },
-        "args": [
+        "value": [
           {
             "type": "String",
             "span": {

@@ -137,7 +137,7 @@ error: Value
 3 |     border: var(--fancy);
   |             ^^^^^^^^^^^^
 
-error: FnValue
+error: Function
  --> $DIR/tests/fixture/rome/functions/input.css:3:10
   |
 3 |     border: var(--fancy);
@@ -179,7 +179,7 @@ error: Value
 4 |     font-size: calc(10px + 5rem);
   |                ^^^^^^^^^^^^^^^^^
 
-error: FnValue
+error: Function
  --> $DIR/tests/fixture/rome/functions/input.css:4:13
   |
 4 |     font-size: calc(10px + 5rem);
@@ -269,7 +269,7 @@ error: Value
 5 |     background: url("");
   |                 ^^^^^^^
 
-error: FnValue
+error: Function
  --> $DIR/tests/fixture/rome/functions/input.css:5:14
   |
 5 |     background: url("");
@@ -311,7 +311,7 @@ error: Value
 6 |     background: url("something");
   |                 ^^^^^^^^^^^^^^^^
 
-error: FnValue
+error: Function
  --> $DIR/tests/fixture/rome/functions/input.css:6:14
   |
 6 |     background: url("something");
@@ -353,7 +353,7 @@ error: Value
 7 |     background: url("./something");
   |                 ^^^^^^^^^^^^^^^^^^
 
-error: FnValue
+error: Function
  --> $DIR/tests/fixture/rome/functions/input.css:7:14
   |
 7 |     background: url("./something");

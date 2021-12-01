@@ -1,10 +1,10 @@
-use crate::{FnValue, MediaQuery, Str, UrlValue};
+use crate::{Function, MediaQuery, Str, UrlValue};
 use swc_common::{ast_node, Span};
 
 #[ast_node]
 pub enum ImportSource {
-    #[tag("FnValue")]
-    Fn(FnValue),
+    #[tag("Function")]
+    Function(Function),
 
     #[tag("UrlValue")]
     Url(UrlValue),

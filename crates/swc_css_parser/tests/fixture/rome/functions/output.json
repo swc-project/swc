@@ -70,7 +70,7 @@
           "end": 165,
           "ctxt": 0
         },
-        "items": [
+        "value": [
           {
             "type": "Declaration",
             "span": {
@@ -149,7 +149,7 @@
             },
             "value": [
               {
-                "type": "FnValue",
+                "type": "Function",
                 "span": {
                   "start": 33,
                   "end": 45,
@@ -165,7 +165,7 @@
                   "value": "var",
                   "raw": "var"
                 },
-                "args": [
+                "value": [
                   {
                     "type": "Identifier",
                     "span": {
@@ -200,7 +200,7 @@
             },
             "value": [
               {
-                "type": "FnValue",
+                "type": "Function",
                 "span": {
                   "start": 59,
                   "end": 76,
@@ -216,7 +216,7 @@
                   "value": "calc",
                   "raw": "calc"
                 },
-                "args": [
+                "value": [
                   {
                     "type": "BinValue",
                     "span": {
@@ -304,7 +304,7 @@
             },
             "value": [
               {
-                "type": "FnValue",
+                "type": "Function",
                 "span": {
                   "start": 91,
                   "end": 98,
@@ -320,7 +320,7 @@
                   "value": "url",
                   "raw": "url"
                 },
-                "args": [
+                "value": [
                   {
                     "type": "String",
                     "span": {
@@ -355,7 +355,7 @@
             },
             "value": [
               {
-                "type": "FnValue",
+                "type": "Function",
                 "span": {
                   "start": 113,
                   "end": 129,
@@ -371,7 +371,7 @@
                   "value": "url",
                   "raw": "url"
                 },
-                "args": [
+                "value": [
                   {
                     "type": "String",
                     "span": {
@@ -406,7 +406,7 @@
             },
             "value": [
               {
-                "type": "FnValue",
+                "type": "Function",
                 "span": {
                   "start": 144,
                   "end": 162,
@@ -422,7 +422,7 @@
                   "value": "url",
                   "raw": "url"
                 },
-                "args": [
+                "value": [
                   {
                     "type": "String",
                     "span": {

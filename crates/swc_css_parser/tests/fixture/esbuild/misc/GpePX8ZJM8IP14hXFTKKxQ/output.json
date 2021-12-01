@@ -69,7 +69,7 @@
           "end": 18,
           "ctxt": 0
         },
-        "items": [
+        "value": [
           {
             "type": "Declaration",
             "span": {
@@ -89,7 +89,7 @@
             },
             "value": [
               {
-                "type": "FnValue",
+                "type": "Function",
                 "span": {
                   "start": 11,
                   "end": 16,
@@ -105,7 +105,7 @@
                   "value": "x,",
                   "raw": "x\\,"
                 },
-                "args": []
+                "value": []
               }
             ],
             "important": null

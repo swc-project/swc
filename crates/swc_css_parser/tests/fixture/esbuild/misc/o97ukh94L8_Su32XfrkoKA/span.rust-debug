@@ -28,7 +28,7 @@ error: ImportSource
 1 | @import url("foo.css");
   |         ^^^^^^^^^^^^^^
 
-error: FnValue
+error: Function
  --> $DIR/tests/fixture/esbuild/misc/o97ukh94L8_Su32XfrkoKA/input.css:1:9
   |
 1 | @import url("foo.css");

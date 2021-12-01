@@ -106,7 +106,7 @@
               "end": 168,
               "ctxt": 0
             },
-            "items": [
+            "value": [
               {
                 "type": "Declaration",
                 "span": {
@@ -126,7 +126,7 @@
                 },
                 "value": [
                   {
-                    "type": "FnValue",
+                    "type": "Function",
                     "span": {
                       "start": 147,
                       "end": 161,
@@ -142,7 +142,7 @@
                       "value": "translateX",
                       "raw": "translateX"
                     },
-                    "args": [
+                    "value": [
                       {
                         "type": "PercentValue",
                         "span": {
@@ -194,7 +194,7 @@
               "end": 221,
               "ctxt": 0
             },
-            "items": [
+            "value": [
               {
                 "type": "Declaration",
                 "span": {
@@ -214,7 +214,7 @@
                 },
                 "value": [
                   {
-                    "type": "FnValue",
+                    "type": "Function",
                     "span": {
                       "start": 198,
                       "end": 214,
@@ -230,7 +230,7 @@
                       "value": "translateX",
                       "raw": "translateX"
                     },
-                    "args": [
+                    "value": [
                       {
                         "type": "PercentValue",
                         "span": {
@@ -310,7 +310,7 @@
               "end": 276,
               "ctxt": 0
             },
-            "items": [
+            "value": [
               {
                 "type": "Declaration",
                 "span": {
@@ -409,7 +409,7 @@
               "end": 299,
               "ctxt": 0
             },
-            "items": [
+            "value": [
               {
                 "type": "Declaration",
                 "span": {
@@ -512,7 +512,7 @@
               "end": 328,
               "ctxt": 0
             },
-            "items": [
+            "value": [
               {
                 "type": "Declaration",
                 "span": {
@@ -597,7 +597,7 @@
               "end": 365,
               "ctxt": 0
             },
-            "items": [
+            "value": [
               {
                 "type": "Declaration",
                 "span": {
