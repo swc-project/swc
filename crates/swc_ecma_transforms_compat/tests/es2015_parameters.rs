@@ -80,12 +80,12 @@ test!(
 function foo(...a) {
   return a;
 }"#,
-    r#"var a1 = 'bar';
+    r#"var a = 'bar';
 function foo() {
-    for(var _len = arguments.length, a = new Array(_len), _key = 0; _key < _len; _key++){
-        a[_key] = arguments[_key];
+    for(var _len = arguments.length, a1 = new Array(_len), _key = 0; _key < _len; _key++){
+        a1[_key] = arguments[_key];
     }
-    return a;
+    return a1;
 }"#
 );
 
@@ -184,13 +184,13 @@ test!(
   }
 }
 Ref.nextID = 0"#,
-    r#"var Ref1 = function Ref(param) {
+    r#"var Ref = function Ref1(param) {
         'use strict';
-        var id = param === void 0 ? ++Ref.nextID : param;
-        _classCallCheck(this, Ref);
+        var id = param === void 0 ? ++Ref1.nextID : param;
+        _classCallCheck(this, Ref1);
         this.id = id;
     };
-Ref1.nextID = 0;"#
+Ref.nextID = 0;"#
 );
 
 test_exec!(
@@ -225,16 +225,16 @@ class X {
     this.x = x
   }
 }"#,
-    r#"var Ref1 = function Ref(param) {
+    r#"var Ref = function Ref1(param) {
         'use strict';
-        var ref = param === void 0 ? Ref : param;
-        _classCallCheck(this, Ref);
+        var ref = param === void 0 ? Ref1 : param;
+        _classCallCheck(this, Ref1);
         this.ref = ref;
     }
-var X1 = function X(param) {
+var X = function X1(param) {
         'use strict';
         var x = param === void 0 ? foo : param;
-        _classCallCheck(this, X);
+        _classCallCheck(this, X1);
         this.x = x;
     };
 "#
@@ -448,12 +448,12 @@ test!(
 function foo(...args) {
   return args;
 }"#,
-    r#"var args1 = 'bar';
+    r#"var args = 'bar';
 function foo() {
-    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
-        args[_key] = arguments[_key];
+    for(var _len = arguments.length, args1 = new Array(_len), _key = 0; _key < _len; _key++){
+        args1[_key] = arguments[_key];
     }
-    return args;
+    return args1;
 }
 "#
 );
@@ -1727,20 +1727,20 @@ test!(
     })
     ",
     "
-    var self1 = this;
+    var self = this;
     const arrow = function() {
         for(let _len1 = arguments.length, args = new Array(_len1), _key1 = 0; _key1 < _len1; \
      _key1++){
             args[_key1] = arguments[_key1];
         }
-        return self1, ()=>{
-            var self = this;
+        return self, ()=>{
+            var self1 = this;
             return function() {
                 for(let _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; \
      _key++){
                     args[_key] = arguments[_key];
                 }
-                console.log(self, args);
+                console.log(self1, args);
             };
         };
     };

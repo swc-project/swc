@@ -21,7 +21,7 @@ pub(super) struct ScopeData {
     pub kind: ScopeKind,
 
     pub direct_decls: RefCell<AHashMap<JsWord, Vec<SyntaxContext>>>,
-    pub decls: RefCell<AHashMap<JsWord, Vec<SyntaxContext>>>,
+    pub decls: RefCell<AHashMap<JsWord, Vec<(u16, SyntaxContext)>>>,
 
     /// Usages in current scope.
     pub direct_usages: RefCell<AHashMap<JsWord, Vec<SyntaxContext>>>,
@@ -31,6 +31,7 @@ pub(super) struct ScopeData {
 pub(super) struct CurScope<'a> {
     pub parent: Option<&'a CurScope<'a>>,
     pub data: ScopeData,
+    pub depth: u16,
 }
 
 impl CurScope<'_> {
@@ -72,7 +73,7 @@ impl CurScope<'_> {
             let ctxts_of_decls = b.get_mut(&id.0);
 
             if let Some(ctxts_of_decls) = ctxts_of_decls {
-                if let Some(pos) = ctxts_of_decls.iter().position(|&ctxt| ctxt == id.1) {
+                if let Some(pos) = ctxts_of_decls.iter().position(|&(_, ctxt)| ctxt == id.1) {
                     ctxts_of_decls.remove(pos);
                 }
             }
@@ -94,7 +95,7 @@ impl CurScope<'_> {
             let ctxts_of_decls = b.get_mut(&sym);
 
             if let Some(ctxts_of_decls) = ctxts_of_decls {
-                ctxts_of_decls.retain(|&ctxt| !dropped_ctxts.contains(&ctxt));
+                ctxts_of_decls.retain(|&(_, ctxt)| !dropped_ctxts.contains(&ctxt));
             }
         }
 
@@ -123,8 +124,8 @@ impl CurScope<'_> {
         {
             let mut b = self.data.decls.borrow_mut();
             let ctxts_of_decls = b.entry(id.0.clone()).or_default();
-            if !ctxts_of_decls.contains(&id.1) {
-                ctxts_of_decls.push(id.1);
+            if !ctxts_of_decls.iter().any(|(_, ctxt)| ctxt == &id.1) {
+                ctxts_of_decls.push((self.depth, id.1));
             }
         }
 
@@ -143,7 +144,7 @@ impl CurScope<'_> {
 
     /// Given usage (`sym`), will it be resolved as `ctxt` if we don't rename
     /// it?
-    fn conflict(&self, sym: &JsWord, ctxt: SyntaxContext) -> Vec<SyntaxContext> {
+    fn conflict(&self, sym: &JsWord, ctxt: SyntaxContext) -> Vec<(u16, SyntaxContext)> {
         let mut conflicts = match self.parent {
             Some(s) => s.conflict(sym, ctxt),
             None => vec![],
@@ -153,10 +154,25 @@ impl CurScope<'_> {
             if ctxts.len() > 1 {
                 return conflicts;
             }
-            conflicts.extend(ctxts.iter().copied().filter(|&cx| cx != ctxt));
+            conflicts.extend(ctxts.iter().copied().filter(|(_, cx)| cx != &ctxt));
         }
 
         conflicts
+    }
+
+    fn scope_depth(&self, id: &Id) -> u16 {
+        if let Some(ctxts) = self.data.decls.borrow().get(&id.0) {
+            for (scope_depth, ctxt) in ctxts.iter() {
+                if ctxt == &id.1 {
+                    return *scope_depth;
+                }
+            }
+        }
+
+        match self.parent {
+            Some(parent) => parent.scope_depth(id),
+            None => 0,
+        }
     }
 
     fn add_usage(&self, id: Id) {
@@ -256,6 +272,7 @@ impl UsageAnalyzer<'_> {
                     kind,
                     ..Default::default()
                 },
+                depth: self.cur.depth + 1,
             },
             is_pat_decl: self.is_pat_decl,
         };
@@ -315,7 +332,7 @@ impl UsageAnalyzer<'_> {
             let ctxts_of_decls = b.get(&id.0);
 
             if let Some(ctxts_of_decls) = ctxts_of_decls {
-                let cur_scope_conflict = if ctxts_of_decls.contains(&id.1) {
+                let cur_scope_conflict = if ctxts_of_decls.iter().any(|(_, ctxt)| ctxt == &id.1) {
                     ctxts_of_decls.len() > 1
                 } else {
                     ctxts_of_decls.len() > 0
@@ -352,14 +369,36 @@ impl UsageAnalyzer<'_> {
 
         let id = self.get_renamed_id(id);
 
-        // We rename decl instead of usage.
+        // We rename based on the scope depth of the identifier
         let conflicts = self.cur.conflict(&id.0, id.1);
+        if !conflicts.is_empty() {
+            let scope_depth = self.cur.scope_depth(&id);
+            let mut top_match = (scope_depth, id.1.clone());
 
-        for ctxt in conflicts {
-            if LOG {
-                debug!("Renaming decl: Usage-decl conflict (ctxt={:?})", ctxt);
+            for (scope_depth, ctxt) in conflicts.iter() {
+                if scope_depth < &top_match.0 {
+                    top_match = (*scope_depth, ctxt.clone());
+                }
             }
-            self.rename((id.0.clone(), ctxt));
+
+            let renames = if top_match.0 == 1 {
+                let mut all_candidates = conflicts;
+                all_candidates.push((scope_depth, id.1.clone()));
+                all_candidates
+                    .into_iter()
+                    .filter(|(scope, _)| *scope > 1)
+                    .collect()
+            } else {
+                conflicts
+            };
+
+            for (_, ctxt) in renames {
+                if LOG {
+                    debug!("Renaming decl: Usage-decl conflict (ctxt={:?})", ctxt);
+                }
+
+                self.rename((id.0.clone(), ctxt));
+            }
         }
 
         self.cur.add_usage(id);

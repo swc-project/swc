@@ -172,8 +172,8 @@ export default function formatLocale(locale) {
     };
     function newFormat(specifier, formats) {
         return function(date) {
-            var c, pad, format, string = [], i = -1, j = 0, n = specifier.length;
-            for(date instanceof Date || (date = new Date(+date)); ++i < n;)37 === specifier.charCodeAt(i) && (string.push(specifier.slice(j, i)), null != (pad = pads[c = specifier.charAt(++i)]) ? c = specifier.charAt(++i) : pad = "e" === c ? " " : "0", (format = formats[c]) && (c = format(date, pad)), string.push(c), j = i + 1);
+            var c, pad1, format, string = [], i = -1, j = 0, n = specifier.length;
+            for(date instanceof Date || (date = new Date(+date)); ++i < n;)37 === specifier.charCodeAt(i) && (string.push(specifier.slice(j, i)), null != (pad1 = pads[c = specifier.charAt(++i)]) ? c = specifier.charAt(++i) : pad1 = "e" === c ? " " : "0", (format = formats[c]) && (c = format(date, pad1)), string.push(c), j = i + 1);
             return string.push(specifier.slice(j, i)), string.join("");
         };
     }
@@ -231,7 +231,7 @@ var pads = {
     "_": " ",
     "0": "0"
 }, numberRe = /^\s*\d+/, percentRe = /^%/, requoteRe = /[\\^$*+?|[\]().{}]/g;
-function pad1(value, fill, width) {
+function pad(value, fill, width) {
     var sign = value < 0 ? "-" : "", string = (sign ? -value : value) + "", length = string.length;
     return sign + (length < width ? new Array(width - length + 1).join(fill) + string : string);
 }
@@ -329,128 +329,128 @@ function parseUnixTimestampSeconds(d, string, i) {
     return n ? (d.s = +n[0], i + n[0].length) : -1;
 }
 function formatDayOfMonth(d, p) {
-    return pad1(d.getDate(), p, 2);
+    return pad(d.getDate(), p, 2);
 }
 function formatHour24(d, p) {
-    return pad1(d.getHours(), p, 2);
+    return pad(d.getHours(), p, 2);
 }
 function formatHour12(d, p) {
-    return pad1(d.getHours() % 12 || 12, p, 2);
+    return pad(d.getHours() % 12 || 12, p, 2);
 }
 function formatDayOfYear(d, p) {
-    return pad1(1 + timeDay.count(timeYear(d), d), p, 3);
+    return pad(1 + timeDay.count(timeYear(d), d), p, 3);
 }
 function formatMilliseconds(d, p) {
-    return pad1(d.getMilliseconds(), p, 3);
+    return pad(d.getMilliseconds(), p, 3);
 }
 function formatMicroseconds(d, p) {
     return formatMilliseconds(d, p) + "000";
 }
 function formatMonthNumber(d, p) {
-    return pad1(d.getMonth() + 1, p, 2);
+    return pad(d.getMonth() + 1, p, 2);
 }
 function formatMinutes(d, p) {
-    return pad1(d.getMinutes(), p, 2);
+    return pad(d.getMinutes(), p, 2);
 }
 function formatSeconds(d, p) {
-    return pad1(d.getSeconds(), p, 2);
+    return pad(d.getSeconds(), p, 2);
 }
 function formatWeekdayNumberMonday(d) {
     var day = d.getDay();
     return 0 === day ? 7 : day;
 }
 function formatWeekNumberSunday(d, p) {
-    return pad1(timeSunday.count(timeYear(d) - 1, d), p, 2);
+    return pad(timeSunday.count(timeYear(d) - 1, d), p, 2);
 }
 function dISO(d) {
     var day = d.getDay();
     return day >= 4 || 0 === day ? timeThursday(d) : timeThursday.ceil(d);
 }
 function formatWeekNumberISO(d, p) {
-    return d = dISO(d), pad1(timeThursday.count(timeYear(d), d) + (4 === timeYear(d).getDay()), p, 2);
+    return d = dISO(d), pad(timeThursday.count(timeYear(d), d) + (4 === timeYear(d).getDay()), p, 2);
 }
 function formatWeekdayNumberSunday(d) {
     return d.getDay();
 }
 function formatWeekNumberMonday(d, p) {
-    return pad1(timeMonday.count(timeYear(d) - 1, d), p, 2);
+    return pad(timeMonday.count(timeYear(d) - 1, d), p, 2);
 }
 function formatYear(d, p) {
-    return pad1(d.getFullYear() % 100, p, 2);
+    return pad(d.getFullYear() % 100, p, 2);
 }
 function formatYearISO(d, p) {
-    return pad1((d = dISO(d)).getFullYear() % 100, p, 2);
+    return pad((d = dISO(d)).getFullYear() % 100, p, 2);
 }
 function formatFullYear(d, p) {
-    return pad1(d.getFullYear() % 10000, p, 4);
+    return pad(d.getFullYear() % 10000, p, 4);
 }
 function formatFullYearISO(d, p) {
     var day = d.getDay();
-    return pad1((d = day >= 4 || 0 === day ? timeThursday(d) : timeThursday.ceil(d)).getFullYear() % 10000, p, 4);
+    return pad((d = day >= 4 || 0 === day ? timeThursday(d) : timeThursday.ceil(d)).getFullYear() % 10000, p, 4);
 }
 function formatZone(d) {
     var z = d.getTimezoneOffset();
-    return (z > 0 ? "-" : (z *= -1, "+")) + pad1(z / 60 | 0, "0", 2) + pad1(z % 60, "0", 2);
+    return (z > 0 ? "-" : (z *= -1, "+")) + pad(z / 60 | 0, "0", 2) + pad(z % 60, "0", 2);
 }
 function formatUTCDayOfMonth(d, p) {
-    return pad1(d.getUTCDate(), p, 2);
+    return pad(d.getUTCDate(), p, 2);
 }
 function formatUTCHour24(d, p) {
-    return pad1(d.getUTCHours(), p, 2);
+    return pad(d.getUTCHours(), p, 2);
 }
 function formatUTCHour12(d, p) {
-    return pad1(d.getUTCHours() % 12 || 12, p, 2);
+    return pad(d.getUTCHours() % 12 || 12, p, 2);
 }
 function formatUTCDayOfYear(d, p) {
-    return pad1(1 + utcDay.count(utcYear(d), d), p, 3);
+    return pad(1 + utcDay.count(utcYear(d), d), p, 3);
 }
 function formatUTCMilliseconds(d, p) {
-    return pad1(d.getUTCMilliseconds(), p, 3);
+    return pad(d.getUTCMilliseconds(), p, 3);
 }
 function formatUTCMicroseconds(d, p) {
     return formatUTCMilliseconds(d, p) + "000";
 }
 function formatUTCMonthNumber(d, p) {
-    return pad1(d.getUTCMonth() + 1, p, 2);
+    return pad(d.getUTCMonth() + 1, p, 2);
 }
 function formatUTCMinutes(d, p) {
-    return pad1(d.getUTCMinutes(), p, 2);
+    return pad(d.getUTCMinutes(), p, 2);
 }
 function formatUTCSeconds(d, p) {
-    return pad1(d.getUTCSeconds(), p, 2);
+    return pad(d.getUTCSeconds(), p, 2);
 }
 function formatUTCWeekdayNumberMonday(d) {
     var dow = d.getUTCDay();
     return 0 === dow ? 7 : dow;
 }
 function formatUTCWeekNumberSunday(d, p) {
-    return pad1(utcSunday.count(utcYear(d) - 1, d), p, 2);
+    return pad(utcSunday.count(utcYear(d) - 1, d), p, 2);
 }
 function UTCdISO(d) {
     var day = d.getUTCDay();
     return day >= 4 || 0 === day ? utcThursday(d) : utcThursday.ceil(d);
 }
 function formatUTCWeekNumberISO(d, p) {
-    return d = UTCdISO(d), pad1(utcThursday.count(utcYear(d), d) + (4 === utcYear(d).getUTCDay()), p, 2);
+    return d = UTCdISO(d), pad(utcThursday.count(utcYear(d), d) + (4 === utcYear(d).getUTCDay()), p, 2);
 }
 function formatUTCWeekdayNumberSunday(d) {
     return d.getUTCDay();
 }
 function formatUTCWeekNumberMonday(d, p) {
-    return pad1(utcMonday.count(utcYear(d) - 1, d), p, 2);
+    return pad(utcMonday.count(utcYear(d) - 1, d), p, 2);
 }
 function formatUTCYear(d, p) {
-    return pad1(d.getUTCFullYear() % 100, p, 2);
+    return pad(d.getUTCFullYear() % 100, p, 2);
 }
 function formatUTCYearISO(d, p) {
-    return pad1((d = UTCdISO(d)).getUTCFullYear() % 100, p, 2);
+    return pad((d = UTCdISO(d)).getUTCFullYear() % 100, p, 2);
 }
 function formatUTCFullYear(d, p) {
-    return pad1(d.getUTCFullYear() % 10000, p, 4);
+    return pad(d.getUTCFullYear() % 10000, p, 4);
 }
 function formatUTCFullYearISO(d, p) {
     var day = d.getUTCDay();
-    return pad1((d = day >= 4 || 0 === day ? utcThursday(d) : utcThursday.ceil(d)).getUTCFullYear() % 10000, p, 4);
+    return pad((d = day >= 4 || 0 === day ? utcThursday(d) : utcThursday.ceil(d)).getUTCFullYear() % 10000, p, 4);
 }
 function formatUTCZone() {
     return "+0000";

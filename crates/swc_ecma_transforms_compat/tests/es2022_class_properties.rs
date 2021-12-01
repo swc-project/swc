@@ -730,19 +730,19 @@ export default class {
 "#,
     r#"
   call(function() {
-      var _class = function _class() {
+      var _class1 = function _class1() {
           "use strict";
-          _classCallCheck(this, _class);
+          _classCallCheck(this, _class1);
       };
-      _defineProperty(_class, "test", true);
-      return _class;
+      _defineProperty(_class1, "test", true);
+      return _class1;
   }());
-  var _class1 = function _class1() {
+  var _class = function _class() {
       "use strict";
-      _classCallCheck(this, _class1);
+      _classCallCheck(this, _class);
   };
-  _defineProperty(_class1, "test", true);
-  export { _class1 as default };
+  _defineProperty(_class, "test", true);
+  export { _class as default };
 "#
 );
 
@@ -3417,21 +3417,21 @@ export default class {
 "#,
     r#"
 call(function() {
-    class _class{
+    class _class1{
     }
     var _test = {
         writable: true,
         value: true
     };
-    return _class;
+    return _class1;
 }());
-class _class1{
+class _class{
 }
 var _test = {
     writable: true,
     value: true
 };
-export { _class1 as default }
+export { _class as default }
 
 
 "#
@@ -3469,7 +3469,7 @@ export default class MyClass3 {
     r#"
 class MyClass {
     constructor(){
-        _myAsyncMethod2.set(this, {
+        _myAsyncMethod.set(this, {
             writable: true,
             value: _asyncToGenerator((function*() {
                 console.log(this);
@@ -3477,11 +3477,11 @@ class MyClass {
         });
     }
 }
-var _myAsyncMethod2 = new WeakMap();
+var _myAsyncMethod = new WeakMap();
 (function() {
     class MyClass2 {
         constructor(){
-            _myAsyncMethod.set(this, {
+            _myAsyncMethod2.set(this, {
                 writable: true,
                 value: _asyncToGenerator((function*() {
                     console.log(this);
@@ -3489,7 +3489,7 @@ var _myAsyncMethod2 = new WeakMap();
             });
         }
     }
-    var _myAsyncMethod = new WeakMap();
+    var _myAsyncMethod2 = new WeakMap();
     return MyClass2;
 })();
 class MyClass3 {

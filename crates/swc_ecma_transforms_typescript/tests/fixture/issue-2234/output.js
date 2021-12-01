@@ -1,17 +1,17 @@
-var Shapes1;
-(function(Shapes) {
-    var Polygons1;
-    (function(Polygons) {
+var Shapes;
+(function(Shapes1) {
+    var Polygons;
+    (function(Polygons1) {
         class Triangle {
         }
-        Polygons.Triangle = Triangle;
+        Polygons1.Triangle = Triangle;
         class Square {
         }
-        Polygons.Square = Square;
-    })(Polygons1 || (Polygons1 = {
+        Polygons1.Square = Square;
+    })(Polygons || (Polygons = {
     }));
-    Shapes.Polygons = Polygons1;
-})(Shapes1 || (Shapes1 = {
+    Shapes1.Polygons = Polygons;
+})(Shapes || (Shapes = {
 }));
-var polygons = Shapes1.Polygons;
+var polygons = Shapes.Polygons;
 let sq = new polygons.Square();

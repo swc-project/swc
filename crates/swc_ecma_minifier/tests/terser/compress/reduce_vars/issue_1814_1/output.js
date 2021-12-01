@@ -1,6 +1,6 @@
-const a1 = 42;
+const a = 42;
 !function() {
-    !function(a) {
-        console.log(a++, 42);
+    !function(a1) {
+        console.log(a1++, 42);
     }(0);
 }();
