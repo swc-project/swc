@@ -331,7 +331,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(KeyframesRule, visit_keyframes_rule);
     mtd!(MediaQuery, visit_media_query);
     mtd!(MediaRule, visit_media_rule);
-    mtd!(NamespaceValue, visit_namespace_value);
+    mtd!(NamespaceUri, visit_namespace_uri);
     mtd!(NamespaceRule, visit_namespace_rule);
     mtd!(NestedPageRule, visit_nested_page_rule);
     mtd!(NotMediaQuery, visit_not_media_query);

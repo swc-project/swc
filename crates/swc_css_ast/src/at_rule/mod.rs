@@ -55,7 +55,7 @@ pub struct FontFaceRule {
 }
 
 #[ast_node]
-pub enum NamespaceValue {
+pub enum NamespaceUri {
     #[tag("UrlValue")]
     Url(UrlValue),
 
@@ -66,8 +66,8 @@ pub enum NamespaceValue {
 #[ast_node("NamespaceRule")]
 pub struct NamespaceRule {
     pub span: Span,
-    pub prefix: Ident,
-    pub value: NamespaceValue,
+    pub prefix: Option<Ident>,
+    pub uri: NamespaceUri,
 }
 
 #[ast_node("ViewportRule")]

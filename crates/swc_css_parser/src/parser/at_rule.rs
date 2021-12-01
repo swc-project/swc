@@ -358,20 +358,15 @@ where
 {
     fn parse(&mut self) -> PResult<NamespaceRule> {
         let span = self.input.cur_span()?;
-        // TODO: make optional
-        let mut prefix = Ident {
-            span: DUMMY_SP,
-            value: js_word!(""),
-            raw: js_word!(""),
-        };
+        let mut prefix = None;
 
         if is!(self, Ident) {
             prefix = match bump!(self) {
-                Token::Ident { value, raw } => Ident {
+                Token::Ident { value, raw } => Some(Ident {
                     span: span!(self, span.lo),
                     value,
                     raw,
-                },
+                }),
                 _ => {
                     unreachable!()
                 }
@@ -382,22 +377,18 @@ where
 
         let start_value_span = self.input.cur_span()?;
 
-        let value = match bump!(self) {
-            Token::Str { value, raw } => NamespaceValue::Str(Str {
+        let uri = match bump!(self) {
+            Token::Str { value, raw } => NamespaceUri::Str(Str {
                 span: span!(self, start_value_span.lo),
                 value,
                 raw,
             }),
-            Token::Url { value, raw } => NamespaceValue::Url(UrlValue {
+            Token::Url { value, raw } => NamespaceUri::Url(UrlValue {
                 span: span!(self, start_value_span.lo),
                 url: value,
                 raw,
             }),
-            _ => NamespaceValue::Str(Str {
-                span: span!(self, start_value_span.lo),
-                value: js_word!(""),
-                raw: js_word!(""),
-            }),
+            _ => return Err(Error::new(span, ErrorKind::Expected("Str or Url"))),
         };
 
         eat!(self, ";");
@@ -405,7 +396,7 @@ where
         return Ok(NamespaceRule {
             span: span!(self, span.lo),
             prefix,
-            value,
+            uri,
         });
     }
 }

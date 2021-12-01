@@ -2,7 +2,7 @@
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 description = "Special AST for swc, which can be passed to dynamic libraries directly"
 edition = "2018"
-license = "Apache-2.0/MIT"
+license = "Apache-2.0"
 name = "swc_ecma_plugin_ast"
 repository = "https://github.com/swc-project/swc.git"
 version = "0.3.1"
