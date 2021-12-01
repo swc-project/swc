@@ -1258,6 +1258,9 @@ impl VisitMut for ReduceAst {
 
         match pat {
             Pat::Ident(p) => {
+                if self.data.should_preserve(&p.id) {
+                    return;
+                }
                 if p.id.span.ctxt != self.top_level_ctxt {
                     pat.take();
                     return;
