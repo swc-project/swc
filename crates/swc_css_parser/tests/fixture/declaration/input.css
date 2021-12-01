@@ -1,0 +1,7 @@
+div {
+    prop: value;
+    prop: (value);
+    prop: {value};
+    prop: [value];
+    prop: fn(value);
+}

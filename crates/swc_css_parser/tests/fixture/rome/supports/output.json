@@ -550,7 +550,7 @@
           },
           "value": [
             {
-              "type": "FnValue",
+              "type": "Function",
               "span": {
                 "start": 352,
                 "end": 365,
@@ -566,7 +566,7 @@
                 "value": "rotate",
                 "raw": "rotate"
               },
-              "args": [
+              "value": [
                 {
                   "type": "UnitValue",
                   "span": {

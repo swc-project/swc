@@ -28,9 +28,3 @@ error: Ident
 1 | @u\,nknown;
   | ^^^^^^^^^^
 
-error: Tokens
- --> $DIR/tests/fixture/esbuild/misc/5IxIPW9sKkvdZIzfV33AcA/input.css:1:11
-  |
-1 | @u\,nknown;
-  |           ^
-

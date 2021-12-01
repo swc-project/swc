@@ -14,7 +14,7 @@
         "ctxt": 0
       },
       "src": {
-        "type": "FnValue",
+        "type": "Function",
         "span": {
           "start": 8,
           "end": 26,
@@ -30,7 +30,7 @@
           "value": "url",
           "raw": "url"
         },
-        "args": [
+        "value": [
           {
             "type": "String",
             "span": {
@@ -53,7 +53,7 @@
         "ctxt": 0
       },
       "src": {
-        "type": "FnValue",
+        "type": "Function",
         "span": {
           "start": 36,
           "end": 54,
@@ -69,7 +69,7 @@
           "value": "url",
           "raw": "url"
         },
-        "args": [
+        "value": [
           {
             "type": "String",
             "span": {
@@ -149,7 +149,7 @@
         "ctxt": 0
       },
       "src": {
-        "type": "FnValue",
+        "type": "Function",
         "span": {
           "start": 136,
           "end": 154,
@@ -165,7 +165,7 @@
           "value": "url",
           "raw": "url"
         },
-        "args": [
+        "value": [
           {
             "type": "String",
             "span": {
@@ -207,7 +207,7 @@
         "ctxt": 0
       },
       "src": {
-        "type": "FnValue",
+        "type": "Function",
         "span": {
           "start": 190,
           "end": 208,
@@ -223,7 +223,7 @@
           "value": "URL",
           "raw": "URL"
         },
-        "args": [
+        "value": [
           {
             "type": "String",
             "span": {
@@ -293,7 +293,7 @@
         "ctxt": 0
       },
       "src": {
-        "type": "FnValue",
+        "type": "Function",
         "span": {
           "start": 266,
           "end": 286,
@@ -309,7 +309,7 @@
           "value": "url",
           "raw": "url"
         },
-        "args": [
+        "value": [
           {
             "type": "String",
             "span": {

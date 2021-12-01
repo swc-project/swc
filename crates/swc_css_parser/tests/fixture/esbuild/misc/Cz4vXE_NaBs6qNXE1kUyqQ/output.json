@@ -69,7 +69,7 @@
           "end": 15,
           "ctxt": 0
         },
-        "items": [
+        "value": [
           {
             "type": "Declaration",
             "span": {

@@ -21,16 +21,16 @@ impl Prefixer {
         important: Option<Span>,
     ) {
         match v {
-            Value::Fn(f) => match &*f.name.value {
+            Value::Function(f) => match &*f.name.value {
                 "image-set" => {
-                    let val = Value::Fn(FnValue {
+                    let val = Value::Function(Function {
                         span: DUMMY_SP,
                         name: Ident {
                             span: DUMMY_SP,
                             value: "-webkit-image-set".into(),
                             raw: "-webkit-image-set".into(),
                         },
-                        args: f.args.clone(),
+                        value: f.value.clone(),
                     });
 
                     let second = second.map(|v| match &v {
@@ -231,16 +231,16 @@ impl VisitMut for Prefixer {
             "background" => {
                 if n.value.len() >= 1 {
                     match &n.value[0] {
-                        Value::Fn(f) => match &*f.name.value {
+                        Value::Function(f) => match &*f.name.value {
                             "image-set" => {
-                                let val = Value::Fn(FnValue {
+                                let val = Value::Function(Function {
                                     span: DUMMY_SP,
                                     name: Ident {
                                         span: DUMMY_SP,
                                         value: "-webkit-image-set".into(),
                                         raw: "-webkit-image-set".into(),
                                     },
-                                    args: f.args.clone(),
+                                    value: f.value.clone(),
                                 });
                                 self.added.push(Declaration {
                                     span: n.span,
@@ -261,16 +261,16 @@ impl VisitMut for Prefixer {
             "background-image" => {
                 if n.value.len() >= 1 {
                     match &n.value[0] {
-                        Value::Fn(f) => match &*f.name.value {
+                        Value::Function(f) => match &*f.name.value {
                             "image-set" => {
-                                let val = Value::Fn(FnValue {
+                                let val = Value::Function(Function {
                                     span: DUMMY_SP,
                                     name: Ident {
                                         span: DUMMY_SP,
                                         value: "-webkit-image-set".into(),
                                         raw: "-webkit-image-set".into(),
                                     },
-                                    args: f.args.clone(),
+                                    value: f.value.clone(),
                                 });
                                 self.added.push(Declaration {
                                     span: n.span,
