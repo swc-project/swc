@@ -33,7 +33,7 @@ error: Ident
 1 | @namespace empty "";
   |            ^^^^^
 
-error: NamespaceValue
+error: NamespaceUri
  --> $DIR/tests/fixture/at-rule/namespace/input.css:1:18
   |
 1 | @namespace empty "";
@@ -63,9 +63,7 @@ error: NamespaceRule
 2 | @namespace "";
   | ^^^^^^^^^^^^^^
 
-error: Ident
-
-error: NamespaceValue
+error: NamespaceUri
  --> $DIR/tests/fixture/at-rule/namespace/input.css:2:12
   |
 2 | @namespace "";
@@ -95,7 +93,7 @@ error: NamespaceRule
 3 | @namespace url(http://www.w3.org/1999/xhtml);
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: NamespaceValue
+error: NamespaceUri
  --> $DIR/tests/fixture/at-rule/namespace/input.css:3:12
   |
 3 | @namespace url(http://www.w3.org/1999/xhtml);
@@ -131,7 +129,7 @@ error: Ident
 4 | @namespace svg url(http://www.w3.org/2000/svg);
   |            ^^^
 
-error: NamespaceValue
+error: NamespaceUri
  --> $DIR/tests/fixture/at-rule/namespace/input.css:4:16
   |
 4 | @namespace svg url(http://www.w3.org/2000/svg);
@@ -161,7 +159,7 @@ error: NamespaceRule
 5 | @namespace "http://www.w3.org/1999/xhtml";
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: NamespaceValue
+error: NamespaceUri
  --> $DIR/tests/fixture/at-rule/namespace/input.css:5:12
   |
 5 | @namespace "http://www.w3.org/1999/xhtml";
@@ -197,7 +195,7 @@ error: Ident
 6 | @namespace svg "http://www.w3.org/2000/svg";
   |            ^^^
 
-error: NamespaceValue
+error: NamespaceUri
  --> $DIR/tests/fixture/at-rule/namespace/input.css:6:16
   |
 6 | @namespace svg "http://www.w3.org/2000/svg";

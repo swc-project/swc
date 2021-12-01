@@ -224,10 +224,10 @@ where
         }
     }
     #[emitter]
-    fn emit_namespace_value(&mut self, n: &NamespaceValue) -> Result {
+    fn emit_namespace_uri(&mut self, n: &NamespaceUri) -> Result {
         match n {
-            NamespaceValue::Url(n) => emit!(self, n),
-            NamespaceValue::Str(n) => emit!(self, n),
+            NamespaceUri::Url(n) => emit!(self, n),
+            NamespaceUri::Str(n) => emit!(self, n),
         }
     }
 
@@ -237,11 +237,12 @@ where
         keyword!(self, "namespace");
         space!(self);
 
-        emit!(self, n.prefix);
+        if n.prefix.is_some() {
+            emit!(self, n.prefix);
+            space!(self);
+        }
 
-        space!(self);
-
-        emit!(self, n.value);
+        emit!(self, n.uri);
     }
 
     #[emitter]

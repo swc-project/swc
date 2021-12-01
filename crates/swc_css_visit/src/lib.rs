@@ -347,15 +347,15 @@ define!({
         pub block: Block,
     }
 
-    pub enum NamespaceValue {
+    pub enum NamespaceUri {
         Url(UrlValue),
         Str(Str),
     }
 
     pub struct NamespaceRule {
         pub span: Span,
-        pub prefix: Ident,
-        pub value: NamespaceValue,
+        pub prefix: Option<Ident>,
+        pub uri: NamespaceUri,
     }
 
     pub struct ViewportRule {
