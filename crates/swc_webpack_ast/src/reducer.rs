@@ -456,7 +456,8 @@ impl ReduceAst {
     fn can_remove(&self, e: &Expr) -> bool {
         match e {
             Expr::Invalid(..) => true,
-            Expr::Lit(..) => !self.preserve_lit,
+            Expr::Lit(Lit::Str(..)) => false,
+            Expr::Lit(..) => true,
             Expr::Seq(seq) => seq.exprs.iter().all(|e| self.can_remove(e)),
             _ => false,
         }
