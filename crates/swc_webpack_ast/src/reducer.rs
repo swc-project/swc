@@ -70,7 +70,47 @@ struct Analyzer {
 }
 
 impl Visit for Analyzer {
-    fn visit_call_expr(&mut self, e: &CallExpr, _: &dyn Node) {}
+    fn visit_call_expr(&mut self, e: &CallExpr, _: &dyn Node) {
+        e.visit_children_with(self);
+
+        match &e.callee {
+            ExprOrSuper::Expr(callee) => match &**callee {
+                Expr::Ident(callee) => {
+                    if &*callee.sym == "define" {
+                        // find `require`
+
+                        let require_arg_idx = e.args.iter().position(|arg| match &*arg.expr {
+                            Expr::Lit(Lit::Str(s)) => &*s.value == "require",
+                            _ => false,
+                        });
+
+                        let fn_arg = e.args.iter().find_map(|arg| match &*arg.expr {
+                            Expr::Fn(f) => Some(f),
+                            _ => None,
+                        });
+
+                        if let Some(require_arg_idx) = require_arg_idx {
+                            if let Some(fn_arg) = fn_arg {
+                                if let Some(require_arg) =
+                                    fn_arg.function.params.iter().nth(require_arg_idx)
+                                {
+                                    match &require_arg.pat {
+                                        Pat::Ident(r) => {
+                                            self.amd_requires.insert(r.to_id());
+                                        }
+
+                                        _ => {}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                _ => {}
+            },
+            _ => {}
+        }
+    }
 }
 
 #[derive(Default)]
