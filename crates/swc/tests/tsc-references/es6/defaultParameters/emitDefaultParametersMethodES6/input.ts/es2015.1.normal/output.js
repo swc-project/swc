@@ -2,20 +2,20 @@
 class C {
     foo(x, t = false) {
     }
-    foo1(x1, t1 = false, ...rest) {
+    foo1(x, t = false, ...rest) {
     }
-    bar(t2 = false) {
+    bar(t = false) {
     }
-    boo(t3 = false, ...rest1) {
+    boo(t = false, ...rest) {
     }
-    constructor(t4, z, x2, y = "hello"){
+    constructor(t, z, x, y = "hello"){
     }
 }
 class D {
-    constructor(y1 = "hello"){
+    constructor(y = "hello"){
     }
 }
 class E {
-    constructor(y2 = "hello", ...rest2){
+    constructor(y = "hello", ...rest){
     }
 }

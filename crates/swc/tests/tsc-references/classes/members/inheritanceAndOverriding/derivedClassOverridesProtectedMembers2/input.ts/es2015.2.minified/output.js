@@ -6,33 +6,33 @@ class Base {
     }
     set c(v) {
     }
-    static s(a1) {
+    static s(a) {
     }
     static get t() {
         return x;
     }
-    static set t(v1) {
+    static set t(v) {
     }
-    constructor(a2){
+    constructor(a){
     }
 }
 class Derived extends Base {
-    b(a3) {
+    b(a) {
     }
     get c() {
         return y;
     }
-    set c(v2) {
+    set c(v) {
     }
-    static s(a4) {
+    static s(a) {
     }
     static get t() {
         return y;
     }
-    static set t(a5) {
+    static set t(a) {
     }
-    constructor(a6){
-        super(a6);
+    constructor(a){
+        super(a);
     }
 }
 var x, y, d2, d = new Derived(y);

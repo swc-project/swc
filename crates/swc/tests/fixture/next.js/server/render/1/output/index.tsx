@@ -43,19 +43,19 @@ function noRouter() {
     throw new Error(message);
 }
 class ServerRouter {
-    constructor(pathname1, query1, as, { isFallback: isFallback1  }, isReady, basePath1, locale1, locales1, defaultLocale1, domainLocales1, isPreview1, isLocaleDomain){
-        this.route = pathname1.replace(/\/$/, "") || "/";
-        this.pathname = pathname1;
-        this.query = query1;
+    constructor(pathname, query, as, { isFallback  }, isReady, basePath, locale, locales, defaultLocale, domainLocales, isPreview, isLocaleDomain){
+        this.route = pathname.replace(/\/$/, "") || "/";
+        this.pathname = pathname;
+        this.query = query;
         this.asPath = as;
-        this.isFallback = isFallback1;
-        this.basePath = basePath1;
-        this.locale = locale1;
-        this.locales = locales1;
-        this.defaultLocale = defaultLocale1;
+        this.isFallback = isFallback;
+        this.basePath = basePath;
+        this.locale = locale;
+        this.locales = locales;
+        this.defaultLocale = defaultLocale;
         this.isReady = isReady;
-        this.domainLocales = domainLocales1;
-        this.isPreview = !!isPreview1;
+        this.domainLocales = domainLocales;
+        this.isPreview = !!isPreview;
         this.isLocaleDomain = !!isLocaleDomain;
     }
     push() {

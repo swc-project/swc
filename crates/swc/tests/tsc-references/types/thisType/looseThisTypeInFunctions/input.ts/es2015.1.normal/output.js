@@ -1,12 +1,12 @@
 class C {
-    explicitThis(m3) {
-        return this.n + m3;
+    explicitThis(m) {
+        return this.n + m;
     }
-    implicitThis(m1) {
-        return this.n + m1;
+    implicitThis(m) {
+        return this.n + m;
     }
-    explicitVoid(m2) {
-        return m2 + 1;
+    explicitVoid(m) {
+        return m + 1;
     }
 }
 let c = new C();

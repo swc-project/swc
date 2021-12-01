@@ -35,8 +35,8 @@ var TypeScript1;
             }
             return this.scriptFragment;
         }
-        constructor(logger1, script1, text1, pos1, isMemberCompletion1){
-            this.logger = logger1, this.script = script1, this.text = text1, this.pos = pos1, this.isMemberCompletion = isMemberCompletion1, this.scopeGetter = null, this.objectLiteralScopeGetter = null, this.scopeStartAST = null, this.skipNextFuncDeclForClass = !1, this.deepestModuleDecl = null, this.enclosingClassDecl = null, this.enclosingObjectLit = null, this.publicsOnly = !0, this.useFullAst = !1;
+        constructor(logger, script, text, pos, isMemberCompletion){
+            this.logger = logger, this.script = script, this.text = text, this.pos = pos, this.isMemberCompletion = isMemberCompletion, this.scopeGetter = null, this.objectLiteralScopeGetter = null, this.scopeStartAST = null, this.skipNextFuncDeclForClass = !1, this.deepestModuleDecl = null, this.enclosingClassDecl = null, this.enclosingObjectLit = null, this.publicsOnly = !0, this.useFullAst = !1;
         }
     }
     function preFindEnclosingScope(ast, parent, walker) {

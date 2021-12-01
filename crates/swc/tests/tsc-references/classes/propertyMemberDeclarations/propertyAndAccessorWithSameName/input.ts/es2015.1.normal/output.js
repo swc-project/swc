@@ -11,6 +11,6 @@ class E {
     get x() {
         return 1;
     }
-    set x(v1) {
+    set x(v) {
     }
 }

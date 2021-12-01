@@ -9,7 +9,7 @@ foo2(1, 2);
 class C {
     foo(x) {
     }
-    foo2(x1, y) {
+    foo2(x, y) {
     }
 }
 var c;

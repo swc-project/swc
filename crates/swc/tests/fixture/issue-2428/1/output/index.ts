@@ -58,7 +58,7 @@ let Foo = ((_class = class Foo {
         return _asyncToGenerator(function*() {
         })();
     }
-    fnName2(argName1 = false) {
+    fnName2(argName = false) {
         return _asyncToGenerator(function*() {
         })();
     }

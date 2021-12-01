@@ -12,9 +12,9 @@ var TypeScript1;
     }
     TypeScript.TypeCollectionContext = TypeCollectionContext;
     class MemberScopeContext {
-        constructor(flow, pos2, matchFlag){
+        constructor(flow, pos, matchFlag){
             this.flow = flow;
-            this.pos = pos2;
+            this.pos = pos;
             this.matchFlag = matchFlag;
             this.type = null;
             this.ast = null;
@@ -50,12 +50,12 @@ var TypeScript1;
             }
             return this.scriptFragment;
         }
-        constructor(logger1, script1, text1, pos1, isMemberCompletion1){
-            this.logger = logger1;
-            this.script = script1;
-            this.text = text1;
-            this.pos = pos1;
-            this.isMemberCompletion = isMemberCompletion1;
+        constructor(logger, script, text, pos, isMemberCompletion){
+            this.logger = logger;
+            this.script = script;
+            this.text = text;
+            this.pos = pos;
+            this.isMemberCompletion = isMemberCompletion;
             this.scopeGetter = null;
             this.objectLiteralScopeGetter = null;
             this.scopeStartAST = null;

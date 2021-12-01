@@ -8,7 +8,7 @@ class D extends C {
     }
 }
 class E extends D {
-    foo(x1) {
+    foo(x) {
     }
 }
 var c;

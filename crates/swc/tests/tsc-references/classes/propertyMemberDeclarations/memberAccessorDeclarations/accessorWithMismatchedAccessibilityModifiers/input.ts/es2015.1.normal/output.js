@@ -10,18 +10,18 @@ class D {
     get x() {
         return 1;
     }
-    set x(v1) {
+    set x(v) {
     }
 }
 class E {
-    set x(v2) {
+    set x(v) {
     }
     get x() {
         return 1;
     }
 }
 class F {
-    static set x(v3) {
+    static set x(v) {
     }
     static get x() {
         return 1;

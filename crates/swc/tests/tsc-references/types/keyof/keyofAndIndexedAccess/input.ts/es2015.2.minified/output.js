@@ -16,8 +16,8 @@ var E, E1, Flag, Flag1;
     35
 ]);
 class SampleClass {
-    constructor(props1){
-        this.props = Object.freeze(props1);
+    constructor(props){
+        this.props = Object.freeze(props);
     }
 }
 new class extends SampleClass {

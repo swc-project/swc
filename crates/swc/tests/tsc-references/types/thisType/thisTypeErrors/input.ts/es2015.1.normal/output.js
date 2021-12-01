@@ -8,7 +8,7 @@ function f1(x) {
 class C1 {
 }
 class C2 {
-    static foo(x4) {
+    static foo(x) {
         return undefined;
     }
 }

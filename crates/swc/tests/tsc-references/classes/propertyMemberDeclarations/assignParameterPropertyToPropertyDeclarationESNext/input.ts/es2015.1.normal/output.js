@@ -32,8 +32,8 @@ class C {
     }
 }
 class D extends C {
-    constructor(...args1){
-        super(...args1);
+    constructor(...args){
+        super(...args);
         this.quill // ok
          = this.foo;
     }

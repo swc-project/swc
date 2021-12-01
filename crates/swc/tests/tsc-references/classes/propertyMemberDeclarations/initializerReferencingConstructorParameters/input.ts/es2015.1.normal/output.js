@@ -6,25 +6,25 @@ class C {
     }
 }
 class D {
-    constructor(x1){
-        this.x = x1;
+    constructor(x){
+        this.x = x;
         this.a // error
-         = x1;
+         = x;
     }
 }
 class E {
-    constructor(x2){
-        this.x = x2;
+    constructor(x){
+        this.x = x;
         this.a // ok
          = this.x;
     }
 }
 class F {
-    constructor(x3){
-        this.x = x3;
+    constructor(x){
+        this.x = x;
         this.a // ok
          = this.x;
         this.b // error
-         = x3;
+         = x;
     }
 }

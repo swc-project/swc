@@ -27,8 +27,8 @@ var TypeScript1;
         write(s) {
             this.builder += s;
         }
-        writeLine(s1) {
-            this.builder += s1;
+        writeLine(s) {
+            this.builder += s;
             this.outfile.WriteLine(this.builder);
             this.builder = "";
         }

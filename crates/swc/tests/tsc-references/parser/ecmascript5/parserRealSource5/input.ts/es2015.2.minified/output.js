@@ -20,8 +20,8 @@ var TypeScript, TypeScript1;
     write(s) {
         this.builder += s;
     }
-    writeLine(s1) {
-        this.builder += s1, this.outfile.WriteLine(this.builder), this.builder = "";
+    writeLine(s) {
+        this.builder += s, this.outfile.WriteLine(this.builder), this.builder = "";
     }
     constructor(outfile, parser){
         this.outfile = outfile, this.parser = parser, this.builder = "", this.indent1 = "  ", this.indentStrings = [], this.indentAmt = 0;

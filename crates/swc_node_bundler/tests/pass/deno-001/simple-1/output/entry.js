@@ -8,17 +8,18 @@ function deferred() {
     });
     return Object.assign(promise, methods);
 }
+var tmp = Symbol.asyncIterator;
 class MuxAsyncIterator {
     add(iterator) {
         ++this.iteratorCount;
         this.callIteratorNext(iterator);
     }
-    async callIteratorNext(iterator1) {
+    async callIteratorNext(iterator) {
         try {
-            const { value , done  } = await iterator1.next();
+            const { value , done  } = await iterator.next();
             if (done) --this.iteratorCount;
             else this.yields.push({
-                iterator: iterator1,
+                iterator,
                 value
             });
         } catch (e) {
@@ -45,7 +46,7 @@ class MuxAsyncIterator {
             this.signal = deferred();
         }
     }
-    [Symbol.asyncIterator]() {
+    [tmp]() {
         return this.iterate();
     }
     constructor(){
@@ -325,6 +326,7 @@ class ServerRequest {
         this.finalized = false;
     }
 }
+var tmp1 = Symbol.asyncIterator;
 function parseHTTPVersion(vers) {
     switch(vers){
         case "HTTP/1.1":
@@ -373,11 +375,6 @@ async function readRequest(conn, bufr) {
     return req;
 }
 class Server {
-    constructor(listener1){
-        this.listener = listener1;
-        this.closing = false;
-        this.connections = [];
-    }
     close() {
         this.closing = true;
         this.listener.close();
@@ -427,11 +424,11 @@ class Server {
         // might have been already closed
         }
     }
-    trackConnection(conn1) {
-        this.connections.push(conn1);
+    trackConnection(conn) {
+        this.connections.push(conn);
     }
-    untrackConnection(conn2) {
-        const index = this.connections.indexOf(conn2);
+    untrackConnection(conn) {
+        const index = this.connections.indexOf(conn);
         if (index !== -1) this.connections.splice(index, 1);
     }
     // Accepts a new TCP connection and yields all HTTP requests that arrive on
@@ -454,10 +451,15 @@ class Server {
         // Yield the requests that arrive on the just-accepted connection.
         yield* this.iterateHttpRequests(conn);
     }
-    [Symbol.asyncIterator]() {
+    [tmp1]() {
         const mux = new MuxAsyncIterator();
         mux.add(this.acceptConnAndIterateHttpRequests(mux));
         return mux.iterate();
+    }
+    constructor(listener){
+        this.listener = listener;
+        this.closing = false;
+        this.connections = [];
     }
 }
 function _parseAddrFromStr(addr) {

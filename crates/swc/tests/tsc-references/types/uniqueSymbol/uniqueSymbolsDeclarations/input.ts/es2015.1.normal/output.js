@@ -321,8 +321,8 @@ class C0 {
     *method4() {
         yield s;
     }
-    method5(p1 = s) {
-        return p1;
+    method5(p = s) {
+        return p;
     }
     constructor(){
         this.a = s;

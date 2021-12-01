@@ -3,8 +3,8 @@ function getFoo1() {
         method1(arg) {
             arg.numProp = 10;
         }
-        method2(arg1) {
-            arg1.strProp = "hello";
+        method2(arg) {
+            arg.strProp = "hello";
         }
     };
 }

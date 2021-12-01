@@ -11,17 +11,17 @@ class A {
     }
 }
 class B {
-    foo(x1, y1) {
+    foo(x, y) {
         return null;
     }
 }
 class C {
-    foo(x2, y2) {
+    foo(x, y) {
         return null;
     }
 }
 class D {
-    foo(x3, y3) {
+    foo(x, y) {
         return null;
     }
 }

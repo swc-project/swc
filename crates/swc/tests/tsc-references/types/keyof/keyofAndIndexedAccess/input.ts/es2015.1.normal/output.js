@@ -44,11 +44,11 @@ function f13(foo, bar) {
     let z = getProperty(foo, bar); // any
 }
 class Component {
-    getProperty(key2) {
-        return this.props[key2];
+    getProperty(key) {
+        return this.props[key];
     }
-    setProperty(key1, value3) {
-        this.props[key1] = value3;
+    setProperty(key, value) {
+        this.props[key] = value;
     }
 }
 function f20(component) {
@@ -248,11 +248,11 @@ function f84() {
     }, "bar"); // number
 }
 class C1 {
-    get(key4) {
-        return this[key4];
+    get(key) {
+        return this[key];
     }
-    set(key3, value1) {
-        this[key3] = value1;
+    set(key, value) {
+        this[key] = value;
     }
     foo() {
         let x1 = this.x; // number
@@ -293,8 +293,8 @@ class Base {
     get(prop) {
         return this[prop];
     }
-    set(prop1, value2) {
-        this[prop1] = value2;
+    set(prop, value) {
+        this[prop] = value;
     }
 }
 class Person extends Base {
@@ -310,8 +310,8 @@ class OtherPerson {
     getParts() {
         return getProperty(this, "parts");
     }
-    constructor(parts1){
-        setProperty(this, "parts", parts1);
+    constructor(parts){
+        setProperty(this, "parts", parts);
     }
 }
 function path(obj, ...keys) {
@@ -390,8 +390,8 @@ class B extends A {
 }
 // Repro from #13749
 class Form {
-    set(prop2, value) {
-        this.childFormFactories[prop2](value);
+    set(prop, value) {
+        this.childFormFactories[prop](value);
     }
 }
 // Repro from #13787
@@ -404,11 +404,11 @@ class AnotherSampleClass extends SampleClass {
     brokenMethod() {
         this.props.foo.concat;
     }
-    constructor(props1){
+    constructor(props){
         const foo = {
             foo: "bar"
         };
-        super(merge(props1, foo));
+        super(merge(props, foo));
     }
 }
 new AnotherSampleClass({
