@@ -79,10 +79,20 @@ impl Visit for Analyzer {
                     if &*callee.sym == "define" {
                         // find `require`
 
-                        let require_arg_idx = e.args.iter().position(|arg| match &*arg.expr {
-                            Expr::Lit(Lit::Str(s)) => &*s.value == "require",
-                            _ => false,
-                        });
+                        let require_arg_idx = e
+                            .args
+                            .first()
+                            .and_then(|v| match &*v.expr {
+                                Expr::Array(arr) => Some(&arr.elems),
+                                _ => None,
+                            })
+                            .iter()
+                            .flat_map(|v| v.iter())
+                            .flatten()
+                            .position(|arg| match &*arg.expr {
+                                Expr::Lit(Lit::Str(s)) => &*s.value == "require",
+                                _ => false,
+                            });
 
                         let fn_arg = e.args.iter().find_map(|arg| match &*arg.expr {
                             Expr::Fn(f) => Some(f),
