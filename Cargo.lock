@@ -258,11 +258,13 @@ dependencies = [
 
 [[package]]
 name = "browserslist-rs"
-version = "0.2.0"
+version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "aa428c5a7369965603314e5fbfa5ae1755159bce2c35880d80ea84a866213b20"
+checksum = "06d55644ca5427fce1939111997f9d58e78b0ea196e76a4cf327aa93f2553608"
 dependencies = [
+ "anyhow",
  "chrono",
+ "either",
  "itertools",
  "js-sys",
  "once_cell",
@@ -271,6 +273,7 @@ dependencies = [
  "serde-wasm-bindgen",
  "serde_json",
  "thiserror",
+ "ustr",
  "wasm-bindgen",
 ]
 
@@ -285,6 +288,12 @@ name = "bumpalo"
 version = "3.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8f1e260c3a9040a7c19a12468758f4c16f31a81a1fe087482be9570ec864bb6c"
+
+[[package]]
+name = "byteorder"
+version = "1.4.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "14c189c53d098945499cdfa7ecc63567cf3886b3332b312a5b4585d8d3a6a610"
 
 [[package]]
 name = "bytes"
@@ -3751,6 +3760,19 @@ dependencies = [
  "idna",
  "matches",
  "percent-encoding",
+]
+
+[[package]]
+name = "ustr"
+version = "0.8.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cbd539d8973e229b9d04f15d36e6a8f8d8f85f946b366f06bb001aaed3fa9dd9"
+dependencies = [
+ "ahash",
+ "byteorder",
+ "lazy_static",
+ "parking_lot 0.11.1",
+ "serde",
 ]
 
 [[package]]
