@@ -23,41 +23,53 @@
         "value": "unknown",
         "raw": "unknown"
       },
-      "prelude": {
-        "type": "Tokens",
-        "span": {
-          "start": 8,
-          "end": 11,
-          "ctxt": 0
-        },
-        "tokens": [
-          {
-            "span": {
-              "start": 8,
-              "end": 9,
-              "ctxt": 0
-            },
-            "token": {
-              "WhiteSpace": {
-                "value": " "
-              }
-            }
+      "prelude": [
+        {
+          "type": "Tokens",
+          "span": {
+            "start": 8,
+            "end": 9,
+            "ctxt": 0
           },
-          {
-            "span": {
-              "start": 9,
-              "end": 10,
-              "ctxt": 0
-            },
-            "token": {
-              "Ident": {
-                "value": "x",
-                "raw": "x"
+          "tokens": [
+            {
+              "span": {
+                "start": 8,
+                "end": 9,
+                "ctxt": 0
+              },
+              "token": {
+                "WhiteSpace": {
+                  "value": " "
+                }
               }
             }
-          }
-        ]
-      },
+          ]
+        },
+        {
+          "type": "Tokens",
+          "span": {
+            "start": 9,
+            "end": 10,
+            "ctxt": 0
+          },
+          "tokens": [
+            {
+              "span": {
+                "start": 9,
+                "end": 10,
+                "ctxt": 0
+              },
+              "token": {
+                "Ident": {
+                  "value": "x",
+                  "raw": "x"
+                }
+              }
+            }
+          ]
+        }
+      ],
       "block": null
     }
   ]

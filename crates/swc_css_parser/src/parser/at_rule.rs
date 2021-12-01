@@ -182,8 +182,6 @@ where
             _ => {}
         }
 
-        let prelude_span = self.input.cur_span()?;
-
         // Consume the next input token. Create a new at-rule with its name set to the
         // value of the current input token, its prelude initially set to an empty list,
         // and its value initially set to nothing.
@@ -194,10 +192,7 @@ where
                 value: name.0,
                 raw: name.1,
             },
-            prelude: Tokens {
-                span: span!(self, prelude_span.lo),
-                tokens: vec![],
-            },
+            prelude: vec![],
             block: None,
         };
 
@@ -205,7 +200,6 @@ where
             // <EOF-token>
             // This is a parse error. Return the at-rule.
             if is!(self, EOF) {
-                at_rule.prelude.span = span!(self, prelude_span.lo);
                 at_rule.span = span!(self, at_rule_span.lo);
 
                 return Ok(AtRule::Unknown(at_rule));
@@ -217,7 +211,6 @@ where
                 tok!(";") => {
                     self.input.bump()?;
 
-                    at_rule.prelude.span = span!(self, prelude_span.lo);
                     at_rule.span = span!(self, at_rule_span.lo);
 
                     return Ok(AtRule::Unknown(at_rule));
@@ -225,8 +218,6 @@ where
                 // <{-token>
                 // Consume a simple block and assign it to the at-rule’s block. Return the at-rule.
                 tok!("{") => {
-                    at_rule.prelude.span = span!(self, prelude_span.lo);
-
                     self.input.bump()?;
 
                     at_rule.block = Some(self.parse_simple_block('}')?);
@@ -238,31 +229,7 @@ where
                 // Reconsume the current input token. Consume a component value. Append the returned
                 // value to the at-rule’s prelude.
                 _ => {
-                    let token = match self.parse_component_value()? {
-                        Value::SimpleBlock(i) => {
-                            at_rule.prelude.tokens.extend(i.value.tokens);
-                        }
-                        Value::Function(i) => {
-                            for val in i.value.into_iter() {
-                                match val {
-                                    Value::Lazy(token) => {
-                                        at_rule.prelude.tokens.extend(token.tokens);
-                                    }
-                                    _ => {
-                                        unreachable!();
-                                    }
-                                }
-                            }
-                        }
-                        Value::Lazy(i) => {
-                            at_rule.prelude.tokens.extend(i.tokens);
-                        }
-                        _ => {
-                            unreachable!();
-                        }
-                    };
-
-                    token
+                    at_rule.prelude.push(self.parse_component_value()?);
                 }
             }
         }

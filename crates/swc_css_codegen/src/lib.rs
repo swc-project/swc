@@ -280,17 +280,18 @@ where
     #[emitter]
     fn emit_value(&mut self, n: &Value) -> Result {
         match n {
+            Value::Function(n) => emit!(self, n),
+            Value::SimpleBlock(n) => emit!(self, n),
+            Value::SquareBracketBlock(n) => emit!(self, n),
+            Value::RoundBracketBlock(n) => emit!(self, n),
             Value::Unit(n) => emit!(self, n),
             Value::Number(n) => emit!(self, n),
             Value::Percent(n) => emit!(self, n),
             Value::Hash(n) => emit!(self, n),
             Value::Ident(n) => emit!(self, n),
             Value::Str(n) => emit!(self, n),
-            Value::Function(n) => emit!(self, n),
             Value::Bin(n) => emit!(self, n),
             Value::Brace(n) => emit!(self, n),
-            Value::SquareBracketBlock(n) => emit!(self, n),
-            Value::RoundBracketBlock(n) => emit!(self, n),
             Value::Space(n) => emit!(self, n),
             Value::Lazy(n) => emit!(self, n),
             Value::AtText(n) => emit!(self, n),
@@ -303,7 +304,8 @@ where
     fn emit_unknown_at_rule(&mut self, n: &UnknownAtRule) -> Result {
         punct!(self, "@");
         emit!(self, n.name);
-        emit!(self, n.prelude);
+
+        self.emit_list(&n.prelude, ListFormat::NotDelimited)?;
 
         if n.block.is_some() {
             emit!(self, n.block)
@@ -346,7 +348,7 @@ where
         };
 
         self.wr.write_raw_char(None, n.name)?;
-        emit!(self, n.value);
+        self.emit_list(&n.value, ListFormat::NotDelimited)?;
         self.wr.write_raw_char(None, ending)?;
     }
 

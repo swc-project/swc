@@ -23,15 +23,7 @@
         "value": "u,nknown",
         "raw": "u\\2cnknown"
       },
-      "prelude": {
-        "type": "Tokens",
-        "span": {
-          "start": 11,
-          "end": 12,
-          "ctxt": 0
-        },
-        "tokens": []
-      },
+      "prelude": [],
       "block": null
     }
   ]

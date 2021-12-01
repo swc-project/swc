@@ -174,5 +174,5 @@ pub struct UrlValue {
 pub struct SimpleBlock {
     pub span: Span,
     pub name: char,
-    pub value: Tokens,
+    pub value: Vec<Value>,
 }

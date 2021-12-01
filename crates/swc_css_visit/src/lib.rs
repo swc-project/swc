@@ -22,7 +22,7 @@ define!({
     pub struct SimpleBlock {
         pub span: Span,
         pub name: char,
-        pub value: Tokens,
+        pub value: Vec<Value>,
     }
 
     pub struct Ident {
@@ -370,7 +370,7 @@ define!({
     pub struct UnknownAtRule {
         pub span: Span,
         pub name: Ident,
-        pub prelude: Tokens,
+        pub prelude: Vec<Value>,
         pub block: Option<SimpleBlock>,
     }
 

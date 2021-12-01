@@ -23,15 +23,7 @@
         "value": "media",
         "raw": "media"
       },
-      "prelude": {
-        "type": "Tokens",
-        "span": {
-          "start": 18,
-          "end": 18,
-          "ctxt": 0
-        },
-        "tokens": []
-      },
+      "prelude": [],
       "block": {
         "type": "SimpleBlock",
         "span": {
@@ -40,15 +32,7 @@
           "ctxt": 0
         },
         "name": "{",
-        "value": {
-          "type": "Tokens",
-          "span": {
-            "start": 19,
-            "end": 19,
-            "ctxt": 0
-          },
-          "tokens": []
-        }
+        "value": []
       }
     }
   ]

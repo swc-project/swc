@@ -568,21 +568,15 @@ where
 
     pub fn parse_simple_block(&mut self, ending: char) -> PResult<SimpleBlock> {
         let start_pos = self.input.last_pos()? - BytePos(1);
-        let span = self.input.cur_span()?;
         let mut simple_block = SimpleBlock {
             span: Default::default(),
             name: Default::default(),
-            value: Tokens {
-                span: Default::default(),
-                tokens: vec![],
-            },
+            value: vec![],
         };
 
         loop {
             match cur!(self) {
                 tok!("}") if ending == '}' => {
-                    simple_block.value.span = span!(self, span.lo);
-
                     self.input.bump()?;
 
                     let ending_pos = self.input.last_pos()?;
@@ -594,8 +588,6 @@ where
                     return Ok(simple_block);
                 }
                 tok!(")") if ending == ')' => {
-                    simple_block.value.span = span!(self, span.lo);
-
                     self.input.bump()?;
 
                     let ending_pos = self.input.last_pos()?;
@@ -607,8 +599,6 @@ where
                     return Ok(simple_block);
                 }
                 tok!("]") if ending == ']' => {
-                    simple_block.value.span = span!(self, span.lo);
-
                     self.input.bump()?;
 
                     let ending_pos = self.input.last_pos()?;
@@ -620,7 +610,13 @@ where
                     return Ok(simple_block);
                 }
                 _ => {
-                    simple_block.value.tokens.extend(self.input.bump()?);
+                    let span = self.input.cur_span()?;
+                    let token = self.input.bump()?.unwrap();
+
+                    simple_block.value.push(Value::Lazy(Tokens {
+                        span: span!(self, span.lo),
+                        tokens: vec![token],
+                    }));
                 }
             }
         }
@@ -633,17 +629,14 @@ where
             tok!("{") => return Ok(Value::SimpleBlock(self.parse_simple_block('}')?)),
             tok!("function") => return Ok(Value::Function(self.parse()?)),
             _ => {
+                let span = self.input.cur_span()?;
                 let token = self.input.bump()?;
 
                 return match token {
-                    Some(t) => {
-                        let span = self.input.cur_span()?;
-
-                        Ok(Value::Lazy(Tokens {
-                            span: span!(self, span.lo),
-                            tokens: vec![t],
-                        }))
-                    }
+                    Some(t) => Ok(Value::Lazy(Tokens {
+                        span: span!(self, span.lo),
+                        tokens: vec![t],
+                    })),
                     _ => {
                         unreachable!();
                     }
