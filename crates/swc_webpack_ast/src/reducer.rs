@@ -8,7 +8,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, IsEmpty, StmtLike, StmtOrModuleItem};
-use swc_ecma_visit::{VisitMut, VisitMutWith};
+use swc_ecma_visit::{Node, Visit, VisitMut, VisitMutWith, VisitWith};
 use swc_timer::timer;
 
 /// # Usage
@@ -65,9 +65,19 @@ pub fn ast_reducer(top_level_mark: Mark) -> impl VisitMut {
     })
 }
 
+struct Analyzer {
+    amd_requires: AHashSet<Id>,
+}
+
+impl Visit for Analyzer {
+    fn visit_call_expr(&mut self, e: &CallExpr, _: &dyn Node) {}
+}
+
 #[derive(Default)]
 struct ScopeData {
     imported_ids: AHashSet<Id>,
+    /// amd `require` modules.
+    amd_requires: AHashSet<Id>,
 }
 
 impl ScopeData {
@@ -96,11 +106,21 @@ impl ScopeData {
             }
         }
 
-        ScopeData { imported_ids }
+        let mut analyzer = Analyzer {
+            amd_requires: AHashSet::default(),
+        };
+        for i in items {
+            i.visit_with(&Invalid { span: DUMMY_SP }, &mut analyzer);
+        }
+
+        ScopeData {
+            imported_ids,
+            amd_requires: analyzer.amd_requires,
+        }
     }
 
     fn should_preserve(&self, i: &Ident) -> bool {
-        if self.imported_ids.contains(&i.to_id()) {
+        if self.imported_ids.contains(&i.to_id()) || self.amd_requires.contains(&i.to_id()) {
             return true;
         }
 
