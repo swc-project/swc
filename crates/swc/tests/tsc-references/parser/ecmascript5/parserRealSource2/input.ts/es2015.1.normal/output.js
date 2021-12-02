@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
-var TypeScript1;
-(function(TypeScript) {
+var TypeScript;
+(function(TypeScript1) {
     function hasFlag(val, flag) {
         return (val & flag) != 0;
     }
-    TypeScript.hasFlag = hasFlag;
+    TypeScript1.hasFlag = hasFlag;
     var ErrorRecoverySet1;
     (function(ErrorRecoverySet) {
         ErrorRecoverySet[ErrorRecoverySet["None"] = 0] = "None";
@@ -209,7 +209,7 @@ var TypeScript1;
     function ToDeclFlags(fncOrVarOrSymbolOrModuleFlags) {
         return fncOrVarOrSymbolOrModuleFlags;
     }
-    TypeScript.ToDeclFlags = ToDeclFlags;
+    TypeScript1.ToDeclFlags = ToDeclFlags;
     var TypeFlags1;
     (function(TypeFlags) {
         TypeFlags[TypeFlags["None"] = 0] = "None";
@@ -248,9 +248,9 @@ var TypeScript1;
         ModuleGenTarget[ModuleGenTarget["Local"] = 2] = "Local";
     })(ModuleGenTarget1 || (ModuleGenTarget1 = {
     }));
-    TypeScript.codeGenTarget = CodeGenTarget1.ES3;
-    TypeScript.moduleGenTarget = ModuleGenTarget1.Synchronous;
-    TypeScript.optimizeModuleCodeGen = true;
+    TypeScript1.codeGenTarget = CodeGenTarget1.ES3;
+    TypeScript1.moduleGenTarget = ModuleGenTarget1.Synchronous;
+    TypeScript1.optimizeModuleCodeGen = true;
     function flagsToString(e, flags) {
         var builder = "";
         for(var i = 1; i < 1 << 31; i = i << 1){
@@ -268,7 +268,7 @@ var TypeScript1;
         }
         return builder;
     }
-    TypeScript.flagsToString = flagsToString;
-    TypeScript.ErrorRecoverySet = ErrorRecoverySet1, TypeScript.AllowedElements = AllowedElements1, TypeScript.Modifiers = Modifiers1, TypeScript.ASTFlags = ASTFlags1, TypeScript.DeclFlags = DeclFlags1, TypeScript.ModuleFlags = ModuleFlags1, TypeScript.SymbolFlags = SymbolFlags1, TypeScript.VarFlags = VarFlags1, TypeScript.FncFlags = FncFlags1, TypeScript.SignatureFlags = SignatureFlags1, TypeScript.TypeFlags = TypeFlags1, TypeScript.TypeRelationshipFlags = TypeRelationshipFlags1, TypeScript.CodeGenTarget = CodeGenTarget1, TypeScript.ModuleGenTarget = ModuleGenTarget1;
-})(TypeScript1 || (TypeScript1 = {
+    TypeScript1.flagsToString = flagsToString;
+    TypeScript1.ErrorRecoverySet = ErrorRecoverySet1, TypeScript1.AllowedElements = AllowedElements1, TypeScript1.Modifiers = Modifiers1, TypeScript1.ASTFlags = ASTFlags1, TypeScript1.DeclFlags = DeclFlags1, TypeScript1.ModuleFlags = ModuleFlags1, TypeScript1.SymbolFlags = SymbolFlags1, TypeScript1.VarFlags = VarFlags1, TypeScript1.FncFlags = FncFlags1, TypeScript1.SignatureFlags = SignatureFlags1, TypeScript1.TypeFlags = TypeFlags1, TypeScript1.TypeRelationshipFlags = TypeRelationshipFlags1, TypeScript1.CodeGenTarget = CodeGenTarget1, TypeScript1.ModuleGenTarget = ModuleGenTarget1;
+})(TypeScript || (TypeScript = {
 }));

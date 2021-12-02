@@ -70,9 +70,9 @@ function _createSuper(Derived) {
     };
 }
 var C = // @Filename: classExtendsItselfIndirectly_file1.ts
-/*#__PURE__*/ function(E) {
+/*#__PURE__*/ function(E1) {
     "use strict";
-    _inherits(C, E);
+    _inherits(C, E1);
     var _super = _createSuper(C);
     function C() {
         _classCallCheck(this, C);
@@ -80,7 +80,7 @@ var C = // @Filename: classExtendsItselfIndirectly_file1.ts
     }
     return C;
 } // error
-(E1);
+(E);
 var D = // @Filename: classExtendsItselfIndirectly_file2.ts
 /*#__PURE__*/ function(C) {
     "use strict";
@@ -92,21 +92,21 @@ var D = // @Filename: classExtendsItselfIndirectly_file2.ts
     }
     return D;
 }(C);
-var E1 = // @Filename: classExtendsItselfIndirectly_file3.ts
+var E = // @Filename: classExtendsItselfIndirectly_file3.ts
 /*#__PURE__*/ function(D) {
     "use strict";
-    _inherits(E1, D);
-    var _super = _createSuper(E1);
-    function E1() {
-        _classCallCheck(this, E1);
+    _inherits(E, D);
+    var _super = _createSuper(E);
+    function E() {
+        _classCallCheck(this, E);
         return _super.apply(this, arguments);
     }
-    return E1;
+    return E;
 }(D);
 var C2 = // @Filename: classExtendsItselfIndirectly_file4.ts
-/*#__PURE__*/ function(E2) {
+/*#__PURE__*/ function(E21) {
     "use strict";
-    _inherits(C2, E2);
+    _inherits(C2, E21);
     var _super = _createSuper(C2);
     function C2() {
         _classCallCheck(this, C2);
@@ -114,7 +114,7 @@ var C2 = // @Filename: classExtendsItselfIndirectly_file4.ts
     }
     return C2;
 } // error
-(E21);
+(E2);
 var D2 = // @Filename: classExtendsItselfIndirectly_file5.ts
 /*#__PURE__*/ function(C2) {
     "use strict";
@@ -126,14 +126,14 @@ var D2 = // @Filename: classExtendsItselfIndirectly_file5.ts
     }
     return D2;
 }(C2);
-var E21 = // @Filename: classExtendsItselfIndirectly_file6.ts
+var E2 = // @Filename: classExtendsItselfIndirectly_file6.ts
 /*#__PURE__*/ function(D2) {
     "use strict";
-    _inherits(E21, D2);
-    var _super = _createSuper(E21);
-    function E21() {
-        _classCallCheck(this, E21);
+    _inherits(E2, D2);
+    var _super = _createSuper(E2);
+    function E2() {
+        _classCallCheck(this, E2);
         return _super.apply(this, arguments);
     }
-    return E21;
+    return E2;
 }(D2);

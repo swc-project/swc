@@ -110,17 +110,17 @@ var holder2 = {
     a: a
 };
 holder2.a.isLeader(), holder2.a;
-var ArrowGuard1 = function() {
+var ArrowGuard = function() {
     "use strict";
     var _this = this;
-    _classCallCheck(this, ArrowGuard1), this.isElite = function() {
+    _classCallCheck(this, ArrowGuard), this.isElite = function() {
         return _instanceof(_this, ArrowElite);
     }, this.isMedic = function() {
         return _instanceof(_this, ArrowMedic);
     };
-}, ArrowElite = function(ArrowGuard) {
+}, ArrowElite = function(ArrowGuard1) {
     "use strict";
-    _inherits(ArrowElite, ArrowGuard);
+    _inherits(ArrowElite, ArrowGuard1);
     var _super = _createSuper(ArrowElite);
     function ArrowElite() {
         return _classCallCheck(this, ArrowElite), _super.apply(this, arguments);
@@ -132,9 +132,9 @@ var ArrowGuard1 = function() {
             }
         }
     ]), ArrowElite;
-}(ArrowGuard1), ArrowMedic = function(ArrowGuard) {
+}(ArrowGuard), ArrowMedic = function(ArrowGuard2) {
     "use strict";
-    _inherits(ArrowMedic, ArrowGuard);
+    _inherits(ArrowMedic, ArrowGuard2);
     var _super = _createSuper(ArrowMedic);
     function ArrowMedic() {
         return _classCallCheck(this, ArrowMedic), _super.apply(this, arguments);
@@ -146,7 +146,7 @@ var ArrowGuard1 = function() {
             }
         }
     ]), ArrowMedic;
-}(ArrowGuard1), guard = new ArrowGuard1();
+}(ArrowGuard), guard = new ArrowGuard();
 guard.isElite() ? guard.defend() : guard.isMedic() && guard.heal(), crate.isSundries() ? crate.contents.broken = !0 : crate.isSupplies() && (crate.contents.spoiled = !0), a.isFollower = b.isFollower, a.isLeader = b.isLeader;
 var MimicGuard = function() {
     "use strict";

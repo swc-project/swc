@@ -45,45 +45,45 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var A1 = function() {
+var A = function() {
     "use strict";
-    _classCallCheck(this, A1);
-}, B = function(A) {
+    _classCallCheck(this, A);
+}, B = function(A1) {
     "use strict";
-    _inherits(B, A);
+    _inherits(B, A1);
     var _super = _createSuper(B);
     function B() {
         return _classCallCheck(this, B), _super.apply(this, arguments);
     }
     return B;
-}(A1), C = function(A) {
+}(A), C = function(A2) {
     "use strict";
-    _inherits(C, A);
+    _inherits(C, A2);
     var _super = _createSuper(C);
     function C() {
         return _classCallCheck(this, C), _super.apply(this, arguments);
     }
     return C;
-}(A1), AA1 = function() {
+}(A), AA = function() {
     "use strict";
-    _classCallCheck(this, AA1);
-}, BB = function(AA) {
+    _classCallCheck(this, AA);
+}, BB = function(AA1) {
     "use strict";
-    _inherits(BB, AA);
+    _inherits(BB, AA1);
     var _super = _createSuper(BB);
     function BB() {
         return _classCallCheck(this, BB), _super.apply(this, arguments);
     }
     return BB;
-}(AA1), CC = function(AA) {
+}(AA), CC = function(AA2) {
     "use strict";
-    _inherits(CC, AA);
+    _inherits(CC, AA2);
     var _super = _createSuper(CC);
     function CC() {
         return _classCallCheck(this, CC), _super.apply(this, arguments);
     }
     return CC;
-}(AA1), DD = function(BB) {
+}(AA), DD = function(BB) {
     "use strict";
     _inherits(DD, BB);
     var _super = _createSuper(DD);

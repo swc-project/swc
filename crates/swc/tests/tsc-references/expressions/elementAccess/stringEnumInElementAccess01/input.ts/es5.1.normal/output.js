@@ -1,9 +1,9 @@
 var // @noImplicitAny: true
-E1;
-(function(E) {
-    E["A"] = "a";
-    E["B"] = "b";
-    E["C"] = "c";
-})(E1 || (E1 = {
+E;
+(function(E1) {
+    E1["A"] = "a";
+    E1["B"] = "b";
+    E1["C"] = "c";
+})(E || (E = {
 }));
 var snb = item[e];

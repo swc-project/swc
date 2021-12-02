@@ -40,8 +40,8 @@ function _f0() {
         }, _callee);
     }))).apply(this, arguments);
 }
-function _f11() {
-    return (_f11 = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+function _f1() {
+    return (_f1 = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -151,7 +151,7 @@ _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         }
     }, _callee);
 }));
-var M1, C = function() {
+var M, C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C() {
@@ -247,9 +247,9 @@ var M1, C = function() {
         }
     ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }();
-!function(M) {
-    function _f1() {
-        return (_f1 = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+!function(M1) {
+    function _f11() {
+        return (_f11 = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function(_ctx) {
                 for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:
@@ -259,9 +259,9 @@ var M1, C = function() {
             }, _callee);
         }))).apply(this, arguments);
     }
-    M.f1 = function() {
-        return _f1.apply(this, arguments);
+    M1.f1 = function() {
+        return _f11.apply(this, arguments);
     };
-}(M1 || (M1 = {
+}(M || (M = {
 }));
 export { };

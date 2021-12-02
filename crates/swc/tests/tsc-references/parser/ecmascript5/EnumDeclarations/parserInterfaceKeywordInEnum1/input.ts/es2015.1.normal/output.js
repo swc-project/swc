@@ -1,6 +1,6 @@
 "use strict";
-var Bar1;
-(function(Bar) {
-    Bar[Bar["interface"] = 0] = "interface";
-})(Bar1 || (Bar1 = {
+var Bar;
+(function(Bar1) {
+    Bar1[Bar1["interface"] = 0] = "interface";
+})(Bar || (Bar = {
 }));

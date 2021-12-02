@@ -1,11 +1,11 @@
 var // these operators require their operands to be of type Any, the Number primitive type, or
 // an enum type
-E1;
-(function(E) {
-    E[E["a"] = 0] = "a";
-    E[E["b"] = 1] = "b";
-    E[E["c"] = 2] = "c";
-})(E1 || (E1 = {
+E;
+(function(E1) {
+    E1[E1["a"] = 0] = "a";
+    E1[E1["b"] = 1] = "b";
+    E1[E1["c"] = 2] = "c";
+})(E || (E = {
 }));
 var a;
 var b;
@@ -51,15 +51,15 @@ var r1f3 = Math.pow(f, c);
 var r1f4 = Math.pow(f, d);
 var r1f5 = Math.pow(f, e);
 var r1f6 = Math.pow(f, f);
-var r1g1 = Math.pow(E1.a, a); //ok
-var r1g2 = Math.pow(E1.a, b);
-var r1g3 = Math.pow(E1.a, c); //ok
-var r1g4 = Math.pow(E1.a, d);
-var r1g5 = Math.pow(E1.a, e);
-var r1g6 = Math.pow(E1.a, f);
-var r1h1 = Math.pow(a, E1.b); //ok
-var r1h2 = Math.pow(b, E1.b);
-var r1h3 = Math.pow(c, E1.b); //ok
-var r1h4 = Math.pow(d, E1.b);
-var r1h5 = Math.pow(e, E1.b);
-var r1h6 = Math.pow(f, E1.b);
+var r1g1 = Math.pow(E.a, a); //ok
+var r1g2 = Math.pow(E.a, b);
+var r1g3 = Math.pow(E.a, c); //ok
+var r1g4 = Math.pow(E.a, d);
+var r1g5 = Math.pow(E.a, e);
+var r1g6 = Math.pow(E.a, f);
+var r1h1 = Math.pow(a, E.b); //ok
+var r1h2 = Math.pow(b, E.b);
+var r1h3 = Math.pow(c, E.b); //ok
+var r1h4 = Math.pow(d, E.b);
+var r1h5 = Math.pow(e, E.b);
+var r1h6 = Math.pow(f, E.b);

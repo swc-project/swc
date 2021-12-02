@@ -45,27 +45,27 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var a, C1 = function() {
+var a, C = function() {
     "use strict";
-    _classCallCheck(this, C1);
-}, C21 = function() {
+    _classCallCheck(this, C);
+}, C2 = function() {
     "use strict";
-    _classCallCheck(this, C21);
-}, D = function(C) {
+    _classCallCheck(this, C2);
+}, D = function(C1) {
     "use strict";
-    _inherits(D, C);
+    _inherits(D, C1);
     var _super = _createSuper(D);
     function D() {
         return _classCallCheck(this, D), _super.apply(this, arguments);
     }
     return D;
-}(C1), E = function(C2) {
+}(C), E = function(C21) {
     "use strict";
-    _inherits(E, C2);
+    _inherits(E, C21);
     var _super = _createSuper(E);
     function E() {
         return _classCallCheck(this, E), _super.apply(this, arguments);
     }
     return E;
-}(C21);
+}(C2);
 a.x, a.w;

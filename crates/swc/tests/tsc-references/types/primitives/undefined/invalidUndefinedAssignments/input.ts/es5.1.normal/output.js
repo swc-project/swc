@@ -4,13 +4,13 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 var x;
-var E1;
-(function(E) {
-    E[E["A"] = 0] = "A";
-})(E1 || (E1 = {
+var E;
+(function(E1) {
+    E1[E1["A"] = 0] = "A";
+})(E || (E = {
 }));
-E1 = x;
-E1.A = x;
+E = x;
+E.A = x;
 var C = function C() {
     "use strict";
     _classCallCheck(this, C);
@@ -20,12 +20,12 @@ C = x;
 var g;
 g = x;
 I = x;
-var M1;
-(function(M) {
-    M.x = 1;
-})(M1 || (M1 = {
+var M;
+(function(M1) {
+    M1.x = 1;
+})(M || (M = {
 }));
-M1 = x;
+M = x;
 function i(a) {
 }
 // BUG 767030

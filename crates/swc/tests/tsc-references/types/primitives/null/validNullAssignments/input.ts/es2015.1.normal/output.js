@@ -1,15 +1,15 @@
-var a1 = null;
+var a = null;
 var b = null;
 var c = null;
 var d = null;
 var e = null;
 e = null; // ok
-var E1;
-(function(E) {
-    E[E["A"] = 0] = "A";
-})(E1 || (E1 = {
+var E;
+(function(E1) {
+    E1[E1["A"] = 0] = "A";
+})(E || (E = {
 }));
-E1.A = null; // error
+E.A = null; // error
 class C {
 }
 var f;
@@ -18,14 +18,14 @@ C = null; // error
 var g;
 g = null; // ok
 I = null; // error
-var M1;
-(function(M) {
-    M.x = 1;
-})(M1 || (M1 = {
+var M;
+(function(M1) {
+    M1.x = 1;
+})(M || (M = {
 }));
-M1 = null; // error
+M = null; // error
 var h = null;
-function i(a) {
-    a = null;
+function i(a1) {
+    a1 = null;
 }
 i = null; // error

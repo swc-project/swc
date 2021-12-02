@@ -14,16 +14,16 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var A1 = function() {
+var A = function() {
     "use strict";
-    _classCallCheck(this, A1), this.constructor, this.d = function() {
+    _classCallCheck(this, A), this.constructor, this.d = function() {
         return this.constructor;
     }, this.constructor;
 };
-A1.c = function _target() {
+A.c = function _target() {
     return _instanceof(this, _target) ? this.constructor : void 0;
 };
-var B = function(A) {
+var B = function(A1) {
     "use strict";
     !function(subClass, superClass) {
         if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
@@ -34,7 +34,7 @@ var B = function(A) {
                 configurable: !0
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
-    }(B, A);
+    }(B, A1);
     var _super = function(Derived) {
         var hasNativeReflectConstruct = function() {
             if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
@@ -64,7 +64,7 @@ var B = function(A) {
         return _classCallCheck(this, B), _this.constructor, (_this = _super.call(this)).constructor, _this;
     }
     return B;
-}(A1);
+}(A);
 function f1() {
     _instanceof(this, f1) && this.constructor, _instanceof(this, f1) && this.constructor;
 }

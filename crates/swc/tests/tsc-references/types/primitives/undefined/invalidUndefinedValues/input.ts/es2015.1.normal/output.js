@@ -2,8 +2,8 @@ var x;
 x = 1;
 x = '';
 x = true;
-var a1;
-x = a1;
+var a;
+x = a;
 x = null;
 class C {
 }
@@ -12,24 +12,24 @@ x = C;
 x = b;
 var c;
 x = c;
-var M1;
-(function(M) {
-    M.x = 1;
-})(M1 || (M1 = {
+var M;
+(function(M1) {
+    M1.x = 1;
+})(M || (M = {
 }));
-x = M1;
+x = M;
 x = {
     f () {
     }
 };
-function f(a) {
-    x = a;
+function f(a1) {
+    x = a1;
 }
 x = f;
-var E1;
-(function(E) {
-    E[E["A"] = 0] = "A";
-})(E1 || (E1 = {
+var E;
+(function(E1) {
+    E1[E1["A"] = 0] = "A";
+})(E || (E = {
 }));
-x = E1;
-x = E1.A;
+x = E;
+x = E.A;

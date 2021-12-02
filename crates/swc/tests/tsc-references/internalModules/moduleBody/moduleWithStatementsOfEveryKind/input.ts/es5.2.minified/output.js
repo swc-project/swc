@@ -1,4 +1,4 @@
-var Y1;
+var Y;
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
@@ -77,17 +77,17 @@ function _createSuper(Derived) {
     }, (Color1 = Color || (Color = {
     }))[Color1.Blue = 0] = "Blue", Color1[Color1.Red = 1] = "Red";
 }(A || (A = {
-})), (function(Y) {
+})), (function(Y1) {
     var A5 = function() {
         "use strict";
         _classCallCheck(this, A5);
     };
-    Y.A = A5;
+    Y1.A = A5;
     var AA2 = function() {
         "use strict";
         _classCallCheck(this, AA2);
     };
-    Y.AA = AA2;
+    Y1.AA = AA2;
     var B = function(AA) {
         "use strict";
         _inherits(B, AA);
@@ -97,7 +97,7 @@ function _createSuper(Derived) {
         }
         return B;
     }(AA2);
-    Y.B = B;
+    Y1.B = B;
     var A4, Color2, BB = function(A) {
         "use strict";
         _inherits(BB, A);
@@ -107,19 +107,19 @@ function _createSuper(Derived) {
         }
         return BB;
     }(A5);
-    Y.BB = BB, Module || (Module = {
+    Y1.BB = BB, Module || (Module = {
     }), A4 = function() {
         "use strict";
         _classCallCheck(this, A4);
     }, (Color2 = Color || (Color = {
-    }))[Color2.Blue = 0] = "Blue", Color2[Color2.Red = 1] = "Red", Y.x = 12, Y.F = function(s) {
+    }))[Color2.Blue = 0] = "Blue", Color2[Color2.Red = 1] = "Red", Y1.x = 12, Y1.F = function(s) {
         return 2;
-    }, Y.array = null, Y.fn = function(s) {
+    }, Y1.array = null, Y1.fn = function(s) {
         return "hello " + s;
-    }, Y.ol = {
+    }, Y1.ol = {
         s: "hello",
         id: 2,
         isvalid: !0
     };
-})(Y1 || (Y1 = {
+})(Y || (Y = {
 }));

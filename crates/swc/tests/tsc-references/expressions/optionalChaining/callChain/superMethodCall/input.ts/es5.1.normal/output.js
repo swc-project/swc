@@ -123,10 +123,10 @@ function _isNativeReflectConstruct() {
         return false;
     }
 }
-function _createSuper(Derived) {
+function _createSuper(Derived1) {
     var hasNativeReflectConstruct = _isNativeReflectConstruct();
     return function _createSuperInternal() {
-        var Super = _getPrototypeOf(Derived), result;
+        var Super = _getPrototypeOf(Derived1), result;
         if (hasNativeReflectConstruct) {
             var NewTarget = _getPrototypeOf(this).constructor;
             result = Reflect.construct(Super, arguments, NewTarget);
@@ -152,20 +152,20 @@ var Base = // @strict: true
     ]);
     return Base;
 }();
-var Derived1 = /*#__PURE__*/ function(Base) {
+var Derived = /*#__PURE__*/ function(Base) {
     "use strict";
-    _inherits(Derived1, Base);
-    var _super = _createSuper(Derived1);
-    function Derived1() {
-        _classCallCheck(this, Derived1);
+    _inherits(Derived, Base);
+    var _super = _createSuper(Derived);
+    function Derived() {
+        _classCallCheck(this, Derived);
         return _super.apply(this, arguments);
     }
-    _createClass(Derived1, [
+    _createClass(Derived, [
         {
             key: "method",
             value: function method() {
                 var ref;
-                return (ref = _get(_getPrototypeOf(Derived1.prototype), "method", this)) === null || ref === void 0 ? void 0 : ref.call(this);
+                return (ref = _get(_getPrototypeOf(Derived.prototype), "method", this)) === null || ref === void 0 ? void 0 : ref.call(this);
             }
         },
         {
@@ -173,7 +173,7 @@ var Derived1 = /*#__PURE__*/ function(Base) {
             value: function asyncMethod() {
                 var _this = this;
                 var _super_method = function() {
-                    return _get(_getPrototypeOf(Derived1.prototype), "method", _this);
+                    return _get(_getPrototypeOf(Derived.prototype), "method", _this);
                 };
                 return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                     var ref;
@@ -191,5 +191,5 @@ var Derived1 = /*#__PURE__*/ function(Base) {
             }
         }
     ]);
-    return Derived1;
+    return Derived;
 }(Base);

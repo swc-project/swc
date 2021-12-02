@@ -227,13 +227,13 @@ f14([
         }
     ]
 ]); // Error, no x
-var M1;
-(function(M) {
-    [M.a, M.b] = [
+var M;
+(function(M1) {
+    [M1.a, M1.b] = [
         1,
         2
     ];
-})(M1 || (M1 = {
+})(M || (M = {
 }));
 function f15() {
     var a = "hello";

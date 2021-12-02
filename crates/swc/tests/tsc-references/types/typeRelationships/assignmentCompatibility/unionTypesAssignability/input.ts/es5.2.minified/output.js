@@ -54,12 +54,12 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var unionNumberString, unionDE, num, str, c, d, e, anyVar, C1 = function() {
+var unionNumberString, unionDE, num, str, c, d, e, anyVar, C = function() {
     "use strict";
-    _classCallCheck(this, C1);
-}, D = function(C) {
+    _classCallCheck(this, C);
+}, D = function(C1) {
     "use strict";
-    _inherits(D, C);
+    _inherits(D, C1);
     var _super = _createSuper(D);
     function D() {
         return _classCallCheck(this, D), _super.apply(this, arguments);
@@ -71,9 +71,9 @@ var unionNumberString, unionDE, num, str, c, d, e, anyVar, C1 = function() {
             }
         }
     ]), D;
-}(C1), E = function(C) {
+}(C), E = function(C2) {
     "use strict";
-    _inherits(E, C);
+    _inherits(E, C2);
     var _super = _createSuper(E);
     function E() {
         return _classCallCheck(this, E), _super.apply(this, arguments);
@@ -85,5 +85,5 @@ var unionNumberString, unionDE, num, str, c, d, e, anyVar, C1 = function() {
             }
         }
     ]), E;
-}(C1);
+}(C);
 c = d, c = e, c = unionDE, d = d, d = e, e = e = d = unionDE, e = unionDE, num = num, num = str, num = unionNumberString, str = num, str = str, str = unionNumberString, d = c, e = c, unionDE = c, d = d, e = d, unionDE = d, d = e, e = e, unionDE = e, num = num, str = num, unionNumberString = num, num = str, str = str, unionNumberString = str, anyVar = unionDE, anyVar = unionNumberString, unionDE = anyVar, unionNumberString = anyVar, unionDE = null, unionNumberString = null, unionDE = void 0, unionNumberString = void 0;

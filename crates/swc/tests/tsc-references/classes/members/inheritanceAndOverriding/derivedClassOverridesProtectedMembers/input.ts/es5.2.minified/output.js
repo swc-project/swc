@@ -66,7 +66,7 @@ var x, y, Base = function() {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(Derived1, Base);
-    var _super = function(Derived) {
+    var _super = function(Derived2) {
         var hasNativeReflectConstruct = function() {
             if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
             if (Reflect.construct.sham) return !1;
@@ -79,7 +79,7 @@ var x, y, Base = function() {
             }
         }();
         return function() {
-            var obj, self, call, result, Super = _getPrototypeOf(Derived);
+            var obj, self, call, result, Super = _getPrototypeOf(Derived2);
             if (hasNativeReflectConstruct) {
                 var NewTarget = _getPrototypeOf(this).constructor;
                 result = Reflect.construct(Super, arguments, NewTarget);

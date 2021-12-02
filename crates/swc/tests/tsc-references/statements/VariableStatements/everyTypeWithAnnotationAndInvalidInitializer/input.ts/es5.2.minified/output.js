@@ -1,29 +1,29 @@
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
-var M1, N1, C = function() {
+var M, N, C = function() {
     "use strict";
     _classCallCheck(this, C);
 }, D = function() {
     "use strict";
     _classCallCheck(this, D);
 };
-(function(M) {
+(function(M1) {
     var A = function() {
         "use strict";
         _classCallCheck(this, A);
     };
-    M.A = A, M.F2 = function(x) {
+    M1.A = A, M1.F2 = function(x) {
         return x.toString();
     };
-})(M1 || (M1 = {
-})), (function(N) {
+})(M || (M = {
+})), (function(N1) {
     var A = function() {
         "use strict";
         _classCallCheck(this, A);
     };
-    N.A = A, N.F2 = function(x) {
+    N1.A = A, N1.F2 = function(x) {
         return x.toString();
     };
-})(N1 || (N1 = {
-})), new D(), new D(), new C(), new C(), new N1.A();
+})(N || (N = {
+})), new D(), new D(), new C(), new C(), new N.A();

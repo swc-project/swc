@@ -42,8 +42,8 @@ function f2(obj) {
     var a0 = obj[0]; // number | null
     var a1 = obj[1]; // string | null
     var _obj = _slicedToArray(obj, 2), b0 = _obj[0], b1 = _obj[1];
-    var ref;
-    ref = _slicedToArray(obj, 2), a0 = ref[0], a1 = ref[1], ref;
+    var ref2;
+    ref2 = _slicedToArray(obj, 2), a0 = ref2[0], a1 = ref2[1], ref2;
     if (obj[0] && obj[1]) {
         var c0 = obj[0]; // number
         var c1 = obj[1]; // string
@@ -55,19 +55,19 @@ function f2(obj) {
 function f3(obj) {
     if (obj.a && obj.b) {
         var a = obj.a, b = obj.b; // number, string
-        var ref;
-        ref = obj, a = ref.a, b = ref.b, ref;
+        var ref3;
+        ref3 = obj, a = ref3.a, b = ref3.b, ref3;
     }
 }
 function f4() {
     var x;
     x = 0..x; // Error
-    var ref;
-    ref = 0, x = ref["x"], ref; // Error
-    var ref3;
-    ref3 = 0, x = ref3["x" + ""], ref3; // Errpr
+    var ref5;
+    ref5 = 0, x = ref5["x"], ref5; // Error
+    var ref4;
+    ref4 = 0, x = ref4["x" + ""], ref4; // Errpr
 }
-var ref2 = [
+var ref = [
     "foo"
-], key = ref2[0], value = ref2[1];
+], key = ref[0], value = ref[1];
 value.toUpperCase(); // Error

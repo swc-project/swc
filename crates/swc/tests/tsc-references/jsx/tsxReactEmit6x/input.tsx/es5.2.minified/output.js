@@ -1,4 +1,4 @@
-var M1;
+var M;
 function _extends() {
     return (_extends = Object.assign || function(target) {
         for(var i = 1; i < arguments.length; i++){
@@ -8,10 +8,10 @@ function _extends() {
         return target;
     }).apply(this, arguments);
 }
-!function(M) {
+!function(M1) {
     var React;
-    M.React = React;
-}(M1 || (M1 = {
+    M1.React = React;
+}(M || (M = {
 })), (function(M) {
     var foo;
     React.createElement("div", _extends({
@@ -19,5 +19,5 @@ function _extends() {
     }, foo, {
         y: ""
     })), React.createElement("div", null, "This \"quote\" thing");
-})(M1 || (M1 = {
+})(M || (M = {
 }));

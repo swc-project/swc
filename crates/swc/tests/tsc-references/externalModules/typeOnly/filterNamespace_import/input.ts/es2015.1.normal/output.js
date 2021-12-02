@@ -1,10 +1,10 @@
 // @Filename: /ns.ts
-var ns1;
-(function(ns) {
+var ns;
+(function(ns1) {
     class Class {
     }
-    ns.Class = Class;
-    ns.Value = "";
+    ns1.Class = Class;
+    ns1.Value = "";
     var nested1;
     (function(nested) {
         class NestedClass {
@@ -12,11 +12,11 @@ var ns1;
         nested.NestedClass = NestedClass;
     })(nested1 || (nested1 = {
     }));
-    ns.nested = nested1;
-})(ns1 || (ns1 = {
+    ns1.nested = nested1;
+})(ns || (ns = {
 }));
-ns1.Class; // Error
-ns1.Value; // Error
+ns.Class; // Error
+ns.Value; // Error
 let c;
 let t = "";
 let n = {

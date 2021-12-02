@@ -1,21 +1,21 @@
-var A1;
-(function(A) {
+var A;
+(function(A1) {
     class Point {
     }
-    A.Point = Point;
+    A1.Point = Point;
     class Line {
         constructor(start, end){
             this.start = start;
             this.end = end;
         }
     }
-    A.Line = Line;
+    A1.Line = Line;
     function fromOrigin(p) {
         return new Line({
             x: 0,
             y: 0
         }, p);
     }
-    A.fromOrigin = fromOrigin;
-})(A1 || (A1 = {
+    A1.fromOrigin = fromOrigin;
+})(A || (A = {
 }));

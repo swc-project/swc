@@ -1,18 +1,18 @@
-class C extends N1.E {
+class C extends N.E {
 } // error
-var M1;
-(function(M) {
+var M;
+(function(M1) {
     class D extends C {
     }
-    M.D = D;
-})(M1 || (M1 = {
+    M1.D = D;
+})(M || (M = {
 }));
-var N1;
-(function(N) {
-    class E extends M1.D {
+var N;
+(function(N1) {
+    class E extends M.D {
     }
-    N.E = E;
-})(N1 || (N1 = {
+    N1.E = E;
+})(N || (N = {
 }));
 var O;
 (function(O) {

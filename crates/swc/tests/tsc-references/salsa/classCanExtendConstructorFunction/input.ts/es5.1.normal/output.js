@@ -113,24 +113,24 @@ function _createSuper(Derived) {
 /**
  * @constructor
  * @param {number} numberOxen
- */ function Wagon1(numberOxen) {
+ */ function Wagon(numberOxen) {
     this.numberOxen = numberOxen;
 }
-/** @param {Wagon[]=} wagons */ Wagon1.circle = function(wagons) {
+/** @param {Wagon[]=} wagons */ Wagon.circle = function(wagons) {
     return wagons ? wagons.length : 3.14;
 };
-/** @param {*[]=} supplies - *[]= is my favourite type */ Wagon1.prototype.load = function(supplies) {
+/** @param {*[]=} supplies - *[]= is my favourite type */ Wagon.prototype.load = function(supplies) {
 };
-/** @param {*[]=} supplies - Yep, still a great type */ Wagon1.prototype.weight = function(supplies) {
+/** @param {*[]=} supplies - Yep, still a great type */ Wagon.prototype.weight = function(supplies) {
     return supplies ? supplies.length : -1;
 };
-Wagon1.prototype.speed = function() {
+Wagon.prototype.speed = function() {
     return this.numberOxen / this.weight();
 };
 var Sql = // ok
-/*#__PURE__*/ function(Wagon) {
+/*#__PURE__*/ function(Wagon1) {
     "use strict";
-    _inherits(Sql, Wagon);
+    _inherits(Sql, Wagon1);
     var _super = _createSuper(Sql);
     function Sql() {
         _classCallCheck(this, Sql);
@@ -159,41 +159,41 @@ var Sql = // ok
         }
     ]);
     return Sql;
-}(Wagon1);
+}(Wagon);
 var db = new Sql();
 db.numberOxen = db.foonly;
 var Drakkhen = // error, can't extend a TS constructor function
-/*#__PURE__*/ function(Dragon) {
+/*#__PURE__*/ function(Dragon1) {
     "use strict";
-    _inherits(Drakkhen, Dragon);
+    _inherits(Drakkhen, Dragon1);
     var _super = _createSuper(Drakkhen);
     function Drakkhen() {
         _classCallCheck(this, Drakkhen);
         return _super.apply(this, arguments);
     }
     return Drakkhen;
-}(Dragon1);
+}(Dragon);
 // @Filename: second.ts
 /**
  * @constructor
- */ function Dragon1(numberEaten) {
+ */ function Dragon(numberEaten) {
     this.numberEaten = numberEaten;
 }
 var Firedrake = // error!
-/*#__PURE__*/ function(Dragon) {
+/*#__PURE__*/ function(Dragon2) {
     "use strict";
-    _inherits(Firedrake, Dragon);
+    _inherits(Firedrake, Dragon2);
     var _super = _createSuper(Firedrake);
     function Firedrake() {
         _classCallCheck(this, Firedrake);
         return _super.call(this);
     }
     return Firedrake;
-}(Dragon1);
+}(Dragon);
 var Conestoga = // ok
-/*#__PURE__*/ function(Wagon) {
+/*#__PURE__*/ function(Wagon2) {
     "use strict";
-    _inherits(Conestoga, Wagon);
+    _inherits(Conestoga, Wagon2);
     var _super = _createSuper(Conestoga);
     function Conestoga(drunkOO) {
         _classCallCheck(this, Conestoga);
@@ -212,7 +212,7 @@ var Conestoga = // ok
         }
     ]);
     return Conestoga;
-}(Wagon1);
+}(Wagon);
 var c = new Conestoga(true);
 c.drunkOO;
 c.numberOxen;
@@ -220,12 +220,12 @@ c.numberOxen;
 /**
  * @template T
  * @param {T} flavour
- */ function Soup1(flavour) {
+ */ function Soup(flavour) {
     this.flavour = flavour;
 }
-var Chowder = /** @extends {Soup<{ claim: "ignorant" | "malicious" }>} */ /*#__PURE__*/ function(Soup) {
+var Chowder = /** @extends {Soup<{ claim: "ignorant" | "malicious" }>} */ /*#__PURE__*/ function(Soup1) {
     "use strict";
-    _inherits(Chowder, Soup);
+    _inherits(Chowder, Soup1);
     var _super = _createSuper(Chowder);
     function Chowder() {
         _classCallCheck(this, Chowder);
@@ -240,8 +240,8 @@ var Chowder = /** @extends {Soup<{ claim: "ignorant" | "malicious" }>} */ /*#__P
         }
     ]);
     return Chowder;
-}(Soup1);
-var soup = new Soup1(1);
+}(Soup);
+var soup = new Soup(1);
 soup.flavour;
 var chowder = new Chowder({
     claim: "ignorant"

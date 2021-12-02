@@ -3,8 +3,8 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-var A1;
-(function(A) {
+var A;
+(function(A1) {
     var fromOrigin = function fromOrigin(p) {
         return new Line({
             x: 0,
@@ -15,13 +15,13 @@ var A1;
         "use strict";
         _classCallCheck(this, Point);
     };
-    A.Point = Point;
+    A1.Point = Point;
     var Line = function Line(start, end) {
         "use strict";
         _classCallCheck(this, Line);
         this.start = start;
         this.end = end;
     };
-    A.fromOrigin = fromOrigin;
-})(A1 || (A1 = {
+    A1.fromOrigin = fromOrigin;
+})(A || (A = {
 }));

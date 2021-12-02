@@ -1,5 +1,5 @@
-var Root1, otherRoot;
-!function(Root) {
+var Root, otherRoot;
+!function(Root1) {
     var A, A1, Utils;
     A1 = A || (A = {
     }), (Utils || (Utils = {
@@ -8,8 +8,8 @@ var Root1, otherRoot;
             x: p.y,
             y: p.x
         };
-    }, A1.Utils = Utils, Root.A = A;
-}(Root1 || (Root1 = {
+    }, A1.Utils = Utils, Root1.A = A;
+}(Root || (Root = {
 })), otherRoot || (otherRoot = {
 }), (A || (A = {
 })).Origin = {

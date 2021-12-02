@@ -3,28 +3,28 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-var A1;
-(function(A) {
+var A;
+(function(A1) {
     var Point = function Point(x, y) {
         "use strict";
         _classCallCheck(this, Point);
         this.x = x;
         this.y = y;
     };
-    A.Point = Point;
-    A.Origin = new Point(0, 0);
-})(A1 || (A1 = {
+    A1.Point = Point;
+    A1.Origin = new Point(0, 0);
+})(A || (A = {
 }));
 // no code gen expected
 var B;
 (function(B) {
-    var a = A1;
+    var a = A;
 })(B || (B = {
 }));
 // no code gen expected
 var C;
 (function(C) {
-    var a = A1;
+    var a = A;
     var m;
     var p;
     var p = {
@@ -36,16 +36,16 @@ var C;
 // code gen expected
 var D;
 (function(D) {
-    var a = A1;
+    var a = A;
     var p = new a.Point(1, 1);
 })(D || (D = {
 }));
-var E1;
-(function(E) {
+var E;
+(function(E1) {
     var xDist = function xDist(x) {
         return a.Origin.x - x.x;
     };
-    var a = A1;
-    E.xDist = xDist;
-})(E1 || (E1 = {
+    var a = A;
+    E1.xDist = xDist;
+})(E || (E = {
 }));

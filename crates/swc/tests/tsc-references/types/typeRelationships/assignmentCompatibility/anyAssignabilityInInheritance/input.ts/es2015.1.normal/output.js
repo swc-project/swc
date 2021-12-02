@@ -15,24 +15,24 @@ class A2 {
 var r3 = foo3(a); // any
 var r3 = foo3(a); // any
 var r3 = foo3(a); // any
-var E1;
-(function(E) {
-    E[E["A"] = 0] = "A";
-})(E1 || (E1 = {
+var E;
+(function(E1) {
+    E1[E1["A"] = 0] = "A";
+})(E || (E = {
 }));
 var r3 = foo3(a); // any
-function f1() {
+function f() {
 }
-(function(f) {
-    f.bar = 1;
-})(f1 || (f1 = {
+(function(f1) {
+    f1.bar = 1;
+})(f || (f = {
 }));
 var r3 = foo3(a); // any
-class CC1 {
+class CC {
 }
-(function(CC) {
-    CC.bar = 1;
-})(CC1 || (CC1 = {
+(function(CC1) {
+    CC1.bar = 1;
+})(CC || (CC = {
 }));
 var r3 = foo3(a); // any
 var r3 = foo3(a); // any

@@ -34,20 +34,20 @@
     };
 })(A || (A = {
 }));
-var Y1;
-(function(Y) {
+var Y;
+(function(Y1) {
     class A {
     }
-    Y.A = A;
+    Y1.A = A;
     class AA {
     }
-    Y.AA = AA;
+    Y1.AA = AA;
     class B extends AA {
     }
-    Y.B = B;
+    Y1.B = B;
     class BB extends A {
     }
-    Y.BB = BB;
+    Y1.BB = BB;
     (function(Module) {
         class A {
         }
@@ -58,19 +58,19 @@ var Y1;
         Color[Color["Red"] = 1] = "Red";
     })(Color || (Color = {
     }));
-    Y.x = 12;
+    Y1.x = 12;
     function F(s) {
         return 2;
     }
-    Y.F = F;
-    Y.array = null;
-    Y.fn = (s)=>{
+    Y1.F = F;
+    Y1.array = null;
+    Y1.fn = (s)=>{
         return 'hello ' + s;
     };
-    Y.ol = {
+    Y1.ol = {
         s: 'hello',
         id: 2,
         isvalid: true
     };
-})(Y1 || (Y1 = {
+})(Y || (Y = {
 }));

@@ -3,10 +3,10 @@ for(aString in {
 });
 for(anAny in {
 });
-for(var x1 in {
+for(var x in {
 });
-for(var x1 in []);
-for(var x1 in [
+for(var x in []);
+for(var x in [
     1,
     2,
     3,
@@ -15,25 +15,25 @@ for(var x1 in [
 ]);
 function fn() {
 }
-for(var x1 in fn());
-for(var x1 in /[a-z]/);
-for(var x1 in new Date());
-for(var x1 in c || d);
-for(var x1 in e ? c : d);
-for(var x1 in c);
-for(var x1 in d);
-for(var x1 in d[x1]);
-for(var x1 in c[d]);
-for(var x1 in (x)=>x
+for(var x in fn());
+for(var x in /[a-z]/);
+for(var x in new Date());
+for(var x in c || d);
+for(var x in e ? c : d);
+for(var x in c);
+for(var x in d);
+for(var x in d[x]);
+for(var x in c[d]);
+for(var x in (x1)=>x1
 );
-for(var x1 in function(x, y) {
-    return x + y;
+for(var x in function(x2, y) {
+    return x2 + y;
 });
-for(var x1 in i[42]);
-for(var x1 in (M || (M = {
+for(var x in i[42]);
+for(var x in (M || (M = {
 })).X = class {
 }, M);
-for(var x1 in M.X);
-for(var x1 in (Color1 = Color || (Color = {
+for(var x in M.X);
+for(var x in (Color1 = Color || (Color = {
 }))[Color1.Red = 0] = "Red", Color1[Color1.Blue = 1] = "Blue", Color);
-for(var x1 in Color.Blue);
+for(var x in Color.Blue);

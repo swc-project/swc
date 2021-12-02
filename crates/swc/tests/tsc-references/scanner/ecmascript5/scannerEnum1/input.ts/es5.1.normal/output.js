@@ -1,7 +1,6 @@
-var CodeGenTarget1;
-export { CodeGenTarget1 as CodeGenTarget,  };
-(function(CodeGenTarget) {
-    CodeGenTarget[CodeGenTarget["ES3"] = 0] = "ES3";
-    CodeGenTarget[CodeGenTarget["ES5"] = 1] = "ES5";
-})(CodeGenTarget1 || (CodeGenTarget1 = {
+export var CodeGenTarget;
+(function(CodeGenTarget1) {
+    CodeGenTarget1[CodeGenTarget1["ES3"] = 0] = "ES3";
+    CodeGenTarget1[CodeGenTarget1["ES5"] = 1] = "ES5";
+})(CodeGenTarget || (CodeGenTarget = {
 }));

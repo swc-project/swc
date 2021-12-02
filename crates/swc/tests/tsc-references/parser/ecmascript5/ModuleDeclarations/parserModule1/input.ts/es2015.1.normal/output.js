@@ -1,21 +1,20 @@
-var CompilerDiagnostics1;
-export { CompilerDiagnostics1 as CompilerDiagnostics };
-(function(CompilerDiagnostics) {
-    CompilerDiagnostics.debug = false;
-    CompilerDiagnostics.diagnosticWriter = null;
-    CompilerDiagnostics.analysisPass = 0;
+export var CompilerDiagnostics;
+(function(CompilerDiagnostics1) {
+    CompilerDiagnostics1.debug = false;
+    CompilerDiagnostics1.diagnosticWriter = null;
+    CompilerDiagnostics1.analysisPass = 0;
     function Alert(output) {
         if (diagnosticWriter) {
             diagnosticWriter.Alert(output);
         }
     }
-    CompilerDiagnostics.Alert = Alert;
+    CompilerDiagnostics1.Alert = Alert;
     function debugPrint(s) {
         if (debug) {
             Alert(s);
         }
     }
-    CompilerDiagnostics.debugPrint = debugPrint;
+    CompilerDiagnostics1.debugPrint = debugPrint;
     function assert(condition, s) {
         if (debug) {
             if (!condition) {
@@ -23,6 +22,6 @@ export { CompilerDiagnostics1 as CompilerDiagnostics };
             }
         }
     }
-    CompilerDiagnostics.assert = assert;
-})(CompilerDiagnostics1 || (CompilerDiagnostics1 = {
+    CompilerDiagnostics1.assert = assert;
+})(CompilerDiagnostics || (CompilerDiagnostics = {
 }));

@@ -12,8 +12,8 @@ function _defineProperty(obj, key, value) {
     return obj;
 }
 function _objectSpread(target) {
-    for(var i = 1; i < arguments.length; i++){
-        var source = arguments[i] != null ? arguments[i] : {
+    for(var i1 = 1; i1 < arguments.length; i1++){
+        var source = arguments[i1] != null ? arguments[i1] : {
         };
         var ownKeys = Object.keys(source);
         if (typeof Object.getOwnPropertySymbols === "function") {
@@ -49,7 +49,7 @@ sk.g; // error
 ssk.p;
 ssk.m(); // error
 ssk.g; // error
-let i1 = {
+let i = {
     p: 12,
     m () {
     },
@@ -58,9 +58,9 @@ let i1 = {
     }
 };
 let si = _objectSpread({
-}, i1);
+}, i);
 let ssi = _objectSpread({
-}, i1, i1);
+}, i, i);
 si.p;
 si.m(); // ok
 si.g; // ok

@@ -1,14 +1,14 @@
 // @filename: function.ts
-var A1;
-(function(A) {
+var A;
+(function(A1) {
     function Point() {
         return {
             x: 0,
             y: 0
         };
     }
-    A.Point = Point;
-})(A1 || (A1 = {
+    A1.Point = Point;
+})(A || (A = {
 }));
 // @filename: module.ts
 var B;
@@ -24,6 +24,6 @@ var B;
 }));
 // @filename: test.ts
 var fn;
-var fn = A1.Point;
+var fn = A.Point;
 var cl;
 var cl = B.Point.Origin;

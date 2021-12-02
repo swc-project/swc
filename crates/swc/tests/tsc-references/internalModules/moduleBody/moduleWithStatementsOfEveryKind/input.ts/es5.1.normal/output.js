@@ -127,8 +127,8 @@ function _createSuper(Derived) {
     };
 })(A || (A = {
 }));
-var Y1;
-(function(Y) {
+var Y;
+(function(Y1) {
     var F = function F(s) {
         return 2;
     };
@@ -136,12 +136,12 @@ var Y1;
         "use strict";
         _classCallCheck(this, A);
     };
-    Y.A = A;
+    Y1.A = A;
     var AA = function AA() {
         "use strict";
         _classCallCheck(this, AA);
     };
-    Y.AA = AA;
+    Y1.AA = AA;
     var B = /*#__PURE__*/ function(AA) {
         "use strict";
         _inherits(B, AA);
@@ -152,7 +152,7 @@ var Y1;
         }
         return B;
     }(AA);
-    Y.B = B;
+    Y1.B = B;
     var BB = /*#__PURE__*/ function(A) {
         "use strict";
         _inherits(BB, A);
@@ -163,7 +163,7 @@ var Y1;
         }
         return BB;
     }(A);
-    Y.BB = BB;
+    Y1.BB = BB;
     (function(Module) {
         var A = function A() {
             "use strict";
@@ -176,16 +176,16 @@ var Y1;
         Color[Color["Red"] = 1] = "Red";
     })(Color || (Color = {
     }));
-    Y.x = 12;
-    Y.F = F;
-    Y.array = null;
-    Y.fn = function(s) {
+    Y1.x = 12;
+    Y1.F = F;
+    Y1.array = null;
+    Y1.fn = function(s) {
         return 'hello ' + s;
     };
-    Y.ol = {
+    Y1.ol = {
         s: 'hello',
         id: 2,
         isvalid: true
     };
-})(Y1 || (Y1 = {
+})(Y || (Y = {
 }));

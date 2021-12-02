@@ -1,11 +1,11 @@
-var A1;
+var A;
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
         var descriptor = props[i];
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-!function(A) {
+!function(A1) {
     var Point2d = function() {
         "use strict";
         var Constructor, protoProps, staticProps;
@@ -23,6 +23,6 @@ function _defineProperties(target, props) {
             }
         ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Point2d;
     }();
-    A.Point2d = Point2d;
-}(A1 || (A1 = {
+    A1.Point2d = Point2d;
+}(A || (A = {
 }));

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
-var TypeScript1;
-(function(TypeScript) {
+var TypeScript;
+(function(TypeScript1) {
     class AssignScopeContext {
         constructor(scopeChain, typeFlow, modDeclChain){
             this.scopeChain = scopeChain;
@@ -10,7 +10,7 @@ var TypeScript1;
             this.modDeclChain = modDeclChain;
         }
     }
-    TypeScript.AssignScopeContext = AssignScopeContext;
+    TypeScript1.AssignScopeContext = AssignScopeContext;
     function pushAssignScope(scope, context, type, classType, fnc) {
         var chain = new ScopeChain(null, context.scopeChain, scope);
         chain.thisType = type;
@@ -18,11 +18,11 @@ var TypeScript1;
         chain.fnc = fnc;
         context.scopeChain = chain;
     }
-    TypeScript.pushAssignScope = pushAssignScope;
+    TypeScript1.pushAssignScope = pushAssignScope;
     function popAssignScope(context) {
         context.scopeChain = context.scopeChain.previous;
     }
-    TypeScript.popAssignScope = popAssignScope;
+    TypeScript1.popAssignScope = popAssignScope;
     function instanceCompare(a, b) {
         if (a == null || !a.isInstanceProperty()) {
             return b;
@@ -30,11 +30,11 @@ var TypeScript1;
             return a;
         }
     }
-    TypeScript.instanceCompare = instanceCompare;
+    TypeScript1.instanceCompare = instanceCompare;
     function instanceFilterStop(s) {
         return s.isInstanceProperty();
     }
-    TypeScript.instanceFilterStop = instanceFilterStop;
+    TypeScript1.instanceFilterStop = instanceFilterStop;
     class ScopeSearchFilter {
         reset() {
             this.result = null;
@@ -53,8 +53,8 @@ var TypeScript1;
             this.result = null;
         }
     }
-    TypeScript.ScopeSearchFilter = ScopeSearchFilter;
-    TypeScript.instanceFilter = new ScopeSearchFilter(instanceCompare, instanceFilterStop);
+    TypeScript1.ScopeSearchFilter = ScopeSearchFilter;
+    TypeScript1.instanceFilter = new ScopeSearchFilter(instanceCompare, instanceFilterStop);
     function preAssignModuleScopes(ast, context) {
         var moduleDecl = ast;
         var memberScope = null;
@@ -80,7 +80,7 @@ var TypeScript1;
             context.typeFlow.addLocalsFromScope(mod.containedScope, mod.symbol, moduleDecl.vars, mod.members.privateMembers, true);
         }
     }
-    TypeScript.preAssignModuleScopes = preAssignModuleScopes;
+    TypeScript1.preAssignModuleScopes = preAssignModuleScopes;
     function preAssignClassScopes(ast, context) {
         var classDecl = ast;
         var memberScope = null;
@@ -108,7 +108,7 @@ var TypeScript1;
             ast.type = context.typeFlow.anyType;
         }
     }
-    TypeScript.preAssignClassScopes = preAssignClassScopes;
+    TypeScript1.preAssignClassScopes = preAssignClassScopes;
     function preAssignInterfaceScopes(ast, context) {
         var interfaceDecl = ast;
         var memberScope = null;
@@ -125,7 +125,7 @@ var TypeScript1;
         pushAssignScope(aggScope, context, null, null, null);
         interfaceType.containedScope = aggScope;
     }
-    TypeScript.preAssignInterfaceScopes = preAssignInterfaceScopes;
+    TypeScript1.preAssignInterfaceScopes = preAssignInterfaceScopes;
     function preAssignWithScopes(ast, context) {
         var withStmt = ast;
         var withType = withStmt.type;
@@ -138,11 +138,11 @@ var TypeScript1;
         withType.symbol = withSymbol;
         withType.setHasImplementation();
         withStmt.type = withType;
-        var withScope = new TypeScript1.SymbolScopeBuilder(withType.members, withType.ambientMembers, null, null, context.scopeChain.scope, withType.symbol);
+        var withScope = new TypeScript.SymbolScopeBuilder(withType.members, withType.ambientMembers, null, null, context.scopeChain.scope, withType.symbol);
         pushAssignScope(withScope, context, null, null, null);
         withType.containedScope = withScope;
     }
-    TypeScript.preAssignWithScopes = preAssignWithScopes;
+    TypeScript1.preAssignWithScopes = preAssignWithScopes;
     function preAssignFuncDeclScopes(ast, context) {
         var funcDecl = ast;
         var container = null;
@@ -291,7 +291,7 @@ var TypeScript1;
             pushAssignScope(locals, context, thisType, null, funcDecl);
         }
     }
-    TypeScript.preAssignFuncDeclScopes = preAssignFuncDeclScopes;
+    TypeScript1.preAssignFuncDeclScopes = preAssignFuncDeclScopes;
     function preAssignCatchScopes(ast, context) {
         var catchBlock = ast;
         if (catchBlock.param) {
@@ -301,7 +301,7 @@ var TypeScript1;
             pushAssignScope(catchLocals, context, context.scopeChain.thisType, context.scopeChain.classType, context.scopeChain.fnc);
         }
     }
-    TypeScript.preAssignCatchScopes = preAssignCatchScopes;
+    TypeScript1.preAssignCatchScopes = preAssignCatchScopes;
     function preAssignScopes(ast, parent, walker) {
         var context = walker.state;
         var go = true;
@@ -328,7 +328,7 @@ var TypeScript1;
         walker.options.goChildren = go;
         return ast;
     }
-    TypeScript.preAssignScopes = preAssignScopes;
+    TypeScript1.preAssignScopes = preAssignScopes;
     function postAssignScopes(ast, parent, walker) {
         var context = walker.state;
         var go = true;
@@ -363,6 +363,6 @@ var TypeScript1;
         walker.options.goChildren = go;
         return ast;
     }
-    TypeScript.postAssignScopes = postAssignScopes;
-})(TypeScript1 || (TypeScript1 = {
+    TypeScript1.postAssignScopes = postAssignScopes;
+})(TypeScript || (TypeScript = {
 }));

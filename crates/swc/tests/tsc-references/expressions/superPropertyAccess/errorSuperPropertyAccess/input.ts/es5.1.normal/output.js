@@ -23,18 +23,18 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-function _defineProperty(obj, key, value) {
-    if (key in obj) {
-        Object.defineProperty(obj, key, {
+function _defineProperty(obj1, key, value) {
+    if (key in obj1) {
+        Object.defineProperty(obj1, key, {
             value: value,
             enumerable: true,
             configurable: true,
             writable: true
         });
     } else {
-        obj[key] = value;
+        obj1[key] = value;
     }
-    return obj;
+    return obj1;
 }
 function _get(target, property, receiver) {
     if (typeof Reflect !== "undefined" && Reflect.get) {
@@ -129,8 +129,8 @@ function _superPropBase(object, property) {
     }
     return object;
 }
-var _typeof = function(obj) {
-    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
+var _typeof = function(obj1) {
+    return obj1 && typeof Symbol !== "undefined" && obj1.constructor === Symbol ? "symbol" : typeof obj1;
 };
 function _isNativeReflectConstruct() {
     if (typeof Reflect === "undefined" || !Reflect.construct) return false;
@@ -354,7 +354,7 @@ var SomeDerived3 = //super.publicStaticMemberNotFunction in static member functi
     return SomeDerived3;
 }(SomeBase);
 // In object literal
-var obj1 = {
+var obj = {
     n: super.wat,
     p: super.foo()
 };

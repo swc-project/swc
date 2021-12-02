@@ -16,13 +16,13 @@ var C = function C() {
     _classCallCheck(this, C);
 };
 var a;
-var E1;
-(function(E) {
-    E[E["A"] = 0] = "A";
-})(E1 || (E1 = {
+var E;
+(function(E1) {
+    E1[E1["A"] = 0] = "A";
+})(E || (E = {
 }));
 var b = {
-    foo: E1.A
+    foo: E.A
 };
 function foo5(x) {
 }

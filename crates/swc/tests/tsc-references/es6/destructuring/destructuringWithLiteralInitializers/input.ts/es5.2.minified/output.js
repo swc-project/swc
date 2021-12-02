@@ -1,4 +1,4 @@
-var param1;
+var param;
 function _slicedToArray(arr, i) {
     return (function(arr) {
         if (Array.isArray(arr)) return arr;
@@ -20,12 +20,12 @@ function _slicedToArray(arr, i) {
         throw new TypeError("Invalid attempt to destructure non-iterable instance");
     })();
 }
-function f2(param) {
-    void 0 === _y, param.x;
-    var _y = param.y;
+function f2(param1) {
+    void 0 === _y, param1.x;
+    var _y = param1.y;
 }
-function f3(param) {
-    param.x, param.y;
+function f3(param2) {
+    param2.x, param2.y;
 }
 function f4() {
     var ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
@@ -69,10 +69,10 @@ function g5() {
     var ref = _slicedToArray(arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [], 2);
     ref[0], ref[1];
 }
-(param1 = {
+(param = {
     x: 1,
     y: 1
-}).x, param1.y, f2({
+}).x, param.y, f2({
     x: 1
 }), f2({
     x: 1,
@@ -117,14 +117,14 @@ function g5() {
         x: 1,
         y: 1
     }
-}), (function(param) {
-    var _param = _slicedToArray(param, 2);
+}), (function(param3) {
+    var _param = _slicedToArray(param3, 2);
     _param[0], _param[1];
 })([
     1,
     1
-]), (function(param) {
-    var _param = _slicedToArray(param, 2);
+]), (function(param4) {
+    var _param = _slicedToArray(param4, 2);
     _param[0], _param[1];
 })([
     1,

@@ -1,5 +1,5 @@
-var TypeScript1;
-!function(TypeScript) {
+var TypeScript;
+!function(TypeScript1) {
     var globalAstWalkerFactory, ChildrenWalkers1;
     class AstWalkOptions {
         stopWalk(stop = !0) {
@@ -9,7 +9,7 @@ var TypeScript1;
             this.goChildren = !0, this.goNextSibling = !0, this.reverseSiblings = !1;
         }
     }
-    TypeScript.AstWalkOptions = AstWalkOptions;
+    TypeScript1.AstWalkOptions = AstWalkOptions;
     class AstWalker {
         walk(ast, parent) {
             var preAst = this.pre(ast, parent, this);
@@ -42,7 +42,7 @@ var TypeScript1;
             this.childrenWalkers = [], this.initChildrenWalkers();
         }
     }
-    TypeScript.AstWalkerFactory = AstWalkerFactory, TypeScript.getAstWalkerFactory = function() {
+    TypeScript1.AstWalkerFactory = AstWalkerFactory, TypeScript1.getAstWalkerFactory = function() {
         return globalAstWalkerFactory || (globalAstWalkerFactory = new AstWalkerFactory()), globalAstWalkerFactory;
     }, (function(ChildrenWalkers) {
         function walkRecordChildren(preAst, parent, walker) {
@@ -116,5 +116,5 @@ var TypeScript1;
         };
     })(ChildrenWalkers1 || (ChildrenWalkers1 = {
     }));
-}(TypeScript1 || (TypeScript1 = {
+}(TypeScript || (TypeScript = {
 }));

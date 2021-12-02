@@ -1,14 +1,14 @@
-function foo(arg) {
-    return arg.cb(null);
+function foo(arg1) {
+    return arg1.cb(null);
 }
-var arg1 = {
+var arg = {
     cb: (x)=>""
 };
-foo(arg1), foo({
+foo(arg), foo({
     cb: (x, y)=>""
 }), foo({
     cb: (x, y)=>""
-}), foo(arg1), foo({
+}), foo(arg), foo({
     cb: (x)=>""
 }), foo({
     cb: (x)=>""

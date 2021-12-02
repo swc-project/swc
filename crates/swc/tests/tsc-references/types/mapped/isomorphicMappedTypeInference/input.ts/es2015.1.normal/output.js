@@ -88,10 +88,10 @@ function f6(s) {
     let v = unboxify(b);
     let x = v[s];
 }
-function f10(foo) {
-    let x = validate(foo); // { a: number, readonly b: string }
-    let y = clone(foo); // { a?: number, b: string }
-    let z = validateAndClone(foo); // { a: number, b: string }
+function f10(foo1) {
+    let x = validate(foo1); // { a: number, readonly b: string }
+    let y = clone(foo1); // { a?: number, b: string }
+    let z = validateAndClone(foo1); // { a: number, b: string }
 }
 // Infers g1: (...args: any[]) => { sum: number, nested: { mul: string } }
 var g1 = applySpec({
@@ -110,16 +110,16 @@ var g2 = applySpec({
     }
 });
 // Repro from #12633
-const foo1 = (object, partial)=>object
+const foo = (object, partial)=>object
 ;
 let o = {
     a: 5,
     b: 7
 };
-foo1(o, {
+foo(o, {
     b: 9
 });
-o = foo1(o, {
+o = foo(o, {
     b: 9
 });
 let x0 = f20({

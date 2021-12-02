@@ -1,8 +1,8 @@
-var Tools1;
-(function(Tools) {
+var Tools;
+(function(Tools1) {
     class NullLogger {
     }
-    Tools.NullLogger = NullLogger;
-})(Tools1 || (Tools1 = {
+    Tools1.NullLogger = NullLogger;
+})(Tools || (Tools = {
 }));
-var logger = Tools1.NullLogger();
+var logger = Tools.NullLogger();

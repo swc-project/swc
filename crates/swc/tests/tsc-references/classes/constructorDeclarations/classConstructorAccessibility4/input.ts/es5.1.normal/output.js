@@ -107,8 +107,8 @@ var A1 = // @declaration: true
                     ]);
                     return B;
                 }();
-                var C = /*#__PURE__*/ function(A) {
-                    _inherits(C, A);
+                var C = /*#__PURE__*/ function(A2) {
+                    _inherits(C, A2);
                     var _super = _createSuper(C);
                     function C() {
                         _classCallCheck(this, C);
@@ -144,8 +144,8 @@ var D1 = /*#__PURE__*/ function() {
                     ]);
                     return E;
                 }();
-                var F = /*#__PURE__*/ function(D) {
-                    _inherits(F, D);
+                var F = /*#__PURE__*/ function(D2) {
+                    _inherits(F, D2);
                     var _super = _createSuper(F);
                     function F() {
                         _classCallCheck(this, F);

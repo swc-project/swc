@@ -4,8 +4,8 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
+    for(var i1 = 0; i1 < props.length; i1++){
+        var descriptor = props[i1];
         descriptor.enumerable = descriptor.enumerable || false;
         descriptor.configurable = true;
         if ("value" in descriptor) descriptor.writable = true;
@@ -17,10 +17,10 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var i1;
+var i;
 var o;
-o = i1; // error
-i1 = o; // error
+o = i; // error
+i = o; // error
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {

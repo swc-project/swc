@@ -8,7 +8,7 @@ function foo() {
             })();
         }
     }
-    var x = new X();
-    return x.m();
+    var x1 = new X();
+    return x1.m();
 }
-var x1 = foo();
+var x = foo();

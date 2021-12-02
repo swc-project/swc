@@ -1,22 +1,22 @@
-var NumericEnum11;
-(function(NumericEnum1) {
-    NumericEnum1[NumericEnum1["A"] = 0] = "A";
-    NumericEnum1[NumericEnum1["B"] = 1] = "B";
-    NumericEnum1[NumericEnum1["C"] = 2] = "C";
-})(NumericEnum11 || (NumericEnum11 = {
+var NumericEnum1;
+(function(NumericEnum11) {
+    NumericEnum11[NumericEnum11["A"] = 0] = "A";
+    NumericEnum11[NumericEnum11["B"] = 1] = "B";
+    NumericEnum11[NumericEnum11["C"] = 2] = "C";
+})(NumericEnum1 || (NumericEnum1 = {
 }));
-var NumericEnum21;
-(function(NumericEnum2) {
-    NumericEnum2[NumericEnum2["A"] = 0] = "A";
-    NumericEnum2[NumericEnum2["B"] = 1] = "B";
-    NumericEnum2[NumericEnum2["C"] = 2] = "C";
-})(NumericEnum21 || (NumericEnum21 = {
+var NumericEnum2;
+(function(NumericEnum21) {
+    NumericEnum21[NumericEnum21["A"] = 0] = "A";
+    NumericEnum21[NumericEnum21["B"] = 1] = "B";
+    NumericEnum21[NumericEnum21["C"] = 2] = "C";
+})(NumericEnum2 || (NumericEnum2 = {
 }));
-var StringEnum11;
-(function(StringEnum1) {
-    StringEnum1["A"] = "Alpha";
-    StringEnum1["B"] = "Beta";
-})(StringEnum11 || (StringEnum11 = {
+var StringEnum1;
+(function(StringEnum11) {
+    StringEnum11["A"] = "Alpha";
+    StringEnum11["B"] = "Beta";
+})(StringEnum1 || (StringEnum1 = {
 }));
 // All of these should be errors
 const e1 = strMap["foo"];
@@ -26,12 +26,12 @@ const e4 = strMap[0];
 const e5 = strMap[0];
 const e6 = strMap[0];
 const e7 = strMap["foo"];
-const e8 = strMap[NumericEnum11.A];
-const e9 = strMap[NumericEnum21.A];
-const e10 = strMap[StringEnum11.A];
-const e11 = strMap[StringEnum11.A];
-const e12 = strMap[NumericEnum11.A];
-const e13 = strMap[NumericEnum21.A];
+const e8 = strMap[NumericEnum1.A];
+const e9 = strMap[NumericEnum2.A];
+const e10 = strMap[StringEnum1.A];
+const e11 = strMap[StringEnum1.A];
+const e12 = strMap[NumericEnum1.A];
+const e13 = strMap[NumericEnum2.A];
 const e14 = strMap[null];
 // Should be OK
 const ok1 = strMap["foo"];
@@ -45,8 +45,8 @@ strMap[null] = undefined;
 const num_ok1 = numMap[0];
 const num_ok2 = numMap[0];
 const num_ok3 = numMap[0];
-const num_ok4 = numMap[NumericEnum11.A];
-const num_ok5 = numMap[NumericEnum21.A];
+const num_ok4 = numMap[NumericEnum1.A];
+const num_ok5 = numMap[NumericEnum2.A];
 // Generics
 function generic1(arg) {
     // Should error

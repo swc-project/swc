@@ -1,5 +1,5 @@
-var TypeScript1;
-!function(TypeScript) {
+var TypeScript;
+!function(TypeScript1) {
     var CompilerDiagnostics1;
     !function(CompilerDiagnostics) {
         function Alert(output) {
@@ -11,7 +11,7 @@ var TypeScript1;
             debug && (condition || Alert(s));
         };
     }(CompilerDiagnostics1 || (CompilerDiagnostics1 = {
-    })), TypeScript.NullLogger = class {
+    })), TypeScript1.NullLogger = class {
         information() {
             return !1;
         }
@@ -29,7 +29,7 @@ var TypeScript1;
         }
         log(s) {
         }
-    }, TypeScript.LoggerAdapter = class {
+    }, TypeScript1.LoggerAdapter = class {
         information() {
             return this._information;
         }
@@ -51,7 +51,7 @@ var TypeScript1;
         constructor(logger){
             this.logger = logger, this._information = this.logger.information(), this._debug = this.logger.debug(), this._warning = this.logger.warning(), this._error = this.logger.error(), this._fatal = this.logger.fatal();
         }
-    }, TypeScript.BufferedLogger = class {
+    }, TypeScript1.BufferedLogger = class {
         information() {
             return !1;
         }
@@ -73,10 +73,10 @@ var TypeScript1;
         constructor(){
             this.logContents = [];
         }
-    }, TypeScript.timeFunction = function(logger, funcDescription, func) {
+    }, TypeScript1.timeFunction = function(logger, funcDescription, func) {
         var start = +new Date(), result = func(), end = +new Date();
         return logger.log(funcDescription + " completed in " + (end - start) + " msec"), result;
-    }, TypeScript.stringToLiteral = function(value, length) {
+    }, TypeScript1.stringToLiteral = function(value, length) {
         var result = "", addChar = (index)=>{
             var ch = value.charCodeAt(index);
             switch(ch){
@@ -117,6 +117,6 @@ var TypeScript1;
             for(var i = 0; i < length; i++)addChar(i);
         }
         return result;
-    }, TypeScript.CompilerDiagnostics = CompilerDiagnostics1;
-}(TypeScript1 || (TypeScript1 = {
+    }, TypeScript1.CompilerDiagnostics = CompilerDiagnostics1;
+}(TypeScript || (TypeScript = {
 }));

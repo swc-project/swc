@@ -1,13 +1,13 @@
-var M, N1, O;
-class C extends N1.E {
+var M, N, O;
+class C extends N.E {
 }
 (M || (M = {
 })).D = class extends C {
-}, (function(N) {
+}, (function(N1) {
     class E extends M.D {
     }
-    N.E = E;
-})(N1 || (N1 = {
+    N1.E = E;
+})(N || (N = {
 })), (function(O) {
     var P, Q1;
     class C2 extends Q1.E2 {

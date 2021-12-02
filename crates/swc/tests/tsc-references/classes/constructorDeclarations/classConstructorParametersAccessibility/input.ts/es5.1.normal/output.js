@@ -56,10 +56,10 @@ function _isNativeReflectConstruct() {
         return false;
     }
 }
-function _createSuper(Derived) {
+function _createSuper(Derived1) {
     var hasNativeReflectConstruct = _isNativeReflectConstruct();
     return function _createSuperInternal() {
-        var Super = _getPrototypeOf(Derived), result;
+        var Super = _getPrototypeOf(Derived1), result;
         if (hasNativeReflectConstruct) {
             var NewTarget = _getPrototypeOf(this).constructor;
             result = Reflect.construct(Super, arguments, NewTarget);
@@ -93,16 +93,16 @@ var C3 = function C3(p) {
 var c3;
 c3.p // protected, error
 ;
-var Derived1 = /*#__PURE__*/ function(C3) {
+var Derived = /*#__PURE__*/ function(C3) {
     "use strict";
-    _inherits(Derived1, C3);
-    var _super = _createSuper(Derived1);
-    function Derived1(p) {
-        _classCallCheck(this, Derived1);
+    _inherits(Derived, C3);
+    var _super = _createSuper(Derived);
+    function Derived(p) {
+        _classCallCheck(this, Derived);
         var _this;
         _this = _super.call(this, p);
         _this.p; // OK
         return _this;
     }
-    return Derived1;
+    return Derived;
 }(C3);

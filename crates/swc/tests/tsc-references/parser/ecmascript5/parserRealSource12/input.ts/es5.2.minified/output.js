@@ -1,4 +1,4 @@
-var TypeScript1;
+var TypeScript;
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
@@ -11,7 +11,7 @@ function _defineProperties(target, props) {
 function _createClass(Constructor, protoProps, staticProps) {
     return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
 }
-!function(TypeScript) {
+!function(TypeScript1) {
     var globalAstWalkerFactory, ChildrenWalkers1, getAstWalkerFactory = function() {
         return globalAstWalkerFactory || (globalAstWalkerFactory = new AstWalkerFactory()), globalAstWalkerFactory;
     }, AstWalkOptions = function() {
@@ -29,7 +29,7 @@ function _createClass(Constructor, protoProps, staticProps) {
             }
         ]), AstWalkOptions;
     }();
-    TypeScript.AstWalkOptions = AstWalkOptions;
+    TypeScript1.AstWalkOptions = AstWalkOptions;
     var AstWalker = function() {
         "use strict";
         function AstWalker(childrenWalkers, pre, post, options, state) {
@@ -82,7 +82,7 @@ function _createClass(Constructor, protoProps, staticProps) {
             }
         ]), AstWalkerFactory;
     }();
-    TypeScript.AstWalkerFactory = AstWalkerFactory, TypeScript.getAstWalkerFactory = getAstWalkerFactory, (function(ChildrenWalkers) {
+    TypeScript1.AstWalkerFactory = AstWalkerFactory, TypeScript1.getAstWalkerFactory = getAstWalkerFactory, (function(ChildrenWalkers) {
         function walkRecordChildren(preAst, parent, walker) {
             preAst.name = walker.walk(preAst.name, preAst), walker.options.goNextSibling && preAst.members && (preAst.members = walker.walk(preAst.members, preAst));
         }
@@ -154,5 +154,5 @@ function _createClass(Constructor, protoProps, staticProps) {
         };
     })(ChildrenWalkers1 || (ChildrenWalkers1 = {
     }));
-}(TypeScript1 || (TypeScript1 = {
+}(TypeScript || (TypeScript = {
 }));

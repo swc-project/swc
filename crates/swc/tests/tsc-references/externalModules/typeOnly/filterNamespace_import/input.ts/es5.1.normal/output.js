@@ -4,14 +4,14 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 // @Filename: /ns.ts
-var ns1;
-(function(ns) {
+var ns;
+(function(ns1) {
     var Class = function Class() {
         "use strict";
         _classCallCheck(this, Class);
     };
-    ns.Class = Class;
-    ns.Value = "";
+    ns1.Class = Class;
+    ns1.Value = "";
     var nested1;
     (function(nested) {
         var NestedClass = function NestedClass() {
@@ -21,11 +21,11 @@ var ns1;
         nested.NestedClass = NestedClass;
     })(nested1 || (nested1 = {
     }));
-    ns.nested = nested1;
-})(ns1 || (ns1 = {
+    ns1.nested = nested1;
+})(ns || (ns = {
 }));
-ns1.Class; // Error
-ns1.Value; // Error
+ns.Class; // Error
+ns.Value; // Error
 var c;
 var t = "";
 var n = {

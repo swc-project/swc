@@ -1,10 +1,10 @@
-var A1;
-(function(A) {
-    A.x = 'hello world';
+var A;
+(function(A1) {
+    A1.x = 'hello world';
     var y = 12;
-})(A1 || (A1 = {
+})(A || (A = {
 }));
 var x;
-var x = A1.x;
+var x = A.x;
 // Error, since y is not exported
-var y = A1.y;
+var y = A.y;

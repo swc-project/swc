@@ -1,9 +1,9 @@
 require("react");
-var M1, Route = require("react-router").Route;
-React.createElement(Route, null), (function(M) {
+var M, Route = require("react-router").Route;
+React.createElement(Route, null), (function(M1) {
     var X;
-    M.X = X;
-})(M1 || (M1 = {
-})), M1 || (M1 = {
+    M1.X = X;
+})(M || (M = {
+})), M || (M = {
 }), React.createElement(X, null);
 export { };

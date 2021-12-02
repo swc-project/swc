@@ -1,10 +1,10 @@
-var E, E1, M1, a1, b;
+var E, E1, M, a, b;
 (E = E1 || (E1 = {
-}))[E.a = 0] = "a", E[E.b = 1] = "b", E[E.c = 2] = "c", (function(M) {
-    var a;
-    M.a = a;
-})(M1 || (M1 = {
-})), a1 + a1, a1 + b, a1 + new class {
+}))[E.a = 0] = "a", E[E.b = 1] = "b", E[E.c = 2] = "c", (function(M1) {
+    var a1;
+    M1.a = a1;
+})(M || (M = {
+})), a + a, a + b, a + new class {
     static foo() {
     }
-}(), a1 + E1.a;
+}(), a + E1.a;

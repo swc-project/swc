@@ -35,10 +35,10 @@ var _marked = regeneratorRuntime.mark(function() {
                 return _ctx.stop();
         }
     }, _marked);
-}), Foo1 = function() {
+}), Foo = function() {
     "use strict";
-    _classCallCheck(this, Foo1);
-}, Bar = function(Foo) {
+    _classCallCheck(this, Foo);
+}, Bar = function(Foo1) {
     "use strict";
     !function(subClass, superClass) {
         if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
@@ -49,7 +49,7 @@ var _marked = regeneratorRuntime.mark(function() {
                 configurable: !0
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
-    }(Bar, Foo);
+    }(Bar, Foo1);
     var _super = function(Derived) {
         var hasNativeReflectConstruct = function() {
             if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
@@ -78,7 +78,7 @@ var _marked = regeneratorRuntime.mark(function() {
         return _classCallCheck(this, Bar), _super.apply(this, arguments);
     }
     return Bar;
-}(Foo1), Baz = function() {
+}(Foo), Baz = function() {
     "use strict";
     _classCallCheck(this, Baz);
 };

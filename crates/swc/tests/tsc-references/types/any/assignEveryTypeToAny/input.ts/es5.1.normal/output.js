@@ -4,50 +4,50 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 // all of these are valid
-var x1;
-x1 = 1;
-var a1 = 2;
-x1 = a1;
-x1 = true;
+var x;
+x = 1;
+var a = 2;
+x = a;
+x = true;
 var b = true;
-x1 = b;
-x1 = "";
+x = b;
+x = "";
 var c = "";
-x1 = c;
+x = c;
 var d;
-x1 = d;
+x = d;
 var e = undefined;
-x1 = e;
+x = e;
 var e2;
-x1 = e2;
-var E1;
-(function(E) {
-    E[E["A"] = 0] = "A";
-})(E1 || (E1 = {
+x = e2;
+var E;
+(function(E1) {
+    E1[E1["A"] = 0] = "A";
+})(E || (E = {
 }));
-x1 = E1.A;
-var f = E1.A;
-x1 = f;
+x = E.A;
+var f = E.A;
+x = f;
 var g;
-x1 = g;
+x = g;
 var C = function C() {
     "use strict";
     _classCallCheck(this, C);
 };
 var h;
-x1 = h;
+x = h;
 var i;
-x1 = i;
-x1 = {
+x = i;
+x = {
     f: function() {
         return 1;
     }
 };
-x1 = {
-    f: function(x) {
-        return x;
+x = {
+    f: function(x1) {
+        return x1;
     }
 };
-function j(a) {
-    x1 = a;
+function j(a1) {
+    x = a1;
 }

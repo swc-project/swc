@@ -1,5 +1,5 @@
-var A1;
-(function(A) {
+var A;
+(function(A1) {
     var B1;
     (function(B) {
         class C {
@@ -7,17 +7,17 @@ var A1;
         B.C = C;
     })(B1 || (B1 = {
     }));
-    A.B = B1;
-})(A1 || (A1 = {
+    A1.B = B1;
+})(A || (A = {
 }));
-var M21;
-(function(M2) {
+var M2;
+(function(M21) {
     var X1;
     (function(X) {
         var Point;
         X.Point = Point;
     })(X1 || (X1 = {
     }));
-    M2.X = X1;
-})(M21 || (M21 = {
+    M21.X = X1;
+})(M2 || (M2 = {
 }));

@@ -9,10 +9,10 @@ var C = function C() {
 };
 var ac;
 var ai;
-var E1;
-(function(E) {
-    E[E["A"] = 0] = "A";
-})(E1 || (E1 = {
+var E;
+(function(E1) {
+    E1[E1["A"] = 0] = "A";
+})(E || (E = {
 }));
 var ae;
 var b = undefined;

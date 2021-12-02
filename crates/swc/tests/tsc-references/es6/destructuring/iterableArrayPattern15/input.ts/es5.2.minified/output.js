@@ -19,10 +19,10 @@ function _setPrototypeOf(o, p) {
 }
 var arr, _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, Bar1 = function() {
+}, Bar = function() {
     "use strict";
-    _classCallCheck(this, Bar1);
-}, Foo = function(Bar) {
+    _classCallCheck(this, Bar);
+}, Foo = function(Bar1) {
     "use strict";
     !function(subClass, superClass) {
         if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
@@ -33,7 +33,7 @@ var arr, _typeof = function(obj) {
                 configurable: !0
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
-    }(Foo, Bar);
+    }(Foo, Bar1);
     var _super = function(Derived) {
         var hasNativeReflectConstruct = function() {
             if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
@@ -62,7 +62,7 @@ var arr, _typeof = function(obj) {
         return _classCallCheck(this, Foo), _super.apply(this, arguments);
     }
     return Foo;
-}(Bar1), tmp = Symbol.iterator, FooIterator = function() {
+}(Bar), tmp = Symbol.iterator, FooIterator = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function FooIterator() {

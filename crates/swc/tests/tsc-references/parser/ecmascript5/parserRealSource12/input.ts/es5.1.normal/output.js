@@ -20,8 +20,8 @@ function _createClass(Constructor, protoProps, staticProps) {
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
-var TypeScript1;
-(function(TypeScript) {
+var TypeScript;
+(function(TypeScript1) {
     var getAstWalkerFactory = function getAstWalkerFactory() {
         if (!globalAstWalkerFactory) {
             globalAstWalkerFactory = new AstWalkerFactory();
@@ -49,7 +49,7 @@ var TypeScript1;
         ]);
         return AstWalkOptions;
     }();
-    TypeScript.AstWalkOptions = AstWalkOptions;
+    TypeScript1.AstWalkOptions = AstWalkOptions;
     var AstWalker = /*#__PURE__*/ function() {
         "use strict";
         function AstWalker(childrenWalkers, pre, post, options, state) {
@@ -242,9 +242,9 @@ var TypeScript1;
         ]);
         return AstWalkerFactory;
     }();
-    TypeScript.AstWalkerFactory = AstWalkerFactory;
+    TypeScript1.AstWalkerFactory = AstWalkerFactory;
     var globalAstWalkerFactory;
-    TypeScript.getAstWalkerFactory = getAstWalkerFactory;
+    TypeScript1.getAstWalkerFactory = getAstWalkerFactory;
     var ChildrenWalkers1;
     (function(ChildrenWalkers) {
         function walkNone(preAst, parent, walker) {
@@ -543,5 +543,5 @@ var TypeScript1;
         ChildrenWalkers.walkLabeledStatementChildren = walkLabeledStatementChildren;
     })(ChildrenWalkers1 || (ChildrenWalkers1 = {
     }));
-})(TypeScript1 || (TypeScript1 = {
+})(TypeScript || (TypeScript = {
 }));

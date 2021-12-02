@@ -1,53 +1,53 @@
 // @strict: true
 function f(b) {
-    function d() {
+    function d1() {
     }
-    d.e = 12;
-    d.e;
+    d1.e = 12;
+    d1.e;
     if (b) {
-        d.q = false;
+        d1.q = false;
     }
     // error d.q might not be assigned
-    d.q;
+    d1.q;
     if (b) {
-        d.q = false;
+        d1.q = false;
     } else {
-        d.q = true;
+        d1.q = true;
     }
-    d.q;
+    d1.q;
     if (b) {
-        d.r = 1;
+        d1.r = 1;
     } else {
-        d.r = 2;
+        d1.r = 2;
     }
-    d.r;
+    d1.r;
     if (b) {
-        d.s = 'hi';
+        d1.s = 'hi';
     }
-    return d;
+    return d1;
 }
 // OK to access possibly-unassigned properties outside the initialising scope
 var test = f(true).s;
-function d1() {
+function d() {
 }
-d1.e = 12;
-d1.e;
+d.e = 12;
+d.e;
 if (!!false) {
-    d1.q = false;
+    d.q = false;
 }
-d1.q;
+d.q;
 if (!!false) {
-    d1.q = false;
+    d.q = false;
 } else {
-    d1.q = true;
+    d.q = true;
 }
-d1.q;
+d.q;
 if (!!false) {
-    d1.r = 1;
+    d.r = 1;
 } else {
-    d1.r = 2;
+    d.r = 2;
 }
-d1.r;
+d.r;
 // test function expressions too
 const g = function() {
 };

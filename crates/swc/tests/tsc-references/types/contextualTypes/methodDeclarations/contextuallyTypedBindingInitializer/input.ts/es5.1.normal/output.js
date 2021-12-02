@@ -4,14 +4,14 @@ function f(param) {
     } : _show;
 }
 function f2(param) {
-    var tmp = param["show"], showRename = tmp === void 0 ? function(v) {
+    var tmp1 = param["show"], showRename = tmp1 === void 0 ? function(v) {
         return v.toString();
-    } : tmp;
+    } : tmp1;
 }
 function f3(param) {
-    var tmp = param["show"], showRename = tmp === void 0 ? function(v) {
+    var tmp2 = param["show"], showRename = tmp2 === void 0 ? function(v) {
         return v.toString();
-    } : tmp;
+    } : tmp2;
 }
 function ff(param) {
     var _nested = param.nested, nested = _nested === void 0 ? {
@@ -33,6 +33,6 @@ var ref = {
     stringIdentity: function(x) {
         return x;
     }
-}, tmp1 = ref.stringIdentity, id = tmp1 === void 0 ? function(arg) {
+}, tmp = ref.stringIdentity, id = tmp === void 0 ? function(arg) {
     return arg;
-} : tmp1;
+} : tmp;

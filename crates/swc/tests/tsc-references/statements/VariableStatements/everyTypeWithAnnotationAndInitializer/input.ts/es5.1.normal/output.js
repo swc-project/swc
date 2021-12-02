@@ -14,8 +14,8 @@ var D = function D() {
 function F(x) {
     return 42;
 }
-var M1;
-(function(M) {
+var M;
+(function(M1) {
     var F2 = function F2(x) {
         return x.toString();
     };
@@ -23,9 +23,9 @@ var M1;
         "use strict";
         _classCallCheck(this, A);
     };
-    M.A = A;
-    M.F2 = F2;
-})(M1 || (M1 = {
+    M1.A = A;
+    M1.F2 = F2;
+})(M || (M = {
 }));
 var aNumber = 9.9;
 var aString = 'this is a string';
@@ -46,8 +46,8 @@ var anOtherFunction = F;
 var aLambda = function(x) {
     return 2;
 };
-var aModule = M1;
-var aClassInModule = new M1.A();
+var aModule = M;
+var aClassInModule = new M.A();
 var aFunctionInModule = function(x) {
     return 'this is a string';
 };

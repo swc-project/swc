@@ -6,12 +6,12 @@ class A {
         return !1;
     }
 }
-!function(M) {
+!function(M1) {
     var n;
-    M.n = n;
-}(M1 || (M1 = {
+    M1.n = n;
+}(M || (M = {
 }));
-var M1, objA = new A();
+var M, objA = new A();
 objA.a, foo(), A.foo(), foo(), objA.a;
 z: ;
 r: "function";

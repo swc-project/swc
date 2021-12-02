@@ -1,8 +1,8 @@
-var X1, D;
-!function(X) {
+var X, D;
+!function(X1) {
     var Y, Z;
     (Y || (Y = {
-    })).Z = Z, X.Y = Y;
-}(X1 || (X1 = {
+    })).Z = Z, X1.Y = Y;
+}(X || (X = {
 })), (D || (D = {
 })).E = "hello";

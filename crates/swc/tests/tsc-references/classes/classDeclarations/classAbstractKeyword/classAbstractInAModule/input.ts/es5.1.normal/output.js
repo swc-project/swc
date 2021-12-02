@@ -69,13 +69,13 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
-var M1;
-(function(M) {
+var M;
+(function(M1) {
     var A = function A() {
         "use strict";
         _classCallCheck(this, A);
     };
-    M.A = A;
+    M1.A = A;
     var B = /*#__PURE__*/ function(A) {
         "use strict";
         _inherits(B, A);
@@ -86,8 +86,8 @@ var M1;
         }
         return B;
     }(A);
-    M.B = B;
-})(M1 || (M1 = {
+    M1.B = B;
+})(M || (M = {
 }));
-new M1.A;
-new M1.B;
+new M.A;
+new M.B;

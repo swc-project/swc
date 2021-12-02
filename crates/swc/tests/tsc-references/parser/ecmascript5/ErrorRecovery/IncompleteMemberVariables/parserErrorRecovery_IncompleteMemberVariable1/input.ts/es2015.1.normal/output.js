@@ -1,6 +1,6 @@
 // Module
-var Shapes1;
-(function(Shapes) {
+var Shapes;
+(function(Shapes1) {
     class Point {
         // Instance member
         getDist() {
@@ -12,10 +12,10 @@ var Shapes1;
             this.y = y;
         }
     }
-    Shapes.Point = Point;
+    Shapes1.Point = Point;
     Point.origin = new Point(0, 0);
-})(Shapes1 || (Shapes1 = {
+})(Shapes || (Shapes = {
 }));
 // Local variables
-var p = new Shapes1.Point(3, 4);
+var p = new Shapes.Point(3, 4);
 var dist = p.getDist();

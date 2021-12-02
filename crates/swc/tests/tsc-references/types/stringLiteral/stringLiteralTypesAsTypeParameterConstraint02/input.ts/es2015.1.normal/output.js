@@ -1,7 +1,7 @@
 // @declaration: true
-function foo(f) {
-    return f;
+function foo(f1) {
+    return f1;
 }
-let f1 = foo((y)=>y === "foo" ? y : "foo"
+let f = foo((y)=>y === "foo" ? y : "foo"
 );
-let fResult = f1("foo");
+let fResult = f("foo");
