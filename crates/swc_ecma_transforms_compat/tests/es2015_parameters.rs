@@ -8,7 +8,6 @@ use swc_ecma_transforms_compat::{
     es2017::async_to_generator,
 };
 use swc_ecma_transforms_testing::{test, test_exec};
-use swc_ecma_transforms_typescript::strip;
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
@@ -1901,23 +1900,6 @@ test_exec!(
   expect(t([4,5,6])).toBe(6);"
 );
 
-test!(
-    Syntax::Typescript(Default::default()),
-    |_| chain!(
-        strip(),
-        tr(Config {
-            ignore_function_length: true
-        })
-    ),
-    fn_len_default_assignment_with_types,
-    "export function transformFileSync(
-      filename: string,
-      opts?: Object = {},
-    ): string {}",
-    "export function transformFileSync(filename, opts) {
-      if (opts === void 0) opts = {};
-    }"
-);
 
 test_exec!(
     syntax(),

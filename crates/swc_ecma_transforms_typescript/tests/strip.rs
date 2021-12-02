@@ -19,6 +19,25 @@ fn tr() -> impl Fold {
     })
 }
 
+
+test!(
+    Syntax::Typescript(Default::default()),
+    |_| chain!(
+        strip(),
+        tr(Config {
+            ignore_function_length: true
+        })
+    ),
+    fn_len_default_assignment_with_types,
+    "export function transformFileSync(
+      filename: string,
+      opts?: Object = {},
+    ): string {}",
+    "export function transformFileSync(filename, opts) {
+      if (opts === void 0) opts = {};
+    }"
+);
+
 macro_rules! to {
     ($name:ident, $from:expr, $to:expr) => {
         test!(
@@ -4190,6 +4209,7 @@ to!(
     "
 );
 
+
 to!(
     issue_2809,
     "enum Color {
@@ -4217,3 +4237,4 @@ fn exec(input: PathBuf) {
         &output,
     );
 }
+
