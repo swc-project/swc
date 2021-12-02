@@ -21,7 +21,7 @@ pub mod for_of;
 mod function_name;
 mod instanceof;
 pub mod new_target;
-mod parameters;
+pub mod parameters;
 pub mod regenerator;
 mod shorthand_property;
 pub mod spread;
@@ -56,7 +56,7 @@ where
         for_of(c.for_of),
         // Should come before parameters
         // See: https://github.com/swc-project/swc/issues/1036
-        parameters(),
+        parameters(c.parameters),
         computed_properties(c.computed_props),
         destructuring(c.destructuring),
         regenerator(c.regenerator, global_mark),
@@ -84,6 +84,9 @@ pub struct Config {
 
     #[serde(default)]
     pub template_literal: template_literal::Config,
+
+    #[serde(default)]
+    pub parameters: parameters::Config,
 }
 
 #[cfg(test)]
@@ -117,8 +120,8 @@ export var Foo = function() {
 
     _createClass(Foo, [{
             key: 'func',
-            value: function func(a, param) {
-                var b = param === void 0 ? Date.now() : param;
+            value: function func(a) {
+                var b = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : Date.now();
                 return {
                     a: a
                 };

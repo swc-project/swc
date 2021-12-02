@@ -7,15 +7,16 @@ function _defineProperties(target, props) {
 var C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
-    function C(param, param1) {
-        !function(instance, Constructor) {
+    function C() {
+        arguments.length > 0 && void 0 !== arguments[0] && arguments[0], arguments.length > 1 && void 0 !== arguments[1] && arguments[1], (function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, C);
+        })(this, C);
     }
     return Constructor = C, protoProps = [
         {
             key: "method",
-            value: function(param, param2) {
+            value: function() {
+                arguments.length > 0 && void 0 !== arguments[0] && arguments[0], arguments.length > 1 && void 0 !== arguments[1] && arguments[1];
             }
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;

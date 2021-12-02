@@ -453,8 +453,8 @@ var o2 = {
             }
         }, _callee);
     }),
-    method5: function(param) {
-        var p = param === void 0 ? s : param;
+    method5: function() {
+        var p = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : s;
         return p;
     }
 };
@@ -527,8 +527,8 @@ var C0 = // property initializers
         },
         {
             key: "method5",
-            value: function method5(param) {
-                var p = param === void 0 ? s : param;
+            value: function method5() {
+                var p = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : s;
                 return p;
             }
         }
@@ -612,8 +612,8 @@ var o3 = {
             }
         }, _callee);
     }),
-    method5: function(param) {
-        var p = param === void 0 ? s : param;
+    method5: function() {
+        var p = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : s;
         return p;
     }
 };

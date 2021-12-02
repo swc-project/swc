@@ -19,7 +19,8 @@ var MyTestClass = function() {
     return _createClass(MyTestClass, [
         {
             key: "memberFunc",
-            value: function(param) {
+            value: function() {
+                arguments.length > 0 && void 0 !== arguments[0] && arguments[0];
             }
         },
         {
@@ -34,8 +35,8 @@ var MyTestClass = function() {
     ], [
         {
             key: "staticFn",
-            value: function(param) {
-                var t, p, t = void 0 === param ? this : param, t = MyTestClass;
+            value: function() {
+                var t, p, t = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : this, t = MyTestClass;
                 t.staticCanary;
                 var p = this, p = MyTestClass;
                 p.staticCanary;
@@ -62,7 +63,8 @@ var MyTestClass = function() {
     return _createClass(MyGenericTestClass, [
         {
             key: "memberFunc",
-            value: function(param) {
+            value: function() {
+                arguments.length > 0 && void 0 !== arguments[0] && arguments[0];
             }
         },
         {
@@ -77,8 +79,8 @@ var MyTestClass = function() {
     ], [
         {
             key: "staticFn",
-            value: function(param) {
-                var t, p, t = void 0 === param ? this : param, t = MyGenericTestClass;
+            value: function() {
+                var t, p, t = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : this, t = MyGenericTestClass;
                 t.staticCanary;
                 var p = this, p = MyGenericTestClass;
                 p.staticCanary;

@@ -34,8 +34,8 @@ var A = // @target: es6
 }();
 var B = /*#__PURE__*/ function() {
     "use strict";
-    function B(x, param) {
-        var z = param === void 0 ? "hello" : param;
+    function B(x) {
+        var z = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : "hello";
         for(var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
             args[_key - 2] = arguments[_key];
         }

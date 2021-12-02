@@ -35,16 +35,17 @@ function a1(param) {
     var _param = _slicedToArray(param, 3), a = _param[0], b = _param[1], ref = _slicedToArray(_param[2], 1), ref1 = _slicedToArray(ref[0], 1);
     ref1[0];
 }
-function b2(param, param1) {
+function b2() {
+    arguments.length > 0 && void 0 !== arguments[0] && arguments[0], arguments.length > 1 && void 0 !== arguments[1] && arguments[1];
 }
 function c0(param) {
     var _z = param.z;
     _z.x, _z.y.j;
 }
-function c1(param) {
-    (void 0 === param ? {
+function c1() {
+    (arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
         z: 10
-    } : param).z;
+    }).z;
 }
 function c2(param) {
     param.z;
@@ -69,6 +70,12 @@ a1([
             "world"
         ]
     ],
+    3
+]), (function() {
+    arguments.length > 0 && void 0 !== arguments[0] && arguments[0];
+})([
+    1,
+    2,
     3
 ]), b2("string", {
     x: 200,
@@ -96,6 +103,12 @@ a1([
 }), c2({
 }), c2({
     z: 1
+}), (function() {
+    (arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
+        b: "hello"
+    }).b;
+})({
+    b: 1
 }), c5([
     1,
     2,
@@ -167,10 +180,10 @@ var Foo, Foo1, C2 = function() {
         }
     ]), C3;
 }();
-!function(param) {
-    var ref = void 0 === param ? {
+!function() {
+    var ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
         x: 1,
         y: 2
-    } : param;
+    };
     ref.x, ref.y;
 }();

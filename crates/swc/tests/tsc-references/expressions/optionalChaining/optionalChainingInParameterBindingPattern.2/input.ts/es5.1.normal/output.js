@@ -11,7 +11,7 @@ var a = function() {
     var a;
 })();
 var x = "";
-(function(param, param1) {
-    var c = param[(ref1 = a()) === null || ref1 === void 0 ? void 0 : ref1.d], d = param1 === void 0 ? x : param1;
+(function(param) {
+    var c = param[(ref1 = a()) === null || ref1 === void 0 ? void 0 : ref1.d], d = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : x;
     var x1;
 })();
