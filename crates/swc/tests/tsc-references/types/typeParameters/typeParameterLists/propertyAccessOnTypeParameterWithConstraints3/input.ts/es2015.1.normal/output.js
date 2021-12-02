@@ -20,8 +20,6 @@ class C {
         // BUG 823818
         var a2 = x['foo'](); // should be string
         return a2 + x.foo();
-        var a = x['foo'](); // should be string
-        return a + x.foo();
     }
 }
 var r1a = new C().f();

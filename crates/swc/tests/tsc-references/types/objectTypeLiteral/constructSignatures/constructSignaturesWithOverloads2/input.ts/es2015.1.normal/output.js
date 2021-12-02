@@ -10,8 +10,6 @@ class C {
 }));
 var r1 = new C(1, '');
 class C2 {
-var r1 = new C1(1, '');
-class C21 {
     constructor(x){
     }
 }

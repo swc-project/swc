@@ -18,8 +18,6 @@ class C {
     g(x) {
         var a2 = x['foo'](); // should be string
         return a2 + x.foo();
-        var a = x['foo'](); // should be string
-        return a + x.foo();
     }
 }
 //class C<U extends T, T extends A> {

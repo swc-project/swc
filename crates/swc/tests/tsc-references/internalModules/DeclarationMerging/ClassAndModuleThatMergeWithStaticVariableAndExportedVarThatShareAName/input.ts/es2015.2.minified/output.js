@@ -1,7 +1,5 @@
 var A;
 class Point {
-var A1;
-class Point1 {
     constructor(x, y){
         this.x = x, this.y = y;
     }

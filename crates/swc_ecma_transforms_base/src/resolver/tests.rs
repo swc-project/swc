@@ -125,7 +125,7 @@ fn issue_1279_2() {
             }
         }",
         "
-        let Foo1 = class Foo {
+        let Foo = class Foo {
             static f = 1;
             static g = Foo.f;
             method() {
