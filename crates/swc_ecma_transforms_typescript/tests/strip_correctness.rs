@@ -98,7 +98,6 @@ fn identity(entry: PathBuf) {
                 dynamic_import: true,
                 dts: false,
                 no_early_errors: false,
-                import_assertions: true,
             }),
             (&*src).into(),
             None,
