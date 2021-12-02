@@ -67,12 +67,12 @@ b2 = function(foo, bar) {
 var b3;
 b3 = function(name, number) {
 };
-var b4 = function(param) {
-    var number = param === void 0 ? 1 : param;
+var b4 = function() {
+    var number = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 1;
     return "hello";
 };
-var b5 = function(param) {
-    var number = param === void 0 ? "string" : param;
+var b5 = function() {
+    var number = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : "string";
     return "hello";
 };
 // A contextual signature S is extracted from a function type T as follows:

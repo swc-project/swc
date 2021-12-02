@@ -7,8 +7,8 @@ var C = function C(x) {
     "use strict";
     _classCallCheck(this, C);
 };
-var D = function D(x, param) {
+var D = function D(x) {
     "use strict";
-    var z = param === void 0 ? "hello" : param;
+    var z = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : "hello";
     _classCallCheck(this, D);
 };

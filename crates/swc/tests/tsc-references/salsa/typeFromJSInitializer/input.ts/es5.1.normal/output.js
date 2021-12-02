@@ -28,8 +28,8 @@ a1.empty.push({
 a1.empty.push('hi');
 /** @type {number | undefined} */ var n;
 // should get any on parameter initialisers
-function f(param, param1, param2) {
-    var a = param === void 0 ? null : param, b = param1 === void 0 ? n : param1, l = param2 === void 0 ? [] : param2;
+function f() {
+    var a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : null, b = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : n, l = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : [];
     // a should be any
     a = undefined;
     a = null;

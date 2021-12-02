@@ -68,10 +68,10 @@ var Class1 = function() {
     }
     return SubD;
 }(D1);
-function d0(param) {
-    (void 0 === param ? {
+function d0() {
+    (arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
         x: new Class1()
-    } : param).x;
+    }).x;
 }
 function d1(param) {
     param.x;

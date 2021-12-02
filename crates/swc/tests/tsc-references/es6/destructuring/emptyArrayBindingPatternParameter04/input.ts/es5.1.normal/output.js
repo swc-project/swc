@@ -30,12 +30,12 @@ function _slicedToArray(arr, i) {
     return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
 }
 // @declaration: true
-function f(param) {
-    var ref = _slicedToArray(param === void 0 ? [
+function f() {
+    var ref = _slicedToArray(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [
         1,
         2,
         3,
         4
-    ] : param, 0);
+    ], 0);
     var x, y, z;
 }

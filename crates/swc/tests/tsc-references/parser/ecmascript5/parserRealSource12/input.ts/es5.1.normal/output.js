@@ -40,8 +40,8 @@ var TypeScript1;
         _createClass(AstWalkOptions, [
             {
                 key: "stopWalk",
-                value: function stopWalk(param) {
-                    var stop = param === void 0 ? true : param;
+                value: function stopWalk() {
+                    var stop = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : true;
                     this.goChildren = !stop;
                     this.goNextSibling = !stop;
                 }

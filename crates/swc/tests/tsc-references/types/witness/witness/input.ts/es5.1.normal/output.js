@@ -20,8 +20,8 @@ function _createClass(Constructor, protoProps, staticProps) {
 // Initializers
 var varInit = varInit; // any
 var pInit1;
-function fn(param) {
-    var pInit = param === void 0 ? pInit : param;
+function fn() {
+    var pInit = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : pInit;
     var pInit;
 }
 var InitClass = /*#__PURE__*/ function() {

@@ -25,8 +25,8 @@ var E1;
 })(E1 || (E1 = {
 }));
 var cond;
-function f1(param, param1, param2, param3) {
-    var p1 = param === void 0 ? 1 : param, p2 = param1 === void 0 ? "abc" : param1, p3 = param2 === void 0 ? true : param2, p4 = param3 === void 0 ? E1.A : param3;
+function f1() {
+    var p1 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 1, p2 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : "abc", p3 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : true, p4 = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : E1.A;
     var v1 = 1;
     var v2 = -123;
     var v3 = 3 + 4;
@@ -52,8 +52,8 @@ function f1(param, param1, param2, param3) {
     var c7 = true;
     var c8 = E1.A;
 }
-function f2(param, param4, param5, param6) {
-    var p1 = param === void 0 ? 1 : param, p2 = param4 === void 0 ? "abc" : param4, p3 = param5 === void 0 ? true : param5, p4 = param6 === void 0 ? E1.A : param6;
+function f2() {
+    var p1 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 1, p2 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : "abc", p3 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : true, p4 = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : E1.A;
     var v1 = 1;
     var v2 = -123;
     var v3 = "abc";

@@ -39,4 +39,5 @@ swc_ecma_visit = {version = "0.44.0", path = "../swc_ecma_visit"}
 serde_json = "1.0.66"
 swc_ecma_parser = {version = "0.78.0", path = "../swc_ecma_parser"}
 swc_ecma_transforms_testing = {version = "0.45.1", path = "../swc_ecma_transforms_testing"}
+swc_ecma_transforms_typescript = {version = "0.61.2", path = "../swc_ecma_transforms_typescript"}
 testing = {version = "0.15.0", path = "../testing"}

@@ -36,8 +36,8 @@ var TypeScript;
         if (ast.minChar === -1 || ast.limChar === -1) return false;
         return true;
     };
-    var getAstPathToPosition = function getAstPathToPosition(script, pos, param) {
-        var options = param === void 0 ? GetAstPathOptions1.Default : param;
+    var getAstPathToPosition = function getAstPathToPosition(script, pos) {
+        var options = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : GetAstPathOptions1.Default;
         var lookInComments = function(comments) {
             if (comments && comments.length > 0) {
                 for(var i = 0; i < comments.length; i++){

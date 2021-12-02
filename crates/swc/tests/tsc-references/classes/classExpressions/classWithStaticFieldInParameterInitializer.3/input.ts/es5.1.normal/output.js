@@ -74,8 +74,8 @@ var C = function C() {
     "use strict";
     _classCallCheck(this, C);
 };
-(function(param) {
-    var b = param === void 0 ? (_class2 = /*#__PURE__*/ function(C) {
+(function() {
+    var b = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : (_class2 = /*#__PURE__*/ function(C) {
         "use strict";
         _inherits(_class, C);
         var _super = _createSuper(_class);
@@ -84,12 +84,12 @@ var C = function C() {
             return _super.apply(this, arguments);
         }
         return _class;
-    }(C), _class2.x = 1, _class2) : param;
+    }(C), _class2.x = 1, _class2);
     var C1;
 })();
 var x = "";
-(function(param, param1) {
-    var b = param === void 0 ? (_class1 = /*#__PURE__*/ function(C) {
+(function() {
+    var b = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : (_class1 = /*#__PURE__*/ function(C) {
         "use strict";
         _inherits(_class, C);
         var _super = _createSuper(_class);
@@ -98,6 +98,6 @@ var x = "";
             return _super.apply(this, arguments);
         }
         return _class;
-    }(C), _class1.x = 1, _class1) : param, d = param1 === void 0 ? x : param1;
+    }(C), _class1.x = 1, _class1), d = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : x;
     var x1;
 })();

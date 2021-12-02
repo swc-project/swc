@@ -40,7 +40,7 @@ fn tr() -> impl Fold {
     chain!(
         ParenRemover,
         arrow(),
-        parameters(),
+        parameters(Default::default()),
         destructuring(destructuring::Config { loose: false }),
         function_name(),
         async_to_generator(),
@@ -1435,7 +1435,7 @@ test!(
     syntax(),
     |_| chain!(
         async_to_generator(),
-        parameters(),
+        parameters(Default::default()),
         destructuring(destructuring::Config { loose: false }),
     ),
     regression_4943,

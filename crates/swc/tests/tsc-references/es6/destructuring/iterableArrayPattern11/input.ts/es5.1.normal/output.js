@@ -153,7 +153,7 @@ var FooIterator = /*#__PURE__*/ function() {
     ]);
     return FooIterator;
 }();
-function fun(param) {
-    var ref = _slicedToArray(param === void 0 ? new FooIterator : param, 2), a = ref[0], b = ref[1];
+function fun() {
+    var ref = _slicedToArray(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : new FooIterator, 2), a = ref[0], b = ref[1];
 }
 fun(new FooIterator);
