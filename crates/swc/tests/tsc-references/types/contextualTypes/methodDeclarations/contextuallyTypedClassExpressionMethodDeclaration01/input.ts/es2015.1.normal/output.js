@@ -4,8 +4,8 @@ function getFoo1() {
         static method1(arg) {
             arg.numProp = 10;
         }
-        static method2(arg1) {
-            arg1.strProp = "hello";
+        static method2(arg) {
+            arg.strProp = "hello";
         }
     };
 }

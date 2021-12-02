@@ -7,12 +7,12 @@ class B {
     }
 }
 class C {
-    constructor(x1, y1){
+    constructor(x, y){
         return null;
     }
 }
 class D {
-    constructor(x2, y2){
+    constructor(x, y){
         return null;
     }
 }

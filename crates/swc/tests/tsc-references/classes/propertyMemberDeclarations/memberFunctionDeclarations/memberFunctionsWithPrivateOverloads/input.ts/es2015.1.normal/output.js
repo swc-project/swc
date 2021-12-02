@@ -1,21 +1,21 @@
 class C {
     foo(x, y) {
     }
-    bar(x1, y1) {
+    bar(x, y) {
     }
-    static foo(x2, y2) {
+    static foo(x, y) {
     }
-    static bar(x3, y3) {
+    static bar(x, y) {
     }
 }
 class D {
-    foo(x4, y4) {
+    foo(x, y) {
     }
-    bar(x5, y5) {
+    bar(x, y) {
     }
-    static foo(x6, y6) {
+    static foo(x, y) {
     }
-    static bar(x7, y7) {
+    static bar(x, y) {
     }
 }
 var c;

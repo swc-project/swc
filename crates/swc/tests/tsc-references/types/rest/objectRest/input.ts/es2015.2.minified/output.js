@@ -113,7 +113,7 @@ var removable = new class {
     get both() {
         return 12;
     }
-    set both(value1) {
+    set both(value) {
     }
     m() {
     }

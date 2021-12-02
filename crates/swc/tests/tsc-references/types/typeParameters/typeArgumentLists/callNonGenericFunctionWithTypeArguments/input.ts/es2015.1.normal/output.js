@@ -19,7 +19,7 @@ var r4 = new C().f(1);
 var i;
 var r5 = i.f(1);
 class C2 {
-    f(x1) {
+    f(x) {
         return null;
     }
 }

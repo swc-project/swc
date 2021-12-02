@@ -11,7 +11,7 @@ function _defineProperty(obj, key, value) {
     }
     return obj;
 }
-export class Foo {
+class Foo1 {
     nested() {
         let Foo = class Foo {
         };
@@ -20,3 +20,4 @@ export class Foo {
         return new Foo();
     }
 }
+export { Foo1 as Foo };

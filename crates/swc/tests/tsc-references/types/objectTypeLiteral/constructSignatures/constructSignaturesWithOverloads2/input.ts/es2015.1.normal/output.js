@@ -10,7 +10,7 @@ class C1 {
 }));
 var r1 = new C1(1, '');
 class C21 {
-    constructor(x1){
+    constructor(x){
     }
 }
 (function(C2) {

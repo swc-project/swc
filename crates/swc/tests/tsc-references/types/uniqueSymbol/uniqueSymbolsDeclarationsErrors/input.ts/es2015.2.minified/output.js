@@ -11,8 +11,8 @@ export const classExpression = class {
     method1(p) {
         return p;
     }
-    method2(p1) {
-        return p1;
+    method2(p) {
+        return p;
     }
 };
 export function funcInferredReturnType(obj) {
@@ -33,6 +33,6 @@ export class ClassWithPrivateNamedAccessors {
     }
     static get [s]() {
     }
-    static set [s](v1) {
+    static set [s](v) {
     }
 }

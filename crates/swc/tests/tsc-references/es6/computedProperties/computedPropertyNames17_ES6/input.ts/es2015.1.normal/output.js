@@ -11,11 +11,11 @@ class C {
     get [tmp2]() {
         return 0;
     }
-    set [tmp3](v1) {
+    set [tmp3](v) {
     }
     static get [tmp4]() {
         return 0;
     }
-    set [tmp5](v2) {
+    set [tmp5](v) {
     }
 }

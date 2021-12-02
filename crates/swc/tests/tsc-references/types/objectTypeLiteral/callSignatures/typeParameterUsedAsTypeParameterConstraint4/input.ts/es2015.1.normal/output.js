@@ -1,9 +1,9 @@
 // Type parameters are in scope in their own and other type parameter lists
 // Some negative cases
 class C {
-    foo(x1) {
+    foo(x) {
         var r;
-        return x1;
+        return x;
     }
 }
 function foo(x, y) {

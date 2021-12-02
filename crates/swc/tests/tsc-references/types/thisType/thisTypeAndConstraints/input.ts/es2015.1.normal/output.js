@@ -13,7 +13,7 @@ class B {
     foo(x) {
         x = x.self();
     }
-    bar(x2) {
-        x2 = x2.self();
+    bar(x) {
+        x = x.self();
     }
 }

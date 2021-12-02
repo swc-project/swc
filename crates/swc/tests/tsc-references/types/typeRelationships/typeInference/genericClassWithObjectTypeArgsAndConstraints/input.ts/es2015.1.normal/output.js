@@ -20,7 +20,7 @@ var Class;
     var r = g.foo(c1, d1);
     var r2 = g.foo(c1, c1);
     class G2 {
-        foo2(t1, t21) {
+        foo2(t, t2) {
             var x;
             return x;
         }

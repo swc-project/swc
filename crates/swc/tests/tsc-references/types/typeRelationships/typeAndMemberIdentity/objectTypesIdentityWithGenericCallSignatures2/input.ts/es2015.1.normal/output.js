@@ -1,16 +1,16 @@
 // object types are identical structurally
 class A {
-    foo(x3, y) {
+    foo(x, y) {
         return null;
     }
 }
 class B {
-    foo(x1, y1) {
+    foo(x, y) {
         return null;
     }
 }
 class C {
-    foo(x2, y2) {
+    foo(x, y) {
         return null;
     }
 }

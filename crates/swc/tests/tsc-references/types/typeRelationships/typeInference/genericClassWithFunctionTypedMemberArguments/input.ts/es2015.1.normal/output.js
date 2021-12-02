@@ -15,8 +15,8 @@ var ImmediatelyFix;
     var r3 = c.foo((x)=>''
     ); // {}
     class C2 {
-        foo(x1) {
-            return x1(null);
+        foo(x) {
+            return x(null);
         }
     }
     var c2 = new C2();
@@ -42,8 +42,8 @@ var WithCandidates;
     var r6 = c.foo2('', (a)=>1
     ); // number
     class C2 {
-        foo3(x2, cb1, y) {
-            return cb1(x2);
+        foo3(x, cb, y) {
+            return cb(x);
         }
     }
     var c2;
@@ -53,8 +53,8 @@ var WithCandidates;
         return '';
     }, ''); // string
     class C3 {
-        foo3(x3, cb2, y1) {
-            return cb2(x3);
+        foo3(x, cb, y) {
+            return cb(x);
         }
     }
     var c3;

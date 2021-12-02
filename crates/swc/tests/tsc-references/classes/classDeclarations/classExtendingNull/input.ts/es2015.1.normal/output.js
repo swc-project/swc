@@ -9,8 +9,8 @@ class C3 extends null {
     }
 }
 class C4 extends null {
-    constructor(...args1){
-        super(...args1);
+    constructor(...args){
+        super(...args);
         this.x = 1;
     }
 }

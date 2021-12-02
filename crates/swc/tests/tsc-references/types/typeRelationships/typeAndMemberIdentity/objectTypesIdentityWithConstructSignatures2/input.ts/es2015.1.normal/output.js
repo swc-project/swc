@@ -5,7 +5,7 @@ class B {
     }
 }
 class C {
-    constructor(x1){
+    constructor(x){
         return null;
     }
 }

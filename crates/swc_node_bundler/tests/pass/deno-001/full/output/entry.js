@@ -41,17 +41,17 @@ class PartialReadError extends Deno.errors.UnexpectedEof {
 class BufReader {
     // private lastByte: number;
     // private lastCharSize: number;
-    /** return new BufReader unless r is BufReader */ static create(r3, size = DEFAULT_BUF_SIZE) {
-        return r3 instanceof BufReader ? r3 : new BufReader(r3, size);
+    /** return new BufReader unless r is BufReader */ static create(r, size = DEFAULT_BUF_SIZE) {
+        return r instanceof BufReader ? r : new BufReader(r, size);
     }
-    constructor(rd, size1 = DEFAULT_BUF_SIZE){
+    constructor(rd, size = DEFAULT_BUF_SIZE){
         this.r // buf read position.
          = 0;
         this.w // buf write position.
          = 0;
         this.eof = false;
-        if (size1 < MIN_BUF_SIZE) size1 = MIN_BUF_SIZE;
-        this._reset(new Uint8Array(size1), rd);
+        if (size < MIN_BUF_SIZE) size = MIN_BUF_SIZE;
+        this._reset(new Uint8Array(size), rd);
     }
     /** Returns the size of the underlying buffer in bytes. */ size() {
         return this.buf.byteLength;
@@ -83,12 +83,12 @@ class BufReader {
     }
     /** Discards any buffered data, resets all state, and switches
    * the buffered reader to read from r.
-   */ reset(r1) {
-        this._reset(this.buf, r1);
+   */ reset(r) {
+        this._reset(this.buf, r);
     }
-    _reset(buf1, rd1) {
-        this.buf = buf1;
-        this.rd = rd1;
+    _reset(buf, rd) {
+        this.buf = buf;
+        this.rd = rd;
         this.eof = false;
     // this.lastByte = -1;
     // this.lastCharSize = -1;
@@ -143,20 +143,20 @@ class BufReader {
    * buffer that has been successfully filled with data.
    *
    * Ported from https://golang.org/pkg/io/#ReadFull
-   */ async readFull(p1) {
+   */ async readFull(p) {
         let bytesRead = 0;
-        while(bytesRead < p1.length)try {
-            const rr = await this.read(p1.subarray(bytesRead));
+        while(bytesRead < p.length)try {
+            const rr = await this.read(p.subarray(bytesRead));
             if (rr === null) {
                 if (bytesRead === 0) return null;
                 else throw new PartialReadError();
             }
             bytesRead += rr;
         } catch (err) {
-            err.partial = p1.subarray(0, bytesRead);
+            err.partial = p.subarray(0, bytesRead);
             throw err;
         }
-        return p1;
+        return p;
     }
     /** Returns the next byte [0, 255] or `null`. */ async readByte() {
         while(this.r === this.w){
@@ -176,9 +176,9 @@ class BufReader {
    * ReadString returns err != nil if and only if the returned data does not end
    * in delim.
    * For simple uses, a Scanner may be more convenient.
-   */ async readString(delim2) {
-        if (delim2.length !== 1) throw new Error("Delimiter should be a single character");
-        const buffer = await this.readSlice(delim2.charCodeAt(0));
+   */ async readString(delim) {
+        if (delim.length !== 1) throw new Error("Delimiter should be a single character");
+        const buffer = await this.readSlice(delim.charCodeAt(0));
         if (buffer === null) return null;
         return new TextDecoder().decode(buffer);
     }
@@ -256,12 +256,12 @@ class BufReader {
    *
    * Because the data returned from `readSlice()` will be overwritten by the
    * next I/O operation, most clients should use `readString()` instead.
-   */ async readSlice(delim1) {
+   */ async readSlice(delim) {
         let s = 0; // search start index
         let slice;
         while(true){
             // Search buffer.
-            let i = this.buf.subarray(this.r + s, this.w).indexOf(delim1);
+            let i = this.buf.subarray(this.r + s, this.w).indexOf(delim);
             if (i >= 0) {
                 i += s;
                 slice = this.buf.subarray(this.r, this.r + i + 1);
@@ -311,10 +311,10 @@ class BufReader {
    * If an error is encountered before `n` bytes are available, `peek()` throws
    * an error with the `partial` property set to a slice of the buffer that
    * contains the bytes that were available before the error occurred.
-   */ async peek(n1) {
-        if (n1 < 0) throw Error("negative count");
+   */ async peek(n) {
+        if (n < 0) throw Error("negative count");
         let avail = this.w - this.r;
-        while(avail < n1 && avail < this.buf.byteLength && !this.eof){
+        while(avail < n && avail < this.buf.byteLength && !this.eof){
             try {
                 await this._fill();
             } catch (err) {
@@ -324,9 +324,9 @@ class BufReader {
             avail = this.w - this.r;
         }
         if (avail === 0 && this.eof) return null;
-        else if (avail < n1 && this.eof) return this.buf.subarray(this.r, this.r + avail);
-        else if (avail < n1) throw new BufferFullError(this.buf.subarray(this.r, this.w));
-        return this.buf.subarray(this.r, this.r + n1);
+        else if (avail < n && this.eof) return this.buf.subarray(this.r, this.r + avail);
+        else if (avail < n) throw new BufferFullError(this.buf.subarray(this.r, this.w));
+        return this.buf.subarray(this.r, this.r + n);
     }
 }
 class AbstractBufBase {
@@ -347,21 +347,21 @@ class AbstractBufBase {
     }
 }
 class BufWriter extends AbstractBufBase {
-    /** return new BufWriter unless writer is BufWriter */ static create(writer4, size2 = DEFAULT_BUF_SIZE) {
-        return writer4 instanceof BufWriter ? writer4 : new BufWriter(writer4, size2);
+    /** return new BufWriter unless writer is BufWriter */ static create(writer, size = DEFAULT_BUF_SIZE) {
+        return writer instanceof BufWriter ? writer : new BufWriter(writer, size);
     }
-    constructor(writer1, size3 = DEFAULT_BUF_SIZE){
+    constructor(writer, size = DEFAULT_BUF_SIZE){
         super();
-        this.writer = writer1;
-        if (size3 <= 0) size3 = DEFAULT_BUF_SIZE;
-        this.buf = new Uint8Array(size3);
+        this.writer = writer;
+        if (size <= 0) size = DEFAULT_BUF_SIZE;
+        this.buf = new Uint8Array(size);
     }
     /** Discards any unflushed buffered data, clears any error, and
    * resets buffer to write its output to w.
-   */ reset(w2) {
+   */ reset(w) {
         this.err = null;
         this.usedBufferBytes = 0;
-        this.writer = w2;
+        this.writer = w;
     }
     /** Flush writes any buffered data to the underlying io.Writer. */ async flush() {
         if (this.err !== null) throw this.err;
@@ -410,21 +410,21 @@ class BufWriter extends AbstractBufBase {
     }
 }
 class BufWriterSync extends AbstractBufBase {
-    /** return new BufWriterSync unless writer is BufWriterSync */ static create(writer2, size4 = DEFAULT_BUF_SIZE) {
-        return writer2 instanceof BufWriterSync ? writer2 : new BufWriterSync(writer2, size4);
+    /** return new BufWriterSync unless writer is BufWriterSync */ static create(writer, size = DEFAULT_BUF_SIZE) {
+        return writer instanceof BufWriterSync ? writer : new BufWriterSync(writer, size);
     }
-    constructor(writer3, size5 = DEFAULT_BUF_SIZE){
+    constructor(writer, size = DEFAULT_BUF_SIZE){
         super();
-        this.writer = writer3;
-        if (size5 <= 0) size5 = DEFAULT_BUF_SIZE;
-        this.buf = new Uint8Array(size5);
+        this.writer = writer;
+        if (size <= 0) size = DEFAULT_BUF_SIZE;
+        this.buf = new Uint8Array(size);
     }
     /** Discards any unflushed buffered data, clears any error, and
    * resets buffer to write its output to w.
-   */ reset(w1) {
+   */ reset(w) {
         this.err = null;
         this.usedBufferBytes = 0;
-        this.writer = w1;
+        this.writer = w;
     }
     /** Flush writes any buffered data to the underlying io.WriterSync. */ flush() {
         if (this.err !== null) throw this.err;
@@ -444,29 +444,29 @@ class BufWriterSync extends AbstractBufBase {
    * the now empty buffer.
    *
    * @return the number of bytes written to the buffer.
-   */ writeSync(data1) {
+   */ writeSync(data) {
         if (this.err !== null) throw this.err;
-        if (data1.length === 0) return 0;
+        if (data.length === 0) return 0;
         let totalBytesWritten = 0;
         let numBytesWritten = 0;
-        while(data1.byteLength > this.available()){
+        while(data.byteLength > this.available()){
             if (this.buffered() === 0) // Large write, empty buffer.
             // Write directly from data to avoid copy.
             try {
-                numBytesWritten = this.writer.writeSync(data1);
+                numBytesWritten = this.writer.writeSync(data);
             } catch (e) {
                 this.err = e;
                 throw e;
             }
             else {
-                numBytesWritten = copyBytes(data1, this.buf, this.usedBufferBytes);
+                numBytesWritten = copyBytes(data, this.buf, this.usedBufferBytes);
                 this.usedBufferBytes += numBytesWritten;
                 this.flush();
             }
             totalBytesWritten += numBytesWritten;
-            data1 = data1.subarray(numBytesWritten);
+            data = data.subarray(numBytesWritten);
         }
-        numBytesWritten = copyBytes(data1, this.buf, this.usedBufferBytes);
+        numBytesWritten = copyBytes(data, this.buf, this.usedBufferBytes);
         this.usedBufferBytes += numBytesWritten;
         totalBytesWritten += numBytesWritten;
         return totalBytesWritten;
@@ -490,11 +490,11 @@ function charCode(s) {
     return s.charCodeAt(0);
 }
 class TextProtoReader {
-    constructor(r2){
-        this.r = r2;
+    constructor(r){
+        this.r = r;
     }
-    constructor(r11){
-        this.r = r11;
+    constructor(r){
+        this.r = r;
     }
     /** readLine() reads a single line from the TextProtoReader,
    * eliding the final \n or \r\n from the returned string.
@@ -609,12 +609,12 @@ class MuxAsyncIterator {
         ++this.iteratorCount;
         this.callIteratorNext(iterator);
     }
-    async callIteratorNext(iterator1) {
+    async callIteratorNext(iterator) {
         try {
-            const { value , done  } = await iterator1.next();
+            const { value , done  } = await iterator.next();
             if (done) --this.iteratorCount;
             else this.yields.push({
-                iterator: iterator1,
+                iterator,
                 value
             });
         } catch (e) {
@@ -969,8 +969,8 @@ async function readRequest(conn, bufr) {
     return req;
 }
 class Server {
-    constructor(listener1){
-        this.listener = listener1;
+    constructor(listener){
+        this.listener = listener;
         this.closing = false;
         this.connections = [];
     }
@@ -1023,11 +1023,11 @@ class Server {
         // might have been already closed
         }
     }
-    trackConnection(conn1) {
-        this.connections.push(conn1);
+    trackConnection(conn) {
+        this.connections.push(conn);
     }
-    untrackConnection(conn2) {
-        const index = this.connections.indexOf(conn2);
+    untrackConnection(conn) {
+        const index = this.connections.indexOf(conn);
         if (index !== -1) this.connections.splice(index, 1);
     }
     // Accepts a new TCP connection and yields all HTTP requests that arrive on
