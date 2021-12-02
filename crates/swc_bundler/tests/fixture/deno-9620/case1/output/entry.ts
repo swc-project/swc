@@ -1776,8 +1776,8 @@ function skipLWSPChar(u) {
     return ret.slice(0, j);
 }
 class MultipartReader {
-    constructor(reader, boundary1){
-        this.boundary = boundary1;
+    constructor(reader, boundary){
+        this.boundary = boundary;
         this.newLine = encoder.encode("\r\n");
         this.newLineDashBoundary = encoder.encode(`\r\n--${this.boundary}`);
         this.dashBoundaryDash = encoder.encode(`--${this.boundary}--`);
@@ -1961,10 +1961,10 @@ Content-Type: text/plain\r
 \r
 CONTENT\r
 --------------------------366796e1c748a2fb--`;
-const boundary = "------------------------366796e1c748a2fb";
+const boundary1 = "------------------------366796e1c748a2fb";
 const stringReader = new StringReader(content);
 console.log(content);
-const multipartReader = new MultipartReader(stringReader, boundary);
+const multipartReader = new MultipartReader(stringReader, boundary1);
 const formData = await multipartReader.readForm();
 for (const entry of formData.entries()){
     console.log("entry", entry);

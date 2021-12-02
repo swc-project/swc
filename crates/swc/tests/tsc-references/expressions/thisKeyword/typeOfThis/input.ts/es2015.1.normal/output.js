@@ -24,6 +24,10 @@ class MyTestClass {
         var t1;
         var t1 = MyTestClass;
         t1.staticCanary;
+    static staticFn(t = this) {
+        var t;
+        var t = MyTestClass;
+        t.staticCanary;
         //type of 'this' in static function body is constructor function type
         var p = this;
         var p;
@@ -82,6 +86,10 @@ class MyGenericTestClass {
         var t2;
         var t2 = MyGenericTestClass;
         t2.staticCanary;
+    static staticFn(t = this) {
+        var t;
+        var t = MyGenericTestClass;
+        t.staticCanary;
         //type of 'this' in static function body is constructor function type
         var p = this;
         var p;
@@ -143,6 +151,6 @@ var q2 = (s = this)=>{
     this.spaaaaace = 4;
 };
 //type of 'this' in global module is GlobalThis
-var t;
-var t = this;
+var t1;
+var t1 = this;
 this.spaaaaace = 4;

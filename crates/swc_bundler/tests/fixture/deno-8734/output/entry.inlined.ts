@@ -1,5 +1,5 @@
-const m = "test";
-if (!m) {
+const m2 = "test";
+if (!m2) {
     throw new Error('b');
 }
 class Comparator {
@@ -9,6 +9,8 @@ class Comparator {
     parse(comp) {
         const m2 = "another";
         if (!m2) {
+        const m = "another";
+        if (!m) {
             throw new TypeError("Invalid comparator: " + comp);
         }
         const m1 = m2[1];
