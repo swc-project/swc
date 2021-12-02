@@ -480,7 +480,7 @@ jobs:
       - test-linux-arm-gnueabihf-binding
       - test-macOS-windows-binding
       - test-linux-aarch64-musl-binding
-      # - build-freebsd
+      - build-freebsd
     steps:
       - uses: actions/checkout@v2
 
