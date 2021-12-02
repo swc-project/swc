@@ -11,7 +11,7 @@ pub struct QualifiedRule {
 #[ast_node("Block")]
 pub struct Block {
     pub span: Span,
-    pub items: Vec<DeclarationBlockItem>,
+    pub value: Vec<DeclarationBlockItem>,
 }
 
 #[ast_node]

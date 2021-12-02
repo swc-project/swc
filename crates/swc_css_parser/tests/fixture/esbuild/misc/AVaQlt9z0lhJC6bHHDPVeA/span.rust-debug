@@ -70,7 +70,7 @@ error: Value
 1 | a { value: x\2c() }
   |            ^^^^^^
 
-error: FnValue
+error: Function
  --> $DIR/tests/fixture/esbuild/misc/AVaQlt9z0lhJC6bHHDPVeA/input.css:1:12
   |
 1 | a { value: x\2c() }

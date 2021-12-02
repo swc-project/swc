@@ -59,7 +59,7 @@ error: ImportSource
 2 | @import url("something.css");
   |         ^^^^^^^^^^^^^^^^^^^^
 
-error: FnValue
+error: Function
  --> $DIR/tests/fixture/rome/import/input.css:2:9
   |
 2 | @import url("something.css");

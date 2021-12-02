@@ -92,7 +92,7 @@ where
     #[emitter]
     fn emit_import_source(&mut self, n: &ImportSource) -> Result {
         match n {
-            ImportSource::Fn(n) => emit!(self, n),
+            ImportSource::Function(n) => emit!(self, n),
             ImportSource::Url(n) => emit!(self, n),
             ImportSource::Str(n) => emit!(self, n),
         }
@@ -270,28 +270,29 @@ where
     }
 
     #[emitter]
-    fn emit_fn_value(&mut self, n: &FnValue) -> Result {
+    fn emit_function(&mut self, n: &Function) -> Result {
         emit!(self, n.name);
 
         punct!(self, "(");
-        self.emit_list(&n.args, ListFormat::CommaDelimited)?;
+        self.emit_list(&n.value, ListFormat::CommaDelimited)?;
         punct!(self, ")");
     }
 
     #[emitter]
     fn emit_value(&mut self, n: &Value) -> Result {
         match n {
+            Value::Function(n) => emit!(self, n),
+            Value::SimpleBlock(n) => emit!(self, n),
+            Value::SquareBracketBlock(n) => emit!(self, n),
+            Value::RoundBracketBlock(n) => emit!(self, n),
             Value::Unit(n) => emit!(self, n),
             Value::Number(n) => emit!(self, n),
             Value::Percent(n) => emit!(self, n),
             Value::Hash(n) => emit!(self, n),
             Value::Ident(n) => emit!(self, n),
             Value::Str(n) => emit!(self, n),
-            Value::Fn(n) => emit!(self, n),
             Value::Bin(n) => emit!(self, n),
             Value::Brace(n) => emit!(self, n),
-            Value::SquareBracketBlock(n) => emit!(self, n),
-            Value::RoundBracketBlock(n) => emit!(self, n),
             Value::Space(n) => emit!(self, n),
             Value::Lazy(n) => emit!(self, n),
             Value::AtText(n) => emit!(self, n),
@@ -304,9 +305,14 @@ where
     fn emit_unknown_at_rule(&mut self, n: &UnknownAtRule) -> Result {
         punct!(self, "@");
         emit!(self, n.name);
-        space!(self);
 
-        emit!(self, n.tokens)
+        self.emit_list(&n.prelude, ListFormat::NotDelimited)?;
+
+        if n.block.is_some() {
+            emit!(self, n.block)
+        } else {
+            punct!(self, ";");
+        }
     }
 
     #[emitter]
@@ -332,10 +338,26 @@ where
     }
 
     #[emitter]
+    fn emit_simple_block(&mut self, n: &SimpleBlock) -> Result {
+        let ending = match n.name {
+            '[' => ']',
+            '(' => ')',
+            '{' => '}',
+            _ => {
+                unreachable!();
+            }
+        };
+
+        self.wr.write_raw_char(None, n.name)?;
+        self.emit_list(&n.value, ListFormat::NotDelimited)?;
+        self.wr.write_raw_char(None, ending)?;
+    }
+
+    #[emitter]
     fn emit_block(&mut self, n: &Block) -> Result {
         punct!(self, "{");
 
-        self.emit_list(&n.items, ListFormat::SemiDelimited | ListFormat::MultiLine)?;
+        self.emit_list(&n.value, ListFormat::SemiDelimited | ListFormat::MultiLine)?;
 
         punct!(self, "}");
     }

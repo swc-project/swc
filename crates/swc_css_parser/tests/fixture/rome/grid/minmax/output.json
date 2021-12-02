@@ -70,7 +70,7 @@
           "end": 114,
           "ctxt": 0
         },
-        "items": [
+        "value": [
           {
             "type": "Declaration",
             "span": {
@@ -90,7 +90,7 @@
             },
             "value": [
               {
-                "type": "FnValue",
+                "type": "Function",
                 "span": {
                   "start": 33,
                   "end": 59,
@@ -106,7 +106,7 @@
                   "value": "minmax",
                   "raw": "minmax"
                 },
-                "args": [
+                "value": [
                   {
                     "type": "Identifier",
                     "span": {
@@ -147,7 +147,7 @@
                 ]
               },
               {
-                "type": "FnValue",
+                "type": "Function",
                 "span": {
                   "start": 60,
                   "end": 78,
@@ -163,7 +163,7 @@
                   "value": "minmax",
                   "raw": "minmax"
                 },
-                "args": [
+                "value": [
                   {
                     "type": "UnitValue",
                     "span": {
@@ -221,7 +221,7 @@
                 ]
               },
               {
-                "type": "FnValue",
+                "type": "Function",
                 "span": {
                   "start": 79,
                   "end": 111,
@@ -237,7 +237,7 @@
                   "value": "minmax",
                   "raw": "minmax"
                 },
-                "args": [
+                "value": [
                   {
                     "type": "Identifier",
                     "span": {

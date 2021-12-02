@@ -1,5 +1,5 @@
 pub use self::{charset::*, document::*, import::*, keyframe::*, media::*, page::*, support::*};
-use crate::{Block, Ident, Str, Tokens, UrlValue};
+use crate::{Block, Ident, SimpleBlock, Str, UrlValue, Value};
 use is_macro::Is;
 use swc_common::{ast_node, Span};
 
@@ -80,5 +80,6 @@ pub struct ViewportRule {
 pub struct UnknownAtRule {
     pub span: Span,
     pub name: Ident,
-    pub tokens: Tokens,
+    pub prelude: Vec<Value>,
+    pub block: Option<SimpleBlock>,
 }

@@ -1,8 +1,6 @@
-error: Unknown @rule is not terminated
- --> $DIR/tests/errors/rome/invalid/page/space/input.css:1:1
+error: Invalid selector
+ --> $DIR/tests/errors/rome/invalid/page/space/input.css:3:14
   |
-1 | / @page Page: blank {
-2 | |     @top-center { content: none }
-3 | |     margin-left: 4cm;
-  | |_____________________^
+3 |     margin-left: 4cm;
+  |                 ^
 

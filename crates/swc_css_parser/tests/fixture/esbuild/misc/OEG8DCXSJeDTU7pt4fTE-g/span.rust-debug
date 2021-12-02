@@ -28,7 +28,7 @@ error: ImportSource
 1 | @import url("foo.css") screen and (orientation:landscape);
   |         ^^^^^^^^^^^^^^
 
-error: FnValue
+error: Function
  --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:9
   |
 1 | @import url("foo.css") screen and (orientation:landscape);
