@@ -7,9 +7,9 @@ function _classPrivateFieldGet(receiver, privateMap) {
 // @strict: true
 // @target: esnext
 class Foo {
-    m1(v1) {
-        _classPrivateFieldGet(this, _p1).call(this, v1);
-        v1;
+    m1(v) {
+        _classPrivateFieldGet(this, _p1).call(this, v);
+        v;
     }
     constructor(){
         _p1.set(this, {

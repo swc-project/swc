@@ -679,7 +679,7 @@ class x85 {
     }
 }
 class x86 {
-    constructor(parm1 = function() {
+    constructor(parm = function() {
         return [
             d1,
             d2
@@ -688,7 +688,7 @@ class x86 {
     }
 }
 class x87 {
-    constructor(parm2 = function named() {
+    constructor(parm = function named() {
         return [
             d1,
             d2
@@ -697,7 +697,7 @@ class x87 {
     }
 }
 class x88 {
-    constructor(parm3 = ()=>[
+    constructor(parm = ()=>[
             d1,
             d2
         ]
@@ -705,7 +705,7 @@ class x88 {
     }
 }
 class x89 {
-    constructor(parm4 = function() {
+    constructor(parm = function() {
         return [
             d1,
             d2
@@ -714,7 +714,7 @@ class x89 {
     }
 }
 class x90 {
-    constructor(parm5 = function named() {
+    constructor(parm = function named() {
         return [
             d1,
             d2
@@ -723,28 +723,28 @@ class x90 {
     }
 }
 class x91 {
-    constructor(parm6 = [
+    constructor(parm = [
         d1,
         d2
     ]){
     }
 }
 class x92 {
-    constructor(parm7 = [
+    constructor(parm = [
         d1,
         d2
     ]){
     }
 }
 class x93 {
-    constructor(parm8 = [
+    constructor(parm = [
         d1,
         d2
     ]){
     }
 }
 class x94 {
-    constructor(parm9 = {
+    constructor(parm = {
         n: [
             d1,
             d2
@@ -753,14 +753,14 @@ class x94 {
     }
 }
 class x95 {
-    constructor(parm10 = (n)=>{
+    constructor(parm = (n)=>{
         var n;
         return null;
     }){
     }
 }
 class x96 {
-    constructor(parm11 = {
+    constructor(parm = {
         func: (n)=>{
             return [
                 d1,
@@ -771,107 +771,107 @@ class x96 {
     }
 }
 class x97 {
-    constructor(parm12 = ()=>[
+    constructor(parm = ()=>[
             d1,
             d2
         ]
     ){
-        this.parm = parm12;
+        this.parm = parm;
     }
 }
 class x98 {
-    constructor(parm13 = function() {
+    constructor(parm = function() {
         return [
             d1,
             d2
         ];
     }){
-        this.parm = parm13;
+        this.parm = parm;
     }
 }
 class x99 {
-    constructor(parm14 = function named() {
+    constructor(parm = function named() {
         return [
             d1,
             d2
         ];
     }){
-        this.parm = parm14;
+        this.parm = parm;
     }
 }
 class x100 {
-    constructor(parm15 = ()=>[
+    constructor(parm = ()=>[
             d1,
             d2
         ]
     ){
-        this.parm = parm15;
+        this.parm = parm;
     }
 }
 class x101 {
-    constructor(parm16 = function() {
+    constructor(parm = function() {
         return [
             d1,
             d2
         ];
     }){
-        this.parm = parm16;
+        this.parm = parm;
     }
 }
 class x102 {
-    constructor(parm17 = function named() {
+    constructor(parm = function named() {
         return [
             d1,
             d2
         ];
     }){
-        this.parm = parm17;
+        this.parm = parm;
     }
 }
 class x103 {
-    constructor(parm18 = [
+    constructor(parm = [
         d1,
         d2
     ]){
-        this.parm = parm18;
+        this.parm = parm;
     }
 }
 class x104 {
-    constructor(parm19 = [
+    constructor(parm = [
         d1,
         d2
     ]){
-        this.parm = parm19;
+        this.parm = parm;
     }
 }
 class x105 {
-    constructor(parm20 = [
+    constructor(parm = [
         d1,
         d2
     ]){
-        this.parm = parm20;
+        this.parm = parm;
     }
 }
 class x106 {
-    constructor(parm21 = {
+    constructor(parm = {
         n: [
             d1,
             d2
         ]
     }){
-        this.parm = parm21;
+        this.parm = parm;
     }
 }
 class x107 {
-    constructor(parm22 = (n)=>{
+    constructor(parm = (n)=>{
         var n;
         return null;
     }){
-        this.parm = parm22;
+        this.parm = parm;
     }
 }
 class x108 {
-    constructor(parm23 = {
+    constructor(parm = {
         func: (n)=>{
             return [
                 d1,
@@ -879,111 +879,111 @@ class x108 {
             ];
         }
     }){
-        this.parm = parm23;
+        this.parm = parm;
     }
 }
 class x109 {
-    constructor(parm24 = ()=>[
+    constructor(parm = ()=>[
             d1,
             d2
         ]
     ){
-        this.parm = parm24;
+        this.parm = parm;
     }
 }
 class x110 {
-    constructor(parm25 = function() {
+    constructor(parm = function() {
         return [
             d1,
             d2
         ];
     }){
-        this.parm = parm25;
+        this.parm = parm;
     }
 }
 class x111 {
-    constructor(parm26 = function named() {
+    constructor(parm = function named() {
         return [
             d1,
             d2
         ];
     }){
-        this.parm = parm26;
+        this.parm = parm;
     }
 }
 class x112 {
-    constructor(parm27 = ()=>[
+    constructor(parm = ()=>[
             d1,
             d2
         ]
     ){
-        this.parm = parm27;
+        this.parm = parm;
     }
 }
 class x113 {
-    constructor(parm28 = function() {
+    constructor(parm = function() {
         return [
             d1,
             d2
         ];
     }){
-        this.parm = parm28;
+        this.parm = parm;
     }
 }
 class x114 {
-    constructor(parm29 = function named() {
+    constructor(parm = function named() {
         return [
             d1,
             d2
         ];
     }){
-        this.parm = parm29;
+        this.parm = parm;
     }
 }
 class x115 {
-    constructor(parm30 = [
+    constructor(parm = [
         d1,
         d2
     ]){
-        this.parm = parm30;
+        this.parm = parm;
     }
 }
 class x116 {
-    constructor(parm31 = [
+    constructor(parm = [
         d1,
         d2
     ]){
-        this.parm = parm31;
+        this.parm = parm;
     }
 }
 class x117 {
-    constructor(parm32 = [
+    constructor(parm = [
         d1,
         d2
     ]){
-        this.parm = parm32;
+        this.parm = parm;
     }
 }
 class x118 {
-    constructor(parm33 = {
+    constructor(parm = {
         n: [
             d1,
             d2
         ]
     }){
-        this.parm = parm33;
+        this.parm = parm;
     }
 }
 class x119 {
-    constructor(parm34 = (n)=>{
+    constructor(parm = (n)=>{
         var n;
         return null;
     }){
-        this.parm = parm34;
+        this.parm = parm;
     }
 }
 class x120 {
-    constructor(parm35 = {
+    constructor(parm = {
         func: (n)=>{
             return [
                 d1,
@@ -991,7 +991,7 @@ class x120 {
             ];
         }
     }){
-        this.parm = parm35;
+        this.parm = parm;
     }
 }
 function x121(parm = ()=>[

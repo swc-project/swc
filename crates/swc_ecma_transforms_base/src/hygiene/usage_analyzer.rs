@@ -431,6 +431,38 @@ impl Visit for UsageAnalyzer<'_> {
         })
     }
 
+    fn visit_constructor(&mut self, c: &Constructor, _: &dyn Node) {
+        self.visit_with_scope(c.span.ctxt, ScopeKind::Fn, |v| {
+            v.is_pat_decl = true;
+            c.params.visit_with(c, v);
+            v.is_pat_decl = false;
+
+            match c.body.as_ref() {
+                Some(body) => {
+                    body.visit_children_with(v);
+                }
+                None => {}
+            }
+        })
+    }
+
+    fn visit_class_method(&mut self, m: &ClassMethod, _: &dyn Node) {
+        m.function.decorators.visit_with(m, self);
+
+        self.visit_with_scope(m.function.span.ctxt, ScopeKind::Fn, |v| {
+            v.is_pat_decl = true;
+            m.function.params.visit_with(m, v);
+            v.is_pat_decl = false;
+
+            match m.function.body.as_ref() {
+                Some(body) => {
+                    body.visit_children_with(v);
+                }
+                None => {}
+            }
+        })
+    }
+
     fn visit_export_default_specifier(&mut self, n: &ExportDefaultSpecifier, _: &dyn Node) {
         self.add_usage(n.exported.to_id());
     }
@@ -458,8 +490,8 @@ impl Visit for UsageAnalyzer<'_> {
         self.visit_with_scope(f.function.span.ctxt, ScopeKind::Fn, |v| {
             v.is_pat_decl = true;
             f.function.params.visit_with(f, v);
-
             v.is_pat_decl = false;
+
             match f.function.body.as_ref() {
                 Some(body) => {
                     body.visit_children_with(v);

@@ -66,11 +66,11 @@ var TypeScript1;
         fatal() {
             return this._fatal;
         }
-        log(s1) {
-            this.logger.log(s1);
+        log(s) {
+            this.logger.log(s);
         }
-        constructor(logger1){
-            this.logger = logger1;
+        constructor(logger){
+            this.logger = logger;
             this._information = this.logger.information();
             this._debug = this.logger.debug();
             this._warning = this.logger.warning();
@@ -95,8 +95,8 @@ var TypeScript1;
         fatal() {
             return false;
         }
-        log(s2) {
-            this.logContents.push(s2);
+        log(s) {
+            this.logContents.push(s);
         }
         constructor(){
             this.logContents = [];

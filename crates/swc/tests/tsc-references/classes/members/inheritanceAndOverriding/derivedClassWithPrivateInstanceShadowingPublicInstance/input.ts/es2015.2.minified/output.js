@@ -15,7 +15,7 @@ class Derived extends Base {
     get a() {
         return 1;
     }
-    set a(v1) {
+    set a(v) {
     }
 }
 Base.fn(), Derived.fn(), Base.a = 2, Derived.a = 2;

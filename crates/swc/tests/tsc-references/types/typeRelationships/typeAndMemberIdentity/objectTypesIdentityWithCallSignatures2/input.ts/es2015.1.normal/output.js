@@ -5,12 +5,12 @@ class A {
     }
 }
 class B {
-    foo(x1) {
+    foo(x) {
         return null;
     }
 }
 class C {
-    foo(x2) {
+    foo(x) {
         return null;
     }
 }

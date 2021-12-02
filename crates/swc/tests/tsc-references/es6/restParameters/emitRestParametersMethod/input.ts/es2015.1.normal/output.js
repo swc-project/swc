@@ -2,16 +2,16 @@
 class C {
     bar(...rest) {
     }
-    foo(x, ...rest1) {
+    foo(x, ...rest) {
     }
-    constructor(name, ...rest2){
+    constructor(name, ...rest){
     }
 }
 class D {
-    bar(...rest3) {
+    bar(...rest) {
     }
-    foo(x1, ...rest4) {
+    foo(x, ...rest) {
     }
-    constructor(...rest5){
+    constructor(...rest){
     }
 }

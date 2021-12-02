@@ -24,6 +24,6 @@ class C {
     }
     static set bar(b) {
     }
-    static set [tmp5](b1) {
+    static set [tmp5](b) {
     }
 }

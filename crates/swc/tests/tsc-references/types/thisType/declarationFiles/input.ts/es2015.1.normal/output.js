@@ -3,7 +3,7 @@ class C1 {
     f(x) {
         return undefined;
     }
-    constructor(x1){
+    constructor(x){
     }
 }
 class C2 {

@@ -10,7 +10,7 @@ class C {
     static get b() {
         return null;
     }
-    static set b(x1) {
+    static set b(x) {
     }
     static foo() {
     }

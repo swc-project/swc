@@ -6,7 +6,7 @@ var NonGeneric, Generics;
     }
     new C(), new C("");
     class C2 {
-        constructor(x1){
+        constructor(x){
         }
     }
     new C2(), new C2(""), new C2(1);
@@ -21,7 +21,7 @@ var NonGeneric, Generics;
     }
     new C(), new C("");
     class C2 {
-        constructor(x2){
+        constructor(x){
         }
     }
     new C2(), new C2(""), new C2(1, 2);

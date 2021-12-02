@@ -10,13 +10,13 @@ class Derived extends Base {
 }
 new Derived(), new Derived(1);
 class Base2 {
-    constructor(x1){
-        this.a = x1;
+    constructor(x){
+        this.a = x;
     }
 }
 class D extends Base2 {
-    constructor(...args1){
-        super(...args1), this.x = 2, this.y = null;
+    constructor(...args){
+        super(...args), this.x = 2, this.y = null;
     }
 }
 new D(), new D(new Date());

@@ -2,17 +2,17 @@
 class B {
 }
 class C {
-    explicitThis(m4) {
-        return this.n + m4;
+    explicitThis(m) {
+        return this.n + m;
     }
-    explicitC(m1) {
-        return this.n + m1;
+    explicitC(m) {
+        return this.n + m;
     }
-    explicitProperty(m2) {
-        return this.n + m2;
+    explicitProperty(m) {
+        return this.n + m;
     }
-    explicitVoid(m3) {
-        return m3 + 1;
+    explicitVoid(m) {
+        return m + 1;
     }
 }
 class D extends C {

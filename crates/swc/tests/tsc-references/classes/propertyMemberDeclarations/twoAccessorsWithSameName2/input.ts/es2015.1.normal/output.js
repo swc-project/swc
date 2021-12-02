@@ -9,13 +9,13 @@ class C {
 class D {
     static set x(v) {
     }
-    static set x(v1) {
+    static set x(v) {
     }
 }
 class E {
     static get x() {
         return 1;
     }
-    static set x(v2) {
+    static set x(v) {
     }
 }

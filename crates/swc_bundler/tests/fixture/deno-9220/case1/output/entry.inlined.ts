@@ -1,6 +1,6 @@
 class Image {
-    getPixel(x2, y2) {
-        const index = x2 + y2 * this.width;
+    getPixel(x, y) {
+        const index = x + y * this.width;
         const rntVal = {
             r: this.data[index * 4],
             g: this.data[index * 4 + 1],
@@ -9,8 +9,8 @@ class Image {
         };
         return rntVal;
     }
-    setPixel(x1, y1, pix) {
-        const index = x1 + y1 * this.width;
+    setPixel(x, y, pix) {
+        const index = x + y * this.width;
         this.data[index * 4] = pix.r;
         this.data[index * 4 + 1] = pix.g;
         this.data[index * 4 + 2] = pix.b;

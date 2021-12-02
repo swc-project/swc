@@ -26,8 +26,8 @@ var a = {
 var r = foo2({
 });
 class C2 {
-    constructor(x1){
-        this.x = x1;
+    constructor(x){
+        this.x = x;
     }
 }
 var r2 = new C2({

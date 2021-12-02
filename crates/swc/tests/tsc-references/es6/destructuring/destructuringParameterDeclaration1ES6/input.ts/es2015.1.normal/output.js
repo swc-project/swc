@@ -167,11 +167,11 @@ class C2 {
     }
 }
 class C3 {
-    d3([a5, b4, c4]) {
+    d3([a, b, c]) {
     }
     d4({ x , y , z  }) {
     }
-    e0([a6, b5, c7]) {
+    e0([a, b, c]) {
     }
 }
 function d5({ x , y  } = {

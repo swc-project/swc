@@ -13,7 +13,7 @@ class C {
     static get y() {
         return this.x;
     }
-    static set y(x1) {
+    static set y(x) {
         this.y = this.x;
     }
     static foo() {

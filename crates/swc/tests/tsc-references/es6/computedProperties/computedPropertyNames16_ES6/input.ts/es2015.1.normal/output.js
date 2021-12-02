@@ -12,22 +12,22 @@ class C {
     static get [tmp2]() {
         return 0;
     }
-    set [tmp3](v1) {
+    set [tmp3](v) {
     }
     get [tmp4]() {
         return 0;
     }
-    static set [tmp5](v2) {
+    static set [tmp5](v) {
     }
     get [tmp6]() {
         return 0;
     }
-    set [tmp7](v3) {
+    set [tmp7](v) {
     }
     static get [tmp8]() {
         return 0;
     }
-    set [tmp9](v4) {
+    set [tmp9](v) {
     }
     get [tmp10]() {
         return 0;

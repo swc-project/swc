@@ -2,7 +2,7 @@ class C {
     get X() {
         return '';
     }
-    set X(v1) {
+    set X(v) {
     }
     foo() {
         return '';

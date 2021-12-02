@@ -10,7 +10,7 @@ d.foo, d.bar, d.thing(), (class extends C {
 class C2 {
     thing(x) {
     }
-    static other(x1) {
+    static other(x) {
     }
 }
 d2.foo, d2.bar, d2.thing(""), (class extends C2 {

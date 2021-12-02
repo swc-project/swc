@@ -13,6 +13,6 @@ class C {
     }
     static get [tmp4]() {
     }
-    static set [tmp5](v1) {
+    static set [tmp5](v) {
     }
 }
