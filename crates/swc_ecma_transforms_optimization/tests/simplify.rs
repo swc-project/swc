@@ -3,7 +3,10 @@
 use std::{cell::RefCell, rc::Rc};
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
-use swc_ecma_transforms_base::{helpers::inject_helpers, resolver::resolver};
+use swc_ecma_transforms_base::{
+    helpers::inject_helpers,
+    resolver::{resolver, resolver_with_mark},
+};
 use swc_ecma_transforms_compat::{es2015, es2016, es2017, es2018, es2022::class_properties, es3};
 use swc_ecma_transforms_module::{
     common_js::common_js, import_analysis::import_analyzer, util::Scope,
@@ -469,12 +472,15 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(
-        strip(),
-        resolver(),
-        dce(Default::default()),
-        inlining(Default::default())
-    ),
+    |_| {
+        let mark = Mark::fresh(Mark::root());
+        chain!(
+            resolver_with_mark(mark),
+            strip(mark),
+            dce(Default::default()),
+            inlining(Default::default())
+        )
+    },
     issue_1156_1,
     "
     interface D {
@@ -536,9 +542,11 @@ test!(
         ..Default::default()
     }),
     |t| {
+        let mark = Mark::fresh(Mark::root());
         let scope = Rc::new(RefCell::new(Scope::default()));
         chain!(
-            strip(),
+            resolver_with_mark(mark),
+            strip(mark),
             decorators(Default::default()),
             class_properties(class_properties::Config { loose: false }),
             simplifier(Default::default()),

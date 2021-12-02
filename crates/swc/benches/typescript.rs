@@ -50,8 +50,10 @@ fn parse(c: &swc::Compiler) -> (Arc<SourceFile>, Program) {
 
 fn as_es(c: &swc::Compiler) -> Program {
     let program = parse(c).1;
-
-    program.fold_with(&mut typescript::strip())
+    let mark = Mark::fresh(Mark::root());
+    program
+        .fold_with(&mut resolver_with_mark(mark))
+        .fold_with(&mut typescript::strip(mark))
 }
 
 #[bench]

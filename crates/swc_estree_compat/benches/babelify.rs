@@ -5,10 +5,11 @@ extern crate test;
 
 use std::{hint::black_box, io::stderr, sync::Arc};
 use swc::config::IsModule;
-use swc_common::{errors::Handler, FileName, FilePathMapping, SourceFile, SourceMap};
+use swc_common::{errors::Handler, FileName, FilePathMapping, Mark, SourceFile, SourceMap};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{compat::es2020, typescript};
+use swc_ecma_transforms_base::resolver::resolver_with_mark;
 use swc_ecma_visit::FoldWith;
 use swc_estree_compat::babelify::{Babelify, Context};
 use test::Bencher;
@@ -54,8 +55,10 @@ fn babelify_only(b: &mut Bencher) {
     let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
 
     let module = c.run_transform(&handler, false, || {
+        let mark = Mark::fresh(Mark::root());
         module
-            .fold_with(&mut typescript::strip())
+            .fold_with(&mut resolver_with_mark(mark))
+            .fold_with(&mut typescript::strip(mark))
             .fold_with(&mut es2020(Default::default()))
     });
 

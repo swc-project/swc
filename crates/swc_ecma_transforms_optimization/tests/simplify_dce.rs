@@ -1,6 +1,6 @@
-use swc_common::{chain, pass::Repeat};
+use swc_common::{chain, pass::Repeat, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
-use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_base::resolver::{resolver, resolver_with_mark};
 use swc_ecma_transforms_optimization::simplify::dce::dce;
 use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_testing::test;
@@ -413,15 +413,18 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(
-        resolver(),
-        strip(),
-        decorators(decorators::Config {
-            legacy: true,
-            emit_metadata: false
-        }),
-        tr()
-    ),
+    |_| {
+        let mark = Mark::fresh(Mark::root());
+        chain!(
+            resolver_with_mark(mark),
+            strip(mark),
+            decorators(decorators::Config {
+                legacy: true,
+                emit_metadata: false
+            }),
+            tr()
+        )
+    },
     issue_898_2,
     "export default class X {
     @whatever
@@ -460,15 +463,18 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(
-        resolver(),
-        strip(),
-        decorators(decorators::Config {
-            legacy: true,
-            emit_metadata: false
-        }),
-        tr()
-    ),
+    |_| {
+        let mark = Mark::fresh(Mark::root());
+        chain!(
+            resolver_with_mark(mark),
+            strip(mark),
+            decorators(decorators::Config {
+                legacy: true,
+                emit_metadata: false
+            }),
+            tr()
+        )
+    },
     issue_1111,
     "
     const a = 1;
@@ -534,7 +540,10 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(strip(), resolver(), tr()),
+    |_| {
+        let mark = Mark::fresh(Mark::root());
+        chain!(resolver_with_mark(mark), strip(mark), tr())
+    },
     issue_1156_1,
     "
     export interface D {
@@ -569,7 +578,10 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(strip(), resolver(), tr(),),
+    |_| {
+        let mark = Mark::fresh(Mark::root());
+        chain!(resolver_with_mark(mark), strip(mark), tr(),)
+    },
     issue_1156_2,
     "
     interface D {
@@ -630,7 +642,10 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(strip(), resolver(), tr(),),
+    |_| {
+        let mark = Mark::fresh(Mark::root());
+        chain!(resolver_with_mark(mark), strip(mark), tr(),)
+    },
     issue_1156_3,
     "
     function d() {
@@ -663,7 +678,10 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(strip(), resolver(), tr(),),
+    |_| {
+        let mark = Mark::fresh(Mark::root());
+        chain!(resolver_with_mark(mark), strip(mark), tr(),)
+    },
     issue_1156_4,
     "
     interface D {
