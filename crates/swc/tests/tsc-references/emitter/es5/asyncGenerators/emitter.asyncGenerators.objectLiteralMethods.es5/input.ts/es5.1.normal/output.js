@@ -95,7 +95,7 @@ function _wrapAsyncGenerator(fn) {
 // @lib: esnext
 // @filename: O1.ts
 var o1 = {
-    f: function() {
+    f: function f() {
         return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
@@ -109,7 +109,7 @@ var o1 = {
 };
 // @filename: O2.ts
 var o2 = {
-    f: function() {
+    f: function f() {
         return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
             var x;
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
@@ -129,7 +129,7 @@ var o2 = {
 };
 // @filename: O3.ts
 var o3 = {
-    f: function() {
+    f: function f() {
         return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
             var x;
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
@@ -149,7 +149,7 @@ var o3 = {
 };
 // @filename: O4.ts
 var o4 = {
-    f: function() {
+    f: function f() {
         return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
             var x;
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
@@ -170,7 +170,7 @@ var o4 = {
 };
 // @filename: O5.ts
 var o5 = {
-    f: function() {
+    f: function f() {
         return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee1() {
             var x;
             return regeneratorRuntime.wrap(function _callee$(_ctx1) {
@@ -200,7 +200,7 @@ var o5 = {
 };
 // @filename: O6.ts
 var o6 = {
-    f: function() {
+    f: function f() {
         return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
             var x;
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
@@ -220,7 +220,7 @@ var o6 = {
 };
 // @filename: O7.ts
 var o7 = {
-    f: function() {
+    f: function f() {
         return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){

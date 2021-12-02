@@ -7,7 +7,7 @@ var strOrNum;
 var var1;
 var obj1 = {
     // Inside method
-    method: function(param) {
+    method: function method(param) {
         // global vars in function declaration
         num = typeof var1 === "string" && var1.length; // string
         // variables in function declaration

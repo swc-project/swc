@@ -58,7 +58,7 @@ a(1);
 a.foo();
 a.foo(1);
 var b = {
-    foo: function(x) {
+    foo: function foo(x) {
     },
     a: function foo(x, y) {
     },

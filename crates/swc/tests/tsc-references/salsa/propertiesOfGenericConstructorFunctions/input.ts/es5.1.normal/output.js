@@ -43,10 +43,10 @@ var map2 = new Multimap("m", 2);
     this.y = t;
 }
 Cp.prototype = {
-    m1: function() {
+    m1: function m1() {
         return this.x;
     },
-    m2: function() {
+    m2: function m2() {
         this.z = this.x + 1;
         return this.y;
     }

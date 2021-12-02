@@ -18,10 +18,10 @@ function _createClass(Constructor, protoProps, staticProps) {
     return Constructor;
 }
 var obj1 = {
-    method1: function(p) {
+    method1: function method1(p) {
         return p;
     },
-    method2: function(p) {
+    method2: function method2(p) {
         return p;
     }
 };

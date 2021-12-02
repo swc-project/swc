@@ -23,7 +23,7 @@ x = a1;
 var b;
 x = b;
 x = {
-    f: function() {
+    f: function f() {
     }
 };
 var M1;
