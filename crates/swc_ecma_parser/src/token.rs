@@ -2,7 +2,7 @@
 //!
 //! [babel/babylon]:https://github.com/babel/babel/blob/2d378d076eb0c5fe63234a8b509886005c01d7ee/packages/babylon/src/tokenizer/types.js
 pub(crate) use self::{AssignOpToken::*, BinOpToken::*, Keyword::*, Token::*};
-use crate::error::Error;
+use crate::{error::Error, lexer::LexResult};
 use enum_kind::Kind;
 use num_bigint::BigInt as BigIntValue;
 use std::{
@@ -70,7 +70,7 @@ pub enum Token {
     BackQuote,
     Template {
         raw: JsWord,
-        cooked: Option<JsWord>,
+        cooked: LexResult<JsWord>,
         has_escape: bool,
     },
     /// ':'

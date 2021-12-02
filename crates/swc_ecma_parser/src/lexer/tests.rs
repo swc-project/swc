@@ -1,7 +1,7 @@
 extern crate test;
 
 use super::{
-    state::{lex, lex_module_errors, lex_tokens, lex_tokens_with_target, with_lexer},
+    state::{lex, lex_module_errors, lex_tokens, with_lexer},
     *,
 };
 use crate::{
@@ -9,7 +9,7 @@ use crate::{
     lexer::state::lex_errors,
 };
 use std::{ops::Range, str};
-use swc_ecma_ast::EsVersion;
+use swc_common::SyntaxContext;
 use test::{black_box, Bencher};
 
 fn sp(r: Range<usize>) -> Span {
@@ -231,7 +231,7 @@ multiline`"
         vec![
             tok!('`'),
             Token::Template {
-                cooked: Some("this\nis\nmultiline".into()),
+                cooked: Ok("this\nis\nmultiline".into()),
                 raw: "this\nis\nmultiline".into(),
                 has_escape: false
             },
@@ -247,7 +247,7 @@ fn tpl_raw_unicode_escape() {
         vec![
             tok!('`'),
             Token::Template {
-                cooked: Some(format!("{}", '\u{0010}').into()),
+                cooked: Ok(format!("{}", '\u{0010}').into()),
                 raw: "\\u{0010}".into(),
                 has_escape: true
             },
@@ -259,11 +259,20 @@ fn tpl_raw_unicode_escape() {
 #[test]
 fn tpl_invalid_unicode_escape() {
     assert_eq!(
-        lex_tokens_with_target(Syntax::default(), EsVersion::Es2018, r"`\unicode`"),
+        lex_tokens(Syntax::default(), r"`\unicode`"),
         vec![
             tok!('`'),
             Token::Template {
-                cooked: None,
+                cooked: Err(Error {
+                    error: Box::new((
+                        Span {
+                            lo: BytePos(1),
+                            hi: BytePos(3),
+                            ctxt: SyntaxContext::empty()
+                        },
+                        SyntaxError::ExpectedHexChars { count: 4 }
+                    ))
+                }),
                 raw: "\\unicode".into(),
                 has_escape: true
             },
@@ -271,20 +280,47 @@ fn tpl_invalid_unicode_escape() {
         ]
     );
     assert_eq!(
-        lex_tokens_with_target(Syntax::default(), EsVersion::Es2017, r"`\unicode`"),
+        lex_tokens(Syntax::default(), r"`\u{`"),
         vec![
             tok!('`'),
-            Token::Error(Error {
-                error: Box::new((sp(1..3), SyntaxError::ExpectedHexChars { count: 4 })),
-            }),
             Token::Template {
-                cooked: Some("nicode".into()),
-                raw: "nicode".into(),
-                has_escape: false,
+                cooked: Err(Error {
+                    error: Box::new((
+                        Span {
+                            lo: BytePos(4),
+                            hi: BytePos(4),
+                            ctxt: SyntaxContext::empty()
+                        },
+                        SyntaxError::InvalidCodePoint
+                    ))
+                }),
+                raw: "\\u{".into(),
+                has_escape: true
             },
-            tok!('`')
+            tok!('`'),
         ]
-    )
+    );
+    assert_eq!(
+        lex_tokens(Syntax::default(), r"`\xhex`"),
+        vec![
+            tok!('`'),
+            Token::Template {
+                cooked: Err(Error {
+                    error: Box::new((
+                        Span {
+                            lo: BytePos(1),
+                            hi: BytePos(3),
+                            ctxt: SyntaxContext::empty()
+                        },
+                        SyntaxError::ExpectedHexChars { count: 2 }
+                    ))
+                }),
+                raw: "\\xhex".into(),
+                has_escape: true
+            },
+            tok!('`'),
+        ]
+    );
 }
 
 #[test]
@@ -687,7 +723,7 @@ fn tpl_empty() {
             tok!('`'),
             Template {
                 raw: "".into(),
-                cooked: Some("".into()),
+                cooked: Ok("".into()),
                 has_escape: false
             },
             tok!('`')
@@ -703,7 +739,7 @@ fn tpl() {
             tok!('`'),
             Template {
                 raw: "".into(),
-                cooked: Some("".into()),
+                cooked: Ok("".into()),
                 has_escape: false
             },
             tok!("${"),
@@ -711,7 +747,7 @@ fn tpl() {
             tok!('}'),
             Template {
                 raw: "".into(),
-                cooked: Some("".into()),
+                cooked: Ok("".into()),
                 has_escape: false
             },
             tok!('`'),
@@ -880,7 +916,7 @@ fn issue_191() {
             tok!('`'),
             Token::Template {
                 raw: "".into(),
-                cooked: Some("".into()),
+                cooked: Ok("".into()),
                 has_escape: false,
             },
             tok!("${"),
@@ -888,7 +924,7 @@ fn issue_191() {
             tok!('}'),
             Token::Template {
                 raw: "<bar>".into(),
-                cooked: Some("<bar>".into()),
+                cooked: Ok("<bar>".into()),
                 has_escape: false,
             },
             tok!('`')
