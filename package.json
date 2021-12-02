@@ -1,6 +1,7 @@
 {
     "name": "@swc/core",
     "version": "1.2.116",
+    "version": "1.2.117",
     "description": "Super-fast alternative for babel",
     "homepage": "https://swc.rs",
     "main": "./index.js",
@@ -31,7 +32,6 @@
             "defaults": true,
             "additional": [
                 "x86_64-unknown-linux-musl",
-                "x86_64-unknown-freebsd",
                 "i686-pc-windows-msvc",
                 "aarch64-unknown-linux-gnu",
                 "armv7-unknown-linux-gnueabihf",
