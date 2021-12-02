@@ -151,6 +151,7 @@ jobs:
         with:
           name: bindings-${{ matrix.settings.target }}
           path: swc.*.node
+          if-no-files-found: error
   build-freebsd:
     if: ${{ startsWith(github.ref, 'refs/tags/v') }}
 
@@ -229,6 +230,7 @@ jobs:
         with:
           name: bindings-freebsd
           path: swc.*.node
+          if-no-files-found: error
   test-macOS-windows-binding:
     if: ${{ startsWith(github.ref, 'refs/tags/v') }}
     name: Test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
