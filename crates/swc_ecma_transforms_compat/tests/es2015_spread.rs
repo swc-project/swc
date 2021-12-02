@@ -1,5 +1,5 @@
 use swc_common::chain;
-use swc_ecma_transforms_compat::es2015::{block_scoping, parameters, spread, spread::Config};
+use swc_ecma_transforms_compat::es2015::{block_scoping, parameters, spread};
 use swc_ecma_transforms_testing::{test, test_exec};
 use swc_ecma_visit::Fold;
 
@@ -8,12 +8,7 @@ fn syntax() -> ::swc_ecma_parser::Syntax {
 }
 
 fn tr() -> impl Fold {
-    chain!(
-        parameters(),
-        spread(Config {
-            ..Default::default()
-        })
-    )
+    chain!(parameters(Default::default()), spread(Default::default()))
 }
 
 test!(

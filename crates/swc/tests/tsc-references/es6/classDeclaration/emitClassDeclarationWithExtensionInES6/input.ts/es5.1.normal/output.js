@@ -115,8 +115,8 @@ var B = // @target: es6
     _createClass(B, [
         {
             key: "baz",
-            value: function baz(a, param) {
-                var y = param === void 0 ? 10 : param;
+            value: function baz(a) {
+                var y = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 10;
             }
         }
     ]);

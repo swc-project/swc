@@ -22,8 +22,8 @@ function _createClass(Constructor, protoProps, staticProps) {
         return _createClass(AstWalkOptions, [
             {
                 key: "stopWalk",
-                value: function(param) {
-                    var stop = void 0 === param || param;
+                value: function() {
+                    var stop = !(arguments.length > 0) || void 0 === arguments[0] || arguments[0];
                     this.goChildren = !stop, this.goNextSibling = !stop;
                 }
             }

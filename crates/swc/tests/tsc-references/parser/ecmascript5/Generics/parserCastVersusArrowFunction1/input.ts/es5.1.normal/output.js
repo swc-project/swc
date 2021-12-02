@@ -8,8 +8,8 @@ var v = function(a) {
 var v = function(a, b) {
     return 1;
 };
-var v = function(param, param1) {
-    var a = param === void 0 ? 1 : param, b = param1 === void 0 ? 2 : param1;
+var v = function() {
+    var a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 1, b = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 2;
     return 1;
 };
 var v = a;

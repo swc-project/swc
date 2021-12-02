@@ -1,3 +1,3 @@
-function foo(param, param1) {
-    var arg1 = param === void 0 ? 1 : param, arg2 = param1 === void 0 ? 1 : param1;
+function foo() {
+    var arg1 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 1, arg2 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 1;
 }

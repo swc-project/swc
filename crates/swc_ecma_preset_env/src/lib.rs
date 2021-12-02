@@ -163,7 +163,13 @@ where
     // TODO:    InstanceOf,
     let pass = add!(pass, TypeOfSymbol, es2015::typeof_symbol());
     let pass = add!(pass, ShorthandProperties, es2015::shorthand());
-    let pass = add!(pass, Parameters, es2015::parameters());
+    let pass = add!(
+        pass,
+        Parameters,
+        es2015::parameters(es2015::parameters::Config {
+            ignore_function_length: loose
+        })
+    );
     let pass = add!(
         pass,
         ForOf,

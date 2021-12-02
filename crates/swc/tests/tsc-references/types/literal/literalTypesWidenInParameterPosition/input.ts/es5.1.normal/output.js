@@ -3,9 +3,9 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-var D = function D(param) {
+var D = function D() {
     "use strict";
-    var widen = param === void 0 ? 2 : param;
+    var widen = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 2;
     _classCallCheck(this, D);
     this.widen = widen;
     this.noWiden = 1;

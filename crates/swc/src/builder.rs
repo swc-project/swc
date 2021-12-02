@@ -237,6 +237,9 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                             template_literal: compat::es2015::template_literal::Config {
                                 ignore_to_primitive: self.loose,
                                 mutable_template: self.loose
+                            },
+                            parameters: compat::es2015::parameters::Config {
+                                ignore_function_length: self.loose,
                             }
                         }
                     ),

@@ -3,8 +3,8 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-var ErrClass = function ErrClass(param) {
+var ErrClass = function ErrClass() {
     "use strict";
-    var f = param === void 0 ? this : param;
+    var f = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : this;
     _classCallCheck(this, ErrClass);
 };

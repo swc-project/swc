@@ -94,8 +94,8 @@ function test1(x) {
 }
 var Bar = /*#__PURE__*/ function() {
     "use strict";
-    function Bar(d, param) {
-        var e = param === void 0 ? 10 : param;
+    function Bar(d) {
+        var e = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 10;
         _classCallCheck(this, Bar);
         this.d = d;
         this.e = e;

@@ -100,13 +100,13 @@ function f5() {
 }
 var m;
 // Function signature with parameter initializer referencing in scope local variable
-function f6(param) {
-    var n = param === void 0 ? m : param;
+function f6() {
+    var n = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : m;
     var m1 = 4;
 }
 // Function signature with initializer referencing other parameter to the right
-function f7(param, m2) {
-    var n = param === void 0 ? m : param;
+function f7() {
+    var n = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : m, m2 = arguments.length > 1 ? arguments[1] : void 0;
 }
 // FunctionExpression with non -void return type annotation with a throw, no return, and other code
 // Should be error but isn't

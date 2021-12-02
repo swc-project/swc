@@ -84,13 +84,13 @@ var Bar1 = function() {
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), FooIterator;
 }();
-!function(param) {
-    var arr, ref = function(arr) {
+!function() {
+    var arr, ref = (arr = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : new FooIterator, function(arr) {
         if (Array.isArray(arr)) return arr;
-    }(arr = void 0 === param ? new FooIterator : param) || function(iter) {
+    }(arr) || function(iter) {
         if (Symbol.iterator in Object(iter) || "[object Arguments]" === Object.prototype.toString.call(iter)) return Array.from(iter);
     }(arr) || function() {
         throw new TypeError("Invalid attempt to destructure non-iterable instance");
-    }();
+    }());
     ref[0], ref.slice(1);
 }(new FooIterator);
