@@ -4,6 +4,7 @@ use swc_common::chain;
 use swc_ecma_parser::{Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::resolver;
 use swc_ecma_transforms_compat::{
+    es2015::{block_scoping, destructuring, parameters},
     es2017::async_to_generator,
     es2020::{nullish_coalescing, optional_chaining},
 };
@@ -23,9 +24,10 @@ test!(
     Syntax::Typescript(Default::default()),
     |_| chain!(
         strip(),
-        tr(Config {
-            ignore_function_length: true
-        })
+        resolver(),
+        parameters(Default::default()),
+        destructuring(destructuring::Config { loose: false }),
+        block_scoping(),
     ),
     fn_len_default_assignment_with_types,
     "export function transformFileSync(
