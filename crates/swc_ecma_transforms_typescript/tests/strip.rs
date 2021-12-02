@@ -19,7 +19,6 @@ fn tr() -> impl Fold {
     })
 }
 
-
 test!(
     Syntax::Typescript(Default::default()),
     |_| chain!(
@@ -4209,7 +4208,6 @@ to!(
     "
 );
 
-
 to!(
     issue_2809,
     "enum Color {
@@ -4237,4 +4235,3 @@ fn exec(input: PathBuf) {
         &output,
     );
 }
-
