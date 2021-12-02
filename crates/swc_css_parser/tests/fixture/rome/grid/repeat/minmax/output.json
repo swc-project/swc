@@ -70,7 +70,7 @@
           "end": 73,
           "ctxt": 0
         },
-        "items": [
+        "value": [
           {
             "type": "Declaration",
             "span": {
@@ -90,7 +90,7 @@
             },
             "value": [
               {
-                "type": "FnValue",
+                "type": "Function",
                 "span": {
                   "start": 33,
                   "end": 70,
@@ -106,7 +106,7 @@
                   "value": "repeat",
                   "raw": "repeat"
                 },
-                "args": [
+                "value": [
                   {
                     "type": "Number",
                     "span": {
@@ -118,7 +118,7 @@
                     "raw": "4"
                   },
                   {
-                    "type": "FnValue",
+                    "type": "Function",
                     "span": {
                       "start": 43,
                       "end": 69,
@@ -134,7 +134,7 @@
                       "value": "minmax",
                       "raw": "minmax"
                     },
-                    "args": [
+                    "value": [
                       {
                         "type": "Identifier",
                         "span": {

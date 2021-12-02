@@ -1,4 +1,5 @@
-(function(param) {
+(function() {
+    arguments.length > 0 && void 0 !== arguments[0] && arguments[0];
 })(function _class() {
     "use strict";
     (function(instance, Constructor) {

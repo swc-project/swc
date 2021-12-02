@@ -92,7 +92,7 @@ error: Value
 3 |     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: FnValue
+error: Function
  --> $DIR/tests/fixture/at-rule/font-face/input.css:3:10
   |
 3 |     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
@@ -130,7 +130,7 @@ error: Value
 3 |     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
   |                                                       ^^^^^^^^^^^^^^^
 
-error: FnValue
+error: Function
  --> $DIR/tests/fixture/at-rule/font-face/input.css:3:55
   |
 3 |     src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
@@ -160,7 +160,7 @@ error: Value
 4 |     url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: FnValue
+error: Function
  --> $DIR/tests/fixture/at-rule/font-face/input.css:4:5
   |
 4 |     url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
@@ -190,7 +190,7 @@ error: Value
 4 |     url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
   |                                                 ^^^^^^^^^^^^^^
 
-error: FnValue
+error: Function
  --> $DIR/tests/fixture/at-rule/font-face/input.css:4:49
   |
 4 |     url("/fonts/OpenSans-Regular-webfont.woff") format("woff");

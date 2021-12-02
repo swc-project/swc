@@ -10,16 +10,16 @@ function _nonIterableRest() {
 function _toArray(arr) {
     return _arrayWithHoles(arr) || _iterableToArray(arr) || _nonIterableRest();
 }
-function foo1(param) {
-    var ref = _toArray(param === void 0 ? null : param), r = ref.slice(0);
+function foo1() {
+    var ref = _toArray(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : null), r = ref.slice(0);
 }
-function foo2(param) {
-    var ref = _toArray(param === void 0 ? undefined : param), r = ref.slice(0);
+function foo2() {
+    var ref = _toArray(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : undefined), r = ref.slice(0);
 }
-function foo3(param) {
-    var ref = _toArray(param === void 0 ? {
-    } : param), r = ref.slice(0);
+function foo3() {
+    var ref = _toArray(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
+    }), r = ref.slice(0);
 }
-function foo4(param) {
-    var ref = _toArray(param === void 0 ? [] : param), r = ref.slice(0);
+function foo4() {
+    var ref = _toArray(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : []), r = ref.slice(0);
 }

@@ -1,24 +1,24 @@
 // Generic typed parameters with initializers
-function foo(param) {
-    var x = param === void 0 ? null : param;
+function foo() {
+    var x = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : null;
     return x;
 } // ok
-function foo2(param) {
-    var x = param === void 0 ? undefined : param;
+function foo2() {
+    var x = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : undefined;
     return x;
 } // ok
-function foo3(param) {
-    var x = param === void 0 ? 1 : param;
+function foo3() {
+    var x = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 1;
 } // error
-function foo4(x, param) {
-    var y = param === void 0 ? x : param;
+function foo4(x) {
+    var y = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : x;
 } // error
-function foo5(x, param) {
-    var y = param === void 0 ? x : param;
+function foo5(x) {
+    var y = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : x;
 } // ok
-function foo6(x, y, param) {
-    var z = param === void 0 ? y : param;
+function foo6(x, y) {
+    var z = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : y;
 } // error
-function foo7(x, param) {
-    var y = param === void 0 ? x : param;
+function foo7(x) {
+    var y = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : x;
 } // should be ok

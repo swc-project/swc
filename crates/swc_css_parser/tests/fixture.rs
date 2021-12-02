@@ -10,6 +10,10 @@ use swc_css_parser::{
 use swc_css_visit::{Visit, VisitWith};
 use testing::NormalizedOutput;
 
+pub struct Invalid {
+    pub span: Span,
+}
+
 #[testing::fixture("tests/fixture/**/input.css")]
 fn tokens_input(input: PathBuf) {
     testing::run_test2(false, |cm, handler| {
@@ -287,7 +291,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(Block, visit_block);
     mtd!(RoundBracketBlock, visit_round_bracket_block);
     mtd!(SquareBracketBlock, visit_square_bracket_block);
-    mtd!(FnValue, visit_fn_value);
+    mtd!(Function, visit_function);
     mtd!(HashValue, visit_hash_value);
     mtd!(NestingSelector, visit_nesting_selector);
     mtd!(IdSelector, visit_id_selector);

@@ -4377,7 +4377,7 @@ test!(
     syntax(),
     |t| chain!(
         classes(Some(t.comments.clone()),),
-        parameters(),
+        parameters(Default::default()),
         destructuring(Default::default()),
         block_scoping(),
         common_js(Mark::fresh(Mark::root()), Default::default(), None),
@@ -4416,8 +4416,8 @@ _createClass(Thing, [{
   }
 }, {
   key: "completelyUnrelated",
-  value: function completelyUnrelated(param) {
-    var copy = param === void 0 ? 123 : param;
+  value: function completelyUnrelated() {
+    var copy = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 123;
   }
 }]);
 

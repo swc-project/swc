@@ -26,14 +26,14 @@ suddenly(function(_param) {
     return _param.x, _objectWithoutProperties(_param, [
         "x"
     ]).y;
-}), suddenly(function(param) {
-    var _param = void 0 === param ? {
+}), suddenly(function() {
+    var _param = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
         x: {
             z: 1,
             ka: 1
         },
         y: "noo"
-    } : param, _z = _param.x.z, nested = _objectWithoutProperties(_param.x, [
+    }, _z = _param.x.z, nested = _objectWithoutProperties(_param.x, [
         "z"
     ]), rest = _objectWithoutProperties(_param, [
         "x"
@@ -67,9 +67,9 @@ var C = function() {
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }();
-function foobar(param) {
-    var _param = void 0 === param ? {
-    } : param;
+function foobar() {
+    var _param = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
+    };
     _param.bar, _objectWithoutProperties(_param, [
         "bar"
     ]);

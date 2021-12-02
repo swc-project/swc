@@ -5,6 +5,9 @@ use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 #[ast_node]
 pub enum Value {
+    #[tag("SimpleBlock")]
+    SimpleBlock(SimpleBlock),
+
     #[tag("SquareBracketBlock")]
     SquareBracketBlock(SquareBracketBlock),
 
@@ -29,8 +32,8 @@ pub enum Value {
     #[tag("String")]
     Str(Str),
 
-    #[tag("FnValue")]
-    Fn(FnValue),
+    #[tag("Function")]
+    Function(Function),
 
     #[tag("BinValue")]
     Bin(BinValue),
@@ -81,12 +84,12 @@ pub struct BinValue {
     pub right: Box<Value>,
 }
 
-#[ast_node("FnValue")]
-pub struct FnValue {
+#[ast_node("Function")]
+pub struct Function {
     /// Span starting from the `lo` of identifier and to the end of `)`.
     pub span: Span,
     pub name: Ident,
-    pub args: Vec<Value>,
+    pub value: Vec<Value>,
 }
 
 #[ast_node("RoundBracketBlock")]
@@ -165,4 +168,11 @@ pub struct UrlValue {
     pub span: Span,
     pub url: JsWord,
     pub raw: JsWord,
+}
+
+#[ast_node("SimpleBlock")]
+pub struct SimpleBlock {
+    pub span: Span,
+    pub name: char,
+    pub value: Vec<Value>,
 }

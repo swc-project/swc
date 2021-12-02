@@ -84,10 +84,10 @@ var Bar1 = function() {
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), FooIterator;
 }();
-!function(param) {
-    var arr, i, ref = (i = 2, function(arr) {
+!function() {
+    var arr, i, ref = (arr = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : new FooIterator, i = 2, function(arr) {
         if (Array.isArray(arr)) return arr;
-    }(arr = void 0 === param ? new FooIterator : param) || function(arr, i) {
+    }(arr) || function(arr, i) {
         var _arr = [], _n = !0, _d = !1, _e = void 0;
         try {
             for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), !i || _arr.length !== i); _n = !0);

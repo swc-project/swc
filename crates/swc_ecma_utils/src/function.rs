@@ -3,7 +3,7 @@ use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-#[derive(Default)]
+#[derive(Clone, Default)]
 pub struct WrapperState {
     this: Option<Ident>,
     args: Option<Ident>,

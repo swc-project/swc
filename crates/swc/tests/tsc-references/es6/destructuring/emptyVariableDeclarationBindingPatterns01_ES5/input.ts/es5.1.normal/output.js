@@ -34,10 +34,10 @@ function _throw(e) {
 }
 // @target: es5
 (function() {
-    var f = function f(param5, param1, param2) {
-        var ref9 = param5 === void 0 ? a : param5, ref9 = ref9 !== null ? ref9 : _throw(new TypeError("Cannot destructure undefined")), ref2 = _slicedToArray(param1 === void 0 ? a : param1, 0), ref3 = param2 === void 0 ? a : param2, tmp1 = ref3.p, ref4 = tmp1 === void 0 ? a : tmp1, ref4 = ref4 !== null ? ref4 : _throw(new TypeError("Cannot destructure undefined"));
-        return function(param, param3, param4) {
-            var ref = param === void 0 ? a : param, ref = ref !== null ? ref : _throw(new TypeError("Cannot destructure undefined")), ref6 = _slicedToArray(param3 === void 0 ? a : param3, 0), ref7 = param4 === void 0 ? a : param4, tmp = ref7.p, ref8 = tmp === void 0 ? a : tmp, ref8 = ref8 !== null ? ref8 : _throw(new TypeError("Cannot destructure undefined"));
+    var f = function f() {
+        var ref9 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : a, ref9 = ref9 !== null ? ref9 : _throw(new TypeError("Cannot destructure undefined")), ref2 = _slicedToArray(arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : a, 0), ref3 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : a, tmp1 = ref3.p, ref4 = tmp1 === void 0 ? a : tmp1, ref4 = ref4 !== null ? ref4 : _throw(new TypeError("Cannot destructure undefined"));
+        return function() {
+            var ref = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : a, ref = ref !== null ? ref : _throw(new TypeError("Cannot destructure undefined")), ref6 = _slicedToArray(arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : a, 0), ref7 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : a, tmp = ref7.p, ref8 = tmp === void 0 ? a : tmp, ref8 = ref8 !== null ? ref8 : _throw(new TypeError("Cannot destructure undefined"));
             return a;
         };
     };

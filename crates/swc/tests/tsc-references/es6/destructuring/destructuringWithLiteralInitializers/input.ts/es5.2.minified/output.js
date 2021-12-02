@@ -27,46 +27,46 @@ function f2(param) {
 function f3(param) {
     param.x, param.y;
 }
-function f4(param) {
-    var ref = void 0 === param ? {
+function f4() {
+    var ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
         x: 0,
         y: 0
-    } : param;
+    };
     ref.x, ref.y;
 }
-function f5(param) {
-    var ref = void 0 === param ? {
+function f5() {
+    var ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
         x: 0
-    } : param;
+    };
     ref.x, ref.y;
 }
-function f6(param) {
-    var ref = void 0 === param ? {
-    } : param;
+function f6() {
+    var ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
+    };
     ref.x, ref.y;
 }
-function f7(param) {
-    var _a = (void 0 === param ? {
+function f7() {
+    var ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
         a: {
         }
-    } : param).a;
+    }, _a = ref.a;
     _a.x, _a.y;
 }
-function g3(param) {
-    var ref = _slicedToArray(void 0 === param ? [
+function g3() {
+    var ref = _slicedToArray(arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [
         0,
         0
-    ] : param, 2);
+    ], 2);
     ref[0], ref[1];
 }
-function g4(param) {
-    var ref = _slicedToArray(void 0 === param ? [
+function g4() {
+    var ref = _slicedToArray(arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [
         0
-    ] : param, 2);
+    ], 2);
     ref[0], ref[1];
 }
-function g5(param) {
-    var ref = _slicedToArray(void 0 === param ? [] : param, 2);
+function g5() {
+    var ref = _slicedToArray(arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [], 2);
     ref[0], ref[1];
 }
 (param1 = {

@@ -20,7 +20,7 @@
           "end": 26,
           "ctxt": 0
         },
-        "items": [
+        "value": [
           {
             "type": "Declaration",
             "span": {

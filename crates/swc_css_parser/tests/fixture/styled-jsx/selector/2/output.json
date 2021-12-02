@@ -185,7 +185,7 @@
           "end": 48,
           "ctxt": 0
         },
-        "items": [
+        "value": [
           {
             "type": "Declaration",
             "span": {

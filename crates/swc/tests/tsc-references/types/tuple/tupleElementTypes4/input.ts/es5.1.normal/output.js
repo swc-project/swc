@@ -29,9 +29,9 @@ function _nonIterableRest() {
 function _slicedToArray(arr, i) {
     return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
 }
-function f(param) {
-    var ref = _slicedToArray(param === void 0 ? [
+function f() {
+    var ref = _slicedToArray(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [
         0,
         undefined
-    ] : param, 2), a = ref[0], b = ref[1];
+    ], 2), a = ref[0], b = ref[1];
 }

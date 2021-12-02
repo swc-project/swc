@@ -262,8 +262,8 @@ flat2([
 ]); // Error
 var x1 = foo1(ra1); // Boom!
 var x2 = foo2(ra2); // Boom!
-function parse(node, param1) {
-    var index = param1 === void 0 ? [] : param1;
+function parse(node) {
+    var index = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : [];
     return html('ul', node.map(function(param, i) {
         var _param = _slicedToArray(param, 2), el = _param[0], children = _param[1];
         var idx = _toConsumableArray(index).concat([

@@ -34,7 +34,7 @@ error: ImportSource
 1 | @import url("./style.css");
   |         ^^^^^^^^^^^^^^^^^^
 
-error: FnValue
+error: Function
  --> $DIR/tests/fixture/at-rule/import/input.css:1:9
   |
 1 | @import url("./style.css");
@@ -82,7 +82,7 @@ error: ImportSource
 2 | @import url('./style.css');
   |         ^^^^^^^^^^^^^^^^^^
 
-error: FnValue
+error: Function
  --> $DIR/tests/fixture/at-rule/import/input.css:2:9
   |
 2 | @import url('./style.css');
@@ -220,7 +220,7 @@ error: ImportSource
 6 | @IMPORT url("./style.css");
   |         ^^^^^^^^^^^^^^^^^^
 
-error: FnValue
+error: Function
  --> $DIR/tests/fixture/at-rule/import/input.css:6:9
   |
 6 | @IMPORT url("./style.css");
@@ -298,7 +298,7 @@ error: ImportSource
 8 | @import URL("./style.css");
   |         ^^^^^^^^^^^^^^^^^^
 
-error: FnValue
+error: Function
  --> $DIR/tests/fixture/at-rule/import/input.css:8:9
   |
 8 | @import URL("./style.css");
@@ -418,7 +418,7 @@ error: ImportSource
 11 | @import url('landscape.css') screen and (orientation:landscape);
    |         ^^^^^^^^^^^^^^^^^^^^
 
-error: FnValue
+error: Function
   --> $DIR/tests/fixture/at-rule/import/input.css:11:9
    |
 11 | @import url('landscape.css') screen and (orientation:landscape);

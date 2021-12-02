@@ -14,12 +14,12 @@
 (function(a, b, c) {
 })("foo", 101, false);
 // default parameters
-(function(param) {
-    var m = param === void 0 ? 10 : param;
+(function() {
+    var m = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 10;
     return m + 1;
 })(12);
-(function(param) {
-    var n = param === void 0 ? 10 : param;
+(function() {
+    var n = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 10;
     return n + 1;
 })();
 // optional parameters
@@ -78,18 +78,18 @@
 })({
     p: 15
 });
-(function(param) {
-    var ref = param === void 0 ? {
+(function() {
+    var ref = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
         r: 18
-    } : param, _r = ref.r, r = _r === void 0 ? 17 : _r;
+    }, _r = ref.r, r = _r === void 0 ? 17 : _r;
     return r;
 })({
     r: 19
 });
-(function(param) {
-    var ref = param === void 0 ? {
+(function() {
+    var ref = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
         u: 23
-    } : param, _u = ref.u, u = _u === void 0 ? 22 : _u;
+    }, _u = ref.u, u = _u === void 0 ? 22 : _u;
     return u;
 })();
 // contextually typed parameters.
