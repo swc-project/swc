@@ -188,14 +188,10 @@ test!(
   }
 }
 Ref.nextID = 0"#,
-    r#"var Ref = function Ref1(param) {
+    r#"var Ref = function Ref1() {
         'use strict';
-        var id = param === void 0 ? ++Ref1.nextID : param;
+        var id = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : ++Ref1.nextID;
         _classCallCheck(this, Ref1);
-    r#"var Ref1 = function Ref() {
-        'use strict';
-        var id = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : ++Ref.nextID;
-        _classCallCheck(this, Ref);
         this.id = id;
     };
 Ref.nextID = 0;"#
@@ -233,26 +229,16 @@ class X {
     this.x = x
   }
 }"#,
-    r#"var Ref = function Ref1(param) {
-        'use strict';
-        var ref = param === void 0 ? Ref1 : param;
-        _classCallCheck(this, Ref1);
-        this.ref = ref;
-    }
-var X = function X1(param) {
-        'use strict';
-        var x = param === void 0 ? foo : param;
-        _classCallCheck(this, X1);
-    r#"var Ref1 = function Ref() {
-        'use strict';
-        var ref = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : Ref;
-        _classCallCheck(this, Ref);
-        this.ref = ref;
-    }
-var X1 = function X() {
-        'use strict';
-        var x = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : foo;
-        _classCallCheck(this, X);
+    r#"var Ref = function Ref1() {
+      'use strict';
+      var ref = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : Ref1;
+      _classCallCheck(this, Ref1);
+      this.ref = ref;
+  }
+var X = function X1() {
+      'use strict';
+      var x = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : foo;
+      _classCallCheck(this, X1);
         this.x = x;
     };
 "#
@@ -1788,15 +1774,12 @@ test!(
     })
     ",
     "
-    var self = this;
     var _this = this;
     const arrow = function() {
         for(let _len1 = arguments.length, args = new Array(_len1), _key1 = 0; _key1 < _len1; \
      _key1++){
             args[_key1] = arguments[_key1];
         }
-        return self, ()=>{
-            var self1 = this;
         return _this, ()=>{
             var _this1 = _this;
             return function() {
@@ -1804,7 +1787,6 @@ test!(
      _key++){
                     args[_key] = arguments[_key];
                 }
-                console.log(self1, args);
                 console.log(_this1, args);
             };
         };
@@ -1901,7 +1883,7 @@ test!(
     "function t(param) {
       var ref = _slicedToArray(param === void 0 ? [1, 2, 3] : param, 3),
           a = ref[2];
-    
+
       return a;
     }"
 );
@@ -1942,7 +1924,7 @@ test_exec!(
     expect(b[0]).toBe(2);
     expect(b[1]).toBe(3);
   }
-  
+
   foo(1, 2, 3);"
 );
 
@@ -1958,7 +1940,7 @@ test_exec!(
         this.id = n
       }
     }
-    
+
     expect(new Ref().id).toBe(1);
     expect(new Ref().id).toBe(2);"
 );
@@ -1974,7 +1956,7 @@ test_exec!(
         this.ref = ref
       }
     }
-    
+
     expect(new Ref().ref).toBe(Ref);"
 );
 
@@ -1988,21 +1970,21 @@ test!(
     var t = function (e = "foo", f = 5) {
       return e + " bar " + f;
     };
-    
+
     var a = function (e, f = 5) {
       return e + " bar " + f;
     };"#,
     r#"var t = function (e, f) {
       if (e === void 0) e = "foo";
-    
+
       if (f === void 0) f = 5;
-    
+
       return e + " bar " + f;
     };
-    
+
     var a = function (e, f) {
       if (f === void 0) f = 5;
-    
+
       return e + " bar " + f;
     };
 "#
@@ -2017,7 +1999,7 @@ test_exec!(
     "function required(msg) {
       throw new Error(msg);
     }
-    
+
     function sum(
       { arr = required('arr is required') } = { arr: arr = [] },
       length = arr.length
@@ -2031,7 +2013,7 @@ test_exec!(
       }
       return acc;
     }
-    
+
     expect(sum({arr:[1,2]})).toBe(3);"
 );
 
@@ -2048,14 +2030,14 @@ test!(
       {a3, a4},
       a5,
       {a6, a7} = {}) {
-    
+
     }"#,
     r#"function fn(a1, a2, param, a5, param1) {
       if (a2 === void 0) a2 = 4;
-    
+
       var a3 = param.a3,
           a4 = param.a4;
-    
+
       var ref = param1 === void 0 ? {} : param1,
           a6 = ref.a6,
           a7 = ref.a7;
@@ -2074,12 +2056,12 @@ test_exec!(
       expect(b).toBe(1);
     }
     rest(undefined, 2)
-    
+
     function rest2(b = a, ...a) {
       expect(a[0]).toBe(2);
     }
     rest2(undefined, 2)
-    
+
     function rest3(b = a, ...a) {
       expect(a).toHaveLength(1);
     }
@@ -2098,7 +2080,7 @@ test!(
     };"#,
     r#"var t = function (f) {
       if (f === void 0) f = "foo";
-    
+
       return f + " bar";
     };"#
 );
@@ -2115,13 +2097,13 @@ test!(
     }"#,
     r#"function t(x, param) {
       if (x === void 0) x = "default";
-    
+
       var a = param.a, b = param.b;
-    
+
       for (var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
         args[_key - 2] = arguments[_key];
       }
-    
+
       console.log(x, a, b, args);
     }"#
 );
@@ -2135,6 +2117,6 @@ test_exec!(
     "function t(undefined = 17, a = 3) {
       return a;
     }
-    
+
     expect(t()).toBe(3);"
 );
