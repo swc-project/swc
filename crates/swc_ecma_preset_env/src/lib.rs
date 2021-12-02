@@ -455,14 +455,15 @@ impl BrowserData<Option<Version>> {
                 _ => {}
             }
 
-            let version = if version.contains("-") {
-                version.split('-').next().unwrap().parse().unwrap()
-            } else {
-                version.parse().unwrap()
-            };
+            let version = version
+                .split_once('-')
+                .map(|(version, _)| version)
+                .unwrap_or(version)
+                .parse()
+                .unwrap();
 
             // lowest version
-            if data[&browser].is_none() || data[&browser].unwrap() > version {
+            if data[&browser].map(|v| v > version).unwrap_or(true) {
                 for (k, v) in data.iter_mut() {
                     if browser == k {
                         *v = Some(version);
