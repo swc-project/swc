@@ -25,7 +25,9 @@ test!(
     |_| chain!(
         strip(),
         resolver(),
-        parameters(Default::default()),
+        parameters(parameters::Config {
+            ignore_function_length: true
+        }),
         destructuring(destructuring::Config { loose: false }),
         block_scoping(),
     ),
