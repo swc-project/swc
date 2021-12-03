@@ -618,7 +618,17 @@ impl VisitMut for ReduceAst {
             return;
         }
 
-        e.visit_mut_children_with(self);
+        match e {
+            Expr::Fn(..) | Expr::Arrow(..) => {
+                let old = self.is_string_lit_important;
+                self.is_string_lit_important = false;
+                e.visit_mut_children_with(self);
+                self.is_string_lit_important = old;
+            }
+            _ => {
+                e.visit_mut_children_with(self);
+            }
+        }
 
         match e {
             Expr::Seq(seq) => {
