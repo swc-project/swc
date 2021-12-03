@@ -2079,9 +2079,9 @@ dependencies = [
 
 [[package]]
 name = "retain_mut"
-version = "0.1.4"
+version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "448296241d034b96c11173591deaa1302f2c17b56092106c1f92c1bc0183a8c9"
+checksum = "11000e6ba5020e53e7cc26f73b91ae7d5496b4977851479edb66b694c0675c21"
 
 [[package]]
 name = "rplugin"
@@ -3394,7 +3394,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.3.2"
+version = "0.3.3"
 dependencies = [
  "anyhow",
  "rayon",
