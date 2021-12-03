@@ -1385,19 +1385,34 @@ impl VisitMut for ReduceAst {
     fn visit_mut_prop_or_spreads(&mut self, props: &mut Vec<PropOrSpread>) {
         props.visit_mut_children_with(self);
 
-        props.retain(|p| match p {
-            PropOrSpread::Spread(..) => true,
-            PropOrSpread::Prop(p) => match &**p {
-                Prop::Shorthand(p) => {
-                    if p.sym == js_word!("") {
-                        return false;
+        props.retain(|p| {
+            match p {
+                PropOrSpread::Spread(..) => {}
+                PropOrSpread::Prop(p) => match &**p {
+                    Prop::Shorthand(p) => {
+                        if p.sym == js_word!("") {
+                            return false;
+                        }
                     }
 
-                    true
-                }
-                _ => true,
-            },
-        })
+                    Prop::Getter(p) => {
+                        if !p.key.is_computed() && p.body.is_empty() {
+                            return false;
+                        }
+                    }
+
+                    Prop::Setter(p) => {
+                        if !p.key.is_computed() && p.param.is_ident() && p.body.is_empty() {
+                            return false;
+                        }
+                    }
+
+                    _ => {}
+                },
+            }
+
+            true
+        });
     }
 
     fn visit_mut_seq_expr(&mut self, e: &mut SeqExpr) {

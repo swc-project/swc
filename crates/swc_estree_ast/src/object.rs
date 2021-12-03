@@ -43,7 +43,7 @@ pub enum ObjectMember {
     Prop(ObjectProperty),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "lowercase")]
 pub enum ObjectMethodKind {
     Method,
@@ -64,7 +64,7 @@ pub enum ObjectKey {
     Expr(Box<Expression>),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct ObjectMethod {
@@ -87,6 +87,106 @@ pub struct ObjectMethod {
     pub return_type: Option<Box<TypeAnnotOrNoop>>,
     #[serde(default)]
     pub type_parameters: Option<TypeParamDeclOrNoop>,
+}
+
+impl Serialize for ObjectMethod {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        match Flavor::current() {
+            Flavor::Babel => {
+                let actual = BabelObjectMethod {
+                    type_: "ObjectMethod",
+                    base: &self.base,
+                    key: &self.key,
+                    kind: self.kind,
+                    params: &self.params,
+                    body: &self.body,
+                    computed: self.computed,
+                    generator: self.generator,
+                    is_async: self.is_async,
+                    decorator: self.decorator.as_deref(),
+                    return_type: self.return_type.as_deref(),
+                    type_parameters: self.type_parameters.as_ref(),
+                };
+                actual.serialize(serializer)
+            }
+            Flavor::Acorn => {
+                let mut s = serializer.serialize_map(None)?;
+
+                {
+                    // TODO(kdy1): This is bad.
+                    self.base
+                        .serialize(serde::__private::ser::FlatMapSerializer(&mut s))?;
+                }
+
+                s.serialize_entry("type", "Property")?;
+                s.serialize_entry("kind", &self.kind)?;
+                s.serialize_entry("method", &false)?;
+                s.serialize_entry("shorthand", &false)?;
+                s.serialize_entry("key", &self.key)?;
+                s.serialize_entry("computed", &self.computed)?;
+
+                s.serialize_entry(
+                    "value",
+                    &AcornObjectMethodValue {
+                        type_: "FunctionExpression",
+                        base: &self.base,
+                        body: &self.body,
+                        params: &self.params,
+                        generator: self.generator.unwrap_or(false),
+                        is_async: self.is_async.unwrap_or(false),
+                    },
+                )?;
+
+                s.end()
+            }
+        }
+    }
+}
+
+#[derive(Serialize)]
+struct AcornObjectMethodValue<'a> {
+    /// `FuncionExpression`
+    #[serde(rename = "type")]
+    type_: &'static str,
+    #[serde(flatten)]
+    base: &'a BaseNode,
+
+    body: &'a BlockStatement,
+
+    params: &'a [Param],
+
+    generator: bool,
+    #[serde(rename = "async")]
+    is_async: bool,
+}
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+struct BabelObjectMethod<'a> {
+    #[serde(rename = "type")]
+    type_: &'static str,
+    #[serde(flatten)]
+    pub base: &'a BaseNode,
+    pub kind: ObjectMethodKind,
+    pub key: &'a ObjectKey,
+    #[serde(default)]
+    pub params: &'a [Param],
+    pub body: &'a BlockStatement,
+    #[serde(default)]
+    pub computed: bool,
+    #[serde(default)]
+    pub generator: Option<bool>,
+    #[serde(default, rename = "async")]
+    pub is_async: Option<bool>,
+    #[serde(default)]
+    pub decorator: Option<&'a [Decorator]>,
+    #[serde(default)]
+    pub return_type: Option<&'a TypeAnnotOrNoop>,
+    #[serde(default)]
+    pub type_parameters: Option<&'a TypeParamDeclOrNoop>,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -171,7 +271,6 @@ impl Serialize for ObjectProperty {
                         s.serialize_entry("decorators", decorators)?;
                     }
                 }
-                s.serialize_entry("computed", &self.computed)?;
 
                 s.end()
             }
