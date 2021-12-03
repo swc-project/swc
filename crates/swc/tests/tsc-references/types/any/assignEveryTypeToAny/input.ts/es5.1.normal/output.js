@@ -39,8 +39,6 @@ x = h;
 var i;
 x = i;
 x = {
-x1 = i;
-x1 = {
     f: function f() {
         return 1;
     }
@@ -48,9 +46,6 @@ x1 = {
 x = {
     f: function f(x1) {
         return x1;
-x1 = {
-    f: function f(x) {
-        return x;
     }
 };
 function j(a1) {
