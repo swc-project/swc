@@ -59,7 +59,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
     return target;
 }
 var resolver = {
-    sendSomeMessage: function(_parent, _param, _param1) {
+    sendSomeMessage: function sendSomeMessage(_parent, _param, _param1) {
         return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
             var _input, toNumber, messageBody, all, dataSources;
             return regeneratorRuntime.wrap(function _callee$(_ctx) {

@@ -35,7 +35,7 @@ function f11(a, b) {
     z.f('hello');
 }
 var k = {
-    something: function() {
+    something: function something() {
     }
 };
 function run(options) {

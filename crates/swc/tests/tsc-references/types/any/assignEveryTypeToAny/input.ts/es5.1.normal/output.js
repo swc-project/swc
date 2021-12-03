@@ -46,6 +46,15 @@ x = {
 x = {
     f: function(x1) {
         return x1;
+x1 = i;
+x1 = {
+    f: function f() {
+        return 1;
+    }
+};
+x1 = {
+    f: function f(x) {
+        return x;
     }
 };
 function j(a1) {

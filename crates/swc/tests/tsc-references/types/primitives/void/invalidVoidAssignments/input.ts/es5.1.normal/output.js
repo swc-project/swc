@@ -34,6 +34,6 @@ var E;
 x = E;
 x = E.A;
 x = {
-    f: function() {
+    f: function f() {
     }
 };

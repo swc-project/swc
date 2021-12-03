@@ -26,7 +26,7 @@ var M;
 }));
 x = M;
 x = {
-    f: function() {
+    f: function f() {
     }
 };
 function f(a1) {

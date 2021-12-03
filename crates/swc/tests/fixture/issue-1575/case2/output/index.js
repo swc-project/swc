@@ -30,7 +30,7 @@ function _asyncToGenerator(fn) {
 }
 var obj = {
     foo: 5,
-    method: function() {
+    method: function method() {
         return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){

@@ -41,7 +41,7 @@ var MyClass = // @noImplicitAny: true
 }();
 //type of 'this' in an object literal method is the type of the object literal
 var obj = {
-    f: function() {
+    f: function f() {
         return this.spaaace;
     }
 };

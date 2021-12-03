@@ -51,7 +51,7 @@ var o = {
     explicitThis: function explicitThis(m) {
         return m + this.n.length; // error, 'length' does not exist on 'number'
     },
-    implicitThis: function(m) {
+    implicitThis: function implicitThis(m) {
         return m;
     }
 };

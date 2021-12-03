@@ -56,7 +56,7 @@ var C3 = /*#__PURE__*/ function() {
     function C3() {
         _classCallCheck(this, C3);
         this.x1 = {
-            g: function(x) {
+            g: function g(x) {
                 return undefined;
             }
         };
@@ -69,7 +69,7 @@ var C3 = /*#__PURE__*/ function() {
                     return undefined;
                 };
                 var x2 = {
-                    h: function(x) {
+                    h: function h(x) {
                         return undefined;
                     }
                 };

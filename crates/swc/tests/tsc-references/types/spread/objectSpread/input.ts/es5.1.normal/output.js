@@ -193,7 +193,7 @@ var spreadC = _objectSpread({
 // own methods are enumerable
 var cplus = _objectSpread({
 }, c, {
-    plus: function() {
+    plus: function plus() {
         return this.p + 1;
     }
 });

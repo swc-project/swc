@@ -71,7 +71,7 @@ var b = {
     },
     set X (v){
     },
-    foo: function() {
+    foo: function foo() {
         return '';
     }
 };
