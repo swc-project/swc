@@ -416,12 +416,12 @@ test!(
     |_| {
         let mark = Mark::fresh(Mark::root());
         chain!(
-            resolver_with_mark(mark),
-            strip(mark),
             decorators(decorators::Config {
                 legacy: true,
                 emit_metadata: false
             }),
+            resolver_with_mark(mark),
+            strip(mark),
             tr()
         )
     },
@@ -466,12 +466,12 @@ test!(
     |_| {
         let mark = Mark::fresh(Mark::root());
         chain!(
-            resolver_with_mark(mark),
-            strip(mark),
             decorators(decorators::Config {
                 legacy: true,
                 emit_metadata: false
             }),
+            resolver_with_mark(mark),
+            strip(mark),
             tr()
         )
     },

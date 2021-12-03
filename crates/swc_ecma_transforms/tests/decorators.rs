@@ -53,8 +53,8 @@ fn ts_transform() -> impl Fold {
 fn simple_strip(config: Config) -> impl Fold {
     let mark = Mark::fresh(Mark::root());
     chain!(
-        resolver_with_mark(mark),
         decorators(config),
+        resolver_with_mark(mark),
         strip::strip_with_config(
             strip::Config {
                 no_empty_export: true,

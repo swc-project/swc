@@ -58,6 +58,10 @@ fn main() {
         .expect("failed to parse module.");
 
     let top_level_mark = Mark::fresh(Mark::root());
+
+    // Optionally emit decorators here before scope analysis
+    // as it might produce runtime declarations.
+
     // Conduct identifier scope analysis
     let module = module.fold_with(&mut resolver_with_mark(top_level_mark));
 

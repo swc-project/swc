@@ -545,9 +545,9 @@ test!(
         let mark = Mark::fresh(Mark::root());
         let scope = Rc::new(RefCell::new(Scope::default()));
         chain!(
+            decorators(Default::default()),
             resolver_with_mark(mark),
             strip(mark),
-            decorators(Default::default()),
             class_properties(class_properties::Config { loose: false }),
             simplifier(Default::default()),
             es2018(Default::default()),

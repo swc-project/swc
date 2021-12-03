@@ -356,7 +356,6 @@ impl Options {
             );
 
         let pass = chain!(
-            resolver_with_mark(top_level_mark),
             // Decorators may use type information
             Optional::new(
                 decorators(decorators::Config {
@@ -366,6 +365,11 @@ impl Options {
                 syntax.decorators()
             ),
             import_assertions(),
+            // Do a resolver pass after decorators as it might
+            // emit runtime declarations and do it before
+            // type stripping as we need to know scope information
+            // for emitting enums and namespaces.
+            resolver_with_mark(top_level_mark),
             Optional::new(
                 typescript::strip_with_jsx(
                     cm.clone(),
