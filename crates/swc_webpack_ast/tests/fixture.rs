@@ -40,6 +40,12 @@ impl VisitMut for AssertValid {
     fn visit_mut_empty_stmt(&mut self, i: &mut EmptyStmt) {
         panic!("found empty: {:?}", i)
     }
+
+    fn visit_mut_ident(&mut self, i: &mut Ident) {
+        if i.span.is_dummy() {
+            panic!("found an identifier with dummy span: {:?}", i)
+        }
+    }
 }
 
 #[testing::fixture("../swc_ecma_parser/tests/typescript/tsc/**/input.ts")]
