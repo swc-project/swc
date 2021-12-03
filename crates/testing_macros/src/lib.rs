@@ -53,6 +53,10 @@ mod fixture;
 /// - Support async function
 #[proc_macro_attribute]
 pub fn fixture(attr: TokenStream, item: TokenStream) -> TokenStream {
+    if cfg!(feature = "rust-analyzer") {
+        return item;
+    }
+
     let item: ItemFn = syn::parse(item).expect("failed to parse input as a function item");
     let config: self::fixture::Config =
         syn::parse(attr).expect("failed to parse input passed to #[fixture]");

@@ -20,4 +20,7 @@
   "eslint.enable": false,
   "cSpell.allowCompoundWords": true,
   "cSpell.caseSensitive": true,
+  "rust-analyzer.checkOnSave.features": [
+    "rust-analyzer"
+  ]
 }
