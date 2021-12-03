@@ -59,7 +59,7 @@ fn main() {
 
     let top_level_mark = Mark::fresh(Mark::root());
 
-    // Optionally emit decorators here before scope analysis
+    // Optionally transforms decorators here before the resolver pass
     // as it might produce runtime declarations.
 
     // Conduct identifier scope analysis
