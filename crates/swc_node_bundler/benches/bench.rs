@@ -17,8 +17,7 @@ use swc_bundler::{Bundler, Load, ModuleData, ModuleRecord};
 use swc_common::{sync::Lrc, FileName, Mark, SourceMap, Span, GLOBALS};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
-use swc_ecma_transforms::typescript::strip;
-use swc_ecma_transforms_base::resolver::resolver_with_mark;
+use swc_ecma_transforms::{resolver_with_mark, typescript::strip};
 use swc_ecma_visit::FoldWith;
 use test::Bencher;
 
