@@ -1,10 +1,10 @@
 use std::{fs, path::PathBuf};
-use swc_common::{chain, Mark, DUMMY_SP};
+use swc_common::{chain, Mark};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{EsConfig, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::resolver_with_mark;
 use swc_ecma_transforms_testing::test_fixture;
-use swc_ecma_visit::{as_folder, Node, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{as_folder, VisitMut, VisitMutWith};
 use swc_webpack_ast::reducer::ast_reducer;
 
 #[testing::fixture("tests/fixture/**/input.js")]
