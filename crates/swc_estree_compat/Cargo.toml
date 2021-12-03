@@ -34,5 +34,6 @@ swc_ecma_ast = {version = "0.58.0", path = "../swc_ecma_ast"}
 swc_ecma_parser = {version = "0.78.7", path = "../swc_ecma_parser"}
 swc_ecma_transforms = {version = "0.96.0", path = "../swc_ecma_transforms/"}
 swc_node_base = {version = "0.5", path = "../swc_node_base"}
+swc_ecma_transforms_base = {version = "0.44.6", path = "../swc_ecma_transforms_base"}
 testing = {version = "0.15.1", path = "../testing"}
 walkdir = "2"
