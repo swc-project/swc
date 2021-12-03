@@ -19,8 +19,6 @@ function _createClass(Constructor, protoProps, staticProps) {
 }
 // not allowed when emitting declarations
 export var obj = {
-    method1: function(p) {
-var obj1 = {
     method1: function method1(p) {
         return p;
     },
