@@ -353,7 +353,7 @@ impl ReduceAst {
         // Remove empty statements
         new.retain(|stmt| match StmtOrModuleItem::as_stmt(stmt) {
             Ok(Stmt::Empty(..)) => return false,
-            Ok(Stmt::Expr(es)) => return !self.can_remove(&es.expr),
+            Ok(Stmt::Expr(es)) => return !self.can_remove(&es.expr, true),
             _ => true,
         });
 
@@ -397,7 +397,7 @@ impl ReduceAst {
                     self.ignore_expr(prop);
                 }
 
-                match (self.can_remove(&obj), self.can_remove(&prop)) {
+                match (self.can_remove(&obj, false), self.can_remove(&prop, false)) {
                     (true, true) => {
                         e.take();
                         return;
@@ -453,12 +453,13 @@ impl ReduceAst {
         }
     }
 
-    fn can_remove(&self, e: &Expr) -> bool {
+    /// `is_standalone`: `true` for switch case.
+    fn can_remove(&self, e: &Expr, is_standalone: bool) -> bool {
         match e {
             Expr::Invalid(..) => true,
-            Expr::Lit(Lit::Str(..)) => false,
+            Expr::Lit(Lit::Str(..)) => is_standalone,
             Expr::Lit(..) => true,
-            Expr::Seq(seq) => seq.exprs.iter().all(|e| self.can_remove(e)),
+            Expr::Seq(seq) => seq.exprs.iter().all(|e| self.can_remove(e, is_standalone)),
             _ => false,
         }
     }
@@ -493,7 +494,7 @@ impl VisitMut for ReduceAst {
         c.visit_mut_children_with(self);
 
         if let Some(s) = &c.super_class {
-            if self.can_remove(&s) {
+            if self.can_remove(&s, true) {
                 c.super_class = None;
             }
         }
@@ -510,10 +511,10 @@ impl VisitMut for ReduceAst {
                 ClassMember::ClassProp(p) => {
                     if !p.computed
                         && p.decorators.is_empty()
-                        && self.can_remove(&p.key)
+                        && self.can_remove(&p.key, false)
                         && p.value
                             .as_deref()
-                            .map(|e| self.can_remove(e))
+                            .map(|e| self.can_remove(e, true))
                             .unwrap_or(true)
                     {
                         return false;
@@ -538,7 +539,7 @@ impl VisitMut for ReduceAst {
                 ClassMember::PrivateProp(PrivateProp {
                     value: Some(value), ..
                 }) => {
-                    if self.can_remove(&value) {
+                    if self.can_remove(&value, true) {
                         return false;
                     }
                 }
@@ -968,7 +969,7 @@ impl VisitMut for ReduceAst {
 
         if !self.preserve_fn {
             elems.retain(|e| {
-                if self.can_remove(&e.expr) {
+                if self.can_remove(&e.expr, false) {
                     self.changed = true;
                     return false;
                 }
@@ -1014,7 +1015,7 @@ impl VisitMut for ReduceAst {
             }
 
             Some(VarDeclOrExpr::Expr(init)) => {
-                if self.can_remove(&init) {
+                if self.can_remove(&init, true) {
                     s.init = None;
                 }
             }
@@ -1024,7 +1025,7 @@ impl VisitMut for ReduceAst {
         if let Some(test) = &mut s.test {
             self.ignore_expr(&mut **test);
 
-            if self.can_remove(&test) {
+            if self.can_remove(&test, true) {
                 s.test = None;
             }
         }
@@ -1032,7 +1033,7 @@ impl VisitMut for ReduceAst {
         if let Some(update) = &mut s.update {
             self.ignore_expr(&mut **update);
 
-            if self.can_remove(&update) {
+            if self.can_remove(&update, true) {
                 s.update = None;
             }
         }
@@ -1084,7 +1085,7 @@ impl VisitMut for ReduceAst {
                                 return true;
                             }
                             JSXExpr::Expr(e) => {
-                                if self.can_remove(&e) {
+                                if self.can_remove(&e, false) {
                                     return false;
                                 }
                             }
@@ -1098,7 +1099,7 @@ impl VisitMut for ReduceAst {
                 true
             }
             JSXAttrOrSpread::SpreadElement(s) => {
-                if self.can_remove(&s.expr) {
+                if self.can_remove(&s.expr, false) {
                     return false;
                 }
 
@@ -1146,7 +1147,7 @@ impl VisitMut for ReduceAst {
             JSXElementChild::JSXExprContainer(JSXExprContainer {
                 expr: JSXExpr::Expr(expr),
                 ..
-            }) => return !self.can_remove(&expr),
+            }) => return !self.can_remove(&expr, false),
 
             JSXElementChild::JSXElement(el) => {
                 // Remove empty, non-component elements.
@@ -1239,7 +1240,7 @@ impl VisitMut for ReduceAst {
 
         if !self.preserve_fn {
             if let Some(elem) = e {
-                if self.can_remove(&elem.expr) {
+                if self.can_remove(&elem.expr, false) {
                     *e = None;
                 }
             }
@@ -1271,7 +1272,7 @@ impl VisitMut for ReduceAst {
                     true
                 }
                 TsParamPropParam::Assign(p) => {
-                    if p.left.is_invalid() && self.can_remove(&p.right) {
+                    if p.left.is_invalid() && self.can_remove(&p.right, false) {
                         self.changed = true;
                         return false;
                     }
@@ -1335,7 +1336,7 @@ impl VisitMut for ReduceAst {
             }
 
             Pat::Assign(a) => {
-                if self.can_remove(&a.right) {
+                if self.can_remove(&a.right, false) {
                     a.left.visit_mut_with(self);
 
                     *pat = *a.left.take();
@@ -1399,7 +1400,7 @@ impl VisitMut for ReduceAst {
             self.ignore_expr(&mut **elem);
         }
 
-        e.exprs.retain(|e| !self.can_remove(&e));
+        e.exprs.retain(|e| !self.can_remove(&e, false));
     }
 
     /// Normalize statements.
@@ -1566,7 +1567,7 @@ impl VisitMut for ReduceAst {
                 }
 
                 //
-                if self.can_remove(&is.test) {
+                if self.can_remove(&is.test, true) {
                     if is.cons.is_empty() && is.alt.is_empty() {
                         *stmt = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                         return;
@@ -1594,7 +1595,7 @@ impl VisitMut for ReduceAst {
                     return;
                 }
 
-                if self.can_remove(&s.test) {
+                if self.can_remove(&s.test, true) {
                     *stmt = *s.body.take();
                     self.changed = true;
                     return;
@@ -1611,7 +1612,7 @@ impl VisitMut for ReduceAst {
                     return;
                 }
 
-                if self.can_remove(&s.test) {
+                if self.can_remove(&s.test, true) {
                     *stmt = *s.body.take();
                     self.changed = true;
                     return;
@@ -1766,7 +1767,7 @@ impl VisitMut for ReduceAst {
             if case
                 .test
                 .as_deref()
-                .map(|e| self.can_remove(e))
+                .map(|e| self.can_remove(e, true))
                 .unwrap_or(true)
                 && case.cons.is_empty()
             {
