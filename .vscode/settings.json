@@ -21,6 +21,7 @@
   "cSpell.allowCompoundWords": true,
   "cSpell.caseSensitive": true,
   "rust-analyzer.checkOnSave.features": [
+    // We use this to make IDE faster
     "rust-analyzer"
   ]
 }
