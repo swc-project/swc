@@ -28,11 +28,11 @@ fn tr_config(
         ..Default::default()
     });
     chain!(
-        resolver_with_mark(mark),
         Optional::new(
             decorators(decorators_config.unwrap_or_default()),
             has_decorators,
         ),
+        resolver_with_mark(mark),
         strip_with_config(config, mark),
     )
 }
@@ -404,7 +404,7 @@ test!(
   mounted = 'mounted',
   unmounted = 'unmounted',
 }",
-    r#"export let State;
+    r#"export var State;
 (function (State) {
     State["closed"] = "closed";
     State["opened"] = "opened";
@@ -520,7 +520,7 @@ enum Foo {
 
 export default Foo;
 ",
-    "let Foo;
+    "var Foo;
     (function(Foo) {
         Foo[Foo['A'] = 0] = 'A';
         Foo[Foo['B'] = 1] = 'B';
@@ -3438,9 +3438,6 @@ to!(
     "
     export var util;
     (function (util1) {
-    let util1;
-    export { util1 as util };
-    (function (util) {
         function assertNever(_x) {
             throw new Error();
         }
@@ -3454,7 +3451,6 @@ to!(
         util1.objectValues = (obj) => {
         };
     })(util || (util = {}));
-
     "
 );
 
@@ -3469,9 +3465,6 @@ to!(
     "
     export var util;
     (function (util1) {
-    let util1;
-    export { util1 as util };
-    (function (util) {
         const c = 3;
         [util1.a, util1.b] = [1, 2, 3];
     })(util || (util = {}));
@@ -3495,9 +3488,6 @@ to!(
     "
     export var util;
     (function (util1) {
-    let util1;
-    export { util1 as util };
-    (function (util) {
         const c = 3;
         function foo() {
         }
@@ -3523,9 +3513,6 @@ to!(
     "
     var Test;
     (function(Test1) {
-        var DummyValues;
-    var Test1;
-    (function(Test) {
         let DummyValues;
         (function(DummyValues) {
             DummyValues['A'] = 'A';
@@ -3714,7 +3701,7 @@ to!(
     export enum A {}
 ",
     "
-    export let A;
+    export var A;
     (function(A1) {
         class B extends A {
         }
@@ -4302,12 +4289,12 @@ namespace Namespace {
 }
 ",
     r#"
-export let Enum;
+export var Enum;
 (function (Enum) {
     Enum[Enum["test"] = 1] = "test";
 })(Enum || (Enum = {}));
-let Namespace1;
-(function(Namespace) {
+var Namespace;
+(function(Namespace1) {
     let Enum;
     (function(Enum) {
         Enum[Enum["test"] = 1] = "test";
@@ -4317,8 +4304,8 @@ let Namespace1;
         Enum[Enum["test2"] = 1] = "test2";
     })(Enum || (Enum = {
     }));
-    Namespace.Enum = Enum;
-})(Namespace1 || (Namespace1 = {
+    Namespace1.Enum = Enum;
+})(Namespace || (Namespace = {
 }));
 {
     let Enum;

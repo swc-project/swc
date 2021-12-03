@@ -86,7 +86,6 @@ pub fn strip_with_config(config: Config, top_level_mark: Mark) -> impl Fold + Vi
         top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
         non_top_level: Default::default(),
         scope: Default::default(),
-        is_module: Default::default(),
         is_side_effect_import: Default::default(),
         is_type_only_export: Default::default(),
         uninitialized_vars: Default::default(),
@@ -150,7 +149,6 @@ where
         top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
         non_top_level: Default::default(),
         scope: Default::default(),
-        is_module: Default::default(),
         is_side_effect_import: Default::default(),
         is_type_only_export: Default::default(),
         uninitialized_vars: Default::default(),
@@ -196,17 +194,16 @@ where
     top_level_ctxt: SyntaxContext,
     scope: Scope,
 
-    is_module: bool,
     is_side_effect_import: bool,
     is_type_only_export: bool,
     uninitialized_vars: Vec<VarDeclarator>,
 
-    /// Names of top-level declarations.
-    /// This is used to prevent emittnig a variable with same name multiple
+    /// Names of declarations.
+    /// This is used to prevent emitting a variable with same name multiple
     /// name.
     ///
-    /// If an identifier is in this list, thre [VisitMut] impl should not add a
-    /// varaible with it.
+    /// If an identifier is in this list, the [VisitMut] impl should not add a
+    /// variable with it.
     ///
     /// This field is filled by [Visit] impl and [VisitMut] impl.
     decl_names: AHashSet<Id>,
@@ -1305,7 +1302,7 @@ where
             var.map(|var| {
                 Decl::Var(VarDecl {
                     span: module_span,
-                    kind: if self.is_module || module_name.span.ctxt != self.top_level_ctxt {
+                    kind: if module_name.span.ctxt != self.top_level_ctxt {
                         VarDeclKind::Let
                     } else {
                         VarDeclKind::Var
@@ -1768,7 +1765,7 @@ where
                     if let Some(var) = self.create_uninit_var(e.span, e.id.to_id()) {
                         stmts.push(Stmt::Decl(Decl::Var(VarDecl {
                             span: DUMMY_SP,
-                            kind: if self.is_module || e.id.span.ctxt != self.top_level_ctxt {
+                            kind: if e.id.span.ctxt != self.top_level_ctxt {
                                 VarDeclKind::Let
                             } else {
                                 VarDeclKind::Var
@@ -1870,7 +1867,6 @@ where
             ModuleItem::ModuleDecl(..) => true,
             _ => false,
         });
-        self.is_module = was_module;
 
         self.parse_jsx_directives(module.span);
 
@@ -1926,7 +1922,6 @@ where
     }
 
     fn visit_mut_script(&mut self, n: &mut Script) {
-        self.is_module = false;
         self.parse_jsx_directives(n.span);
 
         for item in &n.body {
@@ -2093,7 +2088,11 @@ where
                             span: e.span,
                             decl: Decl::Var(VarDecl {
                                 span: DUMMY_SP,
-                                kind: VarDeclKind::Let,
+                                kind: if e.id.span.ctxt != self.top_level_ctxt {
+                                    VarDeclKind::Let
+                                } else {
+                                    VarDeclKind::Var
+                                },
                                 declare: false,
                                 decls: vec![var],
                             }),
@@ -2112,7 +2111,7 @@ where
                         stmts.push(
                             Stmt::Decl(Decl::Var(VarDecl {
                                 span: DUMMY_SP,
-                                kind: if self.is_module || e.id.span.ctxt != self.top_level_ctxt {
+                                kind: if e.id.span.ctxt != self.top_level_ctxt {
                                     VarDeclKind::Let
                                 } else {
                                     VarDeclKind::Var
