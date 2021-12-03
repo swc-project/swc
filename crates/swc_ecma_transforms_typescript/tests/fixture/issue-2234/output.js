@@ -1,6 +1,6 @@
 var Shapes;
 (function(Shapes1) {
-    var Polygons1;
+    let Polygons1;
     (function(Polygons) {
         class Triangle {
         }

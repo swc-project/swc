@@ -83,7 +83,7 @@ class A {}
 let A = _decorate([dec()], function (_initialize) {
 
 
-  class A {
+  class A1 {
     constructor() {
       _initialize(this);
     }
@@ -91,7 +91,7 @@ let A = _decorate([dec()], function (_initialize) {
   }
 
   return {
-    F: A,
+    F: A1,
     d: []
   };
 });
@@ -124,7 +124,7 @@ class B extends A {
 let B = _decorate([dec], function (_initialize, _A) {
 
 
-  class B extends _A {
+  class B1 extends _A {
     constructor() {
       const foo = () => {
         super();
@@ -154,7 +154,7 @@ let B = _decorate([dec], function (_initialize, _A) {
   }
 
   return {
-    F: B,
+    F: B1,
     d: []
   };
 }, A);
@@ -205,7 +205,7 @@ class B extends A {
 let B = _decorate([dec], function (_initialize, _A) {
 
 
-  class B extends _A {
+  class B1 extends _A {
     constructor() {
       super();
 
@@ -215,7 +215,7 @@ let B = _decorate([dec], function (_initialize, _A) {
   }
 
   return {
-    F: B,
+    F: B1,
     d: []
   };
 }, A);
@@ -550,7 +550,7 @@ class Sub extends Super {
 let Sub = _decorate([decorator(parameter)], function (_initialize, _Super) {
 
 
-  class Sub extends _Super {
+  class Sub1 extends _Super {
     constructor() {
       var _temp;
 
@@ -560,7 +560,7 @@ let Sub = _decorate([decorator(parameter)], function (_initialize, _Super) {
   }
 
   return {
-    F: Sub,
+    F: Sub1,
     d: []
   };
 }, Super);
@@ -607,7 +607,7 @@ class A {
 let A = _decorate([dec(a, b, ...c)], function (_initialize) {
 
 
-  class A {
+  class A1 {
     constructor() {
       _initialize(this);
     }
@@ -615,7 +615,7 @@ let A = _decorate([dec(a, b, ...c)], function (_initialize) {
   }
 
   return {
-    F: A,
+    F: A1,
     d: [{
       kind: "method",
       decorators: [dec(a, b, ...c)],
@@ -731,7 +731,7 @@ class B extends A {
 let B = _decorate([dec], function (_initialize, _A) {
 
 
-  class B extends _A {
+  class B1 extends _A {
     constructor() {
       var _temp;
 
@@ -741,7 +741,7 @@ let B = _decorate([dec], function (_initialize, _A) {
   }
 
   return {
-    F: B,
+    F: B1,
     d: []
   };
 }, A);
@@ -781,7 +781,7 @@ export default @dec() class Foo {}
 "#,
     r#"
 let Foo = _decorate([dec()], function (_initialize) {
-  class Foo {
+  class Foo1 {
     constructor() {
       _initialize(this);
     }
@@ -789,7 +789,7 @@ let Foo = _decorate([dec()], function (_initialize) {
   }
 
   return {
-    F: Foo,
+    F: Foo1,
     d: []
   };
 });
@@ -1180,7 +1180,7 @@ test!(
 let A = _decorate([dec], function (_initialize, _B) {
 
 
-  class A extends _B {
+  class A1 extends _B {
     constructor(...args) {
       super(...args);
 
@@ -1190,7 +1190,7 @@ let A = _decorate([dec], function (_initialize, _B) {
   }
 
   return {
-    F: A,
+    F: A1,
     d: []
   };
 }, B);
@@ -1211,7 +1211,7 @@ async function g() {
 "#,
     r#"
 async function g() {
-  let A = _decorate([dec], function (_initialize, _super) {
+  let A1 = _decorate([dec], function (_initialize, _super) {
 
 
     class A extends _super {
@@ -1245,7 +1245,7 @@ function* g() {
 "#,
     r#"
 function* g() {
-  let A = _decorate([dec], function (_initialize, _super) {
+  let A1 = _decorate([dec], function (_initialize, _super) {
 
 
     class A extends _super {
@@ -1439,7 +1439,7 @@ class B extends A {
 let B = _decorate([dec], function (_initialize, _A) {
 
 
-  class B extends _A {
+  class B1 extends _A {
     constructor() {
       super();
 
@@ -1451,7 +1451,7 @@ let B = _decorate([dec], function (_initialize, _A) {
   }
 
   return {
-    F: B,
+    F: B1,
     d: []
   };
 }, A);
@@ -4394,10 +4394,10 @@ var _class1, _dec;
 import { Debounce } from 'lodash-decorators';
 let Person = ((_class1 = (_class = function() {
     'use strict';
-    function Person() {
-        _classCallCheck(this, Person);
+    function Person1() {
+        _classCallCheck(this, Person1);
     }
-    _createClass(Person, [
+    _createClass(Person1, [
         {
             key: 'save',
             value: function save() {
@@ -4405,7 +4405,7 @@ let Person = ((_class1 = (_class = function() {
             }
         }
     ]);
-    return Person;
+    return Person1;
 }(), _class.debounceTime = 500, _class)) || _class1, _dec = Debounce(_class1.debounceTime), \
      _applyDecoratedDescriptor(_class1.prototype, 'save', [
     _dec

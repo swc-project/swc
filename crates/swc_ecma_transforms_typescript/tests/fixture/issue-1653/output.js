@@ -1,6 +1,6 @@
 var X;
 (function(X1) {
-    var Z1;
+    let Z1;
     (function(Z) {
         Z.foo = 0;
     })(Z1 || (Z1 = {
@@ -9,10 +9,12 @@ var X;
 })(X || (X = {
 }));
 var Y;
-(function(Y) {
+(function(Y1) {
+    let Z2;
     (function(Z) {
         Z.bar = 1;
-    })(Z1 || (Z1 = {
+    })(Z2 || (Z2 = {
     }));
+    Y1.Z = Z2;
 })(Y || (Y = {
 }));
