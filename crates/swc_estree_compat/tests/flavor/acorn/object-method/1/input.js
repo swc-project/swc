@@ -1,12 +1,4 @@
-(function () {
-    (function () {
-        (function () {
-            (function () {
-                ({
-                    get firstHiddenTime() {
-                    }
-                });
-            });
-        });
-    });
-})();
+const obj = {
+    get firstHiddenTime() {
+    }
+}
