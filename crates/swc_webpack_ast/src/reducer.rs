@@ -200,7 +200,7 @@ struct ReduceAst {
 
     can_remove_pat: bool,
     preserve_fn: bool,
-    preserve_lit: bool,
+    is_string_lit_important: bool,
 
     changed: bool,
 }
@@ -600,11 +600,11 @@ impl VisitMut for ReduceAst {
                     // We should preserve the arguments if the callee is not invalid.
                     let old_preserver_fn = self.preserve_fn;
                     self.preserve_fn = !callee.is_fn_expr() && !callee.is_arrow();
-                    let old_preserve_lit = self.preserve_lit;
-                    self.preserve_lit |= is_string_lit_important;
+                    let old_preserve_lit = self.is_string_lit_important;
+                    self.is_string_lit_important |= is_string_lit_important;
                     e.visit_mut_children_with(self);
 
-                    self.preserve_lit = old_preserve_lit;
+                    self.is_string_lit_important = old_preserve_lit;
                     self.preserve_fn = old_preserver_fn;
 
                     return;
@@ -614,7 +614,7 @@ impl VisitMut for ReduceAst {
             _ => {}
         }
 
-        if self.preserve_lit && e.is_lit() {
+        if self.is_string_lit_important && (e.is_lit() || e.is_array()) {
             return;
         }
 
