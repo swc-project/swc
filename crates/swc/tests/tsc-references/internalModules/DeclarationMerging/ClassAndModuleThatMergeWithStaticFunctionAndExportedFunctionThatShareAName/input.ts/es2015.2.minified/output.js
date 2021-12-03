@@ -6,8 +6,8 @@ class Point1 {
             y: 0
         };
     }
-    constructor(x1, y1){
-        this.x = x1, this.y = y1;
+    constructor(x, y){
+        this.x = x, this.y = y;
     }
 }
 (Point1 || (Point1 = {

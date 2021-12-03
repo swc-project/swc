@@ -22,9 +22,9 @@ var f8 = (x, y)=>{
 class C {
     foo(x, x) {
     }
-    foo2(x1, x1) {
+    foo2(x, x) {
     }
-    foo3(x2, x2) {
+    foo3(x, x) {
     }
 }
 var a;

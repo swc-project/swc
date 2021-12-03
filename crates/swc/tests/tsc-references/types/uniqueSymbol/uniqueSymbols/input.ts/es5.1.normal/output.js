@@ -411,10 +411,10 @@ var o2 = {
     a: s,
     b: N.s,
     c: N["s"],
-    method1: function() {
+    method1: function method1() {
         return s;
     },
-    method2: function() {
+    method2: function method2() {
         return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
@@ -427,7 +427,7 @@ var o2 = {
             }, _callee);
         }))();
     },
-    method3: function() {
+    method3: function method3() {
         return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
@@ -441,8 +441,8 @@ var o2 = {
             }, _callee);
         }))();
     },
-    method4: regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+    method4: regeneratorRuntime.mark(function method4() {
+        return regeneratorRuntime.wrap(function method4$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
                     _ctx.next = 2;
@@ -451,9 +451,9 @@ var o2 = {
                 case "end":
                     return _ctx.stop();
             }
-        }, _callee);
+        }, method4);
     }),
-    method5: function() {
+    method5: function method5() {
         var p = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : s;
         return p;
     }
@@ -570,10 +570,10 @@ var C1 = function C1() {
     _classCallCheck(this, C1);
 };
 var o3 = {
-    method1: function() {
+    method1: function method1() {
         return s; // return type should not widen due to contextual type
     },
-    method2: function() {
+    method2: function method2() {
         return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
@@ -586,7 +586,7 @@ var o3 = {
             }, _callee);
         }))();
     },
-    method3: function() {
+    method3: function method3() {
         return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
@@ -600,8 +600,8 @@ var o3 = {
             }, _callee);
         }))();
     },
-    method4: regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+    method4: regeneratorRuntime.mark(function method4() {
+        return regeneratorRuntime.wrap(function method4$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
                     _ctx.next = 2;
@@ -610,19 +610,19 @@ var o3 = {
                 case "end":
                     return _ctx.stop();
             }
-        }, _callee);
+        }, method4);
     }),
-    method5: function() {
+    method5: function method5() {
         var p = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : s;
         return p;
     }
 };
 // allowed when not emitting declarations
 var o4 = {
-    method1: function(p) {
+    method1: function method1(p) {
         return p;
     },
-    method2: function(p) {
+    method2: function method2(p) {
         return p;
     }
 };

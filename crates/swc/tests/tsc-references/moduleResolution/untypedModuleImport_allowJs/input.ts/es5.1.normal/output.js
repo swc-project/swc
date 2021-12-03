@@ -7,7 +7,7 @@ import foo from "foo";
 // Same as untypedModuleImport.ts but with --allowJs, so the package will actually be typed.
 // @filename: /node_modules/foo/index.js
 exports.default = {
-    bar: function() {
+    bar: function bar() {
         return 0;
     }
 };

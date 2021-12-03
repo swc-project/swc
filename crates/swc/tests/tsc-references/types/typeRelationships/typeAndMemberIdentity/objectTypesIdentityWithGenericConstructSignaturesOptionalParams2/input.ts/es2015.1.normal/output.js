@@ -2,12 +2,12 @@
 // parameters pairwise identical, have identical type parameter constraints, identical number of parameters with identical kind(required, 
 // optional or rest) and types, and identical return types.
 class B {
-    constructor(x2, y2){
+    constructor(x, y){
         return null;
     }
 }
 class C {
-    constructor(x1, y1){
+    constructor(x, y){
         return null;
     }
 }

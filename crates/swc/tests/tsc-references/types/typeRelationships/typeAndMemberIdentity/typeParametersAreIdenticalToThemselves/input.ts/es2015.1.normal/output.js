@@ -11,18 +11,18 @@ function foo3(x, y) {
 class C {
     foo1(x) {
     }
-    foo2(a, x1) {
+    foo2(a, x) {
     }
-    foo3(x2) {
+    foo3(x) {
     }
-    foo4(x3) {
+    foo4(x) {
     }
 }
 class C2 {
-    foo1(x4) {
+    foo1(x) {
     }
-    foo2(a1, x5) {
+    foo2(a, x) {
     }
-    foo3(x6) {
+    foo3(x) {
     }
 }

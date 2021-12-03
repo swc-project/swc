@@ -1212,9 +1212,9 @@ dependencies = [
 
 [[package]]
 name = "napi-build"
-version = "1.1.2"
+version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d46af3cd13ef452354c8704da88bfc4bfa38724ddb38963a5113099749710788"
+checksum = "d9584cc599cffd833a65527fb655bb65180f6ec8f26fba3081d2d989faa03bef"
 
 [[package]]
 name = "napi-derive"
@@ -2802,7 +2802,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.78.11"
+version = "0.78.12"
 dependencies = [
  "either",
  "enum_kind",
@@ -2844,7 +2844,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.68.0"
+version = "0.68.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2899,7 +2899,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.44.4"
+version = "0.44.5"
 dependencies = [
  "once_cell",
  "phf",
@@ -2932,7 +2932,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.53.0"
+version = "0.53.2"
 dependencies = [
  "ahash",
  "arrayvec",

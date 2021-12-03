@@ -17,8 +17,8 @@ var TypeScript1;
     }
     TypeScript.AstWalkOptions = AstWalkOptions;
     class AstWalker {
-        walk(ast, parent1) {
-            var preAst = this.pre(ast, parent1, this);
+        walk(ast, parent) {
+            var preAst = this.pre(ast, parent, this);
             if (preAst === undefined) {
                 preAst = ast;
             }
@@ -26,14 +26,14 @@ var TypeScript1;
                 var svGoSib = this.options.goNextSibling;
                 this.options.goNextSibling = true;
                 // Call the "walkChildren" function corresponding to "nodeType".
-                this.childrenWalkers[ast.nodeType](ast, parent1, this);
+                this.childrenWalkers[ast.nodeType](ast, parent, this);
                 this.options.goNextSibling = svGoSib;
             } else {
                 // no go only applies to children of node issuing it
                 this.options.goChildren = true;
             }
             if (this.post) {
-                var postAst = this.post(preAst, parent1, this);
+                var postAst = this.post(preAst, parent, this);
                 if (postAst === undefined) {
                     postAst = preAst;
                 }
@@ -51,17 +51,17 @@ var TypeScript1;
         }
     }
     class AstWalkerFactory {
-        walk(ast1, pre1, post1, options1, state1) {
-            return this.getWalker(pre1, post1, options1, state1).walk(ast1, null);
+        walk(ast, pre, post, options, state) {
+            return this.getWalker(pre, post, options, state).walk(ast, null);
         }
-        getWalker(pre2, post2, options2, state2) {
-            return this.getSlowWalker(pre2, post2, options2, state2);
+        getWalker(pre, post, options, state) {
+            return this.getSlowWalker(pre, post, options, state);
         }
-        getSlowWalker(pre3, post3, options3, state3) {
-            if (!options3) {
-                options3 = new AstWalkOptions();
+        getSlowWalker(pre, post, options, state) {
+            if (!options) {
+                options = new AstWalkOptions();
             }
-            return new AstWalker(this.childrenWalkers, pre3, post3, options3, state3);
+            return new AstWalker(this.childrenWalkers, pre, post, options, state);
         }
         initChildrenWalkers() {
             this.childrenWalkers[NodeType.None] = ChildrenWalkers1.walkNone;

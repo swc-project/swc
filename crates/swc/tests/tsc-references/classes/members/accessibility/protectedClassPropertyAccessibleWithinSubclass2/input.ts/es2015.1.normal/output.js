@@ -68,13 +68,13 @@ class Derived4 extends Derived2 {
         d4.x; // OK, accessed within a class derived from their declaring class, and through an instance of the enclosing class
     }
 }
-var b;
-var d1;
-var d2;
-var d3;
-var d4;
-b.x; // Error, neither within their declaring class nor classes derived from their declaring class
-d1.x; // Error, neither within their declaring class nor classes derived from their declaring class
-d2.x; // Error, neither within their declaring class nor classes derived from their declaring class
-d3.x; // Error, neither within their declaring class nor classes derived from their declaring class
-d4.x; // Error, neither within their declaring class nor classes derived from their declaring class
+var b1;
+var d11;
+var d21;
+var d31;
+var d41;
+b1.x; // Error, neither within their declaring class nor classes derived from their declaring class
+d11.x; // Error, neither within their declaring class nor classes derived from their declaring class
+d21.x; // Error, neither within their declaring class nor classes derived from their declaring class
+d31.x; // Error, neither within their declaring class nor classes derived from their declaring class
+d41.x; // Error, neither within their declaring class nor classes derived from their declaring class

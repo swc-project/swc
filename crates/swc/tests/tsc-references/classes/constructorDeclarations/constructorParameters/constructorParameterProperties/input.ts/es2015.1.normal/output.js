@@ -9,9 +9,9 @@ var r = c.y;
 var r2 = c.x; // error
 var r3 = c.z; // error
 class D {
-    constructor(a, x1, z1){
-        this.x = x1;
-        this.z = z1;
+    constructor(a, x, z){
+        this.x = x;
+        this.z = z;
     }
 }
 var d;

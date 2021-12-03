@@ -9,7 +9,7 @@ Ns.One = function() {
 Ns.Two = function() {
 };
 Ns.One.prototype = {
-    ok: function() {
+    ok: function ok() {
     }
 };
 Ns.Two.prototype = {

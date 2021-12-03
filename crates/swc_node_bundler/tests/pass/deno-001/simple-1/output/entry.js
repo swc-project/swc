@@ -13,12 +13,12 @@ class MuxAsyncIterator {
         ++this.iteratorCount;
         this.callIteratorNext(iterator);
     }
-    async callIteratorNext(iterator1) {
+    async callIteratorNext(iterator) {
         try {
-            const { value , done  } = await iterator1.next();
+            const { value , done  } = await iterator.next();
             if (done) --this.iteratorCount;
             else this.yields.push({
-                iterator: iterator1,
+                iterator,
                 value
             });
         } catch (e) {
@@ -373,8 +373,8 @@ async function readRequest(conn, bufr) {
     return req;
 }
 class Server {
-    constructor(listener1){
-        this.listener = listener1;
+    constructor(listener){
+        this.listener = listener;
         this.closing = false;
         this.connections = [];
     }
@@ -427,11 +427,11 @@ class Server {
         // might have been already closed
         }
     }
-    trackConnection(conn1) {
-        this.connections.push(conn1);
+    trackConnection(conn) {
+        this.connections.push(conn);
     }
-    untrackConnection(conn2) {
-        const index = this.connections.indexOf(conn2);
+    untrackConnection(conn) {
+        const index = this.connections.indexOf(conn);
         if (index !== -1) this.connections.splice(index, 1);
     }
     // Accepts a new TCP connection and yields all HTTP requests that arrive on

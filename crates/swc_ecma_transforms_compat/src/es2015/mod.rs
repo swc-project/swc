@@ -36,7 +36,6 @@ fn exprs() -> impl Fold {
         sticky_regex(),
         instance_of(),
         typeof_symbol(),
-        shorthand(),
     )
 }
 
@@ -51,6 +50,7 @@ where
         new_target(),
         classes(comments),
         spread(c.spread),
+        shorthand(),
         function_name(),
         exprs(),
         for_of(c.for_of),

@@ -11,7 +11,7 @@ Multimap3.prototype = {
     /**
      * @param {string} key
      * @returns {number} the value ok
-     */ get: function(key) {
+     */ get: function get(key) {
         return this._map[key + ''];
     }
 };

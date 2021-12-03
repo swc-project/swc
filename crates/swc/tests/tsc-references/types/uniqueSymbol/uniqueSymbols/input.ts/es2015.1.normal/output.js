@@ -325,8 +325,8 @@ class C0 {
     *method4() {
         yield s;
     }
-    method5(p1 = s) {
-        return p1;
+    method5(p = s) {
+        return p;
     }
     constructor(){
         this.a = s;
@@ -404,8 +404,8 @@ const ce0 = class _class {
     method1(p) {
         return p;
     }
-    method2(p2) {
-        return p2;
+    method2(p) {
+        return p;
     }
 };
 function funcInferredReturnType(obj) {

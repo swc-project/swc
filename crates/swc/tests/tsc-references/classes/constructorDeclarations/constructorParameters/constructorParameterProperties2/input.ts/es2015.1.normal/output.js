@@ -5,22 +5,22 @@ class C {
 var c;
 var r = c.y;
 class D {
-    constructor(y1){
-        this.y = y1;
+    constructor(y){
+        this.y = y;
     }
 }
 var d;
 var r2 = d.y;
 class E {
-    constructor(y2){
-        this.y = y2;
+    constructor(y){
+        this.y = y;
     }
 }
 var e;
 var r3 = e.y; // error
 class F {
-    constructor(y3){
-        this.y = y3;
+    constructor(y){
+        this.y = y;
     }
 }
 var f;

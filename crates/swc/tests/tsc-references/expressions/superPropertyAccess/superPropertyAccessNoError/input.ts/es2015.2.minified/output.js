@@ -25,7 +25,7 @@ new class extends SomeBaseClass {
     static get a() {
         return super.func(), null;
     }
-    static set a(n1) {
+    static set a(n) {
         super.func();
     }
     returnThis() {

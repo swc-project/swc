@@ -972,7 +972,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         // TODO: Optimize
         let mut has_escape = false;
-        let mut cooked = Some(String::new());
+        let mut cooked = Ok(String::new());
         let mut raw = String::new();
 
         while let Some(c) = self.cur() {
@@ -1002,17 +1002,13 @@ impl<'a, I: Input> Lexer<'a, I> {
                 let mut wrapped = Raw(Some(raw));
                 match self.read_escaped_char(&mut wrapped) {
                     Ok(Some(s)) => {
-                        if let Some(ref mut cooked) = cooked {
+                        if let Ok(ref mut cooked) = cooked {
                             cooked.extend(s);
                         }
                     }
                     Ok(None) => {}
                     Err(error) => {
-                        if self.target < EsVersion::Es2018 {
-                            return Err(error);
-                        } else {
-                            cooked = None;
-                        }
+                        cooked = Err(error);
                     }
                 }
                 raw = wrapped.0.unwrap();
@@ -1032,13 +1028,13 @@ impl<'a, I: Input> Lexer<'a, I> {
                     }
                 };
                 self.bump();
-                if let Some(ref mut cooked) = cooked {
+                if let Ok(ref mut cooked) = cooked {
                     cooked.push(c);
                 }
                 raw.push(c);
             } else {
                 self.bump();
-                if let Some(ref mut cooked) = cooked {
+                if let Ok(ref mut cooked) = cooked {
                     cooked.push(c);
                 }
                 raw.push(c);

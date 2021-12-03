@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 class ServiceError extends Error {
-    constructor(...args1){
-        super(...args1);
+    constructor(...args){
+        super(...args);
         this.code = ServiceError.Code.badResponse;
         this.name = "ServiceError.BadResponse";
     }

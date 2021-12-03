@@ -30,7 +30,7 @@ function _asyncToGenerator(fn) {
 }
 // @target: esnext
 ({
-    m: function() {
+    m: function m() {
         return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){

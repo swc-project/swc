@@ -55,7 +55,7 @@ var sameName6a = {
 };
 // PropertyName CallSignature{FunctionBody} is equivalent to PropertyName:function CallSignature{FunctionBody}
 var callSig1 = {
-    num: function(n) {
+    num: function num(n) {
         return '';
     }
 };

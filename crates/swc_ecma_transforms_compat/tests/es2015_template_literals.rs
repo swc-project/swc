@@ -149,8 +149,6 @@ expect(fn).toThrow(TypeError);"#
 );
 
 test!(
-    // TODO: Fix parser
-    ignore,
     syntax(),
     |_| tr(Default::default()),
     template_revision,
@@ -165,99 +163,122 @@ function a() {
   var undefined = 4;
   tag`\01`;
 }"#,
-    r#"
-function _templateObject8() {
-  const data = _taggedTemplateLiteral([void 0], ["\\01"]);
-
-  _templateObject8 = function () {
+    r#"function _templateObject() {
+    const data = _taggedTemplateLiteral([
+        void 0
+    ], [
+        "\\unicode and \\u{55}"
+    ]);
+    _templateObject = function() {
+        return data;
+    };
     return data;
-  };
-
-  return data;
 }
-
-function _templateObject7() {
-  const data = _taggedTemplateLiteral(["left", void 0, "right"], ["left", "\\u{-0}", "right"]);
-
-  _templateObject7 = function () {
+function _templateObject1() {
+    const data = _taggedTemplateLiteral([
+        void 0
+    ], [
+        "\\01"
+    ]);
+    _templateObject1 = function() {
+        return data;
+    };
     return data;
-  };
-
-  return data;
 }
-
-function _templateObject6() {
-  const data = _taggedTemplateLiteral(["left", void 0, "right"], ["left", "\\u000g", "right"]);
-
-  _templateObject6 = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject5() {
-  const data = _taggedTemplateLiteral(["left", void 0, "right"], ["left", "\\xg", "right"]);
-
-  _templateObject5 = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject4() {
-  const data = _taggedTemplateLiteral(["left", void 0], ["left", "\\xg"]);
-
-  _templateObject4 = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject3() {
-  const data = _taggedTemplateLiteral([void 0, "right"], ["\\xg", "right"]);
-
-  _templateObject3 = function () {
-    return data;
-  };
-
-  return data;
-}
-
 function _templateObject2() {
-  const data = _taggedTemplateLiteral([void 0], ["\\01"]);
-
-  _templateObject2 = function () {
+    const data = _taggedTemplateLiteral([
+        void 0,
+        "right"
+    ], [
+        "\\xg",
+        "right"
+    ]);
+    _templateObject2 = function() {
+        return data;
+    };
     return data;
-  };
-
-  return data;
 }
-
-function _templateObject() {
-  const data = _taggedTemplateLiteral([void 0], ["\\unicode and \\u{55}"]);
-
-  _templateObject = function () {
+function _templateObject3() {
+    const data = _taggedTemplateLiteral([
+        "left",
+        void 0
+    ], [
+        "left",
+        "\\xg"
+    ]);
+    _templateObject3 = function() {
+        return data;
+    };
     return data;
-  };
-
-  return data;
 }
-
+function _templateObject4() {
+    const data = _taggedTemplateLiteral([
+        "left",
+        void 0,
+        "right"
+    ], [
+        "left",
+        "\\xg",
+        "right"
+    ]);
+    _templateObject4 = function() {
+        return data;
+    };
+    return data;
+}
+function _templateObject5() {
+    const data = _taggedTemplateLiteral([
+        "left",
+        void 0,
+        "right"
+    ], [
+        "left",
+        "\\u000g",
+        "right"
+    ]);
+    _templateObject5 = function() {
+        return data;
+    };
+    return data;
+}
+function _templateObject6() {
+    const data = _taggedTemplateLiteral([
+        "left",
+        void 0,
+        "right"
+    ], [
+        "left",
+        "\\u{-0}",
+        "right"
+    ]);
+    _templateObject6 = function() {
+        return data;
+    };
+    return data;
+}
+function _templateObject7() {
+    const data = _taggedTemplateLiteral([
+        void 0
+    ], [
+        "\\01"
+    ]);
+    _templateObject7 = function() {
+        return data;
+    };
+    return data;
+}
 tag(_templateObject());
-tag(_templateObject2());
+tag(_templateObject1());
+tag(_templateObject2(), 0);
 tag(_templateObject3(), 0);
-tag(_templateObject4(), 0);
+tag(_templateObject4(), 0, 1);
 tag(_templateObject5(), 0, 1);
 tag(_templateObject6(), 0, 1);
-tag(_templateObject7(), 0, 1);
-
 function a() {
-  var undefined = 4;
-  tag(_templateObject8());
-}"#
+    var undefined = 4;
+    tag(_templateObject7());
+}"#,
+    ok_if_code_eq
 );
 
 // default_order_exec

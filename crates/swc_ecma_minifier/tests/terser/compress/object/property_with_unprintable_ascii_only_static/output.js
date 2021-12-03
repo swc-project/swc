@@ -1,8 +1,8 @@
-class foo {
+class foo1 {
     static get "\x02\x03"() {
         return "bar";
     }
-    static set "\x04\x05"(foo1) {
-        save(foo1);
+    static set "\x04\x05"(foo) {
+        save(foo);
     }
 }

@@ -1,7 +1,7 @@
 class C {
     static m(x) {
     }
-    m(x1) {
+    m(x) {
     }
     constructor(){
         this.p = (x)=>{

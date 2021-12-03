@@ -65,7 +65,7 @@ var b7 = /*#__PURE__*/ React.createElement(MainButton, _extends({
 }));
 var b8 = /*#__PURE__*/ React.createElement(MainButton, _extends({
 }, {
-    onClick: function() {
+    onClick: function onClick() {
     }
 })); // OK; method declaration get retained (See GitHub #13365)
 var b9 = /*#__PURE__*/ React.createElement(MainButton, {

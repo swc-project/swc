@@ -10,7 +10,7 @@ class C {
 }
 new C().f(1, ""), new C().f(1, ""), i.f(1, ""), i.f(1, "");
 class C2 {
-    f(x1, y1) {
+    f(x, y) {
         return null;
     }
 }

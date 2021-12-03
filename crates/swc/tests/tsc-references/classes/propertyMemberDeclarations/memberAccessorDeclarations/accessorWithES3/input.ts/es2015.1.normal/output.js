@@ -6,7 +6,7 @@ class C {
     }
 }
 class D {
-    set x(v1) {
+    set x(v) {
     }
 }
 var x = {

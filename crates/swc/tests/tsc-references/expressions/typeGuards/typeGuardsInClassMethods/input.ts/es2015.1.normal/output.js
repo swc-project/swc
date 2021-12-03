@@ -15,42 +15,42 @@ class C1 {
         num = typeof param === "string" && param.length; // string
     }
     // Inside function declaration
-    p2(param1) {
+    p2(param) {
         // global vars in function declaration
         num = typeof var1 === "string" && var1.length; // string
         // variables in function declaration
         var var2;
         num = typeof var2 === "string" && var2.length; // string
         // parameters in function declaration
-        num = typeof param1 === "string" && param1.length; // string
+        num = typeof param === "string" && param.length; // string
     }
     // Inside function declaration
-    static s1(param2) {
+    static s1(param) {
         // global vars in function declaration
         num = typeof var1 === "string" && var1.length; // string
         // variables in function declaration
         var var2;
         num = typeof var2 === "string" && var2.length; // string
         // parameters in function declaration
-        num = typeof param2 === "string" && param2.length; // string
+        num = typeof param === "string" && param.length; // string
     }
     // Inside function declaration
-    static s2(param3) {
+    static s2(param) {
         // global vars in function declaration
         num = typeof var1 === "string" && var1.length; // string
         // variables in function declaration
         var var2;
         num = typeof var2 === "string" && var2.length; // string
         // parameters in function declaration
-        num = typeof param3 === "string" && param3.length; // string
+        num = typeof param === "string" && param.length; // string
     }
-    constructor(param4){
+    constructor(param){
         // global vars in function declaration
         num = typeof var1 === "string" && var1.length; // string
         // variables in function declaration
         var var2;
         num = typeof var2 === "string" && var2.length; // string
         // parameters in function declaration
-        num = typeof param4 === "string" && param4.length; // string
+        num = typeof param === "string" && param.length; // string
     }
 }
