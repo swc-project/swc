@@ -121,15 +121,46 @@ impl Serialize for ObjectMethod {
                         .serialize(serde::__private::ser::FlatMapSerializer(&mut s))?;
                 }
 
-                s.serialize_entry("type", "ObjectMethod")?;
-                s.serialize_entry("method", &true)?;
+                s.serialize_entry("type", "Property")?;
+                s.serialize_entry("kind", &self.kind)?;
+                s.serialize_entry("method", &false)?;
+                s.serialize_entry("shorthand", &false)?;
                 s.serialize_entry("key", &self.key)?;
                 s.serialize_entry("computed", &self.computed)?;
+
+                s.serialize_entry(
+                    "value",
+                    &AcornObjectMethodValue {
+                        type_: "FunctionExpression",
+                        base: &self.base,
+                        body: &self.body,
+                        params: &self.params,
+                        generator: self.generator.unwrap_or(false),
+                        is_async: self.is_async.unwrap_or(false),
+                    },
+                )?;
 
                 s.end()
             }
         }
     }
+}
+
+#[derive(Serialize)]
+struct AcornObjectMethodValue<'a> {
+    /// `FuncionExpression`
+    #[serde(rename = "type")]
+    type_: &'static str,
+    #[serde(flatten)]
+    base: &'a BaseNode,
+
+    body: &'a BlockStatement,
+
+    params: &'a [Param],
+
+    generator: bool,
+    #[serde(rename = "async")]
+    is_async: bool,
 }
 
 #[derive(Serialize)]
