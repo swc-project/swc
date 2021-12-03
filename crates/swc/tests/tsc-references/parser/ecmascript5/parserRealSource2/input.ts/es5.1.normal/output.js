@@ -6,7 +6,7 @@ var TypeScript;
     var hasFlag = function hasFlag(val, flag) {
         return (val & flag) != 0;
     };
-    var ToDeclFlags = function ToDeclFlags(fncOrVarOrSymbolOrModuleFlags1) {
+    var ToDeclFlags = function ToDeclFlags(fncOrVarOrSymbolOrModuleFlags) {
         return fncOrVarOrSymbolOrModuleFlags;
     };
     var flagsToString = function flagsToString(e, flags) {

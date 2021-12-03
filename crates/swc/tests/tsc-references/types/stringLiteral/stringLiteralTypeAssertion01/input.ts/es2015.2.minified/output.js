@@ -1,2 +1,2 @@
-var s1, t1, str1;
-s1 = t, s1 = t1, s1 = str, s1 = str1, t1 = s, t1 = s1, t1 = str, t1 = str1, str1 = s, str1 = s1, str1 = t, str1 = t1;
+var s, t, str;
+s = t, s = t, s = str, s = str, t = s, t = s, t = str, t = str, str = s, str = s, str = t, str = t;

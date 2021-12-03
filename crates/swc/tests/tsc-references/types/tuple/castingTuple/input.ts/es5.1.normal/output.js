@@ -113,15 +113,15 @@ var E2;
 })(E2 || (E2 = {
 }));
 // no error
-var numStrTuple1 = [
+var numStrTuple = [
     5,
     "foo"
 ];
-var emptyObjTuple1 = numStrTuple;
+var emptyObjTuple = numStrTuple;
 var numStrBoolTuple = numStrTuple;
 var shorter = numStrBoolTuple;
-var longer = numStrTuple1;
-var classCDTuple1 = [
+var longer = numStrTuple;
+var classCDTuple = [
     new C(),
     new D()
 ];
@@ -129,7 +129,7 @@ var interfaceIITuple = classCDTuple;
 var classCDATuple = classCDTuple;
 var eleFromCDA1 = classCDATuple[2]; // A
 var eleFromCDA2 = classCDATuple[5]; // C | D | A
-var t101 = [
+var t10 = [
     E1.one,
     E2.one
 ];
@@ -144,7 +144,7 @@ var unionTuple2 = [
     "foo",
     new D()
 ];
-var unionTuple31 = [
+var unionTuple3 = [
     10,
     "foo"
 ];

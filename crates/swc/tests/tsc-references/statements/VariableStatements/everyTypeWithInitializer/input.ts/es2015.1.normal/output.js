@@ -1,4 +1,4 @@
-class C1 {
+class C {
 }
 class D {
 }
@@ -23,7 +23,7 @@ var anObject = new Object();
 var anAny = null;
 var anOtherAny = new C();
 var anUndefined = undefined;
-var aClass = new C1();
+var aClass = new C();
 var aGenericClass = new D();
 var anObjectLiteral = {
     id: 12

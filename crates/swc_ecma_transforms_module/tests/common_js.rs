@@ -99,7 +99,7 @@ test!(
         let scope = Rc::new(RefCell::new(Scope::default()));
         chain!(
             resolver_with_mark(mark),
-            // Optional::new(typescript::strip(), syntax.typescript()),
+            // Optional::new(typescript::strip(mark), syntax.typescript()),
             import_analyzer(Rc::clone(&scope)),
             inject_helpers(),
             common_js(mark, Default::default(), Some(scope)),

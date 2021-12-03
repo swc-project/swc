@@ -122,24 +122,24 @@ var TypeScript;
             path.pop();
             return cur;
         };
-        var path1 = new AstPath1();
+        var path1 = new AstPath();
         TypeScript.getAstWalkerFactory().walk(ast, pre, post, null, path1);
     };
     TypeScript1.lastOf = lastOf;
     TypeScript1.max = max;
     TypeScript1.min = min;
-    var AstPath1 = /*#__PURE__*/ function() {
+    var AstPath = /*#__PURE__*/ function() {
         "use strict";
-        function AstPath1() {
-            _classCallCheck(this, AstPath1);
+        function AstPath() {
+            _classCallCheck(this, AstPath);
             this.asts = [];
             this.top = -1;
         }
-        _createClass(AstPath1, [
+        _createClass(AstPath, [
             {
                 key: "clone",
                 value: function clone() {
-                    var clone1 = new AstPath1();
+                    var clone1 = new AstPath();
                     clone1.asts = this.asts.map(function(value) {
                         return value;
                     });
@@ -527,9 +527,9 @@ var TypeScript;
                 }
             }
         ]);
-        return AstPath1;
+        return AstPath;
     }();
-    TypeScript1.AstPath = AstPath1;
+    TypeScript1.AstPath = AstPath;
     TypeScript1.isValidAstNode = isValidAstNode;
     var AstPathContext = function AstPathContext() {
         "use strict";

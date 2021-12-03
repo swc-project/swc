@@ -42,14 +42,14 @@ var TypeScript;
         }
     }
     TypeScript1.PrintContext = PrintContext;
-    function prePrintAST(ast, parent, walker1) {
+    function prePrintAST(ast, parent, walker) {
         var pc = walker.state;
         ast.print(pc);
         pc.increaseIndent();
         return ast;
     }
     TypeScript1.prePrintAST = prePrintAST;
-    function postPrintAST(ast, parent, walker2) {
+    function postPrintAST(ast, parent, walker) {
         var pc = walker.state;
         pc.decreaseIndent();
         return ast;

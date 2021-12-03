@@ -26,9 +26,9 @@ var TypeScript, TypeScript1;
     constructor(outfile, parser){
         this.outfile = outfile, this.parser = parser, this.builder = "", this.indent1 = "  ", this.indentStrings = [], this.indentAmt = 0;
     }
-}, TypeScript1.prePrintAST = function(ast, parent, walker1) {
+}, TypeScript1.prePrintAST = function(ast, parent, walker) {
     var pc = walker.state;
     return ast.print(pc), pc.increaseIndent(), ast;
-}, TypeScript1.postPrintAST = function(ast, parent, walker2) {
+}, TypeScript1.postPrintAST = function(ast, parent, walker) {
     return walker.state.decreaseIndent(), ast;
 };

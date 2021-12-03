@@ -10,12 +10,12 @@ var TypeScript;
     TypeScript1.lastOf = lastOf, TypeScript1.max = max, TypeScript1.min = function(a, b) {
         return a <= b ? a : b;
     };
-    class AstPath1 {
+    class AstPath {
         static reverseIndexOf(items, index) {
             return null === items || items.length <= index ? null : items[items.length - index - 1];
         }
         clone() {
-            var clone = new AstPath1();
+            var clone = new AstPath();
             return clone.asts = this.asts.map((value)=>value
             ), clone.top = this.top, clone;
         }
@@ -210,7 +210,7 @@ var TypeScript;
     function isValidAstNode(ast) {
         return null !== ast && -1 !== ast.minChar && -1 !== ast.limChar;
     }
-    TypeScript1.AstPath = AstPath1, TypeScript1.isValidAstNode = isValidAstNode;
+    TypeScript1.AstPath = AstPath, TypeScript1.isValidAstNode = isValidAstNode;
     class AstPathContext {
         constructor(){
             this.path = new TypeScript.AstPath();
@@ -242,7 +242,7 @@ var TypeScript;
         ;
         return TypeScript.getAstWalkerFactory().walk(script, pre), bestOffset;
     }, TypeScript1.walkAST = function(ast, callback) {
-        var path1 = new AstPath1();
+        var path1 = new AstPath();
         TypeScript.getAstWalkerFactory().walk(ast, function(cur, parent, walker) {
             var path = walker.state;
             return path.push(cur), callback(path, walker), cur;

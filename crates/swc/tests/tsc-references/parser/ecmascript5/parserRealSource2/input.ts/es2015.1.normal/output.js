@@ -206,7 +206,7 @@ var TypeScript;
         SignatureFlags[SignatureFlags["IsNumberIndexer"] = 4] = "IsNumberIndexer";
     })(SignatureFlags || (SignatureFlags = {
     }));
-    function ToDeclFlags(fncOrVarOrSymbolOrModuleFlags1) {
+    function ToDeclFlags(fncOrVarOrSymbolOrModuleFlags) {
         return fncOrVarOrSymbolOrModuleFlags;
     }
     TypeScript1.ToDeclFlags = ToDeclFlags;

@@ -94,15 +94,15 @@ var TypeScript;
         context.scopeChain = context.scopeChain.previous;
     }
     TypeScript1.popTypeCollectionScope = popTypeCollectionScope;
-    function preFindEnclosingScope(ast1, parent, walker) {
+    function preFindEnclosingScope(ast, parent, walker) {
         var context = walker.state;
-        var minChar = ast1.minChar;
-        var limChar = ast1.limChar;
+        var minChar = ast.minChar;
+        var limChar = ast.limChar;
         // Account for the fact completion list may be called at the end of a file which
         // is has not been fully re-parsed yet.
-        if (ast1.nodeType == NodeType.Script && context.pos > limChar) limChar = context.pos;
+        if (ast.nodeType == NodeType.Script && context.pos > limChar) limChar = context.pos;
         if (minChar <= context.pos && limChar >= context.pos) {
-            switch(ast1.nodeType){
+            switch(ast.nodeType){
                 case NodeType.Script:
                     var script = ast;
                     context.scopeGetter = function() {
@@ -112,9 +112,9 @@ var TypeScript;
                     break;
                 case NodeType.ClassDeclaration:
                     context.scopeGetter = function() {
-                        return ast1.type === null || ast1.type.instanceType.containedScope === null ? null : ast1.type.instanceType.containedScope;
+                        return ast.type === null || ast.type.instanceType.containedScope === null ? null : ast.type.instanceType.containedScope;
                     };
-                    context.scopeStartAST = ast1;
+                    context.scopeStartAST = ast;
                     context.enclosingClassDecl = ast;
                     break;
                 case NodeType.ObjectLit:
@@ -133,15 +133,15 @@ var TypeScript;
                 case NodeType.ModuleDeclaration:
                     context.deepestModuleDecl = ast;
                     context.scopeGetter = function() {
-                        return ast1.type === null ? null : ast1.type.containedScope;
+                        return ast.type === null ? null : ast.type.containedScope;
                     };
-                    context.scopeStartAST = ast1;
+                    context.scopeStartAST = ast;
                     break;
                 case NodeType.InterfaceDeclaration:
                     context.scopeGetter = function() {
-                        return ast1.type === null ? null : ast1.type.containedScope;
+                        return ast.type === null ? null : ast.type.containedScope;
                     };
-                    context.scopeStartAST = ast1;
+                    context.scopeStartAST = ast;
                     break;
                 case NodeType.FuncDecl:
                     {
@@ -152,8 +152,8 @@ var TypeScript;
                             context.scopeGetter = function() {
                                 // The scope of a class constructor is hidden somewhere we don't expect :-S
                                 if (funcDecl.isConstructor && hasFlag(funcDecl.fncFlags, FncFlags.ClassMethod)) {
-                                    if (ast1.type && ast1.type.enclosingType) {
-                                        return ast1.type.enclosingType.constructorScope;
+                                    if (ast.type && ast.type.enclosingType) {
+                                        return ast.type.enclosingType.constructorScope;
                                     }
                                 }
                                 if (funcDecl.scopeType) {
@@ -164,7 +164,7 @@ var TypeScript;
                                 }
                                 return null;
                             };
-                            context.scopeStartAST = ast1;
+                            context.scopeStartAST = ast;
                         }
                     }
                     break;
@@ -173,7 +173,7 @@ var TypeScript;
         } else {
             walker.options.goChildren = false;
         }
-        return ast1;
+        return ast;
     }
     TypeScript1.preFindEnclosingScope = preFindEnclosingScope;
     function findEnclosingScopeAt(logger, script, text, pos, isMemberCompletion) {

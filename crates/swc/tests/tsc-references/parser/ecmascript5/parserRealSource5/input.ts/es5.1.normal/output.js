@@ -22,13 +22,13 @@ function _createClass(Constructor, protoProps, staticProps) {
 ///<reference path='typescript.ts' />
 var TypeScript;
 (function(TypeScript1) {
-    var prePrintAST = function prePrintAST(ast, parent, walker1) {
+    var prePrintAST = function prePrintAST(ast, parent, walker) {
         var pc = walker.state;
         ast.print(pc);
         pc.increaseIndent();
         return ast;
     };
-    var postPrintAST = function postPrintAST(ast, parent, walker2) {
+    var postPrintAST = function postPrintAST(ast, parent, walker) {
         var pc = walker.state;
         pc.decreaseIndent();
         return ast;
