@@ -123,10 +123,10 @@ var Options = function Options() {
     _classCallCheck(this, Options);
 };
 var E;
-(function(E1) {
-    E1[E1["A"] = 0] = "A";
-    E1[E1["B"] = 1] = "B";
-    E1[E1["C"] = 2] = "C";
+(function(E) {
+    E[E["A"] = 0] = "A";
+    E[E["B"] = 1] = "B";
+    E[E["C"] = 2] = "C";
 })(E || (E = {
 }));
 function getProperty(obj, key) {
@@ -676,9 +676,9 @@ function f3(t, k, tk) {
     }
 }
 var Flag;
-(function(Flag1) {
-    Flag1["FLAG_1"] = "flag_1";
-    Flag1["FLAG_2"] = "flag_2";
+(function(Flag) {
+    Flag["FLAG_1"] = "flag_1";
+    Flag["FLAG_2"] = "flag_2";
 })(Flag || (Flag = {
 }));
 function getFlagsFromSimpleRecord(record, flags) {

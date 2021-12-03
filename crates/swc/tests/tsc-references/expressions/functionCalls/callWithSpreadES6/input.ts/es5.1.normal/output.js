@@ -132,7 +132,7 @@ function foo(x, y) {
 var a;
 var z;
 var obj;
-var xa;
+var xa1;
 foo(1, 2, "abc");
 foo.apply(void 0, [
     1,
@@ -166,12 +166,12 @@ obj.foo.apply(this, [
 ].concat(_toConsumableArray(a), [
     "abc"
 ]));
-xa[1].foo(1, 2, "abc");
-(_instance = xa[1]).foo.apply(_instance, [
+xa1[1].foo(1, 2, "abc");
+(_instance = xa1[1]).foo.apply(_instance, [
     1,
     2
 ].concat(_toConsumableArray(a)));
-(_instance1 = xa[1]).foo.apply(_instance1, [
+(_instance1 = xa1[1]).foo.apply(_instance1, [
     1,
     2
 ].concat(_toConsumableArray(a), [

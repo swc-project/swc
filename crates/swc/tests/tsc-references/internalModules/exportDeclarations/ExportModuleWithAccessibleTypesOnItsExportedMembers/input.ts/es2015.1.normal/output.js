@@ -7,7 +7,7 @@ var A;
         }
     }
     A1.Point = Point;
-    var B1;
+    let B1;
     (function(B) {
         B.Origin = new Point(0, 0);
         class Line {

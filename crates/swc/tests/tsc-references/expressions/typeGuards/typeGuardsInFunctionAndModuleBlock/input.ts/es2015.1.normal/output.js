@@ -39,7 +39,7 @@ function foo5(x) {
 var m;
 (function(m) {
     var x;
-    var m2;
+    let m2;
     (function(m2) {
         var b = x; // new scope - number | boolean | string
         var y;

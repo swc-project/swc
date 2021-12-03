@@ -42,7 +42,7 @@ var TypeScript;
     var instanceFilterStop = function instanceFilterStop(s) {
         return s.isInstanceProperty();
     };
-    var preAssignModuleScopes = function preAssignModuleScopes(ast, context) {
+    var preAssignModuleScopes = function preAssignModuleScopes(ast1, context) {
         var moduleDecl = ast;
         var memberScope = null;
         var aggScope = null;
@@ -67,50 +67,50 @@ var TypeScript;
             context.typeFlow.addLocalsFromScope(mod.containedScope, mod.symbol, moduleDecl.vars, mod.members.privateMembers, true);
         }
     };
-    var preAssignClassScopes = function preAssignClassScopes(ast, context) {
+    var preAssignClassScopes = function preAssignClassScopes(ast2, context1) {
         var classDecl = ast;
         var memberScope = null;
         var aggScope = null;
         if (classDecl.name && classDecl.type) {
             classDecl.name.sym = classDecl.type.symbol;
         }
-        var classType = ast.type;
-        if (classType) {
-            var classSym = classType.symbol;
+        var classType1 = ast2.type;
+        if (classType1) {
+            var classSym = classType1.symbol;
             memberScope = context.typeFlow.checker.scopeOf(classType);
-            aggScope = new SymbolAggregateScope(classType.symbol);
+            aggScope = new SymbolAggregateScope(classType1.symbol);
             aggScope.addParentScope(memberScope);
-            aggScope.addParentScope(context.scopeChain.scope);
-            classType.containedScope = aggScope;
-            classType.memberScope = memberScope;
-            var instanceType = classType.instanceType;
+            aggScope.addParentScope(context1.scopeChain.scope);
+            classType1.containedScope = aggScope;
+            classType1.memberScope = memberScope;
+            var instanceType1 = classType1.instanceType;
             memberScope = context.typeFlow.checker.scopeOf(instanceType);
-            instanceType.memberScope = memberScope;
-            aggScope = new SymbolAggregateScope(instanceType.symbol);
-            aggScope.addParentScope(context.scopeChain.scope);
-            pushAssignScope(aggScope, context, instanceType, classType, null);
-            instanceType.containedScope = aggScope;
+            instanceType1.memberScope = memberScope;
+            aggScope = new SymbolAggregateScope(instanceType1.symbol);
+            aggScope.addParentScope(context1.scopeChain.scope);
+            pushAssignScope(aggScope, context1, instanceType1, classType1, null);
+            instanceType1.containedScope = aggScope;
         } else {
-            ast.type = context.typeFlow.anyType;
+            ast2.type = context1.typeFlow.anyType;
         }
     };
-    var preAssignInterfaceScopes = function preAssignInterfaceScopes(ast, context) {
+    var preAssignInterfaceScopes = function preAssignInterfaceScopes(ast3, context2) {
         var interfaceDecl = ast;
         var memberScope = null;
         var aggScope = null;
         if (interfaceDecl.name && interfaceDecl.type) {
             interfaceDecl.name.sym = interfaceDecl.type.symbol;
         }
-        var interfaceType = ast.type;
+        var interfaceType1 = ast3.type;
         memberScope = context.typeFlow.checker.scopeOf(interfaceType);
-        interfaceType.memberScope = memberScope;
-        aggScope = new SymbolAggregateScope(interfaceType.symbol);
+        interfaceType1.memberScope = memberScope;
+        aggScope = new SymbolAggregateScope(interfaceType1.symbol);
         aggScope.addParentScope(memberScope);
-        aggScope.addParentScope(context.scopeChain.scope);
-        pushAssignScope(aggScope, context, null, null, null);
-        interfaceType.containedScope = aggScope;
+        aggScope.addParentScope(context2.scopeChain.scope);
+        pushAssignScope(aggScope, context2, null, null, null);
+        interfaceType1.containedScope = aggScope;
     };
-    var preAssignWithScopes = function preAssignWithScopes(ast, context) {
+    var preAssignWithScopes = function preAssignWithScopes(ast4, context) {
         var withStmt = ast;
         var withType = withStmt.type;
         var members = new ScopedMembers(new DualStringHashTable(new StringHashTable(), new StringHashTable()));
@@ -126,23 +126,23 @@ var TypeScript;
         pushAssignScope(withScope, context, null, null, null);
         withType.containedScope = withScope;
     };
-    var preAssignFuncDeclScopes = function preAssignFuncDeclScopes(ast, context) {
+    var preAssignFuncDeclScopes = function preAssignFuncDeclScopes(ast5, context3) {
         var funcDecl = ast;
-        var container = null;
+        var container1 = null;
         var localContainer = null;
         if (funcDecl.type) {
-            localContainer = ast.type.symbol;
+            localContainer = ast5.type.symbol;
         }
         var isStatic = hasFlag(funcDecl.fncFlags, FncFlags.Static);
-        var isInnerStatic = isStatic && context.scopeChain.fnc != null;
+        var isInnerStatic = isStatic && context3.scopeChain.fnc != null;
         // for inner static functions, use the parent's member scope, so local vars cannot be captured
-        var parentScope = isInnerStatic ? context.scopeChain.fnc.type.memberScope : context.scopeChain.scope;
+        var parentScope = isInnerStatic ? context3.scopeChain.fnc.type.memberScope : context3.scopeChain.scope;
         // if this is not a method, but enclosed by class, use constructor as
         // the enclosing scope
         // REVIEW: Some twisted logic here - this needs to be cleaned up once old classes are removed
         //  - if it's a new class, always use the contained scope, since we initialize the constructor scope below
-        if (context.scopeChain.thisType && (!funcDecl.isConstructor || hasFlag(funcDecl.fncFlags, FncFlags.ClassMethod))) {
-            var instType = context.scopeChain.thisType;
+        if (context3.scopeChain.thisType && (!funcDecl.isConstructor || hasFlag(funcDecl.fncFlags, FncFlags.ClassMethod))) {
+            var instType = context3.scopeChain.thisType;
             if (!(instType.typeFlags & TypeFlags.IsClass) && !hasFlag(funcDecl.fncFlags, FncFlags.ClassMethod)) {
                 if (!funcDecl.isMethod() || isStatic) {
                     parentScope = instType.constructorScope;
@@ -151,43 +151,43 @@ var TypeScript;
                     parentScope = instType.containedScope;
                 }
             } else {
-                if (context.scopeChain.previous.scope.container && context.scopeChain.previous.scope.container.declAST && context.scopeChain.previous.scope.container.declAST.nodeType == NodeType.FuncDecl && context.scopeChain.previous.scope.container.declAST.isConstructor) {
+                if (context3.scopeChain.previous.scope.container && context3.scopeChain.previous.scope.container.declAST && context3.scopeChain.previous.scope.container.declAST.nodeType == NodeType.FuncDecl && context.scopeChain.previous.scope.container.declAST.isConstructor) {
                     // if the parent is the class constructor, use the constructor scope
                     parentScope = instType.constructorScope;
-                } else if (isStatic && context.scopeChain.classType) {
-                    parentScope = context.scopeChain.classType.containedScope;
+                } else if (isStatic && context3.scopeChain.classType) {
+                    parentScope = context3.scopeChain.classType.containedScope;
                 } else {
                     // else, use the contained scope
                     parentScope = instType.containedScope;
                 }
             }
-            container = instType.symbol;
-        } else if (funcDecl.isConstructor && context.scopeChain.thisType) {
+            container1 = instType.symbol;
+        } else if (funcDecl.isConstructor && context3.scopeChain.thisType) {
             // sets the container to the class type's symbol (which is shared by the instance type)
-            container = context.scopeChain.thisType.symbol;
+            container1 = context3.scopeChain.thisType.symbol;
         }
         if (funcDecl.type == null || hasFlag(funcDecl.type.symbol.flags, SymbolFlags.TypeSetDuringScopeAssignment)) {
-            if (context.scopeChain.fnc && context.scopeChain.fnc.type) {
-                container = context.scopeChain.fnc.type.symbol;
+            if (context3.scopeChain.fnc && context3.scopeChain.fnc.type) {
+                container1 = context3.scopeChain.fnc.type.symbol;
             }
             var funcScope = null;
-            var outerFnc = context.scopeChain.fnc;
+            var outerFnc = context3.scopeChain.fnc;
             var nameText = funcDecl.name ? funcDecl.name.actualText : null;
             var fgSym = null;
             if (isStatic) {
                 // In the case of function-nested statics, no member list will have bee initialized for the function, so we need
                 // to copy it over.  We don't set this by default because having a non-null member list will throw off assignment
                 // compatibility tests
-                if (outerFnc.type.members == null && container.getType().memberScope) {
+                if (outerFnc.type.members == null && container1.getType().memberScope) {
                     outerFnc.type.members = container.type.memberScope.valueMembers;
                 }
-                funcScope = context.scopeChain.fnc.type.memberScope;
+                funcScope = context3.scopeChain.fnc.type.memberScope;
                 outerFnc.innerStaticFuncs[outerFnc.innerStaticFuncs.length] = funcDecl;
             } else {
-                if (!funcDecl.isConstructor && container && container.declAST && container.declAST.nodeType == NodeType.FuncDecl && container.declAST.isConstructor && !funcDecl.isMethod()) {
-                    funcScope = context.scopeChain.thisType.constructorScope; //locals;
+                if (!funcDecl.isConstructor && container1 && container1.declAST && container1.declAST.nodeType == NodeType.FuncDecl && container.declAST.isConstructor && !funcDecl.isMethod()) {
+                    funcScope = context3.scopeChain.thisType.constructorScope; //locals;
                 } else {
-                    funcScope = context.scopeChain.scope;
+                    funcScope = context3.scopeChain.scope;
                 }
             }
             // REVIEW: We don't search for another sym for accessors to prevent us from
@@ -201,10 +201,10 @@ var TypeScript;
                     fgSym = funcScope.findLocal(nameText, false, false);
                 }
             }
-            context.typeFlow.checker.createFunctionSignature(funcDecl, container, funcScope, fgSym, fgSym == null);
+            context3.typeFlow.checker.createFunctionSignature(funcDecl, container1, funcScope, fgSym, fgSym == null);
             // it's a getter or setter for a class property                     
-            if (!funcDecl.accessorSymbol && funcDecl.fncFlags & FncFlags.ClassMethod && container && (!fgSym || fgSym.declAST.nodeType != NodeType.FuncDecl) && funcDecl.isAccessor() || fgSym && fgSym.isAccessor()) {
-                funcDecl.accessorSymbol = context.typeFlow.checker.createAccessorSymbol(funcDecl, fgSym, container.getType(), funcDecl.isMethod() && isStatic, true, funcScope, container);
+            if (!funcDecl.accessorSymbol && funcDecl.fncFlags & FncFlags.ClassMethod && container1 && (!fgSym || fgSym.declAST.nodeType != NodeType.FuncDecl) && funcDecl.isAccessor() || fgSym && fgSym.isAccessor()) {
+                funcDecl.accessorSymbol = context3.typeFlow.checker.createAccessorSymbol(funcDecl, fgSym, container1.getType(), funcDecl.isMethod() && isStatic, true, funcScope, container1);
             }
             funcDecl.type.symbol.flags |= SymbolFlags.TypeSetDuringScopeAssignment;
         }
@@ -228,11 +228,11 @@ var TypeScript;
         var ambientFuncStaticTable = new StringHashTable();
         var ambientFuncStaticMembers = new ScopedMembers(new DualStringHashTable(ambientFuncStaticTable, new StringHashTable()));
         // REVIEW: Is it a problem that this is being set twice for properties and constructors?
-        funcDecl.unitIndex = context.typeFlow.checker.locationInfo.unitIndex;
+        funcDecl.unitIndex = context3.typeFlow.checker.locationInfo.unitIndex;
         var locals = new SymbolScopeBuilder(funcMembers, ambientFuncMembers, null, null, parentScope, localContainer);
         var statics = new SymbolScopeBuilder(funcStaticMembers, ambientFuncStaticMembers, null, null, parentScope, null);
-        if (funcDecl.isConstructor && context.scopeChain.thisType) {
-            context.scopeChain.thisType.constructorScope = locals;
+        if (funcDecl.isConstructor && context3.scopeChain.thisType) {
+            context3.scopeChain.thisType.constructorScope = locals;
         }
         // basically, there are two problems
         // - Above, for new classes, we were overwriting the constructor scope with the containing scope.  This caused constructor params to be
@@ -252,29 +252,29 @@ var TypeScript;
                 group.memberScope = statics;
                 statics.container = group.symbol;
             }
-            funcDecl.enclosingFnc = context.scopeChain.fnc;
-            group.enclosingType = isStatic ? context.scopeChain.classType : context.scopeChain.thisType;
+            funcDecl.enclosingFnc = context3.scopeChain.fnc;
+            group.enclosingType = isStatic ? context3.scopeChain.classType : context3.scopeChain.thisType;
             // for mapping when type checking
             var fgSym = ast.type.symbol;
             if ((funcDecl.fncFlags & FncFlags.Signature) == FncFlags.None && funcDecl.vars) {
-                context.typeFlow.addLocalsFromScope(locals, fgSym, funcDecl.vars, funcTable, false);
-                context.typeFlow.addLocalsFromScope(statics, fgSym, funcDecl.statics, funcStaticTable, false);
+                context3.typeFlow.addLocalsFromScope(locals, fgSym, funcDecl.vars, funcTable, false);
+                context3.typeFlow.addLocalsFromScope(statics, fgSym, funcDecl.statics, funcStaticTable, false);
             }
             if (signature.parameters) {
                 var len = signature.parameters.length;
                 for(var i = 0; i < len; i++){
                     var paramSym = signature.parameters[i];
-                    context.typeFlow.checker.resolveTypeLink(locals, paramSym.parameter.typeLink, true);
+                    context3.typeFlow.checker.resolveTypeLink(locals, paramSym.parameter.typeLink, true);
                 }
             }
-            context.typeFlow.checker.resolveTypeLink(locals, signature.returnType, funcDecl.isSignature());
+            context3.typeFlow.checker.resolveTypeLink(locals, signature.returnType, funcDecl.isSignature());
         }
         if (!funcDecl.isConstructor || hasFlag(funcDecl.fncFlags, FncFlags.ClassMethod)) {
-            var thisType = funcDecl.isConstructor && hasFlag(funcDecl.fncFlags, FncFlags.ClassMethod) ? context.scopeChain.thisType : null;
-            pushAssignScope(locals, context, thisType, null, funcDecl);
+            var thisType = funcDecl.isConstructor && hasFlag(funcDecl.fncFlags, FncFlags.ClassMethod) ? context3.scopeChain.thisType : null;
+            pushAssignScope(locals, context3, thisType, null, funcDecl);
         }
     };
-    var preAssignCatchScopes = function preAssignCatchScopes(ast, context) {
+    var preAssignCatchScopes = function preAssignCatchScopes(ast6, context) {
         var catchBlock = ast;
         if (catchBlock.param) {
             var catchTable = new ScopedMembers(new DualStringHashTable(new StringHashTable(), new StringHashTable())); // REVIEW: Should we be allocating a public table instead of a private one?
@@ -283,55 +283,55 @@ var TypeScript;
             pushAssignScope(catchLocals, context, context.scopeChain.thisType, context.scopeChain.classType, context.scopeChain.fnc);
         }
     };
-    var preAssignScopes = function preAssignScopes(ast, parent, walker) {
+    var preAssignScopes = function preAssignScopes(ast7, parent, walker) {
         var context = walker.state;
         var go = true;
-        if (ast) {
-            if (ast.nodeType == NodeType.List) {
+        if (ast7) {
+            if (ast7.nodeType == NodeType.List) {
                 var list = ast;
                 list.enclosingScope = context.scopeChain.scope;
-            } else if (ast.nodeType == NodeType.ModuleDeclaration) {
-                preAssignModuleScopes(ast, context);
-            } else if (ast.nodeType == NodeType.ClassDeclaration) {
-                preAssignClassScopes(ast, context);
-            } else if (ast.nodeType == NodeType.InterfaceDeclaration) {
-                preAssignInterfaceScopes(ast, context);
-            } else if (ast.nodeType == NodeType.With) {
-                preAssignWithScopes(ast, context);
-            } else if (ast.nodeType == NodeType.FuncDecl) {
-                preAssignFuncDeclScopes(ast, context);
-            } else if (ast.nodeType == NodeType.Catch) {
-                preAssignCatchScopes(ast, context);
-            } else if (ast.nodeType == NodeType.TypeRef) {
+            } else if (ast7.nodeType == NodeType.ModuleDeclaration) {
+                preAssignModuleScopes(ast7, context);
+            } else if (ast7.nodeType == NodeType.ClassDeclaration) {
+                preAssignClassScopes(ast7, context);
+            } else if (ast7.nodeType == NodeType.InterfaceDeclaration) {
+                preAssignInterfaceScopes(ast7, context);
+            } else if (ast7.nodeType == NodeType.With) {
+                preAssignWithScopes(ast7, context);
+            } else if (ast7.nodeType == NodeType.FuncDecl) {
+                preAssignFuncDeclScopes(ast7, context);
+            } else if (ast7.nodeType == NodeType.Catch) {
+                preAssignCatchScopes(ast7, context);
+            } else if (ast7.nodeType == NodeType.TypeRef) {
                 go = false;
             }
         }
         walker.options.goChildren = go;
-        return ast;
+        return ast7;
     };
-    var postAssignScopes = function postAssignScopes(ast, parent, walker) {
+    var postAssignScopes = function postAssignScopes(ast8, parent, walker) {
         var context = walker.state;
         var go = true;
-        if (ast) {
-            if (ast.nodeType == NodeType.ModuleDeclaration) {
+        if (ast8) {
+            if (ast8.nodeType == NodeType.ModuleDeclaration) {
                 var prevModDecl = ast;
                 popAssignScope(context);
                 context.modDeclChain.pop();
                 if (context.modDeclChain.length >= 1) {
                     context.typeFlow.checker.currentModDecl = context.modDeclChain[context.modDeclChain.length - 1];
                 }
-            } else if (ast.nodeType == NodeType.ClassDeclaration) {
+            } else if (ast8.nodeType == NodeType.ClassDeclaration) {
                 popAssignScope(context);
-            } else if (ast.nodeType == NodeType.InterfaceDeclaration) {
+            } else if (ast8.nodeType == NodeType.InterfaceDeclaration) {
                 popAssignScope(context);
-            } else if (ast.nodeType == NodeType.With) {
+            } else if (ast8.nodeType == NodeType.With) {
                 popAssignScope(context);
-            } else if (ast.nodeType == NodeType.FuncDecl) {
+            } else if (ast8.nodeType == NodeType.FuncDecl) {
                 var funcDecl = ast;
                 if ((!funcDecl.isConstructor || hasFlag(funcDecl.fncFlags, FncFlags.ClassMethod)) && !funcDecl.isOverload) {
                     popAssignScope(context);
                 }
-            } else if (ast.nodeType == NodeType.Catch) {
+            } else if (ast8.nodeType == NodeType.Catch) {
                 var catchBlock = ast;
                 if (catchBlock.param) {
                     popAssignScope(context);
@@ -341,7 +341,7 @@ var TypeScript;
             }
         }
         walker.options.goChildren = go;
-        return ast;
+        return ast8;
     };
     var AssignScopeContext = function AssignScopeContext(scopeChain, typeFlow, modDeclChain) {
         "use strict";

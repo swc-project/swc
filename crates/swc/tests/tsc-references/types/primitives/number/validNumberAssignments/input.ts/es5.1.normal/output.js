@@ -3,8 +3,8 @@ var a = x;
 var b = x;
 var c = x;
 var E;
-(function(E1) {
-    E1[E1["A"] = 0] = "A";
+(function(E) {
+    E[E["A"] = 0] = "A";
 })(E || (E = {
 }));
 var d = x;

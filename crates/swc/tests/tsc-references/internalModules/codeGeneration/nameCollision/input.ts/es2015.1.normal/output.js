@@ -6,6 +6,7 @@ var A;
     var _A = '';
 })(A || (A = {
 }));
+var B;
 (function(B) {
     var A = 12;
 })(B || (B = {
@@ -20,10 +21,10 @@ var A;
 var X;
 (function(X2) {
     var X1 = 13;
-    var Y2;
+    let Y2;
     (function(Y) {
         var Y1 = 13;
-        var Z;
+        let Z;
         (function(Z) {
             var X = 12;
             var Y = 12;

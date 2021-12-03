@@ -5,13 +5,13 @@ function _classCallCheck(instance, Constructor) {
 }
 var // enums assignable to number, any, Object, errors unless otherwise noted
 E;
-(function(E1) {
-    E1[E1["A"] = 0] = "A";
+(function(E) {
+    E[E["A"] = 0] = "A";
 })(E || (E = {
 }));
 var F;
-(function(F1) {
-    F1[F1["B"] = 0] = "B";
+(function(F) {
+    F[F["B"] = 0] = "B";
 })(F || (F = {
 }));
 var e = E.A;

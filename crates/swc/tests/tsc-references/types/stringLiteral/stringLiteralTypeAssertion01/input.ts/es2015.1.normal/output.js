@@ -1,18 +1,18 @@
-var s;
-var t;
-var str;
+var s1;
+var t1;
+var str1;
 ////////////////
-s = t;
-s = t;
-s = str;
-s = str;
+s1 = t;
+s1 = t1;
+s1 = str;
+s1 = str1;
 ////////////////
-t = s;
-t = s;
-t = str;
-t = str;
+t1 = s;
+t1 = s1;
+t1 = str;
+t1 = str1;
 ////////////////
-str = s;
-str = s;
-str = t;
-str = t;
+str1 = s;
+str1 = s1;
+str1 = t;
+str1 = t1;

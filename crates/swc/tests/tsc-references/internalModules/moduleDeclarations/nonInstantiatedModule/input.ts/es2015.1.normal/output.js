@@ -12,7 +12,7 @@ var a2;
 var a2 = m.a;
 var M2;
 (function(M21) {
-    var Point1;
+    let Point1;
     (function(Point) {
         function Origin() {
             return {

@@ -11,15 +11,8 @@ var A;
 })(A || (A = {
 }));
 // no code gen expected
-var B;
-(function(B) {
-    var a = A;
-})(B || (B = {
-}));
-// no code gen expected
 var C;
 (function(C) {
-    var a = A;
     var m;
     var p;
     var p = {

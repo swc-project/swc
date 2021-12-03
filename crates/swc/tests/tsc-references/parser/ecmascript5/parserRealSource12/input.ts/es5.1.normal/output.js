@@ -124,113 +124,113 @@ var TypeScript;
             {
                 key: "initChildrenWalkers",
                 value: function initChildrenWalkers() {
-                    this.childrenWalkers[NodeType.None] = ChildrenWalkers1.walkNone;
-                    this.childrenWalkers[NodeType.Empty] = ChildrenWalkers1.walkNone;
-                    this.childrenWalkers[NodeType.EmptyExpr] = ChildrenWalkers1.walkNone;
-                    this.childrenWalkers[NodeType.True] = ChildrenWalkers1.walkNone;
-                    this.childrenWalkers[NodeType.False] = ChildrenWalkers1.walkNone;
-                    this.childrenWalkers[NodeType.This] = ChildrenWalkers1.walkNone;
-                    this.childrenWalkers[NodeType.Super] = ChildrenWalkers1.walkNone;
-                    this.childrenWalkers[NodeType.QString] = ChildrenWalkers1.walkNone;
-                    this.childrenWalkers[NodeType.Regex] = ChildrenWalkers1.walkNone;
-                    this.childrenWalkers[NodeType.Null] = ChildrenWalkers1.walkNone;
-                    this.childrenWalkers[NodeType.ArrayLit] = ChildrenWalkers1.walkUnaryExpressionChildren;
-                    this.childrenWalkers[NodeType.ObjectLit] = ChildrenWalkers1.walkUnaryExpressionChildren;
-                    this.childrenWalkers[NodeType.Void] = ChildrenWalkers1.walkUnaryExpressionChildren;
-                    this.childrenWalkers[NodeType.Comma] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.Pos] = ChildrenWalkers1.walkUnaryExpressionChildren;
-                    this.childrenWalkers[NodeType.Neg] = ChildrenWalkers1.walkUnaryExpressionChildren;
-                    this.childrenWalkers[NodeType.Delete] = ChildrenWalkers1.walkUnaryExpressionChildren;
-                    this.childrenWalkers[NodeType.Await] = ChildrenWalkers1.walkUnaryExpressionChildren;
-                    this.childrenWalkers[NodeType.In] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.Dot] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.From] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.Is] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.InstOf] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.Typeof] = ChildrenWalkers1.walkUnaryExpressionChildren;
-                    this.childrenWalkers[NodeType.NumberLit] = ChildrenWalkers1.walkNone;
-                    this.childrenWalkers[NodeType.Name] = ChildrenWalkers1.walkNone;
-                    this.childrenWalkers[NodeType.TypeRef] = ChildrenWalkers1.walkTypeReferenceChildren;
-                    this.childrenWalkers[NodeType.Index] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.Call] = ChildrenWalkers1.walkCallExpressionChildren;
-                    this.childrenWalkers[NodeType.New] = ChildrenWalkers1.walkCallExpressionChildren;
-                    this.childrenWalkers[NodeType.Asg] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.AsgAdd] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.AsgSub] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.AsgDiv] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.AsgMul] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.AsgMod] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.AsgAnd] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.AsgXor] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.AsgOr] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.AsgLsh] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.AsgRsh] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.AsgRs2] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.ConditionalExpression] = ChildrenWalkers1.walkTrinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.LogOr] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.LogAnd] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.Or] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.Xor] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.And] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.Eq] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.Ne] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.Eqv] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.NEqv] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.Lt] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.Le] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.Gt] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.Ge] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.Add] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.Sub] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.Mul] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.Div] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.Mod] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.Lsh] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.Rsh] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.Rs2] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.Not] = ChildrenWalkers1.walkUnaryExpressionChildren;
-                    this.childrenWalkers[NodeType.LogNot] = ChildrenWalkers1.walkUnaryExpressionChildren;
-                    this.childrenWalkers[NodeType.IncPre] = ChildrenWalkers1.walkUnaryExpressionChildren;
-                    this.childrenWalkers[NodeType.DecPre] = ChildrenWalkers1.walkUnaryExpressionChildren;
-                    this.childrenWalkers[NodeType.IncPost] = ChildrenWalkers1.walkUnaryExpressionChildren;
-                    this.childrenWalkers[NodeType.DecPost] = ChildrenWalkers1.walkUnaryExpressionChildren;
-                    this.childrenWalkers[NodeType.TypeAssertion] = ChildrenWalkers1.walkUnaryExpressionChildren;
-                    this.childrenWalkers[NodeType.FuncDecl] = ChildrenWalkers1.walkFuncDeclChildren;
-                    this.childrenWalkers[NodeType.Member] = ChildrenWalkers1.walkBinaryExpressionChildren;
-                    this.childrenWalkers[NodeType.VarDecl] = ChildrenWalkers1.walkBoundDeclChildren;
-                    this.childrenWalkers[NodeType.ArgDecl] = ChildrenWalkers1.walkBoundDeclChildren;
-                    this.childrenWalkers[NodeType.Return] = ChildrenWalkers1.walkReturnStatementChildren;
-                    this.childrenWalkers[NodeType.Break] = ChildrenWalkers1.walkNone;
-                    this.childrenWalkers[NodeType.Continue] = ChildrenWalkers1.walkNone;
-                    this.childrenWalkers[NodeType.Throw] = ChildrenWalkers1.walkUnaryExpressionChildren;
-                    this.childrenWalkers[NodeType.For] = ChildrenWalkers1.walkForStatementChildren;
-                    this.childrenWalkers[NodeType.ForIn] = ChildrenWalkers1.walkForInStatementChildren;
-                    this.childrenWalkers[NodeType.If] = ChildrenWalkers1.walkIfStatementChildren;
-                    this.childrenWalkers[NodeType.While] = ChildrenWalkers1.walkWhileStatementChildren;
-                    this.childrenWalkers[NodeType.DoWhile] = ChildrenWalkers1.walkDoWhileStatementChildren;
-                    this.childrenWalkers[NodeType.Block] = ChildrenWalkers1.walkBlockChildren;
-                    this.childrenWalkers[NodeType.Case] = ChildrenWalkers1.walkCaseStatementChildren;
-                    this.childrenWalkers[NodeType.Switch] = ChildrenWalkers1.walkSwitchStatementChildren;
-                    this.childrenWalkers[NodeType.Try] = ChildrenWalkers1.walkTryChildren;
-                    this.childrenWalkers[NodeType.TryCatch] = ChildrenWalkers1.walkTryCatchChildren;
-                    this.childrenWalkers[NodeType.TryFinally] = ChildrenWalkers1.walkTryFinallyChildren;
-                    this.childrenWalkers[NodeType.Finally] = ChildrenWalkers1.walkFinallyChildren;
-                    this.childrenWalkers[NodeType.Catch] = ChildrenWalkers1.walkCatchChildren;
-                    this.childrenWalkers[NodeType.List] = ChildrenWalkers1.walkListChildren;
-                    this.childrenWalkers[NodeType.Script] = ChildrenWalkers1.walkScriptChildren;
-                    this.childrenWalkers[NodeType.ClassDeclaration] = ChildrenWalkers1.walkClassDeclChildren;
-                    this.childrenWalkers[NodeType.InterfaceDeclaration] = ChildrenWalkers1.walkTypeDeclChildren;
-                    this.childrenWalkers[NodeType.ModuleDeclaration] = ChildrenWalkers1.walkModuleDeclChildren;
-                    this.childrenWalkers[NodeType.ImportDeclaration] = ChildrenWalkers1.walkImportDeclChildren;
-                    this.childrenWalkers[NodeType.With] = ChildrenWalkers1.walkWithStatementChildren;
-                    this.childrenWalkers[NodeType.Label] = ChildrenWalkers1.walkLabelChildren;
-                    this.childrenWalkers[NodeType.LabeledStatement] = ChildrenWalkers1.walkLabeledStatementChildren;
-                    this.childrenWalkers[NodeType.EBStart] = ChildrenWalkers1.walkNone;
-                    this.childrenWalkers[NodeType.GotoEB] = ChildrenWalkers1.walkNone;
-                    this.childrenWalkers[NodeType.EndCode] = ChildrenWalkers1.walkNone;
-                    this.childrenWalkers[NodeType.Error] = ChildrenWalkers1.walkNone;
-                    this.childrenWalkers[NodeType.Comment] = ChildrenWalkers1.walkNone;
-                    this.childrenWalkers[NodeType.Debugger] = ChildrenWalkers1.walkNone;
+                    this.childrenWalkers[NodeType.None] = ChildrenWalkers.walkNone;
+                    this.childrenWalkers[NodeType.Empty] = ChildrenWalkers.walkNone;
+                    this.childrenWalkers[NodeType.EmptyExpr] = ChildrenWalkers.walkNone;
+                    this.childrenWalkers[NodeType.True] = ChildrenWalkers.walkNone;
+                    this.childrenWalkers[NodeType.False] = ChildrenWalkers.walkNone;
+                    this.childrenWalkers[NodeType.This] = ChildrenWalkers.walkNone;
+                    this.childrenWalkers[NodeType.Super] = ChildrenWalkers.walkNone;
+                    this.childrenWalkers[NodeType.QString] = ChildrenWalkers.walkNone;
+                    this.childrenWalkers[NodeType.Regex] = ChildrenWalkers.walkNone;
+                    this.childrenWalkers[NodeType.Null] = ChildrenWalkers.walkNone;
+                    this.childrenWalkers[NodeType.ArrayLit] = ChildrenWalkers.walkUnaryExpressionChildren;
+                    this.childrenWalkers[NodeType.ObjectLit] = ChildrenWalkers.walkUnaryExpressionChildren;
+                    this.childrenWalkers[NodeType.Void] = ChildrenWalkers.walkUnaryExpressionChildren;
+                    this.childrenWalkers[NodeType.Comma] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.Pos] = ChildrenWalkers.walkUnaryExpressionChildren;
+                    this.childrenWalkers[NodeType.Neg] = ChildrenWalkers.walkUnaryExpressionChildren;
+                    this.childrenWalkers[NodeType.Delete] = ChildrenWalkers.walkUnaryExpressionChildren;
+                    this.childrenWalkers[NodeType.Await] = ChildrenWalkers.walkUnaryExpressionChildren;
+                    this.childrenWalkers[NodeType.In] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.Dot] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.From] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.Is] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.InstOf] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.Typeof] = ChildrenWalkers.walkUnaryExpressionChildren;
+                    this.childrenWalkers[NodeType.NumberLit] = ChildrenWalkers.walkNone;
+                    this.childrenWalkers[NodeType.Name] = ChildrenWalkers.walkNone;
+                    this.childrenWalkers[NodeType.TypeRef] = ChildrenWalkers.walkTypeReferenceChildren;
+                    this.childrenWalkers[NodeType.Index] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.Call] = ChildrenWalkers.walkCallExpressionChildren;
+                    this.childrenWalkers[NodeType.New] = ChildrenWalkers.walkCallExpressionChildren;
+                    this.childrenWalkers[NodeType.Asg] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.AsgAdd] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.AsgSub] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.AsgDiv] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.AsgMul] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.AsgMod] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.AsgAnd] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.AsgXor] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.AsgOr] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.AsgLsh] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.AsgRsh] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.AsgRs2] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.ConditionalExpression] = ChildrenWalkers.walkTrinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.LogOr] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.LogAnd] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.Or] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.Xor] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.And] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.Eq] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.Ne] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.Eqv] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.NEqv] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.Lt] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.Le] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.Gt] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.Ge] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.Add] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.Sub] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.Mul] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.Div] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.Mod] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.Lsh] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.Rsh] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.Rs2] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.Not] = ChildrenWalkers.walkUnaryExpressionChildren;
+                    this.childrenWalkers[NodeType.LogNot] = ChildrenWalkers.walkUnaryExpressionChildren;
+                    this.childrenWalkers[NodeType.IncPre] = ChildrenWalkers.walkUnaryExpressionChildren;
+                    this.childrenWalkers[NodeType.DecPre] = ChildrenWalkers.walkUnaryExpressionChildren;
+                    this.childrenWalkers[NodeType.IncPost] = ChildrenWalkers.walkUnaryExpressionChildren;
+                    this.childrenWalkers[NodeType.DecPost] = ChildrenWalkers.walkUnaryExpressionChildren;
+                    this.childrenWalkers[NodeType.TypeAssertion] = ChildrenWalkers.walkUnaryExpressionChildren;
+                    this.childrenWalkers[NodeType.FuncDecl] = ChildrenWalkers.walkFuncDeclChildren;
+                    this.childrenWalkers[NodeType.Member] = ChildrenWalkers.walkBinaryExpressionChildren;
+                    this.childrenWalkers[NodeType.VarDecl] = ChildrenWalkers.walkBoundDeclChildren;
+                    this.childrenWalkers[NodeType.ArgDecl] = ChildrenWalkers.walkBoundDeclChildren;
+                    this.childrenWalkers[NodeType.Return] = ChildrenWalkers.walkReturnStatementChildren;
+                    this.childrenWalkers[NodeType.Break] = ChildrenWalkers.walkNone;
+                    this.childrenWalkers[NodeType.Continue] = ChildrenWalkers.walkNone;
+                    this.childrenWalkers[NodeType.Throw] = ChildrenWalkers.walkUnaryExpressionChildren;
+                    this.childrenWalkers[NodeType.For] = ChildrenWalkers.walkForStatementChildren;
+                    this.childrenWalkers[NodeType.ForIn] = ChildrenWalkers.walkForInStatementChildren;
+                    this.childrenWalkers[NodeType.If] = ChildrenWalkers.walkIfStatementChildren;
+                    this.childrenWalkers[NodeType.While] = ChildrenWalkers.walkWhileStatementChildren;
+                    this.childrenWalkers[NodeType.DoWhile] = ChildrenWalkers.walkDoWhileStatementChildren;
+                    this.childrenWalkers[NodeType.Block] = ChildrenWalkers.walkBlockChildren;
+                    this.childrenWalkers[NodeType.Case] = ChildrenWalkers.walkCaseStatementChildren;
+                    this.childrenWalkers[NodeType.Switch] = ChildrenWalkers.walkSwitchStatementChildren;
+                    this.childrenWalkers[NodeType.Try] = ChildrenWalkers.walkTryChildren;
+                    this.childrenWalkers[NodeType.TryCatch] = ChildrenWalkers.walkTryCatchChildren;
+                    this.childrenWalkers[NodeType.TryFinally] = ChildrenWalkers.walkTryFinallyChildren;
+                    this.childrenWalkers[NodeType.Finally] = ChildrenWalkers.walkFinallyChildren;
+                    this.childrenWalkers[NodeType.Catch] = ChildrenWalkers.walkCatchChildren;
+                    this.childrenWalkers[NodeType.List] = ChildrenWalkers.walkListChildren;
+                    this.childrenWalkers[NodeType.Script] = ChildrenWalkers.walkScriptChildren;
+                    this.childrenWalkers[NodeType.ClassDeclaration] = ChildrenWalkers.walkClassDeclChildren;
+                    this.childrenWalkers[NodeType.InterfaceDeclaration] = ChildrenWalkers.walkTypeDeclChildren;
+                    this.childrenWalkers[NodeType.ModuleDeclaration] = ChildrenWalkers.walkModuleDeclChildren;
+                    this.childrenWalkers[NodeType.ImportDeclaration] = ChildrenWalkers.walkImportDeclChildren;
+                    this.childrenWalkers[NodeType.With] = ChildrenWalkers.walkWithStatementChildren;
+                    this.childrenWalkers[NodeType.Label] = ChildrenWalkers.walkLabelChildren;
+                    this.childrenWalkers[NodeType.LabeledStatement] = ChildrenWalkers.walkLabeledStatementChildren;
+                    this.childrenWalkers[NodeType.EBStart] = ChildrenWalkers.walkNone;
+                    this.childrenWalkers[NodeType.GotoEB] = ChildrenWalkers.walkNone;
+                    this.childrenWalkers[NodeType.EndCode] = ChildrenWalkers.walkNone;
+                    this.childrenWalkers[NodeType.Error] = ChildrenWalkers.walkNone;
+                    this.childrenWalkers[NodeType.Comment] = ChildrenWalkers.walkNone;
+                    this.childrenWalkers[NodeType.Debugger] = ChildrenWalkers.walkNone;
                     // Verify the code is up to date with the enum
                     for(var e in NodeType._map){
                         if (this.childrenWalkers[e] === undefined) {
@@ -301,15 +301,15 @@ var TypeScript;
             }
         }
         ChildrenWalkers.walkTypeReferenceChildren = walkTypeReferenceChildren;
-        function walkCallExpressionChildren(preAst, parent, walker) {
-            if (!walker.options.reverseSiblings) {
-                preAst.target = walker.walk(preAst.target, preAst);
+        function walkCallExpressionChildren(preAst1, parent, walker1) {
+            if (!walker1.options.reverseSiblings) {
+                preAst1.target = walker1.walk(preAst1.target, preAst1);
             }
-            if (preAst.arguments && walker.options.goNextSibling) {
-                preAst.arguments = walker.walk(preAst.arguments, preAst);
+            if (preAst1.arguments && walker1.options.goNextSibling) {
+                preAst1.arguments = walker.walk(preAst.arguments, preAst);
             }
-            if (walker.options.reverseSiblings && walker.options.goNextSibling) {
-                preAst.target = walker.walk(preAst.target, preAst);
+            if (walker1.options.reverseSiblings && walker1.options.goNextSibling) {
+                preAst1.target = walker1.walk(preAst1.target, preAst1);
             }
         }
         ChildrenWalkers.walkCallExpressionChildren = walkCallExpressionChildren;
@@ -325,30 +325,30 @@ var TypeScript;
             }
         }
         ChildrenWalkers.walkTrinaryExpressionChildren = walkTrinaryExpressionChildren;
-        function walkFuncDeclChildren(preAst, parent, walker) {
-            if (preAst.name) {
-                preAst.name = walker.walk(preAst.name, preAst);
+        function walkFuncDeclChildren(preAst2, parent, walker2) {
+            if (preAst2.name) {
+                preAst2.name = walker.walk(preAst.name, preAst);
             }
-            if (preAst.arguments && preAst.arguments.members.length > 0 && walker.options.goNextSibling) {
-                preAst.arguments = walker.walk(preAst.arguments, preAst);
+            if (preAst2.arguments && preAst2.arguments.members.length > 0 && walker2.options.goNextSibling) {
+                preAst2.arguments = walker.walk(preAst.arguments, preAst);
             }
-            if (preAst.returnTypeAnnotation && walker.options.goNextSibling) {
-                preAst.returnTypeAnnotation = walker.walk(preAst.returnTypeAnnotation, preAst);
+            if (preAst2.returnTypeAnnotation && walker2.options.goNextSibling) {
+                preAst2.returnTypeAnnotation = walker2.walk(preAst2.returnTypeAnnotation, preAst2);
             }
-            if (preAst.bod && preAst.bod.members.length > 0 && walker.options.goNextSibling) {
-                preAst.bod = walker.walk(preAst.bod, preAst);
+            if (preAst2.bod && preAst2.bod.members.length > 0 && walker2.options.goNextSibling) {
+                preAst2.bod = walker.walk(preAst.bod, preAst);
             }
         }
         ChildrenWalkers.walkFuncDeclChildren = walkFuncDeclChildren;
-        function walkBoundDeclChildren(preAst, parent, walker) {
-            if (preAst.id) {
-                preAst.id = walker.walk(preAst.id, preAst);
+        function walkBoundDeclChildren(preAst3, parent, walker3) {
+            if (preAst3.id) {
+                preAst3.id = walker.walk(preAst.id, preAst);
             }
-            if (preAst.init) {
-                preAst.init = walker.walk(preAst.init, preAst);
+            if (preAst3.init) {
+                preAst3.init = walker3.walk(preAst3.init, preAst3);
             }
-            if (preAst.typeExpr && walker.options.goNextSibling) {
-                preAst.typeExpr = walker.walk(preAst.typeExpr, preAst);
+            if (preAst3.typeExpr && walker3.options.goNextSibling) {
+                preAst3.typeExpr = walker3.walk(preAst3.typeExpr, preAst3);
             }
         }
         ChildrenWalkers.walkBoundDeclChildren = walkBoundDeclChildren;
@@ -407,27 +407,27 @@ var TypeScript;
             }
         }
         ChildrenWalkers.walkDoWhileStatementChildren = walkDoWhileStatementChildren;
-        function walkBlockChildren(preAst, parent, walker) {
-            if (preAst.statements) {
-                preAst.statements = walker.walk(preAst.statements, preAst);
+        function walkBlockChildren(preAst4, parent, walker4) {
+            if (preAst4.statements) {
+                preAst4.statements = walker.walk(preAst.statements, preAst);
             }
         }
         ChildrenWalkers.walkBlockChildren = walkBlockChildren;
-        function walkCaseStatementChildren(preAst, parent, walker) {
-            if (preAst.expr) {
-                preAst.expr = walker.walk(preAst.expr, preAst);
+        function walkCaseStatementChildren(preAst5, parent, walker5) {
+            if (preAst5.expr) {
+                preAst5.expr = walker5.walk(preAst5.expr, preAst5);
             }
-            if (preAst.body && walker.options.goNextSibling) {
-                preAst.body = walker.walk(preAst.body, preAst);
+            if (preAst5.body && walker5.options.goNextSibling) {
+                preAst5.body = walker.walk(preAst.body, preAst);
             }
         }
         ChildrenWalkers.walkCaseStatementChildren = walkCaseStatementChildren;
-        function walkSwitchStatementChildren(preAst, parent, walker) {
-            if (preAst.val) {
-                preAst.val = walker.walk(preAst.val, preAst);
+        function walkSwitchStatementChildren(preAst6, parent, walker6) {
+            if (preAst6.val) {
+                preAst6.val = walker6.walk(preAst6.val, preAst6);
             }
-            if (preAst.caseList && walker.options.goNextSibling) {
-                preAst.caseList = walker.walk(preAst.caseList, preAst);
+            if (preAst6.caseList && walker6.options.goNextSibling) {
+                preAst6.caseList = walker.walk(preAst.caseList, preAst);
             }
         }
         ChildrenWalkers.walkSwitchStatementChildren = walkSwitchStatementChildren;
@@ -437,21 +437,21 @@ var TypeScript;
             }
         }
         ChildrenWalkers.walkTryChildren = walkTryChildren;
-        function walkTryCatchChildren(preAst, parent, walker) {
-            if (preAst.tryNode) {
-                preAst.tryNode = walker.walk(preAst.tryNode, preAst);
+        function walkTryCatchChildren(preAst7, parent, walker7) {
+            if (preAst7.tryNode) {
+                preAst7.tryNode = walker.walk(preAst.tryNode, preAst);
             }
-            if (preAst.catchNode && walker.options.goNextSibling) {
-                preAst.catchNode = walker.walk(preAst.catchNode, preAst);
+            if (preAst7.catchNode && walker7.options.goNextSibling) {
+                preAst7.catchNode = walker.walk(preAst.catchNode, preAst);
             }
         }
         ChildrenWalkers.walkTryCatchChildren = walkTryCatchChildren;
-        function walkTryFinallyChildren(preAst, parent, walker) {
-            if (preAst.tryNode) {
-                preAst.tryNode = walker.walk(preAst.tryNode, preAst);
+        function walkTryFinallyChildren(preAst8, parent, walker8) {
+            if (preAst8.tryNode) {
+                preAst8.tryNode = walker8.walk(preAst8.tryNode, preAst8);
             }
-            if (preAst.finallyNode && walker.options.goNextSibling) {
-                preAst.finallyNode = walker.walk(preAst.finallyNode, preAst);
+            if (preAst8.finallyNode && walker8.options.goNextSibling) {
+                preAst8.finallyNode = walker.walk(preAst.finallyNode, preAst);
             }
         }
         ChildrenWalkers.walkTryFinallyChildren = walkTryFinallyChildren;
@@ -461,19 +461,19 @@ var TypeScript;
             }
         }
         ChildrenWalkers.walkFinallyChildren = walkFinallyChildren;
-        function walkCatchChildren(preAst, parent, walker) {
-            if (preAst.param) {
-                preAst.param = walker.walk(preAst.param, preAst);
+        function walkCatchChildren(preAst9, parent, walker9) {
+            if (preAst9.param) {
+                preAst9.param = walker.walk(preAst.param, preAst);
             }
-            if (preAst.body && walker.options.goNextSibling) {
-                preAst.body = walker.walk(preAst.body, preAst);
+            if (preAst9.body && walker9.options.goNextSibling) {
+                preAst9.body = walker9.walk(preAst9.body, preAst9);
             }
         }
         ChildrenWalkers.walkCatchChildren = walkCatchChildren;
-        function walkRecordChildren(preAst, parent, walker) {
-            preAst.name = walker.walk(preAst.name, preAst);
-            if (walker.options.goNextSibling && preAst.members) {
-                preAst.members = walker.walk(preAst.members, preAst);
+        function walkRecordChildren(preAst10, parent, walker10) {
+            preAst10.name = walker.walk(preAst.name, preAst);
+            if (walker10.options.goNextSibling && preAst10.members) {
+                preAst10.members = walker.walk(preAst.members, preAst);
             }
         }
         ChildrenWalkers.walkRecordChildren = walkRecordChildren;
@@ -481,30 +481,30 @@ var TypeScript;
             walkRecordChildren(preAst, parent, walker);
         }
         ChildrenWalkers.walkNamedTypeChildren = walkNamedTypeChildren;
-        function walkClassDeclChildren(preAst, parent, walker) {
-            walkNamedTypeChildren(preAst, parent, walker);
-            if (walker.options.goNextSibling && preAst.extendsList) {
-                preAst.extendsList = walker.walk(preAst.extendsList, preAst);
+        function walkClassDeclChildren(preAst11, parent, walker11) {
+            walkNamedTypeChildren(preAst11, parent, walker11);
+            if (walker11.options.goNextSibling && preAst11.extendsList) {
+                preAst11.extendsList = walker.walk(preAst.extendsList, preAst);
             }
-            if (walker.options.goNextSibling && preAst.implementsList) {
-                preAst.implementsList = walker.walk(preAst.implementsList, preAst);
+            if (walker11.options.goNextSibling && preAst11.implementsList) {
+                preAst11.implementsList = walker.walk(preAst.implementsList, preAst);
             }
         }
         ChildrenWalkers.walkClassDeclChildren = walkClassDeclChildren;
-        function walkScriptChildren(preAst, parent, walker) {
-            if (preAst.bod) {
-                preAst.bod = walker.walk(preAst.bod, preAst);
+        function walkScriptChildren(preAst12, parent, walker12) {
+            if (preAst12.bod) {
+                preAst12.bod = walker.walk(preAst.bod, preAst);
             }
         }
         ChildrenWalkers.walkScriptChildren = walkScriptChildren;
-        function walkTypeDeclChildren(preAst, parent, walker) {
-            walkNamedTypeChildren(preAst, parent, walker);
+        function walkTypeDeclChildren(preAst13, parent, walker13) {
+            walkNamedTypeChildren(preAst13, parent, walker13);
             // walked arguments as part of members
-            if (walker.options.goNextSibling && preAst.extendsList) {
-                preAst.extendsList = walker.walk(preAst.extendsList, preAst);
+            if (walker13.options.goNextSibling && preAst13.extendsList) {
+                preAst13.extendsList = walker.walk(preAst.extendsList, preAst);
             }
-            if (walker.options.goNextSibling && preAst.implementsList) {
-                preAst.implementsList = walker.walk(preAst.implementsList, preAst);
+            if (walker13.options.goNextSibling && preAst13.implementsList) {
+                preAst13.implementsList = walker.walk(preAst.implementsList, preAst);
             }
         }
         ChildrenWalkers.walkTypeDeclChildren = walkTypeDeclChildren;
@@ -512,12 +512,12 @@ var TypeScript;
             walkRecordChildren(preAst, parent, walker);
         }
         ChildrenWalkers.walkModuleDeclChildren = walkModuleDeclChildren;
-        function walkImportDeclChildren(preAst, parent, walker) {
-            if (preAst.id) {
-                preAst.id = walker.walk(preAst.id, preAst);
+        function walkImportDeclChildren(preAst14, parent, walker14) {
+            if (preAst14.id) {
+                preAst14.id = walker.walk(preAst.id, preAst);
             }
-            if (preAst.alias) {
-                preAst.alias = walker.walk(preAst.alias, preAst);
+            if (preAst14.alias) {
+                preAst14.alias = walker14.walk(preAst14.alias, preAst14);
             }
         }
         ChildrenWalkers.walkImportDeclChildren = walkImportDeclChildren;
@@ -534,10 +534,10 @@ var TypeScript;
         //TODO: Walk "id"?
         }
         ChildrenWalkers.walkLabelChildren = walkLabelChildren;
-        function walkLabeledStatementChildren(preAst, parent, walker) {
-            preAst.labels = walker.walk(preAst.labels, preAst);
-            if (walker.options.goNextSibling) {
-                preAst.stmt = walker.walk(preAst.stmt, preAst);
+        function walkLabeledStatementChildren(preAst15, parent, walker15) {
+            preAst15.labels = walker.walk(preAst.labels, preAst);
+            if (walker15.options.goNextSibling) {
+                preAst15.stmt = walker15.walk(preAst15.stmt, preAst15);
             }
         }
         ChildrenWalkers.walkLabeledStatementChildren = walkLabeledStatementChildren;

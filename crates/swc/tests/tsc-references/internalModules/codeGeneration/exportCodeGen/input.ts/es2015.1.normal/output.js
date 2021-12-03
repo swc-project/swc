@@ -17,6 +17,8 @@ var B;
     }
 })(B || (B = {
 }));
+// not copied, since not exported
+var C;
 (function(C) {
     function no() {
         return false;
@@ -35,29 +37,30 @@ var D;
 // validate all exportable statements
 var E;
 (function(E1) {
-    var Color1;
+    let Color;
     (function(Color) {
         Color[Color["Red"] = 0] = "Red";
-    })(Color1 || (Color1 = {
+    })(Color || (Color = {
     }));
     function fn() {
     }
     E1.fn = fn;
-    class C {
+    class C1 {
     }
-    E1.C = C;
-    var M1;
+    E1.C = C1;
+    let M1;
     (function(M) {
         M.x = 42;
     })(M1 || (M1 = {
     }));
-    E1.Color = Color1, E1.M = M1;
+    E1.Color = Color, E1.M = M1;
 })(E || (E = {
 }));
 // validate all exportable statements,
 // which are not exported
 var F;
 (function(F) {
+    let Color;
     (function(Color) {
         Color[Color["Red"] = 0] = "Red";
     })(Color || (Color = {
@@ -66,6 +69,7 @@ var F;
     }
     class C {
     }
+    let M;
     (function(M) {
         var x = 42;
     })(M || (M = {

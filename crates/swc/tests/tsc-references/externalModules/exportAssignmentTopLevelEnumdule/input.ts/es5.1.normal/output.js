@@ -1,14 +1,14 @@
 var // @module: amd
 // @Filename: foo_0.ts
 foo;
-(function(foo1) {
-    foo1[foo1["red"] = 0] = "red";
-    foo1[foo1["green"] = 1] = "green";
-    foo1[foo1["blue"] = 2] = "blue";
+(function(foo) {
+    foo[foo["red"] = 0] = "red";
+    foo[foo["green"] = 1] = "green";
+    foo[foo["blue"] = 2] = "blue";
 })(foo || (foo = {
 }));
-(function(foo2) {
-    foo2.answer = 42;
+(function(foo) {
+    foo.answer = 42;
 })(foo || (foo = {
 }));
 module.exports = foo;

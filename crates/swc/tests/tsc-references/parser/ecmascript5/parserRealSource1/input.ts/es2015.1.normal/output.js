@@ -3,7 +3,7 @@
 ///<reference path='typescript.ts' />
 var TypeScript;
 (function(TypeScript1) {
-    var CompilerDiagnostics1;
+    let CompilerDiagnostics1;
     (function(CompilerDiagnostics) {
         CompilerDiagnostics.debug = false;
         CompilerDiagnostics.diagnosticWriter = null;

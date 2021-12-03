@@ -32,7 +32,7 @@ class C {
 var M3;
 (function(M3) {
     var s4;
-    var M4;
+    let M4;
     (function(M4) {
         var n = s4;
         var n;

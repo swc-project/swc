@@ -5,8 +5,8 @@ function _classCallCheck(instance, Constructor) {
 }
 var // enums are only subtypes of number, any and no other types
 E;
-(function(E1) {
-    E1[E1["A"] = 0] = "A";
+(function(E) {
+    E[E["A"] = 0] = "A";
 })(E || (E = {
 }));
 var A = function A() {
@@ -18,8 +18,8 @@ var A2 = function A2() {
     _classCallCheck(this, A2);
 };
 var E2;
-(function(E21) {
-    E21[E21["A"] = 0] = "A";
+(function(E2) {
+    E2[E2["A"] = 0] = "A";
 })(E2 || (E2 = {
 }));
 function f() {

@@ -19,13 +19,13 @@ foo({
     }
 });
 var E1;
-(function(E11) {
-    E11[E11["X"] = 0] = "X";
+(function(E1) {
+    E1[E1["X"] = 0] = "X";
 })(E1 || (E1 = {
 }));
 var E2;
-(function(E21) {
-    E21[E21["X"] = 0] = "X";
+(function(E2) {
+    E2[E2["X"] = 0] = "X";
 })(E2 || (E2 = {
 }));
 var v1;

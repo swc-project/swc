@@ -35,16 +35,16 @@ function ft11(s, cond) {
     let v4 = c4; // string
     let v5 = c5; // `foo${string}` | `bar${string}` | `baz${string}`
 }
-function ft12(s) {
-    const c1 = `foo${s}`;
+function ft12(s1) {
+    const c1 = `foo${s1}`;
     let v1 = c1;
-    const c2 = `foo${s}`;
+    const c2 = `foo${s1}`;
     let v2 = c2;
-    const c3 = `foo${s}`;
+    const c3 = `foo${s1}`;
     let v3 = c3;
     const c4 = `foo${s}`;
     let v4 = c4;
-    const c5 = `foo${s}`;
+    const c5 = `foo${s1}`;
     let v5 = c5;
 }
 function ft13(s, cond) {

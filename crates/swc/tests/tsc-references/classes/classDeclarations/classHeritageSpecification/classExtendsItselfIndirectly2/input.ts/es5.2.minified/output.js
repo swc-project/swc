@@ -87,7 +87,7 @@ var M, N, O, C = function(_E) {
             return _classCallCheck(this, C2), _super.apply(this, arguments);
         }
         return C2;
-    }(Q1.E2);
+    }(Q.E2);
     (function(P) {
         var D2 = function(C2) {
             "use strict";

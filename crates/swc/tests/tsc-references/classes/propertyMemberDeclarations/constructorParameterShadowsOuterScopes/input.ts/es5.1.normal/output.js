@@ -12,7 +12,7 @@ var C = function C(x1) {
     "use strict";
     _classCallCheck(this, C);
     this.b // error, evaluated in scope of constructor, cannot reference x
-     = x1;
+     = x;
     x1 = 2; // error, x is string
 };
 var y = 1;
@@ -20,6 +20,6 @@ var D = function D(x) {
     "use strict";
     _classCallCheck(this, D);
     this.b // error, evaluated in scope of constructor, cannot reference y
-     = y1;
+     = y;
     var y1 = "";
 };

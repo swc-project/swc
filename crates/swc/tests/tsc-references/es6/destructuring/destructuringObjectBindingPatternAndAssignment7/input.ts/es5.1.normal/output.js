@@ -13,9 +13,9 @@ function _defineProperty(obj, key, value) {
 }
 var // @target: es5,esnext
 K;
-(function(K1) {
-    K1["a"] = "a";
-    K1["b"] = "b";
+(function(K) {
+    K["a"] = "a";
+    K["b"] = "b";
 })(K || (K = {
 }));
 var _obj;

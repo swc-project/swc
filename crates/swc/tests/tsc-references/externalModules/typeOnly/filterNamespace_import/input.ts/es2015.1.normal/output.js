@@ -5,7 +5,7 @@ var ns;
     }
     ns1.Class = Class;
     ns1.Value = "";
-    var nested1;
+    let nested1;
     (function(nested) {
         class NestedClass {
         }

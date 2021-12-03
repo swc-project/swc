@@ -5,12 +5,15 @@ var A, B;
         x: 0,
         y: 0
     };
-}, A || (A = {
-}), (Point || (Point = {
-})).Origin = {
-    x: 0,
-    y: 0
-}, A.Point, A.Point(), A.Point.Origin, (function(B1) {
+}, (function(A1) {
+    let Point;
+    (Point || (Point = {
+    })).Origin = {
+        x: 0,
+        y: 0
+    }, A1.Point = Point;
+})(A || (A = {
+})), A.Point, A.Point(), A.Point.Origin, (function(B1) {
     function Point() {
         return {
             x: 0,

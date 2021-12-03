@@ -7,10 +7,10 @@ function _classCallCheck(instance, Constructor) {
 })).yes = function() {
     return !0;
 }, (function(E1) {
-    (Color1 = Color || (Color = {
-    }))[Color1.Red = 0] = "Red", E1.fn = function() {
+    (Color = Color || (Color = {
+    }))[Color.Red = 0] = "Red", E1.fn = function() {
     };
-    var Color, M, Color1, C = function() {
+    var Color, M, Color, C = function() {
         "use strict";
         _classCallCheck(this, C);
     };
@@ -18,9 +18,9 @@ function _classCallCheck(instance, Constructor) {
     })).x = 42, E1.Color = Color, E1.M = M;
 })(E || (E = {
 })), (function(F) {
-    var Color2;
-    (Color2 = Color || (Color = {
-    }))[Color2.Red = 0] = "Red";
+    var Color, Color;
+    (Color = Color || (Color = {
+    }))[Color.Red = 0] = "Red";
     var C = function() {
         "use strict";
         _classCallCheck(this, C);

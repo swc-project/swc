@@ -1,6 +1,6 @@
-var A;
+export var A;
 !function(A1) {
-    var Utils;
+    let Utils;
     (Utils || (Utils = {
     })).mirror = function(p) {
         return {
@@ -12,13 +12,17 @@ var A;
         y: 0
     }, A1.Utils = Utils;
 }(A || (A = {
-})), (A || (A = {
-})).Origin = {
-    x: 0,
-    y: 0
-}, (Utils || (Utils = {
-})).Plane = class {
-    constructor(tl, br){
-        this.tl = tl, this.br = br;
-    }
-};
+})), (function(A2) {
+    A2.Origin = {
+        x: 0,
+        y: 0
+    };
+    let Utils;
+    (Utils || (Utils = {
+    })).Plane = class {
+        constructor(tl, br){
+            this.tl = tl, this.br = br;
+        }
+    }, A2.Utils = Utils;
+})(A || (A = {
+}));

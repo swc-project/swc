@@ -84,11 +84,11 @@ var B = /*#__PURE__*/ function(A) {
     return B;
 }(A);
 var Compass;
-(function(Compass1) {
-    Compass1[Compass1["North"] = 0] = "North";
-    Compass1[Compass1["South"] = 1] = "South";
-    Compass1[Compass1["East"] = 2] = "East";
-    Compass1[Compass1["West"] = 3] = "West";
+(function(Compass) {
+    Compass[Compass["North"] = 0] = "North";
+    Compass[Compass["South"] = 1] = "South";
+    Compass[Compass["East"] = 2] = "East";
+    Compass[Compass["West"] = 3] = "West";
 })(Compass || (Compass = {
 }));
 var numIndex = {

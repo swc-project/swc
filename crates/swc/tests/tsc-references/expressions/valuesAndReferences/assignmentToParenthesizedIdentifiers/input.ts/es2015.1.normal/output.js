@@ -23,7 +23,7 @@ M = {
 }; // Error
 var M2;
 (function(M21) {
-    var M31;
+    let M31;
     (function(M3) {
         var x1;
         M3.x = x1;
@@ -76,8 +76,8 @@ function fn2(x2, y) {
     y['t'] = ''; // Error
 }
 var E;
-(function(E1) {
-    E1[E1["A"] = 0] = "A";
+(function(E) {
+    E[E["A"] = 0] = "A";
 })(E || (E = {
 }));
 E = undefined; // Error

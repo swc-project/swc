@@ -14,7 +14,7 @@ var Foo;
         return a2;
     }
     Foo2.c = c;
-    var Test1;
+    let Test1;
     (function(Test) {
         Test.answer = 42;
     })(Test1 || (Test1 = {

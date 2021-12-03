@@ -5,9 +5,12 @@ var A, B;
         x: 0,
         y: 0
     };
-}, B || (B = {
-}), (Point || (Point = {
-})).Origin = {
-    x: 0,
-    y: 0
-}, A.Point, B.Point.Origin;
+}, (function(B1) {
+    var Point;
+    (Point || (Point = {
+    })).Origin = {
+        x: 0,
+        y: 0
+    }, B1.Point = Point;
+})(B || (B = {
+})), A.Point, B.Point.Origin;

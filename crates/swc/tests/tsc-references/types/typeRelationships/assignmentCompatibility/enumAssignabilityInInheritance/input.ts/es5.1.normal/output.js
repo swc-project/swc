@@ -5,8 +5,8 @@ function _classCallCheck(instance, Constructor) {
 }
 var // enum is only a subtype of number, no types are subtypes of enum, all of these except the first are errors
 E;
-(function(E1) {
-    E1[E1["A"] = 0] = "A";
+(function(E) {
+    E[E["A"] = 0] = "A";
 })(E || (E = {
 }));
 var r = foo(E.A); // E
@@ -32,8 +32,8 @@ var r4 = foo10(E.A);
 var r4 = foo11(E.A);
 var r4 = foo12(E.A);
 var E2;
-(function(E21) {
-    E21[E21["A"] = 0] = "A";
+(function(E2) {
+    E2[E2["A"] = 0] = "A";
 })(E2 || (E2 = {
 }));
 var r4 = foo13(E.A);

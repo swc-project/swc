@@ -12,25 +12,25 @@ class E extends A {
 class F extends A {
 }
 var E1;
-(function(E11) {
-    E11[E11["one"] = 0] = "one";
+(function(E1) {
+    E1[E1["one"] = 0] = "one";
 })(E1 || (E1 = {
 }));
 var E2;
-(function(E21) {
-    E21[E21["one"] = 0] = "one";
+(function(E2) {
+    E2[E2["one"] = 0] = "one";
 })(E2 || (E2 = {
 }));
 // no error
-var numStrTuple = [
+var numStrTuple1 = [
     5,
     "foo"
 ];
-var emptyObjTuple = numStrTuple;
+var emptyObjTuple1 = numStrTuple;
 var numStrBoolTuple = numStrTuple;
 var shorter = numStrBoolTuple;
-var longer = numStrTuple;
-var classCDTuple = [
+var longer = numStrTuple1;
+var classCDTuple1 = [
     new C(),
     new D()
 ];
@@ -38,7 +38,7 @@ var interfaceIITuple = classCDTuple;
 var classCDATuple = classCDTuple;
 var eleFromCDA1 = classCDATuple[2]; // A
 var eleFromCDA2 = classCDATuple[5]; // C | D | A
-var t10 = [
+var t101 = [
     E1.one,
     E2.one
 ];
@@ -53,7 +53,7 @@ var unionTuple2 = [
     "foo",
     new D()
 ];
-var unionTuple3 = [
+var unionTuple31 = [
     10,
     "foo"
 ];

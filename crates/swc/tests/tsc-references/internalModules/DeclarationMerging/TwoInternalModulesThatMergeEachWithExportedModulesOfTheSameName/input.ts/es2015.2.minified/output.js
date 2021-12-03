@@ -1,11 +1,12 @@
 var A, X;
 !function(A) {
-    var B, x;
+    var x;
+    let B;
     (B || (B = {
     })).x = x;
 }(A || (A = {
 })), A.B.x, (function(X1) {
-    var Y, Z;
+    let Y, Z;
     Y || (Y = {
     }), (Z || (Z = {
     })).Line = class {

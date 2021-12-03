@@ -1,21 +1,21 @@
 var NumericEnum1;
-(function(NumericEnum11) {
-    NumericEnum11[NumericEnum11["A"] = 0] = "A";
-    NumericEnum11[NumericEnum11["B"] = 1] = "B";
-    NumericEnum11[NumericEnum11["C"] = 2] = "C";
+(function(NumericEnum1) {
+    NumericEnum1[NumericEnum1["A"] = 0] = "A";
+    NumericEnum1[NumericEnum1["B"] = 1] = "B";
+    NumericEnum1[NumericEnum1["C"] = 2] = "C";
 })(NumericEnum1 || (NumericEnum1 = {
 }));
 var NumericEnum2;
-(function(NumericEnum21) {
-    NumericEnum21[NumericEnum21["A"] = 0] = "A";
-    NumericEnum21[NumericEnum21["B"] = 1] = "B";
-    NumericEnum21[NumericEnum21["C"] = 2] = "C";
+(function(NumericEnum2) {
+    NumericEnum2[NumericEnum2["A"] = 0] = "A";
+    NumericEnum2[NumericEnum2["B"] = 1] = "B";
+    NumericEnum2[NumericEnum2["C"] = 2] = "C";
 })(NumericEnum2 || (NumericEnum2 = {
 }));
 var StringEnum1;
-(function(StringEnum11) {
-    StringEnum11["A"] = "Alpha";
-    StringEnum11["B"] = "Beta";
+(function(StringEnum1) {
+    StringEnum1["A"] = "Alpha";
+    StringEnum1["B"] = "Beta";
 })(StringEnum1 || (StringEnum1 = {
 }));
 // All of these should be errors

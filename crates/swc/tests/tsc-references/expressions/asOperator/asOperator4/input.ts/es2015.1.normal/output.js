@@ -1,6 +1,7 @@
+function foo1() {
+}
 //@module: commonjs
 //@filename: foo.ts
-export function foo() {
-}
+export { foo1 as foo };
 foo;
-foo;
+foo1;

@@ -13,7 +13,7 @@ export var A;
     }, A1.Utils = Utils;
 }(A || (A = {
 })), (function(A2) {
-    var Utils1, Plane;
+    var Utils, Utils1, Plane;
     A2.Origin = {
         x: 0,
         y: 0
@@ -23,6 +23,6 @@ export var A;
         (function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
         })(this, Plane), this.tl = tl, this.br = br;
-    }, Utils1.Plane = Plane;
+    }, Utils1.Plane = Plane, A2.Utils = Utils;
 })(A || (A = {
 }));

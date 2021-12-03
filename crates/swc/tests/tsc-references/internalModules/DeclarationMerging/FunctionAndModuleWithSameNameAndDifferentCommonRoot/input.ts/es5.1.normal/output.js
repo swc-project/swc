@@ -12,14 +12,16 @@ var A;
 }));
 // @filename: module.ts
 var B;
-(function(B) {
+(function(B1) {
+    var Point1;
     (function(Point) {
         Point.Origin = {
             x: 0,
             y: 0
         };
-    })(Point || (Point = {
+    })(Point1 || (Point1 = {
     }));
+    B1.Point = Point1;
 })(B || (B = {
 }));
 // @filename: test.ts

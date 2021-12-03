@@ -4,9 +4,9 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 var E;
-(function(E1) {
-    E1[E1["e1"] = 0] = "e1";
-    E1[E1["e2"] = 1] = "e2";
+(function(E) {
+    E[E["e1"] = 0] = "e1";
+    E[E["e2"] = 1] = "e2";
 })(E || (E = {
 }));
 var A = function A() {

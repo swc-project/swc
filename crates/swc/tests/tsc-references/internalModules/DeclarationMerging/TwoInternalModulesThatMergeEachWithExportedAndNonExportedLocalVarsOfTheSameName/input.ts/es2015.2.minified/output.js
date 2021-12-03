@@ -1,5 +1,5 @@
 !function(A1) {
-    var Utils;
+    let Utils;
     (Utils || (Utils = {
     })).mirror = function(p) {
         return {
@@ -11,13 +11,16 @@
         y: 0
     }, A1.Utils = Utils;
 }(A || (A = {
-})), A || (A = {
-}), (Utils || (Utils = {
-})).Plane = class {
-    constructor(tl, br){
-        this.tl = tl, this.br = br;
-    }
-};
+})), (function(A2) {
+    let Utils;
+    (Utils || (Utils = {
+    })).Plane = class {
+        constructor(tl, br){
+            this.tl = tl, this.br = br;
+        }
+    }, A2.Utils = Utils;
+})(A || (A = {
+}));
 var A, o, o, o = A.Origin, o = A.Utils.mirror(o);
 new A.Utils.Plane(o, {
     x: 1,

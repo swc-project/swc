@@ -30,7 +30,7 @@ var m2;
 (function(m21) {
     var var2;
     var var3;
-    var m31;
+    let m31;
     (function(m3) {
         // global vars in function declaration
         num = typeof var1 === "string" && var1.length; // string

@@ -1,9 +1,9 @@
 var // ! operator on enum type
 ENUM;
-(function(ENUM2) {
-    ENUM2[ENUM2["A"] = 0] = "A";
-    ENUM2[ENUM2["B"] = 1] = "B";
-    ENUM2[ENUM2["C"] = 2] = "C";
+(function(ENUM) {
+    ENUM[ENUM["A"] = 0] = "A";
+    ENUM[ENUM["B"] = 1] = "B";
+    ENUM[ENUM["C"] = 2] = "C";
 })(ENUM || (ENUM = {
 }));
 var ENUM1;

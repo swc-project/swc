@@ -39,10 +39,10 @@ var TypeScript;
             this.logger = logger, this.script = script, this.text = text, this.pos = pos, this.isMemberCompletion = isMemberCompletion, this.scopeGetter = null, this.objectLiteralScopeGetter = null, this.scopeStartAST = null, this.skipNextFuncDeclForClass = !1, this.deepestModuleDecl = null, this.enclosingClassDecl = null, this.enclosingObjectLit = null, this.publicsOnly = !0, this.useFullAst = !1;
         }
     }
-    function preFindEnclosingScope(ast, parent, walker) {
-        var context = walker.state, minChar = ast.minChar, limChar = ast.limChar;
-        if (ast.nodeType == NodeType.Script && context.pos > limChar && (limChar = context.pos), minChar <= context.pos && limChar >= context.pos) {
-            switch(ast.nodeType){
+    function preFindEnclosingScope(ast1, parent, walker) {
+        var context = walker.state, minChar = ast1.minChar, limChar = ast1.limChar;
+        if (ast1.nodeType == NodeType.Script && context.pos > limChar && (limChar = context.pos), minChar <= context.pos && limChar >= context.pos) {
+            switch(ast1.nodeType){
                 case NodeType.Script:
                     var script = ast;
                     context.scopeGetter = function() {
@@ -51,8 +51,8 @@ var TypeScript;
                     break;
                 case NodeType.ClassDeclaration:
                     context.scopeGetter = function() {
-                        return null === ast.type || null === ast.type.instanceType.containedScope ? null : ast.type.instanceType.containedScope;
-                    }, context.scopeStartAST = ast, context.enclosingClassDecl = ast;
+                        return null === ast1.type || null === ast1.type.instanceType.containedScope ? null : ast1.type.instanceType.containedScope;
+                    }, context.scopeStartAST = ast1, context.enclosingClassDecl = ast;
                     break;
                 case NodeType.ObjectLit:
                     var objectLit = ast;
@@ -64,24 +64,24 @@ var TypeScript;
                     break;
                 case NodeType.ModuleDeclaration:
                     context.deepestModuleDecl = ast, context.scopeGetter = function() {
-                        return null === ast.type ? null : ast.type.containedScope;
-                    }, context.scopeStartAST = ast;
+                        return null === ast1.type ? null : ast1.type.containedScope;
+                    }, context.scopeStartAST = ast1;
                     break;
                 case NodeType.InterfaceDeclaration:
                     context.scopeGetter = function() {
-                        return null === ast.type ? null : ast.type.containedScope;
-                    }, context.scopeStartAST = ast;
+                        return null === ast1.type ? null : ast1.type.containedScope;
+                    }, context.scopeStartAST = ast1;
                     break;
                 case NodeType.FuncDecl:
                     var funcDecl = ast;
                     context.skipNextFuncDeclForClass ? context.skipNextFuncDeclForClass = !1 : (context.scopeGetter = function() {
-                        return funcDecl.isConstructor && hasFlag(funcDecl.fncFlags, FncFlags.ClassMethod) && ast.type && ast.type.enclosingType ? ast.type.enclosingType.constructorScope : funcDecl.scopeType ? funcDecl.scopeType.containedScope : funcDecl.type ? funcDecl.type.containedScope : null;
-                    }, context.scopeStartAST = ast);
+                        return funcDecl.isConstructor && hasFlag(funcDecl.fncFlags, FncFlags.ClassMethod) && ast1.type && ast1.type.enclosingType ? ast1.type.enclosingType.constructorScope : funcDecl.scopeType ? funcDecl.scopeType.containedScope : funcDecl.type ? funcDecl.type.containedScope : null;
+                    }, context.scopeStartAST = ast1);
                     break;
             }
             walker.options.goChildren = !0;
         } else walker.options.goChildren = !1;
-        return ast;
+        return ast1;
     }
     TypeScript1.EnclosingScopeContext = EnclosingScopeContext, TypeScript1.preFindMemberScope = function(ast, parent, walker) {
         var memScope = walker.state;

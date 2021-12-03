@@ -97,9 +97,9 @@ for(var x in M){
 for(var x in M.X){
 }
 var Color;
-(function(Color1) {
-    Color1[Color1["Red"] = 0] = "Red";
-    Color1[Color1["Blue"] = 1] = "Blue";
+(function(Color) {
+    Color[Color["Red"] = 0] = "Red";
+    Color[Color["Blue"] = 1] = "Blue";
 })(Color || (Color = {
 }));
 for(var x in Color){

@@ -13,6 +13,7 @@ function f() {
     class C {
     }
     ;
+    let E;
     (function(E) {
     })(E || (E = {
     }));

@@ -44,23 +44,23 @@ function _defineProperties(target, props) {
             return path.push(cur), callback(path, walker), cur;
         }, post = function(cur, parent, walker) {
             return walker.state.pop(), cur;
-        }, path1 = new AstPath();
+        }, path1 = new AstPath1();
         TypeScript.getAstWalkerFactory().walk(ast, pre, post, null, path1);
     };
     TypeScript1.lastOf = lastOf, TypeScript1.max = max, TypeScript1.min = function(a, b) {
         return a <= b ? a : b;
     };
-    var AstPath = function() {
+    var AstPath1 = function() {
         "use strict";
         var Constructor, protoProps, staticProps;
-        function AstPath() {
-            _classCallCheck(this, AstPath), this.asts = [], this.top = -1;
+        function AstPath1() {
+            _classCallCheck(this, AstPath1), this.asts = [], this.top = -1;
         }
-        return Constructor = AstPath, protoProps = [
+        return Constructor = AstPath1, protoProps = [
             {
                 key: "clone",
                 value: function() {
-                    var clone = new AstPath();
+                    var clone = new AstPath1();
                     return clone.asts = this.asts.map(function(value) {
                         return value;
                     }), clone.top = this.top, clone;
@@ -431,14 +431,14 @@ function _defineProperties(target, props) {
                     return null === items || items.length <= index ? null : items[items.length - index - 1];
                 }
             }
-        ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), AstPath;
+        ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), AstPath1;
     }();
-    TypeScript1.AstPath = AstPath, TypeScript1.isValidAstNode = isValidAstNode;
-    var GetAstPathOptions1, AstPathContext = function AstPathContext() {
+    TypeScript1.AstPath = AstPath1, TypeScript1.isValidAstNode = isValidAstNode;
+    var GetAstPathOptions, AstPathContext = function AstPathContext() {
         "use strict";
         _classCallCheck(this, AstPathContext), this.path = new TypeScript.AstPath();
     };
-    TypeScript1.AstPathContext = AstPathContext, (GetAstPathOptions1 = GetAstPathOptions || (GetAstPathOptions = {
-    }))[GetAstPathOptions1.Default = 0] = "Default", GetAstPathOptions1[GetAstPathOptions1.EdgeInclusive = 1] = "EdgeInclusive", GetAstPathOptions1[GetAstPathOptions1.DontPruneSearchBasedOnPosition = 2] = "DontPruneSearchBasedOnPosition", TypeScript1.getAstPathToPosition = getAstPathToPosition, TypeScript1.getTokenizationOffset = getTokenizationOffset, TypeScript1.walkAST = walkAST, TypeScript1.GetAstPathOptions = GetAstPathOptions;
+    TypeScript1.AstPathContext = AstPathContext, (GetAstPathOptions = GetAstPathOptions || (GetAstPathOptions = {
+    }))[GetAstPathOptions.Default = 0] = "Default", GetAstPathOptions[GetAstPathOptions.EdgeInclusive = 1] = "EdgeInclusive", GetAstPathOptions[GetAstPathOptions.DontPruneSearchBasedOnPosition = 2] = "DontPruneSearchBasedOnPosition", TypeScript1.getAstPathToPosition = getAstPathToPosition, TypeScript1.getTokenizationOffset = getTokenizationOffset, TypeScript1.walkAST = walkAST, TypeScript1.GetAstPathOptions = GetAstPathOptions;
 }(TypeScript || (TypeScript = {
 }));

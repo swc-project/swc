@@ -85,6 +85,7 @@ function _createSuper(Derived) {
 }
 // @target: es5
 function f1() {
+    var E;
     (function(E) {
         E[E["A"] = 0] = "A";
         E[E["B"] = 1] = "B";
@@ -104,6 +105,7 @@ function f1() {
 }
 function f2() {
     var g = function g() {
+        var E;
         (function(E) {
             E[E["A"] = 0] = "A";
             E[E["B"] = 1] = "B";
@@ -125,6 +127,7 @@ function f2() {
 }
 function f3(b) {
     if (true) {
+        var E;
         (function(E) {
             E[E["A"] = 0] = "A";
             E[E["B"] = 1] = "B";
@@ -158,6 +161,7 @@ function f3(b) {
 }
 function f5() {
     var z1 = function z1() {
+        var E;
         (function(E) {
             E[E["A"] = 0] = "A";
             E[E["B"] = 1] = "B";
@@ -171,6 +175,7 @@ function f5() {
         return new C();
     };
     var z2 = function() {
+        var E;
         (function(E) {
             E[E["A"] = 0] = "A";
             E[E["B"] = 1] = "B";
@@ -188,12 +193,12 @@ var A = /*#__PURE__*/ function() {
     "use strict";
     function A() {
         _classCallCheck(this, A);
-        var E1;
+        var E;
         (function(E) {
             E[E["A"] = 0] = "A";
             E[E["B"] = 1] = "B";
             E[E["C"] = 2] = "C";
-        })(E1 || (E1 = {
+        })(E || (E = {
         }));
         var C = function C() {
             _classCallCheck(this, C);
@@ -203,6 +208,7 @@ var A = /*#__PURE__*/ function() {
         {
             key: "m",
             value: function m() {
+                var E;
                 (function(E) {
                     E[E["A"] = 0] = "A";
                     E[E["B"] = 1] = "B";
@@ -218,6 +224,7 @@ var A = /*#__PURE__*/ function() {
         {
             key: "p",
             get: function get() {
+                var E;
                 (function(E) {
                     E[E["A"] = 0] = "A";
                     E[E["B"] = 1] = "B";

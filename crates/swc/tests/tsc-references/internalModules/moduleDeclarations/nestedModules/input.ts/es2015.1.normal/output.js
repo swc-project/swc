@@ -1,6 +1,6 @@
 var A;
 (function(A1) {
-    var B;
+    let B;
     (function(B) {
         var Point = {
             x: 0,
@@ -13,7 +13,7 @@ var A;
 }));
 var M2;
 (function(M21) {
-    var X1;
+    let X1;
     (function(X) {
         var Point;
         X.Point = Point;

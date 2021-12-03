@@ -21,9 +21,9 @@ var p;
 var p;
 var X;
 (function(X1) {
-    var Y1;
+    let Y1;
     (function(Y) {
-        var Z;
+        let Z;
         (function(Z) {
             class Line {
             }

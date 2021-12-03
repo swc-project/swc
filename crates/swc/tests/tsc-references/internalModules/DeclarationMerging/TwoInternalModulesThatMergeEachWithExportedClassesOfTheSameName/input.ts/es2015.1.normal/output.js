@@ -13,9 +13,9 @@ var A;
 }));
 var X;
 (function(X1) {
-    var Y1;
+    let Y1;
     (function(Y) {
-        var Z1;
+        let Z1;
         (function(Z) {
             class Line {
             }

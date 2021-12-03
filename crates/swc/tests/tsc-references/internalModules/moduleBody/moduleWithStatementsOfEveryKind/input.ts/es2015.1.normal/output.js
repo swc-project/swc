@@ -1,3 +1,4 @@
+var A;
 (function(A) {
     class A1 {
     }
@@ -7,17 +8,17 @@
     }
     class BB extends A1 {
     }
-    var Module;
+    let Module;
     (function(Module) {
         class A {
         }
     })(Module || (Module = {
     }));
-    var Color1;
+    let Color;
     (function(Color) {
         Color[Color["Blue"] = 0] = "Blue";
         Color[Color["Red"] = 1] = "Red";
-    })(Color1 || (Color1 = {
+    })(Color || (Color = {
     }));
     var x = 12;
     function F(s) {
@@ -36,23 +37,25 @@
 }));
 var Y;
 (function(Y1) {
-    class A {
+    class A2 {
     }
-    Y1.A = A;
+    Y1.A = A2;
     class AA {
     }
     Y1.AA = AA;
     class B extends AA {
     }
     Y1.B = B;
-    class BB extends A {
+    class BB extends A2 {
     }
     Y1.BB = BB;
+    let Module;
     (function(Module) {
         class A {
         }
     })(Module || (Module = {
     }));
+    let Color;
     (function(Color) {
         Color[Color["Blue"] = 0] = "Blue";
         Color[Color["Red"] = 1] = "Red";
@@ -72,5 +75,6 @@ var Y;
         id: 2,
         isvalid: true
     };
+    Y1.Module = Module, Y1.Color = Color;
 })(Y || (Y = {
 }));

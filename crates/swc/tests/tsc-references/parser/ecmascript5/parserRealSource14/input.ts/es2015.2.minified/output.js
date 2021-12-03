@@ -1,6 +1,6 @@
 var TypeScript;
 !function(TypeScript1) {
-    var GetAstPathOptions, GetAstPathOptions1;
+    var GetAstPathOptions;
     function lastOf(items) {
         return null === items || 0 === items.length ? null : items[items.length - 1];
     }
@@ -10,12 +10,12 @@ var TypeScript;
     TypeScript1.lastOf = lastOf, TypeScript1.max = max, TypeScript1.min = function(a, b) {
         return a <= b ? a : b;
     };
-    class AstPath {
+    class AstPath1 {
         static reverseIndexOf(items, index) {
             return null === items || items.length <= index ? null : items[items.length - index - 1];
         }
         clone() {
-            var clone = new AstPath();
+            var clone = new AstPath1();
             return clone.asts = this.asts.map((value)=>value
             ), clone.top = this.top, clone;
         }
@@ -210,14 +210,16 @@ var TypeScript;
     function isValidAstNode(ast) {
         return null !== ast && -1 !== ast.minChar && -1 !== ast.limChar;
     }
-    TypeScript1.AstPath = AstPath, TypeScript1.isValidAstNode = isValidAstNode;
+    TypeScript1.AstPath = AstPath1, TypeScript1.isValidAstNode = isValidAstNode;
     class AstPathContext {
         constructor(){
             this.path = new TypeScript.AstPath();
         }
     }
-    TypeScript1.AstPathContext = AstPathContext, (GetAstPathOptions1 = GetAstPathOptions || (GetAstPathOptions = {
-    }))[GetAstPathOptions1.Default = 0] = "Default", GetAstPathOptions1[GetAstPathOptions1.EdgeInclusive = 1] = "EdgeInclusive", GetAstPathOptions1[GetAstPathOptions1.DontPruneSearchBasedOnPosition = 2] = "DontPruneSearchBasedOnPosition", TypeScript1.getAstPathToPosition = function(script, pos, options = GetAstPathOptions.Default) {
+    TypeScript1.AstPathContext = AstPathContext;
+    let GetAstPathOptions;
+    (GetAstPathOptions = GetAstPathOptions || (GetAstPathOptions = {
+    }))[GetAstPathOptions.Default = 0] = "Default", GetAstPathOptions[GetAstPathOptions.EdgeInclusive = 1] = "EdgeInclusive", GetAstPathOptions[GetAstPathOptions.DontPruneSearchBasedOnPosition = 2] = "DontPruneSearchBasedOnPosition", TypeScript1.getAstPathToPosition = function(script, pos, options = GetAstPathOptions.Default) {
         var lookInComments = (comments)=>{
             if (comments && comments.length > 0) for(var i = 0; i < comments.length; i++){
                 var minChar = comments[i].minChar, limChar = comments[i].limChar;
@@ -240,7 +242,7 @@ var TypeScript;
         ;
         return TypeScript.getAstWalkerFactory().walk(script, pre), bestOffset;
     }, TypeScript1.walkAST = function(ast, callback) {
-        var path1 = new AstPath();
+        var path1 = new AstPath1();
         TypeScript.getAstWalkerFactory().walk(ast, function(cur, parent, walker) {
             var path = walker.state;
             return path.push(cur), callback(path, walker), cur;

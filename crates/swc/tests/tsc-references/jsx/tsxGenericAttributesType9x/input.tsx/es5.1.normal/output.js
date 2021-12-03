@@ -102,7 +102,7 @@ function _createSuper(Derived) {
 // @noLib: true
 // @skipLibCheck: true
 // @libFiles: react.d.ts,lib.d.ts
-var React1 = require('react');
+var React = require('react');
 export function makeP(Ctor) {
     return /*#__PURE__*/ (function(_PureComponent) {
         "use strict";
@@ -122,5 +122,5 @@ export function makeP(Ctor) {
             }
         ]);
         return _class;
-    })(React1.PureComponent);
+    })(React.PureComponent);
 }

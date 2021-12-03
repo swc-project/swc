@@ -1,7 +1,7 @@
 //@filename: part1.ts
 var A;
 (function(A1) {
-    var Utils1;
+    let Utils1;
     (function(Utils) {
         function mirror(p1) {
             return {
@@ -19,9 +19,10 @@ var A;
     A1.Utils = Utils1;
 })(A || (A = {
 }));
-(function(A) {
+(function(A2) {
     // not a collision, since we don't export
     var Origin = "0,0";
+    let Utils2;
     (function(Utils) {
         class Plane {
             constructor(tl, br){
@@ -30,8 +31,9 @@ var A;
             }
         }
         Utils.Plane = Plane;
-    })(Utils || (Utils = {
+    })(Utils2 || (Utils2 = {
     }));
+    A2.Utils = Utils2;
 })(A || (A = {
 }));
 //@filename: part3.ts

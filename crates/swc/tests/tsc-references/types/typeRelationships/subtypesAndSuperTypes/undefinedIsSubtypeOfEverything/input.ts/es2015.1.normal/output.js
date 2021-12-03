@@ -32,8 +32,8 @@ class D9 extends Base {
 class D10 extends Base {
 }
 var E;
-(function(E1) {
-    E1[E1["A"] = 0] = "A";
+(function(E) {
+    E[E["A"] = 0] = "A";
 })(E || (E = {
 }));
 class D11 extends Base {

@@ -1,6 +1,6 @@
 var A;
 (function(A) {
-    var B1;
+    let B1;
     (function(B) {
         var x1;
         B.x = x1;
@@ -13,9 +13,9 @@ var x;
 var x = A.B.x;
 var X;
 (function(X1) {
-    var Y;
+    let Y;
     (function(Y) {
-        var Z1;
+        let Z1;
         (function(Z) {
             class Line {
             }

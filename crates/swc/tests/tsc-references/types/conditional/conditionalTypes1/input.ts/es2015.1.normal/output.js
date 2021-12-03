@@ -43,7 +43,7 @@ function f10(part) {
     part.subparts[0].id = part.subparts[0].id; // Error
     part.updatePart("hello"); // Error
 }
-function zeroOf(value) {
+function zeroOf(value1) {
     return typeof value === "number" ? 0 : typeof value === "string" ? "" : false;
 }
 function f20(n, b, x, y) {

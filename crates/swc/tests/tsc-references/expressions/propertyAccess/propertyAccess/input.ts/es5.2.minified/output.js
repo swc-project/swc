@@ -11,7 +11,7 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var Compass, bothIndex, stringOrNumber, someObject, Compass1, A = function() {
+var Compass, bothIndex, stringOrNumber, someObject, Compass, A = function() {
     "use strict";
     _classCallCheck(this, A);
 }, B = function(A1) {
@@ -55,8 +55,8 @@ var Compass, bothIndex, stringOrNumber, someObject, Compass1, A = function() {
     }
     return B;
 }(A);
-(Compass1 = Compass || (Compass = {
-}))[Compass1.North = 0] = "North", Compass1[Compass1.South = 1] = "South", Compass1[Compass1.East = 2] = "East", Compass1[Compass1.West = 3] = "West";
+(Compass = Compass || (Compass = {
+}))[Compass.North = 0] = "North", Compass[Compass.South = 1] = "South", Compass[Compass.East = 2] = "East", Compass[Compass.West = 3] = "West";
 var numIndex = {
     3: "three",
     three: "three"

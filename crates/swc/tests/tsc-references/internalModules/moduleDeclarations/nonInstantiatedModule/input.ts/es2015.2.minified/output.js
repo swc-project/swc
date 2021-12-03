@@ -2,7 +2,7 @@
 })).a = 1;
 var M, m, M2, M3, m = M;
 m.a, (function(M21) {
-    var Point;
+    let Point;
     (Point || (Point = {
     })).Origin = function() {
         return {

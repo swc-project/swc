@@ -69,13 +69,13 @@ var p2 = new m2.Point();
 var p2 = new M2.Point();
 var M3;
 (function(M31) {
-    var Color1;
+    var Color;
     (function(Color) {
         Color[Color["Blue"] = 0] = "Blue";
         Color[Color["Red"] = 1] = "Red";
-    })(Color1 || (Color1 = {
+    })(Color || (Color = {
     }));
-    M31.Color = Color1;
+    M31.Color = Color;
 })(M3 || (M3 = {
 }));
 var m3;
