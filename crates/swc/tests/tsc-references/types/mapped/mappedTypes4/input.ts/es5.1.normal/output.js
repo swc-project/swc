@@ -1,10 +1,10 @@
-function boxify(obj1) {
-    if (typeof obj1 === "object") {
+function boxify(obj) {
+    if (typeof obj === "object") {
         var result = {
         };
-        for(var k in obj1){
+        for(var k in obj){
             result[k] = {
-                value: obj1[k]
+                value: obj[k]
             };
         }
         return result;

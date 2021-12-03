@@ -44,23 +44,23 @@ function _defineProperties(target, props) {
             return path.push(cur), callback(path, walker), cur;
         }, post = function(cur, parent, walker) {
             return walker.state.pop(), cur;
-        }, path1 = new AstPath1();
+        }, path1 = new AstPath();
         TypeScript.getAstWalkerFactory().walk(ast, pre, post, null, path1);
     };
     TypeScript1.lastOf = lastOf, TypeScript1.max = max, TypeScript1.min = function(a, b) {
         return a <= b ? a : b;
     };
-    var AstPath1 = function() {
+    var AstPath = function() {
         "use strict";
         var Constructor, protoProps, staticProps;
-        function AstPath1() {
-            _classCallCheck(this, AstPath1), this.asts = [], this.top = -1;
+        function AstPath() {
+            _classCallCheck(this, AstPath), this.asts = [], this.top = -1;
         }
-        return Constructor = AstPath1, protoProps = [
+        return Constructor = AstPath, protoProps = [
             {
                 key: "clone",
                 value: function() {
-                    var clone = new AstPath1();
+                    var clone = new AstPath();
                     return clone.asts = this.asts.map(function(value) {
                         return value;
                     }), clone.top = this.top, clone;
@@ -431,9 +431,9 @@ function _defineProperties(target, props) {
                     return null === items || items.length <= index ? null : items[items.length - index - 1];
                 }
             }
-        ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), AstPath1;
+        ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), AstPath;
     }();
-    TypeScript1.AstPath = AstPath1, TypeScript1.isValidAstNode = isValidAstNode;
+    TypeScript1.AstPath = AstPath, TypeScript1.isValidAstNode = isValidAstNode;
     var GetAstPathOptions, AstPathContext = function AstPathContext() {
         "use strict";
         _classCallCheck(this, AstPathContext), this.path = new TypeScript.AstPath();

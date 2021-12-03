@@ -1,6 +1,6 @@
 var y = void 0;
-!function(something1, haveValue, haveY) {
-    return something1 === y ? haveY(y) : haveValue(something);
+!function(something, haveValue, haveY) {
+    return something === y ? haveY(y) : haveValue(something);
 }(Math.random() > 0.5 ? "hey!" : void 0, function(text) {
     return "string";
 }, function(y) {

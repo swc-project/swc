@@ -83,7 +83,7 @@ var C2 = /*#__PURE__*/ function(C1) {
     }
     return C2;
 }(C1);
-var c11;
+var c1;
 c1; // Should succeed (private x originates in the same declaration)
 var C3 = function C3() {
     "use strict";
@@ -99,5 +99,5 @@ var C4 = /*#__PURE__*/ function(C3) {
     }
     return C4;
 }(C3);
-var c31;
+var c3;
 c3; // Should fail (private x originates in the same declaration, but different types)

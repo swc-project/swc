@@ -45,7 +45,7 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var E2, E1, E2, E1, A = function() {
+var E1, E2, E1, A = function() {
     "use strict";
     _classCallCheck(this, A), this.a = 10;
 }, C = function() {
@@ -73,6 +73,9 @@ var E2, E1, E2, E1, A = function() {
 }(A);
 (E1 = E1 || (E1 = {
 }))[E1.one = 0] = "one", (E2 = E2 || (E2 = {
-}))[E2.one = 0] = "one", new C(), new D();
-var classCDATuple = classCDTuple;
+}))[E2.one = 0] = "one";
+var E2, classCDATuple = [
+    new C(),
+    new D()
+];
 classCDATuple[2], classCDATuple[5], E1.one, E2.one, new C(), new C(), new D(), t4[2] = 10;

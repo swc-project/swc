@@ -54,10 +54,10 @@ function _defineProperties(target, props) {
             }
         ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), PrintContext;
     }();
-    TypeScript1.PrintContext = PrintContext, TypeScript1.prePrintAST = function(ast, parent, walker1) {
+    TypeScript1.PrintContext = PrintContext, TypeScript1.prePrintAST = function(ast, parent, walker) {
         var pc = walker.state;
         return ast.print(pc), pc.increaseIndent(), ast;
-    }, TypeScript1.postPrintAST = function(ast, parent, walker2) {
+    }, TypeScript1.postPrintAST = function(ast, parent, walker) {
         return walker.state.decreaseIndent(), ast;
     };
 }(TypeScript || (TypeScript = {

@@ -1,4 +1,4 @@
-class C1 {
+class C {
 }
 class D {
 }
@@ -30,7 +30,7 @@ var anOtherAny = new C();
 throw anOtherAny;
 var anUndefined = undefined;
 throw anUndefined;
-var aClass = new C1();
+var aClass = new C();
 throw aClass;
 var aGenericClass = new D();
 throw aGenericClass;
@@ -79,6 +79,6 @@ throw [
 ];
 throw /[a-z]/;
 throw new Date();
-throw new C1();
+throw new C();
 throw new Object();
 throw new D();

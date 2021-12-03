@@ -35,16 +35,16 @@ function ft11(s, cond) {
     var v4 = c4; // string
     var v5 = c5; // `foo${string}` | `bar${string}` | `baz${string}`
 }
-function ft12(s1) {
-    var c1 = "foo".concat(s1);
+function ft12(s) {
+    var c1 = "foo".concat(s);
     var v1 = c1;
-    var c2 = "foo".concat(s1);
+    var c2 = "foo".concat(s);
     var v2 = c2;
-    var c3 = "foo".concat(s1);
+    var c3 = "foo".concat(s);
     var v3 = c3;
     var c4 = "foo".concat(s);
     var v4 = c4;
-    var c5 = "foo".concat(s1);
+    var c5 = "foo".concat(s);
     var v5 = c5;
 }
 function ft13(s, cond) {

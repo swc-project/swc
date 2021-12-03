@@ -12,10 +12,10 @@ function _defineProperties(target, props) {
     var preFindMemberScope = function(ast, parent, walker) {
         var memScope = walker.state;
         return hasFlag(ast.flags, memScope.matchFlag) && (memScope.pos < 0 || memScope.pos == ast.limChar) && (memScope.ast = ast, null == ast.type && memScope.pos >= 0 && memScope.flow.inScopeTypeCheck(ast, memScope.scope), memScope.type = ast.type, memScope.options.stopWalk()), ast;
-    }, preFindEnclosingScope = function(ast1, parent, walker) {
-        var context = walker.state, minChar = ast1.minChar, limChar = ast1.limChar;
-        if (ast1.nodeType == NodeType.Script && context.pos > limChar && (limChar = context.pos), minChar <= context.pos && limChar >= context.pos) {
-            switch(ast1.nodeType){
+    }, preFindEnclosingScope = function(ast, parent, walker) {
+        var context = walker.state, minChar = ast.minChar, limChar = ast.limChar;
+        if (ast.nodeType == NodeType.Script && context.pos > limChar && (limChar = context.pos), minChar <= context.pos && limChar >= context.pos) {
+            switch(ast.nodeType){
                 case NodeType.Script:
                     var script = ast;
                     context.scopeGetter = function() {
@@ -24,8 +24,8 @@ function _defineProperties(target, props) {
                     break;
                 case NodeType.ClassDeclaration:
                     context.scopeGetter = function() {
-                        return null === ast1.type || null === ast1.type.instanceType.containedScope ? null : ast1.type.instanceType.containedScope;
-                    }, context.scopeStartAST = ast1, context.enclosingClassDecl = ast;
+                        return null === ast.type || null === ast.type.instanceType.containedScope ? null : ast.type.instanceType.containedScope;
+                    }, context.scopeStartAST = ast, context.enclosingClassDecl = ast;
                     break;
                 case NodeType.ObjectLit:
                     var objectLit = ast;
@@ -37,24 +37,24 @@ function _defineProperties(target, props) {
                     break;
                 case NodeType.ModuleDeclaration:
                     context.deepestModuleDecl = ast, context.scopeGetter = function() {
-                        return null === ast1.type ? null : ast1.type.containedScope;
-                    }, context.scopeStartAST = ast1;
+                        return null === ast.type ? null : ast.type.containedScope;
+                    }, context.scopeStartAST = ast;
                     break;
                 case NodeType.InterfaceDeclaration:
                     context.scopeGetter = function() {
-                        return null === ast1.type ? null : ast1.type.containedScope;
-                    }, context.scopeStartAST = ast1;
+                        return null === ast.type ? null : ast.type.containedScope;
+                    }, context.scopeStartAST = ast;
                     break;
                 case NodeType.FuncDecl:
                     var funcDecl = ast;
                     context.skipNextFuncDeclForClass ? context.skipNextFuncDeclForClass = !1 : (context.scopeGetter = function() {
-                        return funcDecl.isConstructor && hasFlag(funcDecl.fncFlags, FncFlags.ClassMethod) && ast1.type && ast1.type.enclosingType ? ast1.type.enclosingType.constructorScope : funcDecl.scopeType ? funcDecl.scopeType.containedScope : funcDecl.type ? funcDecl.type.containedScope : null;
-                    }, context.scopeStartAST = ast1);
+                        return funcDecl.isConstructor && hasFlag(funcDecl.fncFlags, FncFlags.ClassMethod) && ast.type && ast.type.enclosingType ? ast.type.enclosingType.constructorScope : funcDecl.scopeType ? funcDecl.scopeType.containedScope : funcDecl.type ? funcDecl.type.containedScope : null;
+                    }, context.scopeStartAST = ast);
                     break;
             }
             walker.options.goChildren = !0;
         } else walker.options.goChildren = !1;
-        return ast1;
+        return ast;
     }, findEnclosingScopeAt = function(logger, script, text, pos, isMemberCompletion) {
         var context = new EnclosingScopeContext(logger, script, text, pos, isMemberCompletion);
         return (TypeScript.getAstWalkerFactory().walk(script, preFindEnclosingScope, null, null, context), null === context.scopeStartAST) ? null : context;

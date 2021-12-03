@@ -386,7 +386,6 @@ impl<'a> VisitMut for Resolver<'a> {
     typed_ref!(visit_mut_ts_type_operator, TsTypeOperator);
     typed_ref!(visit_mut_ts_type, TsType);
     typed_ref!(visit_mut_ts_type_ann, TsTypeAnn);
-    typed_ref!(visit_mut_ts_type_assertion, TsTypeAssertion);
     typed!(
         visit_mut_ts_union_or_intersection_type,
         TsUnionOrIntersectionType
@@ -921,6 +920,22 @@ impl<'a> VisitMut for Resolver<'a> {
 
         // Phase 2.
         stmts.visit_mut_children_with(self)
+    }
+
+    fn visit_mut_ts_as_expr(&mut self, n: &mut TsAsExpr) {
+        if self.handle_types {
+            n.type_ann.visit_mut_with(self);
+        }
+
+        n.expr.visit_mut_with(self);
+    }
+
+    fn visit_mut_ts_type_assertion(&mut self, n: &mut TsTypeAssertion) {
+        if self.handle_types {
+            n.type_ann.visit_mut_with(self);
+        }
+
+        n.expr.visit_mut_with(self);
     }
 
     fn visit_mut_ts_call_signature_decl(&mut self, n: &mut TsCallSignatureDecl) {

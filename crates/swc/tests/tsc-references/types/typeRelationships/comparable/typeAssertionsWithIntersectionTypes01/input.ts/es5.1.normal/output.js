@@ -3,8 +3,8 @@ var x = {
     p2: 20,
     p3: 30
 };
-var y1 = x;
-var z1 = x;
+var y = x;
+var z = x;
 var a = z;
 var b = z;
 var c = z;
