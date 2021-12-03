@@ -577,21 +577,27 @@ impl VisitMut for ReduceAst {
                 self.ignore_expr(callee);
 
                 let is_define = match &**callee {
-                    Expr::Ident(callee) => {
-                        if &*callee.sym == "define" || &*callee.sym == "require" {
-                            true
-                        } else {
-                            false
-                        }
-                    }
+                    Expr::Ident(callee) => &*callee.sym == "define",
                     _ => false,
                 };
 
-                let is_string_lit_important = is_define
-                    || match &**callee {
-                        Expr::Ident(callee) => &*callee.sym == "require",
-                        _ => false,
-                    };
+                if is_define {
+                    for arg in args {
+                        match &mut *arg.expr {
+                            Expr::Fn(f) => {
+                                f.function.body.visit_mut_with(self);
+                            }
+                            _ => {}
+                        }
+                    }
+
+                    return;
+                }
+
+                let is_string_lit_important = match &**callee {
+                    Expr::Ident(callee) => &*callee.sym == "require",
+                    _ => false,
+                };
 
                 if callee.is_invalid() {
                     let mut seq = Expr::Seq(SeqExpr {
