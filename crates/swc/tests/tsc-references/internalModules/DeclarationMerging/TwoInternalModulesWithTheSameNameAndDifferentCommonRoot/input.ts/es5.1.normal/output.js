@@ -4,8 +4,8 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 //@filename: part1.ts
-var Root1;
-(function(Root) {
+var Root;
+(function(Root1) {
     var A1;
     (function(A) {
         var Utils1;
@@ -22,8 +22,8 @@ var Root1;
         A.Utils = Utils1;
     })(A1 || (A1 = {
     }));
-    Root.A = A1;
-})(Root1 || (Root1 = {
+    Root1.A = A1;
+})(Root || (Root = {
 }));
 //@filename: part2.ts
 var otherRoot;

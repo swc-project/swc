@@ -1,26 +1,26 @@
-var Y1;
+var Y;
 !function(A) {
     var Color, Color1;
     (Color = Color1 || (Color1 = {
     }))[Color.Blue = 0] = "Blue", Color[Color.Red = 1] = "Red";
 }(A || (A = {
-})), (function(Y) {
+})), (function(Y1) {
     var Color2;
     class A {
     }
-    Y.A = A;
+    Y1.A = A;
     class AA {
     }
-    Y.AA = AA, Y.B = class extends AA {
-    }, Y.BB = class extends A {
+    Y1.AA = AA, Y1.B = class extends AA {
+    }, Y1.BB = class extends A {
     }, (Color2 = Color || (Color = {
-    }))[Color2.Blue = 0] = "Blue", Color2[Color2.Red = 1] = "Red", Y.x = 12, Y.F = function(s) {
+    }))[Color2.Blue = 0] = "Blue", Color2[Color2.Red = 1] = "Red", Y1.x = 12, Y1.F = function(s) {
         return 2;
-    }, Y.array = null, Y.fn = (s)=>"hello " + s
-    , Y.ol = {
+    }, Y1.array = null, Y1.fn = (s)=>"hello " + s
+    , Y1.ol = {
         s: "hello",
         id: 2,
         isvalid: !0
     };
-})(Y1 || (Y1 = {
+})(Y || (Y = {
 }));

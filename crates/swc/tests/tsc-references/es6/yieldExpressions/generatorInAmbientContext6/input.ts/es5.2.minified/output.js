@@ -1,6 +1,6 @@
-var M1;
+var M;
 import regeneratorRuntime from "regenerator-runtime";
-!function(M) {
+!function(M1) {
     var generator = regeneratorRuntime.mark(function() {
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){
@@ -10,6 +10,6 @@ import regeneratorRuntime from "regenerator-runtime";
             }
         }, generator);
     });
-    M.generator = generator;
-}(M1 || (M1 = {
+    M1.generator = generator;
+}(M || (M = {
 }));

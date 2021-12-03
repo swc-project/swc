@@ -1,5 +1,5 @@
 import { jsx as _jsx } from "react/jsx-runtime";
-import React, { Component as Component1 } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Item from './Item';
 import compareObjects from './compareObjects';
@@ -117,9 +117,9 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
-var ItemsList = /*#__PURE__*/ function(Component) {
+var ItemsList = /*#__PURE__*/ function(Component1) {
     "use strict";
-    _inherits(ItemsList, Component);
+    _inherits(ItemsList, Component1);
     var _super = _createSuper(ItemsList);
     function ItemsList() {
         _classCallCheck(this, ItemsList);
@@ -180,7 +180,7 @@ var ItemsList = /*#__PURE__*/ function(Component) {
         }
     ]);
     return ItemsList;
-}(Component1);
+}(Component);
 ItemsList.propTypes = {
     items: PropTypes.array.isRequired,
     itemProps: PropTypes.oneOfType([

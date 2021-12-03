@@ -102,16 +102,16 @@ expect(Foo.num = 1).toBe(1);
 expect(Foo.name).toBe('Foo');
 "#,
     r#"
-var Foo1 = function() {
-  var Foo = function() {
-   _classCallCheck(this, Foo);
+var Foo = function() {
+  var Foo1 = function() {
+   _classCallCheck(this, Foo1);
   };
-  _defineProperty(Foo, 'num', 0);
-  return Foo;
+  _defineProperty(Foo1, 'num', 0);
+  return Foo1;
 }();
-expect(Foo1.num).toBe(0);
-expect(Foo1.num = 1).toBe(1);
-expect(Foo1.name).toBe('Foo');
+expect(Foo.num).toBe(0);
+expect(Foo.num = 1).toBe(1);
+expect(Foo.name).toBe('Foo');
 "#
 );
 
@@ -825,27 +825,25 @@ test!(
     function_name_collisions,
     r#"
 var obj = {
-search: function({search}) {
-console.log(search);
-}
+    search: function({search}) {
+        console.log(search);
+    }
 };
 
 function search({search}) {
-console.log(search);
+    console.log(search);
 }
 
 "#,
     r#"
 var obj = {
-search: function search1({
-search
-}) {
-console.log(search);
-}
+    search: function search1({ search: search2 }) {
+        console.log(search2);
+    }
 };
 
-function search2({ search }) {
-console.log(search);
+function search({ search: search3 }) {
+    console.log(search3);
 }
 
 "#

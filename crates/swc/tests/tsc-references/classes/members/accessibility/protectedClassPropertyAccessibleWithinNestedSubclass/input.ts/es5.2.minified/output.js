@@ -54,12 +54,12 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var B1 = function() {
+var B = function() {
     "use strict";
-    _classCallCheck(this, B1);
-}, C = function(B) {
+    _classCallCheck(this, B);
+}, C = function(B1) {
     "use strict";
-    _inherits(C, B);
+    _inherits(C, B1);
     var _super = _createSuper(C);
     function C() {
         return _classCallCheck(this, C), _super.apply(this, arguments);
@@ -122,7 +122,7 @@ var B1 = function() {
             }
         }
     ]), C;
-}(B1), E = function(C) {
+}(B), E = function(C) {
     "use strict";
     _inherits(E, C);
     var _super = _createSuper(E);

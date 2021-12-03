@@ -1,5 +1,5 @@
-var A1, M21;
-!function(A) {
+var A, M2;
+!function(A1) {
     var B, B1, C;
     B1 = B || (B = {
     }), C = function() {
@@ -7,11 +7,11 @@ var A1, M21;
         !function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
         }(this, C);
-    }, B1.C = C, A.B = B;
-}(A1 || (A1 = {
-})), (function(M2) {
+    }, B1.C = C, A1.B = B;
+}(A || (A = {
+})), (function(M21) {
     var X, Point;
     (X || (X = {
-    })).Point = Point, M2.X = X;
-})(M21 || (M21 = {
+    })).Point = Point, M21.X = X;
+})(M2 || (M2 = {
 }));

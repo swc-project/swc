@@ -54,18 +54,18 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var Flag, E, Flag1, E1, Shape1 = function() {
+var Flag, E, Flag1, E1, Shape = function() {
     "use strict";
-    _classCallCheck(this, Shape1);
-}, TaggedShape = function(Shape) {
+    _classCallCheck(this, Shape);
+}, TaggedShape = function(Shape1) {
     "use strict";
-    _inherits(TaggedShape, Shape);
+    _inherits(TaggedShape, Shape1);
     var _super = _createSuper(TaggedShape);
     function TaggedShape() {
         return _classCallCheck(this, TaggedShape), _super.apply(this, arguments);
     }
     return TaggedShape;
-}(Shape1), Item = function() {
+}(Shape), Item = function() {
     "use strict";
     _classCallCheck(this, Item);
 }, Options = function() {
@@ -191,12 +191,12 @@ one(function() {
     "hello",
     35
 ]);
-var A1 = function() {
+var A = function() {
     "use strict";
-    _classCallCheck(this, A1);
-}, B = function(A) {
+    _classCallCheck(this, A);
+}, B = function(A1) {
     "use strict";
-    _inherits(B, A);
+    _inherits(B, A1);
     var _super = _createSuper(B);
     function B() {
         return _classCallCheck(this, B), _super.apply(this, arguments);
@@ -209,7 +209,7 @@ var A1 = function() {
             }
         }
     ]), B;
-}(A1), Form = function() {
+}(A), Form = function() {
     "use strict";
     function Form() {
         _classCallCheck(this, Form);
@@ -222,12 +222,12 @@ var A1 = function() {
             }
         }
     ]), Form;
-}(), SampleClass1 = function(props) {
+}(), SampleClass = function(props) {
     "use strict";
-    _classCallCheck(this, SampleClass1), this.props = Object.freeze(props);
-}, AnotherSampleClass = function(SampleClass) {
+    _classCallCheck(this, SampleClass), this.props = Object.freeze(props);
+}, AnotherSampleClass = function(SampleClass1) {
     "use strict";
-    _inherits(AnotherSampleClass, SampleClass);
+    _inherits(AnotherSampleClass, SampleClass1);
     var _super = _createSuper(AnotherSampleClass);
     function AnotherSampleClass(props) {
         return _classCallCheck(this, AnotherSampleClass), _super.call(this, merge(props, {
@@ -242,7 +242,7 @@ var A1 = function() {
             }
         }
     ]), AnotherSampleClass;
-}(SampleClass1);
+}(SampleClass);
 new AnotherSampleClass({
 }), (Flag = Flag1 || (Flag1 = {
 })).FLAG_1 = "flag_1", Flag.FLAG_2 = "flag_2";

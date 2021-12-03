@@ -17,14 +17,14 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var _class2, _class1;
+var _class, _class1;
 function getFoo1() {
     return /*#__PURE__*/ (function() {
         "use strict";
-        function _class() {
-            _classCallCheck(this, _class);
+        function _class2() {
+            _classCallCheck(this, _class2);
         }
-        _createClass(_class, null, [
+        _createClass(_class2, null, [
             {
                 key: "method1",
                 value: function method1(arg) {
@@ -38,23 +38,23 @@ function getFoo1() {
                 }
             }
         ]);
-        return _class;
+        return _class2;
     })();
 }
 function getFoo2() {
-    return _class2 = function _class() {
+    return _class = function _class3() {
         "use strict";
-        _classCallCheck(this, _class);
-    }, _class2.method1 = function(arg) {
+        _classCallCheck(this, _class3);
+    }, _class.method1 = function(arg) {
         arg.numProp = 10;
-    }, _class2.method2 = function(arg) {
+    }, _class.method2 = function(arg) {
         arg.strProp = "hello";
-    }, _class2;
+    }, _class;
 }
 function getFoo3() {
-    return _class1 = function _class() {
+    return _class1 = function _class3() {
         "use strict";
-        _classCallCheck(this, _class);
+        _classCallCheck(this, _class3);
     }, _class1.method1 = function(arg) {
         arg.numProp = 10;
     }, _class1.method2 = function(arg) {

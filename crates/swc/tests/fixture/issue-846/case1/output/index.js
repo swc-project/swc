@@ -454,14 +454,14 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
-var SomeClass1 = _decorate([], function(_initialize) {
-    var SomeClass = function SomeClass() {
+var SomeClass = _decorate([], function(_initialize) {
+    var SomeClass1 = function SomeClass1() {
         "use strict";
-        _classCallCheck(this, SomeClass);
+        _classCallCheck(this, SomeClass1);
         _initialize(this);
     };
     return {
-        F: SomeClass,
+        F: SomeClass1,
         d: [
             {
                 kind: "method",
@@ -475,22 +475,22 @@ var SomeClass1 = _decorate([], function(_initialize) {
         ]
     };
 });
-var OtherClass1 = _decorate([], function(_initialize, _SomeClass1) {
-    var OtherClass = /*#__PURE__*/ function(_SomeClass) {
+var OtherClass = _decorate([], function(_initialize, _SomeClass1) {
+    var OtherClass1 = /*#__PURE__*/ function(_SomeClass) {
         "use strict";
-        _inherits(OtherClass, _SomeClass);
-        var _super = _createSuper(OtherClass);
-        function OtherClass() {
-            _classCallCheck(this, OtherClass);
+        _inherits(OtherClass1, _SomeClass);
+        var _super = _createSuper(OtherClass1);
+        function OtherClass1() {
+            _classCallCheck(this, OtherClass1);
             var _this;
             _this = _super.apply(this, arguments);
             _initialize(_assertThisInitialized(_this));
             return _this;
         }
-        return OtherClass;
+        return OtherClass1;
     }(_SomeClass1);
     return {
-        F: OtherClass,
+        F: OtherClass1,
         d: [
             {
                 kind: "method",
@@ -499,9 +499,9 @@ var OtherClass1 = _decorate([], function(_initialize, _SomeClass1) {
                 ],
                 key: "anotherMethod",
                 value: function anotherMethod() {
-                    _get(_getPrototypeOf(OtherClass.prototype), "someMethod", this).call(this);
+                    _get(_getPrototypeOf(OtherClass1.prototype), "someMethod", this).call(this);
                 }
             }
         ]
     };
-}, SomeClass1);
+}, SomeClass);

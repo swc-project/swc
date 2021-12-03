@@ -1,97 +1,97 @@
 var validate = function(x) {
     return x === 'yes' || x === 'no' ? x : 'idk';
 }; // No error
-var u1 = undefined;
-if (u1 === 5) {
-    var y = u1.toString(10);
+var u = undefined;
+if (u === 5) {
+    var y = u.toString(10);
 }
-if (u1 === true || u1 === false) {
-    var someBool = u1;
+if (u === true || u === false) {
+    var someBool = u;
 }
-if (u1 === undefined) {
-    var undef = u1;
+if (u === undefined) {
+    var undef = u;
 }
-if (u1 === null) {
-    var someNull = u1;
+if (u === null) {
+    var someNull = u;
 }
-if (u1 === symb) {
-    var symbolAlias = u1;
+if (u === symb) {
+    var symbolAlias = u;
 }
-if (!(u1 === 42)) {
+if (!(u === 42)) {
 }
-if (u1 !== 42) {
+if (u !== 42) {
 }
-if (u1 == 42) {
+if (u == 42) {
 }
-if (u1 == true) {
+if (u == true) {
 }
-if (u1 == Object) {
+if (u == Object) {
 }
-if (u1 === aString) {
-    var uString = u1;
+if (u === aString) {
+    var uString = u;
 }
-if (u1 === aBoolean) {
-    var uString1 = u1;
+if (u === aBoolean) {
+    var uString1 = u;
 }
-if (u1 === aNumber) {
-    var uNumber = u1;
+if (u === aNumber) {
+    var uNumber = u;
 }
-if (u1 === anObject) {
-    var uObject = u1;
+if (u === anObject) {
+    var uObject = u;
 }
-if (u1 === anObjectLiteral) {
-    var uObjectLiteral = u1;
+if (u === anObjectLiteral) {
+    var uObjectLiteral = u;
 }
-if (u1 === aUnion) {
+if (u === aUnion) {
 }
-if (u1 === anIntersection) {
+if (u === anIntersection) {
 }
-if (u1 === aFunction) {
-    var uFunction = u1;
+if (u === aFunction) {
+    var uFunction = u;
 }
-var NumberEnum1;
-(function(NumberEnum) {
-    NumberEnum[NumberEnum["A"] = 0] = "A";
-    NumberEnum[NumberEnum["B"] = 1] = "B";
-    NumberEnum[NumberEnum["C"] = 2] = "C";
-})(NumberEnum1 || (NumberEnum1 = {
+var NumberEnum;
+(function(NumberEnum1) {
+    NumberEnum1[NumberEnum1["A"] = 0] = "A";
+    NumberEnum1[NumberEnum1["B"] = 1] = "B";
+    NumberEnum1[NumberEnum1["C"] = 2] = "C";
+})(NumberEnum || (NumberEnum = {
 }));
-var StringEnum1;
-(function(StringEnum) {
-    StringEnum["A"] = "A";
-    StringEnum["B"] = "B";
-    StringEnum["C"] = "C";
-})(StringEnum1 || (StringEnum1 = {
+var StringEnum;
+(function(StringEnum1) {
+    StringEnum1["A"] = "A";
+    StringEnum1["B"] = "B";
+    StringEnum1["C"] = "C";
+})(StringEnum || (StringEnum = {
 }));
-if (u1 === NumberEnum1 || u1 === StringEnum1) {
-    var enumObj = u1;
+if (u === NumberEnum || u === StringEnum) {
+    var enumObj = u;
 }
-if (u1 === NumberEnum1.A) {
-    var a = u1;
+if (u === NumberEnum.A) {
+    var a = u;
 }
-if (u1 === StringEnum1.B) {
-    var b = u1;
+if (u === StringEnum.B) {
+    var b = u;
 }
 function switchTestEnum(x) {
     switch(x){
-        case StringEnum1.A:
+        case StringEnum.A:
             var a = x;
             break;
-        case StringEnum1.B:
+        case StringEnum.B:
             var b = x;
             break;
-        case StringEnum1.C:
+        case StringEnum.C:
             var c = x;
             break;
     }
 }
 function switchTestCollectEnum(x) {
     switch(x){
-        case StringEnum1.A:
+        case StringEnum.A:
             var a = x;
-        case StringEnum1.B:
+        case StringEnum.B:
             var b = x;
-        case StringEnum1.C:
+        case StringEnum.C:
             var c = x;
             var all = x;
             return;
@@ -172,22 +172,22 @@ function f2(x) {
     }
     return x;
 }
-function notNotEquals(u) {
-    if (u !== NumberEnum1) {
+function notNotEquals(u1) {
+    if (u1 !== NumberEnum) {
     } else {
-        var o = u;
+        var o = u1;
     }
-    if (u !== NumberEnum1.A) {
+    if (u1 !== NumberEnum.A) {
     } else {
-        var a = u;
+        var a = u1;
     }
-    if (u !== NumberEnum1.A && u !== NumberEnum1.B && u !== StringEnum1.A) {
+    if (u1 !== NumberEnum.A && u1 !== NumberEnum.B && u1 !== StringEnum.A) {
     } else {
-        var aOrB = u;
+        var aOrB = u1;
     }
     // equivalent to
-    if (!(u === NumberEnum1.A || u === NumberEnum1.B || u === StringEnum1.A)) {
+    if (!(u1 === NumberEnum.A || u1 === NumberEnum.B || u1 === StringEnum.A)) {
     } else {
-        var aOrB1 = u;
+        var aOrB1 = u1;
     }
 }

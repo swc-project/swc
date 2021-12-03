@@ -1,4 +1,4 @@
 // @target: ES6
-var x1 = function(x) {
-    return "abc".concat(x, "def");
+var x = function(x1) {
+    return "abc".concat(x1, "def");
 };

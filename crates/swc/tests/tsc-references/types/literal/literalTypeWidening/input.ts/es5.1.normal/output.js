@@ -124,41 +124,40 @@ var FAILURE = "FAILURE";
 function doWork() {
     return FAILURE;
 }
-function isSuccess(result) {
-    return !isFailure(result);
+function isSuccess(result1) {
+    return !isFailure(result1);
 }
-function isFailure(result) {
-    return result === FAILURE;
+function isFailure(result2) {
+    return result2 === FAILURE;
 }
-function increment(x) {
-    return x + 1;
+function increment(x1) {
+    return x1 + 1;
 }
-var result1 = doWork();
-if (isSuccess(result1)) {
-    increment(result1);
+var result = doWork();
+if (isSuccess(result)) {
+    increment(result);
 }
 function onMouseOver() {
     return "onmouseover";
 }
-var x1 = onMouseOver();
+var x = onMouseOver();
 // Repro from #23649
 export function Set() {
-    for(var _len = arguments.length, keys = new Array(_len), _key = 0; _key < _len; _key++){
-        keys[_key] = arguments[_key];
+    for(var _len = arguments.length, keys1 = new Array(_len), _key = 0; _key < _len; _key++){
+        keys1[_key] = arguments[_key];
     }
-    var result = {
+    var result3 = {
     };
-    keys.forEach(function(key) {
-        return result[key] = true;
+    keys1.forEach(function(key) {
+        return result3[key] = true;
     });
-    return result;
+    return result3;
 }
-function keys1(obj) {
+export function keys(obj) {
     return Object.keys(obj);
 }
-export { keys1 as keys };
 var langCodeSet = Set('fr', 'en', 'es', 'it', 'nl');
-export var langCodes = keys1(langCodeSet);
+export var langCodes = keys(langCodeSet);
 var arr = langCodes.map(function(code) {
     return {
         code: code
@@ -173,11 +172,11 @@ function test(obj) {
         a: 'hello'
     }, rest);
 }
-var E1;
-(function(E) {
-    E[E["A"] = 0] = "A";
-    E[E["B"] = 1] = "B";
-})(E1 || (E1 = {
+var E;
+(function(E1) {
+    E1[E1["A"] = 0] = "A";
+    E1[E1["B"] = 1] = "B";
+})(E || (E = {
 }));
-var a = f(E1.A);
+var a = f(E.A);
 var b = a;

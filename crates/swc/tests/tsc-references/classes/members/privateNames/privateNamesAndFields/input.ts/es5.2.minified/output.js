@@ -21,13 +21,13 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var A1 = function() {
+var A = function() {
     "use strict";
-    _classCallCheck(this, A1), _foo.set(this, {
+    _classCallCheck(this, A), _foo.set(this, {
         writable: !0,
         value: void 0
     }), _classPrivateFieldSet(this, _foo, 3);
-}, _foo = new WeakMap(), B = function(A) {
+}, _foo = new WeakMap(), B = function(A1) {
     "use strict";
     !function(subClass, superClass) {
         if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
@@ -38,7 +38,7 @@ var A1 = function() {
                 configurable: !0
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
-    }(B, A);
+    }(B, A1);
     var _super = function(Derived) {
         var hasNativeReflectConstruct = function() {
             if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
@@ -68,4 +68,4 @@ var A1 = function() {
         }), _classPrivateFieldSet(_assertThisInitialized(_this), _foo1, "some string"), _this;
     }
     return B;
-}(A1), _foo1 = new WeakMap();
+}(A), _foo1 = new WeakMap();

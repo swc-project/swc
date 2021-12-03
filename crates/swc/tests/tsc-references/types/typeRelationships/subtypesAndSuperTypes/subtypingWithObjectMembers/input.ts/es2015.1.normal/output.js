@@ -6,31 +6,31 @@ class Derived2 extends Derived {
 }
 // N and M have the same name, same accessibility, same optionality, and N is a subtype of M
 // foo properties are valid, bar properties cause errors in the derived class declarations
-class A1 {
+class A {
 }
-class B extends A1 {
+class B extends A {
 }
-class A21 {
+class A2 {
 }
-class B2 extends A21 {
+class B2 extends A2 {
 }
-class A31 {
+class A3 {
 }
-class B3 extends A31 {
+class B3 extends A3 {
 }
 var TwoLevels;
 (function(TwoLevels) {
-    class A {
+    class A1 {
     }
-    class B extends A {
+    class B extends A1 {
     }
-    class A2 {
+    class A21 {
     }
-    class B2 extends A2 {
+    class B2 extends A21 {
     }
-    class A3 {
+    class A31 {
     }
-    class B3 extends A3 {
+    class B3 extends A31 {
     }
 })(TwoLevels || (TwoLevels = {
 }));

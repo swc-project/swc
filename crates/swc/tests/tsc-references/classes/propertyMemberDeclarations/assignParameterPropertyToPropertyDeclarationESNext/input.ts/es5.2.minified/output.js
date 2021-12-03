@@ -87,26 +87,26 @@ var C = function() {
     _classCallCheck(this, E), this.foo2 = foo2, this.bar = function() {
         return _this.foo1 + _this.foo2;
     }, this.foo1 = "";
-}, F1 = function() {
+}, F = function() {
     "use strict";
-    _classCallCheck(this, F1), this.Inner = (function(F) {
-        _inherits(_class, F);
+    _classCallCheck(this, F), this.Inner = (function(F1) {
+        _inherits(_class, F1);
         var _super = _createSuper(_class);
         function _class() {
             var _this;
             return _classCallCheck(this, _class), _this = _super.apply(this, arguments), _this.p2 = _this.p1, _this;
         }
         return _class;
-    })(F1), this.p1 = 0;
-}, G1 = function(p1) {
+    })(F), this.p1 = 0;
+}, G = function(p1) {
     "use strict";
-    _classCallCheck(this, G1), this.p1 = p1, this.Inner = (function(G) {
-        _inherits(_class, G);
+    _classCallCheck(this, G), this.p1 = p1, this.Inner = (function(G1) {
+        _inherits(_class, G1);
         var _super = _createSuper(_class);
         function _class() {
             var _this;
             return _classCallCheck(this, _class), _this = _super.apply(this, arguments), _this.p2 = _this.p1, _this;
         }
         return _class;
-    })(G1);
+    })(G);
 };

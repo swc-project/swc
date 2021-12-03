@@ -1,5 +1,5 @@
-var A1;
-!function(A) {
+var A;
+!function(A1) {
     var Utils;
     (Utils || (Utils = {
     })).mirror = function(p) {
@@ -7,12 +7,12 @@ var A1;
             x: p.y,
             y: p.x
         };
-    }, A.Origin = {
+    }, A1.Origin = {
         x: 0,
         y: 0
-    }, A.Utils = Utils;
-}(A1 || (A1 = {
-})), (A1 || (A1 = {
+    }, A1.Utils = Utils;
+}(A || (A = {
+})), (A || (A = {
 })).Origin = {
     x: 0,
     y: 0

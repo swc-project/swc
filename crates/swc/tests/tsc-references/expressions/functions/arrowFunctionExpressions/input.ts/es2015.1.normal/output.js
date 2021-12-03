@@ -60,8 +60,8 @@ class MyClass {
 // Arrow function used in arrow function
 var arrrr = ()=>(m)=>()=>(n)=>m + n
 ;
-var e1 = arrrr()(3)()(4);
-var e1;
+var e = arrrr()(3)()(4);
+var e;
 // Arrow function used in arrow function used in function
 function someFn() {
     var arr = (n)=>(p)=>p * n
@@ -111,8 +111,8 @@ function tryCatchFn() {
     try {
         var x = ()=>this
         ;
-    } catch (e) {
-        var t = ()=>e + this
+    } catch (e1) {
+        var t = ()=>e1 + this
         ;
     } finally{
         var m = ()=>this + ''

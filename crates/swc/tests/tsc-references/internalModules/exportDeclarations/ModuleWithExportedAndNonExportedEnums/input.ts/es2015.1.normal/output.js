@@ -1,5 +1,5 @@
-var A1;
-(function(A) {
+var A;
+(function(A1) {
     var Color1;
     (function(Color) {
         Color[Color["Red"] = 0] = "Red";
@@ -12,10 +12,10 @@ var A1;
         Day[Day["Tuesday"] = 1] = "Tuesday";
     })(Day1 || (Day1 = {
     }));
-    A.Color = Color1;
-})(A1 || (A1 = {
+    A1.Color = Color1;
+})(A || (A = {
 }));
 // not an error since exported
-var a = A1.Color.Red;
+var a = A.Color.Red;
 // error not exported
-var b = A1.Day.Monday;
+var b = A.Day.Monday;

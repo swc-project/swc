@@ -2,16 +2,16 @@ function _slicedToArray(arr, i) {
     return (function(arr) {
         if (Array.isArray(arr)) return arr;
     })(arr) || (function(arr, i) {
-        var _arr = [], _n = !0, _d = !1, _e = void 0;
+        var _arr = [], _n = !0, _d = !1, _e1 = void 0;
         try {
             for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), !i || _arr.length !== i); _n = !0);
         } catch (err) {
-            _d = !0, _e = err;
+            _d = !0, _e1 = err;
         } finally{
             try {
                 _n || null == _i.return || _i.return();
             } finally{
-                if (_d) throw _e;
+                if (_d) throw _e1;
             }
         }
         return _arr;
@@ -48,14 +48,14 @@ var arr, ref = [
     throw new TypeError("Invalid attempt to spread non-iterable instance");
 }()), 2);
 ref1[0], ref1[1], void 0 === tmp4;
-var _e1 = _slicedToArray([
+var _e = _slicedToArray([
     1,
     2,
     {
         b1: 4,
         b4: 0
     }
-], 3), e1 = _e1[0], e2 = _e1[1], tmp4 = _e1[2], _f = _slicedToArray([
+], 3), e1 = _e[0], e2 = _e[1], tmp4 = _e[2], _f = _slicedToArray([
     1,
     2,
     {

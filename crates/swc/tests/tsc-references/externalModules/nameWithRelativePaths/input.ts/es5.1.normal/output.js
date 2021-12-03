@@ -5,12 +5,11 @@ export var foo = 42;
 export function f() {
     return 42;
 }
-var M21;
 // @Filename: test/foo_2.ts
-export { M21 as M2 };
-(function(M2) {
-    M2.x = true;
-})(M21 || (M21 = {
+export var M2;
+(function(M21) {
+    M21.x = true;
+})(M2 || (M2 = {
 }));
 // @Filename: test/foo_3.ts
 var foo0 = require('../foo_0');

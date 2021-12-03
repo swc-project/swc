@@ -45,28 +45,28 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var _class2, _class1, C1 = function() {
+var _class, _class1, C = function() {
     "use strict";
-    _classCallCheck(this, C1);
+    _classCallCheck(this, C);
 };
 !function() {
-    arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : (_class2 = (function(C) {
+    arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : (_class = (function(C1) {
         "use strict";
-        _inherits(_class, C);
-        var _super = _createSuper(_class);
-        function _class() {
-            return _classCallCheck(this, _class), _super.apply(this, arguments);
+        _inherits(_class2, C1);
+        var _super = _createSuper(_class2);
+        function _class2() {
+            return _classCallCheck(this, _class2), _super.apply(this, arguments);
         }
-        return _class;
-    })(C1)).x = 1;
+        return _class2;
+    })(C)).x = 1;
 }(), (function() {
-    arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : (_class1 = (function(C) {
+    arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : (_class1 = (function(C2) {
         "use strict";
-        _inherits(_class, C);
-        var _super = _createSuper(_class);
-        function _class() {
-            return _classCallCheck(this, _class), _super.apply(this, arguments);
+        _inherits(_class2, C2);
+        var _super = _createSuper(_class2);
+        function _class2() {
+            return _classCallCheck(this, _class2), _super.apply(this, arguments);
         }
-        return _class;
-    })(C1)).x = 1, arguments.length > 1 && void 0 !== arguments[1] && arguments[1];
+        return _class2;
+    })(C)).x = 1, arguments.length > 1 && void 0 !== arguments[1] && arguments[1];
 })();

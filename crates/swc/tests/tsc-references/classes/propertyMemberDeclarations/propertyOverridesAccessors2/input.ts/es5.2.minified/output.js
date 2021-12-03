@@ -46,7 +46,7 @@ var Base = function() {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(Derived1, Base);
-    var _super = function(Derived) {
+    var _super = function(Derived2) {
         var hasNativeReflectConstruct = function() {
             if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
             if (Reflect.construct.sham) return !1;
@@ -59,12 +59,12 @@ var Base = function() {
             }
         }();
         return function() {
-            var obj, self, call, result, Super = _getPrototypeOf(Derived);
+            var obj1, self, call, result, Super = _getPrototypeOf(Derived2);
             if (hasNativeReflectConstruct) {
                 var NewTarget = _getPrototypeOf(this).constructor;
                 result = Reflect.construct(Super, arguments, NewTarget);
             } else result = Super.apply(this, arguments);
-            return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : (function(self) {
+            return self = this, (call = result) && ("object" == ((obj1 = call) && "undefined" != typeof Symbol && obj1.constructor === Symbol ? "symbol" : typeof obj1) || "function" == typeof call) ? call : (function(self) {
                 if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
                 return self;
             })(self);
@@ -75,5 +75,5 @@ var Base = function() {
         return _classCallCheck(this, Derived1), _this = _super.apply(this, arguments), _this.x = 1, _this;
     }
     return Derived1;
-}(Base), obj1 = new Derived1();
-console.log(obj1.x); // 2
+}(Base), obj = new Derived1();
+console.log(obj.x); // 2

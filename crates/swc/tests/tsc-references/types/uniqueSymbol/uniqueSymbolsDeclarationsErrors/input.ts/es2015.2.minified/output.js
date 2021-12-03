@@ -1,4 +1,4 @@
-const obj1 = {
+export const obj = {
     method1 (p) {
         return p;
     },
@@ -6,7 +6,6 @@ const obj1 = {
         return p;
     }
 };
-export { obj1 as obj };
 export const classExpression = class {
     method1(p) {
         return p;
@@ -15,8 +14,8 @@ export const classExpression = class {
         return p;
     }
 };
-export function funcInferredReturnType(obj) {
-    return obj;
+export function funcInferredReturnType(obj1) {
+    return obj1;
 }
 export class ClassWithPrivateNamedProperties {
 }

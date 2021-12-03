@@ -34,20 +34,20 @@ var r5 = foo(new Object(), function(x) {
 }, function(x) {
     return '';
 }); // Object => Object
-var E1;
-(function(E) {
-    E[E["A"] = 0] = "A";
-})(E1 || (E1 = {
+var E;
+(function(E1) {
+    E1[E1["A"] = 0] = "A";
+})(E || (E = {
 }));
-var F1;
-(function(F) {
-    F[F["A"] = 0] = "A";
-})(F1 || (F1 = {
+var F;
+(function(F1) {
+    F1[F1["A"] = 0] = "A";
+})(F || (F = {
 }));
-var r6 = foo(E1.A, function(x) {
-    return E1.A;
+var r6 = foo(E.A, function(x) {
+    return E.A;
 }, function(x) {
-    return F1.A;
+    return F.A;
 }); // number => number 
 function foo2(x, a, b) {
     var r;

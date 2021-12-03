@@ -89,14 +89,14 @@ var D = function(B) {
 D.prototype.foo = function() {
     _this.n = "not checked, so no error";
 };
-var Module1 = function() {
+var Module = function() {
     "use strict";
-    _classCallCheck(this, Module1);
+    _classCallCheck(this, Module);
 };
-Module1.prototype.identifier = void 0, Module1.prototype.size = null;
-var NormalModule = function(Module) {
+Module.prototype.identifier = void 0, Module.prototype.size = null;
+var NormalModule = function(Module1) {
     "use strict";
-    _inherits(NormalModule, Module);
+    _inherits(NormalModule, Module1);
     var _super = _createSuper(NormalModule);
     function NormalModule() {
         return _classCallCheck(this, NormalModule), _super.apply(this, arguments);
@@ -115,4 +115,4 @@ var NormalModule = function(Module) {
             }
         }
     ]), NormalModule;
-}(Module1);
+}(Module);

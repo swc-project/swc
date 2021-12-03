@@ -2,8 +2,8 @@ var y = undefined;
 function destructure(something, haveValue, haveY) {
     return something === y ? haveY(y) : haveValue(something);
 }
-var value1 = Math.random() > 0.5 ? 'hey!' : undefined;
-var result = destructure(value1, function(text) {
+var value = Math.random() > 0.5 ? 'hey!' : undefined;
+var result = destructure(value, function(text) {
     return 'string';
 }, function(y) {
     return 'other one';
@@ -15,18 +15,18 @@ function isVoid(value) {
 function isNonVoid(value) {
     return undefined;
 }
-function foo1(value) {
-    if (isVoid(value)) {
-        value; // value is void
+function foo1(value1) {
+    if (isVoid(value1)) {
+        value1; // value is void
     } else {
-        value; // value is a
+        value1; // value is a
     }
 }
-function baz1(value) {
-    if (isNonVoid(value)) {
-        value; // value is a
+function baz1(value2) {
+    if (isNonVoid(value2)) {
+        value2; // value is a
     } else {
-        value; // value is void
+        value2; // value is void
     }
 }
 function get(x) {

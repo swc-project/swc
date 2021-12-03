@@ -12,15 +12,15 @@ function _defineProperty(obj, key, value) {
     return obj;
 }
 var // @target: es5,esnext
-K1;
-(function(K) {
-    K["a"] = "a";
-    K["b"] = "b";
-})(K1 || (K1 = {
+K;
+(function(K1) {
+    K1["a"] = "a";
+    K1["b"] = "b";
+})(K || (K = {
 }));
 var _obj;
 var ref = function() {
     return _obj = {
-    }, _defineProperty(_obj, K1.a, 1), _defineProperty(_obj, K1.b, 1), _obj;
-}(), aVal = ref[K1.a], bVal = ref[K1.b];
+    }, _defineProperty(_obj, K.a, 1), _defineProperty(_obj, K.b, 1), _obj;
+}(), aVal = ref[K.a], bVal = ref[K.b];
 console.log(aVal, bVal);

@@ -4,16 +4,16 @@ const React1 = require('react');
 const ReactRouter = require('react-router');
 var Route = ReactRouter.Route;
 var routes1 = /*#__PURE__*/ React.createElement(Route, null);
-var M1;
-(function(M) {
+var M;
+(function(M1) {
     var X;
-    M.X = X;
-})(M1 || (M1 = {
+    M1.X = X;
+})(M || (M = {
 }));
 (function(M) {
     // Should emit 'M.X' in both opening and closing tags
     var y = /*#__PURE__*/ React.createElement(X, null);
-})(M1 || (M1 = {
+})(M || (M = {
 }));
 //@module: amd
 //@jsx: preserve

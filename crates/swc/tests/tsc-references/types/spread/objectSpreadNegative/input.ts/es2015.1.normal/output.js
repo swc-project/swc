@@ -1,15 +1,15 @@
-function _defineProperty(obj, key, value) {
-    if (key in obj) {
-        Object.defineProperty(obj, key, {
+function _defineProperty(obj1, key, value) {
+    if (key in obj1) {
+        Object.defineProperty(obj1, key, {
             value: value,
             enumerable: true,
             configurable: true,
             writable: true
         });
     } else {
-        obj[key] = value;
+        obj1[key] = value;
     }
-    return obj;
+    return obj1;
 }
 function _objectSpread(target) {
     for(var i = 1; i < arguments.length; i++){
@@ -145,9 +145,9 @@ let spreadC = _objectSpread({
 }, c);
 spreadC.m(); // error 'm' is not in '{ ... c }'
 // non primitive
-let obj1 = {
+let obj = {
     a: 123
 };
 let spreadObj = _objectSpread({
-}, obj1);
+}, obj);
 spreadObj.a; // error 'a' is not in {}

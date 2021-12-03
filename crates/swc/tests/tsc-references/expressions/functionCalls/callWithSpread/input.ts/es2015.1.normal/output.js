@@ -1,7 +1,7 @@
 function foo(x, y, ...z) {
 }
 var a;
-var z1;
+var z;
 var obj;
 var xa;
 foo(1, 2, "abc");
@@ -30,9 +30,9 @@ xa[1].foo(...[
 class C {
     foo(x, y, ...z) {
     }
-    constructor(x, y, ...z){
+    constructor(x, y, ...z1){
         this.foo(x, y);
-        this.foo(x, y, ...z);
+        this.foo(x, y, ...z1);
     }
 }
 class D extends C {

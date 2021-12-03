@@ -52,11 +52,11 @@ function f3(b) {
             a[0].x = E.B;
             return a;
         } else {
-            class A {
+            class A1 {
             }
             ;
             let c = [
-                new A()
+                new A1()
             ];
             c[0].x = E.B;
             return c;
@@ -87,7 +87,7 @@ function f5() {
         return new C();
     };
 }
-class A1 {
+class A {
     m() {
         (function(E) {
             E[E["A"] = 0] = "A";
@@ -123,10 +123,10 @@ class A1 {
     }
 }
 function f6() {
-    class A {
+    class A2 {
     }
     function g() {
-        class B extends A {
+        class B extends A2 {
         }
         function h() {
             class C extends B {

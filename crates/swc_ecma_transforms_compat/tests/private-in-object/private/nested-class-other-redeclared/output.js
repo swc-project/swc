@@ -6,7 +6,7 @@ let Foo = function() {
             writable: true,
             value: 1
         });
-        _bar1.set(this, {
+        _bar.set(this, {
             writable: true,
             value: 1
         });
@@ -18,7 +18,7 @@ let Foo = function() {
                 let Nested = function() {
                     function Nested() {
                         _classCallCheck(this, Nested);
-                        _bar.set(this, {
+                        _bar1.set(this, {
                             writable: true,
                             value: 2
                         });
@@ -28,19 +28,19 @@ let Foo = function() {
                             key: "test",
                             value: function test() {
                                 _foo.has(this);
-                                _bar.has(this);
+                                _bar1.has(this);
                             }
                         }
                     ]);
                     return Nested;
                 }();
-                var _bar = new WeakMap();
+                var _bar1 = new WeakMap();
                 _foo1.has(this);
-                _bar1.has(this);
+                _bar.has(this);
             }
         }
     ]);
     return Foo;
 }();
 var _foo1 = new WeakMap();
-var _bar1 = new WeakMap();
+var _bar = new WeakMap();

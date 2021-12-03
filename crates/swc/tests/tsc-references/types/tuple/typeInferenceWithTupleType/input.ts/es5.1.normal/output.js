@@ -17,24 +17,24 @@ function zip(array1, array2) {
         ];
     }
     var length = array1.length;
-    var zipResult;
+    var zipResult1;
     for(var i = 0; i < length; ++i){
-        zipResult.push([
+        zipResult1.push([
             array1[i],
             array2[i]
         ]);
     }
-    return zipResult;
+    return zipResult1;
 }
-var zipResult1 = zip([
+var zipResult = zip([
     "foo",
     "bar"
 ], [
     5,
     6
 ]);
-var zipResultEle = zipResult1[0]; // [string, number]
-var zipResultEleEle = zipResult1[0][0]; // string
+var zipResultEle = zipResult[0]; // [string, number]
+var zipResultEleEle = zipResult[0][0]; // string
 var expected;
 expected = f1(undefined);
 expected = f2(undefined);

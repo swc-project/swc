@@ -1,7 +1,7 @@
 function _arrayWithoutHoles(arr) {
     if (Array.isArray(arr)) {
-        for(var i = 0, arr2 = new Array(arr.length); i < arr.length; i++){
-            arr2[i] = arr[i];
+        for(var i1 = 0, arr2 = new Array(arr.length); i1 < arr.length; i1++){
+            arr2[i1] = arr[i1];
         }
         return arr2;
     }
@@ -28,11 +28,11 @@ function _construct(Parent, args, Class) {
         _construct = Reflect.construct;
     } else {
         _construct = function _construct(Parent, args, Class) {
-            var a = [
+            var a1 = [
                 null
             ];
-            a.push.apply(a, args);
-            var Constructor = Function.bind.apply(Parent, a);
+            a1.push.apply(a1, args);
+            var Constructor = Function.bind.apply(Parent, a1);
             var instance = new Constructor();
             if (Class) _setPrototypeOf(instance, Class.prototype);
             return instance;
@@ -74,42 +74,42 @@ var B = function B(x, y) {
     }
     _classCallCheck(this, B);
 };
-var a1;
+var a;
 var b;
 var c;
 var d;
 var e;
 var g;
 var h;
-var i1;
+var i;
 // Basic expression
 new f(1, 2, "string");
 _construct(f, [
     1,
     2
-].concat(_toConsumableArray(a1)));
+].concat(_toConsumableArray(a)));
 _construct(f, [
     1,
     2
-].concat(_toConsumableArray(a1), [
+].concat(_toConsumableArray(a), [
     "string"
 ]));
 // Multiple spreads arguments
-_construct(f2, _toConsumableArray(a1).concat(_toConsumableArray(a1)));
+_construct(f2, _toConsumableArray(a).concat(_toConsumableArray(a)));
 _construct(f, [
     1,
     2
-].concat(_toConsumableArray(a1), _toConsumableArray(a1)));
+].concat(_toConsumableArray(a), _toConsumableArray(a)));
 // Call expression
 new f(1, 2, "string")();
 _construct(f, [
     1,
     2
-].concat(_toConsumableArray(a1)))();
+].concat(_toConsumableArray(a)))();
 _construct(f, [
     1,
     2
-].concat(_toConsumableArray(a1), [
+].concat(_toConsumableArray(a), [
     "string"
 ]))();
 // Property access expression
@@ -117,11 +117,11 @@ new b.f(1, 2, "string");
 _construct(b.f, [
     1,
     2
-].concat(_toConsumableArray(a1)));
+].concat(_toConsumableArray(a)));
 _construct(b.f, [
     1,
     2
-].concat(_toConsumableArray(a1), [
+].concat(_toConsumableArray(a), [
     "string"
 ]));
 // Parenthesised expression
@@ -129,11 +129,11 @@ new b.f(1, 2, "string");
 _construct(b.f, [
     1,
     2
-].concat(_toConsumableArray(a1)));
+].concat(_toConsumableArray(a)));
 _construct(b.f, [
     1,
     2
-].concat(_toConsumableArray(a1), [
+].concat(_toConsumableArray(a), [
     "string"
 ]));
 // Element access expression
@@ -141,11 +141,11 @@ new d[1].f(1, 2, "string");
 _construct(d[1].f, [
     1,
     2
-].concat(_toConsumableArray(a1)));
+].concat(_toConsumableArray(a)));
 _construct(d[1].f, [
     1,
     2
-].concat(_toConsumableArray(a1), [
+].concat(_toConsumableArray(a), [
     "string"
 ]));
 // Element access expression with a punctuated key
@@ -153,11 +153,11 @@ new e["a-b"].f(1, 2, "string");
 _construct(e["a-b"].f, [
     1,
     2
-].concat(_toConsumableArray(a1)));
+].concat(_toConsumableArray(a)));
 _construct(e["a-b"].f, [
     1,
     2
-].concat(_toConsumableArray(a1), [
+].concat(_toConsumableArray(a), [
     "string"
 ]));
 // Basic expression
@@ -165,11 +165,11 @@ new B(1, 2, "string");
 _construct(B, [
     1,
     2
-].concat(_toConsumableArray(a1)));
+].concat(_toConsumableArray(a)));
 _construct(B, [
     1,
     2
-].concat(_toConsumableArray(a1), [
+].concat(_toConsumableArray(a), [
     "string"
 ]));
 // Property access expression
@@ -177,11 +177,11 @@ new c["a-b"](1, 2, "string");
 _construct(c["a-b"], [
     1,
     2
-].concat(_toConsumableArray(a1)));
+].concat(_toConsumableArray(a)));
 _construct(c["a-b"], [
     1,
     2
-].concat(_toConsumableArray(a1), [
+].concat(_toConsumableArray(a), [
     "string"
 ]));
 // Parenthesised expression
@@ -189,11 +189,11 @@ new c["a-b"](1, 2, "string");
 _construct(c["a-b"], [
     1,
     2
-].concat(_toConsumableArray(a1)));
+].concat(_toConsumableArray(a)));
 _construct(c["a-b"], [
     1,
     2
-].concat(_toConsumableArray(a1), [
+].concat(_toConsumableArray(a), [
     "string"
 ]));
 // Element access expression
@@ -201,11 +201,11 @@ new g[1]["a-b"](1, 2, "string");
 _construct(g[1]["a-b"], [
     1,
     2
-].concat(_toConsumableArray(a1)));
+].concat(_toConsumableArray(a)));
 _construct(g[1]["a-b"], [
     1,
     2
-].concat(_toConsumableArray(a1), [
+].concat(_toConsumableArray(a), [
     "string"
 ]));
 // Element access expression with a punctuated key
@@ -213,22 +213,22 @@ new h["a-b"]["a-b"](1, 2, "string");
 _construct(h["a-b"]["a-b"], [
     1,
     2
-].concat(_toConsumableArray(a1)));
+].concat(_toConsumableArray(a)));
 _construct(h["a-b"]["a-b"], [
     1,
     2
-].concat(_toConsumableArray(a1), [
+].concat(_toConsumableArray(a), [
     "string"
 ]));
 // Element access expression with a number
-new i1["a-b"][1](1, 2, "string");
-_construct(i1["a-b"][1], [
+new i["a-b"][1](1, 2, "string");
+_construct(i["a-b"][1], [
     1,
     2
-].concat(_toConsumableArray(a1)));
-_construct(i1["a-b"][1], [
+].concat(_toConsumableArray(a)));
+_construct(i["a-b"][1], [
     1,
     2
-].concat(_toConsumableArray(a1), [
+].concat(_toConsumableArray(a), [
     "string"
 ]));

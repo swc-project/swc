@@ -54,7 +54,7 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var b, d11, d21, d31, d41, Base = function() {
+var b, d1, d2, d3, d4, Base = function() {
     "use strict";
     function Base() {
         _classCallCheck(this, Base);
@@ -71,8 +71,8 @@ var b, d11, d21, d31, d41, Base = function() {
                         {
                             key: "methoda",
                             value: function() {
-                                var d1, d2, d3, d4;
-                                (void 0).x, d1.x, d2.x, d3.x, d4.x;
+                                var d11, d21, d31, d41;
+                                (void 0).x, d11.x, d21.x, d31.x, d41.x;
                             }
                         }
                     ]), A;
@@ -99,8 +99,8 @@ var b, d11, d21, d31, d41, Base = function() {
                         {
                             key: "method1b",
                             value: function() {
-                                var d1, d2, d3, d4;
-                                (void 0).x, d1.x, d2.x, d3.x, d4.x;
+                                var d12, d22, d32, d42;
+                                (void 0).x, d12.x, d22.x, d32.x, d42.x;
                             }
                         }
                     ]), B;
@@ -127,8 +127,8 @@ var b, d11, d21, d31, d41, Base = function() {
                         {
                             key: "method2c",
                             value: function() {
-                                var d1, d2, d3, d4;
-                                (void 0).x, d1.x, d2.x, d3.x, d4.x;
+                                var d13, d23, d33, d43;
+                                (void 0).x, d13.x, d23.x, d33.x, d43.x;
                             }
                         }
                     ]), C;
@@ -155,8 +155,8 @@ var b, d11, d21, d31, d41, Base = function() {
                         {
                             key: "method3d",
                             value: function() {
-                                var d1, d2, d3, d4;
-                                (void 0).x, d1.x, d2.x, d3.x, d4.x;
+                                var d14, d24, d34, d44;
+                                (void 0).x, d14.x, d24.x, d34.x, d44.x;
                             }
                         }
                     ]), D;
@@ -183,8 +183,8 @@ var b, d11, d21, d31, d41, Base = function() {
                         {
                             key: "method4e",
                             value: function() {
-                                var d1, d2, d3, d4;
-                                (void 0).x, d1.x, d2.x, d3.x, d4.x;
+                                var d15, d25, d35, d45;
+                                (void 0).x, d15.x, d25.x, d35.x, d45.x;
                             }
                         }
                     ]), E;
@@ -193,4 +193,4 @@ var b, d11, d21, d31, d41, Base = function() {
         }
     ]), Derived4;
 }(Derived2);
-b.x, d11.x, d21.x, d31.x, d41.x;
+b.x, d1.x, d2.x, d3.x, d4.x;

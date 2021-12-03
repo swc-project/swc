@@ -1,22 +1,22 @@
 var // enums assignable to number, any, Object, errors unless otherwise noted
-E1;
-(function(E) {
-    E[E["A"] = 0] = "A";
-})(E1 || (E1 = {
+E;
+(function(E1) {
+    E1[E1["A"] = 0] = "A";
+})(E || (E = {
 }));
-var F1;
-(function(F) {
-    F[F["B"] = 0] = "B";
-})(F1 || (F1 = {
+var F;
+(function(F1) {
+    F1[F1["B"] = 0] = "B";
+})(F || (F = {
 }));
-var e = E1.A;
-var f = F1.B;
+var e = E.A;
+var f = F.B;
 e = f;
 f = e;
 e = 1; // ok
 f = 1; // ok
-var x1 = e; // ok
-x1 = f; // ok
+var x = e; // ok
+x = f; // ok
 var Others;
 (function(Others) {
     var a = e; // ok
@@ -42,8 +42,8 @@ var Others;
     var o = e;
     var p = e;
     var q = e;
-    function foo(x, y, z) {
-        x = e;
+    function foo(x1, y, z) {
+        x1 = e;
         y = e;
         z = e;
         var a = e;

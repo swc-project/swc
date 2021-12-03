@@ -45,18 +45,18 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var Base1 = function() {
+var Base = function() {
     "use strict";
-    _classCallCheck(this, Base1);
-}, Derived1 = function(Base) {
+    _classCallCheck(this, Base);
+}, Derived1 = function(Base1) {
     "use strict";
-    _inherits(Derived1, Base);
+    _inherits(Derived1, Base1);
     var _super = _createSuper(Derived1);
     function Derived1() {
         return _classCallCheck(this, Derived1), _super.apply(this, arguments);
     }
     return Derived1;
-}(Base1), Derived2 = function(Derived1) {
+}(Base), Derived2 = function(Derived1) {
     "use strict";
     _inherits(Derived2, Derived1);
     var _super = _createSuper(Derived2);

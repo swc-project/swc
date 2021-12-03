@@ -56,23 +56,23 @@ foo(1, 2, "abc"), foo.apply(void 0, [
     2
 ].concat(_toConsumableArray(a), [
     "abc"
-])), obj1.foo(1, 2, "abc"), (_obj = obj1).foo.apply(_obj, [
+])), obj.foo(1, 2, "abc"), (_obj = obj).foo.apply(_obj, [
     1,
     2
-].concat(_toConsumableArray(a))), (_obj1 = obj1).foo.apply(_obj1, [
-    1,
-    2
-].concat(_toConsumableArray(a), [
-    "abc"
-])), obj1.foo(1, 2, "abc"), obj1.foo.apply(this, [
-    1,
-    2
-].concat(_toConsumableArray(a))), obj1.foo.apply(this, [
+].concat(_toConsumableArray(a))), (_obj1 = obj).foo.apply(_obj1, [
     1,
     2
 ].concat(_toConsumableArray(a), [
     "abc"
-])), xa[1].foo(1, 2, "abc"), (_instance2 = xa[1]).foo.apply(_instance2, [
+])), obj.foo(1, 2, "abc"), obj.foo.apply(this, [
+    1,
+    2
+].concat(_toConsumableArray(a))), obj.foo.apply(this, [
+    1,
+    2
+].concat(_toConsumableArray(a), [
+    "abc"
+])), xa[1].foo(1, 2, "abc"), (_instance = xa[1]).foo.apply(_instance, [
     1,
     2
 ].concat(_toConsumableArray(a))), (_instance1 = xa[1]).foo.apply(_instance1, [
@@ -85,7 +85,7 @@ foo(1, 2, "abc"), foo.apply(void 0, [
     2,
     "abc"
 ]);
-var _obj, _obj1, _instance2, _instance1, a, obj1, xa, C = function() {
+var _obj, _obj1, _instance, _instance1, a, obj, xa, C = function() {
     "use strict";
     function C(x, y) {
         for(var _len = arguments.length, z = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)z[_key - 2] = arguments[_key];
@@ -127,12 +127,12 @@ var _obj, _obj1, _instance2, _instance1, a, obj1, xa, C = function() {
             }
         }();
         return function() {
-            var obj, self, call, result, Super = _getPrototypeOf(Derived);
+            var obj1, self, call, result, Super = _getPrototypeOf(Derived);
             if (hasNativeReflectConstruct) {
                 var NewTarget = _getPrototypeOf(this).constructor;
                 result = Reflect.construct(Super, arguments, NewTarget);
             } else result = Super.apply(this, arguments);
-            return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : (function(self) {
+            return self = this, (call = result) && ("object" == ((obj1 = call) && "undefined" != typeof Symbol && obj1.constructor === Symbol ? "symbol" : typeof obj1) || "function" == typeof call) ? call : (function(self) {
                 if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
                 return self;
             })(self);
@@ -145,8 +145,8 @@ var _obj, _obj1, _instance2, _instance1, a, obj1, xa, C = function() {
         {
             key: "foo",
             value: function() {
-                var _instance;
-                _get(_getPrototypeOf(D.prototype), "foo", this).call(this, 1, 2), (_instance = _get(_getPrototypeOf(D.prototype), "foo", this)).call.apply(_instance, [
+                var _instance2;
+                _get(_getPrototypeOf(D.prototype), "foo", this).call(this, 1, 2), (_instance2 = _get(_getPrototypeOf(D.prototype), "foo", this)).call.apply(_instance2, [
                     this,
                     1,
                     2

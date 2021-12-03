@@ -5,16 +5,16 @@ class D {
 function F(x) {
     return 42;
 }
-var M1;
-(function(M) {
+var M;
+(function(M1) {
     class A {
     }
-    M.A = A;
+    M1.A = A;
     function F2(x) {
         return x.toString();
     }
-    M.F2 = F2;
-})(M1 || (M1 = {
+    M1.F2 = F2;
+})(M || (M = {
 }));
 var aNumber = 9.9;
 var aString = 'this is a string';
@@ -34,7 +34,7 @@ var aFunction = F;
 var anOtherFunction = F;
 var aLambda = (x)=>2
 ;
-var aModule = M1;
-var aClassInModule = new M1.A();
+var aModule = M;
+var aClassInModule = new M.A();
 var aFunctionInModule = (x)=>'this is a string'
 ;

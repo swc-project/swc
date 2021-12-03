@@ -69,12 +69,12 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
-function foo1() {
+function foo() {
 }
-var x = new foo1(); // can be used as a constructor function
-var C = /*#__PURE__*/ function(foo) {
+var x = new foo(); // can be used as a constructor function
+var C = /*#__PURE__*/ function(foo1) {
     "use strict";
-    _inherits(C, foo);
+    _inherits(C, foo1);
     var _super = _createSuper(C);
     function C() {
         _classCallCheck(this, C);
@@ -82,4 +82,4 @@ var C = /*#__PURE__*/ function(foo) {
     }
     return C;
 } // error, cannot extend it though
-(foo1);
+(foo);

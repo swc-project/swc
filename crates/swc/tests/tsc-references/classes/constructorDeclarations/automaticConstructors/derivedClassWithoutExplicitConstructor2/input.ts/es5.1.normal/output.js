@@ -56,10 +56,10 @@ function _isNativeReflectConstruct() {
         return false;
     }
 }
-function _createSuper(Derived) {
+function _createSuper(Derived1) {
     var hasNativeReflectConstruct = _isNativeReflectConstruct();
     return function _createSuperInternal() {
-        var Super = _getPrototypeOf(Derived), result;
+        var Super = _getPrototypeOf(Derived1), result;
         if (hasNativeReflectConstruct) {
             var NewTarget = _getPrototypeOf(this).constructor;
             result = Reflect.construct(Super, arguments, NewTarget);
@@ -75,24 +75,24 @@ var Base = function Base(x) {
     this.a = 1;
     this.a = x;
 };
-var Derived1 = /*#__PURE__*/ function(Base) {
+var Derived = /*#__PURE__*/ function(Base) {
     "use strict";
-    _inherits(Derived1, Base);
-    var _super = _createSuper(Derived1);
-    function Derived1() {
-        _classCallCheck(this, Derived1);
+    _inherits(Derived, Base);
+    var _super = _createSuper(Derived);
+    function Derived() {
+        _classCallCheck(this, Derived);
         var _this;
         _this = _super.apply(this, arguments);
         _this.x = 1;
         _this.y = 'hello';
         return _this;
     }
-    return Derived1;
+    return Derived;
 }(Base);
-var r = new Derived1(); // error
-var r2 = new Derived1(1);
-var r3 = new Derived1(1, 2);
-var r4 = new Derived1(1, 2, 3);
+var r = new Derived(); // error
+var r2 = new Derived(1);
+var r3 = new Derived(1, 2);
+var r4 = new Derived(1, 2, 3);
 var Base2 = function Base2(x) {
     "use strict";
     _classCallCheck(this, Base2);

@@ -155,8 +155,8 @@ var E = function E(foo2) {
 var F1 = function F1() {
     "use strict";
     _classCallCheck(this, F1);
-    this.Inner = /*#__PURE__*/ (function(F) {
-        _inherits(_class, F);
+    this.Inner = /*#__PURE__*/ (function(F2) {
+        _inherits(_class, F2);
         var _super = _createSuper(_class);
         function _class() {
             _classCallCheck(this, _class);
@@ -173,8 +173,8 @@ var G1 = function G1(p1) {
     "use strict";
     _classCallCheck(this, G1);
     this.p1 = p1;
-    this.Inner = /*#__PURE__*/ (function(G) {
-        _inherits(_class, G);
+    this.Inner = /*#__PURE__*/ (function(G2) {
+        _inherits(_class, G2);
         var _super = _createSuper(_class);
         function _class() {
             _classCallCheck(this, _class);

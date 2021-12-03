@@ -1,5 +1,5 @@
 // @filename: t3.ts
-import { I, M as M1, N, T, a } from "./t1";
+import { I, M, N, T, a } from "./t1";
 // @module: commonjs
 // @filename: t1.ts
 var v = 1;
@@ -7,28 +7,28 @@ function f() {
 }
 class C {
 }
-var E1;
-(function(E) {
-    E[E["A"] = 0] = "A";
-    E[E["B"] = 1] = "B";
-    E[E["C"] = 2] = "C";
-})(E1 || (E1 = {
+var E;
+(function(E1) {
+    E1[E1["A"] = 0] = "A";
+    E1[E1["B"] = 1] = "B";
+    E1[E1["C"] = 2] = "C";
+})(E || (E = {
 }));
-var D1;
-(function(D) {
-    D[D["A"] = 0] = "A";
-    D[D["B"] = 1] = "B";
-    D[D["C"] = 2] = "C";
-})(D1 || (D1 = {
+var D;
+(function(D1) {
+    D1[D1["A"] = 0] = "A";
+    D1[D1["B"] = 1] = "B";
+    D1[D1["C"] = 2] = "C";
+})(D || (D = {
 }));
-var M1;
-(function(M) {
+var M;
+(function(M1) {
     var x;
-    M.x = x;
-})(M1 || (M1 = {
+    M1.x = x;
+})(M || (M = {
 }));
-var a = M1.x;
-export { v, f, C, E1 as E, D1 as D, a };
+var a = M.x;
+export { v, f, C, E, D, a };
 // @filename: t2.ts
-export { v, f, C, E1 as E, D1 as D, a } from "./t1";
-export { v, f, C, E1 as E, D1 as D, a };
+export { v, f, C, E, D, a } from "./t1";
+export { v, f, C, E, D, a };

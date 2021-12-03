@@ -1,12 +1,12 @@
 let neverArray = [];
-let a11 = f1([]); // never
-let a21 = f1(neverArray); // never
+let a1 = f1([]); // never
+let a2 = f1(neverArray); // never
 const list = mkList([], compareNumbers);
 f2(Array.from([
     0
-]), [], (a1, a2)=>a1 - a2
+]), [], (a11, a21)=>a11 - a21
 );
 f2(Array.from([]), [
     0
-], (a1, a2)=>a1 - a2
+], (a12, a22)=>a12 - a22
 );

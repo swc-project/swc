@@ -55,8 +55,8 @@ function _setPrototypeOf(o, p) {
     };
     return _setPrototypeOf(o, p);
 }
-var _typeof = function(obj) {
-    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
+var _typeof = function(obj1) {
+    return obj1 && typeof Symbol !== "undefined" && obj1.constructor === Symbol ? "symbol" : typeof obj1;
 };
 function _isNativeReflectConstruct() {
     if (typeof Reflect === "undefined" || !Reflect.construct) return false;
@@ -70,10 +70,10 @@ function _isNativeReflectConstruct() {
         return false;
     }
 }
-function _createSuper(Derived) {
+function _createSuper(Derived1) {
     var hasNativeReflectConstruct = _isNativeReflectConstruct();
     return function _createSuperInternal() {
-        var Super = _getPrototypeOf(Derived), result;
+        var Super = _getPrototypeOf(Derived1), result;
         if (hasNativeReflectConstruct) {
             var NewTarget = _getPrototypeOf(this).constructor;
             result = Reflect.construct(Super, arguments, NewTarget);
@@ -103,18 +103,18 @@ var Base = // @target: esnext
     ]);
     return Base;
 }();
-var Derived1 = /*#__PURE__*/ function(Base) {
+var Derived = /*#__PURE__*/ function(Base) {
     "use strict";
-    _inherits(Derived1, Base);
-    var _super = _createSuper(Derived1);
-    function Derived1() {
-        _classCallCheck(this, Derived1);
+    _inherits(Derived, Base);
+    var _super = _createSuper(Derived);
+    function Derived() {
+        _classCallCheck(this, Derived);
         var _this;
         _this = _super.apply(this, arguments);
         _this.x = 1;
         return _this;
     }
-    return Derived1;
+    return Derived;
 }(Base);
-var obj1 = new Derived1(); // prints 'x was set to 1'
-console.log(obj1.x); // 2
+var obj = new Derived(); // prints 'x was set to 1'
+console.log(obj.x); // 2

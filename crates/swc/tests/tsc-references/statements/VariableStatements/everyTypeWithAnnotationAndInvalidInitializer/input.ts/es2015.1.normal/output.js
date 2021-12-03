@@ -5,30 +5,30 @@ class D {
 function F(x) {
     return 42;
 }
-function F21(x) {
+function F2(x) {
     return x < 42;
 }
-var M1;
-(function(M) {
+var M;
+(function(M1) {
     class A {
     }
-    M.A = A;
-    function F2(x) {
+    M1.A = A;
+    function F21(x) {
         return x.toString();
     }
-    M.F2 = F2;
-})(M1 || (M1 = {
+    M1.F2 = F21;
+})(M || (M = {
 }));
-var N1;
-(function(N) {
+var N;
+(function(N1) {
     class A {
     }
-    N.A = A;
-    function F2(x) {
+    N1.A = A;
+    function F22(x) {
         return x.toString();
     }
-    N.F2 = F2;
-})(N1 || (N1 = {
+    N1.F2 = F22;
+})(N || (N = {
 }));
 var aNumber = 'this is a string';
 var aString = 9.9;
@@ -41,10 +41,10 @@ var anObjectLiteral = {
     id: 'a string'
 };
 var anOtherObjectLiteral = new C();
-var aFunction = F21;
-var anOtherFunction = F21;
+var aFunction = F2;
+var anOtherFunction = F2;
 var aLambda = (x)=>'a string'
 ;
-var aModule = N1;
-var aClassInModule = new N1.A();
-var aFunctionInModule = F21;
+var aModule = N;
+var aClassInModule = new N.A();
+var aFunctionInModule = F2;

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
-var TypeScript1;
-(function(TypeScript) {
+var TypeScript;
+(function(TypeScript1) {
     class AstWalkOptions {
         stopWalk(stop = true) {
             this.goChildren = !stop;
@@ -15,7 +15,7 @@ var TypeScript1;
              = false;
         }
     }
-    TypeScript.AstWalkOptions = AstWalkOptions;
+    TypeScript1.AstWalkOptions = AstWalkOptions;
     class AstWalker {
         walk(ast, parent) {
             var preAst = this.pre(ast, parent, this);
@@ -183,7 +183,7 @@ var TypeScript1;
             this.initChildrenWalkers();
         }
     }
-    TypeScript.AstWalkerFactory = AstWalkerFactory;
+    TypeScript1.AstWalkerFactory = AstWalkerFactory;
     var globalAstWalkerFactory;
     function getAstWalkerFactory() {
         if (!globalAstWalkerFactory) {
@@ -191,7 +191,7 @@ var TypeScript1;
         }
         return globalAstWalkerFactory;
     }
-    TypeScript.getAstWalkerFactory = getAstWalkerFactory;
+    TypeScript1.getAstWalkerFactory = getAstWalkerFactory;
     var ChildrenWalkers1;
     (function(ChildrenWalkers) {
         function walkNone(preAst, parent, walker) {
@@ -490,5 +490,5 @@ var TypeScript1;
         ChildrenWalkers.walkLabeledStatementChildren = walkLabeledStatementChildren;
     })(ChildrenWalkers1 || (ChildrenWalkers1 = {
     }));
-})(TypeScript1 || (TypeScript1 = {
+})(TypeScript || (TypeScript = {
 }));

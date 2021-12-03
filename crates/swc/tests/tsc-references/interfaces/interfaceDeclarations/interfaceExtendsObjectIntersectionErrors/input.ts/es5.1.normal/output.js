@@ -119,10 +119,10 @@ var C5 = /*#__PURE__*/ function(_super) {
     }
     return C5;
 }(Constructor());
-var EX1;
-(function(EX) {
-    EX[EX["A"] = 0] = "A";
-    EX[EX["B"] = 1] = "B";
-    EX[EX["C"] = 2] = "C";
-})(EX1 || (EX1 = {
+var EX;
+(function(EX1) {
+    EX1[EX1["A"] = 0] = "A";
+    EX1[EX1["B"] = 1] = "B";
+    EX1[EX1["C"] = 2] = "C";
+})(EX || (EX = {
 }));

@@ -45,11 +45,11 @@ var A = /*#__PURE__*/ function() {
     ]);
     return A;
 }();
-var M1;
-(function(M) {
+var M;
+(function(M1) {
     var n;
-    M.n = n;
-})(M1 || (M1 = {
+    M1.n = n;
+})(M || (M = {
 }));
 var objA = new A();
 // number type var
@@ -69,7 +69,7 @@ var ResultIsString5 = _typeof({
 });
 // number type expressions
 var ResultIsString6 = _typeof(objA.a);
-var ResultIsString7 = _typeof(M1.n);
+var ResultIsString7 = _typeof(M.n);
 var ResultIsString8 = _typeof(NUMBER1[0]);
 var ResultIsString9 = _typeof(foo());
 var ResultIsString10 = _typeof(A.foo());
@@ -83,8 +83,8 @@ typeof NUMBER === "undefined" ? "undefined" : _typeof(NUMBER);
 typeof NUMBER1 === "undefined" ? "undefined" : _typeof(NUMBER1);
 _typeof(foo());
 _typeof(objA.a);
-_typeof(M1.n);
-_typeof(objA.a), M1.n;
+_typeof(M.n);
+_typeof(objA.a), M.n;
 // use typeof in type query
 var z;
 var x;
@@ -98,4 +98,4 @@ var y = {
 z: _typeof(y.a);
 z: _typeof(objA.a);
 z: _typeof(A.foo);
-z: _typeof(M1.n);
+z: _typeof(M.n);

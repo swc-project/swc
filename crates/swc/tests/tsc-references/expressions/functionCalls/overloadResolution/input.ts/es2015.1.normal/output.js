@@ -30,12 +30,12 @@ function fn3() {
 }
 var s = fn3(3);
 var s = fn3('', 3, '');
-var n1 = fn3(5, 5, 5);
-var n1;
+var n = fn3(5, 5, 5);
+var n;
 // Generic overloads with differing arity called with type arguments matching each overload type parameter count
 var s = fn3(4);
 var s = fn3('', '', '');
-var n1 = fn3('', '', 3);
+var n = fn3('', '', 3);
 // Generic overloads with differing arity called with type argument count that doesn't match any overload
 fn3(); // Error
 function fn4() {
@@ -57,7 +57,7 @@ fn4(null, true); // Error
 function fn5() {
     return undefined;
 }
-var n1 = fn5((n)=>n.toFixed()
+var n = fn5((n1)=>n1.toFixed()
 );
-var s = fn5((n)=>n.substr(0)
+var s = fn5((n2)=>n2.substr(0)
 );

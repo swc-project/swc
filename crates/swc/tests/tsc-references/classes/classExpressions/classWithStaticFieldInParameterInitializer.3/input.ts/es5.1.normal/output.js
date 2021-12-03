@@ -69,35 +69,35 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
-var _class2, _class1;
+var _class, _class1;
 var C = function C() {
     "use strict";
     _classCallCheck(this, C);
 };
 (function() {
-    var b = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : (_class2 = /*#__PURE__*/ function(C) {
+    var b = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : (_class = /*#__PURE__*/ function(C) {
         "use strict";
-        _inherits(_class, C);
-        var _super = _createSuper(_class);
-        function _class() {
-            _classCallCheck(this, _class);
+        _inherits(_class2, C);
+        var _super = _createSuper(_class2);
+        function _class2() {
+            _classCallCheck(this, _class2);
             return _super.apply(this, arguments);
         }
-        return _class;
-    }(C), _class2.x = 1, _class2);
+        return _class2;
+    }(C), _class.x = 1, _class);
     var C1;
 })();
 var x = "";
 (function() {
     var b = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : (_class1 = /*#__PURE__*/ function(C) {
         "use strict";
-        _inherits(_class, C);
-        var _super = _createSuper(_class);
-        function _class() {
-            _classCallCheck(this, _class);
+        _inherits(_class2, C);
+        var _super = _createSuper(_class2);
+        function _class2() {
+            _classCallCheck(this, _class2);
             return _super.apply(this, arguments);
         }
-        return _class;
+        return _class2;
     }(C), _class1.x = 1, _class1), d = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : x;
     var x1;
 })();

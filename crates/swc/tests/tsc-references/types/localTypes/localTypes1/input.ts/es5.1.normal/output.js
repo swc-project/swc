@@ -143,13 +143,13 @@ function f3(b) {
             a[0].x = E.B;
             return a;
         } else {
-            var A = function A() {
+            var A1 = function A1() {
                 "use strict";
-                _classCallCheck(this, A);
+                _classCallCheck(this, A1);
             };
             ;
             var c = [
-                new A()
+                new A1()
             ];
             c[0].x = E.B;
             return c;
@@ -184,10 +184,10 @@ function f5() {
         return new C();
     };
 }
-var A1 = /*#__PURE__*/ function() {
+var A = /*#__PURE__*/ function() {
     "use strict";
-    function A1() {
-        _classCallCheck(this, A1);
+    function A() {
+        _classCallCheck(this, A);
         var E1;
         (function(E) {
             E[E["A"] = 0] = "A";
@@ -199,7 +199,7 @@ var A1 = /*#__PURE__*/ function() {
             _classCallCheck(this, C);
         };
     }
-    _createClass(A1, [
+    _createClass(A, [
         {
             key: "m",
             value: function m() {
@@ -231,7 +231,7 @@ var A1 = /*#__PURE__*/ function() {
             }
         }
     ]);
-    return A1;
+    return A;
 }();
 function f6() {
     var g = function g() {

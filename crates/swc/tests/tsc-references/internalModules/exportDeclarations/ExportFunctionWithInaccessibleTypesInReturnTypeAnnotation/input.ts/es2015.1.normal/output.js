@@ -1,8 +1,8 @@
-var A1;
-(function(A) {
+var A;
+(function(A1) {
     class Point {
     }
-    A.Point = Point;
+    A1.Point = Point;
     class Line {
         constructor(start, end){
             this.start = start;
@@ -15,6 +15,6 @@ var A1;
             y: 0
         }, p);
     }
-    A.fromOrigin = fromOrigin;
-})(A1 || (A1 = {
+    A1.fromOrigin = fromOrigin;
+})(A || (A = {
 }));

@@ -1,18 +1,17 @@
 var E, E1;
 export function Set() {
-    for(var _len = arguments.length, keys = new Array(_len), _key = 0; _key < _len; _key++)keys[_key] = arguments[_key];
+    for(var _len = arguments.length, keys1 = new Array(_len), _key = 0; _key < _len; _key++)keys1[_key] = arguments[_key];
     var result = {
     };
-    return keys.forEach(function(key) {
+    return keys1.forEach(function(key) {
         return result[key] = !0;
     }), result;
 }
-function keys1(obj) {
+export function keys(obj) {
     return Object.keys(obj);
 }
-export { keys1 as keys };
 var langCodeSet = Set("fr", "en", "es", "it", "nl");
-export var langCodes = keys1(langCodeSet);
+export var langCodes = keys(langCodeSet);
 langCodes.map(function(code) {
     return {
         code: code

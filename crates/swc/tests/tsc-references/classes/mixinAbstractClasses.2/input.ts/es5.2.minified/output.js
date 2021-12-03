@@ -54,7 +54,7 @@ function _createSuper(Derived) {
 var AbstractBase = function() {
     "use strict";
     _classCallCheck(this, AbstractBase);
-}, MixedBase1 = function(baseClass1) {
+}, MixedBase = function(baseClass1) {
     var MixinClass = function(baseClass) {
         "use strict";
         _inherits(MixinClass, baseClass);
@@ -71,13 +71,13 @@ var AbstractBase = function() {
         ], _defineProperties((Constructor = MixinClass).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), MixinClass;
     }(baseClass1);
     return MixinClass;
-}(AbstractBase), DerivedFromAbstract = function(MixedBase) {
+}(AbstractBase), DerivedFromAbstract = function(MixedBase1) {
     "use strict";
-    _inherits(DerivedFromAbstract, MixedBase);
+    _inherits(DerivedFromAbstract, MixedBase1);
     var _super = _createSuper(DerivedFromAbstract);
     function DerivedFromAbstract() {
         return _classCallCheck(this, DerivedFromAbstract), _super.apply(this, arguments);
     }
     return DerivedFromAbstract;
-}(MixedBase1);
-new MixedBase1();
+}(MixedBase);
+new MixedBase();

@@ -70,10 +70,10 @@ function _isNativeReflectConstruct() {
         return false;
     }
 }
-function _createSuper(Derived) {
+function _createSuper(Derived1) {
     var hasNativeReflectConstruct = _isNativeReflectConstruct();
     return function _createSuperInternal() {
-        var Super = _getPrototypeOf(Derived), result;
+        var Super = _getPrototypeOf(Derived1), result;
         if (hasNativeReflectConstruct) {
             var NewTarget = _getPrototypeOf(this).constructor;
             result = Reflect.construct(Super, arguments, NewTarget);
@@ -106,17 +106,17 @@ var Base = /*#__PURE__*/ function() {
     ]);
     return Base;
 }();
-var Derived1 = // BUG 847404
+var Derived = // BUG 847404
 // should be error
 /*#__PURE__*/ function(Base) {
     "use strict";
-    _inherits(Derived1, Base);
-    var _super = _createSuper(Derived1);
-    function Derived1() {
-        _classCallCheck(this, Derived1);
+    _inherits(Derived, Base);
+    var _super = _createSuper(Derived);
+    function Derived() {
+        _classCallCheck(this, Derived);
         return _super.apply(this, arguments);
     }
-    _createClass(Derived1, null, [
+    _createClass(Derived, null, [
         {
             key: "fn",
             value: function fn() {
@@ -132,13 +132,13 @@ var Derived1 = // BUG 847404
             }
         }
     ]);
-    return Derived1;
+    return Derived;
 }(Base);
 var r = Base.x; // ok
-var r2 = Derived1.x; // error
+var r2 = Derived.x; // error
 var r3 = Base.fn(); // ok
-var r4 = Derived1.fn(); // error
+var r4 = Derived.fn(); // error
 var r5 = Base.a; // ok
 Base.a = 2; // ok
-var r6 = Derived1.a; // error
-Derived1.a = 2; // error
+var r6 = Derived.a; // error
+Derived.a = 2; // error

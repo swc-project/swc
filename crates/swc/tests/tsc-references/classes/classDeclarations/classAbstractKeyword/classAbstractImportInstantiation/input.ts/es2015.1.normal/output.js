@@ -1,11 +1,11 @@
-var M1;
-(function(M) {
+var M;
+(function(M1) {
     class A {
     }
-    M.A = A;
+    M1.A = A;
     new A;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
-var myA = M1.A;
+var myA = M.A;
 new myA;
 export { };

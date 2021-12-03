@@ -4,8 +4,8 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
+    for(var i1 = 0; i1 < props.length; i1++){
+        var descriptor = props[i1];
         descriptor.enumerable = descriptor.enumerable || false;
         descriptor.configurable = true;
         if ("value" in descriptor) descriptor.writable = true;
@@ -102,12 +102,12 @@ var r8 = c.foo5(true, 1); // boolean
 var r9 = c.foo6(); // {}
 var r10 = c.foo7(''); // {}
 var r11 = c.foo8(); // {}
-var i1;
-var r4 = i1.foo('', 1); // string
-var r5 = i1.foo2('', 1); // number
-var r6 = i1.foo3(true, 1); // boolean
-var r7 = i1.foo4('', true); // string
-var r8 = i1.foo5(true, 1); // boolean
-var r9 = i1.foo6(); // {}
-var r10 = i1.foo7(''); // {}
-var r11 = i1.foo8(); // {}
+var i;
+var r4 = i.foo('', 1); // string
+var r5 = i.foo2('', 1); // number
+var r6 = i.foo3(true, 1); // boolean
+var r7 = i.foo4('', true); // string
+var r8 = i.foo5(true, 1); // boolean
+var r9 = i.foo6(); // {}
+var r10 = i.foo7(''); // {}
+var r11 = i.foo8(); // {}

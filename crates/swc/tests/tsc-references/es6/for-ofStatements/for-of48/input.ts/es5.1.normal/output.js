@@ -6,16 +6,16 @@ var array = [
         y: true
     }
 ];
-var E1;
-(function(E) {
-    E[E["x"] = 0] = "x";
-})(E1 || (E1 = {
+var E;
+(function(E1) {
+    E1[E1["x"] = 0] = "x";
+})(E || (E = {
 }));
 var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 try {
     for(var _iterator = array[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
         var ref, ref1;
-        ref = _step.value, x = ref.x, ref1 = ref.y, y = ref1 === void 0 ? E1.x : ref1, ref;
+        ref = _step.value, x = ref.x, ref1 = ref.y, y = ref1 === void 0 ? E.x : ref1, ref;
         x;
         y;
     }

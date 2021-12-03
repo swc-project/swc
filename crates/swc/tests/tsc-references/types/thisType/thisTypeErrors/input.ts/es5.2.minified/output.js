@@ -10,7 +10,7 @@ function _defineProperties(target, props) {
 function _createClass(Constructor, protoProps, staticProps) {
     return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
 }
-var N11, C1 = function() {
+var N1, C1 = function() {
     "use strict";
     _classCallCheck(this, C1);
 }, C2 = function() {
@@ -26,10 +26,10 @@ var N11, C1 = function() {
         }
     ]), C2;
 }();
-C2.y = void 0, (function(N1) {
+C2.y = void 0, (function(N11) {
     var x;
-    N1.y = this, N1.x = x;
-})(N11 || (N11 = {
+    N11.y = this, N11.x = x;
+})(N1 || (N1 = {
 }));
 var C3 = function() {
     "use strict";

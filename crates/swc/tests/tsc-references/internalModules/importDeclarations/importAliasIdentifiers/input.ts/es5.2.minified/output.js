@@ -1,15 +1,15 @@
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
-!function(moduleA) {
+!function(moduleA1) {
     var Point = function(x, y) {
         "use strict";
         _classCallCheck(this, Point), this.x = x, this.y = y;
     };
-    moduleA.Point = Point;
-}(moduleA1 || (moduleA1 = {
+    moduleA1.Point = Point;
+}(moduleA || (moduleA = {
 }));
-var moduleA1, clodule = function() {
+var moduleA, clodule = function() {
     "use strict";
     _classCallCheck(this, clodule);
 };

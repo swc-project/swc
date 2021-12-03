@@ -55,8 +55,8 @@ function _setPrototypeOf(o, p) {
     };
     return _setPrototypeOf(o, p);
 }
-var _typeof = function(obj) {
-    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
+var _typeof = function(obj1) {
+    return obj1 && typeof Symbol !== "undefined" && obj1.constructor === Symbol ? "symbol" : typeof obj1;
 };
 function _isNativeReflectConstruct() {
     if (typeof Reflect === "undefined" || !Reflect.construct) return false;
@@ -113,4 +113,4 @@ var C2 = /*#__PURE__*/ function(C1) {
     return C2;
 }(C1);
 var c;
-var obj1 = c[Symbol.toStringTag]().x;
+var obj = c[Symbol.toStringTag]().x;

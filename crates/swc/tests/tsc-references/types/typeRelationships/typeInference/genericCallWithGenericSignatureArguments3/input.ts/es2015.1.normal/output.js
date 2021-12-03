@@ -22,18 +22,18 @@ var r4 = foo(null, (x)=>''
 var r5 = foo(new Object(), (x)=>''
 , (x)=>''
 ); // Object => Object
-var E1;
-(function(E) {
-    E[E["A"] = 0] = "A";
-})(E1 || (E1 = {
+var E;
+(function(E1) {
+    E1[E1["A"] = 0] = "A";
+})(E || (E = {
 }));
-var F1;
-(function(F) {
-    F[F["A"] = 0] = "A";
-})(F1 || (F1 = {
+var F;
+(function(F1) {
+    F1[F1["A"] = 0] = "A";
+})(F || (F = {
 }));
-var r6 = foo(E1.A, (x)=>E1.A
-, (x)=>F1.A
+var r6 = foo(E.A, (x)=>E.A
+, (x)=>F.A
 ); // number => number 
 function foo2(x, a, b) {
     var r;

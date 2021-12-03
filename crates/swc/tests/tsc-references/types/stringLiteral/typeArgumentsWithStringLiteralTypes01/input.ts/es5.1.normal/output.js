@@ -10,13 +10,13 @@ function fun3() {
     }
     return args[+randBool()];
 }
-var n11;
-(function(n1) {
-    n1.a = fun1("Hello", "World");
-    n1.b = fun1("Hello", "Hello");
-    n1.c = fun2("Hello", "World");
-    n1.d = fun2("Hello", "Hello");
-    n1.e = fun3("Hello", "Hello", "World", "Foo");
+var n1;
+(function(n11) {
+    n11.a = fun1("Hello", "World");
+    n11.b = fun1("Hello", "Hello");
+    n11.c = fun2("Hello", "World");
+    n11.d = fun2("Hello", "Hello");
+    n11.e = fun3("Hello", "Hello", "World", "Foo");
     // Should be valid
     a = takeReturnString(a);
     b = takeReturnString(b);
@@ -35,15 +35,15 @@ var n11;
     c = takeReturnHelloWorld(c);
     d = takeReturnHelloWorld(d);
     e = takeReturnHelloWorld(e);
-})(n11 || (n11 = {
+})(n1 || (n1 = {
 }));
-var n21;
-(function(n2) {
-    n2.a = fun1("Hello", "Hello");
-    n2.b = fun1("Hello", "World");
-    n2.c = fun2("Hello", "Hello");
-    n2.d = fun2("Hello", "World");
-    n2.e = fun3("Hello", "World");
+var n2;
+(function(n21) {
+    n21.a = fun1("Hello", "Hello");
+    n21.b = fun1("Hello", "World");
+    n21.c = fun2("Hello", "Hello");
+    n21.d = fun2("Hello", "World");
+    n21.e = fun3("Hello", "World");
     // Assignment from the returned value should cause an error.
     a = takeReturnString(a);
     b = takeReturnString(b);
@@ -62,15 +62,15 @@ var n21;
     c = takeReturnHelloWorld(c);
     d = takeReturnHelloWorld(d);
     e = takeReturnHelloWorld(e);
-})(n21 || (n21 = {
+})(n2 || (n2 = {
 }));
-var n31;
-(function(n3) {
-    n3.a = fun2("Hello", "World");
-    n3.b = fun2("World", "Hello");
-    n3.c = fun2("Hello", "Hello");
-    n3.d = fun2("World", "World");
-    n3.e = fun3("Hello", "World");
+var n3;
+(function(n31) {
+    n31.a = fun2("Hello", "World");
+    n31.b = fun2("World", "Hello");
+    n31.c = fun2("Hello", "Hello");
+    n31.d = fun2("World", "World");
+    n31.e = fun3("Hello", "World");
     // Assignment from the returned value should cause an error.
     a = takeReturnString(a);
     b = takeReturnString(b);
@@ -89,5 +89,5 @@ var n31;
     c = takeReturnHelloWorld(c);
     d = takeReturnHelloWorld(d);
     e = takeReturnHelloWorld(e);
-})(n31 || (n31 = {
+})(n3 || (n3 = {
 }));

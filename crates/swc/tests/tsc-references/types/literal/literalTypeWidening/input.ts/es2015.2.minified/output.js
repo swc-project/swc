@@ -1,16 +1,15 @@
 var E, E1;
-export function Set(...keys) {
+export function Set(...keys1) {
     const result = {
     };
-    return keys.forEach((key)=>result[key] = !0
+    return keys1.forEach((key)=>result[key] = !0
     ), result;
 }
-function keys1(obj) {
+export function keys(obj) {
     return Object.keys(obj);
 }
-export { keys1 as keys };
 const langCodeSet = Set("fr", "en", "es", "it", "nl");
-export const langCodes = keys1(langCodeSet);
+export const langCodes = keys(langCodeSet);
 langCodes.map((code)=>({
         code
     })

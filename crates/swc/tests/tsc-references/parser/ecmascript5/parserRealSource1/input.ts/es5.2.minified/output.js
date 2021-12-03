@@ -1,4 +1,4 @@
-var TypeScript1;
+var TypeScript;
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
@@ -11,7 +11,7 @@ function _defineProperties(target, props) {
 function _createClass(Constructor, protoProps, staticProps) {
     return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
 }
-!function(TypeScript) {
+!function(TypeScript1) {
     var CompilerDiagnostics1;
     !function(CompilerDiagnostics) {
         function Alert(output) {
@@ -67,7 +67,7 @@ function _createClass(Constructor, protoProps, staticProps) {
             }
         ]), NullLogger;
     }();
-    TypeScript.NullLogger = NullLogger;
+    TypeScript1.NullLogger = NullLogger;
     var LoggerAdapter = function() {
         "use strict";
         function LoggerAdapter(logger) {
@@ -112,7 +112,7 @@ function _createClass(Constructor, protoProps, staticProps) {
             }
         ]), LoggerAdapter;
     }();
-    TypeScript.LoggerAdapter = LoggerAdapter;
+    TypeScript1.LoggerAdapter = LoggerAdapter;
     var BufferedLogger = function() {
         "use strict";
         function BufferedLogger() {
@@ -157,10 +157,10 @@ function _createClass(Constructor, protoProps, staticProps) {
             }
         ]), BufferedLogger;
     }();
-    TypeScript.BufferedLogger = BufferedLogger, TypeScript.timeFunction = function(logger, funcDescription, func) {
+    TypeScript1.BufferedLogger = BufferedLogger, TypeScript1.timeFunction = function(logger, funcDescription, func) {
         var start = +new Date(), result = func(), end = +new Date();
         return logger.log(funcDescription + " completed in " + (end - start) + " msec"), result;
-    }, TypeScript.stringToLiteral = function(value, length) {
+    }, TypeScript1.stringToLiteral = function(value, length) {
         var result = "", addChar = function(index) {
             var ch = value.charCodeAt(index);
             switch(ch){
@@ -201,6 +201,6 @@ function _createClass(Constructor, protoProps, staticProps) {
             for(var i = 0; i < length; i++)addChar(i);
         }
         return result;
-    }, TypeScript.CompilerDiagnostics = CompilerDiagnostics1;
-}(TypeScript1 || (TypeScript1 = {
+    }, TypeScript1.CompilerDiagnostics = CompilerDiagnostics1;
+}(TypeScript || (TypeScript = {
 }));

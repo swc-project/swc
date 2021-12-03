@@ -90,14 +90,14 @@ function _isNativeReflectConstruct() {
 function _createSuper(Derived) {
     var hasNativeReflectConstruct = _isNativeReflectConstruct();
     return function _createSuperInternal() {
-        var Super = _getPrototypeOf(Derived), result;
+        var Super = _getPrototypeOf(Derived), result1;
         if (hasNativeReflectConstruct) {
             var NewTarget = _getPrototypeOf(this).constructor;
-            result = Reflect.construct(Super, arguments, NewTarget);
+            result1 = Reflect.construct(Super, arguments, NewTarget);
         } else {
-            result = Super.apply(this, arguments);
+            result1 = Super.apply(this, arguments);
         }
-        return _possibleConstructorReturn(this, result);
+        return _possibleConstructorReturn(this, result1);
     };
 }
 var Shape = function Shape() {
@@ -122,12 +122,12 @@ var Options = function Options() {
     "use strict";
     _classCallCheck(this, Options);
 };
-var E1;
-(function(E) {
-    E[E["A"] = 0] = "A";
-    E[E["B"] = 1] = "B";
-    E[E["C"] = 2] = "C";
-})(E1 || (E1 = {
+var E;
+(function(E1) {
+    E1[E1["A"] = 0] = "A";
+    E1[E1["B"] = 1] = "B";
+    E1[E1["C"] = 2] = "C";
+})(E || (E = {
 }));
 function getProperty(obj, key) {
     return obj[key];
@@ -497,12 +497,12 @@ function path(obj) {
     for(var _len = arguments.length, keys = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
         keys[_key - 1] = arguments[_key];
     }
-    var result = obj;
+    var result2 = obj;
     var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
     try {
         for(var _iterator = keys[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
             var k = _step.value;
-            result = result[k];
+            result2 = result2[k];
         }
     } catch (err) {
         _didIteratorError = true;
@@ -518,7 +518,7 @@ function path(obj) {
             }
         }
     }
-    return result;
+    return result2;
 }
 function f1(thing) {
     var x1 = path(thing, 'a'); // { x: number, y: string }
@@ -558,7 +558,7 @@ function f(p) {
     var a;
     a[p].add; // any
 }
-var result1 = dispatchMethod("someMethod", [
+var result = dispatchMethod("someMethod", [
     "hello",
     35
 ]);
@@ -675,11 +675,11 @@ function f3(t, k, tk) {
         t[key] = tk; // ok, T[K] ==> T[keyof T]
     }
 }
-var Flag1;
-(function(Flag) {
-    Flag["FLAG_1"] = "flag_1";
-    Flag["FLAG_2"] = "flag_2";
-})(Flag1 || (Flag1 = {
+var Flag;
+(function(Flag1) {
+    Flag1["FLAG_1"] = "flag_1";
+    Flag1["FLAG_2"] = "flag_2";
+})(Flag || (Flag = {
 }));
 function getFlagsFromSimpleRecord(record, flags) {
     return record[flags[0]];

@@ -144,10 +144,10 @@ b2("string", {
     y: true
 });
 var // If the declaration specifies a binding pattern, the parameter type is the implied type of that binding pattern (section 5.1.3)
-Foo1;
-(function(Foo) {
-    Foo[Foo["a"] = 0] = "a";
-})(Foo1 || (Foo1 = {
+Foo;
+(function(Foo1) {
+    Foo1[Foo1["a"] = 0] = "a";
+})(Foo || (Foo = {
 }));
 function c0(param) {
     var _z = param.z, x = _z.x, j = _z.y.j;

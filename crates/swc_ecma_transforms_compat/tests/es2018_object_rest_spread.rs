@@ -273,11 +273,11 @@ async function a() {
 "#,
     r#"
 // ForXStatement
-for (var _ref2 of []) {
+for (var _ref of []) {
   var {
     a
-  } = _ref2,
-      b = _objectWithoutProperties(_ref2, ["a"]);
+  } = _ref,
+      b = _objectWithoutProperties(_ref, ["a"]);
 }
 
 for (var _ref1 of []) {
@@ -288,11 +288,11 @@ for (var _ref1 of []) {
 }
 
 async function a() {
-  for await (var _ref of []) {
+  for await (var _ref2 of []) {
     var {
       a
-    } = _ref,
-        b = _objectWithoutProperties(_ref, ["a"]);
+    } = _ref2,
+        b = _objectWithoutProperties(_ref2, ["a"]);
   }
 } // skip
 

@@ -2,8 +2,8 @@ function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
 function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
+    for(var i1 = 0; i1 < props.length; i1++){
+        var descriptor = props[i1];
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
@@ -51,26 +51,26 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var i1, a, Base1 = function() {
+var i, a, Base = function() {
     "use strict";
-    _classCallCheck(this, Base1);
-}, Derived1 = function(Base) {
+    _classCallCheck(this, Base);
+}, Derived1 = function(Base1) {
     "use strict";
-    _inherits(Derived1, Base);
+    _inherits(Derived1, Base1);
     var _super = _createSuper(Derived1);
     function Derived1() {
         return _classCallCheck(this, Derived1), _super.apply(this, arguments);
     }
     return Derived1;
-}(Base1), Derived2 = function(Base) {
+}(Base), Derived2 = function(Base2) {
     "use strict";
-    _inherits(Derived2, Base);
+    _inherits(Derived2, Base2);
     var _super = _createSuper(Derived2);
     function Derived2() {
         return _classCallCheck(this, Derived2), _super.apply(this, arguments);
     }
     return Derived2;
-}(Base1), C = function() {
+}(Base), C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C() {
@@ -85,4 +85,4 @@ var i1, a, Base1 = function() {
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }(), c = new C();
-c = i1, i1 = c = a, i1 = a, a = c, a = i1, c.foo("hi"), c.foo("bye"), c.foo("hm");
+c = i, i = c = a, i = a, a = c, a = i, c.foo("hi"), c.foo("bye"), c.foo("hm");

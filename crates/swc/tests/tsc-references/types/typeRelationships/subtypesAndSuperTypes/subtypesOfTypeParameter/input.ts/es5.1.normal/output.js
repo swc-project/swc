@@ -95,16 +95,16 @@ var C2 = function C2() {
     "use strict";
     _classCallCheck(this, C2);
 };
-var E1;
-(function(E) {
-    E[E["A"] = 0] = "A";
-})(E1 || (E1 = {
+var E;
+(function(E1) {
+    E1[E1["A"] = 0] = "A";
+})(E || (E = {
 }));
-function f3() {
+function f() {
 }
-(function(f) {
-    f.bar = 1;
-})(f3 || (f3 = {
+(function(f3) {
+    f3.bar = 1;
+})(f || (f = {
 }));
 var c = function c() {
     "use strict";
@@ -164,10 +164,10 @@ function f2(x1, y) {
     var c2;
     var r12 = true ? c2 : x1;
     var r12 = true ? x1 : c2;
-    var r13 = true ? E1 : x1;
-    var r13 = true ? x1 : E1;
-    var r14 = true ? E1.A : x1;
-    var r14 = true ? x1 : E1.A;
+    var r13 = true ? E : x1;
+    var r13 = true ? x1 : E;
+    var r14 = true ? E.A : x1;
+    var r14 = true ? x1 : E.A;
     var af;
     var r15 = true ? af : x1;
     var r15 = true ? x1 : af;

@@ -1,11 +1,11 @@
 // all errors imported modules conflict with local variables
-var A1;
-(function(A) {
-    A.Point = {
+var A;
+(function(A1) {
+    A1.Point = {
         x: 0,
         y: 0
     };
-})(A1 || (A1 = {
+})(A || (A = {
 }));
 var B;
 (function(B) {
@@ -15,12 +15,12 @@ var B;
     };
 })(B || (B = {
 }));
-var X1;
-(function(X) {
+var X;
+(function(X1) {
     class Y {
     }
-    X.Y = Y;
-})(X1 || (X1 = {
+    X1.Y = Y;
+})(X || (X = {
 }));
 var Z;
 (function(Z) {

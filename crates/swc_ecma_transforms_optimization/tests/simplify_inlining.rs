@@ -1115,7 +1115,7 @@ fn test_inline_function_declaration() {
 fn test_recursive_function1() {
     test(
         "var x = 0; (function x() { return x ? x() : 3; })();",
-        "var x1; (function x() { return x ? x() : 3; })();",
+        "var x; (function x1() { return x1 ? x1() : 3; })();",
     );
 }
 
@@ -2266,19 +2266,19 @@ const STATUS_TEXT = new Map([
 ]);
     "#,
     r#"
-    var Status1;
-    (function(Status) {
-        Status[Status["Continue"] = 100] = "Continue";
-        Status[Status["SwitchingProtocols"] = 101] = "SwitchingProtocols";
-    })(Status1 || (Status1 = {
+    var Status;
+    (function(Status1) {
+        Status1[Status1["Continue"] = 100] = "Continue";
+        Status1[Status1["SwitchingProtocols"] = 101] = "SwitchingProtocols";
+    })(Status || (Status = {
     }));
     const STATUS_TEXT = new Map([
         [
-            Status1.Continue,
+            Status.Continue,
             "Continue"
         ],
         [
-            Status1.SwitchingProtocols,
+            Status.SwitchingProtocols,
             "Switching Protocols"
         ]
     ]);

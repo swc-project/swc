@@ -655,9 +655,9 @@ test!(
   return foo;
 }",
     "
-function foo1(bar) {
-    var foo = bar.foo;
-    return foo;
+function foo(bar) {
+    var foo1 = bar.foo;
+    return foo1;
 }"
 );
 

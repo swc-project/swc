@@ -3404,22 +3404,21 @@ to!(
     }
     ",
     "
-    var util1;
-    export { util1 as util };
-    (function (util) {
+    export var util;
+    (function (util1) {
         function assertNever(_x) {
             throw new Error();
         }
-        util.assertNever = assertNever;
-        util.arrayToEnum = (items) => {
+        util1.assertNever = assertNever;
+        util1.arrayToEnum = (items) => {
         };
-        util.getValidEnumValues = (obj) => {
+        util1.getValidEnumValues = (obj) => {
         };
-        util.getValues = (obj) => {
+        util1.getValues = (obj) => {
         };
-        util.objectValues = (obj) => {
+        util1.objectValues = (obj) => {
         };
-    })(util1 || (util1 = {}));
+    })(util || (util = {}));
 
     "
 );
@@ -3433,12 +3432,11 @@ to!(
     }
     ",
     "
-    var util1;
-    export { util1 as util };
-    (function (util) {
+    export var util;
+    (function (util1) {
         const c = 3;
-        [util.a, util.b] = [1, 2, 3];
-    })(util1 || (util1 = {}));
+        [util1.a, util1.b] = [1, 2, 3];
+    })(util || (util = {}));
     "
 );
 
@@ -3457,16 +3455,15 @@ to!(
     }
     ",
     "
-    var util1;
-    export { util1 as util };
-    (function (util) {
+    export var util;
+    (function (util1) {
         const c = 3;
         function foo() {
         }
-        util.foo = foo;
+        util1.foo = foo;
         function bar() {
         }
-    })(util1 || (util1 = {}));
+    })(util || (util = {}));
     "
 );
 
@@ -3483,18 +3480,18 @@ to!(
     console(Test.DummyValues.A);
     ",
     "
-    var Test1;
-    (function(Test) {
+    var Test;
+    (function(Test1) {
         var DummyValues;
         (function(DummyValues) {
             DummyValues['A'] = 'A';
             DummyValues['B'] = 'B';
         })(DummyValues || (DummyValues = {
         }));
-        Test.DummyValues = DummyValues;
-    })(Test1 || (Test1 = {
+        Test1.DummyValues = DummyValues;
+    })(Test || (Test = {
     }));
-    console(Test1.DummyValues.A);
+    console(Test.DummyValues.A);
     "
 );
 

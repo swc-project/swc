@@ -1,14 +1,14 @@
-class A1 {
+class A {
 }
-class B extends A1 {
+class B extends A {
 }
 var Generics;
 (function(Generics) {
-    class A {
+    class A1 {
     }
-    class B extends A {
+    class B extends A1 {
     }
-    class B3 extends A {
+    class B3 extends A1 {
     }
 })(Generics || (Generics = {
 }));

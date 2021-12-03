@@ -11,16 +11,16 @@ var A2 = function A2() {
     "use strict";
     _classCallCheck(this, A2);
 };
-var E1;
-(function(E) {
-    E[E["A"] = 0] = "A";
-})(E1 || (E1 = {
+var E;
+(function(E1) {
+    E1[E1["A"] = 0] = "A";
+})(E || (E = {
 }));
-function f1() {
+function f() {
 }
-(function(f) {
-    f.bar = 1;
-})(f1 || (f1 = {
+(function(f1) {
+    f1.bar = 1;
+})(f || (f = {
 }));
 var c = function c() {
     "use strict";

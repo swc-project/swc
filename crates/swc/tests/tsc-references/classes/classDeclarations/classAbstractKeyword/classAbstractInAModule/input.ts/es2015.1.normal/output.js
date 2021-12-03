@@ -1,12 +1,12 @@
-var M1;
-(function(M) {
+var M;
+(function(M1) {
     class A {
     }
-    M.A = A;
+    M1.A = A;
     class B extends A {
     }
-    M.B = B;
-})(M1 || (M1 = {
+    M1.B = B;
+})(M || (M = {
 }));
-new M1.A;
-new M1.B;
+new M.A;
+new M.B;

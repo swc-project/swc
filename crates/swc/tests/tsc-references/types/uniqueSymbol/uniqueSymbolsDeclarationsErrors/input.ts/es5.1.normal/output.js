@@ -17,7 +17,8 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var obj1 = {
+// not allowed when emitting declarations
+export var obj = {
     method1: function method1(p) {
         return p;
     },
@@ -25,8 +26,6 @@ var obj1 = {
         return p;
     }
 };
-// not allowed when emitting declarations
-export { obj1 as obj };
 export var classExpression = /*#__PURE__*/ function() {
     "use strict";
     function _class() {
@@ -48,8 +47,8 @@ export var classExpression = /*#__PURE__*/ function() {
     ]);
     return _class;
 }();
-export function funcInferredReturnType(obj) {
-    return obj;
+export function funcInferredReturnType(obj1) {
+    return obj1;
 }
 export var ClassWithPrivateNamedProperties = function ClassWithPrivateNamedProperties() {
     "use strict";

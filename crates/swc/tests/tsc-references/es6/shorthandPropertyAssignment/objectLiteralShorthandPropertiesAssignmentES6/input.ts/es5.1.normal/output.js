@@ -1,28 +1,28 @@
 // @lib: es5
 // @target: es6
-var id1 = 10000;
-var name1 = "my name";
+var id = 10000;
+var name = "my name";
 var person = {
-    name: name1,
-    id: id1
+    name: name,
+    id: id
 };
 function foo(obj) {
 }
-function bar(name, id) {
+function bar(name1, id1) {
     return {
-        name: name,
-        id: id
+        name: name1,
+        id: id1
     };
 }
-function bar1(name, id) {
+function bar1(name2, id) {
     return {
-        name: name
+        name: name2
     };
 }
-function baz(name, id) {
+function baz(name3, id2) {
     return {
-        name: name,
-        id: id
+        name: name3,
+        id: id2
     };
 }
 foo(person);

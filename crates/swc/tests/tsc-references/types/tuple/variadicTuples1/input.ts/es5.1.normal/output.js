@@ -34,7 +34,7 @@ function tup2(t, u) {
         3
     ]);
 }
-var t21 = tup2([
+var t2 = tup2([
     'hello'
 ], [
     10,
@@ -71,7 +71,7 @@ var tc5 = concat2([
     5,
     6
 ]); // (1 | 2 | 3 | 4 | 5 | 6)[]
-function foo2(t1, t2, a1) {
+function foo2(t1, t21, a1) {
     foo1(1, 'abc', true, 42, 43, 44);
     foo1.apply(void 0, _toConsumableArray(t1).concat([
         true,
@@ -79,12 +79,12 @@ function foo2(t1, t2, a1) {
         43,
         44
     ]));
-    foo1.apply(void 0, _toConsumableArray(t1).concat(_toConsumableArray(t2), [
+    foo1.apply(void 0, _toConsumableArray(t1).concat(_toConsumableArray(t21), [
         42,
         43,
         44
     ]));
-    foo1.apply(void 0, _toConsumableArray(t1).concat(_toConsumableArray(t2), _toConsumableArray(a1)));
+    foo1.apply(void 0, _toConsumableArray(t1).concat(_toConsumableArray(t21), _toConsumableArray(a1)));
     foo1.apply(void 0, _toConsumableArray(t1)); // Error
     foo1.apply(void 0, _toConsumableArray(t1).concat([
         45
@@ -212,21 +212,21 @@ function f12(t, m, r) {
     r = t;
     r = m;
 }
-function f13(t0, t1, t2) {
+function f13(t0, t1, t22) {
     t0 = t1;
-    t0 = t2;
+    t0 = t22;
     t1 = t0;
-    t1 = t2;
-    t2 = t0; // Error
-    t2 = t1; // Error
+    t1 = t22;
+    t22 = t0; // Error
+    t22 = t1; // Error
 }
-function f14(t0, t1, t2) {
+function f14(t0, t1, t23) {
     t0 = t1;
-    t0 = t2;
+    t0 = t23;
     t1 = t0; // Error
-    t1 = t2;
-    t2 = t0; // Error
-    t2 = t1; // Error
+    t1 = t23;
+    t23 = t0; // Error
+    t23 = t1; // Error
 }
 function f15(k0, k1, k2, k3) {
     k0 = 'length';
@@ -245,10 +245,10 @@ function curry(f) {
         a[_key1 - 1] = arguments[_key1];
     }
     return function() {
-        for(var _len = arguments.length, b = new Array(_len), _key = 0; _key < _len; _key++){
-            b[_key] = arguments[_key];
+        for(var _len = arguments.length, b1 = new Array(_len), _key = 0; _key < _len; _key++){
+            b1[_key] = arguments[_key];
         }
-        return f.apply(void 0, _toConsumableArray(a).concat(_toConsumableArray(b)));
+        return f.apply(void 0, _toConsumableArray(a).concat(_toConsumableArray(b1)));
     };
 }
 var fn1 = function(a, b, c, d) {
@@ -364,7 +364,7 @@ function f23(args) {
         42
     ]); // [string]
 }
-var b1 = a.bind("", 1); // Desc<[boolean], object>
+var b = a.bind("", 1); // Desc<[boolean], object>
 function callApi(method) {
     return function() {
         for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){

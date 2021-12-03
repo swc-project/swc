@@ -10,8 +10,8 @@ function _toConsumableArray(arr) {
         throw new TypeError("Invalid attempt to spread non-iterable instance");
     })();
 }
-function concat(t, u) {
-    return _toConsumableArray(t).concat(_toConsumableArray(u));
+function concat(t1, u2) {
+    return _toConsumableArray(t1).concat(_toConsumableArray(u2));
 }
 function curry(f) {
     for(var _len1 = arguments.length, a = new Array(_len1 > 1 ? _len1 - 1 : 0), _key1 = 1; _key1 < _len1; _key1++)a[_key1 - 1] = arguments[_key1];
@@ -20,16 +20,16 @@ function curry(f) {
         return f.apply(void 0, _toConsumableArray(a).concat(_toConsumableArray(b)));
     };
 }
-t1 = [
+t = [
     "hello"
-], u2 = [
+], u = [
     10,
     !0
 ], [
     1
-].concat(_toConsumableArray(t1), [
+].concat(_toConsumableArray(t), [
     2
-], _toConsumableArray(u2), [
+], _toConsumableArray(u), [
     3
 ]), concat([], []), concat([
     "hello"
@@ -77,7 +77,7 @@ t1 = [
         "def"
     ]
 ]);
-var t1, u2, u1, fn1 = function(a, b, c, d) {
+var t, u, u1, fn1 = function(a, b, c, d) {
     return 0;
 };
 curry(fn1), curry(fn1, 1), curry(fn1, 1, "abc"), curry(fn1, 1, "abc", !0), curry(fn1, 1, "abc", !0, [
@@ -93,8 +93,8 @@ var fn3 = function() {
     for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
     return 0;
 };
-function curry2(f, t, u) {
-    return f.apply(void 0, _toConsumableArray(t).concat(_toConsumableArray(u)));
+function curry2(f, t2, u3) {
+    return f.apply(void 0, _toConsumableArray(t2).concat(_toConsumableArray(u3)));
 }
 function callApi(method) {
     return function() {

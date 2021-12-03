@@ -21,12 +21,12 @@ var C2 = function(p) {
     _classCallCheck(this, C2), this.p = p;
 };
 c2.p;
-var C31 = function(p) {
+var C3 = function(p) {
     "use strict";
-    _classCallCheck(this, C31), this.p = p;
+    _classCallCheck(this, C3), this.p = p;
 };
 c3.p;
-var Derived1 = function(C3) {
+var Derived1 = function(C31) {
     "use strict";
     !function(subClass, superClass) {
         if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
@@ -37,8 +37,8 @@ var Derived1 = function(C3) {
                 configurable: !0
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
-    }(Derived1, C3);
-    var _super = function(Derived) {
+    }(Derived1, C31);
+    var _super = function(Derived2) {
         var hasNativeReflectConstruct = function() {
             if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
             if (Reflect.construct.sham) return !1;
@@ -51,7 +51,7 @@ var Derived1 = function(C3) {
             }
         }();
         return function() {
-            var obj, self, call, result, Super = _getPrototypeOf(Derived);
+            var obj, self, call, result, Super = _getPrototypeOf(Derived2);
             if (hasNativeReflectConstruct) {
                 var NewTarget = _getPrototypeOf(this).constructor;
                 result = Reflect.construct(Super, arguments, NewTarget);
@@ -67,4 +67,4 @@ var Derived1 = function(C3) {
         return _classCallCheck(this, Derived1), (_this = _super.call(this, p)).p, _this;
     }
     return Derived1;
-}(C31);
+}(C3);

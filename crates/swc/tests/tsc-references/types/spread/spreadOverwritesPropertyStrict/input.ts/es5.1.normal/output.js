@@ -12,8 +12,8 @@ function _defineProperty(obj, key, value) {
     return obj;
 }
 function _objectSpread(target) {
-    for(var i = 1; i < arguments.length; i++){
-        var source = arguments[i] != null ? arguments[i] : {
+    for(var i1 = 1; i1 < arguments.length; i1++){
+        var source = arguments[i1] != null ? arguments[i1] : {
         };
         var ownKeys = Object.keys(source);
         if (typeof Object.getOwnPropertySymbols === "function") {
@@ -64,7 +64,7 @@ function h(obj) {
     }, obj) // error
     ;
 }
-function i1(b, t) {
+function i(b, t) {
     return _objectSpread({
         command: "hi"
     }, b ? t : {

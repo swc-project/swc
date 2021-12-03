@@ -21,7 +21,7 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-function _createSuper(Derived) {
+function _createSuper(Derived1) {
     var hasNativeReflectConstruct = function() {
         if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
         if (Reflect.construct.sham) return !1;
@@ -34,7 +34,7 @@ function _createSuper(Derived) {
         }
     }();
     return function() {
-        var obj, self, call, result, Super = _getPrototypeOf(Derived);
+        var obj, self, call, result, Super = _getPrototypeOf(Derived1);
         if (hasNativeReflectConstruct) {
             var NewTarget = _getPrototypeOf(this).constructor;
             result = Reflect.construct(Super, arguments, NewTarget);
@@ -45,18 +45,18 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var r1arg1, r2arg1, r3arg1, r4arg1, r5arg1, r6arg1, r7arg1, r8arg1, r9arg1, r10arg1, r11arg1, r12arg1, r13arg1, r14arg1, r15arg1, r16arg1, r17arg1, r18arg1, Base1 = function() {
+var r1arg1, r2arg1, r3arg1, r4arg1, r5arg1, r6arg1, r7arg1, r8arg1, r9arg1, r10arg1, r11arg1, r12arg1, r13arg1, r14arg1, r15arg1, r16arg1, r17arg1, r18arg1, Base = function() {
     "use strict";
-    _classCallCheck(this, Base1);
-}, Derived1 = function(Base) {
+    _classCallCheck(this, Base);
+}, Derived = function(Base1) {
     "use strict";
-    _inherits(Derived1, Base);
-    var _super = _createSuper(Derived1);
-    function Derived1() {
-        return _classCallCheck(this, Derived1), _super.apply(this, arguments);
+    _inherits(Derived, Base1);
+    var _super = _createSuper(Derived);
+    function Derived() {
+        return _classCallCheck(this, Derived), _super.apply(this, arguments);
     }
-    return Derived1;
-}(Base1), Derived2 = function(Derived) {
+    return Derived;
+}(Base), Derived2 = function(Derived) {
     "use strict";
     _inherits(Derived2, Derived);
     var _super = _createSuper(Derived2);
@@ -64,13 +64,13 @@ var r1arg1, r2arg1, r3arg1, r4arg1, r5arg1, r6arg1, r7arg1, r8arg1, r9arg1, r10a
         return _classCallCheck(this, Derived2), _super.apply(this, arguments);
     }
     return Derived2;
-}(Derived1), OtherDerived = function(Base) {
+}(Derived), OtherDerived = function(Base2) {
     "use strict";
-    _inherits(OtherDerived, Base);
+    _inherits(OtherDerived, Base2);
     var _super = _createSuper(OtherDerived);
     function OtherDerived() {
         return _classCallCheck(this, OtherDerived), _super.apply(this, arguments);
     }
     return OtherDerived;
-}(Base1);
+}(Base);
 foo1(r1arg1), foo2(r2arg1), foo3(r3arg1), foo4(r4arg1), foo5(r5arg1), foo6(r6arg1), foo7(r7arg1), foo8(r8arg1), foo9(r9arg1), foo10(r10arg1), foo11(r11arg1), foo12(r12arg1), foo13(r13arg1), foo14(r14arg1), foo15(r15arg1), foo16(r16arg1), foo17(r17arg1), foo18(r18arg1);

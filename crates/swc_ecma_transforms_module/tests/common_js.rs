@@ -803,15 +803,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.f = exports.e = exports.c = exports.a = exports.test = void 0;
-var test1 = 2;
-exports.test = test1;
-exports.test = test1 = 5;
-exports.test = test1 = +test1 + 1;
+var test = 2;
+exports.test = test;
+exports.test = test = 5;
+exports.test = test = +test + 1;
 
 (function () {
-  var test = 2;
-  test = 3;
-  test++;
+  var test1 = 2;
+  test1 = 3;
+  test1++;
 })();
 
 var a = 2;

@@ -1,26 +1,26 @@
-var A1;
-(function(A) {
-    function fn(s) {
+var A;
+(function(A1) {
+    function fn1(s) {
         return true;
     }
-    A.fn = fn;
-    function fng(s) {
+    A1.fn = fn1;
+    function fng1(s) {
         return null;
     }
-    A.fng = fng;
+    A1.fng = fng1;
     function fn2(s) {
         return false;
     }
     function fng2(s) {
         return null;
     }
-})(A1 || (A1 = {
+})(A || (A = {
 }));
 // these should not be errors since the functions are exported
-var fn1;
-var fn1 = A1.fn;
-var fng1;
-var fng1 = A1.fng; // bug 838015
+var fn;
+var fn = A.fn;
+var fng;
+var fng = A.fng; // bug 838015
 // these should be errors since the functions are not exported
-var fn2 = A1.fn2;
-var fng2 = A1.fng2;
+var fn2 = A.fn2;
+var fng2 = A.fng2;
