@@ -200,7 +200,7 @@ struct ReduceAst {
 
     can_remove_pat: bool,
     preserve_fn: bool,
-    is_string_lit_important: bool,
+    preserve_lit: bool,
 
     changed: bool,
 }
@@ -576,14 +576,26 @@ impl VisitMut for ReduceAst {
             }) => {
                 self.ignore_expr(callee);
 
-                let is_string_lit_important = match &**callee {
-                    Expr::Ident(callee) => {
-                        if &*callee.sym == "define" || &*callee.sym == "require" {
-                            true
-                        } else {
-                            false
+                let is_define = match &**callee {
+                    Expr::Ident(callee) => &*callee.sym == "define",
+                    _ => false,
+                };
+
+                if is_define {
+                    for arg in args {
+                        match &mut *arg.expr {
+                            Expr::Fn(f) => {
+                                f.function.body.visit_mut_with(self);
+                            }
+                            _ => {}
                         }
                     }
+
+                    return;
+                }
+
+                let is_string_lit_important = match &**callee {
+                    Expr::Ident(callee) => &*callee.sym == "require",
                     _ => false,
                 };
 
@@ -600,11 +612,12 @@ impl VisitMut for ReduceAst {
                     // We should preserve the arguments if the callee is not invalid.
                     let old_preserver_fn = self.preserve_fn;
                     self.preserve_fn = !callee.is_fn_expr() && !callee.is_arrow();
-                    let old_preserve_lit = self.is_string_lit_important;
-                    self.is_string_lit_important |= is_string_lit_important;
+
+                    let old_preserve_lit = self.preserve_lit;
+                    self.preserve_lit |= is_string_lit_important;
                     e.visit_mut_children_with(self);
 
-                    self.is_string_lit_important = old_preserve_lit;
+                    self.preserve_lit = old_preserve_lit;
                     self.preserve_fn = old_preserver_fn;
 
                     return;
@@ -614,21 +627,11 @@ impl VisitMut for ReduceAst {
             _ => {}
         }
 
-        if self.is_string_lit_important && (e.is_lit() || e.is_array()) {
+        if self.preserve_lit && e.is_lit() {
             return;
         }
 
-        match e {
-            Expr::Fn(..) | Expr::Arrow(..) => {
-                let old = self.is_string_lit_important;
-                self.is_string_lit_important = false;
-                e.visit_mut_children_with(self);
-                self.is_string_lit_important = old;
-            }
-            _ => {
-                e.visit_mut_children_with(self);
-            }
-        }
+        e.visit_mut_children_with(self);
 
         match e {
             Expr::Seq(seq) => {
