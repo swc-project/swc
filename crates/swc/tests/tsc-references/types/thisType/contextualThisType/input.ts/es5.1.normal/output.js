@@ -1,5 +1,5 @@
 var x = {
-    a: function(p) {
+    a: function a(p) {
         return p;
     }
 };

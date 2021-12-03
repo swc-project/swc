@@ -65,19 +65,19 @@ var b4 = /*#__PURE__*/ React.createElement(MainButton, _extends({
 })); // Should error because Incorrect type; but attributes are any so everything is allowed
 var b5 = /*#__PURE__*/ React.createElement(MainButton, _extends({
 }, {
-    onClick: function(e) {
+    onClick: function onClick(e) {
     }
 }, obj0)); // Spread retain method declaration (see GitHub #13365), so now there is an extra attributes
 var b6 = /*#__PURE__*/ React.createElement(MainButton, _extends({
 }, {
-    onClick: function(e) {
+    onClick: function onClick(e) {
     }
 }, {
     children: 10
 })); // incorrect type for optional attribute
 var b7 = /*#__PURE__*/ React.createElement(MainButton, _extends({
 }, {
-    onClick: function(e) {
+    onClick: function onClick(e) {
     }
 }, {
     children: "hello",

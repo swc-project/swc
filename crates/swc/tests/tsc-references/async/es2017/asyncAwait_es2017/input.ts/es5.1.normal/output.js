@@ -206,7 +206,7 @@ var f13 = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
     }, _callee);
 }));
 var o = {
-    m1: function() {
+    m1: function m1() {
         return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
@@ -217,7 +217,7 @@ var o = {
             }, _callee);
         }))();
     },
-    m2: function() {
+    m2: function m2() {
         return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
@@ -228,7 +228,7 @@ var o = {
             }, _callee);
         }))();
     },
-    m3: function() {
+    m3: function m3() {
         return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){

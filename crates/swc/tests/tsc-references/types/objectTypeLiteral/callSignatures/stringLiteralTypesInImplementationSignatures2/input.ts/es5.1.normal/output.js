@@ -48,7 +48,7 @@ var C = /*#__PURE__*/ function() {
 }();
 var a;
 var b = _defineProperty({
-    foo: function(x) {
+    foo: function foo(x) {
     }
-}, "foo", function(x) {
+}, "foo", function foo(x) {
 });

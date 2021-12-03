@@ -21,7 +21,7 @@
             this.get;
             this.addon;
         },
-        get: function() {
+        get: function get() {
             this._map;
             this.set;
             this.get;

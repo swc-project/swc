@@ -81,7 +81,7 @@ ssk.m(); // error
 ssk.g; // error
 var i1 = {
     p: 12,
-    m: function() {
+    m: function m() {
     },
     get g () {
         return 0;
@@ -99,7 +99,7 @@ ssi.m(); // ok
 ssi.g; // ok
 var o = {
     p: 12,
-    m: function() {
+    m: function m() {
     },
     get g () {
         return 0;

@@ -145,16 +145,16 @@ var impl = {
     explicitVoid2: function() {
         return _this.a;
     },
-    explicitVoid1: function() {
+    explicitVoid1: function explicitVoid1() {
         return 12;
     },
-    explicitStructural: function() {
+    explicitStructural: function explicitStructural() {
         return this.a;
     },
-    explicitInterface: function() {
+    explicitInterface: function explicitInterface() {
         return this.a;
     },
-    explicitThis: function() {
+    explicitThis: function explicitThis() {
         return this.a;
     }
 };

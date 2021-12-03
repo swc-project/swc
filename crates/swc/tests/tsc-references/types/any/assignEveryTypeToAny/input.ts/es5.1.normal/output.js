@@ -39,12 +39,12 @@ x1 = h;
 var i;
 x1 = i;
 x1 = {
-    f: function() {
+    f: function f() {
         return 1;
     }
 };
 x1 = {
-    f: function(x) {
+    f: function f(x) {
         return x;
     }
 };

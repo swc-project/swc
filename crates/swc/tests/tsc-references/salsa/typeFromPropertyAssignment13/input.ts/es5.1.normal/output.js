@@ -8,7 +8,7 @@ var Outer = {
 Outer.Inner = function() {
 };
 Outer.Inner.prototype = {
-    m: function() {
+    m: function m() {
     },
     i: 1
 };
