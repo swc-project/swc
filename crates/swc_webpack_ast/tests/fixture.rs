@@ -46,6 +46,12 @@ impl VisitMut for AssertValid {
             panic!("found an identifier with dummy span: {:?}", i)
         }
     }
+
+    fn visit_mut_module(&mut self, m: &mut Module) {
+        dbg!(&*m);
+
+        m.visit_mut_children_with(self);
+    }
 }
 
 #[testing::fixture("../swc_ecma_parser/tests/typescript/tsc/**/input.ts")]
@@ -84,7 +90,6 @@ fn assert_no_invalid(input: PathBuf) {
         };
 
         module.visit_mut_with(&mut pass);
-        dbg!(&module);
         module.visit_mut_with(&mut AssertValid);
 
         Ok(())
