@@ -54,3 +54,8 @@ rust-toolchain
 .rustfmt.toml
 .gitattributes
 .travis.yml
+.husky/
+.prettierrc
+crates/
+cspell.json
+deny.toml
