@@ -31,7 +31,7 @@ var m2;
     var var2;
     var var3;
     var m31;
-    (function(m3) {
+    (function(m32) {
         // global vars in function declaration
         num = typeof var1 === "string" && var1.length; // string
         // local variables from outer module declaration
@@ -51,9 +51,35 @@ var m2;
         } else {
             strOrNum = var5; // string | number
         }
-        m3.var5 = var5;
+        m32.var5 = var5;
     })(m31 || (m31 = {
     }));
     m21.var3 = var3;
 })(m2 || (m2 = {
+}));
+// Dotted module
+var m3;
+(function(m33) {
+    var m41;
+    (function(m4) {
+        // global vars in function declaration
+        num = typeof var1 === "string" && var1.length; // string
+        // variables in module declaration
+        var var2;
+        if (typeof var2 === "string") {
+            num = var2.length; // string
+        } else {
+            num = var2; // number
+        }
+        var var3;
+        if (typeof var3 === "string") {
+            strOrNum = var3; // string | number
+        } else {
+            strOrNum = var3; // string | number
+        }
+        m4.var3 = var3;
+    })(m41 || (m41 = {
+    }));
+    m33.m4 = m41;
+})(m3 || (m3 = {
 }));

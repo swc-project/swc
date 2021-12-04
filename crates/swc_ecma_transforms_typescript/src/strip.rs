@@ -1110,8 +1110,8 @@ where
                 if let Some(var) = var.as_mut() {
                     // for comments
                     var.span = module_span;
-                    // ensure it's a var if in a script and top level
-                    if !self.is_module && module_name.span.ctxt == self.top_level_ctxt {
+                    // ensure it's a var if top level
+                    if module_name.span.ctxt == self.top_level_ctxt {
                         var.kind = VarDeclKind::Var;
                     }
                 }
@@ -1254,12 +1254,13 @@ where
         mut block: TsModuleBlock,
         private_module_name: &Ident,
     ) -> Option<Vec<Stmt>> {
+        // Make the body valid javascript.
+        block.body.visit_mut_with(self);
+
+        // Now check if it's empty as statements like interfaces might have been removed
         if block.body.is_empty() {
             return None;
         }
-
-        // Make the body valid javascript.
-        block.body.visit_mut_with(self);
 
         let mut delayed_vars = vec![];
         let mut init_stmts = vec![];
