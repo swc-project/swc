@@ -1611,6 +1611,15 @@ impl VisitMut for ReduceAst {
                         return;
                     }
                 }
+
+                if is.cons.is_empty() && is.alt.is_empty() {
+                    self.changed = true;
+                    *stmt = Stmt::Expr(ExprStmt {
+                        span: DUMMY_SP,
+                        expr: is.test.take(),
+                    });
+                    return;
+                }
             }
 
             Stmt::While(s) => {
