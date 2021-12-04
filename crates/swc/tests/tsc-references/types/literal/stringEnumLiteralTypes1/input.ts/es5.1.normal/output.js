@@ -1,8 +1,8 @@
 var Choice;
-(function(Choice1) {
-    Choice1["Unknown"] = "";
-    Choice1["Yes"] = "yes";
-    Choice1["No"] = "no";
+(function(Choice) {
+    Choice["Unknown"] = "";
+    Choice["Yes"] = "yes";
+    Choice["No"] = "no";
 })(Choice || (Choice = {
 }));
 function f1() {

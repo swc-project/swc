@@ -78,11 +78,12 @@ pub struct Config {
     pub pragma_frag: Option<String>,
 }
 
-pub fn strip_with_config(config: Config) -> impl Fold + VisitMut {
+pub fn strip_with_config(config: Config, top_level_mark: Mark) -> impl Fold + VisitMut {
     as_folder(Strip {
         config,
         comments: NoopComments,
         jsx: None,
+        top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
         non_top_level: Default::default(),
         scope: Default::default(),
         is_side_effect_import: Default::default(),
@@ -97,8 +98,8 @@ pub fn strip_with_config(config: Config) -> impl Fold + VisitMut {
 ///
 /// See the `examples` directory of the crate to see how you can transpile a
 /// typescript file to a javascript file.
-pub fn strip() -> impl Fold + VisitMut {
-    strip_with_config(Default::default())
+pub fn strip(top_level_mark: Mark) -> impl Fold + VisitMut {
+    strip_with_config(Default::default(), top_level_mark)
 }
 
 /// [strip], but aware of jsx.
@@ -145,6 +146,7 @@ where
             pragma_id,
             pragma_frag_id,
         }),
+        top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
         non_top_level: Default::default(),
         scope: Default::default(),
         is_side_effect_import: Default::default(),
@@ -189,18 +191,19 @@ where
     jsx: Option<JsxData>,
 
     non_top_level: bool,
+    top_level_ctxt: SyntaxContext,
     scope: Scope,
 
     is_side_effect_import: bool,
     is_type_only_export: bool,
     uninitialized_vars: Vec<VarDeclarator>,
 
-    /// Names of top-level declarations.
-    /// This is used to prevent emittnig a variable with same name multiple
+    /// Names of declarations.
+    /// This is used to prevent emitting a variable with same name multiple
     /// name.
     ///
-    /// If an identifier is in this list, thre [VisitMut] impl should not add a
-    /// varaible with it.
+    /// If an identifier is in this list, the [VisitMut] impl should not add a
+    /// variable with it.
     ///
     /// This field is filled by [Visit] impl and [VisitMut] impl.
     decl_names: AHashSet<Id>,
@@ -1299,7 +1302,11 @@ where
             var.map(|var| {
                 Decl::Var(VarDecl {
                     span: module_span,
-                    kind: VarDeclKind::Var,
+                    kind: if module_name.span.ctxt != self.top_level_ctxt {
+                        VarDeclKind::Let
+                    } else {
+                        VarDeclKind::Var
+                    },
                     declare: false,
                     decls: vec![var],
                 })
@@ -1758,7 +1765,11 @@ where
                     if let Some(var) = self.create_uninit_var(e.span, e.id.to_id()) {
                         stmts.push(Stmt::Decl(Decl::Var(VarDecl {
                             span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
+                            kind: if e.id.span.ctxt != self.top_level_ctxt {
+                                VarDeclKind::Let
+                            } else {
+                                VarDeclKind::Var
+                            },
                             declare: false,
                             decls: vec![var],
                         })));
@@ -2077,7 +2088,11 @@ where
                             span: e.span,
                             decl: Decl::Var(VarDecl {
                                 span: DUMMY_SP,
-                                kind: VarDeclKind::Var,
+                                kind: if e.id.span.ctxt != self.top_level_ctxt {
+                                    VarDeclKind::Let
+                                } else {
+                                    VarDeclKind::Var
+                                },
                                 declare: false,
                                 decls: vec![var],
                             }),
@@ -2087,7 +2102,7 @@ where
                     self.handle_enum(e, &mut stmts)
                 }
                 ModuleItem::Stmt(Stmt::Decl(Decl::TsEnum(e))) => {
-                    // var Foo;
+                    // let Foo;
                     // (function (Foo) {
                     //     Foo[Foo["a"] = 0] = "a";
                     // })(Foo || (Foo = {}));
@@ -2096,7 +2111,11 @@ where
                         stmts.push(
                             Stmt::Decl(Decl::Var(VarDecl {
                                 span: DUMMY_SP,
-                                kind: VarDeclKind::Var,
+                                kind: if e.id.span.ctxt != self.top_level_ctxt {
+                                    VarDeclKind::Let
+                                } else {
+                                    VarDeclKind::Var
+                                },
                                 declare: false,
                                 decls: vec![var],
                             }))

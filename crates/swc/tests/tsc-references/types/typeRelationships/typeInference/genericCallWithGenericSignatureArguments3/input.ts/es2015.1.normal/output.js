@@ -23,13 +23,13 @@ var r5 = foo(new Object(), (x)=>''
 , (x)=>''
 ); // Object => Object
 var E;
-(function(E1) {
-    E1[E1["A"] = 0] = "A";
+(function(E) {
+    E[E["A"] = 0] = "A";
 })(E || (E = {
 }));
 var F;
-(function(F1) {
-    F1[F1["A"] = 0] = "A";
+(function(F) {
+    F[F["A"] = 0] = "A";
 })(F || (F = {
 }));
 var r6 = foo(E.A, (x)=>E.A

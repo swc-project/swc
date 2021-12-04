@@ -22,9 +22,10 @@ var M;
     M1.S = S1;
 })(M || (M = {
 }));
-(function(M) {
+(function(M2) {
     // Emit M.Foo
     Foo, /*#__PURE__*/ React.createElement(Foo, null);
+    var S;
     (function(S) {
         // Emit M.Foo
         Foo, /*#__PURE__*/ React.createElement(Foo, null);
@@ -32,6 +33,7 @@ var M;
         Bar, /*#__PURE__*/ React.createElement(Bar, null);
     })(S || (S = {
     }));
+    M2.S = S;
 })(M || (M = {
 }));
 (function(M) {
@@ -40,7 +42,7 @@ var M;
 })(M || (M = {
 }));
 (function(M) {
-    var M2 = 100;
+    var M3 = 100;
     // Emit M_1.Foo
     Foo, /*#__PURE__*/ React.createElement(Foo, null);
 })(M || (M = {

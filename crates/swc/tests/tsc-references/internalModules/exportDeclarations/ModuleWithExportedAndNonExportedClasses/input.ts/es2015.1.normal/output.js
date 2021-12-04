@@ -1,10 +1,11 @@
-(function(A) {
+var A;
+(function(A3) {
     class A1 {
     }
-    A.A = A1;
+    A3.A = A1;
     class AG1 {
     }
-    A.AG = AG1;
+    A3.AG = AG1;
     class A2 {
     }
     class AG2 {

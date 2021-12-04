@@ -50,17 +50,17 @@ if (u === aFunction) {
     var uFunction = u;
 }
 var NumberEnum;
-(function(NumberEnum1) {
-    NumberEnum1[NumberEnum1["A"] = 0] = "A";
-    NumberEnum1[NumberEnum1["B"] = 1] = "B";
-    NumberEnum1[NumberEnum1["C"] = 2] = "C";
+(function(NumberEnum) {
+    NumberEnum[NumberEnum["A"] = 0] = "A";
+    NumberEnum[NumberEnum["B"] = 1] = "B";
+    NumberEnum[NumberEnum["C"] = 2] = "C";
 })(NumberEnum || (NumberEnum = {
 }));
 var StringEnum;
-(function(StringEnum1) {
-    StringEnum1["A"] = "A";
-    StringEnum1["B"] = "B";
-    StringEnum1["C"] = "C";
+(function(StringEnum) {
+    StringEnum["A"] = "A";
+    StringEnum["B"] = "B";
+    StringEnum["C"] = "C";
 })(StringEnum || (StringEnum = {
 }));
 if (u === NumberEnum || u === StringEnum) {

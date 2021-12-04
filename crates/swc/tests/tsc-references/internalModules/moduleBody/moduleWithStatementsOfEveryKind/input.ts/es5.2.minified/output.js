@@ -1,4 +1,4 @@
-var Y;
+var A, Y;
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
@@ -47,7 +47,7 @@ function _createSuper(Derived) {
     };
 }
 !function(A3) {
-    var Module, Color, A1, Color1, A2 = function() {
+    var Module, Color, A1, Color, A2 = function() {
         "use strict";
         _classCallCheck(this, A2);
     }, AA1 = function() {
@@ -61,9 +61,9 @@ function _createSuper(Derived) {
             return _classCallCheck(this, B), _super.apply(this, arguments);
         }
         return B;
-    }(AA1), BB = function(A) {
+    }(AA1), BB = function(A4) {
         "use strict";
-        _inherits(BB, A);
+        _inherits(BB, A4);
         var _super = _createSuper(BB);
         function BB() {
             return _classCallCheck(this, BB), _super.apply(this, arguments);
@@ -74,15 +74,15 @@ function _createSuper(Derived) {
     }), A1 = function() {
         "use strict";
         _classCallCheck(this, A1);
-    }, (Color1 = Color || (Color = {
-    }))[Color1.Blue = 0] = "Blue", Color1[Color1.Red = 1] = "Red";
+    }, (Color = Color || (Color = {
+    }))[Color.Blue = 0] = "Blue", Color[Color.Red = 1] = "Red";
 }(A || (A = {
 })), (function(Y1) {
-    var A5 = function() {
+    var Module, Color, A6 = function() {
         "use strict";
-        _classCallCheck(this, A5);
+        _classCallCheck(this, A6);
     };
-    Y1.A = A5;
+    Y1.A = A6;
     var AA2 = function() {
         "use strict";
         _classCallCheck(this, AA2);
@@ -98,21 +98,21 @@ function _createSuper(Derived) {
         return B;
     }(AA2);
     Y1.B = B;
-    var A4, Color2, BB = function(A) {
+    var A5, Color, BB = function(A7) {
         "use strict";
-        _inherits(BB, A);
+        _inherits(BB, A7);
         var _super = _createSuper(BB);
         function BB() {
             return _classCallCheck(this, BB), _super.apply(this, arguments);
         }
         return BB;
-    }(A5);
+    }(A6);
     Y1.BB = BB, Module || (Module = {
-    }), A4 = function() {
+    }), A5 = function() {
         "use strict";
-        _classCallCheck(this, A4);
-    }, (Color2 = Color || (Color = {
-    }))[Color2.Blue = 0] = "Blue", Color2[Color2.Red = 1] = "Red", Y1.x = 12, Y1.F = function(s) {
+        _classCallCheck(this, A5);
+    }, (Color = Color || (Color = {
+    }))[Color.Blue = 0] = "Blue", Color[Color.Red = 1] = "Red", Y1.x = 12, Y1.F = function(s) {
         return 2;
     }, Y1.array = null, Y1.fn = function(s) {
         return "hello " + s;
@@ -120,6 +120,6 @@ function _createSuper(Derived) {
         s: "hello",
         id: 2,
         isvalid: !0
-    };
+    }, Y1.Module = Module, Y1.Color = Color;
 })(Y || (Y = {
 }));

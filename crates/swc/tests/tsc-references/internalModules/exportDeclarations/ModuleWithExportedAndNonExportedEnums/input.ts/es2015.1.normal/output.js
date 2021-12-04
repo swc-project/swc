@@ -1,18 +1,18 @@
 var A;
 (function(A1) {
-    var Color1;
+    let Color;
     (function(Color) {
         Color[Color["Red"] = 0] = "Red";
         Color[Color["Blue"] = 1] = "Blue";
-    })(Color1 || (Color1 = {
+    })(Color || (Color = {
     }));
-    var Day1;
+    let Day;
     (function(Day) {
         Day[Day["Monday"] = 0] = "Monday";
         Day[Day["Tuesday"] = 1] = "Tuesday";
-    })(Day1 || (Day1 = {
+    })(Day || (Day = {
     }));
-    A1.Color = Color1;
+    A1.Color = Color;
 })(A || (A = {
 }));
 // not an error since exported

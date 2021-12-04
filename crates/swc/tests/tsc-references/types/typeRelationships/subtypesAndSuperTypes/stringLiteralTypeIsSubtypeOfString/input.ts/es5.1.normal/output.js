@@ -176,8 +176,8 @@ function f12(x) {
 function f13(x) {
 }
 var E;
-(function(E1) {
-    E1[E1["A"] = 0] = "A";
+(function(E) {
+    E[E["A"] = 0] = "A";
 })(E || (E = {
 }));
 function f14(x) {

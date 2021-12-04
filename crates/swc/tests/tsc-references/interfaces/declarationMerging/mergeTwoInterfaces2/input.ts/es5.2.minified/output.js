@@ -12,9 +12,9 @@ var M2;
     M3 || (M3 = {
     }), a.foo, a.bar, M21.M3 = M3;
 })(M2 || (M2 = {
-})), (function(M2) {
-    var a;
+})), (function(M22) {
+    var M3, a;
     M3 || (M3 = {
-    }), a.foo, a.bar;
+    }), a.foo, a.bar, M22.M3 = M3;
 })(M2 || (M2 = {
 }));

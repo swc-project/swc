@@ -110,12 +110,12 @@ function foo14() {
 }
 var r14 = foo14();
 var e1;
-(function(e11) {
-    e11[e11["A"] = 0] = "A";
+(function(e1) {
+    e1[e1["A"] = 0] = "A";
 })(e1 || (e1 = {
 }));
-(function(e12) {
-    e12.y = 1;
+(function(e1) {
+    e1.y = 1;
 })(e1 || (e1 = {
 }));
 function foo15() {

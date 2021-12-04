@@ -19,17 +19,17 @@ var C = function C(x1) {
     "use strict";
     _classCallCheck(this, C);
     this.b // ok
-     = x1;
+     = x;
 };
 var y = 1;
 var D = function D(x) {
     "use strict";
     _classCallCheck(this, D);
     this.b // ok
-     = y1;
+     = y;
     var y1 = "";
 };
-var E = function E(z) {
+var E = function E(z1) {
     "use strict";
     _classCallCheck(this, E);
     this.b // not ok

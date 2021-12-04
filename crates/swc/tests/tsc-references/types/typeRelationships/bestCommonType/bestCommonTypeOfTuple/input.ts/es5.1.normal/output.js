@@ -8,13 +8,13 @@ function f3(x) {
     return true;
 }
 var E1;
-(function(E11) {
-    E11[E11["one"] = 0] = "one";
+(function(E1) {
+    E1[E1["one"] = 0] = "one";
 })(E1 || (E1 = {
 }));
 var E2;
-(function(E21) {
-    E21[E21["two"] = 0] = "two";
+(function(E2) {
+    E2[E2["two"] = 0] = "two";
 })(E2 || (E2 = {
 }));
 var t1;

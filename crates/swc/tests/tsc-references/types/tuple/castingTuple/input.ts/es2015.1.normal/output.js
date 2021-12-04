@@ -12,13 +12,13 @@ class E extends A {
 class F extends A {
 }
 var E1;
-(function(E11) {
-    E11[E11["one"] = 0] = "one";
+(function(E1) {
+    E1[E1["one"] = 0] = "one";
 })(E1 || (E1 = {
 }));
 var E2;
-(function(E21) {
-    E21[E21["one"] = 0] = "one";
+(function(E2) {
+    E2[E2["one"] = 0] = "one";
 })(E2 || (E2 = {
 }));
 // no error

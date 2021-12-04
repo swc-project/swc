@@ -9,17 +9,17 @@ function f() {
 class C {
 }
 var E;
-(function(E1) {
-    E1[E1["A"] = 0] = "A";
-    E1[E1["B"] = 1] = "B";
-    E1[E1["C"] = 2] = "C";
+(function(E) {
+    E[E["A"] = 0] = "A";
+    E[E["B"] = 1] = "B";
+    E[E["C"] = 2] = "C";
 })(E || (E = {
 }));
 var D;
-(function(D1) {
-    D1[D1["A"] = 0] = "A";
-    D1[D1["B"] = 1] = "B";
-    D1[D1["C"] = 2] = "C";
+(function(D) {
+    D[D["A"] = 0] = "A";
+    D[D["B"] = 1] = "B";
+    D[D["C"] = 2] = "C";
 })(D || (D = {
 }));
 var M;

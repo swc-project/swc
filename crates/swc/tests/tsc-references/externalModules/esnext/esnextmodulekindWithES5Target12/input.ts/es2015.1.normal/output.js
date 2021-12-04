@@ -7,20 +7,20 @@ export class C {
 })(C || (C = {
 }));
 export var E;
-(function(E1) {
-    E1[E1["w"] = 1] = "w";
+(function(E) {
+    E[E["w"] = 1] = "w";
 })(E || (E = {
 }));
-(function(E2) {
-    E2[E2["x"] = 2] = "x";
+(function(E) {
+    E[E["x"] = 2] = "x";
 })(E || (E = {
 }));
-(function(E3) {
-    E3.y = 1;
+(function(E) {
+    E.y = 1;
 })(E || (E = {
 }));
-(function(E4) {
-    E4.z = 1;
+(function(E) {
+    E.z = 1;
 })(E || (E = {
 }));
 (function(N) {

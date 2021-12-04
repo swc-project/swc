@@ -16,9 +16,9 @@ export var A = function A() {
     _classCallCheck(this, A);
 };
 export var C;
-(function(C1) {
-    C1[C1["One"] = 0] = "One";
-    C1[C1["Two"] = 1] = "Two";
+(function(C) {
+    C[C["One"] = 0] = "One";
+    C[C["Two"] = 1] = "Two";
 })(C || (C = {
 }));
 var a;
@@ -51,9 +51,9 @@ console.log(h);
 var H = require('./h'); // noUnusedLocals error only
 var // @Filename: /k.ts
 K;
-(function(K1) {
-    K1[K1["One"] = 0] = "One";
-    K1[K1["Two"] = 1] = "Two";
+(function(K) {
+    K[K["One"] = 0] = "One";
+    K[K["Two"] = 1] = "Two";
 })(K || (K = {
 }));
 module.exports = K;

@@ -10,14 +10,16 @@ var A;
     A1.Point = Point;
 })(A || (A = {
 }));
-(function(A) {
+(function(A2) {
+    let Point1;
     (function(Point) {
         Point.Origin = {
             x: 0,
             y: 0
         };
-    })(Point || (Point = {
+    })(Point1 || (Point1 = {
     }));
+    A2.Point = Point1;
 })(A || (A = {
 }));
 // @filename: test.ts
@@ -29,19 +31,19 @@ var cl = A.Point.Origin; // not expected to be an error.
 // @filename: simple.ts
 var B;
 (function(B1) {
-    function Point1() {
+    function Point2() {
         return {
             x: 0,
             y: 0
         };
     }
-    B1.Point = Point1;
+    B1.Point = Point2;
     (function(Point) {
         Point.Origin = {
             x: 0,
             y: 0
         };
-    })(Point1 || (Point1 = {
+    })(Point2 || (Point2 = {
     }));
 })(B || (B = {
 }));

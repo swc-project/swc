@@ -7,8 +7,8 @@ var array = [
     }
 ];
 var E;
-(function(E1) {
-    E1[E1["x"] = 0] = "x";
+(function(E) {
+    E[E["x"] = 0] = "x";
 })(E || (E = {
 }));
 var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;

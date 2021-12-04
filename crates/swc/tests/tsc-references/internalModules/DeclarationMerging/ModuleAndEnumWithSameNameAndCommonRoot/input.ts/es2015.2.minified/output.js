@@ -1,8 +1,8 @@
-var enumdule, enumdule1;
-(enumdule1 || (enumdule1 = {
+var enumdule, enumdule;
+(enumdule || (enumdule = {
 })).Point = class {
     constructor(x, y){
         this.x = x, this.y = y;
     }
-}, (enumdule = enumdule1 || (enumdule1 = {
-}))[enumdule.Red = 0] = "Red", enumdule[enumdule.Blue = 1] = "Blue", enumdule1.Red, new enumdule1.Point(0, 0);
+}, (enumdule = enumdule || (enumdule = {
+}))[enumdule.Red = 0] = "Red", enumdule[enumdule.Blue = 1] = "Blue", enumdule.Red, new enumdule.Point(0, 0);

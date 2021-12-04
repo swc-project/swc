@@ -29,6 +29,7 @@ export var A;
         x: 0,
         y: 0
     };
+    var Utils2;
     (function(Utils) {
         var Plane = function Plane(tl, br) {
             "use strict";
@@ -37,7 +38,8 @@ export var A;
             this.br = br;
         };
         Utils.Plane = Plane;
-    })(Utils || (Utils = {
+    })(Utils2 || (Utils2 = {
     }));
+    A2.Utils = Utils2;
 })(A || (A = {
 }));

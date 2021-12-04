@@ -1,4 +1,4 @@
-var X, D;
+var B, X, D;
 !function(B) {
     var B1 = function() {
         "use strict";

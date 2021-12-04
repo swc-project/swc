@@ -1,6 +1,6 @@
 var TypeScript;
 !function(TypeScript1) {
-    var CompilerDiagnostics1;
+    let CompilerDiagnostics1;
     !function(CompilerDiagnostics) {
         function Alert(output) {
             diagnosticWriter && diagnosticWriter.Alert(output);

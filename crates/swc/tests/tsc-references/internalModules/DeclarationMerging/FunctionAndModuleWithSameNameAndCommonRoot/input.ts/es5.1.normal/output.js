@@ -10,14 +10,16 @@ var A;
     A1.Point = Point;
 })(A || (A = {
 }));
-(function(A) {
+(function(A2) {
+    var Point1;
     (function(Point) {
         Point.Origin = {
             x: 0,
             y: 0
         };
-    })(Point || (Point = {
+    })(Point1 || (Point1 = {
     }));
+    A2.Point = Point1;
 })(A || (A = {
 }));
 // @filename: test.ts

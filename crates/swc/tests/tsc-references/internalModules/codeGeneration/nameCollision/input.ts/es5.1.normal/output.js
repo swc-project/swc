@@ -11,6 +11,7 @@ var A;
     var _A = '';
 })(A || (A = {
 }));
+var B;
 (function(B) {
     var A = 12;
 })(B || (B = {

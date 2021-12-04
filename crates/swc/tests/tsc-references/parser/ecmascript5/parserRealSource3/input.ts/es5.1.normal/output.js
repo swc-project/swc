@@ -3,7 +3,7 @@
 ///<reference path='typescript.ts' />
 var TypeScript;
 (function(TypeScript1) {
-    var NodeType1;
+    var NodeType;
     (function(NodeType) {
         NodeType[NodeType["None"] = 0] = "None";
         NodeType[NodeType["Empty"] = 1] = "Empty";
@@ -112,10 +112,10 @@ var TypeScript;
         NodeType[NodeType["Error"] = 104] = "Error";
         NodeType[NodeType["Comment"] = 105] = "Comment";
         NodeType[NodeType["Debugger"] = 106] = "Debugger";
-        NodeType[NodeType["GeneralNode"] = 71] = "GeneralNode";
-        NodeType[NodeType["LastAsg"] = 41] = "LastAsg";
-    })(NodeType1 || (NodeType1 = {
+        NodeType[NodeType["GeneralNode"] = FuncDecl] = "GeneralNode";
+        NodeType[NodeType["LastAsg"] = AsgRs2] = "LastAsg";
+    })(NodeType || (NodeType = {
     }));
-    TypeScript1.NodeType = NodeType1;
+    TypeScript1.NodeType = NodeType;
 })(TypeScript || (TypeScript = {
 }));

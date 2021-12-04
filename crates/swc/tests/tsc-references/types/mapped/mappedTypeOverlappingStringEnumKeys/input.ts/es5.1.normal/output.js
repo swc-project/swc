@@ -1,13 +1,13 @@
 var // #37859
 TerrestrialAnimalTypes;
-(function(TerrestrialAnimalTypes1) {
-    TerrestrialAnimalTypes1["CAT"] = "cat";
-    TerrestrialAnimalTypes1["DOG"] = "dog";
+(function(TerrestrialAnimalTypes) {
+    TerrestrialAnimalTypes["CAT"] = "cat";
+    TerrestrialAnimalTypes["DOG"] = "dog";
 })(TerrestrialAnimalTypes || (TerrestrialAnimalTypes = {
 }));
 var AlienAnimalTypes;
-(function(AlienAnimalTypes1) {
-    AlienAnimalTypes1["CAT"] = "cat";
+(function(AlienAnimalTypes) {
+    AlienAnimalTypes["CAT"] = "cat";
 })(AlienAnimalTypes || (AlienAnimalTypes = {
 }));
 var catMap = {

@@ -34,9 +34,9 @@ function _initializerDefineProperty(target, property, descriptor, context) {
 }
 var _class, _descriptor, _dec, _dec1;
 var MyEnum;
-(function(MyEnum1) {
-    MyEnum1["x"] = "xxx";
-    MyEnum1["y"] = "yyy";
+(function(MyEnum) {
+    MyEnum["x"] = "xxx";
+    MyEnum["y"] = "yyy";
 })(MyEnum || (MyEnum = {
 }));
 let Xpto = ((_class = class Xpto {

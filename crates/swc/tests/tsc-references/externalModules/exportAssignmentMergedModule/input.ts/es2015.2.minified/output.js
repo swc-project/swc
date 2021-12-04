@@ -3,10 +3,11 @@ var Foo, Foo1;
 })).a = function() {
     return 5;
 }, Foo1.b = !0, (function(Foo2) {
-    var Test;
     Foo2.c = function(a) {
         return a;
-    }, (Test || (Test = {
+    };
+    let Test;
+    (Test || (Test = {
     })).answer = 42, Foo2.Test = Test;
 })(Foo || (Foo = {
 })), module.exports = Foo;

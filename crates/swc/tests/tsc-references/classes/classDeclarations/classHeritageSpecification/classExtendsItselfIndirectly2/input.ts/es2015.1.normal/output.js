@@ -16,16 +16,16 @@ var N;
 }));
 var O;
 (function(O) {
-    class C2 extends Q1.E2 {
+    class C2 extends Q.E2 {
     } // error
-    var P1;
+    let P1;
     (function(P) {
         class D2 extends C2 {
         }
         P.D2 = D2;
     })(P1 || (P1 = {
     }));
-    var Q1;
+    let Q1;
     (function(Q) {
         class E2 extends P1.D2 {
         }

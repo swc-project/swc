@@ -1,9 +1,9 @@
 var // ++ operator on enum type
 ENUM1;
-(function(ENUM11) {
-    ENUM11[ENUM11["A"] = 0] = "A";
-    ENUM11[ENUM11["B"] = 1] = "B";
-    ENUM11[ENUM11[""] = 2] = "";
+(function(ENUM1) {
+    ENUM1[ENUM1["A"] = 0] = "A";
+    ENUM1[ENUM1["B"] = 1] = "B";
+    ENUM1[ENUM1[""] = 2] = "";
 })(ENUM1 || (ENUM1 = {
 }));
 // expression

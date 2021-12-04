@@ -8,8 +8,8 @@ var Foo = function Foo() {
     _classCallCheck(this, Foo);
 };
 var E;
-(function(E1) {
-    E1[E1["a"] = 0] = "a";
+(function(E) {
+    E[E["a"] = 0] = "a";
 })(E || (E = {
 }));
 var x;

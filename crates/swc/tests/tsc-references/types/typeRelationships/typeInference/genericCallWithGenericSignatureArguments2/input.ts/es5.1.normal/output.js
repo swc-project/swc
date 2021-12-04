@@ -41,20 +41,20 @@ var onlyT;
     }, function(x) {
         return '';
     });
-    var E1;
+    var E;
     (function(E) {
         E[E["A"] = 0] = "A";
-    })(E1 || (E1 = {
+    })(E || (E = {
     }));
-    var F1;
+    var F;
     (function(F) {
         F[F["A"] = 0] = "A";
-    })(F1 || (F1 = {
+    })(F || (F = {
     }));
-    var r71 = foo3(E1.A, function(x) {
-        return E1.A;
+    var r71 = foo3(E.A, function(x) {
+        return E.A;
     }, function(x) {
-        return F1.A;
+        return F.A;
     }); // error
 })(onlyT || (onlyT = {
 }));
@@ -98,10 +98,12 @@ var TU;
     }, function(x) {
         return '';
     });
+    var E;
     (function(E) {
         E[E["A"] = 0] = "A";
     })(E || (E = {
     }));
+    var F;
     (function(F) {
         F[F["A"] = 0] = "A";
     })(F || (F = {

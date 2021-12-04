@@ -13,8 +13,8 @@ function _defineProperty(obj, key, value) {
 }
 var // @target: es5
 E;
-(function(E1) {
-    E1[E1["member"] = 0] = "member";
+(function(E) {
+    E[E["member"] = 0] = "member";
 })(E || (E = {
 }));
 var v = _defineProperty({

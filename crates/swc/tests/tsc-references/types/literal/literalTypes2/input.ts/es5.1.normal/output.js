@@ -18,10 +18,10 @@ function _createClass(Constructor, protoProps, staticProps) {
     return Constructor;
 }
 var E;
-(function(E1) {
-    E1[E1["A"] = 0] = "A";
-    E1[E1["B"] = 1] = "B";
-    E1[E1["C"] = 2] = "C";
+(function(E) {
+    E[E["A"] = 0] = "A";
+    E[E["B"] = 1] = "B";
+    E[E["C"] = 2] = "C";
 })(E || (E = {
 }));
 var cond;

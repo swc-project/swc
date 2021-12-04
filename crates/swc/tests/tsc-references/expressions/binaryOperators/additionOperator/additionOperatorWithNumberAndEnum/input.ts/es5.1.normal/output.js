@@ -1,13 +1,13 @@
 var E;
-(function(E1) {
-    E1[E1["a"] = 0] = "a";
-    E1[E1["b"] = 1] = "b";
+(function(E) {
+    E[E["a"] = 0] = "a";
+    E[E["b"] = 1] = "b";
 })(E || (E = {
 }));
 var F;
-(function(F1) {
-    F1[F1["c"] = 0] = "c";
-    F1[F1["d"] = 1] = "d";
+(function(F) {
+    F[F["c"] = 0] = "c";
+    F[F["d"] = 1] = "d";
 })(F || (F = {
 }));
 var a;

@@ -1,8 +1,8 @@
 var // @target: es5,esnext
 K;
-(function(K1) {
-    K1["a"] = "a";
-    K1["b"] = "b";
+(function(K) {
+    K["a"] = "a";
+    K["b"] = "b";
 })(K || (K = {
 }));
 const { [K.a]: aVal , [K.b]: bVal  } = (()=>{

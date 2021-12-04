@@ -14,10 +14,10 @@ use std::{
 use swc::resolver::NodeResolver;
 use swc_atoms::js_word;
 use swc_bundler::{Bundler, Load, ModuleData, ModuleRecord};
-use swc_common::{sync::Lrc, FileName, SourceMap, Span, GLOBALS};
+use swc_common::{sync::Lrc, FileName, Mark, SourceMap, Span, GLOBALS};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
-use swc_ecma_transforms::typescript::strip;
+use swc_ecma_transforms::{resolver_with_mark, typescript::strip};
 use swc_ecma_visit::FoldWith;
 use test::Bencher;
 
@@ -88,7 +88,11 @@ impl Load for Loader {
 
         let mut parser = Parser::new_from(lexer);
         let module = parser.parse_module().unwrap();
-        let module = module.fold_with(&mut strip());
+
+        let mark = Mark::fresh(Mark::root());
+        let module = module
+            .fold_with(&mut resolver_with_mark(mark))
+            .fold_with(&mut strip(mark));
         Ok(ModuleData {
             fm,
             module,

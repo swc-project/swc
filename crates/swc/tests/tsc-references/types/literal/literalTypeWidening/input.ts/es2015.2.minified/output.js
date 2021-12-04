@@ -1,4 +1,4 @@
-var E, E1;
+var E, E;
 export function Set(...keys1) {
     const result = {
     };
@@ -13,5 +13,5 @@ export const langCodes = keys(langCodeSet);
 langCodes.map((code)=>({
         code
     })
-), (E1 = E || (E = {
-}))[E1.A = 0] = "A", E1[E1.B = 1] = "B", f(E.A);
+), (E = E || (E = {
+}))[E.A = 0] = "A", E[E.B = 1] = "B", f(E.A);

@@ -45,7 +45,7 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var E, E1, Base = function() {
+var E, E, Base = function() {
     "use strict";
     _classCallCheck(this, Base);
 }, D0 = function(Base1) {
@@ -169,8 +169,8 @@ var E, E1, Base = function() {
     }
     return D10;
 }(Base);
-(E1 = E || (E = {
-}))[E1.A = 0] = "A";
+(E = E || (E = {
+}))[E.A = 0] = "A";
 var D11 = function(Base16) {
     "use strict";
     _inherits(D11, Base16);

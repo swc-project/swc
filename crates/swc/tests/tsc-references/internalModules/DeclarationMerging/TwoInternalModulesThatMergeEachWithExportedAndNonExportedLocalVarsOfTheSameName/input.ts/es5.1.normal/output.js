@@ -24,9 +24,10 @@ var A;
     A1.Utils = Utils1;
 })(A || (A = {
 }));
-(function(A) {
+(function(A2) {
     // not a collision, since we don't export
     var Origin = "0,0";
+    var Utils2;
     (function(Utils) {
         var Plane = function Plane(tl, br) {
             "use strict";
@@ -35,8 +36,9 @@ var A;
             this.br = br;
         };
         Utils.Plane = Plane;
-    })(Utils || (Utils = {
+    })(Utils2 || (Utils2 = {
     }));
+    A2.Utils = Utils2;
 })(A || (A = {
 }));
 //@filename: part3.ts

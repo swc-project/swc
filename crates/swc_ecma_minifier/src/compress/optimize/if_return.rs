@@ -200,6 +200,9 @@ where
                 match s {
                     Stmt::Decl(Decl::Var(v)) => {
                         if v.decls.iter().all(|v| v.init.is_none()) {
+                            if last_idx == 0 {
+                                break;
+                            }
                             last_idx -= 1;
                             continue;
                         }

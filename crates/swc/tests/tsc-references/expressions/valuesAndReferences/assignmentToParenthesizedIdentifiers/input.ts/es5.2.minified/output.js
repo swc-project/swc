@@ -29,9 +29,9 @@ x = 3 = "", (function(M1) {
     x: ""
 }, fn = function() {
     return 3;
-}, (E = E1 || (E1 = {
-}))[E.A = 0] = "A", E1 = void 0 = void 0;
-var E, x, M, M2, E1, C = function() {
+}, (E = E || (E = {
+}))[E.A = 0] = "A", E = void 0 = void 0;
+var E, x, M, M2, E, C = function() {
     "use strict";
     !function(instance, Constructor) {
         if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");

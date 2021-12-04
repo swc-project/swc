@@ -10,9 +10,9 @@ var Root, otherRoot;
         };
     }, A1.Utils = Utils, Root1.A = A;
 }(Root || (Root = {
-})), (function(otherRoot) {
-    var Utils1, Plane;
-    (A || (A = {
+})), (function(otherRoot1) {
+    var A, A2, Utils, Utils1, Plane;
+    (A2 = A || (A = {
     })).Origin = {
         x: 0,
         y: 0
@@ -22,6 +22,6 @@ var Root, otherRoot;
         (function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
         })(this, Plane), this.tl = tl, this.br = br;
-    }, Utils1.Plane = Plane;
+    }, Utils1.Plane = Plane, A2.Utils = Utils, otherRoot1.A = A;
 })(otherRoot || (otherRoot = {
 }));

@@ -13,19 +13,19 @@ var x = 1;
 class C {
     constructor(x1){
         this.b // ok
-         = x1;
+         = x;
     }
 }
 var y = 1;
 class D {
     constructor(x){
         this.b // ok
-         = y1;
+         = y;
         var y1 = "";
     }
 }
 class E {
-    constructor(z){
+    constructor(z1){
         this.b // not ok
          = z;
     }

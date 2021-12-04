@@ -1,12 +1,13 @@
 var A;
 !function(A1) {
-    var B1;
     class Point {
         constructor(x, y){
             this.x = x, this.y = y;
         }
     }
-    A1.Point = Point, (function(B) {
+    A1.Point = Point;
+    let B1;
+    !function(B) {
         B.Origin = new Point(0, 0);
         class Line {
             static fromOrigin(p) {
@@ -19,7 +20,7 @@ var A;
             }
         }
         B.Line = Line;
-    })(B1 || (B1 = {
+    }(B1 || (B1 = {
     })), A1.B = B1;
 }(A || (A = {
 }));

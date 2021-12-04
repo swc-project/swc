@@ -10,10 +10,10 @@ use std::{
     sync::Arc,
 };
 use swc::config::{Config, IsModule, JscConfig, Options, SourceMapsConfig};
-use swc_common::{errors::Handler, FileName, FilePathMapping, SourceFile, SourceMap};
+use swc_common::{errors::Handler, FileName, FilePathMapping, Mark, SourceFile, SourceMap};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::{Syntax, TsConfig};
-use swc_ecma_transforms::{fixer, hygiene, resolver, typescript};
+use swc_ecma_transforms::{fixer, hygiene, resolver, resolver_with_mark, typescript};
 use swc_ecma_visit::FoldWith;
 use test::Bencher;
 
@@ -50,8 +50,10 @@ fn parse(c: &swc::Compiler) -> (Arc<SourceFile>, Program) {
 
 fn as_es(c: &swc::Compiler) -> Program {
     let program = parse(c).1;
-
-    program.fold_with(&mut typescript::strip())
+    let mark = Mark::fresh(Mark::root());
+    program
+        .fold_with(&mut resolver_with_mark(mark))
+        .fold_with(&mut typescript::strip(mark))
 }
 
 #[bench]

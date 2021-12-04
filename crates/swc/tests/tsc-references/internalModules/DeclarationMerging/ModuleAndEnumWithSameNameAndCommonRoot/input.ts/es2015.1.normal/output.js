@@ -9,9 +9,9 @@ var enumdule;
     enumdule1.Point = Point;
 })(enumdule || (enumdule = {
 }));
-(function(enumdule2) {
-    enumdule2[enumdule2["Red"] = 0] = "Red";
-    enumdule2[enumdule2["Blue"] = 1] = "Blue";
+(function(enumdule) {
+    enumdule[enumdule["Red"] = 0] = "Red";
+    enumdule[enumdule["Blue"] = 1] = "Blue";
 })(enumdule || (enumdule = {
 }));
 var x;

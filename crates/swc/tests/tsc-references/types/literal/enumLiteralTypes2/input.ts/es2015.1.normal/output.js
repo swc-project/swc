@@ -1,9 +1,9 @@
 var // @strictNullChecks: true
 Choice;
-(function(Choice1) {
-    Choice1[Choice1["Unknown"] = 0] = "Unknown";
-    Choice1[Choice1["Yes"] = 1] = "Yes";
-    Choice1[Choice1["No"] = 2] = "No";
+(function(Choice) {
+    Choice[Choice["Unknown"] = 0] = "Unknown";
+    Choice[Choice["Yes"] = 1] = "Yes";
+    Choice[Choice["No"] = 2] = "No";
 })(Choice || (Choice = {
 }));
 function f1() {

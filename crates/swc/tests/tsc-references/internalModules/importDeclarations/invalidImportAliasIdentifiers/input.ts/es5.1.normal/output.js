@@ -10,9 +10,9 @@ var C = function C() {
     _classCallCheck(this, C);
 };
 var E;
-(function(E1) {
-    E1[E1["Red"] = 0] = "Red";
-    E1[E1["Blue"] = 1] = "Blue";
+(function(E) {
+    E[E["Red"] = 0] = "Red";
+    E[E["Blue"] = 1] = "Blue";
 })(E || (E = {
 }));
 export { };

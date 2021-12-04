@@ -87,8 +87,8 @@ b2("string", {
 });
 var // If the declaration specifies a binding pattern, the parameter type is the implied type of that binding pattern (section 5.1.3)
 Foo;
-(function(Foo1) {
-    Foo1[Foo1["a"] = 0] = "a";
+(function(Foo) {
+    Foo[Foo["a"] = 0] = "a";
 })(Foo || (Foo = {
 }));
 function c0({ z: { x , y: { j  }  }  }) {

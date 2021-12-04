@@ -20,9 +20,9 @@ function _createClass(Constructor, protoProps, staticProps) {
 var // When a function expression with no type parameters and no parameter type annotations 
 // is contextually typed (section 4.19) by a type T and a contextual signature S can be extracted from T
 E;
-(function(E1) {
-    E1[E1["red"] = 0] = "red";
-    E1[E1["blue"] = 1] = "blue";
+(function(E) {
+    E[E["red"] = 0] = "red";
+    E[E["blue"] = 1] = "blue";
 })(E || (E = {
 }));
 // A contextual signature S is extracted from a function type T as follows:
