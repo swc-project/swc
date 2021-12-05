@@ -164,6 +164,7 @@ macro_rules! define_helpers {
 
 define_helpers!(Helpers {
     apply_decorated_descriptor: (),
+    array_like_to_array: (),
     array_with_holes: (),
     array_without_holes: (),
     assert_this_initialized: (),
@@ -215,10 +216,16 @@ define_helpers!(Helpers {
     set: (super_prop_base, define_property),
     set_prototype_of: (),
     skip_first_generator_next: (),
-    sliced_to_array: (array_with_holes, iterable_to_array_limit, non_iterable_rest),
+    sliced_to_array: (
+        array_with_holes,
+        iterable_to_array_limit,
+        unsupported_iterable_to_array,
+        non_iterable_rest
+    ),
     sliced_to_array_loose: (
         array_with_holes,
         iterable_to_array_limit_loose,
+        unsupported_iterable_to_array,
         non_iterable_rest
     ),
     super_prop_base: (get_prototype_of),
@@ -227,11 +234,22 @@ define_helpers!(Helpers {
     // temporal_ref: (temporal_undefined),
     // temporal_undefined: (),
     throw: (),
-    to_array: (array_with_holes, iterable_to_array, non_iterable_rest),
-    to_consumable_array: (array_without_holes, iterable_to_array, non_iterable_spread),
+    to_array: (
+        array_with_holes,
+        iterable_to_array,
+        unsupported_iterable_to_array,
+        non_iterable_rest
+    ),
+    to_consumable_array: (
+        array_without_holes,
+        iterable_to_array,
+        unsupported_iterable_to_array,
+        non_iterable_spread
+    ),
     to_primitive: (type_of),
     to_property_key: (type_of, to_primitive),
     type_of: (),
+    unsupported_iterable_to_array: (array_like_to_array),
     wrap_async_generator: (async_generator),
     wrap_native_super: (
         construct,
