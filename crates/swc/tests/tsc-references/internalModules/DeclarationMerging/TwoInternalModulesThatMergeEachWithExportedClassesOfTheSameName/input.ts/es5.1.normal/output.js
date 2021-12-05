@@ -39,3 +39,21 @@ var X;
     X1.Y = Y1;
 })(X || (X = {
 }));
+(function(X2) {
+    var Y2;
+    (function(Y) {
+        var Z2;
+        (function(Z) {
+            var Line = function Line() {
+                "use strict";
+                _classCallCheck(this, Line);
+            };
+            Z.Line = Line;
+        })(Z2 || (Z2 = {
+        }));
+        Y.Z = Z2;
+    })(Y2 || (Y2 = {
+    }));
+    X2.Y = Y2;
+})(X || (X = {
+}));

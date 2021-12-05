@@ -28,3 +28,19 @@ var X;
     X1.Y = Y1;
 })(X || (X = {
 }));
+(function(X2) {
+    let Y2;
+    (function(Y) {
+        let Z2;
+        (function(Z) {
+            class Line {
+            }
+            Z.Line = Line;
+        })(Z2 || (Z2 = {
+        }));
+        Y.Z = Z2;
+    })(Y2 || (Y2 = {
+    }));
+    X2.Y = Y2;
+})(X || (X = {
+}));
