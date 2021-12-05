@@ -65,6 +65,7 @@
         "iife",
         "impls",
         "indexmap",
+        "initializers",
         "instanceof",
         "interner",
         "intrinsics",
