@@ -966,10 +966,8 @@ impl Compiler {
                         jsx: true,
                         decorators: true,
                         decorators_before_export: true,
-                        top_level_await: true,
                         import_assertions: true,
                         private_in_object: true,
-                        dynamic_import: true,
 
                         ..Default::default()
                     }),

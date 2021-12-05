@@ -61,8 +61,6 @@ const someValue = 'test' ?? 'default value';",
             config: Config {
                 jsc: JscConfig {
                     syntax: Some(Syntax::Es(EsConfig {
-                        nullish_coalescing: true,
-                        optional_chaining: true,
                         ..Default::default()
                     })),
                     ..Default::default()
@@ -83,7 +81,6 @@ fn issue_834_3() {
             config: Config {
                 jsc: JscConfig {
                     syntax: Some(Syntax::Es(EsConfig {
-                        nullish_coalescing: true,
                         ..Default::default()
                     })),
                     ..Default::default()
