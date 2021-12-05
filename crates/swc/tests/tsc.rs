@@ -120,7 +120,6 @@ fn compile(input: &Path, output: &Path, opts: Options) {
                             syntax: Some(Syntax::Typescript(TsConfig {
                                 tsx: input.to_string_lossy().ends_with(".tsx"),
                                 decorators: true,
-                                dynamic_import: true,
                                 dts: false,
                                 no_early_errors: true,
                             })),
