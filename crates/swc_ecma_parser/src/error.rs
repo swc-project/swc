@@ -159,16 +159,13 @@ pub enum SyntaxError {
     AsyncConstructor,
     PropertyNamedConstructor,
     DeclarePrivateIdentifier,
-    ClassProperty,
     ReadOnlyMethod,
     GeneratorConstructor,
     TsBindingPatCannotBeOptional,
 
     TrailingCommaInsideImport,
-    DynamicImport,
 
     ExportDefaultWithOutFrom,
-    ExportNamespaceFrom,
 
     DotsWithoutIdentifier,
 

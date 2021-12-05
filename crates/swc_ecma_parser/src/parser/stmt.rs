@@ -1624,7 +1624,6 @@ export default function waitUntil(callback, options = {}) {
                 }
             }",
             Syntax::Es(EsConfig {
-                dynamic_import: true,
                 ..Default::default()
             }),
             |p| p.parse_module(),
@@ -1824,7 +1823,6 @@ export default function waitUntil(callback, options = {}) {
         test_parser(
             src,
             Syntax::Es(EsConfig {
-                import_meta: true,
                 ..Default::default()
             }),
             |p| p.parse_script(),
@@ -1837,7 +1835,6 @@ export default function waitUntil(callback, options = {}) {
         test_parser(
             src,
             Syntax::Es(EsConfig {
-                import_meta: true,
                 ..Default::default()
             }),
             |p| p.parse_program(),
@@ -1851,7 +1848,6 @@ export default function waitUntil(callback, options = {}) {
         test_parser(
             src,
             Syntax::Es(EsConfig {
-                dynamic_import: true,
                 ..Default::default()
             }),
             |p| p.parse_script(),
@@ -1865,7 +1861,6 @@ export default function waitUntil(callback, options = {}) {
         test_parser(
             src,
             Syntax::Es(EsConfig {
-                top_level_await: true,
                 ..Default::default()
             }),
             |p| p.parse_script(),
@@ -1878,7 +1873,6 @@ export default function waitUntil(callback, options = {}) {
         test_parser(
             src,
             Syntax::Es(EsConfig {
-                top_level_await: true,
                 ..Default::default()
             }),
             |p| p.parse_program(),
