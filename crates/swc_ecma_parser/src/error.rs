@@ -123,7 +123,7 @@ pub enum SyntaxError {
     InvalidExpr,
     NotSimpleAssign,
     ExpectedIdent,
-    ExpctedSemi,
+    ExpectedSemi,
     DuplicateLabel(JsWord),
     AsyncGenerator,
     NonTopLevelImportExport,
@@ -334,7 +334,7 @@ impl SyntaxError {
             // TODO
             SyntaxError::NotSimpleAssign => "Cannot assign to this".into(),
             SyntaxError::ExpectedIdent => "Expected ident".into(),
-            SyntaxError::ExpctedSemi => "Expected ';' or line break".into(),
+            SyntaxError::ExpectedSemi => "Expected ';' or line break".into(),
             SyntaxError::DuplicateLabel(ref label) => {
                 format!("Label {} is already declared", label).into()
             }
@@ -390,7 +390,7 @@ impl SyntaxError {
                 "A required element cannot follow an optional element.".into()
             }
             SyntaxError::TsInvalidParamPropPat => {
-                "Typescript parameter property must be identifer or assignment pattern".into()
+                "Typescript parameter property must be an identifier or assignment pattern".into()
             }
             SyntaxError::SpaceBetweenHashAndIdent => {
                 "Unexpected space between # and identifier".into()

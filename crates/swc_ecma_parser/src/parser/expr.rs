@@ -1664,10 +1664,6 @@ impl<'a, I: Tokens> Parser<I> {
         start: BytePos,
         import_ident: Ident,
     ) -> PResult<Box<Expr>> {
-        if !self.input.syntax().dynamic_import() {
-            syntax_error!(self, span!(self, start), SyntaxError::DynamicImport);
-        }
-
         let args = self.parse_args(true)?;
         let import = Box::new(Expr::Call(CallExpr {
             span: span!(self, start),
