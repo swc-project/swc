@@ -51,6 +51,7 @@
         "elems",
         "esbuild",
         "esms",
+        "esnext",
         "estree",
         "eval",
         "Eval",
