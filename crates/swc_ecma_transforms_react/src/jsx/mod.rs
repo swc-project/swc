@@ -409,7 +409,7 @@ where
                             vec![
                                 ExprOrSpread {
                                     spread: None,
-                                    expr: Box::new(*undefined(DUMMY_SP)),
+                                    expr: undefined(DUMMY_SP),
                                 },
                                 Lit::Bool(Bool {
                                     span: DUMMY_SP,
@@ -672,7 +672,7 @@ where
                         Some(key) => key,
                         None => ExprOrSpread {
                             spread: None,
-                            expr: Box::new(*undefined(DUMMY_SP)),
+                            expr: undefined(DUMMY_SP),
                         },
                     };
 
@@ -681,7 +681,7 @@ where
                         Some(source_props) => source_props,
                         None => ExprOrSpread {
                             spread: None,
-                            expr: Box::new(*undefined(DUMMY_SP)),
+                            expr: undefined(DUMMY_SP),
                         },
                     };
 
@@ -690,7 +690,7 @@ where
                         Some(self_props) => self_props,
                         None => ExprOrSpread {
                             spread: None,
-                            expr: Box::new(*undefined(DUMMY_SP)),
+                            expr: undefined(DUMMY_SP),
                         },
                     };
                     args.chain(once(key))
