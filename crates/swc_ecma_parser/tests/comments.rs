@@ -47,7 +47,6 @@ fn test(input: PathBuf) {
                     decorators: true,
                     dynamic_import: true,
                     no_early_errors: true,
-                    import_assertions: true,
                     ..Default::default()
                 }),
                 _ => {

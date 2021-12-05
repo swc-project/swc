@@ -148,10 +148,8 @@ impl Syntax {
         match self {
             Syntax::Es(EsConfig {
                 import_assertions, ..
-            })
-            | Syntax::Typescript(TsConfig {
-                import_assertions, ..
             }) => import_assertions,
+            Syntax::Typescript(_) => true,
         }
     }
 
@@ -314,10 +312,6 @@ pub struct TsConfig {
 
     #[serde(skip, default)]
     pub no_early_errors: bool,
-
-    /// Stage 3.
-    #[serde(default)]
-    pub import_assertions: bool,
 }
 
 #[derive(Debug, Clone, Copy, Default, Serialize, Deserialize)]
