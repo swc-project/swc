@@ -228,7 +228,6 @@ mod tests {
                 Syntax::Typescript(TsConfig {
                     dts: file_name.ends_with(".d.ts"),
                     tsx: file_name.contains("tsx"),
-                    dynamic_import: true,
                     decorators: true,
                     no_early_errors: true,
                     ..Default::default()

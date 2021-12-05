@@ -18,7 +18,6 @@ fn no_empty(input: PathBuf) {
             Syntax::Typescript(TsConfig {
                 tsx: input.ends_with("tsx"),
                 decorators: true,
-                dynamic_import: true,
                 no_early_errors: true,
                 ..Default::default()
             }),

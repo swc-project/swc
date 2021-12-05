@@ -442,8 +442,6 @@ impl<'a, I: Input> Lexer<'a, I> {
     fn read_token_number_sign(&mut self) -> LexResult<Option<Token>> {
         debug_assert!(self.cur().is_some());
 
-        let start = self.input.cur_pos();
-
         if self.input.is_at_start() && self.read_token_interpreter()? {
             return Ok(None);
         }
