@@ -538,7 +538,6 @@ test!(
 
 test!(
     Syntax::Es(EsConfig {
-        dynamic_import: true,
         ..Default::default()
     }),
     |t| {

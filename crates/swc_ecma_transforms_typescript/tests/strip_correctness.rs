@@ -95,7 +95,6 @@ fn identity(entry: PathBuf) {
             Syntax::Typescript(TsConfig {
                 tsx: file_name.contains("tsx"),
                 decorators: true,
-                dynamic_import: true,
                 dts: false,
                 no_early_errors: false,
             }),
@@ -151,19 +150,9 @@ fn identity(entry: PathBuf) {
         let mut parser: Parser<Lexer<StringInput>> = Parser::new(
             Syntax::Es(EsConfig {
                 jsx: file_name.contains("tsx"),
-                num_sep: true,
-                class_private_props: true,
-                class_private_methods: true,
-                class_props: true,
                 decorators: true,
                 decorators_before_export: true,
                 export_default_from: true,
-                export_namespace_from: true,
-                dynamic_import: true,
-                nullish_coalescing: true,
-                optional_chaining: true,
-                import_meta: true,
-                top_level_await: true,
                 private_in_object: true,
                 ..Default::default()
             }),

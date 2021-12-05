@@ -24,8 +24,6 @@ use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
     Syntax::Es(EsConfig {
-        dynamic_import: true,
-        top_level_await: true,
         static_blocks: true,
         ..Default::default()
     })

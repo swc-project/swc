@@ -1205,7 +1205,6 @@ test!(
 test!(
     ::swc_ecma_parser::Syntax::Typescript(::swc_ecma_parser::TsConfig {
         tsx: true,
-        dynamic_import: true,
         ..Default::default()
     }),
     tr,
@@ -1336,7 +1335,6 @@ test!(
 test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
         jsx: true,
-        dynamic_import: true,
         ..Default::default()
     }),
     |t| {

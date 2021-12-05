@@ -22,8 +22,6 @@ fn ts() -> Syntax {
 
 fn syntax() -> Syntax {
     Syntax::Es(EsConfig {
-        class_private_props: true,
-        class_props: true,
         ..Default::default()
     })
 }
