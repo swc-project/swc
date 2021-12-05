@@ -1479,19 +1479,10 @@ impl Merge for Syntax {
 impl Merge for swc_ecma_parser::EsConfig {
     fn merge(&mut self, from: &Self) {
         self.jsx |= from.jsx;
-        self.class_private_props |= from.class_private_props;
-        self.class_private_methods |= from.class_private_methods;
-        self.class_props |= from.class_props;
         self.fn_bind |= from.fn_bind;
         self.decorators |= from.decorators;
         self.decorators_before_export |= from.decorators_before_export;
         self.export_default_from |= from.export_default_from;
-        self.export_namespace_from |= from.export_namespace_from;
-        self.dynamic_import |= from.dynamic_import;
-        self.nullish_coalescing |= from.nullish_coalescing;
-        self.optional_chaining |= from.optional_chaining;
-        self.import_meta |= from.import_meta;
-        self.top_level_await |= from.top_level_await;
         self.import_assertions |= from.import_assertions;
         self.static_blocks |= from.static_blocks;
         self.private_in_object |= from.private_in_object;
@@ -1503,6 +1494,7 @@ impl Merge for swc_ecma_parser::TsConfig {
         self.tsx |= from.tsx;
         self.decorators |= from.decorators;
         self.dynamic_import |= from.dynamic_import;
+        self.import_assertions |= from.import_assertions;
     }
 }
 

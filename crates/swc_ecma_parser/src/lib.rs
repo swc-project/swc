@@ -261,7 +261,7 @@ impl Syntax {
 }
 
 #[derive(Debug, Clone, Copy, Default, Serialize, Deserialize)]
-#[serde(deny_unknown_fields, rename_all = "camelCase")]
+#[serde(rename_all = "camelCase")]
 pub struct TsConfig {
     #[serde(default)]
     pub tsx: bool,
@@ -278,7 +278,7 @@ pub struct TsConfig {
 }
 
 #[derive(Debug, Clone, Copy, Default, Serialize, Deserialize)]
-#[serde(deny_unknown_fields, rename_all = "camelCase")]
+#[serde(rename_all = "camelCase")]
 pub struct EsConfig {
     #[serde(default)]
     pub jsx: bool,
