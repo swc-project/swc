@@ -269,9 +269,6 @@ pub struct TsConfig {
     #[serde(default)]
     pub decorators: bool,
 
-    #[serde(default)]
-    pub dynamic_import: bool,
-
     /// `.d.ts`
     #[serde(skip, default)]
     pub dts: bool,
