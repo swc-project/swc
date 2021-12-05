@@ -1128,7 +1128,7 @@ where
         // we'll always create a variable in this scenario
         let var_id = Ident::new(
             decl.id.sym.clone(),
-            DUMMY_SP.with_ctxt(decl.id.span.ctxt.clone()),
+            DUMMY_SP.with_ctxt(decl.id.span.ctxt),
         );
         let var = VarDeclarator {
             span: DUMMY_SP,
