@@ -999,7 +999,7 @@ dependencies = [
 
 [[package]]
 name = "jsdoc"
-version = "0.48.0"
+version = "0.49.0"
 dependencies = [
  "anyhow",
  "dashmap",
@@ -2442,7 +2442,7 @@ checksum = "6446ced80d6c486436db5c078dde11a9f73d42b57fb273121e160b84f63d894c"
 
 [[package]]
 name = "swc"
-version = "0.91.0"
+version = "0.92.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2503,7 +2503,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.85.0"
+version = "0.86.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2694,7 +2694,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.81.0"
+version = "0.82.0"
 dependencies = [
  "bitflags",
  "memchr",
@@ -2724,7 +2724,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_dep_graph"
-version = "0.48.0"
+version = "0.49.0"
 dependencies = [
  "swc_atoms 0.2.9",
  "swc_common",
@@ -2736,7 +2736,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ext_transforms"
-version = "0.39.0"
+version = "0.40.0"
 dependencies = [
  "phf",
  "swc_atoms 0.2.9",
@@ -2769,7 +2769,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.54.0"
+version = "0.55.0"
 dependencies = [
  "ahash",
  "ansi_term 0.12.1",
@@ -2802,7 +2802,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.79.0"
+version = "0.80.0"
 dependencies = [
  "either",
  "enum_kind",
@@ -2827,7 +2827,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_plugin_ast"
-version = "0.4.0"
+version = "0.5.0"
 dependencies = [
  "abi_stable",
  "num-bigint",
@@ -2844,7 +2844,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.70.0"
+version = "0.71.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2872,7 +2872,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.98.0"
+version = "0.99.0"
 dependencies = [
  "pretty_assertions 0.6.1",
  "sourcemap",
@@ -2899,7 +2899,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.45.0"
+version = "0.46.0"
 dependencies = [
  "once_cell",
  "phf",
@@ -2920,7 +2920,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_classes"
-version = "0.31.0"
+version = "0.32.0"
 dependencies = [
  "swc_atoms 0.2.9",
  "swc_common",
@@ -2932,7 +2932,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.54.0"
+version = "0.55.0"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -2970,7 +2970,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.60.0"
+version = "0.61.0"
 dependencies = [
  "Inflector",
  "ahash",
@@ -2993,7 +2993,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.68.0"
+version = "0.69.0"
 dependencies = [
  "ahash",
  "dashmap",
@@ -3022,7 +3022,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.60.0"
+version = "0.61.0"
 dependencies = [
  "either",
  "serde",
@@ -3046,7 +3046,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.62.0"
+version = "0.63.0"
 dependencies = [
  "ahash",
  "base64 0.13.0",
@@ -3074,7 +3074,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.46.0"
+version = "0.47.0"
 dependencies = [
  "ansi_term 0.12.1",
  "anyhow",
@@ -3095,7 +3095,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.64.1"
+version = "0.65.0"
 dependencies = [
  "serde",
  "swc_atoms 0.2.9",
@@ -3117,7 +3117,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.53.0"
+version = "0.54.0"
 dependencies = [
  "once_cell",
  "rayon",
@@ -3143,7 +3143,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.91.0"
+version = "0.92.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3179,7 +3179,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.8.0"
+version = "0.9.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3285,7 +3285,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.15.0"
+version = "0.16.0"
 dependencies = [
  "abi_stable",
  "anyhow",
@@ -3303,7 +3303,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_js_api"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "abi_stable",
  "anyhow",
@@ -3316,7 +3316,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.19.0"
+version = "0.20.0"
 dependencies = [
  "abi_stable",
  "anyhow",
@@ -3338,7 +3338,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_testing"
-version = "0.21.0"
+version = "0.22.0"
 dependencies = [
  "anyhow",
  "swc_atoms 0.2.9",
@@ -3394,7 +3394,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.6.0"
+version = "0.7.0"
 dependencies = [
  "anyhow",
  "rayon",
