@@ -1,4 +1,4 @@
-var B, X, D;
+var B, X, Y, D;
 !function(B) {
     var B1 = function() {
         "use strict";
@@ -8,9 +8,15 @@ var B, X, D;
     };
 }(B || (B = {
 })), (function(X1) {
-    var Y, Z;
-    (Y || (Y = {
-    })).Z = Z, X1.Y = Y;
+    var Y1, Z;
+    (Y1 || (Y1 = {
+    })).Z = Z, X1.Y = Y1;
 })(X || (X = {
+})), (function(Y4) {
+    var Y2, Y3, Y2, Y2;
+    Y3 = Y2 || (Y2 = {
+    }), (Y2 = Y2 || (Y2 = {
+    }))[Y2.Red = 0] = "Red", Y2[Y2.Blue = 1] = "Blue", Y3.Y = Y2, Y4.Y = Y2;
+})(Y || (Y = {
 })), (D || (D = {
 })).E = "hello";

@@ -3499,6 +3499,28 @@ to!(
 );
 
 to!(
+    namespace_003,
+    "
+    namespace Test.Inner {
+        export const c = 3;
+    }
+    namespace Test.Other {
+        export interface Test {}
+    }
+    ",
+    "
+    var Test;
+    (function (Test1) {
+        let Inner1;
+        (function (Inner) {
+            Inner.c = 3;
+        })(Inner1 || (Inner1 = {}));
+        Test1.Inner = Inner1;
+    })(Test || (Test = {}));
+    "
+);
+
+to!(
     issue_1329,
     "
     namespace Test {

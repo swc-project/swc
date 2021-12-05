@@ -57,5 +57,23 @@ var m;
 var m1;
 (function(m1) {
     var x;
+    let m21;
+    (function(m2) {
+        let m3;
+        (function(m3) {
+            var b = x; // new scope - number | boolean | string
+            var y;
+            if (typeof x === "string") {
+                y = x // string;
+                ;
+            } else {
+                y = typeof x === "boolean" ? x.toString() // boolean
+                 : x.toString(); // number
+            }
+        })(m3 || (m3 = {
+        }));
+        m2.m3 = m3;
+    })(m21 || (m21 = {
+    }));
 })(m1 || (m1 = {
 }));
