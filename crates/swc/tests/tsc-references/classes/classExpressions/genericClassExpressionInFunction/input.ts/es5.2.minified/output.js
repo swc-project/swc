@@ -45,19 +45,19 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var A1 = function() {
+var A = function() {
     "use strict";
-    _classCallCheck(this, A1);
+    _classCallCheck(this, A);
 }, B2 = function() {
     "use strict";
-    _classCallCheck(this, B2), this.anon = (function(A) {
-        _inherits(_class, A);
+    _classCallCheck(this, B2), this.anon = (function(A1) {
+        _inherits(_class, A1);
         var _super = _createSuper(_class);
         function _class() {
             return _classCallCheck(this, _class), _super.apply(this, arguments);
         }
         return _class;
-    })(A1);
+    })(A);
 }, K = function(_super) {
     "use strict";
     _inherits(K, _super);
@@ -67,15 +67,15 @@ var A1 = function() {
     }
     return K;
 }(function() {
-    return (function(A) {
+    return (function(A2) {
         "use strict";
-        _inherits(_class, A);
+        _inherits(_class, A2);
         var _super = _createSuper(_class);
         function _class() {
             return _classCallCheck(this, _class), _super.apply(this, arguments);
         }
         return _class;
-    })(A1);
+    })(A);
 }()), C = function(_super) {
     "use strict";
     _inherits(C, _super);
@@ -93,14 +93,14 @@ var A1 = function() {
     }
     return S;
 }(function() {
-    return (function(A) {
+    return (function(A3) {
         "use strict";
-        _inherits(Inner, A);
+        _inherits(Inner, A3);
         var _super = _createSuper(Inner);
         function Inner() {
             return _classCallCheck(this, Inner), _super.apply(this, arguments);
         }
         return Inner;
-    })(A1);
+    })(A);
 }()), c = new C(), k = new K(), s = new S();
 c.genericVar = 12, k.genericVar = 12, s.genericVar = 12;

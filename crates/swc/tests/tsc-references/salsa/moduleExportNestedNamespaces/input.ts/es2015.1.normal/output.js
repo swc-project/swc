@@ -16,9 +16,9 @@ module.exports.Classic = class _class {
 };
 var k = new s.n.K();
 k.x;
-var classic1 = new s.Classic();
+var classic = new s.Classic();
 /** @param {s.n.K} c
-    @param {s.Classic} classic */ function f(c, classic) {
+    @param {s.Classic} classic */ function f(c, classic1) {
     c.x;
-    classic.p;
+    classic1.p;
 }

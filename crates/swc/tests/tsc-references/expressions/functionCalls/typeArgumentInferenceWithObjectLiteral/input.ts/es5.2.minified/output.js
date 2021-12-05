@@ -1,4 +1,4 @@
-var E1, E2, s, E11, E21;
+var E1, E2, s, E1, E2;
 function foo(x) {
 }
 foo({
@@ -15,8 +15,8 @@ foo({
     read: function() {
         return s;
     }
-}), (E1 = E11 || (E11 = {
-}))[E1.X = 0] = "X", (E2 = E21 || (E21 = {
+}), (E1 = E1 || (E1 = {
+}))[E1.X = 0] = "X", (E2 = E2 || (E2 = {
 }))[E2.X = 0] = "X", f1({
     w: function(x) {
         return x;
@@ -31,25 +31,25 @@ foo({
     r: function() {
         return 0;
     }
-}, E11.X), f1({
+}, E1.X), f1({
     w: function(x) {
         return x;
     },
     r: function() {
-        return E11.X;
+        return E1.X;
     }
 }, 0), f1({
     w: function(x) {
         return x;
     },
     r: function() {
-        return E11.X;
+        return E1.X;
     }
-}, E11.X), f1({
+}, E1.X), f1({
     w: function(x) {
         return x;
     },
     r: function() {
-        return E11.X;
+        return E1.X;
     }
-}, E21.X);
+}, E2.X);

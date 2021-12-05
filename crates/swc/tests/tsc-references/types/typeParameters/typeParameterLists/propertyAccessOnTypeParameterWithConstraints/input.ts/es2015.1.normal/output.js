@@ -3,21 +3,21 @@
 class C {
     f() {
         var x;
-        var a = x['getDate'](); // number
-        return a + x.getDate();
+        var a1 = x['getDate'](); // number
+        return a1 + x.getDate();
     }
 }
 var r = new C().f();
 var i;
 var r2 = i.foo.getDate();
 var r2b = i.foo['getDate']();
-var a1;
-var r3 = a1().getDate();
-var r3b = a1()['getDate']();
+var a;
+var r3 = a().getDate();
+var r3b = a()['getDate']();
 var b = {
     foo: (x)=>{
-        var a = x['getDate'](); // number
-        return a + x.getDate();
+        var a2 = x['getDate'](); // number
+        return a2 + x.getDate();
     }
 };
 var r4 = b.foo(new Date());

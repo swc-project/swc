@@ -1,11 +1,11 @@
-class clodule1 {
+class clodule {
     static fn(id) {
     }
 }
-(function(clodule) {
+(function(clodule1) {
     function fn(x, y) {
         return x;
     }
-    clodule.fn = fn;
-})(clodule1 || (clodule1 = {
+    clodule1.fn = fn;
+})(clodule || (clodule = {
 }));

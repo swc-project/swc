@@ -179,8 +179,8 @@ mod tests {
         single_tag,
         "t`a`;",
         r#"
-        let _ = t => t, t1;
-        t(t1 || (t1 = _`a`));
+        let _ = t1 => t1, t2;
+        t(t2 || (t2 = _`a`));
         "#
     );
 
@@ -190,8 +190,8 @@ mod tests {
         single_tag_empty,
         "x``;",
         r#"
-        let _ = t => t, t1;
-        x(t1 || (t1 = _``));
+        let _ = t1 => t1, t;
+        x(t || (t = _``));
         "#
     );
 
@@ -204,8 +204,8 @@ mod tests {
         x``;
         "#,
         r#"
-        let _ = t => t, t2, t1;
-        t(t2 || (t2 = _`a`));
+        let _ = t2 => t2, t3, t1;
+        t(t3 || (t3 = _`a`));
         x(t1 || (t1 = _``));
         "#
     );
@@ -216,8 +216,8 @@ mod tests {
         function_scoped_tag,
         "const f = t => t`a`;",
         r#"
-        let _ = t => t, t1;
-        const f = t => t(t1 || (t1 = _`a`));
+        let _ = t1 => t1, t;
+        const f = t2 => t2(t || (t = _`a`));
         "#
     );
 
@@ -227,8 +227,8 @@ mod tests {
         dynamic_tag,
         "fn()``;",
         r#"
-        let _ = t => t, t1;
-        fn()(t1 || (t1 = _``));
+        let _ = t1 => t1, t;
+        fn()(t || (t = _``));
         "#
     );
 
@@ -238,8 +238,8 @@ mod tests {
         dynamic_expressions,
         "const f = t => t`a${1}b${t}${[\"hello\"]}`;",
         r#"
-        let _ = t => t, t1;
-        const f = t => t(t1 || (t1 = _`a${0}b${0}${0}`), 1, t, ["hello"]);
+        let _ = t1 => t1, t;
+        const f = t2 => t2(t || (t = _`a${0}b${0}${0}`), 1, t2, ["hello"]);
         "#
     );
 
@@ -249,8 +249,8 @@ mod tests {
         same_tag_safari_11,
         "x`a` === x`a`;",
         r#"
-        let _ = t => t, t2, t1;
-        x(t2 || (t2 = _`a`)) === x(t1 || (t1 = _`a`));
+        let _ = t2 => t2, t, t1;
+        x(t || (t = _`a`)) === x(t1 || (t1 = _`a`));
         "#
     );
 
@@ -260,8 +260,8 @@ mod tests {
         shared_strings_safari_11,
         "x`a` === y`a`;",
         r#"
-        let _ = t => t, t2, t1;
-        x(t2 || (t2 = _`a`)) === y(t1 || (t1 = _`a`));
+        let _ = t2 => t2, t, t1;
+        x(t || (t = _`a`)) === y(t1 || (t1 = _`a`));
         "#
     );
 
@@ -292,10 +292,10 @@ mod tests {
         t``;
         "#,
         r#"
-        let _ = t => t, t1;
+        let _ = t1 => t1, t2;
 
         const _1 = 1;
-        t(t1 || (t1 = _``));
+        t(t2 || (t2 = _``));
         "#
     );
 
@@ -305,8 +305,8 @@ mod tests {
         block_scoped_tag,
         "for (let t of []) t`a`;",
         r#"
-        let _ = t => t, t2;
-        for (let t1 of []) t1(t2 || (t2 = _`a`));
+        let _ = t2 => t2, t;
+        for (let t1 of []) t1(t || (t = _`a`));
         "#
     );
 }

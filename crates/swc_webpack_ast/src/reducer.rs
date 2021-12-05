@@ -4,7 +4,7 @@ use swc_common::{
     collections::AHashSet,
     pass::{Repeat, Repeated},
     util::take::Take,
-    Mark, Span, SyntaxContext, DUMMY_SP,
+    Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, IsEmpty, StmtLike, StmtOrModuleItem};
@@ -231,6 +231,7 @@ impl ReduceAst {
                 // Flatten a function declaration.
                 Stmt::Decl(Decl::Fn(fn_decl)) => {
                     let Function {
+                        span,
                         params,
                         decorators,
                         body,
@@ -239,9 +240,9 @@ impl ReduceAst {
 
                     if !decorators.is_empty() {
                         let mut s = Stmt::Expr(ExprStmt {
-                            span: DUMMY_SP,
+                            span,
                             expr: Box::new(Expr::Seq(SeqExpr {
-                                span: DUMMY_SP,
+                                span,
                                 exprs: decorators.into_iter().map(|d| d.expr).collect(),
                             })),
                         });
@@ -259,11 +260,8 @@ impl ReduceAst {
                         }
 
                         let mut s = Stmt::Expr(ExprStmt {
-                            span: DUMMY_SP,
-                            expr: Box::new(Expr::Seq(SeqExpr {
-                                span: DUMMY_SP,
-                                exprs,
-                            })),
+                            span,
+                            expr: Box::new(Expr::Seq(SeqExpr { span, exprs })),
                         });
                         s.visit_mut_with(self);
                         to.push(T::from_stmt(s));
@@ -284,9 +282,9 @@ impl ReduceAst {
 
                     if !exprs.is_empty() {
                         let mut s = Stmt::Expr(ExprStmt {
-                            span: DUMMY_SP,
+                            span: d.span,
                             expr: Box::new(Expr::Seq(SeqExpr {
-                                span: DUMMY_SP,
+                                span: d.span,
                                 exprs,
                             })),
                         });
@@ -296,10 +294,18 @@ impl ReduceAst {
                 }
 
                 Stmt::ForOf(ForOfStmt {
-                    left, right, body, ..
+                    span,
+                    left,
+                    right,
+                    body,
+                    ..
                 })
                 | Stmt::ForIn(ForInStmt {
-                    left, right, body, ..
+                    span,
+                    left,
+                    right,
+                    body,
+                    ..
                 }) => {
                     self.changed = true;
 
@@ -318,11 +324,8 @@ impl ReduceAst {
 
                     if !exprs.is_empty() {
                         to.push(T::from_stmt(Stmt::Expr(ExprStmt {
-                            span: DUMMY_SP,
-                            expr: Box::new(Expr::Seq(SeqExpr {
-                                span: DUMMY_SP,
-                                exprs,
-                            })),
+                            span,
+                            expr: Box::new(Expr::Seq(SeqExpr { span, exprs })),
                         })));
                     }
                     to.push(T::from_stmt(*body));
@@ -353,7 +356,7 @@ impl ReduceAst {
         // Remove empty statements
         new.retain(|stmt| match StmtOrModuleItem::as_stmt(stmt) {
             Ok(Stmt::Empty(..)) => return false,
-            Ok(Stmt::Expr(es)) => return !self.can_remove(&es.expr),
+            Ok(Stmt::Expr(es)) => return !self.can_remove(&es.expr, true),
             _ => true,
         });
 
@@ -397,7 +400,7 @@ impl ReduceAst {
                     self.ignore_expr(prop);
                 }
 
-                match (self.can_remove(&obj), self.can_remove(&prop)) {
+                match (self.can_remove(&obj, false), self.can_remove(&prop, false)) {
                     (true, true) => {
                         e.take();
                         return;
@@ -453,12 +456,13 @@ impl ReduceAst {
         }
     }
 
-    fn can_remove(&self, e: &Expr) -> bool {
+    /// `is_standalone`: `true` for switch case.
+    fn can_remove(&self, e: &Expr, is_standalone: bool) -> bool {
         match e {
             Expr::Invalid(..) => true,
-            Expr::Lit(Lit::Str(..)) => false,
+            Expr::Lit(Lit::Str(..)) => is_standalone,
             Expr::Lit(..) => true,
-            Expr::Seq(seq) => seq.exprs.iter().all(|e| self.can_remove(e)),
+            Expr::Seq(seq) => seq.exprs.iter().all(|e| self.can_remove(e, is_standalone)),
             _ => false,
         }
     }
@@ -493,7 +497,7 @@ impl VisitMut for ReduceAst {
         c.visit_mut_children_with(self);
 
         if let Some(s) = &c.super_class {
-            if self.can_remove(&s) {
+            if self.can_remove(&s, true) {
                 c.super_class = None;
             }
         }
@@ -510,10 +514,10 @@ impl VisitMut for ReduceAst {
                 ClassMember::ClassProp(p) => {
                     if !p.computed
                         && p.decorators.is_empty()
-                        && self.can_remove(&p.key)
+                        && self.can_remove(&p.key, false)
                         && p.value
                             .as_deref()
-                            .map(|e| self.can_remove(e))
+                            .map(|e| self.can_remove(e, true))
                             .unwrap_or(true)
                     {
                         return false;
@@ -538,7 +542,7 @@ impl VisitMut for ReduceAst {
                 ClassMember::PrivateProp(PrivateProp {
                     value: Some(value), ..
                 }) => {
-                    if self.can_remove(&value) {
+                    if self.can_remove(&value, true) {
                         return false;
                     }
                 }
@@ -564,31 +568,46 @@ impl VisitMut for ReduceAst {
 
         match e {
             Expr::Call(CallExpr {
+                span,
                 callee: ExprOrSuper::Expr(callee),
                 args,
                 ..
             })
             | Expr::New(NewExpr {
+                span,
+
                 callee,
                 args: Some(args),
                 ..
             }) => {
                 self.ignore_expr(callee);
 
-                let is_string_lit_important = match &**callee {
-                    Expr::Ident(callee) => {
-                        if &*callee.sym == "define" || &*callee.sym == "require" {
-                            true
-                        } else {
-                            false
+                let is_define = match &**callee {
+                    Expr::Ident(callee) => &*callee.sym == "define",
+                    _ => false,
+                };
+
+                if is_define {
+                    for arg in args {
+                        match &mut *arg.expr {
+                            Expr::Fn(f) => {
+                                f.function.body.visit_mut_with(self);
+                            }
+                            _ => {}
                         }
                     }
+
+                    return;
+                }
+
+                let is_string_lit_important = match &**callee {
+                    Expr::Ident(callee) => &*callee.sym == "require",
                     _ => false,
                 };
 
                 if callee.is_invalid() {
                     let mut seq = Expr::Seq(SeqExpr {
-                        span: DUMMY_SP,
+                        span: *span,
                         exprs: args.take().into_iter().map(|arg| arg.expr).collect(),
                     });
 
@@ -599,6 +618,7 @@ impl VisitMut for ReduceAst {
                     // We should preserve the arguments if the callee is not invalid.
                     let old_preserver_fn = self.preserve_fn;
                     self.preserve_fn = !callee.is_fn_expr() && !callee.is_arrow();
+
                     let old_preserve_lit = self.preserve_lit;
                     self.preserve_lit |= is_string_lit_important;
                     e.visit_mut_children_with(self);
@@ -708,7 +728,7 @@ impl VisitMut for ReduceAst {
                 exprs.extend(expr.tpl.exprs.take());
 
                 let mut seq = Expr::Seq(SeqExpr {
-                    span: DUMMY_SP,
+                    span: expr.span,
                     exprs,
                 });
 
@@ -719,7 +739,7 @@ impl VisitMut for ReduceAst {
 
             Expr::Tpl(expr) => {
                 let mut seq = Expr::Seq(SeqExpr {
-                    span: DUMMY_SP,
+                    span: expr.span,
                     exprs: expr.exprs.take(),
                 });
 
@@ -733,7 +753,7 @@ impl VisitMut for ReduceAst {
                 preserve_pat_or_expr(&mut exprs, expr.left.take());
                 exprs.push(expr.right.take());
                 let mut seq = Expr::Seq(SeqExpr {
-                    span: DUMMY_SP,
+                    span: expr.span,
                     exprs,
                 });
 
@@ -756,7 +776,7 @@ impl VisitMut for ReduceAst {
                 exprs.push(expr.right.take());
 
                 let mut seq = Expr::Seq(SeqExpr {
-                    span: DUMMY_SP,
+                    span: expr.span,
                     exprs,
                 });
 
@@ -773,7 +793,7 @@ impl VisitMut for ReduceAst {
                 exprs.push(expr.alt.take());
 
                 let mut seq = Expr::Seq(SeqExpr {
-                    span: DUMMY_SP,
+                    span: expr.span,
                     exprs,
                 });
 
@@ -784,7 +804,7 @@ impl VisitMut for ReduceAst {
 
             Expr::Array(arr) => {
                 let mut seq = Expr::Seq(SeqExpr {
-                    span: DUMMY_SP,
+                    span: arr.span,
                     exprs: arr
                         .elems
                         .take()
@@ -834,7 +854,7 @@ impl VisitMut for ReduceAst {
                     }
 
                     let mut seq = Expr::Seq(SeqExpr {
-                        span: DUMMY_SP,
+                        span: obj.span,
                         exprs,
                     });
 
@@ -867,6 +887,7 @@ impl VisitMut for ReduceAst {
             }
 
             Expr::Arrow(ArrowExpr {
+                span,
                 params,
                 body: BlockStmtOrExpr::Expr(body),
                 ..
@@ -878,10 +899,7 @@ impl VisitMut for ReduceAst {
 
                 exprs.push(body.take());
 
-                let mut seq = Expr::Seq(SeqExpr {
-                    span: DUMMY_SP,
-                    exprs,
-                });
+                let mut seq = Expr::Seq(SeqExpr { span: *span, exprs });
 
                 seq.visit_mut_with(self);
 
@@ -913,15 +931,14 @@ impl VisitMut for ReduceAst {
                 }
             }
 
-            Expr::New(NewExpr { callee, args, .. }) => {
+            Expr::New(NewExpr {
+                span, callee, args, ..
+            }) => {
                 let mut exprs = vec![];
                 exprs.push(callee.take());
                 exprs.extend(args.take().into_iter().flatten().map(|v| v.expr));
 
-                *e = Expr::Seq(SeqExpr {
-                    span: DUMMY_SP,
-                    exprs,
-                });
+                *e = Expr::Seq(SeqExpr { span: *span, exprs });
                 self.changed = true;
                 return;
             }
@@ -938,10 +955,7 @@ impl VisitMut for ReduceAst {
                     *e = null_expr(*span);
                     return;
                 }
-                let seq = Expr::Seq(SeqExpr {
-                    span: DUMMY_SP,
-                    exprs,
-                });
+                let seq = Expr::Seq(SeqExpr { span: *span, exprs });
 
                 *e = seq;
             }
@@ -968,7 +982,7 @@ impl VisitMut for ReduceAst {
 
         if !self.preserve_fn {
             elems.retain(|e| {
-                if self.can_remove(&e.expr) {
+                if self.can_remove(&e.expr, false) {
                     self.changed = true;
                     return false;
                 }
@@ -1007,14 +1021,14 @@ impl VisitMut for ReduceAst {
                     s.init = None;
                 } else {
                     s.init = Some(VarDeclOrExpr::Expr(Box::new(Expr::Seq(SeqExpr {
-                        span: DUMMY_SP,
+                        span: v.span,
                         exprs,
                     }))))
                 }
             }
 
             Some(VarDeclOrExpr::Expr(init)) => {
-                if self.can_remove(&init) {
+                if self.can_remove(&init, true) {
                     s.init = None;
                 }
             }
@@ -1024,7 +1038,7 @@ impl VisitMut for ReduceAst {
         if let Some(test) = &mut s.test {
             self.ignore_expr(&mut **test);
 
-            if self.can_remove(&test) {
+            if self.can_remove(&test, true) {
                 s.test = None;
             }
         }
@@ -1032,7 +1046,7 @@ impl VisitMut for ReduceAst {
         if let Some(update) = &mut s.update {
             self.ignore_expr(&mut **update);
 
-            if self.can_remove(&update) {
+            if self.can_remove(&update, true) {
                 s.update = None;
             }
         }
@@ -1084,7 +1098,7 @@ impl VisitMut for ReduceAst {
                                 return true;
                             }
                             JSXExpr::Expr(e) => {
-                                if self.can_remove(&e) {
+                                if self.can_remove(&e, false) {
                                     return false;
                                 }
                             }
@@ -1098,7 +1112,7 @@ impl VisitMut for ReduceAst {
                 true
             }
             JSXAttrOrSpread::SpreadElement(s) => {
-                if self.can_remove(&s.expr) {
+                if self.can_remove(&s.expr, false) {
                     return false;
                 }
 
@@ -1146,7 +1160,7 @@ impl VisitMut for ReduceAst {
             JSXElementChild::JSXExprContainer(JSXExprContainer {
                 expr: JSXExpr::Expr(expr),
                 ..
-            }) => return !self.can_remove(&expr),
+            }) => return !self.can_remove(&expr, false),
 
             JSXElementChild::JSXElement(el) => {
                 // Remove empty, non-component elements.
@@ -1177,7 +1191,7 @@ impl VisitMut for ReduceAst {
             JSXExpr::JSXEmptyExpr(_) => {}
             JSXExpr::Expr(expr) => {
                 if expr.is_invalid() {
-                    *e = JSXExpr::JSXEmptyExpr(JSXEmptyExpr { span: DUMMY_SP });
+                    *e = JSXExpr::JSXEmptyExpr(JSXEmptyExpr { span: expr.span() });
                 }
             }
         }
@@ -1239,7 +1253,7 @@ impl VisitMut for ReduceAst {
 
         if !self.preserve_fn {
             if let Some(elem) = e {
-                if self.can_remove(&elem.expr) {
+                if self.can_remove(&elem.expr, false) {
                     *e = None;
                 }
             }
@@ -1271,7 +1285,7 @@ impl VisitMut for ReduceAst {
                     true
                 }
                 TsParamPropParam::Assign(p) => {
-                    if p.left.is_invalid() && self.can_remove(&p.right) {
+                    if p.left.is_invalid() && self.can_remove(&p.right, false) {
                         self.changed = true;
                         return false;
                     }
@@ -1335,7 +1349,7 @@ impl VisitMut for ReduceAst {
             }
 
             Pat::Assign(a) => {
-                if self.can_remove(&a.right) {
+                if self.can_remove(&a.right, false) {
                     a.left.visit_mut_with(self);
 
                     *pat = *a.left.take();
@@ -1371,19 +1385,34 @@ impl VisitMut for ReduceAst {
     fn visit_mut_prop_or_spreads(&mut self, props: &mut Vec<PropOrSpread>) {
         props.visit_mut_children_with(self);
 
-        props.retain(|p| match p {
-            PropOrSpread::Spread(..) => true,
-            PropOrSpread::Prop(p) => match &**p {
-                Prop::Shorthand(p) => {
-                    if p.sym == js_word!("") {
-                        return false;
+        props.retain(|p| {
+            match p {
+                PropOrSpread::Spread(..) => {}
+                PropOrSpread::Prop(p) => match &**p {
+                    Prop::Shorthand(p) => {
+                        if p.sym == js_word!("") {
+                            return false;
+                        }
                     }
 
-                    true
-                }
-                _ => true,
-            },
-        })
+                    Prop::Getter(p) => {
+                        if !p.key.is_computed() && p.body.is_empty() {
+                            return false;
+                        }
+                    }
+
+                    Prop::Setter(p) => {
+                        if !p.key.is_computed() && p.param.is_ident() && p.body.is_empty() {
+                            return false;
+                        }
+                    }
+
+                    _ => {}
+                },
+            }
+
+            true
+        });
     }
 
     fn visit_mut_seq_expr(&mut self, e: &mut SeqExpr) {
@@ -1399,7 +1428,7 @@ impl VisitMut for ReduceAst {
             self.ignore_expr(&mut **elem);
         }
 
-        e.exprs.retain(|e| !self.can_remove(&e));
+        e.exprs.retain(|e| !self.can_remove(&e, false));
     }
 
     /// Normalize statements.
@@ -1412,7 +1441,7 @@ impl VisitMut for ReduceAst {
     fn visit_mut_stmt(&mut self, stmt: &mut Stmt) {
         match stmt {
             Stmt::Debugger(_) | Stmt::Break(_) | Stmt::Continue(_) => {
-                *stmt = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                *stmt = Stmt::Empty(EmptyStmt { span: stmt.span() });
                 return;
             }
 
@@ -1420,18 +1449,18 @@ impl VisitMut for ReduceAst {
                 if let Some(arg) = s.arg.take() {
                     self.changed = true;
                     *stmt = Stmt::Expr(ExprStmt {
-                        span: DUMMY_SP,
+                        span: s.span,
                         expr: arg,
                     });
                 } else {
-                    *stmt = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                    *stmt = Stmt::Empty(EmptyStmt { span: s.span });
                     return;
                 }
             }
             Stmt::Throw(s) => {
                 self.changed = true;
                 *stmt = Stmt::Expr(ExprStmt {
-                    span: DUMMY_SP,
+                    span: s.span,
                     expr: s.arg.take(),
                 });
             }
@@ -1453,13 +1482,14 @@ impl VisitMut for ReduceAst {
             Stmt::Expr(e) => {
                 if e.expr.is_invalid() {
                     self.changed = true;
-                    *stmt = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                    *stmt = Stmt::Empty(EmptyStmt { span: e.span });
                     return;
                 }
 
                 match &mut *e.expr {
                     // Optimize IIFE
                     Expr::Call(CallExpr {
+                        span,
                         callee: ExprOrSuper::Expr(callee),
                         args,
                         ..
@@ -1476,9 +1506,9 @@ impl VisitMut for ReduceAst {
 
                             if !decorators.is_empty() {
                                 let mut s = Stmt::Expr(ExprStmt {
-                                    span: DUMMY_SP,
+                                    span: *span,
                                     expr: Box::new(Expr::Seq(SeqExpr {
-                                        span: DUMMY_SP,
+                                        span: *span,
                                         exprs: decorators.into_iter().map(|d| d.expr).collect(),
                                     })),
                                 });
@@ -1498,11 +1528,8 @@ impl VisitMut for ReduceAst {
                                 exprs.extend(args.into_iter().map(|arg| arg.expr.take()));
 
                                 let mut s = Stmt::Expr(ExprStmt {
-                                    span: DUMMY_SP,
-                                    expr: Box::new(Expr::Seq(SeqExpr {
-                                        span: DUMMY_SP,
-                                        exprs,
-                                    })),
+                                    span: *span,
+                                    expr: Box::new(Expr::Seq(SeqExpr { span: *span, exprs })),
                                 });
                                 s.visit_mut_with(self);
                                 stmts.push(s);
@@ -1512,10 +1539,7 @@ impl VisitMut for ReduceAst {
                                 stmts.extend(body.stmts);
                             }
 
-                            *stmt = Stmt::Block(BlockStmt {
-                                span: DUMMY_SP,
-                                stmts,
-                            });
+                            *stmt = Stmt::Block(BlockStmt { span: *span, stmts });
                             return;
                         }
                         _ => {}
@@ -1527,7 +1551,7 @@ impl VisitMut for ReduceAst {
 
             Stmt::Block(block) => {
                 if block.stmts.is_empty() {
-                    *stmt = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                    *stmt = Stmt::Empty(EmptyStmt { span: block.span });
                     return;
                 }
                 if block.stmts.len() == 1 {
@@ -1546,12 +1570,12 @@ impl VisitMut for ReduceAst {
                 }
 
                 if exprs.is_empty() {
-                    *stmt = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                    *stmt = Stmt::Empty(EmptyStmt { span: var.span });
                 } else {
                     *stmt = Stmt::Expr(ExprStmt {
-                        span: DUMMY_SP,
+                        span: var.span,
                         expr: Box::new(Expr::Seq(SeqExpr {
-                            span: DUMMY_SP,
+                            span: var.span,
                             exprs,
                         })),
                     });
@@ -1566,9 +1590,9 @@ impl VisitMut for ReduceAst {
                 }
 
                 //
-                if self.can_remove(&is.test) {
+                if self.can_remove(&is.test, true) {
                     if is.cons.is_empty() && is.alt.is_empty() {
-                        *stmt = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                        *stmt = Stmt::Empty(EmptyStmt { span: is.span });
                         return;
                     }
 
@@ -1582,19 +1606,28 @@ impl VisitMut for ReduceAst {
                         return;
                     }
                 }
+
+                if is.cons.is_empty() && is.alt.is_empty() {
+                    self.changed = true;
+                    *stmt = Stmt::Expr(ExprStmt {
+                        span: is.span,
+                        expr: is.test.take(),
+                    });
+                    return;
+                }
             }
 
             Stmt::While(s) => {
                 if s.body.is_empty() {
                     *stmt = Stmt::Expr(ExprStmt {
-                        span: DUMMY_SP,
+                        span: s.span,
                         expr: s.test.take(),
                     });
                     self.changed = true;
                     return;
                 }
 
-                if self.can_remove(&s.test) {
+                if self.can_remove(&s.test, true) {
                     *stmt = *s.body.take();
                     self.changed = true;
                     return;
@@ -1604,14 +1637,14 @@ impl VisitMut for ReduceAst {
             Stmt::DoWhile(s) => {
                 if s.body.is_empty() {
                     *stmt = Stmt::Expr(ExprStmt {
-                        span: DUMMY_SP,
+                        span: s.test.span(),
                         expr: s.test.take(),
                     });
                     self.changed = true;
                     return;
                 }
 
-                if self.can_remove(&s.test) {
+                if self.can_remove(&s.test, true) {
                     *stmt = *s.body.take();
                     self.changed = true;
                     return;
@@ -1647,7 +1680,7 @@ impl VisitMut for ReduceAst {
             Stmt::Switch(s) => {
                 if s.cases.is_empty() {
                     *stmt = Stmt::Expr(ExprStmt {
-                        span: DUMMY_SP,
+                        span: s.span,
                         expr: s.discriminant.take(),
                     });
                     self.changed = true;
@@ -1672,14 +1705,15 @@ impl VisitMut for ReduceAst {
                 let mut stmts = ts.block.stmts.take();
                 if let Some(h) = ts.handler.take() {
                     if let Some(p) = h.param {
+                        let p_span = p.span();
                         let mut exprs = vec![];
                         preserve_pat(&mut exprs, p);
 
                         if !exprs.is_empty() {
                             stmts.push(Stmt::Expr(ExprStmt {
-                                span: DUMMY_SP,
+                                span: p_span,
                                 expr: Box::new(Expr::Seq(SeqExpr {
-                                    span: DUMMY_SP,
+                                    span: p_span,
                                     exprs,
                                 })),
                             }));
@@ -1693,13 +1727,14 @@ impl VisitMut for ReduceAst {
                 }
 
                 *stmt = Stmt::Block(BlockStmt {
-                    span: DUMMY_SP,
+                    span: ts.span,
                     stmts,
                 });
                 return;
             }
 
             Stmt::For(ForStmt {
+                span,
                 init,
                 test,
                 update,
@@ -1731,21 +1766,15 @@ impl VisitMut for ReduceAst {
 
                     if !exprs.is_empty() {
                         stmts.push(Stmt::Expr(ExprStmt {
-                            span: DUMMY_SP,
-                            expr: Box::new(Expr::Seq(SeqExpr {
-                                span: DUMMY_SP,
-                                exprs,
-                            })),
+                            span: *span,
+                            expr: Box::new(Expr::Seq(SeqExpr { span: *span, exprs })),
                         }));
                     }
                 }
 
                 stmts.push(*body.take());
 
-                *stmt = Stmt::Block(BlockStmt {
-                    span: DUMMY_SP,
-                    stmts,
-                });
+                *stmt = Stmt::Block(BlockStmt { span: *span, stmts });
                 return;
             }
 
@@ -1766,7 +1795,7 @@ impl VisitMut for ReduceAst {
             if case
                 .test
                 .as_deref()
-                .map(|e| self.can_remove(e))
+                .map(|e| self.can_remove(e, true))
                 .unwrap_or(true)
                 && case.cons.is_empty()
             {

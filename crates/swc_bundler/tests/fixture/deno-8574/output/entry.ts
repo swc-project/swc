@@ -729,12 +729,12 @@ function fetchWrapper(requestOptions) {
             return response.text();
         }
         return getBufferResponse(response);
-    }).then((data)=>{
+    }).then((data1)=>{
         return {
             status,
             url,
             headers,
-            data
+            data: data1
         };
     }).catch((error)=>{
         if (error instanceof RequestError) {
@@ -772,11 +772,11 @@ const request = withDefaults1(endpoint, {
         "user-agent": `octokit-request.js/${VERSION1} ${getUserAgent()}`
     }
 });
-const { data: data1  } = await request('GET /repos/{owner}/{repo}/license', {
+const { data  } = await request('GET /repos/{owner}/{repo}/license', {
     headers: {
         authorization: `token ${Deno.env.get('GITHUB_TOKEN')}`
     },
     owner: 'denoland',
     repo: 'deno'
 });
-console.log(data1.license.name);
+console.log(data.license.name);

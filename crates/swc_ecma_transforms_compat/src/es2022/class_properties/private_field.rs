@@ -4,7 +4,7 @@ use swc_common::{collections::AHashSet, util::take::Take, Mark, Spanned, SyntaxC
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{alias_ident_for, alias_if_required, prepend, quote_ident, ExprFactory};
-use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 pub(super) struct BrandCheckHandler<'a> {
     /// Mark for the private `WeakSet` variable.
@@ -100,13 +100,13 @@ pub(super) struct FieldAccessFolder<'a> {
 
 macro_rules! take_vars {
     ($name:ident, $T:tt) => {
-        fn $name(&mut self, f: $T) -> $T {
+        fn $name(&mut self, f: &mut $T) {
             assert!(self.vars.is_empty());
             if f.body.is_none() {
-                return f;
+                return;
             }
 
-            let mut f = f.fold_children_with(self);
+            f.visit_mut_children_with(self);
 
             if !self.vars.is_empty() {
                 prepend(
@@ -120,20 +120,17 @@ macro_rules! take_vars {
                     })),
                 )
             }
-
-            f
         }
     };
 }
 
-/// TODO: VisitMut
-impl<'a> Fold for FieldAccessFolder<'a> {
-    noop_fold_type!();
+impl<'a> VisitMut for FieldAccessFolder<'a> {
+    noop_visit_mut_type!();
 
-    take_vars!(fold_function, Function);
-    take_vars!(fold_constructor, Constructor);
+    take_vars!(visit_mut_function, Function);
+    take_vars!(visit_mut_constructor, Constructor);
 
-    fn fold_expr(&mut self, e: Expr) -> Expr {
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
         match e {
             Expr::Update(UpdateExpr {
                 span,
@@ -141,32 +138,35 @@ impl<'a> Fold for FieldAccessFolder<'a> {
                 op,
                 arg,
             }) if arg.is_member() => {
-                let arg = arg.member().unwrap().fold_with(self);
+                let mut arg = arg.take().member().unwrap();
+                arg.visit_mut_with(self);
 
-                let n = match *arg.prop {
-                    Expr::PrivateName(ref n) => n,
+                let n = match &*arg.prop {
+                    Expr::PrivateName(n) => n,
                     _ => {
-                        return Expr::Update(UpdateExpr {
-                            span,
-                            prefix,
-                            op,
+                        *e = Expr::Update(UpdateExpr {
+                            span: *span,
+                            prefix: *prefix,
+                            op: *op,
                             arg: Box::new(Expr::Member(arg)),
-                        })
-                        .fold_children_with(self);
+                        });
+                        e.visit_mut_children_with(self);
+                        return;
                     }
                 };
 
-                let obj = match arg.obj {
+                let obj = match &arg.obj {
                     ExprOrSuper::Super(..) => {
-                        return Expr::Update(UpdateExpr {
-                            span,
-                            prefix,
-                            op,
+                        *e = Expr::Update(UpdateExpr {
+                            span: *span,
+                            prefix: *prefix,
+                            op: *op,
                             arg: Box::new(Expr::Member(arg)),
-                        })
-                        .fold_children_with(self);
+                        });
+                        e.visit_mut_children_with(self);
+                        return;
                     }
-                    ExprOrSuper::Expr(ref obj) => obj.clone(),
+                    ExprOrSuper::Expr(obj) => obj.clone(),
                 };
 
                 let is_static = self.statics.contains(&n.id.sym);
@@ -201,7 +201,7 @@ impl<'a> Fold for FieldAccessFolder<'a> {
                 };
                 // Used iff !prefix
                 let old_var = alias_ident_for(&arg.prop, "old");
-                if !prefix {
+                if !*prefix {
                     self.vars.push(VarDeclarator {
                         span: DUMMY_SP,
                         name: Pat::Ident(old_var.clone().into()),
@@ -211,13 +211,13 @@ impl<'a> Fold for FieldAccessFolder<'a> {
                 }
 
                 let value = {
-                    let arg = Box::new(self.fold_private_get(arg, Some(var)).0);
+                    let arg = Box::new(self.visit_mut_private_get(&mut arg, Some(var)).0);
                     let left = Box::new(Expr::Unary(UnaryExpr {
                         span: DUMMY_SP,
                         op: op!(unary, "+"),
                         arg,
                     }));
-                    let left = if prefix {
+                    let left = if *prefix {
                         left
                     } else {
                         Box::new(Expr::Assign(AssignExpr {
@@ -269,13 +269,13 @@ impl<'a> Fold for FieldAccessFolder<'a> {
                     })
                 };
 
-                if prefix {
-                    expr
+                if *prefix {
+                    *e = expr;
                 } else {
-                    Expr::Seq(SeqExpr {
+                    *e = Expr::Seq(SeqExpr {
                         span: DUMMY_SP,
                         exprs: vec![Box::new(expr), Box::new(Expr::Ident(old_var))],
-                    })
+                    });
                 }
             }
 
@@ -285,35 +285,40 @@ impl<'a> Fold for FieldAccessFolder<'a> {
                 op,
                 right,
             }) if left.as_expr().is_some() && left.as_expr().unwrap().is_member() => {
-                let left = left.normalize_expr();
-                let left: MemberExpr = left.expr().unwrap().member().unwrap().fold_with(self);
-                let right = right.fold_with(self);
+                let mut left: MemberExpr = left.take().expr().unwrap().member().unwrap();
+                left.visit_mut_with(self);
+                right.visit_mut_with(self);
 
                 let n = match *left.prop {
                     Expr::PrivateName(ref n) => n.clone(),
                     _ => {
-                        return Expr::Assign(AssignExpr {
-                            span,
+                        *e = Expr::Assign(AssignExpr {
+                            span: *span,
                             left: PatOrExpr::Expr(Box::new(Expr::Member(left))),
-                            op,
-                            right,
-                        })
-                        .fold_children_with(self);
+                            op: *op,
+                            right: right.take(),
+                        });
+
+                        e.visit_mut_children_with(self);
+                        return;
                     }
                 };
 
-                let obj = match left.obj {
+                let obj = match &left.obj {
                     ExprOrSuper::Super(..) => {
-                        return Expr::Assign(AssignExpr {
-                            span,
+                        let mut expr = Expr::Assign(AssignExpr {
+                            span: *span,
                             left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
                                 prop: Box::new(Expr::PrivateName(n)),
                                 ..left
                             }))),
-                            op,
-                            right,
-                        })
-                        .fold_children_with(self);
+                            op: *op,
+                            right: right.take(),
+                        });
+
+                        expr.visit_mut_children_with(self);
+                        *e = expr;
+                        return;
                     }
                     ExprOrSuper::Expr(ref obj) => obj.clone(),
                 };
@@ -331,7 +336,7 @@ impl<'a> Fold for FieldAccessFolder<'a> {
                     _ => false,
                 } {
                     ThisExpr { span: DUMMY_SP }.as_arg()
-                } else if op == op!("=") {
+                } else if *op == op!("=") {
                     obj.as_arg()
                 } else {
                     self.vars.push(VarDeclarator {
@@ -349,10 +354,10 @@ impl<'a> Fold for FieldAccessFolder<'a> {
                     .as_arg()
                 };
 
-                let value = if op == op!("=") {
-                    right.as_arg()
+                let value = if *op == op!("=") {
+                    right.take().as_arg()
                 } else {
-                    let left = Box::new(self.fold_private_get(left, Some(var)).0);
+                    let left = Box::new(self.visit_mut_private_get(&mut left, Some(var)).0);
 
                     BinExpr {
                         span: DUMMY_SP,
@@ -376,13 +381,13 @@ impl<'a> Fold for FieldAccessFolder<'a> {
                             op!("||=") => op!("||"),
                             op!("??=") => op!("??"),
                         },
-                        right,
+                        right: right.take(),
                     }
                     .as_arg()
                 };
 
                 if is_static {
-                    Expr::Call(CallExpr {
+                    *e = Expr::Call(CallExpr {
                         span: DUMMY_SP,
                         callee: helper!(
                             class_static_private_field_spec_set,
@@ -396,71 +401,64 @@ impl<'a> Fold for FieldAccessFolder<'a> {
                         ],
 
                         type_args: Default::default(),
-                    })
+                    });
                 } else {
                     let set = helper!(class_private_field_set, "classPrivateFieldSet");
 
-                    Expr::Call(CallExpr {
+                    *e = Expr::Call(CallExpr {
                         span: DUMMY_SP,
                         callee: set,
                         args: vec![this, ident.as_arg(), value],
 
                         type_args: Default::default(),
-                    })
+                    });
                 }
             }
 
             Expr::Assign(AssignExpr {
-                span,
                 left: PatOrExpr::Pat(left),
-                op,
+
                 right,
+                ..
             }) => {
-                let right = right.fold_with(self);
-
+                right.visit_mut_with(self);
                 self.in_assign_pat = true;
-                let left = left.fold_with(self);
+                left.visit_mut_with(self);
                 self.in_assign_pat = false;
-
-                Expr::Assign(AssignExpr {
-                    span,
-                    left: PatOrExpr::Pat(left),
-                    op,
-                    right,
-                })
             }
 
-            // Actuall this is a call and we should bind `this`.
+            // Actually this is a call and we should bind `this`.
             Expr::TaggedTpl(TaggedTpl {
                 span,
                 tag,
                 tpl,
                 type_params,
             }) if tag.is_member() => {
-                let tag = tag.member().unwrap().fold_with(self);
-                let tpl = tpl.fold_with(self);
+                let mut tag = tag.take().member().unwrap();
+                tag.visit_mut_with(self);
+                tpl.visit_mut_with(self);
 
-                let (e, this) = self.fold_private_get(tag, None);
+                let (expr, this) = self.visit_mut_private_get(&mut tag, None);
 
                 if let Some(this) = this {
-                    Expr::TaggedTpl(TaggedTpl {
-                        span,
+                    *e = Expr::TaggedTpl(TaggedTpl {
+                        span: *span,
                         tag: Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
-                            callee: e.make_member(quote_ident!("bind")).as_callee(),
+                            callee: expr.make_member(quote_ident!("bind")).as_callee(),
                             args: vec![this.as_arg()],
                             type_args: Default::default(),
                         })),
-                        tpl,
-                        type_params,
-                    })
+                        tpl: tpl.take(),
+                        type_params: type_params.take(),
+                    });
                 } else {
-                    Expr::TaggedTpl(TaggedTpl {
-                        span,
-                        tag: Box::new(e),
-                        tpl,
-                        type_params,
-                    })
+                    *e = Expr::TaggedTpl(TaggedTpl {
+                        span: *span,
+                        tag: Box::new(expr),
+                        tpl: tpl.take(),
+                        type_params: type_params.take(),
+                    });
                 }
             }
 
@@ -470,59 +468,58 @@ impl<'a> Fold for FieldAccessFolder<'a> {
                 args,
                 type_args,
             }) if callee.is_member() => {
-                let callee = callee.member().unwrap().fold_with(self);
-                let args = args.fold_with(self);
+                let mut callee = callee.take().member().unwrap();
+                callee.visit_mut_with(self);
+                args.visit_mut_with(self);
 
-                let (e, this) = self.fold_private_get(callee, None);
-
+                let (expr, this) = self.visit_mut_private_get(&mut callee, None);
                 if let Some(this) = this {
-                    Expr::Call(CallExpr {
-                        span,
-                        callee: e.make_member(quote_ident!("call")).as_callee(),
-                        args: iter::once(this.as_arg()).chain(args).collect(),
-                        type_args,
-                    })
+                    *e = Expr::Call(CallExpr {
+                        span: *span,
+                        callee: expr.make_member(quote_ident!("call")).as_callee(),
+                        args: iter::once(this.as_arg()).chain(args.take()).collect(),
+                        type_args: type_args.take(),
+                    });
                 } else {
-                    Expr::Call(CallExpr {
-                        span,
-                        callee: ExprOrSuper::Expr(Box::new(e)),
-                        args,
-                        type_args,
-                    })
+                    *e = Expr::Call(CallExpr {
+                        span: *span,
+                        callee: ExprOrSuper::Expr(Box::new(expr)),
+                        args: args.take(),
+                        type_args: type_args.take(),
+                    });
                 }
             }
-            Expr::Member(e) => {
-                let e = e.fold_with(self);
-                self.fold_private_get(e, None).0
+
+            Expr::Member(member_expr) => {
+                member_expr.visit_mut_with(self);
+                *e = self.visit_mut_private_get(member_expr, None).0;
             }
-            _ => e.fold_children_with(self),
-        }
+            _ => e.visit_mut_children_with(self),
+        };
     }
 
-    fn fold_member_expr(&mut self, mut e: MemberExpr) -> MemberExpr {
-        e.obj = e.obj.fold_with(self);
+    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
+        e.obj.visit_mut_with(self);
         if e.computed {
-            e.prop = e.prop.fold_with(self);
+            e.prop.visit_mut_with(self);
         }
-        e
     }
 
-    fn fold_pat(&mut self, p: Pat) -> Pat {
+    fn visit_mut_pat(&mut self, p: &mut Pat) {
         if let Pat::Expr(expr) = &p {
             if let Expr::Member(me) = &**expr {
                 if let Expr::PrivateName(..) = &*me.prop {
                     self.in_assign_pat = true;
-                    let p = p.fold_children_with(self);
+                    p.visit_mut_children_with(self);
                     self.in_assign_pat = false;
 
-                    return p;
+                    return;
                 }
             }
         }
 
         self.in_assign_pat = false;
-
-        p.fold_children_with(self)
+        p.visit_mut_children_with(self);
     }
 }
 
@@ -531,29 +528,23 @@ impl<'a> FieldAccessFolder<'a> {
     ///
     ///   - `obj_alias`: If alias is already declared, this method will use
     ///     `obj_alias` instead of declaring a new one.
-    fn fold_private_get(
+    fn visit_mut_private_get(
         &mut self,
-        e: MemberExpr,
+        e: &mut MemberExpr,
         obj_alias: Option<Ident>,
     ) -> (Expr, Option<Expr>) {
         let is_alias_initialized = obj_alias.is_some();
 
-        let n = match *e.prop {
+        let n = match &*e.prop {
             Expr::PrivateName(n) => n,
-            _ => return (Expr::Member(e), None),
+            _ => return (e.take().into(), None),
         };
 
-        let obj = match e.obj {
+        let mut obj = match &mut e.obj {
             ExprOrSuper::Super(..) => {
-                return (
-                    Expr::Member(MemberExpr {
-                        prop: Box::new(Expr::PrivateName(n)),
-                        ..e
-                    }),
-                    None,
-                );
+                return (e.take().into(), None);
             }
-            ExprOrSuper::Expr(obj) => obj,
+            ExprOrSuper::Expr(obj) => obj.take(),
         };
 
         let is_method = self.private_methods.contains(&n.id.sym);
@@ -616,7 +607,7 @@ impl<'a> FieldAccessFolder<'a> {
                     "classPrivateFieldDestructureSet"
                 );
 
-                return match *obj {
+                return match &*obj {
                     Expr::This(this) => (
                         CallExpr {
                             span: DUMMY_SP,
@@ -627,7 +618,7 @@ impl<'a> FieldAccessFolder<'a> {
                         }
                         .make_member(quote_ident!("value"))
                         .into(),
-                        Some(Expr::This(this)),
+                        Some(Expr::This(*this)),
                     ),
                     _ => unimplemented!("destructuring set for object except this"),
                 };
@@ -650,7 +641,7 @@ impl<'a> FieldAccessFolder<'a> {
 
             let get = helper!(class_private_field_get, "classPrivateFieldGet");
 
-            match *obj {
+            match &*obj {
                 Expr::This(this) => (
                     CallExpr {
                         span: DUMMY_SP,
@@ -660,7 +651,7 @@ impl<'a> FieldAccessFolder<'a> {
                         type_args: Default::default(),
                     }
                     .into(),
-                    Some(Expr::This(this)),
+                    Some(Expr::This(*this)),
                 ),
                 _ => {
                     let mut aliased = false;
@@ -693,7 +684,7 @@ impl<'a> FieldAccessFolder<'a> {
                                                 var.clone().into(),
                                             ))),
                                             op: op!("="),
-                                            right: obj,
+                                            right: obj.take(),
                                         }
                                         .as_arg()
                                     } else {

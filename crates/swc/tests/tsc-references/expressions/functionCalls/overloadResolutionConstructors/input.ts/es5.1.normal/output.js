@@ -122,12 +122,12 @@ new fn2('', 0); // OK
 var fn3;
 var s = new fn3(3);
 var s = new fn3('', 3, '');
-var n1 = new fn3(5, 5, 5);
-var n1;
+var n = new fn3(5, 5, 5);
+var n;
 // Generic overloads with differing arity called with type arguments matching each overload type parameter count
 var s = new fn3(4);
 var s = new fn3('', '', '');
-var n1 = new fn3('', '', 3);
+var n = new fn3('', '', 3);
 // Generic overloads with differing arity called with type argument count that doesn't match any overload
 new fn3(); // Error
 var fn4;
@@ -146,9 +146,9 @@ new fn4(null, null); // Error
 new fn4(true, null); // Error
 new fn4(null, true); // Error
 var fn5;
-var n1 = new fn5(function(n) {
-    return n.toFixed();
+var n = new fn5(function(n1) {
+    return n1.toFixed();
 });
-var s = new fn5(function(n) {
-    return n.substr(0);
+var s = new fn5(function(n2) {
+    return n2.substr(0);
 });

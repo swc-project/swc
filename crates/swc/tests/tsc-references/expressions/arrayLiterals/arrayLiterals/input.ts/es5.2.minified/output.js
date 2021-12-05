@@ -50,24 +50,24 @@ var C = function() {
     _classCallCheck(this, C);
 };
 new C(), new C();
-var Base1 = function() {
+var Base = function() {
     "use strict";
-    _classCallCheck(this, Base1);
-}, Derived1 = function(Base) {
+    _classCallCheck(this, Base);
+}, Derived1 = function(Base1) {
     "use strict";
-    _inherits(Derived1, Base);
+    _inherits(Derived1, Base1);
     var _super = _createSuper(Derived1);
     function Derived1() {
         return _classCallCheck(this, Derived1), _super.apply(this, arguments);
     }
     return Derived1;
-}(Base1), Derived2 = function(Base) {
+}(Base), Derived2 = function(Base2) {
     "use strict";
-    _inherits(Derived2, Base);
+    _inherits(Derived2, Base2);
     var _super = _createSuper(Derived2);
     function Derived2() {
         return _classCallCheck(this, Derived2), _super.apply(this, arguments);
     }
     return Derived2;
-}(Base1);
+}(Base);
 new Derived1(), new Derived2(), new Derived1(), new Derived1();

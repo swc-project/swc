@@ -1,5 +1,5 @@
-function fun(g, x) {
-    return g(x);
+function fun(g1, x) {
+    return g1(x);
 }
 var a = fun(function(x) {
     return x;
@@ -23,7 +23,7 @@ var f = fun(function(x) {
 }, function(x) {
     return x;
 }, 10);
-var g1 = fun(function(x) {
+var g = fun(function(x) {
     return x;
 }, function(x) {
     return x;

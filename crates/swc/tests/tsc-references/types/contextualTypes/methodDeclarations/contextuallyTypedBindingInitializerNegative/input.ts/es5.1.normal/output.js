@@ -1,32 +1,32 @@
 function f(param) {
-    var tmp = param.show, showRename = tmp === void 0 ? function(v) {
+    var tmp1 = param.show, showRename = tmp1 === void 0 ? function(v) {
         return v;
-    } : tmp;
+    } : tmp1;
 }
 function f2(param) {
-    var tmp = param["show"], showRename = tmp === void 0 ? function(v) {
+    var tmp2 = param["show"], showRename = tmp2 === void 0 ? function(v) {
         return v;
-    } : tmp;
+    } : tmp2;
 }
 function f3(param) {
-    var tmp = param["show"], showRename = tmp === void 0 ? function(v) {
+    var tmp3 = param["show"], showRename = tmp3 === void 0 ? function(v) {
         return v;
-    } : tmp;
+    } : tmp3;
 }
 function ff(param) {
-    var tmp = param.nested, nestedRename = tmp === void 0 ? {
+    var tmp4 = param.nested, nestedRename = tmp4 === void 0 ? {
         show: function(v) {
             return v;
         }
-    } : tmp;
+    } : tmp4;
 }
 var ref = {
     stringIdentity: function(x) {
         return x;
     }
-}, tmp1 = ref.stringIdentity, id = tmp1 === void 0 ? function(arg) {
+}, tmp = ref.stringIdentity, id = tmp === void 0 ? function(arg) {
     return arg.length;
-} : tmp1;
+} : tmp;
 function g(param) {
     var _prop = param.prop, prop = _prop === void 0 ? [
         101,

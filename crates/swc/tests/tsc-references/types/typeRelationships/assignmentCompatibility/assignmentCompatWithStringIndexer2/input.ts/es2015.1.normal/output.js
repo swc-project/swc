@@ -2,18 +2,18 @@ var a;
 var b;
 a = b; // ok
 b = a; // error
-var b21;
-a = b21; // ok
-b21 = a; // error
+var b2;
+a = b2; // ok
+b2 = a; // error
 var Generics;
 (function(Generics) {
     var b1;
     var a1;
     a1 = b1; // ok
     b1 = a1; // error
-    var b2;
-    a1 = b2; // ok
-    b2 = a1; // error
+    var b21;
+    a1 = b21; // ok
+    b21 = a1; // error
     function foo() {
         var b3;
         var a3;

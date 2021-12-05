@@ -1,23 +1,23 @@
-var A1;
-(function(A) {
-    var B1;
+var A;
+(function(A1) {
+    let B1;
     (function(B) {
         class C {
         }
         B.C = C;
     })(B1 || (B1 = {
     }));
-    A.B = B1;
-})(A1 || (A1 = {
+    A1.B = B1;
+})(A || (A = {
 }));
-var M21;
-(function(M2) {
-    var X1;
+var M2;
+(function(M21) {
+    let X1;
     (function(X) {
         var Point;
         X.Point = Point;
     })(X1 || (X1 = {
     }));
-    M2.X = X1;
-})(M21 || (M21 = {
+    M21.X = X1;
+})(M2 || (M2 = {
 }));

@@ -1,9 +1,9 @@
-class C1 {
+class C {
 }
 var M;
 (function(M) {
-    var C = 1;
-    class D extends C {
+    var C1 = 1;
+    class D extends C1 {
     }
 })(M || (M = {
 }));

@@ -1,8 +1,8 @@
 // @declaration: true
-function foo(f) {
-    return f;
+function foo(f1) {
+    return f1;
 }
-var f1 = foo(function(y) {
+var f = foo(function(y) {
     return y === "foo" ? y : "foo";
 });
-var fResult = f1("foo");
+var fResult = f("foo");

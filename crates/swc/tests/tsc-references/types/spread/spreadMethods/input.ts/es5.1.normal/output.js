@@ -4,8 +4,8 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
+    for(var i1 = 0; i1 < props.length; i1++){
+        var descriptor = props[i1];
         descriptor.enumerable = descriptor.enumerable || false;
         descriptor.configurable = true;
         if ("value" in descriptor) descriptor.writable = true;
@@ -31,8 +31,8 @@ function _defineProperty(obj, key, value) {
     return obj;
 }
 function _objectSpread(target) {
-    for(var i = 1; i < arguments.length; i++){
-        var source = arguments[i] != null ? arguments[i] : {
+    for(var i1 = 1; i1 < arguments.length; i1++){
+        var source = arguments[i1] != null ? arguments[i1] : {
         };
         var ownKeys = Object.keys(source);
         if (typeof Object.getOwnPropertySymbols === "function") {
@@ -79,18 +79,18 @@ sk.g; // error
 ssk.p;
 ssk.m(); // error
 ssk.g; // error
-var i1 = {
+var i = {
     p: 12,
-    m: function() {
+    m: function m() {
     },
     get g () {
         return 0;
     }
 };
 var si = _objectSpread({
-}, i1);
+}, i);
 var ssi = _objectSpread({
-}, i1, i1);
+}, i, i);
 si.p;
 si.m(); // ok
 si.g; // ok
@@ -99,7 +99,7 @@ ssi.m(); // ok
 ssi.g; // ok
 var o = {
     p: 12,
-    m: function() {
+    m: function m() {
     },
     get g () {
         return 0;

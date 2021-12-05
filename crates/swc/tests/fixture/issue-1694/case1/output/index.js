@@ -1,5 +1,5 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
+function _classCallCheck(instance1, Constructor) {
+    if (!(instance1 instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
@@ -19,4 +19,4 @@ var MyClass = function MyClass() {
 function get() {
     console.log("Hi from a method with a private identifier called #get");
 }
-var instance1 = new MyClass();
+var instance = new MyClass();

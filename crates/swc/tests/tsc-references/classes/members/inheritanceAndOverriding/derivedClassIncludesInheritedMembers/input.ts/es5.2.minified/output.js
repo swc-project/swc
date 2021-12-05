@@ -27,7 +27,7 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-function _createSuper(Derived) {
+function _createSuper(Derived1) {
     var hasNativeReflectConstruct = function() {
         if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
         if (Reflect.construct.sham) return !1;
@@ -40,7 +40,7 @@ function _createSuper(Derived) {
         }
     }();
     return function() {
-        var obj, self, call, result, Super = _getPrototypeOf(Derived);
+        var obj, self, call, result, Super = _getPrototypeOf(Derived1);
         if (hasNativeReflectConstruct) {
             var NewTarget = _getPrototypeOf(this).constructor;
             result = Reflect.construct(Super, arguments, NewTarget);
@@ -86,26 +86,26 @@ var d2, Base = function() {
             }
         }
     ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Base;
-}(), Derived1 = function(Base) {
+}(), Derived = function(Base) {
     "use strict";
-    _inherits(Derived1, Base);
-    var _super = _createSuper(Derived1);
-    function Derived1() {
-        return _classCallCheck(this, Derived1), _super.apply(this, arguments);
+    _inherits(Derived, Base);
+    var _super = _createSuper(Derived);
+    function Derived() {
+        return _classCallCheck(this, Derived), _super.apply(this, arguments);
     }
-    return Derived1;
-}(Base), d = new Derived1(1);
-d.a, d.b(), d.c, d.c = "", Derived1.r, Derived1.s(), Derived1.t, Derived1.t = "";
-var Base21 = function() {
+    return Derived;
+}(Base), d = new Derived(1);
+d.a, d.b(), d.c, d.c = "", Derived.r, Derived.s(), Derived.t, Derived.t = "";
+var Base2 = function() {
     "use strict";
-    _classCallCheck(this, Base21);
-}, Derived2 = function(Base2) {
+    _classCallCheck(this, Base2);
+}, Derived2 = function(Base21) {
     "use strict";
-    _inherits(Derived2, Base2);
+    _inherits(Derived2, Base21);
     var _super = _createSuper(Derived2);
     function Derived2() {
         return _classCallCheck(this, Derived2), _super.apply(this, arguments);
     }
     return Derived2;
-}(Base21);
+}(Base2);
 d2[""], d2[1];

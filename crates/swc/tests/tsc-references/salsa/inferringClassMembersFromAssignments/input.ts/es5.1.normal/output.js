@@ -17,7 +17,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var _this1 = this;
+var _this = this;
 var C = // @out: output.js
 // @allowJs: true
 // @checkJs: true
@@ -27,13 +27,13 @@ var C = // @out: output.js
 /*#__PURE__*/ function() {
     "use strict";
     function C() {
-        var _this = this;
+        var _this1 = this;
         _classCallCheck(this, C);
         this.prop = function() {
             if (Math.random()) {
-                _this.inPropertyDeclaration = 0;
+                _this1.inPropertyDeclaration = 0;
             } else {
-                _this.inPropertyDeclaration = "string";
+                _this1.inPropertyDeclaration = "string";
             }
         };
         if (Math.random()) {
@@ -47,7 +47,7 @@ var C = // @out: output.js
         {
             key: "method",
             value: function method() {
-                var _this = this;
+                var _this2 = this;
                 if (Math.random()) {
                     this.inMethod = 0;
                     this.inMethodNullable = null;
@@ -59,9 +59,9 @@ var C = // @out: output.js
                 this.inMultipleMethods = "string";
                 var action = function() {
                     if (Math.random()) {
-                        _this.inNestedArrowFunction = 0;
+                        _this2.inNestedArrowFunction = 0;
                     } else {
-                        _this.inNestedArrowFunction = "string";
+                        _this2.inNestedArrowFunction = "string";
                     }
                 };
             }
@@ -92,7 +92,7 @@ var C = // @out: output.js
         {
             key: "method",
             value: function method() {
-                var _this = this;
+                var _this3 = this;
                 if (Math.random()) {
                     this.inStaticMethod = 0;
                 } else {
@@ -100,9 +100,9 @@ var C = // @out: output.js
                 }
                 var action = function() {
                     if (Math.random()) {
-                        _this.inStaticNestedArrowFunction = 0;
+                        _this3.inStaticNestedArrowFunction = 0;
                     } else {
-                        _this.inStaticNestedArrowFunction = "string";
+                        _this3.inStaticNestedArrowFunction = "string";
                     }
                 };
             }
@@ -132,9 +132,9 @@ var C = // @out: output.js
 }();
 C.prop = function() {
     if (Math.random()) {
-        _this1.inStaticPropertyDeclaration = 0;
+        _this.inStaticPropertyDeclaration = 0;
     } else {
-        _this1.inStaticPropertyDeclaration = "string";
+        _this.inStaticPropertyDeclaration = "string";
     }
 };
 // @filename: b.ts

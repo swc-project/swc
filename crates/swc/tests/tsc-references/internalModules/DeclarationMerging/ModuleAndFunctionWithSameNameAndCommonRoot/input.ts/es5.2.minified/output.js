@@ -1,16 +1,19 @@
-var A, B1;
-A || (A = {
-}), (Point || (Point = {
-})).Origin = {
-    x: 0,
-    y: 0
-}, (A || (A = {
+var A, B;
+!function(A1) {
+    var Point;
+    (Point || (Point = {
+    })).Origin = {
+        x: 0,
+        y: 0
+    }, A1.Point = Point;
+}(A || (A = {
+})), (A || (A = {
 })).Point = function() {
     return {
         x: 0,
         y: 0
     };
-}, (function(B) {
+}, (function(B1) {
     var Point = function() {
         return {
             x: 0,
@@ -21,6 +24,6 @@ A || (A = {
     })).Origin = {
         x: 0,
         y: 0
-    }, B.Point = Point;
-})(B1 || (B1 = {
+    }, B1.Point = Point;
+})(B || (B = {
 }));

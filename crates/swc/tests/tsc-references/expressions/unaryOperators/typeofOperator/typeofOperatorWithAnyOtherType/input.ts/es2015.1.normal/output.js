@@ -21,18 +21,18 @@ class A {
         return a;
     }
 }
-var M1;
-(function(M) {
+var M;
+(function(M1) {
     var n;
-    M.n = n;
-})(M1 || (M1 = {
+    M1.n = n;
+})(M || (M = {
 }));
 var objA = new A();
 // any type var
 var ResultIsString1 = typeof ANY1;
 var ResultIsString2 = typeof ANY2;
 var ResultIsString3 = typeof A;
-var ResultIsString4 = typeof M1;
+var ResultIsString4 = typeof M;
 var ResultIsString5 = typeof obj;
 var ResultIsString6 = typeof obj1;
 // any type literal
@@ -44,7 +44,7 @@ var ResultIsString9 = typeof {
 var ResultIsString10 = typeof ANY2[0];
 var ResultIsString11 = typeof objA.a;
 var ResultIsString12 = typeof obj1.x;
-var ResultIsString13 = typeof M1.n;
+var ResultIsString13 = typeof M.n;
 var ResultIsString14 = typeof foo();
 var ResultIsString15 = typeof A.foo();
 var ResultIsString16 = typeof (ANY + ANY1);
@@ -62,7 +62,7 @@ typeof ANY, ANY1;
 typeof obj1;
 typeof obj1.x;
 typeof objA.a;
-typeof M1.n;
+typeof M.n;
 // use typeof in type query
 var z;
 var x;
@@ -72,5 +72,5 @@ x: typeof ANY2;
 r: typeof foo;
 z: typeof objA.a;
 z: typeof A.foo;
-z: typeof M1.n;
+z: typeof M.n;
 z: typeof obj1.x;

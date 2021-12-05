@@ -7,30 +7,30 @@ class D {
 function F(x) {
     return 42;
 }
-function F21(x) {
+function F2(x) {
     return x < 42;
 }
-var M1;
-(function(M) {
+var M;
+(function(M1) {
     class A {
     }
-    M.A = A;
-    function F2(x) {
+    M1.A = A;
+    function F21(x) {
         return x.toString();
     }
-    M.F2 = F2;
-})(M1 || (M1 = {
+    M1.F2 = F21;
+})(M || (M = {
 }));
-var N1;
-(function(N) {
+var N;
+(function(N1) {
     class A {
     }
-    N.A = A;
-    function F2(x) {
+    N1.A = A;
+    function F22(x) {
         return x.toString();
     }
-    N.F2 = F2;
-})(N1 || (N1 = {
+    N1.F2 = F22;
+})(N || (N = {
 }));
 // literals
 if (true) {

@@ -1,20 +1,20 @@
-import { I, M as M1, N, T, a } from "./t1";
+import { I, M, N, T, a } from "./t1";
 function f() {
 }
-var D, E, D1, M1, v, E1, C = function() {
+var D, E, D, M, v, E, C = function() {
     "use strict";
     !function(instance, Constructor) {
         if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
     }(this, C);
 };
-(E1 = E || (E = {
-}))[E1.A = 0] = "A", E1[E1.B = 1] = "B", E1[E1.C = 2] = "C", (D = D1 || (D1 = {
-}))[D.A = 0] = "A", D[D.B = 1] = "B", D[D.C = 2] = "C", (function(M) {
+(E = E || (E = {
+}))[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C", (D = D || (D = {
+}))[D.A = 0] = "A", D[D.B = 1] = "B", D[D.C = 2] = "C", (function(M1) {
     var x;
-    M.x = x;
-})(M1 || (M1 = {
+    M1.x = x;
+})(M || (M = {
 }));
-var a = M1.x;
-export { v, f, C, E, D1 as D, a };
-export { v, f, C, E, D1 as D, a } from "./t1";
-export { v, f, C, E, D1 as D, a };
+var a = M.x;
+export { v, f, C, E, D, a };
+export { v, f, C, E, D, a } from "./t1";
+export { v, f, C, E, D, a };

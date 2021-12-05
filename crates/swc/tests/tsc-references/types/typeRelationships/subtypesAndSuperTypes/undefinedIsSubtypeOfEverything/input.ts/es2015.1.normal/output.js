@@ -31,26 +31,26 @@ class D9 extends Base {
 }
 class D10 extends Base {
 }
-var E1;
+var E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
 class D11 extends Base {
 }
-function f1() {
+function f() {
 }
-(function(f) {
-    f.bar = 1;
-})(f1 || (f1 = {
+(function(f1) {
+    f1.bar = 1;
+})(f || (f = {
 }));
 class D12 extends Base {
 }
-class c1 {
+class c {
 }
-(function(c) {
-    c.bar = 1;
-})(c1 || (c1 = {
+(function(c1) {
+    c1.bar = 1;
+})(c || (c = {
 }));
 class D13 extends Base {
 }

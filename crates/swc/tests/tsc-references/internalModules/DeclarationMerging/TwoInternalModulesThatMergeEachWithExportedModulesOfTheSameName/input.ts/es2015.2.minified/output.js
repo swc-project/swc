@@ -1,14 +1,15 @@
-var A, X1;
+var A, X;
 !function(A) {
-    var B, x;
+    var x;
+    let B;
     (B || (B = {
     })).x = x;
 }(A || (A = {
-})), A.B.x, (function(X) {
-    var Y, Z;
+})), A.B.x, (function(X1) {
+    let Y, Z;
     Y || (Y = {
     }), (Z || (Z = {
     })).Line = class {
-    }, X.Y = Y;
-})(X1 || (X1 = {
+    }, X1.Y = Y;
+})(X || (X = {
 }));

@@ -70,10 +70,10 @@ function _isNativeReflectConstruct() {
         return false;
     }
 }
-function _createSuper(Derived) {
+function _createSuper(Derived1) {
     var hasNativeReflectConstruct = _isNativeReflectConstruct();
     return function _createSuperInternal() {
-        var Super = _getPrototypeOf(Derived), result;
+        var Super = _getPrototypeOf(Derived1), result;
         if (hasNativeReflectConstruct) {
             var NewTarget = _getPrototypeOf(this).constructor;
             result = Reflect.construct(Super, arguments, NewTarget);
@@ -107,16 +107,16 @@ var Base = // @target: ES5
     ]);
     return Base;
 }();
-var Derived1 = // error, not a subtype
+var Derived = // error, not a subtype
 /*#__PURE__*/ function(Base) {
     "use strict";
-    _inherits(Derived1, Base);
-    var _super = _createSuper(Derived1);
-    function Derived1() {
-        _classCallCheck(this, Derived1);
+    _inherits(Derived, Base);
+    var _super = _createSuper(Derived);
+    function Derived() {
+        _classCallCheck(this, Derived);
         return _super.apply(this, arguments);
     }
-    _createClass(Derived1, [
+    _createClass(Derived, [
         {
             key: "fn",
             value: function fn() {
@@ -132,5 +132,5 @@ var Derived1 = // error, not a subtype
             }
         }
     ]);
-    return Derived1;
+    return Derived;
 }(Base);

@@ -29,7 +29,7 @@ function _objectSpread(target) {
 }
 // @strictNullChecks: true
 // @target: es5
-let o1 = {
+let o = {
     a: 1,
     b: 'no'
 };
@@ -42,14 +42,14 @@ let swap = {
     b: -1
 };
 let addAfter = _objectSpread({
-}, o1, {
+}, o, {
     c: false
 });
 let addBefore = _objectSpread({
     c: false
-}, o1);
+}, o);
 let override = _objectSpread({
-}, o1, {
+}, o, {
     b: 'override'
 });
 let nested = _objectSpread({
@@ -62,9 +62,9 @@ let nested = _objectSpread({
     c: 'whatever'
 });
 let combined = _objectSpread({
-}, o1, o2);
+}, o, o2);
 let combinedAfter = _objectSpread({
-}, o1, o2, {
+}, o, o2, {
     b: 'ok'
 });
 let combinedNestedChangeType = _objectSpread({
@@ -78,7 +78,7 @@ let combinedNestedChangeType = _objectSpread({
 });
 let propertyNested = {
     a: _objectSpread({
-    }, o1)
+    }, o)
 };
 // accessors don't copy the descriptor
 // (which means that readonly getters become read/write properties)
@@ -104,49 +104,49 @@ function from16326(header, authToken) {
 }
 // boolean && T results in Partial<T>
 function conditionalSpreadBoolean(b) {
-    let o = {
+    let o1 = {
         x: 12,
         y: 13
     };
-    o = _objectSpread({
-    }, o, b && {
+    o1 = _objectSpread({
+    }, o1, b && {
         x: 14
     });
     let o2 = _objectSpread({
     }, b && {
         x: 21
     });
-    return o;
+    return o1;
 }
 function conditionalSpreadNumber(nt) {
-    let o = {
+    let o3 = {
         x: 15,
         y: 16
     };
-    o = _objectSpread({
-    }, o, nt && {
+    o3 = _objectSpread({
+    }, o3, nt && {
         x: nt
     });
     let o2 = _objectSpread({
     }, nt && {
         x: nt
     });
-    return o;
+    return o3;
 }
 function conditionalSpreadString(st) {
-    let o = {
+    let o4 = {
         x: 'hi',
         y: 17
     };
-    o = _objectSpread({
-    }, o, st && {
+    o4 = _objectSpread({
+    }, o4, st && {
         x: st
     });
     let o2 = _objectSpread({
     }, st && {
         x: st
     });
-    return o;
+    return o4;
 }
 // any results in any
 let anything;
@@ -173,11 +173,11 @@ let cplus = _objectSpread({
 cplus.plus();
 // new field's type conflicting with existing field is OK
 let changeTypeAfter = _objectSpread({
-}, o1, {
+}, o, {
     a: 'wrong type?'
 });
 let changeTypeBoth = _objectSpread({
-}, o1, swap);
+}, o, swap);
 // optional
 function container(definiteBoolean, definiteString, optionalString, optionalNumber) {
     let optionalUnionStops = _objectSpread({
@@ -189,11 +189,11 @@ function container(definiteBoolean, definiteString, optionalString, optionalNumb
     // computed property
     let computedFirst = _objectSpread({
         ['before everything']: 12
-    }, o1, {
+    }, o, {
         b: 'yes'
     });
     let computedAfter = _objectSpread({
-    }, o1, {
+    }, o, {
         b: 'yeah',
         ['at the end']: 14
     });
@@ -201,7 +201,7 @@ function container(definiteBoolean, definiteString, optionalString, optionalNumb
 // shortcut syntax
 let a = 12;
 let shortCutted = _objectSpread({
-}, o1, {
+}, o, {
     a
 });
 // non primitive

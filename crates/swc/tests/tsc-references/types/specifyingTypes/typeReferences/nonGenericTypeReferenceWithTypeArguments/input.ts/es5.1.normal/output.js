@@ -21,6 +21,7 @@ function f() {
         _classCallCheck(this, C);
     };
     ;
+    var E;
     (function(E) {
     })(E || (E = {
     }));

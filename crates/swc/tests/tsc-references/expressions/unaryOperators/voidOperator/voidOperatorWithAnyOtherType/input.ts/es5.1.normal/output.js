@@ -49,18 +49,18 @@ var A = /*#__PURE__*/ function() {
     ]);
     return A;
 }();
-var M1;
-(function(M) {
+var M;
+(function(M1) {
     var n;
-    M.n = n;
-})(M1 || (M1 = {
+    M1.n = n;
+})(M || (M = {
 }));
 var objA = new A();
 // any type var
 var ResultIsAny1 = void ANY1;
 var ResultIsAny2 = void ANY2;
 var ResultIsAny3 = void A;
-var ResultIsAny4 = void M1;
+var ResultIsAny4 = void M;
 var ResultIsAny5 = void obj;
 var ResultIsAny6 = void obj1;
 // any type literal
@@ -71,7 +71,7 @@ var ResultIsAny9 = void ANY2[0];
 var ResultIsAny10 = void obj1.x;
 var ResultIsAny11 = void obj1.y;
 var ResultIsAny12 = void objA.a;
-var ResultIsAny13 = void M1.n;
+var ResultIsAny13 = void M.n;
 var ResultIsAny14 = void foo();
 var ResultIsAny15 = void A.foo();
 var ResultIsAny16 = void (ANY + ANY1);
@@ -87,4 +87,4 @@ void ANY1;
 void ANY2[0];
 ANY, ANY1;
 void objA.a;
-void M1.n;
+void M.n;

@@ -1,11 +1,11 @@
-var A1, M21;
-!function(A) {
+var A, M2;
+!function(A1) {
     var B;
-    A.B = B;
-}(A1 || (A1 = {
-})), (function(M2) {
+    A1.B = B;
+}(A || (A = {
+})), (function(M21) {
     var X, Point;
     (X || (X = {
-    })).Point = Point, M2.X = X;
-})(M21 || (M21 = {
-})), M21.X.Point;
+    })).Point = Point, M21.X = X;
+})(M2 || (M2 = {
+})), M2.X.Point;

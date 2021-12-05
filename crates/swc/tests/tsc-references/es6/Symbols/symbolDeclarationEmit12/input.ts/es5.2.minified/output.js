@@ -1,11 +1,11 @@
-var M1;
+var M;
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
         var descriptor = props[i];
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-!function(M) {
+!function(M1) {
     var tmp = Symbol.toPrimitive, tmp1 = Symbol.isConcatSpreadable, tmp2 = Symbol.toPrimitive, tmp3 = Symbol.toPrimitive, C = function() {
         "use strict";
         var Constructor, protoProps, staticProps;
@@ -37,6 +37,6 @@ function _defineProperties(target, props) {
             }
         ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
     }();
-    M.C = C;
-}(M1 || (M1 = {
+    M1.C = C;
+}(M || (M = {
 }));

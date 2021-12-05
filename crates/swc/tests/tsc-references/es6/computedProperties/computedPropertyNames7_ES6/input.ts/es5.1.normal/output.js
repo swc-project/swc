@@ -12,10 +12,10 @@ function _defineProperty(obj, key, value) {
     return obj;
 }
 var // @target: es6
-E1;
+E;
 (function(E) {
     E[E["member"] = 0] = "member";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
 var v = _defineProperty({
-}, E1.member, 0);
+}, E.member, 0);

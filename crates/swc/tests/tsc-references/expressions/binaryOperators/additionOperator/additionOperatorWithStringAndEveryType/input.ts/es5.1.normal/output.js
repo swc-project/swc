@@ -1,9 +1,9 @@
-var E1;
+var E;
 (function(E) {
     E[E["a"] = 0] = "a";
     E[E["b"] = 1] = "b";
     E[E["c"] = 2] = "c";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
 var a;
 var b;
@@ -31,8 +31,8 @@ var r12 = e + x;
 var r13 = f + x;
 var r14 = g + x;
 // other cases
-var r15 = x + E1;
-var r16 = x + E1.a;
+var r15 = x + E;
+var r16 = x + E.a;
 var r17 = x + '';
 var r18 = x + 0;
 var r19 = x + {

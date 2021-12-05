@@ -1,5 +1,5 @@
-x = 1, x = "", x = !0, x = a1, x = null;
-var E, x, a1, b, c, M, E1, C = function() {
+x = 1, x = "", x = !0, x = a, x = null;
+var E, x, a, b, c, M, E, C = function() {
     "use strict";
     !function(instance, Constructor) {
         if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
@@ -9,7 +9,7 @@ x = C, x = b, x = c, (M || (M = {
 })).x = 1, x = M, x = {
     f: function() {
     }
-}, x = function(a) {
-    x = a;
-}, (E = E1 || (E1 = {
-}))[E.A = 0] = "A", x = E1, x = E1.A;
+}, x = function(a1) {
+    x = a1;
+}, (E = E || (E = {
+}))[E.A = 0] = "A", x = E, x = E.A;

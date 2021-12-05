@@ -1,5 +1,5 @@
-var Root1, otherRoot;
-!function(Root) {
+var Root, otherRoot;
+!function(Root1) {
     var A, A1, Utils;
     A1 = A || (A = {
     }), (Utils || (Utils = {
@@ -8,11 +8,11 @@ var Root1, otherRoot;
             x: p.y,
             y: p.x
         };
-    }, A1.Utils = Utils, Root.A = A;
-}(Root1 || (Root1 = {
-})), (function(otherRoot) {
-    var Utils1, Plane;
-    (A || (A = {
+    }, A1.Utils = Utils, Root1.A = A;
+}(Root || (Root = {
+})), (function(otherRoot1) {
+    var A, A2, Utils, Utils1, Plane;
+    (A2 = A || (A = {
     })).Origin = {
         x: 0,
         y: 0
@@ -22,6 +22,6 @@ var Root1, otherRoot;
         (function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
         })(this, Plane), this.tl = tl, this.br = br;
-    }, Utils1.Plane = Plane;
+    }, Utils1.Plane = Plane, A2.Utils = Utils, otherRoot1.A = A;
 })(otherRoot || (otherRoot = {
 }));

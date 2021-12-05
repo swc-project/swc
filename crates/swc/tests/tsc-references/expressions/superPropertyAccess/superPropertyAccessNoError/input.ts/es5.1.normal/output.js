@@ -4,8 +4,8 @@ function _assertThisInitialized(self) {
     }
     return self;
 }
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
+function _classCallCheck(instance1, Constructor) {
+    if (!(instance1 instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
@@ -206,5 +206,5 @@ var SomeDerivedClass = /*#__PURE__*/ function(SomeBaseClass) {
     ]);
     return SomeDerivedClass;
 }(SomeBaseClass);
-var instance1 = new SomeDerivedClass();
-instance1.returnThis().fn();
+var instance = new SomeDerivedClass();
+instance.returnThis().fn();

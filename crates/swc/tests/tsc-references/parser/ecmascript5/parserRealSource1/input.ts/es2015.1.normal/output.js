@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
-var TypeScript1;
-(function(TypeScript) {
-    var CompilerDiagnostics1;
+var TypeScript;
+(function(TypeScript1) {
+    let CompilerDiagnostics1;
     (function(CompilerDiagnostics) {
         CompilerDiagnostics.debug = false;
         CompilerDiagnostics.diagnosticWriter = null;
@@ -49,7 +49,7 @@ var TypeScript1;
         log(s) {
         }
     }
-    TypeScript.NullLogger = NullLogger;
+    TypeScript1.NullLogger = NullLogger;
     class LoggerAdapter {
         information() {
             return this._information;
@@ -78,7 +78,7 @@ var TypeScript1;
             this._fatal = this.logger.fatal();
         }
     }
-    TypeScript.LoggerAdapter = LoggerAdapter;
+    TypeScript1.LoggerAdapter = LoggerAdapter;
     class BufferedLogger {
         information() {
             return false;
@@ -102,7 +102,7 @@ var TypeScript1;
             this.logContents = [];
         }
     }
-    TypeScript.BufferedLogger = BufferedLogger;
+    TypeScript1.BufferedLogger = BufferedLogger;
     function timeFunction(logger, funcDescription, func) {
         var start = +new Date();
         var result = func();
@@ -110,7 +110,7 @@ var TypeScript1;
         logger.log(funcDescription + " completed in " + (end - start) + " msec");
         return result;
     }
-    TypeScript.timeFunction = timeFunction;
+    TypeScript1.timeFunction = timeFunction;
     function stringToLiteral(value, length) {
         var result = "";
         var addChar = (index)=>{
@@ -156,7 +156,7 @@ var TypeScript1;
         }
         return result;
     }
-    TypeScript.stringToLiteral = stringToLiteral;
-    TypeScript.CompilerDiagnostics = CompilerDiagnostics1;
-})(TypeScript1 || (TypeScript1 = {
+    TypeScript1.stringToLiteral = stringToLiteral;
+    TypeScript1.CompilerDiagnostics = CompilerDiagnostics1;
+})(TypeScript || (TypeScript = {
 }));

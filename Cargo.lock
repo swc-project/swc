@@ -1133,9 +1133,9 @@ checksum = "308cc39be01b73d0d18f82a0e7b2a3df85245f84af96fdddc5d202d27e47b86a"
 
 [[package]]
 name = "memoffset"
-version = "0.6.4"
+version = "0.6.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "59accc507f1338036a0477ef61afdae33cde60840f4dfe481319ce3ad116ddf9"
+checksum = "5aa361d4faea93603064a027415f07bd8e1d5c88c9fbf68bf56a285428fd79ce"
 dependencies = [
  "autocfg 1.0.1",
 ]
@@ -2020,9 +2020,9 @@ checksum = "f497285884f3fcff424ffc933e56d7cbca511def0c9831a7f9b5f6153e3cc89b"
 
 [[package]]
 name = "relative-path"
-version = "1.5.0"
+version = "1.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f9629de8974fd69c97684736786b807edd3da456d3e3f95341dd9d4cbd8f5ad6"
+checksum = "73d4caf086b102ab49d0525b721594a555ab55c6556086bbe52a430ad26c3bd7"
 
 [[package]]
 name = "remove_dir_all"
@@ -2079,9 +2079,9 @@ dependencies = [
 
 [[package]]
 name = "retain_mut"
-version = "0.1.4"
+version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "448296241d034b96c11173591deaa1302f2c17b56092106c1f92c1bc0183a8c9"
+checksum = "11000e6ba5020e53e7cc26f73b91ae7d5496b4977851479edb66b694c0675c21"
 
 [[package]]
 name = "rplugin"
@@ -2442,7 +2442,7 @@ checksum = "6446ced80d6c486436db5c078dde11a9f73d42b57fb273121e160b84f63d894c"
 
 [[package]]
 name = "swc"
-version = "0.89.0"
+version = "0.90.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2503,7 +2503,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.83.0"
+version = "0.84.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2769,7 +2769,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.52.0"
+version = "0.53.0"
 dependencies = [
  "ahash",
  "ansi_term 0.12.1",
@@ -2844,7 +2844,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.68.1"
+version = "0.69.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2872,7 +2872,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.96.0"
+version = "0.97.0"
 dependencies = [
  "pretty_assertions 0.6.1",
  "sourcemap",
@@ -2899,7 +2899,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.44.5"
+version = "0.44.7"
 dependencies = [
  "once_cell",
  "phf",
@@ -2932,7 +2932,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.53.1"
+version = "0.53.4"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -2993,7 +2993,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.66.0"
+version = "0.67.0"
 dependencies = [
  "ahash",
  "dashmap",
@@ -3095,7 +3095,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.62.0"
+version = "0.63.0"
 dependencies = [
  "serde",
  "swc_atoms 0.2.9",
@@ -3143,7 +3143,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.89.0"
+version = "0.90.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3168,7 +3168,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_ast"
-version = "0.2.1"
+version = "0.3.0"
 dependencies = [
  "scoped-tls",
  "serde",
@@ -3179,7 +3179,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.5.0"
+version = "0.7.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3394,7 +3394,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.3.0"
+version = "0.5.2"
 dependencies = [
  "anyhow",
  "rayon",
@@ -3467,7 +3467,7 @@ dependencies = [
 
 [[package]]
 name = "testing_macros"
-version = "0.2.4"
+version = "0.2.5"
 dependencies = [
  "anyhow",
  "glob",

@@ -48,25 +48,25 @@ function _createSuper(Derived) {
 var C = function() {
     "use strict";
     _classCallCheck(this, C), this.x = "Hello world";
-}, D1 = function() {
+}, D = function() {
     "use strict";
-    _classCallCheck(this, D1), this.x = "Hello world", this.y = 10;
-}, E = function(D) {
+    _classCallCheck(this, D), this.x = "Hello world", this.y = 10;
+}, E = function(D1) {
     "use strict";
-    _inherits(E, D);
+    _inherits(E, D1);
     var _super = _createSuper(E);
     function E() {
         var _this;
         return _classCallCheck(this, E), _this = _super.apply(this, arguments), _this.z = !0, _this;
     }
     return E;
-}(D1), F = function(D) {
+}(D), F = function(D2) {
     "use strict";
-    _inherits(F, D);
+    _inherits(F, D2);
     var _super = _createSuper(F);
     function F() {
         var _this;
         return _classCallCheck(this, F), (_this = _super.call(this)).z = !0, _this.j = "HI", _this;
     }
     return F;
-}(D1);
+}(D);

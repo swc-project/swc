@@ -1,21 +1,21 @@
-var A1;
-(function(A) {
+var A;
+(function(A1) {
     class Point {
     }
-    A.Point = Point;
-})(A1 || (A1 = {
+    A1.Point = Point;
+})(A || (A = {
 }));
-(function(A) {
+(function(A2) {
     class Point {
     }
-    A.Point = Point;
-})(A1 || (A1 = {
+    A2.Point = Point;
+})(A || (A = {
 }));
-var X1;
-(function(X) {
-    var Y1;
+var X;
+(function(X1) {
+    let Y1;
     (function(Y) {
-        var Z1;
+        let Z1;
         (function(Z) {
             class Line {
             }
@@ -25,6 +25,6 @@ var X1;
         Y.Z = Z1;
     })(Y1 || (Y1 = {
     }));
-    X.Y = Y1;
-})(X1 || (X1 = {
+    X1.Y = Y1;
+})(X || (X = {
 }));

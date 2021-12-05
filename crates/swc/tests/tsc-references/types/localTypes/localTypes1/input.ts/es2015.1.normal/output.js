@@ -1,5 +1,6 @@
 // @target: es5
 function f1() {
+    let E;
     (function(E) {
         E[E["A"] = 0] = "A";
         E[E["B"] = 1] = "B";
@@ -17,6 +18,7 @@ function f1() {
 }
 function f2() {
     function g() {
+        let E;
         (function(E) {
             E[E["A"] = 0] = "A";
             E[E["B"] = 1] = "B";
@@ -36,6 +38,7 @@ function f2() {
 }
 function f3(b) {
     if (true) {
+        let E;
         (function(E) {
             E[E["A"] = 0] = "A";
             E[E["B"] = 1] = "B";
@@ -52,11 +55,11 @@ function f3(b) {
             a[0].x = E.B;
             return a;
         } else {
-            class A {
+            class A1 {
             }
             ;
             let c = [
-                new A()
+                new A1()
             ];
             c[0].x = E.B;
             return c;
@@ -65,6 +68,7 @@ function f3(b) {
 }
 function f5() {
     var z1 = function() {
+        let E;
         (function(E) {
             E[E["A"] = 0] = "A";
             E[E["B"] = 1] = "B";
@@ -76,6 +80,7 @@ function f5() {
         return new C();
     };
     var z2 = ()=>{
+        let E;
         (function(E) {
             E[E["A"] = 0] = "A";
             E[E["B"] = 1] = "B";
@@ -87,8 +92,9 @@ function f5() {
         return new C();
     };
 }
-class A1 {
+class A {
     m() {
+        let E;
         (function(E) {
             E[E["A"] = 0] = "A";
             E[E["B"] = 1] = "B";
@@ -100,6 +106,7 @@ class A1 {
         return new C();
     }
     get p() {
+        let E;
         (function(E) {
             E[E["A"] = 0] = "A";
             E[E["B"] = 1] = "B";
@@ -111,22 +118,22 @@ class A1 {
         return new C();
     }
     constructor(){
-        var E1;
+        let E;
         (function(E) {
             E[E["A"] = 0] = "A";
             E[E["B"] = 1] = "B";
             E[E["C"] = 2] = "C";
-        })(E1 || (E1 = {
+        })(E || (E = {
         }));
         class C {
         }
     }
 }
 function f6() {
-    class A {
+    class A2 {
     }
     function g() {
-        class B extends A {
+        class B extends A2 {
         }
         function h() {
             class C extends B {

@@ -20,10 +20,10 @@ class MyTestClass {
         v = p;
     }
     //type of 'this' in static function param list is constructor function type
-    static staticFn(t = this) {
-        var t;
-        var t = MyTestClass;
-        t.staticCanary;
+    static staticFn(t1 = this) {
+        var t1;
+        var t1 = MyTestClass;
+        t1.staticCanary;
         //type of 'this' in static function body is constructor function type
         var p = this;
         var p;
@@ -78,10 +78,10 @@ class MyGenericTestClass {
         v = p;
     }
     //type of 'this' in static function param list is constructor function type
-    static staticFn(t = this) {
-        var t;
-        var t = MyGenericTestClass;
-        t.staticCanary;
+    static staticFn(t2 = this) {
+        var t2;
+        var t2 = MyGenericTestClass;
+        t2.staticCanary;
         //type of 'this' in static function body is constructor function type
         var p = this;
         var p;
@@ -143,6 +143,6 @@ var q2 = (s = this)=>{
     this.spaaaaace = 4;
 };
 //type of 'this' in global module is GlobalThis
-var t1;
-var t1 = this;
+var t;
+var t = this;
 this.spaaaaace = 4;

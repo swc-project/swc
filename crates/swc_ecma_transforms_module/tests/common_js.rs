@@ -99,7 +99,7 @@ test!(
         let scope = Rc::new(RefCell::new(Scope::default()));
         chain!(
             resolver_with_mark(mark),
-            // Optional::new(typescript::strip(), syntax.typescript()),
+            // Optional::new(typescript::strip(mark), syntax.typescript()),
             import_analyzer(Rc::clone(&scope)),
             inject_helpers(),
             common_js(mark, Default::default(), Some(scope)),
@@ -803,15 +803,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.f = exports.e = exports.c = exports.a = exports.test = void 0;
-var test1 = 2;
-exports.test = test1;
-exports.test = test1 = 5;
-exports.test = test1 = +test1 + 1;
+var test = 2;
+exports.test = test;
+exports.test = test = 5;
+exports.test = test = +test + 1;
 
 (function () {
-  var test = 2;
-  test = 3;
-  test++;
+  var test1 = 2;
+  test1 = 3;
+  test1++;
 })();
 
 var a = 2;

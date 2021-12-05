@@ -1,21 +1,21 @@
 var A;
 (function(A) {
-    var B1;
+    let B1;
     (function(B) {
-        var x;
-        B.x = x;
+        var x1;
+        B.x = x1;
     })(B1 || (B1 = {
     }));
 })(A || (A = {
 }));
 // ensure the right var decl is exported
-var x1;
-var x1 = A.B.x;
-var X1;
-(function(X) {
-    var Y;
+var x;
+var x = A.B.x;
+var X;
+(function(X1) {
+    let Y;
     (function(Y) {
-        var Z1;
+        let Z1;
         (function(Z) {
             class Line {
             }
@@ -24,8 +24,8 @@ var X1;
         }));
     })(Y || (Y = {
     }));
-    X.Y = Y;
-})(X1 || (X1 = {
+    X1.Y = Y;
+})(X || (X = {
 }));
 // make sure merging works as expected
 var l;

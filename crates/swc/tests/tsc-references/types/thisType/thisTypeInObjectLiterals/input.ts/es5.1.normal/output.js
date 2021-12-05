@@ -2,7 +2,7 @@
 // @noImplicitThis: true
 var o = {
     d: "bar",
-    m: function() {
+    m: function m() {
         return this.d.length;
     },
     f: function f() {
@@ -11,13 +11,13 @@ var o = {
 };
 var mutuallyRecursive = {
     a: 100,
-    start: function() {
+    start: function start() {
         return this.passthrough(this.a);
     },
-    passthrough: function(n) {
+    passthrough: function passthrough(n) {
         return this.sub1(n);
     },
-    sub1: function(n) {
+    sub1: function sub1(n) {
         if (n > 0) {
             return this.passthrough(n - 1);
         }

@@ -1,11 +1,11 @@
-var TypeScript1;
+var TypeScript;
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
         var descriptor = props[i];
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-!function(TypeScript) {
+!function(TypeScript1) {
     var PrintContext = function() {
         "use strict";
         var Constructor, protoProps, staticProps;
@@ -54,11 +54,11 @@ function _defineProperties(target, props) {
             }
         ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), PrintContext;
     }();
-    TypeScript.PrintContext = PrintContext, TypeScript.prePrintAST = function(ast, parent, walker) {
+    TypeScript1.PrintContext = PrintContext, TypeScript1.prePrintAST = function(ast, parent, walker) {
         var pc = walker.state;
         return ast.print(pc), pc.increaseIndent(), ast;
-    }, TypeScript.postPrintAST = function(ast, parent, walker) {
+    }, TypeScript1.postPrintAST = function(ast, parent, walker) {
         return walker.state.decreaseIndent(), ast;
     };
-}(TypeScript1 || (TypeScript1 = {
+}(TypeScript || (TypeScript = {
 }));

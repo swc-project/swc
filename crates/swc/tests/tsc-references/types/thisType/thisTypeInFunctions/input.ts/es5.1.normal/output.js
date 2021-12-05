@@ -137,24 +137,24 @@ function explicitStructural(x) {
 function justThis() {
     return this.y;
 }
-function implicitThis(n) {
-    return this.m + n + 12;
+function implicitThis(n1) {
+    return this.m + n1 + 12;
 }
 var impl = {
     a: 12,
     explicitVoid2: function() {
         return _this.a;
     },
-    explicitVoid1: function() {
+    explicitVoid1: function explicitVoid1() {
         return 12;
     },
-    explicitStructural: function() {
+    explicitStructural: function explicitStructural() {
         return this.a;
     },
-    explicitInterface: function() {
+    explicitInterface: function explicitInterface() {
         return this.a;
     },
-    explicitThis: function() {
+    explicitThis: function explicitThis() {
         return this.a;
     }
 };
@@ -283,8 +283,8 @@ c.explicitC = function(m) {
     return this.n + m;
 };
 // this:void compatibility
-c.explicitVoid = function(n) {
-    return n;
+c.explicitVoid = function(n2) {
+    return n2;
 };
 var Base1 = // class-based assignability
 /*#__PURE__*/ function() {
@@ -386,7 +386,7 @@ function AnyThis() {
 var interfaceThis = new InterfaceThis();
 var literalTypeThis = new LiteralTypeThis();
 var anyThis = new AnyThis();
-var n1 = f.call(12);
+var n = f.call(12);
 function missingTypeIsImplicitAny(a) {
     return this.anything + a;
 }

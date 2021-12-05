@@ -183,6 +183,7 @@ impl Hygiene {
                 cur: CurScope {
                     parent: None,
                     data: Default::default(),
+                    depth: 0,
                 },
                 is_pat_decl: false,
             };

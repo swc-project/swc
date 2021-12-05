@@ -13,12 +13,12 @@ class C2 {
     }
 }
 C2.y = undefined;
-var N11;
-(function(N1) {
+var N1;
+(function(N11) {
     var x;
-    N1.y = this;
-    N1.x = x;
-})(N11 || (N11 = {
+    N11.y = this;
+    N11.x = x;
+})(N1 || (N1 = {
 }));
 class C3 {
     f() {

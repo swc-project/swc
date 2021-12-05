@@ -95,8 +95,8 @@ function _superPropBase(object, property) {
 function _toConsumableArray(arr) {
     return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
 }
-var _typeof = function(obj) {
-    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
+var _typeof = function(obj1) {
+    return obj1 && typeof Symbol !== "undefined" && obj1.constructor === Symbol ? "symbol" : typeof obj1;
 };
 function _isNativeReflectConstruct() {
     if (typeof Reflect === "undefined" || !Reflect.construct) return false;
@@ -123,15 +123,15 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
-var _obj, _obj1, _instance2, _instance1;
+var _obj, _obj1, _instance, _instance1;
 function foo(x, y) {
-    for(var _len = arguments.length, z = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
-        z[_key - 2] = arguments[_key];
+    for(var _len = arguments.length, z1 = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
+        z1[_key - 2] = arguments[_key];
     }
 }
 var a;
-var z1;
-var obj1;
+var z;
+var obj;
 var xa;
 foo(1, 2, "abc");
 foo.apply(void 0, [
@@ -144,30 +144,30 @@ foo.apply(void 0, [
 ].concat(_toConsumableArray(a), [
     "abc"
 ]));
-obj1.foo(1, 2, "abc");
-(_obj = obj1).foo.apply(_obj, [
+obj.foo(1, 2, "abc");
+(_obj = obj).foo.apply(_obj, [
     1,
     2
 ].concat(_toConsumableArray(a)));
-(_obj1 = obj1).foo.apply(_obj1, [
+(_obj1 = obj).foo.apply(_obj1, [
     1,
     2
 ].concat(_toConsumableArray(a), [
     "abc"
 ]));
-obj1.foo(1, 2, "abc");
-obj1.foo.apply(this, [
+obj.foo(1, 2, "abc");
+obj.foo.apply(this, [
     1,
     2
 ].concat(_toConsumableArray(a)));
-obj1.foo.apply(this, [
+obj.foo.apply(this, [
     1,
     2
 ].concat(_toConsumableArray(a), [
     "abc"
 ]));
 xa[1].foo(1, 2, "abc");
-(_instance2 = xa[1]).foo.apply(_instance2, [
+(_instance = xa[1]).foo.apply(_instance, [
     1,
     2
 ].concat(_toConsumableArray(a)));
@@ -185,22 +185,22 @@ xa[1].foo.apply(this, [
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C(x, y) {
-        for(var _len = arguments.length, z = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
-            z[_key - 2] = arguments[_key];
+        for(var _len = arguments.length, z2 = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
+            z2[_key - 2] = arguments[_key];
         }
         _classCallCheck(this, C);
         this.foo(x, y);
         this.foo.apply(this, [
             x,
             y
-        ].concat(_toConsumableArray(z)));
+        ].concat(_toConsumableArray(z2)));
     }
     _createClass(C, [
         {
             key: "foo",
             value: function foo(x, y) {
-                for(var _len = arguments.length, z = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
-                    z[_key - 2] = arguments[_key];
+                for(var _len = arguments.length, z3 = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
+                    z3[_key - 2] = arguments[_key];
                 }
             }
         }
@@ -224,9 +224,9 @@ var D = /*#__PURE__*/ function(C) {
         {
             key: "foo",
             value: function foo() {
-                var _instance;
+                var _instance2;
                 _get(_getPrototypeOf(D.prototype), "foo", this).call(this, 1, 2);
-                (_instance = _get(_getPrototypeOf(D.prototype), "foo", this)).call.apply(_instance, [
+                (_instance2 = _get(_getPrototypeOf(D.prototype), "foo", this)).call.apply(_instance2, [
                     this,
                     1,
                     2

@@ -737,7 +737,7 @@ impl ClassProperties {
             members.push(ClassMember::Constructor(c));
         }
 
-        extra_stmts.extend(private_method_fn_decls.fold_with(&mut FieldAccessFolder {
+        private_method_fn_decls.visit_mut_with(&mut FieldAccessFolder {
             mark: self.mark,
             method_mark: self.method_mark,
             private_methods: &private_methods,
@@ -745,9 +745,11 @@ impl ClassProperties {
             vars: vec![],
             class_name: &class_ident,
             in_assign_pat: false,
-        }));
+        });
 
-        let members = members.fold_with(&mut FieldAccessFolder {
+        extra_stmts.extend(private_method_fn_decls);
+
+        members.visit_mut_with(&mut FieldAccessFolder {
             mark: self.mark,
             method_mark: self.method_mark,
             private_methods: &private_methods,

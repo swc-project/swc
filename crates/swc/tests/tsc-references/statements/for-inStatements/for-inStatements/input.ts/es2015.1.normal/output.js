@@ -6,12 +6,12 @@ var anAny;
 for(anAny in {
 }){
 }
-for(var x1 in {
+for(var x in {
 }){
 }
-for(var x1 in []){
+for(var x in []){
 }
-for(var x1 in [
+for(var x in [
     1,
     2,
     3,
@@ -21,30 +21,30 @@ for(var x1 in [
 }
 function fn() {
 }
-for(var x1 in fn()){
+for(var x in fn()){
 }
-for(var x1 in /[a-z]/){
+for(var x in /[a-z]/){
 }
-for(var x1 in new Date()){
+for(var x in new Date()){
 }
 var c, d, e;
-for(var x1 in c || d){
+for(var x in c || d){
 }
-for(var x1 in e ? c : d){
+for(var x in e ? c : d){
 }
-for(var x1 in 42 ? c : d){
+for(var x in 42 ? c : d){
 }
-for(var x1 in '' ? c : d){
+for(var x in '' ? c : d){
 }
-for(var x1 in 42 ? d[x1] : c[x1]){
+for(var x in 42 ? d[x] : c[x]){
 }
-for(var x1 in c[d]){
+for(var x in c[d]){
 }
-for(var x1 in (x)=>x
+for(var x in (x1)=>x1
 ){
 }
-for(var x1 in function(x, y) {
-    return x + y;
+for(var x in function(x2, y) {
+    return x2 + y;
 }){
 }
 class A {
@@ -83,26 +83,26 @@ class B extends A {
     }
 }
 var i;
-for(var x1 in i[42]){
+for(var x in i[42]){
 }
-var M1;
-(function(M) {
+var M;
+(function(M1) {
     class X {
     }
-    M.X = X;
-})(M1 || (M1 = {
+    M1.X = X;
+})(M || (M = {
 }));
-for(var x1 in M1){
+for(var x in M){
 }
-for(var x1 in M1.X){
+for(var x in M.X){
 }
-var Color1;
+var Color;
 (function(Color) {
     Color[Color["Red"] = 0] = "Red";
     Color[Color["Blue"] = 1] = "Blue";
-})(Color1 || (Color1 = {
+})(Color || (Color = {
 }));
-for(var x1 in Color1){
+for(var x in Color){
 }
-for(var x1 in Color1.Blue){
+for(var x in Color.Blue){
 }

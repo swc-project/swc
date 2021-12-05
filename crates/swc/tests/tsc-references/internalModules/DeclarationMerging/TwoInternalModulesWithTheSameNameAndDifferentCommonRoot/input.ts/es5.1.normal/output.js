@@ -4,8 +4,8 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 //@filename: part1.ts
-var Root1;
-(function(Root) {
+var Root;
+(function(Root1) {
     var A1;
     (function(A) {
         var Utils1;
@@ -22,17 +22,19 @@ var Root1;
         A.Utils = Utils1;
     })(A1 || (A1 = {
     }));
-    Root.A = A1;
-})(Root1 || (Root1 = {
+    Root1.A = A1;
+})(Root || (Root = {
 }));
 //@filename: part2.ts
 var otherRoot;
-(function(otherRoot) {
+(function(otherRoot1) {
+    var A2;
     (function(A) {
         A.Origin = {
             x: 0,
             y: 0
         };
+        var Utils2;
         (function(Utils) {
             var Plane = function Plane(tl, br) {
                 "use strict";
@@ -41,9 +43,11 @@ var otherRoot;
                 this.br = br;
             };
             Utils.Plane = Plane;
-        })(Utils || (Utils = {
+        })(Utils2 || (Utils2 = {
         }));
-    })(A || (A = {
+        A.Utils = Utils2;
+    })(A2 || (A2 = {
     }));
+    otherRoot1.A = A2;
 })(otherRoot || (otherRoot = {
 }));

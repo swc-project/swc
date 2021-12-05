@@ -1,15 +1,15 @@
-var E1;
+var E;
 (function(E) {
     E[E["a"] = 0] = "a";
     E[E["b"] = 1] = "b";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
 var a;
 var x1;
 x1 += a;
 x1 += true;
 x1 += 0;
-x1 += E1.a;
+x1 += E.a;
 x1 += {
 };
 x1 += null;
@@ -18,7 +18,7 @@ var x2;
 x2 += a;
 x2 += true;
 x2 += 0;
-x2 += E1.a;
+x2 += E.a;
 x2 += {
 };
 x2 += null;
@@ -27,7 +27,7 @@ var x3;
 x3 += a;
 x3 += true;
 x3 += 0;
-x3 += E1.a;
+x3 += E.a;
 x3 += {
 };
 x3 += null;

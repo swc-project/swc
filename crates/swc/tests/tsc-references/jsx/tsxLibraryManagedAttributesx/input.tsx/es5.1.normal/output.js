@@ -9,11 +9,11 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-function _getPrototypeOf(o) {
-    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-        return o.__proto__ || Object.getPrototypeOf(o);
+function _getPrototypeOf(o1) {
+    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o1) {
+        return o1.__proto__ || Object.getPrototypeOf(o1);
     };
-    return _getPrototypeOf(o);
+    return _getPrototypeOf(o1);
 }
 function _inherits(subClass, superClass) {
     if (typeof superClass !== "function" && superClass !== null) {
@@ -34,12 +34,12 @@ function _possibleConstructorReturn(self, call) {
     }
     return _assertThisInitialized(self);
 }
-function _setPrototypeOf(o, p) {
-    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-        o.__proto__ = p;
-        return o;
+function _setPrototypeOf(o1, p1) {
+    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o1, p1) {
+        o1.__proto__ = p1;
+        return o1;
     };
-    return _setPrototypeOf(o, p);
+    return _setPrototypeOf(o1, p1);
 }
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
@@ -189,10 +189,10 @@ var n = /*#__PURE__*/ React.createElement(BothWithSpecifiedGeneric, {
     bar: "yes",
     baz: 12
 });
-var o1 = /*#__PURE__*/ React.createElement(BothWithSpecifiedGeneric, {
+var o = /*#__PURE__*/ React.createElement(BothWithSpecifiedGeneric, {
     foo: "no"
 }); // Error, missing required prop bar
-var p1 = /*#__PURE__*/ React.createElement(BothWithSpecifiedGeneric, {
+var p = /*#__PURE__*/ React.createElement(BothWithSpecifiedGeneric, {
     bar: "yes",
     baz: 12
 });

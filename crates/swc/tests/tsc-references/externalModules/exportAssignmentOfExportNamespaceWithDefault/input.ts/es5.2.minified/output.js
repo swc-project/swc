@@ -1,2 +1,2 @@
+import a from "a";
 a();
-export { };

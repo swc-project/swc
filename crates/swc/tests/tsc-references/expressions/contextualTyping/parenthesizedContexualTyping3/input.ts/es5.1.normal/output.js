@@ -101,8 +101,8 @@ function _templateObject7() {
     };
     return data;
 }
-function tempFun(tempStrs, g, x) {
-    return g(x);
+function tempFun(tempStrs, g1, x) {
+    return g1(x);
 }
 var a = tempFun(_templateObject(), function(x) {
     return x;
@@ -128,7 +128,7 @@ var f = tempFun(_templateObject5(), function(x) {
 }, function(x) {
     return x;
 }, 10);
-var g1 = tempFun(_templateObject6(), function(x) {
+var g = tempFun(_templateObject6(), function(x) {
     return x;
 }, function(x) {
     return x;

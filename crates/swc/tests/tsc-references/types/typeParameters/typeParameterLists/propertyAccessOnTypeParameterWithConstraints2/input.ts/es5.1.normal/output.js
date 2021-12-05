@@ -10,8 +10,8 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
+    for(var i1 = 0; i1 < props.length; i1++){
+        var descriptor = props[i1];
         descriptor.enumerable = descriptor.enumerable || false;
         descriptor.configurable = true;
         if ("value" in descriptor) descriptor.writable = true;
@@ -127,15 +127,15 @@ var C = /*#__PURE__*/ function() {
             key: "f",
             value: function f() {
                 var x;
-                var a = x['foo'](); // should be string
-                return a + x.foo();
+                var a1 = x['foo'](); // should be string
+                return a1 + x.foo();
             }
         },
         {
             key: "g",
             value: function g(x) {
-                var a = x['foo'](); // should be string
-                return a + x.foo();
+                var a2 = x['foo'](); // should be string
+                return a2 + x.foo();
             }
         }
     ]);
@@ -157,25 +157,25 @@ var r1b = new C().g(new B());
 //interface I<U extends T, T extends A> {
 //    foo: U;
 //}
-var i1;
-var r2 = i1.foo.foo();
-var r2b = i1.foo['foo']();
-var a1;
+var i;
+var r2 = i.foo.foo();
+var r2b = i.foo['foo']();
+var a;
 //var a: {
 //    <U extends T, T extends A>(): U;
 //    <U extends T, T extends A>(x: U): U;
 //    <U extends T, T extends A>(x: U, y: T): U;
 //}
-var r3 = a1().foo();
-var r3b = a1()['foo']();
+var r3 = a().foo();
+var r3b = a()['foo']();
 // parameter supplied for type argument inference to succeed
 var aB = new B();
-var r3c = a1(aB, aB).foo();
-var r3d = a1(aB, aB)['foo']();
+var r3c = a(aB, aB).foo();
+var r3d = a(aB, aB)['foo']();
 var b = {
     foo: function(x, y) {
-        var a = x['foo'](); // should be string
-        return a + x.foo();
+        var a3 = x['foo'](); // should be string
+        return a3 + x.foo();
     }
 };
 //var b = {

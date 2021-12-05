@@ -1,16 +1,16 @@
-var a1;
+var a;
 var b1;
-a1 = b1; // error
-b1 = a1; // error
+a = b1; // error
+b1 = a; // error
 var Generics;
 (function(Generics) {
     class A {
     }
     function foo() {
-        var a;
+        var a1;
         var b;
-        a = b; // error
-        b = a; // error
+        a1 = b; // error
+        b = a1; // error
     }
 })(Generics || (Generics = {
 }));

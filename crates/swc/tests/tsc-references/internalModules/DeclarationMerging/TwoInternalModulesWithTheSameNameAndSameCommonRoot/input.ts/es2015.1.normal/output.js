@@ -1,25 +1,26 @@
 //@filename: part1.ts
-var A1;
-(function(A) {
-    var Utils1;
+var A;
+(function(A1) {
+    let Utils1;
     (function(Utils) {
-        function mirror(p) {
+        function mirror(p1) {
             return {
-                x: p.y,
-                y: p.x
+                x: p1.y,
+                y: p1.x
             };
         }
         Utils.mirror = mirror;
     })(Utils1 || (Utils1 = {
     }));
-    A.Utils = Utils1;
-})(A1 || (A1 = {
+    A1.Utils = Utils1;
+})(A || (A = {
 }));
-(function(A) {
-    A.Origin = {
+(function(A2) {
+    A2.Origin = {
         x: 0,
         y: 0
     };
+    let Utils2;
     (function(Utils) {
         class Plane {
             constructor(tl, br){
@@ -28,19 +29,20 @@ var A1;
             }
         }
         Utils.Plane = Plane;
-    })(Utils || (Utils = {
+    })(Utils2 || (Utils2 = {
     }));
-})(A1 || (A1 = {
+    A2.Utils = Utils2;
+})(A || (A = {
 }));
 //@filename: part3.ts
 // test the merging actually worked
 var o;
 var o;
-var o = A1.Origin;
-var o = A1.Utils.mirror(o);
-var p1;
-var p1;
-var p1 = new A1.Utils.Plane(o, {
+var o = A.Origin;
+var o = A.Utils.mirror(o);
+var p;
+var p;
+var p = new A.Utils.Plane(o, {
     x: 1,
     y: 1
 });

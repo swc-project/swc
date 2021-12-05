@@ -11,15 +11,15 @@ function _defineProperty(obj, key, value) {
     }
     return obj;
 }
-var E1;
+var E;
 (function(E) {
     E[E["x"] = 0] = "x";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
 var a;
 extractIndexer(_defineProperty({
 }, a, "")); // Should return string
 extractIndexer(_defineProperty({
-}, E1.x, "")); // Should return string
+}, E.x, "")); // Should return string
 extractIndexer(_defineProperty({
 }, "" || 0, "")); // Should return any (widened form of undefined)

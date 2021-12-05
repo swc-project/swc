@@ -3,11 +3,11 @@ use std::{
     path::PathBuf,
     sync::{Arc, RwLock},
 };
-use swc_common::FileName;
+use swc_common::{FileName, Mark};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{self, Emitter};
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax, TsConfig};
-use swc_ecma_transforms_base::fixer::fixer;
+use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver::resolver_with_mark};
 use swc_ecma_transforms_typescript::{strip, strip::strip_with_config};
 use swc_ecma_visit::{Fold, FoldWith};
 
@@ -122,11 +122,17 @@ fn identity(entry: PathBuf) {
             let module = parser
                 .parse_typescript_module()
                 .map(|p| {
-                    p.fold_with(&mut strip_with_config(strip::Config {
-                        no_empty_export: true,
-                        ..Default::default()
-                    }))
-                    .fold_with(&mut fixer(None))
+                    let mark = Mark::fresh(Mark::root());
+                    p.fold_with(&mut resolver_with_mark(mark))
+                        .fold_with(&mut strip_with_config(
+                            strip::Config {
+                                no_empty_export: true,
+                                ..Default::default()
+                            },
+                            mark,
+                        ))
+                        .fold_with(&mut hygiene())
+                        .fold_with(&mut fixer(None))
                 })
                 .map_err(|e| {
                     eprintln!("failed to parse as typescript module");

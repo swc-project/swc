@@ -3,15 +3,15 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-var _class1;
+var _class;
 function foo() {
-    var x = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : function _class() {
+    var x = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : function _class1() {
         "use strict";
-        _classCallCheck(this, _class);
+        _classCallCheck(this, _class1);
     };
     return undefined;
 }
-foo((_class1 = function _class() {
+foo((_class = function _class1() {
     "use strict";
-    _classCallCheck(this, _class);
-}, _class1.prop = "hello", _class1)).length;
+    _classCallCheck(this, _class1);
+}, _class.prop = "hello", _class)).length;

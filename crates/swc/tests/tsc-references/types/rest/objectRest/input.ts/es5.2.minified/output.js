@@ -1,13 +1,13 @@
 function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
+    for(var i1 = 0; i1 < props.length; i1++){
+        var descriptor = props[i1];
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
 function _extends() {
     return (_extends = Object.assign || function(target) {
-        for(var i = 1; i < arguments.length; i++){
-            var source = arguments[i];
+        for(var i1 = 1; i1 < arguments.length; i1++){
+            var source = arguments[i1];
             for(var key in source)Object.prototype.hasOwnProperty.call(source, key) && (target[key] = source[key]);
         }
         return target;
@@ -16,19 +16,19 @@ function _extends() {
 function _objectWithoutProperties(source, excluded) {
     if (null == source) return {
     };
-    var key, i, target = _objectWithoutPropertiesLoose(source, excluded);
+    var key, i1, target = _objectWithoutPropertiesLoose(source, excluded);
     if (Object.getOwnPropertySymbols) {
         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-        for(i = 0; i < sourceSymbolKeys.length; i++)key = sourceSymbolKeys[i], excluded.indexOf(key) >= 0 || Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
+        for(i1 = 0; i1 < sourceSymbolKeys.length; i1++)key = sourceSymbolKeys[i1], excluded.indexOf(key) >= 0 || Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
     }
     return target;
 }
 function _objectWithoutPropertiesLoose(source, excluded) {
     if (null == source) return {
     };
-    var key, i, target = {
+    var key, i1, target = {
     }, sourceKeys = Object.keys(source);
-    for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
+    for(i1 = 0; i1 < sourceKeys.length; i1++)key = sourceKeys[i1], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
     return target;
 }
 function _toPropertyKey(arg) {
@@ -134,8 +134,8 @@ var Removable = function() {
 removable.removed, _objectWithoutProperties(removable, [
     "removed"
 ]);
-var i1 = removable;
-i1.removed, _objectWithoutProperties(i1, [
+var i = removable;
+i.removed, _objectWithoutProperties(i, [
     "removed"
 ]);
 var computed = "b", computed2 = "a", stillNotGreat = o[computed], soSo = o[computed2], o = _objectWithoutProperties(o, [

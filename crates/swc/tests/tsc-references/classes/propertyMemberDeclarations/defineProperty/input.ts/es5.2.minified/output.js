@@ -32,10 +32,10 @@ var _key, _key1, A = function() {
     ], _defineProperties((Constructor = A).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), A;
 }();
 _key = "computed", _key1 = "p";
-var B1 = function() {
+var B = function() {
     "use strict";
-    _classCallCheck(this, B1);
-}, C = function(B) {
+    _classCallCheck(this, B);
+}, C = function(B1) {
     "use strict";
     !function(subClass, superClass) {
         if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
@@ -46,7 +46,7 @@ var B1 = function() {
                 configurable: !0
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
-    }(C, B);
+    }(C, B1);
     var _super = function(Derived) {
         var hasNativeReflectConstruct = function() {
             if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
@@ -76,4 +76,4 @@ var B1 = function() {
         return _classCallCheck(this, C), (_this = _super.call(this)).ka = ka, _this.z = _this.ka, _this.ki = _this.ka, _this;
     }
     return C;
-}(B1);
+}(B);

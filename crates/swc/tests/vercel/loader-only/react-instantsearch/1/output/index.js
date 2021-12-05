@@ -75,16 +75,16 @@ var _obj;
         var state = initialState;
         var listeners = [];
         return {
-            getState: function() {
+            getState: function getState() {
                 return state;
             },
-            setState: function(nextState) {
+            setState: function setState(nextState) {
                 state = nextState;
                 listeners.forEach(function(listener) {
                     return listener();
                 });
             },
-            subscribe: function(listener) {
+            subscribe: function subscribe(listener) {
                 listeners.push(listener);
                 return function unsubscribe() {
                     listeners.splice(listeners.indexOf(listener), 1);

@@ -17,14 +17,14 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var A1;
-(function(A) {
+var A;
+(function(A1) {
     var Point = function Point() {
         "use strict";
         _classCallCheck(this, Point);
     };
-    A.Point = Point;
-})(A1 || (A1 = {
+    A1.Point = Point;
+})(A || (A = {
 }));
 (function(A) {
     var Point = /*#__PURE__*/ function() {
@@ -35,23 +35,23 @@ var A1;
         _createClass(Point, [
             {
                 key: "fromCarthesian",
-                value: function fromCarthesian(p) {
+                value: function fromCarthesian(p1) {
                     return {
-                        x: p.x,
-                        y: p.y
+                        x: p1.x,
+                        y: p1.y
                     };
                 }
             }
         ]);
         return Point;
     }();
-})(A1 || (A1 = {
+})(A || (A = {
 }));
 // ensure merges as expected
-var p1;
-var p1;
-var X1;
-(function(X) {
+var p;
+var p;
+var X;
+(function(X1) {
     var Y1;
     (function(Y) {
         var Z;
@@ -65,8 +65,8 @@ var X1;
         Y.Z = Z;
     })(Y1 || (Y1 = {
     }));
-    X.Y = Y1;
-})(X1 || (X1 = {
+    X1.Y = Y1;
+})(X || (X = {
 }));
 // ensure merges as expected
 var l;

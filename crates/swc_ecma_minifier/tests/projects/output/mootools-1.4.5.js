@@ -458,7 +458,7 @@
         return array ? hex : "#" + hex.join("");
     }
 }), Array.alias("extend", "append");
-var fireEvent1, $pick = function() {
+var fireEvent, $pick = function() {
     return Array.from(arguments).pick();
 };
 String.implement({
@@ -1748,8 +1748,8 @@ var Element = function(tag, props) {
     }
     return document.newElement(tag, props);
 };
-Browser.Element && (Element.prototype = Browser.Element.prototype, fireEvent1 = Element.prototype.fireEvent, Element.prototype._fireEvent = function(type, event) {
-    return fireEvent1.call(this, type, event);
+Browser.Element && (Element.prototype = Browser.Element.prototype, fireEvent = Element.prototype.fireEvent, Element.prototype._fireEvent = function(type, event) {
+    return fireEvent.call(this, type, event);
 }), new Type("Element", Element).mirror(function(name) {
     if (!Array.prototype[name]) {
         var obj = {
@@ -1874,9 +1874,9 @@ Elements.prototype = {
             },
             element: function(el, nocash) {
                 if (Slick.uidOf(el), !nocash && !el.$family && !/^(?:object|embed)$/i.test(el.tagName)) {
-                    var fireEvent = el.fireEvent;
+                    var fireEvent1 = el.fireEvent;
                     el._fireEvent = function(type, event) {
-                        return fireEvent(type, event);
+                        return fireEvent1(type, event);
                     }, Object.append(el, Element.Prototype);
                 }
                 return el;

@@ -10,8 +10,8 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
+    for(var i1 = 0; i1 < props.length; i1++){
+        var descriptor = props[i1];
         descriptor.enumerable = descriptor.enumerable || false;
         descriptor.configurable = true;
         if ("value" in descriptor) descriptor.writable = true;
@@ -116,11 +116,11 @@ var r1 = c.valueOf();
 var r1b = c.data;
 var r1c = r1b['hm']; // should be 'Object'
 var r1d = c['hm']; // should be 'any'
-var i1;
-var r2 = i1.valueOf();
-var r2b = i1.data;
+var i;
+var r2 = i.valueOf();
+var r2b = i.data;
 var r2c = r2b['hm']; // should be 'Object'
-var r2d = i1['hm']; // should be 'any'
+var r2d = i['hm']; // should be 'any'
 var a = {
     valueOf: function() {
     },
@@ -129,6 +129,6 @@ var a = {
 var r3 = a.valueOf();
 var r3b = a.data;
 var r3c = r3b['hm']; // should be 'Object'
-var r3d = i1['hm'];
+var r3d = i['hm'];
 var b;
 var r4 = b.valueOf();

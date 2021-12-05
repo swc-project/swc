@@ -17,7 +17,7 @@ function _interopRequireDefault(obj) {
         default: obj
     };
 }
-const headers1 = [
+const headers = [
     "x-ratelimit-limit",
     "x-ratelimit-remaining",
     "x-ratelimit-reset-after",
@@ -140,7 +140,7 @@ class RequestHandler {
         }
         let _retry = 0;
         if (res.headers) {
-            const [limit, remaining, reset, retry, cf] = getHeaders(res, headers1), _reset = ~~reset * 1000 + Date.now() + this.rest.options.offset;
+            const [limit, remaining, reset, retry, cf] = getHeaders(res, headers), _reset = ~~reset * 1000 + Date.now() + this.rest.options.offset;
             this.remaining = remaining ? ~~remaining : 1;
             this.limit = limit ? ~~limit : Infinity;
             this.reset = reset ? _reset : Date.now();
@@ -213,7 +213,7 @@ var _queue = new WeakMap();
  * @param {Response} res The request response.
  * @param {string[]} headers The headers to fetch.
  * @return {string[]} The header values.
- */ function getHeaders(res, headers) {
-    return headers.map((headerName)=>res.headers.get(headerName)
+ */ function getHeaders(res, headers1) {
+    return headers1.map((headerName)=>res.headers.get(headerName)
     );
 }

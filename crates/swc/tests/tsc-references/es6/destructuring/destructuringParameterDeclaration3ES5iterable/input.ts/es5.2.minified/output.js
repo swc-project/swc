@@ -41,7 +41,7 @@ function a10(param) {
     var _param = _toArray(param), a = _param[0], b = _param[1], ref = _slicedToArray(_param[2], 1), ref1 = _slicedToArray(ref[0], 1);
     ref1[0], _param.slice(3);
 }
-var E, E1, E2, E11, array = [
+var E, E1, E, E1, array = [
     1,
     2,
     3
@@ -94,6 +94,6 @@ function foo1() {
 })([
     1,
     2
-]), foo("hello", 1, 2), foo("hello", "world"), (E = E2 || (E2 = {
-}))[E.a = 0] = "a", E[E.b = 1] = "b", (E1 = E11 || (E11 = {
-}))[E1.a = 0] = "a", E1[E1.b = 1] = "b", foo1(1, 2, 3, E2.a), foo1(1, 2, 3, E11.a, E2.b);
+]), foo("hello", 1, 2), foo("hello", "world"), (E = E || (E = {
+}))[E.a = 0] = "a", E[E.b = 1] = "b", (E1 = E1 || (E1 = {
+}))[E1.a = 0] = "a", E1[E1.b = 1] = "b", foo1(1, 2, 3, E.a), foo1(1, 2, 3, E1.a, E.b);

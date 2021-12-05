@@ -1,3 +1,3 @@
-var E, E1;
-(E1 = E || (E = {
-}))[E1.member = 0] = "member", E.member;
+var E, E;
+(E = E || (E = {
+}))[E.member = 0] = "member", E.member;

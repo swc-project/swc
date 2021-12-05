@@ -1,4 +1,4 @@
-var STRING, M1, _typeof = function(obj) {
+var STRING, M, _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 function foo() {
@@ -26,10 +26,10 @@ var A = function() {
         }
     ]), A;
 }();
-!function(M) {
+!function(M1) {
     var n;
-    M.n = n;
-}(M1 || (M1 = {
+    M1.n = n;
+}(M || (M = {
 }));
 var objA = new A();
 void 0 === STRING || _typeof(STRING), _typeof(""), _typeof({
@@ -40,11 +40,11 @@ void 0 === STRING || _typeof(STRING), _typeof(""), _typeof({
     y: function(s) {
         return s;
     }
-}), _typeof(objA.a), _typeof(M1.n), _typeof(""), _typeof(foo()), _typeof(A.foo()), _typeof(STRING + STRING), _typeof(STRING.charAt(0)), _typeof(void 0 === STRING ? "undefined" : _typeof(STRING)), _typeof(_typeof(_typeof(STRING + STRING))), _typeof(""), void 0 === STRING || _typeof(STRING), _typeof(foo()), _typeof(objA.a), M1.n;
+}), _typeof(objA.a), _typeof(M.n), _typeof(""), _typeof(foo()), _typeof(A.foo()), _typeof(STRING + STRING), _typeof(STRING.charAt(0)), _typeof(void 0 === STRING ? "undefined" : _typeof(STRING)), _typeof(_typeof(_typeof(STRING + STRING))), _typeof(""), void 0 === STRING || _typeof(STRING), _typeof(foo()), _typeof(objA.a), M.n;
 z: void 0 === STRING || _typeof(STRING);
 x: ;
 r: ;
 z: _typeof("");
 z: _typeof(objA.a);
 z: _typeof(A.foo);
-z: _typeof(M1.n);
+z: _typeof(M.n);

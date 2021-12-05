@@ -1,5 +1,5 @@
 var x;
-var a1 = x;
+var a = x;
 var b = x;
 var c = x;
 var d = x;
@@ -12,6 +12,6 @@ f = x;
 var g;
 g = x;
 var h = x;
-function i(a) {
-    a = x;
+function i(a1) {
+    a1 = x;
 }

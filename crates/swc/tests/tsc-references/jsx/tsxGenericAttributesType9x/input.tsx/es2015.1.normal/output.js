@@ -17,9 +17,9 @@ function _extends() {
 // @noLib: true
 // @skipLibCheck: true
 // @libFiles: react.d.ts,lib.d.ts
-const React1 = require('react');
+const React = require('react');
 export function makeP(Ctor) {
-    return class _class extends React1.PureComponent {
+    return class _class extends React.PureComponent {
         render() {
             return(/*#__PURE__*/ React.createElement(Ctor, _extends({
             }, this.props)));

@@ -1,9 +1,9 @@
-var Bar1;
-(function(Bar) {
+var Bar;
+(function(Bar1) {
     function foo() {
         console.log("foo");
     }
-    Bar.foo = foo;
-})(Bar1 || (Bar1 = {
+    Bar1.foo = foo;
+})(Bar || (Bar = {
 }));
-export { Bar1 as Bar };
+export { Bar as Bar };

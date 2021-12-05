@@ -1,6 +1,5 @@
-var A1;
-export { A1 as A };
-!function(A) {
+export var A;
+!function(A1) {
     var Utils;
     (Utils || (Utils = {
     })).mirror = function(p) {
@@ -8,14 +7,14 @@ export { A1 as A };
             x: p.y,
             y: p.x
         };
-    }, A.Origin = {
+    }, A1.Origin = {
         x: 0,
         y: 0
-    }, A.Utils = Utils;
-}(A1 || (A1 = {
-})), (function(A) {
-    var Utils1, Plane;
-    A.Origin = {
+    }, A1.Utils = Utils;
+}(A || (A = {
+})), (function(A2) {
+    var Utils, Utils1, Plane;
+    A2.Origin = {
         x: 0,
         y: 0
     }, Utils1 = Utils || (Utils = {
@@ -24,6 +23,6 @@ export { A1 as A };
         (function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
         })(this, Plane), this.tl = tl, this.br = br;
-    }, Utils1.Plane = Plane;
-})(A1 || (A1 = {
+    }, Utils1.Plane = Plane, A2.Utils = Utils;
+})(A || (A = {
 }));

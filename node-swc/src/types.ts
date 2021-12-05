@@ -494,6 +494,8 @@ export interface JscConfig {
     optimizeHygiene?: boolean
   },
 
+  baseUrl?: string
+
   paths?: {
     [from: string]: [string]
   }

@@ -1,41 +1,17 @@
 // @filename: function.ts
-var A1;
-(function(A) {
+var A;
+(function(A1) {
     function Point() {
         return {
             x: 0,
             y: 0
         };
     }
-    A.Point = Point;
-})(A1 || (A1 = {
+    A1.Point = Point;
+})(A || (A = {
 }));
-(function(A) {
-    (function(Point) {
-        Point.Origin = {
-            x: 0,
-            y: 0
-        };
-    })(Point || (Point = {
-    }));
-})(A1 || (A1 = {
-}));
-// @filename: test.ts
-var fn;
-var fn = A1.Point;
-var cl;
-var cl = A1.Point();
-var cl = A1.Point.Origin; // not expected to be an error.
-// @filename: simple.ts
-var B1;
-(function(B) {
-    function Point1() {
-        return {
-            x: 0,
-            y: 0
-        };
-    }
-    B.Point = Point1;
+(function(A2) {
+    let Point1;
     (function(Point) {
         Point.Origin = {
             x: 0,
@@ -43,10 +19,36 @@ var B1;
         };
     })(Point1 || (Point1 = {
     }));
-})(B1 || (B1 = {
+    A2.Point = Point1;
+})(A || (A = {
+}));
+// @filename: test.ts
+var fn;
+var fn = A.Point;
+var cl;
+var cl = A.Point();
+var cl = A.Point.Origin; // not expected to be an error.
+// @filename: simple.ts
+var B;
+(function(B1) {
+    function Point2() {
+        return {
+            x: 0,
+            y: 0
+        };
+    }
+    B1.Point = Point2;
+    (function(Point) {
+        Point.Origin = {
+            x: 0,
+            y: 0
+        };
+    })(Point2 || (Point2 = {
+    }));
+})(B || (B = {
 }));
 var fn;
-var fn = B1.Point; // not expected to be an error. bug 840000: [corelang] Function of fundule not assignalbe as expected
+var fn = B.Point; // not expected to be an error. bug 840000: [corelang] Function of fundule not assignalbe as expected
 var cl;
-var cl = B1.Point();
-var cl = B1.Point.Origin;
+var cl = B.Point();
+var cl = B.Point.Origin;

@@ -4,8 +4,8 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
+    for(var i1 = 0; i1 < props.length; i1++){
+        var descriptor = props[i1];
         descriptor.enumerable = descriptor.enumerable || false;
         descriptor.configurable = true;
         if ("value" in descriptor) descriptor.writable = true;
@@ -51,18 +51,18 @@ var o = {
     explicitThis: function explicitThis(m) {
         return m + this.n.length; // error, 'length' does not exist on 'number'
     },
-    implicitThis: function(m) {
+    implicitThis: function implicitThis(m) {
         return m;
     }
 };
-var i1 = o;
+var i = o;
 var o2 = {
     n: 1001,
     explicitThis: function explicitThis(m) {
         return m + this.n.length; // error, this.n: number, no member 'length'
     }
 };
-var x = i1.explicitThis;
+var x = i.explicitThis;
 var n = x(12); // callee:void doesn't match this:I
 var u;
 var y = u.implicitNoThis;
@@ -71,7 +71,7 @@ c.explicitVoid = c.implicitThis // ok, implicitThis(this:any)
 ;
 o.implicitThis = c.implicitThis; // ok, implicitThis(this:any)
 o.implicitThis = c.explicitThis; // ok, implicitThis(this:any) is assignable to explicitThis(this: this)
-o.implicitThis = i1.explicitThis;
-i1.explicitThis = function(m) {
+o.implicitThis = i.explicitThis;
+i.explicitThis = function(m) {
     return this.n.length; // error, this.n: number
 };

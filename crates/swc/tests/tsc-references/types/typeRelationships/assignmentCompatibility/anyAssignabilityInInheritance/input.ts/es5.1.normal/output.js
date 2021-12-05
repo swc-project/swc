@@ -24,17 +24,17 @@ var A2 = function A2() {
 var r3 = foo3(a); // any
 var r3 = foo3(a); // any
 var r3 = foo3(a); // any
-var E1;
+var E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
 var r3 = foo3(a); // any
-function f1() {
+function f() {
 }
-(function(f) {
-    f.bar = 1;
-})(f1 || (f1 = {
+(function(f1) {
+    f1.bar = 1;
+})(f || (f = {
 }));
 var r3 = foo3(a); // any
 var CC = function CC() {

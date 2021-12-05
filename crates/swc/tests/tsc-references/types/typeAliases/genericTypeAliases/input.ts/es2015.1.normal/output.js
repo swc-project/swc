@@ -13,15 +13,15 @@ ls = "eager";
 ls = ()=>"lazy"
 ;
 // Deeply instantiated generics
-var x1;
+var x;
 var y;
-x1 = y;
-y = x1;
-x1 = "string";
-x1 = {
+x = y;
+y = x;
+x = "string";
+x = {
     x: "hello"
 };
-x1 = {
+x = {
     x: {
         x: "world"
     }
@@ -43,12 +43,12 @@ p.a = 1;
 p.b = 2;
 p.tag = "test";
 function f() {
-    var x;
-    return x;
+    var x1;
+    return x1;
 }
 function g() {
-    var x;
-    return x;
+    var x2;
+    return x2;
 }
 // Deeply instantiated generics
 var a = f();

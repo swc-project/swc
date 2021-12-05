@@ -6,8 +6,8 @@ function _arrayWithoutHoles(arr) {
         return arr2;
     }
 }
-function _iterableToArray(iter) {
-    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+function _iterableToArray(iter1) {
+    if (Symbol.iterator in Object(iter1) || Object.prototype.toString.call(iter1) === "[object Arguments]") return Array.from(iter1);
 }
 function _nonIterableSpread() {
     throw new TypeError("Invalid attempt to spread non-iterable instance");
@@ -16,5 +16,5 @@ function _toConsumableArray(arr) {
     return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
 }
 //@target: ES6
-var iter1;
-var array = _toConsumableArray(iter1);
+var iter;
+var array = _toConsumableArray(iter);

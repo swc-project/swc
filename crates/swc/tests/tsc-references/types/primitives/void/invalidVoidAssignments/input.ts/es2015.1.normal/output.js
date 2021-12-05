@@ -1,5 +1,5 @@
 var x;
-var a1 = x;
+var a = x;
 var b = x;
 var c = x;
 var d = x;
@@ -9,23 +9,23 @@ var e = x;
 var f = x;
 var g = 1;
 var g2 = 1;
-var M1;
-(function(M) {
-    M.x = 1;
-})(M1 || (M1 = {
+var M;
+(function(M1) {
+    M1.x = 1;
+})(M || (M = {
 }));
-M1 = x;
-function i(a) {
-    a = x;
+M = x;
+function i(a1) {
+    a1 = x;
 }
 i = x;
-var E1;
+var E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
-x = E1;
-x = E1.A;
+x = E;
+x = E.A;
 x = {
     f () {
     }

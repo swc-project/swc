@@ -860,10 +860,10 @@ test!(
     export let C = hoc();
 "#,
     r#"
-    var _s2 = $RefreshSig$(), _s1 = $RefreshSig$();
+    var _s = $RefreshSig$(), _s1 = $RefreshSig$();
 
-    export const A = _s2(React.memo(_c1 = _s2 (React.forwardRef(_c = _s2((props, ref) => {
-      _s2();
+    export const A = _s(React.memo(_c1 = _s(React.forwardRef(_c = _s((props, ref) => {
+      _s();
 
       const [foo, setFoo] = useState(0);
       React.useEffect(() => {});
@@ -880,10 +880,10 @@ test!(
     _c5 = B;
 
     function hoc() {
-      var _s = $RefreshSig$();
+      var _s2 = $RefreshSig$();
 
-      return _s(function Inner() {
-        _s();
+      return _s2(function Inner() {
+        _s2();
 
         const [foo, setFoo] = useState(0);
         React.useEffect(() => {});

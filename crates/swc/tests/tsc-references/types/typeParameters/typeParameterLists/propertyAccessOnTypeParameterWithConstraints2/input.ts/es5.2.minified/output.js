@@ -2,8 +2,8 @@ function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
 function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
+    for(var i1 = 0; i1 < props.length; i1++){
+        var descriptor = props[i1];
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
@@ -20,7 +20,7 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var i1, a, A = function() {
+var i, a, A = function() {
     "use strict";
     function A() {
         _classCallCheck(this, A);
@@ -101,7 +101,7 @@ var i1, a, A = function() {
         }
     ]), C;
 }();
-new C().f(), new C().g(new B()), i1.foo.foo(), i1.foo.foo(), a().foo(), a().foo();
+new C().f(), new C().g(new B()), i.foo.foo(), i.foo.foo(), a().foo(), a().foo();
 var aB = new B();
 a(aB, aB).foo(), a(aB, aB).foo(), ({
     foo: function(x, y) {

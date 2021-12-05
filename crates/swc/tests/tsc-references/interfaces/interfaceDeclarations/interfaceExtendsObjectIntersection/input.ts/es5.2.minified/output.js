@@ -45,7 +45,7 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var EX, EX1, C1 = function(_super) {
+var EX, EX, C1 = function(_super) {
     "use strict";
     _inherits(C1, _super);
     var _super1 = _createSuper(C1);
@@ -102,8 +102,8 @@ var EX, EX1, C1 = function(_super) {
     }
     return C7;
 }(Constructor());
-(EX1 = EX || (EX = {
-}))[EX1.A = 0] = "A", EX1[EX1.B = 1] = "B", EX1[EX1.C = 2] = "C";
+(EX = EX || (EX = {
+}))[EX.A = 0] = "A", EX[EX.B = 1] = "B", EX[EX.C = 2] = "C";
 var C20 = function(_super) {
     "use strict";
     _inherits(C20, _super);

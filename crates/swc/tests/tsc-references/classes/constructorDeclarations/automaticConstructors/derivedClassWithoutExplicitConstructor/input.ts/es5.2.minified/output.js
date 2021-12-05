@@ -21,7 +21,7 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-function _createSuper(Derived) {
+function _createSuper(Derived1) {
     var hasNativeReflectConstruct = function() {
         if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
         if (Reflect.construct.sham) return !1;
@@ -34,7 +34,7 @@ function _createSuper(Derived) {
         }
     }();
     return function() {
-        var obj, self, call, result, Super = _getPrototypeOf(Derived);
+        var obj, self, call, result, Super = _getPrototypeOf(Derived1);
         if (hasNativeReflectConstruct) {
             var NewTarget = _getPrototypeOf(this).constructor;
             result = Reflect.construct(Super, arguments, NewTarget);
@@ -45,31 +45,31 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var Base1 = function(x) {
+var Base = function(x) {
     "use strict";
-    _classCallCheck(this, Base1), this.a = 1, this.a = x;
-}, Derived1 = function(Base) {
+    _classCallCheck(this, Base), this.a = 1, this.a = x;
+}, Derived = function(Base1) {
     "use strict";
-    _inherits(Derived1, Base);
-    var _super = _createSuper(Derived1);
-    function Derived1() {
+    _inherits(Derived, Base1);
+    var _super = _createSuper(Derived);
+    function Derived() {
         var _this;
-        return _classCallCheck(this, Derived1), _this = _super.apply(this, arguments), _this.x = 1, _this.y = "hello", _this;
+        return _classCallCheck(this, Derived), _this = _super.apply(this, arguments), _this.x = 1, _this.y = "hello", _this;
     }
-    return Derived1;
-}(Base1);
-new Derived1(), new Derived1(1);
-var Base21 = function(x) {
+    return Derived;
+}(Base);
+new Derived(), new Derived(1);
+var Base2 = function(x) {
     "use strict";
-    _classCallCheck(this, Base21), this.a = x;
-}, D = function(Base2) {
+    _classCallCheck(this, Base2), this.a = x;
+}, D = function(Base21) {
     "use strict";
-    _inherits(D, Base2);
+    _inherits(D, Base21);
     var _super = _createSuper(D);
     function D() {
         var _this;
         return _classCallCheck(this, D), _this = _super.apply(this, arguments), _this.x = 2, _this.y = null, _this;
     }
     return D;
-}(Base21);
+}(Base2);
 new D(), new D(new Date());

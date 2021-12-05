@@ -45,9 +45,9 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var Foo1 = function() {
+var Foo = function() {
     "use strict";
-    _classCallCheck(this, Foo1);
+    _classCallCheck(this, Foo);
 }, Bar = function() {
     "use strict";
     _classCallCheck(this, Bar);
@@ -60,36 +60,36 @@ var Foo1 = function() {
 }, Bar4 = function() {
     "use strict";
     _classCallCheck(this, Bar4);
-}, Bar5 = function(Foo) {
+}, Bar5 = function(Foo1) {
     "use strict";
-    _inherits(Bar5, Foo);
+    _inherits(Bar5, Foo1);
     var _super = _createSuper(Bar5);
     function Bar5() {
         return _classCallCheck(this, Bar5), _super.apply(this, arguments);
     }
     return Bar5;
-}(Foo1), Bar6 = function(Foo) {
+}(Foo), Bar6 = function(Foo2) {
     "use strict";
-    _inherits(Bar6, Foo);
+    _inherits(Bar6, Foo2);
     var _super = _createSuper(Bar6);
     function Bar6() {
         return _classCallCheck(this, Bar6), _super.apply(this, arguments);
     }
     return Bar6;
-}(Foo1), Bar7 = function(Foo) {
+}(Foo), Bar7 = function(Foo3) {
     "use strict";
-    _inherits(Bar7, Foo);
+    _inherits(Bar7, Foo3);
     var _super = _createSuper(Bar7);
     function Bar7() {
         return _classCallCheck(this, Bar7), _super.apply(this, arguments);
     }
     return Bar7;
-}(Foo1), Bar8 = function(Foo) {
+}(Foo), Bar8 = function(Foo4) {
     "use strict";
-    _inherits(Bar8, Foo);
+    _inherits(Bar8, Foo4);
     var _super = _createSuper(Bar8);
     function Bar8() {
         return _classCallCheck(this, Bar8), _super.apply(this, arguments);
     }
     return Bar8;
-}(Foo1);
+}(Foo);

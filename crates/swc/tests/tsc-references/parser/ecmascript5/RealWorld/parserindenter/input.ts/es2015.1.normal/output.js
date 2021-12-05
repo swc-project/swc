@@ -13,8 +13,8 @@
 // limitations under the License.
 //
 ///<reference path='formatting.ts' />
-var Formatting1;
-(function(Formatting) {
+var Formatting;
+(function(Formatting1) {
     class Indenter {
         GetIndentationEdits(token, nextToken, node, sameLineIndent) {
             if (this.logger.information()) {
@@ -556,6 +556,6 @@ var Formatting1;
             this.FillInheritedIndentation(this.tree);
         }
     }
-    Formatting.Indenter = Indenter;
-})(Formatting1 || (Formatting1 = {
+    Formatting1.Indenter = Indenter;
+})(Formatting || (Formatting = {
 }));

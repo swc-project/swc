@@ -62,15 +62,15 @@ function _possibleConstructorReturn(self, call) {
     }
     return _assertThisInitialized(self);
 }
-function _setPrototypeOf(o, p) {
-    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-        o.__proto__ = p;
+function _setPrototypeOf(o, p1) {
+    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p1) {
+        o.__proto__ = p1;
         return o;
     };
-    return _setPrototypeOf(o, p);
+    return _setPrototypeOf(o, p1);
 }
-var _typeof = function(obj) {
-    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
+var _typeof = function(obj1) {
+    return obj1 && typeof Symbol !== "undefined" && obj1.constructor === Symbol ? "symbol" : typeof obj1;
 };
 function _isNativeReflectConstruct() {
     if (typeof Reflect === "undefined" || !Reflect.construct) return false;
@@ -121,7 +121,7 @@ var Poisoned = /*#__PURE__*/ function(_Component) {
     ]);
     return Poisoned;
 }(React.Component);
-var obj1 = {
+var obj = {
 };
 // OK
 /*#__PURE__*/ React.createElement(Poisoned, _extends({
@@ -130,8 +130,8 @@ var obj1 = {
     y: "2"
 }));
 // Error
-var p1 = /*#__PURE__*/ React.createElement(Poisoned, _extends({
-}, obj1));
+var p = /*#__PURE__*/ React.createElement(Poisoned, _extends({
+}, obj));
 var y = /*#__PURE__*/ React.createElement(Poisoned, null);
 var z = /*#__PURE__*/ React.createElement(Poisoned, {
     x: true,

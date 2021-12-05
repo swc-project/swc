@@ -50,7 +50,7 @@ C.m(); // Always been ok
 new C().m(); // Regression #39261
 new C().p(); // Regression #39261
 var obj = {
-    m: function(x) {
+    m: function m(x) {
     },
     p: function(x) {
     }

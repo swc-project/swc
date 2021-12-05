@@ -283,9 +283,9 @@ fn const_then_fn_param() {
                     .fold_with(&mut marker(&[("a", mark2)])),
             ])
         },
-        "const a1 = 1;
-            function foo(a) {
-                use(a);
+        "const a = 1;
+            function foo(a1) {
+                use(a1);
             }",
     );
 }
@@ -372,10 +372,10 @@ fn shorthand() {
             ])
         },
         "
-            let a1 = 1;
+            let a = 1;
             function foo() {
-                let a = 2;
-                use({ a })
+                let a1 = 2;
+                use({ a: a1 })
             }
             ",
     );
@@ -732,16 +732,16 @@ fn for_x() {
             ])
         },
         "
-        for (var _ref2 of []){
-            var { a } = _ref2, b = _objectWithoutProperties(_ref2, ['a']);
+        for (var _ref of []){
+            var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);
         }
 
         for (var _ref1 of []){
             var { a } = _ref1, b = _objectWithoutProperties(_ref1, ['a']);
         }
         async function a() {
-            for await (var _ref of []){
-                var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);
+            for await (var _ref2 of []){
+                var { a } = _ref2, b = _objectWithoutProperties(_ref2, ['a']);
             }
         }
         ",
@@ -1634,12 +1634,12 @@ fn issue_2297_1() {
             Ok(stmts)
         },
         "
-        var _bar1 = require('./Bar');
+        var _bar = require('./Bar');
         var makeX = function(props) {
-            var _bar = props.bar;
-            var list = _bar.list;
+            var _bar1 = props.bar;
+            var list = _bar1.list;
             return list.map(function() {
-                return _bar1.bar;
+                return _bar.bar;
             });
         };
         ",

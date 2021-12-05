@@ -62,15 +62,15 @@ function _possibleConstructorReturn(self, call) {
     }
     return _assertThisInitialized(self);
 }
-function _setPrototypeOf(o, p) {
-    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-        o.__proto__ = p;
+function _setPrototypeOf(o, p1) {
+    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p1) {
+        o.__proto__ = p1;
         return o;
     };
-    return _setPrototypeOf(o, p);
+    return _setPrototypeOf(o, p1);
 }
-var _typeof = function(obj) {
-    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
+var _typeof = function(obj2) {
+    return obj2 && typeof Symbol !== "undefined" && obj2.constructor === Symbol ? "symbol" : typeof obj2;
 };
 function _isNativeReflectConstruct() {
     if (typeof Reflect === "undefined" || !Reflect.construct) return false;
@@ -121,15 +121,15 @@ var Opt = /*#__PURE__*/ function(_Component) {
     ]);
     return Opt;
 }(React.Component);
-var obj2 = {
+var obj = {
 };
 var obj1 = {
     x: 2
 };
 // OK
-var p1 = /*#__PURE__*/ React.createElement(Opt, null);
+var p = /*#__PURE__*/ React.createElement(Opt, null);
 var y = /*#__PURE__*/ React.createElement(Opt, _extends({
-}, obj2));
+}, obj));
 var y1 = /*#__PURE__*/ React.createElement(Opt, _extends({
 }, obj1));
 var y2 = /*#__PURE__*/ React.createElement(Opt, _extends({

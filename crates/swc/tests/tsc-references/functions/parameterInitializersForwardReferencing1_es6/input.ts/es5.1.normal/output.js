@@ -4,26 +4,26 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 // @target: es2015
-var foo4 = "";
+var foo = "";
 function f1() {
-    var bar = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : foo4;
+    var bar = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : foo;
     var foo1 = 2;
     return bar; // returns 1
 }
 function f2() {
     var bar = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : function() {
-        var baz = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : foo4;
+        var baz = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : foo;
         return baz;
     };
     var foo2 = 2;
     return bar(); // returns 1
 }
 function f3() {
-    var bar = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : foo4, foo3 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 2;
+    var bar = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : foo, foo3 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 2;
     return bar;
 }
-function f4(foo) {
-    var bar = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : foo;
+function f4(foo4) {
+    var bar = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : foo4;
     return bar;
 }
 function f5() {
@@ -35,7 +35,7 @@ function f6() {
     return async;
 }
 function f7(param) {
-    var bar = param[foo4];
+    var bar = param[foo];
     var foo = 2;
 }
 var Foo = function Foo() {

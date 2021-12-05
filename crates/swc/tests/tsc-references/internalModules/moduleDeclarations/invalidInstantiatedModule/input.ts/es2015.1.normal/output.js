@@ -1,15 +1,15 @@
-var M1;
-(function(M) {
+var M;
+(function(M1) {
     class Point {
     }
-    M.Point = Point;
-    M.Point = 1;
-})(M1 || (M1 = {
+    M1.Point = Point;
+    M1.Point = 1;
+})(M || (M = {
 }));
-var M21;
-(function(M2) {
-    M2.Point = 1;
-})(M21 || (M21 = {
+var M2;
+(function(M21) {
+    M21.Point = 1;
+})(M2 || (M2 = {
 }));
-var m = M21;
+var m = M2;
 var p; // Error

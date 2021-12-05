@@ -20,10 +20,10 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var Base1 = function() {
+var Base = function() {
     "use strict";
-    _classCallCheck(this, Base1);
-}, Derived1 = function(Base) {
+    _classCallCheck(this, Base);
+}, Derived1 = function(Base1) {
     "use strict";
     !function(subClass, superClass) {
         if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
@@ -34,8 +34,8 @@ var Base1 = function() {
                 configurable: !0
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
-    }(Derived1, Base);
-    var _super = function(Derived) {
+    }(Derived1, Base1);
+    var _super = function(Derived2) {
         var hasNativeReflectConstruct = function() {
             if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
             if (Reflect.construct.sham) return !1;
@@ -48,7 +48,7 @@ var Base1 = function() {
             }
         }();
         return function() {
-            var obj, self, call, result, Super = _getPrototypeOf(Derived);
+            var obj, self, call, result, Super = _getPrototypeOf(Derived2);
             if (hasNativeReflectConstruct) {
                 var NewTarget = _getPrototypeOf(this).constructor;
                 result = Reflect.construct(Super, arguments, NewTarget);
@@ -66,11 +66,11 @@ var Base1 = function() {
         {
             key: "make",
             value: function() {
-                new Base1();
+                new Base();
             }
         }
     ]), Derived1;
-}(Base1), Unrelated = function() {
+}(Base), Unrelated = function() {
     "use strict";
     function Unrelated() {
         _classCallCheck(this, Unrelated);
@@ -79,7 +79,7 @@ var Base1 = function() {
         {
             key: "fake",
             value: function() {
-                new Base1();
+                new Base();
             }
         }
     ]), Unrelated;

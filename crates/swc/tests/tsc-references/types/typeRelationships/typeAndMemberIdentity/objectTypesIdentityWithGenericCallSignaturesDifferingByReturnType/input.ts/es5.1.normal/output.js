@@ -67,7 +67,7 @@ var C = /*#__PURE__*/ function() {
 }();
 var a;
 var b = {
-    foo: function(x) {
+    foo: function foo(x) {
         return null;
     }
 };

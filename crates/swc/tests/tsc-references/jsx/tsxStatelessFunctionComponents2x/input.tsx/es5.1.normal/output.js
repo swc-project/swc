@@ -10,8 +10,8 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
+    for(var i1 = 0; i1 < props.length; i1++){
+        var descriptor = props[i1];
         descriptor.enumerable = descriptor.enumerable || false;
         descriptor.configurable = true;
         if ("value" in descriptor) descriptor.writable = true;
@@ -149,7 +149,7 @@ var h = /*#__PURE__*/ React.createElement("div", {
     }
 });
 // Error - property not on ontextually typed intrinsic ref callback parameter
-var i1 = /*#__PURE__*/ React.createElement("div", {
+var i = /*#__PURE__*/ React.createElement("div", {
     ref: function(x) {
         return x.propertyNotOnHtmlDivElement;
     }

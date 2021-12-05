@@ -1,7 +1,7 @@
 // Any attempt to access a private property member outside the class body that contains its declaration results in a compile-time error.
-class C1 {
+class C {
 }
-(function(C) {
-    C.y = C1.bar;
-})(C1 || (C1 = {
+(function(C1) {
+    C1.y = C.bar;
+})(C || (C = {
 }));

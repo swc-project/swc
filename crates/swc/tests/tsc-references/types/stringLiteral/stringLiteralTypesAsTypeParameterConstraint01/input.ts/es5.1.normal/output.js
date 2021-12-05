@@ -1,14 +1,14 @@
 // @declaration: true
-function foo(f) {
-    return f;
+function foo(f1) {
+    return f1;
 }
-function bar(f) {
-    return f;
+function bar(f2) {
+    return f2;
 }
-var f1 = foo(function(x) {
+var f = foo(function(x) {
     return x;
 });
-var fResult = f1("foo");
+var fResult = f("foo");
 var g = foo(function(x) {
     return x;
 });

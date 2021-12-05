@@ -1,5 +1,5 @@
-var TypeScript1;
-!function(TypeScript) {
+var TypeScript;
+!function(TypeScript1) {
     function pushAssignScope(scope, context, type, classType, fnc) {
         var chain = new ScopeChain(null, context.scopeChain, scope);
         chain.thisType = type, chain.classType = classType, chain.fnc = fnc, context.scopeChain = chain;
@@ -13,11 +13,11 @@ var TypeScript1;
     function instanceFilterStop(s) {
         return s.isInstanceProperty();
     }
-    TypeScript.AssignScopeContext = class {
+    TypeScript1.AssignScopeContext = class {
         constructor(scopeChain, typeFlow, modDeclChain){
             this.scopeChain = scopeChain, this.typeFlow = typeFlow, this.modDeclChain = modDeclChain;
         }
-    }, TypeScript.pushAssignScope = pushAssignScope, TypeScript.popAssignScope = popAssignScope, TypeScript.instanceCompare = instanceCompare, TypeScript.instanceFilterStop = instanceFilterStop;
+    }, TypeScript1.pushAssignScope = pushAssignScope, TypeScript1.popAssignScope = popAssignScope, TypeScript1.instanceCompare = instanceCompare, TypeScript1.instanceFilterStop = instanceFilterStop;
     class ScopeSearchFilter {
         reset() {
             this.result = null;
@@ -54,7 +54,7 @@ var TypeScript1;
     function preAssignWithScopes(ast, context) {
         var withStmt = ast, withType = withStmt.type, members = new ScopedMembers(new DualStringHashTable(new StringHashTable(), new StringHashTable())), ambientMembers = new ScopedMembers(new DualStringHashTable(new StringHashTable(), new StringHashTable())), withType = new Type(), withSymbol = new WithSymbol(withStmt.minChar, context.typeFlow.checker.locationInfo.unitIndex, withType);
         withType.members = members, withType.ambientMembers = ambientMembers, withType.symbol = withSymbol, withType.setHasImplementation(), withStmt.type = withType;
-        var withScope = new TypeScript1.SymbolScopeBuilder(withType.members, withType.ambientMembers, null, null, context.scopeChain.scope, withType.symbol);
+        var withScope = new TypeScript.SymbolScopeBuilder(withType.members, withType.ambientMembers, null, null, context.scopeChain.scope, withType.symbol);
         pushAssignScope(withScope, context, null, null, null), withType.containedScope = withScope;
     }
     function preAssignFuncDeclScopes(ast, context) {
@@ -97,10 +97,10 @@ var TypeScript1;
             catchBlock.containedScope = catchLocals, pushAssignScope(catchLocals, context, context.scopeChain.thisType, context.scopeChain.classType, context.scopeChain.fnc);
         }
     }
-    TypeScript.ScopeSearchFilter = ScopeSearchFilter, TypeScript.instanceFilter = new ScopeSearchFilter(instanceCompare, instanceFilterStop), TypeScript.preAssignModuleScopes = preAssignModuleScopes, TypeScript.preAssignClassScopes = preAssignClassScopes, TypeScript.preAssignInterfaceScopes = preAssignInterfaceScopes, TypeScript.preAssignWithScopes = preAssignWithScopes, TypeScript.preAssignFuncDeclScopes = preAssignFuncDeclScopes, TypeScript.preAssignCatchScopes = preAssignCatchScopes, TypeScript.preAssignScopes = function(ast, parent, walker) {
+    TypeScript1.ScopeSearchFilter = ScopeSearchFilter, TypeScript1.instanceFilter = new ScopeSearchFilter(instanceCompare, instanceFilterStop), TypeScript1.preAssignModuleScopes = preAssignModuleScopes, TypeScript1.preAssignClassScopes = preAssignClassScopes, TypeScript1.preAssignInterfaceScopes = preAssignInterfaceScopes, TypeScript1.preAssignWithScopes = preAssignWithScopes, TypeScript1.preAssignFuncDeclScopes = preAssignFuncDeclScopes, TypeScript1.preAssignCatchScopes = preAssignCatchScopes, TypeScript1.preAssignScopes = function(ast, parent, walker) {
         var context = walker.state, go = !0;
         return ast && (ast.nodeType == NodeType.List ? ast.enclosingScope = context.scopeChain.scope : ast.nodeType == NodeType.ModuleDeclaration ? preAssignModuleScopes(ast, context) : ast.nodeType == NodeType.ClassDeclaration ? preAssignClassScopes(ast, context) : ast.nodeType == NodeType.InterfaceDeclaration ? preAssignInterfaceScopes(ast, context) : ast.nodeType == NodeType.With ? preAssignWithScopes(ast, context) : ast.nodeType == NodeType.FuncDecl ? preAssignFuncDeclScopes(ast, context) : ast.nodeType == NodeType.Catch ? preAssignCatchScopes(ast, context) : ast.nodeType == NodeType.TypeRef && (go = !1)), walker.options.goChildren = go, ast;
-    }, TypeScript.postAssignScopes = function(ast, parent, walker) {
+    }, TypeScript1.postAssignScopes = function(ast, parent, walker) {
         var context = walker.state, go = !0;
         if (ast) if (ast.nodeType == NodeType.ModuleDeclaration) popAssignScope(context), context.modDeclChain.pop(), context.modDeclChain.length >= 1 && (context.typeFlow.checker.currentModDecl = context.modDeclChain[context.modDeclChain.length - 1]);
         else if (ast.nodeType == NodeType.ClassDeclaration) popAssignScope(context);
@@ -112,5 +112,5 @@ var TypeScript1;
         } else ast.nodeType == NodeType.Catch ? ast.param && popAssignScope(context) : go = !1;
         return walker.options.goChildren = go, ast;
     };
-}(TypeScript1 || (TypeScript1 = {
+}(TypeScript || (TypeScript = {
 }));

@@ -303,17 +303,17 @@ const JpegImage = function jpegImage() {
                 }
             }
         }
-        function decodeMcu(component, decode, mcu, row, col) {
+        function decodeMcu(component, decode1, mcu, row, col) {
             const mcuRow = mcu / mcusPerLine | 0;
             const mcuCol = mcu % mcusPerLine;
             const blockRow = mcuRow * component.v + row;
             const blockCol = mcuCol * component.h + col;
-            decode(component, component.blocks[blockRow][blockCol]);
+            decode1(component, component.blocks[blockRow][blockCol]);
         }
-        function decodeBlock(component, decode, mcu) {
+        function decodeBlock(component, decode2, mcu) {
             const blockRow = mcu / component.blocksPerLine | 0;
             const blockCol = mcu % component.blocksPerLine;
-            decode(component, component.blocks[blockRow][blockCol]);
+            decode2(component, component.blocks[blockRow][blockCol]);
         }
         const componentsLength = components.length;
         let component1, i, j, k1, n1;
@@ -946,7 +946,7 @@ const JpegImage = function jpegImage() {
     };
     return constructor;
 }();
-const decode1 = function(jpegData, colorTransform = true) {
+const decode = function(jpegData, colorTransform = true) {
     const arr = new Uint8Array(jpegData);
     const decoder = new JpegImage();
     decoder.parse(arr);
@@ -958,4 +958,4 @@ const decode1 = function(jpegData, colorTransform = true) {
     decoder.copyToImageData(image);
     return image;
 };
-export { decode1 as decode };
+export { decode as decode };
