@@ -13,7 +13,7 @@ use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
     alias_if_required, default_constructor, prepend, private_ident, prop_name_to_expr, quote_expr,
-    quote_ident, quote_str, ExprFactory, IsDirective, ModuleItemLike, StmtLike,
+    quote_ident, quote_str, ExprFactory, IsDirective, IsEmpty, ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
 
@@ -467,7 +467,33 @@ where
 
             // Black magic to detect injected constructor.
             let is_constructor_default = constructor.span.is_dummy();
-            if is_constructor_default {
+            if is_constructor_default
+                && constructor
+                    .body
+                    .as_ref()
+                    .map(|body| {
+                        if body.is_empty() {
+                            return true;
+                        }
+
+                        if super_class_ident.is_some() {
+                            body.stmts.len() == 1
+                                && match &body.stmts[0] {
+                                    Stmt::Expr(es) => match &*es.expr {
+                                        Expr::Call(CallExpr {
+                                            callee: ExprOrSuper::Super(..),
+                                            ..
+                                        }) => true,
+                                        _ => false,
+                                    },
+                                    _ => false,
+                                }
+                        } else {
+                            false
+                        }
+                    })
+                    .unwrap_or_default()
+            {
                 constructor.params = vec![];
             }
 
