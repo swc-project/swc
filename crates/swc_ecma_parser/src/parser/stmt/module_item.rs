@@ -5,7 +5,7 @@ impl<'a, I: Tokens> Parser<I> {
     fn parse_import(&mut self) -> PResult<ModuleItem> {
         let start = cur_pos!(self);
 
-        if self.input.syntax().import_meta() && peeked_is!(self, '.') {
+        if peeked_is!(self, '.') {
             let expr = self.parse_expr()?;
 
             eat!(self, ';');
@@ -404,9 +404,6 @@ impl<'a, I: Tokens> Parser<I> {
                 }));
             }
             if eat!(self, "as") {
-                if !self.input.syntax().export_namespace_from() {
-                    syntax_error!(self, span!(self, start), SyntaxError::ExportNamespaceFrom)
-                }
                 let _ = cur!(self, false);
 
                 let name = self.parse_ident_name()?;

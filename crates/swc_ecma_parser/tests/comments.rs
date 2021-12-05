@@ -24,20 +24,10 @@ fn test(input: PathBuf) {
             let syntax = match &*ext {
                 "js" => Syntax::Es(EsConfig {
                     jsx: false,
-                    num_sep: true,
-                    class_private_props: true,
-                    class_private_methods: true,
-                    class_props: true,
                     fn_bind: false,
                     decorators: true,
                     decorators_before_export: false,
                     export_default_from: true,
-                    export_namespace_from: true,
-                    dynamic_import: true,
-                    nullish_coalescing: true,
-                    optional_chaining: true,
-                    import_meta: true,
-                    top_level_await: true,
                     import_assertions: true,
                     static_blocks: true,
                     ..Default::default()
@@ -45,7 +35,6 @@ fn test(input: PathBuf) {
                 "ts" | "tsx" => Syntax::Typescript(TsConfig {
                     tsx: ext == "tsx",
                     decorators: true,
-                    dynamic_import: true,
                     no_early_errors: true,
                     ..Default::default()
                 }),

@@ -132,7 +132,6 @@ fn shopify_2_same_opt() {
                     syntax: Some(Syntax::Typescript(TsConfig {
                         tsx: true,
                         decorators: false,
-                        dynamic_import: true,
                         dts: false,
                         no_early_errors: false,
                     })),
@@ -207,7 +206,6 @@ fn shopify_3_reduce_defaults() {
                 jsc: JscConfig {
                     syntax: Some(Syntax::Typescript(TsConfig {
                         tsx: true,
-                        dynamic_import: true,
                         ..Default::default()
                     })),
                     ..Default::default()

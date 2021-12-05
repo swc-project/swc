@@ -279,7 +279,6 @@ fn export_namespace_from() {
         "export * as Foo from 'foo';",
         Default::default(),
         Syntax::Es(EsConfig {
-            export_namespace_from: true,
             ..EsConfig::default()
         }),
     );
@@ -292,7 +291,6 @@ fn export_namespace_from_min() {
         "export*as Foo from'foo'",
         Config { minify: true },
         Syntax::Es(EsConfig {
-            export_namespace_from: true,
             ..EsConfig::default()
         }),
     );
@@ -305,7 +303,6 @@ fn named_and_namespace_export_from() {
         "export * as Foo, { bar } from 'foo';",
         Default::default(),
         Syntax::Es(EsConfig {
-            export_namespace_from: true,
             ..EsConfig::default()
         }),
     );
@@ -318,7 +315,6 @@ fn named_and_namespace_export_from_min() {
         "export*as Foo,{bar}from'foo'",
         Config { minify: true },
         Syntax::Es(EsConfig {
-            export_namespace_from: true,
             ..EsConfig::default()
         }),
     );
@@ -525,7 +521,7 @@ fn integration_01_reduced_01() {
 }
 
 #[test]
-fn dneo_8541_1() {
+fn deno_8541_1() {
     test_from_to(
         "React.createElement('span', null, '\\u{b7}');",
         "React.createElement('span', null, '\\u{b7}');",

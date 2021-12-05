@@ -13,7 +13,6 @@ fn syntax_default() -> Syntax {
 }
 fn syntax_namespace() -> Syntax {
     Syntax::Es(EsConfig {
-        export_namespace_from: true,
         ..Default::default()
     })
 }

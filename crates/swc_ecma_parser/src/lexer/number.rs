@@ -347,7 +347,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         let mut prev = None;
         while let Some(c) = self.cur() {
-            if allow_num_separator && self.syntax.num_sep() && c == '_' {
+            if allow_num_separator && c == '_' {
                 let is_allowed = |c: Option<char>| {
                     if c.is_none() {
                         return false;
@@ -438,7 +438,6 @@ mod tests {
         crate::with_test_sess(s, |_, fm| {
             let mut l = Lexer::new(
                 Syntax::Es(EsConfig {
-                    num_sep: true,
                     ..Default::default()
                 }),
                 Default::default(),

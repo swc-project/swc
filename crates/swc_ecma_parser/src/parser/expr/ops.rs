@@ -131,10 +131,6 @@ impl<'a, I: Tokens> Parser<I> {
             }
         };
 
-        if !self.syntax().nullish_coalescing() && op == op!("??") {
-            self.emit_err(left.span(), SyntaxError::NullishCoalescingNotEnabled);
-        }
-
         if op.precedence() <= min_prec {
             if cfg!(feature = "debug") {
                 trace!(
