@@ -448,12 +448,8 @@ impl<'a, I: Input> Lexer<'a, I> {
             return Ok(None);
         }
 
-        if self.syntax.class_private_props() || self.syntax.class_private_methods() {
-            self.input.bump(); // '#'
-            return Ok(Some(Token::Hash));
-        }
-
-        self.error(start, SyntaxError::Hash)?
+        self.input.bump(); // '#'
+        return Ok(Some(Token::Hash));
     }
 
     fn read_token_interpreter(&mut self) -> LexResult<bool> {

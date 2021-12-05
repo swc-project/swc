@@ -9,7 +9,6 @@ use test::Bencher;
 
 fn syntax() -> Syntax {
     Syntax::Es(EsConfig {
-        dynamic_import: true,
         ..Default::default()
     })
 }
@@ -374,7 +373,6 @@ fn issue_328() {
         test_parser(
             "import('test')",
             Syntax::Es(EsConfig {
-                dynamic_import: true,
                 ..Default::default()
             }),
             |p| { p.parse_stmt(true) }

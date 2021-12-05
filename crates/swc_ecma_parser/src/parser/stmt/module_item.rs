@@ -5,7 +5,7 @@ impl<'a, I: Tokens> Parser<I> {
     fn parse_import(&mut self) -> PResult<ModuleItem> {
         let start = cur_pos!(self);
 
-        if self.input.syntax().import_meta() && peeked_is!(self, '.') {
+        if peeked_is!(self, '.') {
             let expr = self.parse_expr()?;
 
             eat!(self, ';');
