@@ -231,7 +231,6 @@ mod tests {
                     dynamic_import: true,
                     decorators: true,
                     no_early_errors: true,
-                    import_assertions: true,
                     ..Default::default()
                 }),
                 EsVersion::Es2015,

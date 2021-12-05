@@ -123,7 +123,6 @@ fn compile(input: &Path, output: &Path, opts: Options) {
                                 dynamic_import: true,
                                 dts: false,
                                 no_early_errors: true,
-                                import_assertions: false,
                             })),
                             ..opts.config.jsc
                         },

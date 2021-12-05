@@ -1503,7 +1503,6 @@ impl Merge for swc_ecma_parser::TsConfig {
         self.tsx |= from.tsx;
         self.decorators |= from.decorators;
         self.dynamic_import |= from.dynamic_import;
-        self.import_assertions |= from.import_assertions;
     }
 }
 
