@@ -530,7 +530,8 @@ impl Destructuring {
                         definite: false,
                     })
                 }
-                _ => {}
+                Pat::Rest(..) | Pat::Expr(..) => params.push(param),
+                Pat::Invalid(..) => {}
             }
         }
 
