@@ -9,6 +9,7 @@ use std::{
     fs::{create_dir_all, File},
     io::Write,
     path::{Path, PathBuf},
+    str::FromStr,
     sync::RwLock,
     thread,
 };
@@ -32,11 +33,13 @@ mod string_errors;
 /// Configures logger
 #[must_use]
 pub fn init() -> tracing::subscriber::DefaultGuard {
+    let log_env = env::var("RUST_LOG").unwrap_or_else(|_| "debug".to_string());
+
     let logger = tracing_subscriber::FmtSubscriber::builder()
         .without_time()
         .with_target(false)
         .with_ansi(true)
-        .with_env_filter(EnvFilter::from_default_env())
+        .with_env_filter(EnvFilter::from_str(&log_env).unwrap())
         .with_test_writer()
         .pretty()
         .finish();
