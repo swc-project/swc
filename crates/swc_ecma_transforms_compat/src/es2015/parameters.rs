@@ -12,6 +12,7 @@ use swc_ecma_utils::{
     member_expr, prepend, prepend_stmts, private_ident, quote_ident, undefined, ExprFactory,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use tracing::trace;
 
 pub fn parameters(c: Config) -> impl 'static + Fold {
     as_folder(Params {
@@ -448,6 +449,7 @@ impl VisitMut for Params {
     }
 
     fn visit_mut_constructor(&mut self, f: &mut Constructor) {
+        trace!("visit_mut_constructor(parmas.len() = {})", f.params.len());
         f.params.visit_mut_with(self);
 
         if let Some(BlockStmt { span: _, stmts }) = &mut f.body {
@@ -472,6 +474,11 @@ impl VisitMut for Params {
                 }
             }
         }
+
+        trace!(
+            "visit_mut_constructor(parmas.len() = {}, after)",
+            f.params.len()
+        );
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {

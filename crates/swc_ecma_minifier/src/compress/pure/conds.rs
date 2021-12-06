@@ -134,7 +134,7 @@ where
 
         self.changed = true;
         tracing::debug!("conditionals: `a ? foo : bar` => `!a ? bar : foo` (considered cost)");
-        let start_str = dump(&*cond);
+        let start_str = dump(&*cond, false);
 
         self.negate(&mut cond.test, true);
         swap(&mut cond.cons, &mut cond.alt);
@@ -143,7 +143,7 @@ where
             tracing::trace!(
                 "[Change] Negated cond: `{}` => `{}`",
                 start_str,
-                dump(&*cond)
+                dump(&*cond, false)
             )
         }
     }

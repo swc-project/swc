@@ -303,6 +303,8 @@ macro_rules! impl_visit_mut_fn {
                 return;
             }
 
+            tracing::trace!("visit_mut_constructor(parmas.len() = {})", f.params.len());
+
             f.visit_mut_children_with(self);
 
             let mut params = f
@@ -318,6 +320,11 @@ macro_rules! impl_visit_mut_fn {
                 .collect();
 
             let (params, body) = self.visit_mut_fn_like(&mut params, &mut f.body.take().unwrap());
+
+            tracing::trace!(
+                "visit_mut_constructor(parmas.len() = {}, after)",
+                params.len()
+            );
 
             f.params = params.into_iter().map(ParamOrTsParamProp::Param).collect();
             f.body = Some(body);
