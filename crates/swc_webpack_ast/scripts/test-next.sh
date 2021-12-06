@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -eu
 
+# This script tests if webpack ast is identical to webpack ast produced by acorn,
+# by running webpack via next.js
+
 
 (cd next.js/packages/next-swc && yarn build-native)
 
