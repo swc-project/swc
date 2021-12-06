@@ -32,7 +32,7 @@ use swc_ecma_transforms::{
 };
 use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
-use tracing::{span, Level};
+use tracing::{error, span, Level};
 
 mod drop_console;
 mod hoist_decls;
@@ -62,6 +62,7 @@ where
         data: None,
         left_parallel_depth: 0,
         mode,
+        dump_for_infinite_loop: Default::default(),
     };
 
     chain!(
@@ -86,6 +87,8 @@ where
     data: Option<ProgramData>,
     /// `0` means we should not create more threads.
     left_parallel_depth: u8,
+
+    dump_for_infinite_loop: Vec<String>,
 
     mode: &'a M,
 }
@@ -149,6 +152,7 @@ where
                     data: None,
                     left_parallel_depth: 0,
                     mode: self.mode,
+                    dump_for_infinite_loop: Default::default(),
                 };
                 node.visit_mut_with(&mut v);
 
@@ -168,6 +172,7 @@ where
                             data: None,
                             left_parallel_depth: self.left_parallel_depth - 1,
                             mode: self.mode,
+                            dump_for_infinite_loop: Default::default(),
                         };
                         node.visit_mut_with(&mut v);
 
@@ -249,8 +254,27 @@ where
         }
 
         // This exists to prevent hanging.
-        if self.pass > 100 {
-            panic!("Infinite loop detected (current pass = {})", self.pass)
+        if self.pass > 200 {
+            if self.dump_for_infinite_loop.is_empty() {
+                error!("Seems like there's an infinite loop");
+            }
+
+            let code = n.force_dump();
+
+            if self.dump_for_infinite_loop.contains(&code) {
+                let mut msg = String::new();
+
+                for (i, code) in self.dump_for_infinite_loop.iter().enumerate() {
+                    msg.push_str(&format!("Code {:>4}:\n\n\n\n\n\n\n\n\n\n{}\n", i, code));
+                }
+
+                panic!(
+                    "Infinite loop detected (current pass = {})\n{}",
+                    self.pass, msg
+                )
+            } else {
+                self.dump_for_infinite_loop.push(code);
+            }
         }
 
         let start = if cfg!(feature = "debug") {
@@ -349,7 +373,7 @@ where
                 self.options,
                 self.data.as_ref().unwrap(),
                 self.mode,
-                self.pass >= 20,
+                !self.dump_for_infinite_loop.is_empty(),
             );
             n.apply(&mut visitor);
             self.changed |= visitor.changed();
