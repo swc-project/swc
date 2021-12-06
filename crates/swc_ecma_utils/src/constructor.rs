@@ -4,10 +4,10 @@ use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 
-pub fn inject_after_super(c: &mut Constructor, exprs: Vec<Box<Expr>>) {
+pub fn inject_after_super(c: &mut Constructor, mut exprs: Vec<Box<Expr>>) {
     // Allow using super multiple time
     let mut folder = Injector {
-        exprs: &exprs,
+        exprs: &mut exprs,
         injected: false,
     };
 
@@ -29,7 +29,7 @@ pub fn inject_after_super(c: &mut Constructor, exprs: Vec<Box<Expr>>) {
 
 struct Injector<'a> {
     injected: bool,
-    exprs: &'a [Box<Expr>],
+    exprs: &'a mut Vec<Box<Expr>>,
 }
 
 impl<'a> Fold for Injector<'a> {
@@ -63,7 +63,7 @@ impl<'a> Fold for Injector<'a> {
                     }) => {
                         self.injected = true;
                         buf.push(stmt);
-                        buf.extend(self.exprs.iter().cloned().map(|v| v.into_stmt()));
+                        buf.extend(self.exprs.take().into_iter().map(|v| v.into_stmt()));
                         return;
                     }
                     _ => {}
@@ -112,7 +112,7 @@ impl<'a> Fold for Injector<'a> {
 /// Handles code like `foo(super())`
 struct ExprInjector<'a> {
     injected: bool,
-    exprs: &'a [Box<Expr>],
+    exprs: &'a mut Vec<Box<Expr>>,
     injected_tmp: Option<Ident>,
 }
 
@@ -151,7 +151,7 @@ impl VisitMut for ExprInjector<'_> {
                         op: op!("="),
                         right: Box::new(e),
                     })))
-                    .chain(self.exprs.iter().cloned())
+                    .chain(self.exprs.take())
                     .chain(iter::once(Box::new(Expr::Ident(
                         self.injected_tmp.as_ref().cloned().unwrap(),
                     ))))
