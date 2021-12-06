@@ -124,7 +124,7 @@ fn test_babelify(input: PathBuf) {
             res?
         };
 
-        let s = swc_webpack_ast::webpack_ast(cm.clone(), fm.clone(), module).unwrap();
+        let s = swc_webpack_ast::webpack_ast(cm.clone(), fm.clone(), module.into()).unwrap();
         println!("{} bytes", s.len());
 
         fs::write(&output_path, s.as_bytes()).unwrap();
