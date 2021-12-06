@@ -151,7 +151,7 @@ impl VisitMut for ExprInjector<'_> {
                         op: op!("="),
                         right: Box::new(e),
                     })))
-                    .chain(self.exprs.take())
+                    .chain(self.exprs.clone())
                     .chain(iter::once(Box::new(Expr::Ident(
                         self.injected_tmp.as_ref().cloned().unwrap(),
                     ))))
