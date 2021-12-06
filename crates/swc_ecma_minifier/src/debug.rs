@@ -36,12 +36,14 @@ impl VisitMut for Debugger {
     }
 }
 
-pub(crate) fn dump<N>(node: &N) -> String
+pub(crate) fn dump<N>(node: &N, force: bool) -> String
 where
     N: swc_ecma_codegen::Node + Clone + VisitMutWith<DropSpan> + VisitMutWith<Debugger>,
 {
-    if !cfg!(feature = "debug") {
-        return String::new();
+    if !force {
+        if !cfg!(feature = "debug") {
+            return String::new();
+        }
     }
 
     let mut node = node.clone();

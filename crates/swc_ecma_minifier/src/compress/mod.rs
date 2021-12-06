@@ -1,9 +1,5 @@
 pub(crate) use self::pure::pure_optimizer;
-use self::{
-    drop_console::drop_console,
-    hoist_decls::DeclHoisterConfig,
-    optimize::{optimizer, OptimizerState},
-};
+use self::{drop_console::drop_console, hoist_decls::DeclHoisterConfig, optimize::optimizer};
 use crate::{
     analyzer::{analyze, ProgramData, UsageAnalyzer},
     compress::hoist_decls::decl_hoister,
@@ -36,7 +32,7 @@ use swc_ecma_transforms::{
 };
 use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
-use tracing::{span, Level};
+use tracing::{error, span, Level};
 
 mod drop_console;
 mod hoist_decls;
@@ -64,9 +60,9 @@ where
         changed: false,
         pass: 0,
         data: None,
-        optimizer_state: Default::default(),
         left_parallel_depth: 0,
         mode,
+        dump_for_infinite_loop: Default::default(),
     };
 
     chain!(
@@ -89,9 +85,10 @@ where
     changed: bool,
     pass: usize,
     data: Option<ProgramData>,
-    optimizer_state: OptimizerState,
     /// `0` means we should not create more threads.
     left_parallel_depth: u8,
+
+    dump_for_infinite_loop: Vec<String>,
 
     mode: &'a M,
 }
@@ -153,9 +150,9 @@ where
                     changed: false,
                     pass: self.pass,
                     data: None,
-                    optimizer_state: Default::default(),
                     left_parallel_depth: 0,
                     mode: self.mode,
+                    dump_for_infinite_loop: Default::default(),
                 };
                 node.visit_mut_with(&mut v);
 
@@ -173,9 +170,9 @@ where
                             changed: false,
                             pass: self.pass,
                             data: None,
-                            optimizer_state: Default::default(),
                             left_parallel_depth: self.left_parallel_depth - 1,
                             mode: self.mode,
+                            dump_for_infinite_loop: Default::default(),
                         };
                         node.visit_mut_with(&mut v);
 
@@ -251,14 +248,33 @@ where
         };
 
         if self.options.passes != 0 && self.options.passes + 1 <= self.pass {
-            let done = dump(&*n);
+            let done = dump(&*n, false);
             tracing::debug!("===== Done =====\n{}", done);
             return;
         }
 
         // This exists to prevent hanging.
-        if self.pass > 100 {
-            panic!("Infinite loop detected (current pass = {})", self.pass)
+        if self.pass > 200 {
+            if self.dump_for_infinite_loop.is_empty() {
+                error!("Seems like there's an infinite loop");
+            }
+
+            let code = n.force_dump();
+
+            if self.dump_for_infinite_loop.contains(&code) {
+                let mut msg = String::new();
+
+                for (i, code) in self.dump_for_infinite_loop.iter().enumerate() {
+                    msg.push_str(&format!("Code {:>4}:\n\n\n\n\n\n\n\n\n\n{}\n", i, code));
+                }
+
+                panic!(
+                    "Infinite loop detected (current pass = {})\n{}",
+                    self.pass, msg
+                )
+            } else {
+                self.dump_for_infinite_loop.push(code);
+            }
         }
 
         let start = if cfg!(feature = "debug") {
@@ -287,7 +303,7 @@ where
 
                 tracing::debug!("compressor: Simplified expressions");
                 if cfg!(feature = "debug") {
-                    tracing::debug!("===== Simplified =====\n{}", dump(&*n));
+                    tracing::debug!("===== Simplified =====\n{}", dump(&*n, false));
                 }
             }
 
@@ -352,15 +368,12 @@ where
             //
             // This is swc version of `node.optimize(this);`.
 
-            self.optimizer_state = Default::default();
-
             let mut visitor = optimizer(
                 self.marks,
                 self.options,
                 self.data.as_ref().unwrap(),
-                &mut self.optimizer_state,
                 self.mode,
-                self.pass >= 20,
+                !self.dump_for_infinite_loop.is_empty(),
             );
             n.apply(&mut visitor);
             self.changed |= visitor.changed();
@@ -380,7 +393,7 @@ where
 
         if self.options.conditionals || self.options.dead_code {
             let start = if cfg!(feature = "debug") {
-                dump(&*n)
+                dump(&*n, false)
             } else {
                 "".into()
             };
@@ -401,7 +414,7 @@ where
             }
 
             if cfg!(feature = "debug") {
-                let simplified = dump(&*n);
+                let simplified = dump(&*n, false);
 
                 if start != simplified {
                     tracing::debug!(
