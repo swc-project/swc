@@ -741,7 +741,7 @@ where
         self.normalize_sequences(e);
 
         let _tracing = if cfg!(feature = "debug") {
-            let e_str = dump(&*e);
+            let e_str = dump(&*e, false);
 
             Some(
                 span!(
@@ -805,7 +805,7 @@ where
                     Mergable::Expr(e2) => {
                         if !self.is_skippable_for_seq(Some(a), &*e2) {
                             if cfg!(feature = "debug") && false {
-                                tracing::trace!("Cannot skip: {}", dump(&**e2));
+                                tracing::trace!("Cannot skip: {}", dump(&**e2, false));
                             }
 
                             break;
@@ -926,7 +926,7 @@ where
     /// Returns [Err] iff we should stop checking.
     fn merge_sequential_expr(&mut self, a: &mut Mergable, b: &mut Expr) -> Result<bool, ()> {
         let _tracing = if cfg!(feature = "debug") {
-            let b_str = dump(&*b);
+            let b_str = dump(&*b, false);
 
             Some(span!(Level::ERROR, "merge_sequential_expr", b = &*b_str).entered())
         } else {
@@ -1243,7 +1243,7 @@ where
         {
             // This requires tracking if `b` is in an assignment pattern.
             //
-            // Update experssions can be inline.
+            // Update expressions can be inline.
             //
             // ++c, console.log(c)
             //
@@ -1455,7 +1455,7 @@ where
         replace_id_with_expr(b, left_id.to_id(), to);
 
         if cfg!(feature = "debug") {
-            tracing::debug!("sequences: [Chanded] {}", dump(&*b));
+            tracing::debug!("sequences: [Changed] {}", dump(&*b, false));
         }
 
         Ok(true)

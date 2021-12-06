@@ -223,7 +223,8 @@ where
             let stmts = &stmts[skip..=last_idx];
             let return_count: usize = stmts.iter().map(|v| count_leaping_returns(v)).sum();
 
-            // There's no return statment so merging requires injecting unnecessary `void 0`
+            // There's no return statement so merging requires injecting unnecessary `void
+            // 0`
             if return_count == 0 {
                 tracing::trace!("if_return: [x] Aborting because we failed to find return");
                 return;
@@ -327,7 +328,7 @@ where
                 span: DUMMY_SP,
                 stmts: stmts.clone(),
             };
-            tracing::trace!("if_return: {}", dump(&block))
+            tracing::trace!("if_return: {}", dump(&block, false))
         }
         self.changed = true;
 
@@ -646,7 +647,7 @@ fn can_merge_as_if_return(s: &Stmt) -> bool {
     let c = cost(s);
 
     if cfg!(feature = "debug") {
-        tracing::trace!("merging cost of `{}` = {:?}", dump(s), c);
+        tracing::trace!("merging cost of `{}` = {:?}", dump(s, false), c);
     }
 
     c.unwrap_or(0) < 0

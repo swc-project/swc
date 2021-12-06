@@ -122,7 +122,7 @@ impl<M> Optimizer<'_, M>
 where
     M: Mode,
 {
-    /// # Exmaple
+    /// # Example
     ///
     /// ## Input
     ///
@@ -265,9 +265,9 @@ where
             tracing::trace!("inline: inline_vars_in_node");
         }
 
-        let orig_vars = replace(&mut self.state.vars_for_inlining, vars);
+        let orig_vars = replace(&mut self.vars_for_inlining, vars);
         n.visit_mut_with(self);
-        self.state.vars_for_inlining = orig_vars;
+        self.vars_for_inlining = orig_vars;
     }
 
     /// Fully inlines iife.
@@ -282,7 +282,7 @@ where
     /// })().x = 10;
     /// ```
     ///
-    /// ## Oupuy
+    /// ## Output
     ///
     /// ```ts
     /// ({
@@ -553,7 +553,7 @@ where
             Stmt::Expr(e) => match &*e.expr {
                 Expr::Await(..) => false,
 
-                // TODO: Check if paramter is used and inline if call is not related to parameters.
+                // TODO: Check if parameter is used and inline if call is not related to parameters.
                 Expr::Call(e) => {
                     let used = idents_used_by(&e.callee);
                     param_ids.iter().all(|param| !used.contains(&param.to_id()))

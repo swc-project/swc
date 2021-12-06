@@ -101,7 +101,7 @@ where
         }
 
         if cfg!(feature = "debug") {
-            tracing::trace!("unused: drop_unused_vars({})", dump(&*name));
+            tracing::trace!("unused: drop_unused_vars({})", dump(&*name, false));
         }
 
         // Top-level
@@ -113,7 +113,7 @@ where
                             if cfg!(feature = "debug") {
                                 tracing::trace!(
                                     "unused: [X] Preserving `var` `{}` because it's top-level",
-                                    dump(&*name)
+                                    dump(&*name, false)
                                 );
                             }
 
@@ -127,7 +127,7 @@ where
                             tracing::trace!(
                                 "unused: [X] Preserving block scoped var `{}` because it's \
                                  top-level",
-                                dump(&*name)
+                                dump(&*name, false)
                             );
                         }
                         return;
@@ -146,7 +146,7 @@ where
                 if cfg!(feature = "debug") {
                     tracing::trace!(
                         "unused: [X] Preserving `{}` because of usages",
-                        dump(&*name)
+                        dump(&*name, false)
                     );
                 }
                 return;
@@ -216,7 +216,10 @@ where
                     return;
                 } else {
                     if cfg!(feature = "debug") {
-                        tracing::trace!("unused: Cannot drop ({}) becaue it's used", dump(&*i));
+                        tracing::trace!(
+                            "unused: Cannot drop ({}) because it's used",
+                            dump(&*i, false)
+                        );
                     }
                 }
             }
@@ -399,7 +402,7 @@ where
         if cfg!(feature = "debug") {
             tracing::trace!(
                 "unused: drop_unused_assignments: Target: `{}`",
-                dump(&assign.left)
+                dump(&assign.left, false)
             )
         }
 
@@ -410,7 +413,7 @@ where
             if cfg!(feature = "debug") {
                 tracing::trace!(
                     "unused: Preserving assignment to `{}` because it's top-level",
-                    dump(&assign.left)
+                    dump(&assign.left, false)
                 )
             }
             return;
@@ -421,7 +424,7 @@ where
                 if cfg!(feature = "debug") {
                     tracing::trace!(
                         "unused: Preserving assignment to `{}` because it's an expression",
-                        dump(&assign.left)
+                        dump(&assign.left, false)
                     )
                 }
                 return;
@@ -450,7 +453,7 @@ where
                             if cfg!(feature = "debug") {
                                 tracing::trace!(
                                     "unused: Preserving assignment to `{}` because of usage: {:?}",
-                                    dump(&assign.left),
+                                    dump(&assign.left, false),
                                     var
                                 )
                             }
@@ -526,10 +529,10 @@ pub(super) struct UnreachableHandler {
 }
 
 impl UnreachableHandler {
-    /// Asssumes `s` is not reachable, and preserves variable declarations and
+    /// Assumes `s` is not reachable, and preserves variable declarations and
     /// function declarations in `s`.
     ///
-    /// Returns true if statement is chnged.
+    /// Returns true if statement is changed.
     pub fn preserve_vars(s: &mut Stmt) -> bool {
         if s.is_empty() {
             return false;
