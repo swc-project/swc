@@ -266,7 +266,16 @@ where
 
     method!(fold_ts_type, TsType);
 
-    method!(fold_module, Module);
+    #[inline(always)]
+    fn fold_module(&mut self, mut n: Module) -> Module {
+        #[cfg(debug_assertions)]
+        let _tracing = {
+            let visitor_name = std::any::type_name::<V>();
+            tracing::span!(tracing::Level::TRACE, "as_folder", visitor = visitor_name).entered()
+        };
+        n.visit_mut_with(&mut self.0);
+        n
+    }
     method!(fold_script, Script);
     method!(fold_program, Program);
 }
