@@ -63,7 +63,7 @@ impl<'a> Fold for Injector<'a> {
                     }) => {
                         self.injected = true;
                         buf.push(stmt);
-                        buf.extend(self.exprs.take().into_iter().map(|v| v.into_stmt()));
+                        buf.extend(self.exprs.clone().into_iter().map(|v| v.into_stmt()));
                         return;
                     }
                     _ => {}
