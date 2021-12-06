@@ -1658,7 +1658,7 @@ pub fn prop_name_to_expr_value(p: PropName) -> Expr {
 }
 
 pub fn default_constructor(has_super: bool) -> Constructor {
-    trace!("Creating a default constructor");
+    trace!(has_super = has_super, "Creating a default constructor");
 
     let span = DUMMY_SP;
 
