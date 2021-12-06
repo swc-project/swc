@@ -1455,19 +1455,28 @@ where
                             kind: VarDeclKind::Var,
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(import.id.into()),
+                                name: Pat::Ident(import.id.clone().into()),
                                 init: Some(Box::new(module_ref_to_expr(import.module_ref))),
                                 definite: false,
                             }],
                             declare: false,
                         });
                         if import.is_export {
-                            stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(
-                                ExportDecl {
-                                    span: DUMMY_SP,
-                                    decl: var,
-                                },
-                            )));
+                            if let Some(parent_module_name) = parent_module_name {
+                                stmts.push(ModuleItem::Stmt(Stmt::Decl(var)));
+                                stmts.push(ModuleItem::Stmt(self.get_namespace_child_decl_assignment(
+                                    parent_module_name,
+                                    import.id,
+                                    import.span,
+                                )));
+                            } else {
+                                stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(
+                                    ExportDecl {
+                                        span: DUMMY_SP,
+                                        decl: var,
+                                    },
+                                )));
+                            }
                         } else {
                             stmts.push(ModuleItem::Stmt(Stmt::Decl(var)));
                         }

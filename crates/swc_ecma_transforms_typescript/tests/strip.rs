@@ -3581,6 +3581,37 @@ to!(
 );
 
 to!(
+    namespace_005,
+    "
+    namespace A {
+        export class Test {}
+    }
+    namespace B {
+        export import a = A;
+        console.log(a.Test);
+        import b = A;
+        console.log(b.Test);
+    }
+    ",
+    r#"
+    var A;
+    (function (A1) {
+        class Test {
+        }
+        A1.Test = Test;
+    })(A || (A = {}));
+    var B;
+    (function (B1) {
+        var a = A;
+        B1.a = a;
+        console.log(a.Test);
+        var b = A;
+        console.log(b.Test);
+    })(B || (B = {}));
+    "#
+);
+
+to!(
     issue_1329,
     "
     namespace Test {
