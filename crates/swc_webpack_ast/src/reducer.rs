@@ -763,7 +763,7 @@ impl VisitMut for ReduceAst {
 
             Expr::Seq(seq) => {
                 if seq.exprs.is_empty() {
-                    *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                    *e = Expr::Invalid(Invalid { span: seq.span });
                     return;
                 }
             }
