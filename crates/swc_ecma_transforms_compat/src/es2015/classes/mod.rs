@@ -16,6 +16,7 @@ use swc_ecma_utils::{
     quote_ident, quote_str, ExprFactory, IsDirective, ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
+use tracing::debug;
 
 mod constructor;
 mod prop_name;
@@ -468,6 +469,7 @@ where
             // Black magic to detect injected constructor.
             let is_constructor_default = constructor.span.is_dummy();
             if is_constructor_default {
+                debug!("Dropping constructor parameters because the constructor is injected");
                 constructor.params = vec![];
             }
 

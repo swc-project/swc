@@ -73,6 +73,7 @@
         "interner",
         "intrinsics",
         "ints",
+        "jsdoc",
         "jsonify",
         "jsxs",
         "jszip",
