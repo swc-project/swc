@@ -1464,10 +1464,12 @@ where
                         if import.is_export {
                             if let Some(parent_module_name) = parent_module_name {
                                 stmts.push(ModuleItem::Stmt(Stmt::Decl(var)));
-                                stmts.push(ModuleItem::Stmt(self.get_namespace_child_decl_assignment(
-                                    parent_module_name,
-                                    import.id,
-                                )));
+                                stmts.push(ModuleItem::Stmt(
+                                    self.get_namespace_child_decl_assignment(
+                                        parent_module_name,
+                                        import.id,
+                                    ),
+                                ));
                             } else {
                                 stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(
                                     ExportDecl {
@@ -1729,11 +1731,7 @@ where
     ///
     /// Example:
     ///   * `MyNamespace.ChildClass = ChildClass`
-    fn get_namespace_child_decl_assignment(
-        &self,
-        module_name: &Ident,
-        decl_name: Ident,
-    ) -> Stmt {
+    fn get_namespace_child_decl_assignment(&self, module_name: &Ident, decl_name: Ident) -> Stmt {
         let left = PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
             span: DUMMY_SP,
             obj: module_name.clone().as_obj(),
