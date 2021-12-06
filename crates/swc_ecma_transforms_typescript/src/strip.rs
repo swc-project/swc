@@ -1451,7 +1451,7 @@ where
                     // identify that case so we strip it anyway.
                     if !import.is_type_only && (has_concrete || import.is_export) {
                         let var = Decl::Var(VarDecl {
-                            span: DUMMY_SP,
+                            span: import.span,
                             kind: VarDeclKind::Var,
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
@@ -1467,7 +1467,6 @@ where
                                 stmts.push(ModuleItem::Stmt(self.get_namespace_child_decl_assignment(
                                     parent_module_name,
                                     import.id,
-                                    import.span,
                                 )));
                             } else {
                                 stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(
@@ -1537,7 +1536,6 @@ where
                     let assignment = self.get_namespace_child_decl_assignment(
                         parent_module_name.unwrap(),
                         class_decl.ident.clone(),
-                        class_decl.class.span,
                     );
                     stmts.push(ModuleItem::Stmt(Stmt::Decl(class_decl.into())));
                     stmts.push(ModuleItem::Stmt(assignment));
@@ -1550,7 +1548,6 @@ where
                     let assignment = self.get_namespace_child_decl_assignment(
                         parent_module_name.unwrap(),
                         fn_decl.ident.clone(),
-                        fn_decl.function.span,
                     );
                     stmts.push(ModuleItem::Stmt(Stmt::Decl(fn_decl.into())));
                     stmts.push(ModuleItem::Stmt(assignment));
@@ -1736,7 +1733,6 @@ where
         &self,
         module_name: &Ident,
         decl_name: Ident,
-        decl_span: Span,
     ) -> Stmt {
         let left = PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
             span: DUMMY_SP,
@@ -1748,8 +1744,7 @@ where
         let right = Box::new(Expr::Ident(decl_name));
 
         Stmt::Expr(ExprStmt {
-            span: decl_span, /* todo: REMOVE and replace with DUMMY_SP? Try after running all the
-                              * tests */
+            span: DUMMY_SP,
             expr: Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
                 op: op!("="),
