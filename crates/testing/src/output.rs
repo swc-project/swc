@@ -1,3 +1,5 @@
+use tracing::debug;
+
 use crate::paths;
 use std::{
     fmt,
@@ -59,7 +61,7 @@ impl NormalizedOutput {
     {
         let path = path.as_ref();
         let path = path.canonicalize().unwrap_or_else(|err| {
-            eprintln!(
+            debug!(
                 "compare_to_file: failed to canonicalize outfile path `{}`: {:?}",
                 path.display(),
                 err

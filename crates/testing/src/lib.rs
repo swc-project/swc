@@ -120,8 +120,6 @@ pub struct Tester {
 
 impl Tester {
     pub fn new() -> Self {
-        let _log = init();
-
         Tester {
             cm: Lrc::new(SourceMap::new(FilePathMapping::empty())),
             globals: swc_common::Globals::new(),
@@ -139,6 +137,8 @@ impl Tester {
     where
         F: FnOnce(Lrc<SourceMap>, Handler) -> Result<Ret, ()>,
     {
+        let _log = init();
+
         let (handler, errors) =
             self::string_errors::new_handler(self.cm.clone(), self.treat_err_as_bug);
         let result = swc_common::GLOBALS.set(&self.globals, || op(self.cm.clone(), handler));
@@ -154,6 +154,8 @@ impl Tester {
     where
         F: FnOnce(Lrc<SourceMap>, Handler) -> Result<Ret, ()>,
     {
+        let _log = init();
+
         let (handler, errors) =
             self::diag_errors::new_handler(self.cm.clone(), self.treat_err_as_bug);
         let result = swc_common::GLOBALS.set(&self.globals, || op(self.cm.clone(), handler));
