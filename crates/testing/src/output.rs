@@ -1,4 +1,4 @@
-use tracing::debug;
+use tracing::{debug, error};
 
 use crate::paths;
 use std::{
@@ -87,13 +87,13 @@ impl NormalizedOutput {
             return Ok(());
         }
 
-        eprintln!("Comparing output to {}", path.display());
+        debug!("Comparing output to {}", path.display());
         create_dir_all(path.parent().unwrap()).expect("failed to run `mkdir -p`");
 
         if std::env::var("UPDATE").unwrap_or(String::from("0")) == "1" {
             crate::write_to_file(&path, &self.0);
 
-            eprintln!(
+            error!(
                 "Assertion failed: \nActual file printed to {}",
                 path.display()
             );
