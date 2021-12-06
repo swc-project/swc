@@ -8,7 +8,6 @@ function deferred() {
     });
     return Object.assign(promise, methods);
 }
-var tmp = Symbol.asyncIterator;
 class MuxAsyncIterator {
     add(iterator) {
         ++this.iteratorCount;
@@ -46,7 +45,7 @@ class MuxAsyncIterator {
             this.signal = deferred();
         }
     }
-    [tmp]() {
+    [Symbol.asyncIterator]() {
         return this.iterate();
     }
     constructor(){
@@ -326,7 +325,6 @@ class ServerRequest {
         this.finalized = false;
     }
 }
-var tmp1 = Symbol.asyncIterator;
 function parseHTTPVersion(vers) {
     switch(vers){
         case "HTTP/1.1":
@@ -375,6 +373,11 @@ async function readRequest(conn, bufr) {
     return req;
 }
 class Server {
+    constructor(listener){
+        this.listener = listener;
+        this.closing = false;
+        this.connections = [];
+    }
     close() {
         this.closing = true;
         this.listener.close();
@@ -451,15 +454,10 @@ class Server {
         // Yield the requests that arrive on the just-accepted connection.
         yield* this.iterateHttpRequests(conn);
     }
-    [tmp1]() {
+    [Symbol.asyncIterator]() {
         const mux = new MuxAsyncIterator();
         mux.add(this.acceptConnAndIterateHttpRequests(mux));
         return mux.iterate();
-    }
-    constructor(listener){
-        this.listener = listener;
-        this.closing = false;
-        this.connections = [];
     }
 }
 function _parseAddrFromStr(addr) {
