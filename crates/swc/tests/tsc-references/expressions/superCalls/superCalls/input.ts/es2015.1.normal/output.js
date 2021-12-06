@@ -12,7 +12,7 @@ class Derived extends Base {
         this.q = q;
         var _temp;
         //type of super call expression is void
-        var p = (_temp = super(''), this.q = q, _temp);
+        var p = (_temp = super(''), _temp);
         var p = v();
     }
 }

@@ -87,7 +87,7 @@ var Derived = /*#__PURE__*/ function(Base) {
         _this.q = q;
         var _temp;
         //type of super call expression is void
-        var p = (_temp = _this = _super.call(this, ''), _this.q = q, _temp);
+        var p = (_temp = _this = _super.call(this, ''), _temp);
         var p = v();
         return _this;
     }
