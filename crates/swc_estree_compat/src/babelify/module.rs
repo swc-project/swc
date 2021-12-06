@@ -66,6 +66,7 @@ impl Babelify for Module {
             }),
             directives: Default::default(),
             source_file: Default::default(),
+            comments: Default::default(),
         }
     }
 }
@@ -89,6 +90,7 @@ impl Babelify for Script {
             }),
             directives: Default::default(),
             source_file: Default::default(),
+            comments: Default::default(),
         }
     }
 }
