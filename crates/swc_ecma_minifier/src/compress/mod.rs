@@ -1,9 +1,5 @@
 pub(crate) use self::pure::pure_optimizer;
-use self::{
-    drop_console::drop_console,
-    hoist_decls::DeclHoisterConfig,
-    optimize::{optimizer, OptimizerState},
-};
+use self::{drop_console::drop_console, hoist_decls::DeclHoisterConfig, optimize::optimizer};
 use crate::{
     analyzer::{analyze, ProgramData, UsageAnalyzer},
     compress::hoist_decls::decl_hoister,
@@ -64,7 +60,6 @@ where
         changed: false,
         pass: 0,
         data: None,
-        optimizer_state: Default::default(),
         left_parallel_depth: 0,
         mode,
     };
@@ -89,7 +84,6 @@ where
     changed: bool,
     pass: usize,
     data: Option<ProgramData>,
-    optimizer_state: OptimizerState,
     /// `0` means we should not create more threads.
     left_parallel_depth: u8,
 
@@ -153,7 +147,6 @@ where
                     changed: false,
                     pass: self.pass,
                     data: None,
-                    optimizer_state: Default::default(),
                     left_parallel_depth: 0,
                     mode: self.mode,
                 };
@@ -173,7 +166,6 @@ where
                             changed: false,
                             pass: self.pass,
                             data: None,
-                            optimizer_state: Default::default(),
                             left_parallel_depth: self.left_parallel_depth - 1,
                             mode: self.mode,
                         };
@@ -352,13 +344,10 @@ where
             //
             // This is swc version of `node.optimize(this);`.
 
-            self.optimizer_state = Default::default();
-
             let mut visitor = optimizer(
                 self.marks,
                 self.options,
                 self.data.as_ref().unwrap(),
-                &mut self.optimizer_state,
                 self.mode,
                 self.pass >= 20,
             );

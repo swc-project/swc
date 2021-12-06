@@ -47,18 +47,11 @@ mod switches;
 mod unused;
 mod util;
 
-#[derive(Debug, Default)]
-pub(super) struct OptimizerState {
-    vars_for_inlining: AHashMap<Id, Box<Expr>>,
-    inlined_vars: AHashMap<Id, Box<Expr>>,
-}
-
-/// This pass is simillar to `node.optimize` of terser.
+/// This pass is similar to `node.optimize` of terser.
 pub(super) fn optimizer<'a, M>(
     marks: Marks,
     options: &'a CompressOptions,
     data: &'a ProgramData,
-    state: &'a mut OptimizerState,
     mode: &'a M,
     debug_infinite_loop: bool,
 ) -> impl 'a + VisitMut + Repeated
@@ -79,7 +72,8 @@ where
         prepend_stmts: Default::default(),
         append_stmts: Default::default(),
         lits: Default::default(),
-        state,
+        vars_for_inlining: Default::default(),
+        inlined_vars: Default::default(),
         vars_for_prop_hoisting: Default::default(),
         simple_props: Default::default(),
         _simple_array_values: Default::default(),
@@ -203,7 +197,8 @@ struct Optimizer<'a, M> {
     /// Used for inlining.
     lits: AHashMap<Id, Box<Expr>>,
 
-    state: &'a mut OptimizerState,
+    vars_for_inlining: AHashMap<Id, Box<Expr>>,
+    inlined_vars: AHashMap<Id, Box<Expr>>,
 
     vars_for_prop_hoisting: AHashMap<Id, Box<Expr>>,
     /// Used for `hoist_props`.
@@ -426,7 +421,7 @@ where
 
         e.op = op;
         e.right = right.take();
-        // Now we can compress it to an assigment
+        // Now we can compress it to an assignment
     }
 
     fn compress_array_join(&mut self, e: &mut Expr) {
@@ -2081,7 +2076,7 @@ where
         self.with_ctx(ctx).handle_stmt_likes(stmts);
 
         stmts.visit_mut_with(&mut MultiReplacer {
-            vars: take(&mut self.state.inlined_vars),
+            vars: take(&mut self.inlined_vars),
             changed: false,
         });
 
@@ -2161,7 +2156,7 @@ where
         match n {
             Prop::Shorthand(i) => {
                 if self.lits.contains_key(&i.to_id())
-                    || self.state.vars_for_inlining.contains_key(&i.to_id())
+                    || self.vars_for_inlining.contains_key(&i.to_id())
                 {
                     let mut e = Box::new(Expr::Ident(i.clone()));
                     e.visit_mut_with(self);
@@ -2532,7 +2527,7 @@ where
 
         self.remove_duplicate_names(var);
 
-        self.store_var_for_inining(var);
+        self.store_var_for_inlining(var);
         self.store_var_for_prop_hoisting(var);
     }
 
