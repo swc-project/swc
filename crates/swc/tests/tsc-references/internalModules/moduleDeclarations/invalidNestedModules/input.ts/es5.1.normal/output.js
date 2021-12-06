@@ -14,12 +14,10 @@ var A;
                 _classCallCheck(this, Point);
             };
             C.Point = Point;
-        })(C1 || (C1 = {
+        })(C1 = B.C || (B.C = {
         }));
-        B.C = C1;
-    })(B1 || (B1 = {
+    })(B1 = A1.B || (A1.B = {
     }));
-    A1.B = B1;
 })(A || (A = {
 }));
 (function(A2) {
@@ -30,9 +28,8 @@ var A;
             _classCallCheck(this, C);
         };
         B.C = C;
-    })(B2 || (B2 = {
+    })(B2 = A2.B || (A2.B = {
     }));
-    A2.B = B2;
 })(A || (A = {
 }));
 var M2;
@@ -44,9 +41,8 @@ var M2;
             _classCallCheck(this, Point);
         };
         X.Point = Point;
-    })(X1 || (X1 = {
+    })(X1 = M21.X || (M21.X = {
     }));
-    M21.X = X1;
 })(M2 || (M2 = {
 }));
 (function(M22) {
@@ -54,8 +50,7 @@ var M2;
     (function(X) {
         var Point;
         X.Point = Point;
-    })(X2 || (X2 = {
+    })(X2 = M22.X || (M22.X = {
     }));
-    M22.X = X2;
 })(M2 || (M2 = {
 }));

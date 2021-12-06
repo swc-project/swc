@@ -5,18 +5,16 @@ var A, X;
 })).Point = class {
 }, (function(X1) {
     var Y;
-    let Y1, Z;
-    Y = Y1 || (Y1 = {
-    }), (Z || (Z = {
+    ((Y = X1.Y || (X1.Y = {
+    })).Z || (Y.Z = {
     })).Line = class {
-    }, Y.Z = Z, X1.Y = Y1;
+    };
 })(X || (X = {
 })), (function(X2) {
     var Y;
-    let Y2, Z;
-    Y = Y2 || (Y2 = {
-    }), (Z || (Z = {
+    ((Y = X2.Y || (X2.Y = {
+    })).Z || (Y.Z = {
     })).Line = class {
-    }, Y.Z = Z, X2.Y = Y2;
+    };
 })(X || (X = {
 }));

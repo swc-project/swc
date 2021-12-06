@@ -19,9 +19,8 @@ var B;
             x: 0,
             y: 0
         };
-    })(Point1 || (Point1 = {
+    })(Point1 = B1.Point || (B1.Point = {
     }));
-    B1.Point = Point1;
 })(B || (B = {
 }));
 // @filename: test.ts

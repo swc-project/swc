@@ -10,9 +10,8 @@ var M;
         class Bar {
         }
         S.Bar = Bar;
-    })(S1 || (S1 = {
+    })(S1 = M1.S || (M1.S = {
     }));
-    M1.S = S1;
 })(M || (M = {
 }));
 (function(M2) {
@@ -24,9 +23,8 @@ var M;
         Foo, /*#__PURE__*/ React.createElement(Foo, null);
         // Emit S.Bar
         Bar, /*#__PURE__*/ React.createElement(Bar, null);
-    })(S || (S = {
+    })(S = M2.S || (M2.S = {
     }));
-    M2.S = S;
 })(M || (M = {
 }));
 (function(M) {

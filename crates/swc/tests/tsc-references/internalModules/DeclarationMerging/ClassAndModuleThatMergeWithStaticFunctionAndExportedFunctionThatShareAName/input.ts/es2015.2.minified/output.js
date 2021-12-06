@@ -25,7 +25,7 @@ class Point {
             this.x = x, this.y = y;
         }
     }
-    A1.Point = Point1, (Point1 || (Point1 = {
+    A1.Point = Point1, (Point1 = A1.Point || (A1.Point = {
     })).Origin = function() {
         return "";
     };
