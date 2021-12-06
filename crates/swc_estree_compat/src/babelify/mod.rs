@@ -154,7 +154,11 @@ where
 
     fn babelify(self, ctx: &Context) -> Self::Output {
         if T::parallel(self.len()) {
-            self.into_par_iter().map(|v| v.babelify(ctx)).collect()
+            let flavor = Flavor::current();
+
+            self.into_par_iter()
+                .map(|v| flavor.with(|| v.babelify(ctx)))
+                .collect()
         } else {
             self.into_iter().map(|v| v.babelify(ctx)).collect()
         }
