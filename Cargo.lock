@@ -1718,9 +1718,9 @@ checksum = "dbf0c48bc1d91375ae5c3cd81e3722dff1abcf81a30960240640d223f59fe0e5"
 
 [[package]]
 name = "proc-macro2"
-version = "1.0.32"
+version = "1.0.33"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ba508cc11742c0dc5c1659771673afbab7a0efab23aa17e854cbab0837ed0b43"
+checksum = "fb37d2df5df740e582f28f8560cf425f52bb267d872fe58358eadb554909f07a"
 dependencies = [
  "unicode-xid",
 ]
@@ -2932,7 +2932,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.55.0"
+version = "0.55.1"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -3118,7 +3118,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.54.0"
+version = "0.54.1"
 dependencies = [
  "once_cell",
  "rayon",
@@ -3134,7 +3134,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.44.1"
+version = "0.44.2"
 dependencies = [
  "num-bigint",
  "swc_atoms 0.2.9",
@@ -3454,7 +3454,7 @@ dependencies = [
 
 [[package]]
 name = "testing"
-version = "0.15.2"
+version = "0.15.3"
 dependencies = [
  "ansi_term 0.12.1",
  "difference",
