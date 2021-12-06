@@ -268,7 +268,7 @@ where
 
     #[inline(always)]
     fn fold_module(&mut self, mut n: Module) -> Module {
-        #[cfg(debug_assertions)]
+        #[cfg(all(debug_assertions, feature = "debug"))]
         let _tracing = {
             let visitor_name = std::any::type_name::<V>();
             tracing::span!(tracing::Level::TRACE, "as_folder", visitor = visitor_name).entered()

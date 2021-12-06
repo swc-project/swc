@@ -32,6 +32,7 @@ concurrent = [
   "swc_ecma_transforms_compat/concurrent",
   "swc_ecma_transforms_optimization/concurrent",
 ]
+debug = ["swc_ecma_visit/debug"]
 plugin = [
   "swc_plugin_runner",
 ]
