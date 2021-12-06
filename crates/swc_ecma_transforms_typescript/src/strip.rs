@@ -753,10 +753,8 @@ where
         vec![]
     }
 
-    fn handle_enum<T>(&mut self, e: TsEnumDecl, stmts: &mut Vec<T>)
-    where
-        T: StmtLike,
-    {
+    /// Returns `(var_decl, init)`.
+    fn handle_enum(&mut self, e: TsEnumDecl, module_name: Option<&Ident>) -> (Option<Decl>, Stmt) {
         /// Called only for enums.
         ///
         /// If both of the default value and the initialization is None, this
@@ -909,6 +907,26 @@ where
             Err(())
         }
 
+        // let Foo;
+        // (function (Foo) {
+        //     Foo[Foo["a"] = 0] = "a";
+        // })(Foo || (Foo = {}));
+
+        let var = if let Some(var) = self.create_uninit_var(e.span, e.id.to_id()) {
+            Some(Decl::Var(VarDecl {
+                span: DUMMY_SP,
+                kind: if e.id.span.ctxt != self.top_level_ctxt {
+                    VarDeclKind::Let
+                } else {
+                    VarDeclKind::Var
+                },
+                declare: false,
+                decls: vec![var],
+            }))
+        } else {
+            None
+        };
+
         let id = e.id.clone();
 
         let mut default = 0;
@@ -974,112 +992,153 @@ where
             _ => true,
         });
 
-        stmts.push(T::from_stmt(
-            CallExpr {
-                span: DUMMY_SP,
-                callee: FnExpr {
-                    ident: None,
-                    function: Function {
+        let init = CallExpr {
+            span: DUMMY_SP,
+            callee: FnExpr {
+                ident: None,
+                function: Function {
+                    span: DUMMY_SP,
+                    decorators: Default::default(),
+                    is_async: false,
+                    is_generator: false,
+                    type_params: Default::default(),
+                    params: vec![Param {
+                        span: id.span,
+                        decorators: vec![],
+                        pat: Pat::Ident(id.clone().into()),
+                    }],
+                    body: Some(BlockStmt {
                         span: DUMMY_SP,
-                        decorators: Default::default(),
-                        is_async: false,
-                        is_generator: false,
-                        type_params: Default::default(),
-                        params: vec![Param {
-                            span: id.span,
-                            decorators: vec![],
-                            pat: Pat::Ident(id.clone().into()),
-                        }],
-                        body: Some(BlockStmt {
-                            span: DUMMY_SP,
-                            stmts: members
-                                .into_iter()
-                                .enumerate()
-                                .map(|(_, (m, val))| {
-                                    let value = match m.id {
-                                        TsEnumMemberId::Str(s) => s,
-                                        TsEnumMemberId::Ident(i) => Str {
-                                            span: i.span,
-                                            value: i.sym,
-                                            has_escape: false,
-                                            kind: StrKind::Normal {
-                                                contains_quote: false,
-                                            },
+                        stmts: members
+                            .into_iter()
+                            .enumerate()
+                            .map(|(_, (m, val))| {
+                                let value = match m.id {
+                                    TsEnumMemberId::Str(s) => s,
+                                    TsEnumMemberId::Ident(i) => Str {
+                                        span: i.span,
+                                        value: i.sym,
+                                        has_escape: false,
+                                        kind: StrKind::Normal {
+                                            contains_quote: false,
                                         },
-                                    };
-                                    let prop = if no_init_required {
-                                        Box::new(Expr::Lit(Lit::Str(value.clone())))
-                                    } else {
-                                        Box::new(Expr::Assign(AssignExpr {
-                                            span: DUMMY_SP,
-                                            left: PatOrExpr::Expr(Box::new(Expr::Member(
-                                                MemberExpr {
-                                                    span: DUMMY_SP,
-                                                    obj: id.clone().as_obj(),
-                                                    prop: Box::new(Expr::Lit(Lit::Str(
-                                                        value.clone(),
-                                                    ))),
-                                                    computed: true,
-                                                },
-                                            ))),
-                                            op: op!("="),
-                                            right: Box::new(val.clone()),
-                                        }))
-                                    };
-
-                                    // Foo[Foo["a"] = 0] = "a";
-                                    AssignExpr {
+                                    },
+                                };
+                                let prop = if no_init_required {
+                                    Box::new(Expr::Lit(Lit::Str(value.clone())))
+                                } else {
+                                    Box::new(Expr::Assign(AssignExpr {
                                         span: DUMMY_SP,
                                         left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
-                                            obj: id.clone().as_obj(),
                                             span: DUMMY_SP,
+                                            obj: id.clone().as_obj(),
+                                            prop: Box::new(Expr::Lit(Lit::Str(value.clone()))),
                                             computed: true,
-
-                                            // Foo["a"] = 0
-                                            prop,
                                         }))),
                                         op: op!("="),
-                                        right: if rhs_should_be_name {
-                                            Box::new(Expr::Lit(Lit::Str(value.clone())))
+                                        right: Box::new(val.clone()),
+                                    }))
+                                };
+
+                                // Foo[Foo["a"] = 0] = "a";
+                                AssignExpr {
+                                    span: DUMMY_SP,
+                                    left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
+                                        obj: id.clone().as_obj(),
+                                        span: DUMMY_SP,
+                                        computed: true,
+
+                                        // Foo["a"] = 0
+                                        prop,
+                                    }))),
+                                    op: op!("="),
+                                    right: if rhs_should_be_name {
+                                        Box::new(Expr::Lit(Lit::Str(value.clone())))
+                                    } else {
+                                        if m.init.is_some() {
+                                            Box::new(val)
                                         } else {
-                                            if m.init.is_some() {
-                                                Box::new(val)
-                                            } else {
-                                                Box::new(Expr::Lit(Lit::Str(value.clone())))
-                                            }
-                                        },
-                                    }
-                                    .into_stmt()
-                                })
-                                .collect(),
-                        }),
-                        return_type: Default::default(),
-                    },
-                }
-                .as_callee(),
-                args: vec![BinExpr {
+                                            Box::new(Expr::Lit(Lit::Str(value.clone())))
+                                        }
+                                    },
+                                }
+                                .into_stmt()
+                            })
+                            .collect(),
+                    }),
+                    return_type: Default::default(),
+                },
+            }
+            .as_callee(),
+            args: vec![self.get_namespace_or_enum_init_arg(e.span, &id, module_name)],
+            type_args: Default::default(),
+        }
+        .into_stmt();
+
+        (var, init)
+    }
+
+    fn get_namespace_or_enum_init_arg(
+        &self,
+        decl_span: Span,
+        id: &Ident,
+        module_name: Option<&Ident>,
+    ) -> ExprOrSpread {
+        if let Some(module_name) = module_name {
+            let namespace_ref = Box::new(Expr::Member(MemberExpr {
+                span: DUMMY_SP,
+                computed: false,
+                obj: ExprOrSuper::Expr(Box::new(Expr::Ident(module_name.clone()))),
+                prop: Box::new(Expr::Ident(Ident::new(
+                    id.sym.clone(),
+                    DUMMY_SP.with_ctxt(decl_span.ctxt),
+                ))),
+            }));
+            AssignExpr {
+                span: DUMMY_SP,
+                left: PatOrExpr::Pat(Pat::Ident(id.clone().into()).into()),
+                op: op!("="),
+                right: Box::new(Expr::Bin(BinExpr {
                     span: DUMMY_SP,
-                    left: Box::new(Expr::Ident(id.clone())),
+                    left: namespace_ref.clone(),
                     op: op!("||"),
                     right: Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
-                        left: PatOrExpr::Pat(Pat::Ident(id.clone().into()).into()),
+                        left: PatOrExpr::Expr(namespace_ref),
                         op: op!("="),
                         right: Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
                             props: vec![],
                         })),
                     })),
-                }
-                .as_arg()],
-                type_args: Default::default(),
+                })),
             }
-            .into_stmt(),
-        ))
+            .as_arg()
+        } else {
+            BinExpr {
+                span: DUMMY_SP,
+                left: Box::new(Expr::Ident(id.clone())),
+                op: op!("||"),
+                right: Box::new(Expr::Assign(AssignExpr {
+                    span: DUMMY_SP,
+                    left: PatOrExpr::Pat(Pat::Ident(id.clone().into()).into()),
+                    op: op!("="),
+                    right: Box::new(Expr::Object(ObjectLit {
+                        span: DUMMY_SP,
+                        props: vec![],
+                    })),
+                })),
+            }
+            .as_arg()
+        }
     }
 
     /// Returns `(var_decl, init)`.
-    fn handle_ts_module(&mut self, module: TsModuleDecl) -> Option<(Option<Decl>, Stmt)> {
+    fn handle_ts_module(
+        &mut self,
+        module: TsModuleDecl,
+        parent_module_name: Option<&Ident>,
+    ) -> Option<(Option<Decl>, Stmt)> {
         if module.global || module.declare {
             return None;
         }
@@ -1102,18 +1161,25 @@ where
             }
         }?;
 
-        self.get_namespace_var_decl_and_call_expr(var, body_stmts, &module_name, &private_name)
-            .map(|(mut var, stmt)| {
-                if let Some(var) = var.as_mut() {
-                    // for comments
-                    var.span = module_span;
-                    // ensure it's a var if top level
-                    if module_name.span.ctxt == self.top_level_ctxt {
-                        var.kind = VarDeclKind::Var;
-                    }
+        self.get_namespace_var_decl_and_call_expr(
+            var,
+            body_stmts,
+            module.span,
+            parent_module_name,
+            &module_name,
+            &private_name,
+        )
+        .map(|(mut var, stmt)| {
+            if let Some(var) = var.as_mut() {
+                // for comments
+                var.span = module_span;
+                // ensure it's a var if top level
+                if module_name.span.ctxt == self.top_level_ctxt {
+                    var.kind = VarDeclKind::Var;
                 }
-                (var.map(Decl::Var), stmt)
-            })
+            }
+            (var.map(Decl::Var), stmt)
+        })
     }
 
     fn handle_ts_namespace_decl(
@@ -1146,32 +1212,14 @@ where
         let (var_decl, init_stmt) = self.get_namespace_var_decl_and_call_expr(
             Some(var),
             body_stmts,
+            decl.span,
+            Some(parent_private_name),
             &decl.id,
             &private_name,
         )?;
         let mut stmts = Vec::new();
         stmts.extend(var_decl.map(Decl::Var).map(Stmt::Decl));
         stmts.push(init_stmt);
-        // the `Parent.Current = Current` statement
-        stmts.push(Stmt::Expr(ExprStmt {
-            span: DUMMY_SP,
-            expr: Box::new({
-                let mut prop = decl.id.clone();
-                prop.span.ctxt = SyntaxContext::empty();
-                Expr::Assign(AssignExpr {
-                    span: DUMMY_SP,
-                    op: op!("="),
-                    left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
-                        span: DUMMY_SP,
-                        obj: parent_private_name.clone().as_obj(),
-                        prop: Box::new(Expr::Ident(prop)),
-                        computed: false,
-                    }))),
-                    right: Box::new(Expr::Ident(var_id)),
-                })
-            }),
-        }));
-
         Some(stmts)
     }
 
@@ -1179,6 +1227,8 @@ where
         &self,
         var: Option<VarDeclarator>,
         body_stmts: Vec<Stmt>,
+        decl_span: Span,
+        parent_module_name: Option<&Ident>,
         module_name: &Ident,
         private_name: &Ident,
     ) -> Option<(Option<VarDecl>, Stmt)> {
@@ -1203,25 +1253,14 @@ where
             },
         };
 
-        let init_arg = BinExpr {
-            span: DUMMY_SP,
-            left: Box::new(Expr::Ident(module_name.clone())),
-            op: op!("||"),
-            right: Box::new(Expr::Assign(AssignExpr {
-                span: DUMMY_SP,
-                op: op!("="),
-                left: PatOrExpr::Pat(Box::new(Pat::Ident(module_name.clone().into()))),
-                right: Box::new(Expr::Object(ObjectLit {
-                    span: DUMMY_SP,
-                    props: Default::default(),
-                })),
-            })),
-        };
-
         let initializer = Box::new(Expr::Call(CallExpr {
             span: DUMMY_SP,
             callee: init_fn_expr.as_callee(),
-            args: vec![init_arg.as_arg()],
+            args: vec![self.get_namespace_or_enum_init_arg(
+                decl_span,
+                module_name,
+                parent_module_name,
+            )],
             type_args: Default::default(),
         }));
 
@@ -1245,42 +1284,35 @@ where
 
     fn handle_ts_module_block(
         &mut self,
-        mut block: TsModuleBlock,
+        block: TsModuleBlock,
         private_module_name: &Ident,
     ) -> Option<Vec<Stmt>> {
-        // Make the body valid javascript.
-        block.body.visit_mut_with(self);
-
-        // Now check if it's empty as statements like interfaces might have been removed
-        if block.body.is_empty() {
-            return None;
-        }
-
         let mut delayed_vars = vec![];
-        let mut init_stmts = vec![];
+        let mut stmts = vec![];
 
         for item in block.body {
             // Drop
 
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    span, decl, ..
+                    span,
+                    mut decl,
+                    ..
                 })) => {
                     let decl_name = match decl {
                         Decl::Class(ref c) => c.ident.clone(),
                         Decl::Fn(ref f) => f.ident.clone(),
-                        Decl::Var(v) => {
+                        Decl::Var(mut v) => {
+                            v.visit_mut_with(self);
                             let mut exprs = vec![];
                             for decl in v.decls {
                                 let init = match decl.init {
                                     Some(v) => v,
                                     None => {
-                                        // We should handle enums
-
                                         match &decl.name {
                                             Pat::Ident(name) => {
                                                 delayed_vars.push(name.id.clone());
-                                                init_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                                                stmts.push(Stmt::Decl(Decl::Var(VarDecl {
                                                     span: DUMMY_SP,
                                                     kind: v.kind,
                                                     declare: false,
@@ -1327,7 +1359,7 @@ where
                                 }
                             }
                             if !exprs.is_empty() {
-                                init_stmts.push(Stmt::Expr(ExprStmt {
+                                stmts.push(Stmt::Expr(ExprStmt {
                                     span: DUMMY_SP,
                                     expr: if exprs.len() == 1 {
                                         exprs.into_iter().next().unwrap()
@@ -1343,12 +1375,29 @@ where
                             // TODO: Implement this using alias.
                             continue;
                         }
-                        Decl::TsInterface(_)
-                        | Decl::TsTypeAlias(_)
-                        | Decl::TsEnum(_)
-                        | Decl::TsModule(_) => continue,
+                        Decl::TsModule(module_decl) => {
+                            let (decl, init) = match self
+                                .handle_ts_module(module_decl, Some(private_module_name))
+                            {
+                                Some(v) => v,
+                                None => continue,
+                            };
+                            stmts.extend(decl.map(Stmt::Decl));
+                            stmts.push(init);
+
+                            continue;
+                        }
+                        Decl::TsEnum(enum_decl) => {
+                            let (decl, init) =
+                                self.handle_enum(enum_decl, Some(private_module_name));
+                            stmts.extend(decl.map(Stmt::Decl));
+                            stmts.push(init);
+                            continue;
+                        }
+                        Decl::TsInterface(_) | Decl::TsTypeAlias(_) => continue,
                     };
-                    init_stmts.push(Stmt::Decl(decl));
+                    decl.visit_mut_with(self);
+                    stmts.push(Stmt::Decl(decl));
 
                     //
                     let left = PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
@@ -1360,7 +1409,7 @@ where
 
                     let right = Box::new(Expr::Ident(decl_name));
 
-                    init_stmts.push(Stmt::Expr(ExprStmt {
+                    stmts.push(Stmt::Expr(ExprStmt {
                         span,
                         expr: Box::new(Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
@@ -1371,13 +1420,45 @@ where
                     }))
                 }
 
-                ModuleItem::Stmt(stmt) => init_stmts.push(stmt),
+                ModuleItem::Stmt(mut stmt) => match stmt {
+                    Stmt::Decl(mut decl) => match decl {
+                        Decl::Class(_) | Decl::Fn(_) | Decl::Var(_) => {
+                            decl.visit_mut_with(self);
+                            stmts.push(decl.into());
+                        }
+                        Decl::TsEnum(enum_decl) => {
+                            let (decl, init) = self.handle_enum(enum_decl, None);
+                            stmts.extend(decl.map(Stmt::Decl));
+                            stmts.push(init);
+                        }
+                        Decl::TsModule(module_decl) => {
+                            let (decl, init) = match self.handle_ts_module(module_decl, None) {
+                                Some(v) => v,
+                                None => continue,
+                            };
+                            stmts.extend(decl.map(Stmt::Decl));
+                            stmts.push(init);
+                        }
+                        Decl::TsTypeAlias(_) | Decl::TsInterface(_) => {
+                            continue;
+                        }
+                    },
+                    _ => {
+                        stmt.visit_mut_with(self);
+                        stmts.push(stmt);
+                    }
+                },
                 _ => {}
             }
         }
 
+        // Do not output the namespace if it's empty
+        if stmts.is_empty() {
+            return None;
+        }
+
         if !delayed_vars.is_empty() {
-            init_stmts.push(Stmt::Expr(ExprStmt {
+            stmts.push(Stmt::Expr(ExprStmt {
                 span: DUMMY_SP,
                 expr: Box::new(Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
@@ -1405,7 +1486,7 @@ where
             }))
         }
 
-        Some(init_stmts)
+        Some(stmts)
     }
 }
 
@@ -1722,27 +1803,6 @@ where
 
     fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
         s.visit_mut_children_with(self);
-        let span = s.span;
-
-        s.cons.map_with_mut(|cons| match *cons {
-            Stmt::Decl(Decl::TsEnum(e)) => {
-                let mut stmts = vec![];
-                self.handle_enum(e, &mut stmts);
-                Box::new(Stmt::Block(BlockStmt { span, stmts }))
-            }
-            _ => cons,
-        });
-
-        s.alt.map_with_mut(|alt| {
-            alt.map(|s| match *s {
-                Stmt::Decl(Decl::TsEnum(e)) => {
-                    let mut stmts = vec![];
-                    self.handle_enum(e, &mut stmts);
-                    Box::new(Stmt::Block(BlockStmt { span, stmts }))
-                }
-                _ => s,
-            })
-        })
     }
 
     fn visit_mut_import_decl(&mut self, import: &mut ImportDecl) {
@@ -1837,7 +1897,7 @@ where
                 Stmt::Empty(..) => continue,
 
                 Stmt::Decl(Decl::TsModule(module)) => {
-                    let (decl, init) = match self.handle_ts_module(module) {
+                    let (decl, init) = match self.handle_ts_module(module, None) {
                         Some(v) => v,
                         None => continue,
                     };
@@ -1846,25 +1906,9 @@ where
                 }
 
                 Stmt::Decl(Decl::TsEnum(e)) => {
-                    // var Foo;
-                    // (function (Foo) {
-                    //     Foo[Foo["a"] = 0] = "a";
-                    // })(Foo || (Foo = {}));
-
-                    if let Some(var) = self.create_uninit_var(e.span, e.id.to_id()) {
-                        stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: if e.id.span.ctxt != self.top_level_ctxt {
-                                VarDeclKind::Let
-                            } else {
-                                VarDeclKind::Var
-                            },
-                            declare: false,
-                            decls: vec![var],
-                        })));
-                    }
-
-                    self.handle_enum(e, &mut stmts)
+                    let (decl, init) = self.handle_enum(e, None);
+                    stmts.extend(decl.map(Stmt::Decl));
+                    stmts.push(init);
                 }
 
                 // Strip out ts-only extensions
@@ -2049,7 +2093,7 @@ where
                     decl: Decl::TsModule(module),
                     ..
                 })) => {
-                    let (decl, init) = match self.handle_ts_module(module) {
+                    let (decl, init) = match self.handle_ts_module(module, None) {
                         Some(v) => v,
                         None => continue,
                     };
@@ -2061,7 +2105,7 @@ where
                 }
 
                 ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(module))) => {
-                    let (decl, init) = match self.handle_ts_module(module) {
+                    let (decl, init) = match self.handle_ts_module(module, None) {
                         Some(v) => v,
                         None => continue,
                     };
@@ -2172,46 +2216,19 @@ where
                     decl: Decl::TsEnum(e),
                     ..
                 })) => {
-                    if let Some(var) = self.create_uninit_var(e.span, e.id.to_id()) {
-                        stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                            span: e.span,
-                            decl: Decl::Var(VarDecl {
-                                span: DUMMY_SP,
-                                kind: if e.id.span.ctxt != self.top_level_ctxt {
-                                    VarDeclKind::Let
-                                } else {
-                                    VarDeclKind::Var
-                                },
-                                declare: false,
-                                decls: vec![var],
-                            }),
-                        })));
-                    }
-
-                    self.handle_enum(e, &mut stmts)
+                    let (decl, init) = self.handle_enum(e, None);
+                    stmts.extend(decl.map(|decl| {
+                        ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                            span: DUMMY_SP,
+                            decl,
+                        }))
+                    }));
+                    stmts.push(ModuleItem::Stmt(init));
                 }
                 ModuleItem::Stmt(Stmt::Decl(Decl::TsEnum(e))) => {
-                    // let Foo;
-                    // (function (Foo) {
-                    //     Foo[Foo["a"] = 0] = "a";
-                    // })(Foo || (Foo = {}));
-
-                    if let Some(var) = self.create_uninit_var(e.span, e.id.to_id()) {
-                        stmts.push(
-                            Stmt::Decl(Decl::Var(VarDecl {
-                                span: DUMMY_SP,
-                                kind: if e.id.span.ctxt != self.top_level_ctxt {
-                                    VarDeclKind::Let
-                                } else {
-                                    VarDeclKind::Var
-                                },
-                                declare: false,
-                                decls: vec![var],
-                            }))
-                            .into(),
-                        );
-                    }
-                    self.handle_enum(e, &mut stmts)
+                    let (decl, init) = self.handle_enum(e, None);
+                    stmts.extend(decl.map(|decl| ModuleItem::Stmt(Stmt::Decl(decl))));
+                    stmts.push(ModuleItem::Stmt(init));
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
