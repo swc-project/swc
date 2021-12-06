@@ -29,6 +29,7 @@ use swc_ecma_ast::*;
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Node, Visit, VisitMut, VisitMutWith, VisitWith,
 };
+use tracing::trace;
 use unicode_xid::UnicodeXID;
 
 #[macro_use]
@@ -1657,6 +1658,8 @@ pub fn prop_name_to_expr_value(p: PropName) -> Expr {
 }
 
 pub fn default_constructor(has_super: bool) -> Constructor {
+    trace!("Creating a default constructor");
+
     let span = DUMMY_SP;
 
     Constructor {
