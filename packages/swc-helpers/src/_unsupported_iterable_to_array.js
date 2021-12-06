@@ -1,3 +1,5 @@
+import _arrayLikeToArray from './_array_like_to_array';
+
 export default function _unsupportedIterableToArray(o, minLen) {
   if (!o) return;
   if (typeof o === "string") return _arrayLikeToArray(o, minLen);

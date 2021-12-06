@@ -166,7 +166,7 @@ define_helpers!(Helpers {
     apply_decorated_descriptor: (),
     array_like_to_array: (),
     array_with_holes: (),
-    array_without_holes: (),
+    array_without_holes: (array_like_to_array),
     assert_this_initialized: (),
     async_generator: (await_value),
     async_generator_delegate: (),
