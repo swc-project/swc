@@ -19,7 +19,7 @@ mod tests;
 ///
 /// TODO: Handle special cases like !1 or !0
 pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool) {
-    let start_str = dump(&*e);
+    let start_str = dump(&*e, false);
 
     match e {
         Expr::Bin(bin @ BinExpr { op: op!("=="), .. })
@@ -138,7 +138,7 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool) {
     });
 
     if cfg!(feature = "debug") {
-        tracing::trace!("[Change] Negated `{}` as `{}`", start_str, dump(&*e));
+        tracing::trace!("[Change] Negated `{}` as `{}`", start_str, dump(&*e, false));
     }
 }
 
@@ -195,7 +195,10 @@ pub(crate) fn is_ok_to_negate_rhs(rhs: &Expr) -> bool {
             }
 
             if cfg!(feature = "debug") {
-                tracing::warn!("unimplemented: is_ok_to_negate_rhs: `{}`", dump(&*rhs));
+                tracing::warn!(
+                    "unimplemented: is_ok_to_negate_rhs: `{}`",
+                    dump(&*rhs, false)
+                );
             }
 
             false
@@ -319,7 +322,7 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
         if cfg!(test) {
             tracing::trace!(
                 "negation cost of `{}` = {}\nin_book_ctx={:?}\nis_ret_val_ignored={:?}",
-                dump(&e.clone().fold_with(&mut as_folder(fixer(None)))),
+                dump(&e.clone().fold_with(&mut as_folder(fixer(None))), false),
                 cost,
                 in_bool_ctx,
                 is_ret_val_ignored
@@ -334,7 +337,7 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
     if cfg!(feature = "debug") {
         tracing::trace!(
             "negation cost of `{}` = {}\nin_book_ctx={:?}\nis_ret_val_ignored={:?}",
-            dump(&e.clone().fold_with(&mut as_folder(fixer(None)))),
+            dump(&e.clone().fold_with(&mut as_folder(fixer(None))), false),
             cost,
             in_bool_ctx,
             is_ret_val_ignored

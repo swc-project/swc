@@ -243,7 +243,7 @@ where
         };
 
         if self.options.passes != 0 && self.options.passes + 1 <= self.pass {
-            let done = dump(&*n);
+            let done = dump(&*n, false);
             tracing::debug!("===== Done =====\n{}", done);
             return;
         }
@@ -279,7 +279,7 @@ where
 
                 tracing::debug!("compressor: Simplified expressions");
                 if cfg!(feature = "debug") {
-                    tracing::debug!("===== Simplified =====\n{}", dump(&*n));
+                    tracing::debug!("===== Simplified =====\n{}", dump(&*n, false));
                 }
             }
 
@@ -369,7 +369,7 @@ where
 
         if self.options.conditionals || self.options.dead_code {
             let start = if cfg!(feature = "debug") {
-                dump(&*n)
+                dump(&*n, false)
             } else {
                 "".into()
             };
@@ -390,7 +390,7 @@ where
             }
 
             if cfg!(feature = "debug") {
-                let simplified = dump(&*n);
+                let simplified = dump(&*n, false);
 
                 if start != simplified {
                     tracing::debug!(

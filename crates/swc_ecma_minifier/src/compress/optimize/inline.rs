@@ -32,7 +32,7 @@ where
         if cfg!(feature = "debug") {
             tracing::trace!(
                 "inline: store_var_for_inlining({}, should_preserve = {:?})",
-                dump(&var.name),
+                dump(&var.name, false),
                 should_preserve
             );
         }
@@ -74,7 +74,7 @@ where
                             tracing::trace!(
                                 "inline: [x] Preserving non-const variable `{}` because it's \
                                  top-level",
-                                dump(&var.name)
+                                dump(&var.name, false)
                             );
                         }
                         return;
@@ -407,7 +407,7 @@ where
         {
             if usage.declared_as_catch_param {
                 if cfg!(feature = "debug") {
-                    tracing::trace!("inline: [x] Declared as a catch paramter");
+                    tracing::trace!("inline: [x] Declared as a catch parameter");
                 }
                 return;
             }
@@ -575,7 +575,7 @@ where
                     return;
                 }
 
-                // Check witohut cloning
+                // Check without cloning
                 if let Some(value) = self.vars_for_inlining.get(&i.to_id()) {
                     if self.ctx.is_exact_lhs_of_assign && !is_valid_for_lhs(&value) {
                         return;
@@ -602,7 +602,7 @@ where
                     *e = *value.clone();
 
                     if cfg!(feature = "debug") {
-                        tracing::trace!("inline: [Change] {}", dump(&*e))
+                        tracing::trace!("inline: [Change] {}", dump(&*e, false))
                     }
                 }
             }
