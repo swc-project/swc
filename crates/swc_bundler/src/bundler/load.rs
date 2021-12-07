@@ -14,14 +14,14 @@ use is_macro::Is;
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
 use swc_atoms::js_word;
-use swc_common::{sync::Lrc, FileName, SourceFile, SyntaxContext, DUMMY_SP};
+use swc_common::{sync::Lrc, FileName, SourceFile, SyntaxContext};
 use swc_ecma_ast::{
-    CallExpr, Expr, ExprOrSuper, Ident, ImportDecl, ImportSpecifier, Invalid, MemberExpr, Module,
+    CallExpr, Expr, ExprOrSuper, Ident, ImportDecl, ImportSpecifier, MemberExpr, Module,
     ModuleDecl, Str,
 };
 use swc_ecma_transforms_base::resolver::resolver_with_mark;
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, FoldWith, Node, Visit, VisitMut, VisitMutWith, VisitWith,
+    noop_visit_mut_type, noop_visit_type, FoldWith, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 /// Module after applying transformations.
 #[derive(Debug, Clone)]

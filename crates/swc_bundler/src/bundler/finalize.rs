@@ -12,7 +12,7 @@ use swc_ecma_transforms_base::{
     hygiene::hygiene,
 };
 use swc_ecma_utils::{find_ids, private_ident, ExprFactory};
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Visit, VisitWith};
 
 impl<L, R> Bundler<'_, L, R>
 where

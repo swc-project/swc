@@ -3,7 +3,6 @@ use std::borrow::Cow;
 use swc_common::{
     pass::{CompilerPass, Repeated},
     util::take::Take,
-    DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{pass::RepeatedJsPass, scope::IdentType};
@@ -422,28 +421,19 @@ impl VisitMut for Inlining<'_> {
         node.init.visit_mut_with(self);
 
         {
-            node.init.visit_with(
-                &Invalid { span: DUMMY_SP } as _,
-                &mut IdentListVisitor {
-                    scope: &mut self.scope,
-                },
-            );
+            node.init.visit_with(&mut IdentListVisitor {
+                scope: &mut self.scope,
+            });
         }
         {
-            node.test.visit_with(
-                &Invalid { span: DUMMY_SP } as _,
-                &mut IdentListVisitor {
-                    scope: &mut self.scope,
-                },
-            );
+            node.test.visit_with(&mut IdentListVisitor {
+                scope: &mut self.scope,
+            });
         }
         {
-            node.update.visit_with(
-                &Invalid { span: DUMMY_SP } as _,
-                &mut IdentListVisitor {
-                    scope: &mut self.scope,
-                },
-            );
+            node.update.visit_with(&mut IdentListVisitor {
+                scope: &mut self.scope,
+            });
         }
 
         node.test.visit_mut_with(self);
@@ -523,12 +513,9 @@ impl VisitMut for Inlining<'_> {
     }
 
     fn visit_mut_try_stmt(&mut self, node: &mut TryStmt) {
-        node.block.visit_with(
-            &Invalid { span: DUMMY_SP } as _,
-            &mut IdentListVisitor {
-                scope: &mut self.scope,
-            },
-        );
+        node.block.visit_with(&mut IdentListVisitor {
+            scope: &mut self.scope,
+        });
 
         node.handler.visit_mut_with(self)
     }
@@ -555,7 +542,7 @@ impl VisitMut for Inlining<'_> {
             scope: &mut self.scope,
         };
 
-        node.arg.visit_with(&*node as _, &mut v);
+        node.arg.visit_with(&mut v);
     }
 
     fn visit_mut_var_decl(&mut self, decl: &mut VarDecl) {
@@ -714,12 +701,9 @@ impl VisitMut for Inlining<'_> {
 
     fn visit_mut_while_stmt(&mut self, node: &mut WhileStmt) {
         {
-            node.test.visit_with(
-                &Invalid { span: DUMMY_SP } as _,
-                &mut IdentListVisitor {
-                    scope: &mut self.scope,
-                },
-            );
+            node.test.visit_with(&mut IdentListVisitor {
+                scope: &mut self.scope,
+            });
         }
 
         node.test.visit_mut_with(self);

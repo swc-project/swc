@@ -1525,7 +1525,7 @@ where
         let old = self.non_top_level;
         self.non_top_level = false;
         n.iter().for_each(|n| {
-            n.visit_with( self);
+            n.visit_with(self);
         });
         self.non_top_level = old;
     }
@@ -1547,8 +1547,7 @@ where
     fn visit_stmts(&mut self, n: &[Stmt]) {
         let old = self.non_top_level;
         self.non_top_level = true;
-        n.iter()
-            .for_each(|n| n.visit_with( self));
+        n.iter().for_each(|n| n.visit_with(self));
         self.non_top_level = old;
     }
 
@@ -1564,7 +1563,7 @@ where
                     }
                 }
             }
-            TsEntityName::TsQualifiedName(ref q) => q.left.visit_with(&*q, self),
+            TsEntityName::TsQualifiedName(ref q) => q.left.visit_with(self),
         }
     }
 
@@ -2039,7 +2038,7 @@ where
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
         self.visit_mut_stmt_like(items);
-        items.visit_with( self);
+        items.visit_with(self);
 
         let mut stmts = Vec::with_capacity(items.len());
         for mut item in take(items) {
