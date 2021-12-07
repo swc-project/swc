@@ -92,7 +92,7 @@ where
         let has_mark = var_declarator_span.has_mark(self.marks.non_top_level);
 
         if !has_mark {
-            if !self.options.unused
+            if (!self.options.unused && !self.options.side_effects)
                 || self.ctx.in_var_decl_of_for_in_or_of_loop
                 || self.ctx.is_exported
             {
