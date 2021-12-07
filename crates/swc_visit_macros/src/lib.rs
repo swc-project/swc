@@ -573,16 +573,14 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     });
 
                     if let Some(elem_ty) = extract_generic("Vec", ty) {
-                        let slice_ty: Type = q!(Vars { elem_ty }, (&[elem_ty])).parse();
-
                         tokens.push_tokens(&q!(
                             Vars {
-                                Type: slice_ty,
+                                elem_ty,
                                 expr,
                                 default_body,
                             },
                             {
-                                impl<V: Visit> VisitWith<V> for Type {
+                                impl<V: Visit> VisitWith<V> for [elem_ty] {
                                     fn visit_with(&self, v: &mut V) {
                                         expr
                                     }
