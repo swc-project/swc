@@ -159,9 +159,8 @@ impl ScopeData {
         let mut analyzer = Analyzer {
             amd_requires: AHashSet::default(),
         };
-        for i in items {
-            i.visit_with(&Invalid { span: DUMMY_SP }, &mut analyzer);
-        }
+
+        items.visit_with(&mut analyzer);
 
         ScopeData {
             imported_ids,
