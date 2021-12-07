@@ -612,17 +612,22 @@ impl VisitMut for Prefixer {
     }
 
     fn visit_mut_declaration_block_items(&mut self, props: &mut Vec<DeclarationBlockItem>) {
-        let old_in_block = self.in_block;
-
         let mut new = vec![];
         for mut n in take(props) {
-            self.in_block = true;
             n.visit_mut_with(self);
             new.extend(self.added.drain(..).map(DeclarationBlockItem::Declaration));
             new.push(n);
         }
 
         *props = new;
+    }
+
+    fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {
+        let old_in_block = self.in_block;
+        self.in_block = true;
+
+        n.visit_mut_children_with(self);
+
         self.in_block = old_in_block;
     }
 }
