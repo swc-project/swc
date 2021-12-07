@@ -15,7 +15,7 @@ use swc_ecma_utils::{
     alias_if_required, default_constructor, prepend, private_ident, prop_name_to_expr, quote_expr,
     quote_ident, quote_str, ExprFactory, IsDirective, ModuleItemLike, StmtLike,
 };
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Visit, VisitWith};
+use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Visit, VisitWith, as_folder};
 use tracing::debug;
 
 mod constructor;
@@ -461,10 +461,10 @@ where
                 constructor.unwrap_or_else(|| default_constructor(super_class_ident.is_some()));
 
             // Rename variables to avoid conflicting with class name
-            constructor.body = constructor.body.fold_with(&mut VarRenamer {
+            constructor.body = constructor.body.fold_with(&mut as_folder(VarRenamer {
                 mark: Mark::fresh(Mark::root()),
                 class_name: &class_name.sym,
-            });
+            }));
 
             // Black magic to detect injected constructor.
             let is_constructor_default = constructor.span.is_dummy();

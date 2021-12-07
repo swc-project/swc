@@ -758,28 +758,17 @@ pub(super) struct VarRenamer<'a> {
 }
 
 /// TODO: VisitMut
-impl<'a> Fold for VarRenamer<'a> {
-    noop_fold_type!();
+impl<'a> VisitMut for VarRenamer<'a> {
+    noop_visit_mut_type!();
 
-    fn fold_pat(&mut self, pat: Pat) -> Pat {
+    fn visit_mut_pat(&mut self, pat: &mut Pat) {
         match pat {
             Pat::Ident(ident) => {
                 if *self.class_name == ident.id.sym {
-                    Pat::Ident(
-                        BindingIdent {
-                            id: Ident {
-                                span: ident.id.span.apply_mark(self.mark),
-                                ..ident.id
-                            },
-                            ..ident
-                        }
-                        .into(),
-                    )
-                } else {
-                    Pat::Ident(ident)
+                    ident.id.span = ident.id.span.apply_mark(self.mark);
                 }
             }
-            _ => pat.fold_children_with(self),
+            _ => pat.visit_mut_children_with(self),
         }
     }
 }
