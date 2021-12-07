@@ -188,7 +188,7 @@ impl Hygiene {
                 is_pat_decl: false,
             };
 
-            n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+            n.visit_with(&mut v);
         }
 
         let ops = data.ops.into_inner();

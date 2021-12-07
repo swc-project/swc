@@ -5,7 +5,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, StmtOrModuleItem};
-use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use tracing::{debug, span, trace, Level};
 
 #[derive(Debug, Default)]
@@ -307,12 +307,12 @@ impl UsageAnalyzer<'_> {
             };
 
             for stmt in stmts {
-                stmt.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+                stmt.visit_with(&mut v);
             }
         }
 
         for stmt in stmts {
-            stmt.visit_with(&Invalid { span: DUMMY_SP }, self);
+            stmt.visit_with(self);
         }
     }
 

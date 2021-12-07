@@ -346,7 +346,7 @@ impl<T> IsEmpty for Vec<T> {
 /// Extracts hoisted variables
 pub fn extract_var_ids<T: VisitWith<Hoister>>(node: &T) -> Vec<Ident> {
     let mut v = Hoister { vars: vec![] };
-    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+    node.visit_with(&mut v);
     v.vars
 }
 
@@ -414,7 +414,7 @@ impl Visit for Hoister {
     noop_visit_type!();
 
     fn visit_assign_pat_prop(&mut self, node: &AssignPatProp) {
-        node.value.visit_with(node, self);
+        node.value.visit_with(self);
 
         self.vars.push(node.key.clone());
     }
@@ -1373,7 +1373,7 @@ pub fn to_int32(d: f64) -> i32 {
 
 pub fn has_rest_pat<T: VisitWith<RestPatVisitor>>(node: &T) -> bool {
     let mut v = RestPatVisitor { found: false };
-    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+    node.visit_with(&mut v);
     v.found
 }
 
@@ -1407,7 +1407,7 @@ where
         cost: 0,
         allow_non_json_value,
     };
-    e.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+    e.visit_with(&mut v);
 
     (v.is_lit, v.cost)
 }
@@ -1837,7 +1837,7 @@ where
 
     {
         let mut v = DestructuringFinder { found: &mut found };
-        node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+        node.visit_with(&mut v);
     }
 
     found
@@ -1904,10 +1904,10 @@ impl<'a> Visit for UsageFinder<'a> {
     }
 
     fn visit_member_expr(&mut self, e: &MemberExpr) {
-        e.obj.visit_with(e as _, self);
+        e.obj.visit_with(self);
 
         if e.computed {
-            e.prop.visit_with(e as _, self);
+            e.prop.visit_with(self);
         }
     }
 }
@@ -1921,7 +1921,7 @@ impl<'a> UsageFinder<'a> {
             ident,
             found: false,
         };
-        node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+        node.visit_with(&mut v);
         v.found
     }
 }
@@ -2176,7 +2176,7 @@ where
     noop_visit_type!();
 
     fn visit_assign_pat_prop(&mut self, node: &AssignPatProp) {
-        node.value.visit_with(node, self);
+        node.value.visit_with(self);
 
         if self.is_pat_decl {
             self.add(&node.key);
@@ -2215,9 +2215,9 @@ where
     }
 
     fn visit_member_expr(&mut self, n: &MemberExpr) {
-        n.obj.visit_with(n, self);
+        n.obj.visit_with(self);
         if n.computed {
-            n.prop.visit_with(n, self);
+            n.prop.visit_with(self);
         }
     }
 
@@ -2233,7 +2233,7 @@ where
                         bindings: Default::default(),
                         is_pat_decl: self.is_pat_decl,
                     };
-                    node.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+                    node.visit_with(&mut v);
                     v.bindings
                 })
                 .reduce(AHashSet::default, |mut a, b| {
@@ -2279,7 +2279,7 @@ where
                         bindings: Default::default(),
                         is_pat_decl: self.is_pat_decl,
                     };
-                    node.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+                    node.visit_with(&mut v);
                     v.bindings
                 })
                 .reduce(AHashSet::default, |mut a, b| {
@@ -2298,10 +2298,10 @@ where
     fn visit_var_declarator(&mut self, node: &VarDeclarator) {
         let old = self.is_pat_decl;
         self.is_pat_decl = true;
-        node.name.visit_with(node, self);
+        node.name.visit_with(self);
 
         self.is_pat_decl = false;
-        node.init.visit_with(node, self);
+        node.init.visit_with(self);
         self.is_pat_decl = old;
     }
 }
@@ -2317,7 +2317,7 @@ where
         bindings: Default::default(),
         is_pat_decl: false,
     };
-    n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+    n.visit_with(&mut v);
     v.bindings
 }
 
@@ -2333,7 +2333,7 @@ where
         bindings: Default::default(),
         is_pat_decl: false,
     };
-    n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+    n.visit_with(&mut v);
     v.bindings
 }
 
