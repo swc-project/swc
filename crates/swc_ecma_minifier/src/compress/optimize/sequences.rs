@@ -17,7 +17,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{
     contains_this_expr, ident::IdentLike, undefined, ExprExt, Id, StmtLike, UsageFinder,
 };
-use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use tracing::{span, Level};
 
 /// Methods related to the option `sequences`. All methods are noop if
@@ -1484,12 +1484,12 @@ impl Visit for UsageCounter<'_> {
     }
 
     fn visit_member_expr(&mut self, e: &MemberExpr) {
-        e.obj.visit_with(e, self);
+        e.obj.visit_with(self);
 
         if e.computed {
             let old = self.in_lhs;
             self.in_lhs = false;
-            e.prop.visit_with(e, self);
+            e.prop.visit_with(self);
             self.in_lhs = old;
         }
     }

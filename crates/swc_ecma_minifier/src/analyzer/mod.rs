@@ -10,11 +10,11 @@ use std::time::Instant;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
-    SyntaxContext, DUMMY_SP,
+    SyntaxContext,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
-use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 mod ctx;
 pub(crate) mod storage;
@@ -43,7 +43,7 @@ where
         scope: Default::default(),
         ctx: Default::default(),
     };
-    n.visit_with( &mut v);
+    n.visit_with(&mut v);
     let top_scope = v.scope;
     v.data.top_scope().merge(top_scope, false);
 
@@ -360,7 +360,7 @@ where
     }
 
     fn visit_class(&mut self, n: &Class) {
-        n.decorators.visit_with( self);
+        n.decorators.visit_with(self);
 
         {
             let ctx = Ctx {
@@ -370,7 +370,7 @@ where
             n.super_class.visit_with(n, &mut *self.with_ctx(ctx));
         }
 
-        n.body.visit_with( self);
+        n.body.visit_with(self);
     }
 
     fn visit_class_decl(&mut self, n: &ClassDecl) {
@@ -380,7 +380,7 @@ where
     }
 
     fn visit_cond_expr(&mut self, n: &CondExpr) {
-        n.test.visit_with( self);
+        n.test.visit_with(self);
 
         {
             let ctx = Ctx {
@@ -433,7 +433,7 @@ where
     }
 
     fn visit_for_in_stmt(&mut self, n: &ForInStmt) {
-        n.right.visit_with( self);
+        n.right.visit_with(self);
 
         self.with_child(n.span.ctxt, ScopeKind::Block, |child| {
             let ctx = Ctx {
@@ -455,7 +455,7 @@ where
     }
 
     fn visit_for_of_stmt(&mut self, n: &ForOfStmt) {
-        n.right.visit_with( self);
+        n.right.visit_with(self);
 
         self.with_child(n.span.ctxt, ScopeKind::Block, |child| {
             let ctx = Ctx {
@@ -475,7 +475,7 @@ where
     }
 
     fn visit_for_stmt(&mut self, n: &ForStmt) {
-        n.init.visit_with( self);
+        n.init.visit_with(self);
 
         let ctx = Ctx {
             in_loop: true,
@@ -490,7 +490,7 @@ where
     }
 
     fn visit_function(&mut self, n: &Function) {
-        n.decorators.visit_with( self);
+        n.decorators.visit_with(self);
 
         let is_standalone = self
             .marks
@@ -528,7 +528,7 @@ where
             in_cond: true,
             ..self.ctx
         };
-        n.test.visit_with( self);
+        n.test.visit_with(self);
         n.cons.visit_with(n, &mut *self.with_ctx(ctx));
         n.alt.visit_with(n, &mut *self.with_ctx(ctx));
     }
@@ -552,8 +552,7 @@ where
                 is_exact_reassignment: false,
                 ..self.ctx
             };
-            e.obj
-                .visit_with( &mut *self.with_ctx(ctx));
+            e.obj.visit_with(&mut *self.with_ctx(ctx));
         }
 
         if e.computed {
@@ -562,8 +561,7 @@ where
                 is_exact_reassignment: false,
                 ..self.ctx
             };
-            e.prop
-                .visit_with( &mut *self.with_ctx(ctx));
+            e.prop.visit_with(&mut *self.with_ctx(ctx));
         }
 
         match &e.obj {
@@ -608,7 +606,7 @@ where
 
     fn visit_new_expr(&mut self, n: &NewExpr) {
         {
-            n.callee.visit_with( self);
+            n.callee.visit_with(self);
             let ctx = Ctx {
                 in_call_arg: true,
                 is_exact_arg: true,
@@ -700,14 +698,14 @@ where
                 ..self.ctx
             };
 
-            stmt.visit_with( &mut *self.with_ctx(ctx));
+            stmt.visit_with(&mut *self.with_ctx(ctx));
 
             had_cond |= can_end_conditionally(stmt);
         }
     }
 
     fn visit_switch_case(&mut self, n: &SwitchCase) {
-        n.test.visit_with( self);
+        n.test.visit_with(self);
 
         {
             let ctx = Ctx {

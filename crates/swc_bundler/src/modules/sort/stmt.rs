@@ -8,11 +8,11 @@ use swc_common::{
     collections::{AHashMap, AHashSet},
     sync::Lrc,
     util::take::Take,
-    SourceMap, Spanned, SyntaxContext, DUMMY_SP,
+    SourceMap, Spanned, SyntaxContext,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
-use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 pub(super) fn sort_stmts(
     injected_ctxt: SyntaxContext,
@@ -377,11 +377,11 @@ impl Visit for FieldInitFinter {
 
     fn visit_assign_expr(&mut self, e: &AssignExpr) {
         let old = self.in_rhs;
-        e.left.visit_with(e, self);
+        e.left.visit_with(self);
         self.check_lhs_of_assign(&e.left);
 
         self.in_rhs = true;
-        e.right.visit_with(e, self);
+        e.right.visit_with(self);
         self.in_rhs = old;
     }
 
@@ -408,7 +408,7 @@ impl Visit for FieldInitFinter {
                                 let old = self.in_object_assign;
                                 self.in_object_assign = true;
 
-                                e.args.visit_with(e, self);
+                                e.args.visit_with(self);
                                 self.in_object_assign = old;
 
                                 return;
@@ -428,10 +428,10 @@ impl Visit for FieldInitFinter {
     }
 
     fn visit_member_expr(&mut self, e: &MemberExpr) {
-        e.obj.visit_with(e, self);
+        e.obj.visit_with(self);
 
         if e.computed {
-            e.prop.visit_with(e, self);
+            e.prop.visit_with(self);
         }
 
         if !self.in_rhs || self.in_object_assign {
@@ -561,10 +561,10 @@ impl Visit for RequirementCalculator {
         let old = self.in_assign_lhs;
 
         self.in_assign_lhs = true;
-        e.left.visit_with(e, self);
+        e.left.visit_with(self);
 
         self.in_assign_lhs = false;
-        e.right.visit_with(e, self);
+        e.right.visit_with(self);
 
         self.in_assign_lhs = old;
     }
@@ -677,7 +677,7 @@ fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
         {
             // Find extra initializations.
             let mut v = FieldInitFinter::default();
-            item.visit_with( &mut v);
+            item.visit_with(&mut v);
 
             for id in v.accessed {
                 if let Some(declarator_indexes) = declared_by.get(&id) {
@@ -726,7 +726,7 @@ fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
                 found: false,
                 in_complex: false,
             };
-            item.visit_with( &mut finder);
+            item.visit_with(&mut finder);
             if finder.found {
                 declared_by.entry(uninit_id).or_default().push(idx);
                 break;
@@ -741,7 +741,7 @@ fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
 
         let mut visitor = RequirementCalculator::default();
 
-        item.visit_with( &mut visitor);
+        item.visit_with(&mut visitor);
 
         for (id, kind) in visitor.required_ids {
             if visitor.excluded.contains(&id) {

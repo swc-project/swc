@@ -4,7 +4,7 @@ use std::mem::take;
 use swc_common::{util::take::Take, EqIgnoreSpan, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, prepend, ExprExt, StmtExt, Type, Value::Known};
-use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 /// Methods related to option `switches`.
 impl<M> Optimizer<'_, M>
@@ -48,7 +48,7 @@ where
                 let mut v = BreakFinder {
                     found_unlabelled_break_for_stmt: false,
                 };
-                case.visit_with( &mut v);
+                case.visit_with(&mut v);
                 v.found_unlabelled_break_for_stmt
             });
             if should_preserve_switch {

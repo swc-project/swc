@@ -71,10 +71,10 @@ fn hook_to_handle_map(hook_fn: Vec<FnWithHook>) -> (AHashMap<Ident, FnWithHook>,
     }
     (has_ident, ignore)
 }
-// funtction that use hooks
+// function that use hooks
 struct FnWithHook {
     binding: Option<Ident>, // ident of function
-    handle: Ident,          // varaible to register
+    handle: Ident,          // variable to register
     hook: Vec<Hook>,
 }
 
