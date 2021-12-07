@@ -250,7 +250,7 @@ impl VisitMut for PrivateInObject {
                 brand_check_names: &mut buf,
                 ignore_class: false,
             };
-            p.right.visit_with(p, &mut v);
+            p.right.visit_with(&mut v);
 
             if buf.is_empty() {
                 p.right.visit_mut_with(self);

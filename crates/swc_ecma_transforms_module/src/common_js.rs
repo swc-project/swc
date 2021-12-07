@@ -765,12 +765,9 @@ where
     /// - collects all declared variables for let and var.
     fn fold_var_decl(&mut self, var: VarDecl) -> VarDecl {
         if var.kind != VarDeclKind::Const {
-            var.decls.visit_with(
-                &Invalid { span: DUMMY_SP } as _,
-                &mut VarCollector {
-                    to: &mut self.scope.borrow_mut().declared_vars,
-                },
-            );
+            var.decls.visit_with(&mut VarCollector {
+                to: &mut self.scope.borrow_mut().declared_vars,
+            });
         }
 
         VarDecl {

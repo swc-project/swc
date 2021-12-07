@@ -1,7 +1,7 @@
 use super::util::Scope;
 use std::{cell::RefCell, rc::Rc};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{collections::AHashSet, DUMMY_SP};
+use swc_common::collections::AHashSet;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::enable_helper;
 use swc_ecma_visit::{
@@ -25,7 +25,7 @@ impl VisitMut for ImportAnalyzer {
     noop_visit_mut_type!();
 
     fn visit_mut_module(&mut self, module: &mut Module) {
-        self.visit_module(&*module, &Invalid { span: DUMMY_SP } as _);
+        self.visit_module(&*module);
 
         for (_, ty) in self.scope.borrow().import_types.iter() {
             if *ty {
