@@ -856,10 +856,11 @@ where
                         ident: None,
                         function,
                     }) => {
-                        if args
-                            .iter()
-                            .take(function.params.len())
-                            .all(|arg| arg.expr.is_lit())
+                        if args.len() >= function.params.len()
+                            && args
+                                .iter()
+                                .take(function.params.len())
+                                .all(|arg| arg.expr.is_lit())
                         {
                             for param in &mut function.params {
                                 self.drop_unused_param(&mut param.pat, true);
@@ -1883,6 +1884,7 @@ where
         if need_ignore_return_value
             || self.options.unused
             || self.options.side_effects
+            || self.options.reduce_fns
             || (self.options.sequences() && n.expr.is_seq())
             || (self.options.conditionals
                 && match &*n.expr {
