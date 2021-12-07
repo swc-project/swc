@@ -56,7 +56,9 @@ where
     #[emitter]
     fn emit_qualified_rule(&mut self, n: &QualifiedRule) -> Result {
         emit!(self, n.prelude);
-        space!(self);
+        if !self.config.minify {
+            space!(self);
+        }
         emit!(self, n.block);
     }
 
