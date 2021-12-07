@@ -16,7 +16,7 @@ pub fn analyze_dependencies(
         items: vec![],
         is_top_level: true,
     };
-    module.visit_with(&ast::Invalid { span: DUMMY_SP }, &mut v);
+    module.visit_with(&mut v);
     v.items
 }
 

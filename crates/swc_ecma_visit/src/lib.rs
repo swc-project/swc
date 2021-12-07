@@ -54,14 +54,14 @@ where
     A: Visit,
     B: Visit,
 {
-    fn visit_module(&mut self, n: &Module, _parent: &dyn Node) {
-        self.first.visit_module(n, _parent);
-        self.second.visit_module(n, _parent);
+    fn visit_module(&mut self, n: &Module) {
+        self.first.visit_module(n);
+        self.second.visit_module(n);
     }
 
-    fn visit_script(&mut self, n: &Script, _parent: &dyn Node) {
-        self.first.visit_script(n, _parent);
-        self.second.visit_script(n, _parent);
+    fn visit_script(&mut self, n: &Script) {
+        self.first.visit_script(n);
+        self.second.visit_script(n);
     }
 }
 
@@ -157,10 +157,10 @@ macro_rules! assert_eq_ignore_span {
     }};
 }
 
-/// Implemeented for passes which inject varaibles.
+/// Implemented for passes which inject variables.
 ///
 /// If a pass depends on other pass which injects variables, this trait can be
-/// used to keep the varaibles.
+/// used to keep the variables.
 pub trait InjectVars {
     fn take_vars(&mut self) -> Vec<VarDeclarator>;
 }

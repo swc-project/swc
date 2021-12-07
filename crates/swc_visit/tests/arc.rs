@@ -1,4 +1,4 @@
-use std::{any::Any, sync::Arc};
+use std::sync::Arc;
 use swc_visit::define;
 
 pub struct Item {
