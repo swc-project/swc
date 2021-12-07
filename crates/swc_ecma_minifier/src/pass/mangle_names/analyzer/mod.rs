@@ -78,10 +78,10 @@ impl Visit for Analyzer {
         let old = self.is_pat_decl;
 
         self.is_pat_decl = true;
-        n.param.visit_with(n, self);
+        n.param.visit_with( self);
 
         self.is_pat_decl = false;
-        n.body.visit_with(n, self);
+        n.body.visit_with( self);
 
         self.is_pat_decl = old;
     }

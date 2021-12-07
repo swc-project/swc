@@ -1418,13 +1418,13 @@ where
 {
     fn visit_assign_pat_prop(&mut self, n: &AssignPatProp) {
         if !self.in_var_pat {
-            n.key.visit_with(n, self);
+            n.key.visit_with( self);
         }
-        n.value.visit_with(n, self);
+        n.value.visit_with( self);
     }
 
     fn visit_assign_prop(&mut self, n: &AssignProp) {
-        n.value.visit_with(n, self);
+        n.value.visit_with( self);
     }
 
     fn visit_binding_ident(&mut self, n: &BindingIdent) {
@@ -1518,9 +1518,9 @@ where
     }
 
     fn visit_member_expr(&mut self, n: &MemberExpr) {
-        n.obj.visit_with(n, self);
+        n.obj.visit_with( self);
         if n.computed {
-            n.prop.visit_with(n, self);
+            n.prop.visit_with( self);
         }
     }
 
@@ -1542,7 +1542,7 @@ where
 
     fn visit_prop_name(&mut self, n: &PropName) {
         match n {
-            PropName::Computed(e) => e.visit_with(n, self),
+            PropName::Computed(e) => e.visit_with( self),
             _ => {}
         }
     }

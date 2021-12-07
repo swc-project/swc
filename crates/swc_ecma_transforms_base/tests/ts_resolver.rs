@@ -101,9 +101,9 @@ impl Visit for AssertNoEmptyCtxt {
             n.key.visit_with(self);
         }
 
-        n.params.visit_with(n, self);
-        n.type_ann.visit_with(n, self);
-        n.type_params.visit_with(n, self);
+        n.params.visit_with(self);
+        n.type_ann.visit_with(self);
+        n.type_params.visit_with(self);
     }
 
     fn visit_ts_property_signature(&mut self, n: &TsPropertySignature) {
@@ -122,10 +122,10 @@ impl Visit for AssertNoEmptyCtxt {
             n.key.visit_with(self);
         }
 
-        n.param.visit_with(n, self);
+        n.param.visit_with(self);
     }
 
     fn visit_ts_tuple_element(&mut self, n: &TsTupleElement) {
-        n.ty.visit_with(n, self);
+        n.ty.visit_with(self);
     }
 }

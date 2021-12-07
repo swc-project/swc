@@ -360,7 +360,7 @@ where
     }
 
     fn visit_class(&mut self, n: &Class) {
-        n.decorators.visit_with(n, self);
+        n.decorators.visit_with( self);
 
         {
             let ctx = Ctx {
@@ -370,7 +370,7 @@ where
             n.super_class.visit_with(n, &mut *self.with_ctx(ctx));
         }
 
-        n.body.visit_with(n, self);
+        n.body.visit_with( self);
     }
 
     fn visit_class_decl(&mut self, n: &ClassDecl) {
@@ -380,7 +380,7 @@ where
     }
 
     fn visit_cond_expr(&mut self, n: &CondExpr) {
-        n.test.visit_with(n, self);
+        n.test.visit_with( self);
 
         {
             let ctx = Ctx {
@@ -433,7 +433,7 @@ where
     }
 
     fn visit_for_in_stmt(&mut self, n: &ForInStmt) {
-        n.right.visit_with(n, self);
+        n.right.visit_with( self);
 
         self.with_child(n.span.ctxt, ScopeKind::Block, |child| {
             let ctx = Ctx {
@@ -455,7 +455,7 @@ where
     }
 
     fn visit_for_of_stmt(&mut self, n: &ForOfStmt) {
-        n.right.visit_with(n, self);
+        n.right.visit_with( self);
 
         self.with_child(n.span.ctxt, ScopeKind::Block, |child| {
             let ctx = Ctx {
@@ -475,7 +475,7 @@ where
     }
 
     fn visit_for_stmt(&mut self, n: &ForStmt) {
-        n.init.visit_with(n, self);
+        n.init.visit_with( self);
 
         let ctx = Ctx {
             in_loop: true,
@@ -490,7 +490,7 @@ where
     }
 
     fn visit_function(&mut self, n: &Function) {
-        n.decorators.visit_with(n, self);
+        n.decorators.visit_with( self);
 
         let is_standalone = self
             .marks
@@ -528,7 +528,7 @@ where
             in_cond: true,
             ..self.ctx
         };
-        n.test.visit_with(n, self);
+        n.test.visit_with( self);
         n.cons.visit_with(n, &mut *self.with_ctx(ctx));
         n.alt.visit_with(n, &mut *self.with_ctx(ctx));
     }
@@ -608,7 +608,7 @@ where
 
     fn visit_new_expr(&mut self, n: &NewExpr) {
         {
-            n.callee.visit_with(n, self);
+            n.callee.visit_with( self);
             let ctx = Ctx {
                 in_call_arg: true,
                 is_exact_arg: true,
@@ -707,7 +707,7 @@ where
     }
 
     fn visit_switch_case(&mut self, n: &SwitchCase) {
-        n.test.visit_with(n, self);
+        n.test.visit_with( self);
 
         {
             let ctx = Ctx {

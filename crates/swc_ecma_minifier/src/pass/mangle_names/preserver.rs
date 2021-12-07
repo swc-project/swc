@@ -97,9 +97,9 @@ impl Visit for Preserver {
     }
 
     fn visit_member_expr(&mut self, n: &MemberExpr) {
-        n.obj.visit_with(n, self);
+        n.obj.visit_with( self);
         if n.computed {
-            n.prop.visit_with(n, self);
+            n.prop.visit_with( self);
         }
     }
 
@@ -138,7 +138,7 @@ impl Visit for Preserver {
         if self.in_top_level && !self.options.top_level {
             let old = self.should_preserve;
             self.should_preserve = true;
-            n.name.visit_with(n, self);
+            n.name.visit_with( self);
             self.should_preserve = old;
             return;
         }
@@ -148,7 +148,7 @@ impl Visit for Preserver {
                 Some(Expr::Fn(..)) | Some(Expr::Arrow(..)) => {
                     let old = self.should_preserve;
                     self.should_preserve = true;
-                    n.name.visit_with(n, self);
+                    n.name.visit_with( self);
                     self.should_preserve = old;
                 }
                 _ => {}
