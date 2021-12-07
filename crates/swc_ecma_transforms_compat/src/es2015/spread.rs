@@ -10,8 +10,7 @@ use swc_ecma_utils::{
     StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
-    VisitWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
 pub fn spread(c: Config) -> impl Fold + VisitMut {
@@ -450,7 +449,7 @@ struct SpreadFinder {
 impl Visit for SpreadFinder {
     noop_visit_type!();
 
-    fn visit_expr_or_spread(&mut self, n: &ExprOrSpread, _: &dyn Node) {
+    fn visit_expr_or_spread(&mut self, n: &ExprOrSpread) {
         n.visit_children_with(self);
 
         self.found |= n.spread.is_some();

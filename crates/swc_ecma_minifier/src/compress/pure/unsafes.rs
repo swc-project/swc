@@ -9,7 +9,7 @@ where
     M: Mode,
 {
     /// Drop arguments of `Symbol()` call.
-    pub(super) fn drop_arguemtns_of_symbol_call(&mut self, e: &mut CallExpr) {
+    pub(super) fn drop_arguments_of_symbol_call(&mut self, e: &mut CallExpr) {
         if !self.options.unsafe_symbols {
             return;
         }

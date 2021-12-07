@@ -122,7 +122,7 @@ impl<M> Optimizer<'_, M>
 where
     M: Mode,
 {
-    /// # Exmaple
+    /// # Example
     ///
     /// ## Input
     ///
@@ -265,9 +265,9 @@ where
             tracing::trace!("inline: inline_vars_in_node");
         }
 
-        let orig_vars = replace(&mut self.state.vars_for_inlining, vars);
+        let orig_vars = replace(&mut self.vars_for_inlining, vars);
         n.visit_mut_with(self);
-        self.state.vars_for_inlining = orig_vars;
+        self.vars_for_inlining = orig_vars;
     }
 
     /// Fully inlines iife.
@@ -282,7 +282,7 @@ where
     /// })().x = 10;
     /// ```
     ///
-    /// ## Oupuy
+    /// ## Output
     ///
     /// ```ts
     /// ({
@@ -503,7 +503,7 @@ where
                     .collect::<Vec<_>>();
 
                 if !self.can_inline_fn_like(&param_ids, body) {
-                    tracing::trace!("iife: [x] Body is not inliable");
+                    tracing::trace!("iife: [x] Body is not inlinable");
                     return;
                 }
 
@@ -522,6 +522,23 @@ where
     }
 
     fn can_inline_fn_like(&self, param_ids: &[Ident], body: &BlockStmt) -> bool {
+        // Don't create top-level variables.
+        if !param_ids.is_empty() {
+            if self.ctx.in_top_level() && !self.options.module {
+                for pid in param_ids {
+                    if let Some(usage) = self
+                        .data
+                        .as_ref()
+                        .and_then(|data| data.vars.get(&pid.to_id()))
+                    {
+                        if usage.ref_count > 1 || usage.assign_count > 0 || usage.inline_prevented {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
         if !body.stmts.iter().all(|stmt| match stmt {
             Stmt::Decl(Decl::Var(VarDecl {
                 kind: VarDeclKind::Var | VarDeclKind::Let,
@@ -547,13 +564,17 @@ where
                     return false;
                 }
 
+                if self.ctx.in_top_level() && !self.options.module {
+                    return false;
+                }
+
                 true
             }
 
             Stmt::Expr(e) => match &*e.expr {
                 Expr::Await(..) => false,
 
-                // TODO: Check if paramter is used and inline if call is not related to parameters.
+                // TODO: Check if parameter is used and inline if call is not related to parameters.
                 Expr::Call(e) => {
                     let used = idents_used_by(&e.callee);
                     param_ids.iter().all(|param| !used.contains(&param.to_id()))

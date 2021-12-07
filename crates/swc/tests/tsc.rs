@@ -76,8 +76,8 @@ fn matrix() -> Vec<(String, Options)> {
                         target: Some(target),
                         minify: if minify {
                             Some(from_json(
-                                "{ \"compress\": { \"toplevel\": true }, \"mangle\": false, \
-                                 \"toplevel\": true }",
+                                "{ \"compress\": { \"toplevel\": true, \"module\": true }, \
+                                 \"mangle\": false, \"toplevel\": true }",
                             ))
                         } else {
                             None
@@ -120,10 +120,8 @@ fn compile(input: &Path, output: &Path, opts: Options) {
                             syntax: Some(Syntax::Typescript(TsConfig {
                                 tsx: input.to_string_lossy().ends_with(".tsx"),
                                 decorators: true,
-                                dynamic_import: true,
                                 dts: false,
                                 no_early_errors: true,
-                                import_assertions: false,
                             })),
                             ..opts.config.jsc
                         },

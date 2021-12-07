@@ -6,10 +6,10 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_utils::{
-    alias_ident_for, constructor::inject_after_super, prepend, private_ident,
+    alias_ident_for, constructor::inject_after_super, default_constructor, prepend, private_ident,
     prop_name_to_expr_value, quote_ident, quote_str, undefined, ExprFactory, IdentExt,
 };
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Visit, VisitWith};
 
 mod legacy;
 
@@ -297,46 +297,17 @@ impl Decorators {
 
                     ClassMember::Constructor(c)
                 }
-                None => ClassMember::Constructor(Constructor {
-                    span: DUMMY_SP,
-                    key: PropName::Ident(quote_ident!("constructor")),
-                    is_optional: false,
-                    accessibility: Default::default(),
-                    params: if super_class_ident.is_some() {
-                        vec![ParamOrTsParamProp::Param(Param {
-                            span: DUMMY_SP,
-                            decorators: vec![],
-                            pat: Pat::Rest(RestPat {
-                                span: DUMMY_SP,
-                                dot3_token: DUMMY_SP,
-                                arg: Box::new(Pat::Ident(quote_ident!("args").into())),
-                                type_ann: Default::default(),
-                            }),
-                        })]
-                    } else {
-                        vec![]
-                    },
-                    body: Some(BlockStmt {
-                        span: DUMMY_SP,
-                        stmts: if super_class_ident.is_some() {
-                            vec![
-                                CallExpr {
-                                    span: DUMMY_SP,
-                                    callee: ExprOrSuper::Super(Super { span: DUMMY_SP }),
-                                    args: vec![ExprOrSpread {
-                                        spread: Some(DUMMY_SP),
-                                        expr: Box::new(Expr::Ident(quote_ident!("args"))),
-                                    }],
-                                    type_args: Default::default(),
-                                }
-                                .into_stmt(),
-                                initialize_call.into_stmt(),
-                            ]
-                        } else {
-                            vec![initialize_call.into_stmt()]
-                        },
-                    }),
-                }),
+                None => {
+                    let mut c = default_constructor(super_class_ident.is_some());
+
+                    c.body
+                        .as_mut()
+                        .unwrap()
+                        .stmts
+                        .push(initialize_call.into_stmt());
+
+                    ClassMember::Constructor(c)
+                }
             }
         };
 
@@ -677,7 +648,7 @@ struct DecoratorFinder {
     found: bool,
 }
 impl Visit for DecoratorFinder {
-    fn visit_decorator(&mut self, _: &Decorator, _: &dyn Node) {
+    fn visit_decorator(&mut self, _: &Decorator) {
         self.found = true
     }
 }
@@ -687,6 +658,6 @@ where
     N: VisitWith<DecoratorFinder>,
 {
     let mut v = DecoratorFinder { found: false };
-    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+    node.visit_with(&mut v);
     v.found
 }

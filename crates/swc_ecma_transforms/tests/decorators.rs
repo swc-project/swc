@@ -31,7 +31,6 @@ fn syntax(decorators_before_export: bool) -> Syntax {
     Syntax::Es(EsConfig {
         decorators_before_export,
         decorators: true,
-        class_props: true,
         ..Default::default()
     })
 }

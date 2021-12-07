@@ -1,12 +1,12 @@
 use once_cell::sync::Lazy;
 use std::{env, process::Command};
-use swc_common::{sync::Lrc, SourceMap, SyntaxContext, DUMMY_SP};
+use swc_common::{sync::Lrc, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_transforms::{fixer, hygiene};
 use swc_ecma_utils::{drop_span, DropSpan};
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, FoldWith, Node, Visit, VisitMut, VisitMutWith, VisitWith,
+    noop_visit_mut_type, noop_visit_type, FoldWith, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
 pub(crate) struct Debugger {}
@@ -36,12 +36,14 @@ impl VisitMut for Debugger {
     }
 }
 
-pub(crate) fn dump<N>(node: &N) -> String
+pub(crate) fn dump<N>(node: &N, force: bool) -> String
 where
     N: swc_ecma_codegen::Node + Clone + VisitMutWith<DropSpan> + VisitMutWith<Debugger>,
 {
-    if !cfg!(feature = "debug") {
-        return String::new();
+    if !force {
+        if !cfg!(feature = "debug") {
+            return String::new();
+        }
     }
 
     let mut node = node.clone();
@@ -72,7 +74,7 @@ pub(crate) fn invoke(module: &Module) {
     static ENABLED: Lazy<bool> = Lazy::new(|| env::var("SWC_RUN").unwrap_or_default() == "1");
 
     if cfg!(debug_assertions) {
-        module.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+        module.visit_with(&mut AssertValid);
     }
 
     if !cfg!(feature = "debug") || !*ENABLED {
@@ -127,15 +129,15 @@ pub(crate) struct AssertValid;
 impl Visit for AssertValid {
     noop_visit_type!();
 
-    fn visit_invalid(&mut self, _: &Invalid, _: &dyn Node) {
+    fn visit_invalid(&mut self, _: &Invalid) {
         panic!("[SWC_RUN] Invalid node found");
     }
 
-    fn visit_setter_prop(&mut self, p: &SetterProp, _: &dyn Node) {
-        p.body.visit_with(p, self);
+    fn visit_setter_prop(&mut self, p: &SetterProp) {
+        p.body.visit_with(self);
     }
 
-    fn visit_tpl(&mut self, l: &Tpl, _: &dyn Node) {
+    fn visit_tpl(&mut self, l: &Tpl) {
         l.visit_children_with(self);
 
         assert_eq!(l.exprs.len() + 1, l.quasis.len());

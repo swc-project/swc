@@ -17,7 +17,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{
     contains_this_expr, ident::IdentLike, undefined, ExprExt, Id, StmtLike, UsageFinder,
 };
-use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use tracing::{span, Level};
 
 /// Methods related to the option `sequences`. All methods are noop if
@@ -741,7 +741,7 @@ where
         self.normalize_sequences(e);
 
         let _tracing = if cfg!(feature = "debug") {
-            let e_str = dump(&*e);
+            let e_str = dump(&*e, false);
 
             Some(
                 span!(
@@ -805,7 +805,7 @@ where
                     Mergable::Expr(e2) => {
                         if !self.is_skippable_for_seq(Some(a), &*e2) {
                             if cfg!(feature = "debug") && false {
-                                tracing::trace!("Cannot skip: {}", dump(&**e2));
+                                tracing::trace!("Cannot skip: {}", dump(&**e2, false));
                             }
 
                             break;
@@ -926,7 +926,7 @@ where
     /// Returns [Err] iff we should stop checking.
     fn merge_sequential_expr(&mut self, a: &mut Mergable, b: &mut Expr) -> Result<bool, ()> {
         let _tracing = if cfg!(feature = "debug") {
-            let b_str = dump(&*b);
+            let b_str = dump(&*b, false);
 
             Some(span!(Level::ERROR, "merge_sequential_expr", b = &*b_str).entered())
         } else {
@@ -1243,7 +1243,7 @@ where
         {
             // This requires tracking if `b` is in an assignment pattern.
             //
-            // Update experssions can be inline.
+            // Update expressions can be inline.
             //
             // ++c, console.log(c)
             //
@@ -1268,7 +1268,7 @@ where
                                     target: &*a_id,
                                     in_lhs: false,
                                 };
-                                b.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+                                b.visit_with(&mut v);
                                 if v.expr_usage != 1 || v.pat_usage != 0 {
                                     tracing::trace!(
                                         "[X] sequences: Aborting merging of an update expression \
@@ -1427,7 +1427,7 @@ where
                 target: &left_id,
                 in_lhs: false,
             };
-            b.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+            b.visit_with(&mut v);
             if v.expr_usage != 1 || v.pat_usage != 0 {
                 tracing::trace!(
                     "[X] sequences: Aborting because of usage counts ({}{:?}, ref = {}, pat = {})",
@@ -1455,7 +1455,7 @@ where
         replace_id_with_expr(b, left_id.to_id(), to);
 
         if cfg!(feature = "debug") {
-            tracing::debug!("sequences: [Chanded] {}", dump(&*b));
+            tracing::debug!("sequences: [Changed] {}", dump(&*b, false));
         }
 
         Ok(true)
@@ -1473,7 +1473,7 @@ struct UsageCounter<'a> {
 impl Visit for UsageCounter<'_> {
     noop_visit_type!();
 
-    fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
+    fn visit_ident(&mut self, i: &Ident) {
         if self.target.sym == i.sym && self.target.span.ctxt == i.span.ctxt {
             if self.in_lhs {
                 self.pat_usage += 1;
@@ -1483,25 +1483,25 @@ impl Visit for UsageCounter<'_> {
         }
     }
 
-    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
-        e.obj.visit_with(e, self);
+    fn visit_member_expr(&mut self, e: &MemberExpr) {
+        e.obj.visit_with(self);
 
         if e.computed {
             let old = self.in_lhs;
             self.in_lhs = false;
-            e.prop.visit_with(e, self);
+            e.prop.visit_with(self);
             self.in_lhs = old;
         }
     }
 
-    fn visit_pat(&mut self, p: &Pat, _: &dyn Node) {
+    fn visit_pat(&mut self, p: &Pat) {
         let old = self.in_lhs;
         self.in_lhs = true;
         p.visit_children_with(self);
         self.in_lhs = old;
     }
 
-    fn visit_pat_or_expr(&mut self, p: &PatOrExpr, _: &dyn Node) {
+    fn visit_pat_or_expr(&mut self, p: &PatOrExpr) {
         let old = self.in_lhs;
         self.in_lhs = true;
         p.visit_children_with(self);

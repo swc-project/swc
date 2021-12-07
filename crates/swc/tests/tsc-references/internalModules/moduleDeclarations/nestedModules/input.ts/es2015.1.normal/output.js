@@ -1,5 +1,4 @@
-var A;
-(function(A1) {
+(function(A) {
     let B;
     (function(B) {
         var Point = {
@@ -8,18 +7,17 @@ var A;
         }; // bug 832088: could not find module 'C'
     })(B || (B = {
     }));
-    A1.B = B;
+    A.B = B;
 })(A || (A = {
 }));
-var M2;
-(function(M21) {
+(function(M2) {
     let X1;
     (function(X) {
         var Point;
         X.Point = Point;
     })(X1 || (X1 = {
     }));
-    M21.X = X1;
+    M2.X = X1;
 })(M2 || (M2 = {
 }));
 var m = M2.X;

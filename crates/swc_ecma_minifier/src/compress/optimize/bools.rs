@@ -62,7 +62,7 @@ where
             "bools: Negating: (!a && !b) => !(a || b) (because both expression are good for \
              negation)",
         );
-        let start = dump(&*e);
+        let start = dump(&*e, false);
 
         e.op = if e.op == op!("&&") {
             op!("||")
@@ -80,7 +80,7 @@ where
         self.with_ctx(ctx).negate(&mut e.right);
 
         if cfg!(feature = "debug") {
-            tracing::debug!("[Change] {} => {}", start, dump(&*e));
+            tracing::debug!("[Change] {} => {}", start, dump(&*e, false));
         }
 
         true

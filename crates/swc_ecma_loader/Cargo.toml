@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0"
 name = "swc_ecma_loader"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.24.4"
+version = "0.25.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -31,11 +31,11 @@ regex = {version = "1", optional = true}
 serde = {version = "1", features = ["derive"]}
 serde_json = {version = "1.0.64", optional = true}
 swc_atoms = {version = "0.2.3", path = "../swc_atoms"}
-swc_common = {version = "0.14.0", path = "../swc_common"}
+swc_common = {version = "0.15.0", path = "../swc_common"}
 tracing = "0.1.28"
 
 [dev-dependencies]
-testing = {version = "0.15.0", path = "../testing"}
+testing = {version = "0.16.0", path = "../testing"}
 
 [target.'cfg(windows)'.dependencies]
 normpath = {version = "0.2", optional = true}

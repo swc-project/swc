@@ -57,5 +57,6 @@ rust-toolchain
 .husky/
 .prettierrc
 crates/
+packages/
 cspell.json
 deny.toml

@@ -213,7 +213,10 @@ pub struct CompressOptions {
     #[serde(default = "true_by_default")]
     #[serde(alias = "loops")]
     pub loops: bool,
-    // module        : false,
+
+    #[serde(default)]
+    pub module: bool,
+
     #[serde(default = "true_by_default")]
     #[serde(alias = "negate_iife")]
     pub negate_iife: bool,

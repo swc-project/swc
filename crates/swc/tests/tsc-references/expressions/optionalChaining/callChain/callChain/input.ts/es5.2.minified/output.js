@@ -1,15 +1,25 @@
 var _o2, _o21, _o22, _o23, _ref, _ref1, _ref2, _ref3, _ref4, _ref5, ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, ref10, ref11, ref12;
+function _arrayLikeToArray(arr, len) {
+    (null == len || len > arr.length) && (len = arr.length);
+    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
+    return arr2;
+}
 function _toConsumableArray(arr) {
     return (function(arr) {
-        if (Array.isArray(arr)) {
-            for(var i = 0, arr2 = new Array(arr.length); i < arr.length; i++)arr2[i] = arr[i];
-            return arr2;
-        }
+        if (Array.isArray(arr)) return _arrayLikeToArray(arr);
     })(arr) || (function(iter) {
-        if (Symbol.iterator in Object(iter) || "[object Arguments]" === Object.prototype.toString.call(iter)) return Array.from(iter);
-    })(arr) || (function() {
-        throw new TypeError("Invalid attempt to spread non-iterable instance");
+        if ("undefined" != typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) return Array.from(iter);
+    })(arr) || _unsupportedIterableToArray(arr) || (function() {
+        throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
     })();
+}
+function _unsupportedIterableToArray(o, minLen) {
+    if (o) {
+        if ("string" == typeof o) return _arrayLikeToArray(o, minLen);
+        var n = Object.prototype.toString.call(o).slice(8, -1);
+        if ("Object" === n && o.constructor && (n = o.constructor.name), "Map" === n || "Set" === n) return Array.from(n);
+        if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+    }
 }
 null == o1 || o1(), null == o1 || o1(1), null == o1 || o1.apply(void 0, [
     1,

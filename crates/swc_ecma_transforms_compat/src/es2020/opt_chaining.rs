@@ -6,7 +6,7 @@ use swc_ecma_transforms_base::perf::Check;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{alias_if_required, prepend, private_ident, undefined, ExprFactory, StmtLike};
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith,
 };
 
 pub fn optional_chaining(c: Config) -> impl Fold + VisitMut {
@@ -670,7 +670,7 @@ struct ShouldWork {
 impl Visit for ShouldWork {
     noop_visit_type!();
 
-    fn visit_opt_chain_expr(&mut self, _: &OptChainExpr, _: &dyn Node) {
+    fn visit_opt_chain_expr(&mut self, _: &OptChainExpr) {
         self.found = true;
     }
 }

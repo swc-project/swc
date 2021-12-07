@@ -15,8 +15,7 @@ use swc_ecma_utils::{
     collect_decls, ident::IdentLike, ExprExt, Id, IsEmpty, ModuleItemLike, StmtLike, Value,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
-    VisitWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use tracing::{debug, span, trace, Level};
 
@@ -100,13 +99,13 @@ impl Analyzer<'_> {
 impl Visit for Analyzer<'_> {
     noop_visit_type!();
 
-    fn visit_assign_pat_prop(&mut self, n: &AssignPatProp, _: &dyn Node) {
+    fn visit_assign_pat_prop(&mut self, n: &AssignPatProp) {
         n.visit_children_with(self);
 
         self.add(n.key.to_id(), true);
     }
 
-    fn visit_class_decl(&mut self, n: &ClassDecl, _: &dyn Node) {
+    fn visit_class_decl(&mut self, n: &ClassDecl) {
         n.visit_children_with(self);
 
         if !n.class.decorators.is_empty() {
@@ -114,7 +113,7 @@ impl Visit for Analyzer<'_> {
         }
     }
 
-    fn visit_class_expr(&mut self, n: &ClassExpr, _: &dyn Node) {
+    fn visit_class_expr(&mut self, n: &ClassExpr) {
         n.visit_children_with(self);
 
         if !n.class.decorators.is_empty() {
@@ -124,11 +123,11 @@ impl Visit for Analyzer<'_> {
         }
     }
 
-    fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier, _: &dyn Node) {
+    fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {
         self.add(n.orig.to_id(), false);
     }
 
-    fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
+    fn visit_expr(&mut self, e: &Expr) {
         e.visit_children_with(self);
 
         match e {
@@ -139,7 +138,7 @@ impl Visit for Analyzer<'_> {
         }
     }
 
-    fn visit_fn_decl(&mut self, n: &FnDecl, _: &dyn Node) {
+    fn visit_fn_decl(&mut self, n: &FnDecl) {
         let old = self.cur_fn_id.take();
         self.cur_fn_id = Some(n.ident.to_id());
         n.visit_children_with(self);
@@ -150,7 +149,7 @@ impl Visit for Analyzer<'_> {
         }
     }
 
-    fn visit_fn_expr(&mut self, n: &FnExpr, _: &dyn Node) {
+    fn visit_fn_expr(&mut self, n: &FnExpr) {
         n.visit_children_with(self);
 
         if !n.function.decorators.is_empty() {
@@ -160,7 +159,7 @@ impl Visit for Analyzer<'_> {
         }
     }
 
-    fn visit_pat(&mut self, p: &Pat, _: &dyn Node) {
+    fn visit_pat(&mut self, p: &Pat) {
         p.visit_children_with(self);
 
         if !self.in_var_decl {
@@ -173,7 +172,7 @@ impl Visit for Analyzer<'_> {
         }
     }
 
-    fn visit_prop(&mut self, p: &Prop, _: &dyn Node) {
+    fn visit_prop(&mut self, p: &Prop) {
         p.visit_children_with(self);
 
         match p {
@@ -184,14 +183,14 @@ impl Visit for Analyzer<'_> {
         }
     }
 
-    fn visit_var_declarator(&mut self, v: &VarDeclarator, _: &dyn Node) {
+    fn visit_var_declarator(&mut self, v: &VarDeclarator) {
         let old = self.in_var_decl;
 
         self.in_var_decl = true;
-        v.name.visit_with(v, self);
+        v.name.visit_with(self);
 
         self.in_var_decl = false;
-        v.init.visit_with(v, self);
+        v.init.visit_with(self);
 
         self.in_var_decl = old;
     }
@@ -429,7 +428,7 @@ impl VisitMut for TreeShaker {
                 in_var_decl: false,
                 cur_fn_id: Default::default(),
             };
-            m.visit_with(&Invalid { span: DUMMY_SP }, &mut analyzer);
+            m.visit_with(&mut analyzer);
         }
         self.data = data.into();
         trace!("Used = {:?}", self.data.used_names);

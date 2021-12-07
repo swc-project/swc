@@ -10,8 +10,7 @@ use swc_ecma_utils::{
     prop_name_to_expr, quote_ident, undefined, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
-    VisitWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
 /// `@babel/plugin-transform-destructuring`
@@ -530,7 +529,8 @@ impl Destructuring {
                         definite: false,
                     })
                 }
-                _ => {}
+                Pat::Rest(..) | Pat::Expr(..) => params.push(param),
+                Pat::Invalid(..) => {}
             }
         }
 
@@ -1234,7 +1234,7 @@ struct DestructuringVisitor {
 impl Visit for DestructuringVisitor {
     noop_visit_type!();
 
-    fn visit_pat(&mut self, node: &Pat, _: &dyn Node) {
+    fn visit_pat(&mut self, node: &Pat) {
         node.visit_children_with(self);
         match *node {
             Pat::Ident(..) => {}

@@ -9,6 +9,7 @@ use std::{
     fs::{create_dir_all, File},
     io::Write,
     path::{Path, PathBuf},
+    str::FromStr,
     sync::RwLock,
     thread,
 };
@@ -32,11 +33,13 @@ mod string_errors;
 /// Configures logger
 #[must_use]
 pub fn init() -> tracing::subscriber::DefaultGuard {
+    let log_env = env::var("RUST_LOG").unwrap_or_else(|_| "debug".to_string());
+
     let logger = tracing_subscriber::FmtSubscriber::builder()
         .without_time()
         .with_target(false)
         .with_ansi(true)
-        .with_env_filter(EnvFilter::from_default_env())
+        .with_env_filter(EnvFilter::from_str(&log_env).unwrap())
         .with_test_writer()
         .pretty()
         .finish();
@@ -117,8 +120,6 @@ pub struct Tester {
 
 impl Tester {
     pub fn new() -> Self {
-        let _log = init();
-
         Tester {
             cm: Lrc::new(SourceMap::new(FilePathMapping::empty())),
             globals: swc_common::Globals::new(),
@@ -136,6 +137,8 @@ impl Tester {
     where
         F: FnOnce(Lrc<SourceMap>, Handler) -> Result<Ret, ()>,
     {
+        let _log = init();
+
         let (handler, errors) =
             self::string_errors::new_handler(self.cm.clone(), self.treat_err_as_bug);
         let result = swc_common::GLOBALS.set(&self.globals, || op(self.cm.clone(), handler));
@@ -151,6 +154,8 @@ impl Tester {
     where
         F: FnOnce(Lrc<SourceMap>, Handler) -> Result<Ret, ()>,
     {
+        let _log = init();
+
         let (handler, errors) =
             self::diag_errors::new_handler(self.cm.clone(), self.treat_err_as_bug);
         let result = swc_common::GLOBALS.set(&self.globals, || op(self.cm.clone(), handler));

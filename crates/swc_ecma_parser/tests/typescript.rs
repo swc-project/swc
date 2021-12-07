@@ -218,9 +218,7 @@ where
             Syntax::Typescript(TsConfig {
                 dts: fname.ends_with(".d.ts"),
                 tsx: fname.contains("tsx"),
-                dynamic_import: true,
                 decorators: true,
-                import_assertions: true,
                 no_early_errors,
                 ..Default::default()
             }),

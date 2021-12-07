@@ -4,8 +4,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{quote_ident, ExprFactory, StmtLike};
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
-    VisitWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
 /// `@babel/plugin-transform-computed-properties`
@@ -323,7 +322,7 @@ struct ComplexVisitor {
 impl Visit for ComplexVisitor {
     noop_visit_type!();
 
-    fn visit_prop_name(&mut self, pn: &PropName, _: &dyn Node) {
+    fn visit_prop_name(&mut self, pn: &PropName) {
         match *pn {
             PropName::Computed(..) => self.found = true,
             _ => {}
@@ -409,7 +408,7 @@ where
     N: VisitWith<ShouldWork>,
 {
     let mut v = ShouldWork { found: false };
-    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+    node.visit_with(&mut v);
     v.found
 }
 
@@ -420,7 +419,7 @@ struct ShouldWork {
 impl Visit for ShouldWork {
     noop_visit_type!();
 
-    fn visit_prop_name(&mut self, node: &PropName, _: &dyn Node) {
+    fn visit_prop_name(&mut self, node: &PropName) {
         match *node {
             PropName::Computed(_) => self.found = true,
             _ => {}

@@ -8,7 +8,6 @@ fn tr(c: Config) -> impl Fold {
 
 fn syntax() -> Syntax {
     Syntax::Es(EsConfig {
-        nullish_coalescing: true,
         ..Default::default()
     })
 }

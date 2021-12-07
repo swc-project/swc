@@ -54,6 +54,24 @@ var X;
 (function(X1) {
     var Y1;
     (function(Y) {
+        var Z1;
+        (function(Z) {
+            var Line = function Line() {
+                "use strict";
+                _classCallCheck(this, Line);
+            };
+            Z.Line = Line;
+        })(Z1 || (Z1 = {
+        }));
+        Y.Z = Z1;
+    })(Y1 || (Y1 = {
+    }));
+    X1.Y = Y1;
+})(X || (X = {
+}));
+(function(X2) {
+    var Y2;
+    (function(Y) {
         var Z;
         (function(Z) {
             var Line = function Line() {
@@ -63,9 +81,9 @@ var X;
         })(Z || (Z = {
         }));
         Y.Z = Z;
-    })(Y1 || (Y1 = {
+    })(Y2 || (Y2 = {
     }));
-    X1.Y = Y1;
+    X2.Y = Y2;
 })(X || (X = {
 }));
 // ensure merges as expected

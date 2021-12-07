@@ -38,7 +38,6 @@ fn main() {
     let lexer = Lexer::new(
         Syntax::Typescript(TsConfig {
             tsx: input.ends_with(".tsx"),
-            dynamic_import: true,
             ..Default::default()
         }),
         Default::default(),
