@@ -1,5 +1,5 @@
 use std::path::PathBuf;
-use swc_common::{comments::SingleThreadedComments, errors::Handler, Spanned, DUMMY_SP};
+use swc_common::{comments::SingleThreadedComments, errors::Handler, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_visit::{Visit, VisitWith};
@@ -37,7 +37,7 @@ fn span(entry: PathBuf) {
                 .parse_module()
                 .map_err(|e| e.into_diagnostic(handler).emit())?;
 
-            Shower { handler }.visit_module(&module, &Invalid { span: DUMMY_SP } as _);
+            Shower { handler }.visit_module(&module);
         }
 
         Err(())

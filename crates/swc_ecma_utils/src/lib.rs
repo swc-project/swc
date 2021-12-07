@@ -93,7 +93,7 @@ where
     N: VisitWith<ThisVisitor>,
 {
     let mut visitor = ThisVisitor { found: false };
-    body.visit_with(&Invalid { span: DUMMY_SP } as _, &mut visitor);
+    body.visit_with(&mut visitor);
     visitor.found
 }
 
@@ -105,7 +105,7 @@ where
         found: false,
         ident,
     };
-    body.visit_with(&Invalid { span: DUMMY_SP } as _, &mut visitor);
+    body.visit_with(&mut visitor);
     visitor.found
 }
 
@@ -136,7 +136,7 @@ where
     N: VisitWith<ArgumentsFinder>,
 {
     let mut visitor = ArgumentsFinder { found: false };
-    body.visit_with(&Invalid { span: DUMMY_SP } as _, &mut visitor);
+    body.visit_with(&mut visitor);
     visitor.found
 }
 
@@ -169,10 +169,10 @@ impl Visit for ArgumentsFinder {
 
     /// Don't recurse into member expression prop if not computed
     fn visit_member_expr(&mut self, m: &MemberExpr) {
-        m.obj.visit_with(m, self);
+        m.obj.visit_with(self);
         match &*m.prop {
             Expr::Ident(_) if !m.computed => {}
-            _ => m.prop.visit_with(m, self),
+            _ => m.prop.visit_with(self),
         }
     }
 

@@ -1,4 +1,4 @@
-use swc_common::{input::StringInput, FileName, DUMMY_SP};
+use swc_common::{input::StringInput, FileName};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser};
 use swc_ecma_visit::{All, VisitAll, VisitWith};
