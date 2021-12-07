@@ -301,14 +301,14 @@ impl Fold for Polyfills {
                 let mut r = match self.corejs {
                     Version { major: 2, .. } => {
                         let mut v = corejs2::UsageVisitor::new(self.targets);
-                        m.visit_with( &mut v);
+                        m.visit_with(&mut v);
 
                         v.required
                     }
                     Version { major: 3, .. } => {
                         let mut v =
                             corejs3::UsageVisitor::new(self.targets, self.shipped_proposals);
-                        m.visit_with( &mut v);
+                        m.visit_with(&mut v);
                         v.required
                     }
 

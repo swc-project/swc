@@ -12,7 +12,7 @@ use swc_ecma_utils::{
     Hoister, IsEmpty, StmtExt, StmtLike, Value::Known,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type,  Visit, VisitMut, VisitMutWith, VisitWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
 #[cfg(test)]
@@ -1672,7 +1672,7 @@ fn check_for_stopper(s: &[Stmt], only_conditional: bool) -> bool {
         in_cond: !only_conditional,
         found: false,
     };
-    v.visit_stmts(s, );
+    v.visit_stmts(s);
     v.found
 }
 
