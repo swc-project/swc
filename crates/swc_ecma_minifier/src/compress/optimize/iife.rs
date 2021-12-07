@@ -522,9 +522,20 @@ where
     }
 
     fn can_inline_fn_like(&self, param_ids: &[Ident], body: &BlockStmt) -> bool {
+        // Don't create top-level variables.
         if !param_ids.is_empty() {
             if self.ctx.is_top_level_for_block_level_vars() && !self.options.module {
-                return false;
+                for pid in param_ids {
+                    if let Some(usage) = self
+                        .data
+                        .as_ref()
+                        .and_then(|data| data.vars.get(&pid.to_id()))
+                    {
+                        if usage.ref_count > 1 {
+                            return false;
+                        }
+                    }
+                }
             }
         }
 
