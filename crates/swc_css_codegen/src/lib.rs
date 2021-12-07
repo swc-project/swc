@@ -738,7 +738,30 @@ where
 
     #[emitter]
     fn emit_complex_selector(&mut self, n: &ComplexSelector) -> Result {
-        self.emit_list(&n.children, ListFormat::SpaceDelimited)?;
+        let mut need_space = false;
+        for (idx, node) in n.children.iter().enumerate() {
+            match node {
+                ComplexSelectorChildren::Combinator(..) => {
+                    need_space = false;
+                }
+                _ => {}
+            }
+
+            if idx != 0 && need_space {
+                need_space = false;
+
+                self.wr.write_space()?;
+            }
+
+            match node {
+                ComplexSelectorChildren::CompoundSelector(..) => {
+                    need_space = true;
+                }
+                _ => {}
+            }
+
+            emit!(self, node)
+        }
     }
 
     #[emitter]
