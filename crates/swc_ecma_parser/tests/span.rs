@@ -2,7 +2,7 @@ use std::path::PathBuf;
 use swc_common::{comments::SingleThreadedComments, errors::Handler, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
-use swc_ecma_visit::{Node, Visit, VisitWith};
+use swc_ecma_visit::{Visit, VisitWith};
 
 #[testing::fixture("tests/span/**/*.js")]
 #[testing::fixture("tests/span/**/*.ts")]
@@ -210,11 +210,7 @@ impl Visit for Shower<'_> {
         self.show("ExportNamedSpecifier", n);
         n.visit_children_with(self)
     }
-    fn visit_export_namespace_specifier(
-        &mut self,
-        n: &ExportNamespaceSpecifier,
-        _parent: &dyn Node,
-    ) {
+    fn visit_export_namespace_specifier(&mut self, n: &ExportNamespaceSpecifier) {
         self.show("ExportNamespaceSpecifier", n);
         n.visit_children_with(self)
     }
@@ -590,11 +586,7 @@ impl Visit for Shower<'_> {
         self.show("TsConstAssertion", n);
         n.visit_children_with(self)
     }
-    fn visit_ts_construct_signature_decl(
-        &mut self,
-        n: &TsConstructSignatureDecl,
-        _parent: &dyn Node,
-    ) {
+    fn visit_ts_construct_signature_decl(&mut self, n: &TsConstructSignatureDecl) {
         self.show("TsConstructSignatureDecl", n);
         n.visit_children_with(self)
     }
@@ -808,11 +800,7 @@ impl Visit for Shower<'_> {
         self.show("TsTypeParamDecl", n);
         n.visit_children_with(self)
     }
-    fn visit_ts_type_param_instantiation(
-        &mut self,
-        n: &TsTypeParamInstantiation,
-        _parent: &dyn Node,
-    ) {
+    fn visit_ts_type_param_instantiation(&mut self, n: &TsTypeParamInstantiation) {
         self.show("TsTypeParamInstantiation", n);
         n.visit_children_with(self)
     }
@@ -832,11 +820,7 @@ impl Visit for Shower<'_> {
         self.show("TsTypeRef", n);
         n.visit_children_with(self)
     }
-    fn visit_ts_union_or_intersection_type(
-        &mut self,
-        n: &TsUnionOrIntersectionType,
-        _parent: &dyn Node,
-    ) {
+    fn visit_ts_union_or_intersection_type(&mut self, n: &TsUnionOrIntersectionType) {
         self.show("TsUnionOrIntersectionType", n);
         n.visit_children_with(self)
     }

@@ -27,12 +27,9 @@ fn issue_1967() {
 
         let m = parser.parse_module().unwrap();
 
-        m.visit_with(
-            &Invalid { span: DUMMY_SP },
-            &mut All {
-                visitor: Issue1967 {},
-            },
-        );
+        m.visit_with(&mut All {
+            visitor: Issue1967 {},
+        });
 
         Ok(())
     })

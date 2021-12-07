@@ -740,11 +740,7 @@ impl Visit for Shower<'_> {
         self.show("ExportNamedSpecifier", n);
         n.visit_children_with(self)
     }
-    fn visit_export_namespace_specifier(
-        &mut self,
-        n: &ExportNamespaceSpecifier,
-        _parent: &dyn Node,
-    ) {
+    fn visit_export_namespace_specifier(&mut self, n: &ExportNamespaceSpecifier) {
         self.show("ExportNamespaceSpecifier", n);
         n.visit_children_with(self)
     }
@@ -1108,11 +1104,7 @@ impl Visit for Shower<'_> {
         self.show("TsConstAssertion", n);
         n.visit_children_with(self)
     }
-    fn visit_ts_construct_signature_decl(
-        &mut self,
-        n: &TsConstructSignatureDecl,
-        _parent: &dyn Node,
-    ) {
+    fn visit_ts_construct_signature_decl(&mut self, n: &TsConstructSignatureDecl) {
         self.show("TsConstructSignatureDecl", n);
         n.visit_children_with(self)
     }
@@ -1326,11 +1318,7 @@ impl Visit for Shower<'_> {
         self.show("TsTypeParamDecl", n);
         n.visit_children_with(self)
     }
-    fn visit_ts_type_param_instantiation(
-        &mut self,
-        n: &TsTypeParamInstantiation,
-        _parent: &dyn Node,
-    ) {
+    fn visit_ts_type_param_instantiation(&mut self, n: &TsTypeParamInstantiation) {
         self.show("TsTypeParamInstantiation", n);
         n.visit_children_with(self)
     }
@@ -1350,11 +1338,7 @@ impl Visit for Shower<'_> {
         self.show("TsTypeRef", n);
         n.visit_children_with(self)
     }
-    fn visit_ts_union_or_intersection_type(
-        &mut self,
-        n: &TsUnionOrIntersectionType,
-        _parent: &dyn Node,
-    ) {
+    fn visit_ts_union_or_intersection_type(&mut self, n: &TsUnionOrIntersectionType) {
         self.show("TsUnionOrIntersectionType", n);
         n.visit_children_with(self)
     }
