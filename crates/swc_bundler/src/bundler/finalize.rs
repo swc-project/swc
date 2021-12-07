@@ -12,7 +12,7 @@ use swc_ecma_transforms_base::{
     hygiene::hygiene,
 };
 use swc_ecma_utils::{find_ids, private_ident, ExprFactory};
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Visit, VisitWith};
 
 impl<L, R> Bundler<'_, L, R>
 where
@@ -143,7 +143,7 @@ where
         }
 
         let mut top_level_await_finder = TopLevelAwaitFinder::default();
-        module.visit_with(&Invalid { span: DUMMY_SP }, &mut top_level_await_finder);
+        module.visit_with(&mut top_level_await_finder);
 
         let is_async = top_level_await_finder.found;
 
@@ -352,9 +352,9 @@ struct TopLevelAwaitFinder {
 impl Visit for TopLevelAwaitFinder {
     noop_visit_type!();
 
-    fn visit_stmts(&mut self, _: &[Stmt], _: &dyn Node) {}
+    fn visit_stmts(&mut self, _: &[Stmt]) {}
 
-    fn visit_await_expr(&mut self, _: &AwaitExpr, _: &dyn Node) {
+    fn visit_await_expr(&mut self, _: &AwaitExpr) {
         self.found = true;
     }
 }

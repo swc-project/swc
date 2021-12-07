@@ -15,7 +15,7 @@ use swc_ecma_utils::{
     private_ident, quote_ident, replace_ident, var::VarCollector, ExprFactory, Id, ModuleItemLike,
     StmtLike,
 };
-use swc_ecma_visit::{as_folder, Fold, Node, Visit, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{as_folder, Fold, Visit, VisitMut, VisitMutWith, VisitWith};
 
 /// Value does not contain TsLit::Bool
 type EnumValues = AHashMap<Id, TsLit>;
@@ -316,10 +316,7 @@ where
 
             Decl::Var(ref var) => {
                 let mut names = vec![];
-                var.decls.visit_with(
-                    &Invalid { span: DUMMY_SP } as _,
-                    &mut VarCollector { to: &mut names },
-                );
+                var.decls.visit_with(&mut VarCollector { to: &mut names });
 
                 for name in names {
                     self.store(name.0.clone(), name.1, true);
@@ -523,7 +520,7 @@ where
                                     // If a computed method name is encountered, dump the other key
                                     // assignments before it in a sequence expression. Note how this
                                     // always preserves the order of key computations. This
-                                    // behaviour is taken from TSC output.
+                                    // behavior is taken from TSC output.
                                     key_computations.push(name.expr.take());
                                     name.expr = Box::new(Expr::Seq(SeqExpr {
                                         span: name.span,
@@ -1416,24 +1413,24 @@ impl<C> Visit for Strip<C>
 where
     C: Comments,
 {
-    fn visit_assign_pat_prop(&mut self, n: &AssignPatProp, _: &dyn Node) {
+    fn visit_assign_pat_prop(&mut self, n: &AssignPatProp) {
         if !self.in_var_pat {
-            n.key.visit_with(n, self);
+            n.key.visit_with(self);
         }
-        n.value.visit_with(n, self);
+        n.value.visit_with(self);
     }
 
-    fn visit_assign_prop(&mut self, n: &AssignProp, _: &dyn Node) {
-        n.value.visit_with(n, self);
+    fn visit_assign_prop(&mut self, n: &AssignProp) {
+        n.value.visit_with(self);
     }
 
-    fn visit_binding_ident(&mut self, n: &BindingIdent, _: &dyn Node) {
+    fn visit_binding_ident(&mut self, n: &BindingIdent) {
         if !self.in_var_pat {
             n.visit_children_with(self)
         }
     }
 
-    fn visit_decl(&mut self, n: &Decl, _: &dyn Node) {
+    fn visit_decl(&mut self, n: &Decl) {
         self.handle_decl(n);
 
         let old = self.non_top_level;
@@ -1444,39 +1441,39 @@ where
         match n {
             Decl::Class(class) => {
                 self.decl_names.insert(class.ident.to_id());
-                class.class.visit_with(class, self);
+                class.class.visit_with(self);
             }
             Decl::Fn(f) => {
                 self.decl_names.insert(f.ident.to_id());
-                f.function.visit_with(f, self)
+                f.function.visit_with(self)
             }
             Decl::Var(ref var) => {
                 for decl in &var.decls {
                     self.in_var_pat = true;
-                    decl.name.visit_with(decl, self);
+                    decl.name.visit_with(self);
                     self.in_var_pat = false;
-                    decl.init.visit_with(decl, self);
+                    decl.init.visit_with(self);
                 }
             }
             Decl::TsEnum(e) => {
-                e.members.visit_with(e, self);
+                e.members.visit_with(self);
             }
             Decl::TsInterface(interface) => {
-                interface.extends.visit_with(interface, self);
-                interface.body.visit_with(interface, self);
+                interface.extends.visit_with(self);
+                interface.body.visit_with(self);
             }
             Decl::TsModule(module) => {
-                module.body.visit_with(module, self);
+                module.body.visit_with(self);
             }
             Decl::TsTypeAlias(alias) => {
-                alias.type_params.visit_with(alias, self);
-                alias.type_ann.visit_with(alias, self);
+                alias.type_params.visit_with(self);
+                alias.type_ann.visit_with(self);
             }
         }
         self.non_top_level = old;
     }
 
-    fn visit_ident(&mut self, n: &Ident, _: &dyn Node) {
+    fn visit_ident(&mut self, n: &Ident) {
         let entry = self.scope.referenced_idents.entry(n.to_id()).or_default();
         if self.is_type_only_export {
             entry.has_type = true;
@@ -1496,7 +1493,7 @@ where
         n.visit_children_with(self);
     }
 
-    fn visit_import_decl(&mut self, n: &ImportDecl, _: &dyn Node) {
+    fn visit_import_decl(&mut self, n: &ImportDecl) {
         macro_rules! store {
             ($i:expr) => {{
                 self.scope
@@ -1517,45 +1514,44 @@ where
         }
     }
 
-    fn visit_member_expr(&mut self, n: &MemberExpr, _: &dyn Node) {
-        n.obj.visit_with(n, self);
+    fn visit_member_expr(&mut self, n: &MemberExpr) {
+        n.obj.visit_with(self);
         if n.computed {
-            n.prop.visit_with(n, self);
+            n.prop.visit_with(self);
         }
     }
 
-    fn visit_module_items(&mut self, n: &[ModuleItem], _: &dyn Node) {
+    fn visit_module_items(&mut self, n: &[ModuleItem]) {
         let old = self.non_top_level;
         self.non_top_level = false;
         n.iter().for_each(|n| {
-            n.visit_with(&Invalid { span: DUMMY_SP }, self);
+            n.visit_with(self);
         });
         self.non_top_level = old;
     }
 
-    fn visit_named_export(&mut self, export: &NamedExport, _: &dyn Node) {
+    fn visit_named_export(&mut self, export: &NamedExport) {
         let old = self.is_type_only_export;
         self.is_type_only_export = export.type_only;
         export.visit_children_with(self);
         self.is_type_only_export = old;
     }
 
-    fn visit_prop_name(&mut self, n: &PropName, _: &dyn Node) {
+    fn visit_prop_name(&mut self, n: &PropName) {
         match n {
-            PropName::Computed(e) => e.visit_with(n, self),
+            PropName::Computed(e) => e.visit_with(self),
             _ => {}
         }
     }
 
-    fn visit_stmts(&mut self, n: &[Stmt], _: &dyn Node) {
+    fn visit_stmts(&mut self, n: &[Stmt]) {
         let old = self.non_top_level;
         self.non_top_level = true;
-        n.iter()
-            .for_each(|n| n.visit_with(&Invalid { span: DUMMY_SP }, self));
+        n.iter().for_each(|n| n.visit_with(self));
         self.non_top_level = old;
     }
 
-    fn visit_ts_entity_name(&mut self, name: &TsEntityName, _: &dyn Node) {
+    fn visit_ts_entity_name(&mut self, name: &TsEntityName) {
         match *name {
             TsEntityName::Ident(ref i) => {
                 let entry = self.scope.referenced_idents.entry(i.to_id()).or_default();
@@ -1567,11 +1563,11 @@ where
                     }
                 }
             }
-            TsEntityName::TsQualifiedName(ref q) => q.left.visit_with(&*q, self),
+            TsEntityName::TsQualifiedName(ref q) => q.left.visit_with(self),
         }
     }
 
-    fn visit_ts_import_equals_decl(&mut self, n: &TsImportEqualsDecl, _: &dyn Node) {
+    fn visit_ts_import_equals_decl(&mut self, n: &TsImportEqualsDecl) {
         match &n.module_ref {
             TsModuleRef::TsEntityName(name) => {
                 let entry = self
@@ -2042,7 +2038,7 @@ where
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
         self.visit_mut_stmt_like(items);
-        items.visit_with(&Invalid { span: DUMMY_SP }, self);
+        items.visit_with(self);
 
         let mut stmts = Vec::with_capacity(items.len());
         for mut item in take(items) {

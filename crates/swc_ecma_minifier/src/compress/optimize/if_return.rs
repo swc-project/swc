@@ -8,7 +8,7 @@ use crate::{
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend, undefined, StmtLike};
-use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 /// Methods related to the option `if_return`. All methods are noop if
 /// `if_return` is false.
@@ -565,7 +565,7 @@ where
     N: VisitWith<ReturnFinder>,
 {
     let mut v = ReturnFinder::default();
-    n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+    n.visit_with(&mut v);
     v.count
 }
 
@@ -577,13 +577,13 @@ pub(super) struct ReturnFinder {
 impl Visit for ReturnFinder {
     noop_visit_type!();
 
-    fn visit_return_stmt(&mut self, n: &ReturnStmt, _: &dyn Node) {
+    fn visit_return_stmt(&mut self, n: &ReturnStmt) {
         n.visit_children_with(self);
         self.count += 1;
     }
 
-    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
-    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {}
+    fn visit_function(&mut self, _: &Function) {}
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 }
 
 fn always_terminates_with_return_arg(s: &Stmt) -> bool {

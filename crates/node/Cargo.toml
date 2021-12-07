@@ -20,6 +20,7 @@ backtrace = "0.3"
 napi = {version = "1", features = ["serde-json"]}
 napi-derive = {version = "1"}
 path-clean = "0.1"
+proc-macro2 = "=1.0.32"
 serde = {version = "1", features = ["derive"]}
 serde_json = {version = "1", features = ["unbounded_depth"]}
 swc = {path = "../swc", features = ["concurrent", "wrong-target", "plugin"]}

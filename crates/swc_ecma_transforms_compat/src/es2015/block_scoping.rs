@@ -9,8 +9,7 @@ use swc_ecma_utils::{
     quote_ident, quote_str, undefined, var::VarCollector, ExprFactory, Id, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
-    VisitWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
 ///
@@ -113,7 +112,7 @@ impl BlockScoping {
 
         {
             let mut v = FunctionFinder { found: false };
-            body_stmt.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+            body_stmt.visit_with(&mut v);
             if !v.found {
                 return;
             }
@@ -607,7 +606,7 @@ where
 {
     let mut vars = vec![];
     let mut v = VarCollector { to: &mut vars };
-    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+    node.visit_with(&mut v);
 
     vars
 }
@@ -620,7 +619,7 @@ where
         vars: ids,
         found: false,
     };
-    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+    node.visit_with(&mut v);
 }
 
 /// In the code below,
@@ -638,11 +637,11 @@ struct InfectionFinder<'a> {
 impl Visit for InfectionFinder<'_> {
     noop_visit_type!();
 
-    fn visit_assign_expr(&mut self, node: &AssignExpr, _: &dyn Node) {
+    fn visit_assign_expr(&mut self, node: &AssignExpr) {
         let old = self.found;
         self.found = false;
 
-        node.right.visit_with(node as _, self);
+        node.right.visit_with(self);
 
         if self.found {
             let ids = find_ids(&node.left);
@@ -652,7 +651,7 @@ impl Visit for InfectionFinder<'_> {
         self.found = old;
     }
 
-    fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
+    fn visit_ident(&mut self, i: &Ident) {
         if self.found {
             return;
         }
@@ -665,23 +664,23 @@ impl Visit for InfectionFinder<'_> {
         }
     }
 
-    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
+    fn visit_member_expr(&mut self, e: &MemberExpr) {
         if self.found {
             return;
         }
 
-        e.obj.visit_with(e as _, self);
+        e.obj.visit_with(self);
 
         if e.computed {
-            e.prop.visit_with(e as _, self);
+            e.prop.visit_with(self);
         }
     }
 
-    fn visit_var_declarator(&mut self, node: &VarDeclarator, _: &dyn Node) {
+    fn visit_var_declarator(&mut self, node: &VarDeclarator) {
         let old = self.found;
         self.found = false;
 
-        node.init.visit_with(node as _, self);
+        node.init.visit_with(self);
 
         if self.found {
             let ids = find_ids(&node.name);
@@ -981,36 +980,36 @@ struct FunctionFinder {
 impl Visit for FunctionFinder {
     noop_visit_type!();
 
-    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
         self.found = true;
     }
 
     /// Do not recurse into nested loop.
     ///
     /// https://github.com/swc-project/swc/issues/2622
-    fn visit_do_while_stmt(&mut self, _: &DoWhileStmt, _: &dyn Node) {}
+    fn visit_do_while_stmt(&mut self, _: &DoWhileStmt) {}
 
     /// Do not recurse into nested loop.
     ///
     /// https://github.com/swc-project/swc/issues/2622
-    fn visit_for_in_stmt(&mut self, _: &ForInStmt, _: &dyn Node) {}
+    fn visit_for_in_stmt(&mut self, _: &ForInStmt) {}
 
     /// Do not recurse into nested loop.
     ///
     /// https://github.com/swc-project/swc/issues/2622
-    fn visit_for_of_stmt(&mut self, _: &ForOfStmt, _: &dyn Node) {}
+    fn visit_for_of_stmt(&mut self, _: &ForOfStmt) {}
 
     /// Do not recurse into nested loop.
     ///
     /// https://github.com/swc-project/swc/issues/2622
-    fn visit_for_stmt(&mut self, _: &ForStmt, _: &dyn Node) {}
+    fn visit_for_stmt(&mut self, _: &ForStmt) {}
 
-    fn visit_function(&mut self, _: &Function, _: &dyn Node) {
+    fn visit_function(&mut self, _: &Function) {
         self.found = true
     }
 
     /// Do not recurse into nested loop.
     ///
     /// https://github.com/swc-project/swc/issues/2622
-    fn visit_while_stmt(&mut self, _: &WhileStmt, _: &dyn Node) {}
+    fn visit_while_stmt(&mut self, _: &WhileStmt) {}
 }

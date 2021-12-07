@@ -3,11 +3,11 @@ use swc_common::{
     comments::SingleThreadedComments,
     errors::{DiagnosticBuilder, Handler},
     input::SourceFileInput,
-    BytePos, Span, DUMMY_SP,
+    BytePos, Span,
 };
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, Syntax, TsConfig};
-use swc_ecma_visit::{Node, Visit, VisitWith};
+use swc_ecma_visit::{Visit, VisitWith};
 use testing::{fixture, Tester};
 
 #[fixture("tests/comments/**/input.js")]
@@ -61,13 +61,10 @@ fn test(input: PathBuf) {
                 }
             };
 
-            module.visit_with(
-                &Invalid { span: DUMMY_SP },
-                &mut CommentPrinter {
-                    handler: &handler,
-                    comments,
-                },
-            );
+            module.visit_with(&mut CommentPrinter {
+                handler: &handler,
+                comments,
+            });
 
             Err(())
         })
@@ -85,7 +82,7 @@ struct CommentPrinter<'a> {
 }
 
 impl Visit for CommentPrinter<'_> {
-    fn visit_span(&mut self, n: &Span, _: &dyn Node) {
+    fn visit_span(&mut self, n: &Span) {
         self.comments.with_leading(n.lo, |comments| {
             for c in comments {
                 DiagnosticBuilder::new(

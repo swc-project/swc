@@ -394,7 +394,7 @@ where
         self.optimize_arrow_method_prop(p);
 
         if cfg!(feature = "debug") && cfg!(debug_assertions) {
-            p.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+            p.visit_with(&mut AssertValid);
         }
     }
 
@@ -510,7 +510,7 @@ where
         }
 
         if cfg!(feature = "debug") && cfg!(debug_assertions) {
-            s.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+            s.visit_with(&mut AssertValid);
         }
     }
 
@@ -525,7 +525,7 @@ where
         });
 
         if cfg!(feature = "debug") && cfg!(debug_assertions) {
-            items.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+            items.visit_with(&mut AssertValid);
         }
     }
 

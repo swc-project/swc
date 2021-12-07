@@ -14,14 +14,14 @@ use is_macro::Is;
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
 use swc_atoms::js_word;
-use swc_common::{sync::Lrc, FileName, SourceFile, SyntaxContext, DUMMY_SP};
+use swc_common::{sync::Lrc, FileName, SourceFile, SyntaxContext};
 use swc_ecma_ast::{
-    CallExpr, Expr, ExprOrSuper, Ident, ImportDecl, ImportSpecifier, Invalid, MemberExpr, Module,
+    CallExpr, Expr, ExprOrSuper, Ident, ImportDecl, ImportSpecifier, MemberExpr, Module,
     ModuleDecl, Str,
 };
 use swc_ecma_transforms_base::resolver::resolver_with_mark;
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, FoldWith, Node, Visit, VisitMut, VisitMutWith, VisitWith,
+    noop_visit_mut_type, noop_visit_type, FoldWith, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 /// Module after applying transformations.
 #[derive(Debug, Clone)]
@@ -183,7 +183,7 @@ where
                     forced_es6: false,
                     found_other: false,
                 };
-                module.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+                module.visit_with(&mut v);
                 v.forced_es6 || !v.found_other
             };
 
@@ -415,7 +415,7 @@ struct Es6ModuleDetector {
 impl Visit for Es6ModuleDetector {
     noop_visit_type!();
 
-    fn visit_call_expr(&mut self, e: &CallExpr, _: &dyn Node) {
+    fn visit_call_expr(&mut self, e: &CallExpr) {
         e.visit_children_with(self);
 
         match &e.callee {
@@ -432,11 +432,11 @@ impl Visit for Es6ModuleDetector {
         }
     }
 
-    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
-        e.obj.visit_with(e as _, self);
+    fn visit_member_expr(&mut self, e: &MemberExpr) {
+        e.obj.visit_with(self);
 
         if e.computed {
-            e.prop.visit_with(e as _, self);
+            e.prop.visit_with(self);
         }
 
         match &e.obj {
@@ -462,7 +462,7 @@ impl Visit for Es6ModuleDetector {
         //
     }
 
-    fn visit_module_decl(&mut self, decl: &ModuleDecl, _: &dyn Node) {
+    fn visit_module_decl(&mut self, decl: &ModuleDecl) {
         match decl {
             ModuleDecl::Import(_)
             | ModuleDecl::ExportDecl(_)

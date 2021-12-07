@@ -7,7 +7,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, ModuleItemLike, StmtLike, Value};
-use swc_ecma_visit::{noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Fold, FoldWith, Visit, VisitWith};
 
 pub(crate) mod base54;
 pub(crate) mod sort;
@@ -210,7 +210,7 @@ where
     N: VisitWith<LeapFinder>,
 {
     let mut v = LeapFinder::default();
-    n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+    n.visit_with(&mut v);
     v.found_yield
 }
 
@@ -222,12 +222,12 @@ pub(crate) struct LeapFinder {
 impl Visit for LeapFinder {
     noop_visit_type!();
 
-    fn visit_yield_expr(&mut self, _: &YieldExpr, _: &dyn Node) {
+    fn visit_yield_expr(&mut self, _: &YieldExpr) {
         self.found_yield = true;
     }
 
-    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
-    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {}
+    fn visit_function(&mut self, _: &Function) {}
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 }
 
 /// This method returns true only if `T` is `var`. (Not `const` or `let`)
@@ -336,7 +336,7 @@ pub struct DeepThisExprVisitor {
 impl Visit for DeepThisExprVisitor {
     noop_visit_type!();
 
-    fn visit_this_expr(&mut self, _: &ThisExpr, _: &dyn Node) {
+    fn visit_this_expr(&mut self, _: &ThisExpr) {
         self.found = true;
     }
 }
@@ -346,7 +346,7 @@ where
     N: VisitWith<DeepThisExprVisitor>,
 {
     let mut visitor = DeepThisExprVisitor { found: false };
-    body.visit_with(&Invalid { span: DUMMY_SP } as _, &mut visitor);
+    body.visit_with(&mut visitor);
     visitor.found
 }
 
@@ -359,7 +359,7 @@ pub(crate) struct IdentUsageCollector {
 impl Visit for IdentUsageCollector {
     noop_visit_type!();
 
-    fn visit_block_stmt_or_expr(&mut self, n: &BlockStmtOrExpr, _: &dyn Node) {
+    fn visit_block_stmt_or_expr(&mut self, n: &BlockStmtOrExpr) {
         if self.ignore_nested {
             return;
         }
@@ -367,7 +367,7 @@ impl Visit for IdentUsageCollector {
         n.visit_children_with(self);
     }
 
-    fn visit_constructor(&mut self, n: &Constructor, _: &dyn Node) {
+    fn visit_constructor(&mut self, n: &Constructor) {
         if self.ignore_nested {
             return;
         }
@@ -375,7 +375,7 @@ impl Visit for IdentUsageCollector {
         n.visit_children_with(self);
     }
 
-    fn visit_function(&mut self, n: &Function, _: &dyn Node) {
+    fn visit_function(&mut self, n: &Function) {
         if self.ignore_nested {
             return;
         }
@@ -383,19 +383,19 @@ impl Visit for IdentUsageCollector {
         n.visit_children_with(self);
     }
 
-    fn visit_ident(&mut self, n: &Ident, _: &dyn Node) {
+    fn visit_ident(&mut self, n: &Ident) {
         self.ids.insert(n.to_id());
     }
 
-    fn visit_member_expr(&mut self, n: &MemberExpr, _: &dyn Node) {
-        n.obj.visit_with(n, self);
+    fn visit_member_expr(&mut self, n: &MemberExpr) {
+        n.obj.visit_with(self);
 
         if n.computed {
-            n.prop.visit_with(n, self);
+            n.prop.visit_with(self);
         }
     }
 
-    fn visit_prop_name(&mut self, n: &PropName, _: &dyn Node) {
+    fn visit_prop_name(&mut self, n: &PropName) {
         match n {
             PropName::Computed(..) => {
                 n.visit_children_with(self);
@@ -413,7 +413,7 @@ where
         ignore_nested: false,
         ..Default::default()
     };
-    n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+    n.visit_with(&mut v);
     v.ids
 }
 
@@ -425,7 +425,7 @@ where
         ignore_nested: true,
         ..Default::default()
     };
-    n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+    n.visit_with(&mut v);
     v.ids
 }
 
