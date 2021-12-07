@@ -34,7 +34,7 @@
 //                 mark: marks.standalone,
 //                 count: 0,
 //             };
-//             m.visit_with(&Invalid { span: DUMMY_SP }, &mut counter);
+//             m.visit_with( &mut counter);
 //             counter.count
 //         };
 //         eprintln!("Actual: {} modules in bundle", actual);

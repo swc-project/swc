@@ -565,7 +565,7 @@ where
     N: VisitWith<ReturnFinder>,
 {
     let mut v = ReturnFinder::default();
-    n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+    n.visit_with( &mut v);
     v.count
 }
 

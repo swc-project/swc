@@ -677,7 +677,7 @@ fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
         {
             // Find extra initializations.
             let mut v = FieldInitFinter::default();
-            item.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+            item.visit_with( &mut v);
 
             for id in v.accessed {
                 if let Some(declarator_indexes) = declared_by.get(&id) {
@@ -726,7 +726,7 @@ fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
                 found: false,
                 in_complex: false,
             };
-            item.visit_with(&Invalid { span: DUMMY_SP }, &mut finder);
+            item.visit_with( &mut finder);
             if finder.found {
                 declared_by.entry(uninit_id).or_default().push(idx);
                 break;
@@ -741,7 +741,7 @@ fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
 
         let mut visitor = RequirementCalculator::default();
 
-        item.visit_with(&Invalid { span: DUMMY_SP }, &mut visitor);
+        item.visit_with( &mut visitor);
 
         for (id, kind) in visitor.required_ids {
             if visitor.excluded.contains(&id) {

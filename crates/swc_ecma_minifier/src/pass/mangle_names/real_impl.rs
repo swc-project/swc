@@ -28,7 +28,7 @@ impl VisitMut for Mangler {
                 scope: Default::default(),
                 is_pat_decl: Default::default(),
             };
-            m.visit_with(&Invalid { span: DUMMY_SP }, &mut analyzer);
+            m.visit_with( &mut analyzer);
 
             analyzer.into_rename_map(&preserved)
         };
@@ -44,7 +44,7 @@ impl VisitMut for Mangler {
                 scope: Default::default(),
                 is_pat_decl: Default::default(),
             };
-            s.visit_with(&Invalid { span: DUMMY_SP }, &mut analyzer);
+            s.visit_with( &mut analyzer);
 
             analyzer.into_rename_map(&preserved)
         };

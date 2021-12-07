@@ -210,7 +210,7 @@ where
     N: VisitWith<LeapFinder>,
 {
     let mut v = LeapFinder::default();
-    n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+    n.visit_with( &mut v);
     v.found_yield
 }
 
@@ -413,7 +413,7 @@ where
         ignore_nested: false,
         ..Default::default()
     };
-    n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+    n.visit_with( &mut v);
     v.ids
 }
 
@@ -425,7 +425,7 @@ where
         ignore_nested: true,
         ..Default::default()
     };
-    n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+    n.visit_with( &mut v);
     v.ids
 }
 

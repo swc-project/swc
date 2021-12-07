@@ -48,7 +48,7 @@ where
                 let mut v = BreakFinder {
                     found_unlabelled_break_for_stmt: false,
                 };
-                case.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+                case.visit_with( &mut v);
                 v.found_unlabelled_break_for_stmt
             });
             if should_preserve_switch {

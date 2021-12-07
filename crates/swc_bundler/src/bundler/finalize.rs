@@ -143,7 +143,7 @@ where
         }
 
         let mut top_level_await_finder = TopLevelAwaitFinder::default();
-        module.visit_with(&Invalid { span: DUMMY_SP }, &mut top_level_await_finder);
+        module.visit_with(&mut top_level_await_finder);
 
         let is_async = top_level_await_finder.found;
 

@@ -43,7 +43,7 @@ where
         scope: Default::default(),
         ctx: Default::default(),
     };
-    n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+    n.visit_with( &mut v);
     let top_scope = v.scope;
     v.data.top_scope().merge(top_scope, false);
 
@@ -553,7 +553,7 @@ where
                 ..self.ctx
             };
             e.obj
-                .visit_with(&Invalid { span: DUMMY_SP }, &mut *self.with_ctx(ctx));
+                .visit_with( &mut *self.with_ctx(ctx));
         }
 
         if e.computed {
@@ -563,7 +563,7 @@ where
                 ..self.ctx
             };
             e.prop
-                .visit_with(&Invalid { span: DUMMY_SP }, &mut *self.with_ctx(ctx));
+                .visit_with( &mut *self.with_ctx(ctx));
         }
 
         match &e.obj {
@@ -700,7 +700,7 @@ where
                 ..self.ctx
             };
 
-            stmt.visit_with(&Invalid { span: DUMMY_SP }, &mut *self.with_ctx(ctx));
+            stmt.visit_with( &mut *self.with_ctx(ctx));
 
             had_cond |= can_end_conditionally(stmt);
         }

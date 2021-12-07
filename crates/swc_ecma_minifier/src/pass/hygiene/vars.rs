@@ -19,7 +19,7 @@ where
         all: &mut data,
         cur: Default::default(),
     };
-    node.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+    node.visit_with(&mut v);
 
     data
 }

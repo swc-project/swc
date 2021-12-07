@@ -63,7 +63,7 @@ where
 
             // Check for nested variable declartions.
             let mut v = VarWithOutInitCounter::default();
-            stmts.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+            stmts.visit_with( &mut v);
             if !need_work && !v.need_work {
                 return;
             }

@@ -982,7 +982,7 @@ impl Compiler {
                     names: Default::default(),
                 };
 
-                module.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+                module.visit_with( &mut v);
 
                 v.names
             };
@@ -1052,7 +1052,7 @@ impl Compiler {
                     names: Default::default(),
                 };
 
-                program.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+                program.visit_with( &mut v);
 
                 v.names
             };

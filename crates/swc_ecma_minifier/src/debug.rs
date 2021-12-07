@@ -74,7 +74,7 @@ pub(crate) fn invoke(module: &Module) {
     static ENABLED: Lazy<bool> = Lazy::new(|| env::var("SWC_RUN").unwrap_or_default() == "1");
 
     if cfg!(debug_assertions) {
-        module.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+        module.visit_with(&mut AssertValid);
     }
 
     if !cfg!(feature = "debug") || !*ENABLED {

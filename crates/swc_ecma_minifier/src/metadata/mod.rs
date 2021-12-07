@@ -169,7 +169,7 @@ impl VisitMut for InfoMarker<'_> {
                 top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
                 bindings: Default::default(),
             };
-            m.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+            m.visit_with( &mut v);
             v.bindings
         };
 
