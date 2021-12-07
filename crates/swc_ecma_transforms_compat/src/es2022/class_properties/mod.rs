@@ -17,8 +17,7 @@ use swc_ecma_utils::{
     private_ident, quote_ident, undefined, ExprFactory, ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitMutWith,
-    VisitWith,
+    as_folder, noop_fold_type, noop_visit_type, Fold, FoldWith, Visit, VisitMutWith, VisitWith,
 };
 
 mod class_name_tdz;
@@ -418,19 +417,13 @@ impl ClassProperties {
                     }));
 
                     if !prop.is_static {
-                        prop.key.visit_with(
-                            &Invalid { span: DUMMY_SP } as _,
-                            &mut UsedNameCollector {
-                                used_names: &mut used_key_names,
-                            },
-                        );
+                        prop.key.visit_with(&mut UsedNameCollector {
+                            used_names: &mut used_key_names,
+                        });
 
-                        prop.value.visit_with(
-                            &Invalid { span: DUMMY_SP } as _,
-                            &mut UsedNameCollector {
-                                used_names: &mut used_names,
-                            },
-                        );
+                        prop.value.visit_with(&mut UsedNameCollector {
+                            used_names: &mut used_names,
+                        });
                     }
 
                     let key = match *prop.key {
@@ -527,12 +520,9 @@ impl ClassProperties {
                         // We use `self.mark` for private variables.
                         prop.key.span.apply_mark(self.mark),
                     );
-                    prop.value.visit_with(
-                        &Invalid { span: DUMMY_SP } as _,
-                        &mut UsedNameCollector {
-                            used_names: &mut used_names,
-                        },
-                    );
+                    prop.value.visit_with(&mut UsedNameCollector {
+                        used_names: &mut used_names,
+                    });
                     if prop.is_static {
                         prop.value.visit_mut_with(&mut ThisInStaticFolder {
                             ident: class_ident.clone(),
@@ -636,12 +626,9 @@ impl ClassProperties {
                         // We use `self.mark` for private variables.
                         method.key.span.apply_mark(self.mark),
                     );
-                    method.function.visit_with(
-                        &Invalid { span: DUMMY_SP } as _,
-                        &mut UsedNameCollector {
-                            used_names: &mut used_names,
-                        },
-                    );
+                    method.function.visit_with(&mut UsedNameCollector {
+                        used_names: &mut used_names,
+                    });
 
                     if should_use_map || !statics.contains(&method.key.id.sym) {
                         vars.push(VarDeclarator {
@@ -835,37 +822,37 @@ struct ShouldWork {
 impl Visit for ShouldWork {
     noop_visit_type!();
 
-    fn visit_ident(&mut self, n: &Ident, _: &dyn Node) {
+    fn visit_ident(&mut self, n: &Ident) {
         if n.optional {
             self.found = true;
         }
     }
 
-    fn visit_array_pat(&mut self, n: &ArrayPat, _: &dyn Node) {
+    fn visit_array_pat(&mut self, n: &ArrayPat) {
         if n.optional {
             self.found = true;
         }
     }
 
-    fn visit_object_pat(&mut self, n: &ObjectPat, _: &dyn Node) {
+    fn visit_object_pat(&mut self, n: &ObjectPat) {
         if n.optional {
             self.found = true;
         }
     }
 
-    fn visit_class_method(&mut self, _: &ClassMethod, _: &dyn Node) {
+    fn visit_class_method(&mut self, _: &ClassMethod) {
         self.found = true;
     }
 
-    fn visit_class_prop(&mut self, _: &ClassProp, _: &dyn Node) {
+    fn visit_class_prop(&mut self, _: &ClassProp) {
         self.found = true;
     }
 
-    fn visit_private_prop(&mut self, _: &PrivateProp, _: &dyn Node) {
+    fn visit_private_prop(&mut self, _: &PrivateProp) {
         self.found = true;
     }
 
-    fn visit_constructor(&mut self, _: &Constructor, _: &dyn Node) {
+    fn visit_constructor(&mut self, _: &Constructor) {
         self.found = true;
     }
 }

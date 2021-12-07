@@ -2,10 +2,10 @@ use std::collections::HashMap;
 use swc_atoms::JsWord;
 use swc_common::{
     comments::{Comment, Comments},
-    Span, DUMMY_SP,
+    Span,
 };
 use swc_ecma_ast as ast;
-use swc_ecma_visit::{self, Node, Visit, VisitWith};
+use swc_ecma_visit::{self, Visit, VisitWith};
 
 pub fn analyze_dependencies(
     module: &ast::Module,
@@ -16,7 +16,7 @@ pub fn analyze_dependencies(
         items: vec![],
         is_top_level: true,
     };
-    module.visit_with(&ast::Invalid { span: DUMMY_SP }, &mut v);
+    module.visit_with(&mut v);
     v.items
 }
 
@@ -63,7 +63,7 @@ impl<'a> DependencyCollector<'a> {
 }
 
 impl<'a> Visit for DependencyCollector<'a> {
-    fn visit_import_decl(&mut self, node: &ast::ImportDecl, _parent: &dyn Node) {
+    fn visit_import_decl(&mut self, node: &ast::ImportDecl) {
         let specifier = node.src.value.clone();
         let leading_comments = self.get_leading_comments(node.span);
         let kind = if node.type_only {
@@ -83,7 +83,7 @@ impl<'a> Visit for DependencyCollector<'a> {
         });
     }
 
-    fn visit_named_export(&mut self, node: &ast::NamedExport, _parent: &dyn Node) {
+    fn visit_named_export(&mut self, node: &ast::NamedExport) {
         if let Some(src) = &node.src {
             let specifier = src.value.clone();
             let leading_comments = self.get_leading_comments(node.span);
@@ -105,7 +105,7 @@ impl<'a> Visit for DependencyCollector<'a> {
         }
     }
 
-    fn visit_export_all(&mut self, node: &ast::ExportAll, _parent: &dyn Node) {
+    fn visit_export_all(&mut self, node: &ast::ExportAll) {
         let specifier = node.src.value.clone();
         let leading_comments = self.get_leading_comments(node.span);
         let import_assertions = parse_import_assertions(node.asserts.as_ref());
@@ -120,7 +120,7 @@ impl<'a> Visit for DependencyCollector<'a> {
         });
     }
 
-    fn visit_ts_import_type(&mut self, node: &ast::TsImportType, _parent: &dyn Node) {
+    fn visit_ts_import_type(&mut self, node: &ast::TsImportType) {
         let specifier = node.arg.value.clone();
         let span = node.span;
         let leading_comments = self.get_leading_comments(span);
@@ -135,20 +135,20 @@ impl<'a> Visit for DependencyCollector<'a> {
         });
     }
 
-    fn visit_module_items(&mut self, items: &[ast::ModuleItem], _parent: &dyn Node) {
-        swc_ecma_visit::visit_module_items(self, items, _parent);
+    fn visit_module_items(&mut self, items: &[ast::ModuleItem]) {
+        swc_ecma_visit::visit_module_items(self, items);
     }
 
-    fn visit_stmts(&mut self, items: &[ast::Stmt], _parent: &dyn Node) {
+    fn visit_stmts(&mut self, items: &[ast::Stmt]) {
         self.is_top_level = false;
-        swc_ecma_visit::visit_stmts(self, items, _parent);
+        swc_ecma_visit::visit_stmts(self, items);
         self.is_top_level = true;
     }
 
-    fn visit_call_expr(&mut self, node: &ast::CallExpr, _parent: &dyn Node) {
+    fn visit_call_expr(&mut self, node: &ast::CallExpr) {
         use ast::{Expr::*, ExprOrSuper::*};
 
-        swc_ecma_visit::visit_call_expr(self, node, _parent);
+        swc_ecma_visit::visit_call_expr(self, node);
         let call_expr = match node.callee.clone() {
             Super(_) => return,
             Expr(boxed) => boxed,

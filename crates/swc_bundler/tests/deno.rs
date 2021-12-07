@@ -23,7 +23,7 @@ use swc_ecma_codegen::{
 use swc_ecma_minifier::option::MangleOptions;
 use swc_ecma_transforms_base::{fixer::fixer, resolver::resolver_with_mark};
 use swc_ecma_utils::{find_ids, Id};
-use swc_ecma_visit::{Node, Visit, VisitMutWith, VisitWith};
+use swc_ecma_visit::{Visit, VisitMutWith, VisitWith};
 use testing::assert_eq;
 
 #[path = "common/mod.rs"]
@@ -1139,7 +1139,7 @@ impl swc_bundler::Hook for Hook {
 
 fn collect_exports(module: &Module) -> AHashSet<String> {
     let mut v = ExportCollector::default();
-    module.visit_with(module, &mut v);
+    module.visit_with(&mut v);
 
     v.exports
 }
@@ -1150,7 +1150,7 @@ struct ExportCollector {
 }
 
 impl Visit for ExportCollector {
-    fn visit_export_specifier(&mut self, s: &ExportSpecifier, _: &dyn Node) {
+    fn visit_export_specifier(&mut self, s: &ExportSpecifier) {
         match s {
             ExportSpecifier::Namespace(ns) => {
                 self.exports.insert(ns.name.sym.to_string());
@@ -1171,15 +1171,15 @@ impl Visit for ExportCollector {
         }
     }
 
-    fn visit_export_default_decl(&mut self, _: &ExportDefaultDecl, _: &dyn Node) {
+    fn visit_export_default_decl(&mut self, _: &ExportDefaultDecl) {
         self.exports.insert("default".into());
     }
 
-    fn visit_export_default_expr(&mut self, _: &ExportDefaultExpr, _: &dyn Node) {
+    fn visit_export_default_expr(&mut self, _: &ExportDefaultExpr) {
         self.exports.insert("default".into());
     }
 
-    fn visit_export_decl(&mut self, export: &ExportDecl, _: &dyn Node) {
+    fn visit_export_decl(&mut self, export: &ExportDecl) {
         match &export.decl {
             swc_ecma_ast::Decl::Class(ClassDecl { ident, .. })
             | swc_ecma_ast::Decl::Fn(FnDecl { ident, .. }) => {

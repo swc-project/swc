@@ -4,7 +4,7 @@ use self::{
 };
 use crate::hygiene::{unique_scope::unique_scope, usage_analyzer::CurScope};
 use swc_atoms::JsWord;
-use swc_common::{chain, collections::AHashMap, DUMMY_SP};
+use swc_common::{chain, collections::AHashMap};
 use swc_ecma_ast::*;
 use swc_ecma_utils::Id;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith, VisitWith};
@@ -188,7 +188,7 @@ impl Hygiene {
                 is_pat_decl: false,
             };
 
-            n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+            n.visit_with(&mut v);
         }
 
         let ops = data.ops.into_inner();
