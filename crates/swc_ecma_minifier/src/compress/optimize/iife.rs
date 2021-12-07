@@ -547,6 +547,10 @@ where
                     return false;
                 }
 
+                if self.ctx.in_top_level() && !self.options.module {
+                    return false;
+                }
+
                 true
             }
 
