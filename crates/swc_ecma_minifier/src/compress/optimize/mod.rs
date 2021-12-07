@@ -856,7 +856,7 @@ where
                         ident: None,
                         function,
                     }) => {
-                        if args.len() >= function.params.len()
+                        if (args.len() >= function.params.len() || args.len() == 0)
                             && args
                                 .iter()
                                 .take(function.params.len())
