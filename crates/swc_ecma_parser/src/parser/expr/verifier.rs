@@ -6,7 +6,7 @@ impl<'a, I: Tokens> Parser<I> {
     pub(in crate::parser) fn verify_expr(&mut self, expr: Box<Expr>) -> PResult<Box<Expr>> {
         let mut v = Verifier { errors: vec![] };
 
-        v.visit_expr(&expr, &Invalid { span: DUMMY_SP } as _);
+        v.visit_expr(&expr);
 
         for (span, error) in v.errors {
             self.emit_err(span, error);

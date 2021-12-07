@@ -1437,31 +1437,31 @@ impl Visit for LiteralVisitor {
         }
     }
 
-    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _parent: &dyn Node) {
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
         self.is_lit = false
     }
 
-    fn visit_assign_expr(&mut self, _: &AssignExpr, _parent: &dyn Node) {
+    fn visit_assign_expr(&mut self, _: &AssignExpr) {
         self.is_lit = false;
     }
 
-    fn visit_await_expr(&mut self, _: &AwaitExpr, _parent: &dyn Node) {
+    fn visit_await_expr(&mut self, _: &AwaitExpr) {
         self.is_lit = false
     }
 
-    fn visit_bin_expr(&mut self, _: &BinExpr, _parent: &dyn Node) {
+    fn visit_bin_expr(&mut self, _: &BinExpr) {
         self.is_lit = false
     }
 
-    fn visit_call_expr(&mut self, _: &CallExpr, _parent: &dyn Node) {
+    fn visit_call_expr(&mut self, _: &CallExpr) {
         self.is_lit = false
     }
 
-    fn visit_class_expr(&mut self, _: &ClassExpr, _parent: &dyn Node) {
+    fn visit_class_expr(&mut self, _: &ClassExpr) {
         self.is_lit = false
     }
 
-    fn visit_cond_expr(&mut self, _: &CondExpr, _parent: &dyn Node) {
+    fn visit_cond_expr(&mut self, _: &CondExpr) {
         self.is_lit = false;
     }
 
@@ -1477,43 +1477,43 @@ impl Visit for LiteralVisitor {
         }
     }
 
-    fn visit_fn_expr(&mut self, _: &FnExpr, _parent: &dyn Node) {
+    fn visit_fn_expr(&mut self, _: &FnExpr) {
         self.is_lit = false;
     }
 
-    fn visit_invalid(&mut self, _: &Invalid, _parent: &dyn Node) {
+    fn visit_invalid(&mut self, _: &Invalid) {
         self.is_lit = false;
     }
 
-    fn visit_jsx_element(&mut self, _: &JSXElement, _parent: &dyn Node) {
+    fn visit_jsx_element(&mut self, _: &JSXElement) {
         self.is_lit = false
     }
 
-    fn visit_jsx_empty_expr(&mut self, _: &JSXEmptyExpr, _parent: &dyn Node) {
+    fn visit_jsx_empty_expr(&mut self, _: &JSXEmptyExpr) {
         self.is_lit = false
     }
 
-    fn visit_jsx_fragment(&mut self, _: &JSXFragment, _parent: &dyn Node) {
+    fn visit_jsx_fragment(&mut self, _: &JSXFragment) {
         self.is_lit = false
     }
 
-    fn visit_jsx_member_expr(&mut self, _: &JSXMemberExpr, _parent: &dyn Node) {
+    fn visit_jsx_member_expr(&mut self, _: &JSXMemberExpr) {
         self.is_lit = false
     }
 
-    fn visit_jsx_namespaced_name(&mut self, _: &JSXNamespacedName, _parent: &dyn Node) {
+    fn visit_jsx_namespaced_name(&mut self, _: &JSXNamespacedName) {
         self.is_lit = false
     }
 
-    fn visit_member_expr(&mut self, _: &MemberExpr, _parent: &dyn Node) {
+    fn visit_member_expr(&mut self, _: &MemberExpr) {
         self.is_lit = false;
     }
 
-    fn visit_meta_prop_expr(&mut self, _: &MetaPropExpr, _parent: &dyn Node) {
+    fn visit_meta_prop_expr(&mut self, _: &MetaPropExpr) {
         self.is_lit = false
     }
 
-    fn visit_new_expr(&mut self, _: &NewExpr, _parent: &dyn Node) {
+    fn visit_new_expr(&mut self, _: &NewExpr) {
         self.is_lit = false
     }
 
@@ -1523,11 +1523,11 @@ impl Visit for LiteralVisitor {
         }
     }
 
-    fn visit_opt_chain_expr(&mut self, _: &OptChainExpr, _parent: &dyn Node) {
+    fn visit_opt_chain_expr(&mut self, _: &OptChainExpr) {
         self.is_lit = false
     }
 
-    fn visit_private_name(&mut self, _: &PrivateName, _parent: &dyn Node) {
+    fn visit_private_name(&mut self, _: &PrivateName) {
         self.is_lit = false
     }
 
@@ -1569,39 +1569,39 @@ impl Visit for LiteralVisitor {
         }
     }
 
-    fn visit_seq_expr(&mut self, _: &SeqExpr, _parent: &dyn Node) {
+    fn visit_seq_expr(&mut self, _: &SeqExpr) {
         self.is_lit = false
     }
 
-    fn visit_spread_element(&mut self, _: &SpreadElement, _parent: &dyn Node) {
+    fn visit_spread_element(&mut self, _: &SpreadElement) {
         self.is_lit = false;
     }
 
-    fn visit_tagged_tpl(&mut self, _: &TaggedTpl, _parent: &dyn Node) {
+    fn visit_tagged_tpl(&mut self, _: &TaggedTpl) {
         self.is_lit = false
     }
 
-    fn visit_this_expr(&mut self, _: &ThisExpr, _parent: &dyn Node) {
+    fn visit_this_expr(&mut self, _: &ThisExpr) {
         self.is_lit = false;
     }
 
-    fn visit_ts_const_assertion(&mut self, _: &TsConstAssertion, _parent: &dyn Node) {
+    fn visit_ts_const_assertion(&mut self, _: &TsConstAssertion) {
         self.is_lit = false
     }
 
-    fn visit_ts_non_null_expr(&mut self, _: &TsNonNullExpr, _parent: &dyn Node) {
+    fn visit_ts_non_null_expr(&mut self, _: &TsNonNullExpr) {
         self.is_lit = false
     }
 
-    fn visit_unary_expr(&mut self, _: &UnaryExpr, _parent: &dyn Node) {
+    fn visit_unary_expr(&mut self, _: &UnaryExpr) {
         self.is_lit = false;
     }
 
-    fn visit_update_expr(&mut self, _: &UpdateExpr, _parent: &dyn Node) {
+    fn visit_update_expr(&mut self, _: &UpdateExpr) {
         self.is_lit = false;
     }
 
-    fn visit_yield_expr(&mut self, _: &YieldExpr, _parent: &dyn Node) {
+    fn visit_yield_expr(&mut self, _: &YieldExpr) {
         self.is_lit = false
     }
 }

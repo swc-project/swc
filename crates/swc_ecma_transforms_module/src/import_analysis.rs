@@ -50,7 +50,7 @@ impl VisitMut for ImportAnalyzer {
 impl Visit for ImportAnalyzer {
     noop_visit_type!();
 
-    fn visit_call_expr(&mut self, n: &CallExpr, _parent: &dyn Node) {
+    fn visit_call_expr(&mut self, n: &CallExpr) {
         n.visit_children_with(self);
         let mut scope = self.scope.borrow_mut();
         match &n.callee {
@@ -76,7 +76,7 @@ impl Visit for ImportAnalyzer {
         }
     }
 
-    fn visit_export_all(&mut self, export: &ExportAll, _parent: &dyn Node) {
+    fn visit_export_all(&mut self, export: &ExportAll) {
         *self
             .scope
             .borrow_mut()
@@ -85,7 +85,7 @@ impl Visit for ImportAnalyzer {
             .or_default() = true
     }
 
-    fn visit_import_decl(&mut self, import: &ImportDecl, _parent: &dyn Node) {
+    fn visit_import_decl(&mut self, import: &ImportDecl) {
         let mut scope = self.scope.borrow_mut();
         if import.specifiers.is_empty() {
             // import 'foo';
@@ -150,7 +150,7 @@ impl Visit for ImportAnalyzer {
         }
     }
 
-    fn visit_named_export(&mut self, export: &NamedExport, _parent: &dyn Node) {
+    fn visit_named_export(&mut self, export: &NamedExport) {
         if export.specifiers.iter().any(|v| match v {
             ExportSpecifier::Namespace(..) => true,
             _ => false,
