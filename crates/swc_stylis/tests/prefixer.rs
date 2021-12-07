@@ -5,8 +5,8 @@
 
 use std::path::PathBuf;
 
-use swc_common::FileName;
-use swc_css_ast::{DeclarationBlockItem, Stylesheet};
+use swc_common::{FileName, DUMMY_SP};
+use swc_css_ast::{Block, DeclarationBlockItem, QualifiedRule, Stylesheet};
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
     CodegenConfig, Emit,
@@ -476,7 +476,7 @@ fn t(src: &str, expected: &str) {
         //
         let fm = cm.new_source_file(FileName::Anon, src.to_string());
         let mut errors = vec![];
-        let mut props: Vec<DeclarationBlockItem> = parse_file(
+        let props: Vec<DeclarationBlockItem> = parse_file(
             &fm,
             ParserConfig {
                 parse_values: true,
@@ -489,12 +489,23 @@ fn t(src: &str, expected: &str) {
             err.to_diagnostics(&handler).emit();
         }
 
-        props.visit_mut_with(&mut prefixer());
+        let mut node = QualifiedRule {
+            span: DUMMY_SP,
+            prelude: swc_css_ast::SelectorList {
+                span: DUMMY_SP,
+                children: Default::default(),
+            },
+            block: Block {
+                span: DUMMY_SP,
+                value: props,
+            },
+        };
+        node.visit_mut_with(&mut prefixer());
 
         let mut wr = String::new();
 
         {
-            for p in &props {
+            for p in &node.block.value {
                 let mut s = String::new();
                 {
                     let mut wr = BasicCssWriter::new(&mut s, BasicCssWriterConfig { indent: "  " });
