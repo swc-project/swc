@@ -140,9 +140,9 @@ use swc_common::{
     input::StringInput,
     source_map::SourceMapGenConfig,
     sync::Lrc,
-    BytePos, FileName, Globals, Mark, SourceFile, SourceMap, Spanned, DUMMY_SP, GLOBALS,
+    BytePos, FileName, Globals, Mark, SourceFile, SourceMap, Spanned, GLOBALS,
 };
-use swc_ecma_ast::{EsVersion, Ident, Invalid, Program};
+use swc_ecma_ast::{EsVersion, Ident, Program};
 use swc_ecma_codegen::{self, text_writer::WriteJs, Emitter, Node};
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
@@ -982,7 +982,7 @@ impl Compiler {
                     names: Default::default(),
                 };
 
-                module.visit_with( &mut v);
+                module.visit_with(&mut v);
 
                 v.names
             };
@@ -1052,7 +1052,7 @@ impl Compiler {
                     names: Default::default(),
                 };
 
-                program.visit_with( &mut v);
+                program.visit_with(&mut v);
 
                 v.names
             };
@@ -1117,7 +1117,7 @@ pub struct IdentCollector {
 impl Visit for IdentCollector {
     noop_visit_type!();
 
-    fn visit_ident(&mut self, ident: &Ident, _: &dyn swc_ecma_visit::Node) {
+    fn visit_ident(&mut self, ident: &Ident) {
         self.names.insert(ident.span.lo, ident.sym.clone());
     }
 }

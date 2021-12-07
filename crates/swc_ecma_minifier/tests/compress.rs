@@ -39,7 +39,7 @@ use swc_ecma_transforms::{
     resolver_with_mark,
 };
 use swc_ecma_utils::drop_span;
-use swc_ecma_visit::{FoldWith, Node, Visit, VisitMutWith, VisitWith};
+use swc_ecma_visit::{FoldWith, Visit, VisitMutWith, VisitWith};
 use testing::{assert_eq, DebugUsingDisplay, NormalizedOutput};
 
 fn load_txt(filename: &str) -> Vec<String> {
@@ -143,7 +143,7 @@ fn run(
             Err(err) => {
                 eprintln!(
                     "---- {} -----\n{:?}",
-                    Color::Green.paint("Error (of orignal source code)"),
+                    Color::Green.paint("Error (of original source code)"),
                     err
                 );
             }

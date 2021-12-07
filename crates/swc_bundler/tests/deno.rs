@@ -23,7 +23,7 @@ use swc_ecma_codegen::{
 use swc_ecma_minifier::option::MangleOptions;
 use swc_ecma_transforms_base::{fixer::fixer, resolver::resolver_with_mark};
 use swc_ecma_utils::{find_ids, Id};
-use swc_ecma_visit::{Node, Visit, VisitMutWith, VisitWith};
+use swc_ecma_visit::{Visit, VisitMutWith, VisitWith};
 use testing::assert_eq;
 
 #[path = "common/mod.rs"]
@@ -1139,7 +1139,7 @@ impl swc_bundler::Hook for Hook {
 
 fn collect_exports(module: &Module) -> AHashSet<String> {
     let mut v = ExportCollector::default();
-    module.visit_with(module, &mut v);
+    module.visit_with(&mut v);
 
     v.exports
 }
