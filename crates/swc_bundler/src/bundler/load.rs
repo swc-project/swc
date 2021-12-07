@@ -183,7 +183,7 @@ where
                     forced_es6: false,
                     found_other: false,
                 };
-                module.visit_with( &mut v);
+                module.visit_with(&mut v);
                 v.forced_es6 || !v.found_other
             };
 
@@ -433,10 +433,10 @@ impl Visit for Es6ModuleDetector {
     }
 
     fn visit_member_expr(&mut self, e: &MemberExpr) {
-        e.obj.visit_with(e as _, self);
+        e.obj.visit_with(self);
 
         if e.computed {
-            e.prop.visit_with(e as _, self);
+            e.prop.visit_with(self);
         }
 
         match &e.obj {

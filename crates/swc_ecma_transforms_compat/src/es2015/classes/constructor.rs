@@ -77,7 +77,7 @@ impl Visit for SuperCallFinder {
     mark_as_complex!(visit_prop_name, PropName);
 
     fn visit_assign_expr(&mut self, node: &AssignExpr) {
-        node.left.visit_with(node as _, self);
+        node.left.visit_with(self);
 
         let old = self.in_complex;
         self.in_complex = true;

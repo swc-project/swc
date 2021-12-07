@@ -173,9 +173,9 @@ impl Visit for UsageVisitor {
     ///
     ///  - `Array.from`
     fn visit_member_expr(&mut self, node: &MemberExpr) {
-        node.obj.visit_with(node as _, self);
+        node.obj.visit_with(self);
         if node.computed {
-            node.prop.visit_with(node as _, self);
+            node.prop.visit_with(self);
         }
         //enter(path: NodePath) {
         //    const { node } = path;

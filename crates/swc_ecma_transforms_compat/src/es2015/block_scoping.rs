@@ -606,7 +606,7 @@ where
 {
     let mut vars = vec![];
     let mut v = VarCollector { to: &mut vars };
-    node.visit_with( &mut v);
+    node.visit_with(&mut v);
 
     vars
 }
@@ -641,7 +641,7 @@ impl Visit for InfectionFinder<'_> {
         let old = self.found;
         self.found = false;
 
-        node.right.visit_with(node as _, self);
+        node.right.visit_with(self);
 
         if self.found {
             let ids = find_ids(&node.left);
@@ -669,10 +669,10 @@ impl Visit for InfectionFinder<'_> {
             return;
         }
 
-        e.obj.visit_with(e as _, self);
+        e.obj.visit_with(self);
 
         if e.computed {
-            e.prop.visit_with(e as _, self);
+            e.prop.visit_with(self);
         }
     }
 
@@ -680,7 +680,7 @@ impl Visit for InfectionFinder<'_> {
         let old = self.found;
         self.found = false;
 
-        node.init.visit_with(node as _, self);
+        node.init.visit_with(self);
 
         if self.found {
             let ids = find_ids(&node.name);

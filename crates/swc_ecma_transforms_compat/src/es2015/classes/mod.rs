@@ -15,7 +15,7 @@ use swc_ecma_utils::{
     alias_if_required, default_constructor, prepend, private_ident, prop_name_to_expr, quote_expr,
     quote_ident, quote_str, ExprFactory, IsDirective, ModuleItemLike, StmtLike,
 };
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Visit, VisitWith};
 use tracing::debug;
 
 mod constructor;

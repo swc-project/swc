@@ -129,8 +129,8 @@ impl VisitMut for Inlining<'_> {
                             scope: &mut self.scope,
                         };
 
-                        left.visit_with( &mut v);
-                        e.right.visit_with( &mut v);
+                        left.visit_with(&mut v);
+                        e.right.visit_with(&mut v);
                     }
 
                     _ => {}
@@ -149,8 +149,8 @@ impl VisitMut for Inlining<'_> {
                     scope: &mut self.scope,
                 };
 
-                e.left.visit_with( &mut v);
-                e.right.visit_with( &mut v)
+                e.left.visit_with(&mut v);
+                e.right.visit_with(&mut v)
             }
         }
 
@@ -555,8 +555,7 @@ impl VisitMut for Inlining<'_> {
                     scope: &mut self.scope,
                 };
 
-                node.arg
-                    .visit_with( &mut v);
+                node.arg.visit_with(&mut v);
                 return;
             }
 
@@ -791,10 +790,10 @@ impl Visit for IdentListVisitor<'_, '_> {
     }
 
     fn visit_member_expr(&mut self, node: &MemberExpr) {
-        node.obj.visit_with(node as _, self);
+        node.obj.visit_with(self);
 
         if node.computed {
-            node.prop.visit_with(node as _, self);
+            node.prop.visit_with(self);
         }
     }
 }
@@ -812,10 +811,10 @@ impl Visit for WriteVisitor<'_, '_> {
     }
 
     fn visit_member_expr(&mut self, node: &MemberExpr) {
-        node.obj.visit_with(node as _, self);
+        node.obj.visit_with(self);
 
         if node.computed {
-            node.prop.visit_with(node as _, self);
+            node.prop.visit_with(self);
         }
     }
 }

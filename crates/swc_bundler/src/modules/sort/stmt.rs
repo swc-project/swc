@@ -498,7 +498,7 @@ impl Visit for InitializerFinder {
         }
 
         if e.computed {
-            e.prop.visit_with(e as _, self);
+            e.prop.visit_with(self);
         }
     }
 }
@@ -622,10 +622,10 @@ impl Visit for RequirementCalculator {
     }
 
     fn visit_member_expr(&mut self, e: &MemberExpr) {
-        e.obj.visit_with(e as _, self);
+        e.obj.visit_with(self);
 
         if e.computed {
-            e.prop.visit_with(e as _, self);
+            e.prop.visit_with(self);
         }
     }
 }

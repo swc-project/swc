@@ -1626,7 +1626,7 @@ fn check_for_stopper(s: &[Stmt], only_conditional: bool) -> bool {
         fn visit_switch_case(&mut self, node: &SwitchCase) {
             let old = self.in_cond;
             self.in_cond = true;
-            node.cons.visit_with(node as _, self);
+            node.cons.visit_with(self);
             self.in_cond = old;
         }
 
@@ -1661,9 +1661,9 @@ fn check_for_stopper(s: &[Stmt], only_conditional: bool) -> bool {
         fn visit_if_stmt(&mut self, node: &IfStmt) {
             let old = self.in_cond;
             self.in_cond = true;
-            node.cons.visit_with(node as _, self);
+            node.cons.visit_with(self);
             self.in_cond = true;
-            node.alt.visit_with(node as _, self);
+            node.alt.visit_with(self);
             self.in_cond = old;
         }
     }
