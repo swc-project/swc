@@ -413,7 +413,7 @@ impl Visit for UsageAnalyzer<'_> {
         self.visit_with_scope(f.span.ctxt, ScopeKind::Fn, |v| {
             let old = v.is_pat_decl;
             v.is_pat_decl = true;
-            f.params.visit_with(f, v);
+            f.params.visit_with(v);
             v.is_pat_decl = old;
 
             match &f.body {
@@ -422,7 +422,7 @@ impl Visit for UsageAnalyzer<'_> {
                     body.visit_children_with(v);
                 }
                 BlockStmtOrExpr::Expr(body) => {
-                    body.visit_with(f, v);
+                    body.visit_with(v);
                 }
             }
         })
@@ -448,10 +448,10 @@ impl Visit for UsageAnalyzer<'_> {
         let old = self.is_pat_decl;
 
         self.is_pat_decl = true;
-        c.param.visit_with(c, self);
+        c.param.visit_with(self);
 
         self.is_pat_decl = false;
-        c.body.visit_with(c, self);
+        c.body.visit_with(self);
 
         self.is_pat_decl = old;
     }
@@ -474,7 +474,7 @@ impl Visit for UsageAnalyzer<'_> {
     fn visit_constructor(&mut self, c: &Constructor) {
         self.visit_with_scope(c.span.ctxt, ScopeKind::Fn, |v| {
             v.is_pat_decl = true;
-            c.params.visit_with(c, v);
+            c.params.visit_with(v);
             v.is_pat_decl = false;
 
             match c.body.as_ref() {
@@ -487,11 +487,11 @@ impl Visit for UsageAnalyzer<'_> {
     }
 
     fn visit_class_method(&mut self, m: &ClassMethod) {
-        m.function.decorators.visit_with(m, self);
+        m.function.decorators.visit_with(self);
 
         self.visit_with_scope(m.function.span.ctxt, ScopeKind::Fn, |v| {
             v.is_pat_decl = true;
-            m.function.params.visit_with(m, v);
+            m.function.params.visit_with(v);
             v.is_pat_decl = false;
 
             match m.function.body.as_ref() {
@@ -523,13 +523,13 @@ impl Visit for UsageAnalyzer<'_> {
     }
 
     fn visit_fn_decl(&mut self, f: &FnDecl) {
-        f.function.decorators.visit_with(f, self);
+        f.function.decorators.visit_with(self);
 
         self.add_decl(f.ident.to_id());
 
         self.visit_with_scope(f.function.span.ctxt, ScopeKind::Fn, |v| {
             v.is_pat_decl = true;
-            f.function.params.visit_with(f, v);
+            f.function.params.visit_with(v);
             v.is_pat_decl = false;
 
             match f.function.body.as_ref() {

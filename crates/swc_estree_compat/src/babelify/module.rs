@@ -2,7 +2,7 @@ use crate::babelify::{Babelify, Context};
 use serde::{Deserialize, Serialize};
 use swc_common::{comments::Comment, Span};
 use swc_ecma_ast::{Invalid, Module, ModuleItem, Program, Script};
-use swc_ecma_visit::{Node, Visit, VisitWith};
+use swc_ecma_visit::{Visit, VisitWith};
 use swc_estree_ast::{
     flavor::Flavor, BaseNode, File, InterpreterDirective, LineCol, Loc, ModuleDeclaration,
     Program as BabelProgram, SrcType, Statement,
@@ -95,7 +95,7 @@ impl Babelify for Script {
 
 /// Babel adds a trailing newline to the end of files when parsing, while swc
 /// truncates trailing whitespace. In order to get the converted base node to
-/// locations to match babel, we immitate the trailing newline for Script and
+/// locations to match babel, we imitate the trailing newline for Script and
 /// Module nodes.
 fn base_with_trailing_newline(span: Span, ctx: &Context) -> BaseNode {
     let mut base = ctx.base(span);
