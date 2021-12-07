@@ -4,7 +4,7 @@ use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend, StmtLike};
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, Node, Visit, VisitMut, VisitMutWith, VisitWith,
+    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
 impl<M> Pure<'_, M>
@@ -63,7 +63,7 @@ where
 
             // Check for nested variable declartions.
             let mut v = VarWithOutInitCounter::default();
-            stmts.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+            stmts.visit_with(&mut v);
             if !need_work && !v.need_work {
                 return;
             }
@@ -113,13 +113,13 @@ pub(super) struct VarWithOutInitCounter {
 impl Visit for VarWithOutInitCounter {
     noop_visit_type!();
 
-    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {}
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 
-    fn visit_constructor(&mut self, _: &Constructor, _: &dyn Node) {}
+    fn visit_constructor(&mut self, _: &Constructor) {}
 
-    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
+    fn visit_function(&mut self, _: &Function) {}
 
-    fn visit_var_decl(&mut self, v: &VarDecl, _: &dyn Node) {
+    fn visit_var_decl(&mut self, v: &VarDecl) {
         v.visit_children_with(self);
 
         if v.kind != VarDeclKind::Var {
@@ -148,10 +148,10 @@ impl Visit for VarWithOutInitCounter {
         }
     }
 
-    fn visit_var_decl_or_pat(&mut self, _: &VarDeclOrPat, _: &dyn Node) {}
+    fn visit_var_decl_or_pat(&mut self, _: &VarDeclOrPat) {}
 }
 
-/// Moves all varaible without initializer.
+/// Moves all variable without initializer.
 pub(super) struct VarMover {
     vars: Vec<VarDeclarator>,
     var_decl_kind: Option<VarDeclKind>,

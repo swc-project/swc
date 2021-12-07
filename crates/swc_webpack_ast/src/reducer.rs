@@ -8,7 +8,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, IsEmpty, StmtLike, StmtOrModuleItem};
-use swc_ecma_visit::{Node, Visit, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 use swc_timer::timer;
 
 /// # Usage
@@ -70,7 +70,7 @@ struct Analyzer {
 }
 
 impl Visit for Analyzer {
-    fn visit_call_expr(&mut self, e: &CallExpr, _: &dyn Node) {
+    fn visit_call_expr(&mut self, e: &CallExpr) {
         e.visit_children_with(self);
 
         match &e.callee {
@@ -159,9 +159,8 @@ impl ScopeData {
         let mut analyzer = Analyzer {
             amd_requires: AHashSet::default(),
         };
-        for i in items {
-            i.visit_with(&Invalid { span: DUMMY_SP }, &mut analyzer);
-        }
+
+        items.visit_with(&mut analyzer);
 
         ScopeData {
             imported_ids,

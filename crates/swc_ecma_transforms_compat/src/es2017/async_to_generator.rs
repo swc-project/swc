@@ -9,8 +9,7 @@ use swc_ecma_utils::{
     private_ident, quote_ident, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
-    VisitWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
 /// `@babel/plugin-transform-async-to-generator`
@@ -1044,7 +1043,7 @@ struct ShouldWork {
 impl Visit for ShouldWork {
     noop_visit_type!();
 
-    fn visit_function(&mut self, f: &Function, _: &dyn Node) {
+    fn visit_function(&mut self, f: &Function) {
         if f.is_async {
             self.found = true;
             return;
@@ -1052,7 +1051,7 @@ impl Visit for ShouldWork {
         f.visit_children_with(self);
     }
 
-    fn visit_arrow_expr(&mut self, f: &ArrowExpr, _: &dyn Node) {
+    fn visit_arrow_expr(&mut self, f: &ArrowExpr) {
         if f.is_async {
             self.found = true;
             return;

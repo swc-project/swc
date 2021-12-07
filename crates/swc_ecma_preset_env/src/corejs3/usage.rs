@@ -15,7 +15,7 @@ use indexmap::IndexSet;
 use swc_atoms::{js_word, JsWord};
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 pub(crate) struct UsageVisitor {
     shipped_proposals: bool,
@@ -148,13 +148,13 @@ impl Visit for UsageVisitor {
     noop_visit_type!();
 
     /// `[a, b] = c`
-    fn visit_array_pat(&mut self, p: &ArrayPat, _: &dyn Node) {
+    fn visit_array_pat(&mut self, p: &ArrayPat) {
         p.visit_children_with(self);
 
         self.add(COMMON_ITERATORS)
     }
 
-    fn visit_assign_expr(&mut self, e: &AssignExpr, _: &dyn Node) {
+    fn visit_assign_expr(&mut self, e: &AssignExpr) {
         e.visit_children_with(self);
 
         match &e.left {
@@ -167,7 +167,7 @@ impl Visit for UsageVisitor {
         }
     }
 
-    fn visit_bin_expr(&mut self, e: &BinExpr, _: &dyn Node) {
+    fn visit_bin_expr(&mut self, e: &BinExpr) {
         e.visit_children_with(self);
 
         match e.op {
@@ -181,7 +181,7 @@ impl Visit for UsageVisitor {
     }
 
     /// import('something').then(...)
-    fn visit_call_expr(&mut self, e: &CallExpr, _: &dyn Node) {
+    fn visit_call_expr(&mut self, e: &CallExpr) {
         e.visit_children_with(self);
 
         if let ExprOrSuper::Expr(expr) = &e.callee {
@@ -195,7 +195,7 @@ impl Visit for UsageVisitor {
         }
     }
 
-    fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
+    fn visit_expr(&mut self, e: &Expr) {
         e.visit_children_with(self);
 
         match e {
@@ -205,7 +205,7 @@ impl Visit for UsageVisitor {
     }
 
     /// `[...spread]`
-    fn visit_expr_or_spread(&mut self, e: &ExprOrSpread, _: &dyn Node) {
+    fn visit_expr_or_spread(&mut self, e: &ExprOrSpread) {
         e.visit_children_with(self);
         if e.spread.is_some() {
             self.add(COMMON_ITERATORS)
@@ -213,13 +213,13 @@ impl Visit for UsageVisitor {
     }
 
     /// for-of
-    fn visit_for_of_stmt(&mut self, s: &ForOfStmt, _: &dyn Node) {
+    fn visit_for_of_stmt(&mut self, s: &ForOfStmt) {
         s.visit_children_with(self);
 
         self.add(COMMON_ITERATORS)
     }
 
-    fn visit_function(&mut self, f: &Function, _: &dyn Node) {
+    fn visit_function(&mut self, f: &Function) {
         f.visit_children_with(self);
 
         if f.is_async {
@@ -227,10 +227,10 @@ impl Visit for UsageVisitor {
         }
     }
 
-    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
-        e.obj.visit_with(e as _, self);
+    fn visit_member_expr(&mut self, e: &MemberExpr) {
+        e.obj.visit_with(self);
         if e.computed {
-            e.prop.visit_with(e as _, self);
+            e.prop.visit_with(self);
         }
 
         // Object.entries
@@ -242,7 +242,7 @@ impl Visit for UsageVisitor {
         }
     }
 
-    fn visit_var_declarator(&mut self, d: &VarDeclarator, _: &dyn Node) {
+    fn visit_var_declarator(&mut self, d: &VarDeclarator) {
         d.visit_children_with(self);
 
         if let Some(ref init) = d.init {
@@ -266,7 +266,7 @@ impl Visit for UsageVisitor {
     // TODO: https://github.com/babel/babel/blob/00758308/packages/babel-preset-env/src/polyfills/corejs3/usage-plugin.js#L198-L206
 
     /// `yield*`
-    fn visit_yield_expr(&mut self, e: &YieldExpr, _: &dyn Node) {
+    fn visit_yield_expr(&mut self, e: &YieldExpr) {
         e.visit_children_with(self);
 
         if e.delegate {

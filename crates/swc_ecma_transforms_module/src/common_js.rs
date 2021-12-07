@@ -310,17 +310,14 @@ where
                             ))));
 
                             let mut scope = self.scope.borrow_mut();
-                            var.decls.visit_with(
-                                &Invalid { span: DUMMY_SP } as _,
-                                &mut VarCollector {
-                                    to: &mut scope.declared_vars,
-                                },
-                            );
+                            var.decls.visit_with(&mut VarCollector {
+                                to: &mut scope.declared_vars,
+                            });
 
                             let mut found: Vec<Ident> = vec![];
                             for decl in var.decls {
                                 let mut v = DestructuringFinder { found: &mut found };
-                                decl.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+                                decl.visit_with(&mut v);
 
                                 for ident in found.drain(..) {
                                     scope
@@ -768,12 +765,9 @@ where
     /// - collects all declared variables for let and var.
     fn fold_var_decl(&mut self, var: VarDecl) -> VarDecl {
         if var.kind != VarDeclKind::Const {
-            var.decls.visit_with(
-                &Invalid { span: DUMMY_SP } as _,
-                &mut VarCollector {
-                    to: &mut self.scope.borrow_mut().declared_vars,
-                },
-            );
+            var.decls.visit_with(&mut VarCollector {
+                to: &mut self.scope.borrow_mut().declared_vars,
+            });
         }
 
         VarDecl {

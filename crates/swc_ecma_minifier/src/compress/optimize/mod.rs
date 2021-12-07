@@ -1910,7 +1910,7 @@ where
         }
 
         if cfg!(feature = "debug") && cfg!(debug_assertions) {
-            n.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+            n.visit_with(&mut AssertValid);
         }
     }
 
@@ -2023,7 +2023,7 @@ where
         self.ctx.in_asm = old_in_asm;
 
         if cfg!(feature = "debug") && cfg!(debug_assertions) {
-            n.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+            n.visit_with(&mut AssertValid);
         }
     }
 
@@ -2180,7 +2180,7 @@ where
         }
 
         if cfg!(feature = "debug") && cfg!(debug_assertions) {
-            n.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+            n.visit_with(&mut AssertValid);
         }
     }
 
@@ -2370,7 +2370,7 @@ where
         }
 
         if cfg!(feature = "debug") && cfg!(debug_assertions) {
-            s.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+            s.visit_with(&mut AssertValid);
         }
     }
 
@@ -2406,7 +2406,7 @@ where
         }
 
         if cfg!(feature = "debug") && cfg!(debug_assertions) {
-            stmts.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+            stmts.visit_with(&mut AssertValid);
         }
     }
 

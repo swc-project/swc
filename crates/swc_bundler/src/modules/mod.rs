@@ -225,8 +225,7 @@ impl Modules {
     where
         V: Visit,
     {
-        self.iter()
-            .for_each(|item| item.1.visit_with(&Invalid { span: DUMMY_SP }, v));
+        self.iter().for_each(|item| item.1.visit_with(v));
     }
 
     pub fn retain_mut<F>(&mut self, mut op: F)

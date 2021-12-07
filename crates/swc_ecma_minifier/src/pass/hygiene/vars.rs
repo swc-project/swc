@@ -19,7 +19,7 @@ where
         all: &mut data,
         cur: Default::default(),
     };
-    node.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+    node.visit_with(&mut v);
 
     data
 }
@@ -87,33 +87,33 @@ macro_rules! scoped {
 impl Visit for VarAnalyzer<'_> {
     noop_visit_type!();
 
-    fn visit_arrow_expr(&mut self, n: &ArrowExpr, _: &dyn Node) {
+    fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
         scoped!(self, n);
     }
 
-    fn visit_block_stmt(&mut self, n: &BlockStmt, _: &dyn Node) {
+    fn visit_block_stmt(&mut self, n: &BlockStmt) {
         scoped!(self, n);
     }
 
-    fn visit_function(&mut self, n: &Function, _: &dyn Node) {
+    fn visit_function(&mut self, n: &Function) {
         scoped!(self, n);
     }
 
-    fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
+    fn visit_ident(&mut self, i: &Ident) {
         tracing::trace!("hygiene/vars: Found {}", i);
 
         self.cur.add(i);
     }
 
-    fn visit_member_expr(&mut self, n: &MemberExpr, _: &dyn Node) {
-        n.obj.visit_with(n, self);
+    fn visit_member_expr(&mut self, n: &MemberExpr) {
+        n.obj.visit_with(self);
 
         if n.computed {
-            n.prop.visit_with(n, self);
+            n.prop.visit_with(self);
         }
     }
 
-    fn visit_prop_name(&mut self, n: &PropName, _: &dyn Node) {
+    fn visit_prop_name(&mut self, n: &PropName) {
         match n {
             PropName::Computed(_) => {
                 n.visit_children_with(self);
