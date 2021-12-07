@@ -3,8 +3,10 @@
 //! License is MIT, which is original license at the time of copying.
 //! Original test authors have copyright for their work.
 
+use std::path::PathBuf;
+
 use swc_common::FileName;
-use swc_css_ast::DeclarationBlockItem;
+use swc_css_ast::{DeclarationBlockItem, Stylesheet};
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
     CodegenConfig, Emit,
@@ -12,6 +14,7 @@ use swc_css_codegen::{
 use swc_css_parser::{parse_file, parser::ParserConfig};
 use swc_css_visit::VisitMutWith;
 use swc_stylis::prefixer::prefixer;
+use testing::NormalizedOutput;
 
 #[test]
 fn flex_box() {
@@ -509,6 +512,46 @@ fn t(src: &str, expected: &str) {
         }
 
         assert_eq!(wr, expected);
+
+        Ok(())
+    })
+    .unwrap();
+}
+
+#[testing::fixture("tests/fixture/**/input.css")]
+fn fixture(input: PathBuf) {
+    let output = input.parent().unwrap().join("output.css");
+
+    testing::run_test2(false, |cm, handler| {
+        //
+        let fm = cm.load_file(&input).unwrap();
+        let mut errors = vec![];
+        let mut ss: Stylesheet = parse_file(
+            &fm,
+            ParserConfig {
+                ..Default::default()
+            },
+            &mut errors,
+        )
+        .unwrap();
+        for err in errors {
+            err.to_diagnostics(&handler).emit();
+        }
+
+        ss.visit_mut_with(&mut prefixer());
+
+        let mut wr = String::new();
+
+        let mut s = String::new();
+        {
+            let mut wr = BasicCssWriter::new(&mut s, BasicCssWriterConfig { indent: "  " });
+            let mut gen =
+                swc_css_codegen::CodeGenerator::new(&mut wr, CodegenConfig { minify: true });
+
+            gen.emit(&ss).unwrap();
+        }
+
+        NormalizedOutput::from(s).compare_to_file(&output).unwrap();
 
         Ok(())
     })
