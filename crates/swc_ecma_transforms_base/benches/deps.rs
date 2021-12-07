@@ -6,7 +6,7 @@ use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_transforms_base::pass::noop;
 use swc_ecma_utils::ExprFactory;
-use swc_ecma_visit::{FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{FoldWith, Visit, VisitWith};
 use test::Bencher;
 
 static SOURCE: &str = include_str!("assets/AjaxObservable.ts");
@@ -225,7 +225,7 @@ fn visit_contains_this(b: &mut Bencher) {
         }
 
         let mut visitor = Visitor { found: false };
-        body.visit_with(&Invalid { span: DUMMY_SP } as _, &mut visitor);
+        body.visit_with(&mut visitor);
         visitor.found
     }
 

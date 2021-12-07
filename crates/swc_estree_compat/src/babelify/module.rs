@@ -1,7 +1,7 @@
 use crate::babelify::{Babelify, Context};
 use serde::{Deserialize, Serialize};
 use swc_common::{comments::Comment, Span};
-use swc_ecma_ast::{Invalid, Module, ModuleItem, Program, Script};
+use swc_ecma_ast::{Module, ModuleItem, Program, Script};
 use swc_ecma_visit::{Visit, VisitWith};
 use swc_estree_ast::{
     flavor::Flavor, BaseNode, File, InterpreterDirective, LineCol, Loc, ModuleDeclaration,
@@ -172,12 +172,7 @@ fn extract_all_comments(program: &Program, ctx: &Context) -> Vec<Comment> {
         comments: ctx.comments.clone(),
         collected: Vec::new(),
     };
-    program.visit_with(
-        &Invalid {
-            span: swc_common::DUMMY_SP,
-        },
-        &mut collector,
-    );
+    program.visit_with(&mut collector);
     collector.collected
 }
 

@@ -2,7 +2,7 @@ use super::{ops::Operations, LOG};
 use crate::scope::ScopeKind;
 use std::{cell::RefCell, mem::take};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{collections::AHashMap, SyntaxContext, DUMMY_SP};
+use swc_common::{collections::AHashMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, StmtOrModuleItem};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
@@ -542,11 +542,11 @@ impl Visit for UsageAnalyzer<'_> {
     }
 
     fn visit_fn_expr(&mut self, f: &FnExpr) {
-        f.function.decorators.visit_with(f, self);
+        f.function.decorators.visit_with(self);
 
         self.visit_with_scope(f.function.span.ctxt, ScopeKind::Fn, |v| {
             v.is_pat_decl = true;
-            f.function.params.visit_with(f, v);
+            f.function.params.visit_with(v);
 
             if let Some(i) = &f.ident {
                 v.add_decl(i.to_id());
@@ -575,21 +575,21 @@ impl Visit for UsageAnalyzer<'_> {
     }
 
     fn visit_member_expr(&mut self, e: &MemberExpr) {
-        e.obj.visit_with(e, self);
+        e.obj.visit_with(self);
 
         if e.computed {
-            e.obj.visit_with(e, self);
+            e.obj.visit_with(self);
         }
     }
 
     fn visit_method_prop(&mut self, f: &MethodProp) {
-        f.key.visit_with(f, self);
+        f.key.visit_with(self);
 
-        f.function.decorators.visit_with(f, self);
+        f.function.decorators.visit_with(self);
 
         self.visit_with_scope(f.function.span.ctxt, ScopeKind::Fn, |v| {
             v.is_pat_decl = true;
-            f.function.params.visit_with(f, v);
+            f.function.params.visit_with(v);
 
             v.is_pat_decl = false;
             match f.function.body.as_ref() {
@@ -610,11 +610,11 @@ impl Visit for UsageAnalyzer<'_> {
     }
 
     fn visit_param(&mut self, p: &Param) {
-        p.decorators.visit_with(p, self);
+        p.decorators.visit_with(self);
 
         let old = self.is_pat_decl;
         self.is_pat_decl = true;
-        p.pat.visit_with(p, self);
+        p.pat.visit_with(self);
         self.is_pat_decl = old;
     }
 
@@ -656,10 +656,10 @@ impl Visit for UsageAnalyzer<'_> {
         let old = self.is_pat_decl;
 
         self.is_pat_decl = true;
-        v.name.visit_with(v, self);
+        v.name.visit_with(self);
 
         self.is_pat_decl = false;
-        v.init.visit_with(v, self);
+        v.init.visit_with(self);
 
         self.is_pat_decl = old;
     }
@@ -720,7 +720,7 @@ impl Visit for Hoister<'_, '_> {
     }
 
     fn visit_constructor(&mut self, c: &Constructor) {
-        c.params.visit_with(c, self);
+        c.params.visit_with(self);
     }
 
     fn visit_fn_decl(&mut self, f: &FnDecl) {
@@ -761,7 +761,7 @@ impl Visit for Hoister<'_, '_> {
         let old = self.var_decl_kind;
 
         self.var_decl_kind = Some(v.kind);
-        v.decls.visit_with(v, self);
+        v.decls.visit_with(self);
 
         self.var_decl_kind = old;
     }
@@ -770,10 +770,10 @@ impl Visit for Hoister<'_, '_> {
         let old = self.is_pat_decl;
 
         self.is_pat_decl = true;
-        v.name.visit_with(v, self);
+        v.name.visit_with(self);
 
         self.is_pat_decl = false;
-        v.init.visit_with(v, self);
+        v.init.visit_with(self);
 
         self.is_pat_decl = old;
     }
