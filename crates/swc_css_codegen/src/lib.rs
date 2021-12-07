@@ -160,7 +160,7 @@ where
     }
 
     #[emitter]
-    fn emit_keyfram_block(&mut self, n: &KeyframeBlock) -> Result {
+    fn emit_keyframe_block(&mut self, n: &KeyframeBlock) -> Result {
         self.emit_list(&n.selector, ListFormat::CommaDelimited)?;
 
         space!(self);
