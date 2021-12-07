@@ -134,7 +134,8 @@
         "Unexported",
         "Unexporter",
         "unimpl",
-        "untrusted"
+        "untrusted",
+        "variadic"
     ],
     "flagWords": [
         "actally"
