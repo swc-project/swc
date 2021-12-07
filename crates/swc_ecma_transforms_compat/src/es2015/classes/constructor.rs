@@ -5,7 +5,10 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_transforms_classes::{fold_only_key, get_prototype_of};
 use swc_ecma_utils::{private_ident, quote_ident, ExprFactory};
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Visit, VisitWith};
+use swc_ecma_visit::{
+    noop_fold_type, noop_visit_mut_type, noop_visit_type, Fold, FoldWith, Visit, VisitMut,
+    VisitMutWith, VisitWith,
+};
 
 pub(super) struct SuperCallFinder {
     mode: Option<SuperFoldingMode>,
@@ -646,7 +649,7 @@ pub(super) fn make_possible_return_value(mode: ReturningMode) -> Expr {
 }
 
 /// `mark`: Mark for `_this`
-pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constructor, bool) {
+pub(super) fn replace_this_in_constructor(mark: Mark, c: &mut Constructor) -> bool {
     struct Replacer {
         mark: Mark,
         found: bool,
@@ -654,18 +657,13 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
         in_injected_define_property_call: bool,
     }
 
-    /// TODO: VisitMut
-    impl Fold for Replacer {
-        noop_fold_type!();
+    impl VisitMut for Replacer {
+        noop_visit_mut_type!();
 
-        fn fold_class(&mut self, n: Class) -> Class {
-            n
-        }
-
-        fn fold_expr(&mut self, n: Expr) -> Expr {
+        fn visit_mut_expr(&mut self, expr: &mut Expr) {
             // We pretend method folding mode for while folding injected `_defineProperty`
             // calls.
-            match n {
+            match expr {
                 Expr::Call(CallExpr {
                     callee: ExprOrSuper::Expr(ref callee),
                     ..
@@ -676,65 +674,51 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
                     }) => {
                         let old = self.in_injected_define_property_call;
                         self.in_injected_define_property_call = true;
-                        let n = n.fold_children_with(self);
+                        expr.visit_mut_children_with(self);
                         self.in_injected_define_property_call = old;
-                        return n;
+                        return;
                     }
                     _ => {}
                 },
                 _ => {}
             }
 
-            match n {
+            match expr {
                 Expr::This(..) => {
                     self.found = true;
                     let this = quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this");
 
                     if self.wrap_with_assertion {
-                        Expr::Call(CallExpr {
+                        *expr = Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee: helper!(assert_this_initialized, "assertThisInitialized"),
                             args: vec![this.as_arg()],
                             type_args: Default::default(),
                         })
                     } else {
-                        Expr::Ident(this)
+                        *expr = Expr::Ident(this);
                     }
                 }
 
-                _ => n.fold_children_with(self),
+                _ => expr.visit_mut_children_with(self),
             }
         }
 
-        fn fold_function(&mut self, n: Function) -> Function {
+        fn visit_mut_function(&mut self, n: &mut Function) {
             if self.in_injected_define_property_call {
-                return n;
+                return;
             }
-            n.fold_children_with(self)
+            n.visit_mut_children_with(self)
         }
 
-        fn fold_member_expr(
-            &mut self,
-            MemberExpr {
-                span,
-                mut obj,
-                prop,
-                computed,
-            }: MemberExpr,
-        ) -> MemberExpr {
+        fn visit_mut_member_expr(&mut self, expr: &mut MemberExpr) {
             if self.mark != Mark::root() {
                 let old = self.wrap_with_assertion;
                 self.wrap_with_assertion = false;
-                obj = obj.fold_children_with(self);
+                expr.obj.visit_mut_children_with(self);
                 self.wrap_with_assertion = old;
             }
-
-            MemberExpr {
-                span,
-                obj,
-                prop: prop.fold_with(self),
-                computed,
-            }
+            expr.prop.visit_mut_with(self);
         }
     }
 
@@ -744,9 +728,9 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: Constructor) -> (Constr
         wrap_with_assertion: true,
         in_injected_define_property_call: false,
     };
-    let c = c.fold_with(&mut v);
+    c.visit_mut_with(&mut v);
 
-    (c, v.found)
+    v.found
 }
 
 /// # In

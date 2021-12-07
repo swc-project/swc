@@ -476,9 +476,8 @@ where
             let mut insert_this = false;
 
             if super_class_ident.is_some() {
-                let (c, inserted_this) = replace_this_in_constructor(this_mark, constructor);
+                let inserted_this = replace_this_in_constructor(this_mark, &mut constructor);
 
-                constructor = c;
                 insert_this |= inserted_this;
             }
 
