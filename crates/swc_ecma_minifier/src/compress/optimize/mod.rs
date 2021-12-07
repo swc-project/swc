@@ -1035,6 +1035,12 @@ where
                     _ => false,
                 } =>
             {
+                let arg = self.ignore_return_value(&mut **arg);
+
+                if arg.is_none() {
+                    return None;
+                }
+
                 tracing::trace!("ignore_return_value: Preserving negated iife");
                 return Some(e.take());
             }
