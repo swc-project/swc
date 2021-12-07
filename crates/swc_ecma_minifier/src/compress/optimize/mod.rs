@@ -1897,7 +1897,7 @@ where
         {
             // Preserve top-level negated iifes.
             match &*n.expr {
-                Expr::Unary(unary) => match &*unary.arg {
+                Expr::Unary(unary @ UnaryExpr { op: op!("!"), .. }) => match &*unary.arg {
                     Expr::Call(CallExpr {
                         callee: ExprOrSuper::Expr(callee),
                         ..
