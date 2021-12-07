@@ -193,7 +193,7 @@ where
     N: VisitWith<RestVisitor>,
 {
     let mut v = RestVisitor { found: false };
-    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+    node.visit_with( &mut v);
     v.found
 }
 
@@ -283,7 +283,7 @@ impl Fold for ObjectRest {
                 let specifiers = {
                     let mut found = vec![];
                     let mut finder = VarCollector { to: &mut found };
-                    var_decl.visit_with(&Invalid { span: DUMMY_SP } as _, &mut finder);
+                    var_decl.visit_with( &mut finder);
                     found
                         .into_iter()
                         .map(|(sym, ctxt)| ExportNamedSpecifier {

@@ -409,7 +409,7 @@ where
     N: VisitWith<ShouldWork>,
 {
     let mut v = ShouldWork { found: false };
-    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+    node.visit_with( &mut v);
     v.found
 }
 

@@ -216,7 +216,7 @@ where
                             let mut found: Vec<Ident> = vec![];
                             for decl in var.decls {
                                 let mut v = DestructuringFinder { found: &mut found };
-                                decl.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+                                decl.visit_with( &mut v);
 
                                 for ident in found.drain(..) {
                                     scope

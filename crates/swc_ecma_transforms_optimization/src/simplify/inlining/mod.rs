@@ -129,8 +129,8 @@ impl VisitMut for Inlining<'_> {
                             scope: &mut self.scope,
                         };
 
-                        left.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
-                        e.right.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+                        left.visit_with( &mut v);
+                        e.right.visit_with( &mut v);
                     }
 
                     _ => {}
@@ -149,8 +149,8 @@ impl VisitMut for Inlining<'_> {
                     scope: &mut self.scope,
                 };
 
-                e.left.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
-                e.right.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v)
+                e.left.visit_with( &mut v);
+                e.right.visit_with( &mut v)
             }
         }
 
@@ -556,7 +556,7 @@ impl VisitMut for Inlining<'_> {
                 };
 
                 node.arg
-                    .visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+                    .visit_with( &mut v);
                 return;
             }
 

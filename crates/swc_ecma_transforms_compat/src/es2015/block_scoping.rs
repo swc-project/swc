@@ -9,8 +9,7 @@ use swc_ecma_utils::{
     quote_ident, quote_str, undefined, var::VarCollector, ExprFactory, Id, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
-    VisitWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
 ///
@@ -113,7 +112,7 @@ impl BlockScoping {
 
         {
             let mut v = FunctionFinder { found: false };
-            body_stmt.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+            body_stmt.visit_with(&mut v);
             if !v.found {
                 return;
             }
@@ -607,7 +606,7 @@ where
 {
     let mut vars = vec![];
     let mut v = VarCollector { to: &mut vars };
-    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+    node.visit_with( &mut v);
 
     vars
 }
@@ -620,7 +619,7 @@ where
         vars: ids,
         found: false,
     };
-    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+    node.visit_with(&mut v);
 }
 
 /// In the code below,

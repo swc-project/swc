@@ -183,7 +183,7 @@ where
                     forced_es6: false,
                     found_other: false,
                 };
-                module.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+                module.visit_with( &mut v);
                 v.forced_es6 || !v.found_other
             };
 

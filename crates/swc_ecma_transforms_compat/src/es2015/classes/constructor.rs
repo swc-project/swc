@@ -5,7 +5,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_transforms_classes::{fold_only_key, get_prototype_of};
 use swc_ecma_utils::{private_ident, quote_ident, ExprFactory};
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Visit, VisitWith};
 
 pub(super) struct SuperCallFinder {
     mode: Option<SuperFoldingMode>,
@@ -36,7 +36,7 @@ impl SuperCallFinder {
             mode: None,
             in_complex: false,
         };
-        node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+        node.visit_with(&mut v);
         v.mode
     }
 }

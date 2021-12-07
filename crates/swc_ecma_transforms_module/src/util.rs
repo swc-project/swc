@@ -649,7 +649,7 @@ impl Scope {
                 let mut found: Vec<(JsWord, Span)> = vec![];
                 let mut v = DestructuringFinder { found: &mut found };
                 expr.left
-                    .visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+                    .visit_with( &mut v);
                 if v.found.is_empty() {
                     return Expr::Assign(AssignExpr {
                         left: expr.left,

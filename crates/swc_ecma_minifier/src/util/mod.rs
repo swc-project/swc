@@ -346,7 +346,7 @@ where
     N: VisitWith<DeepThisExprVisitor>,
 {
     let mut visitor = DeepThisExprVisitor { found: false };
-    body.visit_with(&Invalid { span: DUMMY_SP } as _, &mut visitor);
+    body.visit_with( &mut visitor);
     visitor.found
 }
 
