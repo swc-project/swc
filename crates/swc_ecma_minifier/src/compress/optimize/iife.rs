@@ -503,7 +503,7 @@ where
                     .collect::<Vec<_>>();
 
                 if !self.can_inline_fn_like(&param_ids, body) {
-                    tracing::trace!("iife: [x] Body is not inliable");
+                    tracing::trace!("iife: [x] Body is not inlinable");
                     return;
                 }
 

@@ -160,8 +160,6 @@ struct Ctx {
 
     dont_invoke_iife: bool,
 
-    ignore_fn_length: bool,
-
     /// Current scope.
     scope: SyntaxContext,
 }
@@ -853,6 +851,20 @@ where
                 args,
                 ..
             }) => {
+                match &mut **callee {
+                    Expr::Fn(FnExpr {
+                        ident: None,
+                        function,
+                    }) => {
+                        for param in &mut function.params {
+                            self.drop_unused_param(&mut param.pat, true);
+                        }
+
+                        function.params.retain(|p| !p.pat.is_invalid());
+                    }
+                    _ => {}
+                }
+
                 if args.is_empty() {
                     match &mut **callee {
                         Expr::Fn(f) => {
@@ -1615,7 +1627,6 @@ where
             top_level: false,
             in_block: true,
             scope: n.span.ctxt,
-            ignore_fn_length: false,
             ..self.ctx
         };
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
@@ -1766,7 +1777,6 @@ where
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         let ctx = Ctx {
             is_exported: false,
-            ignore_fn_length: false,
             ..self.ctx
         };
         e.visit_mut_children_with(&mut *self.with_ctx(ctx));
@@ -1839,20 +1849,7 @@ where
     }
 
     fn visit_mut_expr_stmt(&mut self, n: &mut ExprStmt) {
-        let ctx = Ctx {
-            ignore_fn_length: match &*n.expr {
-                Expr::Call(CallExpr {
-                    callee: ExprOrSuper::Expr(callee),
-                    ..
-                }) => match &**callee {
-                    Expr::Fn(FnExpr { ident: None, .. }) => true,
-                    _ => false,
-                },
-                _ => false,
-            },
-            ..self.ctx
-        };
-        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        n.visit_mut_children_with(self);
 
         let mut need_ignore_return_value = false;
 
@@ -1936,10 +1933,7 @@ where
             self.drop_unused_params(&mut f.function.params);
         }
 
-        let ctx = Ctx {
-            ignore_fn_length: false,
-            ..self.ctx
-        };
+        let ctx = Ctx { ..self.ctx };
         f.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
@@ -1992,7 +1986,6 @@ where
         {
             let ctx = Ctx {
                 stmt_labelled: false,
-                ignore_fn_length: false,
                 ..self.ctx
             };
             n.decorators.visit_mut_with(&mut *self.with_ctx(ctx));
@@ -2172,7 +2165,7 @@ where
     fn visit_mut_param(&mut self, n: &mut Param) {
         n.visit_mut_children_with(self);
 
-        self.drop_unused_param(&mut n.pat);
+        self.drop_unused_param(&mut n.pat, false);
     }
 
     fn visit_mut_params(&mut self, n: &mut Vec<Param>) {

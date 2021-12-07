@@ -60,7 +60,7 @@ where
         }
     }
 
-    pub(super) fn drop_unused_param(&mut self, pat: &mut Pat) {
+    pub(super) fn drop_unused_param(&mut self, pat: &mut Pat, ignore_fn_length: bool) {
         if !self.options.unused {
             return;
         }
@@ -75,7 +75,7 @@ where
             }
         }
 
-        if !self.ctx.ignore_fn_length {
+        if !ignore_fn_length {
             // Preserve `length` of function.
             if pat.is_ident() {
                 return;
