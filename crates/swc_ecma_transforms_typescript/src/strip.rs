@@ -1259,7 +1259,7 @@ where
         let mut delayed_vars = vec![];
 
         self.visit_mut_stmt_like(&mut items);
-        items.visit_with(&Invalid { span: DUMMY_SP }, self);
+        items.visit_with(self);
 
         let mut stmts = Vec::with_capacity(items.len());
         for mut item in items {
