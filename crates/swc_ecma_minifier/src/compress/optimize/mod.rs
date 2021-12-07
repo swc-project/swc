@@ -1766,6 +1766,7 @@ where
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         let ctx = Ctx {
             is_exported: false,
+            ignore_fn_length: false,
             ..self.ctx
         };
         e.visit_mut_children_with(&mut *self.with_ctx(ctx));
