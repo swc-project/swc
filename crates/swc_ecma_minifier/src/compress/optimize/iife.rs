@@ -524,7 +524,7 @@ where
     fn can_inline_fn_like(&self, param_ids: &[Ident], body: &BlockStmt) -> bool {
         // Don't create top-level variables.
         if !param_ids.is_empty() {
-            if self.ctx.is_top_level_for_block_level_vars() && !self.options.module {
+            if self.ctx.in_top_level() && !self.options.module {
                 for pid in param_ids {
                     if let Some(usage) = self
                         .data
@@ -564,7 +564,7 @@ where
                     return false;
                 }
 
-                if self.ctx.is_top_level_for_block_level_vars() && !self.options.module {
+                if self.ctx.in_top_level() && !self.options.module {
                     return false;
                 }
 
