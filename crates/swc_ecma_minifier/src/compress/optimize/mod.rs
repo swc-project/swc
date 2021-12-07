@@ -1035,11 +1035,12 @@ where
                     _ => false,
                 } =>
             {
-                let arg = self.ignore_return_value(&mut **arg);
+                let processed_arg = self.ignore_return_value(&mut **arg);
 
-                if arg.is_none() {
+                if processed_arg.is_none() {
                     return None;
                 }
+                *arg = Box::new(processed_arg.unwrap());
 
                 tracing::trace!("ignore_return_value: Preserving negated iife");
                 return Some(e.take());
