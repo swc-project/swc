@@ -61,7 +61,7 @@ where
     }
 
     pub(super) fn drop_unused_param(&mut self, pat: &mut Pat, ignore_fn_length: bool) {
-        if !self.options.unused {
+        if !self.options.unused && !self.options.reduce_fns {
             return;
         }
 
