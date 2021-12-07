@@ -531,7 +531,7 @@ where
                         .as_ref()
                         .and_then(|data| data.vars.get(&pid.to_id()))
                     {
-                        if usage.ref_count > 1 {
+                        if usage.ref_count > 1 || usage.assign_count > 0 || usage.inline_prevented {
                             return false;
                         }
                     }
