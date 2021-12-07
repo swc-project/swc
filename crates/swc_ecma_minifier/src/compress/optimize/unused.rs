@@ -60,8 +60,8 @@ where
         }
     }
 
-    pub(super) fn drop_unused_param(&mut self, pat: &mut Pat) {
-        if !self.options.unused {
+    pub(super) fn drop_unused_param(&mut self, pat: &mut Pat, ignore_fn_length: bool) {
+        if !self.options.unused && !self.options.reduce_fns {
             return;
         }
 
@@ -75,9 +75,11 @@ where
             }
         }
 
-        // Preserve `length` of function.
-        if pat.is_ident() {
-            return;
+        if !ignore_fn_length {
+            // Preserve `length` of function.
+            if pat.is_ident() {
+                return;
+            }
         }
 
         self.take_pat_if_unused(DUMMY_SP, pat, None)
@@ -92,7 +94,7 @@ where
         let has_mark = var_declarator_span.has_mark(self.marks.non_top_level);
 
         if !has_mark {
-            if !self.options.unused
+            if (!self.options.unused && !self.options.side_effects)
                 || self.ctx.in_var_decl_of_for_in_or_of_loop
                 || self.ctx.is_exported
             {

@@ -76,8 +76,8 @@ fn matrix() -> Vec<(String, Options)> {
                         target: Some(target),
                         minify: if minify {
                             Some(from_json(
-                                "{ \"compress\": { \"toplevel\": true }, \"mangle\": false, \
-                                 \"toplevel\": true }",
+                                "{ \"compress\": { \"toplevel\": true, \"module\": true }, \
+                                 \"mangle\": false, \"toplevel\": true }",
                             ))
                         } else {
                             None
