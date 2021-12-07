@@ -572,24 +572,59 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         .parse()
                     });
 
-                    tokens.push_tokens(&q!(
-                        Vars {
-                            Type: ty,
-                            expr,
-                            default_body,
-                        },
-                        {
+                    if let Some(elem_ty) = extract_generic("Vec", ty) {
+                        let slice_ty: Type = q!(Vars { elem_ty }, (&[elem_ty])).parse();
+
+                        tokens.push_tokens(&q!(
+                            Vars {
+                                Type: slice_ty,
+                                expr,
+                                default_body,
+                            },
+                            {
+                                impl<V: Visit> VisitWith<V> for Type {
+                                    fn visit_with(&self, v: &mut V) {
+                                        expr
+                                    }
+
+                                    fn visit_children_with(&self, _visitor: &mut V) {
+                                        default_body
+                                    }
+                                }
+                            }
+                        ));
+
+                        tokens.push_tokens(&q!(Vars { Type: ty }, {
                             impl<V: Visit> VisitWith<V> for Type {
                                 fn visit_with(&self, v: &mut V) {
-                                    expr
+                                    (**self).visit_with(v)
                                 }
 
                                 fn visit_children_with(&self, _visitor: &mut V) {
-                                    default_body
+                                    (**self).visit_children_with(_visitor)
                                 }
                             }
-                        }
-                    ));
+                        }));
+                    } else {
+                        tokens.push_tokens(&q!(
+                            Vars {
+                                Type: ty,
+                                expr,
+                                default_body,
+                            },
+                            {
+                                impl<V: Visit> VisitWith<V> for Type {
+                                    fn visit_with(&self, v: &mut V) {
+                                        expr
+                                    }
+
+                                    fn visit_children_with(&self, _visitor: &mut V) {
+                                        default_body
+                                    }
+                                }
+                            }
+                        ));
+                    }
                 }
 
                 Mode::VisitAll => {
