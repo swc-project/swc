@@ -7,7 +7,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, ModuleItemLike, StmtLike, Value};
-use swc_ecma_visit::{noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Fold, FoldWith, Visit, VisitWith};
 
 pub(crate) mod base54;
 pub(crate) mod sort;
@@ -210,7 +210,7 @@ where
     N: VisitWith<LeapFinder>,
 {
     let mut v = LeapFinder::default();
-    n.visit_with( &mut v);
+    n.visit_with(&mut v);
     v.found_yield
 }
 
@@ -346,7 +346,7 @@ where
     N: VisitWith<DeepThisExprVisitor>,
 {
     let mut visitor = DeepThisExprVisitor { found: false };
-    body.visit_with( &mut visitor);
+    body.visit_with(&mut visitor);
     visitor.found
 }
 
@@ -388,10 +388,10 @@ impl Visit for IdentUsageCollector {
     }
 
     fn visit_member_expr(&mut self, n: &MemberExpr) {
-        n.obj.visit_with( self);
+        n.obj.visit_with(self);
 
         if n.computed {
-            n.prop.visit_with( self);
+            n.prop.visit_with(self);
         }
     }
 
@@ -413,7 +413,7 @@ where
         ignore_nested: false,
         ..Default::default()
     };
-    n.visit_with( &mut v);
+    n.visit_with(&mut v);
     v.ids
 }
 
@@ -425,7 +425,7 @@ where
         ignore_nested: true,
         ..Default::default()
     };
-    n.visit_with( &mut v);
+    n.visit_with(&mut v);
     v.ids
 }
 

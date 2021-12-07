@@ -1,12 +1,12 @@
 use once_cell::sync::Lazy;
 use std::{env, process::Command};
-use swc_common::{sync::Lrc, SourceMap, SyntaxContext, DUMMY_SP};
+use swc_common::{sync::Lrc, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_transforms::{fixer, hygiene};
 use swc_ecma_utils::{drop_span, DropSpan};
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, FoldWith, Node, Visit, VisitMut, VisitMutWith, VisitWith,
+    noop_visit_mut_type, noop_visit_type, FoldWith, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
 pub(crate) struct Debugger {}

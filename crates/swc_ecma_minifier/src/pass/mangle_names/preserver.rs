@@ -1,8 +1,8 @@
 use crate::option::MangleOptions;
-use swc_common::{collections::AHashSet, DUMMY_SP};
+use swc_common::collections::AHashSet;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
-use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 pub(super) fn idents_to_preserve<N>(options: MangleOptions, n: &N) -> AHashSet<Id>
 where
@@ -14,7 +14,7 @@ where
         should_preserve: false,
         in_top_level: false,
     };
-    n.visit_with( &mut v);
+    n.visit_with(&mut v);
     v.preserved
 }
 pub(super) struct Preserver {
@@ -32,11 +32,11 @@ impl Visit for Preserver {
 
         if self.options.ie8 && !self.options.top_level {
             self.should_preserve = true;
-            n.param.visit_with( self);
+            n.param.visit_with(self);
         }
 
         self.should_preserve = old;
-        n.body.visit_with( self);
+        n.body.visit_with(self);
     }
 
     fn visit_class_decl(&mut self, n: &ClassDecl) {
@@ -97,16 +97,16 @@ impl Visit for Preserver {
     }
 
     fn visit_member_expr(&mut self, n: &MemberExpr) {
-        n.obj.visit_with( self);
+        n.obj.visit_with(self);
         if n.computed {
-            n.prop.visit_with( self);
+            n.prop.visit_with(self);
         }
     }
 
     fn visit_module_items(&mut self, n: &[ModuleItem]) {
         for n in n {
             self.in_top_level = true;
-            n.visit_with( self);
+            n.visit_with(self);
         }
     }
 
@@ -127,7 +127,7 @@ impl Visit for Preserver {
         let old_top_level = self.in_top_level;
         for n in n {
             self.in_top_level = false;
-            n.visit_with( self);
+            n.visit_with(self);
         }
         self.in_top_level = old_top_level;
     }
@@ -138,7 +138,7 @@ impl Visit for Preserver {
         if self.in_top_level && !self.options.top_level {
             let old = self.should_preserve;
             self.should_preserve = true;
-            n.name.visit_with( self);
+            n.name.visit_with(self);
             self.should_preserve = old;
             return;
         }
@@ -148,7 +148,7 @@ impl Visit for Preserver {
                 Some(Expr::Fn(..)) | Some(Expr::Arrow(..)) => {
                     let old = self.should_preserve;
                     self.should_preserve = true;
-                    n.name.visit_with( self);
+                    n.name.visit_with(self);
                     self.should_preserve = old;
                 }
                 _ => {}

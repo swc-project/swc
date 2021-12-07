@@ -3,7 +3,7 @@ use swc_atoms::JsWord;
 use swc_common::collections::{AHashMap, AHashSet};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
-use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 mod scope;
 
@@ -78,10 +78,10 @@ impl Visit for Analyzer {
         let old = self.is_pat_decl;
 
         self.is_pat_decl = true;
-        n.param.visit_with( self);
+        n.param.visit_with(self);
 
         self.is_pat_decl = false;
-        n.body.visit_with( self);
+        n.body.visit_with(self);
 
         self.is_pat_decl = old;
     }

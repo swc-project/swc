@@ -1,12 +1,12 @@
 use crate::marks::Marks;
 use swc_common::{
     comments::{Comment, CommentKind, Comments},
-    Mark, Span, SyntaxContext, DUMMY_SP,
+    Mark, Span, SyntaxContext,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, Node, Visit, VisitMut, VisitMutWith, VisitWith,
+    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
 #[cfg(test)]
@@ -169,7 +169,7 @@ impl VisitMut for InfoMarker<'_> {
                 top_level_ctxt: SyntaxContext::empty().apply_mark(self.top_level_mark),
                 bindings: Default::default(),
             };
-            m.visit_with( &mut v);
+            m.visit_with(&mut v);
             v.bindings
         };
 
@@ -237,7 +237,7 @@ impl Visit for TopLevelBindingCollector {
     }
 }
 
-fn is_standalone<N>(n: &mut N, top_level_mark: Mark, external_bingdings: &[Id]) -> bool
+fn is_standalone<N>(n: &mut N, top_level_mark: Mark, external_bindings: &[Id]) -> bool
 where
     N: VisitMutWith<IdentCollector>,
 {
@@ -273,7 +273,7 @@ where
             _ => {}
         }
 
-        if external_bingdings.contains(&used_id) {
+        if external_bindings.contains(&used_id) {
             if cfg!(feature = "debug") {
                 tracing::debug!(
                     "bundle: Due to {}{:?} (top-level), it's not a bundle",

@@ -63,7 +63,7 @@ pub(crate) struct VarUsageInfo {
     /// The number of reference to this identifier.
     pub ref_count: usize,
 
-    /// `true` if a varaible is conditionally initialized.
+    /// `true` if a variable is conditionally initialized.
     pub cond_init: bool,
 
     /// `false` if it's only used.
@@ -110,7 +110,7 @@ pub(crate) struct VarUsageInfo {
 
     pub used_as_callee: bool,
 
-    /// In `c = b`, `b` inffects `c`.
+    /// In `c = b`, `b` infects `c`.
     infects: Vec<Id>,
 }
 
@@ -243,7 +243,7 @@ where
                     in_pat_of_param: true,
                     ..child.ctx
                 };
-                n.params.visit_with(n, &mut *child.with_ctx(ctx));
+                n.params.visit_with(&mut *child.with_ctx(ctx));
             }
 
             match &n.body {
@@ -253,7 +253,7 @@ where
                     body.visit_children_with(child);
                 }
                 BlockStmtOrExpr::Expr(body) => {
-                    body.visit_with(n, child);
+                    body.visit_with(child);
                 }
             }
         })
@@ -266,14 +266,14 @@ where
             is_op_assign: n.op != op!("="),
             ..self.ctx
         };
-        n.left.visit_with(n, &mut *self.with_ctx(ctx));
+        n.left.visit_with(&mut *self.with_ctx(ctx));
 
         let ctx = Ctx {
             in_assign_lhs: false,
             is_exact_reassignment: false,
             ..self.ctx
         };
-        n.right.visit_with(n, &mut *self.with_ctx(ctx));
+        n.right.visit_with(&mut *self.with_ctx(ctx));
     }
 
     fn visit_await_expr(&mut self, n: &AwaitExpr) {
@@ -302,7 +302,7 @@ where
                 inline_prevented,
                 ..self.ctx
             };
-            n.callee.visit_with(n, &mut *self.with_ctx(ctx));
+            n.callee.visit_with(&mut *self.with_ctx(ctx));
         }
 
         match &n.callee {
@@ -326,7 +326,7 @@ where
                 is_exact_reassignment: false,
                 ..self.ctx
             };
-            n.args.visit_with(n, &mut *self.with_ctx(ctx));
+            n.args.visit_with(&mut *self.with_ctx(ctx));
         }
 
         match &n.callee {

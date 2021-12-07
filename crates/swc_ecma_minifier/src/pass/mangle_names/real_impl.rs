@@ -1,6 +1,5 @@
 use super::{analyzer::Analyzer, preserver::idents_to_preserve};
 use crate::{marks::Marks, option::MangleOptions, pass::compute_char_freq::CharFreqInfo};
-use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms::hygiene::rename;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
@@ -28,7 +27,7 @@ impl VisitMut for Mangler {
                 scope: Default::default(),
                 is_pat_decl: Default::default(),
             };
-            m.visit_with( &mut analyzer);
+            m.visit_with(&mut analyzer);
 
             analyzer.into_rename_map(&preserved)
         };
@@ -44,7 +43,7 @@ impl VisitMut for Mangler {
                 scope: Default::default(),
                 is_pat_decl: Default::default(),
             };
-            s.visit_with( &mut analyzer);
+            s.visit_with(&mut analyzer);
 
             analyzer.into_rename_map(&preserved)
         };
