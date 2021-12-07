@@ -1473,7 +1473,7 @@ struct UsageCounter<'a> {
 impl Visit for UsageCounter<'_> {
     noop_visit_type!();
 
-    fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
+    fn visit_ident(&mut self, i: &Ident) {
         if self.target.sym == i.sym && self.target.span.ctxt == i.span.ctxt {
             if self.in_lhs {
                 self.pat_usage += 1;
@@ -1483,7 +1483,7 @@ impl Visit for UsageCounter<'_> {
         }
     }
 
-    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
+    fn visit_member_expr(&mut self, e: &MemberExpr) {
         e.obj.visit_with(e, self);
 
         if e.computed {
@@ -1494,14 +1494,14 @@ impl Visit for UsageCounter<'_> {
         }
     }
 
-    fn visit_pat(&mut self, p: &Pat, _: &dyn Node) {
+    fn visit_pat(&mut self, p: &Pat) {
         let old = self.in_lhs;
         self.in_lhs = true;
         p.visit_children_with(self);
         self.in_lhs = old;
     }
 
-    fn visit_pat_or_expr(&mut self, p: &PatOrExpr, _: &dyn Node) {
+    fn visit_pat_or_expr(&mut self, p: &PatOrExpr) {
         let old = self.in_lhs;
         self.in_lhs = true;
         p.visit_children_with(self);

@@ -64,7 +64,7 @@
 // }
 
 // impl Visit for MarkCounter {
-//     fn visit_span(&mut self, span: &Span, _: &dyn Node) {
+//     fn visit_span(&mut self, span: &Span) {
 //         if span.has_mark(self.mark) {
 //             self.count += 1;
 //         }

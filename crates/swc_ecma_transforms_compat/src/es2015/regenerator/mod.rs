@@ -564,7 +564,7 @@ impl Finder {
 impl Visit for Finder {
     noop_visit_type!();
 
-    fn visit_function(&mut self, node: &Function, _: &dyn Node) {
+    fn visit_function(&mut self, node: &Function) {
         if node.is_generator {
             self.found = true;
             return;

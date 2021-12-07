@@ -174,7 +174,7 @@ struct RestVisitor {
 impl Visit for RestVisitor {
     noop_visit_type!();
 
-    fn visit_object_pat_prop(&mut self, prop: &ObjectPatProp, _: &dyn Node) {
+    fn visit_object_pat_prop(&mut self, prop: &ObjectPatProp) {
         match *prop {
             ObjectPatProp::Rest(..) => self.found = true,
             _ => prop.visit_children_with(self),

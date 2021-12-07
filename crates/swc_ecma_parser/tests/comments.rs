@@ -85,7 +85,7 @@ struct CommentPrinter<'a> {
 }
 
 impl Visit for CommentPrinter<'_> {
-    fn visit_span(&mut self, n: &Span, _: &dyn Node) {
+    fn visit_span(&mut self, n: &Span) {
         self.comments.with_leading(n.lo, |comments| {
             for c in comments {
                 DiagnosticBuilder::new(

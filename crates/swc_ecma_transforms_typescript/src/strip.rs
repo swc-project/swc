@@ -1416,24 +1416,24 @@ impl<C> Visit for Strip<C>
 where
     C: Comments,
 {
-    fn visit_assign_pat_prop(&mut self, n: &AssignPatProp, _: &dyn Node) {
+    fn visit_assign_pat_prop(&mut self, n: &AssignPatProp) {
         if !self.in_var_pat {
             n.key.visit_with(n, self);
         }
         n.value.visit_with(n, self);
     }
 
-    fn visit_assign_prop(&mut self, n: &AssignProp, _: &dyn Node) {
+    fn visit_assign_prop(&mut self, n: &AssignProp) {
         n.value.visit_with(n, self);
     }
 
-    fn visit_binding_ident(&mut self, n: &BindingIdent, _: &dyn Node) {
+    fn visit_binding_ident(&mut self, n: &BindingIdent) {
         if !self.in_var_pat {
             n.visit_children_with(self)
         }
     }
 
-    fn visit_decl(&mut self, n: &Decl, _: &dyn Node) {
+    fn visit_decl(&mut self, n: &Decl) {
         self.handle_decl(n);
 
         let old = self.non_top_level;
@@ -1476,7 +1476,7 @@ where
         self.non_top_level = old;
     }
 
-    fn visit_ident(&mut self, n: &Ident, _: &dyn Node) {
+    fn visit_ident(&mut self, n: &Ident) {
         let entry = self.scope.referenced_idents.entry(n.to_id()).or_default();
         if self.is_type_only_export {
             entry.has_type = true;
@@ -1496,7 +1496,7 @@ where
         n.visit_children_with(self);
     }
 
-    fn visit_import_decl(&mut self, n: &ImportDecl, _: &dyn Node) {
+    fn visit_import_decl(&mut self, n: &ImportDecl) {
         macro_rules! store {
             ($i:expr) => {{
                 self.scope
@@ -1517,14 +1517,14 @@ where
         }
     }
 
-    fn visit_member_expr(&mut self, n: &MemberExpr, _: &dyn Node) {
+    fn visit_member_expr(&mut self, n: &MemberExpr) {
         n.obj.visit_with(n, self);
         if n.computed {
             n.prop.visit_with(n, self);
         }
     }
 
-    fn visit_module_items(&mut self, n: &[ModuleItem], _: &dyn Node) {
+    fn visit_module_items(&mut self, n: &[ModuleItem]) {
         let old = self.non_top_level;
         self.non_top_level = false;
         n.iter().for_each(|n| {
@@ -1533,21 +1533,21 @@ where
         self.non_top_level = old;
     }
 
-    fn visit_named_export(&mut self, export: &NamedExport, _: &dyn Node) {
+    fn visit_named_export(&mut self, export: &NamedExport) {
         let old = self.is_type_only_export;
         self.is_type_only_export = export.type_only;
         export.visit_children_with(self);
         self.is_type_only_export = old;
     }
 
-    fn visit_prop_name(&mut self, n: &PropName, _: &dyn Node) {
+    fn visit_prop_name(&mut self, n: &PropName) {
         match n {
             PropName::Computed(e) => e.visit_with(n, self),
             _ => {}
         }
     }
 
-    fn visit_stmts(&mut self, n: &[Stmt], _: &dyn Node) {
+    fn visit_stmts(&mut self, n: &[Stmt]) {
         let old = self.non_top_level;
         self.non_top_level = true;
         n.iter()
@@ -1555,7 +1555,7 @@ where
         self.non_top_level = old;
     }
 
-    fn visit_ts_entity_name(&mut self, name: &TsEntityName, _: &dyn Node) {
+    fn visit_ts_entity_name(&mut self, name: &TsEntityName) {
         match *name {
             TsEntityName::Ident(ref i) => {
                 let entry = self.scope.referenced_idents.entry(i.to_id()).or_default();
@@ -1571,7 +1571,7 @@ where
         }
     }
 
-    fn visit_ts_import_equals_decl(&mut self, n: &TsImportEqualsDecl, _: &dyn Node) {
+    fn visit_ts_import_equals_decl(&mut self, n: &TsImportEqualsDecl) {
         match &n.module_ref {
             TsModuleRef::TsEntityName(name) => {
                 let entry = self

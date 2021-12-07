@@ -23,11 +23,11 @@ impl Visit for VarCollector<'_> {
         node.value.visit_with(node, self);
     }
 
-    fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
+    fn visit_ident(&mut self, i: &Ident) {
         self.to.push((i.sym.clone(), i.span.ctxt()))
     }
 
-    fn visit_var_declarator(&mut self, node: &VarDeclarator, _: &dyn Node) {
+    fn visit_var_declarator(&mut self, node: &VarDeclarator) {
         node.name.visit_with(node, self);
     }
 }

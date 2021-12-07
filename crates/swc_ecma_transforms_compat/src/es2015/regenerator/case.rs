@@ -1539,7 +1539,7 @@ struct LeapFinder {
 
 macro_rules! leap {
     ($name:ident,$T:ty) => {
-        fn $name(&mut self, _: &$T, _: &dyn Node) {
+        fn $name(&mut self, _: &$T) {
             self.found = true;
         }
     };
@@ -1549,9 +1549,9 @@ impl Visit for LeapFinder {
     noop_visit_type!();
 
     /// Ignored
-    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
+    fn visit_function(&mut self, _: &Function) {}
     /// Ignored
-    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {}
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 
     leap!(visit_yield_expr, YieldExpr);
     leap!(visit_break_stmt, BreakStmt);

@@ -323,7 +323,7 @@ struct ComplexVisitor {
 impl Visit for ComplexVisitor {
     noop_visit_type!();
 
-    fn visit_prop_name(&mut self, pn: &PropName, _: &dyn Node) {
+    fn visit_prop_name(&mut self, pn: &PropName) {
         match *pn {
             PropName::Computed(..) => self.found = true,
             _ => {}
@@ -420,7 +420,7 @@ struct ShouldWork {
 impl Visit for ShouldWork {
     noop_visit_type!();
 
-    fn visit_prop_name(&mut self, node: &PropName, _: &dyn Node) {
+    fn visit_prop_name(&mut self, node: &PropName) {
         match *node {
             PropName::Computed(_) => self.found = true,
             _ => {}

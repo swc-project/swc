@@ -670,7 +670,7 @@ struct ShouldWork {
 impl Visit for ShouldWork {
     noop_visit_type!();
 
-    fn visit_opt_chain_expr(&mut self, _: &OptChainExpr, _: &dyn Node) {
+    fn visit_opt_chain_expr(&mut self, _: &OptChainExpr) {
         self.found = true;
     }
 }

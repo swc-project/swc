@@ -1623,42 +1623,42 @@ fn check_for_stopper(s: &[Stmt], only_conditional: bool) -> bool {
     impl Visit for Visitor {
         noop_visit_type!();
 
-        fn visit_switch_case(&mut self, node: &SwitchCase, _: &dyn Node) {
+        fn visit_switch_case(&mut self, node: &SwitchCase) {
             let old = self.in_cond;
             self.in_cond = true;
             node.cons.visit_with(node as _, self);
             self.in_cond = old;
         }
 
-        fn visit_break_stmt(&mut self, s: &BreakStmt, _: &dyn Node) {
+        fn visit_break_stmt(&mut self, s: &BreakStmt) {
             if self.in_cond && s.label.is_none() {
                 self.found = true
             }
         }
 
-        fn visit_continue_stmt(&mut self, s: &ContinueStmt, _: &dyn Node) {
+        fn visit_continue_stmt(&mut self, s: &ContinueStmt) {
             if self.in_cond && s.label.is_none() {
                 self.found = true
             }
         }
 
-        fn visit_return_stmt(&mut self, _: &ReturnStmt, _: &dyn Node) {
+        fn visit_return_stmt(&mut self, _: &ReturnStmt) {
             if self.in_cond {
                 self.found = true
             }
         }
 
-        fn visit_throw_stmt(&mut self, _: &ThrowStmt, _: &dyn Node) {
+        fn visit_throw_stmt(&mut self, _: &ThrowStmt) {
             if self.in_cond {
                 self.found = true
             }
         }
 
-        fn visit_class(&mut self, _: &Class, _: &dyn Node) {}
+        fn visit_class(&mut self, _: &Class) {}
 
-        fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
+        fn visit_function(&mut self, _: &Function) {}
 
-        fn visit_if_stmt(&mut self, node: &IfStmt, _: &dyn Node) {
+        fn visit_if_stmt(&mut self, node: &IfStmt) {
             let old = self.in_cond;
             self.in_cond = true;
             node.cons.visit_with(node as _, self);

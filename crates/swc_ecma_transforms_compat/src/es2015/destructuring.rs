@@ -1235,7 +1235,7 @@ struct DestructuringVisitor {
 impl Visit for DestructuringVisitor {
     noop_visit_type!();
 
-    fn visit_pat(&mut self, node: &Pat, _: &dyn Node) {
+    fn visit_pat(&mut self, node: &Pat) {
         node.visit_children_with(self);
         match *node {
             Pat::Ident(..) => {}

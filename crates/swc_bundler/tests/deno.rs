@@ -1150,7 +1150,7 @@ struct ExportCollector {
 }
 
 impl Visit for ExportCollector {
-    fn visit_export_specifier(&mut self, s: &ExportSpecifier, _: &dyn Node) {
+    fn visit_export_specifier(&mut self, s: &ExportSpecifier) {
         match s {
             ExportSpecifier::Namespace(ns) => {
                 self.exports.insert(ns.name.sym.to_string());
@@ -1171,15 +1171,15 @@ impl Visit for ExportCollector {
         }
     }
 
-    fn visit_export_default_decl(&mut self, _: &ExportDefaultDecl, _: &dyn Node) {
+    fn visit_export_default_decl(&mut self, _: &ExportDefaultDecl) {
         self.exports.insert("default".into());
     }
 
-    fn visit_export_default_expr(&mut self, _: &ExportDefaultExpr, _: &dyn Node) {
+    fn visit_export_default_expr(&mut self, _: &ExportDefaultExpr) {
         self.exports.insert("default".into());
     }
 
-    fn visit_export_decl(&mut self, export: &ExportDecl, _: &dyn Node) {
+    fn visit_export_decl(&mut self, export: &ExportDecl) {
         match &export.decl {
             swc_ecma_ast::Decl::Class(ClassDecl { ident, .. })
             | swc_ecma_ast::Decl::Fn(FnDecl { ident, .. }) => {

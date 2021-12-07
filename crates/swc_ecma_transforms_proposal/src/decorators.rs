@@ -648,7 +648,7 @@ struct DecoratorFinder {
     found: bool,
 }
 impl Visit for DecoratorFinder {
-    fn visit_decorator(&mut self, _: &Decorator, _: &dyn Node) {
+    fn visit_decorator(&mut self, _: &Decorator) {
         self.found = true
     }
 }

@@ -113,13 +113,13 @@ pub(super) struct VarWithOutInitCounter {
 impl Visit for VarWithOutInitCounter {
     noop_visit_type!();
 
-    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {}
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 
-    fn visit_constructor(&mut self, _: &Constructor, _: &dyn Node) {}
+    fn visit_constructor(&mut self, _: &Constructor) {}
 
-    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
+    fn visit_function(&mut self, _: &Function) {}
 
-    fn visit_var_decl(&mut self, v: &VarDecl, _: &dyn Node) {
+    fn visit_var_decl(&mut self, v: &VarDecl) {
         v.visit_children_with(self);
 
         if v.kind != VarDeclKind::Var {
@@ -148,7 +148,7 @@ impl Visit for VarWithOutInitCounter {
         }
     }
 
-    fn visit_var_decl_or_pat(&mut self, _: &VarDeclOrPat, _: &dyn Node) {}
+    fn visit_var_decl_or_pat(&mut self, _: &VarDeclOrPat) {}
 }
 
 /// Moves all varaible without initializer.

@@ -488,7 +488,7 @@ struct ClassAnalyzer<'a> {
 impl Visit for ClassAnalyzer<'_> {
     noop_visit_type!();
 
-    fn visit_bin_expr(&mut self, n: &BinExpr, _: &dyn Node) {
+    fn visit_bin_expr(&mut self, n: &BinExpr) {
         n.visit_children_with(self);
 
         if n.op == op!("in") {
@@ -503,7 +503,7 @@ impl Visit for ClassAnalyzer<'_> {
     }
 
     /// Noop
-    fn visit_class(&mut self, n: &Class, _: &dyn Node) {
+    fn visit_class(&mut self, n: &Class) {
         if self.ignore_class {
             return;
         }

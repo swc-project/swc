@@ -60,7 +60,7 @@ macro_rules! ignore_return {
 
 macro_rules! mark_as_complex {
     ($name:ident, $T:ty) => {
-        fn $name(&mut self, node: &$T, _: &dyn Node) {
+        fn $name(&mut self, node: &$T) {
             let old = self.in_complex;
             self.in_complex = true;
             node.visit_children_with(self);
@@ -76,7 +76,7 @@ impl Visit for SuperCallFinder {
     mark_as_complex!(visit_if_stmt, IfStmt);
     mark_as_complex!(visit_prop_name, PropName);
 
-    fn visit_assign_expr(&mut self, node: &AssignExpr, _: &dyn Node) {
+    fn visit_assign_expr(&mut self, node: &AssignExpr) {
         node.left.visit_with(node as _, self);
 
         let old = self.in_complex;
@@ -85,7 +85,7 @@ impl Visit for SuperCallFinder {
         self.in_complex = old;
     }
 
-    fn visit_call_expr(&mut self, e: &CallExpr, _: &dyn Node) {
+    fn visit_call_expr(&mut self, e: &CallExpr) {
         match e.callee {
             ExprOrSuper::Super(..) => match self.mode {
                 None if !self.in_complex => self.mode = Some(SuperFoldingMode::Var),
@@ -103,12 +103,12 @@ impl Visit for SuperCallFinder {
     }
 
     /// Don't recurse into class declaration.
-    fn visit_class(&mut self, _: &Class, _: &dyn Node) {}
+    fn visit_class(&mut self, _: &Class) {}
 
     /// Don't recurse into function.
-    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
+    fn visit_function(&mut self, _: &Function) {}
 
-    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
+    fn visit_member_expr(&mut self, e: &MemberExpr) {
         e.visit_children_with(self);
 
         match e.obj {

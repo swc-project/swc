@@ -222,12 +222,12 @@ pub(crate) struct LeapFinder {
 impl Visit for LeapFinder {
     noop_visit_type!();
 
-    fn visit_yield_expr(&mut self, _: &YieldExpr, _: &dyn Node) {
+    fn visit_yield_expr(&mut self, _: &YieldExpr) {
         self.found_yield = true;
     }
 
-    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
-    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {}
+    fn visit_function(&mut self, _: &Function) {}
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 }
 
 /// This method returns true only if `T` is `var`. (Not `const` or `let`)
@@ -336,7 +336,7 @@ pub struct DeepThisExprVisitor {
 impl Visit for DeepThisExprVisitor {
     noop_visit_type!();
 
-    fn visit_this_expr(&mut self, _: &ThisExpr, _: &dyn Node) {
+    fn visit_this_expr(&mut self, _: &ThisExpr) {
         self.found = true;
     }
 }
@@ -359,7 +359,7 @@ pub(crate) struct IdentUsageCollector {
 impl Visit for IdentUsageCollector {
     noop_visit_type!();
 
-    fn visit_block_stmt_or_expr(&mut self, n: &BlockStmtOrExpr, _: &dyn Node) {
+    fn visit_block_stmt_or_expr(&mut self, n: &BlockStmtOrExpr) {
         if self.ignore_nested {
             return;
         }
@@ -367,7 +367,7 @@ impl Visit for IdentUsageCollector {
         n.visit_children_with(self);
     }
 
-    fn visit_constructor(&mut self, n: &Constructor, _: &dyn Node) {
+    fn visit_constructor(&mut self, n: &Constructor) {
         if self.ignore_nested {
             return;
         }
@@ -375,7 +375,7 @@ impl Visit for IdentUsageCollector {
         n.visit_children_with(self);
     }
 
-    fn visit_function(&mut self, n: &Function, _: &dyn Node) {
+    fn visit_function(&mut self, n: &Function) {
         if self.ignore_nested {
             return;
         }
@@ -383,11 +383,11 @@ impl Visit for IdentUsageCollector {
         n.visit_children_with(self);
     }
 
-    fn visit_ident(&mut self, n: &Ident, _: &dyn Node) {
+    fn visit_ident(&mut self, n: &Ident) {
         self.ids.insert(n.to_id());
     }
 
-    fn visit_member_expr(&mut self, n: &MemberExpr, _: &dyn Node) {
+    fn visit_member_expr(&mut self, n: &MemberExpr) {
         n.obj.visit_with(n, self);
 
         if n.computed {
@@ -395,7 +395,7 @@ impl Visit for IdentUsageCollector {
         }
     }
 
-    fn visit_prop_name(&mut self, n: &PropName, _: &dyn Node) {
+    fn visit_prop_name(&mut self, n: &PropName) {
         match n {
             PropName::Computed(..) => {
                 n.visit_children_with(self);

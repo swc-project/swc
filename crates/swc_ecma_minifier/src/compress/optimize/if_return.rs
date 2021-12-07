@@ -577,13 +577,13 @@ pub(super) struct ReturnFinder {
 impl Visit for ReturnFinder {
     noop_visit_type!();
 
-    fn visit_return_stmt(&mut self, n: &ReturnStmt, _: &dyn Node) {
+    fn visit_return_stmt(&mut self, n: &ReturnStmt) {
         n.visit_children_with(self);
         self.count += 1;
     }
 
-    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
-    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {}
+    fn visit_function(&mut self, _: &Function) {}
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 }
 
 fn always_terminates_with_return_arg(s: &Stmt) -> bool {

@@ -236,7 +236,7 @@ where
 {
     noop_visit_type!();
 
-    fn visit_arrow_expr(&mut self, n: &ArrowExpr, _: &dyn Node) {
+    fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
         self.with_child(n.span.ctxt, ScopeKind::Fn, |child| {
             {
                 let ctx = Ctx {
@@ -259,7 +259,7 @@ where
         })
     }
 
-    fn visit_assign_expr(&mut self, n: &AssignExpr, _: &dyn Node) {
+    fn visit_assign_expr(&mut self, n: &AssignExpr) {
         let ctx = Ctx {
             in_assign_lhs: true,
             is_exact_reassignment: true,
@@ -276,7 +276,7 @@ where
         n.right.visit_with(n, &mut *self.with_ctx(ctx));
     }
 
-    fn visit_await_expr(&mut self, n: &AwaitExpr, _: &dyn Node) {
+    fn visit_await_expr(&mut self, n: &AwaitExpr) {
         let ctx = Ctx {
             in_await_arg: true,
             ..self.ctx
@@ -284,13 +284,13 @@ where
         n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
-    fn visit_block_stmt(&mut self, n: &BlockStmt, _: &dyn Node) {
+    fn visit_block_stmt(&mut self, n: &BlockStmt) {
         self.with_child(n.span.ctxt, ScopeKind::Block, |child| {
             n.visit_children_with(child);
         })
     }
 
-    fn visit_call_expr(&mut self, n: &CallExpr, _: &dyn Node) {
+    fn visit_call_expr(&mut self, n: &CallExpr) {
         let inline_prevented = self.ctx.inline_prevented
             || self
                 .marks
@@ -340,7 +340,7 @@ where
         }
     }
 
-    fn visit_catch_clause(&mut self, n: &CatchClause, _: &dyn Node) {
+    fn visit_catch_clause(&mut self, n: &CatchClause) {
         {
             let ctx = Ctx {
                 in_cond: true,
@@ -359,7 +359,7 @@ where
         }
     }
 
-    fn visit_class(&mut self, n: &Class, _: &dyn Node) {
+    fn visit_class(&mut self, n: &Class) {
         n.decorators.visit_with(n, self);
 
         {
@@ -373,13 +373,13 @@ where
         n.body.visit_with(n, self);
     }
 
-    fn visit_class_decl(&mut self, n: &ClassDecl, _: &dyn Node) {
+    fn visit_class_decl(&mut self, n: &ClassDecl) {
         self.declare_decl(&n.ident, true, None, false);
 
         n.visit_children_with(self);
     }
 
-    fn visit_cond_expr(&mut self, n: &CondExpr, _: &dyn Node) {
+    fn visit_cond_expr(&mut self, n: &CondExpr) {
         n.test.visit_with(n, self);
 
         {
@@ -392,7 +392,7 @@ where
         }
     }
 
-    fn visit_do_while_stmt(&mut self, n: &DoWhileStmt, _: &dyn Node) {
+    fn visit_do_while_stmt(&mut self, n: &DoWhileStmt) {
         let ctx = Ctx {
             in_loop: true,
             in_cond: true,
@@ -401,11 +401,11 @@ where
         n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
-    fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier, _: &dyn Node) {
+    fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {
         self.report_usage(&n.orig, false)
     }
 
-    fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
+    fn visit_expr(&mut self, e: &Expr) {
         e.visit_children_with(self);
 
         match e {
@@ -416,13 +416,13 @@ where
         }
     }
 
-    fn visit_fn_decl(&mut self, n: &FnDecl, _: &dyn Node) {
+    fn visit_fn_decl(&mut self, n: &FnDecl) {
         self.declare_decl(&n.ident, true, None, true);
 
         n.visit_children_with(self);
     }
 
-    fn visit_fn_expr(&mut self, n: &FnExpr, _: &dyn Node) {
+    fn visit_fn_expr(&mut self, n: &FnExpr) {
         n.visit_children_with(self);
 
         if let Some(id) = &n.ident {
@@ -432,7 +432,7 @@ where
         }
     }
 
-    fn visit_for_in_stmt(&mut self, n: &ForInStmt, _: &dyn Node) {
+    fn visit_for_in_stmt(&mut self, n: &ForInStmt) {
         n.right.visit_with(n, self);
 
         self.with_child(n.span.ctxt, ScopeKind::Block, |child| {
@@ -454,7 +454,7 @@ where
         });
     }
 
-    fn visit_for_of_stmt(&mut self, n: &ForOfStmt, _: &dyn Node) {
+    fn visit_for_of_stmt(&mut self, n: &ForOfStmt) {
         n.right.visit_with(n, self);
 
         self.with_child(n.span.ctxt, ScopeKind::Block, |child| {
@@ -474,7 +474,7 @@ where
         });
     }
 
-    fn visit_for_stmt(&mut self, n: &ForStmt, _: &dyn Node) {
+    fn visit_for_stmt(&mut self, n: &ForStmt) {
         n.init.visit_with(n, self);
 
         let ctx = Ctx {
@@ -489,7 +489,7 @@ where
         n.body.visit_with(n, &mut *self.with_ctx(ctx));
     }
 
-    fn visit_function(&mut self, n: &Function, _: &dyn Node) {
+    fn visit_function(&mut self, n: &Function) {
         n.decorators.visit_with(n, self);
 
         let is_standalone = self
@@ -523,7 +523,7 @@ where
             })
     }
 
-    fn visit_if_stmt(&mut self, n: &IfStmt, _: &dyn Node) {
+    fn visit_if_stmt(&mut self, n: &IfStmt) {
         let ctx = Ctx {
             in_cond: true,
             ..self.ctx
@@ -533,19 +533,19 @@ where
         n.alt.visit_with(n, &mut *self.with_ctx(ctx));
     }
 
-    fn visit_import_default_specifier(&mut self, n: &ImportDefaultSpecifier, _: &dyn Node) {
+    fn visit_import_default_specifier(&mut self, n: &ImportDefaultSpecifier) {
         self.declare_decl(&n.local, true, None, false);
     }
 
-    fn visit_import_named_specifier(&mut self, n: &ImportNamedSpecifier, _: &dyn Node) {
+    fn visit_import_named_specifier(&mut self, n: &ImportNamedSpecifier) {
         self.declare_decl(&n.local, true, None, false);
     }
 
-    fn visit_import_star_as_specifier(&mut self, n: &ImportStarAsSpecifier, _: &dyn Node) {
+    fn visit_import_star_as_specifier(&mut self, n: &ImportStarAsSpecifier) {
         self.declare_decl(&n.local, true, None, false);
     }
 
-    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
+    fn visit_member_expr(&mut self, e: &MemberExpr) {
         {
             let ctx = Ctx {
                 is_exact_arg: false,
@@ -591,7 +591,7 @@ where
         }
     }
 
-    fn visit_module(&mut self, n: &Module, _: &dyn Node) {
+    fn visit_module(&mut self, n: &Module) {
         let ctx = Ctx {
             skip_standalone: true,
             ..self.ctx
@@ -599,14 +599,14 @@ where
         n.visit_children_with(&mut *self.with_ctx(ctx))
     }
 
-    fn visit_named_export(&mut self, n: &NamedExport, _: &dyn Node) {
+    fn visit_named_export(&mut self, n: &NamedExport) {
         if n.src.is_some() {
             return;
         }
         n.visit_children_with(self);
     }
 
-    fn visit_new_expr(&mut self, n: &NewExpr, _: &dyn Node) {
+    fn visit_new_expr(&mut self, n: &NewExpr) {
         {
             n.callee.visit_with(n, self);
             let ctx = Ctx {
@@ -618,7 +618,7 @@ where
         }
     }
 
-    fn visit_object_pat_prop(&mut self, n: &ObjectPatProp, _: &dyn Node) {
+    fn visit_object_pat_prop(&mut self, n: &ObjectPatProp) {
         n.visit_children_with(self);
 
         match n {
@@ -629,7 +629,7 @@ where
         }
     }
 
-    fn visit_param(&mut self, n: &Param, _: &dyn Node) {
+    fn visit_param(&mut self, n: &Param) {
         let ctx = Ctx {
             in_pat_of_param: false,
             ..self.ctx
@@ -644,7 +644,7 @@ where
         n.pat.visit_with(n, &mut *self.with_ctx(ctx));
     }
 
-    fn visit_pat(&mut self, n: &Pat, _: &dyn Node) {
+    fn visit_pat(&mut self, n: &Pat) {
         n.visit_children_with(self);
 
         match n {
@@ -653,7 +653,7 @@ where
         }
     }
 
-    fn visit_prop(&mut self, n: &Prop, _: &dyn Node) {
+    fn visit_prop(&mut self, n: &Prop) {
         let ctx = Ctx {
             in_update_arg: false,
             ..self.ctx
@@ -668,7 +668,7 @@ where
         }
     }
 
-    fn visit_setter_prop(&mut self, n: &SetterProp, _: &dyn Node) {
+    fn visit_setter_prop(&mut self, n: &SetterProp) {
         self.with_child(n.span.ctxt, ScopeKind::Fn, |a| {
             n.key.visit_with(n, a);
             {
@@ -683,7 +683,7 @@ where
         });
     }
 
-    fn visit_stmt(&mut self, n: &Stmt, _: &dyn Node) {
+    fn visit_stmt(&mut self, n: &Stmt) {
         let ctx = Ctx {
             in_update_arg: false,
             ..self.ctx
@@ -691,7 +691,7 @@ where
         n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
-    fn visit_stmts(&mut self, stmts: &[Stmt], _: &dyn Node) {
+    fn visit_stmts(&mut self, stmts: &[Stmt]) {
         let mut had_cond = false;
 
         for stmt in stmts {
@@ -706,7 +706,7 @@ where
         }
     }
 
-    fn visit_switch_case(&mut self, n: &SwitchCase, _: &dyn Node) {
+    fn visit_switch_case(&mut self, n: &SwitchCase) {
         n.test.visit_with(n, self);
 
         {
@@ -718,7 +718,7 @@ where
         }
     }
 
-    fn visit_try_stmt(&mut self, n: &TryStmt, _: &dyn Node) {
+    fn visit_try_stmt(&mut self, n: &TryStmt) {
         let ctx = Ctx {
             in_cond: true,
             ..self.ctx
@@ -727,7 +727,7 @@ where
         n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
-    fn visit_update_expr(&mut self, n: &UpdateExpr, _: &dyn Node) {
+    fn visit_update_expr(&mut self, n: &UpdateExpr) {
         let ctx = Ctx {
             in_update_arg: true,
             is_exact_reassignment: true,
@@ -736,7 +736,7 @@ where
         n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
-    fn visit_var_decl(&mut self, n: &VarDecl, _: &dyn Node) {
+    fn visit_var_decl(&mut self, n: &VarDecl) {
         let ctx = Ctx {
             var_decl_kind_of_pat: Some(n.kind),
             ..self.ctx
@@ -761,7 +761,7 @@ where
         }
     }
 
-    fn visit_var_declarator(&mut self, e: &VarDeclarator, _: &dyn Node) {
+    fn visit_var_declarator(&mut self, e: &VarDeclarator) {
         let prevent_inline = match &e.name {
             Pat::Ident(BindingIdent {
                 id:
@@ -798,7 +798,7 @@ where
         }
     }
 
-    fn visit_while_stmt(&mut self, n: &WhileStmt, _: &dyn Node) {
+    fn visit_while_stmt(&mut self, n: &WhileStmt) {
         let ctx = Ctx {
             in_loop: true,
             in_cond: true,
@@ -807,7 +807,7 @@ where
         n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
-    fn visit_with_stmt(&mut self, n: &WithStmt, _: &dyn Node) {
+    fn visit_with_stmt(&mut self, n: &WithStmt) {
         self.scope.mark_with_stmt();
         n.visit_children_with(self);
     }

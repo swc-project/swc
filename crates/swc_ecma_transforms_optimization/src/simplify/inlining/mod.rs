@@ -786,11 +786,11 @@ struct IdentListVisitor<'a, 'b> {
 impl Visit for IdentListVisitor<'_, '_> {
     noop_visit_type!();
 
-    fn visit_ident(&mut self, node: &Ident, _: &dyn Node) {
+    fn visit_ident(&mut self, node: &Ident) {
         self.scope.add_write(&node.to_id(), true);
     }
 
-    fn visit_member_expr(&mut self, node: &MemberExpr, _: &dyn Node) {
+    fn visit_member_expr(&mut self, node: &MemberExpr) {
         node.obj.visit_with(node as _, self);
 
         if node.computed {
@@ -807,11 +807,11 @@ struct WriteVisitor<'a, 'b> {
 impl Visit for WriteVisitor<'_, '_> {
     noop_visit_type!();
 
-    fn visit_ident(&mut self, node: &Ident, _: &dyn Node) {
+    fn visit_ident(&mut self, node: &Ident) {
         self.scope.add_write(&node.to_id(), false);
     }
 
-    fn visit_member_expr(&mut self, node: &MemberExpr, _: &dyn Node) {
+    fn visit_member_expr(&mut self, node: &MemberExpr) {
         node.obj.visit_with(node as _, self);
 
         if node.computed {

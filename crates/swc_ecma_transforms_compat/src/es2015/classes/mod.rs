@@ -915,7 +915,7 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
     impl Visit for SuperFinder {
         noop_visit_type!();
 
-        fn visit_expr_or_super(&mut self, node: &ExprOrSuper, _: &dyn Node) {
+        fn visit_expr_or_super(&mut self, node: &ExprOrSuper) {
             match *node {
                 ExprOrSuper::Super(..) => self.found = true,
                 _ => node.visit_children_with(self),
@@ -976,7 +976,7 @@ struct ClassFinder {
 impl Visit for ClassFinder {
     noop_visit_type!();
 
-    fn visit_class(&mut self, _: &Class, _: &dyn Node) {
+    fn visit_class(&mut self, _: &Class) {
         self.found = true
     }
 }

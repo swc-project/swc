@@ -409,7 +409,7 @@ impl UsageAnalyzer<'_> {
 impl Visit for UsageAnalyzer<'_> {
     noop_visit_type!();
 
-    fn visit_arrow_expr(&mut self, f: &ArrowExpr, _: &dyn Node) {
+    fn visit_arrow_expr(&mut self, f: &ArrowExpr) {
         self.visit_with_scope(f.span.ctxt, ScopeKind::Fn, |v| {
             let old = v.is_pat_decl;
             v.is_pat_decl = true;
@@ -428,7 +428,7 @@ impl Visit for UsageAnalyzer<'_> {
         })
     }
 
-    fn visit_assign_pat_prop(&mut self, node: &AssignPatProp, _: &dyn Node) {
+    fn visit_assign_pat_prop(&mut self, node: &AssignPatProp) {
         node.visit_children_with(self);
 
         {
@@ -440,11 +440,11 @@ impl Visit for UsageAnalyzer<'_> {
         }
     }
 
-    fn visit_block_stmt(&mut self, f: &BlockStmt, _: &dyn Node) {
+    fn visit_block_stmt(&mut self, f: &BlockStmt) {
         self.visit_with_scope(f.span.ctxt, ScopeKind::Block, |v| f.visit_children_with(v))
     }
 
-    fn visit_catch_clause(&mut self, c: &CatchClause, _: &dyn Node) {
+    fn visit_catch_clause(&mut self, c: &CatchClause) {
         let old = self.is_pat_decl;
 
         self.is_pat_decl = true;
@@ -456,12 +456,12 @@ impl Visit for UsageAnalyzer<'_> {
         self.is_pat_decl = old;
     }
 
-    fn visit_class_decl(&mut self, c: &ClassDecl, _: &dyn Node) {
+    fn visit_class_decl(&mut self, c: &ClassDecl) {
         self.add_decl(c.ident.to_id());
         c.visit_children_with(self);
     }
 
-    fn visit_class_expr(&mut self, c: &ClassExpr, _: &dyn Node) {
+    fn visit_class_expr(&mut self, c: &ClassExpr) {
         self.visit_with_scope(c.class.span.ctxt, ScopeKind::Fn, |v| {
             if let Some(i) = &c.ident {
                 v.add_decl(i.to_id());
@@ -471,7 +471,7 @@ impl Visit for UsageAnalyzer<'_> {
         })
     }
 
-    fn visit_constructor(&mut self, c: &Constructor, _: &dyn Node) {
+    fn visit_constructor(&mut self, c: &Constructor) {
         self.visit_with_scope(c.span.ctxt, ScopeKind::Fn, |v| {
             v.is_pat_decl = true;
             c.params.visit_with(c, v);
@@ -486,7 +486,7 @@ impl Visit for UsageAnalyzer<'_> {
         })
     }
 
-    fn visit_class_method(&mut self, m: &ClassMethod, _: &dyn Node) {
+    fn visit_class_method(&mut self, m: &ClassMethod) {
         m.function.decorators.visit_with(m, self);
 
         self.visit_with_scope(m.function.span.ctxt, ScopeKind::Fn, |v| {
@@ -503,15 +503,15 @@ impl Visit for UsageAnalyzer<'_> {
         })
     }
 
-    fn visit_export_default_specifier(&mut self, n: &ExportDefaultSpecifier, _: &dyn Node) {
+    fn visit_export_default_specifier(&mut self, n: &ExportDefaultSpecifier) {
         self.add_usage(n.exported.to_id());
     }
 
-    fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier, _: &dyn Node) {
+    fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {
         self.add_usage(n.orig.to_id());
     }
 
-    fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
+    fn visit_expr(&mut self, e: &Expr) {
         e.visit_children_with(self);
 
         match e {
@@ -522,7 +522,7 @@ impl Visit for UsageAnalyzer<'_> {
         }
     }
 
-    fn visit_fn_decl(&mut self, f: &FnDecl, _: &dyn Node) {
+    fn visit_fn_decl(&mut self, f: &FnDecl) {
         f.function.decorators.visit_with(f, self);
 
         self.add_decl(f.ident.to_id());
@@ -541,7 +541,7 @@ impl Visit for UsageAnalyzer<'_> {
         })
     }
 
-    fn visit_fn_expr(&mut self, f: &FnExpr, _: &dyn Node) {
+    fn visit_fn_expr(&mut self, f: &FnExpr) {
         f.function.decorators.visit_with(f, self);
 
         self.visit_with_scope(f.function.span.ctxt, ScopeKind::Fn, |v| {
@@ -562,19 +562,19 @@ impl Visit for UsageAnalyzer<'_> {
         })
     }
 
-    fn visit_import_default_specifier(&mut self, s: &ImportDefaultSpecifier, _: &dyn Node) {
+    fn visit_import_default_specifier(&mut self, s: &ImportDefaultSpecifier) {
         self.add_decl(s.local.to_id());
     }
 
-    fn visit_import_named_specifier(&mut self, s: &ImportNamedSpecifier, _: &dyn Node) {
+    fn visit_import_named_specifier(&mut self, s: &ImportNamedSpecifier) {
         self.add_decl(s.local.to_id());
     }
 
-    fn visit_import_star_as_specifier(&mut self, s: &ImportStarAsSpecifier, _: &dyn Node) {
+    fn visit_import_star_as_specifier(&mut self, s: &ImportStarAsSpecifier) {
         self.add_decl(s.local.to_id());
     }
 
-    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
+    fn visit_member_expr(&mut self, e: &MemberExpr) {
         e.obj.visit_with(e, self);
 
         if e.computed {
@@ -582,7 +582,7 @@ impl Visit for UsageAnalyzer<'_> {
         }
     }
 
-    fn visit_method_prop(&mut self, f: &MethodProp, _: &dyn Node) {
+    fn visit_method_prop(&mut self, f: &MethodProp) {
         f.key.visit_with(f, self);
 
         f.function.decorators.visit_with(f, self);
@@ -601,15 +601,15 @@ impl Visit for UsageAnalyzer<'_> {
         })
     }
 
-    fn visit_module(&mut self, m: &Module, _: &dyn Node) {
+    fn visit_module(&mut self, m: &Module) {
         self.visit_with_scope(m.span.ctxt, ScopeKind::Fn, |v| m.visit_children_with(v))
     }
 
-    fn visit_module_items(&mut self, stmts: &[ModuleItem], _: &dyn Node) {
+    fn visit_module_items(&mut self, stmts: &[ModuleItem]) {
         self.visit_stmt_likes(stmts);
     }
 
-    fn visit_param(&mut self, p: &Param, _: &dyn Node) {
+    fn visit_param(&mut self, p: &Param) {
         p.decorators.visit_with(p, self);
 
         let old = self.is_pat_decl;
@@ -618,7 +618,7 @@ impl Visit for UsageAnalyzer<'_> {
         self.is_pat_decl = old;
     }
 
-    fn visit_pat(&mut self, p: &Pat, _: &dyn Node) {
+    fn visit_pat(&mut self, p: &Pat) {
         p.visit_children_with(self);
 
         match p {
@@ -633,7 +633,7 @@ impl Visit for UsageAnalyzer<'_> {
         }
     }
 
-    fn visit_prop(&mut self, p: &Prop, _: &dyn Node) {
+    fn visit_prop(&mut self, p: &Prop) {
         p.visit_children_with(self);
 
         match p {
@@ -644,15 +644,15 @@ impl Visit for UsageAnalyzer<'_> {
         }
     }
 
-    fn visit_script(&mut self, s: &Script, _: &dyn Node) {
+    fn visit_script(&mut self, s: &Script) {
         self.visit_with_scope(s.span.ctxt, ScopeKind::Fn, |v| s.visit_children_with(v))
     }
 
-    fn visit_stmts(&mut self, stmts: &[Stmt], _: &dyn Node) {
+    fn visit_stmts(&mut self, stmts: &[Stmt]) {
         self.visit_stmt_likes(stmts);
     }
 
-    fn visit_var_declarator(&mut self, v: &VarDeclarator, _: &dyn Node) {
+    fn visit_var_declarator(&mut self, v: &VarDeclarator) {
         let old = self.is_pat_decl;
 
         self.is_pat_decl = true;
@@ -679,9 +679,9 @@ struct Hoister<'a, 'b> {
 impl Visit for Hoister<'_, '_> {
     noop_visit_type!();
 
-    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {}
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 
-    fn visit_assign_pat_prop(&mut self, node: &AssignPatProp, _: &dyn Node) {
+    fn visit_assign_pat_prop(&mut self, node: &AssignPatProp) {
         node.visit_children_with(self);
 
         {
@@ -700,16 +700,16 @@ impl Visit for Hoister<'_, '_> {
         }
     }
 
-    fn visit_block_stmt(&mut self, b: &BlockStmt, _: &dyn Node) {
+    fn visit_block_stmt(&mut self, b: &BlockStmt) {
         let old = self.in_block_stmt;
         self.in_block_stmt = true;
         b.visit_children_with(self);
         self.in_block_stmt = old;
     }
 
-    fn visit_block_stmt_or_expr(&mut self, _: &BlockStmtOrExpr, _: &dyn Node) {}
+    fn visit_block_stmt_or_expr(&mut self, _: &BlockStmtOrExpr) {}
 
-    fn visit_class_decl(&mut self, c: &ClassDecl, _: &dyn Node) {
+    fn visit_class_decl(&mut self, c: &ClassDecl) {
         c.visit_children_with(self);
 
         if self.in_block_stmt {
@@ -719,11 +719,11 @@ impl Visit for Hoister<'_, '_> {
         self.inner.add_decl(c.ident.to_id());
     }
 
-    fn visit_constructor(&mut self, c: &Constructor, _: &dyn Node) {
+    fn visit_constructor(&mut self, c: &Constructor) {
         c.params.visit_with(c, self);
     }
 
-    fn visit_fn_decl(&mut self, f: &FnDecl, _: &dyn Node) {
+    fn visit_fn_decl(&mut self, f: &FnDecl) {
         if LOG {
             trace!("hoister: Fn decl: `{}`", f.ident);
         }
@@ -731,11 +731,11 @@ impl Visit for Hoister<'_, '_> {
         self.inner.add_decl(f.ident.to_id());
     }
 
-    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
+    fn visit_function(&mut self, _: &Function) {}
 
-    fn visit_param(&mut self, _: &Param, _: &dyn Node) {}
+    fn visit_param(&mut self, _: &Param) {}
 
-    fn visit_pat(&mut self, p: &Pat, _: &dyn Node) {
+    fn visit_pat(&mut self, p: &Pat) {
         p.visit_children_with(self);
 
         match p {
@@ -757,7 +757,7 @@ impl Visit for Hoister<'_, '_> {
         }
     }
 
-    fn visit_var_decl(&mut self, v: &VarDecl, _: &dyn Node) {
+    fn visit_var_decl(&mut self, v: &VarDecl) {
         let old = self.var_decl_kind;
 
         self.var_decl_kind = Some(v.kind);
@@ -766,7 +766,7 @@ impl Visit for Hoister<'_, '_> {
         self.var_decl_kind = old;
     }
 
-    fn visit_var_declarator(&mut self, v: &VarDeclarator, _: &dyn Node) {
+    fn visit_var_declarator(&mut self, v: &VarDeclarator) {
         let old = self.is_pat_decl;
 
         self.is_pat_decl = true;

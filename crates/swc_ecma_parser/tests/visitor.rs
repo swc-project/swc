@@ -6,7 +6,7 @@ use swc_ecma_visit::{All, Node, VisitAll, VisitWith};
 struct Issue1967;
 
 impl VisitAll for Issue1967 {
-    fn visit_expr(&mut self, _: &Expr, _: &dyn Node) {
+    fn visit_expr(&mut self, _: &Expr) {
         panic!("intended")
     }
 }

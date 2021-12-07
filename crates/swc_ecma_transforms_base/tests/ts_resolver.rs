@@ -45,7 +45,7 @@ fn no_empty(input: PathBuf) {
 struct AssertNoEmptyCtxt;
 
 impl Visit for AssertNoEmptyCtxt {
-    fn visit_class_prop(&mut self, n: &ClassProp, _: &dyn Node) {
+    fn visit_class_prop(&mut self, n: &ClassProp) {
         if n.computed {
             n.key.visit_with(n, self);
         }
@@ -55,7 +55,7 @@ impl Visit for AssertNoEmptyCtxt {
         n.decorators.visit_with(n, self);
     }
 
-    fn visit_expr(&mut self, n: &Expr, _: &dyn Node) {
+    fn visit_expr(&mut self, n: &Expr) {
         n.visit_children_with(self);
 
         match n {
@@ -68,14 +68,14 @@ impl Visit for AssertNoEmptyCtxt {
         }
     }
 
-    fn visit_member_expr(&mut self, n: &MemberExpr, _: &dyn Node) {
+    fn visit_member_expr(&mut self, n: &MemberExpr) {
         n.obj.visit_with(n, self);
         if n.computed {
             n.prop.visit_with(n, self);
         }
     }
 
-    fn visit_pat(&mut self, n: &Pat, _: &dyn Node) {
+    fn visit_pat(&mut self, n: &Pat) {
         n.visit_children_with(self);
 
         match n {
@@ -88,7 +88,7 @@ impl Visit for AssertNoEmptyCtxt {
         }
     }
 
-    fn visit_ts_getter_signature(&mut self, n: &TsGetterSignature, _: &dyn Node) {
+    fn visit_ts_getter_signature(&mut self, n: &TsGetterSignature) {
         if n.computed {
             n.key.visit_with(n, self);
         }
@@ -96,7 +96,7 @@ impl Visit for AssertNoEmptyCtxt {
         n.type_ann.visit_with(n, self);
     }
 
-    fn visit_ts_method_signature(&mut self, n: &TsMethodSignature, _: &dyn Node) {
+    fn visit_ts_method_signature(&mut self, n: &TsMethodSignature) {
         if n.computed {
             n.key.visit_with(n, self);
         }
@@ -106,7 +106,7 @@ impl Visit for AssertNoEmptyCtxt {
         n.type_params.visit_with(n, self);
     }
 
-    fn visit_ts_property_signature(&mut self, n: &TsPropertySignature, _: &dyn Node) {
+    fn visit_ts_property_signature(&mut self, n: &TsPropertySignature) {
         if n.computed {
             n.key.visit_with(n, self);
         }
@@ -117,7 +117,7 @@ impl Visit for AssertNoEmptyCtxt {
         n.type_params.visit_with(n, self);
     }
 
-    fn visit_ts_setter_signature(&mut self, n: &TsSetterSignature, _: &dyn Node) {
+    fn visit_ts_setter_signature(&mut self, n: &TsSetterSignature) {
         if n.computed {
             n.key.visit_with(n, self);
         }
@@ -125,7 +125,7 @@ impl Visit for AssertNoEmptyCtxt {
         n.param.visit_with(n, self);
     }
 
-    fn visit_ts_tuple_element(&mut self, n: &TsTupleElement, _: &dyn Node) {
+    fn visit_ts_tuple_element(&mut self, n: &TsTupleElement) {
         n.ty.visit_with(n, self);
     }
 }

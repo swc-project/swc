@@ -352,9 +352,9 @@ struct TopLevelAwaitFinder {
 impl Visit for TopLevelAwaitFinder {
     noop_visit_type!();
 
-    fn visit_stmts(&mut self, _: &[Stmt], _: &dyn Node) {}
+    fn visit_stmts(&mut self, _: &[Stmt]) {}
 
-    fn visit_await_expr(&mut self, _: &AwaitExpr, _: &dyn Node) {
+    fn visit_await_expr(&mut self, _: &AwaitExpr) {
         self.found = true;
     }
 }

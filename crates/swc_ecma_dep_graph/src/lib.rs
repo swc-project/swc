@@ -2,10 +2,10 @@ use std::collections::HashMap;
 use swc_atoms::JsWord;
 use swc_common::{
     comments::{Comment, Comments},
-    Span, DUMMY_SP,
+    Span,
 };
 use swc_ecma_ast as ast;
-use swc_ecma_visit::{self, Node, Visit, VisitWith};
+use swc_ecma_visit::{self, Visit, VisitWith};
 
 pub fn analyze_dependencies(
     module: &ast::Module,

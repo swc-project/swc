@@ -375,7 +375,7 @@ impl FieldInitFinter {
 impl Visit for FieldInitFinter {
     noop_visit_type!();
 
-    fn visit_assign_expr(&mut self, e: &AssignExpr, _: &dyn Node) {
+    fn visit_assign_expr(&mut self, e: &AssignExpr) {
         let old = self.in_rhs;
         e.left.visit_with(e, self);
         self.check_lhs_of_assign(&e.left);
@@ -385,14 +385,14 @@ impl Visit for FieldInitFinter {
         self.in_rhs = old;
     }
 
-    fn visit_pat(&mut self, e: &Pat, _: &dyn Node) {
+    fn visit_pat(&mut self, e: &Pat) {
         let old = self.in_rhs;
         self.in_rhs = false;
         e.visit_children_with(self);
         self.in_rhs = old;
     }
 
-    fn visit_call_expr(&mut self, e: &CallExpr, _: &dyn Node) {
+    fn visit_call_expr(&mut self, e: &CallExpr) {
         match &e.callee {
             ExprOrSuper::Super(_) => {}
             ExprOrSuper::Expr(callee) => match &**callee {
@@ -427,7 +427,7 @@ impl Visit for FieldInitFinter {
         e.visit_children_with(self);
     }
 
-    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
+    fn visit_member_expr(&mut self, e: &MemberExpr) {
         e.obj.visit_with(e, self);
 
         if e.computed {
@@ -464,7 +464,7 @@ struct InitializerFinder {
 impl Visit for InitializerFinder {
     noop_visit_type!();
 
-    fn visit_pat(&mut self, pat: &Pat, _: &dyn Node) {
+    fn visit_pat(&mut self, pat: &Pat) {
         match pat {
             Pat::Ident(i) if self.ident == i.id => {
                 self.found = true;
@@ -476,20 +476,20 @@ impl Visit for InitializerFinder {
         }
     }
 
-    fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
+    fn visit_ident(&mut self, i: &Ident) {
         if self.in_complex && self.ident == *i {
             self.found = true;
         }
     }
 
-    fn visit_expr_or_spread(&mut self, node: &ExprOrSpread, _: &dyn Node) {
+    fn visit_expr_or_spread(&mut self, node: &ExprOrSpread) {
         let in_complex = self.in_complex;
         self.in_complex = true;
         node.visit_children_with(self);
         self.in_complex = in_complex;
     }
 
-    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
+    fn visit_member_expr(&mut self, e: &MemberExpr) {
         {
             let in_complex = self.in_complex;
             self.in_complex = true;
@@ -520,7 +520,7 @@ struct RequirementCalculator {
 
 macro_rules! weak {
     ($name:ident, $T:ty) => {
-        fn $name(&mut self, f: &$T, _: &dyn Node) {
+        fn $name(&mut self, f: &$T) {
             let in_weak = self.in_weak;
             self.in_weak = true;
 
@@ -553,11 +553,11 @@ impl Visit for RequirementCalculator {
     weak!(visit_private_method, PrivateMethod);
     weak!(visit_method_prop, MethodProp);
 
-    fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier, _: &dyn Node) {
+    fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {
         self.insert(n.orig.clone().into());
     }
 
-    fn visit_assign_expr(&mut self, e: &AssignExpr, _: &dyn Node) {
+    fn visit_assign_expr(&mut self, e: &AssignExpr) {
         let old = self.in_assign_lhs;
 
         self.in_assign_lhs = true;
@@ -569,7 +569,7 @@ impl Visit for RequirementCalculator {
         self.in_assign_lhs = old;
     }
 
-    fn visit_pat(&mut self, pat: &Pat, _: &dyn Node) {
+    fn visit_pat(&mut self, pat: &Pat) {
         match pat {
             Pat::Ident(i) => {
                 // We do not care about variables created by current statement.
@@ -584,7 +584,7 @@ impl Visit for RequirementCalculator {
         }
     }
 
-    fn visit_var_declarator(&mut self, var: &VarDeclarator, _: &dyn Node) {
+    fn visit_var_declarator(&mut self, var: &VarDeclarator) {
         let in_var_decl = self.in_var_decl;
         self.in_var_decl = true;
 
@@ -598,7 +598,7 @@ impl Visit for RequirementCalculator {
         self.in_var_decl = in_var_decl;
     }
 
-    fn visit_expr(&mut self, expr: &Expr, _: &dyn Node) {
+    fn visit_expr(&mut self, expr: &Expr) {
         match expr {
             Expr::Ident(i) => {
                 if self.in_var_decl && self.in_assign_lhs {
@@ -612,7 +612,7 @@ impl Visit for RequirementCalculator {
         }
     }
 
-    fn visit_prop(&mut self, prop: &Prop, _: &dyn Node) {
+    fn visit_prop(&mut self, prop: &Prop) {
         match prop {
             Prop::Shorthand(i) => {
                 self.insert(i.into());
@@ -621,7 +621,7 @@ impl Visit for RequirementCalculator {
         }
     }
 
-    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
+    fn visit_member_expr(&mut self, e: &MemberExpr) {
         e.obj.visit_with(e as _, self);
 
         if e.computed {

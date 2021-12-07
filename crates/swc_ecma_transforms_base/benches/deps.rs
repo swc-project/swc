@@ -214,12 +214,12 @@ fn visit_contains_this(b: &mut Bencher) {
 
         impl Visit for Visitor {
             /// Don't recurse into fn
-            fn visit_fn_expr(&mut self, _: &FnExpr, _: &dyn Node) {}
+            fn visit_fn_expr(&mut self, _: &FnExpr) {}
 
             /// Don't recurse into fn
-            fn visit_fn_decl(&mut self, _: &FnDecl, _: &dyn Node) {}
+            fn visit_fn_decl(&mut self, _: &FnDecl) {}
 
-            fn visit_this_expr(&mut self, _: &ThisExpr, _: &dyn Node) {
+            fn visit_this_expr(&mut self, _: &ThisExpr) {
                 self.found = true;
             }
         }

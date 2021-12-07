@@ -638,7 +638,7 @@ struct InfectionFinder<'a> {
 impl Visit for InfectionFinder<'_> {
     noop_visit_type!();
 
-    fn visit_assign_expr(&mut self, node: &AssignExpr, _: &dyn Node) {
+    fn visit_assign_expr(&mut self, node: &AssignExpr) {
         let old = self.found;
         self.found = false;
 
@@ -652,7 +652,7 @@ impl Visit for InfectionFinder<'_> {
         self.found = old;
     }
 
-    fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
+    fn visit_ident(&mut self, i: &Ident) {
         if self.found {
             return;
         }
@@ -665,7 +665,7 @@ impl Visit for InfectionFinder<'_> {
         }
     }
 
-    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
+    fn visit_member_expr(&mut self, e: &MemberExpr) {
         if self.found {
             return;
         }
@@ -677,7 +677,7 @@ impl Visit for InfectionFinder<'_> {
         }
     }
 
-    fn visit_var_declarator(&mut self, node: &VarDeclarator, _: &dyn Node) {
+    fn visit_var_declarator(&mut self, node: &VarDeclarator) {
         let old = self.found;
         self.found = false;
 
@@ -981,36 +981,36 @@ struct FunctionFinder {
 impl Visit for FunctionFinder {
     noop_visit_type!();
 
-    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
         self.found = true;
     }
 
     /// Do not recurse into nested loop.
     ///
     /// https://github.com/swc-project/swc/issues/2622
-    fn visit_do_while_stmt(&mut self, _: &DoWhileStmt, _: &dyn Node) {}
+    fn visit_do_while_stmt(&mut self, _: &DoWhileStmt) {}
 
     /// Do not recurse into nested loop.
     ///
     /// https://github.com/swc-project/swc/issues/2622
-    fn visit_for_in_stmt(&mut self, _: &ForInStmt, _: &dyn Node) {}
+    fn visit_for_in_stmt(&mut self, _: &ForInStmt) {}
 
     /// Do not recurse into nested loop.
     ///
     /// https://github.com/swc-project/swc/issues/2622
-    fn visit_for_of_stmt(&mut self, _: &ForOfStmt, _: &dyn Node) {}
+    fn visit_for_of_stmt(&mut self, _: &ForOfStmt) {}
 
     /// Do not recurse into nested loop.
     ///
     /// https://github.com/swc-project/swc/issues/2622
-    fn visit_for_stmt(&mut self, _: &ForStmt, _: &dyn Node) {}
+    fn visit_for_stmt(&mut self, _: &ForStmt) {}
 
-    fn visit_function(&mut self, _: &Function, _: &dyn Node) {
+    fn visit_function(&mut self, _: &Function) {
         self.found = true
     }
 
     /// Do not recurse into nested loop.
     ///
     /// https://github.com/swc-project/swc/issues/2622
-    fn visit_while_stmt(&mut self, _: &WhileStmt, _: &dyn Node) {}
+    fn visit_while_stmt(&mut self, _: &WhileStmt) {}
 }

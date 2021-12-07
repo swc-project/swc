@@ -125,7 +125,7 @@ impl UsageVisitor {
 impl Visit for UsageVisitor {
     noop_visit_type!();
 
-    fn visit_ident(&mut self, node: &Ident, _: &dyn Node) {
+    fn visit_ident(&mut self, node: &Ident) {
         node.visit_children_with(self);
 
         for (name, builtin) in BUILTIN_TYPES {
@@ -135,7 +135,7 @@ impl Visit for UsageVisitor {
         }
     }
 
-    fn visit_var_declarator(&mut self, d: &VarDeclarator, _: &dyn Node) {
+    fn visit_var_declarator(&mut self, d: &VarDeclarator) {
         d.visit_children_with(self);
 
         if let Some(ref init) = d.init {
@@ -156,7 +156,7 @@ impl Visit for UsageVisitor {
         }
     }
 
-    fn visit_assign_expr(&mut self, e: &AssignExpr, _: &dyn Node) {
+    fn visit_assign_expr(&mut self, e: &AssignExpr) {
         e.visit_children_with(self);
 
         match &e.left {
@@ -172,7 +172,7 @@ impl Visit for UsageVisitor {
     /// Detects usage of instance properties and static properties.
     ///
     ///  - `Array.from`
-    fn visit_member_expr(&mut self, node: &MemberExpr, _: &dyn Node) {
+    fn visit_member_expr(&mut self, node: &MemberExpr) {
         node.obj.visit_with(node as _, self);
         if node.computed {
             node.prop.visit_with(node as _, self);
@@ -294,7 +294,7 @@ impl Visit for UsageVisitor {
 
     ///
     /// - `arr[Symbol.iterator]()`
-    fn visit_call_expr(&mut self, e: &CallExpr, _: &dyn Node) {
+    fn visit_call_expr(&mut self, e: &CallExpr) {
         e.visit_children_with(self);
 
         if match &e.callee {
@@ -315,7 +315,7 @@ impl Visit for UsageVisitor {
     ///
     /// - `Symbol.iterator in arr`
 
-    fn visit_bin_expr(&mut self, e: &BinExpr, _: &dyn Node) {
+    fn visit_bin_expr(&mut self, e: &BinExpr) {
         e.visit_children_with(self);
 
         match e.op {
@@ -326,7 +326,7 @@ impl Visit for UsageVisitor {
 
     ///
     /// - `yield*`
-    fn visit_yield_expr(&mut self, e: &YieldExpr, _: &dyn Node) {
+    fn visit_yield_expr(&mut self, e: &YieldExpr) {
         e.visit_children_with(self);
         println!("Yield");
 

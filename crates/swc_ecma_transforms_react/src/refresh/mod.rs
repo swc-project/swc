@@ -553,7 +553,7 @@ impl<C> Visit for Refresh<C>
 where
     C: Comments,
 {
-    fn visit_span(&mut self, n: &Span, _: &dyn Node) {
+    fn visit_span(&mut self, n: &Span) {
         if self.should_reset {
             return;
         }

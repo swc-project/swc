@@ -187,7 +187,7 @@ struct CommentCollector {
 }
 
 impl Visit for CommentCollector {
-    fn visit_span(&mut self, sp: &Span, _: &dyn Node) {
+    fn visit_span(&mut self, sp: &Span) {
         let mut span_comments: Vec<Comment> = Vec::new();
         // Comments must be deduped since it's possible for a single comment to show up
         // multiple times since they are not removed from the comments map.

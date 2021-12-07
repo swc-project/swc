@@ -336,27 +336,27 @@ struct BreakFinder {
 impl Visit for BreakFinder {
     noop_visit_type!();
 
-    fn visit_break_stmt(&mut self, s: &BreakStmt, _: &dyn Node) {
+    fn visit_break_stmt(&mut self, s: &BreakStmt) {
         if s.label.is_none() {
             self.found_unlabelled_break_for_stmt = true;
         }
     }
 
     /// We don't care about breaks in a lop[
-    fn visit_for_stmt(&mut self, _: &ForStmt, _: &dyn Node) {}
+    fn visit_for_stmt(&mut self, _: &ForStmt) {}
 
     /// We don't care about breaks in a lop[
-    fn visit_for_in_stmt(&mut self, _: &ForInStmt, _: &dyn Node) {}
+    fn visit_for_in_stmt(&mut self, _: &ForInStmt) {}
 
     /// We don't care about breaks in a lop[
-    fn visit_for_of_stmt(&mut self, _: &ForOfStmt, _: &dyn Node) {}
+    fn visit_for_of_stmt(&mut self, _: &ForOfStmt) {}
 
     /// We don't care about breaks in a lop[
-    fn visit_do_while_stmt(&mut self, _: &DoWhileStmt, _: &dyn Node) {}
+    fn visit_do_while_stmt(&mut self, _: &DoWhileStmt) {}
 
     /// We don't care about breaks in a lop[
-    fn visit_while_stmt(&mut self, _: &WhileStmt, _: &dyn Node) {}
+    fn visit_while_stmt(&mut self, _: &WhileStmt) {}
 
-    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
-    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {}
+    fn visit_function(&mut self, _: &Function) {}
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 }

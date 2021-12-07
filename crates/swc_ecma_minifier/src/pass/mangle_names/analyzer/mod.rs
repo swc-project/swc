@@ -53,7 +53,7 @@ impl Analyzer {
 impl Visit for Analyzer {
     noop_visit_type!();
 
-    fn visit_arrow_expr(&mut self, e: &ArrowExpr, _: &dyn Node) {
+    fn visit_arrow_expr(&mut self, e: &ArrowExpr) {
         self.with_scope(|v| {
             let old = v.is_pat_decl;
             v.is_pat_decl = true;
@@ -64,7 +64,7 @@ impl Visit for Analyzer {
         });
     }
 
-    fn visit_assign_pat_prop(&mut self, p: &AssignPatProp, _: &dyn Node) {
+    fn visit_assign_pat_prop(&mut self, p: &AssignPatProp) {
         p.visit_children_with(self);
 
         if self.is_pat_decl {
@@ -74,7 +74,7 @@ impl Visit for Analyzer {
         }
     }
 
-    fn visit_catch_clause(&mut self, n: &CatchClause, _: &dyn Node) {
+    fn visit_catch_clause(&mut self, n: &CatchClause) {
         let old = self.is_pat_decl;
 
         self.is_pat_decl = true;
@@ -86,17 +86,17 @@ impl Visit for Analyzer {
         self.is_pat_decl = old;
     }
 
-    fn visit_class_decl(&mut self, c: &ClassDecl, _: &dyn Node) {
+    fn visit_class_decl(&mut self, c: &ClassDecl) {
         self.add_decl(c.ident.to_id());
 
         c.class.visit_with(c, self);
     }
 
-    fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier, _: &dyn Node) {
+    fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {
         self.add_usage(n.orig.to_id());
     }
 
-    fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
+    fn visit_expr(&mut self, e: &Expr) {
         e.visit_children_with(self);
 
         match e {
@@ -105,7 +105,7 @@ impl Visit for Analyzer {
         }
     }
 
-    fn visit_fn_decl(&mut self, f: &FnDecl, _: &dyn Node) {
+    fn visit_fn_decl(&mut self, f: &FnDecl) {
         self.add_decl(f.ident.to_id());
 
         self.with_scope(|v| {
@@ -113,7 +113,7 @@ impl Visit for Analyzer {
         })
     }
 
-    fn visit_fn_expr(&mut self, f: &FnExpr, _: &dyn Node) {
+    fn visit_fn_expr(&mut self, f: &FnExpr) {
         self.with_scope(|v| {
             if let Some(id) = &f.ident {
                 v.add_decl(id.to_id());
@@ -123,19 +123,19 @@ impl Visit for Analyzer {
         })
     }
 
-    fn visit_import_default_specifier(&mut self, n: &ImportDefaultSpecifier, _: &dyn Node) {
+    fn visit_import_default_specifier(&mut self, n: &ImportDefaultSpecifier) {
         self.add_decl(n.local.to_id());
     }
 
-    fn visit_import_named_specifier(&mut self, n: &ImportNamedSpecifier, _: &dyn Node) {
+    fn visit_import_named_specifier(&mut self, n: &ImportNamedSpecifier) {
         self.add_decl(n.local.to_id());
     }
 
-    fn visit_import_star_as_specifier(&mut self, n: &ImportStarAsSpecifier, _: &dyn Node) {
+    fn visit_import_star_as_specifier(&mut self, n: &ImportStarAsSpecifier) {
         self.add_decl(n.local.to_id());
     }
 
-    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
+    fn visit_member_expr(&mut self, e: &MemberExpr) {
         e.obj.visit_with(e, self);
 
         if e.computed {
@@ -143,7 +143,7 @@ impl Visit for Analyzer {
         }
     }
 
-    fn visit_method_prop(&mut self, f: &MethodProp, _: &dyn Node) {
+    fn visit_method_prop(&mut self, f: &MethodProp) {
         f.key.visit_with(f, self);
 
         self.with_scope(|v| {
@@ -151,7 +151,7 @@ impl Visit for Analyzer {
         })
     }
 
-    fn visit_named_export(&mut self, n: &NamedExport, _: &dyn Node) {
+    fn visit_named_export(&mut self, n: &NamedExport) {
         if n.src.is_some() {
             return;
         }
@@ -159,7 +159,7 @@ impl Visit for Analyzer {
         n.visit_children_with(self);
     }
 
-    fn visit_param(&mut self, e: &Param, _: &dyn Node) {
+    fn visit_param(&mut self, e: &Param) {
         let old = self.is_pat_decl;
 
         self.is_pat_decl = false;
@@ -171,7 +171,7 @@ impl Visit for Analyzer {
         self.is_pat_decl = old;
     }
 
-    fn visit_pat(&mut self, e: &Pat, _: &dyn Node) {
+    fn visit_pat(&mut self, e: &Pat) {
         e.visit_children_with(self);
 
         match e {
@@ -186,7 +186,7 @@ impl Visit for Analyzer {
         }
     }
 
-    fn visit_prop(&mut self, p: &Prop, _: &dyn Node) {
+    fn visit_prop(&mut self, p: &Prop) {
         p.visit_children_with(self);
 
         match p {
@@ -195,7 +195,7 @@ impl Visit for Analyzer {
         }
     }
 
-    fn visit_var_declarator(&mut self, v: &VarDeclarator, _: &dyn Node) {
+    fn visit_var_declarator(&mut self, v: &VarDeclarator) {
         let old = self.is_pat_decl;
 
         self.is_pat_decl = true;

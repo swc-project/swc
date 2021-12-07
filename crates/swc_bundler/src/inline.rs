@@ -60,15 +60,15 @@ impl Visit for Analyzer<'_> {
     noop_visit_type!();
 
     /// Noop
-    fn visit_module_decl(&mut self, _: &ModuleDecl, _: &dyn Node) {}
+    fn visit_module_decl(&mut self, _: &ModuleDecl) {}
 
     /// Noop. We don't inline variables declared in subscopes.
-    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
+    fn visit_function(&mut self, _: &Function) {}
 
     /// Noop. We don't inline variables declared in subscopes.
-    fn visit_block_stmt(&mut self, _: &BlockStmt, _: &dyn Node) {}
+    fn visit_block_stmt(&mut self, _: &BlockStmt) {}
 
-    fn visit_var_decl(&mut self, n: &VarDecl, _: &dyn Node) {
+    fn visit_var_decl(&mut self, n: &VarDecl) {
         if n.span.ctxt != self.injected_ctxt || n.kind != VarDeclKind::Const {
             return;
         }
@@ -76,7 +76,7 @@ impl Visit for Analyzer<'_> {
         n.visit_children_with(self);
     }
 
-    fn visit_var_declarator(&mut self, n: &VarDeclarator, _: &dyn Node) {
+    fn visit_var_declarator(&mut self, n: &VarDeclarator) {
         n.visit_children_with(self);
         match (&n.name, n.init.as_deref()) {
             (Pat::Ident(from), Some(Expr::Ident(to))) => {

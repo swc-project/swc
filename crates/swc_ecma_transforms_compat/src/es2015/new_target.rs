@@ -237,7 +237,7 @@ struct ShouldWork {
 impl Visit for ShouldWork {
     noop_visit_type!();
 
-    fn visit_meta_prop_expr(&mut self, n: &MetaPropExpr, _: &dyn Node) {
+    fn visit_meta_prop_expr(&mut self, n: &MetaPropExpr) {
         match n {
             MetaPropExpr {
                 meta:

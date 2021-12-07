@@ -129,15 +129,15 @@ pub(crate) struct AssertValid;
 impl Visit for AssertValid {
     noop_visit_type!();
 
-    fn visit_invalid(&mut self, _: &Invalid, _: &dyn Node) {
+    fn visit_invalid(&mut self, _: &Invalid) {
         panic!("[SWC_RUN] Invalid node found");
     }
 
-    fn visit_setter_prop(&mut self, p: &SetterProp, _: &dyn Node) {
+    fn visit_setter_prop(&mut self, p: &SetterProp) {
         p.body.visit_with(p, self);
     }
 
-    fn visit_tpl(&mut self, l: &Tpl, _: &dyn Node) {
+    fn visit_tpl(&mut self, l: &Tpl) {
         l.visit_children_with(self);
 
         assert_eq!(l.exprs.len() + 1, l.quasis.len());

@@ -41,7 +41,7 @@ pub(super) fn new(metadata: bool) -> Legacy {
 }
 
 impl Visit for Legacy {
-    fn visit_ts_enum_decl(&mut self, e: &TsEnumDecl, _: &dyn Node) {
+    fn visit_ts_enum_decl(&mut self, e: &TsEnumDecl) {
         let enum_kind = e
             .members
             .iter()

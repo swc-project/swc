@@ -415,7 +415,7 @@ struct Es6ModuleDetector {
 impl Visit for Es6ModuleDetector {
     noop_visit_type!();
 
-    fn visit_call_expr(&mut self, e: &CallExpr, _: &dyn Node) {
+    fn visit_call_expr(&mut self, e: &CallExpr) {
         e.visit_children_with(self);
 
         match &e.callee {
@@ -432,7 +432,7 @@ impl Visit for Es6ModuleDetector {
         }
     }
 
-    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
+    fn visit_member_expr(&mut self, e: &MemberExpr) {
         e.obj.visit_with(e as _, self);
 
         if e.computed {
@@ -462,7 +462,7 @@ impl Visit for Es6ModuleDetector {
         //
     }
 
-    fn visit_module_decl(&mut self, decl: &ModuleDecl, _: &dyn Node) {
+    fn visit_module_decl(&mut self, decl: &ModuleDecl) {
         match decl {
             ModuleDecl::Import(_)
             | ModuleDecl::ExportDecl(_)

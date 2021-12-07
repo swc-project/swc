@@ -9,11 +9,6 @@ use swc_common::{pass::CompilerPass, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_visit::{define, AndThen, Repeat, Repeated};
 
-/// Visitable nodes.
-pub trait Node: Any {}
-
-impl<T: ?Sized> Node for T where T: Any {}
-
 impl<A, B> Fold for AndThen<A, B>
 where
     A: Fold,
@@ -362,7 +357,7 @@ macro_rules! noop_fold_type {
 macro_rules! noop_visit_type {
     ($name:ident, $N:tt) => {
         #[inline]
-        fn $name(&mut self, _: &$crate::swc_ecma_ast::$N, _: &dyn $crate::Node) {}
+        fn $name(&mut self, _: &$crate::swc_ecma_ast::$N) {}
     };
     () => {
         noop_visit_type!(visit_accessibility, Accessibility);

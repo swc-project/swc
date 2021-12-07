@@ -1044,7 +1044,7 @@ struct ShouldWork {
 impl Visit for ShouldWork {
     noop_visit_type!();
 
-    fn visit_function(&mut self, f: &Function, _: &dyn Node) {
+    fn visit_function(&mut self, f: &Function) {
         if f.is_async {
             self.found = true;
             return;
@@ -1052,7 +1052,7 @@ impl Visit for ShouldWork {
         f.visit_children_with(self);
     }
 
-    fn visit_arrow_expr(&mut self, f: &ArrowExpr, _: &dyn Node) {
+    fn visit_arrow_expr(&mut self, f: &ArrowExpr) {
         if f.is_async {
             self.found = true;
             return;

@@ -835,37 +835,37 @@ struct ShouldWork {
 impl Visit for ShouldWork {
     noop_visit_type!();
 
-    fn visit_ident(&mut self, n: &Ident, _: &dyn Node) {
+    fn visit_ident(&mut self, n: &Ident) {
         if n.optional {
             self.found = true;
         }
     }
 
-    fn visit_array_pat(&mut self, n: &ArrayPat, _: &dyn Node) {
+    fn visit_array_pat(&mut self, n: &ArrayPat) {
         if n.optional {
             self.found = true;
         }
     }
 
-    fn visit_object_pat(&mut self, n: &ObjectPat, _: &dyn Node) {
+    fn visit_object_pat(&mut self, n: &ObjectPat) {
         if n.optional {
             self.found = true;
         }
     }
 
-    fn visit_class_method(&mut self, _: &ClassMethod, _: &dyn Node) {
+    fn visit_class_method(&mut self, _: &ClassMethod) {
         self.found = true;
     }
 
-    fn visit_class_prop(&mut self, _: &ClassProp, _: &dyn Node) {
+    fn visit_class_prop(&mut self, _: &ClassProp) {
         self.found = true;
     }
 
-    fn visit_private_prop(&mut self, _: &PrivateProp, _: &dyn Node) {
+    fn visit_private_prop(&mut self, _: &PrivateProp) {
         self.found = true;
     }
 
-    fn visit_constructor(&mut self, _: &Constructor, _: &dyn Node) {
+    fn visit_constructor(&mut self, _: &Constructor) {
         self.found = true;
     }
 }

@@ -217,17 +217,17 @@ impl TopLevelBindingCollector {
 impl Visit for TopLevelBindingCollector {
     noop_visit_type!();
 
-    fn visit_class_decl(&mut self, v: &ClassDecl, _: &dyn Node) {
+    fn visit_class_decl(&mut self, v: &ClassDecl) {
         self.add(v.ident.to_id());
     }
 
-    fn visit_fn_decl(&mut self, v: &FnDecl, _: &dyn Node) {
+    fn visit_fn_decl(&mut self, v: &FnDecl) {
         self.add(v.ident.to_id());
     }
 
-    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
+    fn visit_function(&mut self, _: &Function) {}
 
-    fn visit_var_decl(&mut self, v: &VarDecl, _: &dyn Node) {
+    fn visit_var_decl(&mut self, v: &VarDecl) {
         v.visit_children_with(self);
         let ids: Vec<Id> = find_ids(&v.decls);
 
