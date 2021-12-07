@@ -941,7 +941,7 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
     let mut v = SuperFinder { found: false };
     let body = &body[..pos];
 
-    v.visit_stmts(body, &Invalid { span: DUMMY_SP });
+    v.visit_stmts(body);
 
     if v.found {
         return false;
