@@ -856,11 +856,12 @@ where
                         ident: None,
                         function,
                     }) => {
-                        if (args.len() >= function.params.len() || args.len() == 0)
-                            && args
-                                .iter()
-                                .take(function.params.len())
-                                .all(|arg| arg.expr.is_lit())
+                        if args.is_empty()
+                            || (args.len() >= function.params.len()
+                                && args
+                                    .iter()
+                                    .take(function.params.len())
+                                    .all(|arg| arg.expr.is_lit()))
                         {
                             for param in &mut function.params {
                                 self.drop_unused_param(&mut param.pat, true);
