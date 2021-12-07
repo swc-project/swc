@@ -1934,11 +1934,7 @@ where
             self.remove_name_if_not_used(&mut e.ident);
         }
 
-        let ctx = Ctx {
-            ignore_fn_length: e.ident.is_none(),
-            ..self.ctx
-        };
-        e.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        e.visit_mut_children_with(self);
     }
 
     fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
