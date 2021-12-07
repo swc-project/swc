@@ -522,6 +522,12 @@ where
     }
 
     fn can_inline_fn_like(&self, param_ids: &[Ident], body: &BlockStmt) -> bool {
+        if !param_ids.is_empty() {
+            if self.ctx.is_top_level_for_block_level_vars() && !self.options.module {
+                return false;
+            }
+        }
+
         if !body.stmts.iter().all(|stmt| match stmt {
             Stmt::Decl(Decl::Var(VarDecl {
                 kind: VarDeclKind::Var | VarDeclKind::Let,
@@ -547,7 +553,7 @@ where
                     return false;
                 }
 
-                if self.ctx.in_top_level() && !self.options.module {
+                if self.ctx.is_top_level_for_block_level_vars() && !self.options.module {
                     return false;
                 }
 
