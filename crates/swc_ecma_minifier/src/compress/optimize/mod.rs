@@ -1982,6 +1982,7 @@ where
         {
             let ctx = Ctx {
                 stmt_labelled: false,
+                ignore_fn_length: false,
                 ..self.ctx
             };
             n.decorators.visit_mut_with(&mut *self.with_ctx(ctx));
