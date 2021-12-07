@@ -134,7 +134,7 @@ impl Visit for AssertValid {
     }
 
     fn visit_setter_prop(&mut self, p: &SetterProp) {
-        p.body.visit_with(p, self);
+        p.body.visit_with(self);
     }
 
     fn visit_tpl(&mut self, l: &Tpl) {

@@ -57,9 +57,9 @@ impl Visit for Analyzer {
         self.with_scope(|v| {
             let old = v.is_pat_decl;
             v.is_pat_decl = true;
-            e.params.visit_with(e, v);
+            e.params.visit_with(v);
             v.is_pat_decl = false;
-            e.body.visit_with(e, v);
+            e.body.visit_with(v);
             v.is_pat_decl = old;
         });
     }
@@ -89,7 +89,7 @@ impl Visit for Analyzer {
     fn visit_class_decl(&mut self, c: &ClassDecl) {
         self.add_decl(c.ident.to_id());
 
-        c.class.visit_with(c, self);
+        c.class.visit_with(self);
     }
 
     fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {
@@ -109,7 +109,7 @@ impl Visit for Analyzer {
         self.add_decl(f.ident.to_id());
 
         self.with_scope(|v| {
-            f.function.visit_with(f, v);
+            f.function.visit_with(v);
         })
     }
 
@@ -119,7 +119,7 @@ impl Visit for Analyzer {
                 v.add_decl(id.to_id());
             }
 
-            f.function.visit_with(f, v);
+            f.function.visit_with(v);
         })
     }
 
@@ -136,18 +136,18 @@ impl Visit for Analyzer {
     }
 
     fn visit_member_expr(&mut self, e: &MemberExpr) {
-        e.obj.visit_with(e, self);
+        e.obj.visit_with(self);
 
         if e.computed {
-            e.prop.visit_with(e, self);
+            e.prop.visit_with(self);
         }
     }
 
     fn visit_method_prop(&mut self, f: &MethodProp) {
-        f.key.visit_with(f, self);
+        f.key.visit_with(self);
 
         self.with_scope(|v| {
-            f.function.visit_with(f, v);
+            f.function.visit_with(v);
         })
     }
 
@@ -163,10 +163,10 @@ impl Visit for Analyzer {
         let old = self.is_pat_decl;
 
         self.is_pat_decl = false;
-        e.decorators.visit_with(e, self);
+        e.decorators.visit_with(self);
 
         self.is_pat_decl = true;
-        e.pat.visit_with(e, self);
+        e.pat.visit_with(self);
 
         self.is_pat_decl = old;
     }
@@ -199,10 +199,10 @@ impl Visit for Analyzer {
         let old = self.is_pat_decl;
 
         self.is_pat_decl = true;
-        v.name.visit_with(v, self);
+        v.name.visit_with(self);
 
         self.is_pat_decl = false;
-        v.init.visit_with(v, self);
+        v.init.visit_with(self);
 
         self.is_pat_decl = old;
     }

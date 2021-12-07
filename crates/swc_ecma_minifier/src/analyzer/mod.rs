@@ -347,7 +347,7 @@ where
                 in_catch_param: true,
                 ..self.ctx
             };
-            n.param.visit_with(n, &mut *self.with_ctx(ctx));
+            n.param.visit_with(&mut *self.with_ctx(ctx));
         }
 
         {
@@ -355,7 +355,7 @@ where
                 in_cond: true,
                 ..self.ctx
             };
-            n.body.visit_with(n, &mut *self.with_ctx(ctx));
+            n.body.visit_with(&mut *self.with_ctx(ctx));
         }
     }
 
@@ -367,7 +367,7 @@ where
                 inline_prevented: true,
                 ..self.ctx
             };
-            n.super_class.visit_with(n, &mut *self.with_ctx(ctx));
+            n.super_class.visit_with(&mut *self.with_ctx(ctx));
         }
 
         n.body.visit_with(self);
@@ -387,8 +387,8 @@ where
                 in_cond: true,
                 ..self.ctx
             };
-            n.cons.visit_with(n, &mut *self.with_ctx(ctx));
-            n.alt.visit_with(n, &mut *self.with_ctx(ctx));
+            n.cons.visit_with(&mut *self.with_ctx(ctx));
+            n.alt.visit_with(&mut *self.with_ctx(ctx));
         }
     }
 
@@ -441,16 +441,16 @@ where
                 is_exact_reassignment: true,
                 ..child.ctx
             };
-            n.left.visit_with(n, &mut *child.with_ctx(ctx));
+            n.left.visit_with(&mut *child.with_ctx(ctx));
 
-            n.right.visit_with(n, child);
+            n.right.visit_with(child);
 
             let ctx = Ctx {
                 in_loop: true,
                 in_cond: true,
                 ..child.ctx
             };
-            n.body.visit_with(n, &mut *child.with_ctx(ctx));
+            n.body.visit_with(&mut *child.with_ctx(ctx));
         });
     }
 
@@ -463,14 +463,14 @@ where
                 is_exact_reassignment: true,
                 ..child.ctx
             };
-            n.left.visit_with(n, &mut *child.with_ctx(ctx));
+            n.left.visit_with(&mut *child.with_ctx(ctx));
 
             let ctx = Ctx {
                 in_loop: true,
                 in_cond: true,
                 ..child.ctx
             };
-            n.body.visit_with(n, &mut *child.with_ctx(ctx))
+            n.body.visit_with(&mut *child.with_ctx(ctx))
         });
     }
 
@@ -483,10 +483,10 @@ where
             ..self.ctx
         };
 
-        n.test.visit_with(n, &mut *self.with_ctx(ctx));
-        n.update.visit_with(n, &mut *self.with_ctx(ctx));
+        n.test.visit_with(&mut *self.with_ctx(ctx));
+        n.update.visit_with(&mut *self.with_ctx(ctx));
 
-        n.body.visit_with(n, &mut *self.with_ctx(ctx));
+        n.body.visit_with(&mut *self.with_ctx(ctx));
     }
 
     fn visit_function(&mut self, n: &Function) {
@@ -510,7 +510,7 @@ where
 
         self.with_ctx(ctx)
             .with_child(n.span.ctxt, ScopeKind::Fn, |child| {
-                n.params.visit_with(n, child);
+                n.params.visit_with(child);
 
                 match &n.body {
                     Some(body) => {
@@ -529,8 +529,8 @@ where
             ..self.ctx
         };
         n.test.visit_with(self);
-        n.cons.visit_with(n, &mut *self.with_ctx(ctx));
-        n.alt.visit_with(n, &mut *self.with_ctx(ctx));
+        n.cons.visit_with(&mut *self.with_ctx(ctx));
+        n.alt.visit_with(&mut *self.with_ctx(ctx));
     }
 
     fn visit_import_default_specifier(&mut self, n: &ImportDefaultSpecifier) {
@@ -612,7 +612,7 @@ where
                 is_exact_arg: true,
                 ..self.ctx
             };
-            n.args.visit_with(n, &mut *self.with_ctx(ctx));
+            n.args.visit_with(&mut *self.with_ctx(ctx));
         }
     }
 
@@ -632,14 +632,14 @@ where
             in_pat_of_param: false,
             ..self.ctx
         };
-        n.decorators.visit_with(n, &mut *self.with_ctx(ctx));
+        n.decorators.visit_with(&mut *self.with_ctx(ctx));
 
         let ctx = Ctx {
             in_pat_of_param: true,
             var_decl_kind_of_pat: None,
             ..self.ctx
         };
-        n.pat.visit_with(n, &mut *self.with_ctx(ctx));
+        n.pat.visit_with(&mut *self.with_ctx(ctx));
     }
 
     fn visit_pat(&mut self, n: &Pat) {
@@ -668,16 +668,16 @@ where
 
     fn visit_setter_prop(&mut self, n: &SetterProp) {
         self.with_child(n.span.ctxt, ScopeKind::Fn, |a| {
-            n.key.visit_with(n, a);
+            n.key.visit_with(a);
             {
                 let ctx = Ctx {
                     in_pat_of_param: true,
                     ..a.ctx
                 };
-                n.param.visit_with(n, &mut *a.with_ctx(ctx));
+                n.param.visit_with(&mut *a.with_ctx(ctx));
             }
 
-            n.body.visit_with(n, a);
+            n.body.visit_with(a);
         });
     }
 
@@ -712,7 +712,7 @@ where
                 in_cond: true,
                 ..self.ctx
             };
-            n.cons.visit_with(n, &mut *self.with_ctx(ctx));
+            n.cons.visit_with(&mut *self.with_ctx(ctx));
         }
     }
 
@@ -782,7 +782,7 @@ where
                 },
                 ..self.ctx
             };
-            e.name.visit_with(e, &mut *self.with_ctx(ctx));
+            e.name.visit_with(&mut *self.with_ctx(ctx));
         }
 
         {
@@ -792,7 +792,7 @@ where
                 ..self.ctx
             };
 
-            e.init.visit_with(e, &mut *self.with_ctx(ctx));
+            e.init.visit_with(&mut *self.with_ctx(ctx));
         }
     }
 
