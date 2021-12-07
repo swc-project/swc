@@ -160,6 +160,8 @@ struct Ctx {
 
     dont_invoke_iife: bool,
 
+    ignore_fn_length: bool,
+
     /// Current scope.
     scope: SyntaxContext,
 }
@@ -1613,6 +1615,7 @@ where
             top_level: false,
             in_block: true,
             scope: n.span.ctxt,
+            ignore_fn_length: false,
             ..self.ctx
         };
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
@@ -1919,7 +1922,11 @@ where
             self.drop_unused_params(&mut f.function.params);
         }
 
-        f.visit_mut_children_with(self);
+        let ctx = Ctx {
+            ignore_fn_length: false,
+            ..self.ctx
+        };
+        f.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
     fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
@@ -1927,7 +1934,11 @@ where
             self.remove_name_if_not_used(&mut e.ident);
         }
 
-        e.visit_mut_children_with(self);
+        let ctx = Ctx {
+            ignore_fn_length: e.ident.is_none(),
+            ..self.ctx
+        };
+        e.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
     fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {

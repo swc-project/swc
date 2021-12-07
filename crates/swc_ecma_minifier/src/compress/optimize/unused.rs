@@ -75,9 +75,11 @@ where
             }
         }
 
-        // Preserve `length` of function.
-        if pat.is_ident() {
-            return;
+        if !self.ctx.ignore_fn_length {
+            // Preserve `length` of function.
+            if pat.is_ident() {
+                return;
+            }
         }
 
         self.take_pat_if_unused(DUMMY_SP, pat, None)
