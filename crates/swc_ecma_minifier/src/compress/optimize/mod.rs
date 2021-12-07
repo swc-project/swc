@@ -851,21 +851,21 @@ where
                 args,
                 ..
             }) => {
-                match &mut **callee {
-                    Expr::Fn(FnExpr {
-                        ident: None,
-                        function,
-                    }) => {
-                        for param in &mut function.params {
-                            self.drop_unused_param(&mut param.pat, true);
-                        }
-
-                        function.params.retain(|p| !p.pat.is_invalid());
-                    }
-                    _ => {}
-                }
-
                 if args.is_empty() {
+                    match &mut **callee {
+                        Expr::Fn(FnExpr {
+                            ident: None,
+                            function,
+                        }) => {
+                            for param in &mut function.params {
+                                self.drop_unused_param(&mut param.pat, true);
+                            }
+
+                            function.params.retain(|p| !p.pat.is_invalid());
+                        }
+                        _ => {}
+                    }
+
                     match &mut **callee {
                         Expr::Fn(f) => {
                             if f.function.body.is_none()
