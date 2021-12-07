@@ -1,9 +1,9 @@
 use std::path::PathBuf;
-use swc_common::{input::SourceFileInput, Mark, SyntaxContext, DUMMY_SP};
+use swc_common::{input::SourceFileInput, Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::ts_resolver;
-use swc_ecma_visit::{FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{FoldWith, Visit, VisitWith};
 use testing::fixture;
 
 #[fixture("../swc_ecma_parser/tests/typescript/**/*.ts")]
@@ -35,7 +35,7 @@ fn no_empty(input: PathBuf) {
 
         let module = module.fold_with(&mut ts_resolver(Mark::fresh(Mark::root())));
 
-        module.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertNoEmptyCtxt);
+        module.visit_with(&mut AssertNoEmptyCtxt);
 
         Ok(())
     })
@@ -47,12 +47,12 @@ struct AssertNoEmptyCtxt;
 impl Visit for AssertNoEmptyCtxt {
     fn visit_class_prop(&mut self, n: &ClassProp) {
         if n.computed {
-            n.key.visit_with(n, self);
+            n.key.visit_with(self);
         }
 
-        n.value.visit_with(n, self);
-        n.type_ann.visit_with(n, self);
-        n.decorators.visit_with(n, self);
+        n.value.visit_with(self);
+        n.type_ann.visit_with(self);
+        n.decorators.visit_with(self);
     }
 
     fn visit_expr(&mut self, n: &Expr) {
@@ -69,9 +69,9 @@ impl Visit for AssertNoEmptyCtxt {
     }
 
     fn visit_member_expr(&mut self, n: &MemberExpr) {
-        n.obj.visit_with(n, self);
+        n.obj.visit_with(self);
         if n.computed {
-            n.prop.visit_with(n, self);
+            n.prop.visit_with(self);
         }
     }
 
@@ -90,15 +90,15 @@ impl Visit for AssertNoEmptyCtxt {
 
     fn visit_ts_getter_signature(&mut self, n: &TsGetterSignature) {
         if n.computed {
-            n.key.visit_with(n, self);
+            n.key.visit_with(self);
         }
 
-        n.type_ann.visit_with(n, self);
+        n.type_ann.visit_with(self);
     }
 
     fn visit_ts_method_signature(&mut self, n: &TsMethodSignature) {
         if n.computed {
-            n.key.visit_with(n, self);
+            n.key.visit_with(self);
         }
 
         n.params.visit_with(n, self);
@@ -108,18 +108,18 @@ impl Visit for AssertNoEmptyCtxt {
 
     fn visit_ts_property_signature(&mut self, n: &TsPropertySignature) {
         if n.computed {
-            n.key.visit_with(n, self);
+            n.key.visit_with(self);
         }
 
-        n.init.visit_with(n, self);
-        n.params.visit_with(n, self);
-        n.type_ann.visit_with(n, self);
-        n.type_params.visit_with(n, self);
+        n.init.visit_with(self);
+        n.params.visit_with(self);
+        n.type_ann.visit_with(self);
+        n.type_params.visit_with(self);
     }
 
     fn visit_ts_setter_signature(&mut self, n: &TsSetterSignature) {
         if n.computed {
-            n.key.visit_with(n, self);
+            n.key.visit_with(self);
         }
 
         n.param.visit_with(n, self);
