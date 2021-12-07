@@ -1838,7 +1838,20 @@ where
     }
 
     fn visit_mut_expr_stmt(&mut self, n: &mut ExprStmt) {
-        n.visit_mut_children_with(self);
+        let ctx = Ctx {
+            ignore_fn_length: match &*n.expr {
+                Expr::Call(CallExpr {
+                    callee: ExprOrSuper::Expr(callee),
+                    ..
+                }) => match &**callee {
+                    Expr::Fn(FnExpr { ident: None, .. }) => true,
+                    _ => false,
+                },
+                _ => false,
+            },
+            ..self.ctx
+        };
+        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
         let mut need_ignore_return_value = false;
 
