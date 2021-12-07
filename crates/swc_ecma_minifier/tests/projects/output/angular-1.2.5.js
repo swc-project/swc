@@ -1628,7 +1628,7 @@
                             return responseFn($q.reject(response));
                         }
                     });
-                }), $http.pendingRequests = [], (function(names) {
+                }), $http.pendingRequests = [], (function() {
                     forEach(arguments, function(name) {
                         $http[name] = function(url, config) {
                             return $http(extend(config || {
@@ -1638,7 +1638,7 @@
                             }));
                         };
                     });
-                })("get", "delete", "head", "jsonp"), (function(name1) {
+                })("get", "delete", "head", "jsonp"), (function() {
                     forEach(arguments, function(name) {
                         $http[name] = function(url, data, config) {
                             return $http(extend(config || {
@@ -4464,16 +4464,16 @@
             return angular.$$minErr = angular.$$minErr || minErr, ensure(angular, "module", function() {
                 var modules = {
                 };
-                return function(name2, requires, configFn) {
+                return function(name1, requires, configFn) {
                     return (function(name, context) {
                         if ("hasOwnProperty" === name) throw ngMinErr("badname", "hasOwnProperty is not a valid {0} name", context);
-                    })(name2, "module"), requires && modules.hasOwnProperty(name2) && (modules[name2] = null), ensure(modules, name2, function() {
-                        if (!requires) throw $injectorMinErr("nomod", "Module '{0}' is not available! You either misspelled the module name or forgot to load it. If registering a module ensure that you specify the dependencies as the second argument.", name2);
+                    })(name1, "module"), requires && modules.hasOwnProperty(name1) && (modules[name1] = null), ensure(modules, name1, function() {
+                        if (!requires) throw $injectorMinErr("nomod", "Module '{0}' is not available! You either misspelled the module name or forgot to load it. If registering a module ensure that you specify the dependencies as the second argument.", name1);
                         var invokeQueue = [], runBlocks = [], config = invokeLater("$injector", "invoke"), moduleInstance = {
                             _invokeQueue: invokeQueue,
                             _runBlocks: runBlocks,
                             requires: requires,
-                            name: name2,
+                            name: name1,
                             provider: invokeLater("$provide", "provider"),
                             factory: invokeLater("$provide", "factory"),
                             service: invokeLater("$provide", "service"),
