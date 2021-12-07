@@ -27,7 +27,7 @@ pub use swc_common::errors::HANDLER;
 use swc_common::{collections::AHashSet, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, Node, Visit, VisitMut, VisitMutWith, VisitWith,
+    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use tracing::trace;
 use unicode_xid::UnicodeXID;
@@ -62,19 +62,19 @@ impl Visit for ThisVisitor {
 
     /// Don't recurse into fn
     fn visit_getter_prop(&mut self, n: &GetterProp) {
-        n.key.visit_with(n, self);
+        n.key.visit_with(self);
     }
 
     /// Don't recurse into fn
     fn visit_method_prop(&mut self, n: &MethodProp) {
-        n.key.visit_with(n, self);
-        n.function.visit_with(n, self);
+        n.key.visit_with(self);
+        n.function.visit_with(self);
     }
 
     /// Don't recurse into fn
     fn visit_setter_prop(&mut self, n: &SetterProp) {
-        n.key.visit_with(n, self);
-        n.param.visit_with(n, self);
+        n.key.visit_with(self);
+        n.param.visit_with(self);
     }
 
     fn visit_this_expr(&mut self, _: &ThisExpr) {

@@ -20,7 +20,7 @@ impl Visit for VarCollector<'_> {
     fn visit_function(&mut self, _: &Function) {}
 
     fn visit_key_value_pat_prop(&mut self, node: &KeyValuePatProp) {
-        node.value.visit_with(node, self);
+        node.value.visit_with(self);
     }
 
     fn visit_ident(&mut self, i: &Ident) {
@@ -28,6 +28,6 @@ impl Visit for VarCollector<'_> {
     }
 
     fn visit_var_declarator(&mut self, node: &VarDeclarator) {
-        node.name.visit_with(node, self);
+        node.name.visit_with(self);
     }
 }
