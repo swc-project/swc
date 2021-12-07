@@ -15,8 +15,7 @@ use swc_ecma_utils::{
     collect_decls, ident::IdentLike, ExprExt, Id, IsEmpty, ModuleItemLike, StmtLike, Value,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
-    VisitWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use tracing::{debug, span, trace, Level};
 
@@ -188,10 +187,10 @@ impl Visit for Analyzer<'_> {
         let old = self.in_var_decl;
 
         self.in_var_decl = true;
-        v.name.visit_with(v, self);
+        v.name.visit_with(self);
 
         self.in_var_decl = false;
-        v.init.visit_with(v, self);
+        v.init.visit_with(self);
 
         self.in_var_decl = old;
     }
@@ -429,7 +428,7 @@ impl VisitMut for TreeShaker {
                 in_var_decl: false,
                 cur_fn_id: Default::default(),
             };
-            m.visit_with(&Invalid { span: DUMMY_SP }, &mut analyzer);
+            m.visit_with(&mut analyzer);
         }
         self.data = data.into();
         trace!("Used = {:?}", self.data.used_names);

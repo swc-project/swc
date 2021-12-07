@@ -232,12 +232,9 @@ impl VisitMut for Inlining<'_> {
 
     fn visit_mut_do_while_stmt(&mut self, node: &mut DoWhileStmt) {
         {
-            node.test.visit_with(
-                &Invalid { span: DUMMY_SP } as _,
-                &mut IdentListVisitor {
-                    scope: &mut self.scope,
-                },
-            );
+            node.test.visit_with(&mut IdentListVisitor {
+                scope: &mut self.scope,
+            });
         }
 
         node.test.visit_mut_with(self);
@@ -387,21 +384,15 @@ impl VisitMut for Inlining<'_> {
         node.left.visit_mut_with(self);
 
         {
-            node.left.visit_with(
-                &Invalid { span: DUMMY_SP } as _,
-                &mut IdentListVisitor {
-                    scope: &mut self.scope,
-                },
-            );
+            node.left.visit_with(&mut IdentListVisitor {
+                scope: &mut self.scope,
+            });
         }
 
         {
-            node.right.visit_with(
-                &Invalid { span: DUMMY_SP } as _,
-                &mut IdentListVisitor {
-                    scope: &mut self.scope,
-                },
-            );
+            node.right.visit_with(&mut IdentListVisitor {
+                scope: &mut self.scope,
+            });
         }
 
         node.right.visit_mut_with(self);
@@ -413,20 +404,14 @@ impl VisitMut for Inlining<'_> {
         node.left.visit_mut_with(self);
 
         {
-            node.left.visit_with(
-                &Invalid { span: DUMMY_SP } as _,
-                &mut IdentListVisitor {
-                    scope: &mut self.scope,
-                },
-            );
+            node.left.visit_with(&mut IdentListVisitor {
+                scope: &mut self.scope,
+            });
         }
         {
-            node.right.visit_with(
-                &Invalid { span: DUMMY_SP } as _,
-                &mut IdentListVisitor {
-                    scope: &mut self.scope,
-                },
-            );
+            node.right.visit_with(&mut IdentListVisitor {
+                scope: &mut self.scope,
+            });
         }
 
         node.right.visit_mut_with(self);

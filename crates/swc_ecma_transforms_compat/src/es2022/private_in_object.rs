@@ -98,7 +98,7 @@ struct ClassData {
     /// Name of private statics.
     statics: Vec<JsWord>,
 
-    consturctor_exprs: Vec<Box<Expr>>,
+    constructor_exprs: Vec<Box<Expr>>,
 
     names_used_for_brand_checks: AHashSet<JsWord>,
 }
@@ -162,7 +162,7 @@ impl VisitMut for PrivateInObject {
 
         n.visit_mut_children_with(self);
 
-        if !self.cls.consturctor_exprs.is_empty() {
+        if !self.cls.constructor_exprs.is_empty() {
             let has_constructor = n
                 .body
                 .iter()
@@ -179,7 +179,7 @@ impl VisitMut for PrivateInObject {
                     ClassMember::Constructor(Constructor {
                         body: Some(body), ..
                     }) => {
-                        for expr in take(&mut self.cls.consturctor_exprs) {
+                        for expr in take(&mut self.cls.constructor_exprs) {
                             body.stmts.push(Stmt::Expr(ExprStmt {
                                 span: DUMMY_SP,
                                 expr,
@@ -348,7 +348,7 @@ impl VisitMut for PrivateInObject {
 
                     if is_method {
                         self.cls
-                            .consturctor_exprs
+                            .constructor_exprs
                             .push(Box::new(Expr::Call(CallExpr {
                                 span: DUMMY_SP,
                                 callee: var_name

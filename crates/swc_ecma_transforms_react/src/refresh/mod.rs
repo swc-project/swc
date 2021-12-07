@@ -21,7 +21,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, private_ident, quote_ident, quote_str, Id};
-use swc_ecma_visit::{Fold, FoldWith, Node, Visit};
+use swc_ecma_visit::{Fold, FoldWith, Visit};
 
 pub mod options;
 use options::RefreshOptions;
@@ -754,7 +754,7 @@ impl<C: Comments> Fold for Refresh<C> {
             return module_items;
         }
 
-        self.visit_module_items(&module_items, &Invalid { span: DUMMY_SP } as _);
+        self.visit_module_items(&module_items);
 
         for item in &module_items {
             item.collect_ident(&mut self.scope_binding);

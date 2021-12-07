@@ -1672,7 +1672,7 @@ fn check_for_stopper(s: &[Stmt], only_conditional: bool) -> bool {
         in_cond: !only_conditional,
         found: false,
     };
-    v.visit_stmts(s, &Invalid { span: DUMMY_SP } as _);
+    v.visit_stmts(s, );
     v.found
 }
 

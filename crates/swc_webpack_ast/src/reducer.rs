@@ -8,7 +8,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, IsEmpty, StmtLike, StmtOrModuleItem};
-use swc_ecma_visit::{Node, Visit, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 use swc_timer::timer;
 
 /// # Usage

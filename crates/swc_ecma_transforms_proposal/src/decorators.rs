@@ -9,7 +9,7 @@ use swc_ecma_utils::{
     alias_ident_for, constructor::inject_after_super, default_constructor, prepend, private_ident,
     prop_name_to_expr_value, quote_ident, quote_str, undefined, ExprFactory, IdentExt,
 };
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Visit, VisitWith};
 
 mod legacy;
 
@@ -658,6 +658,6 @@ where
     N: VisitWith<DecoratorFinder>,
 {
     let mut v = DecoratorFinder { found: false };
-    node.visit_with( &mut v);
+    node.visit_with(&mut v);
     v.found
 }

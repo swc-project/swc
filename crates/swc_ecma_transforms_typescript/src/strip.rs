@@ -15,7 +15,7 @@ use swc_ecma_utils::{
     private_ident, quote_ident, replace_ident, var::VarCollector, ExprFactory, Id, ModuleItemLike,
     StmtLike,
 };
-use swc_ecma_visit::{as_folder, Fold, Node, Visit, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{as_folder, Fold, Visit, VisitMut, VisitMutWith, VisitWith};
 
 /// Value does not contain TsLit::Bool
 type EnumValues = AHashMap<Id, TsLit>;
@@ -316,10 +316,7 @@ where
 
             Decl::Var(ref var) => {
                 let mut names = vec![];
-                var.decls.visit_with(
-                    &Invalid { span: DUMMY_SP } as _,
-                    &mut VarCollector { to: &mut names },
-                );
+                var.decls.visit_with(&mut VarCollector { to: &mut names });
 
                 for name in names {
                     self.store(name.0.clone(), name.1, true);
@@ -523,7 +520,7 @@ where
                                     // If a computed method name is encountered, dump the other key
                                     // assignments before it in a sequence expression. Note how this
                                     // always preserves the order of key computations. This
-                                    // behaviour is taken from TSC output.
+                                    // behavior is taken from TSC output.
                                     key_computations.push(name.expr.take());
                                     name.expr = Box::new(Expr::Seq(SeqExpr {
                                         span: name.span,
@@ -1418,13 +1415,13 @@ where
 {
     fn visit_assign_pat_prop(&mut self, n: &AssignPatProp) {
         if !self.in_var_pat {
-            n.key.visit_with( self);
+            n.key.visit_with(self);
         }
-        n.value.visit_with( self);
+        n.value.visit_with(self);
     }
 
     fn visit_assign_prop(&mut self, n: &AssignProp) {
-        n.value.visit_with( self);
+        n.value.visit_with(self);
     }
 
     fn visit_binding_ident(&mut self, n: &BindingIdent) {
@@ -1444,33 +1441,33 @@ where
         match n {
             Decl::Class(class) => {
                 self.decl_names.insert(class.ident.to_id());
-                class.class.visit_with(class, self);
+                class.class.visit_with(self);
             }
             Decl::Fn(f) => {
                 self.decl_names.insert(f.ident.to_id());
-                f.function.visit_with(f, self)
+                f.function.visit_with(self)
             }
             Decl::Var(ref var) => {
                 for decl in &var.decls {
                     self.in_var_pat = true;
-                    decl.name.visit_with(decl, self);
+                    decl.name.visit_with(self);
                     self.in_var_pat = false;
-                    decl.init.visit_with(decl, self);
+                    decl.init.visit_with(self);
                 }
             }
             Decl::TsEnum(e) => {
-                e.members.visit_with(e, self);
+                e.members.visit_with(self);
             }
             Decl::TsInterface(interface) => {
-                interface.extends.visit_with(interface, self);
-                interface.body.visit_with(interface, self);
+                interface.extends.visit_with(self);
+                interface.body.visit_with(self);
             }
             Decl::TsModule(module) => {
-                module.body.visit_with(module, self);
+                module.body.visit_with(self);
             }
             Decl::TsTypeAlias(alias) => {
-                alias.type_params.visit_with(alias, self);
-                alias.type_ann.visit_with(alias, self);
+                alias.type_params.visit_with(self);
+                alias.type_ann.visit_with(self);
             }
         }
         self.non_top_level = old;
@@ -1518,9 +1515,9 @@ where
     }
 
     fn visit_member_expr(&mut self, n: &MemberExpr) {
-        n.obj.visit_with( self);
+        n.obj.visit_with(self);
         if n.computed {
-            n.prop.visit_with( self);
+            n.prop.visit_with(self);
         }
     }
 
@@ -1542,7 +1539,7 @@ where
 
     fn visit_prop_name(&mut self, n: &PropName) {
         match n {
-            PropName::Computed(e) => e.visit_with( self),
+            PropName::Computed(e) => e.visit_with(self),
             _ => {}
         }
     }
