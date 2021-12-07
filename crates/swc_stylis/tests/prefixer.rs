@@ -529,6 +529,7 @@ fn fixture(input: PathBuf) {
         let mut ss: Stylesheet = parse_file(
             &fm,
             ParserConfig {
+                allow_wrong_line_comments: true,
                 ..Default::default()
             },
             &mut errors,
@@ -539,8 +540,6 @@ fn fixture(input: PathBuf) {
         }
 
         ss.visit_mut_with(&mut prefixer());
-
-        let mut wr = String::new();
 
         let mut s = String::new();
         {
