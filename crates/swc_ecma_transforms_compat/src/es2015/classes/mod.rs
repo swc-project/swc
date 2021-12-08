@@ -512,7 +512,7 @@ where
 
                 // We should fold body instead of constructor itself.
                 // Handle `super()`
-                body = body.fold_with(&mut ConstructorFolder {
+                body = body.fold_with(&mut as_folder(ConstructorFolder {
                     class_name: &class_name,
                     mode: if insert_this {
                         Some(SuperFoldingMode::Assign)
@@ -527,7 +527,7 @@ where
                     super_var,
                     ignore_return: false,
                     in_injected_define_property_call: false,
-                });
+                }));
 
                 insert_this |= (mode == None && !is_always_initialized)
                     || mode == Some(SuperFoldingMode::Assign);
