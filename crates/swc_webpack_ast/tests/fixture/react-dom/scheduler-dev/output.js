@@ -1,17 +1,17 @@
 if (process.env.NODE_ENV !== "production") {
-    if (null) exports.unstable_now;
-    else exports.unstable_now;
+    if (null) exports.unstable_now = null;
+    else exports.unstable_now = null;
     if (null) {
         (function() {
             exports.unstable_now();
         });
-        exports.unstable_shouldYield;
-        exports.unstable_forceFrameRate;
+        exports.unstable_shouldYield = null;
+        exports.unstable_forceFrameRate = null;
     } else {
-        exports.unstable_shouldYield, function() {
+        exports.unstable_shouldYield = function() {
             exports.unstable_now();
         };
-        exports.unstable_forceFrameRate;
+        exports.unstable_forceFrameRate = null;
         (function() {
             exports.unstable_now();
         });
@@ -25,20 +25,20 @@ if (process.env.NODE_ENV !== "production") {
     exports.unstable_shouldYield();
     exports.unstable_now();
     exports.unstable_now();
-    exports.unstable_IdlePriority;
-    exports.unstable_ImmediatePriority;
-    exports.unstable_LowPriority;
-    exports.unstable_NormalPriority;
-    exports.unstable_Profiling;
-    exports.unstable_UserBlockingPriority;
-    exports.unstable_cancelCallback;
-    exports.unstable_continueExecution;
-    exports.unstable_getCurrentPriorityLevel;
-    exports.unstable_getFirstCallbackNode;
-    exports.unstable_next;
-    exports.unstable_pauseExecution;
-    exports.unstable_requestPaint;
-    exports.unstable_runWithPriority;
-    exports.unstable_scheduleCallback;
-    exports.unstable_wrapCallback;
+    exports.unstable_IdlePriority = null;
+    exports.unstable_ImmediatePriority = null;
+    exports.unstable_LowPriority = null;
+    exports.unstable_NormalPriority = null;
+    exports.unstable_Profiling = null;
+    exports.unstable_UserBlockingPriority = null;
+    exports.unstable_cancelCallback = null;
+    exports.unstable_continueExecution = null;
+    exports.unstable_getCurrentPriorityLevel = null;
+    exports.unstable_getFirstCallbackNode = null;
+    exports.unstable_next = null;
+    exports.unstable_pauseExecution = null;
+    exports.unstable_requestPaint = null;
+    exports.unstable_runWithPriority = null;
+    exports.unstable_scheduleCallback = null;
+    exports.unstable_wrapCallback = null;
 }

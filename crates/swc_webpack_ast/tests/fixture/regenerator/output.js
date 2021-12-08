@@ -1,12 +1,12 @@
 module, module.exports;
-exports.wrap;
-exports.isGeneratorFunction;
-exports.mark;
-exports.awrap;
-exports.AsyncIterator;
-exports.async, function() {
+exports.wrap = null;
+exports.isGeneratorFunction = null;
+exports.mark = null;
+exports.awrap = null;
+exports.AsyncIterator = null;
+exports.async = function() {
     exports.isGeneratorFunction(null);
 };
-exports.keys;
-exports.values;
+exports.keys = null;
+exports.values = null;
 exports;
