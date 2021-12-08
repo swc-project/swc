@@ -1068,10 +1068,11 @@ impl VisitMut for ReduceAst {
 
     fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
         s.visit_mut_children_with(self);
+        let prev_span = s.test.span();
 
         self.ignore_expr(&mut s.test);
         if s.test.is_invalid() {
-            s.test = Box::new(null_expr(s.span));
+            s.test = Box::new(null_expr(prev_span));
         }
     }
 
