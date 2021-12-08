@@ -35,7 +35,7 @@ impl Flavor {
         true
     }
 
-    pub(crate) fn skip_range(_: &Option<[usize; 2]>) -> bool {
+    pub(crate) fn skip_range(_: &Option<[u32; 2]>) -> bool {
         matches!(Self::current(), Flavor::Babel)
     }
 

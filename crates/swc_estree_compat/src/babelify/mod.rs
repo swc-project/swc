@@ -34,7 +34,7 @@ pub struct Context {
 
 impl Context {
     /// Byte offset starting from the 0. (counted separately for each file)
-    fn offset(&self, span: Span) -> (Option<usize>, Option<usize>) {
+    fn offset(&self, span: Span) -> (Option<u32>, Option<u32>) {
         if span.is_dummy() {
             return (None, None);
         }
@@ -42,10 +42,20 @@ impl Context {
         // We rename this to feel more comfortable while doing math.
         let start_offset = self.fm.start_pos;
 
-        (
-            Some((span.lo.0 - start_offset.0) as _),
-            Some((span.hi.0 - start_offset.0) as _),
-        )
+        let mut start = span.lo.0 - start_offset.0;
+        let mut end = span.hi.0 - start_offset.0;
+
+        for mb in self.fm.multibyte_chars.iter() {
+            if mb.pos < span.lo {
+                start -= (mb.bytes - 1) as u32;
+            }
+
+            if mb.pos < span.hi {
+                end -= (mb.bytes - 1) as u32;
+            }
+        }
+
+        (Some(start), Some(end))
     }
 
     fn line_col(&self, pos: BytePos) -> Option<LineCol> {
