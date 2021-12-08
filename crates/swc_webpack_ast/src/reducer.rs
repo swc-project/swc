@@ -758,7 +758,6 @@ impl VisitMut for ReduceAst {
 
                             if let Some(left) = left {
                                 if self.data.should_preserve(&left) {
-                                    expr.right = Box::new(null_expr(expr.right.span()));
                                     return;
                                 }
                             }
@@ -770,12 +769,10 @@ impl VisitMut for ReduceAst {
 
                         if let Some(left) = left {
                             if self.data.should_preserve(&left) {
-                                expr.right = Box::new(null_expr(expr.right.span()));
                                 return;
                             }
                         }
                     }
-                    _ => {}
                 }
 
                 let mut exprs = Vec::with_capacity(2);
