@@ -64,7 +64,7 @@ impl VisitMut for TemplateLiteral {
                         let should_remove_kind =
                             quasis[0].raw.value.contains('\r') || quasis[0].raw.value.contains('`');
 
-                        let mut s = quasis[0].cooked.clone().unwrap();
+                        let mut s = quasis[0].cooked.clone().unwrap_or_else(|| quasis[0].raw.clone());
 
                         // See https://github.com/swc-project/swc/issues/1488
                         //
