@@ -7,9 +7,9 @@ var m, m1;
 }(m || (m = {
 })), (function(m1) {
     var x, m2;
-    let m21, m3;
-    m2 = m21 || (m21 = {
-    }), m3 || (m3 = {
-    }), "string" == typeof x || ("boolean" == typeof x, x.toString()), m2.m3 = m3;
+    let m21;
+    (m2 = m21 || (m21 = {
+    })).m3 || (m2.m3 = {
+    }), "string" == typeof x || ("boolean" == typeof x, x.toString());
 })(m1 || (m1 = {
 }));

@@ -78,7 +78,7 @@ function _createSuper(Derived) {
     }))[Color.Blue = 0] = "Blue", Color[Color.Red = 1] = "Red";
 }(A || (A = {
 })), (function(Y1) {
-    var Module, Color, A6 = function() {
+    var Color, A6 = function() {
         "use strict";
         _classCallCheck(this, A6);
     };
@@ -107,11 +107,11 @@ function _createSuper(Derived) {
         }
         return BB;
     }(A6);
-    Y1.BB = BB, Module || (Module = {
+    Y1.BB = BB, Y1.Module || (Y1.Module = {
     }), A5 = function() {
         "use strict";
         _classCallCheck(this, A5);
-    }, (Color = Color || (Color = {
+    }, (Color = Color = Y1.Color || (Y1.Color = {
     }))[Color.Blue = 0] = "Blue", Color[Color.Red = 1] = "Red", Y1.x = 12, Y1.F = function(s) {
         return 2;
     }, Y1.array = null, Y1.fn = function(s) {
@@ -120,6 +120,6 @@ function _createSuper(Derived) {
         s: "hello",
         id: 2,
         isvalid: !0
-    }, Y1.Module = Module, Y1.Color = Color;
+    };
 })(Y || (Y = {
 }));

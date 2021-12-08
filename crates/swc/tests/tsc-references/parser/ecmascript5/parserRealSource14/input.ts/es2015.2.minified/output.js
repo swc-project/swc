@@ -218,7 +218,7 @@ var TypeScript;
     }
     TypeScript1.AstPathContext = AstPathContext;
     let GetAstPathOptions;
-    (GetAstPathOptions = GetAstPathOptions || (GetAstPathOptions = {
+    (GetAstPathOptions = GetAstPathOptions = TypeScript1.GetAstPathOptions || (TypeScript1.GetAstPathOptions = {
     }))[GetAstPathOptions.Default = 0] = "Default", GetAstPathOptions[GetAstPathOptions.EdgeInclusive = 1] = "EdgeInclusive", GetAstPathOptions[GetAstPathOptions.DontPruneSearchBasedOnPosition = 2] = "DontPruneSearchBasedOnPosition", TypeScript1.getAstPathToPosition = function(script, pos, options = GetAstPathOptions.Default) {
         var lookInComments = (comments)=>{
             if (comments && comments.length > 0) for(var i = 0; i < comments.length; i++){
@@ -249,6 +249,6 @@ var TypeScript;
         }, function(cur, parent, walker) {
             return walker.state.pop(), cur;
         }, null, path1);
-    }, TypeScript1.GetAstPathOptions = GetAstPathOptions;
+    };
 }(TypeScript || (TypeScript = {
 }));

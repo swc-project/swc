@@ -15,9 +15,8 @@ var A;
             };
         }
         Utils.mirror = mirror;
-    })(Utils1 || (Utils1 = {
+    })(Utils1 = A1.Utils || (A1.Utils = {
     }));
-    A1.Utils = Utils1;
 })(A || (A = {
 }));
 (function(A2) {
@@ -34,9 +33,8 @@ var A;
             this.br = br;
         };
         Utils.Plane = Plane;
-    })(Utils2 || (Utils2 = {
+    })(Utils2 = A2.Utils || (A2.Utils = {
     }));
-    A2.Utils = Utils2;
 })(A || (A = {
 }));
 //@filename: part3.ts

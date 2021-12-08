@@ -851,6 +851,22 @@ where
                 args,
                 ..
             }) => {
+                match &mut **callee {
+                    Expr::Fn(FnExpr {
+                        ident: None,
+                        function,
+                    }) => {
+                        if args.is_empty() {
+                            for param in &mut function.params {
+                                self.drop_unused_param(&mut param.pat, true);
+                            }
+
+                            function.params.retain(|p| !p.pat.is_invalid());
+                        }
+                    }
+                    _ => {}
+                }
+
                 if args.is_empty() {
                     match &mut **callee {
                         Expr::Fn(f) => {
@@ -1013,6 +1029,13 @@ where
                     _ => false,
                 } =>
             {
+                let processed_arg = self.ignore_return_value(&mut **arg);
+
+                if processed_arg.is_none() {
+                    return None;
+                }
+                *arg = Box::new(processed_arg.unwrap());
+
                 tracing::trace!("ignore_return_value: Preserving negated iife");
                 return Some(e.take());
             }
@@ -1863,6 +1886,7 @@ where
         if need_ignore_return_value
             || self.options.unused
             || self.options.side_effects
+            || self.options.reduce_fns
             || (self.options.sequences() && n.expr.is_seq())
             || (self.options.conditionals
                 && match &*n.expr {
@@ -1875,7 +1899,7 @@ where
         {
             // Preserve top-level negated iifes.
             match &*n.expr {
-                Expr::Unary(unary) => match &*unary.arg {
+                Expr::Unary(unary @ UnaryExpr { op: op!("!"), .. }) => match &*unary.arg {
                     Expr::Call(CallExpr {
                         callee: ExprOrSuper::Expr(callee),
                         ..
@@ -1919,7 +1943,8 @@ where
             self.drop_unused_params(&mut f.function.params);
         }
 
-        f.visit_mut_children_with(self);
+        let ctx = Ctx { ..self.ctx };
+        f.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
     fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
@@ -2150,7 +2175,7 @@ where
     fn visit_mut_param(&mut self, n: &mut Param) {
         n.visit_mut_children_with(self);
 
-        self.drop_unused_param(&mut n.pat);
+        self.drop_unused_param(&mut n.pat, false);
     }
 
     fn visit_mut_params(&mut self, n: &mut Vec<Param>) {

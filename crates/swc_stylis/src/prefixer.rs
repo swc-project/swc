@@ -10,6 +10,7 @@ pub fn prefixer() -> impl VisitMut {
 
 #[derive(Default)]
 struct Prefixer {
+    in_block: bool,
     added: Vec<Declaration>,
 }
 
@@ -83,19 +84,12 @@ impl Prefixer {
 }
 
 impl VisitMut for Prefixer {
-    fn visit_mut_declaration_block_items(&mut self, props: &mut Vec<DeclarationBlockItem>) {
-        let mut new = vec![];
-        for mut n in take(props) {
-            n.visit_mut_with(self);
-            new.extend(self.added.drain(..).map(DeclarationBlockItem::Declaration));
-            new.push(n);
-        }
-
-        *props = new;
-    }
-
     fn visit_mut_declaration(&mut self, n: &mut Declaration) {
         n.visit_mut_children_with(self);
+
+        if !self.in_block {
+            return;
+        }
 
         macro_rules! simple {
             ($property:expr,$val:expr) => {{
@@ -615,5 +609,25 @@ impl VisitMut for Prefixer {
 
             _ => {}
         }
+    }
+
+    fn visit_mut_declaration_block_items(&mut self, props: &mut Vec<DeclarationBlockItem>) {
+        let mut new = vec![];
+        for mut n in take(props) {
+            n.visit_mut_with(self);
+            new.extend(self.added.drain(..).map(DeclarationBlockItem::Declaration));
+            new.push(n);
+        }
+
+        *props = new;
+    }
+
+    fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {
+        let old_in_block = self.in_block;
+        self.in_block = true;
+
+        n.visit_mut_children_with(self);
+
+        self.in_block = old_in_block;
     }
 }

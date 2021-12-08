@@ -1,28 +1,21 @@
-export var A;
-!function(A1) {
-    let Utils;
-    (Utils || (Utils = {
-    })).mirror = function(p) {
-        return {
-            x: p.y,
-            y: p.x
-        };
-    }, A1.Origin = {
-        x: 0,
-        y: 0
-    }, A1.Utils = Utils;
-}(A || (A = {
-})), (function(A2) {
-    A2.Origin = {
-        x: 0,
-        y: 0
+var A, A1, A2;
+((A1 = A || (A = {
+})).Utils || (A1.Utils = {
+})).mirror = function(p) {
+    return {
+        x: p.y,
+        y: p.x
     };
-    let Utils;
-    (Utils || (Utils = {
-    })).Plane = class {
-        constructor(tl, br){
-            this.tl = tl, this.br = br;
-        }
-    }, A2.Utils = Utils;
-})(A || (A = {
-}));
+}, A1.Origin = {
+    x: 0,
+    y: 0
+}, (A2 = A || (A = {
+})).Origin = {
+    x: 0,
+    y: 0
+}, (A2.Utils || (A2.Utils = {
+})).Plane = class {
+    constructor(tl, br){
+        this.tl = tl, this.br = br;
+    }
+};

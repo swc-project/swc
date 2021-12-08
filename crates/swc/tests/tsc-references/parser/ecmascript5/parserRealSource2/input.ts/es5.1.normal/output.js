@@ -67,7 +67,7 @@ var TypeScript;
         ErrorRecoverySet[ErrorRecoverySet["ExprStart"] = 520158210] = "ExprStart";
         ErrorRecoverySet[ErrorRecoverySet["StmtStart"] = 1608580098] = "StmtStart";
         ErrorRecoverySet[ErrorRecoverySet["Postfix"] = 49280] = "Postfix";
-    })(ErrorRecoverySet || (ErrorRecoverySet = {
+    })(ErrorRecoverySet = TypeScript1.ErrorRecoverySet || (TypeScript1.ErrorRecoverySet = {
     }));
     var AllowedElements;
     (function(AllowedElements) {
@@ -79,7 +79,7 @@ var TypeScript;
         AllowedElements[AllowedElements["Properties"] = 2048] = "Properties";
         AllowedElements[AllowedElements["Global"] = 1052] = "Global";
         AllowedElements[AllowedElements["QuickParse"] = 3100] = "QuickParse";
-    })(AllowedElements || (AllowedElements = {
+    })(AllowedElements = TypeScript1.AllowedElements || (TypeScript1.AllowedElements = {
     }));
     var Modifiers;
     (function(Modifiers) {
@@ -92,7 +92,7 @@ var TypeScript;
         Modifiers[Modifiers["Getter"] = 32] = "Getter";
         Modifiers[Modifiers["Setter"] = 64] = "Setter";
         Modifiers[Modifiers["Static"] = 128] = "Static";
-    })(Modifiers || (Modifiers = {
+    })(Modifiers = TypeScript1.Modifiers || (TypeScript1.Modifiers = {
     }));
     var ASTFlags;
     (function(ASTFlags) {
@@ -112,7 +112,7 @@ var TypeScript;
         //         The flag is used to communicate this piece of information to the calling parseTerm, which intern will remove it.
         //         Once we have a better way to associate information with nodes, this flag should not be used.
         "SkipNextRParen"] = 2048] = "SkipNextRParen";
-    })(ASTFlags || (ASTFlags = {
+    })(ASTFlags = TypeScript1.ASTFlags || (TypeScript1.ASTFlags = {
     }));
     var DeclFlags;
     (function(DeclFlags) {
@@ -125,7 +125,7 @@ var TypeScript;
         DeclFlags[DeclFlags["LocalStatic"] = 32] = "LocalStatic";
         DeclFlags[DeclFlags["GetAccessor"] = 64] = "GetAccessor";
         DeclFlags[DeclFlags["SetAccessor"] = 128] = "SetAccessor";
-    })(DeclFlags || (DeclFlags = {
+    })(DeclFlags = TypeScript1.DeclFlags || (TypeScript1.DeclFlags = {
     }));
     var ModuleFlags;
     (function(ModuleFlags) {
@@ -143,7 +143,7 @@ var TypeScript;
         ModuleFlags[ModuleFlags["IsWholeFile"] = 1024] = "IsWholeFile";
         ModuleFlags[ModuleFlags["IsDynamic"] = 2048] = "IsDynamic";
         ModuleFlags[ModuleFlags["MustCaptureThis"] = 4096] = "MustCaptureThis";
-    })(ModuleFlags || (ModuleFlags = {
+    })(ModuleFlags = TypeScript1.ModuleFlags || (TypeScript1.ModuleFlags = {
     }));
     var SymbolFlags;
     (function(SymbolFlags) {
@@ -168,7 +168,7 @@ var TypeScript;
         SymbolFlags[SymbolFlags["RecursivelyReferenced"] = 131072] = "RecursivelyReferenced";
         SymbolFlags[SymbolFlags["Bound"] = 262144] = "Bound";
         SymbolFlags[SymbolFlags["CompilerGenerated"] = 524288] = "CompilerGenerated";
-    })(SymbolFlags || (SymbolFlags = {
+    })(SymbolFlags = TypeScript1.SymbolFlags || (TypeScript1.SymbolFlags = {
     }));
     var VarFlags;
     (function(VarFlags) {
@@ -191,7 +191,7 @@ var TypeScript;
         VarFlags[VarFlags["ClassSuperMustBeFirstCallInConstructor"] = 32768] = "ClassSuperMustBeFirstCallInConstructor";
         VarFlags[VarFlags["Constant"] = 65536] = "Constant";
         VarFlags[VarFlags["MustCaptureThis"] = 131072] = "MustCaptureThis";
-    })(VarFlags || (VarFlags = {
+    })(VarFlags = TypeScript1.VarFlags || (TypeScript1.VarFlags = {
     }));
     var FncFlags;
     (function(FncFlags) {
@@ -216,7 +216,7 @@ var TypeScript;
         FncFlags[FncFlags["IsFunctionExpression"] = 131072] = "IsFunctionExpression";
         FncFlags[FncFlags["ClassMethod"] = 262144] = "ClassMethod";
         FncFlags[FncFlags["ClassPropertyMethodExported"] = 524288] = "ClassPropertyMethodExported";
-    })(FncFlags || (FncFlags = {
+    })(FncFlags = TypeScript1.FncFlags || (TypeScript1.FncFlags = {
     }));
     var SignatureFlags;
     (function(SignatureFlags) {
@@ -224,7 +224,7 @@ var TypeScript;
         SignatureFlags[SignatureFlags["IsIndexer"] = 1] = "IsIndexer";
         SignatureFlags[SignatureFlags["IsStringIndexer"] = 2] = "IsStringIndexer";
         SignatureFlags[SignatureFlags["IsNumberIndexer"] = 4] = "IsNumberIndexer";
-    })(SignatureFlags || (SignatureFlags = {
+    })(SignatureFlags = TypeScript1.SignatureFlags || (TypeScript1.SignatureFlags = {
     }));
     TypeScript1.ToDeclFlags = ToDeclFlags;
     var TypeFlags;
@@ -238,7 +238,7 @@ var TypeScript;
         TypeFlags[TypeFlags["HasBaseType"] = 32] = "HasBaseType";
         TypeFlags[TypeFlags["HasBaseTypeOfObject"] = 64] = "HasBaseTypeOfObject";
         TypeFlags[TypeFlags["IsClass"] = 128] = "IsClass";
-    })(TypeFlags || (TypeFlags = {
+    })(TypeFlags = TypeScript1.TypeFlags || (TypeScript1.TypeFlags = {
     }));
     var TypeRelationshipFlags;
     (function(TypeRelationshipFlags) {
@@ -250,25 +250,24 @@ var TypeScript;
         TypeRelationshipFlags[TypeRelationshipFlags["IncompatibleReturnTypes"] = 16] = "IncompatibleReturnTypes";
         TypeRelationshipFlags[TypeRelationshipFlags["IncompatiblePropertyTypes"] = 32] = "IncompatiblePropertyTypes";
         TypeRelationshipFlags[TypeRelationshipFlags["IncompatibleParameterTypes"] = 64] = "IncompatibleParameterTypes";
-    })(TypeRelationshipFlags || (TypeRelationshipFlags = {
+    })(TypeRelationshipFlags = TypeScript1.TypeRelationshipFlags || (TypeScript1.TypeRelationshipFlags = {
     }));
     var CodeGenTarget;
     (function(CodeGenTarget) {
         CodeGenTarget[CodeGenTarget["ES3"] = 0] = "ES3";
         CodeGenTarget[CodeGenTarget["ES5"] = 1] = "ES5";
-    })(CodeGenTarget || (CodeGenTarget = {
+    })(CodeGenTarget = TypeScript1.CodeGenTarget || (TypeScript1.CodeGenTarget = {
     }));
     var ModuleGenTarget;
     (function(ModuleGenTarget) {
         ModuleGenTarget[ModuleGenTarget["Synchronous"] = 0] = "Synchronous";
         ModuleGenTarget[ModuleGenTarget["Asynchronous"] = 1] = "Asynchronous";
         ModuleGenTarget[ModuleGenTarget["Local"] = 2] = "Local";
-    })(ModuleGenTarget || (ModuleGenTarget = {
+    })(ModuleGenTarget = TypeScript1.ModuleGenTarget || (TypeScript1.ModuleGenTarget = {
     }));
     TypeScript1.codeGenTarget = CodeGenTarget.ES3;
     TypeScript1.moduleGenTarget = ModuleGenTarget.Synchronous;
     TypeScript1.optimizeModuleCodeGen = true;
     TypeScript1.flagsToString = flagsToString;
-    TypeScript1.ErrorRecoverySet = ErrorRecoverySet, TypeScript1.AllowedElements = AllowedElements, TypeScript1.Modifiers = Modifiers, TypeScript1.ASTFlags = ASTFlags, TypeScript1.DeclFlags = DeclFlags, TypeScript1.ModuleFlags = ModuleFlags, TypeScript1.SymbolFlags = SymbolFlags, TypeScript1.VarFlags = VarFlags, TypeScript1.FncFlags = FncFlags, TypeScript1.SignatureFlags = SignatureFlags, TypeScript1.TypeFlags = TypeFlags, TypeScript1.TypeRelationshipFlags = TypeRelationshipFlags, TypeScript1.CodeGenTarget = CodeGenTarget, TypeScript1.ModuleGenTarget = ModuleGenTarget;
 })(TypeScript || (TypeScript = {
 }));

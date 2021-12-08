@@ -78,8 +78,7 @@ var m3;
             strOrNum = var3; // string | number
         }
         m4.var3 = var3;
-    })(m41 || (m41 = {
+    })(m41 = m33.m4 || (m33.m4 = {
     }));
-    m33.m4 = m41;
 })(m3 || (m3 = {
 }));

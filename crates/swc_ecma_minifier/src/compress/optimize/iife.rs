@@ -503,7 +503,7 @@ where
                     .collect::<Vec<_>>();
 
                 if !self.can_inline_fn_like(&param_ids, body) {
-                    tracing::trace!("iife: [x] Body is not inliable");
+                    tracing::trace!("iife: [x] Body is not inlinable");
                     return;
                 }
 
@@ -522,6 +522,23 @@ where
     }
 
     fn can_inline_fn_like(&self, param_ids: &[Ident], body: &BlockStmt) -> bool {
+        // Don't create top-level variables.
+        if !param_ids.is_empty() {
+            if self.ctx.in_top_level() && !self.options.module {
+                for pid in param_ids {
+                    if let Some(usage) = self
+                        .data
+                        .as_ref()
+                        .and_then(|data| data.vars.get(&pid.to_id()))
+                    {
+                        if usage.ref_count > 1 || usage.assign_count > 0 || usage.inline_prevented {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
         if !body.stmts.iter().all(|stmt| match stmt {
             Stmt::Decl(Decl::Var(VarDecl {
                 kind: VarDeclKind::Var | VarDeclKind::Let,
@@ -544,6 +561,10 @@ where
                 }
 
                 if self.ctx.executed_multiple_time {
+                    return false;
+                }
+
+                if self.ctx.in_top_level() && !self.options.module {
                     return false;
                 }
 

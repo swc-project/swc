@@ -30,8 +30,7 @@ var TypeScript;
             }
             return true;
         }
-    })(AstWalkerWithDetailCallback1 || (AstWalkerWithDetailCallback1 = {
+    })(AstWalkerWithDetailCallback1 = TypeScript1.AstWalkerWithDetailCallback || (TypeScript1.AstWalkerWithDetailCallback = {
     }));
-    TypeScript1.AstWalkerWithDetailCallback = AstWalkerWithDetailCallback1;
 })(TypeScript || (TypeScript = {
 }));

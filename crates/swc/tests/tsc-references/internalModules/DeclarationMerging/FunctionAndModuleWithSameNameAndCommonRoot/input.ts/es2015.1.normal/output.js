@@ -17,9 +17,8 @@ var A;
             x: 0,
             y: 0
         };
-    })(Point1 || (Point1 = {
+    })(Point1 = A2.Point || (A2.Point = {
     }));
-    A2.Point = Point1;
 })(A || (A = {
 }));
 // @filename: test.ts
@@ -43,7 +42,7 @@ var B;
             x: 0,
             y: 0
         };
-    })(Point2 || (Point2 = {
+    })(Point2 = B1.Point || (B1.Point = {
     }));
 })(B || (B = {
 }));
