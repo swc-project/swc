@@ -4,7 +4,7 @@ use swc_common::{
     collections::AHashSet,
     pass::{Repeat, Repeated},
     util::take::Take,
-    Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
+    Mark, Span, Spanned, SyntaxContext,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, IsEmpty, StmtLike, StmtOrModuleItem};
@@ -174,7 +174,7 @@ impl ScopeData {
         }
 
         match &*i.sym {
-            "process" | "module" | "import" | "define" | "require" => {
+            "process" | "module" | "import" | "define" | "require" | "exports" => {
                 return true;
             }
 
@@ -360,6 +360,15 @@ impl ReduceAst {
         });
 
         *stmts = new;
+    }
+
+    /// `ignore_expr`, but use `null` instead of [Expr::Invalid].
+    fn ignore_expr_as_null(&mut self, e: &mut Expr) {
+        let span = e.span();
+        self.ignore_expr(e);
+        if e.is_invalid() {
+            *e = null_expr(span);
+        }
     }
 
     fn ignore_expr(&mut self, e: &mut Expr) {
@@ -748,22 +757,51 @@ impl VisitMut for ReduceAst {
             }
 
             Expr::Assign(expr) => {
+                // process.browser = true should be preserved.
+                // Otherwise, webpack will replace it to `true`.
+
+                self.ignore_expr_as_null(&mut expr.right);
+
+                match &mut expr.left {
+                    PatOrExpr::Pat(pat) => match &mut **pat {
+                        Pat::Expr(left) => {
+                            let left = left_most(&left);
+
+                            if let Some(left) = left {
+                                if self.data.should_preserve(&left) {
+                                    return;
+                                }
+                            }
+                        }
+                        _ => {}
+                    },
+                    PatOrExpr::Expr(left) => {
+                        let left = left_most(&left);
+
+                        if let Some(left) = left {
+                            if self.data.should_preserve(&left) {
+                                return;
+                            }
+                        }
+                    }
+                }
+
                 let mut exprs = Vec::with_capacity(2);
                 preserve_pat_or_expr(&mut exprs, expr.left.take());
                 exprs.push(expr.right.take());
-                let mut seq = Expr::Seq(SeqExpr {
+                let seq = Expr::Seq(SeqExpr {
                     span: expr.span,
                     exprs,
                 });
 
-                seq.visit_mut_with(self);
+                self.changed = true;
 
                 *e = seq;
             }
 
             Expr::Seq(seq) => {
                 if seq.exprs.is_empty() {
-                    *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                    *e = Expr::Invalid(Invalid { span: seq.span });
                     return;
                 }
             }
@@ -1069,10 +1107,7 @@ impl VisitMut for ReduceAst {
     fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
         s.visit_mut_children_with(self);
 
-        self.ignore_expr(&mut s.test);
-        if s.test.is_invalid() {
-            s.test = Box::new(null_expr(s.span));
-        }
+        self.ignore_expr_as_null(&mut s.test);
     }
 
     fn visit_mut_jsx_attr_or_spreads(&mut self, attrs: &mut Vec<JSXAttrOrSpread>) {
@@ -1609,7 +1644,7 @@ impl VisitMut for ReduceAst {
                 if is.cons.is_empty() && is.alt.is_empty() {
                     self.changed = true;
                     *stmt = Stmt::Expr(ExprStmt {
-                        span: is.span,
+                        span: is.test.span(),
                         expr: is.test.take(),
                     });
                     return;

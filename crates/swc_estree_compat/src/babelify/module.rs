@@ -27,7 +27,7 @@ impl Babelify for Program {
                 start: program.base.start,
                 end: program.base.end,
                 loc: program.base.loc,
-                range: if matches!(Flavor::current(), Flavor::Acorn) {
+                range: if matches!(Flavor::current(), Flavor::Acorn { .. }) {
                     match (program.base.start, program.base.end) {
                         (Some(start), Some(end)) => Some([start, end]),
                         _ => None,
@@ -66,6 +66,7 @@ impl Babelify for Module {
             }),
             directives: Default::default(),
             source_file: Default::default(),
+            comments: Default::default(),
         }
     }
 }
@@ -89,6 +90,7 @@ impl Babelify for Script {
             }),
             directives: Default::default(),
             source_file: Default::default(),
+            comments: Default::default(),
         }
     }
 }
