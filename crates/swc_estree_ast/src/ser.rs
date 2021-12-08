@@ -37,9 +37,9 @@ pub(crate) fn skip_typescript<T>(_: T) -> bool {
     }
 }
 
-pub(crate) fn should_emit_comments_on_program<T>(_: T) -> bool {
+pub(crate) fn skip_comments_on_program<T>(_: T) -> bool {
     match Flavor::current() {
-        Flavor::Acorn { extra_comments } => extra_comments,
-        _ => false,
+        Flavor::Acorn { extra_comments } => !extra_comments,
+        _ => true,
     }
 }
