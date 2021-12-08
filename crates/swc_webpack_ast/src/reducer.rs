@@ -760,6 +760,8 @@ impl VisitMut for ReduceAst {
                 // process.browser = true should be preserved.
                 // Otherwise, webpack will replace it to `true`.
 
+                self.ignore_expr_as_null(&mut expr.right);
+
                 match &mut expr.left {
                     PatOrExpr::Pat(pat) => match &mut **pat {
                         Pat::Expr(left) => {
@@ -767,7 +769,6 @@ impl VisitMut for ReduceAst {
 
                             if let Some(left) = left {
                                 if self.data.should_preserve(&left) {
-                                    expr.right = Box::new(null_expr(expr.right.span()));
                                     return;
                                 }
                             }
