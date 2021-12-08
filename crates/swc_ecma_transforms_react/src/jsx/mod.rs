@@ -401,27 +401,20 @@ where
                     }
                 }
 
-                let args = vec![fragment.as_arg(), props_obj.as_arg()];
+                let args = once(fragment.as_arg()).chain(once(props_obj.as_arg()));
 
                 let args = if self.development {
-                    args.into_iter()
-                        .chain(
-                            vec![
-                                ExprOrSpread {
-                                    spread: None,
-                                    expr: undefined(DUMMY_SP),
-                                },
-                                Lit::Bool(Bool {
-                                    span: DUMMY_SP,
-                                    value: use_jsxs,
-                                })
-                                .as_arg(),
-                            ]
-                            .into_iter(),
-                        )
+                    args.chain(once(undefined(DUMMY_SP).as_arg()))
+                        .chain(once(
+                            Lit::Bool(Bool {
+                                span: DUMMY_SP,
+                                value: use_jsxs,
+                            })
+                            .as_arg(),
+                        ))
                         .collect()
                 } else {
-                    args
+                    args.collect()
                 };
 
                 Expr::Call(CallExpr {
