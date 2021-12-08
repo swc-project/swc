@@ -748,15 +748,29 @@ impl VisitMut for ReduceAst {
             }
 
             Expr::Assign(expr) => {
-                match &mut expr.left {
-                    PatOrExpr::Expr(left) => {
-                        // process.browser = true should be preserved.
-                        // Otherwise, webpack will replace it to `true`.
+                // process.browser = true should be preserved.
+                // Otherwise, webpack will replace it to `true`.
 
+                match &mut expr.left {
+                    PatOrExpr::Pat(pat) => match &mut **pat {
+                        Pat::Expr(left) => {
+                            let left = left_most(&left);
+
+                            if let Some(left) = left {
+                                if self.data.should_preserve(&left) {
+                                    expr.right = Box::new(null_expr(expr.right.span()));
+                                    return;
+                                }
+                            }
+                        }
+                        _ => {}
+                    },
+                    PatOrExpr::Expr(left) => {
                         let left = left_most(&left);
 
                         if let Some(left) = left {
                             if self.data.should_preserve(&left) {
+                                expr.right = Box::new(null_expr(expr.right.span()));
                                 return;
                             }
                         }
