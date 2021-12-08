@@ -748,15 +748,31 @@ impl VisitMut for ReduceAst {
             }
 
             Expr::Assign(expr) => {
+                match &mut expr.left {
+                    PatOrExpr::Expr(left) => {
+                        // process.browser = true should be preserved.
+                        // Otherwise, webpack will replace it to `true`.
+
+                        let left = left_most(&left);
+
+                        if let Some(left) = left {
+                            if self.data.should_preserve(&left) {
+                                return;
+                            }
+                        }
+                    }
+                    _ => {}
+                }
+
                 let mut exprs = Vec::with_capacity(2);
                 preserve_pat_or_expr(&mut exprs, expr.left.take());
                 exprs.push(expr.right.take());
-                let mut seq = Expr::Seq(SeqExpr {
+                let seq = Expr::Seq(SeqExpr {
                     span: expr.span,
                     exprs,
                 });
 
-                seq.visit_mut_with(self);
+                self.changed = true;
 
                 *e = seq;
             }
