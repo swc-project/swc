@@ -362,6 +362,15 @@ impl ReduceAst {
         *stmts = new;
     }
 
+    /// `ignore_expr`, but use `null` instead of [Expr::Invalid].
+    fn ignore_expr_as_null(&mut self, e: &mut Expr) {
+        let span = e.span();
+        self.ignore_expr(e);
+        if e.is_invalid() {
+            *e = null_expr(span);
+        }
+    }
+
     fn ignore_expr(&mut self, e: &mut Expr) {
         match e {
             Expr::Lit(..) => {
@@ -758,6 +767,7 @@ impl VisitMut for ReduceAst {
 
                             if let Some(left) = left {
                                 if self.data.should_preserve(&left) {
+                                    expr.right = Box::new(null_expr(expr.right.span()));
                                     return;
                                 }
                             }
@@ -1095,12 +1105,8 @@ impl VisitMut for ReduceAst {
 
     fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
         s.visit_mut_children_with(self);
-        let prev_span = s.test.span();
 
-        self.ignore_expr(&mut s.test);
-        if s.test.is_invalid() {
-            s.test = Box::new(null_expr(prev_span));
-        }
+        self.ignore_expr_as_null(&mut s.test);
     }
 
     fn visit_mut_jsx_attr_or_spreads(&mut self, attrs: &mut Vec<JSXAttrOrSpread>) {
