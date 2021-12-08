@@ -35,17 +35,17 @@ pub struct Context {
 impl Context {
     /// Byte offset starting from the 0. (counted separately for each file)
     fn offset(&self, span: Span) -> (Option<usize>, Option<usize>) {
+        if span.is_dummy() {
+            return (None, None);
+        }
+
         // We rename this to feel more comfortable while doing math.
         let start_offset = self.fm.start_pos;
 
-        if span.is_dummy() {
-            (None, None)
-        } else {
-            (
-                Some((span.lo.0 - start_offset.0) as _),
-                Some((span.hi.0 - start_offset.0) as _),
-            )
-        }
+        (
+            Some((span.lo.0 - start_offset.0) as _),
+            Some((span.hi.0 - start_offset.0) as _),
+        )
     }
 
     fn line_col(&self, pos: BytePos) -> Option<LineCol> {
