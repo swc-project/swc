@@ -48,8 +48,7 @@ var A;
             return Line;
         }();
         B.Line = Line;
-    })(B1 || (B1 = {
+    })(B1 = A1.B || (A1.B = {
     }));
-    A1.B = B1;
 })(A || (A = {
 }));

@@ -255,7 +255,7 @@ var TypeScript;
         // we don't find the "precomment" attached to the errorneous empty stmt.
         //TODO: It would be nice to be able to get rid of this.
         "DontPruneSearchBasedOnPosition"] = 2] = "DontPruneSearchBasedOnPosition";
-    })(GetAstPathOptions || (GetAstPathOptions = {
+    })(GetAstPathOptions = TypeScript1.GetAstPathOptions || (TypeScript1.GetAstPathOptions = {
     }));
     function getAstPathToPosition(script, pos, options = GetAstPathOptions.Default) {
         var lookInComments = (comments)=>{
@@ -348,6 +348,5 @@ var TypeScript;
         TypeScript.getAstWalkerFactory().walk(ast, pre, post, null, path1);
     }
     TypeScript1.walkAST = walkAST;
-    TypeScript1.GetAstPathOptions = GetAstPathOptions;
 })(TypeScript || (TypeScript = {
 }));

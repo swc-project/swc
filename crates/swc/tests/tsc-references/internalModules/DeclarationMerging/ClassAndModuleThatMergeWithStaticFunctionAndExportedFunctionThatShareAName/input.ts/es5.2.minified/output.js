@@ -48,7 +48,7 @@ var A, Point = function() {
             }
         ]), Point;
     }();
-    A1.Point = Point, (Point || (Point = {
+    A1.Point = Point, (Point = A1.Point || (A1.Point = {
     })).Origin = function() {
         return "";
     };

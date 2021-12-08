@@ -44,9 +44,8 @@ var M3;
     (function(Color) {
         Color[Color["Blue"] = 0] = "Blue";
         Color[Color["Red"] = 1] = "Red";
-    })(Color || (Color = {
+    })(Color = M31.Color || (M31.Color = {
     }));
-    M31.Color = Color;
 })(M3 || (M3 = {
 }));
 var m3;

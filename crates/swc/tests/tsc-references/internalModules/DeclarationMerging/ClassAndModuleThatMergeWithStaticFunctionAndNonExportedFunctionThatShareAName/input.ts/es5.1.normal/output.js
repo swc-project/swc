@@ -71,7 +71,7 @@ var A;
         function Origin() {
             return "";
         } // not an error since not exported
-    })(Point || (Point = {
+    })(Point = A1.Point || (A1.Point = {
     }));
 })(A || (A = {
 }));

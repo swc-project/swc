@@ -1,5 +1,5 @@
 // @filename: t3.ts
-import { I1 as I, M1 as M, N1 as N, T1 as T, a1 as a } from "./t1";
+import { I1 as I, N1 as N, T1 as T } from "./t1";
 // @target: es6
 // @module: commonjs
 // @filename: t1.ts

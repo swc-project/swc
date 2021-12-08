@@ -43,8 +43,8 @@ var M1, C = function() {
     ]), C;
 }();
 !function(M11) {
-    var M2, C;
-    M2 || (M2 = {
+    var C;
+    M11.M2 || (M11.M2 = {
     }), C = (function() {
         "use strict";
         function C() {
@@ -58,6 +58,6 @@ var M1, C = function() {
                 }
             }
         ]), C;
-    })(), M11.M2 = M2;
+    })();
 }(M1 || (M1 = {
 }));

@@ -17,12 +17,10 @@ var Root;
                 };
             }
             Utils.mirror = mirror;
-        })(Utils1 || (Utils1 = {
+        })(Utils1 = A.Utils || (A.Utils = {
         }));
-        A.Utils = Utils1;
-    })(A1 || (A1 = {
+    })(A1 = Root1.A || (Root1.A = {
     }));
-    Root1.A = A1;
 })(Root || (Root = {
 }));
 //@filename: part2.ts
@@ -43,11 +41,9 @@ var otherRoot;
                 this.br = br;
             };
             Utils.Plane = Plane;
-        })(Utils2 || (Utils2 = {
+        })(Utils2 = A.Utils || (A.Utils = {
         }));
-        A.Utils = Utils2;
-    })(A2 || (A2 = {
+    })(A2 = otherRoot1.A || (otherRoot1.A = {
     }));
-    otherRoot1.A = A2;
 })(otherRoot || (otherRoot = {
 }));

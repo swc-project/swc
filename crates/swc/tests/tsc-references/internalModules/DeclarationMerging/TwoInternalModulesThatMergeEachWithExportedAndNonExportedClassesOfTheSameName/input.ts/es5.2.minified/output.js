@@ -36,21 +36,21 @@ function _defineProperties(target, props) {
     }();
 })(A || (A = {
 })), (function(X1) {
-    var Y, Y1, Z, Z1, Line;
-    Y1 = Y || (Y = {
-    }), Z1 = Z || (Z = {
+    var Y, Z, Line;
+    Z = (Y = X1.Y || (X1.Y = {
+    })).Z || (Y.Z = {
     }), Line = function() {
         "use strict";
         _classCallCheck(this, Line);
-    }, Z1.Line = Line, Y1.Z = Z, X1.Y = Y;
+    }, Z.Line = Line;
 })(X || (X = {
 })), (function(X2) {
-    var Y, Y2, Z, Line;
-    Y2 = Y || (Y = {
-    }), Z || (Z = {
+    var Y, Line;
+    (Y = X2.Y || (X2.Y = {
+    })).Z || (Y.Z = {
     }), Line = function() {
         "use strict";
         _classCallCheck(this, Line);
-    }, Y2.Z = Z, X2.Y = Y;
+    };
 })(X || (X = {
 }));

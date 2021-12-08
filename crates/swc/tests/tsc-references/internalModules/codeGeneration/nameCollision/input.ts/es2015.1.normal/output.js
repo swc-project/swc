@@ -29,12 +29,10 @@ var X;
             var X = 12;
             var Y = 12;
             var Z1 = 12;
-        })(Z || (Z = {
+        })(Z = Y3.Z || (Y3.Z = {
         }));
-        Y3.Z = Z;
-    })(Y2 || (Y2 = {
+    })(Y2 = X2.Y || (X2.Y = {
     }));
-    X2.Y = Y2;
 })(X || (X = {
 }));
 var Y;
@@ -45,12 +43,10 @@ var Y;
         (function(Y4) {
             Y4[Y4["Red"] = 0] = "Red";
             Y4[Y4["Blue"] = 1] = "Blue";
-        })(Y4 || (Y4 = {
+        })(Y4 = Y6.Y || (Y6.Y = {
         }));
-        Y6.Y = Y4;
-    })(Y4 || (Y4 = {
+    })(Y4 = Y5.Y || (Y5.Y = {
     }));
-    Y5.Y = Y4;
 })(Y || (Y = {
 }));
 // no collision, since interface doesn't

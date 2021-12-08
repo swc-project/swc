@@ -53,13 +53,13 @@ var Y;
     (function(Module) {
         class A {
         }
-    })(Module || (Module = {
+    })(Module = Y1.Module || (Y1.Module = {
     }));
     let Color;
     (function(Color) {
         Color[Color["Blue"] = 0] = "Blue";
         Color[Color["Red"] = 1] = "Red";
-    })(Color || (Color = {
+    })(Color = Y1.Color || (Y1.Color = {
     }));
     Y1.x = 12;
     function F(s) {
@@ -75,6 +75,5 @@ var Y;
         id: 2,
         isvalid: true
     };
-    Y1.Module = Module, Y1.Color = Color;
 })(Y || (Y = {
 }));

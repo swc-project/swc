@@ -11,8 +11,7 @@ var num, strOrNum, var1, m1, m2, m3;
 })(m2 || (m2 = {
 })), (function(m33) {
     var m4, var2, var3;
-    let m41;
-    m4 = m41 || (m41 = {
-    }), num = "string" == typeof var1 && var1.length, num = "string" == typeof var2 ? var2.length : var2, "string" == typeof var3, strOrNum = var3, m4.var3 = var3, m33.m4 = m41;
+    m4 = m33.m4 || (m33.m4 = {
+    }), num = "string" == typeof var1 && var1.length, num = "string" == typeof var2 ? var2.length : var2, "string" == typeof var3, strOrNum = var3, m4.var3 = var3;
 })(m3 || (m3 = {
 }));
