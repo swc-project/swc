@@ -43,7 +43,7 @@ impl Serialize for Literal {
                 };
                 BabelLiteral::serialize(&b, serializer)
             }
-            Flavor::Acorn => {
+            Flavor::Acorn { .. } => {
                 let (base, value, raw) = match self {
                     Literal::String(l) => (
                         &l.base,

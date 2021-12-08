@@ -124,7 +124,7 @@ impl Context {
             start,
             end,
             loc,
-            range: if matches!(Flavor::current(), Flavor::Acorn) {
+            range: if matches!(Flavor::current(), Flavor::Acorn { .. }) {
                 match (start, end) {
                     (Some(start), Some(end)) => Some([start, end]),
                     _ => None,
