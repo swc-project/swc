@@ -4,7 +4,7 @@ use swc_common::{
     collections::AHashSet,
     pass::{Repeat, Repeated},
     util::take::Take,
-    Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
+    Mark, Span, Spanned, SyntaxContext,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, IsEmpty, StmtLike, StmtOrModuleItem};
