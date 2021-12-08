@@ -3,9 +3,8 @@ var X;
     let Z1;
     (function(Z) {
         Z.foo = 0;
-    })(Z1 || (Z1 = {
+    })(Z1 = X1.Z || (X1.Z = {
     }));
-    X1.Z = Z1;
 })(X || (X = {
 }));
 var Y;
@@ -13,8 +12,7 @@ var Y;
     let Z2;
     (function(Z) {
         Z.bar = 1;
-    })(Z2 || (Z2 = {
+    })(Z2 = Y1.Z || (Y1.Z = {
     }));
-    Y1.Z = Z2;
 })(Y || (Y = {
 }));

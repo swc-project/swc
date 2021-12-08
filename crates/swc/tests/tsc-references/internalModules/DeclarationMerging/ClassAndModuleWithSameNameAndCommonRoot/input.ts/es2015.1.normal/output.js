@@ -10,9 +10,8 @@ var X;
             }
         }
         Y.Point = Point;
-    })(Y1 || (Y1 = {
+    })(Y1 = X1.Y || (X1.Y = {
     }));
-    X1.Y = Y1;
 })(X || (X = {
 }));
 (function(X2) {
@@ -21,12 +20,10 @@ var X;
         let Point1;
         (function(Point) {
             Point.Origin = new Point1(0, 0);
-        })(Point1 || (Point1 = {
+        })(Point1 = Y.Point || (Y.Point = {
         }));
-        Y.Point = Point1;
-    })(Y2 || (Y2 = {
+    })(Y2 = X2.Y || (X2.Y = {
     }));
-    X2.Y = Y2;
 })(X || (X = {
 }));
 // @filename: test.ts

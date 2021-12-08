@@ -99,7 +99,7 @@ var TypeScript;
             }
         }
         CompilerDiagnostics.assert = assert;
-    })(CompilerDiagnostics1 || (CompilerDiagnostics1 = {
+    })(CompilerDiagnostics1 = TypeScript1.CompilerDiagnostics || (TypeScript1.CompilerDiagnostics = {
     }));
     var NullLogger = /*#__PURE__*/ function() {
         "use strict";
@@ -247,6 +247,5 @@ var TypeScript;
     TypeScript1.BufferedLogger = BufferedLogger;
     TypeScript1.timeFunction = timeFunction;
     TypeScript1.stringToLiteral = stringToLiteral;
-    TypeScript1.CompilerDiagnostics = CompilerDiagnostics1;
 })(TypeScript || (TypeScript = {
 }));

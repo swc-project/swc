@@ -1,4 +1,4 @@
-import { I, M, N, T, a } from "./t1";
+import { I, N, T } from "./t1";
 function f() {
 }
 var D, E, D, M, v, E, C = function() {

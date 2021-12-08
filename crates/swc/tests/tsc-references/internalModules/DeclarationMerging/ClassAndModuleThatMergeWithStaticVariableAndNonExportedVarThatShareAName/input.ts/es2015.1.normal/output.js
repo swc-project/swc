@@ -27,7 +27,7 @@ var A;
     };
     (function(Point) {
         var Origin = ""; // not an error since not exported
-    })(Point1 || (Point1 = {
+    })(Point1 = A1.Point || (A1.Point = {
     }));
 })(A || (A = {
 }));
