@@ -7,7 +7,7 @@ use self::{
     used_name::UsedNameCollector,
 };
 use std::collections::HashSet;
-use swc_common::{Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Check};
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
@@ -17,7 +17,8 @@ use swc_ecma_utils::{
     private_ident, quote_ident, undefined, ExprFactory, ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, noop_fold_type, noop_visit_type, Fold, FoldWith, Visit, VisitMutWith, VisitWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, FoldWith, Visit, VisitMut, VisitMutWith,
+    VisitWith,
 };
 
 mod class_name_tdz;
@@ -32,12 +33,12 @@ mod used_name;
 /// # Impl note
 ///
 /// We use custom helper to handle export default class
-pub fn class_properties(config: Config) -> impl Fold {
-    ClassProperties {
+pub fn class_properties(config: Config) -> impl Fold + VisitMut {
+    as_folder(ClassProperties {
         config,
         mark: Mark::root(),
         method_mark: Mark::root(),
-    }
+    })
 }
 
 #[derive(Debug, Clone, Default)]
@@ -52,49 +53,43 @@ struct ClassProperties {
     method_mark: Mark,
 }
 
-/// TODO: VisitMut
 #[fast_path(ShouldWork)]
-impl Fold for ClassProperties {
-    noop_fold_type!();
+impl VisitMut for ClassProperties {
+    noop_visit_mut_type!();
 
-    fn fold_ident(&mut self, i: Ident) -> Ident {
-        Ident {
-            optional: false,
-            ..i
-        }
-    }
-    fn fold_array_pat(&mut self, p: ArrayPat) -> ArrayPat {
-        ArrayPat {
-            optional: false,
-            ..p.fold_children_with(self)
-        }
+    fn visit_mut_ident(&mut self, i: &mut Ident) {
+        i.optional = false;
     }
 
-    fn fold_object_pat(&mut self, p: ObjectPat) -> ObjectPat {
-        ObjectPat {
-            optional: false,
-            ..p.fold_children_with(self)
-        }
+    fn visit_mut_array_pat(&mut self, p: &mut ArrayPat) {
+        p.visit_mut_children_with(self);
+        p.optional = false;
     }
 
-    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        self.fold_stmt_like(n)
+    fn visit_mut_object_pat(&mut self, p: &mut ObjectPat) {
+        p.visit_mut_children_with(self);
+        p.optional = false;
     }
 
-    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
-        self.fold_stmt_like(n)
+    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        self.visit_mut_stmt_like(n);
     }
 
-    fn fold_block_stmt_or_expr(&mut self, body: BlockStmtOrExpr) -> BlockStmtOrExpr {
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+        self.visit_mut_stmt_like(n);
+    }
+
+    fn visit_mut_block_stmt_or_expr(&mut self, body: &mut BlockStmtOrExpr) {
         let span = body.span();
 
         match body {
             BlockStmtOrExpr::Expr(expr) if expr.is_class() => {
-                let ClassExpr { ident, class } = expr.class().unwrap();
+                let ClassExpr { ident, class } = expr.take().class().unwrap();
 
                 let mut stmts = vec![];
                 let ident = ident.unwrap_or_else(|| private_ident!("_class"));
-                let (vars, decl, mut extra_stmts) = self.fold_class_as_decl(ident.clone(), class);
+                let (vars, decl, mut extra_stmts) =
+                    self.visit_mut_class_as_decl(ident.clone(), class);
                 if !vars.is_empty() {
                     stmts.push(Stmt::Decl(Decl::Var(VarDecl {
                         span: DUMMY_SP,
@@ -110,14 +105,14 @@ impl Fold for ClassProperties {
                     arg: Some(Box::new(Expr::Ident(ident))),
                 }));
 
-                BlockStmtOrExpr::BlockStmt(BlockStmt { span, stmts })
+                *body = BlockStmtOrExpr::BlockStmt(BlockStmt { span, stmts });
             }
-            _ => body.fold_children_with(self),
-        }
+            _ => body.visit_mut_children_with(self),
+        };
     }
 
-    fn fold_expr(&mut self, expr: Expr) -> Expr {
-        let expr = expr.fold_children_with(self);
+    fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        expr.visit_mut_children_with(self);
 
         match expr {
             // TODO(kdy1): Make it generate smaller code.
@@ -126,9 +121,10 @@ impl Fold for ClassProperties {
             // Although this results in a large code, but it's ok as class expression is rarely used
             // in wild.
             Expr::Class(ClassExpr { ident, class }) => {
-                let ident = ident.unwrap_or_else(|| private_ident!("_class"));
+                let ident = ident.take().unwrap_or_else(|| private_ident!("_class"));
                 let mut stmts = vec![];
-                let (vars, decl, mut extra_stmts) = self.fold_class_as_decl(ident.clone(), class);
+                let (vars, decl, mut extra_stmts) =
+                    self.visit_mut_class_as_decl(ident.clone(), class.take());
 
                 if !vars.is_empty() {
                     stmts.push(Stmt::Decl(Decl::Var(VarDecl {
@@ -140,10 +136,11 @@ impl Fold for ClassProperties {
                 }
 
                 if stmts.is_empty() && extra_stmts.is_empty() {
-                    return Expr::Class(ClassExpr {
+                    *expr = Expr::Class(ClassExpr {
                         ident: Some(decl.ident),
                         class: decl.class,
                     });
+                    return;
                 }
 
                 stmts.push(Stmt::Decl(Decl::Class(decl)));
@@ -154,7 +151,7 @@ impl Fold for ClassProperties {
                     arg: Some(Box::new(Expr::Ident(ident))),
                 }));
 
-                Expr::Call(CallExpr {
+                *expr = Expr::Call(CallExpr {
                     span: DUMMY_SP,
                     callee: FnExpr {
                         ident: None,
@@ -177,25 +174,25 @@ impl Fold for ClassProperties {
                     .as_callee(),
                     args: vec![],
                     type_args: Default::default(),
-                })
+                });
             }
-            _ => expr,
-        }
+            _ => {}
+        };
     }
 }
 
 impl ClassProperties {
-    fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
+    fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike + ModuleItemLike + FoldWith<Self>,
+        T: StmtLike + ModuleItemLike + VisitMutWith<Self>,
     {
         let mut buf = Vec::with_capacity(stmts.len());
 
-        for stmt in stmts {
+        for stmt in stmts.drain(..) {
             match T::try_into_stmt(stmt) {
                 Err(node) => match node.try_into_module_decl() {
-                    Ok(decl) => {
-                        let decl = decl.fold_children_with(self);
+                    Ok(mut decl) => {
+                        decl.visit_mut_children_with(self);
 
                         match decl {
                             ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
@@ -206,7 +203,7 @@ impl ClassProperties {
                                 let ident = ident.unwrap_or_else(|| private_ident!("_class"));
 
                                 let (vars, decl, stmts) =
-                                    self.fold_class_as_decl(ident.clone(), class);
+                                    self.visit_mut_class_as_decl(ident.clone(), class);
                                 if !vars.is_empty() {
                                     buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                                         span: DUMMY_SP,
@@ -248,7 +245,8 @@ impl ClassProperties {
                                     }),
                                 ..
                             }) => {
-                                let (vars, decl, stmts) = self.fold_class_as_decl(ident, class);
+                                let (vars, decl, stmts) =
+                                    self.visit_mut_class_as_decl(ident, class);
                                 if !vars.is_empty() {
                                     buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                                         span: DUMMY_SP,
@@ -278,8 +276,8 @@ impl ClassProperties {
                     }
                     Err(..) => unreachable!(),
                 },
-                Ok(stmt) => {
-                    let stmt = stmt.fold_children_with(self);
+                Ok(mut stmt) => {
+                    stmt.visit_mut_children_with(self);
                     // Fold class
                     match stmt {
                         Stmt::Decl(Decl::Class(ClassDecl {
@@ -287,7 +285,7 @@ impl ClassProperties {
                             class,
                             declare: false,
                         })) => {
-                            let (vars, decl, stmts) = self.fold_class_as_decl(ident, class);
+                            let (vars, decl, stmts) = self.visit_mut_class_as_decl(ident, class);
                             if !vars.is_empty() {
                                 buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                                     span: DUMMY_SP,
@@ -305,12 +303,12 @@ impl ClassProperties {
             }
         }
 
-        buf
+        *stmts = buf;
     }
 }
 
 impl ClassProperties {
-    fn fold_class_as_decl(
+    fn visit_mut_class_as_decl(
         &mut self,
         class_ident: Ident,
         mut class: Class,
@@ -386,10 +384,13 @@ impl ClassProperties {
                 ClassMember::Method(method) => {
                     // we handle computed key here to preserve the execution order
                     let key = match method.key {
-                        PropName::Computed(ComputedPropName { span: c_span, expr }) => {
-                            let expr = expr.fold_with(&mut as_folder(ClassNameTdzFolder {
+                        PropName::Computed(ComputedPropName {
+                            span: c_span,
+                            mut expr,
+                        }) => {
+                            expr.visit_mut_with(&mut ClassNameTdzFolder {
                                 class_name: &class_ident,
-                            }));
+                            });
                             let ident = private_ident!("tmp");
                             // Handle computed property
                             vars.push(VarDeclarator {
@@ -412,9 +413,9 @@ impl ClassProperties {
 
                 ClassMember::ClassProp(mut prop) => {
                     let prop_span = prop.span();
-                    prop.key = prop.key.fold_with(&mut as_folder(ClassNameTdzFolder {
+                    prop.key.visit_mut_with(&mut ClassNameTdzFolder {
                         class_name: &class_ident,
-                    }));
+                    });
 
                     if !prop.is_static {
                         prop.key.visit_with(&mut UsedNameCollector {
