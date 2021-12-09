@@ -16,7 +16,7 @@ use swc_ecma_utils::{
     quote_ident, quote_str, ExprFactory, IsDirective, ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, noop_fold_type, noop_visit_type, Fold, FoldWith, Visit, VisitWith,
+    noop_fold_type, noop_visit_type, Fold, FoldWith, Visit, VisitMutWith, VisitWith,
 };
 use tracing::debug;
 
@@ -463,10 +463,10 @@ where
                 constructor.unwrap_or_else(|| default_constructor(super_class_ident.is_some()));
 
             // Rename variables to avoid conflicting with class name
-            constructor.body = constructor.body.fold_with(&mut as_folder(VarRenamer {
+            constructor.body.visit_mut_with(&mut VarRenamer {
                 mark: Mark::fresh(Mark::root()),
                 class_name: &class_name.sym,
-            }));
+            });
 
             // Black magic to detect injected constructor.
             let is_constructor_default = constructor.span.is_dummy();
@@ -512,7 +512,7 @@ where
 
                 // We should fold body instead of constructor itself.
                 // Handle `super()`
-                body = body.fold_with(&mut as_folder(ConstructorFolder {
+                body.visit_mut_with(&mut ConstructorFolder {
                     class_name: &class_name,
                     mode: if insert_this {
                         Some(SuperFoldingMode::Assign)
@@ -527,7 +527,7 @@ where
                     super_var,
                     ignore_return: false,
                     in_injected_define_property_call: false,
-                }));
+                });
 
                 insert_this |= (mode == None && !is_always_initialized)
                     || mode == Some(SuperFoldingMode::Assign);

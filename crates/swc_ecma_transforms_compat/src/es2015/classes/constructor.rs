@@ -317,7 +317,6 @@ pub(super) enum SuperFoldingMode {
     Var,
 }
 
-/// TODO: VisitMut
 impl VisitMut for ConstructorFolder<'_> {
     noop_visit_mut_type!();
     visit_mut_only_key!();
@@ -464,7 +463,6 @@ impl VisitMut for ConstructorFolder<'_> {
         }
 
         stmt.arg.visit_mut_with(self);
-        // let arg = stmt.arg.to_owned();
 
         stmt.arg.map_with_mut(|arg| {
             Some(Box::new(make_possible_return_value(
@@ -480,7 +478,7 @@ impl VisitMut for ConstructorFolder<'_> {
         stmt.visit_mut_children_with(self);
 
         match stmt {
-            Stmt::Expr(ExprStmt { span: _, expr }) => match &**expr {
+            Stmt::Expr(ExprStmt { span: _, expr }) => match &mut **expr {
                 Expr::Call(CallExpr {
                     callee: ExprOrSuper::Super(..),
                     args,
@@ -501,7 +499,7 @@ impl VisitMut for ConstructorFolder<'_> {
                                 ]
                             } else {
                                 let mut call_args = vec![ThisExpr { span: DUMMY_SP }.as_arg()];
-                                call_args.extend(args.clone().into_iter());
+                                call_args.extend(args.take().into_iter());
 
                                 call_args
                             },
@@ -510,7 +508,7 @@ impl VisitMut for ConstructorFolder<'_> {
                         None => Box::new(make_possible_return_value(ReturningMode::Prototype {
                             is_constructor_default: self.is_constructor_default,
                             class_name: self.class_name.clone(),
-                            args: Some(args.clone()),
+                            args: Some(args.take()),
                         })),
                     };
 
@@ -770,7 +768,6 @@ pub(super) struct VarRenamer<'a> {
     pub class_name: &'a JsWord,
 }
 
-/// TODO: VisitMut
 impl<'a> VisitMut for VarRenamer<'a> {
     noop_visit_mut_type!();
 
