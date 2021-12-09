@@ -415,6 +415,26 @@ test!(
     ok_if_code_eq
 );
 
+to!(
+    enum_self_reference,
+    "var x;
+    enum Foo {
+        a,
+        b = a,
+        c = b + 1,
+        d = c
+    }",
+    "
+var x;
+var Foo;
+(function (Foo) {
+    Foo[Foo['a'] = 0] = 'a';
+    Foo[Foo['b'] = 0] = 'b';
+    Foo[Foo['c'] = 1] = 'c';
+    Foo[Foo['d'] = 1] = 'd';
+})(Foo || (Foo = {}));"
+);
+
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
     |_| tr(),

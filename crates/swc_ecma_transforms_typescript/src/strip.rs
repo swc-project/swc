@@ -18,7 +18,7 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{as_folder, Fold, Visit, VisitMut, VisitMutWith, VisitWith};
 
 /// Value does not contain TsLit::Bool
-type EnumValues = AHashMap<Id, TsLit>;
+type EnumValues = AHashMap<JsWord, TsLit>;
 
 #[derive(Debug, Serialize, Deserialize)]
 #[non_exhaustive]
@@ -837,7 +837,7 @@ where
                     }
 
                     Expr::Ident(ref id) => {
-                        if let Some(v) = values.get(&id.clone().into_id()) {
+                        if let Some(v) = values.get(&id.sym) {
                             return Ok(v.clone());
                         }
                         //
@@ -912,8 +912,8 @@ where
         //     Foo[Foo["a"] = 0] = "a";
         // })(Foo || (Foo = {}));
 
-        let var = if let Some(var) = self.create_uninit_var(e.span, e.id.to_id()) {
-            Some(Decl::Var(VarDecl {
+        let var = self.create_uninit_var(e.span, e.id.to_id()).map(|var| {
+            Decl::Var(VarDecl {
                 span: DUMMY_SP,
                 kind: if e.id.span.ctxt != self.top_level_ctxt {
                     VarDeclKind::Let
@@ -922,10 +922,8 @@ where
                 },
                 declare: false,
                 decls: vec![var],
-            }))
-        } else {
-            None
-        };
+            })
+        });
 
         let id = e.id.clone();
 
@@ -953,8 +951,8 @@ where
                     }
                     values.insert(
                         match &m.id {
-                            TsEnumMemberId::Ident(i) => i.clone().into_id(),
-                            TsEnumMemberId::Str(s) => Ident::new(s.value.clone(), s.span).into_id(),
+                            TsEnumMemberId::Ident(i) => i.sym.clone(),
+                            TsEnumMemberId::Str(s) => s.value.clone(),
                         },
                         val.clone(),
                     );

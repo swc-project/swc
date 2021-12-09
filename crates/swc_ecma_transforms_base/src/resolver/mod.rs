@@ -1000,7 +1000,22 @@ impl<'a> VisitMut for Resolver<'a> {
 
     fn visit_mut_ts_enum_decl(&mut self, decl: &mut TsEnumDecl) {
         self.modify(&mut decl.id, Some(VarDeclKind::Let));
-        decl.members.visit_mut_with(self);
+
+        let child_mark = Mark::fresh(Mark::root());
+        let mut child_folder = Resolver::new(
+            Scope::new(ScopeKind::Block, child_mark, Some(&self.current)),
+            self.handle_types,
+        );
+
+        // add the enum member names as declared symbols for this scope
+        // Ex. `enum Foo { a, b = a }`
+        let member_names = decl.members.iter().filter_map(|m| match &m.id {
+            TsEnumMemberId::Ident(id) => Some(id.sym.clone()),
+            TsEnumMemberId::Str(_) => None,
+        });
+        child_folder.current.declared_symbols.extend(member_names);
+
+        decl.members.visit_mut_with(&mut child_folder);
     }
 
     fn visit_mut_ts_fn_type(&mut self, ty: &mut TsFnType) {
