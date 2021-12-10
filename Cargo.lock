@@ -2900,7 +2900,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.48.0"
+version = "0.48.1"
 dependencies = [
  "once_cell",
  "phf",
@@ -3097,7 +3097,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.67.1"
+version = "0.67.2"
 dependencies = [
  "serde",
  "swc_atoms 0.2.9",
