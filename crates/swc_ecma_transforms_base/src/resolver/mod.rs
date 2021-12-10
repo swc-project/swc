@@ -16,6 +16,8 @@ pub fn resolver() -> impl 'static + Fold + VisitMut {
     resolver_with_mark(Mark::fresh(Mark::root()))
 }
 
+/// See [Ident] for know how does swc manages identifiers.
+///
 /// # When to run
 ///
 /// The resolver expects 'clean' ast. You can get clean ast by parsing, or by
