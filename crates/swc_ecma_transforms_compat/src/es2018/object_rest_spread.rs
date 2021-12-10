@@ -12,20 +12,19 @@ use swc_ecma_utils::{
     ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, noop_fold_type, noop_visit_mut_type, noop_visit_type, Fold, FoldWith, Visit,
-    VisitMut, VisitMutWith, VisitWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
 // TODO: currently swc behaves like babel with
 // `ignoreFunctionLength` and `pureGetters` on
 
 /// `@babel/plugin-proposal-object-rest-spread`
-pub fn object_rest_spread(c: Config) -> impl Fold {
+pub fn object_rest_spread(c: Config) -> impl Fold + VisitMut {
     chain!(
-        ObjectRest {
+        as_folder(ObjectRest {
             c,
             ..Default::default()
-        },
+        }),
         as_folder(ObjectSpread { c })
     )
 }
@@ -52,27 +51,19 @@ pub struct Config {
 
 macro_rules! impl_for_for_stmt {
     ($name:ident, $T:tt) => {
-        fn $name(&mut self, mut for_stmt: $T) -> $T {
-            if !contains_rest(&for_stmt) {
-                return for_stmt;
+        fn $name(&mut self, for_stmt: &mut $T) {
+            if !contains_rest(for_stmt) {
+                return;
             }
 
-            let left = match for_stmt.left {
+            let left = match &mut for_stmt.left {
                 VarDeclOrPat::VarDecl(var_decl) => {
                     let ref_ident = private_ident!("_ref");
-                    let left = VarDeclOrPat::VarDecl(VarDecl {
-                        decls: vec![VarDeclarator {
-                            span: DUMMY_SP,
-                            name: Pat::Ident(ref_ident.clone().into()),
-                            init: None,
-                            definite: false,
-                        }],
-                        ..var_decl
-                    });
 
                     // Unpack variables
                     let mut decls = var_decl
                         .decls
+                        .take()
                         .into_iter()
                         .map(|decl| VarDeclarator {
                             name: self.fold_rest(
@@ -91,14 +82,23 @@ macro_rules! impl_for_for_stmt {
                     // **prepend** decls to self.vars
                     decls.append(&mut self.vars);
                     mem::swap(&mut self.vars, &mut decls);
-                    left
+
+                    VarDeclOrPat::VarDecl(VarDecl {
+                        decls: vec![VarDeclarator {
+                            span: DUMMY_SP,
+                            name: Pat::Ident(ref_ident.clone().into()),
+                            init: None,
+                            definite: false,
+                        }],
+                        ..var_decl.take()
+                    })
                 }
                 VarDeclOrPat::Pat(pat) => {
                     let var_ident = private_ident!("_ref");
                     let mut index = self.vars.len();
                     let pat = self.fold_rest(
                         &mut index,
-                        pat,
+                        pat.take(),
                         Box::new(Expr::Ident(var_ident.clone())),
                         false,
                         true,
@@ -149,19 +149,17 @@ macro_rules! impl_for_for_stmt {
                 declare: false,
             }));
 
-            let body = for_stmt.body.fold_with(self);
-            for_stmt.body = Box::new(Stmt::Block(match *body {
+            for_stmt.body.visit_mut_with(self);
+            for_stmt.body = Box::new(Stmt::Block(match &mut *for_stmt.body {
                 Stmt::Block(BlockStmt { span, stmts }) => BlockStmt {
-                    span,
-                    stmts: iter::once(stmt).chain(stmts).collect(),
+                    span: *span,
+                    stmts: iter::once(stmt).chain(stmts.take()).collect(),
                 },
                 body => BlockStmt {
                     span: DUMMY_SP,
-                    stmts: vec![stmt, body],
+                    stmts: vec![stmt, body.take()],
                 },
             }));
-
-            for_stmt
         }
     };
 }
@@ -197,23 +195,22 @@ where
     v.found
 }
 
-/// TODO: VisitMut
 #[fast_path(RestVisitor)]
-impl Fold for ObjectRest {
-    noop_fold_type!();
+impl VisitMut for ObjectRest {
+    noop_visit_mut_type!();
 
-    impl_for_for_stmt!(fold_for_in_stmt, ForInStmt);
-    impl_for_for_stmt!(fold_for_of_stmt, ForOfStmt);
-    impl_fold_fn!();
+    impl_for_for_stmt!(visit_mut_for_in_stmt, ForInStmt);
+    impl_for_for_stmt!(visit_mut_for_of_stmt, ForOfStmt);
+    impl_visit_mut_fn!();
 
     /// Handles assign expression
-    fn fold_expr(&mut self, expr: Expr) -> Expr {
+    fn visit_mut_expr(&mut self, expr: &mut Expr) {
         // fast path
-        if !contains_rest(&expr) {
-            return expr;
+        if !contains_rest(expr) {
+            return;
         }
 
-        let expr = expr.fold_children_with(self);
+        expr.visit_mut_children_with(self);
 
         match expr {
             Expr::Assign(AssignExpr {
@@ -222,7 +219,6 @@ impl Fold for ObjectRest {
                 op: op!("="),
                 right,
             }) => {
-                let pat = *pat;
                 let mut var_ident = alias_ident_for(&right, "_tmp");
                 var_ident.span = var_ident.span.apply_mark(Mark::fresh(Mark::root()));
 
@@ -238,11 +234,11 @@ impl Fold for ObjectRest {
                     span: DUMMY_SP,
                     left: PatOrExpr::Pat(Box::new(Pat::Ident(var_ident.clone().into()))),
                     op: op!("="),
-                    right,
+                    right: right.take(),
                 })));
                 let pat = self.fold_rest(
                     &mut 0,
-                    pat,
+                    *pat.take(),
                     Box::new(Expr::Ident(var_ident.clone())),
                     true,
                     true,
@@ -251,27 +247,27 @@ impl Fold for ObjectRest {
                 match pat {
                     Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
                     _ => self.exprs.push(Box::new(Expr::Assign(AssignExpr {
-                        span,
+                        span: *span,
                         left: PatOrExpr::Pat(Box::new(pat)),
                         op: op!("="),
                         right: Box::new(var_ident.clone().into()),
                     }))),
                 }
                 self.exprs.push(Box::new(var_ident.into()));
-                Expr::Seq(SeqExpr {
+                *expr = Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
                     exprs: mem::take(&mut self.exprs),
-                })
+                });
             }
-            _ => expr,
-        }
+            _ => {}
+        };
     }
 
     /// export var { b, ...c } = asdf2;
-    fn fold_module_decl(&mut self, decl: ModuleDecl) -> ModuleDecl {
-        if !contains_rest(&decl) {
+    fn visit_mut_module_decl(&mut self, decl: &mut ModuleDecl) {
+        if !contains_rest(decl) {
             // fast path
-            return decl;
+            return;
         }
 
         match decl {
@@ -297,37 +293,39 @@ impl Fold for ObjectRest {
                 };
 
                 let export = NamedExport {
-                    span,
+                    span: *span,
                     specifiers,
                     src: None,
                     type_only: false,
                     asserts: None,
                 };
 
-                let mut var_decl = var_decl.fold_with(self);
+                var_decl.visit_mut_with(self);
                 self.vars.append(&mut var_decl.decls);
 
-                ModuleDecl::ExportNamed(export)
+                *decl = ModuleDecl::ExportNamed(export);
             }
-            _ => decl.fold_children_with(self),
-        }
+            _ => {
+                decl.visit_mut_children_with(self);
+            }
+        };
     }
 
-    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        self.fold_stmt_like(n)
+    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        self.visit_mut_stmt_like(n);
     }
 
-    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
-        self.fold_stmt_like(n)
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+        self.visit_mut_stmt_like(n);
     }
 
-    fn fold_var_declarators(&mut self, decls: Vec<VarDeclarator>) -> Vec<VarDeclarator> {
+    fn visit_mut_var_declarators(&mut self, decls: &mut Vec<VarDeclarator>) {
         // fast path
-        if !contains_rest(&decls) {
-            return decls;
+        if !contains_rest(decls) {
+            return;
         }
 
-        for decl in decls {
+        for mut decl in decls.drain(..) {
             // fast path
             if !contains_rest(&decl) {
                 // println!("Var: no rest",);
@@ -335,7 +333,7 @@ impl Fold for ObjectRest {
                 continue;
             }
 
-            let decl = decl.fold_children_with(self);
+            decl.visit_mut_children_with(self);
 
             //            if !contains_rest(&decl.name) {
             //                // println!("Var: no rest",);
@@ -444,28 +442,28 @@ impl Fold for ObjectRest {
             }
         }
 
-        mem::take(&mut self.vars)
+        *decls = mem::take(&mut self.vars);
     }
 }
 
 impl ObjectRest {
-    fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
+    fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike + VisitWith<RestVisitor> + FoldWith<ObjectRest>,
-        Vec<T>: FoldWith<Self> + VisitWith<RestVisitor>,
+        T: StmtLike + VisitWith<RestVisitor> + VisitMutWith<ObjectRest>,
+        Vec<T>: VisitMutWith<Self> + VisitWith<RestVisitor>,
     {
-        if !contains_rest(&stmts) {
-            return stmts;
+        if !contains_rest(stmts) {
+            return;
         }
 
         let mut buf = Vec::with_capacity(stmts.len());
 
-        for stmt in stmts {
+        for mut stmt in stmts.drain(..) {
             let mut folder = ObjectRest {
                 c: self.c,
                 ..Default::default()
             };
-            let stmt = stmt.fold_with(&mut folder);
+            stmt.visit_mut_with(&mut folder);
 
             // Add variable declaration
             // e.g. var ref
@@ -498,7 +496,7 @@ impl ObjectRest {
             );
         }
 
-        buf
+        *stmts = buf;
     }
 }
 
@@ -543,14 +541,18 @@ impl ObjectRest {
         self.vars.push(decl)
     }
 
-    fn fold_fn_like(&mut self, params: Vec<Param>, body: BlockStmt) -> (Vec<Param>, BlockStmt) {
-        if !contains_rest(&params) {
+    fn visit_mut_fn_like(
+        &mut self,
+        params: &mut Vec<Param>,
+        body: &mut BlockStmt,
+    ) -> (Vec<Param>, BlockStmt) {
+        if !contains_rest(params) {
             // fast-path
-            return (params, body);
+            return (params.take(), body.take());
         }
 
         let params = params
-            .into_iter()
+            .drain(..)
             .map(|mut param| {
                 let var_ident = private_ident!(param.span(), "_param");
                 let mut index = self.vars.len();
@@ -656,9 +658,9 @@ impl ObjectRest {
                     })))
                 }
                 .into_iter()
-                .chain(body.stmts)
+                .chain(body.stmts.take())
                 .collect(),
-                ..body
+                ..body.take()
             },
         )
     }
