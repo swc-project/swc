@@ -18,7 +18,9 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_parser::{Parser, StringInput, Syntax};
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{drop_span, member_expr, prepend, private_ident, quote_ident, ExprFactory};
+use swc_ecma_utils::{
+    drop_span, member_expr, prepend, private_ident, quote_ident, undefined, ExprFactory,
+};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 mod static_check;
@@ -205,6 +207,7 @@ where
         pragma_frag: parse_expr_for_jsx(&cm, "pragmaFrag", options.pragma_frag, top_level_mark),
         use_builtins: options.use_builtins,
         use_spread: options.use_spread,
+        development: options.development,
         throw_if_namespace: options.throw_if_namespace,
         top_level_node: true,
     })
@@ -237,6 +240,7 @@ where
     pragma_frag: Arc<Box<Expr>>,
     use_builtins: bool,
     use_spread: bool,
+    development: bool,
     throw_if_namespace: bool,
 }
 
@@ -346,13 +350,14 @@ where
 
         match self.runtime {
             Runtime::Automatic => {
-                let jsx = if use_jsxs {
+                let jsx = if use_jsxs && !self.development {
                     self.import_jsxs
                         .get_or_insert_with(|| private_ident!("_jsxs"))
                         .clone()
                 } else {
+                    let jsx = if self.development { "_jsxDEV" } else { "_jsx" };
                     self.import_jsx
-                        .get_or_insert_with(|| private_ident!("_jsx"))
+                        .get_or_insert_with(|| private_ident!(jsx))
                         .clone()
                 };
 
@@ -396,10 +401,26 @@ where
                     }
                 }
 
+                let args = once(fragment.as_arg()).chain(once(props_obj.as_arg()));
+
+                let args = if self.development {
+                    args.chain(once(undefined(DUMMY_SP).as_arg()))
+                        .chain(once(
+                            Lit::Bool(Bool {
+                                span: DUMMY_SP,
+                                value: use_jsxs,
+                            })
+                            .as_arg(),
+                        ))
+                        .collect()
+                } else {
+                    args.collect()
+                };
+
                 Expr::Call(CallExpr {
                     span,
                     callee: jsx.as_callee(),
-                    args: vec![fragment.as_arg(), props_obj.as_arg()],
+                    args,
                     type_args: None,
                 })
             }
@@ -452,13 +473,14 @@ where
                     self.import_create_element
                         .get_or_insert_with(|| private_ident!("_createElement"))
                         .clone()
-                } else if use_jsxs {
+                } else if use_jsxs && !self.development {
                     self.import_jsxs
                         .get_or_insert_with(|| private_ident!("_jsxs"))
                         .clone()
                 } else {
+                    let jsx = if self.development { "_jsxDEV" } else { "_jsx" };
                     self.import_jsx
-                        .get_or_insert_with(|| private_ident!("_jsx"))
+                        .get_or_insert_with(|| private_ident!(jsx))
                         .clone()
                 };
 
@@ -468,6 +490,8 @@ where
                 };
 
                 let mut key = None;
+                let mut source_props = None;
+                let mut self_props = None;
 
                 for attr in el.opening.attrs {
                     match attr {
@@ -485,6 +509,44 @@ where
                                         assert_ne!(
                                             key, None,
                                             "value of property 'key' should not be empty"
+                                        );
+                                        continue;
+                                    }
+
+                                    if !use_create_element
+                                        && *i.sym == *"__source"
+                                        && self.development
+                                    {
+                                        if source_props.is_some() {
+                                            panic!("Duplicate __source is found");
+                                        }
+                                        source_props = attr
+                                            .value
+                                            .map(jsx_attr_value_to_expr)
+                                            .flatten()
+                                            .map(|expr| ExprOrSpread { expr, spread: None });
+                                        assert_ne!(
+                                            source_props, None,
+                                            "value of property '__source' should not be empty"
+                                        );
+                                        continue;
+                                    }
+
+                                    if !use_create_element
+                                        && *i.sym == *"__self"
+                                        && self.development
+                                    {
+                                        if self_props.is_some() {
+                                            panic!("Duplicate __self is found");
+                                        }
+                                        self_props = attr
+                                            .value
+                                            .map(jsx_attr_value_to_expr)
+                                            .flatten()
+                                            .map(|expr| ExprOrSpread { expr, spread: None });
+                                        assert_ne!(
+                                            self_props, None,
+                                            "value of property '__self' should not be empty"
                                         );
                                         continue;
                                     }
@@ -596,13 +658,52 @@ where
 
                 self.top_level_node = top_level_node;
 
+                let args = once(name.as_arg()).chain(once(props_obj.as_arg()));
+                let args = if self.development {
+                    // set undefined literal to key if key is None
+                    let key = match key {
+                        Some(key) => key,
+                        None => ExprOrSpread {
+                            spread: None,
+                            expr: undefined(DUMMY_SP),
+                        },
+                    };
+
+                    // set undefined literal to __source if __source is None
+                    let source_props = match source_props {
+                        Some(source_props) => source_props,
+                        None => ExprOrSpread {
+                            spread: None,
+                            expr: undefined(DUMMY_SP),
+                        },
+                    };
+
+                    // set undefined literal to __self if __self is None
+                    let self_props = match self_props {
+                        Some(self_props) => self_props,
+                        None => ExprOrSpread {
+                            spread: None,
+                            expr: undefined(DUMMY_SP),
+                        },
+                    };
+                    args.chain(once(key))
+                        .chain(once(
+                            Lit::Bool(Bool {
+                                span: DUMMY_SP,
+                                value: use_jsxs,
+                            })
+                            .as_arg(),
+                        ))
+                        .chain(once(source_props))
+                        .chain(once(self_props))
+                        .collect()
+                } else {
+                    args.chain(key).collect()
+                };
                 Expr::Call(CallExpr {
                     span,
                     callee: jsx.as_callee(),
-                    args: once(name.as_arg())
-                        .chain(once(props_obj.as_arg()))
-                        .chain(key)
-                        .collect(),
+                    args,
                     type_args: Default::default(),
                 })
             }
@@ -970,36 +1071,63 @@ where
                 );
             }
 
-            let imports = self
-                .import_jsx
-                .take()
-                .map(|local| ImportNamedSpecifier {
-                    span: DUMMY_SP,
-                    local,
-                    imported: Some(quote_ident!("jsx")),
-                    is_type_only: false,
-                })
-                .into_iter()
-                .chain(self.import_jsxs.take().map(|local| ImportNamedSpecifier {
-                    span: DUMMY_SP,
-                    local,
-                    imported: Some(quote_ident!("jsxs")),
-                    is_type_only: false,
-                }))
-                .chain(
-                    self.import_fragment
-                        .take()
-                        .map(|local| ImportNamedSpecifier {
-                            span: DUMMY_SP,
-                            local,
-                            imported: Some(quote_ident!("Fragment")),
-                            is_type_only: false,
-                        }),
-                )
-                .map(ImportSpecifier::Named)
-                .collect::<Vec<_>>();
+            let imports = self.import_jsx.take();
+            let imports = if self.development {
+                imports
+                    .map(|local| ImportNamedSpecifier {
+                        span: DUMMY_SP,
+                        local,
+                        imported: Some(quote_ident!("jsxDEV")),
+                        is_type_only: false,
+                    })
+                    .into_iter()
+                    .chain(
+                        self.import_fragment
+                            .take()
+                            .map(|local| ImportNamedSpecifier {
+                                span: DUMMY_SP,
+                                local,
+                                imported: Some(quote_ident!("Fragment")),
+                                is_type_only: false,
+                            }),
+                    )
+                    .map(ImportSpecifier::Named)
+                    .collect::<Vec<_>>()
+            } else {
+                imports
+                    .map(|local| ImportNamedSpecifier {
+                        span: DUMMY_SP,
+                        local,
+                        imported: Some(quote_ident!("jsx")),
+                        is_type_only: false,
+                    })
+                    .into_iter()
+                    .chain(self.import_jsxs.take().map(|local| ImportNamedSpecifier {
+                        span: DUMMY_SP,
+                        local,
+                        imported: Some(quote_ident!("jsxs")),
+                        is_type_only: false,
+                    }))
+                    .chain(
+                        self.import_fragment
+                            .take()
+                            .map(|local| ImportNamedSpecifier {
+                                span: DUMMY_SP,
+                                local,
+                                imported: Some(quote_ident!("Fragment")),
+                                is_type_only: false,
+                            }),
+                    )
+                    .map(ImportSpecifier::Named)
+                    .collect::<Vec<_>>()
+            };
 
             if !imports.is_empty() {
+                let jsx_runtime = if self.development {
+                    "jsx-dev-runtime"
+                } else {
+                    "jsx-runtime"
+                };
                 prepend(
                     &mut module.body,
                     ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
@@ -1007,7 +1135,7 @@ where
                         specifiers: imports,
                         src: Str {
                             span: DUMMY_SP,
-                            value: format!("{}/jsx-runtime", self.import_source).into(),
+                            value: format!("{}/{}", self.import_source, jsx_runtime).into(),
                             has_escape: false,
                             kind: Default::default(),
                         },
