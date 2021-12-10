@@ -225,10 +225,8 @@ fn parse_import_assertions(asserts: Option<&ast::ObjectLit>) -> HashMap<String, 
     let mut import_assertions = HashMap::new();
     if let Some(asserts) = asserts {
         for prop in &asserts.props {
-            // eprintln!("prop {:#?}", prop);
             if let Some(prop) = prop.clone().prop() {
                 if let Some(key_value) = prop.clone().key_value() {
-                    // eprintln!("key_value {:#?}", key_value);
                     let maybe_key = if let Some(key) = key_value.key.clone().str() {
                         Some(key.value.to_string())
                     } else if let Some(ident) = key_value.key.clone().ident() {
@@ -238,7 +236,6 @@ fn parse_import_assertions(asserts: Option<&ast::ObjectLit>) -> HashMap<String, 
                     };
 
                     if let Some(key) = maybe_key {
-                        // eprintln!("key {:#?} value {:#?}", key, key_value.value);
                         if let Some(value_lit) = key_value.value.clone().lit() {
                             if let ast::Lit::Str(str_) = value_lit {
                                 import_assertions.insert(key, str_.value.to_string());
