@@ -6,8 +6,8 @@ class A {
     }
 }
 class B extends A {
-    constructor(x1){
-        super(x1);
+    constructor(x){
+        super(x);
         // Fails, x is readonly
         this.x = 1;
     }
@@ -15,23 +15,23 @@ class B extends A {
 class C extends A {
     // This is the usual behavior of readonly properties:
     // if one is redeclared in a base class, then it can be assigned to.
-    constructor(x2){
-        super(x2);
-        this.x = x2;
+    constructor(x){
+        super(x);
+        this.x = x;
         this.x = 1;
     }
 }
 class D {
-    constructor(x3){
-        this.x = x3;
+    constructor(x){
+        this.x = x;
         this.x = 0;
     }
 }
 // Fails, can't redeclare readonly property
 class E extends D {
-    constructor(x4){
-        super(x4);
-        this.x = x4;
+    constructor(x){
+        super(x);
+        this.x = x;
         this.x = 1;
     }
 }

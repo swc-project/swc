@@ -1,0 +1,471 @@
+error: Stylesheet
+  --> $DIR/tests/fixture/at-rule/supports/input.css:1:1
+   |
+1  | / @supports (display: grid) {
+2  | |     div {
+3  | |         display: grid;
+4  | |     }
+...  |
+16 | |     }
+17 | | }
+   | |__^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/supports/input.css:1:1
+  |
+1 | / @supports (display: grid) {
+2 | |     div {
+3 | |         display: grid;
+4 | |     }
+5 | | }
+  | |_^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/supports/input.css:1:1
+  |
+1 | / @supports (display: grid) {
+2 | |     div {
+3 | |         display: grid;
+4 | |     }
+5 | | }
+  | |_^
+
+error: SupportsRule
+ --> $DIR/tests/fixture/at-rule/supports/input.css:1:1
+  |
+1 | / @supports (display: grid) {
+2 | |     div {
+3 | |         display: grid;
+4 | |     }
+5 | | }
+  | |_^
+
+error: SupportQuery
+ --> $DIR/tests/fixture/at-rule/supports/input.css:1:12
+  |
+1 | @supports (display: grid) {
+  |            ^^^^^^^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/at-rule/supports/input.css:1:12
+  |
+1 | @supports (display: grid) {
+  |            ^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/supports/input.css:1:12
+  |
+1 | @supports (display: grid) {
+  |            ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/supports/input.css:1:21
+  |
+1 | @supports (display: grid) {
+  |                     ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/supports/input.css:1:21
+  |
+1 | @supports (display: grid) {
+  |                     ^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/supports/input.css:2:5
+  |
+2 | /     div {
+3 | |         display: grid;
+4 | |     }
+  | |_____^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/at-rule/supports/input.css:2:5
+  |
+2 | /     div {
+3 | |         display: grid;
+4 | |     }
+  | |_____^
+
+error: SelectorList
+ --> $DIR/tests/fixture/at-rule/supports/input.css:2:5
+  |
+2 |     div {
+  |     ^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/at-rule/supports/input.css:2:5
+  |
+2 |     div {
+  |     ^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/at-rule/supports/input.css:2:5
+  |
+2 |     div {
+  |     ^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/at-rule/supports/input.css:2:5
+  |
+2 |     div {
+  |     ^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/supports/input.css:2:5
+  |
+2 |     div {
+  |     ^^^
+
+error: Block
+ --> $DIR/tests/fixture/at-rule/supports/input.css:2:9
+  |
+2 |       div {
+  |  _________^
+3 | |         display: grid;
+4 | |     }
+  | |_____^
+
+error: Declaration
+ --> $DIR/tests/fixture/at-rule/supports/input.css:3:9
+  |
+3 |         display: grid;
+  |         ^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/supports/input.css:3:9
+  |
+3 |         display: grid;
+  |         ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/supports/input.css:3:18
+  |
+3 |         display: grid;
+  |                  ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/supports/input.css:3:18
+  |
+3 |         display: grid;
+  |                  ^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:7:1
+   |
+7  | / @supports (display: flex) {
+8  | |     body {
+9  | |         color: blue;
+10 | |     }
+...  |
+16 | |     }
+17 | | }
+   | |_^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:7:1
+   |
+7  | / @supports (display: flex) {
+8  | |     body {
+9  | |         color: blue;
+10 | |     }
+...  |
+16 | |     }
+17 | | }
+   | |_^
+
+error: SupportsRule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:7:1
+   |
+7  | / @supports (display: flex) {
+8  | |     body {
+9  | |         color: blue;
+10 | |     }
+...  |
+16 | |     }
+17 | | }
+   | |_^
+
+error: SupportQuery
+ --> $DIR/tests/fixture/at-rule/supports/input.css:7:12
+  |
+7 | @supports (display: flex) {
+  |            ^^^^^^^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/at-rule/supports/input.css:7:12
+  |
+7 | @supports (display: flex) {
+  |            ^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/supports/input.css:7:12
+  |
+7 | @supports (display: flex) {
+  |            ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/supports/input.css:7:21
+  |
+7 | @supports (display: flex) {
+  |                     ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/supports/input.css:7:21
+  |
+7 | @supports (display: flex) {
+  |                     ^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:8:5
+   |
+8  | /     body {
+9  | |         color: blue;
+10 | |     }
+   | |_____^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:8:5
+   |
+8  | /     body {
+9  | |         color: blue;
+10 | |     }
+   | |_____^
+
+error: SelectorList
+ --> $DIR/tests/fixture/at-rule/supports/input.css:8:5
+  |
+8 |     body {
+  |     ^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/at-rule/supports/input.css:8:5
+  |
+8 |     body {
+  |     ^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/at-rule/supports/input.css:8:5
+  |
+8 |     body {
+  |     ^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/at-rule/supports/input.css:8:5
+  |
+8 |     body {
+  |     ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/supports/input.css:8:5
+  |
+8 |     body {
+  |     ^^^^
+
+error: Block
+  --> $DIR/tests/fixture/at-rule/supports/input.css:8:10
+   |
+8  |       body {
+   |  __________^
+9  | |         color: blue;
+10 | |     }
+   | |_____^
+
+error: Declaration
+ --> $DIR/tests/fixture/at-rule/supports/input.css:9:9
+  |
+9 |         color: blue;
+  |         ^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/supports/input.css:9:9
+  |
+9 |         color: blue;
+  |         ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/supports/input.css:9:16
+  |
+9 |         color: blue;
+  |                ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/supports/input.css:9:16
+  |
+9 |         color: blue;
+  |                ^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:12:5
+   |
+12 | /     @media screen and (min-width: 900px) {
+13 | |         article {
+14 | |             display: flex;
+15 | |         }
+16 | |     }
+   | |_____^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:12:5
+   |
+12 | /     @media screen and (min-width: 900px) {
+13 | |         article {
+14 | |             display: flex;
+15 | |         }
+16 | |     }
+   | |_____^
+
+error: MediaRule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:12:5
+   |
+12 | /     @media screen and (min-width: 900px) {
+13 | |         article {
+14 | |             display: flex;
+15 | |         }
+16 | |     }
+   | |_____^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/supports/input.css:12:12
+   |
+12 |     @media screen and (min-width: 900px) {
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AndMediaQuery
+  --> $DIR/tests/fixture/at-rule/supports/input.css:12:12
+   |
+12 |     @media screen and (min-width: 900px) {
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/supports/input.css:12:12
+   |
+12 |     @media screen and (min-width: 900px) {
+   |            ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:12:12
+   |
+12 |     @media screen and (min-width: 900px) {
+   |            ^^^^^^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/supports/input.css:12:24
+   |
+12 |     @media screen and (min-width: 900px) {
+   |                        ^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/supports/input.css:12:24
+   |
+12 |     @media screen and (min-width: 900px) {
+   |                        ^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:12:24
+   |
+12 |     @media screen and (min-width: 900px) {
+   |                        ^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:12:35
+   |
+12 |     @media screen and (min-width: 900px) {
+   |                                   ^^^^^
+
+error: UnitValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:12:35
+   |
+12 |     @media screen and (min-width: 900px) {
+   |                                   ^^^^^
+
+error: Num
+  --> $DIR/tests/fixture/at-rule/supports/input.css:12:35
+   |
+12 |     @media screen and (min-width: 900px) {
+   |                                   ^^^
+
+error: Unit
+  --> $DIR/tests/fixture/at-rule/supports/input.css:12:38
+   |
+12 |     @media screen and (min-width: 900px) {
+   |                                      ^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:13:9
+   |
+13 | /         article {
+14 | |             display: flex;
+15 | |         }
+   | |_________^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/at-rule/supports/input.css:13:9
+   |
+13 | /         article {
+14 | |             display: flex;
+15 | |         }
+   | |_________^
+
+error: SelectorList
+  --> $DIR/tests/fixture/at-rule/supports/input.css:13:9
+   |
+13 |         article {
+   |         ^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/at-rule/supports/input.css:13:9
+   |
+13 |         article {
+   |         ^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/at-rule/supports/input.css:13:9
+   |
+13 |         article {
+   |         ^^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/at-rule/supports/input.css:13:9
+   |
+13 |         article {
+   |         ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:13:9
+   |
+13 |         article {
+   |         ^^^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/at-rule/supports/input.css:13:17
+   |
+13 |           article {
+   |  _________________^
+14 | |             display: flex;
+15 | |         }
+   | |_________^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/supports/input.css:14:13
+   |
+14 |             display: flex;
+   |             ^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:14:13
+   |
+14 |             display: flex;
+   |             ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/supports/input.css:14:22
+   |
+14 |             display: flex;
+   |                      ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:14:22
+   |
+14 |             display: flex;
+   |                      ^^^^
+

@@ -48,12 +48,12 @@ function _possibleConstructorReturn(self, call) {
     }
     return _assertThisInitialized(self);
 }
-function _setPrototypeOf(o, p) {
-    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-        o.__proto__ = p;
+function _setPrototypeOf(o, p1) {
+    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p1) {
+        o.__proto__ = p1;
         return o;
     };
-    return _setPrototypeOf(o, p);
+    return _setPrototypeOf(o, p1);
 }
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
@@ -108,7 +108,7 @@ var Poisoned = /*#__PURE__*/ function(_Component) {
     return Poisoned;
 }(React.Component);
 // OK
-var p1 = /*#__PURE__*/ React.createElement(Poisoned, {
+var p = /*#__PURE__*/ React.createElement(Poisoned, {
     x: true
 });
 export { };

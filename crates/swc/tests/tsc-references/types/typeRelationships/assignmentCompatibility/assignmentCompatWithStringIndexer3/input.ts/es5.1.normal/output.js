@@ -3,17 +3,17 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-var a1;
+var a;
 var b1;
-a1 = b1; // error
-b1 = a1; // error
+a = b1; // error
+b1 = a; // error
 var Generics;
 (function(Generics) {
     var foo = function foo() {
-        var a;
+        var a1;
         var b;
-        a = b; // error
-        b = a; // error
+        a1 = b; // error
+        b = a1; // error
     };
     var A = function A() {
         "use strict";

@@ -19,7 +19,10 @@ pub fn webpack_ast(
     let _timer = timer!("webpack_ast");
     let top_level_mark = Mark::fresh(Mark::root());
 
-    Flavor::Acorn.with(|| {
+    Flavor::Acorn {
+        extra_comments: true,
+    }
+    .with(|| {
         {
             let _timer = timer!("resolver");
             n.visit_mut_with(&mut resolver_with_mark(top_level_mark));

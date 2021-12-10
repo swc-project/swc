@@ -14,8 +14,8 @@ new Derived(), new class extends Derived {
     }
 }(1), new Derived("", "");
 class D extends Base {
-    constructor(y1, z1){
-        super(2), this.b = null, this.b = y1;
+    constructor(y, z){
+        super(2), this.b = null, this.b = y;
     }
 }
 class D2 extends D {

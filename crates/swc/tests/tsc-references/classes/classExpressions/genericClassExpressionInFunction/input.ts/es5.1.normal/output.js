@@ -132,17 +132,17 @@ var C = /*#__PURE__*/ function(_super) {
     }
     return C;
 }(new B2().anon);
-var b3Number1 = B3();
-var S = /*#__PURE__*/ function(b3Number) {
+var b3Number = B3();
+var S = /*#__PURE__*/ function(b3Number1) {
     "use strict";
-    _inherits(S, b3Number);
+    _inherits(S, b3Number1);
     var _super = _createSuper(S);
     function S() {
         _classCallCheck(this, S);
         return _super.apply(this, arguments);
     }
     return S;
-}(b3Number1);
+}(b3Number);
 var c = new C();
 var k = new K();
 var s = new S();

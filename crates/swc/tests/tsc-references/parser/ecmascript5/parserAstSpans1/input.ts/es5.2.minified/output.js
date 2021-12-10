@@ -194,16 +194,16 @@ var c4 = function(c2) {
     return c4;
 }(c2);
 new c4(10), i2_i.i2_f1(), i2_i.i2_nc_f1(), i2_i.f1(), i2_i.nc_f1(), i2_i.i2_l1(), i2_i.i2_nc_l1(), i2_i.l1(), i2_i.nc_l1(), i3_i.i2_f1(), i3_i.i2_nc_f1(), i3_i.f1(), i3_i.nc_f1(), i3_i.i2_l1(), i3_i.i2_nc_l1(), i3_i.l1(), i3_i.nc_l1(), (i2_i = i3_i).i2_f1(), i2_i.i2_nc_f1(), i2_i.f1(), i2_i.nc_f1(), i2_i.i2_l1(), i2_i.i2_nc_l1(), i2_i.l1(), i2_i.nc_l1();
-var c51 = function() {
+var c5 = function() {
     "use strict";
-    _classCallCheck(this, c51);
-}, c6 = function(c5) {
+    _classCallCheck(this, c5);
+}, c6 = function(c51) {
     "use strict";
-    _inherits(c6, c5);
+    _inherits(c6, c51);
     var _super = _createSuper(c6);
     function c6() {
         var _thisSuper, _this;
         return _classCallCheck(this, c6), (_this = _super.call(this)).d = _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(c6.prototype)), "b", _thisSuper), _this;
     }
     return c6;
-}(c51);
+}(c5);

@@ -8,8 +8,8 @@ var f3 = function(x, y) {
         rest[_key - 2] = arguments[_key];
     }
 };
-var f4 = function(x, y, param) {
-    var z = param === void 0 ? 10 : param;
+var f4 = function(x, y) {
+    var z = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : 10;
 };
 function foo(func) {
 }

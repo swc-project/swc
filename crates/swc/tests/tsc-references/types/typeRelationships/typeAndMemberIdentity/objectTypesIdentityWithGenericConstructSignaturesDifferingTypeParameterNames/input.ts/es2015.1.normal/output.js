@@ -1,11 +1,11 @@
 // object types are identical structurally
 class B {
-    constructor(x2){
+    constructor(x){
         return null;
     }
 }
 class C {
-    constructor(x1){
+    constructor(x){
         return null;
     }
 }

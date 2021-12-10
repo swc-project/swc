@@ -4,8 +4,8 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 var _class;
-var Foo1 = _class = isDecorator((_class = function Foo() {
+var Foo = _class = isDecorator((_class = function Foo1() {
     "use strict";
-    _classCallCheck(this, Foo);
+    _classCallCheck(this, Foo1);
 }) || _class) || _class;
-new Foo1();
+new Foo();

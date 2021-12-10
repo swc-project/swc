@@ -1,5 +1,5 @@
-var E, E1, Flag, Flag1;
-(E = E1 || (E1 = {
+var E, E, Flag, Flag;
+(E = E || (E = {
 }))[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C", one(()=>{
 }), on({
     test: ()=>{
@@ -16,8 +16,8 @@ var E, E1, Flag, Flag1;
     35
 ]);
 class SampleClass {
-    constructor(props1){
-        this.props = Object.freeze(props1);
+    constructor(props){
+        this.props = Object.freeze(props);
     }
 }
 new class extends SampleClass {
@@ -30,5 +30,5 @@ new class extends SampleClass {
         }));
     }
 }({
-}), (Flag1 = Flag || (Flag = {
-})).FLAG_1 = "flag_1", Flag1.FLAG_2 = "flag_2";
+}), (Flag = Flag || (Flag = {
+})).FLAG_1 = "flag_1", Flag.FLAG_2 = "flag_2";

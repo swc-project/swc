@@ -49,7 +49,7 @@ var _class, _class1, C = function() {
     "use strict";
     _classCallCheck(this, C);
 };
-!function(param) {
+!function() {
     (void 0)[((_class = (function(C) {
         "use strict";
         _inherits(_class, C);
@@ -59,7 +59,7 @@ var _class, _class1, C = function() {
         }
         return _class;
     })(C)).x = 1, _class).x];
-}(), (function(param, param1) {
+}(), (function() {
     (void 0)[((_class1 = (function(C) {
         "use strict";
         _inherits(_class, C);
@@ -68,5 +68,5 @@ var _class, _class1, C = function() {
             return _classCallCheck(this, _class), _super.apply(this, arguments);
         }
         return _class;
-    })(C)).x = 1, _class1).x];
+    })(C)).x = 1, _class1).x], arguments.length > 1 && void 0 !== arguments[1] && arguments[1];
 })();

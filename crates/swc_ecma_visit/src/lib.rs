@@ -3,16 +3,11 @@
 pub extern crate swc_ecma_ast;
 
 use num_bigint::BigInt as BigIntValue;
-use std::{any::Any, borrow::Cow, fmt::Debug};
+use std::{borrow::Cow, fmt::Debug};
 use swc_atoms::JsWord;
 use swc_common::{pass::CompilerPass, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_visit::{define, AndThen, Repeat, Repeated};
-
-/// Visitable nodes.
-pub trait Node: Any {}
-
-impl<T: ?Sized> Node for T where T: Any {}
 
 impl<A, B> Fold for AndThen<A, B>
 where
@@ -54,14 +49,14 @@ where
     A: Visit,
     B: Visit,
 {
-    fn visit_module(&mut self, n: &Module, _parent: &dyn Node) {
-        self.first.visit_module(n, _parent);
-        self.second.visit_module(n, _parent);
+    fn visit_module(&mut self, n: &Module) {
+        self.first.visit_module(n);
+        self.second.visit_module(n);
     }
 
-    fn visit_script(&mut self, n: &Script, _parent: &dyn Node) {
-        self.first.visit_script(n, _parent);
-        self.second.visit_script(n, _parent);
+    fn visit_script(&mut self, n: &Script) {
+        self.first.visit_script(n);
+        self.second.visit_script(n);
     }
 }
 
@@ -157,10 +152,10 @@ macro_rules! assert_eq_ignore_span {
     }};
 }
 
-/// Implemeented for passes which inject varaibles.
+/// Implemented for passes which inject variables.
 ///
 /// If a pass depends on other pass which injects variables, this trait can be
-/// used to keep the varaibles.
+/// used to keep the variables.
 pub trait InjectVars {
     fn take_vars(&mut self) -> Vec<VarDeclarator>;
 }
@@ -266,7 +261,16 @@ where
 
     method!(fold_ts_type, TsType);
 
-    method!(fold_module, Module);
+    #[inline(always)]
+    fn fold_module(&mut self, mut n: Module) -> Module {
+        #[cfg(all(debug_assertions, feature = "debug"))]
+        let _tracing = {
+            let visitor_name = std::any::type_name::<V>();
+            tracing::span!(tracing::Level::TRACE, "as_folder", visitor = visitor_name).entered()
+        };
+        n.visit_mut_with(&mut self.0);
+        n
+    }
     method!(fold_script, Script);
     method!(fold_program, Program);
 }
@@ -353,7 +357,7 @@ macro_rules! noop_fold_type {
 macro_rules! noop_visit_type {
     ($name:ident, $N:tt) => {
         #[inline]
-        fn $name(&mut self, _: &$crate::swc_ecma_ast::$N, _: &dyn $crate::Node) {}
+        fn $name(&mut self, _: &$crate::swc_ecma_ast::$N) {}
     };
     () => {
         noop_visit_type!(visit_accessibility, Accessibility);

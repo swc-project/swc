@@ -8,11 +8,11 @@ use swc_common::{
     comments::SingleThreadedComments,
     errors::{ColorConfig, Handler},
     sync::Lrc,
-    SourceMap,
+    Mark, SourceMap,
 };
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
-use swc_ecma_transforms_base::fixer::fixer;
+use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver::resolver_with_mark};
 use swc_ecma_transforms_typescript::strip;
 use swc_ecma_visit::FoldWith;
 
@@ -38,7 +38,6 @@ fn main() {
     let lexer = Lexer::new(
         Syntax::Typescript(TsConfig {
             tsx: input.ends_with(".tsx"),
-            dynamic_import: true,
             ..Default::default()
         }),
         Default::default(),
@@ -57,10 +56,21 @@ fn main() {
         .map_err(|e| e.into_diagnostic(&handler).emit())
         .expect("failed to parse module.");
 
-    // Remove typescript types
-    let module = module.fold_with(&mut strip());
+    let top_level_mark = Mark::fresh(Mark::root());
 
-    // Ensure that we have eenough parenthesis.
+    // Optionally transforms decorators here before the resolver pass
+    // as it might produce runtime declarations.
+
+    // Conduct identifier scope analysis
+    let module = module.fold_with(&mut resolver_with_mark(top_level_mark));
+
+    // Remove typescript types
+    let module = module.fold_with(&mut strip(top_level_mark));
+
+    // Fix up any identifiers with the same name, but different contexts
+    let module = module.fold_with(&mut hygiene());
+
+    // Ensure that we have enough parenthesis.
     let module = module.fold_with(&mut fixer(Some(&comments)));
 
     let mut buf = vec![];

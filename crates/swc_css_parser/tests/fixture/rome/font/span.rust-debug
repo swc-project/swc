@@ -57,7 +57,7 @@ error: Value
 2 |     src: url("");
   |          ^^^^^^^
 
-error: FnValue
+error: Function
  --> $DIR/tests/fixture/rome/font/input.css:2:7
   |
 2 |     src: url("");

@@ -1,13 +1,20 @@
+function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
+    return arr2;
+}
 function _arrayWithHoles(arr) {
     if (Array.isArray(arr)) return arr;
 }
 function _iterableToArrayLimit(arr, i) {
+    var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
+    if (_i == null) return;
     var _arr = [];
     var _n = true;
     var _d = false;
-    var _e = undefined;
+    var _s, _e;
     try {
-        for(var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true){
+        for(_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true){
             _arr.push(_s.value);
             if (i && _arr.length === i) break;
         }
@@ -24,20 +31,28 @@ function _iterableToArrayLimit(arr, i) {
     return _arr;
 }
 function _nonIterableRest() {
-    throw new TypeError("Invalid attempt to destructure non-iterable instance");
+    throw new TypeError("Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 function _slicedToArray(arr, i) {
-    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
+    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
 }
 function _throw(e) {
     throw e;
 }
+function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(n);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
 // @target: es6
 (function() {
-    var f = function f(param5, param1, param2) {
-        var ref9 = param5 === void 0 ? a : param5, ref9 = ref9 !== null ? ref9 : _throw(new TypeError("Cannot destructure undefined")), ref2 = _slicedToArray(param1 === void 0 ? a : param1, 0), ref3 = param2 === void 0 ? a : param2, tmp1 = ref3.p, ref4 = tmp1 === void 0 ? a : tmp1, ref4 = ref4 !== null ? ref4 : _throw(new TypeError("Cannot destructure undefined"));
-        return function(param, param3, param4) {
-            var ref = param === void 0 ? a : param, ref = ref !== null ? ref : _throw(new TypeError("Cannot destructure undefined")), ref6 = _slicedToArray(param3 === void 0 ? a : param3, 0), ref7 = param4 === void 0 ? a : param4, tmp = ref7.p, ref8 = tmp === void 0 ? a : tmp, ref8 = ref8 !== null ? ref8 : _throw(new TypeError("Cannot destructure undefined"));
+    var f = function f() {
+        var ref9 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : a, ref9 = ref9 !== null ? ref9 : _throw(new TypeError("Cannot destructure undefined")), ref2 = _slicedToArray(arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : a, 0), ref3 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : a, tmp1 = ref3.p, ref4 = tmp1 === void 0 ? a : tmp1, ref4 = ref4 !== null ? ref4 : _throw(new TypeError("Cannot destructure undefined"));
+        return function() {
+            var ref = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : a, ref = ref !== null ? ref : _throw(new TypeError("Cannot destructure undefined")), ref6 = _slicedToArray(arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : a, 0), ref7 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : a, tmp = ref7.p, ref8 = tmp === void 0 ? a : tmp, ref8 = ref8 !== null ? ref8 : _throw(new TypeError("Cannot destructure undefined"));
             return a;
         };
     };

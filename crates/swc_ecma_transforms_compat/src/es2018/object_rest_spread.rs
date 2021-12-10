@@ -12,7 +12,7 @@ use swc_ecma_utils::{
     ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, noop_fold_type, noop_visit_mut_type, noop_visit_type, Fold, FoldWith, Node, Visit,
+    as_folder, noop_fold_type, noop_visit_mut_type, noop_visit_type, Fold, FoldWith, Visit,
     VisitMut, VisitMutWith, VisitWith,
 };
 
@@ -174,7 +174,7 @@ struct RestVisitor {
 impl Visit for RestVisitor {
     noop_visit_type!();
 
-    fn visit_object_pat_prop(&mut self, prop: &ObjectPatProp, _: &dyn Node) {
+    fn visit_object_pat_prop(&mut self, prop: &ObjectPatProp) {
         match *prop {
             ObjectPatProp::Rest(..) => self.found = true,
             _ => prop.visit_children_with(self),
@@ -193,7 +193,7 @@ where
     N: VisitWith<RestVisitor>,
 {
     let mut v = RestVisitor { found: false };
-    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+    node.visit_with(&mut v);
     v.found
 }
 
@@ -283,7 +283,7 @@ impl Fold for ObjectRest {
                 let specifiers = {
                     let mut found = vec![];
                     let mut finder = VarCollector { to: &mut found };
-                    var_decl.visit_with(&Invalid { span: DUMMY_SP } as _, &mut finder);
+                    var_decl.visit_with(&mut finder);
                     found
                         .into_iter()
                         .map(|(sym, ctxt)| ExportNamedSpecifier {

@@ -82,12 +82,12 @@
                 }
             }
             class ErrorFactory {
-                constructor(service1, serviceName, errors){
-                    this.service = service1, this.serviceName = serviceName, this.errors = errors;
+                constructor(service, serviceName, errors){
+                    this.service = service, this.serviceName = serviceName, this.errors = errors;
                 }
-                create(code1, ...data1) {
-                    const customData = data1[0] || {
-                    }, fullCode = `${this.service}/${code1}`, template = this.errors[code1], message = template ? replaceTemplate(template, customData) : "Error", fullMessage = `${this.serviceName}: ${message} (${fullCode}).`, error = new FirebaseError(fullCode, fullMessage, customData);
+                create(code, ...data) {
+                    const customData = data[0] || {
+                    }, fullCode = `${this.service}/${code}`, template = this.errors[code], message = template ? replaceTemplate(template, customData) : "Error", fullMessage = `${this.serviceName}: ${message} (${fullCode}).`, error = new FirebaseError(fullCode, fullMessage, customData);
                     return error;
                 }
             }
@@ -509,8 +509,8 @@
                 constructor(){
                     this.next = this.g = this.h = null;
                 }
-                set(a3, b1) {
-                    this.h = a3, this.g = b1, this.next = null;
+                set(a, b) {
+                    this.h = a, this.g = b, this.next = null;
                 }
                 reset() {
                     this.next = this.g = this.h = null;
@@ -581,10 +581,10 @@
                 Eb.Z.M.call(this), Fb(this), delete this.g;
             };
             class Ib extends v {
-                constructor(a5, b2){
-                    super(), this.m = a5, this.j = b2, this.h = null, this.i = !1, this.g = null;
+                constructor(a, b){
+                    super(), this.m = a, this.j = b, this.h = null, this.i = !1, this.g = null;
                 }
-                l(a4) {
+                l(a) {
                     this.h = arguments, this.g ? this.i = !0 : Hb(this);
                 }
                 M() {
@@ -742,13 +742,13 @@
             function ic(a, b, c) {
                 a.K = 1, a.v = jc(N(b)), a.s = c, a.U = !0, kc(a, null);
             }
-            function kc(a6, b3) {
-                a6.F = Date.now(), lc(a6), a6.A = N(a6.v);
-                var c1 = a6.A, d1 = a6.X;
+            function kc(a3, b1) {
+                a3.F = Date.now(), lc(a3), a3.A = N(a3.v);
+                var c1 = a3.A, d1 = a3.X;
                 Array.isArray(d1) || (d1 = [
                     String(d1)
-                ]), mc(c1.h, "t", d1), a6.C = 0, c1 = a6.l.H, a6.h = new fc, a6.g = nc(a6.l, c1 ? b3 : null, !a6.s), 0 < a6.O && (a6.L = new Ib(q(a6.Ia, a6, a6.g), a6.O)), Kb(a6.V, a6.g, "readystatechange", a6.gb), b3 = a6.H ? ya(a6.H) : {
-                }, a6.s ? (a6.u || (a6.u = "POST"), b3["Content-Type"] = "application/x-www-form-urlencoded", a6.g.ea(a6.A, a6.u, a6.s, b3)) : (a6.u = "GET", a6.g.ea(a6.A, a6.u, null, b3)), I(1), (function(a, b, c, d, e, f) {
+                ]), mc(c1.h, "t", d1), a3.C = 0, c1 = a3.l.H, a3.h = new fc, a3.g = nc(a3.l, c1 ? b1 : null, !a3.s), 0 < a3.O && (a3.L = new Ib(q(a3.Ia, a3, a3.g), a3.O)), Kb(a3.V, a3.g, "readystatechange", a3.gb), b1 = a3.H ? ya(a3.H) : {
+                }, a3.s ? (a3.u || (a3.u = "POST"), b1["Content-Type"] = "application/x-www-form-urlencoded", a3.g.ea(a3.A, a3.u, a3.s, b1)) : (a3.u = "GET", a3.g.ea(a3.A, a3.u, null, b1)), I(1), (function(a, b, c, d, e, f) {
                     a.info(function() {
                         if (a.g) if (f) for(var h = "", n = f.split("&"), u = 0; u < n.length; u++){
                             var m = n[u].split("=");
@@ -763,7 +763,7 @@
                         else h = f;
                         return "XMLHTTP REQ (" + d + ") [attempt " + e + "]: " + b + "\n" + c + "\n" + h;
                     });
-                })(a6.j, a6.u, a6.A, a6.m, a6.X, a6.s);
+                })(a3.j, a3.u, a3.A, a3.m, a3.X, a3.s);
             }
             function qc(a) {
                 return !!a.g && "GET" == a.u && 2 != a.K && a.l.Ba;
@@ -866,16 +866,16 @@
                 } catch (m) {
                 }
             }
-            function Kc(a7, b4) {
-                if (a7.forEach && "function" == typeof a7.forEach) a7.forEach(b4, void 0);
-                else if (ba(a7) || "string" == typeof a7) na(a7, b4, void 0);
+            function Kc(a4, b2) {
+                if (a4.forEach && "function" == typeof a4.forEach) a4.forEach(b2, void 0);
+                else if (ba(a4) || "string" == typeof a4) na(a4, b2, void 0);
                 else {
-                    if (a7.T && "function" == typeof a7.T) var c2 = a7.T();
-                    else if (a7.R && "function" == typeof a7.R) c2 = void 0;
-                    else if (ba(a7) || "string" == typeof a7) {
+                    if (a4.T && "function" == typeof a4.T) var c2 = a4.T();
+                    else if (a4.R && "function" == typeof a4.R) c2 = void 0;
+                    else if (ba(a4) || "string" == typeof a4) {
                         c2 = [];
-                        for(var d = a7.length, e = 0; e < d; e++)c2.push(e);
-                    } else for(e in c2 = [], d = 0, a7)c2[d++] = e;
+                        for(var d = a4.length, e = 0; e < d; e++)c2.push(e);
+                    } else for(e in c2 = [], d = 0, a4)c2[d++] = e;
                     e = (d = (function(a) {
                         if (a.R && "function" == typeof a.R) return a.R();
                         if ("string" == typeof a) return a.split("");
@@ -885,8 +885,8 @@
                         }
                         for(d in b = [], c = 0, a)b[c++] = a[d];
                         return b;
-                    })(a7)).length;
-                    for(var f = 0; f < e; f++)b4.call(void 0, d[f], c2 && c2[f], a7);
+                    })(a4)).length;
+                    for(var f = 0; f < e; f++)b2.call(void 0, d[f], c2 && c2[f], a4);
                 }
             }
             function S(a, b) {
@@ -923,19 +923,19 @@
                 a = a.target;
                 const b = this.L;
                 b && 3 == O(a) ? b.l() : this.Ia(a);
-            }, k.Ia = function(a8) {
+            }, k.Ia = function(a5) {
                 try {
-                    if (a8 == this.g) a: {
+                    if (a5 == this.g) a: {
                         const r = O(this.g);
-                        var b5 = this.g.Da();
+                        var b3 = this.g.Da();
                         const G = this.g.ba();
                         if (!(3 > r) && (3 != r || Ja || this.g && (this.h.h || this.g.ga() || oc(this.g)))) {
-                            this.I || 4 != r || 7 == b5 || (8 == b5 || 0 >= G ? I(3) : I(2)), pc(this);
+                            this.I || 4 != r || 7 == b3 || (8 == b3 || 0 >= G ? I(3) : I(2)), pc(this);
                             var c3 = this.g.ba();
                             this.N = c3;
                             b: if (qc(this)) {
                                 var d = oc(this.g);
-                                a8 = "";
+                                a5 = "";
                                 var e = d.length, f = 4 == O(this.g);
                                 if (!this.h.i) {
                                     if ("undefined" == typeof TextDecoder) {
@@ -945,10 +945,10 @@
                                     }
                                     this.h.i = new l.TextDecoder;
                                 }
-                                for(b5 = 0; b5 < e; b5++)this.h.h = !0, a8 += this.h.i.decode(d[b5], {
-                                    stream: f && b5 == e - 1
+                                for(b3 = 0; b3 < e; b3++)this.h.h = !0, a5 += this.h.i.decode(d[b3], {
+                                    stream: f && b3 == e - 1
                                 });
-                                d.splice(0, e), this.h.g += a8, this.C = 0, h = this.h.g;
+                                d.splice(0, e), this.h.g += a5, this.C = 0, h = this.h.g;
                             } else h = this.g.ga();
                             if (this.i = 200 == c3, (function(a, b, c, d, e, f, h) {
                                 a.info(function() {
@@ -988,12 +988,12 @@
                 this.I = !0, P(this);
             }, k.eb = function() {
                 this.B = null;
-                const a9 = Date.now();
-                0 <= a9 - this.Y ? ((function(a, b) {
+                const a6 = Date.now();
+                0 <= a6 - this.Y ? ((function(a, b) {
                     a.info(function() {
                         return "TIMEOUT: " + b;
                     });
-                })(this.j, this.A), 2 != this.K && (I(3), J(17)), P(this), this.o = 2, rc(this)) : xc(this, this.Y - a9);
+                })(this.j, this.A), 2 != this.K && (I(3), J(17)), P(this), this.o = 2, rc(this)) : xc(this, this.Y - a6);
             }, (k = S.prototype).R = function() {
                 Lc(this);
                 for(var a = [], b = 0; b < this.g.length; b++)a.push(this.h[this.g[b]]);
@@ -1061,8 +1061,8 @@
             function Rc(a, b) {
                 this.h = this.g = null, this.i = a || null, this.j = !!b;
             }
-            function V(a10) {
-                a10.g || (a10.g = new S, a10.h = 0, a10.i && (function(a, b) {
+            function V(a7) {
+                a7.g || (a7.g = new S, a7.h = 0, a7.i && (function(a, b) {
                     if (a) {
                         a = a.split("&");
                         for(var c = 0; c < a.length; c++){
@@ -1074,8 +1074,8 @@
                             b(f, e ? decodeURIComponent(e.replace(/\+/g, " ")) : "");
                         }
                     }
-                })(a10.i, function(b, c) {
-                    a10.add(decodeURIComponent(b.replace(/\+/g, " ")), c);
+                })(a7.i, function(b, c) {
+                    a7.add(decodeURIComponent(b.replace(/\+/g, " ")), c);
                 }));
             }
             function dd(a, b) {
@@ -1389,10 +1389,10 @@
                     }
                     d = !0;
                 }
-                let b6;
-                d || (b6 = "", xa(c4, function(c, d) {
-                    b6 += d, b6 += ":", b6 += c, b6 += "\r\n";
-                }), c4 = b6, "string" == typeof a ? null != c4 && encodeURIComponent(String(c4)) : R(a, b, c4));
+                let b4;
+                d || (b4 = "", xa(c4, function(c, d) {
+                    b4 += d, b4 += ":", b4 += c, b4 += "\r\n";
+                }), c4 = b4, "string" == typeof a ? null != c4 && encodeURIComponent(String(c4)) : R(a, b, c4));
             }
             function Hd(a, b, c) {
                 return c && c.internalChannelParams ? c.internalChannelParams[a] || b : b;
@@ -1481,7 +1481,7 @@
                 null != a.v && (l.clearTimeout(a.v), a.v = null);
             }
             function uc(a, b) {
-                var a11, b7, c = null;
+                var a8, b5, c = null;
                 if (a.g == b) {
                     zc(a), wc(a), a.g = null;
                     var d = 2;
@@ -1495,7 +1495,7 @@
                         var e = a.C;
                         D(d = Sb(), new Vb(d, c, b, e)), Hc(a);
                     } else Gc(a);
-                    else if (3 == (e = b.o) || 0 == e && 0 < a.I || !(1 == d && (a11 = a, b7 = b, !(Cc(a11.i) >= a11.i.j - (a11.m ? 1 : 0)) && (a11.m ? (a11.l = b7.D.concat(a11.l), !0) : 1 != a11.G && 2 != a11.G && !(a11.C >= (a11.Xa ? 0 : a11.Ya)) && (a11.m = K(q(a11.Ha, a11, b7), Od(a11, a11.C)), a11.C++, !0))) || 2 == d && Bc(a))) switch(c && 0 < c.length && ((b = a.i).i = b.i.concat(c)), e){
+                    else if (3 == (e = b.o) || 0 == e && 0 < a.I || !(1 == d && (a8 = a, b5 = b, !(Cc(a8.i) >= a8.i.j - (a8.m ? 1 : 0)) && (a8.m ? (a8.l = b5.D.concat(a8.l), !0) : 1 != a8.G && 2 != a8.G && !(a8.C >= (a8.Xa ? 0 : a8.Ya)) && (a8.m = K(q(a8.Ha, a8, b5), Od(a8, a8.C)), a8.C++, !0))) || 2 == d && Bc(a))) switch(c && 0 < c.length && ((b = a.i).i = b.i.concat(c)), e){
                         case 1:
                             Q(a, 5);
                             break;
@@ -1514,11 +1514,11 @@
                 let c = a.Pa + Math.floor(Math.random() * a.$a);
                 return a.j || (c *= 2), c * b;
             }
-            function Q(a12, b8) {
-                if (a12.h.info("Error code " + b8), 2 == b8) {
+            function Q(a9, b6) {
+                if (a9.h.info("Error code " + b6), 2 == b6) {
                     var c5 = null;
-                    a12.j && (c5 = null);
-                    var d2 = q(a12.jb, a12);
+                    a9.j && (c5 = null);
+                    var d2 = q(a9.jb, a9);
                     c5 || (c5 = new U("//www.google.com/images/cleardot.gif"), l.location && "http" == l.location.protocol || Oc(c5, "https"), jc(c5)), (function(a, b) {
                         const c = new Mb;
                         if (l.Image) {
@@ -1529,18 +1529,18 @@
                         } else b(!1);
                     })(c5.toString(), d2);
                 } else J(2);
-                a12.G = 0, a12.j && a12.j.va(b8), Ld(a12), Jd(a12);
+                a9.G = 0, a9.j && a9.j.va(b6), Ld(a9), Jd(a9);
             }
             function Ld(a) {
                 a.G = 0, a.I = -1, a.j && ((0 != jd(a.i).length || 0 != a.l.length) && (a.i.i.length = 0, ra(a.l), a.l.length = 0), a.j.ua());
             }
             function Ec(a, b, c) {
-                var a13, a14, b9, c6, d, e2;
-                let d3 = (a13 = c) instanceof U ? N(a13) : new U(a13, void 0);
+                var a10, a11, b7, c6, d, e2;
+                let d3 = (a10 = c) instanceof U ? N(a10) : new U(a10, void 0);
                 if ("" != d3.i) b && Pc(d3, b + "." + d3.i), Qc(d3, d3.m);
                 else {
                     const e1 = l.location;
-                    d3 = (a14 = e1.protocol, b9 = b ? b + "." + e1.hostname : e1.hostname, c6 = +e1.port, d = c, e2 = new U(null, void 0), a14 && Oc(e2, a14), b9 && Pc(e2, b9), c6 && Qc(e2, c6), d && (e2.l = d), e2);
+                    d3 = (a11 = e1.protocol, b7 = b ? b + "." + e1.hostname : e1.hostname, c6 = +e1.port, d = c, e2 = new U(null, void 0), a11 && Oc(e2, a11), b7 && Pc(e2, b7), c6 && Qc(e2, c6), d && (e2.l = d), e2);
                 }
                 return a.aa && xa(a.aa, function(e, f) {
                     R(d3, f, e);
@@ -1586,16 +1586,16 @@
             function Z(a) {
                 this.g = a;
             }
-            (k = X.prototype).ea = function(a16, b10, c7, d4) {
-                if (this.g) throw Error("[goog.net.XhrIo] Object is active with another request=" + this.H + "; newUri=" + a16);
-                b10 = b10 ? b10.toUpperCase() : "GET", this.H = a16, this.j = "", this.m = 0, this.D = !1, this.h = !0, this.g = this.u ? this.u.g() : cc.g(), this.C = this.u ? Zb(this.u) : Zb(cc), this.g.onreadystatechange = q(this.Fa, this);
+            (k = X.prototype).ea = function(a13, b8, c7, d4) {
+                if (this.g) throw Error("[goog.net.XhrIo] Object is active with another request=" + this.H + "; newUri=" + a13);
+                b8 = b8 ? b8.toUpperCase() : "GET", this.H = a13, this.j = "", this.m = 0, this.D = !1, this.h = !0, this.g = this.u ? this.u.g() : cc.g(), this.C = this.u ? Zb(this.u) : Zb(cc), this.g.onreadystatechange = q(this.Fa, this);
                 try {
-                    this.F = !0, this.g.open(b10, String(a16), !0), this.F = !1;
+                    this.F = !0, this.g.open(b8, String(a13), !0), this.F = !1;
                 } catch (f1) {
                     zd(this, f1);
                     return;
                 }
-                a16 = c7 || "";
+                a13 = c7 || "";
                 const e3 = new S(this.headers);
                 d4 && Kc(d4, function(f, h) {
                     e3.set(h, f);
@@ -1610,12 +1610,12 @@
                         b = -1;
                     }
                     return 0 > b ? null : "string" == typeof a ? a.charAt(b) : a[b];
-                })(e3.T()), c7 = l.FormData && a16 instanceof l.FormData, !(0 <= ma(yd, b10)) || d4 || c7 || e3.set("Content-Type", "application/x-www-form-urlencoded;charset=utf-8"), e3.forEach(function(f, h) {
+                })(e3.T()), c7 = l.FormData && a13 instanceof l.FormData, !(0 <= ma(yd, b8)) || d4 || c7 || e3.set("Content-Type", "application/x-www-form-urlencoded;charset=utf-8"), e3.forEach(function(f, h) {
                     this.g.setRequestHeader(h, f);
                 }, this), this.J && (this.g.responseType = this.J), "withCredentials" in this.g && this.g.withCredentials !== this.L && (this.g.withCredentials = this.L);
                 try {
-                    var a15;
-                    Ad(this), 0 < this.B && ((this.K = (a15 = this.g, y && (function(a) {
+                    var a12;
+                    Ad(this), 0 < this.B && ((this.K = (a12 = this.g, y && (function(a) {
                         var b = Ga;
                         return Object.prototype.hasOwnProperty.call(b, 9) ? b[9] : b[9] = a(9);
                     })(function() {
@@ -1639,7 +1639,7 @@
                             }while (0 == a)
                         }
                         return 0 <= a;
-                    }) && "number" == typeof a15.timeout && void 0 !== a15.ontimeout)) ? (this.g.timeout = this.B, this.g.ontimeout = q(this.pa, this)) : this.A = Gb(this.pa, this.B, this)), this.v = !0, this.g.send(a16), this.v = !1;
+                    }) && "number" == typeof a12.timeout && void 0 !== a12.ontimeout)) ? (this.g.timeout = this.B, this.g.ontimeout = q(this.pa, this)) : this.A = Gb(this.pa, this.B, this)), this.v = !0, this.g.send(a13), this.v = !1;
                 } catch (f) {
                     zd(this, f);
                 }
@@ -2326,8 +2326,8 @@
             });
             var _firebase_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8463), _firebase_logger__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3333), _firebase_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4444);
             class PlatformLoggerServiceImpl {
-                constructor(container1){
-                    this.container = container1;
+                constructor(container){
+                    this.container = container;
                 }
                 getPlatformInfoString() {
                     const providers = this.container.getProviders();
@@ -2485,36 +2485,36 @@
                     if (!(val in LogLevel)) throw new TypeError(`Invalid value "${val}" assigned to \`logLevel\``);
                     this._logLevel = val;
                 }
-                setLogLevel(val1) {
-                    this._logLevel = "string" == typeof val1 ? levelStringToEnum[val1] : val1;
+                setLogLevel(val) {
+                    this._logLevel = "string" == typeof val ? levelStringToEnum[val] : val;
                 }
                 get logHandler() {
                     return this._logHandler;
                 }
-                set logHandler(val2) {
-                    if ("function" != typeof val2) throw new TypeError("Value assigned to `logHandler` must be a function");
-                    this._logHandler = val2;
+                set logHandler(val) {
+                    if ("function" != typeof val) throw new TypeError("Value assigned to `logHandler` must be a function");
+                    this._logHandler = val;
                 }
                 get userLogHandler() {
                     return this._userLogHandler;
                 }
-                set userLogHandler(val3) {
-                    this._userLogHandler = val3;
+                set userLogHandler(val) {
+                    this._userLogHandler = val;
                 }
                 debug(...args) {
                     this._userLogHandler && this._userLogHandler(this, LogLevel.DEBUG, ...args), this._logHandler(this, LogLevel.DEBUG, ...args);
                 }
-                log(...args1) {
-                    this._userLogHandler && this._userLogHandler(this, LogLevel.VERBOSE, ...args1), this._logHandler(this, LogLevel.VERBOSE, ...args1);
+                log(...args) {
+                    this._userLogHandler && this._userLogHandler(this, LogLevel.VERBOSE, ...args), this._logHandler(this, LogLevel.VERBOSE, ...args);
                 }
-                info(...args2) {
-                    this._userLogHandler && this._userLogHandler(this, LogLevel.INFO, ...args2), this._logHandler(this, LogLevel.INFO, ...args2);
+                info(...args) {
+                    this._userLogHandler && this._userLogHandler(this, LogLevel.INFO, ...args), this._logHandler(this, LogLevel.INFO, ...args);
                 }
-                warn(...args3) {
-                    this._userLogHandler && this._userLogHandler(this, LogLevel.WARN, ...args3), this._logHandler(this, LogLevel.WARN, ...args3);
+                warn(...args) {
+                    this._userLogHandler && this._userLogHandler(this, LogLevel.WARN, ...args), this._logHandler(this, LogLevel.WARN, ...args);
                 }
-                error(...args4) {
-                    this._userLogHandler && this._userLogHandler(this, LogLevel.ERROR, ...args4), this._logHandler(this, LogLevel.ERROR, ...args4);
+                error(...args) {
+                    this._userLogHandler && this._userLogHandler(this, LogLevel.ERROR, ...args), this._logHandler(this, LogLevel.ERROR, ...args);
                 }
             }
         }

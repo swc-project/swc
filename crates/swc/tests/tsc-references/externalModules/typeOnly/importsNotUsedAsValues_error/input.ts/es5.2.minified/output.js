@@ -10,8 +10,8 @@ export var A = function() {
     "use strict";
     _classCallCheck(this, A);
 };
-(C1 = C || (C = {
-}))[C1.One = 0] = "One", C1[C1.Two = 1] = "Two", console.log(a, b), console.log(a, b);
+(C = C || (C = {
+}))[C.One = 0] = "One", C[C.Two = 1] = "Two", console.log(a, b), console.log(a, b);
 var a = A;
 console.log(a, b), C.One;
 var c = C.Two, d = C.Two;
@@ -21,11 +21,11 @@ var H = function() {
     _classCallCheck(this, H);
 };
 module.exports = H;
-var C1, H = require("./h");
+var C, H = require("./h");
 console.log({
 });
-var K1, H = require("./h");
-(K1 = K || (K = {
-}))[K1.One = 0] = "One", K1[K1.Two = 1] = "Two", module.exports = K;
+var K, H = require("./h");
+(K = K || (K = {
+}))[K.One = 0] = "One", K[K.Two = 1] = "Two", module.exports = K;
 var K = require("./k");
 K.One;

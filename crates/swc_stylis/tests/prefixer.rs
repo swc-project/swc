@@ -3,8 +3,10 @@
 //! License is MIT, which is original license at the time of copying.
 //! Original test authors have copyright for their work.
 
-use swc_common::FileName;
-use swc_css_ast::DeclarationBlockItem;
+use std::path::PathBuf;
+
+use swc_common::{FileName, DUMMY_SP};
+use swc_css_ast::{Block, DeclarationBlockItem, QualifiedRule, Stylesheet};
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
     CodegenConfig, Emit,
@@ -12,6 +14,7 @@ use swc_css_codegen::{
 use swc_css_parser::{parse_file, parser::ParserConfig};
 use swc_css_visit::VisitMutWith;
 use swc_stylis::prefixer::prefixer;
+use testing::NormalizedOutput;
 
 #[test]
 fn flex_box() {
@@ -473,7 +476,7 @@ fn t(src: &str, expected: &str) {
         //
         let fm = cm.new_source_file(FileName::Anon, src.to_string());
         let mut errors = vec![];
-        let mut props: Vec<DeclarationBlockItem> = parse_file(
+        let props: Vec<DeclarationBlockItem> = parse_file(
             &fm,
             ParserConfig {
                 parse_values: true,
@@ -486,12 +489,23 @@ fn t(src: &str, expected: &str) {
             err.to_diagnostics(&handler).emit();
         }
 
-        props.visit_mut_with(&mut prefixer());
+        let mut node = QualifiedRule {
+            span: DUMMY_SP,
+            prelude: swc_css_ast::SelectorList {
+                span: DUMMY_SP,
+                children: Default::default(),
+            },
+            block: Block {
+                span: DUMMY_SP,
+                value: props,
+            },
+        };
+        node.visit_mut_with(&mut prefixer());
 
         let mut wr = String::new();
 
         {
-            for p in &props {
+            for p in &node.block.value {
                 let mut s = String::new();
                 {
                     let mut wr = BasicCssWriter::new(&mut s, BasicCssWriterConfig { indent: "  " });
@@ -509,6 +523,45 @@ fn t(src: &str, expected: &str) {
         }
 
         assert_eq!(wr, expected);
+
+        Ok(())
+    })
+    .unwrap();
+}
+
+#[testing::fixture("tests/fixture/**/input.css")]
+fn fixture(input: PathBuf) {
+    let output = input.parent().unwrap().join("output.css");
+
+    testing::run_test2(false, |cm, handler| {
+        //
+        let fm = cm.load_file(&input).unwrap();
+        let mut errors = vec![];
+        let mut ss: Stylesheet = parse_file(
+            &fm,
+            ParserConfig {
+                allow_wrong_line_comments: true,
+                ..Default::default()
+            },
+            &mut errors,
+        )
+        .unwrap();
+        for err in errors {
+            err.to_diagnostics(&handler).emit();
+        }
+
+        ss.visit_mut_with(&mut prefixer());
+
+        let mut s = String::new();
+        {
+            let mut wr = BasicCssWriter::new(&mut s, BasicCssWriterConfig { indent: "  " });
+            let mut gen =
+                swc_css_codegen::CodeGenerator::new(&mut wr, CodegenConfig { minify: true });
+
+            gen.emit(&ss).unwrap();
+        }
+
+        NormalizedOutput::from(s).compare_to_file(&output).unwrap();
 
         Ok(())
     })

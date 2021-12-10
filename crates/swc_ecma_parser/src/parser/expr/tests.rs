@@ -9,7 +9,6 @@ use test::Bencher;
 
 fn syntax() -> Syntax {
     Syntax::Es(EsConfig {
-        dynamic_import: true,
         ..Default::default()
     })
 }
@@ -374,7 +373,6 @@ fn issue_328() {
         test_parser(
             "import('test')",
             Syntax::Es(EsConfig {
-                dynamic_import: true,
                 ..Default::default()
             }),
             |p| { p.parse_stmt(true) }
@@ -434,7 +432,7 @@ fn issue_380() {
     expr(
         " import('../foo/bar')
     .then(bar => {
-        // bar should be {default: DEFAULT_EXPORTED_THING_IN_BAR} or atleast what it is supposed \
+        // bar should be {default: DEFAULT_EXPORTED_THING_IN_BAR} or at least what it is supposed \
          to be
     })
 }",

@@ -112,10 +112,8 @@ test!(
 test!(
     syntax(),
     |_| chain!(
-        spread(spread::Config {
-            ..Default::default()
-        }),
-        parameters(),
+        spread(Default::default()),
+        parameters(Default::default()),
         destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(Default::default()),
@@ -657,9 +655,9 @@ test!(
   return foo;
 }",
     "
-function foo1(bar) {
-    var foo = bar.foo;
-    return foo;
+function foo(bar) {
+    var foo1 = bar.foo;
+    return foo1;
 }"
 );
 
@@ -723,10 +721,8 @@ function isBetween(x, a, b) {
 test!(
     syntax(),
     |_| chain!(
-        spread(spread::Config {
-            ..Default::default()
-        }),
-        parameters(),
+        spread(Default::default()),
+        parameters(Default::default()),
         destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(Default::default()),
@@ -758,10 +754,8 @@ for (ref of test.expectation.registers){
 test!(
     syntax(),
     |_| chain!(
-        spread(spread::Config {
-            ..Default::default()
-        }),
-        parameters(),
+        spread(Default::default()),
+        parameters(Default::default()),
         destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(Default::default()),
@@ -784,10 +778,8 @@ var x = coords.x,
 test!(
     syntax(),
     |_| chain!(
-        spread(spread::Config {
-            ..Default::default()
-        }),
-        parameters(),
+        spread(Default::default()),
+        parameters(Default::default()),
         destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(Default::default()),
@@ -809,10 +801,8 @@ test!(
 test_exec!(
     syntax(),
     |_| chain!(
-        spread(spread::Config {
-            ..Default::default()
-        }),
-        parameters(),
+        spread(Default::default()),
+        parameters(Default::default()),
         destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(Default::default()),
@@ -836,10 +826,8 @@ expect(
 test_exec!(
     syntax(),
     |_| chain!(
-        spread(spread::Config {
-            ..Default::default()
-        }),
-        parameters(),
+        spread(Default::default()),
+        parameters(Default::default()),
         destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(Default::default()),
@@ -857,10 +845,8 @@ expect(function () {
 test_exec!(
     syntax(),
     |_| chain!(
-        spread(spread::Config {
-            ..Default::default()
-        }),
-        parameters(),
+        spread(Default::default()),
+        parameters(Default::default()),
         destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(Default::default()),
@@ -882,10 +868,8 @@ test_exec!(
     syntax(),
     |_| chain!(
         object_rest_spread(Default::default()),
-        spread(spread::Config {
-            ..Default::default()
-        }),
-        parameters(),
+        spread(Default::default()),
+        parameters(Default::default()),
         destructuring(Default::default()),
         block_scoping(),
     ),
@@ -933,10 +917,8 @@ expect(order).toEqual(["right", "left"]);
 test_exec!(
     syntax(),
     |_| chain!(
-        spread(spread::Config {
-            ..Default::default()
-        }),
-        parameters(),
+        spread(Default::default()),
+        parameters(Default::default()),
         destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(Default::default()),
@@ -960,10 +942,8 @@ expect(arr).toEqual([1, 2, 3]);
 test_exec!(
     syntax(),
     |_| chain!(
-        spread(spread::Config {
-            ..Default::default()
-        }),
-        parameters(),
+        spread(Default::default()),
+        parameters(Default::default()),
         destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(Default::default()),
@@ -999,7 +979,7 @@ expect(f2({a: 1})).toEqual([1, 1, 1]);
 //
 //    [destructuring(Default::default()), { "useBuiltIns": true }],
 //    spread(spread::Config{..Default::default()}),
-//    parameters(),
+//    parameters(Default::default()),
 //    block_scoping(),
 //    object_rest_spread(Default::default()),
 //  ]
@@ -1045,10 +1025,8 @@ expect(f2({a: 1})).toEqual([1, 1, 1]);
 test!(
     syntax(),
     |_| chain!(
-        spread(spread::Config {
-            ..Default::default()
-        }),
-        parameters(),
+        spread(Default::default()),
+        parameters(Default::default()),
         destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(Default::default()),
@@ -1112,10 +1090,8 @@ console.log(unpackArray(["hello", ", ", "world"], [1, 2, 3]));
 test!(
     syntax(),
     |_| chain!(
-        spread(spread::Config {
-            ..Default::default()
-        }),
-        parameters(),
+        spread(Default::default()),
+        parameters(Default::default()),
         destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(Default::default()),
@@ -1193,10 +1169,8 @@ test!(
     ignore,
     syntax(),
     |_| chain!(
-        spread(spread::Config {
-            ..Default::default()
-        }),
-        parameters(),
+        spread(Default::default()),
+        parameters(Default::default()),
         destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(Default::default()),
@@ -1220,10 +1194,8 @@ test!(
     syntax(),
     |_| chain!(
         object_rest_spread(Default::default()),
-        spread(spread::Config {
-            ..Default::default()
-        }),
-        parameters(),
+        spread(Default::default()),
+        parameters(Default::default()),
         destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(Default::default()),
@@ -1281,10 +1253,8 @@ test!(
     syntax(),
     |_| chain!(
         object_rest_spread(Default::default()),
-        spread(spread::Config {
-            ..Default::default()
-        }),
-        parameters(),
+        spread(Default::default()),
+        parameters(Default::default()),
         destructuring(Default::default()),
         block_scoping(),
     ),
@@ -1305,10 +1275,8 @@ test!(
     syntax(),
     |_| chain!(
         object_rest_spread(Default::default()),
-        spread(spread::Config {
-            ..Default::default()
-        }),
-        parameters(),
+        spread(Default::default()),
+        parameters(Default::default()),
         destructuring(Default::default()),
         block_scoping(),
     ),
@@ -1339,10 +1307,8 @@ test!(
     syntax(),
     |_| chain!(
         object_rest_spread(Default::default()),
-        spread(spread::Config {
-            ..Default::default()
-        }),
-        parameters(),
+        spread(Default::default()),
+        parameters(Default::default()),
         destructuring(Default::default()),
         block_scoping(),
     ),
@@ -1375,10 +1341,8 @@ test!(
     syntax(),
     |_| chain!(
         object_rest_spread(Default::default()),
-        spread(spread::Config {
-            ..Default::default()
-        }),
-        parameters(),
+        spread(Default::default()),
+        parameters(Default::default()),
         destructuring(Default::default()),
         block_scoping(),
     ),
@@ -1406,9 +1370,7 @@ test!(
     syntax(),
     |_| chain!(
         destructuring(Default::default()),
-        spread(spread::Config {
-            ..Default::default()
-        }),
+        spread(Default::default()),
         block_scoping(),
         object_rest_spread(Default::default())
     ),
@@ -1447,10 +1409,8 @@ ref = f(), a = ref[0], b = ref[1], ref;
 test!(
     syntax(),
     |_| chain!(
-        spread(spread::Config {
-            ..Default::default()
-        }),
-        parameters(),
+        spread(Default::default()),
+        parameters(Default::default()),
         destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(Default::default()),
@@ -1472,10 +1432,8 @@ a = 'hello', [b] = [', ', 'junk'], [c] = ['world'];
 test!(
     syntax(),
     |_| chain!(
-        spread(spread::Config {
-            ..Default::default()
-        }),
-        parameters(),
+        spread(Default::default()),
+        parameters(Default::default()),
         destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(Default::default()),
@@ -1496,10 +1454,8 @@ test!(
     syntax(),
     |_| chain!(
         object_rest_spread(Default::default()),
-        spread(spread::Config {
-            ..Default::default()
-        }),
-        parameters(),
+        spread(Default::default()),
+        parameters(Default::default()),
         destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(Default::default()),
@@ -1561,10 +1517,8 @@ expect(rest).toEqual({ 2: "b", 3: "c" });
 test!(
     syntax(),
     |_| chain!(
-        spread(spread::Config {
-            ..Default::default()
-        }),
-        parameters(),
+        spread(Default::default()),
+        parameters(Default::default()),
         destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(Default::default()),
@@ -1599,7 +1553,7 @@ test!(
         spread(spread::Config {
             ..Default::default()
         }),
-        parameters(),
+        parameters(Default::default()),
         destructuring(Config { loose: true }),
         block_scoping(),
         object_rest_spread(Default::default()),
@@ -1631,10 +1585,8 @@ for(ref in obj){
 test!(
     syntax(),
     |_| chain!(
-        spread(spread::Config {
-            ..Default::default()
-        }),
-        parameters(),
+        spread(Default::default()),
+        parameters(Default::default()),
         destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(Default::default()),
@@ -1655,10 +1607,8 @@ if (true) ref = [b, a], a = ref[0], b = ref[1], ref;
 test_exec!(
     syntax(),
     |_| chain!(
-        spread(spread::Config {
-            ..Default::default()
-        }),
-        parameters(),
+        spread(Default::default()),
+        parameters(Default::default()),
         destructuring(Default::default()),
         block_scoping(),
         object_rest_spread(Default::default()),

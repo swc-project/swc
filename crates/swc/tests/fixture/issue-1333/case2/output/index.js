@@ -313,8 +313,8 @@ class Shard extends _utils.Emitter {
      * Called whenever the websocket receives a message.
      * @param {WebSocket.MessageEvent} evt
      * @private
-     */ _message(evt1) {
-        return _classPrivateFieldGet(this, _compression1) ? _classPrivateFieldGet(this, _compression1).add(evt1.data) : this._packet(evt1.data);
+     */ _message(evt) {
+        return _classPrivateFieldGet(this, _compression1) ? _classPrivateFieldGet(this, _compression1).add(evt.data) : this._packet(evt.data);
     }
     /**
      * Cleans up the WebSocket connection listeners.

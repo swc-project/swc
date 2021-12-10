@@ -1,4 +1,3 @@
-use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Visit, VisitWith};
 
@@ -12,7 +11,7 @@ where
     T: VisitWith<C>,
 {
     let mut checker = C::default();
-    n.visit_with(&Invalid { span: DUMMY_SP }, &mut checker);
+    n.visit_with(&mut checker);
     checker.should_handle()
 }
 

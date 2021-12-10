@@ -11,12 +11,12 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var x1 = function() {
+var x = function() {
     "use strict";
-    _classCallCheck(this, x1);
+    _classCallCheck(this, x);
 };
-module.exports = x1;
-var x1 = require("./foo1"), y = function(x) {
+module.exports = x;
+var x = require("./foo1"), y = function(x1) {
     "use strict";
     !function(subClass, superClass) {
         if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
@@ -27,7 +27,7 @@ var x1 = require("./foo1"), y = function(x) {
                 configurable: !0
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
-    }(y, x);
+    }(y, x1);
     var _super = function(Derived) {
         var hasNativeReflectConstruct = function() {
             if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
@@ -56,5 +56,5 @@ var x1 = require("./foo1"), y = function(x) {
         return _classCallCheck(this, y), _super.apply(this, arguments);
     }
     return y;
-}(x1);
+}(x);
 export { };

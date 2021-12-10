@@ -3,23 +3,23 @@ ENUM;
 (function(ENUM) {
 })(ENUM || (ENUM = {
 }));
-var ENUM11;
+var ENUM1;
 (function(ENUM1) {
     ENUM1[ENUM1["A"] = 0] = "A";
     ENUM1[ENUM1["B"] = 1] = "B";
     ENUM1[ENUM1[""] = 2] = "";
-})(ENUM11 || (ENUM11 = {
+})(ENUM1 || (ENUM1 = {
 }));
 // enum type var
 var ResultIsNumber1 = ++ENUM;
-var ResultIsNumber2 = ++ENUM11;
+var ResultIsNumber2 = ++ENUM1;
 var ResultIsNumber3 = ENUM++;
-var ResultIsNumber4 = ENUM11++;
+var ResultIsNumber4 = ENUM1++;
 // enum type expressions
 var ResultIsNumber5 = ++ENUM[1] + ENUM[2];
 var ResultIsNumber6 = ENUM[1] + ENUM[2]++;
 // miss assignment operator
 ++ENUM;
-++ENUM11;
+++ENUM1;
 ENUM++;
-ENUM11++;
+ENUM1++;

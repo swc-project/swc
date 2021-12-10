@@ -47,18 +47,11 @@ mod switches;
 mod unused;
 mod util;
 
-#[derive(Debug, Default)]
-pub(super) struct OptimizerState {
-    vars_for_inlining: AHashMap<Id, Box<Expr>>,
-    inlined_vars: AHashMap<Id, Box<Expr>>,
-}
-
-/// This pass is simillar to `node.optimize` of terser.
+/// This pass is similar to `node.optimize` of terser.
 pub(super) fn optimizer<'a, M>(
     marks: Marks,
     options: &'a CompressOptions,
     data: &'a ProgramData,
-    state: &'a mut OptimizerState,
     mode: &'a M,
     debug_infinite_loop: bool,
 ) -> impl 'a + VisitMut + Repeated
@@ -79,7 +72,8 @@ where
         prepend_stmts: Default::default(),
         append_stmts: Default::default(),
         lits: Default::default(),
-        state,
+        vars_for_inlining: Default::default(),
+        inlined_vars: Default::default(),
         vars_for_prop_hoisting: Default::default(),
         simple_props: Default::default(),
         _simple_array_values: Default::default(),
@@ -148,7 +142,7 @@ struct Ctx {
     /// `true` while handling top level items.
     top_level: bool,
 
-    /// `true` while we are in a function or something simillar.
+    /// `true` while we are in a function or something similar.
     in_fn_like: bool,
 
     in_block: bool,
@@ -203,7 +197,8 @@ struct Optimizer<'a, M> {
     /// Used for inlining.
     lits: AHashMap<Id, Box<Expr>>,
 
-    state: &'a mut OptimizerState,
+    vars_for_inlining: AHashMap<Id, Box<Expr>>,
+    inlined_vars: AHashMap<Id, Box<Expr>>,
 
     vars_for_prop_hoisting: AHashMap<Id, Box<Expr>>,
     /// Used for `hoist_props`.
@@ -290,7 +285,7 @@ where
                 debug_assert_eq!(self.append_stmts, vec![]);
 
                 if i < directive_count {
-                    // Don't set in_strict for directive itselfs.
+                    // Don't set in_strict for directive itself.
                     stmt.visit_mut_with(self);
                 } else {
                     stmt.visit_mut_with(&mut *self.with_ctx(child_ctx));
@@ -309,7 +304,7 @@ where
 
         self.merge_sequences_in_stmts(stmts);
 
-        self.merge_simillar_ifs(stmts);
+        self.merge_similar_ifs(stmts);
         self.join_vars(stmts);
 
         self.make_sequences(stmts);
@@ -426,7 +421,7 @@ where
 
         e.op = op;
         e.right = right.take();
-        // Now we can compress it to an assigment
+        // Now we can compress it to an assignment
     }
 
     fn compress_array_join(&mut self, e: &mut Expr) {
@@ -685,7 +680,10 @@ where
         match e {
             Expr::Ident(..) | Expr::This(_) | Expr::Invalid(_) | Expr::Lit(..) => {
                 if cfg!(feature = "debug") {
-                    tracing::debug!("ignore_return_value: Dropping unused expr: {}", dump(&*e));
+                    tracing::debug!(
+                        "ignore_return_value: Dropping unused expr: {}",
+                        dump(&*e, false)
+                    );
                 }
                 self.changed = true;
                 return None;
@@ -795,8 +793,8 @@ where
             // We optimize binary expressions if operation is side-effect-free and lhs and rhs is
             // evaluated regardless of value of lhs.
             //
-            // Div is exlcuded because of zero.
-            // TOOD: Handle
+            // Div is excluded because of zero.
+            // TODO: Handle
             Expr::Bin(BinExpr {
                 op:
                     BinaryOp::EqEq
@@ -853,6 +851,22 @@ where
                 args,
                 ..
             }) => {
+                match &mut **callee {
+                    Expr::Fn(FnExpr {
+                        ident: None,
+                        function,
+                    }) => {
+                        if args.is_empty() {
+                            for param in &mut function.params {
+                                self.drop_unused_param(&mut param.pat, true);
+                            }
+
+                            function.params.retain(|p| !p.pat.is_invalid());
+                        }
+                    }
+                    _ => {}
+                }
+
                 if args.is_empty() {
                     match &mut **callee {
                         Expr::Fn(f) => {
@@ -1015,6 +1029,13 @@ where
                     _ => false,
                 } =>
             {
+                let processed_arg = self.ignore_return_value(&mut **arg);
+
+                if processed_arg.is_none() {
+                    return None;
+                }
+                *arg = Box::new(processed_arg.unwrap());
+
                 tracing::trace!("ignore_return_value: Preserving negated iife");
                 return Some(e.take());
             }
@@ -1300,10 +1321,13 @@ where
                 tracing::debug!("Merging variable declarations");
                 tracing::trace!(
                     "[Before]: {}",
-                    dump(&BlockStmt {
-                        span: DUMMY_SP,
-                        stmts: stmts.clone()
-                    })
+                    dump(
+                        &BlockStmt {
+                            span: DUMMY_SP,
+                            stmts: stmts.clone()
+                        },
+                        false
+                    )
                 )
             }
 
@@ -1341,10 +1365,13 @@ where
             if cfg!(feature = "debug") {
                 tracing::trace!(
                     "[Change] merged: {}",
-                    dump(&BlockStmt {
-                        span: DUMMY_SP,
-                        stmts: new.clone()
-                    })
+                    dump(
+                        &BlockStmt {
+                            span: DUMMY_SP,
+                            stmts: new.clone()
+                        },
+                        false
+                    )
                 )
             }
             *stmts = new
@@ -1523,7 +1550,7 @@ where
                 BlockStmtOrExpr::Expr(v) => {
                     self.changed = true;
                     if cfg!(feature = "debug") {
-                        tracing::debug!("Convertng a body of an arrow expression to BlockStmt");
+                        tracing::debug!("Converting a body of an arrow expression to BlockStmt");
                     }
                     stmts.push(Stmt::Return(ReturnStmt {
                         span: DUMMY_SP,
@@ -1805,7 +1832,7 @@ where
             _ => {}
         }
 
-        self.compress_cond_expr_if_simillar(e);
+        self.compress_cond_expr_if_similar(e);
 
         self.compress_negated_bin_eq(e);
         self.compress_array_join(e);
@@ -1859,6 +1886,7 @@ where
         if need_ignore_return_value
             || self.options.unused
             || self.options.side_effects
+            || self.options.reduce_fns
             || (self.options.sequences() && n.expr.is_seq())
             || (self.options.conditionals
                 && match &*n.expr {
@@ -1871,7 +1899,7 @@ where
         {
             // Preserve top-level negated iifes.
             match &*n.expr {
-                Expr::Unary(unary) => match &*unary.arg {
+                Expr::Unary(unary @ UnaryExpr { op: op!("!"), .. }) => match &*unary.arg {
                     Expr::Call(CallExpr {
                         callee: ExprOrSuper::Expr(callee),
                         ..
@@ -1906,7 +1934,7 @@ where
         }
 
         if cfg!(feature = "debug") && cfg!(debug_assertions) {
-            n.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+            n.visit_with(&mut AssertValid);
         }
     }
 
@@ -1915,7 +1943,8 @@ where
             self.drop_unused_params(&mut f.function.params);
         }
 
-        f.visit_mut_children_with(self);
+        let ctx = Ctx { ..self.ctx };
+        f.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
     fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
@@ -2019,7 +2048,7 @@ where
         self.ctx.in_asm = old_in_asm;
 
         if cfg!(feature = "debug") && cfg!(debug_assertions) {
-            n.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+            n.visit_with(&mut AssertValid);
         }
     }
 
@@ -2081,7 +2110,7 @@ where
         self.with_ctx(ctx).handle_stmt_likes(stmts);
 
         stmts.visit_mut_with(&mut MultiReplacer {
-            vars: take(&mut self.state.inlined_vars),
+            vars: take(&mut self.inlined_vars),
             changed: false,
         });
 
@@ -2146,7 +2175,7 @@ where
     fn visit_mut_param(&mut self, n: &mut Param) {
         n.visit_mut_children_with(self);
 
-        self.drop_unused_param(&mut n.pat);
+        self.drop_unused_param(&mut n.pat, false);
     }
 
     fn visit_mut_params(&mut self, n: &mut Vec<Param>) {
@@ -2161,7 +2190,7 @@ where
         match n {
             Prop::Shorthand(i) => {
                 if self.lits.contains_key(&i.to_id())
-                    || self.state.vars_for_inlining.contains_key(&i.to_id())
+                    || self.vars_for_inlining.contains_key(&i.to_id())
                 {
                     let mut e = Box::new(Expr::Ident(i.clone()));
                     e.visit_mut_with(self);
@@ -2176,7 +2205,7 @@ where
         }
 
         if cfg!(feature = "debug") && cfg!(debug_assertions) {
-            n.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+            n.visit_with(&mut AssertValid);
         }
     }
 
@@ -2255,7 +2284,7 @@ where
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         let _tracing = if cfg!(feature = "debug") && self.debug_infinite_loop {
-            let text = dump(&*s);
+            let text = dump(&*s, false);
 
             if text.lines().count() < 10 {
                 Some(span!(Level::ERROR, "visit_mut_stmt", "start" = &*text).entered())
@@ -2279,7 +2308,7 @@ where
         s.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
         if cfg!(feature = "debug") && self.debug_infinite_loop {
-            let text = dump(&*s);
+            let text = dump(&*s, false);
 
             if text.lines().count() < 10 {
                 tracing::debug!("after: visit_mut_children_with: {}", text);
@@ -2318,7 +2347,10 @@ where
                         self.changed = true;
                         tracing::debug!("unused: Dropping an expression without side effect");
                         if cfg!(feature = "debug") {
-                            tracing::trace!("unused: [Change] Dropping \n{}\n", dump(&*expr));
+                            tracing::trace!(
+                                "unused: [Change] Dropping \n{}\n",
+                                dump(&*expr, false)
+                            );
                         }
                         *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                         return;
@@ -2355,7 +2387,7 @@ where
         self.optimize_switches(s);
 
         if cfg!(feature = "debug") && self.debug_infinite_loop {
-            let text = dump(&*s);
+            let text = dump(&*s, false);
 
             if text.lines().count() < 10 {
                 tracing::debug!("after: visit_mut_stmt: {}", text);
@@ -2363,7 +2395,7 @@ where
         }
 
         if cfg!(feature = "debug") && cfg!(debug_assertions) {
-            s.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+            s.visit_with(&mut AssertValid);
         }
     }
 
@@ -2399,7 +2431,7 @@ where
         }
 
         if cfg!(feature = "debug") && cfg!(debug_assertions) {
-            stmts.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+            stmts.visit_with(&mut AssertValid);
         }
     }
 
@@ -2532,7 +2564,7 @@ where
 
         self.remove_duplicate_names(var);
 
-        self.store_var_for_inining(var);
+        self.store_var_for_inlining(var);
         self.store_var_for_prop_hoisting(var);
     }
 

@@ -69,8 +69,8 @@ function _setPrototypeOf(o, p) {
     };
     return _setPrototypeOf(o, p);
 }
-var _typeof = function(obj) {
-    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
+var _typeof = function(obj2) {
+    return obj2 && typeof Symbol !== "undefined" && obj2.constructor === Symbol ? "symbol" : typeof obj2;
 };
 function _isNativeReflectConstruct() {
     if (typeof Reflect === "undefined" || !Reflect.construct) return false;
@@ -103,7 +103,7 @@ function _createSuper(Derived) {
 // @skipLibCheck: true
 // @libFiles: react.d.ts,lib.d.ts
 var React = require('react');
-var obj2 = {
+var obj = {
 };
 var obj1 = {
     x: 2
@@ -133,7 +133,7 @@ var OverWriteAttr = /*#__PURE__*/ function(_Component) {
 var anyobj;
 // OK
 var x = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({
-}, obj2, {
+}, obj, {
     y: true,
     overwrite: "hi"
 }, obj1));

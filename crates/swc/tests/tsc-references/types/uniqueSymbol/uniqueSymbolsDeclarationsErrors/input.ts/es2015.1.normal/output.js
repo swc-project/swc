@@ -1,4 +1,5 @@
-const obj1 = {
+// not allowed when emitting declarations
+export const obj = {
     method1 (p) {
         return p;
     },
@@ -6,18 +7,16 @@ const obj1 = {
         return p;
     }
 };
-// not allowed when emitting declarations
-export { obj1 as obj };
 export const classExpression = class _class {
     method1(p) {
         return p;
     }
-    method2(p1) {
-        return p1;
+    method2(p) {
+        return p;
     }
 };
-export function funcInferredReturnType(obj) {
-    return obj;
+export function funcInferredReturnType(obj1) {
+    return obj1;
 }
 export class ClassWithPrivateNamedProperties {
 }
@@ -38,6 +37,6 @@ export class ClassWithPrivateNamedAccessors {
     static get [tmp4]() {
         return undefined;
     }
-    static set [tmp5](v1) {
+    static set [tmp5](v) {
     }
 }

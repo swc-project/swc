@@ -1,4 +1,4 @@
-var E, F, x, E1, F1;
+var E, F, x, E, F;
 function foo(x, a, b) {
 }
 function foo2(x, a, b) {
@@ -27,9 +27,9 @@ foo("", function(x) {
     return "";
 }, function(x) {
     return "";
-}), (E1 = E || (E = {
-}))[E1.A = 0] = "A", (F1 = F || (F = {
-}))[F1.A = 0] = "A", foo(E.A, function(x) {
+}), (E = E || (E = {
+}))[E.A = 0] = "A", (F = F || (F = {
+}))[F.A = 0] = "A", foo(E.A, function(x) {
     return E.A;
 }, function(x) {
     return F.A;

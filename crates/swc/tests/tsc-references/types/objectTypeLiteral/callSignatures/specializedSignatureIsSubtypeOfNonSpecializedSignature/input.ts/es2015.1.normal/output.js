@@ -5,11 +5,11 @@ class C {
     }
 }
 class C2 {
-    foo(x1) {
+    foo(x) {
     }
 }
 class C3 {
-    foo(x2) {
+    foo(x) {
     }
 }
 var a;

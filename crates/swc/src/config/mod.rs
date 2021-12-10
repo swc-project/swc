@@ -365,6 +365,11 @@ impl Options {
                 syntax.decorators()
             ),
             import_assertions(),
+            // Do a resolver pass after decorators as it might
+            // emit runtime declarations and do it before
+            // type stripping as we need to know scope information
+            // for emitting enums and namespaces.
+            resolver_with_mark(top_level_mark),
             Optional::new(
                 typescript::strip_with_jsx(
                     cm.clone(),
@@ -378,7 +383,6 @@ impl Options {
                 ),
                 syntax.typescript()
             ),
-            resolver_with_mark(top_level_mark),
             crate::plugin::plugins(experimental.plugins),
             custom_before_pass(&program),
             // handle jsx
@@ -1475,19 +1479,10 @@ impl Merge for Syntax {
 impl Merge for swc_ecma_parser::EsConfig {
     fn merge(&mut self, from: &Self) {
         self.jsx |= from.jsx;
-        self.class_private_props |= from.class_private_props;
-        self.class_private_methods |= from.class_private_methods;
-        self.class_props |= from.class_props;
         self.fn_bind |= from.fn_bind;
         self.decorators |= from.decorators;
         self.decorators_before_export |= from.decorators_before_export;
         self.export_default_from |= from.export_default_from;
-        self.export_namespace_from |= from.export_namespace_from;
-        self.dynamic_import |= from.dynamic_import;
-        self.nullish_coalescing |= from.nullish_coalescing;
-        self.optional_chaining |= from.optional_chaining;
-        self.import_meta |= from.import_meta;
-        self.top_level_await |= from.top_level_await;
         self.import_assertions |= from.import_assertions;
         self.static_blocks |= from.static_blocks;
         self.private_in_object |= from.private_in_object;
@@ -1498,8 +1493,6 @@ impl Merge for swc_ecma_parser::TsConfig {
     fn merge(&mut self, from: &Self) {
         self.tsx |= from.tsx;
         self.decorators |= from.decorators;
-        self.dynamic_import |= from.dynamic_import;
-        self.import_assertions |= from.import_assertions;
     }
 }
 

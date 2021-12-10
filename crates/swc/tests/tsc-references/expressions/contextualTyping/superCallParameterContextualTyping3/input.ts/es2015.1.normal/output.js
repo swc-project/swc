@@ -1,7 +1,7 @@
 class CBase {
     foo(param) {
     }
-    constructor(param1){
+    constructor(param){
     }
 }
 class C extends CBase {

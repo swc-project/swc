@@ -90,8 +90,8 @@ var D = function D() {
 function F(x) {
     return 42;
 }
-var M1;
-(function(M) {
+var M;
+(function(M1) {
     var F2 = function F2(x) {
         return x.toString();
     };
@@ -99,9 +99,9 @@ var M1;
         "use strict";
         _classCallCheck(this, A);
     };
-    M.A = A;
-    M.F2 = F2;
-})(M1 || (M1 = {
+    M1.A = A;
+    M1.F2 = F2;
+})(M || (M = {
 }));
 // all of these are errors
 for(var a;;){
@@ -114,7 +114,7 @@ for(var a = new C();;){
 }
 for(var a = new D();;){
 }
-for(var a = M1;;){
+for(var a = M;;){
 }
 for(var b;;){
 }
@@ -151,5 +151,5 @@ for(var arr2 = new Array();;){
 }
 for(var m;;){
 }
-for(var m = M1.A;;){
+for(var m = M.A;;){
 }

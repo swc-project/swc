@@ -7,28 +7,28 @@ function _extends() {
         return target;
     }).apply(this, arguments);
 }
-const React = require("react"), props1 = {
+const React = require("react"), props = {
     a: 1,
     b: 1
-}, Foo = (props)=>React.createElement("div", null, props.a)
+}, Foo = (props1)=>React.createElement("div", null, props1.a)
 ;
 React.createElement(Foo, _extends({
-}, props1)), React.createElement(Foo, _extends({
+}, props)), React.createElement(Foo, _extends({
     d: 1
-}, props1)), React.createElement(Foo, _extends({
+}, props)), React.createElement(Foo, _extends({
     a: 1
-}, props1)), React.createElement(Foo, _extends({
+}, props)), React.createElement(Foo, _extends({
     a: 1,
     b: 2
-}, props1)), React.createElement(Foo, _extends({
+}, props)), React.createElement(Foo, _extends({
     a: 1,
     d: 1
-}, props1, {
+}, props, {
     d: 1
 })), React.createElement(Foo, _extends({
     a: 1,
     d: 1
-}, props1, {
+}, props, {
     a: 1,
     d: 1
 }));

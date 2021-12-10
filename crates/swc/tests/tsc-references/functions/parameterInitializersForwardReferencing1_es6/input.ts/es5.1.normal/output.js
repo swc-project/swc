@@ -4,47 +4,47 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 // @target: es2015
-var foo4 = "";
-function f1(param) {
-    var bar = param === void 0 ? foo4 : param;
+var foo = "";
+function f1() {
+    var bar = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : foo;
     var foo1 = 2;
     return bar; // returns 1
 }
-function f2(param1) {
-    var bar = param1 === void 0 ? function(param) {
-        var baz = param === void 0 ? foo4 : param;
+function f2() {
+    var bar = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : function() {
+        var baz = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : foo;
         return baz;
-    } : param1;
+    };
     var foo2 = 2;
     return bar(); // returns 1
 }
-function f3(param, param2) {
-    var bar = param === void 0 ? foo4 : param, foo3 = param2 === void 0 ? 2 : param2;
+function f3() {
+    var bar = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : foo, foo3 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 2;
     return bar;
 }
-function f4(foo, param) {
-    var bar = param === void 0 ? foo : param;
+function f4(foo4) {
+    var bar = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : foo4;
     return bar;
 }
-function f5(param) {
-    var a = param === void 0 ? a : param;
+function f5() {
+    var a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : a;
     return a;
 }
-function f6(param) {
-    var async = param === void 0 ? async : param;
+function f6() {
+    var async = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : async;
     return async;
 }
 function f7(param) {
-    var bar = param[foo4];
+    var bar = param[foo];
     var foo = 2;
 }
-var Foo = function Foo(param, param3) {
+var Foo = function Foo() {
     "use strict";
-    var x = param === void 0 ? 12 : param, y = param3 === void 0 ? x : param3;
+    var x = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 12, y = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : x;
     _classCallCheck(this, Foo);
     this.x = x;
     this.y = y;
 };
-function f8(foo1, param) {
-    var bar = param === void 0 ? foo1 : param;
+function f8(foo1) {
+    var bar = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : foo1;
 }

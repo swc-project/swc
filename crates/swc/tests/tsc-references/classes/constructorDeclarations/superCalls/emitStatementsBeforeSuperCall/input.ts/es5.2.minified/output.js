@@ -45,25 +45,25 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var Base1 = function() {
+var Base = function() {
     "use strict";
-    _classCallCheck(this, Base1);
-}, Sub = function(Base) {
+    _classCallCheck(this, Base);
+}, Sub = function(Base1) {
     "use strict";
-    _inherits(Sub, Base);
+    _inherits(Sub, Base1);
     var _super = _createSuper(Sub);
     function Sub(p) {
         var _this;
         return _classCallCheck(this, Sub), console.log("hi"), (_this = _super.call(this)).p = p, _this.field = 0, _this;
     }
     return Sub;
-}(Base1), Test = function(Base) {
+}(Base), Test = function(Base2) {
     "use strict";
-    _inherits(Test, Base);
+    _inherits(Test, Base2);
     var _super = _createSuper(Test);
     function Test(p) {
         var _this;
         return _classCallCheck(this, Test), (_this = _super.call(this)).p = p, _this.prop = 1, _this;
     }
     return Test;
-}(Base1);
+}(Base);

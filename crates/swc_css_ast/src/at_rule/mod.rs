@@ -1,5 +1,5 @@
 pub use self::{charset::*, document::*, import::*, keyframe::*, media::*, page::*, support::*};
-use crate::{Block, Ident, Str, Tokens, UrlValue};
+use crate::{Block, Ident, SimpleBlock, Str, UrlValue, Value};
 use is_macro::Is;
 use swc_common::{ast_node, Span};
 
@@ -55,7 +55,7 @@ pub struct FontFaceRule {
 }
 
 #[ast_node]
-pub enum NamespaceValue {
+pub enum NamespaceUri {
     #[tag("UrlValue")]
     Url(UrlValue),
 
@@ -66,8 +66,8 @@ pub enum NamespaceValue {
 #[ast_node("NamespaceRule")]
 pub struct NamespaceRule {
     pub span: Span,
-    pub prefix: Ident,
-    pub value: NamespaceValue,
+    pub prefix: Option<Ident>,
+    pub uri: NamespaceUri,
 }
 
 #[ast_node("ViewportRule")]
@@ -80,5 +80,6 @@ pub struct ViewportRule {
 pub struct UnknownAtRule {
     pub span: Span,
     pub name: Ident,
-    pub tokens: Tokens,
+    pub prelude: Vec<Value>,
+    pub block: Option<SimpleBlock>,
 }

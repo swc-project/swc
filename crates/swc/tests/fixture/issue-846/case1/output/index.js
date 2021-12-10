@@ -1,3 +1,8 @@
+function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
+    return arr2;
+}
 function _arrayWithHoles(arr) {
     if (Array.isArray(arr)) return arr;
 }
@@ -384,10 +389,10 @@ function _inherits(subClass, superClass) {
     if (superClass) _setPrototypeOf(subClass, superClass);
 }
 function _iterableToArray(iter) {
-    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+    if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
 }
 function _nonIterableRest() {
-    throw new TypeError("Invalid attempt to destructure non-iterable instance");
+    throw new TypeError("Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 function _possibleConstructorReturn(self, call) {
     if (call && (_typeof(call) === "object" || typeof call === "function")) {
@@ -410,7 +415,7 @@ function _superPropBase(object, property) {
     return object;
 }
 function _toArray(arr) {
-    return _arrayWithHoles(arr) || _iterableToArray(arr) || _nonIterableRest();
+    return _arrayWithHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
 }
 function _toPrimitive(input, hint) {
     if (_typeof(input) !== "object" || input === null) return input;
@@ -429,6 +434,14 @@ function _toPropertyKey(arg) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(n);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
 function _isNativeReflectConstruct() {
     if (typeof Reflect === "undefined" || !Reflect.construct) return false;
     if (Reflect.construct.sham) return false;
@@ -454,14 +467,14 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
-var SomeClass1 = _decorate([], function(_initialize) {
-    var SomeClass = function SomeClass() {
+var SomeClass = _decorate([], function(_initialize) {
+    var SomeClass1 = function SomeClass1() {
         "use strict";
-        _classCallCheck(this, SomeClass);
+        _classCallCheck(this, SomeClass1);
         _initialize(this);
     };
     return {
-        F: SomeClass,
+        F: SomeClass1,
         d: [
             {
                 kind: "method",
@@ -475,22 +488,22 @@ var SomeClass1 = _decorate([], function(_initialize) {
         ]
     };
 });
-var OtherClass1 = _decorate([], function(_initialize, _SomeClass1) {
-    var OtherClass = /*#__PURE__*/ function(_SomeClass) {
+var OtherClass = _decorate([], function(_initialize, _SomeClass1) {
+    var OtherClass1 = /*#__PURE__*/ function(_SomeClass) {
         "use strict";
-        _inherits(OtherClass, _SomeClass);
-        var _super = _createSuper(OtherClass);
-        function OtherClass() {
-            _classCallCheck(this, OtherClass);
+        _inherits(OtherClass1, _SomeClass);
+        var _super = _createSuper(OtherClass1);
+        function OtherClass1() {
+            _classCallCheck(this, OtherClass1);
             var _this;
             _this = _super.apply(this, arguments);
             _initialize(_assertThisInitialized(_this));
             return _this;
         }
-        return OtherClass;
+        return OtherClass1;
     }(_SomeClass1);
     return {
-        F: OtherClass,
+        F: OtherClass1,
         d: [
             {
                 kind: "method",
@@ -499,9 +512,9 @@ var OtherClass1 = _decorate([], function(_initialize, _SomeClass1) {
                 ],
                 key: "anotherMethod",
                 value: function anotherMethod() {
-                    _get(_getPrototypeOf(OtherClass.prototype), "someMethod", this).call(this);
+                    _get(_getPrototypeOf(OtherClass1.prototype), "someMethod", this).call(this);
                 }
             }
         ]
     };
-}, SomeClass1);
+}, SomeClass);

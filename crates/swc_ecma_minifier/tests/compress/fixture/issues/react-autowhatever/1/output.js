@@ -1,5 +1,5 @@
 import { jsx as _jsx } from "react/jsx-runtime";
-import React, { Component as Component1 } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Item from "./Item";
 import compareObjects from "./compareObjects";
@@ -39,14 +39,14 @@ function _setPrototypeOf(o2, p1) {
         return o.__proto__ = p, o;
     })(o2, p1);
 }
-var ItemsList1 = function(Component) {
+var ItemsList = function(Component1) {
     "use strict";
     var Constructor1, protoProps, staticProps;
-    function ItemsList() {
+    function ItemsList1() {
         var _this, self1, call, obj;
         return !function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, ItemsList), self1 = this, call = _getPrototypeOf(ItemsList).apply(this, arguments), (_this = call && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : (function(self) {
+        }(this, ItemsList1), self1 = this, call = _getPrototypeOf(ItemsList1).apply(this, arguments), (_this = call && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : (function(self) {
             if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
             return self;
         })(self1)).storeHighlightedItemReference = function(highlightedItem) {
@@ -62,7 +62,7 @@ var ItemsList1 = function(Component) {
                 configurable: !0
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
-    }(ItemsList, Component), Constructor1 = ItemsList, protoProps = [
+    }(ItemsList1, Component1), Constructor1 = ItemsList1, protoProps = [
         {
             key: "shouldComponentUpdate",
             value: function(nextProps) {
@@ -99,9 +99,9 @@ var ItemsList1 = function(Component) {
                 }));
             }
         }
-    ], _defineProperties(Constructor1.prototype, protoProps), staticProps && _defineProperties(Constructor1, staticProps), ItemsList;
-}(Component1);
-ItemsList1.propTypes = {
+    ], _defineProperties(Constructor1.prototype, protoProps), staticProps && _defineProperties(Constructor1, staticProps), ItemsList1;
+}(Component);
+ItemsList.propTypes = {
     items: PropTypes.array.isRequired,
     itemProps: PropTypes.oneOfType([
         PropTypes.object,
@@ -115,7 +115,7 @@ ItemsList1.propTypes = {
     getItemId: PropTypes.func.isRequired,
     theme: PropTypes.func.isRequired,
     keyPrefix: PropTypes.string.isRequired
-}, ItemsList1.defaultProps = {
+}, ItemsList.defaultProps = {
     sectionIndex: null
 };
-export { ItemsList1 as default };
+export { ItemsList as default };

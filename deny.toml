@@ -75,6 +75,7 @@ allow = [
   "MIT",
   "Apache-2.0",
   "BSD-2-Clause",
+  "BSD-2-Clause-Patent",
   "BSD-3-Clause",
   "CC0-1.0",
   "ISC",
@@ -112,6 +113,22 @@ exceptions = [
   # Each entry is the crate and version constraint, and its specific allow
   # list
   #{ allow = ["Zlib"], name = "adler32", version = "*" },
+]
+
+[[licenses.clarify]]
+# The name of the crate the clarification applies to
+name = "encoding_rs"
+# The optional version constraint for the crate
+version = "0.8.30"
+# The SPDX expression for the license requirements of the crate
+expression = "Apache-2.0 AND BSD-3-Clause"
+# One or more files in the crate's source used as the "source of truth" for
+# the license expression. If the contents match, the clarification will be used
+# when running the license check, otherwise the clarification will be ignored
+# and the crate will be checked normally, which may produce warnings or errors
+# depending on the rest of your configuration
+license-files = [
+  {path = "COPYRIGHT", hash = 972598577},
 ]
 
 # Some crates don't have (easily) machine readable licensing information,

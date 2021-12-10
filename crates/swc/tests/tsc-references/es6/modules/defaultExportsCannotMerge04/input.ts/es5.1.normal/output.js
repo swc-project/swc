@@ -1,10 +1,10 @@
 // @module: commonjs
 // @target: ES5
-export default function Foo1() {
+export default function Foo() {
 };
-var Foo1;
-(function(Foo) {
+var Foo;
+(function(Foo1) {
     var x;
-    Foo.x = x;
-})(Foo1 || (Foo1 = {
+    Foo1.x = x;
+})(Foo || (Foo = {
 }));

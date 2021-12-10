@@ -9,7 +9,7 @@ var Errors;
     }
     class OtherDerived extends Base {
     }
-    var WithNonGenericSignaturesInBaseType;
+    let WithNonGenericSignaturesInBaseType;
     (function(WithNonGenericSignaturesInBaseType) {
         // target type with non-generic call signatures
         var a2;
@@ -54,7 +54,7 @@ var Errors;
         b17 = a17;
     })(WithNonGenericSignaturesInBaseType || (WithNonGenericSignaturesInBaseType = {
     }));
-    var WithGenericSignaturesInBaseType;
+    let WithGenericSignaturesInBaseType;
     (function(WithGenericSignaturesInBaseType) {
         // target type has generic call signature
         var a2;

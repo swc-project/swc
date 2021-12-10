@@ -53,8 +53,8 @@ class SomeDerived1 extends SomeBase {
         var x = super.publicMember;
         return undefined;
     }
-    set a(n1) {
-        n1 = super.publicMember;
+    set a(n) {
+        n = super.publicMember;
     }
     fn2() {
         function inner() {
@@ -82,8 +82,8 @@ class SomeDerived2 extends SomeBase {
         var x = super.privateMember;
         return undefined;
     }
-    set a(n2) {
-        n2 = super.privateMember;
+    set a(n) {
+        n = super.privateMember;
     }
     constructor(){
         super();
@@ -106,7 +106,7 @@ class SomeDerived3 extends SomeBase {
         super.privateStaticFunc();
         return '';
     }
-    static set a(n3) {
+    static set a(n) {
         super.publicStaticMember = 3;
         super.privateStaticMember = 3;
         super.privateStaticFunc();

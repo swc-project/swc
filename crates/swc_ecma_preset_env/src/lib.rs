@@ -163,7 +163,13 @@ where
     // TODO:    InstanceOf,
     let pass = add!(pass, TypeOfSymbol, es2015::typeof_symbol());
     let pass = add!(pass, ShorthandProperties, es2015::shorthand());
-    let pass = add!(pass, Parameters, es2015::parameters());
+    let pass = add!(
+        pass,
+        Parameters,
+        es2015::parameters(es2015::parameters::Config {
+            ignore_function_length: loose
+        })
+    );
     let pass = add!(
         pass,
         ForOf,
@@ -295,14 +301,14 @@ impl Fold for Polyfills {
                 let mut r = match self.corejs {
                     Version { major: 2, .. } => {
                         let mut v = corejs2::UsageVisitor::new(self.targets);
-                        m.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+                        m.visit_with(&mut v);
 
                         v.required
                     }
                     Version { major: 3, .. } => {
                         let mut v =
                             corejs3::UsageVisitor::new(self.targets, self.shipped_proposals);
-                        m.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+                        m.visit_with(&mut v);
                         v.required
                     }
 
@@ -449,14 +455,15 @@ impl BrowserData<Option<Version>> {
                 _ => {}
             }
 
-            let version = if version.contains("-") {
-                version.split('-').next().unwrap().parse().unwrap()
-            } else {
-                version.parse().unwrap()
-            };
+            let version = version
+                .split_once('-')
+                .map(|(version, _)| version)
+                .unwrap_or(version)
+                .parse()
+                .unwrap();
 
             // lowest version
-            if data[&browser].is_none() || data[&browser].unwrap() > version {
+            if data[&browser].map(|v| v > version).unwrap_or(true) {
                 for (k, v) in data.iter_mut() {
                     if browser == k {
                         *v = Some(version);
@@ -592,10 +599,9 @@ impl Query {
         {
             let distribs = browserslist::resolve(
                 s,
-                &browserslist::Opts {
-                    mobile_to_desktop: true,
-                    ignore_unknown_versions: true,
-                },
+                browserslist::Opts::new()
+                    .mobile_to_desktop(true)
+                    .ignore_unknown_versions(true),
             )
             .with_context(|| {
                 format!(

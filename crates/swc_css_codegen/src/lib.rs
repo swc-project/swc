@@ -56,7 +56,9 @@ where
     #[emitter]
     fn emit_qualified_rule(&mut self, n: &QualifiedRule) -> Result {
         emit!(self, n.prelude);
-        space!(self);
+        if !self.config.minify {
+            space!(self);
+        }
         emit!(self, n.block);
     }
 
@@ -92,7 +94,7 @@ where
     #[emitter]
     fn emit_import_source(&mut self, n: &ImportSource) -> Result {
         match n {
-            ImportSource::Fn(n) => emit!(self, n),
+            ImportSource::Function(n) => emit!(self, n),
             ImportSource::Url(n) => emit!(self, n),
             ImportSource::Str(n) => emit!(self, n),
         }
@@ -158,7 +160,7 @@ where
     }
 
     #[emitter]
-    fn emit_keyfram_block(&mut self, n: &KeyframeBlock) -> Result {
+    fn emit_keyframe_block(&mut self, n: &KeyframeBlock) -> Result {
         self.emit_list(&n.selector, ListFormat::CommaDelimited)?;
 
         space!(self);
@@ -224,10 +226,10 @@ where
         }
     }
     #[emitter]
-    fn emit_namespace_value(&mut self, n: &NamespaceValue) -> Result {
+    fn emit_namespace_uri(&mut self, n: &NamespaceUri) -> Result {
         match n {
-            NamespaceValue::Url(n) => emit!(self, n),
-            NamespaceValue::Str(n) => emit!(self, n),
+            NamespaceUri::Url(n) => emit!(self, n),
+            NamespaceUri::Str(n) => emit!(self, n),
         }
     }
 
@@ -237,11 +239,12 @@ where
         keyword!(self, "namespace");
         space!(self);
 
-        emit!(self, n.prefix);
+        if n.prefix.is_some() {
+            emit!(self, n.prefix);
+            space!(self);
+        }
 
-        space!(self);
-
-        emit!(self, n.value);
+        emit!(self, n.uri);
     }
 
     #[emitter]
@@ -269,28 +272,29 @@ where
     }
 
     #[emitter]
-    fn emit_fn_value(&mut self, n: &FnValue) -> Result {
+    fn emit_function(&mut self, n: &Function) -> Result {
         emit!(self, n.name);
 
         punct!(self, "(");
-        self.emit_list(&n.args, ListFormat::CommaDelimited)?;
+        self.emit_list(&n.value, ListFormat::CommaDelimited)?;
         punct!(self, ")");
     }
 
     #[emitter]
     fn emit_value(&mut self, n: &Value) -> Result {
         match n {
+            Value::Function(n) => emit!(self, n),
+            Value::SimpleBlock(n) => emit!(self, n),
+            Value::SquareBracketBlock(n) => emit!(self, n),
+            Value::RoundBracketBlock(n) => emit!(self, n),
             Value::Unit(n) => emit!(self, n),
             Value::Number(n) => emit!(self, n),
             Value::Percent(n) => emit!(self, n),
             Value::Hash(n) => emit!(self, n),
             Value::Ident(n) => emit!(self, n),
             Value::Str(n) => emit!(self, n),
-            Value::Fn(n) => emit!(self, n),
             Value::Bin(n) => emit!(self, n),
             Value::Brace(n) => emit!(self, n),
-            Value::SquareBracketBlock(n) => emit!(self, n),
-            Value::RoundBracketBlock(n) => emit!(self, n),
             Value::Space(n) => emit!(self, n),
             Value::Lazy(n) => emit!(self, n),
             Value::AtText(n) => emit!(self, n),
@@ -303,9 +307,14 @@ where
     fn emit_unknown_at_rule(&mut self, n: &UnknownAtRule) -> Result {
         punct!(self, "@");
         emit!(self, n.name);
-        space!(self);
 
-        emit!(self, n.tokens)
+        self.emit_list(&n.prelude, ListFormat::NotDelimited)?;
+
+        if n.block.is_some() {
+            emit!(self, n.block)
+        } else {
+            punct!(self, ";");
+        }
     }
 
     #[emitter]
@@ -331,10 +340,26 @@ where
     }
 
     #[emitter]
+    fn emit_simple_block(&mut self, n: &SimpleBlock) -> Result {
+        let ending = match n.name {
+            '[' => ']',
+            '(' => ')',
+            '{' => '}',
+            _ => {
+                unreachable!();
+            }
+        };
+
+        self.wr.write_raw_char(None, n.name)?;
+        self.emit_list(&n.value, ListFormat::NotDelimited)?;
+        self.wr.write_raw_char(None, ending)?;
+    }
+
+    #[emitter]
     fn emit_block(&mut self, n: &Block) -> Result {
         punct!(self, "{");
 
-        self.emit_list(&n.items, ListFormat::SemiDelimited | ListFormat::MultiLine)?;
+        self.emit_list(&n.value, ListFormat::SemiDelimited | ListFormat::MultiLine)?;
 
         punct!(self, "}");
     }
@@ -715,7 +740,30 @@ where
 
     #[emitter]
     fn emit_complex_selector(&mut self, n: &ComplexSelector) -> Result {
-        self.emit_list(&n.children, ListFormat::SpaceDelimited)?;
+        let mut need_space = false;
+        for (idx, node) in n.children.iter().enumerate() {
+            match node {
+                ComplexSelectorChildren::Combinator(..) => {
+                    need_space = false;
+                }
+                _ => {}
+            }
+
+            if idx != 0 && need_space {
+                need_space = false;
+
+                self.wr.write_space()?;
+            }
+
+            match node {
+                ComplexSelectorChildren::CompoundSelector(..) => {
+                    need_space = true;
+                }
+                _ => {}
+            }
+
+            emit!(self, node)
+        }
     }
 
     #[emitter]

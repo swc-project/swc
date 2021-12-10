@@ -4,29 +4,29 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 //@filename: part1.ts
-var A1;
-(function(A) {
+var A;
+(function(A1) {
     var Utils1;
     (function(Utils) {
-        function mirror(p) {
+        function mirror(p1) {
             return {
-                x: p.y,
-                y: p.x
+                x: p1.y,
+                y: p1.x
             };
         }
         Utils.mirror = mirror;
-    })(Utils1 || (Utils1 = {
+    })(Utils1 = A1.Utils || (A1.Utils = {
     }));
-    A.Origin = {
+    A1.Origin = {
         x: 0,
         y: 0
     };
-    A.Utils = Utils1;
-})(A1 || (A1 = {
+})(A || (A = {
 }));
-(function(A) {
+(function(A2) {
     // not a collision, since we don't export
     var Origin = "0,0";
+    var Utils2;
     (function(Utils) {
         var Plane = function Plane(tl, br) {
             "use strict";
@@ -35,19 +35,19 @@ var A1;
             this.br = br;
         };
         Utils.Plane = Plane;
-    })(Utils || (Utils = {
+    })(Utils2 = A2.Utils || (A2.Utils = {
     }));
-})(A1 || (A1 = {
+})(A || (A = {
 }));
 //@filename: part3.ts
 // test the merging actually worked
 var o;
 var o;
-var o = A1.Origin;
-var o = A1.Utils.mirror(o);
-var p1;
-var p1;
-var p1 = new A1.Utils.Plane(o, {
+var o = A.Origin;
+var o = A.Utils.mirror(o);
+var p;
+var p;
+var p = new A.Utils.Plane(o, {
     x: 1,
     y: 1
 });

@@ -1,5 +1,5 @@
 use std::path::PathBuf;
-use swc_common::{errors::Handler, input::SourceFileInput, Span, Spanned, DUMMY_SP};
+use swc_common::{errors::Handler, input::SourceFileInput, Span, Spanned};
 use swc_css_ast::*;
 use swc_css_parser::{
     error::ErrorKind,
@@ -9,6 +9,10 @@ use swc_css_parser::{
 };
 use swc_css_visit::{Visit, VisitWith};
 use testing::NormalizedOutput;
+
+pub struct Invalid {
+    pub span: Span,
+}
 
 #[testing::fixture("tests/fixture/**/input.css")]
 fn tokens_input(input: PathBuf) {
@@ -262,7 +266,7 @@ struct SpanVisualizer<'a> {
 
 macro_rules! mtd {
     ($T:ty,$name:ident) => {
-        fn $name(&mut self, n: &$T, _: &dyn swc_css_visit::Node) {
+        fn $name(&mut self, n: &$T) {
             self.handler
                 .struct_span_err(n.span(), stringify!($T))
                 .emit();
@@ -287,7 +291,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(Block, visit_block);
     mtd!(RoundBracketBlock, visit_round_bracket_block);
     mtd!(SquareBracketBlock, visit_square_bracket_block);
-    mtd!(FnValue, visit_fn_value);
+    mtd!(Function, visit_function);
     mtd!(HashValue, visit_hash_value);
     mtd!(NestingSelector, visit_nesting_selector);
     mtd!(IdSelector, visit_id_selector);
@@ -327,7 +331,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(KeyframesRule, visit_keyframes_rule);
     mtd!(MediaQuery, visit_media_query);
     mtd!(MediaRule, visit_media_rule);
-    mtd!(NamespaceValue, visit_namespace_value);
+    mtd!(NamespaceUri, visit_namespace_uri);
     mtd!(NamespaceRule, visit_namespace_rule);
     mtd!(NestedPageRule, visit_nested_page_rule);
     mtd!(NotMediaQuery, visit_not_media_query);
@@ -345,7 +349,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(UnknownAtRule, visit_unknown_at_rule);
     mtd!(ViewportRule, visit_viewport_rule);
 
-    fn visit_token_and_span(&mut self, n: &TokenAndSpan, _parent: &dyn swc_css_visit::Node) {
+    fn visit_token_and_span(&mut self, n: &TokenAndSpan) {
         self.handler
             .struct_span_err(n.span, &format!("{:?}", n.token))
             .emit();
@@ -375,10 +379,7 @@ fn span(input: PathBuf) {
 
         match stylesheet {
             Ok(stylesheet) => {
-                stylesheet.visit_with(
-                    &Invalid { span: DUMMY_SP },
-                    &mut SpanVisualizer { handler: &handler },
-                );
+                stylesheet.visit_with(&mut SpanVisualizer { handler: &handler });
 
                 Err(())
             }

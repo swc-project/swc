@@ -98,7 +98,7 @@ impl<'a, I: Tokens> Parser<I> {
         trace_cur!(self, parse_stmt_internal);
 
         if top_level && is!(self, "await") {
-            let valid = self.target() >= EsVersion::Es2017 && self.syntax().top_level_await();
+            let valid = self.target() >= EsVersion::Es2017;
 
             if !valid {
                 self.emit_err(self.input.cur_span(), SyntaxError::TopLevelAwait);
@@ -1189,7 +1189,7 @@ impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<I> {
             .into());
         }
 
-        if self.input.syntax().import_meta() && is!(self, "import") && peeked_is!(self, '.') {
+        if is!(self, "import") && peeked_is!(self, '.') {
             let expr = self.parse_expr()?;
 
             eat!(self, ';');
@@ -1514,7 +1514,6 @@ let x = 4";
             "export * as Foo from 'bar';",
             Syntax::Es(EsConfig {
                 export_default_from: true,
-                export_namespace_from: true,
                 ..Default::default()
             }),
             |p| p.parse_module(),
@@ -1609,7 +1608,6 @@ export default function waitUntil(callback, options = {}) {
         test_parser(
             "import(filePath).then(bar => {})",
             Syntax::Es(EsConfig {
-                dynamic_import: true,
                 ..Default::default()
             }),
             |p| p.parse_module(),
@@ -1626,7 +1624,6 @@ export default function waitUntil(callback, options = {}) {
                 }
             }",
             Syntax::Es(EsConfig {
-                dynamic_import: true,
                 ..Default::default()
             }),
             |p| p.parse_module(),
@@ -1650,7 +1647,6 @@ export default function waitUntil(callback, options = {}) {
         test_parser(
             "await foo",
             Syntax::Es(EsConfig {
-                top_level_await: true,
                 ..Default::default()
             }),
             |p| p.parse_module(),
@@ -1827,7 +1823,6 @@ export default function waitUntil(callback, options = {}) {
         test_parser(
             src,
             Syntax::Es(EsConfig {
-                import_meta: true,
                 ..Default::default()
             }),
             |p| p.parse_script(),
@@ -1840,7 +1835,6 @@ export default function waitUntil(callback, options = {}) {
         test_parser(
             src,
             Syntax::Es(EsConfig {
-                import_meta: true,
                 ..Default::default()
             }),
             |p| p.parse_program(),
@@ -1854,7 +1848,6 @@ export default function waitUntil(callback, options = {}) {
         test_parser(
             src,
             Syntax::Es(EsConfig {
-                dynamic_import: true,
                 ..Default::default()
             }),
             |p| p.parse_script(),
@@ -1868,7 +1861,6 @@ export default function waitUntil(callback, options = {}) {
         test_parser(
             src,
             Syntax::Es(EsConfig {
-                top_level_await: true,
                 ..Default::default()
             }),
             |p| p.parse_script(),
@@ -1881,7 +1873,6 @@ export default function waitUntil(callback, options = {}) {
         test_parser(
             src,
             Syntax::Es(EsConfig {
-                top_level_await: true,
                 ..Default::default()
             }),
             |p| p.parse_program(),

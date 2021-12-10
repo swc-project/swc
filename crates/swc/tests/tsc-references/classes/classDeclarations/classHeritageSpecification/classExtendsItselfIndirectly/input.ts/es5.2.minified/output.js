@@ -45,15 +45,15 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var C = function(E) {
+var C = function(E1) {
     "use strict";
-    _inherits(C, E);
+    _inherits(C, E1);
     var _super = _createSuper(C);
     function C() {
         return _classCallCheck(this, C), _super.apply(this, arguments);
     }
     return C;
-}(E1), D = function(C) {
+}(E), D = function(C) {
     "use strict";
     _inherits(D, C);
     var _super = _createSuper(D);
@@ -61,23 +61,23 @@ var C = function(E) {
         return _classCallCheck(this, D), _super.apply(this, arguments);
     }
     return D;
-}(C), E1 = function(D) {
+}(C), E = function(D) {
     "use strict";
-    _inherits(E1, D);
-    var _super = _createSuper(E1);
-    function E1() {
-        return _classCallCheck(this, E1), _super.apply(this, arguments);
+    _inherits(E, D);
+    var _super = _createSuper(E);
+    function E() {
+        return _classCallCheck(this, E), _super.apply(this, arguments);
     }
-    return E1;
-}(D), C2 = function(E2) {
+    return E;
+}(D), C2 = function(E21) {
     "use strict";
-    _inherits(C2, E2);
+    _inherits(C2, E21);
     var _super = _createSuper(C2);
     function C2() {
         return _classCallCheck(this, C2), _super.apply(this, arguments);
     }
     return C2;
-}(E21), D2 = function(C2) {
+}(E2), D2 = function(C2) {
     "use strict";
     _inherits(D2, C2);
     var _super = _createSuper(D2);
@@ -85,12 +85,12 @@ var C = function(E) {
         return _classCallCheck(this, D2), _super.apply(this, arguments);
     }
     return D2;
-}(C2), E21 = function(D2) {
+}(C2), E2 = function(D2) {
     "use strict";
-    _inherits(E21, D2);
-    var _super = _createSuper(E21);
-    function E21() {
-        return _classCallCheck(this, E21), _super.apply(this, arguments);
+    _inherits(E2, D2);
+    var _super = _createSuper(E2);
+    function E2() {
+        return _classCallCheck(this, E2), _super.apply(this, arguments);
     }
-    return E21;
+    return E2;
 }(D2);

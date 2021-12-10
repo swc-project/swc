@@ -2,8 +2,8 @@ function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
 function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
+    for(var i1 = 0; i1 < props.length; i1++){
+        var descriptor = props[i1];
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
@@ -17,10 +17,10 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var c, i1, b, A1 = function() {
+var c, i, b, A = function() {
     "use strict";
-    _classCallCheck(this, A1);
-}, B = function(A) {
+    _classCallCheck(this, A);
+}, B = function(A1) {
     "use strict";
     !function(subClass, superClass) {
         if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
@@ -31,7 +31,7 @@ var c, i1, b, A1 = function() {
                 configurable: !0
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
-    }(B, A);
+    }(B, A1);
     var _super = function(Derived) {
         var hasNativeReflectConstruct = function() {
             if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
@@ -60,7 +60,7 @@ var c, i1, b, A1 = function() {
         return _classCallCheck(this, B), _super.apply(this, arguments);
     }
     return B;
-}(A1), C = function() {
+}(A), C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C() {
@@ -74,10 +74,10 @@ var c, i1, b, A1 = function() {
         }
     ], _defineProperties((Constructor = C).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }();
-c.valueOf(), c.data.hm, c.hm, i1.valueOf(), i1.data.hm, i1.hm;
+c.valueOf(), c.data.hm, c.hm, i.valueOf(), i.data.hm, i.hm;
 var a = {
     valueOf: function() {
     },
     data: new B()
 };
-a.valueOf(), a.data.hm, i1.hm, b.valueOf();
+a.valueOf(), a.data.hm, i.hm, b.valueOf();

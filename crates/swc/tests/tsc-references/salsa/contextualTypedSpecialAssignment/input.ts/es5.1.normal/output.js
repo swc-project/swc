@@ -30,12 +30,12 @@ var ns = {
 };
 /** @type {DoneStatus} */ ns.x = {
     status: 'done',
-    m: function(n) {
+    m: function m(n) {
     }
 };
 ns.x = {
     status: 'done',
-    m: function(n) {
+    m: function m(n) {
     }
 };
 ns.x;
@@ -46,7 +46,7 @@ var Thing = // this-property assignment
         _classCallCheck(this, Thing);
         /** @type {DoneStatus} */ this.s = {
             status: 'done',
-            m: function(n) {
+            m: function m(n) {
             }
         };
     }
@@ -56,7 +56,7 @@ var Thing = // this-property assignment
             value: function fail() {
                 this.s = {
                     status: 'done',
-                    m: function(n) {
+                    m: function m(n) {
                     }
                 };
             }
@@ -67,20 +67,20 @@ var Thing = // this-property assignment
 // exports-property assignment
 /** @type {DoneStatus} */ exports.x = {
     status: "done",
-    m: function(n) {
+    m: function m(n) {
     }
 };
 exports.x;
 /** @type {DoneStatus} */ module.exports.y = {
     status: "done",
-    m: function(n) {
+    m: function m(n) {
     }
 };
 module.exports.y;
 // prototype-property assignment
 /** @type {DoneStatus} */ Thing.prototype.x = {
     status: 'done',
-    m: function(n) {
+    m: function m(n) {
     }
 };
 Thing.prototype.x;
@@ -89,13 +89,13 @@ function F() {
 }
 /** @type {DoneStatus} */ F.prototype = {
     status: "done",
-    m: function(n) {
+    m: function m(n) {
     }
 };
 // @Filename: mod.js
 // module.exports assignment
 /** @type {{ status: 'done', m(n: number): void }} */ module.exports = {
     status: "done",
-    m: function(n) {
+    m: function m(n) {
     }
 };

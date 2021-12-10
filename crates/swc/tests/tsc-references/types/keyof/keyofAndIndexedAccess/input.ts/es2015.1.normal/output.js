@@ -8,12 +8,12 @@ class Item {
 }
 class Options {
 }
-var E1;
+var E;
 (function(E) {
     E[E["A"] = 0] = "A";
     E[E["B"] = 1] = "B";
     E[E["C"] = 2] = "C";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
 function getProperty(obj, key) {
     return obj[key];
@@ -44,11 +44,11 @@ function f13(foo, bar) {
     let z = getProperty(foo, bar); // any
 }
 class Component {
-    getProperty(key2) {
-        return this.props[key2];
+    getProperty(key) {
+        return this.props[key];
     }
-    setProperty(key1, value3) {
-        this.props[key1] = value3;
+    setProperty(key, value) {
+        this.props[key] = value;
     }
 }
 function f20(component) {
@@ -248,11 +248,11 @@ function f84() {
     }, "bar"); // number
 }
 class C1 {
-    get(key4) {
-        return this[key4];
+    get(key) {
+        return this[key];
     }
-    set(key3, value1) {
-        this[key3] = value1;
+    set(key, value) {
+        this[key] = value;
     }
     foo() {
         let x1 = this.x; // number
@@ -293,8 +293,8 @@ class Base {
     get(prop) {
         return this[prop];
     }
-    set(prop1, value2) {
-        this[prop1] = value2;
+    set(prop, value) {
+        this[prop] = value;
     }
 }
 class Person extends Base {
@@ -310,16 +310,16 @@ class OtherPerson {
     getParts() {
         return getProperty(this, "parts");
     }
-    constructor(parts1){
-        setProperty(this, "parts", parts1);
+    constructor(parts){
+        setProperty(this, "parts", parts);
     }
 }
 function path(obj, ...keys) {
-    let result = obj;
+    let result1 = obj;
     for (let k of keys){
-        result = result[k];
+        result1 = result1[k];
     }
-    return result;
+    return result1;
 }
 function f1(thing) {
     let x1 = path(thing, 'a'); // { x: number, y: string }
@@ -354,7 +354,7 @@ function f(p) {
     let a;
     a[p].add; // any
 }
-let result1 = dispatchMethod("someMethod", [
+let result = dispatchMethod("someMethod", [
     "hello",
     35
 ]);
@@ -390,8 +390,8 @@ class B extends A {
 }
 // Repro from #13749
 class Form {
-    set(prop2, value) {
-        this.childFormFactories[prop2](value);
+    set(prop, value) {
+        this.childFormFactories[prop](value);
     }
 }
 // Repro from #13787
@@ -404,11 +404,11 @@ class AnotherSampleClass extends SampleClass {
     brokenMethod() {
         this.props.foo.concat;
     }
-    constructor(props1){
+    constructor(props){
         const foo = {
             foo: "bar"
         };
-        super(merge(props1, foo));
+        super(merge(props, foo));
     }
 }
 new AnotherSampleClass({
@@ -421,11 +421,11 @@ function f3(t, k, tk) {
         t[key] = tk; // ok, T[K] ==> T[keyof T]
     }
 }
-var Flag1;
+var Flag;
 (function(Flag) {
     Flag["FLAG_1"] = "flag_1";
     Flag["FLAG_2"] = "flag_2";
-})(Flag1 || (Flag1 = {
+})(Flag || (Flag = {
 }));
 function getFlagsFromSimpleRecord(record, flags) {
     return record[flags[0]];

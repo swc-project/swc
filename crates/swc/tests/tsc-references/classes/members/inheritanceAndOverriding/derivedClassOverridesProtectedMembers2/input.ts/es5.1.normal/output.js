@@ -70,10 +70,10 @@ function _isNativeReflectConstruct() {
         return false;
     }
 }
-function _createSuper(Derived) {
+function _createSuper(Derived1) {
     var hasNativeReflectConstruct = _isNativeReflectConstruct();
     return function _createSuperInternal() {
-        var Super = _getPrototypeOf(Derived), result;
+        var Super = _getPrototypeOf(Derived1), result;
         if (hasNativeReflectConstruct) {
             var NewTarget = _getPrototypeOf(this).constructor;
             result = Reflect.construct(Super, arguments, NewTarget);
@@ -122,16 +122,16 @@ var Base = /*#__PURE__*/ function() {
     ]);
     return Base;
 }();
-var Derived1 = // Increase visibility of all protected members to public
+var Derived = // Increase visibility of all protected members to public
 /*#__PURE__*/ function(Base) {
     "use strict";
-    _inherits(Derived1, Base);
-    var _super = _createSuper(Derived1);
-    function Derived1(a) {
-        _classCallCheck(this, Derived1);
+    _inherits(Derived, Base);
+    var _super = _createSuper(Derived);
+    function Derived(a) {
+        _classCallCheck(this, Derived);
         return _super.call(this, a);
     }
-    _createClass(Derived1, [
+    _createClass(Derived, [
         {
             key: "b",
             value: function b(a) {
@@ -160,19 +160,19 @@ var Derived1 = // Increase visibility of all protected members to public
             }
         }
     ]);
-    return Derived1;
+    return Derived;
 }(Base);
-var d = new Derived1(y);
+var d = new Derived(y);
 var r1 = d.a;
 var r2 = d.b(y);
 var r3 = d.c;
 var r3a = d.d;
 d.c = y;
-var r4 = Derived1.r;
-var r5 = Derived1.s(y);
-var r6 = Derived1.t;
-var r6a = Derived1.u;
-Derived1.t = y;
+var r4 = Derived.r;
+var r5 = Derived.s(y);
+var r6 = Derived.t;
+var r6a = Derived.u;
+Derived.t = y;
 var Base2 = function Base2() {
     "use strict";
     _classCallCheck(this, Base2);

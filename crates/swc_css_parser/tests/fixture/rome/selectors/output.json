@@ -303,7 +303,7 @@
           "end": 41,
           "ctxt": 0
         },
-        "items": []
+        "value": []
       }
     },
     {
@@ -370,7 +370,7 @@
           "end": 69,
           "ctxt": 0
         },
-        "items": []
+        "value": []
       }
     },
     {
@@ -475,7 +475,7 @@
           "end": 86,
           "ctxt": 0
         },
-        "items": []
+        "value": []
       }
     },
     {
@@ -564,7 +564,7 @@
           "end": 117,
           "ctxt": 0
         },
-        "items": [
+        "value": [
           {
             "type": "Declaration",
             "span": {
@@ -694,7 +694,7 @@
           "end": 158,
           "ctxt": 0
         },
-        "items": [
+        "value": [
           {
             "type": "Declaration",
             "span": {
@@ -824,7 +824,7 @@
           "end": 200,
           "ctxt": 0
         },
-        "items": [
+        "value": [
           {
             "type": "Declaration",
             "span": {
@@ -985,7 +985,7 @@
           "end": 259,
           "ctxt": 0
         },
-        "items": [
+        "value": [
           {
             "type": "Declaration",
             "span": {
@@ -1123,7 +1123,7 @@
           "end": 286,
           "ctxt": 0
         },
-        "items": []
+        "value": []
       }
     },
     {
@@ -1246,7 +1246,7 @@
           "end": 305,
           "ctxt": 0
         },
-        "items": []
+        "value": []
       }
     },
     {
@@ -1322,7 +1322,7 @@
           "end": 326,
           "ctxt": 0
         },
-        "items": []
+        "value": []
       }
     },
     {
@@ -1445,7 +1445,7 @@
           "end": 351,
           "ctxt": 0
         },
-        "items": []
+        "value": []
       }
     }
   ]

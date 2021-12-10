@@ -6,7 +6,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Parallel};
 use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{
-    is_literal, prepend_stmts, private_ident, quote_ident, ExprFactory, StmtLike,
+    is_literal, prepend_stmts, private_ident, quote_ident, undefined, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -319,9 +319,9 @@ impl VisitMut for TemplateLiteral {
                                                 elems: quasis
                                                     .take()
                                                     .into_iter()
-                                                    .map(|elem| {
-                                                        Lit::Str(elem.cooked.unwrap_or(elem.raw))
-                                                            .as_arg()
+                                                    .map(|elem| match elem.cooked {
+                                                        Some(cooked) => Lit::Str(cooked).as_arg(),
+                                                        None => undefined(DUMMY_SP).as_arg(),
                                                     })
                                                     .map(Some)
                                                     .collect(),

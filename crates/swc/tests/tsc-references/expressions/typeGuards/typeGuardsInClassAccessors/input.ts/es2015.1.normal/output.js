@@ -35,11 +35,11 @@ class ClassWithAccessors {
         return strOrNum;
     }
     // Inside private accessor setter
-    set pp1(param1) {
+    set pp1(param) {
         // global vars in function declaration
         num = typeof var1 === "string" && var1.length; // string
         // parameter of function declaration
-        num = typeof param1 === "string" && param1.length; // string
+        num = typeof param === "string" && param.length; // string
         // variables in function declaration
         var var2;
         num = typeof var2 === "string" && var2.length; // string
@@ -54,11 +54,11 @@ class ClassWithAccessors {
         return strOrNum;
     }
     // Inside static accessor setter
-    static set s1(param2) {
+    static set s1(param) {
         // global vars in function declaration
         num = typeof var1 === "string" && var1.length; // string
         // parameter of function declaration
-        num = typeof param2 === "string" && param2.length; // string
+        num = typeof param === "string" && param.length; // string
         // variables in function declaration
         var var2;
         num = typeof var2 === "string" && var2.length; // string
@@ -73,11 +73,11 @@ class ClassWithAccessors {
         return strOrNum;
     }
     // Inside private static accessor setter
-    static set ss1(param3) {
+    static set ss1(param) {
         // global vars in function declaration
         num = typeof var1 === "string" && var1.length; // string
         // parameter of function declaration
-        num = typeof param3 === "string" && param3.length; // string
+        num = typeof param === "string" && param.length; // string
         // variables in function declaration
         var var2;
         num = typeof var2 === "string" && var2.length; // string

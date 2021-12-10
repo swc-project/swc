@@ -1,78 +1,94 @@
-var param1;
+var param;
+function _arrayLikeToArray(arr, len) {
+    (null == len || len > arr.length) && (len = arr.length);
+    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
+    return arr2;
+}
 function _slicedToArray(arr, i) {
     return (function(arr) {
         if (Array.isArray(arr)) return arr;
     })(arr) || (function(arr, i) {
-        var _arr = [], _n = !0, _d = !1, _e = void 0;
-        try {
-            for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), !i || _arr.length !== i); _n = !0);
-        } catch (err) {
-            _d = !0, _e = err;
-        } finally{
+        var _s, _e, _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
+        if (null != _i) {
+            var _arr = [], _n = !0, _d = !1;
             try {
-                _n || null == _i.return || _i.return();
+                for(_i = _i.call(arr); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), !i || _arr.length !== i); _n = !0);
+            } catch (err) {
+                _d = !0, _e = err;
             } finally{
-                if (_d) throw _e;
+                try {
+                    _n || null == _i.return || _i.return();
+                } finally{
+                    if (_d) throw _e;
+                }
             }
+            return _arr;
         }
-        return _arr;
-    })(arr, i) || (function() {
-        throw new TypeError("Invalid attempt to destructure non-iterable instance");
+    })(arr, i) || _unsupportedIterableToArray(arr, i) || (function() {
+        throw new TypeError("Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
     })();
 }
-function f2(param) {
-    void 0 === _y, param.x;
-    var _y = param.y;
+function _unsupportedIterableToArray(o, minLen) {
+    if (o) {
+        if ("string" == typeof o) return _arrayLikeToArray(o, minLen);
+        var n = Object.prototype.toString.call(o).slice(8, -1);
+        if ("Object" === n && o.constructor && (n = o.constructor.name), "Map" === n || "Set" === n) return Array.from(n);
+        if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+    }
 }
-function f3(param) {
-    param.x, param.y;
+function f2(param1) {
+    void 0 === _y, param1.x;
+    var _y = param1.y;
 }
-function f4(param) {
-    var ref = void 0 === param ? {
+function f3(param2) {
+    param2.x, param2.y;
+}
+function f4() {
+    var ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
         x: 0,
         y: 0
-    } : param;
+    };
     ref.x, ref.y;
 }
-function f5(param) {
-    var ref = void 0 === param ? {
+function f5() {
+    var ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
         x: 0
-    } : param;
+    };
     ref.x, ref.y;
 }
-function f6(param) {
-    var ref = void 0 === param ? {
-    } : param;
+function f6() {
+    var ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
+    };
     ref.x, ref.y;
 }
-function f7(param) {
-    var _a = (void 0 === param ? {
+function f7() {
+    var ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
         a: {
         }
-    } : param).a;
+    }, _a = ref.a;
     _a.x, _a.y;
 }
-function g3(param) {
-    var ref = _slicedToArray(void 0 === param ? [
+function g3() {
+    var ref = _slicedToArray(arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [
         0,
         0
-    ] : param, 2);
+    ], 2);
     ref[0], ref[1];
 }
-function g4(param) {
-    var ref = _slicedToArray(void 0 === param ? [
+function g4() {
+    var ref = _slicedToArray(arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [
         0
-    ] : param, 2);
+    ], 2);
     ref[0], ref[1];
 }
-function g5(param) {
-    var ref = _slicedToArray(void 0 === param ? [] : param, 2);
+function g5() {
+    var ref = _slicedToArray(arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [], 2);
     ref[0], ref[1];
 }
-(param1 = {
+(param = {
     x: 1,
     y: 1
-}).x, param1.y, f2({
+}).x, param.y, f2({
     x: 1
 }), f2({
     x: 1,
@@ -117,14 +133,14 @@ function g5(param) {
         x: 1,
         y: 1
     }
-}), (function(param) {
-    var _param = _slicedToArray(param, 2);
+}), (function(param3) {
+    var _param = _slicedToArray(param3, 2);
     _param[0], _param[1];
 })([
     1,
     1
-]), (function(param) {
-    var _param = _slicedToArray(param, 2);
+]), (function(param4) {
+    var _param = _slicedToArray(param4, 2);
     _param[0], _param[1];
 })([
     1,

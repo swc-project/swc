@@ -6,15 +6,15 @@ var x = 1;
 class C {
     constructor(x1){
         this.b // error, evaluated in scope of constructor, cannot reference x
-         = x1;
+         = x;
         x1 = 2; // error, x is string
     }
 }
 var y = 1;
 class D {
-    constructor(x2){
+    constructor(x){
         this.b // error, evaluated in scope of constructor, cannot reference y
          = y;
-        var y = "";
+        var y1 = "";
     }
 }

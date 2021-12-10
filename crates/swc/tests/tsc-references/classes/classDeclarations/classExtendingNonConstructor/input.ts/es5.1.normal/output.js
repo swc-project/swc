@@ -69,8 +69,8 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
-var x1;
-function foo1() {
+var x;
+function foo() {
     this.x = 1;
 }
 var C1 = /*#__PURE__*/ function(undefined) {
@@ -123,23 +123,23 @@ var C5 = /*#__PURE__*/ function(_super) {
     }
     return C5;
 }("hello");
-var C6 = /*#__PURE__*/ function(x) {
+var C6 = /*#__PURE__*/ function(x1) {
     "use strict";
-    _inherits(C6, x);
+    _inherits(C6, x1);
     var _super = _createSuper(C6);
     function C6() {
         _classCallCheck(this, C6);
         return _super.apply(this, arguments);
     }
     return C6;
-}(x1);
-var C7 = /*#__PURE__*/ function(foo) {
+}(x);
+var C7 = /*#__PURE__*/ function(foo1) {
     "use strict";
-    _inherits(C7, foo);
+    _inherits(C7, foo1);
     var _super = _createSuper(C7);
     function C7() {
         _classCallCheck(this, C7);
         return _super.apply(this, arguments);
     }
     return C7;
-}(foo1);
+}(foo);

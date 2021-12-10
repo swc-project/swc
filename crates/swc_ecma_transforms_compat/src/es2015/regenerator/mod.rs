@@ -7,7 +7,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{
     contains_this_expr, prepend, private_ident, quote_ident, quote_str, ExprFactory, StmtLike,
 };
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Visit, VisitWith};
 
 mod case;
 mod hoist;
@@ -556,7 +556,7 @@ struct Finder {
 impl Finder {
     fn find<T: VisitWith<Self>>(node: &T) -> bool {
         let mut v = Finder { found: false };
-        node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+        node.visit_with(&mut v);
         v.found
     }
 }
@@ -564,7 +564,7 @@ impl Finder {
 impl Visit for Finder {
     noop_visit_type!();
 
-    fn visit_function(&mut self, node: &Function, _: &dyn Node) {
+    fn visit_function(&mut self, node: &Function) {
         if node.is_generator {
             self.found = true;
             return;

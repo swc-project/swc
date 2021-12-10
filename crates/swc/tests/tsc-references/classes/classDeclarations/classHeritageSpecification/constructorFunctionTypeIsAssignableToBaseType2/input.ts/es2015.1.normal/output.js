@@ -4,14 +4,14 @@ class Base {
     }
 }
 class Derived extends Base {
-    constructor(x1){
-        super(x1);
+    constructor(x){
+        super(x);
     }
 }
 class Derived2 extends Base {
     // ok, not enforcing assignability relation on this
-    constructor(x2){
-        super(x2);
+    constructor(x){
+        super(x);
         return 1;
     }
 }

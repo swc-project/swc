@@ -17,16 +17,16 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var _this1 = this;
+var _this = this;
 var MyTestClass = // @target: esnext
 /*#__PURE__*/ function() {
     "use strict";
     function MyTestClass() {
-        var _this = this;
+        var _this1 = this;
         _classCallCheck(this, MyTestClass);
         this.someFunc = function() {
             //type of 'this' in member variable initializer is the class instance type
-            var t = _this;
+            var t = _this1;
             var t;
         };
         //type of 'this' in constructor body is the class instance type
@@ -38,8 +38,8 @@ var MyTestClass = // @target: esnext
         {
             //type of 'this' in member function param list is the class instance type
             key: "memberFunc",
-            value: function memberFunc(param) {
-                var t = param === void 0 ? this : param;
+            value: function memberFunc() {
+                var t = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : this;
                 var t;
                 //type of 'this' in member function body is the class instance type
                 var p = this;
@@ -65,11 +65,11 @@ var MyTestClass = // @target: esnext
         {
             key: "staticFn",
             value: //type of 'this' in static function param list is constructor function type
-            function staticFn(param) {
-                var t = param === void 0 ? this : param;
-                var t;
-                var t = MyTestClass;
-                t.staticCanary;
+            function staticFn() {
+                var t1 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : this;
+                var t1;
+                var t1 = MyTestClass;
+                t1.staticCanary;
                 //type of 'this' in static function body is constructor function type
                 var p = this;
                 var p;
@@ -101,11 +101,11 @@ var MyTestClass = // @target: esnext
 var MyGenericTestClass = /*#__PURE__*/ function() {
     "use strict";
     function MyGenericTestClass() {
-        var _this = this;
+        var _this2 = this;
         _classCallCheck(this, MyGenericTestClass);
         this.someFunc = function() {
             //type of 'this' in member variable initializer is the class instance type
-            var t = _this;
+            var t = _this2;
             var t;
         };
         //type of 'this' in constructor body is the class instance type
@@ -117,8 +117,8 @@ var MyGenericTestClass = /*#__PURE__*/ function() {
         {
             //type of 'this' in member function param list is the class instance type
             key: "memberFunc",
-            value: function memberFunc(param) {
-                var t = param === void 0 ? this : param;
+            value: function memberFunc() {
+                var t = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : this;
                 var t;
                 //type of 'this' in member function body is the class instance type
                 var p = this;
@@ -144,11 +144,11 @@ var MyGenericTestClass = /*#__PURE__*/ function() {
         {
             key: "staticFn",
             value: //type of 'this' in static function param list is constructor function type
-            function staticFn(param) {
-                var t = param === void 0 ? this : param;
-                var t;
-                var t = MyGenericTestClass;
-                t.staticCanary;
+            function staticFn() {
+                var t2 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : this;
+                var t2;
+                var t2 = MyGenericTestClass;
+                t2.staticCanary;
                 //type of 'this' in static function body is constructor function type
                 var p = this;
                 var p;
@@ -178,8 +178,8 @@ var MyGenericTestClass = /*#__PURE__*/ function() {
     return MyGenericTestClass;
 }();
 //type of 'this' in a function declaration param list is Any
-function fn(param) {
-    var s = param === void 0 ? this : param;
+function fn() {
+    var s = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : this;
     var s;
     s.spaaaaaaace = 4;
     //type of 'this' in a function declaration body is Any
@@ -188,8 +188,8 @@ function fn(param) {
     this.spaaaaace = 4;
 }
 //type of 'this' in a function expression param list list is Any
-var q1 = function q1(param) {
-    var s = param === void 0 ? this : param;
+var q1 = function q1() {
+    var s = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : this;
     var s;
     s.spaaaaaaace = 4;
     //type of 'this' in a function expression body is Any
@@ -198,16 +198,16 @@ var q1 = function q1(param) {
     this.spaaaaace = 4;
 };
 //type of 'this' in a fat arrow expression param list is typeof globalThis
-var q2 = function(param) {
-    var s = param === void 0 ? _this1 : param;
+var q2 = function() {
+    var s = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : _this;
     var s;
     s.spaaaaaaace = 4;
     //type of 'this' in a fat arrow expression body is typeof globalThis
     var t;
-    var t = _this1;
-    _this1.spaaaaace = 4;
+    var t = _this;
+    _this.spaaaaace = 4;
 };
 //type of 'this' in global module is GlobalThis
-var t1;
-var t1 = this;
+var t;
+var t = this;
 this.spaaaaace = 4;

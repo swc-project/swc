@@ -15,12 +15,11 @@ export var A = function A() {
     "use strict";
     _classCallCheck(this, A);
 };
-var C1;
-export { C1 as C };
+export var C;
 (function(C) {
     C[C["One"] = 0] = "One";
     C[C["Two"] = 1] = "Two";
-})(C1 || (C1 = {
+})(C || (C = {
 }));
 var a;
 var b;
@@ -31,9 +30,9 @@ console.log(a, b);
 var a = A;
 var b;
 console.log(a, b);
-C1.One;
-var c = C1.Two;
-var d = C1.Two;
+C.One;
+var c = C.Two;
+var d = C.Two;
 console.log(c, d);
 var c;
 var d;
@@ -51,14 +50,14 @@ console.log(h);
 // @Filename: /j.ts
 var H = require('./h'); // noUnusedLocals error only
 var // @Filename: /k.ts
-K1;
+K;
 (function(K) {
     K[K["One"] = 0] = "One";
     K[K["Two"] = 1] = "Two";
-})(K1 || (K1 = {
+})(K || (K = {
 }));
-module.exports = K1;
+module.exports = K;
 // @Filename: /l.ts
-var K1 = require('./k');
-K1.One; // @Filename: /j.ts
+var K = require('./k');
+K.One; // @Filename: /j.ts
  // Sad face https://github.com/microsoft/TypeScript/blob/6b04f5039429b9d412696fe2febe39ecc69ad365/src/testRunner/compilerRunner.ts#L207

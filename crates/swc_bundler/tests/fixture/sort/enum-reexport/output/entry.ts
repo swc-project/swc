@@ -1,6 +1,6 @@
-var Status1;
-(function(Status) {
-    Status[Status["Continue"] = 100] = "Continue";
-})(Status1 || (Status1 = {
+var Status;
+(function(Status1) {
+    Status1[Status1["Continue"] = 100] = "Continue";
+})(Status || (Status = {
 }));
-export { Status1 as Status };
+export { Status as Status };

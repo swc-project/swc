@@ -15,7 +15,7 @@
     };
 }
 Cp.prototype = {
-    /** @return {this} */ m4: function() {
+    /** @return {this} */ m4: function m4() {
         this.z = this.y;
         return this;
     }

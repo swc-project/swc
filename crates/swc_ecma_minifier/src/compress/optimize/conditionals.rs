@@ -107,7 +107,7 @@ where
     /// ```ts
     /// if (foo || bar || baz || baa) return;
     /// ```
-    pub(super) fn merge_simillar_ifs<T>(&mut self, stmts: &mut Vec<T>)
+    pub(super) fn merge_similar_ifs<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike,
     {
@@ -317,7 +317,7 @@ where
     }
 
     /// Compress a conditional expression if cons and alt is simillar
-    pub(super) fn compress_cond_expr_if_simillar(&mut self, e: &mut Expr) {
+    pub(super) fn compress_cond_expr_if_similar(&mut self, e: &mut Expr) {
         let cond = match e {
             Expr::Cond(expr) => expr,
             _ => return,

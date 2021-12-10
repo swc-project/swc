@@ -248,7 +248,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
             };
         }
     };
-    let props;
+    let props1;
     const ampState = {
         ampFirst: pageConfig.amp === true,
         hasQuery: Boolean(query.amp),
@@ -256,7 +256,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
     };
     const inAmpMode = isInAmpMode(ampState);
     const reactLoadableModules = [];
-    let head = defaultHead(inAmpMode);
+    let head1 = defaultHead(inAmpMode);
     let scriptLoader = {
     };
     const nextExport = !isSSG && (renderOpts.nextExport || dev && (isAutoExport || isFallback));
@@ -266,7 +266,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
 
                 <HeadManagerContext.Provider value={{
             updateHead: (state)=>{
-                head = state;
+                head1 = state;
             },
             updateScripts: (scripts)=>{
                 scriptLoader = scripts;
@@ -293,17 +293,17 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
 
         </RouterContext.Provider>
     ;
-    props = await loadGetInitialProps(App, {
+    props1 = await loadGetInitialProps(App, {
         AppTree: ctx.AppTree,
         Component,
         router,
         ctx
     });
     if ((isSSG || getServerSideProps) && isPreview) {
-        props.__N_PREVIEW = true;
+        props1.__N_PREVIEW = true;
     }
     if (isSSG) {
-        props[STATIC_PROPS_ID] = true;
+        props1[STATIC_PROPS_ID] = true;
     }
     if (isSSG && !isFallback) {
         let data;
@@ -384,16 +384,16 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
         } else {
             data.revalidate = false;
         }
-        props.pageProps = Object.assign({
-        }, props.pageProps, "props" in data ? data.props : undefined);
+        props1.pageProps = Object.assign({
+        }, props1.pageProps, "props" in data ? data.props : undefined);
         renderOpts.revalidate = "revalidate" in data ? data.revalidate : undefined;
-        renderOpts.pageData = props;
+        renderOpts.pageData = props1;
         if (renderOpts.isNotFound) {
             return null;
         }
     }
     if (getServerSideProps) {
-        props[SERVER_PROPS_ID] = true;
+        props1[SERVER_PROPS_ID] = true;
     }
     if (getServerSideProps && !isFallback) {
         let data;
@@ -471,19 +471,19 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
         if ((dev || isBuildTimeSSG) && !isSerializableProps(pathname, "getServerSideProps", data.props)) {
             throw new Error("invariant: getServerSideProps did not return valid props. Please report this.");
         }
-        props.pageProps = Object.assign({
-        }, props.pageProps, data.props);
-        renderOpts.pageData = props;
+        props1.pageProps = Object.assign({
+        }, props1.pageProps, data.props);
+        renderOpts.pageData = props1;
     }
-    if (!isSSG && !getServerSideProps && process.env.NODE_ENV !== "production" && Object.keys(props?.pageProps || {
+    if (!isSSG && !getServerSideProps && process.env.NODE_ENV !== "production" && Object.keys(props1?.pageProps || {
     }).includes("url")) {
         console.warn(`The prop \`url\` is a reserved prop in Next.js for legacy reasons and will be overridden on page ${pathname}\n` + `See more info here: https://nextjs.org/docs/messages/reserved-page-prop`);
     }
     if (isDataReq && !isSSG || renderOpts.isRedirect) {
-        return RenderResult.fromStatic(JSON.stringify(props));
+        return RenderResult.fromStatic(JSON.stringify(props1));
     }
     if (isFallback) {
-        props.pageProps = {
+        props1.pageProps = {
         };
     }
     if (isResSent(res) && !isSSG) return null;
@@ -515,21 +515,21 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
                     const html = ReactDOMServer.renderToString(<ErrorDebug error={ctx.err}/>);
                     return {
                         html,
-                        head
+                        head: head1
                     };
                 }
-                if (dev && (props.router || props.Component)) {
+                if (dev && (props1.router || props1.Component)) {
                     throw new Error(`'router' and 'Component' can not be returned in getInitialProps from _app.js https://nextjs.org/docs/messages/cant-override-next-props`);
                 }
                 const { App: EnhancedApp , Component: EnhancedComponent  } = enhanceComponents(options, App, Component);
                 const html = ReactDOMServer.renderToString(<AppContainer >
 
-                        <EnhancedApp Component={EnhancedComponent} router={router} {...props}/>
+                        <EnhancedApp Component={EnhancedComponent} router={router} {...props1}/>
 
                     </AppContainer>);
                 return {
                     html,
-                    head
+                    head: head1
                 };
             };
             const documentCtx = {
@@ -555,7 +555,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
         } else {
             const content = ctx.err && ErrorDebug ? <ErrorDebug error={ctx.err}/> : <AppContainer >
 
-                        <App {...props} Component={Component} router={router}/>
+                        <App {...props1} Component={Component} router={router}/>
 
                     </AppContainer>;
             const bodyResult = concurrentFeatures ? await renderToStream(content, generateStaticHTML) : piperFromArray([
@@ -565,7 +565,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
                 bodyResult,
                 documentElement: ()=>Document()
                 ,
-                head,
+                head: head1,
                 headTags: [],
                 styles: jsxStyleRegistry.styles()
             };
@@ -590,9 +590,9 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
     const docComponentsRendered = {
     };
     const { assetPrefix , buildId , customServer , defaultLocale , disableOptimizedLoading , domainLocales , locale , locales , runtimeConfig  } = renderOpts;
-    const htmlProps = {
+    const htmlProps1 = {
         __NEXT_DATA__: {
-            props,
+            props: props1,
             page: pathname,
             query,
             buildId,
@@ -637,9 +637,9 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
     };
     const documentHTML = ReactDOMServer.renderToStaticMarkup(<AmpStateContext.Provider value={ampState}>
 
-            <HtmlContext.Provider value={htmlProps}>
+            <HtmlContext.Provider value={htmlProps1}>
 
-                {documentResult.documentElement(htmlProps)}
+                {documentResult.documentElement(htmlProps1)}
 
             </HtmlContext.Provider>
 

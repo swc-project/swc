@@ -10,8 +10,8 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
+    for(var i1 = 0; i1 < props.length; i1++){
+        var descriptor = props[i1];
         descriptor.enumerable = descriptor.enumerable || false;
         descriptor.configurable = true;
         if ("value" in descriptor) descriptor.writable = true;
@@ -70,10 +70,10 @@ function _isNativeReflectConstruct() {
         return false;
     }
 }
-function _createSuper(Derived) {
+function _createSuper(Derived1) {
     var hasNativeReflectConstruct = _isNativeReflectConstruct();
     return function _createSuperInternal() {
-        var Super = _getPrototypeOf(Derived), result;
+        var Super = _getPrototypeOf(Derived1), result;
         if (hasNativeReflectConstruct) {
             var NewTarget = _getPrototypeOf(this).constructor;
             result = Reflect.construct(Super, arguments, NewTarget);
@@ -87,15 +87,15 @@ var Base = function Base() {
     "use strict";
     _classCallCheck(this, Base);
 };
-var Derived1 = /*#__PURE__*/ function(Base) {
+var Derived = /*#__PURE__*/ function(Base) {
     "use strict";
-    _inherits(Derived1, Base);
-    var _super = _createSuper(Derived1);
-    function Derived1() {
-        _classCallCheck(this, Derived1);
+    _inherits(Derived, Base);
+    var _super = _createSuper(Derived);
+    function Derived() {
+        _classCallCheck(this, Derived);
         return _super.apply(this, arguments);
     }
-    return Derived1;
+    return Derived;
 }(Base);
 var Derived2 = /*#__PURE__*/ function(Derived) {
     "use strict";
@@ -106,7 +106,7 @@ var Derived2 = /*#__PURE__*/ function(Derived) {
         return _super.apply(this, arguments);
     }
     return Derived2;
-}(Derived1);
+}(Derived);
 var b;
 var d1;
 var d2;
@@ -200,13 +200,13 @@ var r8b = c.foo5(d2, d2); // Derived2
 var r9 = c.foo6(); // Derived
 var r10 = c.foo7(d1); // Base
 var r11 = c.foo8(); // Base
-var i1;
-var r4 = i1.foo(d1, d2); // Base
-var r5 = i1.foo2(b, d2); // Derived
-var r6 = i1.foo3(d1, d1); // Derived
-var r7 = i1.foo4(d1, d2); // Base
-var r8 = i1.foo5(d1, d2); // Derived
-var r8b = i1.foo5(d2, d2); // Derived2
-var r9 = i1.foo6(); // Derived
-var r10 = i1.foo7(d1); // Base
-var r11 = i1.foo8(); // Base
+var i;
+var r4 = i.foo(d1, d2); // Base
+var r5 = i.foo2(b, d2); // Derived
+var r6 = i.foo3(d1, d1); // Derived
+var r7 = i.foo4(d1, d2); // Base
+var r8 = i.foo5(d1, d2); // Derived
+var r8b = i.foo5(d2, d2); // Derived2
+var r9 = i.foo6(); // Derived
+var r10 = i.foo7(d1); // Base
+var r11 = i.foo8(); // Base

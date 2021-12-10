@@ -249,7 +249,7 @@ impl<'a, I: Tokens> Parser<I> {
 
                 tok!("import") => {
                     let import = self.parse_ident_name()?;
-                    if self.input.syntax().import_meta() && is!(self, '.') {
+                    if is!(self, '.') {
                         self.state.found_module_item = true;
                         if !self.ctx().can_be_module {
                             let span = span!(self, start);
@@ -332,7 +332,7 @@ impl<'a, I: Tokens> Parser<I> {
 
                 tok!('`') => {
                     // parse template literal
-                    return Ok(Box::new(Expr::Tpl(self.parse_tpl()?)));
+                    return Ok(Box::new(Expr::Tpl(self.parse_tpl(false)?)));
                 }
 
                 tok!('(') => {
@@ -847,12 +847,15 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     #[allow(clippy::vec_box)]
-    fn parse_tpl_elements(&mut self) -> PResult<(Vec<Box<Expr>>, Vec<TplElement>)> {
+    fn parse_tpl_elements(
+        &mut self,
+        is_tagged_tpl: bool,
+    ) -> PResult<(Vec<Box<Expr>>, Vec<TplElement>)> {
         trace_cur!(self, parse_tpl_elements);
 
         let mut exprs = vec![];
 
-        let cur_elem = self.parse_tpl_element()?;
+        let cur_elem = self.parse_tpl_element(is_tagged_tpl)?;
         let mut is_tail = cur_elem.tail;
         let mut quasis = vec![cur_elem];
 
@@ -860,7 +863,7 @@ impl<'a, I: Tokens> Parser<I> {
             expect!(self, "${");
             exprs.push(self.include_in_expr(true).parse_expr()?);
             expect!(self, '}');
-            let elem = self.parse_tpl_element()?;
+            let elem = self.parse_tpl_element(is_tagged_tpl)?;
             is_tail = elem.tail;
             quasis.push(elem);
         }
@@ -876,7 +879,7 @@ impl<'a, I: Tokens> Parser<I> {
         let tagged_tpl_start = tag.span().lo();
         trace_cur!(self, parse_tagged_tpl);
 
-        let tpl = self.parse_tpl()?;
+        let tpl = self.parse_tpl(true)?;
 
         let span = span!(self, tagged_tpl_start);
         Ok(TaggedTpl {
@@ -887,13 +890,13 @@ impl<'a, I: Tokens> Parser<I> {
         })
     }
 
-    pub(super) fn parse_tpl(&mut self) -> PResult<Tpl> {
+    pub(super) fn parse_tpl(&mut self, is_tagged_tpl: bool) -> PResult<Tpl> {
         trace_cur!(self, parse_tpl);
         let start = cur_pos!(self);
 
         assert_and_bump!(self, '`');
 
-        let (exprs, quasis) = self.parse_tpl_elements()?;
+        let (exprs, quasis) = self.parse_tpl_elements(is_tagged_tpl)?;
 
         expect!(self, '`');
 
@@ -905,7 +908,7 @@ impl<'a, I: Tokens> Parser<I> {
         })
     }
 
-    pub(super) fn parse_tpl_element(&mut self) -> PResult<TplElement> {
+    pub(super) fn parse_tpl_element(&mut self, is_tagged_tpl: bool) -> PResult<TplElement> {
         let start = cur_pos!(self);
 
         let (raw, cooked) = match *cur!(self, true)? {
@@ -914,24 +917,43 @@ impl<'a, I: Tokens> Parser<I> {
                     raw,
                     cooked,
                     has_escape,
-                } => (
-                    Str {
-                        span: span!(self, start),
-                        value: raw,
-                        has_escape,
-                        kind: StrKind::Normal {
-                            contains_quote: false,
+                } => match cooked {
+                    Ok(cooked) => (
+                        Str {
+                            span: span!(self, start),
+                            value: raw,
+                            has_escape,
+                            kind: StrKind::Normal {
+                                contains_quote: false,
+                            },
                         },
-                    },
-                    cooked.map(|cooked| Str {
-                        span: span!(self, start),
-                        value: cooked,
-                        has_escape,
-                        kind: StrKind::Normal {
-                            contains_quote: false,
-                        },
-                    }),
-                ),
+                        Some(Str {
+                            span: span!(self, start),
+                            value: cooked,
+                            has_escape,
+                            kind: StrKind::Normal {
+                                contains_quote: false,
+                            },
+                        }),
+                    ),
+                    Err(err) => {
+                        if is_tagged_tpl {
+                            (
+                                Str {
+                                    span: span!(self, start),
+                                    value: raw,
+                                    has_escape,
+                                    kind: StrKind::Normal {
+                                        contains_quote: false,
+                                    },
+                                },
+                                None,
+                            )
+                        } else {
+                            return Err(err);
+                        }
+                    }
+                },
                 _ => unreachable!(),
             },
             _ => unexpected!(self, "template token"),
@@ -1642,10 +1664,6 @@ impl<'a, I: Tokens> Parser<I> {
         start: BytePos,
         import_ident: Ident,
     ) -> PResult<Box<Expr>> {
-        if !self.input.syntax().dynamic_import() {
-            syntax_error!(self, span!(self, start), SyntaxError::DynamicImport);
-        }
-
         let args = self.parse_args(true)?;
         let import = Box::new(Expr::Call(CallExpr {
             span: span!(self, start),

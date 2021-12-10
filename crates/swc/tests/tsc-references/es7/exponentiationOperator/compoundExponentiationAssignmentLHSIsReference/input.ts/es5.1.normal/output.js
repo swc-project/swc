@@ -7,16 +7,16 @@ function fn1(x2) {
 }
 // property accesses
 var x3;
-var ref5 = x3.a;
-x3.a = Math.pow(ref5, value);
+var ref = x3.a;
+x3.a = Math.pow(ref, value);
 var ref1 = x3['a'];
 x3['a'] = Math.pow(ref1, value);
 var // parentheses, the contained expression is reference
 ref2 = (x1);
 (x1) = Math.pow(ref2, value);
 function fn2(x4) {
-    var ref = x4;
-    x4 = Math.pow(ref, value);
+    var ref5 = x4;
+    x4 = Math.pow(ref5, value);
 }
 var ref3 = x3.a;
 x3.a = Math.pow(ref3, value);

@@ -19,7 +19,7 @@ where
     ///
     /// This method may remove value of initializer. It mean that the value will
     /// be inlined and should be removed from [Vec<VarDeclarator>].
-    pub(super) fn store_var_for_inining(&mut self, var: &mut VarDeclarator) {
+    pub(super) fn store_var_for_inlining(&mut self, var: &mut VarDeclarator) {
         let init = match &mut var.init {
             Some(v) => v,
             None => return,
@@ -31,8 +31,8 @@ where
 
         if cfg!(feature = "debug") {
             tracing::trace!(
-                "inline: store_var_for_inining({}, should_preserve = {:?})",
-                dump(&var.name),
+                "inline: store_var_for_inlining({}, should_preserve = {:?})",
+                dump(&var.name, false),
                 should_preserve
             );
         }
@@ -74,7 +74,7 @@ where
                             tracing::trace!(
                                 "inline: [x] Preserving non-const variable `{}` because it's \
                                  top-level",
-                                dump(&var.name)
+                                dump(&var.name, false)
                             );
                         }
                         return;
@@ -268,7 +268,7 @@ where
                             i.id
                         );
                         self.changed = true;
-                        self.state.vars_for_inlining.insert(i.to_id(), init.take());
+                        self.vars_for_inlining.insert(i.to_id(), init.take());
                         return;
                     }
                 }
@@ -407,7 +407,7 @@ where
         {
             if usage.declared_as_catch_param {
                 if cfg!(feature = "debug") {
-                    tracing::trace!("inline: [x] Declared as a catch paramter");
+                    tracing::trace!("inline: [x] Declared as a catch parameter");
                 }
                 return;
             }
@@ -438,7 +438,7 @@ where
                                     f.ident.span.ctxt
                                 );
 
-                                self.state.vars_for_inlining.insert(
+                                self.vars_for_inlining.insert(
                                     i.to_id(),
                                     match decl {
                                         Decl::Fn(f) => Box::new(Expr::Fn(FnExpr {
@@ -521,9 +521,9 @@ where
                     }
                 };
                 if usage.used_above_decl {
-                    self.state.inlined_vars.insert(i.to_id(), e);
+                    self.inlined_vars.insert(i.to_id(), e);
                 } else {
-                    self.state.vars_for_inlining.insert(i.to_id(), e);
+                    self.vars_for_inlining.insert(i.to_id(), e);
                 }
 
                 return;
@@ -575,8 +575,8 @@ where
                     return;
                 }
 
-                // Check witohut cloning
-                if let Some(value) = self.state.vars_for_inlining.get(&i.to_id()) {
+                // Check without cloning
+                if let Some(value) = self.vars_for_inlining.get(&i.to_id()) {
                     if self.ctx.is_exact_lhs_of_assign && !is_valid_for_lhs(&value) {
                         return;
                     }
@@ -591,7 +591,7 @@ where
                     }
                 }
 
-                if let Some(value) = self.state.vars_for_inlining.get(&i.to_id()) {
+                if let Some(value) = self.vars_for_inlining.get(&i.to_id()) {
                     self.changed = true;
                     tracing::debug!(
                         "inline: Replacing '{}{:?}' with an expression",
@@ -602,7 +602,7 @@ where
                     *e = *value.clone();
 
                     if cfg!(feature = "debug") {
-                        tracing::trace!("inline: [Change] {}", dump(&*e))
+                        tracing::trace!("inline: [Change] {}", dump(&*e, false))
                     }
                 }
             }

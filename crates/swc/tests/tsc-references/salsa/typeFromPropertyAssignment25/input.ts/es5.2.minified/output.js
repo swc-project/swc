@@ -1,15 +1,15 @@
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
-function _getPrototypeOf(o) {
-    return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-        return o.__proto__ || Object.getPrototypeOf(o);
-    }, _getPrototypeOf(o);
+function _getPrototypeOf(o1) {
+    return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o1) {
+        return o1.__proto__ || Object.getPrototypeOf(o1);
+    }, _getPrototypeOf(o1);
 }
-function _setPrototypeOf(o, p) {
-    return _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-        return o.__proto__ = p, o;
-    }, _setPrototypeOf(o, p);
+function _setPrototypeOf(o1, p) {
+    return _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o1, p) {
+        return o1.__proto__ = p, o1;
+    }, _setPrototypeOf(o1, p);
 }
 var Common = {
 };
@@ -58,5 +58,5 @@ Common.I = function _class() {
     }
     return _class;
 })(Common.I);
-var o1 = new Common.O(), i = new Common.I();
-o1.i, o1.o, i.i;
+var o = new Common.O(), i = new Common.I();
+o.i, o.o, i.i;

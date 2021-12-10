@@ -69,8 +69,8 @@ function _setPrototypeOf(o, p) {
     };
     return _setPrototypeOf(o, p);
 }
-var _typeof = function(obj) {
-    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
+var _typeof = function(obj2) {
+    return obj2 && typeof Symbol !== "undefined" && obj2.constructor === Symbol ? "symbol" : typeof obj2;
 };
 function _isNativeReflectConstruct() {
     if (typeof Reflect === "undefined" || !Reflect.construct) return false;
@@ -121,14 +121,14 @@ var Opt = /*#__PURE__*/ function(_Component) {
     ]);
     return Opt;
 }(React.Component);
-var obj2 = {
+var obj = {
 };
 var obj1 = {
     x: 2
 };
 // Error
 var y = /*#__PURE__*/ React.createElement(Opt, _extends({
-}, obj2, {
+}, obj, {
     x: 3
 }));
 var y1 = /*#__PURE__*/ React.createElement(Opt, _extends({

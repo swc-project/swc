@@ -59,14 +59,14 @@ suddenly(function(_param) {
     ]);
     return rest.y;
 });
-suddenly(function(param) {
-    var _param = param === void 0 ? {
+suddenly(function() {
+    var _param = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
         x: {
             z: 1,
             ka: 1
         },
         y: 'noo'
-    } : param;
+    };
     var _x = _param.x, _z = _x.z, z = _z === void 0 ? 12 : _z, nested = _objectWithoutProperties(_param.x, [
         "z"
     ]), rest = _objectWithoutProperties(_param, [
@@ -101,9 +101,9 @@ var C = /*#__PURE__*/ function() {
     ]);
     return C;
 }();
-function foobar(param) {
-    var _param = param === void 0 ? {
-    } : param;
+function foobar() {
+    var _param = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
+    };
     var _bar = _param.bar, bar = _bar === void 0 ? {
     } : _bar, opts = _objectWithoutProperties(_param, [
         "bar"

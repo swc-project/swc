@@ -23,7 +23,7 @@
         "value": "ns",
         "raw": "ns"
       },
-      "value": {
+      "uri": {
         "type": "String",
         "span": {
           "start": 14,

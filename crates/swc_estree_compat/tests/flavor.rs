@@ -156,5 +156,11 @@ fn assert_flavor(flavor: Flavor, input: &Path, output_json_path: &Path) {
 fn acorn(input: PathBuf) {
     let output = input.parent().unwrap().join("output.json");
 
-    assert_flavor(Flavor::Acorn, &input, &output);
+    assert_flavor(
+        Flavor::Acorn {
+            extra_comments: false,
+        },
+        &input,
+        &output,
+    );
 }

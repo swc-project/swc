@@ -87,7 +87,7 @@ var D = /*#__PURE__*/ function() {
 }();
 var a;
 var b = {
-    foo: function(x, y) {
+    foo: function foo(x, y) {
         return '';
     }
 };

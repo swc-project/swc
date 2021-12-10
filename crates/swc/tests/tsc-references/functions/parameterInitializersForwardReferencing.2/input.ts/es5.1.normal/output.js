@@ -34,16 +34,16 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 // https://github.com/microsoft/TypeScript/issues/36295
 function a() {
 }
-function b(param) {
-    var _param = param === void 0 ? a() : param;
+function b() {
+    var _param = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : a();
     var _b = _param.b, b = _b === void 0 ? a() : _b, x = _objectWithoutProperties(_param, [
         "b"
     ]);
     var a1;
 }
 var x = "";
-function c(param, param1) {
-    var _param = param === void 0 ? a() : param, d = param1 === void 0 ? x : param1;
+function c() {
+    var _param = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : a(), d = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : x;
     var b = _param.b, c = _objectWithoutProperties(_param, [
         "b"
     ]);

@@ -1,4 +1,4 @@
-var A1, X1;
+var A, X;
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
@@ -8,13 +8,13 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-!function(A) {
+!function(A1) {
     var Point = function() {
         "use strict";
         _classCallCheck(this, Point);
     };
-    A.Point = Point;
-}(A1 || (A1 = {
+    A1.Point = Point;
+}(A || (A = {
 })), (function(A) {
     var Point = function() {
         "use strict";
@@ -34,14 +34,23 @@ function _defineProperties(target, props) {
             }
         ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Point;
     }();
-})(A1 || (A1 = {
-})), (function(X) {
-    var Y, Y1, Z, Line;
-    Y1 = Y || (Y = {
-    }), Z || (Z = {
+})(A || (A = {
+})), (function(X1) {
+    var Y, Z, Line;
+    Z = (Y = X1.Y || (X1.Y = {
+    })).Z || (Y.Z = {
     }), Line = function() {
         "use strict";
         _classCallCheck(this, Line);
-    }, Y1.Z = Z, X.Y = Y;
-})(X1 || (X1 = {
+    }, Z.Line = Line;
+})(X || (X = {
+})), (function(X2) {
+    var Y, Line;
+    (Y = X2.Y || (X2.Y = {
+    })).Z || (Y.Z = {
+    }), Line = function() {
+        "use strict";
+        _classCallCheck(this, Line);
+    };
+})(X || (X = {
 }));

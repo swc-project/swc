@@ -3,6 +3,34 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
+// @filename: class.ts
+var X;
+(function(X1) {
+    var Y1;
+    (function(Y) {
+        var Point = function Point(x, y) {
+            "use strict";
+            _classCallCheck(this, Point);
+            this.x = x;
+            this.y = y;
+        };
+        Y.Point = Point;
+    })(Y1 = X1.Y || (X1.Y = {
+    }));
+})(X || (X = {
+}));
+(function(X2) {
+    var Y2;
+    (function(Y) {
+        var Point1;
+        (function(Point) {
+            Point.Origin = new Point1(0, 0);
+        })(Point1 = Y.Point || (Y.Point = {
+        }));
+    })(Y2 = X2.Y || (X2.Y = {
+    }));
+})(X || (X = {
+}));
 // @filename: test.ts
 //var cl: { x: number; y: number; }
 var cl = new X.Y.Point(1, 1);

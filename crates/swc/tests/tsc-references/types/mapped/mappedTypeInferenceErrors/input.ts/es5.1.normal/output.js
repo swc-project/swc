@@ -4,7 +4,7 @@ foo({
         y: 20
     },
     computed: {
-        bar: function() {
+        bar: function bar() {
             var z = this.bar;
             return 42;
         },

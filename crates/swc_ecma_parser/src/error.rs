@@ -109,7 +109,6 @@ pub enum SyntaxError {
     ReservedWordInObjShorthandOrPat,
 
     NullishCoalescingWithLogicalOp,
-    NullishCoalescingNotEnabled,
 
     MultipleDefault {
         /// Span of the previous default case
@@ -124,7 +123,7 @@ pub enum SyntaxError {
     InvalidExpr,
     NotSimpleAssign,
     ExpectedIdent,
-    ExpctedSemi,
+    ExpectedSemi,
     DuplicateLabel(JsWord),
     AsyncGenerator,
     NonTopLevelImportExport,
@@ -160,16 +159,13 @@ pub enum SyntaxError {
     AsyncConstructor,
     PropertyNamedConstructor,
     DeclarePrivateIdentifier,
-    ClassProperty,
     ReadOnlyMethod,
     GeneratorConstructor,
     TsBindingPatCannotBeOptional,
 
     TrailingCommaInsideImport,
-    DynamicImport,
 
     ExportDefaultWithOutFrom,
-    ExportNamespaceFrom,
 
     DotsWithoutIdentifier,
 
@@ -338,7 +334,7 @@ impl SyntaxError {
             // TODO
             SyntaxError::NotSimpleAssign => "Cannot assign to this".into(),
             SyntaxError::ExpectedIdent => "Expected ident".into(),
-            SyntaxError::ExpctedSemi => "Expected ';' or line break".into(),
+            SyntaxError::ExpectedSemi => "Expected ';' or line break".into(),
             SyntaxError::DuplicateLabel(ref label) => {
                 format!("Label {} is already declared", label).into()
             }
@@ -394,7 +390,7 @@ impl SyntaxError {
                 "A required element cannot follow an optional element.".into()
             }
             SyntaxError::TsInvalidParamPropPat => {
-                "Typescript parameter property must be identifer or assignment pattern".into()
+                "Typescript parameter property must be an identifier or assignment pattern".into()
             }
             SyntaxError::SpaceBetweenHashAndIdent => {
                 "Unexpected space between # and identifier".into()
@@ -406,9 +402,7 @@ impl SyntaxError {
             SyntaxError::DeclarePrivateIdentifier => {
                 "'declare' modifier cannot be used with a private identifier".into()
             }
-            SyntaxError::ClassProperty => {
-                "Class property requires `jsc.parser.classProperty` to be true".into()
-            }
+
             SyntaxError::ReadOnlyMethod => "A method cannot be readonly".into(),
             SyntaxError::TsBindingPatCannotBeOptional => "A binding pattern parameter cannot be \
                                                           optional in an implementation signature."
@@ -417,15 +411,10 @@ impl SyntaxError {
             SyntaxError::TrailingCommaInsideImport => {
                 "Trailing comma is disallowed inside import(...) arguments".into()
             }
-            SyntaxError::DynamicImport => {
-                "import(...) expressions requires `jsc.parser.dynamicImport` to be true".into()
-            }
+
             SyntaxError::ExportDefaultWithOutFrom => {
                 "export default statements required from '...';".into()
             }
-            SyntaxError::ExportNamespaceFrom => "export * as Foo from 'foo'; requires \
-                                                 `jsc.parser.exportNamespaceFrom` to be true"
-                .into(),
 
             SyntaxError::DotsWithoutIdentifier => {
                 "`...` must be followed by an identifier in declaration contexts".into()
@@ -438,9 +427,6 @@ impl SyntaxError {
             SyntaxError::NullishCoalescingWithLogicalOp => {
                 "Nullish coalescing operator(??) requires parens when mixing with logical operators"
                     .into()
-            }
-            SyntaxError::NullishCoalescingNotEnabled => {
-                "Nullish coalescing operator(??) requires jsc.parser.nullishCoalescing".into()
             }
 
             SyntaxError::TS1056 => {

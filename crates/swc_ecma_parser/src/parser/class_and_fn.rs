@@ -902,10 +902,6 @@ impl<'a, I: Tokens> Parser<I> {
         is_abstract: bool,
         is_override: bool,
     ) -> PResult<ClassMember> {
-        if !self.input.syntax().class_props() {
-            syntax_error!(self, span!(self, start), SyntaxError::ClassProperty)
-        }
-
         if is_constructor(&key) {
             syntax_error!(self, key.span(), SyntaxError::PropertyNamedConstructor);
         }
@@ -922,9 +918,6 @@ impl<'a, I: Tokens> Parser<I> {
         };
         self.with_ctx(ctx).parse_with(|p| {
             let value = if is!(p, '=') {
-                if !p.input.syntax().class_props() {
-                    syntax_error!(p, span!(p, start), SyntaxError::ClassProperty);
-                }
                 assert_and_bump!(p, '=');
                 Some(p.parse_assignment_expr()?)
             } else {

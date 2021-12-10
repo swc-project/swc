@@ -1,59 +1,59 @@
 function f1() {
-    throw a1 = x1();
+    throw a = x();
 }
 function f2(a) {
-    throw x1();
+    throw x();
 }
 function f3() {
-    throw x1();
+    throw x();
 }
 function f4() {
     try {
-        throw a1 = x1();
+        throw a = x();
+    } catch (b) {
+        console.log(a);
+    }
+}
+function f5(a1) {
+    try {
+        throw a1 = x();
     } catch (b) {
         console.log(a1);
     }
 }
-function f5(a) {
-    try {
-        throw a = x1();
-    } catch (b) {
-        console.log(a);
-    }
-}
 function f6() {
-    var a;
+    var a2;
     try {
-        throw a = x1();
+        throw a2 = x();
     } catch (b) {
-        console.log(a);
+        console.log(a2);
     }
 }
 function f7() {
     try {
-        throw a1 = x1();
-    } finally{
-        console.log(a1);
-    }
-}
-function f8(a) {
-    try {
-        throw a = x1();
+        throw a = x();
     } finally{
         console.log(a);
+    }
+}
+function f8(a3) {
+    try {
+        throw a3 = x();
+    } finally{
+        console.log(a3);
     }
 }
 function f9() {
-    var a;
+    var a4;
     try {
-        throw a = x1();
+        throw a4 = x();
     } finally{
-        console.log(a);
+        console.log(a4);
     }
 }
 function test(inc) {
     var counter = 0;
-    x1 = function() {
+    x = function() {
         counter += inc;
         if (inc < 0) throw counter;
         return counter;
@@ -69,15 +69,15 @@ function test(inc) {
         f8,
         f9
     ].forEach(function(f, i) {
-        a1 = null;
+        a = null;
         try {
             f(10 * (1 + i));
-        } catch (x) {
-            console.log("caught " + x);
+        } catch (x1) {
+            console.log("caught " + x1);
         }
-        if (null !== a1) console.log("a: " + a1);
+        if (null !== a) console.log("a: " + a);
     });
 }
-var x1, a1;
+var x, a;
 test(1);
 test(-1);

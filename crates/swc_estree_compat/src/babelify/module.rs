@@ -1,8 +1,8 @@
 use crate::babelify::{Babelify, Context};
 use serde::{Deserialize, Serialize};
 use swc_common::{comments::Comment, Span};
-use swc_ecma_ast::{Invalid, Module, ModuleItem, Program, Script};
-use swc_ecma_visit::{Node, Visit, VisitWith};
+use swc_ecma_ast::{Module, ModuleItem, Program, Script};
+use swc_ecma_visit::{Visit, VisitWith};
 use swc_estree_ast::{
     flavor::Flavor, BaseNode, File, InterpreterDirective, LineCol, Loc, ModuleDeclaration,
     Program as BabelProgram, SrcType, Statement,
@@ -27,7 +27,7 @@ impl Babelify for Program {
                 start: program.base.start,
                 end: program.base.end,
                 loc: program.base.loc,
-                range: if matches!(Flavor::current(), Flavor::Acorn) {
+                range: if matches!(Flavor::current(), Flavor::Acorn { .. }) {
                     match (program.base.start, program.base.end) {
                         (Some(start), Some(end)) => Some([start, end]),
                         _ => None,
@@ -66,6 +66,7 @@ impl Babelify for Module {
             }),
             directives: Default::default(),
             source_file: Default::default(),
+            comments: Default::default(),
         }
     }
 }
@@ -89,13 +90,14 @@ impl Babelify for Script {
             }),
             directives: Default::default(),
             source_file: Default::default(),
+            comments: Default::default(),
         }
     }
 }
 
 /// Babel adds a trailing newline to the end of files when parsing, while swc
 /// truncates trailing whitespace. In order to get the converted base node to
-/// locations to match babel, we immitate the trailing newline for Script and
+/// locations to match babel, we imitate the trailing newline for Script and
 /// Module nodes.
 fn base_with_trailing_newline(span: Span, ctx: &Context) -> BaseNode {
     let mut base = ctx.base(span);
@@ -172,12 +174,7 @@ fn extract_all_comments(program: &Program, ctx: &Context) -> Vec<Comment> {
         comments: ctx.comments.clone(),
         collected: Vec::new(),
     };
-    program.visit_with(
-        &Invalid {
-            span: swc_common::DUMMY_SP,
-        },
-        &mut collector,
-    );
+    program.visit_with(&mut collector);
     collector.collected
 }
 
@@ -187,7 +184,7 @@ struct CommentCollector {
 }
 
 impl Visit for CommentCollector {
-    fn visit_span(&mut self, sp: &Span, _: &dyn Node) {
+    fn visit_span(&mut self, sp: &Span) {
         let mut span_comments: Vec<Comment> = Vec::new();
         // Comments must be deduped since it's possible for a single comment to show up
         // multiple times since they are not removed from the comments map.

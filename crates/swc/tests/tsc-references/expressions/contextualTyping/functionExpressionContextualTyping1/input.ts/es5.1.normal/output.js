@@ -19,11 +19,11 @@ function _createClass(Constructor, protoProps, staticProps) {
 }
 var // When a function expression with no type parameters and no parameter type annotations 
 // is contextually typed (section 4.19) by a type T and a contextual signature S can be extracted from T
-E1;
+E;
 (function(E) {
     E[E["red"] = 0] = "red";
     E[E["blue"] = 1] = "blue";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
 // A contextual signature S is extracted from a function type T as follows:
 //      If T is a function type with exactly one call signature, and if that call signature is non- generic, S is that signature.
@@ -45,8 +45,8 @@ var Class = /*#__PURE__*/ function() {
     ]);
     return Class;
 }();
-var a11 = function(a1) {
-    a1.foo();
+var a1 = function(a11) {
+    a11.foo();
     return 1;
 };
 // A contextual signature S is extracted from a function type T as follows:
@@ -67,12 +67,12 @@ b2 = function(foo, bar) {
 var b3;
 b3 = function(name, number) {
 };
-var b4 = function(param) {
-    var number = param === void 0 ? 1 : param;
+var b4 = function() {
+    var number = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 1;
     return "hello";
 };
-var b5 = function(param) {
-    var number = param === void 0 ? "string" : param;
+var b5 = function() {
+    var number = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : "string";
     return "hello";
 };
 // A contextual signature S is extracted from a function type T as follows:

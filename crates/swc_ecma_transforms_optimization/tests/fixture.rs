@@ -11,7 +11,6 @@ fn dce_single_pass(input: PathBuf) {
     test_fixture(
         Syntax::Es(EsConfig {
             decorators: true,
-            dynamic_import: true,
             ..Default::default()
         }),
         &|_| dce(Default::default()),
@@ -27,7 +26,6 @@ fn dce_repeated(input: PathBuf) {
     test_fixture(
         Syntax::Es(EsConfig {
             decorators: true,
-            dynamic_import: true,
             ..Default::default()
         }),
         &|_| Repeat::new(dce(Default::default())),
@@ -42,7 +40,6 @@ fn expr(input: PathBuf) {
 
     test_fixture(
         Syntax::Es(EsConfig {
-            dynamic_import: true,
             ..Default::default()
         }),
         &|_| Repeat::new(expr_simplifier(Default::default())),

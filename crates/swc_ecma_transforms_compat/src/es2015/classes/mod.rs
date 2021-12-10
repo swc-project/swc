@@ -15,7 +15,8 @@ use swc_ecma_utils::{
     alias_if_required, default_constructor, prepend, private_ident, prop_name_to_expr, quote_expr,
     quote_ident, quote_str, ExprFactory, IsDirective, ModuleItemLike, StmtLike,
 };
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Visit, VisitWith};
+use tracing::debug;
 
 mod constructor;
 mod prop_name;
@@ -468,6 +469,7 @@ where
             // Black magic to detect injected constructor.
             let is_constructor_default = constructor.span.is_dummy();
             if is_constructor_default {
+                debug!("Dropping constructor parameters because the constructor is injected");
                 constructor.params = vec![];
             }
 
@@ -913,7 +915,7 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
     impl Visit for SuperFinder {
         noop_visit_type!();
 
-        fn visit_expr_or_super(&mut self, node: &ExprOrSuper, _: &dyn Node) {
+        fn visit_expr_or_super(&mut self, node: &ExprOrSuper) {
             match *node {
                 ExprOrSuper::Super(..) => self.found = true,
                 _ => node.visit_children_with(self),
@@ -939,7 +941,7 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
     let mut v = SuperFinder { found: false };
     let body = &body[..pos];
 
-    v.visit_stmts(body, &Invalid { span: DUMMY_SP });
+    v.visit_stmts(body);
 
     if v.found {
         return false;
@@ -974,7 +976,7 @@ struct ClassFinder {
 impl Visit for ClassFinder {
     noop_visit_type!();
 
-    fn visit_class(&mut self, _: &Class, _: &dyn Node) {
+    fn visit_class(&mut self, _: &Class) {
         self.found = true
     }
 }

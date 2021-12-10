@@ -1,7 +1,7 @@
 //@target: ES6
 //@declaration: true
-var M1;
-(function(M) {
+var M;
+(function(M1) {
     var tmp = Symbol.toPrimitive, tmp1 = Symbol.isConcatSpreadable, tmp2 = Symbol.toPrimitive, tmp3 = Symbol.toPrimitive;
     class C {
         [tmp](x) {
@@ -12,9 +12,9 @@ var M1;
         get [tmp2]() {
             return undefined;
         }
-        set [tmp3](x1) {
+        set [tmp3](x) {
         }
     }
-    M.C = C;
-})(M1 || (M1 = {
+    M1.C = C;
+})(M || (M = {
 }));

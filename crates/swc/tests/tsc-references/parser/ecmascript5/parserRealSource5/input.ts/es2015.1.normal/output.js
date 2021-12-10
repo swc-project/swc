@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
-var TypeScript1;
-(function(TypeScript) {
+var TypeScript;
+(function(TypeScript1) {
     class PrintContext {
         increaseIndent() {
             this.indentAmt++;
@@ -27,8 +27,8 @@ var TypeScript1;
         write(s) {
             this.builder += s;
         }
-        writeLine(s1) {
-            this.builder += s1;
+        writeLine(s) {
+            this.builder += s;
             this.outfile.WriteLine(this.builder);
             this.builder = "";
         }
@@ -41,19 +41,19 @@ var TypeScript1;
             this.indentAmt = 0;
         }
     }
-    TypeScript.PrintContext = PrintContext;
+    TypeScript1.PrintContext = PrintContext;
     function prePrintAST(ast, parent, walker) {
         var pc = walker.state;
         ast.print(pc);
         pc.increaseIndent();
         return ast;
     }
-    TypeScript.prePrintAST = prePrintAST;
+    TypeScript1.prePrintAST = prePrintAST;
     function postPrintAST(ast, parent, walker) {
         var pc = walker.state;
         pc.decreaseIndent();
         return ast;
     }
-    TypeScript.postPrintAST = postPrintAST;
-})(TypeScript1 || (TypeScript1 = {
+    TypeScript1.postPrintAST = postPrintAST;
+})(TypeScript || (TypeScript = {
 }));

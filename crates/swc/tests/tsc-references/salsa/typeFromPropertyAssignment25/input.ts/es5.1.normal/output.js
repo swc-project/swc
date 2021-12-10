@@ -9,11 +9,11 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-function _getPrototypeOf(o) {
-    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-        return o.__proto__ || Object.getPrototypeOf(o);
+function _getPrototypeOf(o1) {
+    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o1) {
+        return o1.__proto__ || Object.getPrototypeOf(o1);
     };
-    return _getPrototypeOf(o);
+    return _getPrototypeOf(o1);
 }
 function _inherits(subClass, superClass) {
     if (typeof superClass !== "function" && superClass !== null) {
@@ -34,12 +34,12 @@ function _possibleConstructorReturn(self, call) {
     }
     return _assertThisInitialized(self);
 }
-function _setPrototypeOf(o, p) {
-    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-        o.__proto__ = p;
-        return o;
+function _setPrototypeOf(o1, p) {
+    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o1, p) {
+        o1.__proto__ = p;
+        return o1;
     };
-    return _setPrototypeOf(o, p);
+    return _setPrototypeOf(o1, p);
 }
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
@@ -93,8 +93,8 @@ Common.O = /*#__PURE__*/ (function(_I) {
     }
     return _class;
 })(Common.I);
-var o1 = new Common.O();
+var o = new Common.O();
 var i = new Common.I();
-o1.i;
-o1.o;
+o.i;
+o.o;
 i.i;

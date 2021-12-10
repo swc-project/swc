@@ -1,5 +1,5 @@
-function tempFun(tempStrs, g, x) {
-    return g(x);
+function tempFun(tempStrs, g1, x) {
+    return g1(x);
 }
 var a = tempFun`${(x)=>x
 }  ${10}`;
@@ -16,7 +16,7 @@ var e = tempFun`${(x)=>x
 var f = tempFun`${(x)=>x
 } ${(x)=>x
 } ${10}`;
-var g1 = tempFun`${(x)=>x
+var g = tempFun`${(x)=>x
 } ${(x)=>x
 } ${10}`;
 var h = tempFun`${(x)=>x

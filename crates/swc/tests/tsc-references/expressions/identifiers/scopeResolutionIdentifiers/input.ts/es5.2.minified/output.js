@@ -4,12 +4,12 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-!function(M1) {
+!function(M11) {
     var s;
-    M1.s = s;
-}(M11 || (M11 = {
+    M11.s = s;
+}(M1 || (M1 = {
 }));
-var M11, C = function() {
+var M1, C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C() {

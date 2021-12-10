@@ -4,7 +4,7 @@
 // @Filename: context.js
 var obj = {
     prop: 2,
-    method: function() {
+    method: function method() {
         this;
         this.prop;
         this.method;

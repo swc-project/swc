@@ -1,16 +1,16 @@
 // @filename: classPoint.ts
-var A1;
-(function(A) {
+var A;
+(function(A1) {
     class Point {
         constructor(x, y){
             this.x = x;
             this.y = y;
         }
     }
-    A.Point = Point;
-})(A1 || (A1 = {
+    A1.Point = Point;
+})(A || (A = {
 }));
 // @filename: test.ts
 var p;
-var p = A1.Point.Origin;
-var p = new A1.Point(0, 0); // unexpected error here, bug 840000
+var p = A.Point.Origin;
+var p = new A.Point(0, 0); // unexpected error here, bug 840000

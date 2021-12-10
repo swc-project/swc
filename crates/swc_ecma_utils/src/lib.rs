@@ -27,8 +27,9 @@ pub use swc_common::errors::HANDLER;
 use swc_common::{collections::AHashSet, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, Node, Visit, VisitMut, VisitMutWith, VisitWith,
+    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
+use tracing::trace;
 use unicode_xid::UnicodeXID;
 
 #[macro_use]
@@ -48,35 +49,35 @@ impl Visit for ThisVisitor {
     noop_visit_type!();
 
     /// Don't recurse into constructor
-    fn visit_constructor(&mut self, _: &Constructor, _: &dyn Node) {}
+    fn visit_constructor(&mut self, _: &Constructor) {}
 
     /// Don't recurse into fn
-    fn visit_fn_decl(&mut self, _: &FnDecl, _: &dyn Node) {}
+    fn visit_fn_decl(&mut self, _: &FnDecl) {}
 
     /// Don't recurse into fn
-    fn visit_fn_expr(&mut self, _: &FnExpr, _: &dyn Node) {}
+    fn visit_fn_expr(&mut self, _: &FnExpr) {}
 
     /// Don't recurse into fn
-    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
+    fn visit_function(&mut self, _: &Function) {}
 
     /// Don't recurse into fn
-    fn visit_getter_prop(&mut self, n: &GetterProp, _: &dyn Node) {
-        n.key.visit_with(n, self);
+    fn visit_getter_prop(&mut self, n: &GetterProp) {
+        n.key.visit_with(self);
     }
 
     /// Don't recurse into fn
-    fn visit_method_prop(&mut self, n: &MethodProp, _: &dyn Node) {
-        n.key.visit_with(n, self);
-        n.function.visit_with(n, self);
+    fn visit_method_prop(&mut self, n: &MethodProp) {
+        n.key.visit_with(self);
+        n.function.visit_with(self);
     }
 
     /// Don't recurse into fn
-    fn visit_setter_prop(&mut self, n: &SetterProp, _: &dyn Node) {
-        n.key.visit_with(n, self);
-        n.param.visit_with(n, self);
+    fn visit_setter_prop(&mut self, n: &SetterProp) {
+        n.key.visit_with(self);
+        n.param.visit_with(self);
     }
 
-    fn visit_this_expr(&mut self, _: &ThisExpr, _: &dyn Node) {
+    fn visit_this_expr(&mut self, _: &ThisExpr) {
         self.found = true;
     }
 }
@@ -92,7 +93,7 @@ where
     N: VisitWith<ThisVisitor>,
 {
     let mut visitor = ThisVisitor { found: false };
-    body.visit_with(&Invalid { span: DUMMY_SP } as _, &mut visitor);
+    body.visit_with(&mut visitor);
     visitor.found
 }
 
@@ -104,7 +105,7 @@ where
         found: false,
         ident,
     };
-    body.visit_with(&Invalid { span: DUMMY_SP } as _, &mut visitor);
+    body.visit_with(&mut visitor);
     visitor.found
 }
 
@@ -116,7 +117,7 @@ pub struct IdentFinder<'a> {
 impl Visit for IdentFinder<'_> {
     noop_visit_type!();
 
-    fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
+    fn visit_expr(&mut self, e: &Expr) {
         e.visit_children_with(self);
 
         match *e {
@@ -135,7 +136,7 @@ where
     N: VisitWith<ArgumentsFinder>,
 {
     let mut visitor = ArgumentsFinder { found: false };
-    body.visit_with(&Invalid { span: DUMMY_SP } as _, &mut visitor);
+    body.visit_with(&mut visitor);
     visitor.found
 }
 
@@ -147,9 +148,9 @@ impl Visit for ArgumentsFinder {
     noop_visit_type!();
 
     /// Don't recurse into constructor
-    fn visit_constructor(&mut self, _: &Constructor, _: &dyn Node) {}
+    fn visit_constructor(&mut self, _: &Constructor) {}
 
-    fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
+    fn visit_expr(&mut self, e: &Expr) {
         e.visit_children_with(self);
 
         match *e {
@@ -164,18 +165,18 @@ impl Visit for ArgumentsFinder {
     }
 
     /// Don't recurse into fn
-    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
+    fn visit_function(&mut self, _: &Function) {}
 
     /// Don't recurse into member expression prop if not computed
-    fn visit_member_expr(&mut self, m: &MemberExpr, _: &dyn Node) {
-        m.obj.visit_with(m, self);
+    fn visit_member_expr(&mut self, m: &MemberExpr) {
+        m.obj.visit_with(self);
         match &*m.prop {
             Expr::Ident(_) if !m.computed => {}
-            _ => m.prop.visit_with(m, self),
+            _ => m.prop.visit_with(self),
         }
     }
 
-    fn visit_prop(&mut self, n: &Prop, _: &dyn Node) {
+    fn visit_prop(&mut self, n: &Prop) {
         n.visit_children_with(self);
 
         match n {
@@ -345,7 +346,7 @@ impl<T> IsEmpty for Vec<T> {
 /// Extracts hoisted variables
 pub fn extract_var_ids<T: VisitWith<Hoister>>(node: &T) -> Vec<Ident> {
     let mut v = Hoister { vars: vec![] };
-    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+    node.visit_with(&mut v);
     v.vars
 }
 
@@ -412,17 +413,17 @@ pub struct Hoister {
 impl Visit for Hoister {
     noop_visit_type!();
 
-    fn visit_assign_pat_prop(&mut self, node: &AssignPatProp, _: &dyn Node) {
-        node.value.visit_with(node, self);
+    fn visit_assign_pat_prop(&mut self, node: &AssignPatProp) {
+        node.value.visit_with(self);
 
         self.vars.push(node.key.clone());
     }
 
-    fn visit_assign_expr(&mut self, node: &AssignExpr, _: &dyn Node) {
+    fn visit_assign_expr(&mut self, node: &AssignExpr) {
         node.right.visit_children_with(self);
     }
 
-    fn visit_pat(&mut self, p: &Pat, _: &dyn Node) {
+    fn visit_pat(&mut self, p: &Pat) {
         p.visit_children_with(self);
 
         match *p {
@@ -431,7 +432,7 @@ impl Visit for Hoister {
         }
     }
 
-    fn visit_var_decl(&mut self, v: &VarDecl, _: &dyn Node) {
+    fn visit_var_decl(&mut self, v: &VarDecl) {
         if v.kind != VarDeclKind::Var {
             return;
         }
@@ -1372,7 +1373,7 @@ pub fn to_int32(d: f64) -> i32 {
 
 pub fn has_rest_pat<T: VisitWith<RestPatVisitor>>(node: &T) -> bool {
     let mut v = RestPatVisitor { found: false };
-    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+    node.visit_with(&mut v);
     v.found
 }
 
@@ -1383,7 +1384,7 @@ pub struct RestPatVisitor {
 impl Visit for RestPatVisitor {
     noop_visit_type!();
 
-    fn visit_rest_pat(&mut self, _: &RestPat, _: &dyn Node) {
+    fn visit_rest_pat(&mut self, _: &RestPat) {
         self.found = true;
     }
 }
@@ -1406,7 +1407,7 @@ where
         cost: 0,
         allow_non_json_value,
     };
-    e.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+    e.visit_with(&mut v);
 
     (v.is_lit, v.cost)
 }
@@ -1420,7 +1421,7 @@ pub struct LiteralVisitor {
 impl Visit for LiteralVisitor {
     noop_visit_type!();
 
-    fn visit_array_lit(&mut self, e: &ArrayLit, _: &dyn Node) {
+    fn visit_array_lit(&mut self, e: &ArrayLit) {
         if !self.is_lit {
             return;
         }
@@ -1436,35 +1437,35 @@ impl Visit for LiteralVisitor {
         }
     }
 
-    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _parent: &dyn Node) {
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
         self.is_lit = false
     }
 
-    fn visit_assign_expr(&mut self, _: &AssignExpr, _parent: &dyn Node) {
+    fn visit_assign_expr(&mut self, _: &AssignExpr) {
         self.is_lit = false;
     }
 
-    fn visit_await_expr(&mut self, _: &AwaitExpr, _parent: &dyn Node) {
+    fn visit_await_expr(&mut self, _: &AwaitExpr) {
         self.is_lit = false
     }
 
-    fn visit_bin_expr(&mut self, _: &BinExpr, _parent: &dyn Node) {
+    fn visit_bin_expr(&mut self, _: &BinExpr) {
         self.is_lit = false
     }
 
-    fn visit_call_expr(&mut self, _: &CallExpr, _parent: &dyn Node) {
+    fn visit_call_expr(&mut self, _: &CallExpr) {
         self.is_lit = false
     }
 
-    fn visit_class_expr(&mut self, _: &ClassExpr, _parent: &dyn Node) {
+    fn visit_class_expr(&mut self, _: &ClassExpr) {
         self.is_lit = false
     }
 
-    fn visit_cond_expr(&mut self, _: &CondExpr, _parent: &dyn Node) {
+    fn visit_cond_expr(&mut self, _: &CondExpr) {
         self.is_lit = false;
     }
 
-    fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
+    fn visit_expr(&mut self, e: &Expr) {
         if !self.is_lit {
             return;
         }
@@ -1476,61 +1477,61 @@ impl Visit for LiteralVisitor {
         }
     }
 
-    fn visit_fn_expr(&mut self, _: &FnExpr, _parent: &dyn Node) {
+    fn visit_fn_expr(&mut self, _: &FnExpr) {
         self.is_lit = false;
     }
 
-    fn visit_invalid(&mut self, _: &Invalid, _parent: &dyn Node) {
+    fn visit_invalid(&mut self, _: &Invalid) {
         self.is_lit = false;
     }
 
-    fn visit_jsx_element(&mut self, _: &JSXElement, _parent: &dyn Node) {
+    fn visit_jsx_element(&mut self, _: &JSXElement) {
         self.is_lit = false
     }
 
-    fn visit_jsx_empty_expr(&mut self, _: &JSXEmptyExpr, _parent: &dyn Node) {
+    fn visit_jsx_empty_expr(&mut self, _: &JSXEmptyExpr) {
         self.is_lit = false
     }
 
-    fn visit_jsx_fragment(&mut self, _: &JSXFragment, _parent: &dyn Node) {
+    fn visit_jsx_fragment(&mut self, _: &JSXFragment) {
         self.is_lit = false
     }
 
-    fn visit_jsx_member_expr(&mut self, _: &JSXMemberExpr, _parent: &dyn Node) {
+    fn visit_jsx_member_expr(&mut self, _: &JSXMemberExpr) {
         self.is_lit = false
     }
 
-    fn visit_jsx_namespaced_name(&mut self, _: &JSXNamespacedName, _parent: &dyn Node) {
+    fn visit_jsx_namespaced_name(&mut self, _: &JSXNamespacedName) {
         self.is_lit = false
     }
 
-    fn visit_member_expr(&mut self, _: &MemberExpr, _parent: &dyn Node) {
+    fn visit_member_expr(&mut self, _: &MemberExpr) {
         self.is_lit = false;
     }
 
-    fn visit_meta_prop_expr(&mut self, _: &MetaPropExpr, _parent: &dyn Node) {
+    fn visit_meta_prop_expr(&mut self, _: &MetaPropExpr) {
         self.is_lit = false
     }
 
-    fn visit_new_expr(&mut self, _: &NewExpr, _parent: &dyn Node) {
+    fn visit_new_expr(&mut self, _: &NewExpr) {
         self.is_lit = false
     }
 
-    fn visit_number(&mut self, node: &Number, _: &dyn Node) {
+    fn visit_number(&mut self, node: &Number) {
         if !self.allow_non_json_value && node.value.is_infinite() {
             self.is_lit = false;
         }
     }
 
-    fn visit_opt_chain_expr(&mut self, _: &OptChainExpr, _parent: &dyn Node) {
+    fn visit_opt_chain_expr(&mut self, _: &OptChainExpr) {
         self.is_lit = false
     }
 
-    fn visit_private_name(&mut self, _: &PrivateName, _parent: &dyn Node) {
+    fn visit_private_name(&mut self, _: &PrivateName) {
         self.is_lit = false
     }
 
-    fn visit_prop(&mut self, p: &Prop, _: &dyn Node) {
+    fn visit_prop(&mut self, p: &Prop) {
         if !self.is_lit {
             return;
         }
@@ -1545,7 +1546,7 @@ impl Visit for LiteralVisitor {
         }
     }
 
-    fn visit_prop_name(&mut self, node: &PropName, _: &dyn Node) {
+    fn visit_prop_name(&mut self, node: &PropName) {
         if !self.is_lit {
             return;
         }
@@ -1568,39 +1569,39 @@ impl Visit for LiteralVisitor {
         }
     }
 
-    fn visit_seq_expr(&mut self, _: &SeqExpr, _parent: &dyn Node) {
+    fn visit_seq_expr(&mut self, _: &SeqExpr) {
         self.is_lit = false
     }
 
-    fn visit_spread_element(&mut self, _: &SpreadElement, _parent: &dyn Node) {
+    fn visit_spread_element(&mut self, _: &SpreadElement) {
         self.is_lit = false;
     }
 
-    fn visit_tagged_tpl(&mut self, _: &TaggedTpl, _parent: &dyn Node) {
+    fn visit_tagged_tpl(&mut self, _: &TaggedTpl) {
         self.is_lit = false
     }
 
-    fn visit_this_expr(&mut self, _: &ThisExpr, _parent: &dyn Node) {
+    fn visit_this_expr(&mut self, _: &ThisExpr) {
         self.is_lit = false;
     }
 
-    fn visit_ts_const_assertion(&mut self, _: &TsConstAssertion, _parent: &dyn Node) {
+    fn visit_ts_const_assertion(&mut self, _: &TsConstAssertion) {
         self.is_lit = false
     }
 
-    fn visit_ts_non_null_expr(&mut self, _: &TsNonNullExpr, _parent: &dyn Node) {
+    fn visit_ts_non_null_expr(&mut self, _: &TsNonNullExpr) {
         self.is_lit = false
     }
 
-    fn visit_unary_expr(&mut self, _: &UnaryExpr, _parent: &dyn Node) {
+    fn visit_unary_expr(&mut self, _: &UnaryExpr) {
         self.is_lit = false;
     }
 
-    fn visit_update_expr(&mut self, _: &UpdateExpr, _parent: &dyn Node) {
+    fn visit_update_expr(&mut self, _: &UpdateExpr) {
         self.is_lit = false;
     }
 
-    fn visit_yield_expr(&mut self, _: &YieldExpr, _parent: &dyn Node) {
+    fn visit_yield_expr(&mut self, _: &YieldExpr) {
         self.is_lit = false
     }
 }
@@ -1657,6 +1658,8 @@ pub fn prop_name_to_expr_value(p: PropName) -> Expr {
 }
 
 pub fn default_constructor(has_super: bool) -> Constructor {
+    trace!(has_super = has_super, "Creating a default constructor");
+
     let span = DUMMY_SP;
 
     Constructor {
@@ -1834,7 +1837,7 @@ where
 
     {
         let mut v = DestructuringFinder { found: &mut found };
-        node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+        node.visit_with(&mut v);
     }
 
     found
@@ -1844,14 +1847,14 @@ impl<'a, I: IdentLike> Visit for DestructuringFinder<'a, I> {
     noop_visit_type!();
 
     /// No-op (we don't care about expressions)
-    fn visit_expr(&mut self, _: &Expr, _: &dyn Node) {}
+    fn visit_expr(&mut self, _: &Expr) {}
 
-    fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
+    fn visit_ident(&mut self, i: &Ident) {
         self.found.push(I::from_ident(i));
     }
 
     /// No-op (we don't care about expressions)
-    fn visit_prop_name(&mut self, _: &PropName, _: &dyn Node) {}
+    fn visit_prop_name(&mut self, _: &PropName) {}
 }
 
 pub fn is_valid_ident(s: &JsWord) -> bool {
@@ -1894,17 +1897,17 @@ pub struct UsageFinder<'a> {
 impl<'a> Visit for UsageFinder<'a> {
     noop_visit_type!();
 
-    fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
+    fn visit_ident(&mut self, i: &Ident) {
         if i.span.ctxt == self.ident.span.ctxt && i.sym == self.ident.sym {
             self.found = true;
         }
     }
 
-    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
-        e.obj.visit_with(e as _, self);
+    fn visit_member_expr(&mut self, e: &MemberExpr) {
+        e.obj.visit_with(self);
 
         if e.computed {
-            e.prop.visit_with(e as _, self);
+            e.prop.visit_with(self);
         }
     }
 }
@@ -1918,7 +1921,7 @@ impl<'a> UsageFinder<'a> {
             ident,
             found: false,
         };
-        node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+        node.visit_with(&mut v);
         v.found
     }
 }
@@ -2172,53 +2175,53 @@ where
 {
     noop_visit_type!();
 
-    fn visit_assign_pat_prop(&mut self, node: &AssignPatProp, _: &dyn Node) {
-        node.value.visit_with(node, self);
+    fn visit_assign_pat_prop(&mut self, node: &AssignPatProp) {
+        node.value.visit_with(self);
 
         if self.is_pat_decl {
             self.add(&node.key);
         }
     }
 
-    fn visit_class_decl(&mut self, node: &ClassDecl, _: &dyn Node) {
+    fn visit_class_decl(&mut self, node: &ClassDecl) {
         node.visit_children_with(self);
 
         self.add(&node.ident);
     }
 
-    fn visit_expr(&mut self, node: &Expr, _: &dyn Node) {
+    fn visit_expr(&mut self, node: &Expr) {
         let old = self.is_pat_decl;
         self.is_pat_decl = false;
         node.visit_children_with(self);
         self.is_pat_decl = old;
     }
 
-    fn visit_fn_decl(&mut self, node: &FnDecl, _: &dyn Node) {
+    fn visit_fn_decl(&mut self, node: &FnDecl) {
         node.visit_children_with(self);
 
         self.add(&node.ident);
     }
 
-    fn visit_import_default_specifier(&mut self, node: &ImportDefaultSpecifier, _: &dyn Node) {
+    fn visit_import_default_specifier(&mut self, node: &ImportDefaultSpecifier) {
         self.add(&node.local);
     }
 
-    fn visit_import_named_specifier(&mut self, node: &ImportNamedSpecifier, _: &dyn Node) {
+    fn visit_import_named_specifier(&mut self, node: &ImportNamedSpecifier) {
         self.add(&node.local);
     }
 
-    fn visit_import_star_as_specifier(&mut self, node: &ImportStarAsSpecifier, _: &dyn Node) {
+    fn visit_import_star_as_specifier(&mut self, node: &ImportStarAsSpecifier) {
         self.add(&node.local);
     }
 
-    fn visit_member_expr(&mut self, n: &MemberExpr, _: &dyn Node) {
-        n.obj.visit_with(n, self);
+    fn visit_member_expr(&mut self, n: &MemberExpr) {
+        n.obj.visit_with(self);
         if n.computed {
-            n.prop.visit_with(n, self);
+            n.prop.visit_with(self);
         }
     }
 
-    fn visit_module_items(&mut self, nodes: &[ModuleItem], _: &dyn Node) {
+    fn visit_module_items(&mut self, nodes: &[ModuleItem]) {
         #[cfg(feature = "concurrent")]
         if nodes.len() > 16 {
             use rayon::prelude::*;
@@ -2230,7 +2233,7 @@ where
                         bindings: Default::default(),
                         is_pat_decl: self.is_pat_decl,
                     };
-                    node.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+                    node.visit_with(&mut v);
                     v.bindings
                 })
                 .reduce(AHashSet::default, |mut a, b| {
@@ -2246,14 +2249,14 @@ where
         }
     }
 
-    fn visit_param(&mut self, node: &Param, _: &dyn Node) {
+    fn visit_param(&mut self, node: &Param) {
         let old = self.is_pat_decl;
         self.is_pat_decl = true;
         node.visit_children_with(self);
         self.is_pat_decl = old;
     }
 
-    fn visit_pat(&mut self, node: &Pat, _: &dyn Node) {
+    fn visit_pat(&mut self, node: &Pat) {
         node.visit_children_with(self);
 
         if self.is_pat_decl {
@@ -2264,7 +2267,7 @@ where
         }
     }
 
-    fn visit_stmts(&mut self, nodes: &[Stmt], _: &dyn Node) {
+    fn visit_stmts(&mut self, nodes: &[Stmt]) {
         #[cfg(feature = "concurrent")]
         if nodes.len() > 16 {
             use rayon::prelude::*;
@@ -2276,7 +2279,7 @@ where
                         bindings: Default::default(),
                         is_pat_decl: self.is_pat_decl,
                     };
-                    node.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+                    node.visit_with(&mut v);
                     v.bindings
                 })
                 .reduce(AHashSet::default, |mut a, b| {
@@ -2292,13 +2295,13 @@ where
         }
     }
 
-    fn visit_var_declarator(&mut self, node: &VarDeclarator, _: &dyn Node) {
+    fn visit_var_declarator(&mut self, node: &VarDeclarator) {
         let old = self.is_pat_decl;
         self.is_pat_decl = true;
-        node.name.visit_with(node, self);
+        node.name.visit_with(self);
 
         self.is_pat_decl = false;
-        node.init.visit_with(node, self);
+        node.init.visit_with(self);
         self.is_pat_decl = old;
     }
 }
@@ -2314,7 +2317,7 @@ where
         bindings: Default::default(),
         is_pat_decl: false,
     };
-    n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+    n.visit_with(&mut v);
     v.bindings
 }
 
@@ -2330,7 +2333,7 @@ where
         bindings: Default::default(),
         is_pat_decl: false,
     };
-    n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+    n.visit_with(&mut v);
     v.bindings
 }
 

@@ -1,3 +1,3 @@
 // @target: ES6
-var x1 = (x)=>`abc${x}def`
+var x = (x1)=>`abc${x1}def`
 ;

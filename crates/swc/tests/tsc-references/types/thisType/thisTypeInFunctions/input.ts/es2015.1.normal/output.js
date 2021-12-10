@@ -2,17 +2,17 @@
 class B {
 }
 class C {
-    explicitThis(m4) {
-        return this.n + m4;
+    explicitThis(m) {
+        return this.n + m;
     }
-    explicitC(m1) {
-        return this.n + m1;
+    explicitC(m) {
+        return this.n + m;
     }
-    explicitProperty(m2) {
-        return this.n + m2;
+    explicitProperty(m) {
+        return this.n + m;
     }
-    explicitVoid(m3) {
-        return m3 + 1;
+    explicitVoid(m) {
+        return m + 1;
     }
 }
 class D extends C {
@@ -23,8 +23,8 @@ function explicitStructural(x) {
 function justThis() {
     return this.y;
 }
-function implicitThis(n) {
-    return this.m + n + 12;
+function implicitThis(n1) {
+    return this.m + n1 + 12;
 }
 let impl = {
     a: 12,
@@ -156,7 +156,7 @@ c.explicitC = function(m) {
     return this.n + m;
 };
 // this:void compatibility
-c.explicitVoid = (n)=>n
+c.explicitVoid = (n2)=>n2
 ;
 // class-based assignability
 class Base1 {
@@ -212,7 +212,7 @@ function AnyThis() {
 let interfaceThis = new InterfaceThis();
 let literalTypeThis = new LiteralTypeThis();
 let anyThis = new AnyThis();
-let n1 = f.call(12);
+let n = f.call(12);
 function missingTypeIsImplicitAny(a) {
     return this.anything + a;
 }

@@ -1,12 +1,11 @@
-var types1;
-export { types1 as types };
-!function(types) {
+export var types;
+!function(types1) {
     var A = function() {
         "use strict";
         !function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
         }(this, A);
     };
-    types.A = A;
-}(types1 || (types1 = {
+    types1.A = A;
+}(types || (types = {
 }));

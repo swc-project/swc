@@ -1,6 +1,6 @@
-var x, E, M, E1;
-(E1 = E || (E = {
-}))[E1.A = 0] = "A", E.A;
+var x, E, M, E;
+(E = E || (E = {
+}))[E.A = 0] = "A", E.A;
 var C = function() {
     "use strict";
     !function(instance, Constructor) {

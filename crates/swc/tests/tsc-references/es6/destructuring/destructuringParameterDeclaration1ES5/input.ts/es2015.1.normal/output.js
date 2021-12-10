@@ -101,10 +101,10 @@ b7([
     ]
 ]); // Shouldn't be an error
 var // If the declaration specifies a binding pattern, the parameter type is the implied type of that binding pattern (section 5.1.3)
-Foo1;
+Foo;
 (function(Foo) {
     Foo[Foo["a"] = 0] = "a";
-})(Foo1 || (Foo1 = {
+})(Foo || (Foo = {
 }));
 function c0({ z: { x , y: { j  }  }  }) {
 }
@@ -188,11 +188,11 @@ class C2 {
     }
 }
 class C3 {
-    d3([a5, b4, c4]) {
+    d3([a, b, c]) {
     }
     d4({ x , y , z  }) {
     }
-    e0([a6, b5, c7]) {
+    e0([a, b, c]) {
     }
 }
 function d5({ x , y  } = {

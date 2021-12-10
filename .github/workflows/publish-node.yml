@@ -151,6 +151,7 @@ jobs:
         with:
           name: bindings-${{ matrix.settings.target }}
           path: swc.*.node
+          if-no-files-found: error
   build-freebsd:
     if: ${{ startsWith(github.ref, 'refs/tags/v') }}
 
@@ -160,33 +161,33 @@ jobs:
       - uses: actions/checkout@v2
       - name: Cleanup useless files to speedup
         run: |
-          rm -rf css/parser/tests/errors
-          rm -rf css/parser/tests/fixture
-          rm -rf css/parser/tests/line-comment
-          rm -rf css/parser/tests/recovery
-          rm -rf ecmascript/babel/compat/tests/fixtures
-          rm -rf tests/deno-unit
-          rm -rf tests/env
-          rm -rf tests/fixture
+          rm -rf crates/swc_css_parser/tests/errors
+          rm -rf crates/swc_css_parser/fixture
+          rm -rf crates/swc_css_parser/line-comment
+          rm -rf crates/swc_css_parser/recovery
+          rm -rf crates/swc_estree_compat/tests/fixtures
+          rm -rf crates/swc/tests/deno-unit
+          rm -rf crates/swc/tests/env
+          rm -rf crates/swc/tests/fixture
           rm -rf tests/integration
-          rm -rf tests/projects
-          rm -rf tests/serde
-          rm -rf tests/srcmap
-          rm -rf tests/projects
-          rm -rf tests/stacktrace
-          rm -rf tests/swcrc_errors
-          rm -rf tests/vercel
-          rm -rf tests/tsc-references
-          rm -rf bundler/tests
-          rm -rf ecmascript/parser/tests/typescript
-          rm -rf ecmascript/minifier/tests/terser
-          rm -rf ecmascript/minifier/tests/compress
-          rm -rf ecmascript/minifier/tests/exec
-          rm -rf ecmascript/minifier/tests/full
-          rm -rf ecmascript/minifier/tests/mangle
-          rm -rf ecmascript/codegen/tests/fixture
-          rm -rf ecmascript/codegen/tests/test262
-          rm -rf ecmascript/codegen/tests/test262-min
+          rm -rf crates/swc/tests/projects
+          rm -rf crates/swc/tests/serde
+          rm -rf crates/swc/tests/srcmap
+          rm -rf crates/swc/tests/projects
+          rm -rf crates/swc/tests/stacktrace
+          rm -rf crates/swc/tests/swcrc_errors
+          rm -rf crates/swc/tests/vercel
+          rm -rf crates/swc/tests/tsc-references
+          rm -rf crates/swc_bundler/tests
+          rm -rf crates/swc_ecma_parser/tests/typescript
+          rm -rf crates/swc_ecma_minifier/tests/terser
+          rm -rf crates/swc_ecma_minifier/tests/compress
+          rm -rf crates/swc_ecma_minifier/tests/exec
+          rm -rf crates/swc_ecma_minifier/tests/full
+          rm -rf crates/swc_ecma_minifier/tests/mangle
+          rm -rf crates/swc_ecma_codegen/tests/fixture
+          rm -rf crates/swc_ecma_codegen/tests/test262
+          rm -rf crates/swc_ecma_codegen/tests/test262-min
       - name: Build
         id: build
         uses: vmactions/freebsd-vm@v0.1.5
@@ -229,6 +230,7 @@ jobs:
         with:
           name: bindings-freebsd
           path: swc.*.node
+          if-no-files-found: error
   test-macOS-windows-binding:
     if: ${{ startsWith(github.ref, 'refs/tags/v') }}
     name: Test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}

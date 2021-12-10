@@ -45,36 +45,36 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var E1, E2, E11, A1 = function() {
+var E1, E2, E1, A = function() {
     "use strict";
-    _classCallCheck(this, A1), this.a = 10;
+    _classCallCheck(this, A), this.a = 10;
 }, C = function() {
     "use strict";
     _classCallCheck(this, C);
 }, D = function() {
     "use strict";
     _classCallCheck(this, D);
-}, E = function(A) {
+}, E = function(A1) {
     "use strict";
-    _inherits(E, A);
+    _inherits(E, A1);
     var _super = _createSuper(E);
     function E() {
         return _classCallCheck(this, E), _super.apply(this, arguments);
     }
     return E;
-}(A1), F = function(A) {
+}(A), F = function(A2) {
     "use strict";
-    _inherits(F, A);
+    _inherits(F, A2);
     var _super = _createSuper(F);
     function F() {
         return _classCallCheck(this, F), _super.apply(this, arguments);
     }
     return F;
-}(A1);
-(E11 = E1 || (E1 = {
-}))[E11.one = 0] = "one", (E21 = E2 || (E2 = {
-}))[E21.one = 0] = "one";
-var E21, classCDATuple = [
+}(A);
+(E1 = E1 || (E1 = {
+}))[E1.one = 0] = "one", (E2 = E2 || (E2 = {
+}))[E2.one = 0] = "one";
+var E2, classCDATuple = [
     new C(),
     new D()
 ];

@@ -8,7 +8,7 @@ function tup2(t, u) {
         3
     ];
 }
-const t21 = tup2([
+const t2 = tup2([
     'hello'
 ], [
     10,
@@ -51,11 +51,11 @@ const tc5 = concat2([
     5,
     6
 ]); // (1 | 2 | 3 | 4 | 5 | 6)[]
-function foo2(t1, t2, a1) {
+function foo2(t1, t21, a1) {
     foo1(1, 'abc', true, 42, 43, 44);
     foo1(...t1, true, 42, 43, 44);
-    foo1(...t1, ...t2, 42, 43, 44);
-    foo1(...t1, ...t2, ...a1);
+    foo1(...t1, ...t21, 42, 43, 44);
+    foo1(...t1, ...t21, ...a1);
     foo1(...t1); // Error
     foo1(...t1, 45); // Error
 }
@@ -160,21 +160,21 @@ function f12(t, m, r) {
     r = t;
     r = m;
 }
-function f13(t0, t1, t2) {
+function f13(t0, t1, t22) {
     t0 = t1;
-    t0 = t2;
+    t0 = t22;
     t1 = t0;
-    t1 = t2;
-    t2 = t0; // Error
-    t2 = t1; // Error
+    t1 = t22;
+    t22 = t0; // Error
+    t22 = t1; // Error
 }
-function f14(t0, t1, t2) {
+function f14(t0, t1, t23) {
     t0 = t1;
-    t0 = t2;
+    t0 = t23;
     t1 = t0; // Error
-    t1 = t2;
-    t2 = t0; // Error
-    t2 = t1; // Error
+    t1 = t23;
+    t23 = t0; // Error
+    t23 = t1; // Error
 }
 function f15(k0, k1, k2, k3) {
     k0 = 'length';
@@ -189,7 +189,7 @@ function f15(k0, k1, k2, k3) {
 }
 // Inference to [...T, ...U] with implied arity for T
 function curry(f, ...a) {
-    return (...b)=>f(...a, ...b)
+    return (...b1)=>f(...a, ...b1)
     ;
 }
 const fn1 = (a, b, c, d)=>0
@@ -287,7 +287,7 @@ function f23(args) {
         42
     ]); // [string]
 }
-const b1 = a.bind("", 1); // Desc<[boolean], object>
+const b = a.bind("", 1); // Desc<[boolean], object>
 function callApi(method) {
     return (...args)=>method(...args, {
         })

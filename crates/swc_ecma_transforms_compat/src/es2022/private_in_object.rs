@@ -12,7 +12,7 @@ use swc_ecma_utils::{
     default_constructor, ident::IdentLike, prepend, private_ident, quote_ident, ExprFactory, Id,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Node, Visit, VisitMut, VisitMutWith, VisitWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
 /// https://github.com/tc39/proposal-private-fields-in-in
@@ -98,7 +98,7 @@ struct ClassData {
     /// Name of private statics.
     statics: Vec<JsWord>,
 
-    consturctor_exprs: Vec<Box<Expr>>,
+    constructor_exprs: Vec<Box<Expr>>,
 
     names_used_for_brand_checks: AHashSet<JsWord>,
 }
@@ -162,7 +162,7 @@ impl VisitMut for PrivateInObject {
 
         n.visit_mut_children_with(self);
 
-        if !self.cls.consturctor_exprs.is_empty() {
+        if !self.cls.constructor_exprs.is_empty() {
             let has_constructor = n
                 .body
                 .iter()
@@ -179,7 +179,7 @@ impl VisitMut for PrivateInObject {
                     ClassMember::Constructor(Constructor {
                         body: Some(body), ..
                     }) => {
-                        for expr in take(&mut self.cls.consturctor_exprs) {
+                        for expr in take(&mut self.cls.constructor_exprs) {
                             body.stmts.push(Stmt::Expr(ExprStmt {
                                 span: DUMMY_SP,
                                 expr,
@@ -250,7 +250,7 @@ impl VisitMut for PrivateInObject {
                 brand_check_names: &mut buf,
                 ignore_class: false,
             };
-            p.right.visit_with(p, &mut v);
+            p.right.visit_with(&mut v);
 
             if buf.is_empty() {
                 p.right.visit_mut_with(self);
@@ -348,7 +348,7 @@ impl VisitMut for PrivateInObject {
 
                     if is_method {
                         self.cls
-                            .consturctor_exprs
+                            .constructor_exprs
                             .push(Box::new(Expr::Call(CallExpr {
                                 span: DUMMY_SP,
                                 callee: var_name
@@ -488,7 +488,7 @@ struct ClassAnalyzer<'a> {
 impl Visit for ClassAnalyzer<'_> {
     noop_visit_type!();
 
-    fn visit_bin_expr(&mut self, n: &BinExpr, _: &dyn Node) {
+    fn visit_bin_expr(&mut self, n: &BinExpr) {
         n.visit_children_with(self);
 
         if n.op == op!("in") {
@@ -503,7 +503,7 @@ impl Visit for ClassAnalyzer<'_> {
     }
 
     /// Noop
-    fn visit_class(&mut self, n: &Class, _: &dyn Node) {
+    fn visit_class(&mut self, n: &Class) {
         if self.ignore_class {
             return;
         }

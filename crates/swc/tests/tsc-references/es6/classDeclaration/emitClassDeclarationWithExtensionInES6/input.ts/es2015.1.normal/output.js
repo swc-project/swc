@@ -6,8 +6,8 @@ class B {
 class C extends B {
     foo() {
     }
-    baz(a1, y1) {
-        super.baz(a1, y1);
+    baz(a, y) {
+        super.baz(a, y);
     }
 }
 class D extends C {

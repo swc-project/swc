@@ -41,8 +41,8 @@ function _setPrototypeOf(o, p) {
     };
     return _setPrototypeOf(o, p);
 }
-var _typeof = function(obj) {
-    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
+var _typeof = function(obj1) {
+    return obj1 && typeof Symbol !== "undefined" && obj1.constructor === Symbol ? "symbol" : typeof obj1;
 };
 function _isNativeReflectConstruct() {
     if (typeof Reflect === "undefined" || !Reflect.construct) return false;
@@ -97,10 +97,10 @@ var SubD = /*#__PURE__*/ function(D) {
     }
     return SubD;
 }(D);
-function d0(param) {
-    var x = (param === void 0 ? {
+function d0() {
+    var x = (arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
         x: new Class()
-    } : param).x;
+    }).x;
 }
 function d1(param) {
     var x = param.x;
@@ -111,12 +111,12 @@ function d2(param) {
 function d3(param) {
     var y = param.y;
 }
-function d4(param) {
-    var y = (param === void 0 ? {
+function d4() {
+    var y = (arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
         y: new D()
-    } : param).y;
+    }).y;
 }
-var obj1 = new Class();
+var obj = new Class();
 d0({
     x: 1
 });

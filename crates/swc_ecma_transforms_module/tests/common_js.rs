@@ -24,8 +24,6 @@ use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
     Syntax::Es(EsConfig {
-        dynamic_import: true,
-        top_level_await: true,
         static_blocks: true,
         ..Default::default()
     })
@@ -99,7 +97,7 @@ test!(
         let scope = Rc::new(RefCell::new(Scope::default()));
         chain!(
             resolver_with_mark(mark),
-            // Optional::new(typescript::strip(), syntax.typescript()),
+            // Optional::new(typescript::strip(mark), syntax.typescript()),
             import_analyzer(Rc::clone(&scope)),
             inject_helpers(),
             common_js(mark, Default::default(), Some(scope)),
@@ -803,15 +801,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.f = exports.e = exports.c = exports.a = exports.test = void 0;
-var test1 = 2;
-exports.test = test1;
-exports.test = test1 = 5;
-exports.test = test1 = +test1 + 1;
+var test = 2;
+exports.test = test;
+exports.test = test = 5;
+exports.test = test = +test + 1;
 
 (function () {
-  var test = 2;
-  test = 3;
-  test++;
+  var test1 = 2;
+  test1 = 3;
+  test1++;
 })();
 
 var a = 2;
@@ -4377,7 +4375,7 @@ test!(
     syntax(),
     |t| chain!(
         classes(Some(t.comments.clone()),),
-        parameters(),
+        parameters(Default::default()),
         destructuring(Default::default()),
         block_scoping(),
         common_js(Mark::fresh(Mark::root()), Default::default(), None),
@@ -4416,8 +4414,8 @@ _createClass(Thing, [{
   }
 }, {
   key: "completelyUnrelated",
-  value: function completelyUnrelated(param) {
-    var copy = param === void 0 ? 123 : param;
+  value: function completelyUnrelated() {
+    var copy = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 123;
   }
 }]);
 

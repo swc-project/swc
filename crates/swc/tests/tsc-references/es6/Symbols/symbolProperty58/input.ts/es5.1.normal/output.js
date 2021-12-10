@@ -1,15 +1,15 @@
-function _defineProperty(obj, key, value) {
-    if (key in obj) {
-        Object.defineProperty(obj, key, {
+function _defineProperty(obj1, key, value) {
+    if (key in obj1) {
+        Object.defineProperty(obj1, key, {
             value: value,
             enumerable: true,
             configurable: true,
             writable: true
         });
     } else {
-        obj[key] = value;
+        obj1[key] = value;
     }
-    return obj;
+    return obj1;
 }
-var obj1 = _defineProperty({
+var obj = _defineProperty({
 }, Symbol.foo, 0);

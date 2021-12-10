@@ -317,15 +317,15 @@ test!(
         }
         ",
     r#"
-        var _loop = function(i) {
-            console.log(i++, [
+        var _loop = function(i1) {
+            console.log(i1++, [
                 2
             ].every(function(x) {
-                return x != i;
+                return x != i1;
             }));
-            i1 = i, void 0;
+            i = i1, void 0;
         };
-        for(var i1 = 0; i1 < 5; i1++)_loop(i1);
+        for(var i = 0; i < 5; i++)_loop(i);
         "#
 );
 
@@ -349,17 +349,17 @@ test!(
         }
         ",
     r#"
-        var _loop = function(i) {
-            console.log(i++, [
+        var _loop = function(i1) {
+            console.log(i1++, [
                 2
             ].every(function(x) {
-                return x != i;
+                return x != i1;
             }));
-            if (i % 2 === 0) return i1 = i, "continue";
-            i1 = i, void 0;
+            if (i1 % 2 === 0) return i = i1, "continue";
+            i = i1, void 0;
         };
-        for(var i1 = 0; i1 < 5; i1++){
-            var _ret = _loop(i1);
+        for(var i = 0; i < 5; i++){
+            var _ret = _loop(i);
             if (_ret === "continue") continue;
         }
         "#
@@ -385,17 +385,17 @@ test!(
         }
         ",
     r#"
-        var _loop = function(i) {
-            console.log(i++, [
+        var _loop = function(i1) {
+            console.log(i1++, [
                 2
             ].every(function(x) {
-                return x != i;
+                return x != i1;
             }));
-            if (i % 2 === 0) return i1 = i, "break";
-            i1 = i, void 0;
+            if (i1 % 2 === 0) return i = i1, "break";
+            i = i1, void 0;
         };
-        for(var i1 = 0; i1 < 5; i1++){
-            var _ret = _loop(i1);
+        for(var i = 0; i < 5; i++){
+            var _ret = _loop(i);
             if (_ret === "break") break;
         }
         "#

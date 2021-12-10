@@ -1,23 +1,26 @@
-var Root1, otherRoot;
-!function(Root) {
-    var A, A1, Utils;
-    A1 = A || (A = {
-    }), (Utils || (Utils = {
+var Root, otherRoot;
+!function(Root1) {
+    var A;
+    ((A = Root1.A || (Root1.A = {
+    })).Utils || (A.Utils = {
     })).mirror = function(p) {
         return {
             x: p.y,
             y: p.x
         };
-    }, A1.Utils = Utils, Root.A = A;
-}(Root1 || (Root1 = {
-})), otherRoot || (otherRoot = {
-}), (A || (A = {
-})).Origin = {
-    x: 0,
-    y: 0
-}, (Utils || (Utils = {
-})).Plane = class {
-    constructor(tl, br){
-        this.tl = tl, this.br = br;
-    }
-};
+    };
+}(Root || (Root = {
+})), (function(otherRoot1) {
+    var A;
+    (A = otherRoot1.A || (otherRoot1.A = {
+    })).Origin = {
+        x: 0,
+        y: 0
+    }, (A.Utils || (A.Utils = {
+    })).Plane = class {
+        constructor(tl, br){
+            this.tl = tl, this.br = br;
+        }
+    };
+})(otherRoot || (otherRoot = {
+}));

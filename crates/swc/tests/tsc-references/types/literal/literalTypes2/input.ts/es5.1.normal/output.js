@@ -17,16 +17,16 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var E1;
+var E;
 (function(E) {
     E[E["A"] = 0] = "A";
     E[E["B"] = 1] = "B";
     E[E["C"] = 2] = "C";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
 var cond;
-function f1(param, param1, param2, param3) {
-    var p1 = param === void 0 ? 1 : param, p2 = param1 === void 0 ? "abc" : param1, p3 = param2 === void 0 ? true : param2, p4 = param3 === void 0 ? E1.A : param3;
+function f1() {
+    var p1 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 1, p2 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : "abc", p3 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : true, p4 = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : E.A;
     var v1 = 1;
     var v2 = -123;
     var v3 = 3 + 4;
@@ -34,7 +34,7 @@ function f1(param, param1, param2, param3) {
     var v5 = "";
     var v6 = "abc" + "def";
     var v7 = true;
-    var v8 = E1.A;
+    var v8 = E.A;
     var x1 = 1;
     var x2 = -123;
     var x3 = 3 + 4;
@@ -42,7 +42,7 @@ function f1(param, param1, param2, param3) {
     var x5 = "";
     var x6 = "abc" + "def";
     var x7 = true;
-    var x8 = E1.A;
+    var x8 = E.A;
     var c1 = 1;
     var c2 = -123;
     var c3 = 3 + 4;
@@ -50,25 +50,25 @@ function f1(param, param1, param2, param3) {
     var c5 = "";
     var c6 = "abc" + "def";
     var c7 = true;
-    var c8 = E1.A;
+    var c8 = E.A;
 }
-function f2(param, param4, param5, param6) {
-    var p1 = param === void 0 ? 1 : param, p2 = param4 === void 0 ? "abc" : param4, p3 = param5 === void 0 ? true : param5, p4 = param6 === void 0 ? E1.A : param6;
+function f2() {
+    var p1 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 1, p2 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : "abc", p3 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : true, p4 = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : E.A;
     var v1 = 1;
     var v2 = -123;
     var v3 = "abc";
     var v4 = true;
-    var v5 = E1.A;
+    var v5 = E.A;
     var x1 = 1;
     var x2 = -123;
     var x3 = "abc";
     var x4 = true;
-    var x5 = E1.A;
+    var x5 = E.A;
 }
 function f3() {
     var c1 = cond ? 1 : 2;
     var c2 = cond ? 1 : "two";
-    var c3 = cond ? E1.A : cond ? true : 123;
+    var c3 = cond ? E.A : cond ? true : 123;
     var c4 = cond ? "abc" : null;
     var c5 = cond ? 456 : undefined;
     var c6 = {
@@ -98,7 +98,7 @@ var C1 = function C1() {
     this.x5 = "";
     this.x6 = "abc" + "def";
     this.x7 = true;
-    this.x8 = E1.A;
+    this.x8 = E.A;
     this.c1 = 1;
     this.c2 = -123;
     this.c3 = 3 + 4;
@@ -106,7 +106,7 @@ var C1 = function C1() {
     this.c5 = "";
     this.c6 = "abc" + "def";
     this.c7 = true;
-    this.c8 = E1.A;
+    this.c8 = E.A;
 };
 function f4() {
     var c1 = {
@@ -209,7 +209,7 @@ function f20() {
         return true;
     };
     var f4 = function() {
-        return E1.C;
+        return E.C;
     };
     var f5 = function() {
         return "foo";
@@ -221,7 +221,7 @@ function f20() {
         return "bar";
     };
 }
-var a1 = [
+var a = [
     1,
     2
 ];
@@ -235,8 +235,8 @@ var x7 = g6([
     1,
     2
 ]); // Type number
-var x8 = g6(a1); // Type 1 | 2
-var x9 = g7(a1); // Type (1 | 2)[]
+var x8 = g6(a); // Type 1 | 2
+var x9 = g7(a); // Type (1 | 2)[]
 var x10 = g8(1, function(x) {
     return x;
 }); // Type number
@@ -248,8 +248,8 @@ function makeArray(x) {
         x
     ];
 }
-function append(a, x) {
-    var result = a.slice();
+function append(a1, x) {
+    var result = a1.slice();
     result.push(x);
     return result;
 }

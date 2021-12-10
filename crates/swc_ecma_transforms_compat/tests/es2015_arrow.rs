@@ -355,23 +355,23 @@ var bar = () => arguments;
 var baz = () => () => arguments;
 "#,
     r#"
-var _arguments1 = arguments;
+var _arguments = arguments;
 
 function fn() {
-  var _arguments = arguments;
+  var _arguments1 = arguments;
 
   var foo = function () {
-    return _arguments;
+    return _arguments1;
   };
 }
 
 var bar = function () {
-  return _arguments1;
+  return _arguments;
 };
 
 var baz = function () {
   return function () {
-    return _arguments1;
+    return _arguments;
   };
 };
 "#
@@ -480,7 +480,7 @@ test!(
     |_| arrow(),
     method_computed,
     r#"
-const a = () => ({ 
+const a = () => ({
   [this](a = this) { this;arguments },
 })
 const b = () => class {

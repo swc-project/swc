@@ -174,7 +174,6 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                 .expect("failed to load file");
             let mut p = Parser::new(
                 Syntax::Es(EsConfig {
-                    dynamic_import: true,
                     ..Default::default()
                 }),
                 StringInput::from(&*fm),
@@ -218,7 +217,6 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
 
                 let mut p = Parser::new(
                     Syntax::Es(EsConfig {
-                        dynamic_import: true,
                         ..Default::default()
                     }),
                     StringInput::from(&*fm),

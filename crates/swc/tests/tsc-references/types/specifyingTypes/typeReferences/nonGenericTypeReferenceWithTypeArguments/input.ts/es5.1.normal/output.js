@@ -20,7 +20,7 @@ function f() {
         "use strict";
         _classCallCheck(this, C);
     };
-    ;
+    var E;
     (function(E) {
     })(E || (E = {
     }));

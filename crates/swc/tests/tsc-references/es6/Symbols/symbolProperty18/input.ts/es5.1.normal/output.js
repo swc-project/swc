@@ -7,8 +7,8 @@ function _defineEnumerableProperties(obj, descs) {
     }
     if (Object.getOwnPropertySymbols) {
         var objectSymbols = Object.getOwnPropertySymbols(descs);
-        for(var i = 0; i < objectSymbols.length; i++){
-            var sym = objectSymbols[i];
+        for(var i1 = 0; i1 < objectSymbols.length; i1++){
+            var sym = objectSymbols[i1];
             var desc = descs[sym];
             desc.configurable = desc.enumerable = true;
             if ("value" in desc) desc.writable = true;
@@ -33,12 +33,12 @@ function _defineProperty(obj, key, value) {
 var _obj, _mutatorMap = {
 };
 //@target: ES6
-var i1 = (_obj = {
+var i = (_obj = {
 }, _defineProperty(_obj, Symbol.iterator, 0), _defineProperty(_obj, Symbol.toStringTag, function() {
     return "";
 }), _mutatorMap[Symbol.toPrimitive] = _mutatorMap[Symbol.toPrimitive] || {
 }, _mutatorMap[Symbol.toPrimitive].set = function(p) {
 }, _defineEnumerableProperties(_obj, _mutatorMap), _obj);
-var it = i1[Symbol.iterator];
-var str = i1[Symbol.toStringTag]();
-i1[Symbol.toPrimitive] = false;
+var it = i[Symbol.iterator];
+var str = i[Symbol.toStringTag]();
+i[Symbol.toPrimitive] = false;

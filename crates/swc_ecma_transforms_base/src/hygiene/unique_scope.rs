@@ -35,6 +35,12 @@ impl VisitMut for UniqueScope {
         self.mark(&mut n.class.span);
     }
 
+    fn visit_mut_constructor(&mut self, n: &mut Constructor) {
+        n.visit_mut_children_with(self);
+
+        self.mark(&mut n.span);
+    }
+
     fn visit_mut_function(&mut self, n: &mut Function) {
         n.visit_mut_children_with(self);
 

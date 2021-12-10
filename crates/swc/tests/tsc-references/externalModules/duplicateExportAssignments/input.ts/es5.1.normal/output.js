@@ -4,31 +4,31 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 // @Filename: foo1.ts
-var x1 = 10;
+var x = 10;
 var y = 20;
-module.exports = x1;
+module.exports = x;
 module.exports = y;
 // @Filename: foo2.ts
-var x1 = 10;
+var x = 10;
 var y = function y() {
     "use strict";
     _classCallCheck(this, y);
 };
-module.exports = x1;
+module.exports = x;
 module.exports = y;
-(function(x) {
-    x.x = 10;
-})(x1 || (x1 = {
+(function(x1) {
+    x1.x = 10;
+})(x || (x = {
 }));
 var y = function y() {
     "use strict";
     _classCallCheck(this, y);
 };
-module.exports = x1;
+module.exports = x;
 module.exports = y;
 // @Filename: foo4.ts
-module.exports = x1;
-function x1() {
+module.exports = x;
+function x() {
     return 42;
 }
 function y() {
@@ -36,11 +36,11 @@ function y() {
 }
 module.exports = y;
 // @Filename: foo5.ts
-var x1 = 5;
+var x = 5;
 var y = "test";
 var z = {
 };
-module.exports = x1;
+module.exports = x;
 module.exports = y;
 module.exports = z;
 export { };

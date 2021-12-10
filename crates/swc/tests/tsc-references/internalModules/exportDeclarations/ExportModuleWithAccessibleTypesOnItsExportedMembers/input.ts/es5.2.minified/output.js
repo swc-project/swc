@@ -1,13 +1,13 @@
-var A1;
+var A;
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
-!function(A) {
-    var B, B1, Line, Point = function(x, y) {
+!function(A1) {
+    var B, Line, Point = function(x, y) {
         "use strict";
         _classCallCheck(this, Point), this.x = x, this.y = y;
     };
-    A.Point = Point, (B1 = B || (B = {
+    A1.Point = Point, (B = A1.B || (A1.B = {
     })).Origin = new Point(0, 0), Line = (function() {
         "use strict";
         var Constructor;
@@ -30,6 +30,6 @@ function _classCallCheck(instance, Constructor) {
                 }
             }
         ]), Line;
-    })(), B1.Line = Line, A.B = B;
-}(A1 || (A1 = {
+    })(), B.Line = Line;
+}(A || (A = {
 }));

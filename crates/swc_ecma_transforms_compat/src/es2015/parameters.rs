@@ -1,107 +1,210 @@
+use std::mem;
+
 use arrayvec::ArrayVec;
+use serde::Deserialize;
+use swc_atoms::js_word;
 use swc_common::{util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::Parallel;
-use swc_ecma_transforms_macros::parallel;
+// use swc_ecma_transforms_base::perf::Parallel;
+// use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{
-    contains_this_expr, member_expr, prepend, prepend_stmts, private_ident, quote_ident,
-    ExprFactory,
+    function::{init_this, FunctionWrapper, WrapperState},
+    member_expr, prepend, prepend_stmts, private_ident, quote_ident, undefined, ExprFactory,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use tracing::trace;
 
-pub fn parameters() -> impl 'static + Fold {
-    as_folder(Params::default())
+pub fn parameters(c: Config) -> impl 'static + Fold {
+    as_folder(Params {
+        c,
+        ..Default::default()
+    })
 }
 
 #[derive(Clone, Default)]
 struct Params {
-    /// Used ti store `this, in case if `arguments` is used and we should
+    /// Used to store `this, in case if `arguments` is used and we should
     /// transform an arrow expression to a function expression.
-    vars: Vec<VarDeclarator>,
+    state: WrapperState,
+    in_subclass: bool,
+    c: Config,
 }
-// prevent_recurse!(Params, Pat);
 
-impl Parallel for Params {
-    fn create(&self) -> Self {
-        Params {
-            vars: Default::default(),
-        }
-    }
-
-    fn merge(&mut self, other: Self) {
-        self.vars.extend(other.vars);
-    }
-
-    fn after_stmts(&mut self, stmts: &mut Vec<Stmt>) {
-        if !self.vars.is_empty() {
-            prepend(
-                stmts,
-                Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: Default::default(),
-                    decls: self.vars.take(),
-                })),
-            )
-        }
-    }
-
-    fn after_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
-        if !self.vars.is_empty() {
-            prepend(
-                stmts,
-                ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: Default::default(),
-                    decls: self.vars.take(),
-                }))),
-            )
-        }
-    }
+#[derive(Debug, Clone, Copy, Default, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Config {
+    #[serde(default)]
+    pub ignore_function_length: bool,
 }
+
+// impl Parallel for Params {
+//     fn create(&self) -> Self {
+//         Params {
+//             state: Default::default(),
+//             c: self.c,
+//         }
+//     }
+
+//     fn merge(&mut self, other: Self) {
+//         self.state.merge(other.state);
+//     }
+
+//     fn after_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+//         let decls = self.state.take().to_stmt();
+//         if let Some(decls) = decls {
+//             prepend(stmts, decls)
+//         }
+//     }
+
+//     fn after_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
+//         let decls = self.state.take().to_stmt();
+//         if let Some(decls) = decls {
+//             prepend(stmts, ModuleItem::Stmt(decls))
+//         }
+//     }
+// }
 
 impl Params {
-    fn visit_mut_fn_like(&mut self, ps: &mut Vec<Param>, body: &mut BlockStmt) {
+    fn visit_mut_fn_like(&mut self, ps: &mut Vec<Param>, body: &mut BlockStmt, is_setter: bool) {
         let mut params = vec![];
         let mut decls = vec![];
+        let mut loose_stmt = vec![];
         let mut unpack_rest = None;
         let mut decls_after_unpack = vec![];
+
+        let mut after_default = false;
 
         for (i, param) in ps.drain(..).enumerate() {
             let span = param.span();
 
             match param.pat {
-                Pat::Ident(..) => params.push(param),
-                Pat::Array(..) | Pat::Object(..) => {
-                    let binding = private_ident!(span, "param");
-
-                    params.push(Param {
-                        pat: Pat::Ident(binding.clone().into()),
-                        ..param
-                    });
-                    decls.push(VarDeclarator {
-                        span,
-                        name: param.pat,
-                        init: Some(Box::new(Expr::Ident(binding))),
-                        definite: false,
-                    })
+                Pat::Ident(..) => {
+                    if after_default && !self.c.ignore_function_length {
+                        decls.push(VarDeclarator {
+                            span,
+                            name: param.pat,
+                            init: Some(Box::new(check_arg_len_or_undef(i))),
+                            definite: false,
+                        })
+                    } else {
+                        params.push(param)
+                    }
                 }
-                Pat::Assign(..) => {
-                    let binding = private_ident!(span, "param");
+                Pat::Array(..) | Pat::Object(..) => {
+                    if after_default && !self.c.ignore_function_length {
+                        decls.push(VarDeclarator {
+                            span,
+                            name: param.pat,
+                            init: Some(Box::new(check_arg_len_or_undef(i))),
+                            definite: false,
+                        })
+                    } else {
+                        let binding = private_ident!(span, "param");
 
-                    params.push(Param {
-                        span: DUMMY_SP,
-                        decorators: Default::default(),
-                        pat: Pat::Ident(binding.clone().into()),
-                    });
-                    // This expands to invalid code, but is fixed by destructing pass
-                    decls.push(VarDeclarator {
-                        span,
-                        name: param.pat,
-                        init: Some(Box::new(Expr::Ident(binding))),
-                        definite: false,
-                    })
+                        params.push(Param {
+                            pat: Pat::Ident(binding.clone().into()),
+                            ..param
+                        });
+                        let decl = VarDeclarator {
+                            span,
+                            name: param.pat,
+                            init: Some(Box::new(Expr::Ident(binding))),
+                            definite: false,
+                        };
+                        if self.c.ignore_function_length {
+                            loose_stmt.push(Stmt::Decl(Decl::Var(VarDecl {
+                                span,
+                                kind: VarDeclKind::Let,
+                                decls: vec![decl],
+                                declare: false,
+                            })))
+                        } else {
+                            decls.push(decl)
+                        }
+                    }
+                }
+                Pat::Assign(AssignPat { left, right, .. }) => {
+                    // arguments.length will always be 1 in setter
+                    if !(self.c.ignore_function_length || is_setter) {
+                        after_default = true;
+                        // access non-existent element in `arguments` is expensive
+                        decls.push(VarDeclarator {
+                            span,
+                            name: *left,
+                            init: Some(Box::new(Expr::Cond(CondExpr {
+                                span,
+                                test: Box::new(Expr::Bin(BinExpr {
+                                    left: Box::new(check_arg_len(i)),
+                                    op: BinaryOp::LogicalAnd,
+                                    right: Box::new(Expr::Bin(BinExpr {
+                                        left: Box::new(make_arg_nth(i)),
+                                        op: BinaryOp::NotEqEq,
+                                        right: undefined(DUMMY_SP),
+                                        span: DUMMY_SP,
+                                    })),
+                                    span,
+                                })),
+                                cons: Box::new(make_arg_nth(i)),
+                                alt: right,
+                            }))),
+                            definite: false,
+                        })
+                    } else {
+                        if let Pat::Ident(ident) = left.as_ref() {
+                            params.push(Param {
+                                span,
+                                pat: Pat::Ident(ident.clone()),
+                                decorators: Vec::new(),
+                            });
+                            loose_stmt.push(Stmt::If(IfStmt {
+                                span,
+                                test: Box::new(Expr::Bin(BinExpr {
+                                    span: DUMMY_SP,
+                                    left: Box::new(Expr::Ident(ident.id.clone())),
+                                    op: op!("==="),
+                                    right: undefined(DUMMY_SP),
+                                })),
+                                cons: Box::new(Stmt::Expr(ExprStmt {
+                                    span,
+                                    expr: Box::new(Expr::Assign(AssignExpr {
+                                        span,
+                                        left: PatOrExpr::Pat(left),
+                                        op: AssignOp::Assign,
+                                        right,
+                                    })),
+                                })),
+                                alt: None,
+                            }))
+                        } else {
+                            let binding = private_ident!(span, "param");
+                            params.push(Param {
+                                span: DUMMY_SP,
+                                decorators: Default::default(),
+                                pat: Pat::Ident(binding.clone().into()),
+                            });
+                            loose_stmt.push(Stmt::Decl(Decl::Var(VarDecl {
+                                span,
+                                kind: VarDeclKind::Let,
+                                decls: vec![VarDeclarator {
+                                    span,
+                                    name: *left,
+                                    init: Some(Box::new(Expr::Cond(CondExpr {
+                                        span,
+                                        test: Box::new(Expr::Bin(BinExpr {
+                                            span: DUMMY_SP,
+                                            left: Box::new(Expr::Ident(binding.clone())),
+                                            op: BinaryOp::EqEqEq,
+                                            right: undefined(DUMMY_SP),
+                                        })),
+                                        cons: right,
+                                        alt: Box::new(Expr::Ident(binding)),
+                                    }))),
+                                    definite: false,
+                                }],
+                                declare: false,
+                            })))
+                        }
+                    }
                 }
                 Pat::Rest(RestPat { arg, .. }) => {
                     // Inject a for statement
@@ -257,7 +360,7 @@ impl Params {
                         })),
                     }))
                 }
-                _ => params.push(param),
+                _ => unreachable!(),
             }
         }
 
@@ -280,35 +383,31 @@ impl Params {
                 declare: false,
             })));
         }
-        prepend_stmts(&mut body.stmts, iter.into_iter());
+        if (is_setter || self.c.ignore_function_length) && !loose_stmt.is_empty() {
+            loose_stmt.extend(iter);
+            prepend_stmts(&mut body.stmts, loose_stmt.into_iter());
+        } else {
+            prepend_stmts(&mut body.stmts, iter.into_iter());
+        };
 
         *ps = params;
     }
 }
 
-#[parallel]
 impl VisitMut for Params {
     noop_visit_mut_type!();
 
     fn visit_mut_block_stmt_or_expr(&mut self, body: &mut BlockStmtOrExpr) {
+        let old_rep = self.state.take();
+
         body.visit_mut_children_with(self);
 
-        if self.vars.is_empty() {
-            return;
-        }
+        let decls = mem::replace(&mut self.state, old_rep).to_stmt();
 
-        match body {
-            BlockStmtOrExpr::Expr(v) => {
+        if let Some(decls) = decls {
+            if let BlockStmtOrExpr::Expr(v) = body {
                 let mut stmts = vec![];
-                prepend(
-                    &mut stmts,
-                    Stmt::Decl(Decl::Var(VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        declare: Default::default(),
-                        decls: self.vars.take(),
-                    })),
-                );
+                prepend(&mut stmts, decls);
                 stmts.push(Stmt::Return(ReturnStmt {
                     span: DUMMY_SP,
                     arg: Some(v.take()),
@@ -318,8 +417,7 @@ impl VisitMut for Params {
                     stmts,
                 });
             }
-            _ => {}
-        };
+        }
     }
 
     fn visit_mut_catch_clause(&mut self, f: &mut CatchClause) {
@@ -334,7 +432,7 @@ impl VisitMut for Params {
             });
         }
 
-        self.visit_mut_fn_like(&mut params, &mut f.body);
+        self.visit_mut_fn_like(&mut params, &mut f.body, false);
 
         assert!(
             params.len() == 0 || params.len() == 1,
@@ -351,39 +449,39 @@ impl VisitMut for Params {
     }
 
     fn visit_mut_constructor(&mut self, f: &mut Constructor) {
-        if f.body.is_none() {
-            return;
+        trace!("visit_mut_constructor(parmas.len() = {})", f.params.len());
+        f.params.visit_mut_with(self);
+
+        if let Some(BlockStmt { span: _, stmts }) = &mut f.body {
+            let old_rep = self.state.take();
+
+            stmts.visit_mut_children_with(self);
+
+            if self.in_subclass {
+                let (decl, this_id) = mem::replace(&mut self.state, old_rep).to_stmt_in_subclass();
+
+                if let Some(stmt) = decl {
+                    if let Some(this_id) = this_id {
+                        init_this(stmts, &this_id)
+                    }
+                    prepend(stmts, stmt);
+                }
+            } else {
+                let decl = mem::replace(&mut self.state, old_rep).to_stmt();
+
+                if let Some(stmt) = decl {
+                    prepend(stmts, stmt);
+                }
+            }
         }
 
-        f.visit_mut_children_with(self);
-
-        let mut params = f
-            .params
-            .take()
-            .into_iter()
-            .map(|pat| match pat {
-                ParamOrTsParamProp::Param(p) => p,
-                _ => {
-                    unreachable!("TsParameterProperty should be removed by typescript::strip pass")
-                }
-            })
-            .collect();
-
-        let mut body = f.body.take().unwrap();
-        self.visit_mut_fn_like(&mut params, &mut body);
-
-        f.params = params.into_iter().map(ParamOrTsParamProp::Param).collect();
-        f.body = Some(body);
+        trace!(
+            "visit_mut_constructor(parmas.len() = {}, after)",
+            f.params.len()
+        );
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
-        let mut vars = self.vars.take();
-
-        e.visit_mut_children_with(self);
-
-        vars.extend(self.vars.take());
-        self.vars = vars;
-
         match e {
             Expr::Arrow(f) => {
                 f.visit_mut_children_with(self);
@@ -395,8 +493,14 @@ impl VisitMut for Params {
 
                 let need_arrow_to_function = f.params.iter().any(|p| match p {
                     Pat::Rest(..) => true,
+                    Pat::Assign(..) => !self.c.ignore_function_length,
                     _ => false,
                 });
+
+                // this needs to happen before rest parameter transform
+                if need_arrow_to_function {
+                    f.visit_mut_children_with(&mut FunctionWrapper::new(&mut self.state));
+                }
 
                 let body_span = f.body.span();
                 let mut params = f
@@ -421,25 +525,9 @@ impl VisitMut for Params {
                     },
                 };
 
-                self.visit_mut_fn_like(&mut params, &mut body);
+                self.visit_mut_fn_like(&mut params, &mut body, false);
 
                 if need_arrow_to_function {
-                    // We are converting an arrow expression to a function expression, and we
-                    // should handle usage of this.
-                    if contains_this_expr(&body) {
-                        // Replace this to `self`.
-                        let this_ident = private_ident!("self");
-                        self.vars.push(VarDeclarator {
-                            span: DUMMY_SP,
-                            name: Pat::Ident(this_ident.clone().into()),
-                            init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
-                            definite: Default::default(),
-                        });
-
-                        // this -> `self`
-                        body.visit_mut_with(&mut ThisReplacer { to: &this_ident })
-                    }
-
                     *e = Expr::Fn(FnExpr {
                         ident: None,
                         function: Function {
@@ -482,7 +570,7 @@ impl VisitMut for Params {
                     return_type: f.return_type.take(),
                 });
             }
-            _ => {}
+            _ => e.visit_mut_children_with(self),
         }
     }
 
@@ -494,7 +582,7 @@ impl VisitMut for Params {
         f.visit_mut_children_with(self);
 
         let mut body = f.body.take().unwrap();
-        self.visit_mut_fn_like(&mut f.params, &mut body);
+        self.visit_mut_fn_like(&mut f.params, &mut body, false);
 
         f.body = Some(body);
     }
@@ -508,7 +596,7 @@ impl VisitMut for Params {
 
         let mut params = vec![];
         let mut body = f.body.take().unwrap();
-        self.visit_mut_fn_like(&mut params, &mut body);
+        self.visit_mut_fn_like(&mut params, &mut body, false);
         debug_assert_eq!(params, vec![]);
 
         f.body = Some(body);
@@ -528,54 +616,74 @@ impl VisitMut for Params {
         }];
 
         let mut body = f.body.take().unwrap();
-        self.visit_mut_fn_like(&mut params, &mut body);
+        self.visit_mut_fn_like(&mut params, &mut body, true);
 
         debug_assert!(params.len() == 1);
 
         f.param = params.pop().unwrap().pat;
         f.body = Some(body);
     }
-}
 
-struct ThisReplacer<'a> {
-    to: &'a Ident,
-}
+    fn visit_mut_class(&mut self, c: &mut Class) {
+        if c.super_class.is_some() {
+            self.in_subclass = true;
+        }
+        c.visit_mut_children_with(self);
+        self.in_subclass = false;
+    }
 
-impl VisitMut for ThisReplacer<'_> {
-    noop_visit_mut_type!();
+    fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
+        stmts.visit_mut_children_with(self);
 
-    fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
+        let decl = self.state.take().to_stmt();
 
-    fn visit_mut_constructor(&mut self, _: &mut Constructor) {}
-
-    fn visit_mut_expr(&mut self, e: &mut Expr) {
-        e.visit_mut_children_with(self);
-
-        match e {
-            Expr::This(..) => {
-                *e = Expr::Ident(self.to.clone());
-            }
-
-            _ => {}
+        if let Some(stmt) = decl {
+            prepend(stmts, ModuleItem::Stmt(stmt));
         }
     }
 
-    fn visit_mut_function(&mut self, _: &mut Function) {}
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        let old_rep = self.state.take();
 
-    /// Don't recurse into fn
-    fn visit_mut_getter_prop(&mut self, n: &mut GetterProp) {
-        n.key.visit_mut_with(self);
-    }
+        stmts.visit_mut_children_with(self);
 
-    /// Don't recurse into fn
-    fn visit_mut_method_prop(&mut self, n: &mut MethodProp) {
-        n.key.visit_mut_with(self);
-        n.function.visit_mut_with(self);
-    }
+        let decl = mem::replace(&mut self.state, old_rep).to_stmt();
 
-    /// Don't recurse into fn
-    fn visit_mut_setter_prop(&mut self, n: &mut SetterProp) {
-        n.key.visit_mut_with(self);
-        n.param.visit_mut_with(self);
+        if let Some(stmt) = decl {
+            prepend(stmts, stmt);
+        }
     }
+}
+
+fn make_arg_nth(n: usize) -> Expr {
+    Expr::Ident(Ident::new(js_word!("arguments"), DUMMY_SP)).computed_member(Expr::Lit(Lit::Num(
+        Number {
+            span: DUMMY_SP,
+            value: n as f64,
+        },
+    )))
+}
+
+fn check_arg_len(n: usize) -> Expr {
+    Expr::Bin(BinExpr {
+        left: Box::new(
+            Expr::Ident(Ident::new(js_word!("arguments"), DUMMY_SP))
+                .make_member(Ident::new(js_word!("length"), DUMMY_SP)),
+        ),
+        op: BinaryOp::Gt,
+        right: Box::new(Expr::Lit(Lit::Num(Number {
+            span: DUMMY_SP,
+            value: n as f64,
+        }))),
+        span: DUMMY_SP,
+    })
+}
+
+fn check_arg_len_or_undef(n: usize) -> Expr {
+    Expr::Cond(CondExpr {
+        test: Box::new(check_arg_len(n)),
+        cons: Box::new(make_arg_nth(n)),
+        alt: undefined(DUMMY_SP),
+        span: DUMMY_SP,
+    })
 }

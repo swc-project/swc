@@ -23,22 +23,22 @@ function _createClass(Constructor, protoProps, staticProps) {
 // @outDir: out
 // @declaration: true
 // @filename: main.js
-var K1 = require("./mod1").K;
+var K = require("./mod1").K;
 /** @param {K} k */ function f(k) {
     k.values();
 }
 // @filename: mod1.js
 exports.K = /*#__PURE__*/ (function() {
     "use strict";
-    function K() {
-        _classCallCheck(this, K);
+    function K1() {
+        _classCallCheck(this, K1);
     }
-    _createClass(K, [
+    _createClass(K1, [
         {
             key: "values",
             value: function values() {
             }
         }
     ]);
-    return K;
+    return K1;
 })();

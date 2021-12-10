@@ -9,6 +9,22 @@ pub trait Node {}
 impl<T: ?Sized> Node for T {}
 
 define!({
+    pub struct Tokens {
+        pub span: Span,
+        pub tokens: Vec<TokenAndSpan>,
+    }
+
+    pub struct TokenAndSpan {
+        pub span: Span,
+        pub token: Token,
+    }
+
+    pub struct SimpleBlock {
+        pub span: Span,
+        pub name: char,
+        pub value: Vec<Value>,
+    }
+
     pub struct Ident {
         pub span: Span,
         pub value: JsWord,
@@ -42,23 +58,13 @@ define!({
 
     pub struct Block {
         pub span: Span,
-        pub items: Vec<DeclarationBlockItem>,
+        pub value: Vec<DeclarationBlockItem>,
     }
 
     pub enum DeclarationBlockItem {
         Invalid(Tokens),
         Declaration(Declaration),
         AtRule(AtRule),
-    }
-
-    pub struct Tokens {
-        pub span: Span,
-        pub tokens: Vec<TokenAndSpan>,
-    }
-
-    pub struct TokenAndSpan {
-        pub span: Span,
-        pub token: Token,
     }
 
     pub struct Unit {
@@ -68,6 +74,8 @@ define!({
     }
 
     pub enum Value {
+        SimpleBlock(SimpleBlock),
+
         SquareBracketBlock(SquareBracketBlock),
 
         RoundBracketBlock(RoundBracketBlock),
@@ -84,7 +92,7 @@ define!({
 
         Str(Str),
 
-        Fn(FnValue),
+        Function(Function),
 
         Bin(BinValue),
 
@@ -121,10 +129,10 @@ define!({
         pub right: Box<Value>,
     }
 
-    pub struct FnValue {
+    pub struct Function {
         pub span: Span,
         pub name: Ident,
-        pub args: Vec<Value>,
+        pub value: Vec<Value>,
     }
 
     pub struct RoundBracketBlock {
@@ -307,10 +315,6 @@ define!({
         Invalid(Tokens),
     }
 
-    pub struct Invalid {
-        pub span: Span,
-    }
-
     pub enum AtRule {
         Charset(CharsetRule),
         Import(ImportRule),
@@ -331,7 +335,7 @@ define!({
     }
 
     pub enum ImportSource {
-        Fn(FnValue),
+        Function(Function),
         Url(UrlValue),
         Str(Str),
     }
@@ -347,15 +351,15 @@ define!({
         pub block: Block,
     }
 
-    pub enum NamespaceValue {
+    pub enum NamespaceUri {
         Url(UrlValue),
         Str(Str),
     }
 
     pub struct NamespaceRule {
         pub span: Span,
-        pub prefix: Ident,
-        pub value: NamespaceValue,
+        pub prefix: Option<Ident>,
+        pub uri: NamespaceUri,
     }
 
     pub struct ViewportRule {
@@ -366,12 +370,13 @@ define!({
     pub struct UnknownAtRule {
         pub span: Span,
         pub name: Ident,
-        pub tokens: Tokens,
+        pub prelude: Vec<Value>,
+        pub block: Option<SimpleBlock>,
     }
 
     pub struct DocumentRule {
         pub span: Span,
-        pub selectors: Vec<FnValue>,
+        pub selectors: Vec<Function>,
         pub block: Vec<Rule>,
     }
 

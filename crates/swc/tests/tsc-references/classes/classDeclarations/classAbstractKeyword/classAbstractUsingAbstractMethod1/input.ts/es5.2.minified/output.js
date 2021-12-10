@@ -51,12 +51,12 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var A1 = function() {
+var A = function() {
     "use strict";
-    _classCallCheck(this, A1);
-}, B = function(A) {
+    _classCallCheck(this, A);
+}, B = function(A1) {
     "use strict";
-    _inherits(B, A);
+    _inherits(B, A1);
     var Constructor, protoProps, staticProps, _super = _createSuper(B);
     function B() {
         return _classCallCheck(this, B), _super.apply(this, arguments);
@@ -69,13 +69,13 @@ var A1 = function() {
             }
         }
     ], _defineProperties((Constructor = B).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), B;
-}(A1), C = function(A) {
+}(A), C = function(A2) {
     "use strict";
-    _inherits(C, A);
+    _inherits(C, A2);
     var _super = _createSuper(C);
     function C() {
         return _classCallCheck(this, C), _super.apply(this, arguments);
     }
     return C;
-}(A1), a = new B;
+}(A), a = new B;
 a.foo(), (a = new C).foo();

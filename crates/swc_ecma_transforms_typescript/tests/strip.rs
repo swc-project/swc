@@ -1,9 +1,10 @@
 use std::path::PathBuf;
 
-use swc_common::chain;
+use swc_common::{chain, pass::Optional, Mark};
 use swc_ecma_parser::{Syntax, TsConfig};
-use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_base::resolver::resolver_with_mark;
 use swc_ecma_transforms_compat::{
+    es2015::{block_scoping, destructuring, parameters},
     es2017::async_to_generator,
     es2020::{nullish_coalescing, optional_chaining},
 };
@@ -13,10 +14,27 @@ use swc_ecma_transforms_typescript::{strip, strip::strip_with_config};
 use swc_ecma_visit::Fold;
 
 fn tr() -> impl Fold {
-    strip_with_config(strip::Config {
+    tr_config(None, None)
+}
+
+fn tr_config(
+    config: Option<strip::Config>,
+    decorators_config: Option<decorators::Config>,
+) -> impl Fold {
+    let mark = Mark::fresh(Mark::root());
+    let has_decorators = decorators_config.is_some();
+    let config = config.unwrap_or_else(|| strip::Config {
         no_empty_export: true,
         ..Default::default()
-    })
+    });
+    chain!(
+        Optional::new(
+            decorators(decorators_config.unwrap_or_default()),
+            has_decorators,
+        ),
+        resolver_with_mark(mark),
+        strip_with_config(config, mark),
+    )
 }
 
 macro_rules! to {
@@ -42,7 +60,7 @@ macro_rules! test_with_config {
                 decorators: true,
                 ..Default::default()
             }),
-            |_| strip_with_config($config),
+            |_| tr_config(Some($config), None),
             $name,
             $from,
             $to,
@@ -50,6 +68,26 @@ macro_rules! test_with_config {
         );
     };
 }
+
+test!(
+    Syntax::Typescript(Default::default()),
+    |_| chain!(
+        tr(),
+        parameters(parameters::Config {
+            ignore_function_length: true
+        }),
+        destructuring(destructuring::Config { loose: false }),
+        block_scoping(),
+    ),
+    fn_len_default_assignment_with_types,
+    "export function transformFileSync(
+      filename: string,
+      opts?: Object = {},
+    ): string {}",
+    "export function transformFileSync(filename, opts) {
+      if (opts === void 0) opts = {};
+    }"
+);
 
 to!(
     constructor_01,
@@ -215,7 +253,7 @@ const dict = {};"
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| chain!(tr(), resolver()),
+    |_| tr(),
     issue_392_2,
     "
 import { PlainObject } from 'simplytyped';
@@ -428,6 +466,16 @@ to!(
     "
     var MyType = function(){};
     export default MyType;"
+);
+
+to!(
+    issue_685_4,
+    "
+    interface MyType {
+        other: number;
+    }
+    export default MyType;",
+    ""
 );
 
 to!(
@@ -683,7 +731,7 @@ to!(
   }
 });"#,
     r#"Deno.test("[ws] WebSocket should act as asyncIterator", async ()=>{
-    var Frames;
+    let Frames;
     (function(Frames) {
         Frames[Frames["ping"] = 0] = "ping";
         Frames[Frames["hello"] = 1] = "hello";
@@ -3117,11 +3165,14 @@ test!(
         ..Default::default()
     }),
     |_| {
-        strip_with_config(strip::Config {
-            no_empty_export: true,
-            import_not_used_as_values: strip::ImportsNotUsedAsValues::Preserve,
-            ..Default::default()
-        })
+        tr_config(
+            Some(strip::Config {
+                no_empty_export: true,
+                import_not_used_as_values: strip::ImportsNotUsedAsValues::Preserve,
+                ..Default::default()
+            }),
+            None,
+        )
     },
     deno_7413_3,
     "
@@ -3250,11 +3301,14 @@ test!(
     Syntax::Typescript(TsConfig {
         ..Default::default()
     }),
-    |_| strip_with_config(strip::Config {
-        use_define_for_class_fields: true,
-        no_empty_export: true,
-        ..Default::default()
-    }),
+    |_| tr_config(
+        Some(strip::Config {
+            use_define_for_class_fields: true,
+            no_empty_export: true,
+            ..Default::default()
+        }),
+        None
+    ),
     compile_to_class_constructor_collision_ignores_types,
     r#"
 class C {
@@ -3283,7 +3337,7 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(resolver(), decorators(Default::default()), tr()),
+    |_| tr_config(None, Some(Default::default())),
     issue_367,
     "
 
@@ -3303,13 +3357,13 @@ class A {
 }",
     "import { bind } from 'some';
 let A = _decorate([], function(_initialize) {
-    class A{
+    class A1{
         constructor(){
             _initialize(this);
         }
     }
     return {
-        F: A,
+        F: A1,
         d: [{
                 kind: 'get',
                 decorators: [bind],
@@ -3382,23 +3436,21 @@ to!(
     }
     ",
     "
-    var util1;
-    export { util1 as util };
-    (function (util) {
+    export var util;
+    (function (util1) {
         function assertNever(_x) {
             throw new Error();
         }
-        util.assertNever = assertNever;
-        util.arrayToEnum = (items) => {
+        util1.assertNever = assertNever;
+        util1.arrayToEnum = (items) => {
         };
-        util.getValidEnumValues = (obj) => {
+        util1.getValidEnumValues = (obj) => {
         };
-        util.getValues = (obj) => {
+        util1.getValues = (obj) => {
         };
-        util.objectValues = (obj) => {
+        util1.objectValues = (obj) => {
         };
-    })(util1 || (util1 = {}));
-
+    })(util || (util = {}));
     "
 );
 
@@ -3411,12 +3463,11 @@ to!(
     }
     ",
     "
-    var util1;
-    export { util1 as util };
-    (function (util) {
+    export var util;
+    (function (util1) {
         const c = 3;
-        [util.a, util.b] = [1, 2, 3];
-    })(util1 || (util1 = {}));
+        [util1.a, util1.b] = [1, 2, 3];
+    })(util || (util = {}));
     "
 );
 
@@ -3435,17 +3486,129 @@ to!(
     }
     ",
     "
-    var util1;
-    export { util1 as util };
-    (function (util) {
+    export var util;
+    (function (util1) {
         const c = 3;
         function foo() {
         }
-        util.foo = foo;
+        util1.foo = foo;
         function bar() {
         }
-    })(util1 || (util1 = {}));
+    })(util || (util = {}));
     "
+);
+
+to!(
+    namespace_003,
+    "
+    namespace Test.Inner {
+        export const c = 3;
+    }
+    namespace Test.Other {
+        export interface Test {}
+    }
+    ",
+    "
+    var Test;
+    (function (Test1) {
+        let Inner1;
+        (function (Inner) {
+            Inner.c = 3;
+        })(Inner1 = Test1.Inner || (Test1.Inner = {}));
+    })(Test || (Test = {}));
+    "
+);
+
+to!(
+    namespace_004,
+    "
+    namespace MyNamespace {
+        export enum MyEnum {
+            A = 1
+        }
+        export namespace MyInnerNamespace {
+            export enum MyEnum {
+                A = 1
+            }
+        }
+    }
+    namespace MyNamespace {
+        export enum MyEnum {
+            B = 1
+        }
+        export namespace MyInnerNamespace {
+            export const Dec2 = 2;
+        }
+    }
+    namespace MyNamespace {
+        enum MyEnum {
+            A = 2
+        }
+    }
+    ",
+    r#"
+    var MyNamespace;
+    (function (MyNamespace1) {
+        let MyEnum;
+        (function (MyEnum) {
+            MyEnum[MyEnum["A"] = 1] = "A";
+        })(MyEnum = MyNamespace1.MyEnum || (MyNamespace1.MyEnum = {}));
+        let MyInnerNamespace1;
+        (function (MyInnerNamespace) {
+            let MyEnum;
+            (function (MyEnum) {
+                MyEnum[MyEnum["A"] = 1] = "A";
+            })(MyEnum = MyInnerNamespace.MyEnum || (MyInnerNamespace.MyEnum = {}));
+        })(MyInnerNamespace1 = MyNamespace1.MyInnerNamespace || (MyNamespace1.MyInnerNamespace = {}));
+    })(MyNamespace || (MyNamespace = {}));
+    (function (MyNamespace2) {
+        let MyEnum;
+        (function (MyEnum) {
+            MyEnum[MyEnum["B"] = 1] = "B";
+        })(MyEnum = MyNamespace2.MyEnum || (MyNamespace2.MyEnum = {}));
+        let MyInnerNamespace2;
+        (function (MyInnerNamespace) {
+            MyInnerNamespace.Dec2 = 2;
+        })(MyInnerNamespace2 = MyNamespace2.MyInnerNamespace || (MyNamespace2.MyInnerNamespace = {}));
+    })(MyNamespace || (MyNamespace = {}));
+    (function (MyNamespace) {
+        let MyEnum;
+        (function (MyEnum) {
+            MyEnum[MyEnum["A"] = 2] = "A";
+        })(MyEnum || (MyEnum = {}));
+    })(MyNamespace || (MyNamespace = {}));
+    "#
+);
+
+to!(
+    namespace_005,
+    "
+    namespace A {
+        export class Test {}
+    }
+    namespace B {
+        export import a = A;
+        console.log(a.Test);
+        import b = A;
+        console.log(b.Test);
+    }
+    ",
+    r#"
+    var A;
+    (function (A1) {
+        class Test {
+        }
+        A1.Test = Test;
+    })(A || (A = {}));
+    var B;
+    (function (B1) {
+        var a = A;
+        B1.a = a;
+        console.log(a.Test);
+        var b = A;
+        console.log(b.Test);
+    })(B || (B = {}));
+    "#
 );
 
 to!(
@@ -3461,18 +3624,16 @@ to!(
     console(Test.DummyValues.A);
     ",
     "
-    var Test1;
-    (function(Test) {
-        var DummyValues;
+    var Test;
+    (function(Test1) {
+        let DummyValues;
         (function(DummyValues) {
             DummyValues['A'] = 'A';
             DummyValues['B'] = 'B';
-        })(DummyValues || (DummyValues = {
-        }));
-        Test.DummyValues = DummyValues;
-    })(Test1 || (Test1 = {
+        })(DummyValues = Test1.DummyValues || (Test1.DummyValues = {}));
+    })(Test || (Test = {
     }));
-    console(Test1.DummyValues.A);
+    console(Test.DummyValues.A);
     "
 );
 
@@ -4201,6 +4362,88 @@ to!(
     Color['Aqua'] = '#00ffff';
     Color['Cyan'] = '#00ffff';
 })(Color || (Color = {}));"
+);
+
+to!(
+    issue_2886_enum_namespace_block_scoping,
+    "
+export enum Enum {
+    test = 1
+}
+namespace Namespace {
+    export enum Enum {
+        test = 1
+    }
+    export enum Enum {
+        test2 = 1
+    }
+}
+{
+    enum Enum {
+        test = 1
+    }
+    namespace Namespace {
+        export enum Enum {
+            test = 1
+        }
+    }
+}
+{
+    enum Enum {
+        test = 1
+    }
+    namespace Namespace {
+        export enum Enum {
+            test = 1
+        }
+    }
+}
+",
+    r#"
+export var Enum;
+(function (Enum) {
+    Enum[Enum["test"] = 1] = "test";
+})(Enum || (Enum = {}));
+var Namespace;
+(function(Namespace1) {
+    let Enum;
+    (function(Enum) {
+        Enum[Enum["test"] = 1] = "test";
+    })(Enum = Namespace1.Enum || (Namespace1.Enum = {}));
+    (function(Enum) {
+        Enum[Enum["test2"] = 1] = "test2";
+    })(Enum = Namespace1.Enum || (Namespace1.Enum = {}));
+})(Namespace || (Namespace = {
+}));
+{
+    let Enum;
+    (function (Enum) {
+        Enum[Enum["test"] = 1] = "test";
+    })(Enum || (Enum = {}));
+    let Namespace2;
+    (function(Namespace3) {
+        let Enum;
+        (function(Enum) {
+            Enum[Enum["test"] = 1] = "test";
+        })(Enum = Namespace3.Enum || (Namespace3.Enum = {}));
+    })(Namespace2 || (Namespace2 = {
+    }));
+}
+{
+    let Enum;
+    (function (Enum) {
+        Enum[Enum["test"] = 1] = "test";
+    })(Enum || (Enum = {}));
+    let Namespace4;
+    (function(Namespace5) {
+        let Enum;
+        (function(Enum) {
+            Enum[Enum["test"] = 1] = "test";
+        })(Enum = Namespace5.Enum || (Namespace5.Enum = {}));
+    })(Namespace4 || (Namespace4 = {
+    }));
+}
+    "#
 );
 
 #[testing::fixture("tests/fixture/**/input.ts")]

@@ -1,6 +1,5 @@
-var CompilerDiagnostics1;
-export { CompilerDiagnostics1 as CompilerDiagnostics };
-(function(CompilerDiagnostics) {
+export var CompilerDiagnostics;
+(function(CompilerDiagnostics1) {
     var Alert = function Alert(output) {
         if (diagnosticWriter) {
             diagnosticWriter.Alert(output);
@@ -18,11 +17,11 @@ export { CompilerDiagnostics1 as CompilerDiagnostics };
             }
         }
     };
-    CompilerDiagnostics.debug = false;
-    CompilerDiagnostics.diagnosticWriter = null;
-    CompilerDiagnostics.analysisPass = 0;
-    CompilerDiagnostics.Alert = Alert;
-    CompilerDiagnostics.debugPrint = debugPrint;
-    CompilerDiagnostics.assert = assert;
-})(CompilerDiagnostics1 || (CompilerDiagnostics1 = {
+    CompilerDiagnostics1.debug = false;
+    CompilerDiagnostics1.diagnosticWriter = null;
+    CompilerDiagnostics1.analysisPass = 0;
+    CompilerDiagnostics1.Alert = Alert;
+    CompilerDiagnostics1.debugPrint = debugPrint;
+    CompilerDiagnostics1.assert = assert;
+})(CompilerDiagnostics || (CompilerDiagnostics = {
 }));

@@ -1,10 +1,5 @@
-use std::{any::Any, sync::Arc};
+use std::sync::Arc;
 use swc_visit::define;
-
-/// Visitable nodes.
-pub trait Node: Any {}
-
-impl<T: ?Sized> Node for T where T: Any {}
 
 pub struct Item {
     pub item: Option<Arc<Item>>,
@@ -33,7 +28,7 @@ define!({
 struct Panic;
 
 impl Visit for Panic {
-    fn visit_item(&mut self, _: &Item, _parent: &dyn Node) {
+    fn visit_item(&mut self, _: &Item) {
         panic!("Success")
     }
 }

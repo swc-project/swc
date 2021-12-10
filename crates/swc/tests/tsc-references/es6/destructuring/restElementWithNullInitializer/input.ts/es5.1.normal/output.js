@@ -1,25 +1,38 @@
+function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
+    return arr2;
+}
 function _arrayWithHoles(arr) {
     if (Array.isArray(arr)) return arr;
 }
 function _iterableToArray(iter) {
-    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+    if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
 }
 function _nonIterableRest() {
-    throw new TypeError("Invalid attempt to destructure non-iterable instance");
+    throw new TypeError("Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 function _toArray(arr) {
-    return _arrayWithHoles(arr) || _iterableToArray(arr) || _nonIterableRest();
+    return _arrayWithHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
 }
-function foo1(param) {
-    var ref = _toArray(param === void 0 ? null : param), r = ref.slice(0);
+function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(n);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
 }
-function foo2(param) {
-    var ref = _toArray(param === void 0 ? undefined : param), r = ref.slice(0);
+function foo1() {
+    var ref = _toArray(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : null), r = ref.slice(0);
 }
-function foo3(param) {
-    var ref = _toArray(param === void 0 ? {
-    } : param), r = ref.slice(0);
+function foo2() {
+    var ref = _toArray(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : undefined), r = ref.slice(0);
 }
-function foo4(param) {
-    var ref = _toArray(param === void 0 ? [] : param), r = ref.slice(0);
+function foo3() {
+    var ref = _toArray(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
+    }), r = ref.slice(0);
+}
+function foo4() {
+    var ref = _toArray(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : []), r = ref.slice(0);
 }

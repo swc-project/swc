@@ -1,9 +1,9 @@
 function getFoo1() {
     return {
-        method1: function(arg) {
+        method1: function method1(arg) {
             arg.numProp = 10;
         },
-        method2: function(arg) {
+        method2: function method2(arg) {
             arg.strProp = "hello";
         }
     };

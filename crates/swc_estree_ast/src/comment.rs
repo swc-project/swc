@@ -14,8 +14,8 @@ pub struct BaseComment {
     #[serde(rename = "type")]
     pub type_: CommentType,
     pub value: String,
-    pub start: usize,
-    pub end: usize,
+    pub start: u32,
+    pub end: u32,
     pub loc: Loc,
 }
 

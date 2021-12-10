@@ -1,4 +1,27 @@
 function __swcpack_require__(mod) {
+    function interop(obj) {
+        if (obj && obj.__esModule) {
+            return obj;
+        } else {
+            var newObj = {
+            };
+            if (obj != null) {
+                for(var key in obj){
+                    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+                        var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {
+                        };
+                        if (desc.get || desc.set) {
+                            Object.defineProperty(newObj, key, desc);
+                        } else {
+                            newObj[key] = obj[key];
+                        }
+                    }
+                }
+            }
+            newObj.default = obj;
+            return newObj;
+        }
+    }
     var cache;
     if (cache) {
         return cache;
@@ -8,7 +31,7 @@ function __swcpack_require__(mod) {
         }
     };
     mod(module, module.exports);
-    cache = module.exports;
+    cache = interop(module.exports);
     return cache;
 }
 var load = __swcpack_require__.bind(void 0, function(module, exports) {
@@ -4468,7 +4491,7 @@ var load224 = __swcpack_require__.bind(void 0, function(module, exports) {
     var each = load172()(0);
     var redefine = load17();
     var meta = load21();
-    var assign = load65();
+    var assign1 = load65();
     var weak = load223();
     var isObject = load5();
     var validate = load218();
@@ -4503,7 +4526,7 @@ var load224 = __swcpack_require__.bind(void 0, function(module, exports) {
     // IE11 WeakMap frozen keys fix
     if (NATIVE_WEAK_MAP && IS_IE11) {
         InternalMap = weak.getConstructor(wrapper, WEAK_MAP);
-        assign(InternalMap.prototype, methods);
+        assign1(InternalMap.prototype, methods);
         meta.NEED = true;
         each([
             'delete',
@@ -7105,7 +7128,7 @@ var load328 = __swcpack_require__.bind(void 0, function(module, exports) {
     var ctx = load19();
     var $export = load20();
     var createDesc = load11();
-    var assign = load65();
+    var assign2 = load65();
     var create = load45();
     var getPrototypeOf = load55();
     var getKeys = load37();
@@ -7196,7 +7219,7 @@ var load328 = __swcpack_require__.bind(void 0, function(module, exports) {
             if (isIterable(iterable)) forOf(iterable, true, function(key, value) {
                 dict[key] = value;
             });
-            else assign(dict, iterable);
+            else assign2(dict, iterable);
         }
         return dict;
     }
@@ -7449,4 +7472,4 @@ var load344 = __swcpack_require__.bind(void 0, function(module, exports) {
     load343();
     module.exports = load4();
 });
-var { default: assign1  } = load344();
+var { default: assign  } = load344();

@@ -1,0 +1,13 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true,
+            "dynamicImport": true
+        },
+        "externalHelpers": true
+    },
+    "env": {
+        "targets": "Chrome >= 48"
+    }
+}

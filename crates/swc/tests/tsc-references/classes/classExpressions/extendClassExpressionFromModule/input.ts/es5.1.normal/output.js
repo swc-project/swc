@@ -69,24 +69,24 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
-var x1 = function x1() {
+var x = function x() {
     "use strict";
-    _classCallCheck(this, x1);
+    _classCallCheck(this, x);
 };
-module.exports = x1;
+module.exports = x;
 // @Filename: foo2.ts
 var foo1 = require('./foo1');
-var x1 = foo1;
-var y = /*#__PURE__*/ function(x) {
+var x = foo1;
+var y = /*#__PURE__*/ function(x1) {
     "use strict";
-    _inherits(y, x);
+    _inherits(y, x1);
     var _super = _createSuper(y);
     function y() {
         _classCallCheck(this, y);
         return _super.apply(this, arguments);
     }
     return y;
-}(x1);
+}(x);
 // @module: commonjs
 // @Filename: foo1.ts
 export { };

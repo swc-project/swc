@@ -129,7 +129,7 @@ fn issue_1279_2() {
             static f = 1;
             static g = Foo.f;
             method() {
-                let Foo = class Foo {
+                let Foo1 = class Foo {
                     static nested = 1;
                     static nested2 = Foo.nested;
                 };

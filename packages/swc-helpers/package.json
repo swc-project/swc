@@ -1,0 +1,31 @@
+{
+    "name": "@swc/helpers",
+    "version": "0.3.2",
+    "description": "External helpers for the swc project.",
+    "esnext": "src/index.js",
+    "module": "src/index.js",
+    "main": "lib/index.js",
+    "sideEffects": false,
+    "scripts": {
+        "build": "swc -V && swc src -d lib",
+        "prepublishOnly": "swc src -d lib"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/swc-project/swc.git"
+    },
+    "keywords": [
+        "swc",
+        "helpers"
+    ],
+    "author": "강동윤 <kdy1997.dev@gmail.com>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/swc-project/swc/issues"
+    },
+    "homepage": "https://swc.rs",
+    "devDependencies": {
+        "@swc/cli": "^0.1.36",
+        "@swc/core": "^1.2.58"
+    }
+}

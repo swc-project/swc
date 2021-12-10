@@ -21,7 +21,7 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-function _createSuper(Derived) {
+function _createSuper(Derived1) {
     var hasNativeReflectConstruct = function() {
         if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
         if (Reflect.construct.sham) return !1;
@@ -34,7 +34,7 @@ function _createSuper(Derived) {
         }
     }();
     return function() {
-        var obj, self, call, result, Super = _getPrototypeOf(Derived);
+        var obj, self, call, result, Super = _getPrototypeOf(Derived1);
         if (hasNativeReflectConstruct) {
             var NewTarget = _getPrototypeOf(this).constructor;
             result = Reflect.construct(Super, arguments, NewTarget);
@@ -45,18 +45,18 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var ExplicitPublic, ImplicitPublic, Base1 = function() {
+var ExplicitPublic, ImplicitPublic, Base = function() {
     "use strict";
-    _classCallCheck(this, Base1);
-}, Derived1 = function(Base) {
+    _classCallCheck(this, Base);
+}, Derived = function(Base1) {
     "use strict";
-    _inherits(Derived1, Base);
-    var _super = _createSuper(Derived1);
-    function Derived1() {
-        return _classCallCheck(this, Derived1), _super.apply(this, arguments);
+    _inherits(Derived, Base1);
+    var _super = _createSuper(Derived);
+    function Derived() {
+        return _classCallCheck(this, Derived), _super.apply(this, arguments);
     }
-    return Derived1;
-}(Base1);
+    return Derived;
+}(Base);
 !function(ExplicitPublic) {
     var A1 = function() {
         "use strict";

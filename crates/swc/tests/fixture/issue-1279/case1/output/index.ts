@@ -13,10 +13,10 @@ function _defineProperty(obj, key, value) {
 }
 export class Foo {
     nested() {
-        let Foo = class Foo {
+        let Foo1 = class Foo {
         };
-        _defineProperty(Foo, "foo", 'foo');
-        _defineProperty(Foo, "bar", Foo.foo);
-        return new Foo();
+        _defineProperty(Foo1, "foo", 'foo');
+        _defineProperty(Foo1, "bar", Foo1.foo);
+        return new Foo1();
     }
 }

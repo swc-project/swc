@@ -1,3 +1,8 @@
+function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
+    return arr2;
+}
 function _arrayWithHoles(arr) {
     if (Array.isArray(arr)) return arr;
 }
@@ -21,12 +26,14 @@ function _createClass(Constructor, protoProps, staticProps) {
     return Constructor;
 }
 function _iterableToArrayLimit(arr, i) {
+    var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
+    if (_i == null) return;
     var _arr = [];
     var _n = true;
     var _d = false;
-    var _e = undefined;
+    var _s, _e;
     try {
-        for(var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true){
+        for(_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true){
             _arr.push(_s.value);
             if (i && _arr.length === i) break;
         }
@@ -43,10 +50,18 @@ function _iterableToArrayLimit(arr, i) {
     return _arr;
 }
 function _nonIterableRest() {
-    throw new TypeError("Invalid attempt to destructure non-iterable instance");
+    throw new TypeError("Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 function _slicedToArray(arr, i) {
-    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
+    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+}
+function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(n);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
 }
 // @downlevelIteration: true
 // A parameter declaration may specify either an identifier or a binding pattern.
@@ -86,37 +101,37 @@ a1([
 // If the declaration includes an initializer expression (which is permitted only
 // when the parameter list occurs in conjunction with a function body),
 // the parameter type is the widened form (section 3.11) of the type of the initializer expression.
-function b1(param) {
-    var z = param === void 0 ? [
+function b1() {
+    var z = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [
         undefined,
         null
-    ] : param;
+    ];
 }
-function b2(param, param1) {
-    var z = param === void 0 ? null : param, o = param1 === void 0 ? {
+function b2() {
+    var z = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : null, o = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {
         x: 0,
         y: undefined
-    } : param1;
+    };
 }
-function b3(param) {
-    var ref = param === void 0 ? {
+function b3() {
+    var ref = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
         z: {
             x: "hi",
             y: {
                 j: 1
             }
         }
-    } : param, _z = ref.z, x = _z.x, j = _z.y.j;
+    }, _z = ref.z, x = _z.x, j = _z.y.j;
 }
-function b6(param) {
-    var ref = _slicedToArray(param === void 0 ? [
+function b6() {
+    var ref = _slicedToArray(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [
         undefined,
         null,
         undefined
-    ] : param, 3), a = ref[0], z = ref[1], y = ref[2];
+    ], 3), a = ref[0], z = ref[1], y = ref[2];
 }
-function b7(param) {
-    var ref = _slicedToArray(param === void 0 ? [
+function b7() {
+    var ref = _slicedToArray(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [
         [
             undefined
         ],
@@ -127,7 +142,7 @@ function b7(param) {
                 undefined
             ]
         ]
-    ] : param, 3), ref2 = _slicedToArray(ref[0], 1), a = ref2[0], b = ref[1], ref3 = _slicedToArray(ref[2], 1), ref4 = _slicedToArray(ref3[0], 2), c = ref4[0], d = ref4[1];
+    ], 3), ref2 = _slicedToArray(ref[0], 1), a = ref2[0], b = ref[1], ref3 = _slicedToArray(ref[2], 1), ref4 = _slicedToArray(ref3[0], 2), c = ref4[0], d = ref4[1];
 }
 b1([
     1,
@@ -160,26 +175,26 @@ b7([
     ]
 ]); // Shouldn't be an error
 var // If the declaration specifies a binding pattern, the parameter type is the implied type of that binding pattern (section 5.1.3)
-Foo1;
+Foo;
 (function(Foo) {
     Foo[Foo["a"] = 0] = "a";
-})(Foo1 || (Foo1 = {
+})(Foo || (Foo = {
 }));
 function c0(param) {
     var _z = param.z, x = _z.x, j = _z.y.j;
 }
-function c1(param) {
-    var z = (param === void 0 ? {
+function c1() {
+    var z = (arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
         z: 10
-    } : param).z;
+    }).z;
 }
 function c2(param) {
     var _z = param.z, z = _z === void 0 ? 10 : _z;
 }
-function c3(param) {
-    var b = (param === void 0 ? {
+function c3() {
+    var b = (arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
         b: "hello"
-    } : param).b;
+    }).b;
 }
 function c5(param) {
     var _param = _slicedToArray(param, 3), a = _param[0], b = _param[1], ref = _slicedToArray(_param[2], 1), ref5 = _slicedToArray(ref[0], 1), c = ref5[0];
@@ -240,8 +255,8 @@ c5([
 // or by including an initializer.
 function d0(x) {
 }
-function d0(param) {
-    var x = param === void 0 ? 10 : param;
+function d0() {
+    var x = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 10;
 }
 var C2 = /*#__PURE__*/ function() {
     "use strict";
@@ -295,11 +310,11 @@ var C3 = /*#__PURE__*/ function() {
     ]);
     return C3;
 }();
-function d5(param) {
-    var ref = param === void 0 ? {
+function d5() {
+    var ref = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
         x: 1,
         y: 2
-    } : param, x = ref.x, y = ref.y;
+    }, x = ref.x, y = ref.y;
 }
 d5(); // Parameter is optional as its declaration included an initializer
 // Destructuring parameter declarations do not permit type annotations on the individual binding patterns,

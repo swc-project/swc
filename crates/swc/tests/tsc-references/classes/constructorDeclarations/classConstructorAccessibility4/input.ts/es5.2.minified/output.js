@@ -75,8 +75,8 @@ var A1 = function() {
                             }
                         }
                     ]), B;
-                }(), C = function(A) {
-                    _inherits(C, A);
+                }(), C = function(A2) {
+                    _inherits(C, A2);
                     var _super = _createSuper(C);
                     function C() {
                         return _classCallCheck(this, C), _super.apply(this, arguments);
@@ -107,8 +107,8 @@ var A1 = function() {
                             }
                         }
                     ]), E;
-                }(), F = function(D) {
-                    _inherits(F, D);
+                }(), F = function(D2) {
+                    _inherits(F, D2);
                     var _super = _createSuper(F);
                     function F() {
                         return _classCallCheck(this, F), _super.apply(this, arguments);

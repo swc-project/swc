@@ -56,10 +56,10 @@ function _isNativeReflectConstruct() {
         return false;
     }
 }
-function _createSuper(Derived) {
+function _createSuper(Derived1) {
     var hasNativeReflectConstruct = _isNativeReflectConstruct();
     return function _createSuperInternal() {
-        var Super = _getPrototypeOf(Derived), result;
+        var Super = _getPrototypeOf(Derived1), result;
         if (hasNativeReflectConstruct) {
             var NewTarget = _getPrototypeOf(this).constructor;
             result = Reflect.construct(Super, arguments, NewTarget);
@@ -101,11 +101,11 @@ function rec3() {
 function rec4() {
     return rec3();
 }
-var n1;
-var n1 = rec3();
-var n1 = rec4();
+var n;
+var n = rec3();
+var n = rec4();
 // FunctionExpression with no return type annotation and returns a number
-var n1 = function() {
+var n = function() {
     return 3;
 }();
 // FunctionExpression with no return type annotation and returns null
@@ -119,15 +119,15 @@ var un = function() {
     return undefined;
 }();
 // FunctionExpression with no return type annotation and returns a type parameter type
-var n1 = function(x) {
+var n = function(x) {
     return x;
 }(4);
 // FunctionExpression with no return type annotation and returns a constrained type parameter type
-var n1 = function(x) {
+var n = function(x) {
     return x;
 }(4);
 // FunctionExpression with no return type annotation with multiple return statements with identical types
-var n1 = function() {
+var n = function() {
     return 3;
     return 5;
 }();
@@ -135,25 +135,25 @@ var Base = function Base() {
     "use strict";
     _classCallCheck(this, Base);
 };
-var Derived1 = /*#__PURE__*/ function(Base) {
+var Derived = /*#__PURE__*/ function(Base) {
     "use strict";
-    _inherits(Derived1, Base);
-    var _super = _createSuper(Derived1);
-    function Derived1() {
-        _classCallCheck(this, Derived1);
+    _inherits(Derived, Base);
+    var _super = _createSuper(Derived);
+    function Derived() {
+        _classCallCheck(this, Derived);
         return _super.apply(this, arguments);
     }
-    return Derived1;
+    return Derived;
 }(Base);
 var b;
 var b = function() {
     return new Base();
-    return new Derived1();
+    return new Derived();
 }();
 // FunctionExpression with no return type annotation with multiple return statements with one a recursive call
 var a = function f() {
     return new Base();
-    return new Derived1();
+    return new Derived();
     return f(); // ?
 }();
 // FunctionExpression with non -void return type annotation with a single throw statement
@@ -166,23 +166,23 @@ function thisFunc() {
     var x;
 }
 // Function signature with optional parameter, no type annotation and initializer has initializer's type
-function opt1(param) {
-    var n = param === void 0 ? 4 : param;
-    var m = n;
+function opt1() {
+    var n1 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 4;
+    var m = n1;
     var m;
 }
 // Function signature with optional parameter, no type annotation and initializer has initializer's widened type
-function opt2(param) {
-    var n = param === void 0 ? {
+function opt2() {
+    var n2 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
         x: null,
         y: undefined
-    } : param;
-    var m = n;
+    };
+    var m = n2;
     var m;
 }
 // Function signature with initializer referencing other parameter to the left
-function opt3(n, param) {
-    var m = param === void 0 ? n : param;
+function opt3(n3) {
+    var m = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : n3;
     var y = m;
     var y;
 }
@@ -221,11 +221,11 @@ var f8 = function(x) {
 };
 var f9 = function(x) {
     return new Base();
-    return new Derived1();
+    return new Derived();
     return new Derived2();
 };
 var f10 = function(x) {
-    return new Derived1();
+    return new Derived();
     return new Derived2();
 };
 var f11 = function(x) {

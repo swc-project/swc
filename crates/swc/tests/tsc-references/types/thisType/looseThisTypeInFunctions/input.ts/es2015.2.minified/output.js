@@ -2,11 +2,11 @@ let c = new class {
     explicitThis(m) {
         return this.n + m;
     }
-    implicitThis(m1) {
-        return this.n + m1;
+    implicitThis(m) {
+        return this.n + m;
     }
-    explicitVoid(m2) {
-        return m2 + 1;
+    explicitVoid(m) {
+        return m + 1;
     }
 }();
 c.explicitVoid = c.explicitThis;

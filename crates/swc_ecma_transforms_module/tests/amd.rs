@@ -11,7 +11,6 @@ use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
     Syntax::Es(EsConfig {
-        dynamic_import: true,
         ..Default::default()
     })
 }

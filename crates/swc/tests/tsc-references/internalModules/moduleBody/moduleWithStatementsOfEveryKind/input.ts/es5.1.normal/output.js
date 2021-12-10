@@ -69,6 +69,7 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
+var A;
 (function(A2) {
     var F = function F(s) {
         return 2;
@@ -91,9 +92,9 @@ function _createSuper(Derived) {
         }
         return B;
     }(AA);
-    var BB = /*#__PURE__*/ function(A) {
+    var BB = /*#__PURE__*/ function(A3) {
         "use strict";
-        _inherits(BB, A);
+        _inherits(BB, A3);
         var _super = _createSuper(BB);
         function BB() {
             _classCallCheck(this, BB);
@@ -103,17 +104,17 @@ function _createSuper(Derived) {
     }(A1);
     var Module;
     (function(Module) {
-        var A = function A() {
+        var A4 = function A4() {
             "use strict";
-            _classCallCheck(this, A);
+            _classCallCheck(this, A4);
         };
     })(Module || (Module = {
     }));
-    var Color1;
+    var Color;
     (function(Color) {
         Color[Color["Blue"] = 0] = "Blue";
         Color[Color["Red"] = 1] = "Red";
-    })(Color1 || (Color1 = {
+    })(Color || (Color = {
     }));
     var x = 12;
     var array = null;
@@ -127,21 +128,21 @@ function _createSuper(Derived) {
     };
 })(A || (A = {
 }));
-var Y1;
-(function(Y) {
+var Y;
+(function(Y1) {
     var F = function F(s) {
         return 2;
     };
-    var A = function A() {
+    var A5 = function A5() {
         "use strict";
-        _classCallCheck(this, A);
+        _classCallCheck(this, A5);
     };
-    Y.A = A;
+    Y1.A = A5;
     var AA = function AA() {
         "use strict";
         _classCallCheck(this, AA);
     };
-    Y.AA = AA;
+    Y1.AA = AA;
     var B = /*#__PURE__*/ function(AA) {
         "use strict";
         _inherits(B, AA);
@@ -152,40 +153,42 @@ var Y1;
         }
         return B;
     }(AA);
-    Y.B = B;
-    var BB = /*#__PURE__*/ function(A) {
+    Y1.B = B;
+    var BB = /*#__PURE__*/ function(A6) {
         "use strict";
-        _inherits(BB, A);
+        _inherits(BB, A6);
         var _super = _createSuper(BB);
         function BB() {
             _classCallCheck(this, BB);
             return _super.apply(this, arguments);
         }
         return BB;
-    }(A);
-    Y.BB = BB;
+    }(A5);
+    Y1.BB = BB;
+    var Module;
     (function(Module) {
-        var A = function A() {
+        var A7 = function A7() {
             "use strict";
-            _classCallCheck(this, A);
+            _classCallCheck(this, A7);
         };
-    })(Module || (Module = {
+    })(Module = Y1.Module || (Y1.Module = {
     }));
+    var Color;
     (function(Color) {
         Color[Color["Blue"] = 0] = "Blue";
         Color[Color["Red"] = 1] = "Red";
-    })(Color || (Color = {
+    })(Color = Y1.Color || (Y1.Color = {
     }));
-    Y.x = 12;
-    Y.F = F;
-    Y.array = null;
-    Y.fn = function(s) {
+    Y1.x = 12;
+    Y1.F = F;
+    Y1.array = null;
+    Y1.fn = function(s) {
         return 'hello ' + s;
     };
-    Y.ol = {
+    Y1.ol = {
         s: 'hello',
         id: 2,
         isvalid: true
     };
-})(Y1 || (Y1 = {
+})(Y || (Y = {
 }));

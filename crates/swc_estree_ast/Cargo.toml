@@ -3,10 +3,10 @@ authors = ["강동윤 <kdy1997.dev@gmail.com>", "Daniel Woznicki <daniel.woznick
 description = "ESTree AST node definitions"
 documentation = "https://rustdoc.swc.rs/swc_estree_ast/"
 edition = "2018"
-license = "Apache-2.0/MIT"
+license = "Apache-2.0"
 name = "swc_estree_ast"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.2.1"
+version = "0.5.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -16,4 +16,4 @@ scoped-tls = "1.0.0"
 serde = {version = "1", features = ["derive"]}
 serde_json = "1"
 swc_atoms = {version = "0.2", path = "../swc_atoms"}
-swc_common = {version = "0.14", path = "../swc_common"}
+swc_common = {version = "0.15.0", path = "../swc_common"}

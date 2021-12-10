@@ -15,6 +15,14 @@ pub fn resolve(name: &str) -> Result<Arc<PathBuf>, Error> {
     let cwd = current_dir().context("failed to get current directory")?;
     let mut dir = Some(&*cwd);
 
+    // If given name is a resolvable local path, returns it directly.
+    // It should be a path to the plugin file to be loaded, per-platform path
+    // interop is caller's responsibility.
+    let local_path = PathBuf::from(name);
+    if local_path.is_file() {
+        return Ok(Arc::new(local_path));
+    }
+
     let mut errors = vec![];
 
     while let Some(base_dir) = dir {

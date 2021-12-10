@@ -45,33 +45,33 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var Class1 = function() {
+var Class = function() {
     "use strict";
-    _classCallCheck(this, Class1);
-}, SubClass = function(Class) {
+    _classCallCheck(this, Class);
+}, SubClass = function(Class1) {
     "use strict";
-    _inherits(SubClass, Class);
+    _inherits(SubClass, Class1);
     var _super = _createSuper(SubClass);
     function SubClass() {
         return _classCallCheck(this, SubClass), _super.call(this);
     }
     return SubClass;
-}(Class1), D1 = function() {
+}(Class), D = function() {
     "use strict";
-    _classCallCheck(this, D1);
-}, SubD = function(D) {
+    _classCallCheck(this, D);
+}, SubD = function(D1) {
     "use strict";
-    _inherits(SubD, D);
+    _inherits(SubD, D1);
     var _super = _createSuper(SubD);
     function SubD() {
         return _classCallCheck(this, SubD), _super.call(this);
     }
     return SubD;
-}(D1);
-function d0(param) {
-    (void 0 === param ? {
-        x: new Class1()
-    } : param).x;
+}(D);
+function d0() {
+    (arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
+        x: new Class()
+    }).x;
 }
 function d1(param) {
     param.x;
@@ -82,7 +82,7 @@ function d2(param) {
 function d3(param) {
     param.y;
 }
-new Class1(), d0({
+new Class(), d0({
     x: 1
 }), d0({
     x: {
@@ -90,7 +90,7 @@ new Class1(), d0({
 }), d0({
     x: "string"
 }), d1({
-    x: new Class1()
+    x: new Class()
 }), d1({
     x: {
     }
@@ -106,7 +106,7 @@ new Class1(), d0({
 }), d3({
     y: new SubClass()
 }), d3({
-    y: new Class1()
+    y: new Class()
 }), d3({
 }), d3({
     y: 1

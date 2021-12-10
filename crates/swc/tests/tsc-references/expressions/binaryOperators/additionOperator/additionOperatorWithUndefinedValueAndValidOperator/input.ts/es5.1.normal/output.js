@@ -1,10 +1,10 @@
 var // If one operand is the null or undefined value, it is treated as having the type of the other operand.
-E1;
+E;
 (function(E) {
     E[E["a"] = 0] = "a";
     E[E["b"] = 1] = "b";
     E[E["c"] = 2] = "c";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
 var a;
 var b;
@@ -17,13 +17,13 @@ var r2 = a + undefined;
 var r3 = undefined + b;
 var r4 = undefined + 1;
 var r5 = undefined + c;
-var r6 = undefined + E1.a;
-var r7 = undefined + E1['a'];
+var r6 = undefined + E.a;
+var r7 = undefined + E['a'];
 var r8 = b + undefined;
 var r9 = 1 + undefined;
 var r10 = c + undefined;
-var r11 = E1.a + undefined;
-var r12 = E1['a'] + undefined;
+var r11 = E.a + undefined;
+var r12 = E['a'] + undefined;
 // undefined + string
 var r13 = undefined + d;
 var r14 = undefined + '';

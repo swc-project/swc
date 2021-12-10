@@ -28,8 +28,3 @@ pub enum Rule {
     #[tag("Tokens")]
     Invalid(Tokens),
 }
-
-#[ast_node]
-pub struct Invalid {
-    pub span: Span,
-}

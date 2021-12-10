@@ -11,7 +11,7 @@ class Base {
     static get t() {
         return '';
     }
-    static set t(v1) {
+    static set t(v) {
     }
     constructor(x){
     }

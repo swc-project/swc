@@ -1,8 +1,8 @@
-var E, E1, C = function() {
+var E, E, C = function() {
     "use strict";
     !function(instance, Constructor) {
         if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
     }(this, C);
 };
-(E1 = E || (E = {
-}))[E1.A = 0] = "A";
+(E = E || (E = {
+}))[E.A = 0] = "A";

@@ -1,4 +1,4 @@
-var EX, EX1;
+var EX, EX;
 class C1 extends Constructor() {
 }
 class C2 extends Constructor() {
@@ -13,8 +13,8 @@ class C6 extends Constructor() {
 }
 class C7 extends Constructor() {
 }
-(EX1 = EX || (EX = {
-}))[EX1.A = 0] = "A", EX1[EX1.B = 1] = "B", EX1[EX1.C = 2] = "C";
+(EX = EX || (EX = {
+}))[EX.A = 0] = "A", EX[EX.B = 1] = "B", EX[EX.C = 2] = "C";
 class C20 extends Constructor() {
 }
 class C21 extends Constructor() {

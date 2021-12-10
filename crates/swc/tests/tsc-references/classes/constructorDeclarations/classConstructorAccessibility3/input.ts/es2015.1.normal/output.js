@@ -5,18 +5,18 @@ class Foo {
     }
 }
 class Bar {
-    constructor(x1){
-        this.x = x1;
+    constructor(x){
+        this.x = x;
     }
 }
 class Baz {
-    constructor(x2){
-        this.x = x2;
+    constructor(x){
+        this.x = x;
     }
 }
 class Qux {
-    constructor(x3){
-        this.x = x3;
+    constructor(x){
+        this.x = x;
     }
 }
 // b is public

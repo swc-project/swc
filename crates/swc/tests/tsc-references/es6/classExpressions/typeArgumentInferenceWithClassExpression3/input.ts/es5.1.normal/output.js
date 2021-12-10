@@ -3,11 +3,11 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-function foo(param) {
-    var x = param === void 0 ? function _class() {
+function foo() {
+    var x = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : function _class() {
         "use strict";
         _classCallCheck(this, _class);
-    } : param;
+    };
     return undefined;
 }
 foo(function _class() {
