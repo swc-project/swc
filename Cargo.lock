@@ -2681,7 +2681,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.59.0"
+version = "0.59.1"
 dependencies = [
  "arbitrary",
  "is-macro",
@@ -3119,7 +3119,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.55.0"
+version = "0.55.1"
 dependencies = [
  "once_cell",
  "rayon",
