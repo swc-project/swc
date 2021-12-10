@@ -20,12 +20,10 @@ var X;
             class Line {
             }
             Z.Line = Line;
-        })(Z1 || (Z1 = {
+        })(Z1 = Y.Z || (Y.Z = {
         }));
-        Y.Z = Z1;
-    })(Y1 || (Y1 = {
+    })(Y1 = X1.Y || (X1.Y = {
     }));
-    X1.Y = Y1;
 })(X || (X = {
 }));
 (function(X2) {
@@ -36,11 +34,9 @@ var X;
             class Line {
             }
             Z.Line = Line;
-        })(Z2 || (Z2 = {
+        })(Z2 = Y.Z || (Y.Z = {
         }));
-        Y.Z = Z2;
-    })(Y2 || (Y2 = {
+    })(Y2 = X2.Y || (X2.Y = {
     }));
-    X2.Y = Y2;
 })(X || (X = {
 }));

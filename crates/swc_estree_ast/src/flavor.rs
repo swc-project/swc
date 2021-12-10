@@ -6,7 +6,7 @@ scoped_thread_local!(static FLAVOR: Flavor);
 #[derive(Debug, Clone, Copy, Eq, PartialEq, Hash)]
 pub enum Flavor {
     Babel,
-    Acorn,
+    Acorn { extra_comments: bool },
 }
 
 impl Default for Flavor {
@@ -35,7 +35,7 @@ impl Flavor {
         true
     }
 
-    pub(crate) fn skip_range(_: &Option<[usize; 2]>) -> bool {
+    pub(crate) fn skip_range(_: &Option<[u32; 2]>) -> bool {
         matches!(Self::current(), Flavor::Babel)
     }
 
@@ -43,14 +43,14 @@ impl Flavor {
     where
         T: IsEmpty,
     {
-        matches!(Self::current(), Flavor::Acorn) && v.is_empty()
+        matches!(Self::current(), Flavor::Acorn { .. }) && v.is_empty()
     }
 
     pub(crate) fn skip_none<T>(v: &Option<T>) -> bool {
-        matches!(Self::current(), Flavor::Acorn) && v.is_none()
+        matches!(Self::current(), Flavor::Acorn { .. }) && v.is_none()
     }
     pub(crate) fn skip_none_and_false(v: &Option<bool>) -> bool {
-        matches!(Self::current(), Flavor::Acorn) && matches!(v, None | Some(false))
+        matches!(Self::current(), Flavor::Acorn { .. }) && matches!(v, None | Some(false))
     }
 }
 

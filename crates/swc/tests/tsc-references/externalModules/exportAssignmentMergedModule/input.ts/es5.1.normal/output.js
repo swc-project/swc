@@ -17,9 +17,8 @@ var Foo;
     var Test1;
     (function(Test) {
         Test.answer = 42;
-    })(Test1 || (Test1 = {
+    })(Test1 = Foo2.Test || (Foo2.Test = {
     }));
-    Foo2.Test = Test1;
 })(Foo || (Foo = {
 }));
 module.exports = Foo;

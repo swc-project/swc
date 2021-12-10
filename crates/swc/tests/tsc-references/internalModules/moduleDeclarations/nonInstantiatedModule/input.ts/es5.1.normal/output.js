@@ -26,9 +26,8 @@ var M2;
             };
         }
         Point.Origin = Origin;
-    })(Point1 || (Point1 = {
+    })(Point1 = M21.Point || (M21.Point = {
     }));
-    M21.Point = Point1;
 })(M2 || (M2 = {
 }));
 var p;

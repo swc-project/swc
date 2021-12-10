@@ -37,7 +37,7 @@ var A;
             return "";
         } //expected duplicate identifier error
         Point3.Origin = Origin;
-    })(Point2 || (Point2 = {
+    })(Point2 = A1.Point || (A1.Point = {
     }));
 })(A || (A = {
 }));

@@ -19,9 +19,8 @@ var M2;
         var a;
         var r1 = a.foo;
         var r2 = a.bar;
-    })(M3 || (M3 = {
+    })(M3 = M21.M3 || (M21.M3 = {
     }));
-    M21.M3 = M3;
 })(M2 || (M2 = {
 }));
 (function(M22) {
@@ -30,8 +29,7 @@ var M2;
         var a;
         var r1 = a.foo;
         var r2 = a.bar;
-    })(M3 || (M3 = {
+    })(M3 = M22.M3 || (M22.M3 = {
     }));
-    M22.M3 = M3;
 })(M2 || (M2 = {
 }));

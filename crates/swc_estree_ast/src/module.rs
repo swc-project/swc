@@ -89,6 +89,8 @@ pub struct Program {
     #[serde(flatten)]
     pub base: BaseNode,
     pub body: Vec<Statement>,
+    #[serde(default, skip_serializing_if = "crate::ser::skip_comments_on_program")]
+    pub comments: Vec<Comment>,
     #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_empty")]
     pub directives: Vec<Directive>,
     pub source_type: SrcType,

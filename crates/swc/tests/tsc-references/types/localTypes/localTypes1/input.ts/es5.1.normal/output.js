@@ -96,7 +96,6 @@ function f1() {
         "use strict";
         _classCallCheck(this, C);
     };
-    ;
     var a = [
         new C()
     ];
@@ -116,7 +115,6 @@ function f2() {
             "use strict";
             _classCallCheck(this, C);
         };
-        ;
         var a = [
             new C()
         ];
@@ -139,7 +137,6 @@ function f3(b) {
                 "use strict";
                 _classCallCheck(this, C);
             };
-            ;
             var a = [
                 new C()
             ];
@@ -150,7 +147,6 @@ function f3(b) {
                 "use strict";
                 _classCallCheck(this, A1);
             };
-            ;
             var c = [
                 new A1()
             ];

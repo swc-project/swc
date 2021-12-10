@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 
 use super::*;
-use crate::display_name;
+use crate::{display_name, react};
 use std::path::PathBuf;
 use swc_common::{chain, Mark};
 use swc_ecma_parser::EsConfig;
@@ -64,6 +64,28 @@ fn fixture_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Fold {
     chain!(
         resolver_with_mark(top_level_mark),
         jsx(
+            t.cm.clone(),
+            Some(t.comments.clone()),
+            options.options,
+            top_level_mark
+        ),
+        display_name(),
+    )
+}
+
+fn integration_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Fold {
+    let top_level_mark = Mark::fresh(Mark::root());
+
+    options.options.next = options.babel_8_breaking || options.options.runtime.is_some();
+
+    if !options.babel_8_breaking && options.options.runtime.is_none() {
+        options.options.runtime = Some(Runtime::Classic);
+    }
+
+    options.options.use_builtins |= options.use_builtins;
+    chain!(
+        resolver_with_mark(top_level_mark),
+        react(
             t.cm.clone(),
             Some(t.comments.clone()),
             options.options,
@@ -1380,6 +1402,27 @@ fn fixture(input: PathBuf) {
         &|t| {
             let options = parse_options(input.parent().unwrap());
             fixture_tr(t, options)
+        },
+        &input,
+        &output,
+    );
+}
+
+#[testing::fixture("tests/integration/fixture/**/input.js")]
+fn integration(input: PathBuf) {
+    let mut output = input.with_file_name("output.js");
+    if !output.exists() {
+        output = input.with_file_name("output.mjs");
+    }
+
+    test_fixture_allowing_error(
+        Syntax::Es(EsConfig {
+            jsx: true,
+            ..Default::default()
+        }),
+        &|t| {
+            let options = parse_options(input.parent().unwrap());
+            integration_tr(t, options)
         },
         &input,
         &output,

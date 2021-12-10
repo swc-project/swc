@@ -1,4 +1,3 @@
-import * as a from "./a";
 var A = function() {
     "use strict";
     !function(instance, Constructor) {
@@ -8,3 +7,4 @@ var A = function() {
 module.exports = a;
 var a = require("./b");
 new a.A(); // Error
+export { };

@@ -112,7 +112,7 @@ impl Serialize for ObjectMethod {
                 };
                 actual.serialize(serializer)
             }
-            Flavor::Acorn => {
+            Flavor::Acorn { .. } => {
                 let mut s = serializer.serialize_map(None)?;
 
                 {
@@ -250,7 +250,7 @@ impl Serialize for ObjectProperty {
                 };
                 actual.serialize(serializer)
             }
-            Flavor::Acorn => {
+            Flavor::Acorn { .. } => {
                 let mut s = serializer.serialize_map(None)?;
 
                 {

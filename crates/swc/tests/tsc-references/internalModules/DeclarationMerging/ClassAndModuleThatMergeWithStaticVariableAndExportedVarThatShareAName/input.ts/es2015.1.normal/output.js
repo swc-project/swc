@@ -27,7 +27,7 @@ var A;
     };
     (function(Point3) {
         Point3.Origin = "";
-    })(Point2 || (Point2 = {
+    })(Point2 = A1.Point || (A1.Point = {
     }));
 })(A || (A = {
 }));
