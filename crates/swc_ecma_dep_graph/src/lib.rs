@@ -174,27 +174,27 @@ impl<'a> Visit for DependencyCollector<'a> {
                     let mut import_assertions = HashMap::default();
 
                     if let Some(arg) = node.args.get(1) {
-                        if let Some(object_lit) = arg.expr.clone().object() {
-                            for prop in &object_lit.props {
-                                if let Some(prop) = prop.clone().prop() {
-                                    if let Some(key_value) = prop.clone().key_value() {
-                                        let maybe_key = if let Some(key) =
-                                            key_value.key.clone().str()
-                                        {
-                                            Some(key.value.to_string())
-                                        } else if let Some(ident) = key_value.key.clone().ident() {
-                                            Some(ident.sym.to_string())
-                                        } else {
-                                            None
+                        if let Object(object_lit) = &*arg.expr {
+                            for prop in object_lit.props.iter() {
+                                if let ast::PropOrSpread::Prop(prop) = prop {
+                                    if let ast::Prop::KeyValue(key_value) = &**prop {
+                                        let maybe_key = match &key_value.key {
+                                            ast::PropName::Str(key) => Some(key.value.to_string()),
+                                            ast::PropName::Ident(ident) => {
+                                                Some(ident.sym.to_string())
+                                            }
+                                            _ => None,
                                         };
 
                                         if let Some(key) = maybe_key {
                                             if key == "assert" {
-                                                let assertions_lit =
-                                                    key_value.value.clone().object();
-                                                import_assertions = parse_import_assertions(
-                                                    assertions_lit.as_ref(),
-                                                );
+                                                import_assertions = if let Object(assertions_lit) =
+                                                    &*key_value.value
+                                                {
+                                                    parse_import_assertions(Some(&assertions_lit))
+                                                } else {
+                                                    HashMap::new()
+                                                };
                                             }
                                         }
                                     }
@@ -224,19 +224,17 @@ impl<'a> Visit for DependencyCollector<'a> {
 fn parse_import_assertions(asserts: Option<&ast::ObjectLit>) -> HashMap<String, String> {
     let mut import_assertions = HashMap::new();
     if let Some(asserts) = asserts {
-        for prop in &asserts.props {
-            if let Some(prop) = prop.clone().prop() {
-                if let Some(key_value) = prop.clone().key_value() {
-                    let maybe_key = if let Some(key) = key_value.key.clone().str() {
-                        Some(key.value.to_string())
-                    } else if let Some(ident) = key_value.key.clone().ident() {
-                        Some(ident.sym.to_string())
-                    } else {
-                        None
+        for prop in asserts.props.iter() {
+            if let ast::PropOrSpread::Prop(prop) = prop {
+                if let ast::Prop::KeyValue(key_value) = &**prop {
+                    let maybe_key = match &key_value.key {
+                        ast::PropName::Str(key) => Some(key.value.to_string()),
+                        ast::PropName::Ident(ident) => Some(ident.sym.to_string()),
+                        _ => None,
                     };
 
                     if let Some(key) = maybe_key {
-                        if let Some(value_lit) = key_value.value.clone().lit() {
+                        if let ast::Expr::Lit(value_lit) = &*key_value.value {
                             if let ast::Lit::Str(str_) = value_lit {
                                 import_assertions.insert(key, str_.value.to_string());
                             }
