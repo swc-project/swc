@@ -171,6 +171,38 @@ impl<'a> Visit for DependencyCollector<'a> {
                 if let ast::Lit::Str(str_) = lit {
                     let specifier = str_.value.clone();
                     let leading_comments = self.get_leading_comments(node.span);
+                    let mut import_assertions = HashMap::default();
+
+                    if let Some(arg) = node.args.get(1) {
+                        if let Some(object_lit) = arg.expr.clone().object() {
+                            for prop in &object_lit.props {
+                                if let Some(prop) = prop.clone().prop() {
+                                    if let Some(key_value) = prop.clone().key_value() {
+                                        let maybe_key = if let Some(key) =
+                                            key_value.key.clone().str()
+                                        {
+                                            Some(key.value.to_string())
+                                        } else if let Some(ident) = key_value.key.clone().ident() {
+                                            Some(ident.sym.to_string())
+                                        } else {
+                                            None
+                                        };
+
+                                        if let Some(key) = maybe_key {
+                                            if key == "assert" {
+                                                let assertions_lit =
+                                                    key_value.value.clone().object();
+                                                import_assertions = parse_import_assertions(
+                                                    assertions_lit.as_ref(),
+                                                );
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                     self.items.push(DependencyDescriptor {
                         kind,
                         is_dynamic,
@@ -178,7 +210,7 @@ impl<'a> Visit for DependencyCollector<'a> {
                         span: node.span,
                         specifier,
                         specifier_span: str_.span,
-                        import_assertions: HashMap::default(),
+                        import_assertions,
                     });
                 }
             }
@@ -193,12 +225,27 @@ fn parse_import_assertions(asserts: Option<&ast::ObjectLit>) -> HashMap<String, 
     let mut import_assertions = HashMap::new();
     if let Some(asserts) = asserts {
         for prop in &asserts.props {
-            let prop = prop.clone().expect_prop();
-            let key_value = prop.expect_key_value();
-            let key = key_value.key.expect_str().value.to_string();
-            let value_lit = key_value.value.expect_lit();
-            if let ast::Lit::Str(str_) = value_lit {
-                import_assertions.insert(key, str_.value.to_string());
+            // eprintln!("prop {:#?}", prop);
+            if let Some(prop) = prop.clone().prop() {
+                if let Some(key_value) = prop.clone().key_value() {
+                    // eprintln!("key_value {:#?}", key_value);
+                    let maybe_key = if let Some(key) = key_value.key.clone().str() {
+                        Some(key.value.to_string())
+                    } else if let Some(ident) = key_value.key.clone().ident() {
+                        Some(ident.sym.to_string())
+                    } else {
+                        None
+                    };
+
+                    if let Some(key) = maybe_key {
+                        // eprintln!("key {:#?} value {:#?}", key, key_value.value);
+                        if let Some(value_lit) = key_value.value.clone().lit() {
+                            if let ast::Lit::Str(str_) = value_lit {
+                                import_assertions.insert(key, str_.value.to_string());
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -392,6 +439,9 @@ try {
         let source = r#"import * as bar from "./test.ts" assert { "type": "typescript" };
 export * from "./test.ts" assert { "type": "typescript" };
 export { bar } from "./test.json" assert { "type": "json" };
+import foo from "./foo.json" assert { type: "json" };
+const fizz = await import("./fizz.json", { "assert": { type: "json" } });
+const buzz = await import("./buzz.json", { assert: { "type": "json" } });
       "#;
         let (module, comments) = helper("test.ts", &source).unwrap();
         let mut expected_assertions1 = HashMap::new();
@@ -399,7 +449,7 @@ export { bar } from "./test.json" assert { "type": "json" };
         let mut expected_assertions2 = HashMap::new();
         expected_assertions2.insert("type".to_string(), "json".to_string());
         let dependencies = analyze_dependencies(&module, &comments);
-        assert_eq!(dependencies.len(), 3);
+        assert_eq!(dependencies.len(), 6);
         assert_eq!(
             dependencies,
             vec![
@@ -428,6 +478,33 @@ export { bar } from "./test.json" assert { "type": "json" };
                     span: Span::new(BytePos(125), BytePos(185), Default::default()),
                     specifier: JsWord::from("./test.json"),
                     specifier_span: Span::new(BytePos(145), BytePos(158), Default::default()),
+                    import_assertions: expected_assertions2.clone(),
+                },
+                DependencyDescriptor {
+                    kind: DependencyKind::Import,
+                    is_dynamic: false,
+                    leading_comments: Vec::new(),
+                    span: Span::new(BytePos(186), BytePos(239), Default::default()),
+                    specifier: JsWord::from("./foo.json"),
+                    specifier_span: Span::new(BytePos(202), BytePos(214), Default::default()),
+                    import_assertions: expected_assertions2.clone(),
+                },
+                DependencyDescriptor {
+                    kind: DependencyKind::Import,
+                    is_dynamic: true,
+                    leading_comments: Vec::new(),
+                    span: Span::new(BytePos(259), BytePos(312), Default::default()),
+                    specifier: JsWord::from("./fizz.json"),
+                    specifier_span: Span::new(BytePos(266), BytePos(279), Default::default()),
+                    import_assertions: expected_assertions2.clone(),
+                },
+                DependencyDescriptor {
+                    kind: DependencyKind::Import,
+                    is_dynamic: true,
+                    leading_comments: Vec::new(),
+                    span: Span::new(BytePos(333), BytePos(386), Default::default()),
+                    specifier: JsWord::from("./buzz.json"),
+                    specifier_span: Span::new(BytePos(340), BytePos(353), Default::default()),
                     import_assertions: expected_assertions2,
                 },
             ]
