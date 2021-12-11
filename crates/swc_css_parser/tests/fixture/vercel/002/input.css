@@ -1,7 +1,3 @@
 .a {
-    border: 1px solid var(--accents-2);
-    line-height: 0;
-    vertical-align: middle;
     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
-    margin-right: 8px;
 }
