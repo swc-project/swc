@@ -11,7 +11,7 @@ use std::{
     collections::{HashMap, HashSet},
     mem,
 };
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
     comments::Comments,
@@ -107,6 +107,7 @@ pub fn refresh<C: Comments>(
         used_in_jsx: HashSet::default(),
         curr_hook_fn: Vec::new(),
         scope_binding: IndexSet::new(),
+        ts_namespace: Vec::new(),
     }
 }
 
@@ -120,6 +121,7 @@ struct Refresh<C: Comments> {
     curr_hook_fn: Vec<FnWithHook>,
     // bindings in current and all parent scope
     scope_binding: IndexSet<JsWord>,
+    ts_namespace: Vec<JsWord>,
 }
 
 static IS_HOOK_LIKE: Lazy<Regex> = Lazy::new(|| Regex::new("^use[A-Z]").unwrap());
@@ -760,7 +762,24 @@ impl<C: Comments> Fold for Refresh<C> {
             item.collect_ident(&mut self.scope_binding);
         }
 
-        let module_items = module_items.fold_children_with(self);
+        let module_items = {
+            if self.ts_namespace.len() > 0 {
+                let mut temp = Vec::with_capacity(module_items.len());
+                for item in module_items {
+                    temp.push(
+                        // ignore unexported nested namespace/module
+                        if let ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(_))) = &item {
+                            item
+                        } else {
+                            item.fold_children_with(self)
+                        },
+                    )
+                }
+                temp
+            } else {
+                module_items.fold_children_with(self)
+            }
+        };
 
         let mut items = Vec::with_capacity(module_items.len());
         let mut refresh_regs = Vec::<(Ident, Id)>::new();
@@ -941,6 +960,17 @@ impl<C: Comments> Fold for Refresh<C> {
         // ```
         let refresh_reg = self.options.refresh_reg.as_str();
         for (handle, persistent_id) in refresh_regs {
+            let reg_str = if self.ts_namespace.len() == 0 {
+                persistent_id.0
+            } else {
+                let mut temp = js_word!("");
+                for str in self.ts_namespace.clone() {
+                    temp = format!("{}${}", temp, str).into();
+                }
+                temp = format!("{}${}", temp, persistent_id.0).into();
+                temp
+            };
+
             items.push(ModuleItem::Stmt(Stmt::Expr(ExprStmt {
                 span: DUMMY_SP,
                 expr: Box::new(Expr::Call(CallExpr {
@@ -953,7 +983,7 @@ impl<C: Comments> Fold for Refresh<C> {
                         },
                         ExprOrSpread {
                             spread: None,
-                            expr: Box::new(Expr::Lit(Lit::Str(quote_str!(persistent_id.0)))),
+                            expr: Box::new(Expr::Lit(Lit::Str(quote_str!(reg_str)))),
                         },
                     ],
                     type_args: None,
@@ -965,6 +995,18 @@ impl<C: Comments> Fold for Refresh<C> {
     }
 
     fn fold_ts_module_decl(&mut self, n: TsModuleDecl) -> TsModuleDecl {
+        if n.declare || n.body.is_none() {
+            return n;
+        }
+        self.ts_namespace.push(match &n.id {
+            TsModuleName::Ident(id) => id.sym.clone(),
+            TsModuleName::Str(id) => id.value.clone(),
+        });
+
+        let n = n.fold_children_with(self);
+
+        self.ts_namespace.pop();
+
         n
     }
 

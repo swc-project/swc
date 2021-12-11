@@ -1428,3 +1428,52 @@ test!(
     $RefreshReg$(_c1, 'Comp');
 "
 );
+
+test!(
+    ::swc_ecma_parser::Syntax::Typescript(::swc_ecma_parser::TsConfig {
+        tsx: true,
+        ..Default::default()
+    }),
+    tr,
+    ts_namespace,
+    "
+    namespace Foo {
+      export namespace Bar {
+        export const A = () => {};
+        function B() {};
+        export const B1 = B;
+      }
+      export const C = () => {};
+      export function D() {};
+      namespace NotExported {
+        export const E = () => {};
+      }
+    }
+  ",
+    r#"
+    namespace Foo {
+      export namespace Bar {
+        export const A = () => {};
+        _c = A;
+        function B() {}
+        _c1 = B;
+        ;
+        export const B1 = B;
+        var _c, _c1;
+        $RefreshReg$(_c, "Foo$Bar$A");
+        $RefreshReg$(_c1, "Foo$Bar$B");
+      }
+      export const C = () => {};
+      _c = C;
+      export function D() {}
+      _c1 = D;
+      ;
+      namespace NotExported {
+        export const E = () => {};
+      }
+      var _c, _c1;
+      $RefreshReg$(_c, "Foo$C");
+      $RefreshReg$(_c1, "Foo$D");
+    }
+"#
+);
