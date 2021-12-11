@@ -9,7 +9,6 @@ function f1() {
     }));
     class C {
     }
-    ;
     let a = [
         new C()
     ];
@@ -27,7 +26,6 @@ function f2() {
         }));
         class C {
         }
-        ;
         let a = [
             new C()
         ];
@@ -48,7 +46,6 @@ function f3(b) {
         if (b) {
             class C {
             }
-            ;
             let a = [
                 new C()
             ];
@@ -57,7 +54,6 @@ function f3(b) {
         } else {
             class A1 {
             }
-            ;
             let c = [
                 new A1()
             ];

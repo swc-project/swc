@@ -70,9 +70,8 @@ var m1;
                 y = typeof x === "boolean" ? x.toString() // boolean
                  : x.toString(); // number
             }
-        })(m3 || (m3 = {
+        })(m3 = m2.m3 || (m2.m3 = {
         }));
-        m2.m3 = m3;
     })(m21 || (m21 = {
     }));
 })(m1 || (m1 = {

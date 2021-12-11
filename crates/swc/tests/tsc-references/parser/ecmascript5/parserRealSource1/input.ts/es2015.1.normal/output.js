@@ -28,7 +28,7 @@ var TypeScript;
             }
         }
         CompilerDiagnostics.assert = assert;
-    })(CompilerDiagnostics1 || (CompilerDiagnostics1 = {
+    })(CompilerDiagnostics1 = TypeScript1.CompilerDiagnostics || (TypeScript1.CompilerDiagnostics = {
     }));
     class NullLogger {
         information() {
@@ -157,6 +157,5 @@ var TypeScript;
         return result;
     }
     TypeScript1.stringToLiteral = stringToLiteral;
-    TypeScript1.CompilerDiagnostics = CompilerDiagnostics1;
 })(TypeScript || (TypeScript = {
 }));

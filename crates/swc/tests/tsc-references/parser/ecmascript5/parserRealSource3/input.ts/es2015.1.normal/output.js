@@ -112,10 +112,9 @@ var TypeScript;
         NodeType[NodeType["Error"] = 104] = "Error";
         NodeType[NodeType["Comment"] = 105] = "Comment";
         NodeType[NodeType["Debugger"] = 106] = "Debugger";
-        NodeType[NodeType["GeneralNode"] = FuncDecl] = "GeneralNode";
-        NodeType[NodeType["LastAsg"] = AsgRs2] = "LastAsg";
-    })(NodeType || (NodeType = {
+        NodeType[NodeType["GeneralNode"] = 71] = "GeneralNode";
+        NodeType[NodeType["LastAsg"] = 41] = "LastAsg";
+    })(NodeType = TypeScript1.NodeType || (TypeScript1.NodeType = {
     }));
-    TypeScript1.NodeType = NodeType;
 })(TypeScript || (TypeScript = {
 }));

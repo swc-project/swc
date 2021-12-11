@@ -466,7 +466,7 @@ impl Babelify for ArrowExpr {
             is_async: self.is_async,
             expression: match Flavor::current() {
                 Flavor::Babel => Default::default(),
-                Flavor::Acorn => true,
+                Flavor::Acorn { .. } => true,
             },
             generator: self.is_generator,
             return_type: self

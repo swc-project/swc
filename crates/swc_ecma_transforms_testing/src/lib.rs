@@ -7,7 +7,7 @@ use std::{
     fs::{self, create_dir_all, read_to_string, OpenOptions},
     io::{self, Write},
     mem::take,
-    path::Path,
+    path::{Path, PathBuf},
     process::Command,
     rc::Rc,
     sync::{Arc, RwLock},
@@ -449,7 +449,7 @@ where
             input, src_without_helpers
         );
 
-        exec_with_jest(test_name, &src)
+        exec_with_node_test_runner(test_name, &src)
     })
 }
 
@@ -461,7 +461,7 @@ fn calc_hash(s: &str) -> String {
     hex::encode(sum)
 }
 
-fn exec_with_jest(test_name: &str, src: &str) -> Result<(), ()> {
+fn exec_with_node_test_runner(test_name: &str, src: &str) -> Result<(), ()> {
     let root = Path::new(env!("CARGO_MANIFEST_DIR"))
         .join("target")
         .join("testing")
@@ -494,23 +494,18 @@ fn exec_with_jest(test_name: &str, src: &str) -> Result<(), ()> {
     write!(tmp, "{}", src).expect("failed to write to temp file");
     tmp.flush().unwrap();
 
-    let jest_path = find_executable("jest").expect("failed to find `jest` from path");
+    let test_runner_path = find_executable("mocha").expect("failed to find `mocha` from path");
 
     let mut base_cmd = if cfg!(target_os = "windows") {
         let mut c = Command::new("cmd");
-        c.arg("/C").arg(&jest_path);
+        c.arg("/C").arg(&test_runner_path);
         c
     } else {
-        Command::new(&jest_path)
+        Command::new(&test_runner_path)
     };
 
-    // I hate windows.
-    if cfg!(target_os = "windows") && env::var("CI").is_ok() {
-        base_cmd.arg("--passWithNoTests");
-    }
-
     let status = base_cmd
-        .args(&["--testMatch", &format!("{}", path.display())])
+        .arg(&format!("{}", path.display()))
         .current_dir(root)
         .status()
         .expect("failed to run jest");

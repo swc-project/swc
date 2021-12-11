@@ -32,7 +32,7 @@ var A;
     };
     (function(Point) {
         Point.Origin = "";
-    })(Point || (Point = {
+    })(Point = A1.Point || (A1.Point = {
     }));
 })(A || (A = {
 }));

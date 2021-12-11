@@ -7,9 +7,8 @@ var A;
             x: 0,
             y: 0
         };
-    })(Point1 || (Point1 = {
+    })(Point1 = A1.Point || (A1.Point = {
     }));
-    A1.Point = Point1;
 })(A || (A = {
 }));
 (function(A2) {
@@ -30,7 +29,7 @@ var B;
             x: 0,
             y: 0
         };
-    })(Point2 || (Point2 = {
+    })(Point2 = B1.Point || (B1.Point = {
     }));
     function Point2() {
         return {

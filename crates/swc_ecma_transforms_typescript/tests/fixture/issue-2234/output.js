@@ -8,9 +8,8 @@ var Shapes;
         class Square {
         }
         Polygons.Square = Square;
-    })(Polygons1 || (Polygons1 = {
+    })(Polygons1 = Shapes1.Polygons || (Shapes1.Polygons = {
     }));
-    Shapes1.Polygons = Polygons1;
 })(Shapes || (Shapes = {
 }));
 var polygons = Shapes.Polygons;

@@ -72,7 +72,8 @@ function _createSuper(Derived) {
 // expected no error
 var B;
 (function(B1) {
-    B1.a = A;
+    var a = A;
+    B1.a = a;
     var D = /*#__PURE__*/ function(_C) {
         "use strict";
         _inherits(D, _C);
@@ -93,7 +94,8 @@ var A;
         _classCallCheck(this, C);
     };
     A1.C = C;
-    A1.b = B;
+    var b = B;
+    A1.b = b;
 })(A || (A = {
 }));
 var c;

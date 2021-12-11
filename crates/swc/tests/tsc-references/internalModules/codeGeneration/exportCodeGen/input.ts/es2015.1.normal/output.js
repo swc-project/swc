@@ -40,7 +40,7 @@ var E;
     let Color;
     (function(Color) {
         Color[Color["Red"] = 0] = "Red";
-    })(Color || (Color = {
+    })(Color = E1.Color || (E1.Color = {
     }));
     function fn() {
     }
@@ -51,9 +51,8 @@ var E;
     let M1;
     (function(M) {
         M.x = 42;
-    })(M1 || (M1 = {
+    })(M1 = E1.M || (E1.M = {
     }));
-    E1.Color = Color, E1.M = M1;
 })(E || (E = {
 }));
 // validate all exportable statements,

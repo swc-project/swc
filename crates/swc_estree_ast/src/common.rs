@@ -46,12 +46,12 @@ pub struct BaseNode {
     pub trailing_comments: Vec<Comment>,
 
     #[serde(default)]
-    pub start: Option<usize>,
+    pub start: Option<u32>,
     #[serde(default)]
-    pub end: Option<usize>,
+    pub end: Option<u32>,
 
     #[serde(default, skip_serializing_if = "crate::flavor::Flavor::skip_range")]
-    pub range: Option<[usize; 2]>,
+    pub range: Option<[u32; 2]>,
 
     #[serde(default)]
     pub loc: Option<Loc>,

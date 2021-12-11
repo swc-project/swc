@@ -5,9 +5,8 @@
             x: 0,
             y: 0
         }; // bug 832088: could not find module 'C'
-    })(B || (B = {
+    })(B = A.B || (A.B = {
     }));
-    A.B = B;
 })(A || (A = {
 }));
 (function(M2) {
@@ -15,9 +14,8 @@
     (function(X) {
         var Point;
         X.Point = Point;
-    })(X1 || (X1 = {
+    })(X1 = M2.X || (M2.X = {
     }));
-    M2.X = X1;
 })(M2 || (M2 = {
 }));
 var m = M2.X;

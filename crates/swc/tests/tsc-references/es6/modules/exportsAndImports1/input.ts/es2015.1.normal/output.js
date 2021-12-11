@@ -1,5 +1,5 @@
 // @filename: t3.ts
-import { I, M, N, T, a } from "./t1";
+import { I, N, T } from "./t1";
 // @module: commonjs
 // @filename: t1.ts
 var v = 1;

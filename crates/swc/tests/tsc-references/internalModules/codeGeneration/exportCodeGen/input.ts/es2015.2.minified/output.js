@@ -6,13 +6,11 @@ var A, D, E, F;
 }, (function(E1) {
     var Color;
     let Color;
-    (Color = Color || (Color = {
+    (Color = Color = E1.Color || (E1.Color = {
     }))[Color.Red = 0] = "Red", E1.fn = function() {
     }, E1.C = class {
-    };
-    let M;
-    (M || (M = {
-    })).x = 42, E1.Color = Color, E1.M = M;
+    }, (E1.M || (E1.M = {
+    })).x = 42;
 })(E || (E = {
 })), (function(F) {
     var Color;

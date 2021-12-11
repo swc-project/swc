@@ -1,9 +1,8 @@
 var A, X;
 !function(A1) {
     var x;
-    let B;
-    (B || (B = {
-    })).x = x, A1.B = B;
+    (A1.B || (A1.B = {
+    })).x = x;
 }(A || (A = {
 })), (function(A) {
     var x;
@@ -13,17 +12,16 @@ var A, X;
 })(A || (A = {
 })), A.B.x, (function(X1) {
     var Y;
-    let Y1, Z;
-    Y = Y1 || (Y1 = {
-    }), (Z || (Z = {
+    ((Y = X1.Y || (X1.Y = {
+    })).Z || (Y.Z = {
     })).Line = class {
-    }, Y.Z = Z, X1.Y = Y1;
+    };
 })(X || (X = {
 })), (function(X2) {
-    let Y, Z;
-    Y || (Y = {
+    let Z;
+    X2.Y || (X2.Y = {
     }), (Z || (Z = {
     })).Line = class {
-    }, X2.Y = Y;
+    };
 })(X || (X = {
 }));
