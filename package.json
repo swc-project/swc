@@ -89,6 +89,7 @@
         "progress": "^2.0.3",
         "prop-types": "^15.7.2",
         "react": "^17.0.2",
+        "reflect-metadata": "^0.1.13",
         "regenerator-runtime": "^0.13.9",
         "source-map": "^0.7.3",
         "source-map-support": "^0.5.19",
