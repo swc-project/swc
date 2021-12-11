@@ -258,7 +258,7 @@ impl ConstructorFolder<'_> {
                 }));
                 // _getPrototypeOf(Foo.prototype)
                 let get_proto = Box::new(Expr::Call(CallExpr {
-                    span: span.take(),
+                    span: *span,
                     callee: helper!(get_prototype_of, "getPrototypeOf"),
                     args: vec![self
                         .class_name
