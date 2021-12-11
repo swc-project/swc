@@ -1,23 +1,23 @@
 use smallvec::SmallVec;
 use swc_atoms::js_word;
-use swc_common::DUMMY_SP;
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, private_ident};
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 pub(super) type Vars = SmallVec<[Ident; 12]>;
 
-pub(super) fn hoist<T>(node: T) -> (T, Hoister)
+pub(super) fn hoist<T>(mut node: T) -> (T, Hoister)
 where
-    T: FoldWith<Hoister>,
+    T: VisitMutWith<Hoister>,
 {
     let mut v = Hoister {
         vars: Default::default(),
         arguments: None,
     };
-    let t = node.fold_with(&mut v);
+    node.visit_mut_with(&mut v);
 
-    (t, v)
+    (node, v)
 }
 
 #[derive(Debug)]
@@ -27,8 +27,8 @@ pub(super) struct Hoister {
 }
 
 impl Hoister {
-    fn var_decl_to_expr(&mut self, var: VarDecl) -> Expr {
-        let var = var.fold_children_with(self);
+    fn var_decl_to_expr(&mut self, mut var: VarDecl) -> Expr {
+        var.visit_mut_children_with(self);
 
         let ids = find_ids(&var);
         self.vars.extend(ids);
@@ -56,122 +56,103 @@ impl Hoister {
     }
 }
 
-/// TODO: VisitMut
-impl Fold for Hoister {
-    noop_fold_type!();
+impl VisitMut for Hoister {
+    noop_visit_mut_type!();
 
-    /// Noop
-    fn fold_function(&mut self, n: Function) -> Function {
-        n
+    fn visit_mut_function(&mut self, _n: &mut Function) {
+        //noop
     }
 
-    fn fold_expr(&mut self, e: Expr) -> Expr {
-        let e = e.fold_children_with(self);
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
 
-        match e {
-            Expr::Ident(Ident {
-                sym: js_word!("arguments"),
-                ..
-            }) => {
-                if self.arguments.is_none() {
-                    self.arguments = Some(private_ident!("_args"));
-                }
-
-                return Expr::Ident(self.arguments.clone().unwrap());
+        if let Expr::Ident(Ident {
+            sym: js_word!("arguments"),
+            ..
+        }) = e
+        {
+            if self.arguments.is_none() {
+                self.arguments = Some(private_ident!("_args"));
             }
-
-            _ => {}
+            *e = Expr::Ident(self.arguments.clone().unwrap());
         }
-
-        e
     }
 
-    fn fold_member_expr(&mut self, mut e: MemberExpr) -> MemberExpr {
-        e.obj = e.obj.fold_with(self);
+    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
+        e.obj.visit_mut_with(self);
 
         if e.computed {
-            e.prop = e.prop.fold_with(self);
+            e.prop.visit_mut_with(self);
         }
-
-        e
     }
 
-    fn fold_module_decl(&mut self, decl: ModuleDecl) -> ModuleDecl {
-        match decl {
-            ModuleDecl::ExportDecl(ExportDecl {
-                span,
-                decl: Decl::Var(var),
-            }) => {
-                return ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
-                    span,
-                    expr: Box::new(self.var_decl_to_expr(var)),
-                })
-            }
-
-            _ => {}
+    fn visit_mut_module_decl(&mut self, decl: &mut ModuleDecl) {
+        if let ModuleDecl::ExportDecl(ExportDecl {
+            span,
+            decl: Decl::Var(var),
+        }) = decl
+        {
+            *decl = ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
+                span: *span,
+                expr: Box::new(self.var_decl_to_expr(var.take())),
+            });
+            return;
         }
 
-        decl.fold_children_with(self)
+        decl.visit_mut_children_with(self);
     }
 
-    fn fold_stmt(&mut self, s: Stmt) -> Stmt {
-        match s {
-            Stmt::Decl(Decl::Var(var)) => {
-                let span = var.span;
-                let expr = Box::new(self.var_decl_to_expr(var));
+    fn visit_mut_stmt(&mut self, s: &mut Stmt) {
+        if let Stmt::Decl(Decl::Var(var)) = s {
+            let span = var.span;
+            let expr = Box::new(self.var_decl_to_expr(var.take()));
 
-                return Stmt::Expr(ExprStmt { span, expr });
-            }
-
-            _ => {}
+            *s = Stmt::Expr(ExprStmt { span, expr });
+            return;
         }
-
-        s.fold_children_with(self)
+        s.visit_mut_children_with(self);
     }
 
-    fn fold_var_decl(&mut self, var: VarDecl) -> VarDecl {
+    fn visit_mut_var_decl(&mut self, var: &mut VarDecl) {
         unreachable!("VarDecl should be removed by other pass: {:?}", var);
     }
 
-    fn fold_var_decl_or_pat(&mut self, v: VarDeclOrPat) -> VarDeclOrPat {
+    fn visit_mut_var_decl_or_pat(&mut self, v: &mut VarDeclOrPat) {
         match v {
-            VarDeclOrPat::Pat(v) => VarDeclOrPat::Pat(v.fold_children_with(self)),
+            VarDeclOrPat::Pat(v) => {
+                v.visit_mut_children_with(self);
+            }
 
-            VarDeclOrPat::VarDecl(mut var) => {
+            VarDeclOrPat::VarDecl(var) => {
                 if var.decls.len() == 1 && var.decls[0].init.is_none() {
                     let pat = var.decls.remove(0).name;
                     self.vars.extend(find_ids(&pat));
 
-                    return pat.into();
+                    *v = pat.into();
+                    return;
                 }
-
-                var.into()
             }
-        }
+        };
     }
 
-    fn fold_var_decl_or_expr(&mut self, var: VarDeclOrExpr) -> VarDeclOrExpr {
+    fn visit_mut_var_decl_or_expr(&mut self, var: &mut VarDeclOrExpr) {
         match var {
-            VarDeclOrExpr::VarDecl(var) => {
-                VarDeclOrExpr::Expr(Box::new(self.var_decl_to_expr(var)))
+            VarDeclOrExpr::VarDecl(var_decl) => {
+                *var = VarDeclOrExpr::Expr(Box::new(self.var_decl_to_expr(var_decl.take())));
             }
-            _ => var.fold_children_with(self),
-        }
+            _ => {
+                var.visit_mut_children_with(self);
+            }
+        };
     }
 
-    fn fold_opt_var_decl_or_expr(&mut self, v: Option<VarDeclOrExpr>) -> Option<VarDeclOrExpr> {
-        let v = v.fold_children_with(self);
+    fn visit_mut_opt_var_decl_or_expr(&mut self, v: &mut Option<VarDeclOrExpr>) {
+        v.visit_mut_children_with(self);
 
-        match &v {
-            Some(VarDeclOrExpr::Expr(e)) => {
-                if e.is_invalid() {
-                    return None;
-                }
+        if let Some(VarDeclOrExpr::Expr(e)) = v {
+            if e.is_invalid() {
+                *v = None;
             }
-
-            _ => {}
         }
-
-        v
     }
 }

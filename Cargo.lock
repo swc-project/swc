@@ -2645,7 +2645,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.44.0"
+version = "0.44.1"
 dependencies = [
  "bitflags",
  "lexical",
@@ -2933,7 +2933,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.57.4"
+version = "0.57.5"
 dependencies = [
  "ahash",
  "arrayvec",
