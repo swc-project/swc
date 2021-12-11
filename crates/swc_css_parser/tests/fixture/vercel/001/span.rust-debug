@@ -14,13 +14,19 @@ error: Rule
 3 | | }
   | |_^
 
-error: StyleRule
+error: QualifiedRule
  --> $DIR/tests/fixture/vercel/001/input.css:1:1
   |
 1 | / :nth-child(4n) {
 2 | |     margin-right: 0;
 3 | | }
   | |_^
+
+error: SelectorList
+ --> $DIR/tests/fixture/vercel/001/input.css:1:1
+  |
+1 | :nth-child(4n) {
+  | ^^^^^^^^^^^^^^
 
 error: ComplexSelector
  --> $DIR/tests/fixture/vercel/001/input.css:1:1
@@ -40,31 +46,31 @@ error: SubclassSelector
 1 | :nth-child(4n) {
   | ^^^^^^^^^^^^^^
 
-error: PseudoSelector
+error: PseudoClassSelector
  --> $DIR/tests/fixture/vercel/001/input.css:1:1
   |
 1 | :nth-child(4n) {
   | ^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/vercel/001/input.css:1:2
   |
 1 | :nth-child(4n) {
   |  ^^^^^^^^^
 
-error: Tokens
+error: Nth
  --> $DIR/tests/fixture/vercel/001/input.css:1:12
   |
 1 | :nth-child(4n) {
   |            ^^
 
-error: Dimension { value: 4.0, raw_value: Atom('4' type=inline), unit: Atom('n' type=inline), raw_unit: Atom('n' type=inline) }
+error: AnPlusB
  --> $DIR/tests/fixture/vercel/001/input.css:1:12
   |
 1 | :nth-child(4n) {
   |            ^^
 
-error: DeclBlock
+error: Block
  --> $DIR/tests/fixture/vercel/001/input.css:1:16
   |
 1 |   :nth-child(4n) {
@@ -73,13 +79,13 @@ error: DeclBlock
 3 | | }
   | |_^
 
-error: Property
+error: Declaration
  --> $DIR/tests/fixture/vercel/001/input.css:2:5
   |
 2 |     margin-right: 0;
   |     ^^^^^^^^^^^^^^^
 
-error: Text
+error: Ident
  --> $DIR/tests/fixture/vercel/001/input.css:2:5
   |
 2 |     margin-right: 0;
