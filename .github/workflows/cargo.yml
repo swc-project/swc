@@ -221,8 +221,7 @@ jobs:
           # This does not have any effect on windows.
           npm config set prefix $HOME/npm
           yarn
-          (cd crates/swc_ecma_transforms && yarn)
-          npm i -g jest
+          npm i -g jest mocha
           echo $HOME
           echo $HOME/npm/bin >> $GITHUB_PATH
 
@@ -235,7 +234,7 @@ jobs:
       - name: Verify dependencies
         shell: bash
         run: |
-          jest -v
+          jest -v && mocha --version
 
       - name: Cache
         uses: actions/cache@v2
@@ -250,7 +249,7 @@ jobs:
 
       - name: Run cargo test
         run: |
-          jest -v
+          jest -v && mocha --version
           cargo test --color always -p ${{ matrix.crate }}
 
       - name: Run cargo test (swc_ecma_transforms)

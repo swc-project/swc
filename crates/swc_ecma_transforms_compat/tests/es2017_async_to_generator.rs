@@ -3020,10 +3020,10 @@ class A {
   }
 }
 
-jest.spyOn(A.prototype, 'doTest').mockImplementation(async function() {
+A.prototype.doTest = async function() {
   const ret = await this.waitForinit();
   return ret;
-});
+}
 
 const a = new A();
 expect(a.doTest()).resolves.toEqual(3);
