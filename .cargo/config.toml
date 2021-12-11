@@ -60,7 +60,3 @@ rustflags = [
   "-Z",
   "new-llvm-pass-manager=no",
 ]
-
-# https://github.com/rust-lang/cargo/issues/3946#issuecomment-973132993
-[env]
-CARGO_WORKSPACE_DIR = { value = "", relative = true }

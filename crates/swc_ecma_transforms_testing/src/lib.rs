@@ -494,22 +494,17 @@ fn exec_with_node_test_runner(test_name: &str, src: &str) -> Result<(), ()> {
     write!(tmp, "{}", src).expect("failed to write to temp file");
     tmp.flush().unwrap();
 
-    let jest_path = find_executable("mocha").expect("failed to find `mocha` from path");
+    let test_runner_path = find_executable("mocha").expect("failed to find `mocha` from path");
 
     let mut base_cmd = if cfg!(target_os = "windows") {
         let mut c = Command::new("cmd");
-        c.arg("/C").arg(&jest_path);
+        c.arg("/C").arg(&test_runner_path);
         c
     } else {
-        Command::new(&jest_path)
+        Command::new(&test_runner_path)
     };
 
-    let mut expect_assertions_path = PathBuf::from(env!("CARGO_WORKSPACE_DIR"));
-    expect_assertions_path.push(".mocha.setup.js");
-
     let status = base_cmd
-        .arg("-r")
-        .arg(expect_assertions_path)
         .arg(&format!("{}", path.display()))
         .current_dir(root)
         .status()
