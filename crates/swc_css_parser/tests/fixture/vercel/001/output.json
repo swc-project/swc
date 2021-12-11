@@ -7,98 +7,100 @@
   },
   "rules": [
     {
-      "type": "StyleRule",
+      "type": "QualifiedRule",
       "span": {
         "start": 0,
         "end": 39,
         "ctxt": 0
       },
-      "selectors": [
-        {
-          "type": "ComplexSelector",
-          "span": {
-            "start": 0,
-            "end": 14,
-            "ctxt": 0
-          },
-          "selectors": [
-            {
-              "type": "CompoundSelector",
-              "span": {
-                "start": 0,
-                "end": 14,
-                "ctxt": 0
-              },
-              "hasNestPrefix": false,
-              "combinator": null,
-              "typeSelector": null,
-              "subclassSelectors": [
-                {
-                  "type": "PseudoSelector",
-                  "span": {
-                    "start": 0,
-                    "end": 14,
-                    "ctxt": 0
-                  },
-                  "isElement": false,
-                  "name": {
-                    "type": "Text",
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 0,
+          "end": 14,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 0,
+              "end": 14,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 0,
+                  "end": 14,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "PseudoClassSelector",
                     "span": {
-                      "start": 1,
-                      "end": 10,
+                      "start": 0,
+                      "end": 14,
                       "ctxt": 0
                     },
-                    "value": "nth-child",
-                    "raw": "nth-child"
-                  },
-                  "args": {
-                    "type": "Tokens",
-                    "span": {
-                      "start": 11,
-                      "end": 13,
-                      "ctxt": 0
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1,
+                        "end": 10,
+                        "ctxt": 0
+                      },
+                      "value": "nth-child",
+                      "raw": "nth-child"
                     },
-                    "tokens": [
-                      {
+                    "children": {
+                      "type": "Nth",
+                      "span": {
+                        "start": 11,
+                        "end": 13,
+                        "ctxt": 0
+                      },
+                      "nth": {
+                        "type": "AnPlusB",
                         "span": {
                           "start": 11,
                           "end": 13,
                           "ctxt": 0
                         },
-                        "token": {
-                          "Dimension": {
-                            "value": 4.0,
-                            "raw_value": "4",
-                            "unit": "n",
-                            "raw_unit": "n"
-                          }
-                        }
-                      }
-                    ]
+                        "a": 4,
+                        "aRaw": "4",
+                        "b": null,
+                        "bRaw": null
+                      },
+                      "selectorList": null
+                    }
                   }
-                }
-              ]
-            }
-          ]
-        }
-      ],
+                ]
+              }
+            ]
+          }
+        ]
+      },
       "block": {
-        "type": "DeclBlock",
+        "type": "Block",
         "span": {
           "start": 15,
           "end": 39,
           "ctxt": 0
         },
-        "items": [
+        "value": [
           {
-            "type": "Property",
+            "type": "Declaration",
             "span": {
               "start": 21,
               "end": 36,
               "ctxt": 0
             },
-            "name": {
-              "type": "Text",
+            "property": {
+              "type": "Identifier",
               "span": {
                 "start": 21,
                 "end": 33,
@@ -107,7 +109,7 @@
               "value": "margin-right",
               "raw": "margin-right"
             },
-            "values": [
+            "value": [
               {
                 "type": "Number",
                 "span": {
