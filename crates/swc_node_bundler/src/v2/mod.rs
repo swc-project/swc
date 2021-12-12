@@ -1,4 +1,5 @@
 use serde::Deserialize;
+use swc_common::collections::AHashMap;
 
 use self::regexp::JsRegexp;
 
@@ -9,6 +10,8 @@ mod regexp;
 #[derive(Debug, Clone, Deserialize)]
 pub struct BundlerConfig {
     pub(crate) external: ExternalConfig,
+
+    pub(crate) input: InputConfig,
 }
 
 /// https://rollupjs.org/guide/en/#external
@@ -19,4 +22,13 @@ pub enum ExternalConfig {
     Str(String),
     RegexList(Vec<JsRegexp>),
     StrList(Vec<String>),
+}
+
+/// https://rollupjs.org/guide/en/#input
+#[derive(Debug, Clone, Deserialize)]
+#[serde(untagged)]
+pub enum InputConfig {
+    Str(String),
+    List(Vec<String>),
+    Map(AHashMap<String, String>),
 }
