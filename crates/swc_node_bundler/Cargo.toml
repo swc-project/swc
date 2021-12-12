@@ -11,7 +11,7 @@ repository = "https://github.com/swc-project/swc.git"
 version = "0.0.0"
 
 [features]
-default = ["swc_v1"]
+default = ["swc_v1", "swc_v2"]
 swc_v1 = []
 swc_v2 = []
 
