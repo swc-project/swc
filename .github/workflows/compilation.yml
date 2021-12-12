@@ -38,7 +38,7 @@ jobs:
 
       - name: Install cargo hack
         run: |
-          cargo install cargo-hack --version 0.3.11
+          cargo install cargo-hack --version 0.5.7
 
       - name: Check swc_common
         run: |
