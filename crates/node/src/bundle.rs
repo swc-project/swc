@@ -41,6 +41,7 @@ struct BundleTask {
     config: ConfigItem,
 }
 
+#[cfg(feature = "swc_v1")]
 impl Task for BundleTask {
     type Output = AHashMap<String, TransformOutput>;
     type JsValue = JsObject;
@@ -155,6 +156,20 @@ impl Task for BundleTask {
 
     fn resolve(self, env: Env, output: Self::Output) -> napi::Result<Self::JsValue> {
         env.to_js_value(&output)?.coerce_to_object()
+    }
+}
+
+#[cfg(feature = "swc_v2")]
+impl Task for BundleTask {
+    type Output = AHashMap<String, TransformOutput>;
+    type JsValue = JsObject;
+
+    fn compute(&mut self) -> napi::Result<Self::Output> {
+        todo!()
+    }
+
+    fn resolve(self, env: Env, output: Self::Output) -> napi::Result<Self::JsValue> {
+        todo!()
     }
 }
 
