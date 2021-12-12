@@ -76,6 +76,14 @@ jobs:
         run: |
           (cd crates/swc_bundler && cargo hack check --feature-powerset --no-dev-deps)
 
+      - name: Check node_swc
+        run: |
+          (cd crates/node && cargo hack check --feature-powerset --no-dev-deps)
+
+      - name: Check swc_node_bundler
+        run: |
+          (cd crates/swc_node_bundler && cargo hack check --feature-powerset --no-dev-deps)
+
       - name: Check swc
         run: |
           (cd crates/swc && cargo hack check --feature-powerset --no-dev-deps)
