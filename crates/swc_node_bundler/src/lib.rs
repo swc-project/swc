@@ -8,3 +8,4 @@ extern crate swc_node_base;
 
 pub mod config;
 pub mod loaders;
+mod v2;
