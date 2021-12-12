@@ -18,7 +18,7 @@ body = """
     {% for commit in commits
     | filter(attribute="scope")
     | sort(attribute="scope") %}
-        - **({{commit.scope}})** {{ commit.message | upper_first }} ([{{ commit.id | truncate(length=7, end="") }}](https://github.com/swc-project/swc/commit/{{ commit.id }}))
+        \n- **({{commit.scope}})** {{ commit.message | upper_first }} ([{{ commit.id | truncate(length=7, end="") }}](https://github.com/swc-project/swc/commit/{{ commit.id }}))
         {%- if commit.breaking %}
         {% raw %}  {% endraw %}- **BREAKING**: {{commit.breaking_description}}
         {%- endif -%}
@@ -26,11 +26,10 @@ body = """
     {%- for commit in commits %}
         {%- if commit.scope -%}
         {% else -%}
-            <!-- NOTE: Most of chore commits do not have category, so for now skipping it in changelogs. Enable if needed. -->
-            <!-- - **(No Category)** {{ commit.message | upper_first }} ([{{ commit.id | truncate(length=7, end="") }}](https://github.com/swc-project/swc/commit/{{ commit.id }})) -->
-            {% if commit.breaking -%}
+            \n- **misc**: {{ commit.message | upper_first }} ([{{ commit.id | truncate(length=7, end="") }}](https://github.com/swc-project/swc/commit/{{ commit.id }}))
+            {%- if commit.breaking %}
             {% raw %}  {% endraw %}- **BREAKING**: {{commit.breaking_description}}
-            {% endif -%}
+            {%- endif -%}
         {% endif -%}
     {% endfor -%}
     {% raw %}\n{% endraw %}\
