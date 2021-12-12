@@ -467,7 +467,7 @@ impl ClassProperties {
                     let value = prop.value.unwrap_or_else(|| undefined(prop_span));
                     let value = if prop.is_static {
                         value
-                            .fold_with(&mut SuperFieldAccessFolder {
+                            .fold_with(&mut as_folder(SuperFieldAccessFolder {
                                 class_name: &class_ident,
                                 vars: &mut vars,
                                 constructor_this_mark: None,
@@ -476,7 +476,7 @@ impl ClassProperties {
                                 in_injected_define_property_call: false,
                                 in_nested_scope: false,
                                 this_alias_mark: None,
-                            })
+                            }))
                             .fold_with(&mut as_folder(ThisInStaticFolder {
                                 ident: class_ident.clone(),
                             }))

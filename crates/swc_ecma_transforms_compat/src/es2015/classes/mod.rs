@@ -16,8 +16,7 @@ use swc_ecma_utils::{
     quote_ident, quote_str, ExprFactory, IsDirective, ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, FoldWith, Visit, VisitMut, VisitMutWith,
-    VisitWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use tracing::debug;
 
@@ -663,7 +662,7 @@ where
     fn handle_super_access(
         &mut self,
         class_name: &Ident,
-        body: Vec<Stmt>,
+        mut body: Vec<Stmt>,
         this_mark: Option<Mark>,
     ) -> Vec<Stmt> {
         let mut vars = vec![];
@@ -679,7 +678,7 @@ where
             this_alias_mark: None,
         };
 
-        let mut body = body.fold_with(&mut folder);
+        body.visit_mut_with(&mut folder);
 
         if let Some(mark) = folder.this_alias_mark {
             prepend(
@@ -795,7 +794,7 @@ where
 
         let (mut props, mut static_props) = (IndexMap::default(), IndexMap::default());
 
-        for m in methods {
+        for mut m in methods {
             let key = HashKey::from(&m.key);
             let key_prop = Box::new(mk_key_prop(&m.key));
             let computed = match m.key {
@@ -821,11 +820,11 @@ where
                 in_injected_define_property_call: false,
                 this_alias_mark: None,
             };
-            let mut function = m.function.fold_with(&mut folder);
+            m.function.visit_mut_with(&mut folder);
 
             if let Some(mark) = folder.this_alias_mark {
                 prepend(
-                    &mut function.body.as_mut().unwrap().stmts,
+                    &mut m.function.body.as_mut().unwrap().stmts,
                     Stmt::Decl(Decl::Var(VarDecl {
                         span: DUMMY_SP,
                         declare: false,
@@ -844,7 +843,7 @@ where
 
             if !vars.is_empty() {
                 prepend(
-                    &mut function.body.as_mut().unwrap().stmts,
+                    &mut m.function.body.as_mut().unwrap().stmts,
                     Stmt::Decl(Decl::Var(VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
@@ -866,7 +865,7 @@ where
                 } else {
                     None
                 },
-                function,
+                function: m.function,
             }));
 
             let data = append_to.entry(key).or_insert_with(|| Data {
