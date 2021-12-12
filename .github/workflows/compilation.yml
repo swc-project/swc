@@ -78,11 +78,13 @@ jobs:
 
       - name: Check node_swc
         run: |
-          (cd crates/node && cargo hack check --feature-powerset --no-dev-deps --exclude-no-default-features)
+          (cd crates/node && cargo check)
+          (cd crates/node && cargo check --no-default-features --features swc_v2)
 
       - name: Check swc_node_bundler
         run: |
-          (cd crates/swc_node_bundler && cargo hack check --feature-powerset --no-dev-deps --exclude-no-default-features)
+          (cd crates/swc_node_bundler && cargo check)
+          (cd crates/swc_node_bundler && cargo check --no-default-features --features swc_v2)
 
       - name: Check swc
         run: |
