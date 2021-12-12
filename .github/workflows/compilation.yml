@@ -34,7 +34,7 @@ jobs:
         with:
           path: |
             ~/.cargo/
-          key: ${{ runner.os }}-cargo-compliation
+          key: ${{ runner.os }}-cargo-compiliation
 
       - name: Install cargo hack
         run: |
