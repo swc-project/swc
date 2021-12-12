@@ -192,16 +192,13 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: "16"
+          cache: "yarn"
 
       # We explicitly do this to cache properly.
       - name: Install Rust
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 16
 
       - uses: denoland/setup-deno@v1
         if: matrix.crate == 'swc_bundler'
