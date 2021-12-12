@@ -18,15 +18,18 @@ body = """
     {% for commit in commits
     | filter(attribute="scope")
     | sort(attribute="scope") %}
-        \n- **({{commit.scope}})** {{ commit.message | upper_first }} ([{{ commit.id | truncate(length=7, end="") }}](https://github.com/swc-project/swc/commit/{{ commit.id }}))
+        \n
+        - **({{commit.scope}})** {{ commit.message | upper_first }} ([{{ commit.id | truncate(length=7, end="") }}](https://github.com/swc-project/swc/commit/{{ commit.id }}))
         {%- if commit.breaking %}
         {% raw %}  {% endraw %}- **BREAKING**: {{commit.breaking_description}}
         {%- endif -%}
     {%- endfor -%}
+
     {%- for commit in commits %}
         {%- if commit.scope -%}
         {% else -%}
-            \n- **misc**: {{ commit.message | upper_first }} ([{{ commit.id | truncate(length=7, end="") }}](https://github.com/swc-project/swc/commit/{{ commit.id }}))
+            \n
+            - **misc**: {{ commit.message | upper_first }} ([{{ commit.id | truncate(length=7, end="") }}](https://github.com/swc-project/swc/commit/{{ commit.id }}))
             {%- if commit.breaking %}
             {% raw %}  {% endraw %}- **BREAKING**: {{commit.breaking_description}}
             {%- endif -%}
