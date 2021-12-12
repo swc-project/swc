@@ -24,7 +24,7 @@ body = """
         {% raw %}  {% endraw %}- **BREAKING**: {{commit.breaking_description}}
         {%- endif -%}
     {%- endfor -%}
-
+    \n\n
     {%- for commit in commits %}
         {%- if commit.scope -%}
         {% else -%}
