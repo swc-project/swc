@@ -37,6 +37,9 @@
 
 - **(es/compat)** Migrate `classes` to `VisitMut` partially (#2995) ([333b52c](https://github.com/swc-project/swc/commit/333b52c646d9d56e37cdf5e6d9f4d04ceb7bfbd6))
 
+
+- **(es/compat)** Migrate class helper to `VisitMut` (#3020) ([d3ffc67](https://github.com/swc-project/swc/commit/d3ffc6719b46c18ec47c4cc054f09a9ed950391f))
+
 ### Refactor
 
 
