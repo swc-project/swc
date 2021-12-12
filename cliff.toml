@@ -18,7 +18,7 @@ body = """
     {% for commit in commits
     | filter(attribute="scope")
     | sort(attribute="scope") %}
-        - **({{commit.scope}})** {{ commit.message | upper_first }} ([{{ commit.id | truncate(length=7, end="") }}]({{ commit.id }}))
+        - **({{commit.scope}})** {{ commit.message | upper_first }} ([{{ commit.id | truncate(length=7, end="") }}](https://github.com/swc-project/swc/commit/{{ commit.id }}))
         {%- if commit.breaking %}
         {% raw %}  {% endraw %}- **BREAKING**: {{commit.breaking_description}}
         {%- endif -%}
@@ -27,7 +27,7 @@ body = """
         {%- if commit.scope -%}
         {% else -%}
             <!-- NOTE: Most of chore commits do not have category, so for now skipping it in changelogs. Enable if needed. -->
-            <!-- - **(No Category)** {{ commit.message | upper_first }} ([{{ commit.id | truncate(length=7, end="") }}]({{ commit.id }})) -->
+            <!-- - **(No Category)** {{ commit.message | upper_first }} ([{{ commit.id | truncate(length=7, end="") }}](https://github.com/swc-project/swc/commit/{{ commit.id }})) -->
             {% if commit.breaking -%}
             {% raw %}  {% endraw %}- **BREAKING**: {{commit.breaking_description}}
             {% endif -%}
@@ -47,22 +47,22 @@ footer = """
 # allow only conventional commits
 # https://www.conventionalcommits.org
 conventional_commits = true
-filter_unconventional = true
+# filter_unconventional = true
 # regex for parsing and grouping commits
 commit_parsers = [
-    { message = "^feat", group = "Features"},
-    { message = "^fix", group = "Bug Fixes"},
-    { message = "^doc", group = "Documentation"},
-    { message = "^perf", group = "Performance"},
-    { message = "^refactor", group = "Refactor"},
-    { message = "^style", group = "Styling"},
-    { message = "^test", group = "Testing"},
-    { message = "^chore\\(release\\): prepare for", skip = true},
-    { message = "^chore", group = "Miscellaneous Tasks"},
-    { body = ".*security", group = "Security"},
+  {message = "^feat", group = "Features"},
+  {message = "^fix", group = "Bug Fixes"},
+  {message = "^doc", group = "Documentation"},
+  {message = "^perf", group = "Performance"},
+  {message = "^refactor", group = "Refactor"},
+  {message = "^style", group = "Styling"},
+  {message = "^test", group = "Testing"},
+  {message = "^chore: Publish", skip = true},
+  {message = "^chore", group = "Miscellaneous Tasks"},
+  {body = ".*security", group = "Security"},
 ]
 # filter out the commits that are not matched by commit parsers
-filter_commits = true
+filter_commits = false
 # glob pattern for matching git tags
 tag_pattern = "v[0-9]*"
 # regex for skipping tags
