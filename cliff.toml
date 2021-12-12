@@ -29,7 +29,7 @@ body = """
         {%- if commit.scope -%}
         {% else -%}
             \n
-            - **misc**: {{ commit.message | upper_first }} ([{{ commit.id | truncate(length=7, end="") }}](https://github.com/swc-project/swc/commit/{{ commit.id }}))
+            - **general**: {{ commit.message | upper_first }} ([{{ commit.id | truncate(length=7, end="") }}](https://github.com/swc-project/swc/commit/{{ commit.id }}))
             {%- if commit.breaking %}
             {% raw %}  {% endraw %}- **BREAKING**: {{commit.breaking_description}}
             {%- endif -%}
@@ -49,7 +49,7 @@ footer = """
 # allow only conventional commits
 # https://www.conventionalcommits.org
 conventional_commits = true
-# filter_unconventional = true
+filter_unconventional = false
 # regex for parsing and grouping commits
 commit_parsers = [
   {message = "^feat", group = "Features"},
