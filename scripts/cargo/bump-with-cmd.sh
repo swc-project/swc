@@ -3,6 +3,7 @@ set -eu
 
 git pull || true
 
+yarn changelog
 sh -c "$@"
 # Ensure that Cargo.lock is up-to-date
 cargo metadata --format-version 1 > /dev/null
