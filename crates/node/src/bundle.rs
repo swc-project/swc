@@ -173,6 +173,7 @@ impl Task for BundleTask {
     }
 }
 
+#[cfg(feature = "swc_v1")]
 #[js_function(1)]
 pub(crate) fn bundle(cx: CallContext) -> napi::Result<JsObject> {
     let c: Arc<Compiler> = get_compiler(&cx);
@@ -227,6 +228,12 @@ pub(crate) fn bundle(cx: CallContext) -> napi::Result<JsObject> {
             },
         })
         .map(|t| t.promise_object())
+}
+
+#[cfg(feature = "swc_v2")]
+#[js_function(1)]
+pub(crate) fn bundle(cx: CallContext) -> napi::Result<JsObject> {
+    todo!()
 }
 
 struct Hook;
