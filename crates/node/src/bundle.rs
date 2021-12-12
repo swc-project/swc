@@ -31,8 +31,9 @@ struct ConfigItem {
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 struct StaticConfigItem {
+    #[cfg(feature = "swc_v1")]
     #[serde(flatten)]
-    config: swc_node_bundler::config::Config,
+    config: swc_node_bundler::v1::Config,
 }
 
 struct BundleTask {
