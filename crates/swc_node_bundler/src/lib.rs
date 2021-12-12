@@ -6,6 +6,8 @@ extern crate test;
 /// Explicit extern crate to use allocator.
 extern crate swc_node_base;
 
-pub mod config;
 pub mod loaders;
-mod v2;
+#[cfg(feature = "swc_v1")]
+pub mod v1;
+#[cfg(feature = "swc_v2")]
+pub mod v2;
