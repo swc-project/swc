@@ -31,8 +31,9 @@ struct ConfigItem {
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 struct StaticConfigItem {
+    #[cfg(feature = "swc_v1")]
     #[serde(flatten)]
-    config: swc_node_bundler::config::Config,
+    config: swc_node_bundler::v1::Config,
 }
 
 struct BundleTask {
@@ -40,6 +41,7 @@ struct BundleTask {
     config: ConfigItem,
 }
 
+#[cfg(feature = "swc_v1")]
 impl Task for BundleTask {
     type Output = AHashMap<String, TransformOutput>;
     type JsValue = JsObject;
@@ -157,6 +159,21 @@ impl Task for BundleTask {
     }
 }
 
+#[cfg(feature = "swc_v2")]
+impl Task for BundleTask {
+    type Output = AHashMap<String, TransformOutput>;
+    type JsValue = JsObject;
+
+    fn compute(&mut self) -> napi::Result<Self::Output> {
+        todo!()
+    }
+
+    fn resolve(self, env: Env, output: Self::Output) -> napi::Result<Self::JsValue> {
+        todo!()
+    }
+}
+
+#[cfg(feature = "swc_v1")]
 #[js_function(1)]
 pub(crate) fn bundle(cx: CallContext) -> napi::Result<JsObject> {
     let c: Arc<Compiler> = get_compiler(&cx);
@@ -211,6 +228,12 @@ pub(crate) fn bundle(cx: CallContext) -> napi::Result<JsObject> {
             },
         })
         .map(|t| t.promise_object())
+}
+
+#[cfg(feature = "swc_v2")]
+#[js_function(1)]
+pub(crate) fn bundle(cx: CallContext) -> napi::Result<JsObject> {
+    todo!()
 }
 
 struct Hook;
