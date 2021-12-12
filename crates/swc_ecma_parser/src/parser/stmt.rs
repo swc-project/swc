@@ -2153,9 +2153,13 @@ export default function waitUntil(callback, options = {}) {
     #[test]
     fn no_error_for_trailing_commma_inside_dynamic_import_with_import_assertions() {
         let src = "import('foo',)";
-        test_parser(src, Syntax::Es(EsConfig {
-            import_assertions: true,
-            ..Default::default()
-        }), |p| p.parse_expr());
+        test_parser(
+            src,
+            Syntax::Es(EsConfig {
+                import_assertions: true,
+                ..Default::default()
+            }),
+            |p| p.parse_expr(),
+        );
     }
 }
