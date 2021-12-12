@@ -34,11 +34,11 @@ jobs:
         with:
           path: |
             ~/.cargo/
-          key: ${{ runner.os }}-cargo-compliation
+          key: ${{ runner.os }}-cargo-compiliation
 
       - name: Install cargo hack
         run: |
-          cargo install cargo-hack --version 0.3.11
+          cargo install cargo-hack --version 0.5.7
 
       - name: Check swc_common
         run: |
@@ -75,6 +75,16 @@ jobs:
       - name: Check swc_bundler
         run: |
           (cd crates/swc_bundler && cargo hack check --feature-powerset --no-dev-deps)
+
+      - name: Check node_swc
+        run: |
+          (cd crates/node && cargo check)
+          (cd crates/node && cargo check --no-default-features --features swc_v2)
+
+      - name: Check swc_node_bundler
+        run: |
+          (cd crates/swc_node_bundler && cargo check)
+          (cd crates/swc_node_bundler && cargo check --no-default-features --features swc_v2)
 
       - name: Check swc
         run: |
