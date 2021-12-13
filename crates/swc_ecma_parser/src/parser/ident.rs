@@ -4,12 +4,6 @@ use crate::token::Keyword;
 use either::Either;
 use swc_atoms::js_word;
 
-#[derive(Clone)]
-pub enum ModuleExportName {
-    Ident(Ident),
-    Str(Str),
-}
-
 impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_maybe_private_name(&mut self) -> PResult<Either<PrivateName, Ident>> {
         let is_private = is!(self, '#');

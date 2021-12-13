@@ -32,7 +32,7 @@ pub use self::{
         DefaultDecl, ExportAll, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,
         ExportDefaultSpecifier, ExportNamedSpecifier, ExportNamespaceSpecifier, ExportSpecifier,
         ImportDecl, ImportDefaultSpecifier, ImportNamedSpecifier, ImportSpecifier,
-        ImportStarAsSpecifier, ModuleDecl, NamedExport,
+        ImportStarAsSpecifier, ModuleDecl, NamedExport, ModuleExportName
     },
     operators::{AssignOp, BinaryOp, UnaryOp, UpdateOp},
     pat::{

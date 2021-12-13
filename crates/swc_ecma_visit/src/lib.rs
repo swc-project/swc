@@ -1069,7 +1069,7 @@ define!({
     pub struct ImportNamedSpecifier {
         pub span: Span,
         pub local: Ident,
-        pub imported: Option<Ident>,
+        pub imported: Option<ModuleExportName>,
         pub is_type_only: bool,
     }
     pub enum ExportSpecifier {
@@ -1084,10 +1084,14 @@ define!({
     pub struct ExportDefaultSpecifier {
         pub exported: Ident,
     }
+    pub enum ModuleExportName {
+        Ident(Ident),
+        Str(Str)
+    }
     pub struct ExportNamedSpecifier {
         pub span: Span,
-        pub orig: Ident,
-        pub exported: Option<Ident>,
+        pub orig: ModuleExportName,
+        pub exported: Option<ModuleExportName>,
         pub is_type_only: bool,
     }
     pub enum BinaryOp {
