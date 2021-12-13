@@ -132,6 +132,7 @@ mod macros;
 pub mod error;
 pub mod lexer;
 mod parser;
+pub mod plugin;
 pub mod token;
 
 #[derive(Debug, Clone, Copy, Deserialize, Serialize)]
