@@ -1209,7 +1209,7 @@ where
             space!()
         }
 
-        if n.computed {
+        if n.key.is_computed() {
             punct!("[");
             emit!(n.key);
             punct!("]");

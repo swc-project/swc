@@ -7,7 +7,8 @@ use swc_ecma_transforms_base::helper;
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_utils::{
     alias_ident_for, constructor::inject_after_super, default_constructor, prepend, private_ident,
-    prop_name_to_expr_value, quote_ident, quote_str, undefined, ExprFactory, IdentExt,
+    prop_name_to_expr, prop_name_to_expr_value, quote_ident, quote_str, undefined, ExprFactory,
+    IdentExt,
 };
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Visit, VisitWith};
 
@@ -444,14 +445,14 @@ impl Decorators {
                     }
                     ClassMember::ClassProp(prop) => {
                         let prop_span = prop.span();
-                        let key_prop_value = match *prop.key {
-                            Expr::Ident(i) => Box::new(Expr::Lit(Lit::Str(Str {
+                        let key_prop_value = match prop.key {
+                            PropName::Ident(i) => Box::new(Expr::Lit(Lit::Str(Str {
                                 span: i.span,
                                 value: i.sym,
                                 has_escape: false,
                                 kind: Default::default(),
                             }))),
-                            _ => prop.key,
+                            _ => prop_name_to_expr(prop.key).into(),
                         };
                         //
                         Some(

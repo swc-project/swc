@@ -574,14 +574,19 @@ impl VisitMut for ReduceAst {
                 | ClassMember::Empty(..) => return false,
 
                 ClassMember::ClassProp(p) => {
-                    if !p.computed
-                        && p.decorators.is_empty()
-                        && self.can_remove(&p.key, false)
-                        && p.value
-                            .as_deref()
-                            .map(|e| self.can_remove(e, true))
-                            .unwrap_or(true)
-                    {
+                    if let PropName::Computed(key) = &p.key {
+                        if p.decorators.is_empty()
+                            && self.can_remove(&key.expr, false)
+                            && p.value
+                                .as_deref()
+                                .map(|e| self.can_remove(e, true))
+                                .unwrap_or(true)
+                        {
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    } else {
                         return false;
                     }
                 }

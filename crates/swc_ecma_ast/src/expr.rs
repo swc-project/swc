@@ -13,7 +13,7 @@ use crate::{
         TsAsExpr, TsConstAssertion, TsNonNullExpr, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl,
         TsTypeParamInstantiation,
     },
-    Invalid,
+    BigInt, Invalid,
 };
 use is_macro::Is;
 use serde::{self, Deserialize, Serialize};
@@ -948,6 +948,12 @@ impl From<Number> for Expr {
 impl From<Str> for Expr {
     fn from(v: Str) -> Self {
         Expr::Lit(Lit::Str(v))
+    }
+}
+
+impl From<BigInt> for Expr {
+    fn from(v: BigInt) -> Self {
+        Expr::Lit(Lit::BigInt(v))
     }
 }
 

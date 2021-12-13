@@ -727,13 +727,14 @@ where
                         },
                         ClassMember::ClassProp(ClassProp {
                             key,
-                            computed,
                             is_static,
                             value,
                             ..
                         }) => {
-                            if *computed {
-                                exprs.extend(self.ignore_return_value(key).map(Box::new));
+                            if let PropName::Computed(key) = key {
+                                exprs.extend(
+                                    self.ignore_return_value(key.expr.as_mut()).map(Box::new),
+                                );
                             }
 
                             if *is_static {

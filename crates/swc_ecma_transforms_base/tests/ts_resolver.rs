@@ -46,8 +46,8 @@ struct AssertNoEmptyCtxt;
 
 impl Visit for AssertNoEmptyCtxt {
     fn visit_class_prop(&mut self, n: &ClassProp) {
-        if n.computed {
-            n.key.visit_with(self);
+        if let PropName::Computed(key) = &n.key {
+            key.expr.visit_with(self);
         }
 
         n.value.visit_with(self);

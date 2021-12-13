@@ -1,7 +1,6 @@
 use super::Context;
 use crate::swcify::Swcify;
 use swc_ecma_ast::{ClassMember, Function, MethodKind, ParamOrTsParamProp, TsExprWithTypeArgs};
-use swc_ecma_utils::prop_name_to_expr;
 use swc_estree_ast::{
     ClassBody, ClassBodyEl, ClassImpl, ClassMethodKind, TSExpressionWithTypeArguments,
 };
@@ -125,16 +124,14 @@ impl Swcify for swc_estree_ast::ClassProperty {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         let key = self.key.swcify(ctx);
-        let computed = key.is_computed();
 
         swc_ecma_ast::ClassProp {
             span: ctx.span(&self.base),
-            key: Box::new(prop_name_to_expr(key)),
+            key,
             value: self.value.swcify(ctx),
             type_ann: self.type_annotation.swcify(ctx).flatten(),
             is_static: self.is_static.unwrap_or(false),
             decorators: self.decorators.swcify(ctx).unwrap_or_default(),
-            computed,
             accessibility: self.accessibility.swcify(ctx),
             is_abstract: self.is_abstract.unwrap_or_default(),
             is_optional: self.optional.unwrap_or_default(),

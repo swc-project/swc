@@ -947,17 +947,7 @@ impl<'a, I: Tokens> Parser<I> {
                 .into(),
                 Either::Right(key) => ClassProp {
                     span: span!(p, start),
-                    computed: match key {
-                        PropName::Computed(..) => true,
-                        _ => false,
-                    },
-                    key: match key {
-                        PropName::Ident(i) => Box::new(Expr::Ident(i)),
-                        PropName::Str(s) => Box::new(Expr::Lit(Lit::Str(s))),
-                        PropName::Num(n) => Box::new(Expr::Lit(Lit::Num(n))),
-                        PropName::BigInt(b) => Box::new(Expr::Lit(Lit::BigInt(b))),
-                        PropName::Computed(e) => e.expr,
-                    },
+                    key,
                     value,
                     is_static,
                     decorators,
