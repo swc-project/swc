@@ -86,6 +86,14 @@
 //! }
 //! ```
 //!
+//! ## Cargo features
+//! 
+//! ### `typescript`
+//! 
+//! Enables typescript parser.
+//! 
+//! 
+//! 
 //! ## Known issues
 //!
 //! ### Null character after `\`
