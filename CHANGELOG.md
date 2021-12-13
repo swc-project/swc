@@ -8,6 +8,9 @@
 - **(css/parser)** Fix lexing of value starting with `-` (#3011) ([e0c8bbf](https://github.com/swc-project/swc/commit/e0c8bbf7a0b24f3fe36f04886346a4709b5e09d9))
 
 
+- **(es/codegen)** Fix sourcemap bug related to multi-line comments (#3023) ([c415487](https://github.com/swc-project/swc/commit/c415487bb91f466948c2279030f3643049ad395a))
+
+
 - **(es/dep_graph)** Fix parsing of import assertions (#3005) ([819fc88](https://github.com/swc-project/swc/commit/819fc88a19a927091e8ce093d9eab518da039138))
 
 
