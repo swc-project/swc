@@ -1,5 +1,7 @@
 pub trait Plugin {
     type TypeScript: TypeScriptPlugin;
+
+    fn typescript(&mut self) -> &mut Self::TypeScript;
 }
 
 pub trait TypeScriptPlugin {}
@@ -10,6 +12,10 @@ pub struct NoopPlugin;
 
 impl Plugin for NoopPlugin {
     type TypeScript = Self;
+
+    fn typescript(&mut self) -> &mut Self::TypeScript {
+        self
+    }
 }
 
 impl TypeScriptPlugin for NoopPlugin {}
