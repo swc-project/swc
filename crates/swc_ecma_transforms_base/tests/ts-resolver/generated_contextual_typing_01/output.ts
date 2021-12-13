@@ -1,5 +1,5 @@
 class Base {
-    private p__0;
+    private p;
 }
 var x338 = (n__2: {
     () : Base[];

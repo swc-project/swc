@@ -64,6 +64,18 @@ warning: ClassProp
 2 |     [foo] = '1'
   |     ^^^^^^^^^^^
 
+warning: PropName
+ --> $DIR/tests/span/js/decl/computed-key.js:2:5
+  |
+2 |     [foo] = '1'
+  |     ^^^^^
+
+warning: ComputedPropName
+ --> $DIR/tests/span/js/decl/computed-key.js:2:5
+  |
+2 |     [foo] = '1'
+  |     ^^^^^
+
 warning: Expr
  --> $DIR/tests/span/js/decl/computed-key.js:2:6
   |

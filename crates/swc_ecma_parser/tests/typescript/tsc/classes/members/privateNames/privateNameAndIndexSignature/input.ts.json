@@ -135,17 +135,25 @@
             "ctxt": 0
           },
           "key": {
-            "type": "StringLiteral",
+            "type": "Computed",
             "span": {
-              "start": 85,
-              "end": 91,
+              "start": 84,
+              "end": 92,
               "ctxt": 0
             },
-            "value": "#bar",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 85,
+                "end": 91,
+                "ctxt": 0
+              },
+              "value": "#bar",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
             }
           },
           "value": {
@@ -182,7 +190,6 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "computed": true,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,

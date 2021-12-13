@@ -73,7 +73,6 @@
             },
             "isStatic": true,
             "decorators": [],
-            "computed": false,
             "accessibility": null,
             "isAbstract": false,
             "isOptional": false,

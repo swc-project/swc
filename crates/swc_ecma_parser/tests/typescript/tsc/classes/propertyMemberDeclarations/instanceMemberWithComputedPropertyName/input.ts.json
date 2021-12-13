@@ -97,14 +97,22 @@
             "ctxt": 0
           },
           "key": {
-            "type": "Identifier",
+            "type": "Computed",
             "span": {
-              "start": 98,
-              "end": 99,
+              "start": 97,
+              "end": 100,
               "ctxt": 0
             },
-            "value": "x",
-            "optional": false
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 98,
+                "end": 99,
+                "ctxt": 0
+              },
+              "value": "x",
+              "optional": false
+            }
           },
           "value": {
             "type": "BooleanLiteral",
@@ -118,7 +126,6 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "computed": true,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,

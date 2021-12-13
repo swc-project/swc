@@ -257,7 +257,6 @@
               }
             }
           ],
-          "computed": false,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
