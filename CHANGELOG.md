@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.2.120] - 2021-12-13
 
 ### Bug Fixes
 
