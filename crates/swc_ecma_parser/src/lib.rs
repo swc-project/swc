@@ -86,6 +86,16 @@
 //! }
 //! ```
 //!
+//! ## Cargo features
+//!
+//! ### `typescript`
+//!
+//! Enables typescript parser.
+//!
+//! ### `verify`
+//!
+//! Verify more errors, using `swc_ecma_visit`.
+//!
 //! ## Known issues
 //!
 //! ### Null character after `\`
