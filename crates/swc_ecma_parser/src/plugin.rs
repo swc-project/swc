@@ -1,10 +1,10 @@
-pub trait Plugin {
+pub trait Plugin: Sized {
     type TypeScript: TypeScriptPlugin;
 
     fn typescript(&mut self) -> &mut Self::TypeScript;
 }
 
-pub trait TypeScriptPlugin {}
+pub trait TypeScriptPlugin: Sized {}
 
 /// Implements all `*Plugin` traits.
 #[derive(Debug, Clone, Copy)]
