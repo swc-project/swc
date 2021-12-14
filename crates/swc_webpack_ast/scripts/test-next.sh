@@ -12,4 +12,4 @@ UPDATE=1 cargo test -q
 (cd next.js/packages/next-swc && yarn build-native)
 
 # (cd next.js && NEXT_PRIVATE_LOCAL_WEBPACK5=1 yarn next dev test/integration/production)
-(cd next.js && NEXT_PRIVATE_LOCAL_WEBPACK5=1 yarn jest)
+(cd next.js && NEXT_PRIVATE_LOCAL_WEBPACK5=1 yarn testheadless)
