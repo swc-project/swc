@@ -1,1 +1,1 @@
-if (require("./is-implemented")()) require("./shim");
+if (!require("./is-implemented")()) require("./shim");

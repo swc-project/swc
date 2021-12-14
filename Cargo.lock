@@ -3402,6 +3402,7 @@ version = "0.12.0"
 dependencies = [
  "anyhow",
  "rayon",
+ "serde",
  "serde_json",
  "swc_atoms 0.2.9",
  "swc_common",

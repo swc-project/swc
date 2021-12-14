@@ -1,2 +1,2 @@
 import y from "y;";
-y;
+const obj = y;
