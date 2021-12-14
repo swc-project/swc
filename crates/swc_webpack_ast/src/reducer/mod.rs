@@ -1,3 +1,4 @@
+use self::flatten::contains_import;
 use std::{iter::once, sync::Arc};
 use swc_atoms::js_word;
 use swc_common::{
@@ -10,8 +11,6 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, IsEmpty, StmtLike, StmtOrModuleItem};
 use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 use swc_timer::timer;
-
-use self::flatten::contains_import;
 
 mod flatten;
 
