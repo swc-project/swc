@@ -1568,6 +1568,12 @@ impl VisitMut for ReduceAst {
                     return;
                 }
                 if block.stmts.len() == 1 {
+                    match &block.stmts[0] {
+                        Stmt::Decl(..) => {
+                            return;
+                        }
+                        _ => {}
+                    }
                     *stmt = block.stmts.take().into_iter().next().unwrap();
                     return;
                 }
