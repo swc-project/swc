@@ -58,10 +58,8 @@ if (process.env.NODE_ENV !== "production") {
     var validatedAttributeNameCache;
     switch(null){
         case "boolean":
-            if (null) !propertyInfo.acceptsBooleans;
-            else {
-                var prefix;
-            }
+            !propertyInfo.acceptsBooleans;
+            var prefix;
     }
     switch(null){
         case null:
@@ -86,13 +84,10 @@ if (process.env.NODE_ENV !== "production") {
     var xlinkHref;
     var isJavaScriptProtocol;
     var didWarn;
-    if (null) {
-        var propertyName;
-    } else {
-        var attributeName;
-        var stringValue;
-        var value9;
-    }
+    var propertyName;
+    var attributeName;
+    var stringValue;
+    var value9;
     !isAttributeNameSafe(name);
     !node.hasAttribute(name);
     var value1;
@@ -245,14 +240,11 @@ if (process.env.NODE_ENV !== "production") {
     var propName;
     var isArray;
     var options;
-    if (null) {
-        var selectedValues;
-        var selectedValue;
-        var selected;
-    } else {
-        var _selectedValue;
-        var defaultSelected;
-    }
+    var selectedValues;
+    var selectedValue;
+    var selected;
+    var _selectedValue;
+    var defaultSelected;
     var node7;
     var node8;
     !props.multiple;
@@ -286,9 +278,8 @@ if (process.env.NODE_ENV !== "production") {
     var createMicrosoftUnsafeLocalFunction;
     var reusableSVGContainer;
     var setInnerHTML = function() {
-        if (!("innerHTML" in node)) {
-            var svgNode;
-        }
+        !("innerHTML" in node);
+        var svgNode;
     };
     var ELEMENT_NODE;
     var TEXT_NODE;
@@ -480,9 +471,8 @@ if (process.env.NODE_ENV !== "production") {
     var ReactCurrentOwner;
     var node15;
     var nearestMounted;
-    if (!fiber.alternate) {
-        var nextNode;
-    }
+    !fiber.alternate;
+    var nextNode;
     var suspenseState;
     var current1;
     var owner2;
@@ -493,10 +483,9 @@ if (process.env.NODE_ENV !== "production") {
     !fiber19;
     !(getNearestMountedFiber(fiber) === fiber);
     var alternate;
-    if (!alternate) {
-        var nearestMounted1;
-        !(nearestMounted1 !== null);
-    }
+    !alternate;
+    var nearestMounted1;
+    !(nearestMounted1 !== null);
     var a;
     var b;
     var parentA;
@@ -505,7 +494,8 @@ if (process.env.NODE_ENV !== "production") {
     var child17;
     var didFindChild;
     var _child;
-    if (!didFindChild) !didFindChild;
+    !didFindChild;
+    !didFindChild;
     !(a.alternate === b);
     !(a.tag === HostRoot);
     var currentParent;
@@ -558,11 +548,8 @@ if (process.env.NODE_ENV !== "production") {
     var targetInst;
     var nearestMounted2;
     var tag;
-    if (null) {
-        var instance1;
-    } else {
-        var root;
-    }
+    var instance1;
+    var root17;
     var targetContainers1;
     var targetContainer;
     var nextBlockedOn;
@@ -664,12 +651,9 @@ if (process.env.NODE_ENV !== "production") {
     var suspendedLanes;
     var pingedLanes;
     var nonIdlePendingLanes;
-    if (null) {
-        var nonIdleUnblockedLanes;
-        var nonIdlePingedLanes;
-    } else {
-        var unblockedLanes;
-    }
+    var nonIdleUnblockedLanes;
+    var nonIdlePingedLanes;
+    var unblockedLanes;
     var wipLanePriority;
     var entangledLanes;
     var entanglements;
@@ -738,11 +722,8 @@ if (process.env.NODE_ENV !== "production") {
     var targetInst1;
     var nearestMounted3;
     var tag1;
-    if (null) {
-        var instance2;
-    } else {
-        var root1;
-    }
+    var instance2;
+    var root1;
     var root2;
     var startText;
     var fallbackText;
@@ -846,9 +827,8 @@ if (process.env.NODE_ENV !== "production") {
     !canUseDOM;
     var eventName;
     var isSupported;
-    if (!isSupported) {
-        var element;
-    }
+    !isSupported;
+    var element2;
     var listeners2;
     var event3;
     var activeElement;
@@ -939,10 +919,9 @@ if (process.env.NODE_ENV !== "production") {
     var selection3;
     var doc2;
     var currentSelection;
-    if (!lastSelection, !shallowEqual(lastSelection, currentSelection)) {
-        var listeners3;
-        var event4;
-    }
+    !lastSelection, !shallowEqual(lastSelection, currentSelection);
+    var listeners3;
+    var event4;
     var targetNode2;
     var reactName1;
     var SyntheticEventCtor1;
@@ -956,11 +935,8 @@ if (process.env.NODE_ENV !== "production") {
     var nonDelegatedEvents;
     var type4;
     var previousInstance;
-    if (null) {
-        var _dispatchListeners$i, instance3, currentTarget, listener1;
-    } else {
-        var _dispatchListeners$_i, _instance, _currentTarget, _listener;
-    }
+    var _dispatchListeners$i, instance3, currentTarget, listener1;
+    var _dispatchListeners$_i, _instance, _currentTarget, _listener;
     var inCapturePhase1;
     var _dispatchQueue$i, event5, listeners4;
     var nativeEventTarget1;
@@ -1015,11 +991,9 @@ if (process.env.NODE_ENV !== "production") {
     var instance6;
     var _instance4, alternate1, stateNode4, tag4;
     var currentTarget2;
-    if (null) {
-        var captureListener1;
-    } else if (!inCapturePhase) {
-        var bubbleListener1;
-    }
+    var captureListener1;
+    !inCapturePhase;
+    var bubbleListener1;
     var common;
     var didWarnInvalidHydration;
     var DANGEROUSLY_SET_INNER_HTML;
@@ -1062,23 +1036,17 @@ if (process.env.NODE_ENV !== "production") {
     var propKey;
     !nextProps.hasOwnProperty(propKey);
     var nextProp;
-    if (null) {
-        var nextHtml;
-    } else {
-        var canSetTextContent;
-    }
+    var nextHtml;
+    var canSetTextContent;
     var propKey1;
     var propValue;
     var isCustomComponentTag;
     var ownerDocument1;
     var domElement;
     var namespaceURI;
-    if (null) {
-        var div;
-        var firstChild;
-    } else {
-        var node22;
-    }
+    var div;
+    var firstChild;
+    var node22;
     !isCustomComponentTag, !Object.prototype.hasOwnProperty.call(warnedUnknownTags, type);
     var isCustomComponentTag1;
     var props3;
@@ -1088,21 +1056,18 @@ if (process.env.NODE_ENV !== "production") {
     var propKey2;
     var styleName2;
     var styleUpdates;
-    if (null) {
-        var lastStyle;
-        !styleUpdates;
-    } else !updatePayload;
+    var lastStyle;
+    !styleUpdates;
+    !updatePayload;
     var nextProp1;
     var lastProp;
-    if (null) {
-        if (null) {
-            if (!nextProp1, !nextProp1.hasOwnProperty(styleName2)) !styleUpdates;
-            !styleUpdates;
-        } else if (!styleUpdates) !updatePayload;
-    } else {
-        var nextHtml1;
-        var lastHtml;
-    }
+    !nextProp1, !nextProp1.hasOwnProperty(styleName2);
+    !styleUpdates;
+    !styleUpdates;
+    !styleUpdates;
+    !updatePayload;
+    var nextHtml1;
+    var lastHtml;
     var wasCustomComponentTag;
     var isCustomComponentTag2;
     var lowerCasedName2;
@@ -1115,23 +1080,18 @@ if (process.env.NODE_ENV !== "production") {
     var propKey3;
     !rawProps.hasOwnProperty(propKey3);
     var nextProp2;
-    if (null) if (null) !suppressHydrationWarning;
-    else !suppressHydrationWarning;
-    else {
-        var serverValue;
-        var propertyInfo1;
-        if (null) {
-            var serverHTML;
-            var nextHtml2;
-            var expectedHTML;
-        } else if (null) {
-            var expectedStyle;
-        } else if (!shouldIgnoreAttribute(propKey3, propertyInfo1, isCustomComponentTag3), !shouldRemoveAttribute(propKey3, nextProp2, propertyInfo1, isCustomComponentTag3)) {
-            var isMismatchDueToBadCasing;
-            var ownNamespace;
-            var standardName1;
-        }
-    }
+    !suppressHydrationWarning;
+    !suppressHydrationWarning;
+    var serverValue;
+    var propertyInfo1;
+    var serverHTML;
+    var nextHtml2;
+    var expectedHTML;
+    var expectedStyle;
+    !shouldIgnoreAttribute(propKey3, propertyInfo1, isCustomComponentTag3), !shouldRemoveAttribute(propKey3, nextProp2, propertyInfo1, isCustomComponentTag3);
+    var isMismatchDueToBadCasing;
+    var ownNamespace;
+    var standardName1;
     var isDifferent;
     var validateDOMNesting;
     var updatedAncestorInfo;
@@ -1443,13 +1403,11 @@ if (process.env.NODE_ENV !== "production") {
     var update3;
     var updateLane;
     var updateEventTime;
-    if (!isSubsetOfLanes(renderLanes, updateLane)) {
-        var clone2;
-    } else {
-        var _clone;
-        var callback;
-        var effects;
-    }
+    !isSubsetOfLanes(renderLanes, updateLane);
+    var clone2;
+    var _clone;
+    var callback2;
+    var effects;
     var _lastPendingUpdate;
     var _firstPendingUpdate;
     !(typeof callback === "function");
@@ -1507,9 +1465,8 @@ if (process.env.NODE_ENV !== "production") {
     var context4;
     var contextType;
     var isValid1;
-    if (!isValid1, !didWarnAboutInvalidateContextType.has(ctor)) {
-        var addendum;
-    }
+    !isValid1, !didWarnAboutInvalidateContextType.has(ctor);
+    var addendum;
     var contextTypes1;
     var instance14;
     var state1;
@@ -1573,20 +1530,17 @@ if (process.env.NODE_ENV !== "production") {
     var mixedRef;
     var componentName4;
     !didWarnAboutStringRefs[componentName4];
-    if (null) {
-        var owner4;
-        var inst2;
-        var ownerFiber1;
-        !(ownerFiber1.tag === ClassComponent);
-        !inst2;
-        var stringRef;
-        var ref = function() {
-            var refs;
-        };
-    } else {
-        !(typeof mixedRef === "string");
-        !element._owner;
-    }
+    var owner4;
+    var inst2;
+    var ownerFiber1;
+    !(ownerFiber1.tag === ClassComponent);
+    !inst2;
+    var stringRef;
+    var ref = function() {
+        var refs;
+    };
+    !(typeof mixedRef === "string");
+    !element._owner;
     var componentName5;
     !shouldTrackSideEffects;
     var last;
@@ -1598,23 +1552,14 @@ if (process.env.NODE_ENV !== "production") {
     !shouldTrackSideEffects;
     var current4;
     var oldIndex;
-    if (null) {
-        var created;
-    } else {
-        var existing;
-    }
+    var created;
+    var existing;
     var existing1;
     var created1;
-    if (null) {
-        var created2;
-    } else {
-        var existing2;
-    }
-    if (null) {
-        var created3;
-    } else {
-        var existing3;
-    }
+    var created2;
+    var existing2;
+    var created3;
+    var existing3;
     var created4;
     switch(null){
         case null:
@@ -1680,11 +1625,8 @@ if (process.env.NODE_ENV !== "production") {
         default:
             var _existing3;
     }
-    if (null) {
-        var created6;
-    } else {
-        var _created4;
-    }
+    var created6;
+    var _created4;
     var key8;
     var child4;
     var existing6;
@@ -1720,12 +1662,9 @@ if (process.env.NODE_ENV !== "production") {
     var nextState1;
     var props5;
     var node28;
-    if (null) {
-        var state2;
-        var dehydrated;
-    } else {
-        var didSuspend;
-    }
+    var state2;
+    var dehydrated;
+    var didSuspend;
     var NoFlags$1;
     var HasEffect;
     var Layout;
@@ -1770,7 +1709,8 @@ if (process.env.NODE_ENV !== "production") {
     var nextInstance;
     !nextInstance;
     var firstAttemptedInstance;
-    if (!tryHydrate(fiber, nextInstance)) !nextInstance, !tryHydrate(fiber, nextInstance);
+    !tryHydrate(fiber, nextInstance);
+    !nextInstance, !tryHydrate(fiber, nextInstance);
     var instance20;
     var updatePayload2;
     var textInstance1;
@@ -1812,13 +1752,12 @@ if (process.env.NODE_ENV !== "production") {
     var hookName;
     var hookName1;
     var componentName6;
-    if (!didWarnAboutMismatchedHooksForComponent.has(componentName6)) {
-        var table;
-        var secondColumnStart;
-        var oldHookName;
-        var newHookName;
-        var row;
-    }
+    !didWarnAboutMismatchedHooksForComponent.has(componentName6);
+    var table;
+    var secondColumnStart;
+    var oldHookName;
+    var newHookName;
+    var row;
     var children1;
     var numberOfReRenders;
     !(numberOfReRenders < RE_RENDER_LIMIT);
@@ -1851,12 +1790,10 @@ if (process.env.NODE_ENV !== "production") {
     var newBaseQueueLast;
     var update4;
     var updateLane1;
-    if (!isSubsetOfLanes(renderLanes1, updateLane1)) {
-        var clone4;
-    } else {
-        var _clone1;
-        var action;
-    }
+    !isSubsetOfLanes(renderLanes1, updateLane1);
+    var clone4;
+    var _clone1;
+    var action;
     !objectIs(newState3, hook4.memoizedState);
     var dispatch1;
     var hook5;
@@ -1890,12 +1827,10 @@ if (process.env.NODE_ENV !== "production") {
     var fiber2;
     (function() {
         var maybeNewVersion;
-        if (!objectIs(version1, maybeNewVersion)) {
-            var maybeNewSnapshot;
-            if (!objectIs(snapshot1, maybeNewSnapshot)) {
-                var lane;
-            }
-        }
+        !objectIs(version1, maybeNewVersion);
+        var maybeNewSnapshot;
+        !objectIs(snapshot1, maybeNewSnapshot);
+        var lane;
     });
     (function() {
         var handleChange = function() {
@@ -1905,9 +1840,8 @@ if (process.env.NODE_ENV !== "production") {
         };
         var unsubscribe;
     });
-    if (!objectIs(prevGetSnapshot, getSnapshot), !objectIs(prevSource, source), !objectIs(prevSubscribe, subscribe)) {
-        var newQueue;
-    }
+    !objectIs(prevGetSnapshot, getSnapshot), !objectIs(prevSource, source), !objectIs(prevSubscribe, subscribe);
+    var newQueue;
     var hook6;
     var hook7;
     var hook8;
@@ -1927,14 +1861,11 @@ if (process.env.NODE_ENV !== "production") {
     var destroy;
     var prevEffect;
     var prevDeps;
-    if (null) {
-        var refCallback;
-        var _inst;
-    } else {
-        var refObject;
-        !refObject.hasOwnProperty("current");
-        var _inst2;
-    }
+    var refCallback;
+    var _inst;
+    var refObject;
+    !refObject.hasOwnProperty("current");
+    var _inst2;
     var effectDeps;
     var effectDeps1;
     var updateDebugValue;
@@ -1979,17 +1910,14 @@ if (process.env.NODE_ENV !== "production") {
     var isUpdatingOpaqueValueInRenderPhase;
     var name7;
     var makeId;
-    if (null) {
-        var didUpgrade;
-        var fiber3;
-        var readValue = function() {
-            !didUpgrade;
-        };
-        var id1;
-        var setId;
-    } else {
-        var _id;
-    }
+    var didUpgrade;
+    var fiber3;
+    var readValue = function() {
+        !didUpgrade;
+    };
+    var id1;
+    var setId;
+    var _id;
     var id2;
     var id3;
     var eventTime1;
@@ -2072,10 +2000,9 @@ if (process.env.NODE_ENV !== "production") {
     var _type2;
     var _innerPropTypes;
     var currentChild1;
-    if (!includesSomeLane(updateLanes, renderLanes)) {
-        var prevProps;
-        var compare;
-    }
+    !includesSomeLane(updateLanes, renderLanes);
+    var prevProps;
+    var compare;
     var newChild1;
     var outerMemoType;
     var lazyComponent2;
@@ -2087,19 +2014,14 @@ if (process.env.NODE_ENV !== "production") {
     var nextProps1;
     var nextChildren1;
     var prevState3;
-    if (null) if (null) {
-        var nextState2;
-    } else if (!includesSomeLane(renderLanes, OffscreenLane)) {
-        var nextBaseLanes;
-        var prevBaseLanes;
-        var _nextState;
-    } else {
-        var _nextState2;
-        var subtreeRenderLanes;
-    }
-    else {
-        var _subtreeRenderLanes;
-    }
+    var nextState2;
+    !includesSomeLane(renderLanes, OffscreenLane);
+    var nextBaseLanes;
+    var prevBaseLanes;
+    var _nextState;
+    var _nextState2;
+    var subtreeRenderLanes;
+    var _subtreeRenderLanes;
     var updateLegacyHiddenComponent;
     var nextChildren2;
     var nextChildren3;
@@ -2182,39 +2104,27 @@ if (process.env.NODE_ENV !== "production") {
     var suspenseContext;
     var showFallback;
     var didSuspend1;
-    if (null) {
-        var nextPrimaryChildren;
-        var nextFallbackChildren;
-        if (null) {
-            var fallbackFragment;
-            var primaryChildFragment;
-        } else {
-            var _fallbackFragment;
-            var _primaryChildFragment;
-        }
-    } else {
-        var prevState5;
-        if (null) if (null) {
-            var _nextFallbackChildren2;
-            var _nextPrimaryChildren2;
-            var _fallbackChildFragment;
-            var _primaryChildFragment3;
-            var prevOffscreenState;
-        } else {
-            var _nextPrimaryChildren3;
-            var _primaryChildFragment4;
-        }
-        else if (null) {
-            var _nextFallbackChildren3;
-            var _nextPrimaryChildren4;
-            var _fallbackChildFragment2;
-            var _primaryChildFragment5;
-            var _prevOffscreenState;
-        } else {
-            var _nextPrimaryChildren5;
-            var _primaryChildFragment6;
-        }
-    }
+    var nextPrimaryChildren;
+    var nextFallbackChildren;
+    var fallbackFragment;
+    var primaryChildFragment;
+    var _fallbackFragment;
+    var _primaryChildFragment;
+    var prevState5;
+    var _nextFallbackChildren2;
+    var _nextPrimaryChildren2;
+    var _fallbackChildFragment;
+    var _primaryChildFragment3;
+    var prevOffscreenState;
+    var _nextPrimaryChildren3;
+    var _primaryChildFragment4;
+    var _nextFallbackChildren3;
+    var _nextPrimaryChildren4;
+    var _fallbackChildFragment2;
+    var _primaryChildFragment5;
+    var _prevOffscreenState;
+    var _nextPrimaryChildren5;
+    var _primaryChildFragment6;
     var mode;
     var primaryChildProps;
     var primaryChildFragment1;
@@ -2243,14 +2153,12 @@ if (process.env.NODE_ENV !== "production") {
     var isArray2;
     var isIterable = !isArray2;
     var type12;
-    if (null) !validateSuspenseListNestedChild(children[i], i);
-    else {
-        var iteratorFn1;
-        var childrenIterator;
-        var step1;
-        var _i;
-        !validateSuspenseListNestedChild(step1.value, _i);
-    }
+    !validateSuspenseListNestedChild(children[i], i);
+    var iteratorFn1;
+    var childrenIterator;
+    var step1;
+    var _i;
+    !validateSuspenseListNestedChild(step1.value, _i);
     var renderState;
     var nextProps6;
     var revealOrder;
@@ -2276,7 +2184,8 @@ if (process.env.NODE_ENV !== "production") {
     var newProps5;
     var oldProps2;
     var newValue1;
-    if (!("value" in newProps5)) !hasWarnedAboutUsingNoValuePropOnContextProvider;
+    !("value" in newProps5);
+    !hasWarnedAboutUsingNoValuePropOnContextProvider;
     var providerPropTypes;
     var oldValue;
     var changedBits1;
@@ -2295,7 +2204,8 @@ if (process.env.NODE_ENV !== "production") {
     var updateLanes1;
     var oldProps3;
     var newProps2;
-    if (!includesSomeLane(renderLanes, updateLanes1)) switch(null){
+    !includesSomeLane(renderLanes, updateLanes1);
+    switch(null){
         case null:
             var Component2;
         case null:
@@ -2370,20 +2280,18 @@ if (process.env.NODE_ENV !== "production") {
         case null:
             var rootContainerInstance;
             var type14;
-            if (!newProps3) !(workInProgress.stateNode !== null);
+            !newProps3;
+            !(workInProgress.stateNode !== null);
             var currentHostContext;
             var _wasHydrated;
             var instance23;
         case null:
             var newText;
-            if (null) {
-                var oldText;
-            } else {
-                !(workInProgress.stateNode !== null);
-                var _rootContainerInstance;
-                var _currentHostContext;
-                var _wasHydrated2;
-            }
+            var oldText;
+            !(workInProgress.stateNode !== null);
+            var _rootContainerInstance;
+            var _currentHostContext;
+            var _wasHydrated2;
         case null:
             var nextState4;
             var nextDidTimeout;
@@ -2396,23 +2304,17 @@ if (process.env.NODE_ENV !== "production") {
             var renderState2;
             var didSuspendAlready;
             var renderedTail;
-            if (null) {
-                if (!didSuspendAlready) {
-                    var cannotBeSuspended;
-                    if (!cannotBeSuspended) {
-                        var row3;
-                        var suspended;
-                        var newThennables;
-                    }
-                }
-            } else {
-                if (!didSuspendAlready) {
-                    var _suspended;
-                    var _newThennables;
-                    var lastEffect1;
-                }
-                var previousSibling;
-            }
+            !didSuspendAlready;
+            var cannotBeSuspended;
+            !cannotBeSuspended;
+            var row3;
+            var suspended;
+            var newThennables;
+            !didSuspendAlready;
+            var _suspended;
+            var _newThennables;
+            var lastEffect1;
+            var previousSibling;
             var next1;
             var suspenseContext2;
         case null:
@@ -2459,9 +2361,8 @@ if (process.env.NODE_ENV !== "production") {
     });
     var pingCache;
     var threadIDs;
-    if (!threadIDs.has(lanes)) {
-        var ping;
-    }
+    !threadIDs.has(lanes);
+    var ping;
     var wakeable1;
     var currentSource;
     var hasInvisibleParentBoundary;
@@ -2536,11 +2437,8 @@ if (process.env.NODE_ENV !== "production") {
             var commitTime1;
     }
     var node31;
-    if (null) {
-        var instance27;
-    } else {
-        var _instance31;
-    }
+    var instance27;
+    var _instance31;
     var ref5;
     var instance28;
     var instanceToUse;
@@ -2567,29 +2465,22 @@ if (process.env.NODE_ENV !== "production") {
     var before;
     var tag7;
     var isHost;
-    if (null) {
-        var stateNode7;
-    } else {
-        var child11;
-        var sibling1;
-    }
+    var stateNode7;
+    var child11;
+    var sibling1;
     var tag8;
     var isHost1;
-    if (null) {
-        var stateNode8;
-    } else {
-        var child12;
-        var sibling2;
-    }
+    var stateNode8;
+    var child12;
+    var sibling2;
     var node34;
     var currentParentIsValid;
     var currentParent2;
     var currentParentIsContainer;
-    if (!currentParentIsValid) {
-        var parent3;
-        !(parent3 !== null);
-        var parentStateNode1;
-    }
+    !currentParentIsValid;
+    var parent3;
+    !(parent3 !== null);
+    var parentStateNode1;
     var alternate7;
     switch(null){
         case null:
@@ -2716,16 +2607,14 @@ if (process.env.NODE_ENV !== "production") {
             var msUntilTimeout;
             var nextLanes2;
             var suspendedLanes2;
-            if (!isSubsetOfLanes(suspendedLanes2, lanes)) {
-                var eventTime2;
-            }
+            !isSubsetOfLanes(suspendedLanes2, lanes);
+            var eventTime2;
         case null:
-            if (!shouldForceFlushFallbacksInDEV()) {
-                var mostRecentEventTime1;
-                var eventTimeMs;
-                var timeElapsedMs;
-                var _msUntilTimeout;
-            }
+            !shouldForceFlushFallbacksInDEV();
+            var mostRecentEventTime1;
+            var eventTimeMs;
+            var timeElapsedMs;
+            var _msUntilTimeout;
     }
     !((executionContext & (RenderContext | CommitContext)) === NoContext);
     var lanes6;
@@ -2754,26 +2643,20 @@ if (process.env.NODE_ENV !== "production") {
     var completedWork;
     var current9;
     var returnFiber2;
-    if (null) {
-        var next4;
-        var flags1;
-    } else {
-        var _next;
-        var actualDuration;
-        var child13;
-    }
+    var next4;
+    var flags1;
+    var _next;
+    var actualDuration;
+    var child13;
     var siblingFiber;
     var newChildLanes;
-    if (null) {
-        var actualDuration1;
-        var treeBaseDuration;
-        var shouldBubbleActualDurations;
-        var child14;
-        var isTimedOutSuspense;
-        var primaryChildFragment6;
-    } else {
-        var _child1;
-    }
+    var actualDuration1;
+    var treeBaseDuration;
+    var shouldBubbleActualDurations;
+    var child14;
+    var isTimedOutSuspense;
+    var primaryChildFragment6;
+    var _child1;
     var renderPriorityLevel;
     !((executionContext & (RenderContext | CommitContext)) === NoContext);
     var finishedWork2;
@@ -2874,9 +2757,8 @@ if (process.env.NODE_ENV !== "production") {
         case null:
             var renderingComponentName;
             var dedupeKey;
-            if (!didWarnAboutUpdateInRenderForAnotherComponent.has(dedupeKey)) {
-                var setStateComponentName;
-            }
+            !didWarnAboutUpdateInRenderForAnotherComponent.has(dedupeKey);
+            var setStateComponentName;
         case null:
             !didWarnAboutUpdateInRender;
     }
@@ -2985,9 +2867,8 @@ if (process.env.NODE_ENV !== "production") {
     var fiber18;
     var hostFiber;
     var componentName11;
-    if (!didWarnAboutFindNodeInStrictMode[componentName11]) {
-        var previousFiber4;
-    }
+    !didWarnAboutFindNodeInStrictMode[componentName11];
+    var previousFiber4;
     var current$1;
     var eventTime7;
     var lane12;
@@ -3077,23 +2958,20 @@ if (process.env.NODE_ENV !== "production") {
     var rootElement;
     !!(rootElement && rootElement.nodeType === ELEMENT_NODE && rootElement.hasAttribute(ROOT_ATTRIBUTE_NAME));
     var shouldHydrate;
-    if (!shouldHydrate) {
-        var warned;
-        var rootSibling;
-    }
+    !shouldHydrate;
+    var warned;
+    var rootSibling;
     var root16;
     var fiberRoot1;
-    if (!root16) {
-        var originalCallback;
-        (function() {
-            var instance;
-        });
-    } else {
-        var _originalCallback;
-        (function() {
-            var instance;
-        });
-    }
+    !root16;
+    var originalCallback;
+    (function() {
+        var instance;
+    });
+    var _originalCallback;
+    (function() {
+        var instance;
+    });
     var owner6;
     var warnedAboutRefsInRender;
     !warnedAboutRefsInRender;
@@ -3105,14 +2983,11 @@ if (process.env.NODE_ENV !== "production") {
     !(parentComponent != null && has(parentComponent));
     !isValidContainer(container);
     var isModernRoot2;
-    if (null) {
-        var rootEl1;
-        var renderedByDifferentReact;
-    } else {
-        var _rootEl;
-        var hasNonRootReactChild = !!(_rootEl && getInstanceFromNode(_rootEl));
-        var isContainerReactRoot = !container.parentNode._reactRootContainer;
-    }
+    var rootEl1;
+    var renderedByDifferentReact;
+    var _rootEl;
+    var hasNonRootReactChild = !!(_rootEl && getInstanceFromNode(_rootEl));
+    var isContainerReactRoot = !container.parentNode._reactRootContainer;
     var didWarnAboutUnstableCreatePortal;
     var key11;
     !isValidContainer(container);

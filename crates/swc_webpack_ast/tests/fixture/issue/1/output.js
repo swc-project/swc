@@ -100,9 +100,8 @@ ST;
 const reactEl = null;
 process.env.__NEXT_REACT_ROOT, ReactDOM.hydrateRoot(null, null), ReactDOM.hydrate(null, null), ReactDOM.render(null, null);
 ST;
-if (ST) {
-    const navStartEntries = null;
-}
+ST;
+const navStartEntries = null;
 React.createElement(null, null, React.createElement(RouterContext.Provider, makePublicRouterInstance(null), React.createElement(HeadManagerContext.Provider, null, React.createElement(StyleRegistry, null, null))));
 const wrapApp = ()=>{
     const appProps = null;
@@ -137,19 +136,17 @@ const renderPromise = ()=>{
 !styleSheets, "production" !== process.env.NODE_ENV;
 const currentStyleTags = null, currentHrefs = null, noscript = null, nonce = null;
 ()=>{
-    if (!currentHrefs.has(href)) {
-        const styleTag = null;
-    }
+    !currentHrefs.has(href);
+    const styleTag = null;
 };
 const elem = React.createElement(React.Fragment, null, React.createElement(null, function() {
-    if (process.env.NODE_ENV, !canceled) {
-        const desiredHrefs = null, currentStyleTags = null, currentHrefs = null;
-        let referenceNode;
-        ()=>{
-            const targetTag = null;
-        }, ()=>{
-        };
-    }
+    process.env.NODE_ENV, !canceled;
+    const desiredHrefs = null, currentStyleTags = null, currentHrefs = null;
+    let referenceNode;
+    ()=>{
+        const targetTag = null;
+    }, ()=>{
+    };
 }), React.createElement(null, null, React.createElement(null, null), React.createElement(Portal, "next-route-announcer", React.createElement(RouteAnnouncer, null))));
 React.createElement((process.env.__NEXT_STRICT_MODE, React.createElement(React.StrictMode, null, null)));
 React.useLayoutEffect(null, null), process.env.__NEXT_TEST_MODE && React.useEffect(()=>{

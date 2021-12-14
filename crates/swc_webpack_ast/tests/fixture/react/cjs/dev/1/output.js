@@ -130,16 +130,13 @@ if (process.env.NODE_ENV !== "production") {
     var subtreeCount;
     var nextNamePrefix;
     var iteratorFn;
-    if (null) {
-        var iterableChildren;
-        !didWarnAboutMaps;
-        var iterator;
-        var step;
-        var ii;
-        !(step = iterator.next()).done;
-    } else {
-        var childrenString;
-    }
+    var iterableChildren;
+    !didWarnAboutMaps;
+    var iterator;
+    var step;
+    var ii;
+    !(step = iterator.next()).done;
+    var childrenString;
     var result;
     var count;
     var n;
@@ -246,34 +243,26 @@ if (process.env.NODE_ENV !== "production") {
     var lineNumber;
     var ownerHasKeyUseWarning;
     var info;
-    if (!info) {
-        var parentName;
-    }
+    !info;
+    var parentName;
     var currentComponentErrorInfo;
     var childOwner;
-    if (null) {
-        var child1;
-    } else {
-        var iteratorFn1;
-        var iterator1;
-        var step1;
-        !(step1 = iterator1.next()).done;
-    }
+    var child1;
+    var iteratorFn1;
+    var iterator1;
+    var step1;
+    !(step1 = iterator1.next()).done;
     var type1;
     var propTypes1;
-    if (null) {
-        var name2;
-    } else {
-        var _name;
-    }
+    var name2;
+    var _name;
     var keys;
     var key2;
     var validType;
-    if (!validType) {
-        var info1;
-        var sourceInfo;
-        var typeString;
-    }
+    !validType;
+    var info1;
+    var sourceInfo;
+    var typeString;
     var element1;
     exports.Fragment;
     var didWarnAboutDeprecatedCreateFactory;

@@ -74,8 +74,10 @@ class Container {
         !el;
     }
     render() {
-        process.env.NODE_ENV === "production";
-        const { ReactDevOverlay  } = require("@next/react-dev-overlay/lib/client");
+        if (process.env.NODE_ENV === "production") ;
+        else {
+            const { ReactDevOverlay  } = require("@next/react-dev-overlay/lib/client");
+        }
     }
 }
 const emitter = null;
@@ -124,7 +126,8 @@ process.env.NODE_ENV !== "production";
 let reactRoot;
 let shouldHydrate;
 const reactEl = null;
-if (process.env.__NEXT_REACT_ROOT) !reactRoot;
+process.env.__NEXT_REACT_ROOT;
+!reactRoot;
 !_utils.ST;
 !_utils.ST;
 const navStartEntries = null;
@@ -138,7 +141,8 @@ if (process.env.__NEXT_RSC) {
     const RSCWrapper = ()=>{
         const { createFromFetch  } = require("next/dist/compiled/react-server-dom-webpack");
         let response;
-        if (!response) (()=>{
+        !response;
+        (()=>{
             const t = null;
         })(), (()=>{
             const search = null;
@@ -169,19 +173,17 @@ const currentHrefs = null;
 const noscript = null;
 const nonce = null;
 ()=>{
-    if (!currentHrefs.has(href)) {
-        const styleTag = null;
-    }
+    !currentHrefs.has(href);
+    const styleTag = null;
 };
-if (process.env.NODE_ENV, !canceled) {
-    const desiredHrefs = null;
-    const currentStyleTags = null;
-    const currentHrefs = null;
-    let referenceNode;
-    ()=>{
-        const targetTag = null;
-    };
-}
+process.env.NODE_ENV, !canceled;
+const desiredHrefs = null;
+const currentStyleTags1 = null;
+const currentHrefs1 = null;
+let referenceNode;
+()=>{
+    const targetTag = null;
+};
 const elem = null;
 process.env.__NEXT_STRICT_MODE;
 process.env.__NEXT_TEST_MODE;

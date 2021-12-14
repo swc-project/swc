@@ -21,9 +21,8 @@ module.exports = (function() {
             }, w, S;
             (function() {
                 var n, i, r, f, v, m = function() {
-                    if (!e.hadRecentInput) {
-                        var t, i;
-                    }
+                    !e.hadRecentInput;
+                    var t, i;
                 }, p;
             }), function() {
                 var t, n;

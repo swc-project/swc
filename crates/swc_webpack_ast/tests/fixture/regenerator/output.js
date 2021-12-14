@@ -55,14 +55,12 @@ var runtime = function(exports) {
         });
     };
     var iteratorMethod;
-    if (!isNaN(iterable.length)) {
-        var i, next;
-    }
+    !isNaN(iterable.length);
+    var i, next;
     exports.values = null;
     (function() {
-        if (!skipTempReset) {
-            var name;
-        }
+        !skipTempReset;
+        var name;
     }), function() {
         var entry;
         var record;
