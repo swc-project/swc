@@ -2,12 +2,14 @@ use self::{case::CaseHandler, hoist::hoist};
 use serde::{Deserialize, Serialize};
 use std::mem::take;
 use swc_atoms::{js_word, JsWord};
-use swc_common::{Mark, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     contains_this_expr, prepend, private_ident, quote_ident, quote_str, ExprFactory, StmtLike,
 };
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Visit, VisitWith};
+use swc_ecma_visit::{
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
+};
 
 mod case;
 mod hoist;
@@ -22,13 +24,13 @@ pub struct Config {
     pub import_path: Option<JsWord>,
 }
 
-pub fn regenerator(config: Config, top_level_mark: Mark) -> impl Fold {
-    Regenerator {
+pub fn regenerator(config: Config, top_level_mark: Mark) -> impl Fold + VisitMut {
+    as_folder(Regenerator {
         config,
         top_level_mark,
         regenerator_runtime: Default::default(),
         top_level_vars: Default::default(),
-    }
+    })
 }
 
 #[derive(Debug)]
@@ -63,19 +65,19 @@ fn require_rt(global_mark: Mark, rt: Ident, src: Option<JsWord>) -> Stmt {
 }
 
 impl Regenerator {
-    fn fold_stmt_like<T>(&mut self, items: Vec<T>) -> Vec<T>
+    fn visit_mut_stmt_like<T>(&mut self, items: &mut Vec<T>)
     where
-        T: FoldWith<Self> + StmtLike,
-        Vec<T>: FoldWith<Self> + VisitWith<Finder>,
+        T: VisitMutWith<Self> + StmtLike,
+        Vec<T>: VisitMutWith<Self> + VisitWith<Finder>,
     {
-        if !Finder::find(&items) {
-            return items;
+        if !Finder::find(items) {
+            return;
         }
 
         let mut new = Vec::with_capacity(items.len() + 2);
 
-        for item in items {
-            let item = item.fold_with(self);
+        for mut item in items.drain(..) {
+            item.visit_mut_children_with(self);
 
             if !self.top_level_vars.is_empty() {
                 prepend(
@@ -92,32 +94,33 @@ impl Regenerator {
             new.push(item);
         }
 
-        new
+        *items = new;
     }
 }
 
-/// TODO: VisitMut
-impl Fold for Regenerator {
-    noop_fold_type!();
+impl VisitMut for Regenerator {
+    noop_visit_mut_type!();
 
-    fn fold_expr(&mut self, e: Expr) -> Expr {
-        if !Finder::find(&e) {
-            return e;
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        if !Finder::find(e) {
+            return;
         }
 
-        let e: Expr = e.fold_children_with(self);
+        e.visit_mut_children_with(self);
 
-        match e {
-            Expr::Fn(FnExpr {
-                ident, function, ..
-            }) if function.is_generator => {
+        if let Expr::Fn(FnExpr {
+            ident, function, ..
+        }) = e
+        {
+            if function.is_generator {
                 let marked = ident.clone().unwrap_or_else(|| private_ident!("_callee"));
-                let (ident, function) = self.fold_fn(
-                    Some(ident.unwrap_or_else(|| marked.clone())),
+                let ident = self.visit_mut_fn(
+                    Some(ident.take().unwrap_or_else(|| marked.clone())),
                     marked,
                     function,
                 );
-                return Expr::Call(CallExpr {
+
+                *e = Expr::Call(CallExpr {
                     span: DUMMY_SP,
                     callee: self
                         .regenerator_runtime
@@ -125,27 +128,27 @@ impl Fold for Regenerator {
                         .unwrap()
                         .make_member(quote_ident!("mark"))
                         .as_callee(),
-                    args: vec![FnExpr { ident, function }.as_arg()],
+                    args: vec![FnExpr {
+                        ident,
+                        function: function.take(),
+                    }
+                    .as_arg()],
                     type_args: None,
                 });
             }
-
-            _ => {}
         }
-
-        e
     }
 
-    fn fold_fn_decl(&mut self, f: FnDecl) -> FnDecl {
-        if !Finder::find(&f) {
-            return f;
+    fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
+        if !Finder::find(f) {
+            return;
         }
 
         if self.regenerator_runtime.is_none() {
             self.regenerator_runtime = Some(private_ident!("regeneratorRuntime"));
         }
 
-        let f = f.fold_children_with(self);
+        f.visit_mut_children_with(self);
 
         if f.function.is_generator {
             let marked = private_ident!("_marked");
@@ -167,20 +170,15 @@ impl Fold for Regenerator {
                 definite: false,
             });
 
-            let (i, function) = self.fold_fn(Some(f.ident), marked, f.function);
+            let i = self.visit_mut_fn(Some(f.ident.take()), marked, &mut f.function);
 
-            FnDecl {
-                ident: i.unwrap(),
-                function,
-                ..f
-            }
-        } else {
-            f
+            f.ident = i.unwrap();
         }
     }
 
-    fn fold_module(&mut self, m: Module) -> Module {
-        let mut m: Module = m.fold_children_with(self);
+    fn visit_mut_module(&mut self, m: &mut Module) {
+        m.visit_mut_children_with(self);
+
         if let Some(rt_ident) = self.regenerator_runtime.take() {
             let specifier = ImportSpecifier::Default(ImportDefaultSpecifier {
                 span: DUMMY_SP,
@@ -201,101 +199,99 @@ impl Fold for Regenerator {
                 })),
             );
         }
-        m
     }
 
-    fn fold_module_decl(&mut self, i: ModuleDecl) -> ModuleDecl {
-        if !Finder::find(&i) {
-            return i;
+    fn visit_mut_module_decl(&mut self, i: &mut ModuleDecl) {
+        if !Finder::find(i) {
+            return;
         }
 
-        let i = i.fold_children_with(self);
+        i.visit_mut_children_with(self);
 
-        match i {
-            ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
-                span,
-                decl:
-                    DefaultDecl::Fn(FnExpr {
-                        ident, function, ..
-                    }),
-            }) => {
-                let marked = ident.clone().unwrap_or_else(|| private_ident!("_callee"));
-                let (ident, function) = self.fold_fn(
-                    Some(ident.unwrap_or_else(|| marked.clone())),
-                    marked,
-                    function,
-                );
+        if let ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+            span,
+            decl: DefaultDecl::Fn(FnExpr {
+                ident, function, ..
+            }),
+        }) = i
+        {
+            let marked = ident.clone().unwrap_or_else(|| private_ident!("_callee"));
 
-                return ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
-                    span,
-                    decl: DefaultDecl::Fn(FnExpr { ident, function }),
-                });
+            let ident = self.visit_mut_fn(
+                Some(ident.take().unwrap_or_else(|| marked.clone())),
+                marked,
+                function,
+            );
+
+            *i = ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                span: *span,
+                decl: DefaultDecl::Fn(FnExpr {
+                    ident,
+                    function: function.take(),
+                }),
+            });
+        }
+    }
+
+    fn visit_mut_prop(&mut self, p: &mut Prop) {
+        p.visit_mut_children_with(self);
+
+        if let Prop::Method(p) = p {
+            if !p.function.is_generator {
+                return;
             }
 
-            _ => {}
-        }
+            let marked = private_ident!("_callee");
+            let ident = self.visit_mut_fn(Some(marked.clone()), marked, &mut p.function);
 
-        i
-    }
+            let mark_expr = Expr::Call(CallExpr {
+                span: DUMMY_SP,
+                callee: self
+                    .regenerator_runtime
+                    .clone()
+                    .unwrap()
+                    .make_member(quote_ident!("mark"))
+                    .as_callee(),
+                args: vec![FnExpr {
+                    ident,
+                    function: p.function.take(),
+                }
+                .as_arg()],
+                type_args: None,
+            });
 
-    fn fold_prop(&mut self, p: Prop) -> Prop {
-        let p = p.fold_children_with(self);
-
-        match p {
-            Prop::Method(p) if p.function.is_generator => {
-                //
-                let marked = private_ident!("_callee");
-                let (ident, function) = self.fold_fn(Some(marked.clone()), marked, p.function);
-                let mark_expr = Expr::Call(CallExpr {
+            p.function = Function {
+                span: DUMMY_SP,
+                params: vec![],
+                decorators: vec![],
+                body: Some(BlockStmt {
                     span: DUMMY_SP,
-                    callee: self
-                        .regenerator_runtime
-                        .clone()
-                        .unwrap()
-                        .make_member(quote_ident!("mark"))
-                        .as_callee(),
-                    args: vec![FnExpr { ident, function }.as_arg()],
-                    type_args: None,
-                });
-                return Prop::Method(MethodProp {
-                    function: Function {
+                    stmts: vec![ReturnStmt {
                         span: DUMMY_SP,
-                        params: vec![],
-                        decorators: vec![],
-                        body: Some(BlockStmt {
-                            span: DUMMY_SP,
-                            stmts: vec![ReturnStmt {
+                        arg: Some(Box::new(
+                            CallExpr {
                                 span: DUMMY_SP,
-                                arg: Some(Box::new(
-                                    CallExpr {
-                                        span: DUMMY_SP,
-                                        callee: mark_expr.as_callee(),
-                                        args: vec![],
-                                        type_args: Default::default(),
-                                    }
-                                    .into(),
-                                )),
+                                callee: mark_expr.as_callee(),
+                                args: vec![],
+                                type_args: Default::default(),
                             }
-                            .into()],
-                        }),
-                        is_generator: false,
-                        is_async: false,
-                        type_params: None,
-                        return_type: None,
-                    },
-                    ..p
-                });
-            }
-
-            _ => {}
+                            .into(),
+                        )),
+                    }
+                    .into()],
+                }),
+                is_generator: false,
+                is_async: false,
+                type_params: None,
+                return_type: None,
+            };
         }
-
-        p
     }
 
     /// Injects `var _regeneratorRuntime = require('regenerator-runtime');`
-    fn fold_script(&mut self, s: Script) -> Script {
-        let mut s: Script = s.fold_children_with(self);
+    fn visit_mut_script(&mut self, s: &mut Script) {
+        s.visit_mut_children_with(self);
+
         if let Some(rt_ident) = self.regenerator_runtime.take() {
             prepend(
                 &mut s.body,
@@ -307,28 +303,27 @@ impl Fold for Regenerator {
                 .into(),
             );
         }
-        s
     }
 
     /// Injects `var _regeneratorRuntime = require('regenerator-runtime');`
-    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        self.fold_stmt_like(n)
+    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        self.visit_mut_stmt_like(n);
     }
 
-    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
-        self.fold_stmt_like(n)
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+        self.visit_mut_stmt_like(n);
     }
 }
 
 impl Regenerator {
-    fn fold_fn(
+    fn visit_mut_fn(
         &mut self,
         i: Option<Ident>,
         marked_ident: Ident,
-        mut f: Function,
-    ) -> (Option<Ident>, Function) {
+        f: &mut Function,
+    ) -> Option<Ident> {
         if !f.is_generator || f.body.is_none() {
-            return (i, f);
+            return i;
         }
         if self.regenerator_runtime.is_none() {
             self.regenerator_runtime = Some(private_ident!("regeneratorRuntime"));
@@ -343,9 +338,10 @@ impl Regenerator {
         let ctx = private_ident!("_ctx");
         let mut handler = CaseHandler::new(&ctx);
 
-        f.body = f.body.fold_with(&mut FnSentVisitor { ctx: ctx.clone() });
+        f.body
+            .visit_mut_with(&mut FnSentVisitor { ctx: ctx.clone() });
         let uses_this = contains_this_expr(&f.body);
-        let (body, hoister) = hoist(f.body.unwrap());
+        let (body, hoister) = hoist(f.body.take().unwrap());
         let mut outer_fn_vars = vec![];
         outer_fn_vars.extend(hoister.vars.into_iter().map(|id| VarDeclarator {
             span: DUMMY_SP,
@@ -434,92 +430,88 @@ impl Regenerator {
             ),
         })];
 
-        (
-            i,
-            Function {
-                is_generator: false,
-                body: Some(BlockStmt {
-                    span: body_span,
-                    stmts: {
-                        let mut buf = vec![];
-                        if !outer_fn_vars.is_empty() {
-                            buf.push(Stmt::Decl(Decl::Var(VarDecl {
-                                span: DUMMY_SP,
-                                kind: VarDeclKind::Var,
-                                decls: outer_fn_vars,
-                                declare: false,
-                            })));
-                        }
+        f.body = Some(BlockStmt {
+            span: body_span,
+            stmts: {
+                let mut buf = vec![];
+                if !outer_fn_vars.is_empty() {
+                    buf.push(Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: outer_fn_vars,
+                        declare: false,
+                    })));
+                }
 
-                        buf.push(
-                            ReturnStmt {
-                                span: DUMMY_SP,
-                                arg: Some(Box::new(Expr::Call(CallExpr {
-                                    span: DUMMY_SP,
-                                    callee: self
-                                        .regenerator_runtime
-                                        .clone()
-                                        .unwrap()
-                                        .make_member(quote_ident!("wrap"))
-                                        .as_callee(),
-                                    args: {
-                                        let mut args = vec![Expr::Fn(FnExpr {
-                                            ident: Some(inner_name),
-                                            function: Function {
-                                                params: vec![Param {
-                                                    span: DUMMY_SP,
-                                                    decorators: Default::default(),
-                                                    pat: Pat::Ident(ctx.clone().into()),
-                                                }],
-                                                decorators: Default::default(),
-                                                span: DUMMY_SP,
-                                                body: Some(BlockStmt {
-                                                    span: DUMMY_SP,
-                                                    stmts,
-                                                }),
-                                                is_generator: false,
-                                                is_async: false,
-                                                type_params: None,
-                                                return_type: None,
-                                            },
-                                        })
-                                        .as_arg()];
-
-                                        if f.is_generator {
-                                            args.push(marked_ident.as_arg());
-                                        } else if uses_this || try_locs_list.is_some() {
-                                            // Async functions that are not generators
-                                            // don't care about the
-                                            // outer function because they don't need it
-                                            // to be marked and don't
-                                            // inherit from its .prototype.
-                                            args.push(Lit::Null(Null { span: DUMMY_SP }).as_arg());
-                                        }
-
-                                        if uses_this {
-                                            args.push(ThisExpr { span: DUMMY_SP }.as_arg())
-                                        } else if try_locs_list.is_some() {
-                                            args.push(Lit::Null(Null { span: DUMMY_SP }).as_arg());
-                                        }
-
-                                        if let Some(try_locs_list) = try_locs_list {
-                                            args.push(try_locs_list.as_arg())
-                                        }
-
-                                        args
+                buf.push(
+                    ReturnStmt {
+                        span: DUMMY_SP,
+                        arg: Some(Box::new(Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: self
+                                .regenerator_runtime
+                                .clone()
+                                .unwrap()
+                                .make_member(quote_ident!("wrap"))
+                                .as_callee(),
+                            args: {
+                                let mut args = vec![Expr::Fn(FnExpr {
+                                    ident: Some(inner_name),
+                                    function: Function {
+                                        params: vec![Param {
+                                            span: DUMMY_SP,
+                                            decorators: Default::default(),
+                                            pat: Pat::Ident(ctx.clone().into()),
+                                        }],
+                                        decorators: Default::default(),
+                                        span: DUMMY_SP,
+                                        body: Some(BlockStmt {
+                                            span: DUMMY_SP,
+                                            stmts,
+                                        }),
+                                        is_generator: false,
+                                        is_async: false,
+                                        type_params: None,
+                                        return_type: None,
                                     },
-                                    type_args: None,
-                                }))),
-                            }
-                            .into(),
-                        );
+                                })
+                                .as_arg()];
 
-                        buf
-                    },
-                }),
-                ..f
+                                if f.is_generator {
+                                    args.push(marked_ident.as_arg());
+                                } else if uses_this || try_locs_list.is_some() {
+                                    // Async functions that are not generators
+                                    // don't care about the
+                                    // outer function because they don't need it
+                                    // to be marked and don't
+                                    // inherit from its .prototype.
+                                    args.push(Lit::Null(Null { span: DUMMY_SP }).as_arg());
+                                }
+
+                                if uses_this {
+                                    args.push(ThisExpr { span: DUMMY_SP }.as_arg())
+                                } else if try_locs_list.is_some() {
+                                    args.push(Lit::Null(Null { span: DUMMY_SP }).as_arg());
+                                }
+
+                                if let Some(try_locs_list) = try_locs_list {
+                                    args.push(try_locs_list.as_arg())
+                                }
+
+                                args
+                            },
+                            type_args: None,
+                        }))),
+                    }
+                    .into(),
+                );
+
+                buf
             },
-        )
+        });
+        f.is_generator = false;
+
+        i
     }
 }
 
@@ -527,24 +519,17 @@ struct FnSentVisitor {
     ctx: Ident,
 }
 
-/// TODO: VisitMut
-impl Fold for FnSentVisitor {
-    noop_fold_type!();
+impl VisitMut for FnSentVisitor {
+    noop_visit_mut_type!();
 
-    fn fold_expr(&mut self, e: Expr) -> Expr {
-        let e: Expr = e.fold_children_with(self);
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
 
-        match e {
-            Expr::MetaProp(MetaPropExpr { meta, prop })
-                if meta.sym == *"function" && prop.sym == *"sent" =>
-            {
-                return self.ctx.clone().make_member(quote_ident!("_sent"));
+        if let Expr::MetaProp(MetaPropExpr { meta, prop }) = e {
+            if meta.sym == *"function" && prop.sym == *"sent" {
+                *e = self.ctx.clone().make_member(quote_ident!("_sent"));
             }
-
-            _ => {}
         }
-
-        e
     }
 }
 
