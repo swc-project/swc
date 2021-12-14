@@ -1,19 +1,52 @@
 if (process.env.NODE_ENV !== "production") {
-    if (null) exports.unstable_now = null;
-    else exports.unstable_now = null;
+    var enableSchedulerDebugging;
+    var enableProfiling;
+    var requestHostCallback;
+    var requestHostTimeout;
+    var cancelHostTimeout;
+    var requestPaint;
+    var hasPerformanceNow;
     if (null) {
-        (function() {
-            exports.unstable_now();
-        });
+        var localPerformance;
+        exports.unstable_now = null;
+    } else {
+        var localDate;
+        var initialTime;
+        exports.unstable_now = null;
+    }
+    if (null) {
+        var _callback;
+        var _timeoutID;
+        var _flushCallback = function() {
+            var currentTime = exports.unstable_now();
+            var hasRemainingTime;
+        };
         exports.unstable_shouldYield = null;
         exports.unstable_forceFrameRate = null;
     } else {
+        var _setTimeout;
+        var _clearTimeout;
+        var requestAnimationFrame;
+        var cancelAnimationFrame;
+        var isMessageLoopRunning;
+        var scheduledHostCallback;
+        var taskTimeoutID;
+        var yieldInterval;
+        var deadline;
         exports.unstable_shouldYield = function() {
             exports.unstable_now();
         };
         exports.unstable_forceFrameRate = null;
+        var performWorkUntilDeadline = function() {
+            var currentTime = exports.unstable_now();
+            var hasTimeRemaining;
+            var hasMoreWork;
+            !hasMoreWork;
+        };
+        var channel;
+        var port;
         (function() {
-            exports.unstable_now();
+            !isMessageLoopRunning;
         });
         (function() {
             (function() {
@@ -21,10 +54,69 @@ if (process.env.NODE_ENV !== "production") {
             });
         });
     }
+    var index;
+    var first;
+    var first1;
+    var last;
+    var index1;
+    var parentIndex;
+    var parent;
+    var index2;
+    var length;
+    var leftIndex;
+    var left;
+    var rightIndex;
+    var right;
+    var diff;
+    var ImmediatePriority;
+    var UserBlockingPriority;
+    var NormalPriority;
+    var LowPriority;
+    var IdlePriority;
+    var maxSigned31BitInt;
+    var IMMEDIATE_PRIORITY_TIMEOUT;
+    var USER_BLOCKING_PRIORITY_TIMEOUT;
+    var NORMAL_PRIORITY_TIMEOUT;
+    var LOW_PRIORITY_TIMEOUT;
+    var IDLE_PRIORITY_TIMEOUT;
+    var taskQueue;
+    var timerQueue;
+    var taskIdCounter;
+    var currentTask;
+    var currentPriorityLevel;
+    var isPerformingWork;
+    var isHostCallbackScheduled;
+    var isHostTimeoutScheduled;
+    var timer;
+    if (!isHostCallbackScheduled) {
+        var firstTimer;
+    }
+    var previousPriorityLevel;
+    var currentTime = exports.unstable_now();
+    var currentTime1;
+    !hasTimeRemaining, exports.unstable_shouldYield();
+    var callback;
+    var didUserCallbackTimeout;
+    var continuationCallback;
     exports.unstable_now();
-    exports.unstable_shouldYield();
-    exports.unstable_now();
-    exports.unstable_now();
+    var firstTimer1;
+    var previousPriorityLevel1;
+    var priorityLevel;
+    var previousPriorityLevel2;
+    var parentPriorityLevel;
+    (function() {
+        var previousPriorityLevel;
+    });
+    var currentTime2 = exports.unstable_now();
+    var startTime;
+    var delay;
+    var timeout;
+    var expirationTime;
+    var newTask;
+    !isHostCallbackScheduled, !isPerformingWork;
+    !isHostCallbackScheduled, !isPerformingWork;
+    var unstable_requestPaint;
+    var unstable_Profiling;
     exports.unstable_IdlePriority = null;
     exports.unstable_ImmediatePriority = null;
     exports.unstable_LowPriority = null;

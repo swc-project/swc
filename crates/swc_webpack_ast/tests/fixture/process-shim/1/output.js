@@ -1,5 +1,16 @@
-module.exports = null;
-process.nextTick = null;
+var process = module.exports = null;
+var cachedSetTimeout;
+var cachedClearTimeout;
+var queue;
+var draining;
+var currentQueue;
+var queueIndex;
+!draining, !currentQueue;
+var timeout;
+var len;
+process.nextTick = function() {
+    var args;
+};
 process.title = null;
 process.browser = null;
 process.env = null;

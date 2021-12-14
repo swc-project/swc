@@ -18,72 +18,138 @@ import { RouteAnnouncer } from "./route-announcer";
 import { createRouter, makePublicRouterInstance, useRouter } from "./router";
 import isError from "../lib/is-error";
 import { trackWebVitalMetric } from "./vitals";
+var source;
+var key;
+const data = null;
 export const version = process.env.__NEXT_VERSION;
+const looseToArray = null, { props: hydrateProps , err: hydrateErr , page , query , buildId , assetPrefix , runtimeConfig , dynamicIds , isFallback , locale , locales , domainLocales , isPreview , rsc  } = null;
+let { defaultLocale  } = null;
+const prefix = null;
 setConfig(null);
-getURL();
+let asPath = getURL();
 if (hasBasePath(null), delBasePath(null), process.env.__NEXT_I18N_SUPPORT) {
-    require("../shared/lib/i18n/normalize-locale-path"), require("../shared/lib/i18n/detect-domain-locale"), require("../shared/lib/router/utils/parse-relative-url"), require("../shared/lib/router/utils/format-url");
-    process.env.__NEXT_I18N_DOMAINS;
+    const { normalizeLocalePath  } = require("../shared/lib/i18n/normalize-locale-path"), { detectDomainLocale  } = require("../shared/lib/i18n/detect-domain-locale"), { parseRelativeUrl  } = require("../shared/lib/router/utils/parse-relative-url"), { formatUrl  } = require("../shared/lib/router/utils/format-url");
+    const parsedAs = null, localePathResult = null;
+    const detectedDomain = process.env.__NEXT_I18N_DOMAINS;
 }
-require("./script");
-PageLoader;
-initHeadManager();
+const { initScriptLoader  } = require("./script");
+const pageLoader = new PageLoader(null, null), register = null;
+const headManager = initHeadManager(), appElement = null;
+let lastRenderReject, webpackHMR;
 export let router;
+let CachedApp, onPerfEntry;
 class Container extends React.Component {
     componentDidMount() {
         isDynamicRoute(null), process.env.__NEXT_HAS_REWRITES, process.env.__NEXT_HAS_REWRITES, assign(urlQueryToSearchParams(null));
     }
+    scrollToHash() {
+        let { hash  } = null;
+        const el = null;
+    }
     render() {
         "production" === process.env.NODE_ENV;
-        require("@next/react-dev-overlay/lib/client");
+        const { ReactDevOverlay  } = require("@next/react-dev-overlay/lib/client");
         React.createElement(null, null, this);
     }
 }
 export const emitter = mitt();
+let CachedComponent;
 export async function initNext(opts = {
 }) {
     process.env.NODE_ENV;
+    let initialErr;
+    const appEntrypoint = null;
+    const { component: app , exports: mod  } = null;
+    const exportedReportWebVitals = null;
     ()=>{
+        const uniqueID = null;
+        let perfStartEntry;
+        const webVitals = null;
         trackWebVitalMetric(null);
     };
-    process.env.NODE_ENV;
-    if (process.env.NODE_ENV) require("react-is");
+    const pageEntrypoint = process.env.NODE_ENV;
+    if (process.env.NODE_ENV) {
+        const { isValidElementType  } = require("react-is");
+        !isValidElementType(CachedComponent);
+    }
     isError(null);
-    if ("development" === process.env.NODE_ENV) require("@next/react-dev-overlay/lib/client");
+    if ("development" === process.env.NODE_ENV) {
+        const { getNodeError  } = require("@next/react-dev-overlay/lib/client");
+        ()=>{
+            let error;
+            const node = null;
+        };
+    }
     createRouter(null, null, null, null);
+    const renderCtx = null;
     process.env.NODE_ENV;
 }
 export async function render() {
+    const renderErr = null;
     process.env.NODE_ENV;
 }
 export function renderError() {
+    const { App , err  } = null;
     "production" !== process.env.NODE_ENV, import("../pages/_error")(null)(()=>{
+        const AppTree = null;
         loadGetInitialProps(null, null)(null);
     });
 }
+let reactRoot, shouldHydrate;
 ST;
+const reactEl = null;
 process.env.__NEXT_REACT_ROOT, ReactDOM.hydrateRoot(null, null), ReactDOM.hydrate(null, null), ReactDOM.render(null, null);
 ST;
-ST;
+if (ST) {
+    const navStartEntries = null;
+}
 React.createElement(null, null, React.createElement(RouterContext.Provider, makePublicRouterInstance(null), React.createElement(HeadManagerContext.Provider, null, React.createElement(StyleRegistry, null, null))));
-()=>{
+const wrapApp = ()=>{
+    const appProps = null;
     React.createElement(null, null, React.createElement(null, null));
 };
+let RSCComponent;
 if (process.env.__NEXT_RSC) {
-    ()=>{
-        require("next/dist/compiled/react-server-dom-webpack");
+    const rscCache = null, RSCWrapper = ()=>{
+        const { createFromFetch  } = require("next/dist/compiled/react-server-dom-webpack");
+        let response;
+        (()=>{
+            const t = null;
+        })(), (()=>{
+            const search = null, flightReqUrl = null;
+        })();
+        const root = null;
     };
     ()=>{
-        useRouter();
+        const cacheKey = useRouter(), { __flight_serialized__ , __flight_fresh__  } = null;
         React.createElement(React.Suspense, null, React.createElement(null, null));
     };
 }
-process.env.__NEXT_RSC;
-process.env.NODE_ENV;
-React.createElement(React.Fragment, null, React.createElement(null, function() {
-    if (process.env.NODE_ENV) ()=>{
-    }, ()=>{
+let lastAppProps;
+let { App , Component , props , err , __N_RSC  } = null, styleSheets;
+const isRSC = (process.env.__NEXT_RSC && "initial" in input, !!rsc, !!__N_RSC), appProps = null;
+let canceled, resolvePromise;
+const renderPromise = ()=>{
+    ()=>{
+        const error = null;
     };
+};
+!styleSheets, "production" !== process.env.NODE_ENV;
+const currentStyleTags = null, currentHrefs = null, noscript = null, nonce = null;
+()=>{
+    if (!currentHrefs.has(href)) {
+        const styleTag = null;
+    }
+};
+const elem = React.createElement(React.Fragment, null, React.createElement(null, function() {
+    if (process.env.NODE_ENV, !canceled) {
+        const desiredHrefs = null, currentStyleTags = null, currentHrefs = null;
+        let referenceNode;
+        ()=>{
+            const targetTag = null;
+        }, ()=>{
+        };
+    }
 }), React.createElement(null, null, React.createElement(null, null), React.createElement(Portal, "next-route-announcer", React.createElement(RouteAnnouncer, null))));
 React.createElement((process.env.__NEXT_STRICT_MODE, React.createElement(React.StrictMode, null, null)));
 React.useLayoutEffect(null, null), process.env.__NEXT_TEST_MODE && React.useEffect(()=>{
