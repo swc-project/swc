@@ -1635,6 +1635,21 @@ impl VisitMut for ReduceAst {
                     });
                     return;
                 }
+
+                if is.cons.is_empty() {
+                    self.changed = true;
+                    *stmt = Stmt::Block(BlockStmt {
+                        span: is.span,
+                        stmts: vec![
+                            Stmt::Expr(ExprStmt {
+                                span: is.test.span(),
+                                expr: is.test.take(),
+                            }),
+                            *is.alt.take().unwrap(),
+                        ],
+                    });
+                    return;
+                }
             }
 
             Stmt::While(s) => {
