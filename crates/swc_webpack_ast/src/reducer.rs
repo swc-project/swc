@@ -1827,6 +1827,7 @@ impl VisitMut for ReduceAst {
 
     fn visit_mut_var_declarator(&mut self, v: &mut VarDeclarator) {
         let had_init = v.init.is_some();
+        let expr_span = v.init.span();
         v.visit_mut_children_with(self);
 
         if let Some(e) = &mut v.init {
@@ -1838,7 +1839,14 @@ impl VisitMut for ReduceAst {
         }
 
         if had_init && v.init.is_none() && matches!(self.var_decl_kind, Some(VarDeclKind::Const)) {
-            v.init = Some(Box::new(null_expr(v.span)));
+            v.init = Some(Box::new(null_expr(expr_span)));
+        }
+
+        if had_init
+            && v.init.is_none()
+            && matches!(v.name, Pat::Array(..) | Pat::Assign(..) | Pat::Object(..))
+        {
+            v.init = Some(Box::new(null_expr(expr_span)));
         }
     }
 }
