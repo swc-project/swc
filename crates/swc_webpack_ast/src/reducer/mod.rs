@@ -1,4 +1,5 @@
-use std::sync::Arc;
+use self::flatten::contains_import;
+use std::{iter::once, sync::Arc};
 use swc_atoms::js_word;
 use swc_common::{
     collections::AHashSet,
@@ -10,6 +11,8 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, IsEmpty, StmtLike, StmtOrModuleItem};
 use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 use swc_timer::timer;
+
+mod flatten;
 
 /// # Usage
 ///
@@ -271,27 +274,6 @@ impl ReduceAst {
                     }
                 }
 
-                Stmt::Decl(Decl::Var(d)) => {
-                    let mut exprs = vec![];
-
-                    for decl in d.decls {
-                        preserve_pat(&mut exprs, decl.name);
-                        exprs.extend(decl.init);
-                    }
-
-                    if !exprs.is_empty() {
-                        let mut s = Stmt::Expr(ExprStmt {
-                            span: d.span,
-                            expr: Box::new(Expr::Seq(SeqExpr {
-                                span: d.span,
-                                exprs,
-                            })),
-                        });
-                        s.visit_mut_with(self);
-                        to.push(T::from_stmt(s));
-                    }
-                }
-
                 Stmt::ForOf(ForOfStmt {
                     span,
                     left,
@@ -363,15 +345,22 @@ impl ReduceAst {
     }
 
     /// `ignore_expr`, but use `null` instead of [Expr::Invalid].
-    fn ignore_expr_as_null(&mut self, e: &mut Expr) {
+    fn ignore_expr_as_null(&mut self, e: &mut Expr, ignore_return_value: bool) {
         let span = e.span();
-        self.ignore_expr(e);
+        self.ignore_expr(e, ignore_return_value);
         if e.is_invalid() {
             *e = null_expr(span);
         }
     }
 
-    fn ignore_expr(&mut self, e: &mut Expr) {
+    fn ignore_expr(&mut self, e: &mut Expr, ignore_return_value: bool) {
+        if ignore_return_value {
+            if e.is_member() && is_related_to_process(&e) {
+                e.take();
+                return;
+            }
+        }
+
         match e {
             Expr::Lit(..) => {
                 e.take();
@@ -403,9 +392,9 @@ impl ReduceAst {
                 computed,
                 ..
             }) => {
-                self.ignore_expr(obj);
+                self.ignore_expr(obj, false);
                 if *computed {
-                    self.ignore_expr(prop);
+                    self.ignore_expr(prop, false);
                 }
 
                 match (self.can_remove(&obj, false), self.can_remove(&prop, false)) {
@@ -447,7 +436,7 @@ impl ReduceAst {
             Expr::Seq(seq) => {
                 // visit_mut_seq_expr handles the elements other than last one.
                 if let Some(e) = seq.exprs.last_mut() {
-                    self.ignore_expr(&mut **e);
+                    self.ignore_expr(&mut **e, ignore_return_value);
                 }
                 seq.exprs.retain(|e| !e.is_invalid());
                 if seq.exprs.is_empty() {
@@ -457,6 +446,24 @@ impl ReduceAst {
                 if seq.exprs.len() == 1 {
                     *e = *seq.exprs.pop().unwrap();
                     return;
+                }
+            }
+
+            Expr::Unary(u) => {
+                if ignore_return_value {
+                    self.ignore_expr(&mut u.arg, ignore_return_value);
+                    *e = *u.arg.take();
+                }
+            }
+
+            Expr::Bin(b) => {
+                if ignore_return_value {
+                    self.ignore_expr_as_null(&mut b.left, ignore_return_value);
+                    self.ignore_expr_as_null(&mut b.right, ignore_return_value);
+
+                    if b.left.is_lit() && b.right.is_lit() {
+                        e.take();
+                    }
                 }
             }
 
@@ -473,6 +480,53 @@ impl ReduceAst {
             Expr::Seq(seq) => seq.exprs.iter().all(|e| self.can_remove(e, is_standalone)),
             _ => false,
         }
+    }
+
+    /// If webpack *may* replace this value, we should preserve it.
+    fn is_safe_to_flatten_test(&self, e: &Expr) -> bool {
+        match e {
+            Expr::Ident(i) => {
+                self.data.imported_ids.contains(&i.to_id()) || !self.data.should_preserve(&i)
+            }
+
+            Expr::Paren(ParenExpr { expr: inner, .. })
+            | Expr::Unary(UnaryExpr { arg: inner, .. })
+            | Expr::Update(UpdateExpr { arg: inner, .. })
+            | Expr::Await(AwaitExpr { arg: inner, .. }, ..)
+            | Expr::Yield(YieldExpr {
+                arg: Some(inner), ..
+            })
+            | Expr::OptChain(OptChainExpr { expr: inner, .. }) => {
+                self.is_safe_to_flatten_test(&inner)
+            }
+
+            Expr::Bin(e) => {
+                self.is_safe_to_flatten_test(&e.left) && self.is_safe_to_flatten_test(&e.right)
+            }
+
+            Expr::Cond(e) => {
+                self.is_safe_to_flatten_test(&e.test)
+                    && self.is_safe_to_flatten_test(&e.cons)
+                    && self.is_safe_to_flatten_test(&e.alt)
+            }
+
+            Expr::Call(CallExpr {
+                callee: ExprOrSuper::Expr(callee),
+                ..
+            })
+            | Expr::New(NewExpr { callee, .. }) => self.is_safe_to_flatten_test(&callee),
+
+            Expr::Member(MemberExpr {
+                obj: ExprOrSuper::Expr(obj),
+                ..
+            }) => self.is_safe_to_flatten_test(&obj),
+
+            _ => true,
+        }
+    }
+
+    fn is_safe_to_flatten_stmt(&self, s: &Stmt) -> bool {
+        !contains_import(&s)
     }
 }
 
@@ -494,7 +548,7 @@ impl VisitMut for ReduceAst {
         p.visit_mut_children_with(self);
 
         if let Some(v) = &mut p.value {
-            self.ignore_expr(&mut **v);
+            self.ignore_expr(&mut **v, false);
             if v.is_invalid() {
                 p.value = None;
             }
@@ -571,6 +625,24 @@ impl VisitMut for ReduceAst {
                     return;
                 }
             }
+
+            Expr::Unary(UnaryExpr {
+                op: op!("!"), arg, ..
+            }) => match &**arg {
+                Expr::Lit(..) => {}
+
+                Expr::Call(CallExpr {
+                    callee: ExprOrSuper::Expr(callee),
+                    ..
+                }) => {
+                    if !callee.is_fn_expr() {
+                        return;
+                    }
+                }
+                _ => {
+                    return;
+                }
+            },
             _ => {}
         }
 
@@ -588,7 +660,7 @@ impl VisitMut for ReduceAst {
                 args: Some(args),
                 ..
             }) => {
-                self.ignore_expr(callee);
+                self.ignore_expr(callee, false);
 
                 let is_define = match &**callee {
                     Expr::Ident(callee) => &*callee.sym == "define",
@@ -760,7 +832,7 @@ impl VisitMut for ReduceAst {
                 // process.browser = true should be preserved.
                 // Otherwise, webpack will replace it to `true`.
 
-                self.ignore_expr_as_null(&mut expr.right);
+                self.ignore_expr_as_null(&mut expr.right, false);
 
                 match &mut expr.left {
                     PatOrExpr::Pat(pat) => match &mut **pat {
@@ -1032,7 +1104,7 @@ impl VisitMut for ReduceAst {
     fn visit_mut_expr_stmt(&mut self, s: &mut ExprStmt) {
         s.visit_mut_children_with(self);
 
-        self.ignore_expr(&mut s.expr);
+        self.ignore_expr(&mut s.expr, true);
     }
 
     fn visit_mut_exprs(&mut self, exprs: &mut Vec<Box<Expr>>) {
@@ -1073,7 +1145,7 @@ impl VisitMut for ReduceAst {
         }
 
         if let Some(test) = &mut s.test {
-            self.ignore_expr(&mut **test);
+            self.ignore_expr(&mut **test, false);
 
             if self.can_remove(&test, true) {
                 s.test = None;
@@ -1081,7 +1153,7 @@ impl VisitMut for ReduceAst {
         }
 
         if let Some(update) = &mut s.update {
-            self.ignore_expr(&mut **update);
+            self.ignore_expr(&mut **update, true);
 
             if self.can_remove(&update, true) {
                 s.update = None;
@@ -1107,7 +1179,7 @@ impl VisitMut for ReduceAst {
     fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
         s.visit_mut_children_with(self);
 
-        self.ignore_expr_as_null(&mut s.test);
+        self.ignore_expr_as_null(&mut s.test, false);
     }
 
     fn visit_mut_jsx_attr_or_spreads(&mut self, attrs: &mut Vec<JSXAttrOrSpread>) {
@@ -1302,11 +1374,25 @@ impl VisitMut for ReduceAst {
         }
     }
 
-    fn visit_mut_param_or_ts_param_props(&mut self, ps: &mut Vec<ParamOrTsParamProp>) {
+    fn visit_mut_param_or_ts_param_prop(&mut self, p: &mut ParamOrTsParamProp) {
         let old = self.can_remove_pat;
-        self.can_remove_pat = true;
-        ps.visit_mut_children_with(self);
+        self.can_remove_pat = match p {
+            ParamOrTsParamProp::TsParamProp(TsParamProp {
+                param: TsParamPropParam::Ident(..),
+                ..
+            }) => true,
+            ParamOrTsParamProp::TsParamProp(TsParamProp {
+                param: TsParamPropParam::Assign(..),
+                ..
+            }) => false,
+            ParamOrTsParamProp::Param(_) => true,
+        };
+        p.visit_mut_children_with(self);
         self.can_remove_pat = old;
+    }
+
+    fn visit_mut_param_or_ts_param_props(&mut self, ps: &mut Vec<ParamOrTsParamProp>) {
+        ps.visit_mut_children_with(self);
 
         ps.retain(|p| match p {
             ParamOrTsParamProp::TsParamProp(p) => match &p.param {
@@ -1459,7 +1545,7 @@ impl VisitMut for ReduceAst {
                 continue;
             }
 
-            self.ignore_expr(&mut **elem);
+            self.ignore_expr(&mut **elem, true);
         }
 
         e.exprs.retain(|e| !self.can_remove(&e, false));
@@ -1497,6 +1583,69 @@ impl VisitMut for ReduceAst {
                     span: s.span,
                     expr: s.arg.take(),
                 });
+            }
+
+            Stmt::If(s) => {
+                if self.is_safe_to_flatten_test(&s.test)
+                    && self.is_safe_to_flatten_stmt(&s.cons)
+                    && s.alt
+                        .as_deref()
+                        .map(|s| self.is_safe_to_flatten_stmt(&s))
+                        .unwrap_or(true)
+                {
+                    // Flatten if statements.
+                    //
+                    // This is important because webpack replaces cons or alt if condition is
+                    // literal. To preserve cons/alt, we flatten if statements so webpack can't
+                    // replace body with an empty string.
+
+                    self.changed = true;
+                    *stmt = Stmt::Block(BlockStmt {
+                        span: s.span,
+                        stmts: once(Stmt::Expr(ExprStmt {
+                            span: s.test.span(),
+                            expr: s.test.take(),
+                        }))
+                        .chain(once(*s.cons.take()))
+                        .chain(s.alt.take().map(|v| *v))
+                        .collect(),
+                    });
+                    return;
+                }
+            }
+
+            Stmt::While(s) => {
+                if self.is_safe_to_flatten_test(&s.test) && self.is_safe_to_flatten_stmt(&s.body) {
+                    self.changed = true;
+                    *stmt = Stmt::Block(BlockStmt {
+                        span: s.span,
+                        stmts: vec![
+                            Stmt::Expr(ExprStmt {
+                                span: s.test.span(),
+                                expr: s.test.take(),
+                            }),
+                            *s.body.take(),
+                        ],
+                    });
+                    return;
+                }
+            }
+
+            Stmt::DoWhile(s) => {
+                if self.is_safe_to_flatten_test(&s.test) && self.is_safe_to_flatten_stmt(&s.body) {
+                    self.changed = true;
+                    *stmt = Stmt::Block(BlockStmt {
+                        span: s.span,
+                        stmts: vec![
+                            Stmt::Expr(ExprStmt {
+                                span: s.test.span(),
+                                expr: s.test.take(),
+                            }),
+                            *s.body.take(),
+                        ],
+                    });
+                    return;
+                }
             }
 
             _ => {}
@@ -1589,30 +1738,14 @@ impl VisitMut for ReduceAst {
                     return;
                 }
                 if block.stmts.len() == 1 {
+                    match &block.stmts[0] {
+                        Stmt::Decl(..) => {
+                            return;
+                        }
+                        _ => {}
+                    }
                     *stmt = block.stmts.take().into_iter().next().unwrap();
                     return;
-                }
-            }
-
-            Stmt::Decl(Decl::Var(var)) => {
-                self.changed = true;
-                let mut exprs = vec![];
-
-                for decl in var.decls.take() {
-                    preserve_pat(&mut exprs, decl.name);
-                    exprs.extend(decl.init);
-                }
-
-                if exprs.is_empty() {
-                    *stmt = Stmt::Empty(EmptyStmt { span: var.span });
-                } else {
-                    *stmt = Stmt::Expr(ExprStmt {
-                        span: var.span,
-                        expr: Box::new(Expr::Seq(SeqExpr {
-                            span: var.span,
-                            exprs,
-                        })),
-                    });
                 }
             }
 
@@ -1850,7 +1983,7 @@ impl VisitMut for ReduceAst {
                     return;
                 }
 
-                self.ignore_expr(&mut ap.right);
+                self.ignore_expr(&mut ap.right, false);
 
                 if ap.right.is_invalid() {
                     ap.right = Box::new(null_expr(ap.span));
@@ -1870,10 +2003,11 @@ impl VisitMut for ReduceAst {
 
     fn visit_mut_var_declarator(&mut self, v: &mut VarDeclarator) {
         let had_init = v.init.is_some();
+        let expr_span = v.init.span();
         v.visit_mut_children_with(self);
 
         if let Some(e) = &mut v.init {
-            self.ignore_expr(&mut **e);
+            self.ignore_expr(&mut **e, false);
 
             if e.is_invalid() {
                 v.init = None;
@@ -1881,7 +2015,14 @@ impl VisitMut for ReduceAst {
         }
 
         if had_init && v.init.is_none() && matches!(self.var_decl_kind, Some(VarDeclKind::Const)) {
-            v.init = Some(Box::new(null_expr(v.span)));
+            v.init = Some(Box::new(null_expr(expr_span)));
+        }
+
+        if had_init
+            && v.init.is_none()
+            && matches!(v.name, Pat::Array(..) | Pat::Assign(..) | Pat::Object(..))
+        {
+            v.init = Some(Box::new(null_expr(expr_span)));
         }
     }
 }

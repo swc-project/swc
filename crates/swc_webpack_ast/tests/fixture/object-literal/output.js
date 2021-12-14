@@ -1,3 +1,4 @@
 import { a } from "x";
 import b from "y";
-a, b;
+const d = null;
+const obj = (a, b);
