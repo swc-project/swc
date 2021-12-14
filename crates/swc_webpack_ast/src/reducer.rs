@@ -554,7 +554,16 @@ impl VisitMut for ReduceAst {
             Expr::Unary(UnaryExpr {
                 op: op!("!"), arg, ..
             }) => match &**arg {
-                Expr::Lit(..) | Expr::Call(..) | Expr::New(..) => {}
+                Expr::Lit(..) => {}
+
+                Expr::Call(CallExpr {
+                    callee: ExprOrSuper::Expr(callee),
+                    ..
+                }) => {
+                    if !callee.is_fn_expr() {
+                        return;
+                    }
+                }
                 _ => {
                     return;
                 }
