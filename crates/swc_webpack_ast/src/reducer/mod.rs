@@ -345,15 +345,15 @@ impl ReduceAst {
     }
 
     /// `ignore_expr`, but use `null` instead of [Expr::Invalid].
-    fn ignore_expr_as_null(&mut self, e: &mut Expr) {
+    fn ignore_expr_as_null(&mut self, e: &mut Expr, ignore_return_value: bool) {
         let span = e.span();
-        self.ignore_expr(e);
+        self.ignore_expr(e, ignore_return_value);
         if e.is_invalid() {
             *e = null_expr(span);
         }
     }
 
-    fn ignore_expr(&mut self, e: &mut Expr) {
+    fn ignore_expr(&mut self, e: &mut Expr, ignore_return_value: bool) {
         match e {
             Expr::Lit(..) => {
                 e.take();
@@ -385,9 +385,9 @@ impl ReduceAst {
                 computed,
                 ..
             }) => {
-                self.ignore_expr(obj);
+                self.ignore_expr(obj, false);
                 if *computed {
-                    self.ignore_expr(prop);
+                    self.ignore_expr(prop, false);
                 }
 
                 match (self.can_remove(&obj, false), self.can_remove(&prop, false)) {
@@ -429,7 +429,7 @@ impl ReduceAst {
             Expr::Seq(seq) => {
                 // visit_mut_seq_expr handles the elements other than last one.
                 if let Some(e) = seq.exprs.last_mut() {
-                    self.ignore_expr(&mut **e);
+                    self.ignore_expr(&mut **e, ignore_return_value);
                 }
                 seq.exprs.retain(|e| !e.is_invalid());
                 if seq.exprs.is_empty() {
@@ -439,6 +439,13 @@ impl ReduceAst {
                 if seq.exprs.len() == 1 {
                     *e = *seq.exprs.pop().unwrap();
                     return;
+                }
+            }
+
+            Expr::Unary(u) => {
+                if ignore_return_value {
+                    self.ignore_expr(&mut u.arg, ignore_return_value);
+                    *e = *u.arg.take();
                 }
             }
 
@@ -480,7 +487,7 @@ impl VisitMut for ReduceAst {
         p.visit_mut_children_with(self);
 
         if let Some(v) = &mut p.value {
-            self.ignore_expr(&mut **v);
+            self.ignore_expr(&mut **v, false);
             if v.is_invalid() {
                 p.value = None;
             }
@@ -592,7 +599,7 @@ impl VisitMut for ReduceAst {
                 args: Some(args),
                 ..
             }) => {
-                self.ignore_expr(callee);
+                self.ignore_expr(callee, false);
 
                 let is_define = match &**callee {
                     Expr::Ident(callee) => &*callee.sym == "define",
@@ -764,7 +771,7 @@ impl VisitMut for ReduceAst {
                 // process.browser = true should be preserved.
                 // Otherwise, webpack will replace it to `true`.
 
-                self.ignore_expr_as_null(&mut expr.right);
+                self.ignore_expr_as_null(&mut expr.right, false);
 
                 match &mut expr.left {
                     PatOrExpr::Pat(pat) => match &mut **pat {
@@ -1036,7 +1043,7 @@ impl VisitMut for ReduceAst {
     fn visit_mut_expr_stmt(&mut self, s: &mut ExprStmt) {
         s.visit_mut_children_with(self);
 
-        self.ignore_expr(&mut s.expr);
+        self.ignore_expr(&mut s.expr, true);
     }
 
     fn visit_mut_exprs(&mut self, exprs: &mut Vec<Box<Expr>>) {
@@ -1077,7 +1084,7 @@ impl VisitMut for ReduceAst {
         }
 
         if let Some(test) = &mut s.test {
-            self.ignore_expr(&mut **test);
+            self.ignore_expr(&mut **test, false);
 
             if self.can_remove(&test, true) {
                 s.test = None;
@@ -1085,7 +1092,7 @@ impl VisitMut for ReduceAst {
         }
 
         if let Some(update) = &mut s.update {
-            self.ignore_expr(&mut **update);
+            self.ignore_expr(&mut **update, true);
 
             if self.can_remove(&update, true) {
                 s.update = None;
@@ -1111,7 +1118,7 @@ impl VisitMut for ReduceAst {
     fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
         s.visit_mut_children_with(self);
 
-        self.ignore_expr_as_null(&mut s.test);
+        self.ignore_expr_as_null(&mut s.test, false);
     }
 
     fn visit_mut_jsx_attr_or_spreads(&mut self, attrs: &mut Vec<JSXAttrOrSpread>) {
@@ -1477,7 +1484,7 @@ impl VisitMut for ReduceAst {
                 continue;
             }
 
-            self.ignore_expr(&mut **elem);
+            self.ignore_expr(&mut **elem, true);
         }
 
         e.exprs.retain(|e| !self.can_remove(&e, false));
@@ -1914,7 +1921,7 @@ impl VisitMut for ReduceAst {
                     return;
                 }
 
-                self.ignore_expr(&mut ap.right);
+                self.ignore_expr(&mut ap.right, false);
 
                 if ap.right.is_invalid() {
                     ap.right = Box::new(null_expr(ap.span));
@@ -1938,7 +1945,7 @@ impl VisitMut for ReduceAst {
         v.visit_mut_children_with(self);
 
         if let Some(e) = &mut v.init {
-            self.ignore_expr(&mut **e);
+            self.ignore_expr(&mut **e, false);
 
             if e.is_invalid() {
                 v.init = None;
