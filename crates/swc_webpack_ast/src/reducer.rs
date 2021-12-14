@@ -1,4 +1,4 @@
-use std::sync::Arc;
+use std::{iter::once, sync::Arc};
 use swc_atoms::js_word;
 use swc_common::{
     collections::AHashSet,
@@ -452,6 +452,11 @@ impl ReduceAst {
             Expr::Seq(seq) => seq.exprs.iter().all(|e| self.can_remove(e, is_standalone)),
             _ => false,
         }
+    }
+
+    /// TODO
+    fn is_safe_to_flatten(&self, s: &Stmt) -> bool {
+        false
     }
 }
 
@@ -1510,6 +1515,68 @@ impl VisitMut for ReduceAst {
                 });
             }
 
+            Stmt::If(s) => {
+                if self.is_safe_to_flatten(&s.cons)
+                    && s.alt
+                        .as_deref()
+                        .map(|s| self.is_safe_to_flatten(&s))
+                        .unwrap_or(true)
+                {
+                    // Flatten if statements.
+                    //
+                    // This is important because webpack replaces cons or alt if condition is
+                    // literal. To preserve cons/alt, we flatten if statements so webpack can't
+                    // replace body with an empty string.
+
+                    self.changed = true;
+                    *stmt = Stmt::Block(BlockStmt {
+                        span: s.span,
+                        stmts: once(Stmt::Expr(ExprStmt {
+                            span: s.test.span(),
+                            expr: s.test.take(),
+                        }))
+                        .chain(once(*s.cons.take()))
+                        .chain(s.alt.take().map(|v| *v))
+                        .collect(),
+                    });
+                    return;
+                }
+            }
+
+            Stmt::While(s) => {
+                if self.is_safe_to_flatten(&s.body) {
+                    self.changed = true;
+                    *stmt = Stmt::Block(BlockStmt {
+                        span: s.span,
+                        stmts: vec![
+                            Stmt::Expr(ExprStmt {
+                                span: s.test.span(),
+                                expr: s.test.take(),
+                            }),
+                            *s.body.take(),
+                        ],
+                    });
+                    return;
+                }
+            }
+
+            Stmt::DoWhile(s) => {
+                if self.is_safe_to_flatten(&s.body) {
+                    self.changed = true;
+                    *stmt = Stmt::Block(BlockStmt {
+                        span: s.span,
+                        stmts: vec![
+                            Stmt::Expr(ExprStmt {
+                                span: s.test.span(),
+                                expr: s.test.take(),
+                            }),
+                            *s.body.take(),
+                        ],
+                    });
+                    return;
+                }
+            }
+
             _ => {}
         }
 
@@ -1641,21 +1708,6 @@ impl VisitMut for ReduceAst {
                     *stmt = Stmt::Expr(ExprStmt {
                         span: is.test.span(),
                         expr: is.test.take(),
-                    });
-                    return;
-                }
-
-                if is.cons.is_empty() {
-                    self.changed = true;
-                    *stmt = Stmt::Block(BlockStmt {
-                        span: is.span,
-                        stmts: vec![
-                            Stmt::Expr(ExprStmt {
-                                span: is.test.span(),
-                                expr: is.test.take(),
-                            }),
-                            *is.alt.take().unwrap(),
-                        ],
                     });
                     return;
                 }
