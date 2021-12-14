@@ -466,7 +466,9 @@ impl ReduceAst {
 
     fn is_safe_to_flatten_test(&self, e: &Expr) -> bool {
         match e {
-            Expr::Ident(i) => !self.data.should_preserve(&i),
+            Expr::Ident(i) => {
+                self.data.imported_ids.contains(&i.to_id()) || !self.data.should_preserve(&i)
+            }
 
             Expr::Paren(ParenExpr { expr: inner, .. })
             | Expr::Unary(UnaryExpr { arg: inner, .. })
