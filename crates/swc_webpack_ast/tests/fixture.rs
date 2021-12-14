@@ -33,10 +33,6 @@ fn fixture(input: PathBuf) {
 struct AssertValid;
 
 impl VisitMut for AssertValid {
-    fn visit_mut_invalid(&mut self, i: &mut Invalid) {
-        panic!("found invalid: {:?}", i)
-    }
-
     fn visit_mut_empty_stmt(&mut self, i: &mut EmptyStmt) {
         panic!("found empty: {:?}", i)
     }
@@ -45,6 +41,19 @@ impl VisitMut for AssertValid {
         if i.span.is_dummy() {
             panic!("found an identifier with dummy span: {:?}", i)
         }
+    }
+
+    fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
+        s.test.visit_mut_with(self);
+        if !s.cons.is_empty() {
+            s.cons.visit_mut_with(self);
+        }
+
+        s.alt.visit_mut_with(self);
+    }
+
+    fn visit_mut_invalid(&mut self, i: &mut Invalid) {
+        panic!("found invalid: {:?}", i)
     }
 
     fn visit_mut_module(&mut self, m: &mut Module) {
