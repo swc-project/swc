@@ -2927,7 +2927,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_classes"
-version = "0.35.0"
+version = "0.35.1"
 dependencies = [
  "swc_atoms 0.2.9",
  "swc_common",
