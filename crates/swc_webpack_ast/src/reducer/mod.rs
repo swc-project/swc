@@ -354,6 +354,13 @@ impl ReduceAst {
     }
 
     fn ignore_expr(&mut self, e: &mut Expr, ignore_return_value: bool) {
+        if ignore_return_value {
+            if e.is_member() && is_related_to_process(&e) {
+                e.take();
+                return;
+            }
+        }
+
         match e {
             Expr::Lit(..) => {
                 e.take();
@@ -446,6 +453,17 @@ impl ReduceAst {
                 if ignore_return_value {
                     self.ignore_expr(&mut u.arg, ignore_return_value);
                     *e = *u.arg.take();
+                }
+            }
+
+            Expr::Bin(b) => {
+                if ignore_return_value {
+                    self.ignore_expr_as_null(&mut b.left, ignore_return_value);
+                    self.ignore_expr_as_null(&mut b.right, ignore_return_value);
+
+                    if b.left.is_lit() && b.right.is_lit() {
+                        e.take();
+                    }
                 }
             }
 
