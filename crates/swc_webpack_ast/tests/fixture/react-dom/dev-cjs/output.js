@@ -7,7 +7,6 @@ if (process.env.NODE_ENV !== "production") {
     var ReactDebugCurrentFrame;
     var stack;
     var argsWithFormat;
-    !React;
     var FunctionComponent;
     var ClassComponent;
     var IndeterminateComponent;
@@ -58,12 +57,7 @@ if (process.env.NODE_ENV !== "production") {
     var validatedAttributeNameCache;
     switch(null){
         case "boolean":
-            !propertyInfo.acceptsBooleans;
             var prefix;
-    }
-    switch(null){
-        case null:
-            !value;
     }
     var properties;
     var reservedProps;
@@ -87,15 +81,13 @@ if (process.env.NODE_ENV !== "production") {
     var propertyName;
     var attributeName;
     var stringValue;
-    var value9;
-    !isAttributeNameSafe(name);
-    !node.hasAttribute(name);
+    var value;
     var value1;
-    var propertyInfo2;
+    var propertyInfo;
     var _attributeName;
     var mustUseProperty;
     var propertyName1;
-    var type20;
+    var type;
     var attributeName1, attributeNamespace;
     var _type;
     var attributeValue;
@@ -131,7 +123,7 @@ if (process.env.NODE_ENV !== "production") {
     var prevGroup;
     var prevGroupCollapsed;
     var prevGroupEnd;
-    var props11;
+    var props;
     var props1;
     var ReactCurrentDispatcher;
     var prefix1;
@@ -147,12 +139,11 @@ if (process.env.NODE_ENV !== "production") {
     var sampleLines;
     var controlLines;
     var s;
-    var c1;
+    var c;
     var _frame;
-    var name8;
+    var name;
     var syntheticFrame;
     var prototype;
-    !!(prototype && prototype.isReactComponent);
     switch(null){
         case null:
             var lazyComponent;
@@ -160,9 +151,9 @@ if (process.env.NODE_ENV !== "production") {
             var init;
     }
     var owner;
-    var source2;
+    var source;
     var info;
-    var node38;
+    var node;
     var functionName;
     switch(null){
         case null:
@@ -175,24 +166,19 @@ if (process.env.NODE_ENV !== "production") {
             var init1;
     }
     var ReactDebugCurrentFrame1;
-    var current14;
+    var current;
     var isRendering;
     var owner1;
     var hasReadOnlyValue;
-    !(hasReadOnlyValue[props.type] || props.onChange || props.onInput || props.readOnly || props.disabled || props.value == null);
-    !(props.onChange || props.readOnly || props.disabled || props.checked == null);
     var type1;
     var nodeName;
     var value2;
-    !node;
     var valueField;
     var descriptor;
     var currentValue;
     var get, set;
     var tracker;
-    !node;
     var tracker1;
-    !tracker1;
     var lastValue;
     var nextValue;
     var didWarnValueDefaultValue;
@@ -211,27 +197,20 @@ if (process.env.NODE_ENV !== "production") {
     var controlled;
     var value3;
     var type2;
-    !props.defaultChecked;
     var node5;
     var type3;
     var isButton;
     var initialValue;
-    !isHydrating;
     var name1;
-    !node5._wrapperState.initialChecked;
     var node6;
     var name2;
     var queryRoot;
     var group;
     var otherNode;
     var otherProps;
-    !otherProps;
     var didWarnSelectedSetOnOption;
     var didWarnInvalidChild;
     var content;
-    (function() {
-        !didWarnInvalidChild;
-    });
     var hostProps1;
     var content1;
     var didWarnValueDefaultValue$1;
@@ -247,24 +226,18 @@ if (process.env.NODE_ENV !== "production") {
     var defaultSelected;
     var node7;
     var node8;
-    !props.multiple;
     var value4;
     var node9;
     var wasMultiple;
-    !props.multiple;
     var value5;
-    !props.multiple;
     var node10;
     var value6;
     var didWarnValDefaultVal;
     var node11;
-    !(props.dangerouslySetInnerHTML == null);
     var hostProps2;
     var node12;
     var initialValue1;
-    var children2, defaultValue1;
-    !(defaultValue1 == null);
-    !(children2.length <= 1);
+    var children, defaultValue1;
     var node13;
     var value7;
     var defaultValue2;
@@ -278,7 +251,6 @@ if (process.env.NODE_ENV !== "production") {
     var createMicrosoftUnsafeLocalFunction;
     var reusableSVGContainer;
     var setInnerHTML = function() {
-        !("innerHTML" in node);
         var svgNode;
     };
     var ELEMENT_NODE;
@@ -310,26 +282,19 @@ if (process.env.NODE_ENV !== "production") {
     var warnStyleValueWithSemicolon;
     var warnStyleValueIsNaN;
     var warnStyleValueIsInfinity;
-    (function() {
-        !isFinite(value);
-    });
     var warnValidStyle$1;
     var serialized;
     var delimiter;
     var styleName;
-    !styles.hasOwnProperty(styleName);
     var styleValue;
     var isCustomProperty;
     var style;
     var styleName1;
-    !styles.hasOwnProperty(styleName1);
     var isCustomProperty1;
-    !isCustomProperty1;
     var styleValue1;
     var expanded;
-    var key13;
+    var key;
     var longhands;
-    !nextStyles;
     var expandedUpdates;
     var expandedStyles;
     var warnedAbout;
@@ -340,11 +305,6 @@ if (process.env.NODE_ENV !== "production") {
     var omittedCloseTags;
     var voidElementTags;
     var HTML;
-    !props;
-    !(props.children == null && props.dangerouslySetInnerHTML == null);
-    !(props.children == null);
-    !(typeof props.dangerouslySetInnerHTML === "object" && HTML in props.dangerouslySetInnerHTML);
-    !(props.style == null || typeof props.style === "object");
     var possibleStandardNames;
     var ariaProperties;
     var warnedProperties;
@@ -357,8 +317,7 @@ if (process.env.NODE_ENV !== "production") {
     var standardName;
     var invalidProps;
     var key2;
-    var isValid2;
-    !isValid2;
+    var isValid;
     var unknownPropString;
     var didWarnValueNull;
     var validateProperty$1;
@@ -379,8 +338,7 @@ if (process.env.NODE_ENV !== "production") {
     var warnUnknownProperties = function() {
         var unknownProps;
         var key;
-        var isValid3;
-        !isValid3;
+        var isValid;
         var unknownPropString;
     };
     var IS_EVENT_HANDLE_NON_MANAGED_NODE;
@@ -393,11 +351,8 @@ if (process.env.NODE_ENV !== "production") {
     var restoreTarget;
     var restoreQueue;
     var internalInstance;
-    !internalInstance;
-    !(typeof restoreImpl === "function");
     var stateNode;
     var _props;
-    !restoreTarget;
     var target1;
     var queuedTargets;
     var batchedUpdatesImpl;
@@ -408,23 +363,15 @@ if (process.env.NODE_ENV !== "production") {
     var isBatchingEventUpdates;
     var controlledComponentsHavePendingUpdates;
     var prevIsInsideEventHandler;
-    !isInsideEventHandler;
-    !isInsideEventHandler;
-    switch(null){
-        case "onMouseEnter":
-            !!(props.disabled && isInteractive(type));
-    }
     var stateNode1;
     var props2;
     var listener;
-    !(!listener || typeof listener === "function");
     var passiveBrowserEventsSupported;
     var options1;
     var funcArgs;
     var invokeGuardedCallbackImpl;
     var fakeNode;
     (function invokeGuardedCallbackDev() {
-        !(typeof document !== "undefined");
         var evt;
         var didCall;
         var didError;
@@ -435,8 +382,6 @@ if (process.env.NODE_ENV !== "production") {
         var didSetError;
         var isCrossOriginError;
         var evtType;
-        !didSetError;
-        !didCall;
     });
     var invokeGuardedCallbackImpl$1;
     var hasError;
@@ -445,7 +390,6 @@ if (process.env.NODE_ENV !== "production") {
     var rethrowError;
     var reporter;
     var error;
-    !hasRethrowError;
     var error1;
     var error2;
     var NoFlags;
@@ -471,41 +415,27 @@ if (process.env.NODE_ENV !== "production") {
     var ReactCurrentOwner;
     var node15;
     var nearestMounted;
-    !fiber.alternate;
     var nextNode;
     var suspenseState;
     var current1;
     var owner2;
     var ownerFiber;
     var instance;
-    !instance._warnedAboutRefsInRender;
-    var fiber19;
-    !fiber19;
-    !(getNearestMountedFiber(fiber) === fiber);
+    var fiber;
     var alternate;
-    !alternate;
     var nearestMounted1;
-    !(nearestMounted1 !== null);
     var a;
     var b;
     var parentA;
     var parentB;
     var nextParent;
-    var child17;
+    var child;
     var didFindChild;
     var _child;
-    !didFindChild;
-    !didFindChild;
-    !(a.alternate === b);
-    !(a.tag === HostRoot);
     var currentParent;
-    !currentParent;
     var node16;
-    !node16.sibling;
     var currentParent1;
-    !currentParent1;
     var node17;
-    !node17.sibling;
     var node18;
     var parentFiberAlternate;
     var attemptUserBlockingHydration;
@@ -549,7 +479,7 @@ if (process.env.NODE_ENV !== "production") {
     var nearestMounted2;
     var tag;
     var instance1;
-    var root17;
+    var root;
     var targetContainers1;
     var targetContainer;
     var nextBlockedOn;
@@ -559,7 +489,6 @@ if (process.env.NODE_ENV !== "production") {
     var targetContainers2;
     var targetContainer1;
     var nextBlockedOn1;
-    !hasScheduledReplayAttempt;
     var queuedEvent2;
     var unblock;
     var queuedTarget;
@@ -571,9 +500,6 @@ if (process.env.NODE_ENV !== "production") {
     var vendorPrefixes;
     var prefixedEventNames;
     var style1;
-    !("AnimationEvent" in window);
-    !("TransitionEvent" in window);
-    !vendorPrefixes[eventName];
     var prefixMap;
     var styleProp;
     var ANIMATION_END;
@@ -587,12 +513,11 @@ if (process.env.NODE_ENV !== "production") {
     var userBlockingPairsForSimpleEventPlugin;
     var continuousPairsForSimpleEventPlugin;
     var topEvent;
-    var event6;
+    var event;
     var capitalizedEvent;
     var reactName;
     var priority;
     var Scheduler_now;
-    !(tracing.__interactionsRef != null && tracing.__interactionsRef.current != null);
     var ImmediatePriority;
     var UserBlockingPriority;
     var NormalPriority;
@@ -657,9 +582,9 @@ if (process.env.NODE_ENV !== "production") {
     var wipLanePriority;
     var entangledLanes;
     var entanglements;
-    var lanes9;
+    var lanes;
     var index;
-    var lane16;
+    var lane;
     var eventTimes;
     var mostRecentEventTime;
     var index1;
@@ -712,10 +637,8 @@ if (process.env.NODE_ENV !== "production") {
     var LN2;
     var UserBlockingPriority$1, runWithPriority;
     var _enabled;
-    !!enabled;
     var eventPriority;
     var listenerWrapper;
-    !_enabled;
     var allowReplay;
     var blockedOn;
     var nativeEventTarget;
@@ -738,15 +661,12 @@ if (process.env.NODE_ENV !== "production") {
     var charCode;
     var keyCode;
     var _propName;
-    !Interface.hasOwnProperty(_propName);
     var normalize;
     var defaultPrevented;
     (function() {
-        var event7;
-        !event7;
+        var event;
     }), function() {
         var event;
-        !event;
     };
     var EventInterface;
     var SyntheticEvent;
@@ -774,9 +694,8 @@ if (process.env.NODE_ENV !== "production") {
     var charCode1;
     var modifierKeyToProp;
     var syntheticEvent;
-    var nativeEvent1;
+    var nativeEvent;
     var keyProp;
-    !nativeEvent1[keyProp];
     var KeyboardEventInterface;
     var SyntheticKeyboardEvent;
     var PointerEventInterface;
@@ -800,9 +719,6 @@ if (process.env.NODE_ENV !== "production") {
     var isComposing;
     var eventType;
     var fallbackData;
-    !isComposing;
-    !eventType;
-    !isComposing;
     var listeners;
     var event1;
     var customData;
@@ -813,22 +729,14 @@ if (process.env.NODE_ENV !== "production") {
             var chars;
     }
     var chars1;
-    switch(null){
-        case "keypress":
-            !isKeypressCommand(nativeEvent);
-    }
     var chars2;
-    !chars2;
     var listeners1;
     var event2;
     var supportedInputTypes;
     var nodeName1;
-    !!supportedInputTypes[elem.type];
-    !canUseDOM;
     var eventName;
     var isSupported;
-    !isSupported;
-    var element2;
+    var element;
     var listeners2;
     var event3;
     var activeElement;
@@ -837,17 +745,14 @@ if (process.env.NODE_ENV !== "production") {
     var dispatchQueue;
     var targetNode;
     var isInputEventSupported;
-    !activeElement;
     var nodeName3;
     var state;
-    !state, !state.controlled;
     var targetNode1;
     var getTargetInstFunc, handleEventFunc;
     var inst;
     var isOverEvent;
     var isOutEvent;
     var related;
-    !isOutEvent, !isOverEvent;
     var win;
     var doc;
     var from;
@@ -868,7 +773,6 @@ if (process.env.NODE_ENV !== "production") {
     var hasOwnProperty$2;
     var keysA;
     var keysB;
-    !hasOwnProperty$2.call(objB, keysA[i]), !objectIs(objA[keysA[i]], objB[keysA[i]]);
     var node19;
     var nodeStart;
     var nodeEnd;
@@ -886,7 +790,6 @@ if (process.env.NODE_ENV !== "production") {
     var next;
     var doc1;
     var win2;
-    !win2.getSelection;
     var selection1;
     var length1;
     var start2;
@@ -895,8 +798,6 @@ if (process.env.NODE_ENV !== "production") {
     var startMarker;
     var endMarker;
     var range;
-    !outerNode, !innerNode;
-    !!(outerNode.compareDocumentPosition(innerNode) & 16);
     var win3;
     var element1;
     var nodeName4;
@@ -919,15 +820,14 @@ if (process.env.NODE_ENV !== "production") {
     var selection3;
     var doc2;
     var currentSelection;
-    !lastSelection, !shallowEqual(lastSelection, currentSelection);
     var listeners3;
     var event4;
     var targetNode2;
     var reactName1;
     var SyntheticEventCtor1;
     var reactEventType;
-    var inCapturePhase2;
-    var accumulateTargetOnly = !inCapturePhase2;
+    var inCapturePhase;
+    var accumulateTargetOnly;
     var _listeners;
     var _event;
     var shouldProcessPolyfillPlugins;
@@ -944,16 +844,11 @@ if (process.env.NODE_ENV !== "production") {
     var isCapturePhaseListener;
     var listenerSet;
     var listenerSetKey;
-    !listenerSet.has(listenerSetKey);
     var listeningMarker;
-    (function() {
-        !nonDelegatedEvents.has(domEventName);
-    });
     var eventSystemFlags;
     var target2;
     var listenerSet1;
     var listenerSetKey1;
-    !listenerSet1.has(listenerSetKey1);
     var listener2;
     var isPassiveListener;
     var unsubscribeListener;
@@ -992,7 +887,6 @@ if (process.env.NODE_ENV !== "production") {
     var _instance4, alternate1, stateNode4, tag4;
     var currentTarget2;
     var captureListener1;
-    !inCapturePhase;
     var bubbleListener1;
     var common;
     var didWarnInvalidHydration;
@@ -1034,7 +928,6 @@ if (process.env.NODE_ENV !== "production") {
         var testElement;
     });
     var propKey;
-    !nextProps.hasOwnProperty(propKey);
     var nextProp;
     var nextHtml;
     var canSetTextContent;
@@ -1047,48 +940,35 @@ if (process.env.NODE_ENV !== "production") {
     var div;
     var firstChild;
     var node22;
-    !isCustomComponentTag, !Object.prototype.hasOwnProperty.call(warnedUnknownTags, type);
     var isCustomComponentTag1;
     var props3;
     var updatePayload;
     var lastProps;
-    var nextProps7;
+    var nextProps;
     var propKey2;
     var styleName2;
     var styleUpdates;
     var lastStyle;
-    !styleUpdates;
-    !updatePayload;
     var nextProp1;
     var lastProp;
-    !nextProp1, !nextProp1.hasOwnProperty(styleName2);
-    !styleUpdates;
-    !styleUpdates;
-    !styleUpdates;
-    !updatePayload;
     var nextHtml1;
     var lastHtml;
     var wasCustomComponentTag;
     var isCustomComponentTag2;
     var lowerCasedName2;
-    !possibleStandardNames.hasOwnProperty(lowerCasedName2);
     var isCustomComponentTag3;
     var extraAttributeNames;
     var attributes;
     var name3;
     var updatePayload1;
     var propKey3;
-    !rawProps.hasOwnProperty(propKey3);
     var nextProp2;
-    !suppressHydrationWarning;
-    !suppressHydrationWarning;
     var serverValue;
     var propertyInfo1;
     var serverHTML;
     var nextHtml2;
     var expectedHTML;
     var expectedStyle;
-    !shouldIgnoreAttribute(propKey3, propertyInfo1, isCustomComponentTag3), !shouldRemoveAttribute(propKey3, nextProp2, propertyInfo1, isCustomComponentTag3);
     var isMismatchDueToBadCasing;
     var ownNamespace;
     var standardName1;
@@ -1113,7 +993,6 @@ if (process.env.NODE_ENV !== "production") {
         var invalidParent;
         var invalidAncestor;
         var invalidParentOrAncestor;
-        !invalidParentOrAncestor;
         var ancestorTag;
         var warnKey;
         var tagDisplayName;
@@ -1128,10 +1007,6 @@ if (process.env.NODE_ENV !== "production") {
     var STYLE$1;
     var eventsEnabled;
     var selectionInformation;
-    switch(null){
-        case "textarea":
-            !!props.autoFocus;
-    }
     var type5;
     var namespace;
     var nodeType;
@@ -1183,7 +1058,6 @@ if (process.env.NODE_ENV !== "production") {
     var internalPropsKey;
     var internalContainerInstanceKey;
     var internalEventHandlersKey;
-    !!node[internalContainerInstanceKey];
     var targetInst2;
     var parentNode3;
     var alternate2;
@@ -1195,7 +1069,7 @@ if (process.env.NODE_ENV !== "production") {
     var ReactDebugCurrentFrame$1;
     var owner3;
     var stack1;
-    var has1;
+    var has;
     var typeSpecName;
     var error$1;
     var err;
@@ -1210,27 +1084,21 @@ if (process.env.NODE_ENV !== "production") {
     var instance7;
     var type6;
     var contextTypes;
-    !contextTypes;
     var instance8;
     var context1;
     var key4;
     var name4;
     var childContextTypes;
-    !(contextStackCursor.current === emptyContextObject);
     var instance9;
     var childContextTypes1;
-    var componentName12;
-    !warnedAboutMissingGetChildContext[componentName12];
+    var componentName;
     var childContext;
     var contextKey;
-    !(contextKey in childContextTypes1);
     var name5;
     var instance10;
     var memoizedMergedChildContext;
     var instance11;
-    !instance11;
     var mergedContext;
-    !(isFiberMounted(fiber) && fiber.tag === ClassComponent);
     var node25;
     switch(null){
         case null:
@@ -1244,13 +1112,8 @@ if (process.env.NODE_ENV !== "production") {
     var hasLoggedError;
     var isDevToolsPresent;
     var hook;
-    !hook.supportsFiber;
-    !hasLoggedError;
     var didError;
-    !hasLoggedError;
-    !hasLoggedError;
     var Scheduler_runWithPriority, Scheduler_scheduleCallback, Scheduler_cancelCallback, Scheduler_shouldYield, Scheduler_requestPaint, Scheduler_now$1, Scheduler_getCurrentPriorityLevel, Scheduler_ImmediatePriority, Scheduler_UserBlockingPriority, Scheduler_NormalPriority, Scheduler_LowPriority, Scheduler_IdlePriority;
-    !(tracing.__interactionsRef != null && tracing.__interactionsRef.current != null);
     var fakeCallbackNode;
     var ImmediatePriority$1;
     var UserBlockingPriority$2;
@@ -1268,7 +1131,7 @@ if (process.env.NODE_ENV !== "production") {
     var priorityLevel;
     var priorityLevel1;
     var node26;
-    var i1;
+    var i;
     var _isSync2;
     var _queue;
     (function() {
@@ -1341,7 +1204,6 @@ if (process.env.NODE_ENV !== "production") {
     var changedBits;
     var node27;
     var alternate3;
-    !isSubsetOfLanes(node27.childLanes, renderLanes);
     var fiber1;
     var nextFiber;
     var list;
@@ -1353,7 +1215,6 @@ if (process.env.NODE_ENV !== "production") {
     var firstContext;
     var resolvedObservedBits;
     var contextItem;
-    !(currentlyRenderingFiber !== null);
     var UpdateState;
     var ReplaceState;
     var ForceUpdate;
@@ -1395,7 +1256,7 @@ if (process.env.NODE_ENV !== "production") {
     var current3;
     var currentQueue2;
     var currentLastBaseUpdate;
-    var newState9;
+    var newState;
     var newLanes;
     var newBaseState;
     var newFirstBaseUpdate;
@@ -1403,14 +1264,12 @@ if (process.env.NODE_ENV !== "production") {
     var update3;
     var updateLane;
     var updateEventTime;
-    !isSubsetOfLanes(renderLanes, updateLane);
     var clone2;
     var _clone;
-    var callback2;
+    var callback;
     var effects;
     var _lastPendingUpdate;
     var _firstPendingUpdate;
-    !(typeof callback === "function");
     var effects1;
     var effect;
     var callback1;
@@ -1429,12 +1288,10 @@ if (process.env.NODE_ENV !== "production") {
     var didWarnAboutInvalidateContextType;
     var didWarnOnInvalidCallback;
     (function() {
-        var key14;
-        !didWarnOnInvalidCallback.has(key14);
+        var key;
     });
     (function() {
-        var componentName13;
-        !didWarnAboutUndefinedDerivedState.has(componentName13);
+        var componentName;
     });
     var prevState;
     var partialState1;
@@ -1452,12 +1309,10 @@ if (process.env.NODE_ENV !== "production") {
         var update;
     });
     var instance12;
-    var shouldUpdate5;
-    !shallowEqual(oldProps, newProps), !shallowEqual(oldState, newState);
+    var shouldUpdate;
     var instance13;
     var name6;
     var renderPresent;
-    !renderPresent;
     var hasMutatedProps;
     var _state;
     var isLegacyContextConsumer;
@@ -1465,42 +1320,35 @@ if (process.env.NODE_ENV !== "production") {
     var context4;
     var contextType;
     var isValid1;
-    !isValid1, !didWarnAboutInvalidateContextType.has(ctor);
     var addendum;
     var contextTypes1;
     var instance14;
     var state1;
     var componentName1;
-    !didWarnAboutUninitializedState.has(componentName1);
     var foundWillMountName;
     var foundWillReceivePropsName;
     var foundWillUpdateName;
     var _componentName;
     var newApiName;
-    !didWarnAboutLegacyLifecyclesAndDerivedState.has(_componentName);
-    var oldState5;
+    var oldState;
     var oldState1;
     var componentName2;
-    !didWarnAboutStateAssignmentForComponent.has(componentName2);
     var instance15;
     var contextType1;
     var unmaskedContext1;
     var componentName3;
-    !didWarnAboutDirectlyAssigningPropsToState.has(componentName3);
     var getDerivedStateFromProps;
     var instance16;
-    var oldProps5;
+    var oldProps;
     var oldContext;
     var contextType2;
     var nextContext;
     var nextLegacyUnmaskedContext;
     var getDerivedStateFromProps1;
     var hasNewLifecycles;
-    !hasNewLifecycles;
     var oldState2;
     var newState1;
     var shouldUpdate1;
-    !hasNewLifecycles;
     var instance17;
     var unresolvedOldProps;
     var oldProps1;
@@ -1511,11 +1359,9 @@ if (process.env.NODE_ENV !== "production") {
     var nextUnmaskedContext;
     var getDerivedStateFromProps2;
     var hasNewLifecycles1;
-    !hasNewLifecycles1;
     var oldState3;
     var newState2;
     var shouldUpdate2;
-    !hasNewLifecycles1;
     var didWarnAboutMaps;
     var didWarnAboutGenerators;
     var didWarnAboutStringRefs;
@@ -1523,33 +1369,24 @@ if (process.env.NODE_ENV !== "production") {
     var ownerHasFunctionTypeWarning;
     var warnForMissingKey;
     (function() {
-        !(typeof child._store === "object");
         var componentName;
     });
     var isArray$1;
     var mixedRef;
     var componentName4;
-    !didWarnAboutStringRefs[componentName4];
     var owner4;
     var inst2;
     var ownerFiber1;
-    !(ownerFiber1.tag === ClassComponent);
-    !inst2;
     var stringRef;
     var ref = function() {
         var refs;
     };
-    !(typeof mixedRef === "string");
-    !element._owner;
     var componentName5;
-    !shouldTrackSideEffects;
     var last;
-    !shouldTrackSideEffects;
     var childToDelete;
     var existingChildren;
     var existingChild;
     var clone3;
-    !shouldTrackSideEffects;
     var current4;
     var oldIndex;
     var created;
@@ -1580,9 +1417,8 @@ if (process.env.NODE_ENV !== "production") {
     switch(null){
         case null:
             var key6;
-            !knownKeys.has(key6);
     }
-    var knownKeys2;
+    var knownKeys;
     var child1;
     var resultingFirstChild;
     var previousNewFiber;
@@ -1595,15 +1431,11 @@ if (process.env.NODE_ENV !== "production") {
     var existingChildren1;
     var _newFiber2;
     var iteratorFn;
-    !(typeof iteratorFn === "function");
-    !didWarnAboutGenerators;
-    !didWarnAboutMaps;
     var _newChildren;
     var knownKeys1;
     var _step;
     var child2;
     var newChildren;
-    !(newChildren != null);
     var resultingFirstChild1;
     var previousNewFiber1;
     var oldFiber1;
@@ -1639,7 +1471,6 @@ if (process.env.NODE_ENV !== "production") {
     }
     var reconcileChildFibers;
     var mountChildFibers;
-    !(current === null || workInProgress.child === current.child);
     var currentChild;
     var newChild;
     var child5;
@@ -1647,7 +1478,6 @@ if (process.env.NODE_ENV !== "production") {
     var contextStackCursor$1;
     var contextFiberStackCursor;
     var rootInstanceStackCursor;
-    !(c !== NO_CONTEXT);
     var rootInstance;
     var nextRootContext;
     var context5;
@@ -1671,7 +1501,7 @@ if (process.env.NODE_ENV !== "production") {
     var Passive$1;
     var hydrationParentFiber;
     var nextHydratableInstance;
-    var isHydrating1;
+    var isHydrating;
     var parentInstance;
     var childToDelete1;
     switch(null){
@@ -1705,12 +1535,8 @@ if (process.env.NODE_ENV !== "production") {
             var text1;
             var textInstance;
     }
-    !isHydrating1;
     var nextInstance;
-    !nextInstance;
     var firstAttemptedInstance;
-    !tryHydrate(fiber, nextInstance);
-    !nextInstance, !tryHydrate(fiber, nextInstance);
     var instance20;
     var updatePayload2;
     var textInstance1;
@@ -1727,9 +1553,7 @@ if (process.env.NODE_ENV !== "production") {
     }
     var suspenseState1;
     var suspenseInstance1;
-    !suspenseInstance1;
     var parent;
-    !isHydrating1;
     var type9;
     var nextInstance1;
     var workInProgressSources;
@@ -1738,7 +1562,7 @@ if (process.env.NODE_ENV !== "production") {
     var ReactCurrentDispatcher$1, ReactCurrentBatchConfig$1;
     var didWarnAboutMismatchedHooksForComponent;
     var didWarnAboutUseOpaqueIdentifier;
-    var renderLanes1;
+    var renderLanes;
     var currentlyRenderingFiber$1;
     var currentHook;
     var workInProgressHook;
@@ -1752,7 +1576,6 @@ if (process.env.NODE_ENV !== "production") {
     var hookName;
     var hookName1;
     var componentName6;
-    !didWarnAboutMismatchedHooksForComponent.has(componentName6);
     var table;
     var secondColumnStart;
     var oldHookName;
@@ -1760,16 +1583,13 @@ if (process.env.NODE_ENV !== "production") {
     var row;
     var children1;
     var numberOfReRenders;
-    !(numberOfReRenders < RE_RENDER_LIMIT);
     var didRenderTooFewHooks;
-    !!didRenderTooFewHooks;
     var hook1;
     var queue4;
     var hook2;
     var nextCurrentHook;
     var current5;
     var nextWorkInProgressHook;
-    !(nextCurrentHook !== null);
     var newHook;
     var hook3;
     var initialState;
@@ -1777,7 +1597,6 @@ if (process.env.NODE_ENV !== "production") {
     var dispatch;
     var hook4;
     var queue6;
-    !(queue6 !== null);
     var current6;
     var baseQueue;
     var pendingQueue1;
@@ -1790,29 +1609,24 @@ if (process.env.NODE_ENV !== "production") {
     var newBaseQueueLast;
     var update4;
     var updateLane1;
-    !isSubsetOfLanes(renderLanes1, updateLane1);
     var clone4;
     var _clone1;
     var action;
-    !objectIs(newState3, hook4.memoizedState);
     var dispatch1;
     var hook5;
     var queue7;
-    !(queue7 !== null);
     var dispatch2;
     var lastRenderPhaseUpdate;
     var newState4;
     var firstRenderPhaseUpdate;
     var update5;
     var action1;
-    !objectIs(newState4, hook5.memoizedState);
     var getVersion;
     var version;
     var isSafeToReadFromSource;
     var currentRenderVersion;
     var snapshot;
     var root4;
-    !(root4 !== null);
     var getVersion1;
     var version1;
     var dispatcher;
@@ -1827,9 +1641,7 @@ if (process.env.NODE_ENV !== "production") {
     var fiber2;
     (function() {
         var maybeNewVersion;
-        !objectIs(version1, maybeNewVersion);
         var maybeNewSnapshot;
-        !objectIs(snapshot1, maybeNewSnapshot);
         var lane;
     });
     (function() {
@@ -1840,7 +1652,6 @@ if (process.env.NODE_ENV !== "production") {
         };
         var unsubscribe;
     });
-    !objectIs(prevGetSnapshot, getSnapshot), !objectIs(prevSource, source), !objectIs(prevSubscribe, subscribe);
     var newQueue;
     var hook6;
     var hook7;
@@ -1864,7 +1675,6 @@ if (process.env.NODE_ENV !== "production") {
     var refCallback;
     var _inst;
     var refObject;
-    !refObject.hasOwnProperty("current");
     var _inst2;
     var effectDeps;
     var effectDeps1;
@@ -1912,9 +1722,7 @@ if (process.env.NODE_ENV !== "production") {
     var makeId;
     var didUpgrade;
     var fiber3;
-    var readValue = function() {
-        !didUpgrade;
-    };
+    var readValue;
     var id1;
     var setId;
     var _id;
@@ -2000,7 +1808,6 @@ if (process.env.NODE_ENV !== "production") {
     var _type2;
     var _innerPropTypes;
     var currentChild1;
-    !includesSomeLane(updateLanes, renderLanes);
     var prevProps;
     var compare;
     var newChild1;
@@ -2010,12 +1817,10 @@ if (process.env.NODE_ENV !== "production") {
     var init2;
     var outerPropTypes;
     var prevProps1;
-    !includesSomeLane(renderLanes, updateLanes);
     var nextProps1;
     var nextChildren1;
     var prevState3;
     var nextState2;
-    !includesSomeLane(renderLanes, OffscreenLane);
     var nextBaseLanes;
     var prevBaseLanes;
     var _nextState;
@@ -2039,14 +1844,11 @@ if (process.env.NODE_ENV !== "production") {
     var shouldUpdate4;
     var nextUnitOfWork;
     var inst3;
-    !didWarnAboutReassigningProps;
     var didCaptureError;
-    !shouldUpdate, !didCaptureError;
     var instance22;
     var nextChildren6;
     var root5;
     var updateQueue2;
-    !(current !== null && updateQueue2 !== null);
     var nextProps3;
     var prevState4;
     var prevChildren;
@@ -2082,22 +1884,16 @@ if (process.env.NODE_ENV !== "production") {
     var unmaskedContext3;
     var value8;
     var componentName7;
-    !didWarnAboutBadClass[componentName7];
     var _componentName1;
-    !didWarnAboutModulePatternComponent[_componentName1];
     var _componentName2;
-    !didWarnAboutModulePatternComponent[_componentName2];
     var hasContext2;
     var getDerivedStateFromProps3;
     var info2;
     var ownerName1;
     var warningKey1;
     var debugSource;
-    !didWarnAboutFunctionRefs[warningKey1];
     var _componentName3;
-    !didWarnAboutGetDerivedStateOnFunctionComponent[_componentName3];
     var _componentName4;
-    !didWarnAboutContextTypeOnFunctionComponent[_componentName4];
     var SUSPENDED_MARKER;
     var suspenseState2;
     var nextProps5;
@@ -2151,14 +1947,12 @@ if (process.env.NODE_ENV !== "production") {
     var lastContentRow;
     var currentRow;
     var isArray2;
-    var isIterable = !isArray2;
+    var isIterable;
     var type12;
-    !validateSuspenseListNestedChild(children[i], i);
     var iteratorFn1;
     var childrenIterator;
     var step1;
     var _i;
-    !validateSuspenseListNestedChild(step1.value, _i);
     var renderState;
     var nextProps6;
     var revealOrder;
@@ -2181,30 +1975,25 @@ if (process.env.NODE_ENV !== "production") {
     var hasWarnedAboutUsingNoValuePropOnContextProvider;
     var providerType;
     var context9;
-    var newProps5;
+    var newProps;
     var oldProps2;
     var newValue1;
-    !("value" in newProps5);
-    !hasWarnedAboutUsingNoValuePropOnContextProvider;
     var providerPropTypes;
     var oldValue;
     var changedBits1;
     var newChildren2;
     var hasWarnedAboutUsingContextAsConsumer;
     var context10;
-    !hasWarnedAboutUsingContextAsConsumer;
     var newProps1;
     var render1;
     var newValue2;
     var newChildren3;
-    !includesSomeLane(renderLanes, workInProgress.childLanes);
     var returnFiber1;
     var prevSibling;
     var last1;
-    var updateLanes1;
+    var updateLanes;
     var oldProps3;
     var newProps2;
-    !includesSomeLane(renderLanes, updateLanes1);
     switch(null){
         case null:
             var Component2;
@@ -2276,19 +2065,15 @@ if (process.env.NODE_ENV !== "production") {
         case null:
             var fiberRoot;
             var wasHydrated;
-            !fiberRoot.hydrate;
         case null:
             var rootContainerInstance;
             var type14;
-            !newProps3;
-            !(workInProgress.stateNode !== null);
             var currentHostContext;
             var _wasHydrated;
             var instance23;
         case null:
             var newText;
             var oldText;
-            !(workInProgress.stateNode !== null);
             var _rootContainerInstance;
             var _currentHostContext;
             var _wasHydrated2;
@@ -2304,13 +2089,10 @@ if (process.env.NODE_ENV !== "production") {
             var renderState2;
             var didSuspendAlready;
             var renderedTail;
-            !didSuspendAlready;
             var cannotBeSuspended;
-            !cannotBeSuspended;
             var row3;
             var suspended;
             var newThennables;
-            !didSuspendAlready;
             var _suspended;
             var _newThennables;
             var lastEffect1;
@@ -2329,7 +2111,6 @@ if (process.env.NODE_ENV !== "production") {
             var flags;
         case null:
             var _flags;
-            !((_flags & DidCapture) === NoFlags);
         case null:
             var _flags2;
     }
@@ -2357,13 +2138,11 @@ if (process.env.NODE_ENV !== "production") {
     (function callback() {
         var error$1;
         var stack;
-        !includesSomeLane(fiber.lanes, SyncLane);
     });
     var pingCache;
     var threadIDs;
-    !threadIDs.has(lanes);
     var ping;
-    var wakeable1;
+    var wakeable;
     var currentSource;
     var hasInvisibleParentBoundary;
     var _workInProgress;
@@ -2371,7 +2150,7 @@ if (process.env.NODE_ENV !== "production") {
     var updateQueue3;
     var currentSourceFiber;
     var update9;
-    var workInProgress3;
+    var workInProgress;
     switch(null){
         case null:
             var _errorInfo;
@@ -2379,7 +2158,7 @@ if (process.env.NODE_ENV !== "production") {
             var _update;
         case null:
             var errorInfo;
-            var ctor2;
+            var ctor;
             var instance24;
             var _lane1;
             var _update2;
@@ -2442,7 +2221,6 @@ if (process.env.NODE_ENV !== "production") {
     var ref5;
     var instance28;
     var instanceToUse;
-    !ref5.hasOwnProperty("current");
     var currentRef;
     switch(null){
         case null:
@@ -2457,7 +2235,6 @@ if (process.env.NODE_ENV !== "production") {
     var node32;
     var parent1;
     var node33;
-    !(node33.flags & Placement);
     var parentFiber;
     var parent2;
     var isContainer;
@@ -2477,9 +2254,7 @@ if (process.env.NODE_ENV !== "production") {
     var currentParentIsValid;
     var currentParent2;
     var currentParentIsContainer;
-    !currentParentIsValid;
     var parent3;
-    !(parent3 !== null);
     var parentStateNode1;
     var alternate7;
     switch(null){
@@ -2490,7 +2265,6 @@ if (process.env.NODE_ENV !== "production") {
             var type16;
             var updatePayload3;
         case null:
-            !(finishedWork.stateNode !== null);
             var textInstance2;
             var newText1;
             var oldText1;
@@ -2510,7 +2284,6 @@ if (process.env.NODE_ENV !== "production") {
     var retryCache;
     (function() {
         var retry;
-        !retryCache.has(wakeable);
     });
     var oldState4;
     var newState8;
@@ -2595,28 +2368,24 @@ if (process.env.NODE_ENV !== "production") {
     var existingCallbackPriority;
     var newCallbackNode;
     var schedulerPriorityLevel;
-    !((executionContext & (RenderContext | CommitContext)) === NoContext);
     var originalCallbackNode;
     var didFlushPassiveEffects;
     var lanes5;
     var exitStatus;
     var fatalError;
-    var finishedWork3;
+    var finishedWork;
     switch(null){
         case null:
             var msUntilTimeout;
             var nextLanes2;
             var suspendedLanes2;
-            !isSubsetOfLanes(suspendedLanes2, lanes);
             var eventTime2;
         case null:
-            !shouldForceFlushFallbacksInDEV();
             var mostRecentEventTime1;
             var eventTimeMs;
             var timeElapsedMs;
             var _msUntilTimeout;
     }
-    !((executionContext & (RenderContext | CommitContext)) === NoContext);
     var lanes6;
     var exitStatus1;
     var fatalError1;
@@ -2658,28 +2427,21 @@ if (process.env.NODE_ENV !== "production") {
     var primaryChildFragment6;
     var _child1;
     var renderPriorityLevel;
-    !((executionContext & (RenderContext | CommitContext)) === NoContext);
     var finishedWork2;
     var lanes7;
-    !(finishedWork2 !== root.current);
     var remainingLanes;
     var firstEffect5;
     var prevExecutionContext7;
     var prevInteractions3;
-    !(nextEffect !== null);
     var error6;
-    !(nextEffect !== null);
     var _error;
-    !(nextEffect !== null);
     var _error2;
     var rootDidHavePassiveEffects;
     var nextNextEffect;
     var expirationTimes3;
-    !rootDidHavePassiveEffects;
     var _error3;
     var current10;
     var flags2;
-    !rootDoesHavePassiveEffects;
     var flags3;
     var current11;
     var primaryFlags;
@@ -2694,13 +2456,10 @@ if (process.env.NODE_ENV !== "production") {
     var flags4;
     var current12;
     var priorityLevel4;
-    !rootDoesHavePassiveEffects;
     var alternate9;
-    !rootDoesHavePassiveEffects;
     var create1;
     var root10;
     var lanes8;
-    !((executionContext & (RenderContext | CommitContext)) === NoContext);
     var prevExecutionContext8;
     var prevInteractions4;
     var unmountEffects;
@@ -2708,16 +2467,13 @@ if (process.env.NODE_ENV !== "production") {
     var fiber4;
     var destroy4;
     var alternate10;
-    !(fiber4 !== null);
     var error7;
     var mountEffects;
     var _effect21;
     var _fiber;
-    !(_fiber !== null);
     var _error4;
     var effect6;
     var nextNextEffect1;
-    !hasUncaughtError;
     var onUncaughtError;
     var errorInfo1;
     var update10;
@@ -2737,7 +2493,6 @@ if (process.env.NODE_ENV !== "production") {
     var retryLane;
     var retryCache1;
     var didWarnStateUpdateForNotYetMountedComponent;
-    !(fiber.mode & (BlockingMode | ConcurrentMode));
     var tag9;
     var componentName9;
     var previousFiber;
@@ -2757,10 +2512,7 @@ if (process.env.NODE_ENV !== "production") {
         case null:
             var renderingComponentName;
             var dedupeKey;
-            !didWarnAboutUpdateInRenderForAnotherComponent.has(dedupeKey);
             var setStateComponentName;
-        case null:
-            !didWarnAboutUpdateInRender;
     }
     var IsThisRendererActing;
     var previousFiber2;
@@ -2769,9 +2521,6 @@ if (process.env.NODE_ENV !== "production") {
     var didWarnAboutUnmockedScheduler;
     var pendingInteractionMap;
     var pendingInteractions;
-    (function() {
-        !pendingInteractions.has(interaction);
-    });
     var subscriber;
     var threadID;
     var interactions;
@@ -2781,9 +2530,6 @@ if (process.env.NODE_ENV !== "production") {
     var subscriber2;
     var threadID2;
     var pendingInteractionMap1;
-    (function() {
-        !includesSomeLane(remainingLanesAfterCommit, lane);
-    });
     var actingUpdatesScopeDepth;
     var resolveFamily;
     var failedBoundaries;
@@ -2820,10 +2566,8 @@ if (process.env.NODE_ENV !== "production") {
     var hasBadMapPolyfill;
     var nonExtensibleObject;
     var debugCounter;
-    !hasBadMapPolyfill;
     var createFiber;
     var prototype1;
-    !!(prototype1 && prototype1.isReactComponent);
     var $$typeof;
     var workInProgress2;
     var currentDependencies;
@@ -2860,14 +2604,12 @@ if (process.env.NODE_ENV !== "production") {
     var key10;
     var didWarnAboutNestedUpdates;
     var didWarnAboutFindNodeInStrictMode;
-    !parentComponent;
     var fiber17;
     var parentContext;
     var Component5;
     var fiber18;
     var hostFiber;
     var componentName11;
-    !didWarnAboutFindNodeInStrictMode[componentName11];
     var previousFiber4;
     var current$1;
     var eventTime7;
@@ -2875,7 +2617,6 @@ if (process.env.NODE_ENV !== "production") {
     var context11;
     var update12;
     var containerFiber;
-    !containerFiber.child;
     var suspenseState3;
     var alternate12;
     var eventTime8;
@@ -2944,7 +2685,6 @@ if (process.env.NODE_ENV !== "production") {
     var containerNodeType;
     var rootContainerElement;
     var mutableSource2;
-    !!(node && (node.nodeType === ELEMENT_NODE || node.nodeType === DOCUMENT_NODE || node.nodeType === DOCUMENT_FRAGMENT_NODE || node.nodeType === COMMENT_NODE && node.nodeValue === " react-mount-point-unstable "));
     var ReactCurrentOwner$3;
     var topLevelUpdateWarnings;
     var warnedAboutHydrateAPI;
@@ -2954,16 +2694,12 @@ if (process.env.NODE_ENV !== "production") {
         var rootEl2;
         var hasNonRootReactChild = !!(rootEl2 && getInstanceFromNode(rootEl2));
     });
-    !container;
     var rootElement;
-    !!(rootElement && rootElement.nodeType === ELEMENT_NODE && rootElement.hasAttribute(ROOT_ATTRIBUTE_NAME));
     var shouldHydrate;
-    !shouldHydrate;
     var warned;
     var rootSibling;
     var root16;
     var fiberRoot1;
-    !root16;
     var originalCallback;
     (function() {
         var instance;
@@ -2974,14 +2710,8 @@ if (process.env.NODE_ENV !== "production") {
     });
     var owner6;
     var warnedAboutRefsInRender;
-    !warnedAboutRefsInRender;
-    !isValidContainer(container);
     var isModernRoot;
-    !isValidContainer(container);
     var isModernRoot1;
-    !isValidContainer(containerNode);
-    !(parentComponent != null && has(parentComponent));
-    !isValidContainer(container);
     var isModernRoot2;
     var rootEl1;
     var renderedByDifferentReact;
@@ -2990,9 +2720,7 @@ if (process.env.NODE_ENV !== "production") {
     var isContainerReactRoot = !container.parentNode._reactRootContainer;
     var didWarnAboutUnstableCreatePortal;
     var key11;
-    !isValidContainer(container);
     var key12;
-    !didWarnAboutUnstableCreatePortal;
     var Internals;
     var foundDevTools;
     var protocol;

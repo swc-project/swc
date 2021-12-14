@@ -22,9 +22,7 @@ var runtime = function(exports) {
     exports.isGeneratorFunction = function() {
         var ctor;
     };
-    exports.mark = function() {
-        !(toStringTagSymbol in genFun);
-    };
+    exports.mark = null;
     exports.awrap = null;
     var record;
     var result;
@@ -44,7 +42,6 @@ var runtime = function(exports) {
     var method;
     var record1;
     var info;
-    !info;
     var entry;
     var record2;
     exports.keys = function() {
@@ -55,11 +52,9 @@ var runtime = function(exports) {
         });
     };
     var iteratorMethod;
-    !isNaN(iterable.length);
     var i, next;
     exports.values = null;
     (function() {
-        !skipTempReset;
         var name;
     }), function() {
         var entry;

@@ -1,5 +1,5 @@
 module.exports = (function() {
-    var e1 = function() {
+    var e = function() {
         (function() {
             var t, n, i, r, a, o = function() {
                 var n;
@@ -21,7 +21,6 @@ module.exports = (function() {
             }, w, S;
             (function() {
                 var n, i, r, f, v, m = function() {
-                    !e.hadRecentInput;
                     var t, i;
                 }, p;
             }), function() {

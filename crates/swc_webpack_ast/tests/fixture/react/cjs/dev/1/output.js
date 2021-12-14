@@ -49,9 +49,6 @@ if (process.env.NODE_ENV !== "production") {
     var warningKey;
     var ReactNoopUpdateQueue;
     var emptyObject;
-    (function() {
-        !(typeof partialState === "object" || typeof partialState === "function" || partialState == null);
-    });
     var deprecatedAPIs;
     var defineDeprecationWarning;
     var fnName;
@@ -79,14 +76,9 @@ if (process.env.NODE_ENV !== "production") {
     var specialPropKeyWarningShown, specialPropRefWarningShown, didWarnAboutStringRefs;
     var getter;
     var getter1;
-    var warnAboutAccessingKey = function() {
-        !specialPropKeyWarningShown;
-    };
-    var warnAboutAccessingRef = function() {
-        !specialPropRefWarningShown;
-    };
+    var warnAboutAccessingKey;
+    var warnAboutAccessingRef;
     var componentName1;
-    !didWarnAboutStringRefs[componentName1];
     var ReactElement = function() {
         var element;
     };
@@ -101,7 +93,6 @@ if (process.env.NODE_ENV !== "production") {
     var defaultProps;
     var displayName;
     var newElement;
-    !!(element === null || element === undefined);
     var propName1;
     var props1;
     var key1;
@@ -119,7 +110,7 @@ if (process.env.NODE_ENV !== "production") {
     var escapedString;
     var didWarnAboutMaps;
     var userProvidedKeyEscapeRegex;
-    var type2;
+    var type;
     var invokeCallback;
     var _child;
     var mappedChild;
@@ -131,26 +122,18 @@ if (process.env.NODE_ENV !== "production") {
     var nextNamePrefix;
     var iteratorFn;
     var iterableChildren;
-    !didWarnAboutMaps;
     var iterator;
     var step;
     var ii;
-    !(step = iterator.next()).done;
     var childrenString;
     var result;
     var count;
     var n;
-    !isValidElement(children);
     var context1;
     var hasWarnedAboutUsingNestedContextConsumers;
     var hasWarnedAboutUsingConsumerProvider;
     var hasWarnedAboutDisplayNameOnConsumer;
     var Consumer;
-    (function() {
-        !hasWarnedAboutUsingConsumerProvider;
-    }), function() {
-        !hasWarnedAboutDisplayNameOnConsumer;
-    };
     var Uninitialized;
     var Pending;
     var Resolved;
@@ -172,11 +155,9 @@ if (process.env.NODE_ENV !== "production") {
     var ownName;
     var enableScopeAPI;
     exports.Fragment, exports.Profiler, exports.StrictMode, exports.Suspense;
-    !isValidElementType(type);
     var elementType1;
     var ownName1;
     var dispatcher;
-    !(dispatcher !== null);
     var dispatcher1;
     var realContext;
     var dispatcher2;
@@ -217,7 +198,6 @@ if (process.env.NODE_ENV !== "production") {
     var name;
     var syntheticFrame;
     var prototype;
-    !!(prototype && prototype.isReactComponent);
     switch(null){
         case exports.Suspense:
     }
@@ -243,7 +223,6 @@ if (process.env.NODE_ENV !== "production") {
     var lineNumber;
     var ownerHasKeyUseWarning;
     var info;
-    !info;
     var parentName;
     var currentComponentErrorInfo;
     var childOwner;
@@ -251,7 +230,6 @@ if (process.env.NODE_ENV !== "production") {
     var iteratorFn1;
     var iterator1;
     var step1;
-    !(step1 = iterator1.next()).done;
     var type1;
     var propTypes1;
     var name2;
@@ -259,15 +237,13 @@ if (process.env.NODE_ENV !== "production") {
     var keys;
     var key2;
     var validType;
-    !validType;
     var info1;
     var sourceInfo;
     var typeString;
-    var element1;
+    var element;
     exports.Fragment;
     var didWarnAboutDeprecatedCreateFactory;
     var validatedFactory;
-    !didWarnAboutDeprecatedCreateFactory;
     var newElement1;
     var frozenObject;
     var createElement$1;

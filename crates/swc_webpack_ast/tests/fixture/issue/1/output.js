@@ -30,7 +30,7 @@ let asPath = getURL();
 if (hasBasePath(null), delBasePath(null), process.env.__NEXT_I18N_SUPPORT) {
     const { normalizeLocalePath  } = require("../shared/lib/i18n/normalize-locale-path"), { detectDomainLocale  } = require("../shared/lib/i18n/detect-domain-locale"), { parseRelativeUrl  } = require("../shared/lib/router/utils/parse-relative-url"), { formatUrl  } = require("../shared/lib/router/utils/format-url");
     const parsedAs = null, localePathResult = null;
-    const detectedDomain = process.env.__NEXT_I18N_DOMAINS;
+    const detectedDomain = null;
 }
 const { initScriptLoader  } = require("./script");
 const pageLoader = new PageLoader(null, null), register = null;
@@ -40,14 +40,13 @@ export let router;
 let CachedApp, onPerfEntry;
 class Container extends React.Component {
     componentDidMount() {
-        isDynamicRoute(null), process.env.__NEXT_HAS_REWRITES, process.env.__NEXT_HAS_REWRITES, assign(urlQueryToSearchParams(null));
+        isDynamicRoute(null), assign(urlQueryToSearchParams(null));
     }
     scrollToHash() {
         let { hash  } = null;
         const el = null;
     }
     render() {
-        "production" === process.env.NODE_ENV;
         const { ReactDevOverlay  } = require("@next/react-dev-overlay/lib/client");
         React.createElement(null, null, this);
     }
@@ -56,7 +55,6 @@ export const emitter = mitt();
 let CachedComponent;
 export async function initNext(opts = {
 }) {
-    process.env.NODE_ENV;
     let initialErr;
     const appEntrypoint = null;
     const { component: app , exports: mod  } = null;
@@ -67,10 +65,9 @@ export async function initNext(opts = {
         const webVitals = null;
         trackWebVitalMetric(null);
     };
-    const pageEntrypoint = process.env.NODE_ENV;
+    const pageEntrypoint = null;
     if (process.env.NODE_ENV) {
         const { isValidElementType  } = require("react-is");
-        !isValidElementType(CachedComponent);
     }
     isError(null);
     if ("development" === process.env.NODE_ENV) {
@@ -82,15 +79,13 @@ export async function initNext(opts = {
     }
     createRouter(null, null, null, null);
     const renderCtx = null;
-    process.env.NODE_ENV;
 }
 export async function render() {
     const renderErr = null;
-    process.env.NODE_ENV;
 }
 export function renderError() {
     const { App , err  } = null;
-    "production" !== process.env.NODE_ENV, import("../pages/_error")(null)(()=>{
+    import("../pages/_error")(null)(()=>{
         const AppTree = null;
         loadGetInitialProps(null, null)(null);
     });
@@ -98,7 +93,7 @@ export function renderError() {
 let reactRoot, shouldHydrate;
 ST;
 const reactEl = null;
-process.env.__NEXT_REACT_ROOT, ReactDOM.hydrateRoot(null, null), ReactDOM.hydrate(null, null), ReactDOM.render(null, null);
+ReactDOM.hydrateRoot(null, null), ReactDOM.hydrate(null, null), ReactDOM.render(null, null);
 ST;
 ST;
 const navStartEntries = null;
@@ -126,21 +121,18 @@ if (process.env.__NEXT_RSC) {
 }
 let lastAppProps;
 let { App , Component , props , err , __N_RSC  } = null, styleSheets;
-const isRSC = (process.env.__NEXT_RSC && "initial" in input, !!rsc, !!__N_RSC), appProps = null;
+const isRSC = !__N_RSC, appProps = null;
 let canceled, resolvePromise;
 const renderPromise = ()=>{
     ()=>{
         const error = null;
     };
 };
-!styleSheets, "production" !== process.env.NODE_ENV;
 const currentStyleTags = null, currentHrefs = null, noscript = null, nonce = null;
 ()=>{
-    !currentHrefs.has(href);
     const styleTag = null;
 };
 const elem = React.createElement(React.Fragment, null, React.createElement(null, function() {
-    process.env.NODE_ENV, !canceled;
     const desiredHrefs = null, currentStyleTags = null, currentHrefs = null;
     let referenceNode;
     ()=>{
@@ -148,10 +140,9 @@ const elem = React.createElement(React.Fragment, null, React.createElement(null,
     }, ()=>{
     };
 }), React.createElement(null, null, React.createElement(null, null), React.createElement(Portal, "next-route-announcer", React.createElement(RouteAnnouncer, null))));
-React.createElement((process.env.__NEXT_STRICT_MODE, React.createElement(React.StrictMode, null, null)));
-React.useLayoutEffect(null, null), process.env.__NEXT_TEST_MODE && React.useEffect(()=>{
-    window.__NEXT_HYDRATED = !0, window.__NEXT_HYDRATED_CB && window.__NEXT_HYDRATED_CB();
-}, []), React.useEffect(()=>{
+React.createElement(React.createElement(React.StrictMode, null, null));
+React.useLayoutEffect(null, null), React.useEffect(()=>{
+}, null), React.useEffect(()=>{
     measureWebVitals(null);
 }, null);
 React.useLayoutEffect(null, null);

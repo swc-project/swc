@@ -5,7 +5,6 @@ var queue;
 var draining;
 var currentQueue;
 var queueIndex;
-!draining, !currentQueue;
 var timeout;
 var len;
 process.nextTick = function() {
