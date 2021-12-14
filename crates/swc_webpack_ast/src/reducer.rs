@@ -271,27 +271,6 @@ impl ReduceAst {
                     }
                 }
 
-                Stmt::Decl(Decl::Var(d)) => {
-                    let mut exprs = vec![];
-
-                    for decl in d.decls {
-                        preserve_pat(&mut exprs, decl.name);
-                        exprs.extend(decl.init);
-                    }
-
-                    if !exprs.is_empty() {
-                        let mut s = Stmt::Expr(ExprStmt {
-                            span: d.span,
-                            expr: Box::new(Expr::Seq(SeqExpr {
-                                span: d.span,
-                                exprs,
-                            })),
-                        });
-                        s.visit_mut_with(self);
-                        to.push(T::from_stmt(s));
-                    }
-                }
-
                 Stmt::ForOf(ForOfStmt {
                     span,
                     left,
@@ -1591,28 +1570,6 @@ impl VisitMut for ReduceAst {
                 if block.stmts.len() == 1 {
                     *stmt = block.stmts.take().into_iter().next().unwrap();
                     return;
-                }
-            }
-
-            Stmt::Decl(Decl::Var(var)) => {
-                self.changed = true;
-                let mut exprs = vec![];
-
-                for decl in var.decls.take() {
-                    preserve_pat(&mut exprs, decl.name);
-                    exprs.extend(decl.init);
-                }
-
-                if exprs.is_empty() {
-                    *stmt = Stmt::Empty(EmptyStmt { span: var.span });
-                } else {
-                    *stmt = Stmt::Expr(ExprStmt {
-                        span: var.span,
-                        expr: Box::new(Expr::Seq(SeqExpr {
-                            span: var.span,
-                            exprs,
-                        })),
-                    });
                 }
             }
 
