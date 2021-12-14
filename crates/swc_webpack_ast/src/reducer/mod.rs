@@ -464,6 +464,7 @@ impl ReduceAst {
         }
     }
 
+    /// If webpack *may* replace this value, we should preserve it.
     fn is_safe_to_flatten_test(&self, e: &Expr) -> bool {
         match e {
             Expr::Ident(i) => {
