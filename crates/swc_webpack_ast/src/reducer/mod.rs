@@ -464,7 +464,47 @@ impl ReduceAst {
         }
     }
 
-    fn is_safe_to_flatten(&self, s: &Stmt) -> bool {
+    fn is_safe_to_flatten_test(&self, e: &Expr) -> bool {
+        match e {
+            Expr::Ident(i) => !self.data.should_preserve(&i),
+
+            Expr::Paren(ParenExpr { expr: inner, .. })
+            | Expr::Unary(UnaryExpr { arg: inner, .. })
+            | Expr::Update(UpdateExpr { arg: inner, .. })
+            | Expr::Await(AwaitExpr { arg: inner, .. }, ..)
+            | Expr::Yield(YieldExpr {
+                arg: Some(inner), ..
+            })
+            | Expr::OptChain(OptChainExpr { expr: inner, .. }) => {
+                self.is_safe_to_flatten_test(&inner)
+            }
+
+            Expr::Bin(e) => {
+                self.is_safe_to_flatten_test(&e.left) && self.is_safe_to_flatten_test(&e.right)
+            }
+
+            Expr::Cond(e) => {
+                self.is_safe_to_flatten_test(&e.test)
+                    && self.is_safe_to_flatten_test(&e.cons)
+                    && self.is_safe_to_flatten_test(&e.alt)
+            }
+
+            Expr::Call(CallExpr {
+                callee: ExprOrSuper::Expr(callee),
+                ..
+            })
+            | Expr::New(NewExpr { callee, .. }) => self.is_safe_to_flatten_test(&callee),
+
+            Expr::Member(MemberExpr {
+                obj: ExprOrSuper::Expr(obj),
+                ..
+            }) => self.is_safe_to_flatten_test(&obj),
+
+            _ => true,
+        }
+    }
+
+    fn is_safe_to_flatten_stmt(&self, s: &Stmt) -> bool {
         !contains_import(&s)
     }
 }
@@ -1525,10 +1565,11 @@ impl VisitMut for ReduceAst {
             }
 
             Stmt::If(s) => {
-                if self.is_safe_to_flatten(&s.cons)
+                if self.is_safe_to_flatten_test(&s.test)
+                    && self.is_safe_to_flatten_stmt(&s.cons)
                     && s.alt
                         .as_deref()
-                        .map(|s| self.is_safe_to_flatten(&s))
+                        .map(|s| self.is_safe_to_flatten_stmt(&s))
                         .unwrap_or(true)
                 {
                     // Flatten if statements.
@@ -1553,7 +1594,7 @@ impl VisitMut for ReduceAst {
             }
 
             Stmt::While(s) => {
-                if self.is_safe_to_flatten(&s.body) {
+                if self.is_safe_to_flatten_test(&s.test) && self.is_safe_to_flatten_stmt(&s.body) {
                     self.changed = true;
                     *stmt = Stmt::Block(BlockStmt {
                         span: s.span,
@@ -1570,7 +1611,7 @@ impl VisitMut for ReduceAst {
             }
 
             Stmt::DoWhile(s) => {
-                if self.is_safe_to_flatten(&s.body) {
+                if self.is_safe_to_flatten_test(&s.test) && self.is_safe_to_flatten_stmt(&s.body) {
                     self.changed = true;
                     *stmt = Stmt::Block(BlockStmt {
                         span: s.span,
