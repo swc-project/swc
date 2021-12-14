@@ -141,3 +141,22 @@ fn issue_1279_2() {
         },
     );
 }
+
+#[test]
+fn issue_2516() {
+    run_test_with_config(
+        Default::default(),
+        || resolver(),
+        "class A {
+            static A = class {}
+          }",
+        "
+        let A = class A {
+            static A = class {}
+          };
+        ",
+        Config {
+            keep_class_names: true,
+        },
+    );
+}

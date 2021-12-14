@@ -1209,13 +1209,7 @@ where
             space!()
         }
 
-        if n.key.is_computed() {
-            punct!("[");
-            emit!(n.key);
-            punct!("]");
-        } else {
-            emit!(n.key);
-        }
+        emit!(n.key);
 
         if let Some(ty) = &n.type_ann {
             punct!(":");
