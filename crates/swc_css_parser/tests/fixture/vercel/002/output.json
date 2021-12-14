@@ -1,0 +1,149 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 0,
+    "end": 77,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 0,
+        "end": 77,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 0,
+          "end": 2,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 0,
+              "end": 2,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 0,
+                  "end": 2,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 0,
+                      "end": 2,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1,
+                        "end": 2,
+                        "ctxt": 0
+                      },
+                      "value": "a",
+                      "raw": "a"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 3,
+          "end": 77,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 9,
+              "end": 74,
+              "ctxt": 0
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 9,
+                "end": 27,
+                "ctxt": 0
+              },
+              "value": "-webkit-mask-image",
+              "raw": "-webkit-mask-image"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 29,
+                  "end": 74,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 29,
+                    "end": 52,
+                    "ctxt": 0
+                  },
+                  "value": "-webkit-radial-gradient",
+                  "raw": "-webkit-radial-gradient"
+                },
+                "value": [
+                  {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 53,
+                      "end": 59,
+                      "ctxt": 0
+                    },
+                    "value": "circle",
+                    "raw": "circle"
+                  },
+                  {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 61,
+                      "end": 66,
+                      "ctxt": 0
+                    },
+                    "value": "white",
+                    "raw": "white"
+                  },
+                  {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 68,
+                      "end": 73,
+                      "ctxt": 0
+                    },
+                    "value": "black",
+                    "raw": "black"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    }
+  ]
+}

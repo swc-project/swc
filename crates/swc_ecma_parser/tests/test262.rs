@@ -100,6 +100,7 @@ fn add_test<F: FnOnce() + Send + 'static>(
     });
 }
 
+#[cfg(feature = "verify")]
 fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
     const IGNORED_ERROR_TESTS: &[&str] = &[
         // Old (wrong) tests
@@ -350,6 +351,7 @@ fn identity() {
 }
 
 #[test]
+#[cfg(feature = "verify")]
 fn error() {
     let args: Vec<_> = env::args().collect();
     let mut tests = Vec::new();

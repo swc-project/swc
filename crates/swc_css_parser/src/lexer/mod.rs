@@ -262,9 +262,7 @@ where
                 else if self.would_start_ident(None, None, None)? {
                     self.reconsume();
 
-                    return self
-                        .read_name()
-                        .map(|(value, raw)| Token::Ident { value, raw });
+                    return self.read_ident_like();
                 }
 
                 // Otherwise, return a <delim-token> with its value set to the current input

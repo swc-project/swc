@@ -1,4 +1,4 @@
-use crate::config::JsCallback;
+use crate::v1::JsCallback;
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]

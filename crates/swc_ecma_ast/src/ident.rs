@@ -2,7 +2,9 @@ use crate::typescript::TsTypeAnn;
 use serde::{Deserialize, Serialize};
 use std::fmt::Display;
 use swc_atoms::{js_word, JsWord};
-use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
+use swc_common::{
+    ast_node, util::take::Take, EqIgnoreSpan, Span, Spanned, SyntaxContext, DUMMY_SP,
+};
 
 /// Identifer used as a pattern.
 #[derive(Spanned, Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan, Serialize, Deserialize)]
@@ -43,7 +45,7 @@ impl From<Ident> for BindingIdent {
 /// in rust, type like `Scope`  requires [Arc<Mutex<Scope>>] so swc uses
 /// different approach. Instead of passing scopes, swc annotates two variables
 /// with different tag, which is named
-/// [SyntaxContext][swc_common::SyntaxContext]. The notation for the syntax
+/// [SyntaxContext]. The notation for the syntax
 /// context is #n where n is a number. e.g. `foo#1`
 ///
 /// For the example above, after applying resolver pass, it becomes.
@@ -57,9 +59,20 @@ impl From<Ident> for BindingIdent {
 ///
 /// Thanks to the `tag` we attached, we can now distinguish them.
 ///
-/// ([JsWord], [SyntaxContext][swc_common::SyntaxContext])
+/// ([JsWord], [SyntaxContext])
+///
+/// See [Id], which is a type alias for this.
 ///
 /// This can be used to store all variables in a module to single hash map.
+///
+/// # Comparison
+///
+/// While comparing two identifiers, you can use `.to_id()`.
+///
+/// # HashMap
+///
+/// There's a type named [Id] which only contains minimal information to
+/// distinguish identifiers.
 #[ast_node("Identifier")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Ident {
@@ -71,6 +84,9 @@ pub struct Ident {
     #[serde(default)]
     pub optional: bool,
 }
+
+/// See [Ident] for documentation.
+pub type Id = (JsWord, SyntaxContext);
 
 impl Take for Ident {
     fn dummy() -> Self {

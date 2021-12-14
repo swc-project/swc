@@ -81,6 +81,7 @@ fn references(entry: PathBuf) {
     .unwrap();
 }
 
+#[cfg(feature = "verify")]
 #[testing::fixture("tests/jsx/errors/**/*.js")]
 fn error(entry: PathBuf) {
     let input = read_to_string(&entry).unwrap();
