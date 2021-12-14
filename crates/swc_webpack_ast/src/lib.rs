@@ -22,7 +22,7 @@ pub struct AstOutput {
     src: Option<Lrc<String>>,
 }
 
-pub fn parse_file_as_webpack_ast(path: &Path, include_src: bool) -> Result<AstOutput, Error> {
+pub fn process_file(path: &Path, include_src: bool) -> Result<AstOutput, Error> {
     let globals = Globals::new();
     let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
 
