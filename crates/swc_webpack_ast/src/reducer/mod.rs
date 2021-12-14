@@ -11,6 +11,10 @@ use swc_ecma_utils::{ident::IdentLike, Id, IsEmpty, StmtLike, StmtOrModuleItem};
 use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 use swc_timer::timer;
 
+use self::flatten::contains_import;
+
+mod flatten;
+
 /// # Usage
 ///
 /// This transform should be applied after applying resolver.
@@ -454,9 +458,8 @@ impl ReduceAst {
         }
     }
 
-    /// TODO
     fn is_safe_to_flatten(&self, s: &Stmt) -> bool {
-        false
+        !contains_import(&s)
     }
 }
 
