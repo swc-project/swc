@@ -7,6 +7,12 @@
 
 - **(webpack/ast)** Fix `webpackAST` (#3040) ([15ea98b](https://github.com/swc-project/swc/commit/15ea98bf65c9993f07e226b1490bd31e81f09663))
 
+### Performance
+
+
+
+- **(es/compat)** Migrate `regenerator` to `VisitMut` (#3037) ([29eb71a](https://github.com/swc-project/swc/commit/29eb71aaf9b1154aba1a28c408aaa1a2bd7a8ec7))
+
 ## [1.2.120] - 2021-12-13
 
 ### Bug Fixes
