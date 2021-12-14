@@ -550,6 +550,15 @@ impl VisitMut for ReduceAst {
                     return;
                 }
             }
+
+            Expr::Unary(UnaryExpr {
+                op: op!("!"), arg, ..
+            }) => match &**arg {
+                Expr::Lit(..) | Expr::Call(..) | Expr::New(..) => {}
+                _ => {
+                    return;
+                }
+            },
             _ => {}
         }
 
