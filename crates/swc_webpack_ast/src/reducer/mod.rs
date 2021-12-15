@@ -1573,7 +1573,12 @@ impl VisitMut for ReduceAst {
         }
 
         match pat {
-            Pat::Assign(..) => {}
+            Pat::Assign(..) => {
+                let old = self.can_remove_pat;
+                self.can_remove_pat = false;
+                pat.visit_mut_children_with(self);
+                self.can_remove_pat = old;
+            }
             _ => {
                 pat.visit_mut_children_with(self);
             }
