@@ -68,9 +68,7 @@ where
         })?
     };
 
-    let ast = GLOBALS.set(&globals, || {
-        webpack_ast(cm.clone(), fm.clone(), module, syntax.typescript())
-    })?;
+    let ast = GLOBALS.set(&globals, || webpack_ast(cm.clone(), fm.clone(), module))?;
 
     Ok(AstOutput {
         ast,
@@ -87,7 +85,6 @@ pub fn webpack_ast(
     cm: Lrc<SourceMap>,
     fm: Lrc<SourceFile>,
     mut n: Module,
-    is_typescript: bool,
 ) -> Result<String, Error> {
     let _timer = timer!("webpack_ast");
     let top_level_mark = Mark::fresh(Mark::root());
@@ -100,10 +97,7 @@ pub fn webpack_ast(
             let _timer = timer!("resolver");
             n.visit_mut_with(&mut resolver_with_mark(top_level_mark));
         }
-        if is_typescript {
-            let _timer = timer!("typescript-strip");
-            n.visit_mut_with(&mut resolver_with_mark(top_level_mark));
-        }
+
         {
             n.visit_mut_with(&mut ast_reducer(top_level_mark));
         }

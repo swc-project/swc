@@ -4,7 +4,6 @@ use swc_ecma_ast::*;
 use swc_ecma_parser::{EsConfig, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::resolver_with_mark;
 use swc_ecma_transforms_testing::test_fixture;
-use swc_ecma_transforms_typescript::strip;
 use swc_ecma_visit::{as_folder, VisitMut, VisitMutWith};
 use swc_webpack_ast::reducer::ast_reducer;
 
@@ -46,6 +45,10 @@ impl VisitMut for AssertValid {
         if i.optional {
             panic!("found an optionsal identifier: {:?}", i)
         }
+    }
+
+    fn visit_mut_ts_type(&mut self, ty: &mut TsType) {
+        panic!("found a typescript type: {:?}", ty)
     }
 
     fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
@@ -99,7 +102,6 @@ fn assert_no_invalid(input: PathBuf) {
 
             chain!(
                 resolver_with_mark(top_level_mark),
-                strip(top_level_mark),
                 as_folder(ast_reducer(top_level_mark))
             )
         };
@@ -139,7 +141,7 @@ fn test_babelify(input: PathBuf) {
             res?
         };
 
-        let s = swc_webpack_ast::webpack_ast(cm.clone(), fm.clone(), module.into(), false).unwrap();
+        let s = swc_webpack_ast::webpack_ast(cm.clone(), fm.clone(), module.into()).unwrap();
         println!("{} bytes", s.len());
 
         fs::write(&output_path, s.as_bytes()).unwrap();
