@@ -10,6 +10,9 @@
 
 - **(webpack/ast)** Handle typescript (#3045) ([24179bd](https://github.com/swc-project/swc/commit/24179bd9beeb8ac519186db4a71a6919852afa43))
 
+
+- **(webpack/ast)** Expose fields of `AstOutput` (#3046) ([0892018](https://github.com/swc-project/swc/commit/08920189ba62cee4f836a417bffcef014e97becb))
+
 ### Performance
 
 
