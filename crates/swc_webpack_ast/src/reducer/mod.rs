@@ -1268,6 +1268,21 @@ impl VisitMut for ReduceAst {
         i.optional = false;
     }
 
+    fn visit_mut_module_item(&mut self, s: &mut ModuleItem) {
+        s.visit_mut_children_with(self);
+
+        match s {
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export)) => match &mut export.decl {
+                Decl::TsInterface(_) | Decl::TsTypeAlias(_) => {
+                    s.take();
+                    return;
+                }
+                _ => {}
+            },
+            _ => {}
+        }
+    }
+
     fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
         s.visit_mut_children_with(self);
 
