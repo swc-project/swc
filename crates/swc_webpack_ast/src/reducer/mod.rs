@@ -70,6 +70,7 @@ pub fn ast_reducer(top_level_mark: Mark) -> impl VisitMut {
 
 struct Analyzer {
     amd_requires: AHashSet<Id>,
+    type_refs: AHashSet<Id>,
 }
 
 impl Visit for Analyzer {
@@ -124,6 +125,20 @@ impl Visit for Analyzer {
             _ => {}
         }
     }
+
+    fn visit_ts_type_ref(&mut self, ty: &TsTypeRef) {
+        fn left_most(n: &TsEntityName) -> &Ident {
+            match n {
+                TsEntityName::Ident(i) => i,
+                TsEntityName::TsQualifiedName(q) => left_most(&q.left),
+            }
+        }
+
+        ty.visit_with(self);
+
+        let left = left_most(&ty.type_name);
+        self.type_refs.insert(left.to_id());
+    }
 }
 
 #[derive(Default)]
@@ -131,6 +146,8 @@ struct ScopeData {
     imported_ids: AHashSet<Id>,
     /// amd `require` modules.
     amd_requires: AHashSet<Id>,
+
+    type_refs: AHashSet<Id>,
 }
 
 impl ScopeData {
@@ -160,7 +177,8 @@ impl ScopeData {
         }
 
         let mut analyzer = Analyzer {
-            amd_requires: AHashSet::default(),
+            amd_requires: Default::default(),
+            type_refs: Default::default(),
         };
 
         items.visit_with(&mut analyzer);
@@ -168,6 +186,7 @@ impl ScopeData {
         ScopeData {
             imported_ids,
             amd_requires: analyzer.amd_requires,
+            type_refs: analyzer.type_refs,
         }
     }
 
@@ -1179,6 +1198,12 @@ impl VisitMut for ReduceAst {
         f.type_params.visit_mut_with(self);
 
         f.return_type.visit_mut_with(self);
+    }
+
+    fn visit_mut_ident(&mut self, i: &mut Ident) {
+        i.visit_mut_children_with(self);
+
+        i.optional = false;
     }
 
     fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
