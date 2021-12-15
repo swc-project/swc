@@ -606,6 +606,12 @@ impl ReduceAst {
 }
 
 impl VisitMut for ReduceAst {
+    fn visit_mut_array_pat(&mut self, p: &mut ArrayPat) {
+        p.visit_mut_children_with(self);
+
+        p.optional = false;
+    }
+
     fn visit_mut_arrow_expr(&mut self, e: &mut ArrowExpr) {
         let old_can_remove_pat = self.can_remove_pat;
         self.can_remove_pat = true;
@@ -1407,6 +1413,12 @@ impl VisitMut for ReduceAst {
         let _timer = timer!("reduce ast (single pass)");
 
         self.visit_mut_stmt_likes(stmts);
+    }
+
+    fn visit_mut_object_pat(&mut self, p: &mut ObjectPat) {
+        p.visit_mut_children_with(self);
+
+        p.optional = false;
     }
 
     fn visit_mut_object_pat_props(&mut self, props: &mut Vec<ObjectPatProp>) {
