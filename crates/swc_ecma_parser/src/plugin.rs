@@ -12,7 +12,7 @@ pub(crate) mod internal {
     pub trait Sealed {}
 }
 
-pub trait TypeScriptPlugin: Sized + Sealed {}
+pub trait TypeScriptPlugin: Sized + Clone + Sealed {}
 
 /// Implements all `*Plugin` traits.
 #[derive(Debug, Default, Clone, Copy)]
@@ -29,3 +29,21 @@ impl Plugin for NoopPlugin {
 impl TypeScriptPlugin for NoopPlugin {}
 
 impl Sealed for NoopPlugin {}
+
+#[derive(Debug, Clone, Default)]
+pub struct Plugins<T> {
+    pub typescript: T,
+}
+
+impl<T> Plugin for Plugins<T>
+where
+    T: TypeScriptPlugin,
+{
+    type TypeScript = T;
+
+    fn typescript(&mut self) -> &mut Self::TypeScript {
+        todo!()
+    }
+}
+
+impl<T> Sealed for Plugins<T> {}
