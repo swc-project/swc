@@ -1395,11 +1395,17 @@ impl VisitMut for ReduceAst {
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         if !self.collected_data {
-            let _timer = timer!("analyze before reducing");
             self.collected_data = true;
-            self.data = Arc::new(ScopeData::analyze(&stmts));
 
-            stmts.visit_mut_with(&mut ts_remover());
+            {
+                let _timer = timer!("analyze before reducing");
+                self.data = Arc::new(ScopeData::analyze(&stmts));
+            }
+            {
+                let _timer = timer!("remove typescript nodes");
+
+                stmts.visit_mut_with(&mut ts_remover());
+            }
         }
 
         let _timer = timer!("reduce ast (single pass)");
