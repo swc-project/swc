@@ -17,8 +17,8 @@ pub mod reducer;
 
 #[derive(Serialize)]
 pub struct AstOutput {
-    ast: String,
-    src: Option<Lrc<String>>,
+    pub ast: String,
+    pub src: Option<Lrc<String>>,
 }
 
 pub fn process_file<F>(load_file: F, include_src: bool) -> Result<AstOutput, Error>
