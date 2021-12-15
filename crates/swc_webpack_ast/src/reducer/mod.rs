@@ -203,6 +203,7 @@ struct ScopeData {
     /// amd `require` modules.
     amd_requires: AHashSet<Id>,
 
+    #[allow(unused)]
     used_refs: AHashMap<Id, BindingInfo>,
 }
 
