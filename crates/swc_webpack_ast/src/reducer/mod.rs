@@ -2,7 +2,7 @@ use self::flatten::contains_import;
 use std::{iter::once, sync::Arc};
 use swc_atoms::js_word;
 use swc_common::{
-    collections::AHashSet,
+    collections::{AHashMap, AHashSet},
     pass::{Repeat, Repeated},
     util::take::Take,
     Mark, Span, Spanned, SyntaxContext,
@@ -68,12 +68,24 @@ pub fn ast_reducer(top_level_mark: Mark) -> impl VisitMut {
     })
 }
 
+#[derive(Debug, Clone, Copy, Default)]
+struct BindingInfo {
+    used_as_type: bool,
+    used_as_var: bool,
+}
+
 struct Analyzer {
     amd_requires: AHashSet<Id>,
-    type_refs: AHashSet<Id>,
+    used_refs: AHashMap<Id, BindingInfo>,
 }
 
 impl Visit for Analyzer {
+    fn visit_assign_pat_prop(&mut self, p: &AssignPatProp) {
+        p.visit_children_with(self);
+
+        self.used_refs.entry(p.key.to_id()).or_default().used_as_var = true;
+    }
+
     fn visit_call_expr(&mut self, e: &CallExpr) {
         e.visit_children_with(self);
 
@@ -126,6 +138,50 @@ impl Visit for Analyzer {
         }
     }
 
+    fn visit_expr(&mut self, e: &Expr) {
+        e.visit_children_with(self);
+
+        match e {
+            Expr::Ident(i) => {
+                self.used_refs.entry(i.to_id()).or_default().used_as_var = true;
+            }
+
+            _ => {}
+        }
+    }
+
+    fn visit_member_expr(&mut self, e: &MemberExpr) {
+        e.obj.visit_with(self);
+
+        if e.computed {
+            e.prop.visit_with(self);
+        }
+    }
+
+    fn visit_pat(&mut self, p: &Pat) {
+        p.visit_children_with(self);
+
+        match p {
+            Pat::Ident(s) => {
+                self.used_refs.entry(s.to_id()).or_default().used_as_var = true;
+            }
+
+            _ => {}
+        }
+    }
+
+    fn visit_prop(&mut self, p: &Prop) {
+        p.visit_children_with(self);
+
+        match p {
+            Prop::Shorthand(s) => {
+                self.used_refs.entry(s.to_id()).or_default().used_as_var = true;
+            }
+
+            _ => {}
+        }
+    }
+
     fn visit_ts_type_ref(&mut self, ty: &TsTypeRef) {
         fn left_most(n: &TsEntityName) -> &Ident {
             match n {
@@ -137,7 +193,7 @@ impl Visit for Analyzer {
         ty.visit_with(self);
 
         let left = left_most(&ty.type_name);
-        self.type_refs.insert(left.to_id());
+        self.used_refs.entry(left.to_id()).or_default().used_as_type = true;
     }
 }
 
@@ -147,7 +203,7 @@ struct ScopeData {
     /// amd `require` modules.
     amd_requires: AHashSet<Id>,
 
-    type_refs: AHashSet<Id>,
+    used_refs: AHashMap<Id, BindingInfo>,
 }
 
 impl ScopeData {
@@ -178,7 +234,7 @@ impl ScopeData {
 
         let mut analyzer = Analyzer {
             amd_requires: Default::default(),
-            type_refs: Default::default(),
+            used_refs: Default::default(),
         };
 
         items.visit_with(&mut analyzer);
@@ -186,7 +242,7 @@ impl ScopeData {
         ScopeData {
             imported_ids,
             amd_requires: analyzer.amd_requires,
-            type_refs: analyzer.type_refs,
+            used_refs: analyzer.used_refs,
         }
     }
 
