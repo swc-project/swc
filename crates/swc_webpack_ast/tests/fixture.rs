@@ -70,7 +70,6 @@ impl VisitMut for AssertValid {
         dbg!(&*m);
 
         m.body.visit_mut_with(self);
-
     }
 
     fn visit_mut_object_pat(&mut self, pat: &mut ObjectPat) {
@@ -88,9 +87,7 @@ impl VisitMut for AssertValid {
     fn visit_mut_ts_type(&mut self, ty: &mut TsType) {
         panic!("found a typescript type: {:?}", ty)
     }
-
 }
-
 
 #[testing::fixture("../swc_ecma_parser/tests/typescript/**/input.ts")]
 #[testing::fixture("../swc/tests/tsc-references/**/output.js")]
