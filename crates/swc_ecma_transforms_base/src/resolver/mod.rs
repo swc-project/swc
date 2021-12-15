@@ -554,10 +554,10 @@ impl<'a> VisitMut for Resolver<'a> {
     fn visit_mut_class_prop(&mut self, p: &mut ClassProp) {
         p.decorators.visit_mut_with(self);
 
-        if p.computed {
+        if let PropName::Computed(key) = &mut p.key {
             let old = self.ident_type;
             self.ident_type = IdentType::Binding;
-            p.key.visit_mut_with(self);
+            key.expr.visit_mut_with(self);
             self.ident_type = old;
         }
 

@@ -47,7 +47,6 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
@@ -104,7 +103,6 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
@@ -134,7 +132,6 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
@@ -244,17 +241,25 @@
             "ctxt": 0
           },
           "key": {
-            "type": "StringLiteral",
+            "type": "Computed",
             "span": {
-              "start": 119,
-              "end": 121,
+              "start": 118,
+              "end": 122,
               "ctxt": 0
             },
-            "value": "",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 119,
+                "end": 121,
+                "ctxt": 0
+              },
+              "value": "",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
             }
           },
           "value": null,
@@ -287,7 +292,6 @@
           },
           "isStatic": false,
           "decorators": [],
-          "computed": true,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,

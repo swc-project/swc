@@ -67,6 +67,8 @@ impl Babelify for ClassProp {
     type Output = ClassProperty;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
+        let computed = Some(self.key.is_computed());
+
         ClassProperty {
             base: ctx.base(self.span),
             key: self.key.babelify(ctx).into(),
@@ -78,7 +80,7 @@ impl Babelify for ClassProp {
                 .map(|ann| Box::alloc().init(ann.babelify(ctx).into())),
             is_static: Some(self.is_static),
             decorators: Some(self.decorators.babelify(ctx)),
-            computed: Some(self.computed),
+            computed,
             accessibility: self.accessibility.map(|access| access.babelify(ctx)),
             is_abstract: Some(self.is_abstract),
             optional: Some(self.is_optional),

@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use std::{borrow::Borrow, mem::take};
+use std::mem::take;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
@@ -12,8 +12,8 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
 use swc_ecma_utils::{
     constructor::inject_after_super, default_constructor, ident::IdentLike, member_expr, prepend,
-    private_ident, quote_ident, replace_ident, var::VarCollector, ExprFactory, Id, ModuleItemLike,
-    StmtLike,
+    private_ident, prop_name_to_expr, quote_ident, replace_ident, var::VarCollector, ExprFactory,
+    Id, ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{as_folder, Fold, Visit, VisitMut, VisitMutWith, VisitWith};
 
@@ -387,12 +387,11 @@ where
                                     };
                                     let param_class_field = ClassMember::ClassProp(ClassProp {
                                         span: class.span,
-                                        key: Box::new(Expr::Ident(ident)),
+                                        key: PropName::Ident(ident),
                                         value: None,
                                         type_ann: None,
                                         is_static: false,
                                         decorators: param_prop.decorators.clone(),
-                                        computed: false,
                                         accessibility: param_prop.accessibility.clone(),
                                         is_abstract: false,
                                         is_optional: false,
@@ -436,33 +435,38 @@ where
                         if !class_field.is_static && class_field.decorators.is_empty() =>
                     {
                         if let Some(value) = class_field.value.take() {
-                            if class_field.computed {
-                                let ident = private_ident!("_key");
-                                self.uninitialized_vars.push(VarDeclarator {
-                                    span: DUMMY_SP,
-                                    name: Pat::Ident(ident.clone().into()),
-                                    init: None,
-                                    definite: false,
-                                });
-                                let assign_lhs =
-                                    PatOrExpr::Expr(Box::new(Expr::Ident(ident.clone())));
-                                let assign_expr = Box::new(Expr::Assign(AssignExpr {
-                                    span: class_field.span,
-                                    op: op!("="),
-                                    left: assign_lhs,
-                                    right: class_field.key.take(),
-                                }));
-                                key_computations.push(assign_expr);
-                                class_field.key = Box::new(Expr::Ident(ident));
-                            }
-                            let computed = class_field.computed
-                                || !matches!(class_field.key.borrow(), Expr::Ident(_));
+                            let computed = match &mut class_field.key {
+                                PropName::Computed(key) => {
+                                    let ident = private_ident!("_key");
+                                    self.uninitialized_vars.push(VarDeclarator {
+                                        span: DUMMY_SP,
+                                        name: Pat::Ident(ident.clone().into()),
+                                        init: None,
+                                        definite: false,
+                                    });
+                                    let assign_lhs =
+                                        PatOrExpr::Expr(Box::new(Expr::Ident(ident.clone())));
+                                    let assign_expr = Box::new(Expr::Assign(AssignExpr {
+                                        span: class_field.span,
+                                        op: op!("="),
+                                        left: assign_lhs,
+                                        right: key.expr.take(),
+                                    }));
+                                    key_computations.push(assign_expr);
+                                    class_field.key = PropName::Ident(ident);
+                                    true
+                                }
+                                PropName::Ident(..) => false,
+                                PropName::Str(..) | PropName::Num(..) | PropName::BigInt(..) => {
+                                    true
+                                }
+                            };
                             let assign_lhs = PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
                                 span: class_field.span,
                                 obj: ExprOrSuper::Expr(Box::new(Expr::This(ThisExpr {
                                     span: class.span,
                                 }))),
-                                prop: class_field.key,
+                                prop: prop_name_to_expr(class_field.key).into(),
                                 computed,
                             })));
                             let assign_expr = Box::new(Expr::Assign(AssignExpr {
@@ -478,31 +482,36 @@ where
                         if class_field.is_static && class_field.decorators.is_empty() =>
                     {
                         if let Some(value) = class_field.value.take() {
-                            if class_field.computed {
-                                let ident = private_ident!("_key");
-                                self.uninitialized_vars.push(VarDeclarator {
-                                    span: DUMMY_SP,
-                                    name: Pat::Ident(ident.clone().into()),
-                                    init: None,
-                                    definite: false,
-                                });
-                                let assign_lhs =
-                                    PatOrExpr::Expr(Box::new(Expr::Ident(ident.clone())));
-                                let assign_expr = Box::new(Expr::Assign(AssignExpr {
-                                    span: class_field.span,
-                                    op: op!("="),
-                                    left: assign_lhs,
-                                    right: class_field.key.take(),
-                                }));
-                                key_computations.push(assign_expr);
-                                class_field.key = Box::new(Expr::Ident(ident));
-                            }
-                            let computed = class_field.computed
-                                || !matches!(class_field.key.borrow(), Expr::Ident(_));
+                            let computed = match &mut class_field.key {
+                                PropName::Computed(key) => {
+                                    let ident = private_ident!("_key");
+                                    self.uninitialized_vars.push(VarDeclarator {
+                                        span: DUMMY_SP,
+                                        name: Pat::Ident(ident.clone().into()),
+                                        init: None,
+                                        definite: false,
+                                    });
+                                    let assign_lhs =
+                                        PatOrExpr::Expr(Box::new(Expr::Ident(ident.clone())));
+                                    let assign_expr = Box::new(Expr::Assign(AssignExpr {
+                                        span: class_field.span,
+                                        op: op!("="),
+                                        left: assign_lhs,
+                                        right: key.expr.take(),
+                                    }));
+                                    key_computations.push(assign_expr);
+                                    class_field.key = PropName::Ident(ident);
+                                    true
+                                }
+                                PropName::Ident(..) => false,
+                                PropName::Str(..) | PropName::Num(..) | PropName::BigInt(..) => {
+                                    true
+                                }
+                            };
                             let assign_lhs = PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
                                 span: DUMMY_SP,
                                 obj: ident.clone().as_obj(),
-                                prop: class_field.key,
+                                prop: prop_name_to_expr(class_field.key).into(),
                                 computed,
                             })));
                             extra_exprs.push(Box::new(Expr::Assign(AssignExpr {

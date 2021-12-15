@@ -97,14 +97,22 @@
             "ctxt": 0
           },
           "key": {
-            "type": "Identifier",
+            "type": "Computed",
             "span": {
-              "start": 151,
-              "end": 152,
+              "start": 150,
+              "end": 153,
               "ctxt": 0
             },
-            "value": "x",
-            "optional": false
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 151,
+                "end": 152,
+                "ctxt": 0
+              },
+              "value": "x",
+              "optional": false
+            }
           },
           "value": null,
           "typeAnnotation": {
@@ -126,7 +134,6 @@
           },
           "isStatic": false,
           "decorators": [],
-          "computed": true,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,

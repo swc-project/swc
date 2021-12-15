@@ -518,7 +518,6 @@
           },
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": "public",
           "isAbstract": false,
           "isOptional": false,

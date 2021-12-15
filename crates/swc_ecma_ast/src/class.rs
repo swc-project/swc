@@ -97,7 +97,7 @@ pub struct ClassProp {
     #[serde(default)]
     pub span: Span,
 
-    pub key: Box<Expr>,
+    pub key: PropName,
 
     #[serde(default)]
     pub value: Option<Box<Expr>>,
@@ -110,9 +110,6 @@ pub struct ClassProp {
 
     #[serde(default)]
     pub decorators: Vec<Decorator>,
-
-    #[serde(default)]
-    pub computed: bool,
 
     /// Typescript extension.
     #[serde(default)]

@@ -1878,7 +1878,6 @@
           "typeAnnotation": null,
           "isStatic": true,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
@@ -1933,7 +1932,6 @@
           },
           "isStatic": true,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
@@ -2007,7 +2005,6 @@
           },
           "isStatic": true,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
@@ -2056,7 +2053,6 @@
           "typeAnnotation": null,
           "isStatic": true,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
@@ -2105,7 +2101,6 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
@@ -2154,7 +2149,6 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
@@ -6335,7 +6329,6 @@
           "typeAnnotation": null,
           "isStatic": true,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
@@ -6393,7 +6386,6 @@
           "typeAnnotation": null,
           "isStatic": true,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
@@ -6455,7 +6447,6 @@
           "typeAnnotation": null,
           "isStatic": true,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
@@ -6494,7 +6485,6 @@
           "typeAnnotation": null,
           "isStatic": true,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
@@ -6552,7 +6542,6 @@
           "typeAnnotation": null,
           "isStatic": true,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
@@ -6614,7 +6603,6 @@
           "typeAnnotation": null,
           "isStatic": true,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
@@ -6653,7 +6641,6 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
@@ -6711,7 +6698,6 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
@@ -6773,7 +6759,6 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
@@ -6812,7 +6797,6 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
@@ -6870,7 +6854,6 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
@@ -6932,7 +6915,6 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
@@ -8568,14 +8550,22 @@
             "ctxt": 0
           },
           "key": {
-            "type": "Identifier",
+            "type": "Computed",
             "span": {
-              "start": 6284,
-              "end": 6285,
+              "start": 6283,
+              "end": 6286,
               "ctxt": 0
             },
-            "value": "s",
-            "optional": false
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 6284,
+                "end": 6285,
+                "ctxt": 0
+              },
+              "value": "s",
+              "optional": false
+            }
           },
           "value": null,
           "typeAnnotation": {
@@ -8610,7 +8600,6 @@
           },
           "isStatic": true,
           "decorators": [],
-          "computed": true,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
@@ -8627,33 +8616,41 @@
             "ctxt": 0
           },
           "key": {
-            "type": "MemberExpression",
+            "type": "Computed",
             "span": {
-              "start": 6305,
-              "end": 6308,
+              "start": 6304,
+              "end": 6309,
               "ctxt": 0
             },
-            "object": {
-              "type": "Identifier",
+            "expression": {
+              "type": "MemberExpression",
               "span": {
                 "start": 6305,
-                "end": 6306,
-                "ctxt": 0
-              },
-              "value": "N",
-              "optional": false
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 6307,
                 "end": 6308,
                 "ctxt": 0
               },
-              "value": "s",
-              "optional": false
-            },
-            "computed": false
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 6305,
+                  "end": 6306,
+                  "ctxt": 0
+                },
+                "value": "N",
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 6307,
+                  "end": 6308,
+                  "ctxt": 0
+                },
+                "value": "s",
+                "optional": false
+              },
+              "computed": false
+            }
           },
           "value": null,
           "typeAnnotation": {
@@ -8688,7 +8685,6 @@
           },
           "isStatic": true,
           "decorators": [],
-          "computed": true,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
@@ -8705,14 +8701,22 @@
             "ctxt": 0
           },
           "key": {
-            "type": "Identifier",
+            "type": "Computed",
             "span": {
-              "start": 6322,
-              "end": 6323,
+              "start": 6321,
+              "end": 6324,
               "ctxt": 0
             },
-            "value": "s",
-            "optional": false
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 6322,
+                "end": 6323,
+                "ctxt": 0
+              },
+              "value": "s",
+              "optional": false
+            }
           },
           "value": null,
           "typeAnnotation": {
@@ -8747,7 +8751,6 @@
           },
           "isStatic": false,
           "decorators": [],
-          "computed": true,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
@@ -8764,33 +8767,41 @@
             "ctxt": 0
           },
           "key": {
-            "type": "MemberExpression",
+            "type": "Computed",
             "span": {
-              "start": 6336,
-              "end": 6339,
+              "start": 6335,
+              "end": 6340,
               "ctxt": 0
             },
-            "object": {
-              "type": "Identifier",
+            "expression": {
+              "type": "MemberExpression",
               "span": {
                 "start": 6336,
-                "end": 6337,
-                "ctxt": 0
-              },
-              "value": "N",
-              "optional": false
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 6338,
                 "end": 6339,
                 "ctxt": 0
               },
-              "value": "s",
-              "optional": false
-            },
-            "computed": false
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 6336,
+                  "end": 6337,
+                  "ctxt": 0
+                },
+                "value": "N",
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 6338,
+                  "end": 6339,
+                  "ctxt": 0
+                },
+                "value": "s",
+                "optional": false
+              },
+              "computed": false
+            }
           },
           "value": null,
           "typeAnnotation": {
@@ -8825,7 +8836,6 @@
           },
           "isStatic": false,
           "decorators": [],
-          "computed": true,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,

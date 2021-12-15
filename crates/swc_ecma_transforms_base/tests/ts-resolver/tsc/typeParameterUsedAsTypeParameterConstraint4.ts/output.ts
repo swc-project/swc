@@ -1,5 +1,5 @@
 class C<T__2, U__2 extends T__2, V__2 extends U__2> {
-    z__0: W;
+    z: W;
     foo<W__3 extends V__2>(x__3: W__3): T__2 {
         var r__3: T__2;
         return x__3;

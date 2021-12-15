@@ -543,14 +543,22 @@
               "ctxt": 0
             },
             "key": {
-              "type": "Identifier",
+              "type": "Computed",
               "span": {
-                "start": 441,
-                "end": 452,
+                "start": 440,
+                "end": 453,
                 "ctxt": 0
               },
-              "value": "TopLevelSym",
-              "optional": false
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 441,
+                  "end": 452,
+                  "ctxt": 0
+                },
+                "value": "TopLevelSym",
+                "optional": false
+              }
             },
             "value": {
               "type": "NumericLiteral",
@@ -564,7 +572,6 @@
             "typeAnnotation": null,
             "isStatic": true,
             "decorators": [],
-            "computed": true,
             "accessibility": null,
             "isAbstract": false,
             "isOptional": false,
@@ -581,14 +588,22 @@
               "ctxt": 0
             },
             "key": {
-              "type": "Identifier",
+              "type": "Computed",
               "span": {
-                "start": 465,
-                "end": 473,
+                "start": 464,
+                "end": 474,
                 "ctxt": 0
               },
-              "value": "InnerSym",
-              "optional": false
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 465,
+                  "end": 473,
+                  "ctxt": 0
+                },
+                "value": "InnerSym",
+                "optional": false
+              }
             },
             "value": {
               "type": "StringLiteral",
@@ -607,7 +622,6 @@
             "typeAnnotation": null,
             "isStatic": false,
             "decorators": [],
-            "computed": true,
             "accessibility": null,
             "isAbstract": false,
             "isOptional": false,

@@ -93,12 +93,11 @@ mod ast {
 
     pub struct ClassProp {
         pub span: Span,
-        pub key: Box<Expr>,
+        pub key: PropName,
         pub value: Option<Box<Expr>>,
         pub type_ann: Option<TsTypeAnn>,
         pub is_static: bool,
         pub decorators: Vec<Decorator>,
-        pub computed: bool,
         pub accessibility: Option<Accessibility>,
         pub is_abstract: bool,
         pub is_optional: bool,

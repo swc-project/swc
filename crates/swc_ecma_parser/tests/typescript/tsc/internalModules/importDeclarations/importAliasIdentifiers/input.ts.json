@@ -544,7 +544,6 @@
           },
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,

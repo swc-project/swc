@@ -34,33 +34,41 @@
             "ctxt": 0
           },
           "key": {
-            "type": "MemberExpression",
+            "type": "Computed",
             "span": {
-              "start": 58,
-              "end": 73,
+              "start": 57,
+              "end": 74,
               "ctxt": 0
             },
-            "object": {
-              "type": "Identifier",
+            "expression": {
+              "type": "MemberExpression",
               "span": {
                 "start": 58,
-                "end": 64,
-                "ctxt": 0
-              },
-              "value": "Symbol",
-              "optional": false
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 65,
                 "end": 73,
                 "ctxt": 0
               },
-              "value": "iterator",
-              "optional": false
-            },
-            "computed": false
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 58,
+                  "end": 64,
+                  "ctxt": 0
+                },
+                "value": "Symbol",
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 65,
+                  "end": 73,
+                  "ctxt": 0
+                },
+                "value": "iterator",
+                "optional": false
+              },
+              "computed": false
+            }
           },
           "value": {
             "type": "NumericLiteral",
@@ -74,7 +82,6 @@
           "typeAnnotation": null,
           "isStatic": true,
           "decorators": [],
-          "computed": true,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,

@@ -3748,6 +3748,27 @@ _defineProperty(A, _x, void 0);
 "#
 );
 
+test!(
+    syntax(),
+    |t| chain!(
+        class_properties(class_properties::Config { loose: false }),
+        classes(Some(t.comments.clone()))
+    ),
+    static_property_tdz_false_alarm,
+    r#"
+class A {
+static A = 123;
+}
+"#,
+    r#"
+let A = function A() {
+  "use strict";
+  _classCallCheck(this, A);
+};
+_defineProperty(A, "A", 123)
+"#
+);
+
 // regression_6153
 test!(
     syntax(),

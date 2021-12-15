@@ -426,28 +426,28 @@ impl ClassProperties {
                         });
                     }
 
-                    let key = match *prop.key {
-                        Expr::Ident(ref i) if !prop.computed => {
-                            Box::new(Expr::from(Lit::Str(Str {
-                                span: i.span,
-                                value: i.sym.clone(),
-                                has_escape: false,
-                                kind: StrKind::Normal {
-                                    contains_quote: false,
-                                },
-                            })))
-                        }
-                        Expr::Lit(ref lit) if !prop.computed => Box::new(Expr::from(lit.clone())),
+                    let key = match prop.key {
+                        PropName::Ident(ref i) => Box::new(Expr::from(Lit::Str(Str {
+                            span: i.span,
+                            value: i.sym.clone(),
+                            has_escape: false,
+                            kind: StrKind::Normal {
+                                contains_quote: false,
+                            },
+                        }))),
+                        PropName::Num(ref num) => Box::new(Expr::from(num.clone())),
+                        PropName::Str(ref str) => Box::new(Expr::from(str.clone())),
+                        PropName::BigInt(ref big_int) => Box::new(Expr::from(big_int.clone())),
 
-                        _ => {
-                            let (ident, aliased) = if let Expr::Ident(ref i) = *prop.key {
+                        PropName::Computed(key) => {
+                            let (ident, aliased) = if let Expr::Ident(ref i) = *key.expr {
                                 if used_key_names.contains(&i.sym) {
-                                    (alias_ident_for(&prop.key, "_ref"), true)
+                                    (alias_ident_for(&key.expr, "_ref"), true)
                                 } else {
-                                    alias_if_required(&prop.key, "_ref")
+                                    alias_if_required(&key.expr, "_ref")
                                 }
                             } else {
-                                alias_if_required(&prop.key, "_ref")
+                                alias_if_required(&key.expr, "_ref")
                             };
                             // ident.span = ident.span.apply_mark(Mark::fresh(Mark::root()));
                             if aliased {
@@ -455,7 +455,7 @@ impl ClassProperties {
                                 vars.push(VarDeclarator {
                                     span: DUMMY_SP,
                                     name: Pat::Ident(ident.clone().into()),
-                                    init: Some(prop.key),
+                                    init: Some(key.expr),
                                     definite: false,
                                 });
                             }

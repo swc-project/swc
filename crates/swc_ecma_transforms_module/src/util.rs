@@ -987,7 +987,7 @@ macro_rules! mark_as_nested {
 
         fn fold_class_prop(&mut self, mut n: ClassProp) -> ClassProp {
             use swc_common::util::take::Take;
-            if n.computed {
+            if n.key.is_computed() {
                 let key = n.key.take().fold_children_with(self);
 
                 let old = self.in_top_level;

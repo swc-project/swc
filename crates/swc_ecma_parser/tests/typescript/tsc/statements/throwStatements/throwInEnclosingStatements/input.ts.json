@@ -813,7 +813,6 @@
           },
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": "private",
           "isAbstract": false,
           "isOptional": false,
