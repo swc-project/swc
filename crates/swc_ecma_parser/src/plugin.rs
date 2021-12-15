@@ -74,7 +74,7 @@ where
     type TypeScript = T;
 
     fn typescript(&mut self) -> &mut Self::TypeScript {
-        todo!()
+        &mut self.typescript
     }
 }
 
