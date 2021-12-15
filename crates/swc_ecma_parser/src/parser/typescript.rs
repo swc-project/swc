@@ -1382,7 +1382,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         if let Some(v) = self.try_parse_ts(|p| {
             let start = p.input.cur_pos();
 
-            let reaodnly = p.parse_ts_modifier(&["readonly"], false)?.is_some();
+            let readonly = p.parse_ts_modifier(&["readonly"], false)?.is_some();
 
             let is_get = if eat!(p, "get") {
                 true

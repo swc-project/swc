@@ -2145,13 +2145,13 @@ export default function waitUntil(callback, options = {}) {
 
     #[test]
     #[should_panic(expected = "Trailing comma is disallowed inside import(...) arguments")]
-    fn error_for_trailing_commma_inside_dynamic_import() {
+    fn error_for_trailing_comma_inside_dynamic_import() {
         let src = "import('foo',)";
         test_parser(src, Syntax::Es(Default::default()), |p| p.parse_expr());
     }
 
     #[test]
-    fn no_error_for_trailing_commma_inside_dynamic_import_with_import_assertions() {
+    fn no_error_for_trailing_comma_inside_dynamic_import_with_import_assertions() {
         let src = "import('foo',)";
         test_parser(
             src,

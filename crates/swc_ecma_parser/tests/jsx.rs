@@ -66,7 +66,7 @@ fn references(entry: PathBuf) {
             panic!()
         }
 
-        let deser = serde_json::from_str::<Module>(&json)
+        let deserialized = serde_json::from_str::<Module>(&json)
             .unwrap_or_else(|err| {
                 panic!(
                     "failed to deserialize json back to module: {}\n{}",
@@ -74,7 +74,7 @@ fn references(entry: PathBuf) {
                 )
             })
             .fold_with(&mut Normalizer);
-        assert_eq!(module, deser, "JSON:\n{}", json);
+        assert_eq!(module, deserialized, "JSON:\n{}", json);
 
         Ok(())
     })
