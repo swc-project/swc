@@ -1268,28 +1268,6 @@ impl VisitMut for ReduceAst {
         i.optional = false;
     }
 
-    fn visit_mut_module_item(&mut self, s: &mut ModuleItem) {
-        s.visit_mut_children_with(self);
-
-        match s {
-            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                decl: Decl::TsInterface(_) | Decl::TsTypeAlias(_),
-                ..
-            }))
-            | ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
-                type_only: true, ..
-            }))
-            | ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
-                type_only: true,
-                ..
-            })) => {
-                s.take();
-                return;
-            }
-            _ => {}
-        }
-    }
-
     fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
         s.visit_mut_children_with(self);
 
@@ -1425,6 +1403,28 @@ impl VisitMut for ReduceAst {
         }
     }
 
+    fn visit_mut_module_item(&mut self, s: &mut ModuleItem) {
+        s.visit_mut_children_with(self);
+
+        match s {
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                decl: Decl::TsInterface(_) | Decl::TsTypeAlias(_),
+                ..
+            }))
+            | ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                type_only: true, ..
+            }))
+            | ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                type_only: true,
+                ..
+            })) => {
+                s.take();
+                return;
+            }
+            _ => {}
+        }
+    }
+
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         if !self.collected_data {
             let _timer = timer!("analyze before reducing");
@@ -1500,6 +1500,17 @@ impl VisitMut for ReduceAst {
 
     fn visit_mut_opt_ts_type_ann(&mut self, ty: &mut Option<TsTypeAnn>) {
         *ty = None;
+    }
+
+    fn visit_mut_opt_ts_type_param_decl(&mut self, t: &mut Option<TsTypeParamDecl>) {
+        *t = None;
+    }
+
+    fn visit_mut_opt_ts_type_param_instantiation(
+        &mut self,
+        t: &mut Option<TsTypeParamInstantiation>,
+    ) {
+        *t = None;
     }
 
     fn visit_mut_param_or_ts_param_prop(&mut self, p: &mut ParamOrTsParamProp) {
