@@ -33,22 +33,24 @@ fn fixture(input: PathBuf) {
 struct AssertValid;
 
 impl VisitMut for AssertValid {
+    fn visit_mut_array_pat(&mut self, a: &mut ArrayPat) {
+        if a.optional {
+            panic!("found an optional pattern: {:?}", a)
+        }
+
+        a.visit_mut_children_with(self);
+    }
+
     fn visit_mut_empty_stmt(&mut self, i: &mut EmptyStmt) {
         panic!("found empty: {:?}", i)
     }
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
-        if i.span.is_dummy() {
-            panic!("found an identifier with dummy span: {:?}", i)
-        }
-
         if i.optional {
-            panic!("found an optionsal identifier: {:?}", i)
+            panic!("found an optional pattern: {:?}", i)
         }
-    }
 
-    fn visit_mut_ts_type(&mut self, ty: &mut TsType) {
-        panic!("found a typescript type: {:?}", ty)
+        i.visit_mut_children_with(self);
     }
 
     fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
@@ -68,6 +70,22 @@ impl VisitMut for AssertValid {
         dbg!(&*m);
 
         m.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_object_pat(&mut self, pat: &mut ObjectPat) {
+        if pat.optional {
+            panic!("found a optional pattern: {:?}", pat)
+        }
+
+        pat.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_span(&mut self, sp: &mut Span) {
+        assert!(!sp.is_dummy());
+    }
+
+    fn visit_mut_ts_type(&mut self, ty: &mut TsType) {
+        panic!("found a typescript type: {:?}", ty)
     }
 }
 
