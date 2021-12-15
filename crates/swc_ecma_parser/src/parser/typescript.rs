@@ -20,7 +20,8 @@ impl<I: Tokens> Parser<I> {
             && !is!(self, ')')
             && !is!(self, ':')
             && !is!(self, '=')
-            && !is!(self, '?'))
+            && !is!(self, '?')
+            && !is!(self, '!'))
     }
 
     /// Parses a modifier matching one the given modifier names.
