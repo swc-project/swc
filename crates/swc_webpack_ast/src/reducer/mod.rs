@@ -1460,6 +1460,14 @@ impl VisitMut for ReduceAst {
         }
     }
 
+    fn visit_mut_opt_ts_type(&mut self, ty: &mut Option<Box<TsType>>) {
+        *ty = None;
+    }
+
+    fn visit_mut_opt_ts_type_ann(&mut self, ty: &mut Option<TsTypeAnn>) {
+        *ty = None;
+    }
+
     fn visit_mut_param_or_ts_param_prop(&mut self, p: &mut ParamOrTsParamProp) {
         let old = self.can_remove_pat;
         self.can_remove_pat = match p {
