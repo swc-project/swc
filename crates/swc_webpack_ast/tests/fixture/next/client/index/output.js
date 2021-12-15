@@ -78,8 +78,7 @@ class Container {
 const emitter = null;
 exports.emitter = null;
 let CachedComponent;
-(function*(opts = {
-}) {
+(function*() {
     let initialErr;
     const appEntrypoint = null;
     const { component: app , exports: mod  } = null;
