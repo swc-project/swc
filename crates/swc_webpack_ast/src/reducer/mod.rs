@@ -5,7 +5,7 @@ use swc_common::{
     collections::{AHashMap, AHashSet},
     pass::{Repeat, Repeated},
     util::take::Take,
-    Mark, Span, Spanned, SyntaxContext,
+    Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, IsEmpty, StmtLike, StmtOrModuleItem};
@@ -1666,8 +1666,11 @@ impl VisitMut for ReduceAst {
     ///  - Useless stmt => [Stmt::Empty]
     fn visit_mut_stmt(&mut self, stmt: &mut Stmt) {
         match stmt {
-            Stmt::Debugger(_) | Stmt::Break(_) | Stmt::Continue(_) => {
-                *stmt = Stmt::Empty(EmptyStmt { span: stmt.span() });
+            Stmt::Decl(Decl::TsTypeAlias(..) | Decl::TsInterface(..))
+            | Stmt::Debugger(_)
+            | Stmt::Break(_)
+            | Stmt::Continue(_) => {
+                *stmt = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                 return;
             }
 
