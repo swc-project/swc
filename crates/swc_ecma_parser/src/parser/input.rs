@@ -2,6 +2,7 @@ use super::Parser;
 use crate::{
     error::Error,
     lexer::{self},
+    plugin::Plugin,
     token::*,
     Context, EsVersion, Syntax,
 };
@@ -253,7 +254,7 @@ pub(super) struct Buffer<I: Tokens> {
     next: Option<TokenAndSpan>,
 }
 
-impl<I: Tokens> Parser<I> {
+impl<I: Tokens, P: Plugin> Parser<I, P> {
     pub fn input(&mut self) -> &mut I {
         &mut self.input.iter
     }

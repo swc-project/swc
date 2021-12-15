@@ -4,7 +4,7 @@ use swc_common::{Span, Spanned};
 #[cfg(feature = "verify")]
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
-impl<'a, I: Tokens> Parser<I> {
+impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
     #[cfg(feature = "verify")]
     pub(in crate::parser) fn verify_expr(&mut self, expr: Box<Expr>) -> PResult<Box<Expr>> {
         let mut v = Verifier { errors: vec![] };

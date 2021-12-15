@@ -5,7 +5,7 @@ use swc_common::{Span, Spanned, SyntaxContext};
 #[cfg(test)]
 mod tests;
 
-impl<'a, I: Tokens> Parser<I> {
+impl<'a, I: Tokens,P: Plugin> Parser<I, P> {
     /// Parse next token as JSX identifier
     pub(super) fn parse_jsx_ident(&mut self) -> PResult<Ident> {
         debug_assert!(self.input.syntax().jsx());

@@ -6,7 +6,7 @@ use typed_arena::Arena;
 
 mod module_item;
 
-impl<'a, I: Tokens> Parser<I> {
+impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
     pub(super) fn parse_block_body<Type>(
         &mut self,
         mut allow_directives: bool,
@@ -1160,7 +1160,7 @@ pub(super) trait StmtLikeParser<'a, Type: IsDirective> {
     ) -> PResult<Type>;
 }
 
-impl<'a, I: Tokens, T> StmtLikeParser<'a, Box<T>> for Parser<I>
+impl<'a, I: Tokens, P: Plugin, T> StmtLikeParser<'a, Box<T>> for Parser<I, P>
 where
     T: IsDirective,
     Self: StmtLikeParser<'a, T>,
@@ -1174,7 +1174,7 @@ where
     }
 }
 
-impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<I> {
+impl<'a, I: Tokens, P: Plugin> StmtLikeParser<'a, Stmt> for Parser<I, P> {
     fn handle_import_export(&mut self, top_level: bool, _: Vec<Decorator>) -> PResult<Stmt> {
         let start = cur_pos!(self);
         if self.input.syntax().dynamic_import() && is!(self, "import") && peeked_is!(self, '(') {

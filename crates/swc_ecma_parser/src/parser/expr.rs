@@ -9,7 +9,7 @@ mod ops;
 mod tests;
 mod verifier;
 
-impl<'a, I: Tokens> Parser<I> {
+impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
     pub fn parse_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_expr);
 
@@ -1564,7 +1564,7 @@ pub(in crate::parser) enum PatOrExprOrSpread {
 
 /// simple leaf methods.
 
-impl<'a, I: Tokens> Parser<I> {
+impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
     fn parse_yield_expr(&mut self) -> PResult<Box<Expr>> {
         let start = cur_pos!(self);
 

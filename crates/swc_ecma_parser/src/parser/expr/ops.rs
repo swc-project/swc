@@ -3,7 +3,7 @@ use super::*;
 use swc_common::Spanned;
 use tracing::trace;
 
-impl<'a, I: Tokens> Parser<I> {
+impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
     /// Name from spec: 'LogicalORExpression'
     pub(super) fn parse_bin_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_bin_expr);

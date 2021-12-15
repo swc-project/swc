@@ -5,7 +5,7 @@ use crate::{lexer::TokenContext, parser::class_and_fn::is_not_this, token::Keywo
 use swc_atoms::js_word;
 use swc_common::Spanned;
 
-impl<'a, I: Tokens> Parser<I> {
+impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
     /// Parse a object literal or object pattern.
     pub(super) fn parse_object<T>(&mut self) -> PResult<T>
     where
@@ -132,7 +132,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 }
 
-impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
+impl<I: Tokens, P: Plugin> ParseObject<Box<Expr>> for Parser<I, P> {
     type Prop = PropOrSpread;
 
     fn make_object(&mut self, span: Span, props: Vec<Self::Prop>) -> PResult<Box<Expr>> {
@@ -397,7 +397,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
     }
 }
 
-impl<I: Tokens> ParseObject<Pat> for Parser<I> {
+impl<I: Tokens, P: Plugin> ParseObject<Pat> for Parser<I, P> {
     type Prop = ObjectPatProp;
 
     fn make_object(&mut self, span: Span, props: Vec<Self::Prop>) -> PResult<Pat> {

@@ -4,7 +4,7 @@ use crate::token::Keyword;
 use either::Either;
 use swc_atoms::js_word;
 
-impl<'a, I: Tokens> Parser<I> {
+impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
     pub(super) fn parse_maybe_private_name(&mut self) -> PResult<Either<PrivateName, Ident>> {
         let start = cur_pos!(self);
         let is_private = is!(self, '#');
@@ -148,12 +148,12 @@ impl<'a, I: Tokens> Parser<I> {
 pub(super) trait MaybeOptionalIdentParser<Ident> {
     fn parse_maybe_opt_binding_ident(&mut self) -> PResult<Ident>;
 }
-impl<I: Tokens> MaybeOptionalIdentParser<Ident> for Parser<I> {
+impl<I: Tokens, P: Plugin> MaybeOptionalIdentParser<Ident> for Parser<I, P> {
     fn parse_maybe_opt_binding_ident(&mut self) -> PResult<Ident> {
         self.parse_binding_ident().map(|i| i.id)
     }
 }
-impl<I: Tokens> MaybeOptionalIdentParser<Option<Ident>> for Parser<I> {
+impl<I: Tokens, P: Plugin> MaybeOptionalIdentParser<Option<Ident>> for Parser<I, P> {
     fn parse_maybe_opt_binding_ident(&mut self) -> PResult<Option<Ident>> {
         self.parse_opt_binding_ident().map(|opt| opt.map(|i| i.id))
     }

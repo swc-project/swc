@@ -4,7 +4,7 @@ use either::Either;
 use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext};
 
-impl<I: Tokens> Parser<I> {
+impl<I: Tokens, P: Plugin> Parser<I, P> {
     /// `tsNextTokenCanFollowModifier`
     fn ts_next_token_can_follow_modifier(&mut self) -> PResult<bool> {
         debug_assert!(self.input.syntax().typescript());
@@ -2634,7 +2634,7 @@ impl<I: Tokens> Parser<I> {
     }
 }
 
-impl<I: Tokens> Parser<I> {
+impl<I: Tokens, P: Plugin> Parser<I, P> {
     /// In no lexer context
     fn ts_in_no_context<T, F>(&mut self, op: F) -> PResult<T>
     where

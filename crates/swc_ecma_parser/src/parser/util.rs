@@ -124,9 +124,9 @@ impl Context {
     }
 }
 
-impl<'a, I: Tokens> Parser<I> {
+impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
     /// Original context is restored when returned guard is dropped.
-    pub(super) fn with_ctx(&mut self, ctx: Context) -> WithCtx<I> {
+    pub(super) fn with_ctx(&mut self, ctx: Context) -> WithCtx<I, P> {
         let orig_ctx = self.ctx();
         self.set_ctx(ctx);
         WithCtx {
@@ -136,7 +136,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     /// Original state is restored when returned guard is dropped.
-    pub(super) fn with_state(&mut self, state: State) -> WithState<I> {
+    pub(super) fn with_state(&mut self, state: State) -> WithState<I, P> {
         let orig_state = std::mem::replace(&mut self.state, state);
         WithState {
             orig_state,
@@ -148,7 +148,7 @@ impl<'a, I: Tokens> Parser<I> {
         self.input.set_ctx(ctx);
     }
 
-    pub(super) fn strict_mode(&mut self) -> WithCtx<I> {
+    pub(super) fn strict_mode(&mut self) -> WithCtx<I, P> {
         let ctx = Context {
             strict: true,
             ..self.ctx()
@@ -157,7 +157,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     /// Original context is restored when returned guard is dropped.
-    pub(super) fn in_type(&mut self) -> WithCtx<I> {
+    pub(super) fn in_type(&mut self) -> WithCtx<I, P> {
         let ctx = Context {
             in_type: true,
             ..self.ctx()
@@ -166,7 +166,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     /// Original context is restored when returned guard is dropped.
-    pub(super) fn include_in_expr(&mut self, include_in_expr: bool) -> WithCtx<I> {
+    pub(super) fn include_in_expr(&mut self, include_in_expr: bool) -> WithCtx<I, P> {
         let ctx = Context {
             include_in_expr,
             ..self.ctx()
@@ -206,46 +206,46 @@ pub trait ParseObject<Obj> {
     fn parse_object_prop(&mut self) -> PResult<Self::Prop>;
 }
 
-pub struct WithState<'w, I: 'w + Tokens> {
-    inner: &'w mut Parser<I>,
+pub struct WithState<'w, I: 'w + Tokens, P: Plugin> {
+    inner: &'w mut Parser<I, P>,
     orig_state: State,
 }
-impl<'w, I: Tokens> Deref for WithState<'w, I> {
-    type Target = Parser<I>;
+impl<'w, I: Tokens, P: Plugin> Deref for WithState<'w, I, P> {
+    type Target = Parser<I, P>;
 
-    fn deref(&self) -> &Parser<I> {
+    fn deref(&self) -> &Parser<I, P> {
         &self.inner
     }
 }
-impl<'w, I: Tokens> DerefMut for WithState<'w, I> {
-    fn deref_mut(&mut self) -> &mut Parser<I> {
+impl<'w, I: Tokens, P: Plugin> DerefMut for WithState<'w, I, P> {
+    fn deref_mut(&mut self) -> &mut Parser<I, P> {
         &mut self.inner
     }
 }
-impl<'w, I: Tokens> Drop for WithState<'w, I> {
+impl<'w, I: Tokens, P: Plugin> Drop for WithState<'w, I, P> {
     fn drop(&mut self) {
         std::mem::swap(&mut self.inner.state, &mut self.orig_state);
     }
 }
 
-pub struct WithCtx<'w, I: 'w + Tokens> {
-    inner: &'w mut Parser<I>,
+pub struct WithCtx<'w, I: 'w + Tokens, P: Plugin> {
+    inner: &'w mut Parser<I, P>,
     orig_ctx: Context,
 }
-impl<'w, I: Tokens> Deref for WithCtx<'w, I> {
-    type Target = Parser<I>;
+impl<'w, I: Tokens, P: Plugin> Deref for WithCtx<'w, I, P> {
+    type Target = Parser<I, P>;
 
-    fn deref(&self) -> &Parser<I> {
+    fn deref(&self) -> &Parser<I, P> {
         &self.inner
     }
 }
-impl<'w, I: Tokens> DerefMut for WithCtx<'w, I> {
-    fn deref_mut(&mut self) -> &mut Parser<I> {
+impl<'w, I: Tokens, P: Plugin> DerefMut for WithCtx<'w, I, P> {
+    fn deref_mut(&mut self) -> &mut Parser<I, P> {
         &mut self.inner
     }
 }
 
-impl<'w, I: Tokens> Drop for WithCtx<'w, I> {
+impl<'w, I: Tokens, P: Plugin> Drop for WithCtx<'w, I, P> {
     fn drop(&mut self) {
         self.inner.set_ctx(self.orig_ctx);
     }

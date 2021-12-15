@@ -5,7 +5,7 @@ use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext};
 
 /// Parser for function expression and function declaration.
-impl<'a, I: Tokens> Parser<I> {
+impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
     pub(super) fn parse_async_fn_expr(&mut self) -> PResult<Box<Expr>> {
         let start = cur_pos!(self);
         expect!(self, "async");
@@ -1188,7 +1188,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 }
 
-impl<'a, I: Tokens> Parser<I> {
+impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
     fn make_method<F>(
         &mut self,
         parse_args: F,
@@ -1387,7 +1387,7 @@ pub(super) trait FnBodyParser<Body> {
     fn parse_fn_body_inner(&mut self) -> PResult<Body>;
 }
 
-impl<I: Tokens> FnBodyParser<BlockStmtOrExpr> for Parser<I> {
+impl<I: Tokens, P: Plugin> FnBodyParser<BlockStmtOrExpr> for Parser<I, P> {
     fn parse_fn_body_inner(&mut self) -> PResult<BlockStmtOrExpr> {
         if is!(self, '{') {
             self.parse_block(false).map(BlockStmtOrExpr::BlockStmt)
@@ -1397,7 +1397,7 @@ impl<I: Tokens> FnBodyParser<BlockStmtOrExpr> for Parser<I> {
     }
 }
 
-impl<I: Tokens> FnBodyParser<Option<BlockStmt>> for Parser<I> {
+impl<I: Tokens, P: Plugin> FnBodyParser<Option<BlockStmt>> for Parser<I, P> {
     fn parse_fn_body_inner(&mut self) -> PResult<Option<BlockStmt>> {
         // allow omitting body and allow placing `{` on next line
         if self.input.syntax().typescript() && !is!(self, '{') && eat!(self, ';') {

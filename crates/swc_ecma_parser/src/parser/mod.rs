@@ -5,6 +5,7 @@ use self::{input::Buffer, util::ParseObject};
 use crate::{
     error::SyntaxError,
     lexer::Lexer,
+    plugin::{NoopPlugin, Plugin},
     token::{Token, Word},
     Context, EsVersion, Syntax,
 };
@@ -39,8 +40,12 @@ pub type PResult<T> = Result<T, Error>;
 /// EcmaScript parser.
 #[derive(Clone)]
 pub struct Parser<I: Tokens> {
+pub struct Parser<I: Tokens, P: Plugin> {
+    /// [false] while backtracking
+    emit_err: bool,
     state: State,
     input: Buffer<I>,
+    plugin: P,
 }
 
 #[derive(Clone, Default)]
@@ -52,17 +57,24 @@ struct State {
     found_module_item: bool,
 }
 
-impl<'a, I: Input> Parser<Lexer<'a, I>> {
+impl<'a, I: Input> Parser<Lexer<'a, I>, NoopPlugin> {
     pub fn new(syntax: Syntax, input: I, comments: Option<&'a dyn Comments>) -> Self {
         Self::new_from(Lexer::new(syntax, Default::default(), input, comments))
     }
 }
 
-impl<I: Tokens> Parser<I> {
+impl<'a, I: Tokens> Parser<I, NoopPlugin> {
     pub fn new_from(input: I) -> Self {
+        Self::new_with_plugin(input, Default::default())
+    }
+}
+
+impl<I: Tokens, P: Plugin> Parser<I, P> {
+    pub fn new_with_plugin(input: I, plugin: P) -> Self {
         Parser {
             state: Default::default(),
             input: Buffer::new(input),
+            plugin,
         }
     }
 
@@ -239,7 +251,9 @@ impl<I: Tokens> Parser<I> {
 #[cfg(test)]
 pub fn test_parser<F, Ret>(s: &'static str, syntax: Syntax, f: F) -> Ret
 where
-    F: FnOnce(&mut Parser<Lexer<crate::StringInput<'_>>>) -> Result<Ret, Error>,
+    F: FnOnce(
+        &mut Parser<Lexer<crate::StringInput<'_>>, crate::plugin::NoopPlugin>,
+    ) -> Result<Ret, Error>,
 {
     crate::with_test_sess(s, |handler, input| {
         let lexer = Lexer::new(syntax, EsVersion::Es2019, input, None);
@@ -266,7 +280,9 @@ where
 #[cfg(test)]
 pub fn test_parser_comment<F, Ret>(c: &dyn Comments, s: &'static str, syntax: Syntax, f: F) -> Ret
 where
-    F: FnOnce(&mut Parser<Lexer<crate::StringInput<'_>>>) -> Result<Ret, Error>,
+    F: FnOnce(
+        &mut Parser<Lexer<crate::StringInput<'_>>, crate::plugin::NoopPlugin>,
+    ) -> Result<Ret, Error>,
 {
     crate::with_test_sess(s, |handler, input| {
         let lexer = Lexer::new(syntax, EsVersion::Es2019, input, Some(&c));
@@ -285,7 +301,9 @@ where
 #[cfg(test)]
 pub fn bench_parser<F>(b: &mut Bencher, s: &'static str, syntax: Syntax, mut f: F)
 where
-    F: for<'a> FnMut(&'a mut Parser<Lexer<'a, crate::StringInput<'_>>>) -> PResult<()>,
+    F: for<'a> FnMut(
+        &'a mut Parser<Lexer<'a, crate::StringInput<'_>>, crate::plugin::NoopPlugin>,
+    ) -> PResult<()>,
 {
     b.bytes = s.len() as u64;
 
