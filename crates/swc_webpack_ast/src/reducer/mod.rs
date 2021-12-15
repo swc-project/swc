@@ -1,4 +1,4 @@
-use self::flatten::contains_import;
+use self::{flatten::contains_import, typescript::ts_remover};
 use std::{iter::once, sync::Arc};
 use swc_atoms::js_word;
 use swc_common::{
@@ -13,6 +13,7 @@ use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 use swc_timer::timer;
 
 mod flatten;
+mod typescript;
 
 /// # Usage
 ///
@@ -607,12 +608,6 @@ impl ReduceAst {
 }
 
 impl VisitMut for ReduceAst {
-    fn visit_mut_array_pat(&mut self, p: &mut ArrayPat) {
-        p.visit_mut_children_with(self);
-
-        p.optional = false;
-    }
-
     fn visit_mut_arrow_expr(&mut self, e: &mut ArrowExpr) {
         let old_can_remove_pat = self.can_remove_pat;
         self.can_remove_pat = true;
@@ -1263,12 +1258,6 @@ impl VisitMut for ReduceAst {
         f.return_type.visit_mut_with(self);
     }
 
-    fn visit_mut_ident(&mut self, i: &mut Ident) {
-        i.visit_mut_children_with(self);
-
-        i.optional = false;
-    }
-
     fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
         s.visit_mut_children_with(self);
 
@@ -1404,44 +1393,18 @@ impl VisitMut for ReduceAst {
         }
     }
 
-    fn visit_mut_module_item(&mut self, s: &mut ModuleItem) {
-        s.visit_mut_children_with(self);
-
-        match s {
-            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                decl: Decl::TsInterface(_) | Decl::TsTypeAlias(_),
-                ..
-            }))
-            | ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
-                type_only: true, ..
-            }))
-            | ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
-                type_only: true,
-                ..
-            })) => {
-                s.take();
-                return;
-            }
-            _ => {}
-        }
-    }
-
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         if !self.collected_data {
             let _timer = timer!("analyze before reducing");
             self.collected_data = true;
             self.data = Arc::new(ScopeData::analyze(&stmts));
+
+            stmts.visit_mut_with(&mut ts_remover());
         }
 
         let _timer = timer!("reduce ast (single pass)");
 
         self.visit_mut_stmt_likes(stmts);
-    }
-
-    fn visit_mut_object_pat(&mut self, p: &mut ObjectPat) {
-        p.visit_mut_children_with(self);
-
-        p.optional = false;
     }
 
     fn visit_mut_object_pat_props(&mut self, props: &mut Vec<ObjectPatProp>) {
@@ -1493,25 +1456,6 @@ impl VisitMut for ReduceAst {
         if let Some(Pat::Invalid(..)) = &p {
             *p = None;
         }
-    }
-
-    fn visit_mut_opt_ts_type(&mut self, ty: &mut Option<Box<TsType>>) {
-        *ty = None;
-    }
-
-    fn visit_mut_opt_ts_type_ann(&mut self, ty: &mut Option<TsTypeAnn>) {
-        *ty = None;
-    }
-
-    fn visit_mut_opt_ts_type_param_decl(&mut self, t: &mut Option<TsTypeParamDecl>) {
-        *t = None;
-    }
-
-    fn visit_mut_opt_ts_type_param_instantiation(
-        &mut self,
-        t: &mut Option<TsTypeParamInstantiation>,
-    ) {
-        *t = None;
     }
 
     fn visit_mut_param_or_ts_param_prop(&mut self, p: &mut ParamOrTsParamProp) {
