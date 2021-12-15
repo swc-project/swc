@@ -13,6 +13,12 @@
 
 - **(es/compat)** Migrate `regenerator` to `VisitMut` (#3037) ([29eb71a](https://github.com/swc-project/swc/commit/29eb71aaf9b1154aba1a28c408aaa1a2bd7a8ec7))
 
+### Refactor
+
+
+
+- **(es/ast)** Change type or the `key` of `ClassProp` to `PropName` (#3038) ([38955c0](https://github.com/swc-project/swc/commit/38955c0c8d687866755e0d594871da449faf1da1))
+
 ## [1.2.120] - 2021-12-13
 
 ### Bug Fixes
