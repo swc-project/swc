@@ -171,6 +171,8 @@ pub enum SyntaxError {
 
     NumericSeparatorIsAllowedOnlyBetweenTwoDigits,
 
+    ExpectedIdentOrStrLit,
+
     TS1003,
     TS1005,
     TS1009,
@@ -452,6 +454,8 @@ impl SyntaxError {
             SyntaxError::RestPatInSetter => "Rest pattern is not allowed in setter".into(),
 
             SyntaxError::GeneratorConstructor => "A constructor cannot be generator".into(),
+
+            SyntaxError::ExpectedIdentOrStrLit => "Expected identifier or string literal".into(),
 
             SyntaxError::TS1003 => "Expected an identifier".into(),
             SyntaxError::TS1005 => "Expected a semicolon".into(),
