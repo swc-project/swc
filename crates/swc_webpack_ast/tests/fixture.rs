@@ -4,6 +4,7 @@ use swc_ecma_ast::*;
 use swc_ecma_parser::{EsConfig, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::resolver_with_mark;
 use swc_ecma_transforms_testing::test_fixture;
+use swc_ecma_transforms_typescript::strip;
 use swc_ecma_visit::{as_folder, VisitMut, VisitMutWith};
 use swc_webpack_ast::reducer::ast_reducer;
 
@@ -98,6 +99,7 @@ fn assert_no_invalid(input: PathBuf) {
 
             chain!(
                 resolver_with_mark(top_level_mark),
+                strip(top_level_mark),
                 as_folder(ast_reducer(top_level_mark))
             )
         };
