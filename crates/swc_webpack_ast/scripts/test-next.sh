@@ -9,7 +9,7 @@ export RUST_BACKTRACE=1
 cargo test --no-run
 UPDATE=1 cargo test -q
 
-(cd next.js/packages/next-swc && yarn build-native)
+(cd next.js/packages/next-swc && yarn build-native --release)
 
-# (cd next.js && NEXT_PRIVATE_LOCAL_WEBPACK5=1 yarn next dev test/integration/production)
-(cd next.js && NEXT_PRIVATE_LOCAL_WEBPACK5=1 yarn testheadless)
+(cd next.js && NEXT_PRIVATE_LOCAL_WEBPACK5=1 yarn testheadless $@ || true)
+(cd next.js && NEXT_PRIVATE_LOCAL_WEBPACK5=1 yarn next dev $@)
