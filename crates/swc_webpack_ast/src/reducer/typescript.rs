@@ -15,12 +15,6 @@ impl VisitMut for TsRemover {
         p.optional = false;
     }
 
-    fn visit_mut_ident(&mut self, i: &mut Ident) {
-        i.visit_mut_children_with(self);
-
-        i.optional = false;
-    }
-
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
 
@@ -45,16 +39,10 @@ impl VisitMut for TsRemover {
         }
     }
 
-    fn visit_mut_stmt(&mut self, s: &mut Stmt) {
-        s.visit_mut_children_with(self);
+    fn visit_mut_ident(&mut self, i: &mut Ident) {
+        i.visit_mut_children_with(self);
 
-        match s {
-            Stmt::Decl(Decl::TsTypeAlias(..) | Decl::TsInterface(..)) => {
-                s.take();
-            }
-
-            _ => {}
-        }
+        i.optional = false;
     }
 
     fn visit_mut_module_item(&mut self, s: &mut ModuleItem) {
@@ -102,5 +90,17 @@ impl VisitMut for TsRemover {
         t: &mut Option<TsTypeParamInstantiation>,
     ) {
         *t = None;
+    }
+
+    fn visit_mut_stmt(&mut self, s: &mut Stmt) {
+        s.visit_mut_children_with(self);
+
+        match s {
+            Stmt::Decl(Decl::TsTypeAlias(..) | Decl::TsInterface(..)) => {
+                s.take();
+            }
+
+            _ => {}
+        }
     }
 }
