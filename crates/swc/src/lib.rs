@@ -415,7 +415,12 @@ impl Compiler {
                     None
                 },
             );
-            let mut parser = Parser::new_from(lexer);
+            let mut parser = Parser::new_with_plugin(
+                lexer,
+                swc_ecma_parser::plugin::Plugins {
+                    typescript: swc_ecma_parser::plugins::typescript::strip::StripPlugin::default(),
+                },
+            );
             let mut error = false;
 
             let program_result = match is_module {
