@@ -1,10 +1,9 @@
-use std::path::Path;
-
 use crate::reducer::ast_reducer;
 use anyhow::{anyhow, Context, Error};
 use serde::Serialize;
 use swc_common::{
-    errors::HANDLER, sync::Lrc, FilePathMapping, Globals, Mark, SourceFile, SourceMap, GLOBALS,
+    errors::HANDLER, sync::Lrc, FileName, FilePathMapping, Globals, Mark, SourceFile, SourceMap,
+    GLOBALS,
 };
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax, TsConfig};
@@ -22,35 +21,39 @@ pub struct AstOutput {
     src: Option<Lrc<String>>,
 }
 
-pub fn process_file(path: &Path, include_src: bool) -> Result<AstOutput, Error> {
+pub fn process_file<F>(load_file: F, include_src: bool) -> Result<AstOutput, Error>
+where
+    F: FnOnce(&Lrc<SourceMap>) -> Result<Lrc<SourceFile>, Error>,
+{
     let globals = Globals::new();
     let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
 
-    let fm = cm
-        .load_file(&path)
-        .with_context(|| format!("failed to load file at `{}`", path.display()))?;
+    let fm = load_file(&cm).context("failed to load file")?;
 
-    let syntax = match path.extension() {
-        Some(ext) => {
-            if ext == "tsx" {
-                Syntax::Typescript(TsConfig {
-                    tsx: true,
-                    no_early_errors: true,
-                    ..Default::default()
-                })
-            } else if ext == "ts" {
-                Syntax::Typescript(TsConfig {
-                    no_early_errors: true,
-                    ..Default::default()
-                })
-            } else {
-                Syntax::Es(EsConfig {
-                    jsx: true,
-                    ..Default::default()
-                })
+    let syntax = match &fm.name {
+        FileName::Real(path) => match path.extension() {
+            Some(ext) => {
+                if ext == "tsx" {
+                    Syntax::Typescript(TsConfig {
+                        tsx: true,
+                        no_early_errors: true,
+                        ..Default::default()
+                    })
+                } else if ext == "ts" {
+                    Syntax::Typescript(TsConfig {
+                        no_early_errors: true,
+                        ..Default::default()
+                    })
+                } else {
+                    Syntax::Es(EsConfig {
+                        jsx: true,
+                        ..Default::default()
+                    })
+                }
             }
-        }
-        None => Default::default(),
+            _ => Default::default(),
+        },
+        _ => Default::default(),
     };
 
     let module = {
