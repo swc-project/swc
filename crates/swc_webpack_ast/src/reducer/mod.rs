@@ -190,7 +190,7 @@ impl Visit for Analyzer {
             }
         }
 
-        ty.visit_with(self);
+        ty.visit_children_with(self);
 
         let left = left_most(&ty.type_name);
         self.used_refs.entry(left.to_id()).or_default().used_as_type = true;
