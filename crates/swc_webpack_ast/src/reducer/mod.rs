@@ -1,11 +1,11 @@
-use self::flatten::contains_import;
+use self::{flatten::contains_import, typescript::ts_remover};
 use std::{iter::once, sync::Arc};
 use swc_atoms::js_word;
 use swc_common::{
-    collections::AHashSet,
+    collections::{AHashMap, AHashSet},
     pass::{Repeat, Repeated},
     util::take::Take,
-    Mark, Span, Spanned, SyntaxContext,
+    Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, IsEmpty, StmtLike, StmtOrModuleItem};
@@ -13,6 +13,7 @@ use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 use swc_timer::timer;
 
 mod flatten;
+mod typescript;
 
 /// # Usage
 ///
@@ -68,11 +69,24 @@ pub fn ast_reducer(top_level_mark: Mark) -> impl VisitMut {
     })
 }
 
+#[derive(Debug, Clone, Copy, Default)]
+struct BindingInfo {
+    used_as_type: bool,
+    used_as_var: bool,
+}
+
 struct Analyzer {
     amd_requires: AHashSet<Id>,
+    used_refs: AHashMap<Id, BindingInfo>,
 }
 
 impl Visit for Analyzer {
+    fn visit_assign_pat_prop(&mut self, p: &AssignPatProp) {
+        p.visit_children_with(self);
+
+        self.used_refs.entry(p.key.to_id()).or_default().used_as_var = true;
+    }
+
     fn visit_call_expr(&mut self, e: &CallExpr) {
         e.visit_children_with(self);
 
@@ -124,6 +138,64 @@ impl Visit for Analyzer {
             _ => {}
         }
     }
+
+    fn visit_expr(&mut self, e: &Expr) {
+        e.visit_children_with(self);
+
+        match e {
+            Expr::Ident(i) => {
+                self.used_refs.entry(i.to_id()).or_default().used_as_var = true;
+            }
+
+            _ => {}
+        }
+    }
+
+    fn visit_member_expr(&mut self, e: &MemberExpr) {
+        e.obj.visit_with(self);
+
+        if e.computed {
+            e.prop.visit_with(self);
+        }
+    }
+
+    fn visit_pat(&mut self, p: &Pat) {
+        p.visit_children_with(self);
+
+        match p {
+            Pat::Ident(s) => {
+                self.used_refs.entry(s.to_id()).or_default().used_as_var = true;
+            }
+
+            _ => {}
+        }
+    }
+
+    fn visit_prop(&mut self, p: &Prop) {
+        p.visit_children_with(self);
+
+        match p {
+            Prop::Shorthand(s) => {
+                self.used_refs.entry(s.to_id()).or_default().used_as_var = true;
+            }
+
+            _ => {}
+        }
+    }
+
+    fn visit_ts_type_ref(&mut self, ty: &TsTypeRef) {
+        fn left_most(n: &TsEntityName) -> &Ident {
+            match n {
+                TsEntityName::Ident(i) => i,
+                TsEntityName::TsQualifiedName(q) => left_most(&q.left),
+            }
+        }
+
+        ty.visit_children_with(self);
+
+        let left = left_most(&ty.type_name);
+        self.used_refs.entry(left.to_id()).or_default().used_as_type = true;
+    }
 }
 
 #[derive(Default)]
@@ -131,6 +203,9 @@ struct ScopeData {
     imported_ids: AHashSet<Id>,
     /// amd `require` modules.
     amd_requires: AHashSet<Id>,
+
+    #[allow(unused)]
+    used_refs: AHashMap<Id, BindingInfo>,
 }
 
 impl ScopeData {
@@ -160,7 +235,8 @@ impl ScopeData {
         }
 
         let mut analyzer = Analyzer {
-            amd_requires: AHashSet::default(),
+            amd_requires: Default::default(),
+            used_refs: Default::default(),
         };
 
         items.visit_with(&mut analyzer);
@@ -168,6 +244,7 @@ impl ScopeData {
         ScopeData {
             imported_ids,
             amd_requires: analyzer.amd_requires,
+            used_refs: analyzer.used_refs,
         }
     }
 
@@ -791,22 +868,6 @@ impl VisitMut for ReduceAst {
                 *e = *expr.arg.take();
             }
 
-            Expr::TsAs(expr) => {
-                *e = *expr.expr.take();
-            }
-
-            Expr::TsConstAssertion(expr) => {
-                *e = *expr.expr.take();
-            }
-
-            Expr::TsTypeAssertion(expr) => {
-                *e = *expr.expr.take();
-            }
-
-            Expr::TsNonNull(expr) => {
-                *e = *expr.expr.take();
-            }
-
             Expr::TaggedTpl(expr) => {
                 let mut exprs = Vec::with_capacity(expr.tpl.exprs.len() + 1);
                 exprs.push(expr.tag.take());
@@ -1318,9 +1379,17 @@ impl VisitMut for ReduceAst {
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         if !self.collected_data {
-            let _timer = timer!("analyze before reducing");
             self.collected_data = true;
-            self.data = Arc::new(ScopeData::analyze(&stmts));
+
+            {
+                let _timer = timer!("analyze before reducing");
+                self.data = Arc::new(ScopeData::analyze(&stmts));
+            }
+            {
+                let _timer = timer!("remove typescript nodes");
+
+                stmts.visit_mut_with(&mut ts_remover());
+            }
         }
 
         let _timer = timer!("reduce ast (single pass)");
@@ -1438,7 +1507,12 @@ impl VisitMut for ReduceAst {
         }
 
         match pat {
-            Pat::Assign(..) => {}
+            Pat::Assign(..) => {
+                let old = self.can_remove_pat;
+                self.can_remove_pat = false;
+                pat.visit_mut_children_with(self);
+                self.can_remove_pat = old;
+            }
             _ => {
                 pat.visit_mut_children_with(self);
             }
@@ -1566,7 +1640,7 @@ impl VisitMut for ReduceAst {
     fn visit_mut_stmt(&mut self, stmt: &mut Stmt) {
         match stmt {
             Stmt::Debugger(_) | Stmt::Break(_) | Stmt::Continue(_) => {
-                *stmt = Stmt::Empty(EmptyStmt { span: stmt.span() });
+                *stmt = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                 return;
             }
 

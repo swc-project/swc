@@ -53,8 +53,7 @@ class Container extends React.Component {
 }
 export const emitter = mitt();
 let CachedComponent;
-export async function initNext(opts = {
-}) {
+export async function initNext() {
     let initialErr;
     const appEntrypoint = null;
     const { component: app , exports: mod  } = null;
