@@ -21,6 +21,42 @@ impl VisitMut for TsRemover {
         i.optional = false;
     }
 
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
+
+        match e {
+            Expr::TsAs(expr) => {
+                *e = *expr.expr.take();
+            }
+
+            Expr::TsConstAssertion(expr) => {
+                *e = *expr.expr.take();
+            }
+
+            Expr::TsTypeAssertion(expr) => {
+                *e = *expr.expr.take();
+            }
+
+            Expr::TsNonNull(expr) => {
+                *e = *expr.expr.take();
+            }
+
+            _ => {}
+        }
+    }
+
+    fn visit_mut_stmt(&mut self, s: &mut Stmt) {
+        s.visit_mut_children_with(self);
+
+        match s {
+            Stmt::Decl(Decl::TsTypeAlias(..) | Decl::TsInterface(..)) => {
+                s.take();
+            }
+
+            _ => {}
+        }
+    }
+
     fn visit_mut_module_item(&mut self, s: &mut ModuleItem) {
         s.visit_mut_children_with(self);
 

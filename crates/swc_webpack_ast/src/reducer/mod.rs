@@ -868,22 +868,6 @@ impl VisitMut for ReduceAst {
                 *e = *expr.arg.take();
             }
 
-            Expr::TsAs(expr) => {
-                *e = *expr.expr.take();
-            }
-
-            Expr::TsConstAssertion(expr) => {
-                *e = *expr.expr.take();
-            }
-
-            Expr::TsTypeAssertion(expr) => {
-                *e = *expr.expr.take();
-            }
-
-            Expr::TsNonNull(expr) => {
-                *e = *expr.expr.take();
-            }
-
             Expr::TaggedTpl(expr) => {
                 let mut exprs = Vec::with_capacity(expr.tpl.exprs.len() + 1);
                 exprs.push(expr.tag.take());
@@ -1655,10 +1639,7 @@ impl VisitMut for ReduceAst {
     ///  - Useless stmt => [Stmt::Empty]
     fn visit_mut_stmt(&mut self, stmt: &mut Stmt) {
         match stmt {
-            Stmt::Decl(Decl::TsTypeAlias(..) | Decl::TsInterface(..))
-            | Stmt::Debugger(_)
-            | Stmt::Break(_)
-            | Stmt::Continue(_) => {
+            Stmt::Debugger(_) | Stmt::Break(_) | Stmt::Continue(_) => {
                 *stmt = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                 return;
             }
