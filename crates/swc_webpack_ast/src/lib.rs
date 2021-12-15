@@ -30,6 +30,11 @@ where
 
     let fm = load_file(&cm).context("failed to load file")?;
 
+    // Default
+    let syntax = Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    });
     let syntax = match &fm.name {
         FileName::Real(path) => match path.extension() {
             Some(ext) => {
@@ -45,15 +50,12 @@ where
                         ..Default::default()
                     })
                 } else {
-                    Syntax::Es(EsConfig {
-                        jsx: true,
-                        ..Default::default()
-                    })
+                    syntax
                 }
             }
-            _ => Default::default(),
+            _ => syntax,
         },
-        _ => Default::default(),
+        _ => syntax,
     };
 
     let module = {
