@@ -38,7 +38,8 @@ fn total(b: &mut Bencher) {
                 res?
             };
 
-            let s = swc_webpack_ast::webpack_ast(cm.clone(), fm.clone(), module.into()).unwrap();
+            let s =
+                swc_webpack_ast::webpack_ast(cm.clone(), fm.clone(), module.into(), false).unwrap();
             println!("{} bytes", s.len());
 
             Ok(())

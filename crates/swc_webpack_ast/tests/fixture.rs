@@ -41,6 +41,10 @@ impl VisitMut for AssertValid {
         if i.span.is_dummy() {
             panic!("found an identifier with dummy span: {:?}", i)
         }
+
+        if i.optional {
+            panic!("found an optionsal identifier: {:?}", i)
+        }
     }
 
     fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
@@ -133,7 +137,7 @@ fn test_babelify(input: PathBuf) {
             res?
         };
 
-        let s = swc_webpack_ast::webpack_ast(cm.clone(), fm.clone(), module.into()).unwrap();
+        let s = swc_webpack_ast::webpack_ast(cm.clone(), fm.clone(), module.into(), false).unwrap();
         println!("{} bytes", s.len());
 
         fs::write(&output_path, s.as_bytes()).unwrap();
