@@ -2106,11 +2106,13 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         }
 
         let type_ann = self.parse_ts_type_operator_or_higher()?;
-        Ok(TsTypeOperator {
-            span: span!(self, start),
-            op,
-            type_ann,
-        })
+        Ok(self.plugin.typescript().map_type(type_ann, |type_ann| {
+            Box::new(TsType::TsTypeOperator(TsTypeOperator {
+                span: span!(self, start),
+                op,
+                type_ann,
+            }))
+        }))
     }
 
     /// `tsParseInferType`

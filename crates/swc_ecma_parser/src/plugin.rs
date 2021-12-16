@@ -48,6 +48,10 @@ pub trait TypeScriptPlugin: Sized + Clone + Sealed {
 
     fn build_intersection_type(&mut self, span: Span, types: Vec<Self::Type>) -> Self::Type;
 
+    fn map_type<F>(&mut self, ty: Self::Type, op: F) -> Self::Type
+    where
+        F: FnOnce(Box<TsType>) -> Box<TsType>;
+
     fn build_type_from<F>(&mut self, op: F) -> Self::Type
     where
         F: FnOnce() -> Box<TsType>;
@@ -143,6 +147,13 @@ impl TypeScriptPlugin for NoopPlugin {
         Box::new(TsType::TsUnionOrIntersectionType(
             TsUnionOrIntersectionType::TsIntersectionType(TsIntersectionType { span, types }),
         ))
+    }
+
+    fn map_type<F>(&mut self, ty: Self::Type, op: F) -> Self::Type
+    where
+        F: FnOnce(Box<TsType>) -> Box<TsType>,
+    {
+        op(ty)
     }
 
     fn build_type_from<F>(&mut self, op: F) -> Self::Type
