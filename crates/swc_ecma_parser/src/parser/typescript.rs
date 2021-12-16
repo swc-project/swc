@@ -1893,7 +1893,8 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
 
         if is!(self, ':') {
             let pos = cur_pos!(self);
-            return self.parse_ts_type_ann(/* eat_colon */ true, pos).map(Some);
+            let type_ann = self.parse_ts_type_ann(/* eat_colon */ true, pos)?;
+            return Ok(self.plugin.typescript().convert_type_ann(type_ann));
         }
 
         Ok(None)
@@ -2076,10 +2077,12 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
 
         while !self.input.had_line_break_before_cur() && eat!(self, '[') {
             if eat!(self, ']') {
-                ty = Box::new(TsType::TsArrayType(TsArrayType {
-                    span: span!(self, ty.span().lo()),
-                    elem_type: ty,
-                }));
+                ty = self.plugin.typescript().map_type(ty, |ty| {
+                    Box::new(TsType::TsArrayType(TsArrayType {
+                        span: span!(self, ty.span().lo()),
+                        elem_type: ty,
+                    }))
+                });
             } else {
                 let index_type = self.parse_ts_type()?;
                 expect!(self, ']');
