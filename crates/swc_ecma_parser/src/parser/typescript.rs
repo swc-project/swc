@@ -303,16 +303,14 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     }
 
     /// `tsParseThisTypeNode`
-    fn parse_ts_this_type_node(&mut self) -> PResult<PType<P>> {
+    fn parse_ts_this_type_node(&mut self) -> PResult<TsThisType> {
         debug_assert!(self.input.syntax().typescript());
 
         expect!(self, "this");
 
-        Ok(self.plugin.typescript().build_type_from(|| {
-            Box::new(TsType::TsThisType(TsThisType {
-                span: self.input.prev_span(),
-            }))
-        }))
+        Ok(TsThisType {
+            span: self.input.prev_span(),
+        })
     }
 
     /// `tsParseImportType`
@@ -1717,10 +1715,13 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         expect!(self, '(');
         let type_ann = self.parse_ts_type()?;
         expect!(self, ')');
-        Ok(TsParenthesizedType {
-            span: span!(self, start),
-            type_ann,
-        })
+        Ok(self
+            .plugin
+            .typescript()
+            .map_type(type_ann, |type_ann| TsParenthesizedType {
+                span: span!(self, start),
+                type_ann,
+            }))
     }
 
     /// `tsParseFunctionOrConstructorType`
