@@ -14,6 +14,9 @@ pub(crate) mod internal {
 }
 
 pub trait TypeScriptPlugin: Sized + Clone + Sealed {
+    /// Used as return type of parse_ts_type().
+    type Type;
+
     fn process_type_element(&mut self, el: TsTypeElement) -> Option<TsTypeElement> {
         Some(el)
     }
@@ -58,7 +61,9 @@ impl Plugin for NoopPlugin {
     }
 }
 
-impl TypeScriptPlugin for NoopPlugin {}
+impl TypeScriptPlugin for NoopPlugin {
+    type Type = Box<TsType>;
+}
 
 impl Sealed for NoopPlugin {}
 

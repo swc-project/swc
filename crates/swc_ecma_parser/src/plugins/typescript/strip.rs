@@ -5,6 +5,8 @@ use swc_ecma_ast::*;
 pub struct StripPlugin {}
 
 impl TypeScriptPlugin for StripPlugin {
+    type Type = ();
+
     #[inline(always)]
     fn process_type_element(&mut self, _: TsTypeElement) -> Option<TsTypeElement> {
         None
