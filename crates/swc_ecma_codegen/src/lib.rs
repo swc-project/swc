@@ -2772,6 +2772,14 @@ where
         punct!(")");
         emit!(n.body);
     }
+
+    #[emitter]
+    pub fn emit_module_export_name(&mut self, node: &ModuleExportName) -> Result {
+        match *node {
+            ModuleExportName::Ident(ref ident) => emit!(ident),
+            ModuleExportName::Str(ref str) => emit!(str),
+        }
+    }
 }
 
 impl<'a, W> Emitter<'a, W>
