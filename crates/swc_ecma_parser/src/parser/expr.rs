@@ -678,6 +678,7 @@ impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
             let items_ref = &paren_items;
             if let Some(expr) = self.try_parse_ts(|p| {
                 let return_type = p.parse_ts_type_or_type_predicate_ann(&tok!(':'))?;
+                let return_type = self.plugin.typescript().convert_type_ann(return_type);
 
                 expect!(p, "=>");
 
@@ -701,7 +702,7 @@ impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
                     is_generator: false,
                     params,
                     body,
-                    return_type: Some(return_type),
+                    return_type,
                     type_params: None,
                 }))))
             }) {
@@ -714,7 +715,8 @@ impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
             && is!(self, ':')
             && !self.ctx().dont_parse_colon_as_type_ann
         {
-            Some(self.parse_ts_type_or_type_predicate_ann(&tok!(':'))?)
+            let ty = self.parse_ts_type_or_type_predicate_ann(&tok!(':'))?;
+            self.plugin.typescript().convert_type_ann(ty)
         } else {
             None
         };
