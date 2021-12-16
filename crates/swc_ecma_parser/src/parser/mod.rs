@@ -39,8 +39,6 @@ pub type PResult<T> = Result<T, Error>;
 /// EcmaScript parser.
 #[derive(Clone)]
 pub struct Parser<I: Tokens> {
-    /// [false] while backtracking
-    emit_err: bool,
     state: State,
     input: Buffer<I>,
 }
@@ -63,7 +61,6 @@ impl<'a, I: Input> Parser<Lexer<'a, I>> {
 impl<I: Tokens> Parser<I> {
     pub fn new_from(input: I) -> Self {
         Parser {
-            emit_err: true,
             state: Default::default(),
             input: Buffer::new(input),
         }
@@ -209,7 +206,7 @@ impl<I: Tokens> Parser<I> {
 
     #[cold]
     fn emit_err(&self, span: Span, error: SyntaxError) {
-        if !self.emit_err || !self.syntax().early_errors() {
+        if self.ctx().ignore_error || !self.syntax().early_errors() {
             return;
         }
 
@@ -220,7 +217,7 @@ impl<I: Tokens> Parser<I> {
 
     #[cold]
     fn emit_error(&self, error: Error) {
-        if !self.emit_err || !self.syntax().early_errors() {
+        if self.ctx().ignore_error || !self.syntax().early_errors() {
             return;
         }
 
@@ -229,7 +226,7 @@ impl<I: Tokens> Parser<I> {
 
     #[cold]
     fn emit_strict_mode_err(&self, span: Span, error: SyntaxError) {
-        if !self.emit_err {
+        if self.ctx().ignore_error {
             return;
         }
         let error = Error {

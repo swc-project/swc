@@ -118,8 +118,11 @@ impl<'a, I: Input> Lexer<'a, I> {
     #[cold]
     #[inline(never)]
     pub(super) fn emit_error_span(&mut self, span: Span, kind: SyntaxError) {
-        warn!("Lexer error at {:?}", span);
+        if self.ctx.ignore_error {
+            return;
+        }
 
+        warn!("Lexer error at {:?}", span);
         let err = Error {
             error: Box::new((span, kind)),
         };
