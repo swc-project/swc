@@ -1681,10 +1681,10 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
             return Ok(TsTupleElement {
                 span: span!(self, start),
                 label,
-                ty: TsType::TsRestType(TsRestType {
-                    span: span!(self, start),
-                    type_ann,
-                }),
+                ty: self
+                    .plugin
+                    .typescript()
+                    .build_rest_type(span!(self, start), type_ann),
             });
         }
 

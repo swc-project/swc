@@ -42,6 +42,8 @@ pub trait TypeScriptPlugin: Sized + Clone + Sealed {
         false_type: Self::Type,
     ) -> Self::Type;
 
+    fn build_rest_type(&mut self, span: Span, arg: Self::Type) -> Self::Type;
+
     fn build_type_from<F>(&mut self, op: F) -> Self::Type
     where
         F: FnOnce() -> Box<TsType>;
@@ -146,7 +148,9 @@ impl TypeScriptPlugin for NoopPlugin {
         }
     }
 
-    fn convert_type_param_decl(&mut self, n: Self::TypeParamDecl) -> Option<TsTypeParamDecl> {}
+    fn convert_type_param_decl(&mut self, n: Self::TypeParamDecl) -> Option<TsTypeParamDecl> {
+        Some(n)
+    }
 }
 
 impl Sealed for NoopPlugin {}
