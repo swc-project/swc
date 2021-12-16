@@ -1086,7 +1086,7 @@ define!({
     }
     pub enum ModuleExportName {
         Ident(Ident),
-        Str(Str)
+        Str(Str),
     }
     pub struct ExportNamedSpecifier {
         pub span: Span,

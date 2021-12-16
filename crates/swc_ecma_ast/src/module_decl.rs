@@ -261,5 +261,5 @@ pub enum ModuleExportName {
     Ident(Ident),
 
     #[tag("StringLiteral")]
-    Str(Str)
+    Str(Str),
 }
