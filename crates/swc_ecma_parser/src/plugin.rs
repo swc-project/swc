@@ -43,6 +43,14 @@ pub trait TypeScriptPlugin: Sized + Clone + Sealed {
 
     fn convert_type_ann(&mut self, type_ann: Self::TypeAnn) -> Option<TsTypeAnn>;
 
+    fn build_type_param(
+        &mut self,
+        span: Span,
+        name: Ident,
+        constraint: Option<Box<TsType>>,
+        default: Option<Box<TsType>>,
+    ) -> Self::TypeParam;
+
     fn convert_type_param_decl(&mut self, n: Self::TypeParamDecl) -> Option<TsTypeParamDecl>;
 }
 
@@ -106,6 +114,21 @@ impl TypeScriptPlugin for NoopPlugin {
 
     fn convert_type_ann(&mut self, type_ann: Self::TypeAnn) -> Option<TsTypeAnn> {
         Some(type_ann)
+    }
+
+    fn build_type_param(
+        &mut self,
+        span: Span,
+        name: Ident,
+        constraint: Option<Box<TsType>>,
+        default: Option<Box<TsType>>,
+    ) -> Self::TypeParam {
+        TsTypeParam {
+            span,
+            name,
+            constraint,
+            default,
+        }
     }
 
     fn convert_type_param_decl(&mut self, n: Self::TypeParamDecl) -> Option<TsTypeParamDecl> {}

@@ -408,12 +408,10 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         let constraint = self.eat_then_parse_ts_type(&tok!("extends"))?;
         let default = self.eat_then_parse_ts_type(&tok!('='))?;
 
-        Ok(TsTypeParam {
-            span: span!(self, start),
-            name,
-            constraint,
-            default,
-        })
+        Ok(self
+            .plugin
+            .typescript()
+            .build_type_param(span!(self, start), name, constraint, default))
     }
 
     /// `tsParseTypeParameter`
