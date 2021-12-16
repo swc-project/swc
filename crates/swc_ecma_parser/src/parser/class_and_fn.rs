@@ -1080,7 +1080,8 @@ impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
                     trace_cur!(p, parse_fn_args_body__type_params);
 
                     Ok(if is!(p, '<') {
-                        Some(p.parse_ts_type_params()?)
+                        let decl = p.parse_ts_type_params()?;
+                        self.plugin.typescript().convert_type_param_decl(decl)
                     } else if is!(p, JSXTagStart) {
                         debug_assert_eq!(
                             p.input.token_context().current(),
@@ -1093,7 +1094,9 @@ impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
                         );
                         p.input.token_context_mut().pop();
 
-                        Some(p.parse_ts_type_params()?)
+                        let decl = p.parse_ts_type_params()?;
+
+                        self.plugin.typescript().convert_type_param_decl(decl)
                     } else {
                         None
                     })

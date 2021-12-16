@@ -98,6 +98,10 @@ impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
                 }
 
                 let type_parameters = p.parse_ts_type_params()?;
+                let type_parameters = self
+                    .plugin
+                    .typescript()
+                    .convert_type_param_decl(type_parameters);
                 let mut arrow = p.parse_assignment_expr_base()?;
                 match *arrow {
                     Expr::Arrow(ArrowExpr {
@@ -105,8 +109,8 @@ impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
                         ref mut type_params,
                         ..
                     }) => {
-                        *span = Span::new(type_parameters.span.lo, span.hi, Default::default());
-                        *type_params = Some(type_parameters);
+                        *span = Span::new(type_parameters.span().lo, span.hi, Default::default());
+                        *type_params = type_parameters;
                     }
                     _ => unexpected!(p, "("),
                 }

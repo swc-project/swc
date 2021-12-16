@@ -1,5 +1,5 @@
 use self::internal::Sealed;
-use swc_common::Span;
+use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 
 /// This trait is sealed for now because the author (@kdy1) is not sure what is
@@ -14,14 +14,15 @@ pub(crate) mod internal {
     pub trait Sealed {}
 }
 
+/// Used to avoid memory allocation.
 pub trait TypeScriptPlugin: Sized + Clone + Sealed {
     /// Used as return type of parse_ts_type().
-    type Type;
-    type TypeAnn;
-    type MappedType;
-    type InferType;
-    type TypeParam;
-    type TypeParamDecl;
+    type Type: Spanned;
+    type TypeAnn: Spanned;
+    type MappedType: Spanned;
+    type InferType: Spanned;
+    type TypeParam: Spanned;
+    type TypeParamDecl: Spanned;
 
     fn build_ts_as_expr(&mut self, span: Span, expr: Box<Expr>, type_ann: Self::Type) -> Box<Expr>;
 
@@ -39,6 +40,8 @@ pub trait TypeScriptPlugin: Sized + Clone + Sealed {
     fn build_opt_ts_type_ann(&mut self, span: Span, ty: Self::Type) -> Option<TsTypeAnn>;
 
     fn convert_type_ann(&mut self, type_ann: Self::TypeAnn) -> Option<TsTypeAnn>;
+
+    fn convert_type_param_decl(&mut self, n: Self::TypeParamDecl) -> Option<TsTypeParamDecl>;
 }
 
 /// Implements all `*Plugin` traits.
@@ -56,6 +59,10 @@ impl Plugin for NoopPlugin {
 impl TypeScriptPlugin for NoopPlugin {
     type Type = Box<TsType>;
     type TypeAnn = TsTypeAnn;
+    type MappedType = TsMappedType;
+    type InferType = TsInferType;
+    type TypeParam = TsTypeParam;
+    type TypeParamDecl = TsTypeParamDecl;
 
     fn build_ts_as_expr(&mut self, span: Span, expr: Box<Expr>, type_ann: Self::Type) -> Box<Expr> {
         Box::new(Expr::TsAs(TsAsExpr {
@@ -93,6 +100,8 @@ impl TypeScriptPlugin for NoopPlugin {
     fn convert_type_ann(&mut self, type_ann: Self::TypeAnn) -> Option<TsTypeAnn> {
         Some(type_ann)
     }
+
+    fn convert_type_param_decl(&mut self, n: Self::TypeParamDecl) -> Option<TsTypeParamDecl> {}
 }
 
 impl Sealed for NoopPlugin {}
