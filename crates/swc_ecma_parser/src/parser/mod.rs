@@ -39,11 +39,7 @@ pub type PResult<T> = Result<T, Error>;
 
 /// EcmaScript parser.
 #[derive(Clone)]
-pub struct Parser<I: Tokens> {
-pub struct Parser<I: Tokens, P: Plugin> {
 pub struct Parser<I: Tokens, P: Plugin = NoopPlugin> {
-    /// [false] while backtracking
-    emit_err: bool,
     state: State,
     input: Buffer<I>,
     plugin: P,
