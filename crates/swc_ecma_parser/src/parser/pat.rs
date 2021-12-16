@@ -427,7 +427,7 @@ impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
                 let type_ann = if self.input.syntax().typescript() && is!(self, ':') {
                     let cur_pos = cur_pos!(self);
                     let ty = self.parse_ts_type_ann(/* eat_colon */ true, cur_pos)?;
-                    self.plugin.typescript().process_type_ann(ty)
+                    Some(ty)
                 } else {
                     None
                 };
