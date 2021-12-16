@@ -59,11 +59,11 @@ impl TypeScriptPlugin for NoopPlugin {
     }
 
     fn build_ts_type_ann(&mut self, span: Span, ty: Self::Type) -> Self::TypeAnn {
-        TsTypeAnn { span, ty }
+        TsTypeAnn { span, type_ann: ty }
     }
 
     fn build_opt_ts_type_ann(&mut self, span: Span, ty: Self::Type) -> Option<TsTypeAnn> {
-        Some(TsTypeAnn { span, ty })
+        Some(TsTypeAnn { span, type_ann: ty })
     }
 
     fn convert_type_ann(&mut self, type_ann: Self::TypeAnn) -> Option<TsTypeAnn> {
