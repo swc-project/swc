@@ -1194,7 +1194,8 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         expect!(self, '(');
         let params = self.parse_ts_binding_list_for_signature()?;
         let type_ann = if is!(self, ':') {
-            Some(self.parse_ts_type_or_type_predicate_ann(&tok!(':'))?)
+            let ty = self.parse_ts_type_or_type_predicate_ann(&tok!(':'))?;
+            self.plugin.typescript().convert_type_ann(ty)
         } else {
             None
         };
@@ -1262,7 +1263,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
 
         let type_ann = self.parse_ts_type_ann(/* eat_colon */ false, type_ann_start)?;
         id.id.span = span!(self, ident_start);
-        id.type_ann = Some(type_ann);
+        id.type_ann = self.plugin.typescript().convert_type_ann(type_ann);
 
         expect!(self, ']');
         let params = vec![TsFnParam::Ident(id)];
@@ -1331,8 +1332,9 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
             expect!(self, '(');
             let params = self.parse_ts_binding_list_for_signature()?;
             let type_ann = if is!(self, ':') {
-                self.parse_ts_type_or_type_predicate_ann(&tok!(':'))
-                    .map(Some)?
+                let type_ann = self.parse_ts_type_or_type_predicate_ann(&tok!(':'))?;
+
+                self.plugin.typescript().convert_type_ann(type_ann)
             } else {
                 None
             };
