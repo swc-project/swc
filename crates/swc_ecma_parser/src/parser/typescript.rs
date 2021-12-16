@@ -316,9 +316,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     }
 
     /// `tsParseImportType`
-    fn parse_ts_import_type(
-        &mut self,
-    ) -> PResult<<<P as Plugin>::TypeScript as TypeScriptPlugin>::ImportType> {
+    fn parse_ts_import_type(&mut self) -> PResult<TsImportType> {
         let start = cur_pos!(self);
         assert_and_bump!(self, "import");
 
