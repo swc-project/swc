@@ -673,7 +673,7 @@ impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
                     let start = cur_pos!(self);
                     let type_ann = self.parse_ts_type_ann(true, start)?;
 
-                    self.emit_err(type_ann.type_ann.span(), SyntaxError::TS1093);
+                    self.emit_err(span!(self, start), SyntaxError::TS1093);
                 }
 
                 let body: Option<_> = self.parse_fn_body(false, false)?;
