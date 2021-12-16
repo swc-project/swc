@@ -892,17 +892,11 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         debug_assert!(self.input.syntax().typescript());
 
         if self.is_ts_start_of_fn_type()? {
-            return self
-                .parse_ts_fn_or_constructor_type(true)
-                .map(TsType::from)
-                .map(Box::new);
+            return self.parse_ts_fn_or_constructor_type(true);
         }
         if (is!(self, "abstract") && peeked_is!(self, "new")) || is!(self, "new") {
             // As in `new () => Date`
-            return self
-                .parse_ts_fn_or_constructor_type(false)
-                .map(TsType::from)
-                .map(Box::new);
+            return self.parse_ts_fn_or_constructor_type(false);
         }
 
         self.parse_ts_union_type_or_higher()
