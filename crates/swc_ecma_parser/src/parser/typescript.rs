@@ -1915,7 +1915,8 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         }
 
         if is!(self, '<') {
-            return self.parse_ts_type_params().map(Some);
+            let params = self.parse_ts_type_params()?;
+            return Ok(self.plugin.typescript().convert_type_param_decl(params));
         }
         Ok(None)
     }
