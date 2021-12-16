@@ -590,10 +590,10 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
 
             let type_ann = p.parse_ts_type()?;
 
-            Ok(TsTypeAnn {
-                span: span!(p, start),
-                type_ann,
-            })
+            Ok(self
+                .plugin
+                .typescript()
+                .build_ts_type_ann(span!(p, start), type_ann))
         })
     }
 
@@ -1866,7 +1866,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         if is!(self, ':') {
             let ty = self.parse_ts_type_or_type_predicate_ann(&tok!(':'))?;
 
-            Ok(Some(ty))
+            Ok(self.plugin.typescript().convert_type_ann(ty))
         } else {
             Ok(None)
         }
