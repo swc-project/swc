@@ -1527,14 +1527,13 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
 
         let start = cur_pos!(self);
         let name = self.parse_ident_name()?;
-        let constraint = Some(self.expect_then_parse_ts_type(&tok!("in"), "in")?);
+        let constraint = self.expect_then_parse_ts_type(&tok!("in"), "in")?;
+        let constraint = self.plugin.typescript().convert_type(constraint);
 
-        Ok(TsTypeParam {
-            span: span!(self, start),
-            name,
-            constraint,
-            default: None,
-        })
+        Ok(self
+            .plugin
+            .typescript()
+            .build_type_param(span!(self, start), name, constraint, None))
     }
 
     /// `tsParseMappedType`
