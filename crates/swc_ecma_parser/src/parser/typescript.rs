@@ -79,7 +79,6 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     /// `tsParseList`
     fn parse_ts_list<T, F>(&mut self, kind: ParsingContext, mut parse_element: F) -> PResult<Vec<T>>
     where
-        T: ProcessableListItem,
         F: FnMut(&mut Self) -> PResult<T>,
     {
         debug_assert!(self.input.syntax().typescript());
@@ -89,8 +88,8 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
             // Skipping "parseListElement" from the TS source since that's just for error
             // handling.
             let elem = parse_element(self)?;
-            let elem = elem.process(self.plugin.typescript());
-            buf.extend(elem);
+
+            buf.push(elem);
         }
         Ok(buf)
     }
@@ -102,7 +101,6 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         mut parse_element: F,
     ) -> PResult<Vec<T>>
     where
-        T: ProcessableListItem,
         F: FnMut(&mut Self) -> PResult<T>,
     {
         self.parse_ts_delimited_list_inner(kind, |p| {
@@ -119,7 +117,6 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         mut parse_element: F,
     ) -> PResult<Vec<T>>
     where
-        T: ProcessableListItem,
         F: FnMut(&mut Self) -> PResult<(BytePos, T)>,
     {
         debug_assert!(self.input.syntax().typescript());
@@ -133,8 +130,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
                 break;
             }
             let (start, element) = parse_element(self)?;
-            let element = element.process(self.plugin.typescript());
-            buf.extend(element);
+            buf.push(element);
 
             if eat!(self, ',') {
                 continue;
@@ -174,7 +170,6 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         skip_first_token: bool,
     ) -> PResult<Vec<T>>
     where
-        T: ProcessableListItem,
         F: FnMut(&mut Self) -> PResult<T>,
     {
         debug_assert!(self.input.syntax().typescript());
@@ -1866,7 +1861,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         if is!(self, ':') {
             let ty = self.parse_ts_type_or_type_predicate_ann(&tok!(':'))?;
 
-            Ok(self.plugin.typescript().process_type_ann(ty))
+            Ok(Some(ty))
         } else {
             Ok(None)
         }
@@ -2698,27 +2693,6 @@ fn make_decl_declare(mut decl: Decl) -> Decl {
 
     decl
 }
-
-trait ProcessableListItem: Sized {
-    fn process<P: TypeScriptPlugin>(self, plugin: &mut P) -> Option<Self>;
-}
-
-macro_rules! processable(
-    ($name:ident,$T:ty)=>{
-        impl ProcessableListItem for $T {
-            fn process<P: TypeScriptPlugin>(self, plugin: &mut P) -> Option<Self> {
-                plugin.$name(self)
-            }
-        }
-    };
-);
-
-processable!(process_type_element, TsTypeElement);
-processable!(process_type_param, TsTypeParam);
-processable!(process_enum_member, TsEnumMember);
-processable!(process_expr_with_type_args, TsExprWithTypeArgs);
-processable!(process_tuple_element, TsTupleElement);
-processable!(process_type, Box<TsType>);
 
 #[cfg(test)]
 mod tests {

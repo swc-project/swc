@@ -1,5 +1,5 @@
 use super::{ident::MaybeOptionalIdentParser, *};
-use crate::{error::SyntaxError, lexer::TokenContext, plugin::TypeScriptPlugin, Tokens};
+use crate::{error::SyntaxError, lexer::TokenContext, Tokens};
 use either::Either;
 use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext};
@@ -911,7 +911,6 @@ impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
         let definite = self.input.syntax().typescript() && !is_optional && eat!(self, '!');
 
         let type_ann = self.try_parse_ts_type_ann()?;
-        let type_ann = type_ann.and_then(|n| self.plugin.typescript().process_type_ann(n));
 
         let ctx = Context {
             include_in_expr: true,
