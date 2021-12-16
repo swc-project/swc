@@ -2,7 +2,6 @@
 use super::{util::ExprExt, *};
 use crate::{
     parser::{class_and_fn::is_not_this, expr::PatOrExprOrSpread},
-    plugin::TypeScriptPlugin,
     token::AssignOpToken,
 };
 use std::iter;
@@ -731,7 +730,7 @@ impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
                             // TODO: is BindingPat correct?
                             self.reparse_expr_as_pat(pat_ty.element(), expr).map(Some)?
                         }
-                        // TODO: syntax error if last element is ellison and ...rest exists.
+                        // TODO: syntax error if last element is elision and ...rest exists.
                         None => None,
                     };
                     params.push(last);

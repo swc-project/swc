@@ -1,5 +1,5 @@
 use super::{pat::PatType, *};
-use crate::error::SyntaxError;
+use crate::{error::SyntaxError, plugin::TypeScriptPlugin};
 use swc_atoms::js_word;
 use swc_common::Spanned;
 use typed_arena::Arena;
@@ -615,10 +615,9 @@ impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
                     | Pat::Rest(RestPat { type_ann, .. })
                     | Pat::Object(ObjectPat { type_ann, .. })
                     | Pat::Assign(AssignPat { type_ann, .. }) => {
-                        *type_ann = Some(TsTypeAnn {
-                            span: span!(self, type_ann_start),
-                            type_ann: ty,
-                        });
+                        let span = span!(self, type_ann_start);
+
+                        *type_ann = self.plugin.typescript().build_opt_ts_type_ann(span, ty);
                     }
                     Pat::Invalid(_) => {}
                     Pat::Expr(_) => {}

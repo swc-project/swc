@@ -1,4 +1,5 @@
 use self::internal::Sealed;
+use swc_common::Span;
 use swc_ecma_ast::*;
 
 /// This trait is sealed for now because the author (@kdy1) is not sure what is
@@ -16,6 +17,14 @@ pub(crate) mod internal {
 pub trait TypeScriptPlugin: Sized + Clone + Sealed {
     /// Used as return type of parse_ts_type().
     type Type;
+
+    fn build_ts_as_expr(&mut self, span: Span, expr: Box<Expr>, type_ann: Self::Type) -> Box<Expr>;
+
+    type TypeAnn;
+
+    fn build_ts_type_ann(&mut self, span: Span, ty: Self::Type) -> Self::TypeAnn;
+
+    fn build_opt_ts_type_ann(&mut self, span: Span, ty: Self::Type) -> Option<TsTypeAnn>;
 }
 
 /// Implements all `*Plugin` traits.
@@ -32,6 +41,24 @@ impl Plugin for NoopPlugin {
 
 impl TypeScriptPlugin for NoopPlugin {
     type Type = Box<TsType>;
+
+    fn build_ts_as_expr(&mut self, span: Span, expr: Box<Expr>, type_ann: Self::Type) -> Box<Expr> {
+        Box::new(Expr::TsAs(TsAsExpr {
+            span,
+            expr,
+            type_ann,
+        }))
+    }
+
+    type TypeAnn = TsTypeAnn;
+
+    fn build_ts_type_ann(&mut self, span: Span, ty: Self::Type) -> Self::TypeAnn {
+        TsTypeAnn { span, ty }
+    }
+
+    fn build_opt_ts_type_ann(&mut self, span: Span, ty: Self::Type) -> Option<TsTypeAnn> {
+        Some(TsTypeAnn { span, ty })
+    }
 }
 
 impl Sealed for NoopPlugin {}

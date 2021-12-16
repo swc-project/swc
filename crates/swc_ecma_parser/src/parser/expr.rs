@@ -1,5 +1,5 @@
 use super::{pat::PatType, util::ExprExt, *};
-use crate::{lexer::TokenContext, token::AssignOpToken};
+use crate::{lexer::TokenContext, plugin::TypeScriptPlugin, token::AssignOpToken};
 use either::Either;
 use swc_atoms::js_word;
 use swc_common::{ast_node, Spanned};
@@ -385,11 +385,13 @@ impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
                 {
                     // async as type
                     let type_ann = self.in_type().parse_with(|p| p.parse_ts_type())?;
-                    return Ok(Box::new(Expr::TsAs(TsAsExpr {
-                        span: span!(self, start),
-                        expr: Box::new(Expr::Ident(id)),
+
+                    let span = span!(self, start);
+                    return Ok(self.plugin.typescript().build_ts_as_expr(
+                        span,
+                        Box::new(Expr::Ident(id)),
                         type_ann,
-                    })));
+                    ));
                 }
                 // async a => body
                 let arg = Pat::from(ident);

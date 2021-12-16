@@ -106,11 +106,12 @@ impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
                 }))
             } else {
                 let type_ann = self.next_then_parse_ts_type()?;
-                Box::new(Expr::TsAs(TsAsExpr {
-                    span: span!(self, start),
-                    expr,
-                    type_ann,
-                }))
+
+                let span = span!(self, start);
+
+                self.plugin
+                    .typescript()
+                    .build_ts_as_expr(span, expr, type_ann)
             };
 
             return self.parse_bin_op_recursively_inner(node, min_prec);
