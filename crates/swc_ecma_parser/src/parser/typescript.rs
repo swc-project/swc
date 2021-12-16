@@ -611,7 +611,8 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
                 return Ok(None);
             }
 
-            p.parse_ts_type().map(Some)
+            let ty = p.parse_ts_type()?;
+            Ok(self.plugin.typescript().convert_type(ty))
         })
     }
 

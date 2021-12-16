@@ -17,10 +17,11 @@ pub(crate) mod internal {
 pub trait TypeScriptPlugin: Sized + Clone + Sealed {
     /// Used as return type of parse_ts_type().
     type Type;
+    type TypeAnn;
 
     fn build_ts_as_expr(&mut self, span: Span, expr: Box<Expr>, type_ann: Self::Type) -> Box<Expr>;
 
-    type TypeAnn;
+    fn convert_type(&mut self, ty: Self::Type) -> Option<Box<TsType>>;
 
     fn build_ts_type_ann(&mut self, span: Span, ty: Self::Type) -> Self::TypeAnn;
 
@@ -43,6 +44,7 @@ impl Plugin for NoopPlugin {
 
 impl TypeScriptPlugin for NoopPlugin {
     type Type = Box<TsType>;
+    type TypeAnn = TsTypeAnn;
 
     fn build_ts_as_expr(&mut self, span: Span, expr: Box<Expr>, type_ann: Self::Type) -> Box<Expr> {
         Box::new(Expr::TsAs(TsAsExpr {
@@ -52,7 +54,9 @@ impl TypeScriptPlugin for NoopPlugin {
         }))
     }
 
-    type TypeAnn = TsTypeAnn;
+    fn convert_type(&mut self, ty: Self::Type) -> Option<Box<TsType>> {
+        Some(ty)
+    }
 
     fn build_ts_type_ann(&mut self, span: Span, ty: Self::Type) -> Self::TypeAnn {
         TsTypeAnn { span, ty }
