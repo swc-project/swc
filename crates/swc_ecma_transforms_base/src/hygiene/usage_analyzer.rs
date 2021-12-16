@@ -509,7 +509,9 @@ impl Visit for UsageAnalyzer<'_> {
     }
 
     fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {
-        self.add_usage(n.orig.to_id());
+        if let ModuleExportName::Ident(orig) = &n.orig {
+            self.add_usage(orig.to_id());
+        }
     }
 
     fn visit_expr(&mut self, e: &Expr) {
