@@ -1770,24 +1770,26 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
 
         let start = cur_pos!(self);
 
-        let lit = if is!(self, '`') {
+        if is!(self, '`') {
             let tpl = self.parse_ts_tpl_lit_type()?;
 
-            TsLit::Tpl(tpl)
+            Ok(tpl)
         } else {
-            match self.parse_lit()? {
+            let lit = match self.parse_lit()? {
                 Lit::BigInt(n) => TsLit::BigInt(n),
                 Lit::Bool(n) => TsLit::Bool(n),
                 Lit::Num(n) => TsLit::Number(n),
                 Lit::Str(n) => TsLit::Str(n),
                 _ => unreachable!(),
-            }
-        };
+            };
 
-        Ok(TsLitType {
-            span: span!(self, start),
-            lit,
-        })
+            Ok(self.plugin.typescript().build_type_from(|| {
+                Box::new(TsType::TsLitType(TsLitType {
+                    span: span!(self, start),
+                    lit,
+                }))
+            }))
+        }
     }
 
     /// `tsParseTemplateLiteralType`
