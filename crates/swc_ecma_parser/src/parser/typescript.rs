@@ -2099,10 +2099,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     }
 
     /// `tsParseTypeOperator`
-    fn parse_ts_type_operator(
-        &mut self,
-        op: TsTypeOperatorOp,
-    ) -> PResult<<<P as Plugin>::TypeScript as TypeScriptPlugin>::TypeOperator> {
+    fn parse_ts_type_operator(&mut self, op: TsTypeOperatorOp) -> PResult<PType<P>> {
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!(self);
