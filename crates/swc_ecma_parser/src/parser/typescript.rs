@@ -1599,7 +1599,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         let start = cur_pos!(self);
         let elem_types = self.parse_ts_bracketed_list(
             ParsingContext::TupleElementTypes,
-            |p| p.parse_ts_tuple_element_type(),
+            |p| p.parse_ts_tuple_element(),
             /* bracket */ true,
             /* skipFirstToken */ false,
         )?;
@@ -1668,7 +1668,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     }
 
     /// `tsParseTupleElementType`
-    fn parse_ts_tuple_element_type(&mut self) -> PResult<TsTupleElement> {
+    fn parse_ts_tuple_element(&mut self) -> PResult<TsTupleElement> {
         debug_assert!(self.input.syntax().typescript());
 
         // parses `...TsType[]`
