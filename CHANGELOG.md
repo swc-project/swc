@@ -5,6 +5,9 @@
 
 
 
+- **(es/parser)** Allow assignment assertions in typescript classes (#3047) ([23a59db](https://github.com/swc-project/swc/commit/23a59db9bbbeee2ec8ccd3cdfe681e704480f97a))
+
+
 - **(webpack/ast)** Fix `webpackAST` (#3040) ([15ea98b](https://github.com/swc-project/swc/commit/15ea98bf65c9993f07e226b1490bd31e81f09663))
 
 
