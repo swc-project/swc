@@ -1981,10 +1981,12 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
                 match kind {
                     Some(kind) if !peeked_is_dot => {
                         bump!(self);
-                        return Ok(Box::new(TsType::TsKeywordType(TsKeywordType {
-                            span: span!(self, start),
-                            kind,
-                        })));
+                        return Ok(self.plugin.typescript().build_type_from(|| {
+                            Box::new(TsType::TsKeywordType(TsKeywordType {
+                                span: span!(self, start),
+                                kind,
+                            }))
+                        }));
                     }
                     _ => {
                         return self.parse_ts_type_ref();
@@ -2024,7 +2026,11 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
             }
 
             tok!("import") => {
-                return self.parse_ts_import_type().map(TsType::from).map(Box::new);
+                let ty = self.parse_ts_import_type()?;
+                return Ok(self
+                    .plugin
+                    .typescript()
+                    .build_type_from(|| Box::new(TsType::TsImportType(ty))));
             }
 
             tok!("this") => {
@@ -2033,7 +2039,10 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
                 if !self.input.had_line_break_before_cur() && is!(self, "is") {
                     return self.parse_ts_this_type_predicate(start, false, this_keyword);
                 } else {
-                    return Ok(Box::new(TsType::TsThisType(this_keyword)));
+                    return Ok(self
+                        .plugin
+                        .typescript()
+                        .build_type_from(|| Box::new(TsType::TsThisType(this_keyword))));
                 }
             }
             tok!("typeof") => {
@@ -2051,10 +2060,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
                 return self.parse_ts_tuple_type().map(TsType::from).map(Box::new);
             }
             tok!('(') => {
-                return self
-                    .parse_ts_parenthesized_type()
-                    .map(TsType::from)
-                    .map(Box::new);
+                return self.parse_ts_parenthesized_type();
             }
             _ => {}
         }
@@ -2135,10 +2141,12 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
             constraint: None,
             default: None,
         };
-        Ok(TsInferType {
-            span: span!(self, start),
-            type_param,
-        })
+        Ok(self.plugin.typescript().build_type_from(|| {
+            Box::new(TsType::TsInferType(TsInferType {
+                span: span!(self, start),
+                type_param,
+            }))
+        }))
     }
 
     /// `tsParseTypeOperatorOrHigher`
