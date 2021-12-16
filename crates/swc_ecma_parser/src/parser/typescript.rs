@@ -308,9 +308,11 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
 
         expect!(self, "this");
 
-        Ok(TsThisType {
-            span: self.input.prev_span(),
-        })
+        Ok(self.plugin.typescript().build_type_from(|| {
+            Box::new(TsType::TsThisType(TsThisType {
+                span: self.input.prev_span(),
+            }))
+        }))
     }
 
     /// `tsParseImportType`
@@ -388,10 +390,12 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
             .map(From::from)?
         };
 
-        Ok(TsTypeQuery {
-            span: span!(self, start),
-            expr_name,
-        })
+        Ok(self.plugin.typescript().build_type_from(|| {
+            Box::new(TsType::TsTypeQuery(TsTypeQuery {
+                span: span!(self, start),
+                expr_name,
+            }))
+        }))
     }
 
     /// `tsParseTypeParameter`
@@ -1479,10 +1483,12 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
 
         let start = cur_pos!(self);
         let members = self.parse_ts_object_type_members()?;
-        Ok(TsTypeLit {
-            span: span!(self, start),
-            members,
-        })
+        Ok(self.plugin.typescript().build_type_from(|| {
+            Box::new(TsType::TsTypeLit(TsTypeLit {
+                span: span!(self, start),
+                members,
+            }))
+        }))
     }
 
     /// `tsParseObjectTypeMembers`
@@ -1940,10 +1946,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
                 if is!(self, "asserts") && peeked_is!(self, "this") {
                     bump!(self);
                     let this_keyword = self.parse_ts_this_type_node()?;
-                    return self
-                        .parse_ts_this_type_predicate(start, true, this_keyword)
-                        .map(TsType::from)
-                        .map(Box::new);
+                    return self.parse_ts_this_type_predicate(start, true, this_keyword);
                 }
 
                 let kind = if is!(self, "void") {
@@ -1987,7 +1990,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
                         })));
                     }
                     _ => {
-                        return self.parse_ts_type_ref().map(TsType::from).map(Box::new);
+                        return self.parse_ts_type_ref();
                     }
                 }
             }
@@ -1997,10 +2000,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
             | tok!("true")
             | tok!("false")
             | tok!('`') => {
-                return self
-                    .parse_ts_lit_type_node()
-                    .map(TsType::from)
-                    .map(Box::new);
+                return self.parse_ts_lit_type_node();
             }
             tok!('-') => {
                 let start = cur_pos!(self);
@@ -2034,23 +2034,20 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
                 let start = cur_pos!(self);
                 let this_keyword = self.parse_ts_this_type_node()?;
                 if !self.input.had_line_break_before_cur() && is!(self, "is") {
-                    return self
-                        .parse_ts_this_type_predicate(start, false, this_keyword)
-                        .map(TsType::from)
-                        .map(Box::new);
+                    return self.parse_ts_this_type_predicate(start, false, this_keyword);
                 } else {
                     return Ok(Box::new(TsType::TsThisType(this_keyword)));
                 }
             }
             tok!("typeof") => {
-                return self.parse_ts_type_query().map(TsType::from).map(Box::new);
+                return self.parse_ts_type_query();
             }
 
             tok!('{') => {
                 return if self.ts_look_ahead(|p| p.is_ts_start_of_mapped_type())? {
-                    self.parse_ts_mapped_type().map(TsType::from).map(Box::new)
+                    self.parse_ts_mapped_type()
                 } else {
-                    self.parse_ts_type_lit().map(TsType::from).map(Box::new)
+                    self.parse_ts_type_lit()
                 };
             }
             tok!('[') => {
@@ -2156,15 +2153,12 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         };
 
         match operator {
-            Some(operator) => self
-                .parse_ts_type_operator(operator)
-                .map(TsType::from)
-                .map(Box::new),
+            Some(operator) => self.parse_ts_type_operator(operator),
             None => {
                 trace_cur!(self, parse_ts_type_operator_or_higher__not_operator);
 
                 if is!(self, "infer") {
-                    self.parse_ts_infer_type().map(TsType::from).map(Box::new)
+                    self.parse_ts_infer_type()
                 } else {
                     let readonly = self.parse_ts_modifier(&["readonly"], false)?.is_some();
                     self.parse_ts_array_type_or_higher(readonly)
