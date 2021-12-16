@@ -490,14 +490,22 @@ impl<I: Tokens> Parser<I> {
         if !self.input.syntax().typescript() {
             return Ok(false);
         }
-        let prev_emit_err = self.emit_err;
+        let prev_ignore_error = self.input.get_ctx().ignore_error;
         let mut cloned = self.clone();
-        cloned.emit_err = false;
+        let ctx = Context {
+            ignore_error: true,
+            ..self.input.get_ctx()
+        };
+        cloned.set_ctx(ctx);
         let res = op(&mut cloned);
         match res {
             Ok(Some(res)) if res => {
                 *self = cloned;
-                self.emit_err = prev_emit_err;
+                let ctx = Context {
+                    ignore_error: prev_ignore_error,
+                    ..self.input.get_ctx()
+                };
+                self.input.set_ctx(ctx);
                 Ok(res)
             }
             Err(err) => Ok(false),
@@ -513,18 +521,32 @@ impl<I: Tokens> Parser<I> {
         if !self.input.syntax().typescript() {
             return None;
         }
-        trace_cur!(self, try_parse_ts);
-        let prev_emit_err = self.emit_err;
+        #[cfg(feature = "debug")]
+        let _tracing = {
+            let cur = format!("{:?}", self.input.cur());
+            tracing::span!(tracing::Level::ERROR, "try_parse_ts", cur = &*cur).entered()
+        };
 
+        trace_cur!(self, try_parse_ts);
+
+        let prev_ignore_error = self.input.get_ctx().ignore_error;
         let mut cloned = self.clone();
-        cloned.emit_err = false;
+        let ctx = Context {
+            ignore_error: true,
+            ..self.input.get_ctx()
+        };
+        cloned.set_ctx(ctx);
         let res = op(&mut cloned);
         match res {
             Ok(Some(res)) => {
                 *self = cloned;
                 trace_cur!(self, try_parse_ts__success_value);
+                let ctx = Context {
+                    ignore_error: prev_ignore_error,
+                    ..self.input.get_ctx()
+                };
+                self.input.set_ctx(ctx);
 
-                self.emit_err = prev_emit_err;
                 Some(res)
             }
             Ok(None) => {
@@ -1069,7 +1091,11 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().typescript());
 
         let mut cloned = self.clone();
-        cloned.emit_err = false;
+        let ctx = Context {
+            ignore_error: true,
+            ..cloned.ctx()
+        };
+        cloned.set_ctx(ctx);
         let res = op(&mut cloned);
         res
     }

@@ -326,6 +326,9 @@ pub struct EsConfig {
 /// Syntactic context.
 #[derive(Debug, Clone, Copy, Default)]
 pub struct Context {
+    /// `true` while backtracking
+    ignore_error: bool,
+
     /// Is in module code?
     module: bool,
     can_be_module: bool,
