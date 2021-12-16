@@ -44,6 +44,10 @@ pub trait TypeScriptPlugin: Sized + Clone + Sealed {
 
     fn build_rest_type(&mut self, span: Span, arg: Self::Type) -> Self::Type;
 
+    fn build_union_type(&mut self, span: Span, types: Vec<Self::Type>) -> Self::Type;
+
+    fn build_intersection_type(&mut self, span: Span, types: Vec<Self::Type>) -> Self::Type;
+
     fn build_type_from<F>(&mut self, op: F) -> Self::Type
     where
         F: FnOnce() -> Box<TsType>;
@@ -114,6 +118,33 @@ impl TypeScriptPlugin for NoopPlugin {
         Some(ty)
     }
 
+    fn build_conditional_type(
+        &mut self,
+        span: Span,
+        check_type: Self::Type,
+        extends_type: Self::Type,
+        true_type: Self::Type,
+        false_type: Self::Type,
+    ) -> Self::Type {
+        todo!()
+    }
+
+    fn build_rest_type(&mut self, span: Span, type_ann: Self::Type) -> Self::Type {
+        Box::new(TsType::TsRestType(TsRestType { span, type_ann }))
+    }
+
+    fn build_union_type(&mut self, span: Span, types: Vec<Self::Type>) -> Self::Type {
+        Box::new(TsType::TsUnionOrIntersectionType(
+            TsUnionOrIntersectionType::TsUnionType(TsUnionType { span, types }),
+        ))
+    }
+
+    fn build_intersection_type(&mut self, span: Span, types: Vec<Self::Type>) -> Self::Type {
+        Box::new(TsType::TsUnionOrIntersectionType(
+            TsUnionOrIntersectionType::TsIntersectionType(TsIntersectionType { span, types }),
+        ))
+    }
+
     fn build_type_from<F>(&mut self, op: F) -> Self::Type
     where
         F: FnOnce() -> Box<TsType>,
@@ -146,6 +177,14 @@ impl TypeScriptPlugin for NoopPlugin {
             constraint,
             default,
         }
+    }
+
+    fn build_type_param_decl(
+        &mut self,
+        span: Span,
+        params: Vec<Self::TypeParam>,
+    ) -> Self::TypeParamDecl {
+        todo!()
     }
 
     fn convert_type_param_decl(&mut self, n: Self::TypeParamDecl) -> Option<TsTypeParamDecl> {

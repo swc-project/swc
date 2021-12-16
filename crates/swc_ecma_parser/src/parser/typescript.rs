@@ -1812,7 +1812,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     }
 
     #[allow(clippy::vec_box)]
-    fn parse_ts_tpl_type_elements(&mut self) -> PResult<(Vec<Box<TsType>>, Vec<TplElement>)> {
+    fn parse_ts_tpl_type_elements(&mut self) -> PResult<(Vec<PType<P>>, Vec<TplElement>)> {
         if !cfg!(feature = "typescript") {
             return Ok(Default::default());
         }
@@ -2628,18 +2628,16 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
                 types.push(parse_constituent_type(self)?);
             }
 
-            return Ok(Box::new(TsType::TsUnionOrIntersectionType(match kind {
-                UnionOrIntersection::Union => TsUnionOrIntersectionType::TsUnionType(TsUnionType {
-                    span: span!(self, start),
-                    types,
-                }),
-                UnionOrIntersection::Intersection => {
-                    TsUnionOrIntersectionType::TsIntersectionType(TsIntersectionType {
-                        span: span!(self, start),
-                        types,
-                    })
-                }
-            })));
+            return Ok(match kind {
+                UnionOrIntersection::Union => self
+                    .plugin
+                    .typescript()
+                    .build_union_type(span!(self, start), types),
+                UnionOrIntersection::Intersection => self
+                    .plugin
+                    .typescript()
+                    .build_intersection_type(span!(self, start), types),
+            });
         }
 
         Ok(ty)
