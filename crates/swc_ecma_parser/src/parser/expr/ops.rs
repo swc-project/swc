@@ -240,10 +240,7 @@ impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
                 })));
             }
 
-            return self
-                .parse_ts_type_assertion(start)
-                .map(Expr::from)
-                .map(Box::new);
+            return self.parse_ts_type_assertion(start);
         }
 
         // Parse update expression

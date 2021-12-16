@@ -906,7 +906,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     }
 
     /// `tsParseTypeAssertion`
-    pub(super) fn parse_ts_type_assertion(&mut self, start: BytePos) -> PResult<TsTypeAssertion> {
+    pub(super) fn parse_ts_type_assertion(&mut self, start: BytePos) -> PResult<Box<Expr>> {
         debug_assert!(self.input.syntax().typescript());
 
         // Not actually necessary to set state.inType because we never reach here if JSX
@@ -915,11 +915,12 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         let type_ann = self.in_type().parse_with(|p| p.parse_ts_type())?;
         expect!(self, '>');
         let expr = self.parse_unary_expr()?;
-        Ok(TsTypeAssertion {
-            span: span!(self, start),
-            type_ann,
-            expr,
-        })
+        let span = span!(self, start);
+
+        Ok(self
+            .plugin
+            .typescript()
+            .build_ts_type_assertion(span, expr, type_ann))
     }
 
     /// `tsParseHeritageClause`

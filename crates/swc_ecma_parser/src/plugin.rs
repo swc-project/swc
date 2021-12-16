@@ -21,6 +21,13 @@ pub trait TypeScriptPlugin: Sized + Clone + Sealed {
 
     fn build_ts_as_expr(&mut self, span: Span, expr: Box<Expr>, type_ann: Self::Type) -> Box<Expr>;
 
+    fn build_ts_type_assertion(
+        &mut self,
+        span: Span,
+        expr: Box<Expr>,
+        type_ann: Self::Type,
+    ) -> Box<Expr>;
+
     fn convert_type(&mut self, ty: Self::Type) -> Option<Box<TsType>>;
 
     fn build_ts_type_ann(&mut self, span: Span, ty: Self::Type) -> Self::TypeAnn;
@@ -48,6 +55,19 @@ impl TypeScriptPlugin for NoopPlugin {
 
     fn build_ts_as_expr(&mut self, span: Span, expr: Box<Expr>, type_ann: Self::Type) -> Box<Expr> {
         Box::new(Expr::TsAs(TsAsExpr {
+            span,
+            expr,
+            type_ann,
+        }))
+    }
+
+    fn build_ts_type_assertion(
+        &mut self,
+        span: Span,
+        expr: Box<Expr>,
+        type_ann: Self::Type,
+    ) -> Box<Expr> {
+        Box::new(Expr::TsTypeAssertion(TsTypeAssertion {
             span,
             expr,
             type_ann,
