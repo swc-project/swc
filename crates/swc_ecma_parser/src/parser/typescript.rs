@@ -2073,21 +2073,24 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         trace_cur!(self, parse_ts_array_type_or_higher);
         debug_assert!(self.input.syntax().typescript());
 
+        let mut lo = cur_pos!(self);
         let mut ty = self.parse_ts_non_array_type()?;
 
         while !self.input.had_line_break_before_cur() && eat!(self, '[') {
             if eat!(self, ']') {
+                lo = cur_pos!(self);
                 ty = self.plugin.typescript().map_type(ty, |ty| {
                     Box::new(TsType::TsArrayType(TsArrayType {
-                        span: span!(self, ty.span().lo()),
+                        span: span!(self, lo),
                         elem_type: ty,
                     }))
                 });
             } else {
                 let index_type = self.parse_ts_type()?;
                 expect!(self, ']');
+                lo = cur_pos!(self);
                 ty = self.plugin.typescript().build_indexed_access_type(
-                    span!(self, ty.span().lo()),
+                    span!(self, lo),
                     readonly,
                     ty,
                     index_type,
