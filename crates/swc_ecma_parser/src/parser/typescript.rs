@@ -2086,12 +2086,12 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
             } else {
                 let index_type = self.parse_ts_type()?;
                 expect!(self, ']');
-                ty = Box::new(TsType::TsIndexedAccessType(TsIndexedAccessType {
-                    span: span!(self, ty.span().lo()),
+                ty = self.plugin.typescript().build_indexed_access_type(
+                    span!(self, ty.span().lo()),
                     readonly,
-                    obj_type: ty,
+                    ty,
                     index_type,
-                }))
+                );
             }
         }
 

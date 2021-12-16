@@ -42,6 +42,14 @@ pub trait TypeScriptPlugin: Sized + Clone + Sealed {
         false_type: Self::Type,
     ) -> Self::Type;
 
+    fn build_indexed_access_type(
+        &mut self,
+        span: Span,
+        readonly: bool,
+        obj_type: Self::Type,
+        index_type: Self::Type,
+    ) -> Self::Type;
+
     fn build_rest_type(&mut self, span: Span, arg: Self::Type) -> Self::Type;
 
     fn build_union_type(&mut self, span: Span, types: Vec<Self::Type>) -> Self::Type;
@@ -131,6 +139,21 @@ impl TypeScriptPlugin for NoopPlugin {
         false_type: Self::Type,
     ) -> Self::Type {
         todo!()
+    }
+
+    fn build_indexed_access_type(
+        &mut self,
+        span: Span,
+        readonly: bool,
+        obj_type: Self::Type,
+        index_type: Self::Type,
+    ) -> Self::Type {
+        Box::new(TsType::TsIndexedAccessType(TsIndexedAccessType {
+            span,
+            readonly,
+            obj_type,
+            index_type,
+        }))
     }
 
     fn build_rest_type(&mut self, span: Span, type_ann: Self::Type) -> Self::Type {
