@@ -262,11 +262,13 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
             self.emit_err(span!(self, start), SyntaxError::TS2369);
         }
 
-        Ok(TsTypeRef {
-            span: span!(self, start),
-            type_name,
-            type_params,
-        })
+        Ok(self.plugin.typescript().build_type_from(|| {
+            Box::new(TsType::TsTypeRef(TsTypeRef {
+                span: span!(self, start),
+                type_name,
+                type_params,
+            }))
+        }))
     }
 
     /// `tsParseThisTypePredicate`
@@ -290,12 +292,14 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
             None
         };
 
-        Ok(TsTypePredicate {
-            span: span!(self, start),
-            asserts: has_asserts_keyword,
-            param_name,
-            type_ann,
-        })
+        Ok(self.plugin.typescript().build_type_from(|| {
+            Box::new(TsType::TsTypePredicate(TsTypePredicate {
+                span: span!(self, start),
+                asserts: has_asserts_keyword,
+                param_name,
+                type_ann,
+            }))
+        }))
     }
 
     /// `tsParseThisTypeNode`

@@ -1,5 +1,5 @@
 use self::internal::Sealed;
-use swc_common::{Span, Spanned};
+use swc_common::Span;
 use swc_ecma_ast::*;
 
 /// This trait is sealed for now because the author (@kdy1) is not sure what is
@@ -34,6 +34,10 @@ pub trait TypeScriptPlugin: Sized + Clone + Sealed {
 
     fn convert_type(&mut self, ty: Self::Type) -> Option<Box<TsType>>;
 
+    fn build_type_from<F>(&mut self, op: F) -> Self::Type
+    where
+        F: FnOnce() -> Box<TsType>;
+
     fn build_ts_type_ann(&mut self, span: Span, ty: Self::Type) -> Self::TypeAnn;
 
     fn build_opt_ts_type_ann(&mut self, span: Span, ty: Self::Type) -> Option<TsTypeAnn>;
@@ -60,6 +64,7 @@ impl TypeScriptPlugin for NoopPlugin {
     type TypeAnn = TsTypeAnn;
     type TypeParam = TsTypeParam;
     type TypeParamDecl = TsTypeParamDecl;
+    type ImportType = TsImportType;
 
     fn build_ts_as_expr(&mut self, span: Span, expr: Box<Expr>, type_ann: Self::Type) -> Box<Expr> {
         Box::new(Expr::TsAs(TsAsExpr {
@@ -84,6 +89,13 @@ impl TypeScriptPlugin for NoopPlugin {
 
     fn convert_type(&mut self, ty: Self::Type) -> Option<Box<TsType>> {
         Some(ty)
+    }
+
+    fn build_type_from<F>(&mut self, op: F) -> Self::Type
+    where
+        F: FnOnce() -> Box<TsType>,
+    {
+        op()
     }
 
     fn build_ts_type_ann(&mut self, span: Span, ty: Self::Type) -> Self::TypeAnn {
