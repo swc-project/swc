@@ -470,10 +470,11 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
             let type_ann = if has_type_pred_is {
                 assert_and_bump!(p, "is");
                 let pos = cur_pos!(p);
-                Some(p.parse_ts_type_ann(
+                let ty = p.parse_ts_type_ann(
                     // eat_colon
                     false, pos,
-                )?)
+                )?;
+                self.plugin.typescript().convert_type_ann(ty)
             } else {
                 None
             };
@@ -485,10 +486,9 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
                 type_ann,
             }));
 
-            Ok(TsTypeAnn {
-                span: span!(p, return_token_start),
-                type_ann: node,
-            })
+            let span = span!(p, return_token_start);
+
+            Ok(self.plugin.typescript().build_ts_type_ann(span, node))
         })
     }
 
