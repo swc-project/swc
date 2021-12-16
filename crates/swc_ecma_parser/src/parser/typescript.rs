@@ -1715,13 +1715,12 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         expect!(self, '(');
         let type_ann = self.parse_ts_type()?;
         expect!(self, ')');
-        Ok(self
-            .plugin
-            .typescript()
-            .map_type(type_ann, |type_ann| TsParenthesizedType {
+        Ok(self.plugin.typescript().map_type(type_ann, |type_ann| {
+            Box::new(TsType::TsParenthesizedType(TsParenthesizedType {
                 span: span!(self, start),
                 type_ann,
             }))
+        }))
     }
 
     /// `tsParseFunctionOrConstructorType`
