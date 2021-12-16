@@ -490,12 +490,14 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
                 None
             };
 
-            let node = Box::new(TsType::TsTypePredicate(TsTypePredicate {
-                span: span!(p, type_pred_start),
-                asserts: has_type_pred_asserts,
-                param_name: TsThisTypeOrIdent::Ident(type_pred_var),
-                type_ann,
-            }));
+            let node = self.plugin.typescript().build_type_from(|| {
+                Box::new(TsType::TsTypePredicate(TsTypePredicate {
+                    span: span!(p, type_pred_start),
+                    asserts: has_type_pred_asserts,
+                    param_name: TsThisTypeOrIdent::Ident(type_pred_var),
+                    type_ann,
+                }))
+            });
 
             let span = span!(p, return_token_start);
 
