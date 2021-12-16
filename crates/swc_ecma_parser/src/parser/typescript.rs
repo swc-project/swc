@@ -4,6 +4,9 @@ use either::Either;
 use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext};
 
+#[allow(type_alias_bounds)]
+pub(super) type RealTsType<P: Plugin> = <<P as Plugin>::TypeScript as TypeScriptPlugin>::Type;
+
 impl<I: Tokens, P: Plugin> Parser<I, P> {
     /// `tsNextTokenCanFollowModifier`
     fn ts_next_token_can_follow_modifier(&mut self) -> PResult<bool> {
@@ -617,7 +620,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         &mut self,
         token: &'static Token,
         token_str: &'static str,
-    ) -> PResult<Box<TsType>> {
+    ) -> PResult<RealTsType<P>> {
         debug_assert!(self.input.syntax().typescript());
 
         self.in_type().parse_with(|p| {
@@ -638,7 +641,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     }
 
     /// `tsNextThenParseType`
-    pub(super) fn next_then_parse_ts_type(&mut self) -> PResult<Box<TsType>> {
+    pub(super) fn next_then_parse_ts_type(&mut self) -> PResult<RealTsType<P>> {
         debug_assert!(self.input.syntax().typescript());
 
         self.in_type().parse_with(|p| {
@@ -824,7 +827,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         })
     }
 
-    pub fn parse_type(&mut self) -> PResult<Box<TsType>> {
+    pub fn parse_type(&mut self) -> PResult<RealTsType<P>> {
         debug_assert!(self.input.syntax().typescript());
 
         self.in_type().parse_ts_type()
@@ -833,7 +836,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     /// Be sure to be in a type context before calling self.
     ///
     /// `tsParseType`
-    pub(super) fn parse_ts_type(&mut self) -> PResult<Box<TsType>> {
+    pub(super) fn parse_ts_type(&mut self) -> PResult<RealTsType<P>> {
         trace_cur!(self, parse_ts_type);
 
         debug_assert!(self.input.syntax().typescript());
@@ -869,7 +872,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     }
 
     /// `tsParseNonConditionalType`
-    fn parse_ts_non_conditional_type(&mut self) -> PResult<Box<TsType>> {
+    fn parse_ts_non_conditional_type(&mut self) -> PResult<RealTsType<P>> {
         trace_cur!(self, parse_ts_non_conditional_type);
 
         debug_assert!(self.input.syntax().typescript());
@@ -1906,7 +1909,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
 
     /// `tsParseNonArrayType`
     #[allow(clippy::cognitive_complexity)]
-    fn parse_ts_non_array_type(&mut self) -> PResult<Box<TsType>> {
+    fn parse_ts_non_array_type(&mut self) -> PResult<RealTsType<P>> {
         if !cfg!(feature = "typescript") {
             unreachable!()
         }
@@ -2060,7 +2063,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     }
 
     /// `tsParseArrayTypeOrHigher`
-    fn parse_ts_array_type_or_higher(&mut self, readonly: bool) -> PResult<Box<TsType>> {
+    fn parse_ts_array_type_or_higher(&mut self, readonly: bool) -> PResult<RealTsType<P>> {
         trace_cur!(self, parse_ts_array_type_or_higher);
         debug_assert!(self.input.syntax().typescript());
 
@@ -2126,7 +2129,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     }
 
     /// `tsParseTypeOperatorOrHigher`
-    fn parse_ts_type_operator_or_higher(&mut self) -> PResult<Box<TsType>> {
+    fn parse_ts_type_operator_or_higher(&mut self) -> PResult<RealTsType<P>> {
         trace_cur!(self, parse_ts_type_operator_or_higher);
         debug_assert!(self.input.syntax().typescript());
 
@@ -2570,7 +2573,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     }
 
     /// `tsParseIntersectionTypeOrHigher`
-    fn parse_ts_intersection_type_or_higher(&mut self) -> PResult<Box<TsType>> {
+    fn parse_ts_intersection_type_or_higher(&mut self) -> PResult<RealTsType<P>> {
         trace_cur!(self, parse_ts_intersection_type_or_higher);
 
         debug_assert!(self.input.syntax().typescript());
@@ -2583,7 +2586,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     }
 
     /// `tsParseUnionTypeOrHigher`
-    fn parse_ts_union_type_or_higher(&mut self) -> PResult<Box<TsType>> {
+    fn parse_ts_union_type_or_higher(&mut self) -> PResult<RealTsType<P>> {
         trace_cur!(self, parse_ts_union_type_or_higher);
         debug_assert!(self.input.syntax().typescript());
 
@@ -2600,9 +2603,9 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         kind: UnionOrIntersection,
         mut parse_constituent_type: F,
         operator: &'static Token,
-    ) -> PResult<Box<TsType>>
+    ) -> PResult<RealTsType<P>>
     where
-        F: FnMut(&mut Self) -> PResult<Box<TsType>>,
+        F: FnMut(&mut Self) -> PResult<RealTsType<P>>,
     {
         trace_cur!(self, parse_ts_union_or_intersection_type);
 
