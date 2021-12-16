@@ -2019,10 +2019,12 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
                     _ => unreachable!(),
                 };
 
-                return Ok(Box::new(TsType::TsLitType(TsLitType {
-                    span: span!(self, start),
-                    lit,
-                })));
+                return Ok(self.plugin.typescript().build_type_from(|| {
+                    Box::new(TsType::TsLitType(TsLitType {
+                        span: span!(self, start),
+                        lit,
+                    }))
+                }));
             }
 
             tok!("import") => {
@@ -2057,7 +2059,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
                 };
             }
             tok!('[') => {
-                return self.parse_ts_tuple_type().map(TsType::from).map(Box::new);
+                return self.parse_ts_tuple_type();
             }
             tok!('(') => {
                 return self.parse_ts_parenthesized_type();
