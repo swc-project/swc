@@ -7,6 +7,10 @@ use swc_common::{Spanned, SyntaxContext};
 #[allow(type_alias_bounds)]
 pub(super) type ParsedTsType<P: Plugin> = <<P as Plugin>::TypeScript as TypeScriptPlugin>::Type;
 
+#[allow(type_alias_bounds)]
+pub(super) type ParsedTsTypeAnn<P: Plugin> =
+    <<P as Plugin>::TypeScript as TypeScriptPlugin>::TypeAnn;
+
 impl<I: Tokens, P: Plugin> Parser<I, P> {
     /// `tsNextTokenCanFollowModifier`
     fn ts_next_token_can_follow_modifier(&mut self) -> PResult<bool> {
@@ -431,7 +435,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     pub(super) fn parse_ts_type_or_type_predicate_ann(
         &mut self,
         return_token: &'static Token,
-    ) -> PResult<TsTypeAnn> {
+    ) -> PResult<ParsedTsTypeAnn<P>> {
         debug_assert!(self.input.syntax().typescript());
 
         self.in_type().parse_with(|p| {
@@ -571,7 +575,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         &mut self,
         eat_colon: bool,
         start: BytePos,
-    ) -> PResult<TsTypeAnn> {
+    ) -> PResult<ParsedTsTypeAnn<P>> {
         trace_cur!(self, parse_ts_type_ann);
 
         debug_assert!(self.input.syntax().typescript());
