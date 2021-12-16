@@ -16,6 +16,7 @@ use swc_common::{
     comments::{Comment, CommentKind},
     BytePos, Span, SyntaxContext,
 };
+use tracing::warn;
 use unicode_xid::UnicodeXID;
 
 /// Collector for raw string.
@@ -117,6 +118,11 @@ impl<'a, I: Input> Lexer<'a, I> {
     #[cold]
     #[inline(never)]
     pub(super) fn emit_error_span(&mut self, span: Span, kind: SyntaxError) {
+        if self.ctx.ignore_error {
+            return;
+        }
+
+        warn!("Lexer error at {:?}", span);
         let err = Error {
             error: Box::new((span, kind)),
         };

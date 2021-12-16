@@ -5,6 +5,9 @@
 
 
 
+- **(es/lexer)** Don't report lexer errors while backtracking (#3051) ([61e9b5f](https://github.com/swc-project/swc/commit/61e9b5f84115ded8c5361e6674d10e5826fd1635))
+
+
 - **(es/parser)** Allow assignment assertions in typescript classes (#3047) ([23a59db](https://github.com/swc-project/swc/commit/23a59db9bbbeee2ec8ccd3cdfe681e704480f97a))
 
 
