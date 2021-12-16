@@ -435,10 +435,10 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
                     true,
                 )?;
 
-                Ok(TsTypeParamDecl {
-                    span: span!(p, start),
-                    params,
-                })
+                Ok(self
+                    .plugin
+                    .typescript()
+                    .build_type_param_decl(span!(p, start), params))
             })
         })
     }
@@ -876,13 +876,13 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
 
         let false_type = self.parse_ts_type()?;
 
-        Ok(Box::new(TsType::TsConditionalType(TsConditionalType {
-            span: span!(self, start),
+        Ok(self.plugin.typescript().build_conditional_type(
+            span!(self, start),
             check_type,
             extends_type,
             true_type,
             false_type,
-        })))
+        ))
     }
 
     /// `tsParseNonConditionalType`

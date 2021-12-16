@@ -33,6 +33,15 @@ pub trait TypeScriptPlugin: Sized + Clone + Sealed {
 
     fn convert_type(&mut self, ty: Self::Type) -> Option<Box<TsType>>;
 
+    fn build_conditional_type(
+        &mut self,
+        span: Span,
+        check_type: Self::Type,
+        extends_type: Self::Type,
+        true_type: Self::Type,
+        false_type: Self::Type,
+    ) -> Self::Type;
+
     fn build_type_from<F>(&mut self, op: F) -> Self::Type
     where
         F: FnOnce() -> Box<TsType>;
@@ -50,6 +59,12 @@ pub trait TypeScriptPlugin: Sized + Clone + Sealed {
         constraint: Option<Box<TsType>>,
         default: Option<Box<TsType>>,
     ) -> Self::TypeParam;
+
+    fn build_type_param_decl(
+        &mut self,
+        span: Span,
+        params: Vec<Self::TypeParam>,
+    ) -> Self::TypeParamDecl;
 
     fn convert_type_param_decl(&mut self, n: Self::TypeParamDecl) -> Option<TsTypeParamDecl>;
 }
