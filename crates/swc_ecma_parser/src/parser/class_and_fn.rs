@@ -1,5 +1,5 @@
 use super::{ident::MaybeOptionalIdentParser, *};
-use crate::{error::SyntaxError, lexer::TokenContext, Tokens};
+use crate::{error::SyntaxError, lexer::TokenContext, plugin::TypeScriptPlugin, Tokens};
 use either::Either;
 use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext};
@@ -1115,8 +1115,9 @@ impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
 
             // typescript extension
             let return_type = if p.syntax().typescript() && is!(p, ':') {
-                p.parse_ts_type_or_type_predicate_ann(&tok!(':'))
-                    .map(Some)?
+                let type_ann = p.parse_ts_type_or_type_predicate_ann(&tok!(':'))?;
+
+                self.plugin.typescript().convert_type_ann(type_ann)
             } else {
                 None
             };

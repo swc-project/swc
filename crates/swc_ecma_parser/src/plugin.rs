@@ -25,6 +25,8 @@ pub trait TypeScriptPlugin: Sized + Clone + Sealed {
     fn build_ts_type_ann(&mut self, span: Span, ty: Self::Type) -> Self::TypeAnn;
 
     fn build_opt_ts_type_ann(&mut self, span: Span, ty: Self::Type) -> Option<TsTypeAnn>;
+
+    fn convert_type_ann(&mut self, type_ann: Self::TypeAnn) -> Option<TsTypeAnn>;
 }
 
 /// Implements all `*Plugin` traits.
@@ -58,6 +60,10 @@ impl TypeScriptPlugin for NoopPlugin {
 
     fn build_opt_ts_type_ann(&mut self, span: Span, ty: Self::Type) -> Option<TsTypeAnn> {
         Some(TsTypeAnn { span, ty })
+    }
+
+    fn convert_type_ann(&mut self, type_ann: Self::TypeAnn) -> Option<TsTypeAnn> {
+        Some(type_ann)
     }
 }
 
