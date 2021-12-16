@@ -280,10 +280,11 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         let param_name = TsThisTypeOrIdent::TsThisType(lhs);
         let type_ann = if eat!(self, "is") {
             let cur_pos = cur_pos!(self);
-            Some(self.parse_ts_type_ann(
+            let ty = self.parse_ts_type_ann(
                 // eat_colon
                 false, cur_pos,
-            )?)
+            )?;
+            self.plugin.typescript().convert_type_ann(ty)
         } else {
             None
         };

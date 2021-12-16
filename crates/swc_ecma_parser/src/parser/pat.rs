@@ -2,6 +2,7 @@
 use super::{util::ExprExt, *};
 use crate::{
     parser::{class_and_fn::is_not_this, expr::PatOrExprOrSpread},
+    plugin::TypeScriptPlugin,
     token::AssignOpToken,
 };
 use std::iter;
@@ -289,7 +290,8 @@ impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
                 let pat = self.parse_binding_pat_or_ident()?;
                 let type_ann = if self.input.syntax().typescript() && is!(self, ':') {
                     let cur_pos = cur_pos!(self);
-                    Some(self.parse_ts_type_ann(/* eat_colon */ true, cur_pos)?)
+                    let type_ann = self.parse_ts_type_ann(/* eat_colon */ true, cur_pos)?;
+                    self.plugin.typescript().convert_type_ann(type_ann)
                 } else {
                     None
                 };
@@ -426,7 +428,8 @@ impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
                 let type_ann = if self.input.syntax().typescript() && is!(self, ':') {
                     let cur_pos = cur_pos!(self);
                     let ty = self.parse_ts_type_ann(/* eat_colon */ true, cur_pos)?;
-                    Some(ty)
+
+                    self.plugin.typescript().convert_type_ann(ty)
                 } else {
                     None
                 };
