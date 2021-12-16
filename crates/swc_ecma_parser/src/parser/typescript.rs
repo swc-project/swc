@@ -4,12 +4,13 @@ use either::Either;
 use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext};
 
+/// Typescript type defined by the plugin.
 #[allow(type_alias_bounds)]
-pub(super) type ParsedTsType<P: Plugin> = <<P as Plugin>::TypeScript as TypeScriptPlugin>::Type;
+pub(super) type PType<P: Plugin> = <<P as Plugin>::TypeScript as TypeScriptPlugin>::Type;
 
+/// Typescript type defined by the plugin.
 #[allow(type_alias_bounds)]
-pub(super) type ParsedTsTypeAnn<P: Plugin> =
-    <<P as Plugin>::TypeScript as TypeScriptPlugin>::TypeAnn;
+pub(super) type PTypeAnn<P: Plugin> = <<P as Plugin>::TypeScript as TypeScriptPlugin>::TypeAnn;
 
 impl<I: Tokens, P: Plugin> Parser<I, P> {
     /// `tsNextTokenCanFollowModifier`
@@ -241,9 +242,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     }
 
     /// `tsParseTypeReference`
-    fn parse_ts_type_ref(
-        &mut self,
-    ) -> PResult<<<P as Plugin>::TypeScript as TypeScriptPlugin>::TypeRef> {
+    fn parse_ts_type_ref(&mut self) -> PResult<PType<P>> {
         trace_cur!(self, parse_ts_type_ref);
         debug_assert!(self.input.syntax().typescript());
 
@@ -276,7 +275,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         start: BytePos,
         has_asserts_keyword: bool,
         lhs: TsThisType,
-    ) -> PResult<<<P as Plugin>::TypeScript as TypeScriptPlugin>::TypePredicate> {
+    ) -> PResult<PType<P>> {
         debug_assert!(self.input.syntax().typescript());
 
         let param_name = TsThisTypeOrIdent::TsThisType(lhs);
@@ -300,9 +299,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     }
 
     /// `tsParseThisTypeNode`
-    fn parse_ts_this_type_node(
-        &mut self,
-    ) -> PResult<<<P as Plugin>::TypeScript as TypeScriptPlugin>::ThisType> {
+    fn parse_ts_this_type_node(&mut self) -> PResult<PType<P>> {
         debug_assert!(self.input.syntax().typescript());
 
         expect!(self, "this");
@@ -372,9 +369,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     }
 
     /// `tsParseTypeQuery`
-    fn parse_ts_type_query(
-        &mut self,
-    ) -> PResult<<<P as Plugin>::TypeScript as TypeScriptPlugin>::TypeQuery> {
+    fn parse_ts_type_query(&mut self) -> PResult<PType<P>> {
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!(self);
@@ -448,7 +443,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     pub(super) fn parse_ts_type_or_type_predicate_ann(
         &mut self,
         return_token: &'static Token,
-    ) -> PResult<ParsedTsTypeAnn<P>> {
+    ) -> PResult<PTypeAnn<P>> {
         debug_assert!(self.input.syntax().typescript());
 
         self.in_type().parse_with(|p| {
@@ -588,7 +583,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         &mut self,
         eat_colon: bool,
         start: BytePos,
-    ) -> PResult<ParsedTsTypeAnn<P>> {
+    ) -> PResult<PTypeAnn<P>> {
         trace_cur!(self, parse_ts_type_ann);
 
         debug_assert!(self.input.syntax().typescript());
@@ -633,7 +628,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         &mut self,
         token: &'static Token,
         token_str: &'static str,
-    ) -> PResult<ParsedTsType<P>> {
+    ) -> PResult<PType<P>> {
         debug_assert!(self.input.syntax().typescript());
 
         self.in_type().parse_with(|p| {
@@ -654,7 +649,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     }
 
     /// `tsNextThenParseType`
-    pub(super) fn next_then_parse_ts_type(&mut self) -> PResult<ParsedTsType<P>> {
+    pub(super) fn next_then_parse_ts_type(&mut self) -> PResult<PType<P>> {
         debug_assert!(self.input.syntax().typescript());
 
         self.in_type().parse_with(|p| {
@@ -840,7 +835,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         })
     }
 
-    pub fn parse_type(&mut self) -> PResult<ParsedTsType<P>> {
+    pub fn parse_type(&mut self) -> PResult<PType<P>> {
         debug_assert!(self.input.syntax().typescript());
 
         self.in_type().parse_ts_type()
@@ -849,7 +844,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     /// Be sure to be in a type context before calling self.
     ///
     /// `tsParseType`
-    pub(super) fn parse_ts_type(&mut self) -> PResult<ParsedTsType<P>> {
+    pub(super) fn parse_ts_type(&mut self) -> PResult<PType<P>> {
         trace_cur!(self, parse_ts_type);
 
         debug_assert!(self.input.syntax().typescript());
@@ -885,7 +880,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     }
 
     /// `tsParseNonConditionalType`
-    fn parse_ts_non_conditional_type(&mut self) -> PResult<ParsedTsType<P>> {
+    fn parse_ts_non_conditional_type(&mut self) -> PResult<PType<P>> {
         trace_cur!(self, parse_ts_non_conditional_type);
 
         debug_assert!(self.input.syntax().typescript());
@@ -1475,9 +1470,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     }
 
     /// `tsParseTypeLiteral`
-    fn parse_ts_type_lit(
-        &mut self,
-    ) -> PResult<<<P as Plugin>::TypeScript as TypeScriptPlugin>::TypeLit> {
+    fn parse_ts_type_lit(&mut self) -> PResult<PType<P>> {
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!(self);
@@ -1542,9 +1535,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
 
     /// `tsParseMappedType`
     #[allow(clippy::cognitive_complexity)]
-    fn parse_ts_mapped_type(
-        &mut self,
-    ) -> PResult<<<P as Plugin>::TypeScript as TypeScriptPlugin>::MappedType> {
+    fn parse_ts_mapped_type(&mut self) -> PResult<PType<P>> {
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!(self);
@@ -1599,9 +1590,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     }
 
     /// `tsParseTupleType`
-    fn parse_ts_tuple_type(
-        &mut self,
-    ) -> PResult<<<P as Plugin>::TypeScript as TypeScriptPlugin>::TupleType> {
+    fn parse_ts_tuple_type(&mut self) -> PResult<PType<P>> {
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!(self);
@@ -1718,7 +1707,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     }
 
     /// `tsParseParenthesizedType`
-    fn parse_ts_parenthesized_type(&mut self) -> PResult<ParsedTsType<P>> {
+    fn parse_ts_parenthesized_type(&mut self) -> PResult<PType<P>> {
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!(self);
@@ -1732,10 +1721,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     }
 
     /// `tsParseFunctionOrConstructorType`
-    fn parse_ts_fn_or_constructor_type(
-        &mut self,
-        is_fn_type: bool,
-    ) -> PResult<<<P as Plugin>::TypeScript as TypeScriptPlugin>::FnOrConstructorType> {
+    fn parse_ts_fn_or_constructor_type(&mut self, is_fn_type: bool) -> PResult<PType<P>> {
         trace_cur!(self, parse_ts_fn_or_constructor_type);
 
         debug_assert!(self.input.syntax().typescript());
@@ -1776,9 +1762,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     }
 
     /// `tsParseLiteralTypeNode`
-    fn parse_ts_lit_type_node(
-        &mut self,
-    ) -> PResult<<<P as Plugin>::TypeScript as TypeScriptPlugin>::LitType> {
+    fn parse_ts_lit_type_node(&mut self) -> PResult<PType<P>> {
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!(self);
@@ -1804,9 +1788,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     }
 
     /// `tsParseTemplateLiteralType`
-    fn parse_ts_tpl_lit_type(
-        &mut self,
-    ) -> PResult<<<P as Plugin>::TypeScript as TypeScriptPlugin>::TplLitType> {
+    fn parse_ts_tpl_lit_type(&mut self) -> PResult<PType<P>> {
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!(self);
@@ -1935,7 +1917,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
 
     /// `tsParseNonArrayType`
     #[allow(clippy::cognitive_complexity)]
-    fn parse_ts_non_array_type(&mut self) -> PResult<ParsedTsType<P>> {
+    fn parse_ts_non_array_type(&mut self) -> PResult<PType<P>> {
         if !cfg!(feature = "typescript") {
             unreachable!()
         }
@@ -2089,7 +2071,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     }
 
     /// `tsParseArrayTypeOrHigher`
-    fn parse_ts_array_type_or_higher(&mut self, readonly: bool) -> PResult<ParsedTsType<P>> {
+    fn parse_ts_array_type_or_higher(&mut self, readonly: bool) -> PResult<PType<P>> {
         trace_cur!(self, parse_ts_array_type_or_higher);
         debug_assert!(self.input.syntax().typescript());
 
@@ -2139,9 +2121,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     }
 
     /// `tsParseInferType`
-    fn parse_ts_infer_type(
-        &mut self,
-    ) -> PResult<<<P as Plugin>::TypeScript as TypeScriptPlugin>::InferType> {
+    fn parse_ts_infer_type(&mut self) -> PResult<PType<P>> {
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!(self);
@@ -2160,7 +2140,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     }
 
     /// `tsParseTypeOperatorOrHigher`
-    fn parse_ts_type_operator_or_higher(&mut self) -> PResult<ParsedTsType<P>> {
+    fn parse_ts_type_operator_or_higher(&mut self) -> PResult<PType<P>> {
         trace_cur!(self, parse_ts_type_operator_or_higher);
         debug_assert!(self.input.syntax().typescript());
 
@@ -2604,7 +2584,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     }
 
     /// `tsParseIntersectionTypeOrHigher`
-    fn parse_ts_intersection_type_or_higher(&mut self) -> PResult<ParsedTsType<P>> {
+    fn parse_ts_intersection_type_or_higher(&mut self) -> PResult<PType<P>> {
         trace_cur!(self, parse_ts_intersection_type_or_higher);
 
         debug_assert!(self.input.syntax().typescript());
@@ -2617,7 +2597,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     }
 
     /// `tsParseUnionTypeOrHigher`
-    fn parse_ts_union_type_or_higher(&mut self) -> PResult<ParsedTsType<P>> {
+    fn parse_ts_union_type_or_higher(&mut self) -> PResult<PType<P>> {
         trace_cur!(self, parse_ts_union_type_or_higher);
         debug_assert!(self.input.syntax().typescript());
 
@@ -2634,9 +2614,9 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         kind: UnionOrIntersection,
         mut parse_constituent_type: F,
         operator: &'static Token,
-    ) -> PResult<ParsedTsType<P>>
+    ) -> PResult<PType<P>>
     where
-        F: FnMut(&mut Self) -> PResult<ParsedTsType<P>>,
+        F: FnMut(&mut Self) -> PResult<PType<P>>,
     {
         trace_cur!(self, parse_ts_union_or_intersection_type);
 

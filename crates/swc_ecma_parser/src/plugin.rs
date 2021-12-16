@@ -19,19 +19,9 @@ pub trait TypeScriptPlugin: Sized + Clone + Sealed {
     /// Used as return type of parse_ts_type().
     type Type;
     type TypeAnn;
-    type MappedType;
-    type InferType;
     type TypeParam;
     type TypeParamDecl;
-    type TypeRef;
-    type ThisType;
     type ImportType;
-    type TypeQuery;
-    type TypePredicate;
-    type TypeLit;
-    type TupleType;
-    type LitType;
-    type TplLitType;
     type TypeOperator;
 
     fn build_ts_as_expr(&mut self, span: Span, expr: Box<Expr>, type_ann: Self::Type) -> Box<Expr>;
