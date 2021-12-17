@@ -62,6 +62,13 @@ pub trait TypeScriptPlugin: Sized + Clone + Sealed {
 
     fn build_optional_type(&mut self, span: Span, type_ann: Self::Type) -> Self::Type;
 
+    fn build_tpl_lit_type(
+        &mut self,
+        span: Span,
+        types: Vec<Self::Type>,
+        quasis: Vec<TplElement>,
+    ) -> Self::Type;
+
     fn build_tuple_type(&mut self, span: Span, elems: Vec<Self::TupleElement>) -> Self::Type;
 
     fn with_type_of_tuple_elem<F, Ret>(&mut self, ty: &Self::TupleElement, op: F) -> Ret
@@ -393,6 +400,22 @@ impl TypeScriptPlugin for NoopPlugin {
 
     fn convert_type_param_decl(&mut self, n: Self::TypeParamDecl) -> Option<TsTypeParamDecl> {
         Some(n)
+    }
+
+    fn build_tpl_lit_type(
+        &mut self,
+        span: Span,
+        types: Vec<Self::Type>,
+        quasis: Vec<TplElement>,
+    ) -> Self::Type {
+        Box::new(TsType::TsLitType(TsLitType {
+            span,
+            lit: TsLit::Tpl(TsTplLitType {
+                span,
+                types,
+                quasis,
+            }),
+        }))
     }
 }
 

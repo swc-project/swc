@@ -1820,11 +1820,10 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
 
         expect!(self, '`');
 
-        Ok(TsTplLitType {
-            span: span!(self, start),
-            types,
-            quasis,
-        })
+        Ok(self
+            .plugin
+            .typescript()
+            .build_tpl_lit_type(span!(self, start), types, quasis))
     }
 
     #[allow(clippy::vec_box)]
