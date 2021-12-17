@@ -70,7 +70,9 @@ impl<'a> Input for StringInput<'a> {
         if let Some((i, c)) = self.iter.next() {
             self.last_pos = self.start_pos + BytePos((i + c.len_utf8()) as u32);
         } else {
-            unreachable!("bump should not be called when cur() == None");
+            unsafe {
+                debug_unreachable!("bump should not be called when cur() == None");
+            }
         }
     }
 
