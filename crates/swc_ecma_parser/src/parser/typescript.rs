@@ -1586,14 +1586,14 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         expect!(self, ';');
         expect!(self, '}');
 
-        Ok(TsMappedType {
-            span: span!(self, start),
+        Ok(self.plugin.typescript().build_mapped_type(
+            span!(self, start),
             readonly,
             optional,
             type_param,
             name_type,
             type_ann,
-        })
+        ))
     }
 
     /// `tsParseTupleType`
