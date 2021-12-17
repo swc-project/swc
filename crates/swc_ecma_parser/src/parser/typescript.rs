@@ -1699,21 +1699,21 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         // parses `TsType?`
         if eat!(self, '?') {
             let type_ann = ty;
-            return Ok(TsTupleElement {
+
+            let ty = TsType::TsOptionalType(TsOptionalType {
                 span: span!(self, start),
-                label,
-                ty: TsType::TsOptionalType(TsOptionalType {
-                    span: span!(self, start),
-                    type_ann,
-                }),
+                type_ann,
             });
+            return Ok(self
+                .plugin
+                .typescript()
+                .build_tuple_element(span!(self, start), label, ty));
         }
 
-        Ok(TsTupleElement {
-            span: span!(self, start),
-            label,
-            ty: *ty,
-        })
+        Ok(self
+            .plugin
+            .typescript()
+            .build_tuple_element(span!(self, start), label, ty))
     }
 
     /// `tsParseParenthesizedType`
