@@ -219,7 +219,10 @@ impl TypeScriptPlugin for NoopPlugin {
     }
 
     fn build_tuple_type(&mut self, span: Span, elems: Vec<Self::TupleElement>) -> Self::Type {
-        Box::new(TsType::TsTupleType(TsTupleType { span, elems }))
+        Box::new(TsType::TsTupleType(TsTupleType {
+            span,
+            elem_types: elems,
+        }))
     }
 
     fn build_tuple_element(
@@ -228,7 +231,11 @@ impl TypeScriptPlugin for NoopPlugin {
         label: Option<Pat>,
         ty: Self::Type,
     ) -> Self::TupleElement {
-        TsTupleElement { span, label, ty }
+        TsTupleElement {
+            span,
+            label,
+            ty: *ty,
+        }
     }
 
     fn build_mapped_type(
