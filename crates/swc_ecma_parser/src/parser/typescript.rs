@@ -1616,7 +1616,8 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         let mut seen_optional_element = false;
         let len = elem_types.len();
         for (i, elem_type) in elem_types.iter().enumerate() {
-            self.plugin
+            let opt = self
+                .plugin
                 .typescript()
                 .with_type_of_tuple_elem(&elem_type, |ty| {
                     match ty {
@@ -1635,7 +1636,11 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
                     }
 
                     Ok(())
-                })?;
+                });
+
+            if let Some(res) = opt {
+                res?;
+            };
         }
 
         Ok(self
