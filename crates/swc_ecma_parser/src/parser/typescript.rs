@@ -1616,20 +1616,26 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         let mut seen_optional_element = false;
         let len = elem_types.len();
         for (i, elem_type) in elem_types.iter().enumerate() {
-            match elem_type.ty {
-                TsType::TsRestType(..) => {}
-                TsType::TsOptionalType(..) => {
-                    seen_optional_element = true;
-                }
-                _ if seen_optional_element => {
-                    syntax_error!(
-                        self,
-                        span!(self, start),
-                        SyntaxError::TsRequiredAfterOptional
-                    )
-                }
-                _ => {}
-            }
+            self.plugin
+                .typescript()
+                .with_type_of_tuple_elem(&elem_type, |ty| {
+                    match ty {
+                        TsType::TsRestType(..) => {}
+                        TsType::TsOptionalType(..) => {
+                            seen_optional_element = true;
+                        }
+                        _ if seen_optional_element => {
+                            syntax_error!(
+                                self,
+                                span!(self, start),
+                                SyntaxError::TsRequiredAfterOptional
+                            )
+                        }
+                        _ => {}
+                    }
+
+                    Ok(())
+                })?;
         }
 
         Ok(self

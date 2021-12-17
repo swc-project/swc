@@ -64,6 +64,10 @@ pub trait TypeScriptPlugin: Sized + Clone + Sealed {
 
     fn build_tuple_type(&mut self, span: Span, elems: Vec<Self::TupleElement>) -> Self::Type;
 
+    fn with_type_of_tuple_elem<F, Ret>(&mut self, ty: &Self::TupleElement, op: F) -> Ret
+    where
+        F: FnOnce(&TsType) -> Ret;
+
     fn build_tuple_element(
         &mut self,
         span: Span,
@@ -246,6 +250,13 @@ impl TypeScriptPlugin for NoopPlugin {
             span,
             elem_types: elems,
         }))
+    }
+
+    fn with_type_of_tuple_elem<F, Ret>(&mut self, elem: &Self::TupleElement, op: F) -> Ret
+    where
+        F: FnOnce(&TsType) -> Ret,
+    {
+        op(&elem.ty)
     }
 
     fn build_tuple_element(
