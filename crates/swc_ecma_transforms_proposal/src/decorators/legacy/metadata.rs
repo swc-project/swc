@@ -225,41 +225,37 @@ impl Fold for Metadata<'_> {
             return p;
         }
 
-        if let Some(name) = p
+        let expr_or_spread = p
             .type_ann
             .as_ref()
             .map(|ty| &ty.type_ann)
             .map(|type_ann| match &**type_ann {
-                TsType::TsTypeRef(r) => Some(r),
+                TsType::TsTypeRef(type_ref) => match &type_ref.type_name {
+                    TsEntityName::Ident(type_name) => {
+                        let kind = self.enums.get(&type_name.to_id());
+                        match kind {
+                            Some(EnumKind::Mixed) => Some(quote_ident!("Object").as_arg()),
+                            Some(EnumKind::Str) => Some(quote_ident!("String").as_arg()),
+                            Some(EnumKind::Num) => Some(quote_ident!("Number").as_arg()),
+                            _ => None,
+                        }
+                    }
+                    _ => None,
+                },
+                TsType::TsUnionOrIntersectionType(_union) => Some(quote_ident!("Object").as_arg()),
                 _ => None,
             })
-            .flatten()
-            .map(|r| match &r.type_name {
-                TsEntityName::TsQualifiedName(_) => None,
-                TsEntityName::Ident(i) => Some(i),
-            })
-            .flatten()
-        {
-            if let Some(kind) = self.enums.get(&name.to_id()) {
-                let dec = self.create_metadata_design_decorator(
-                    "design:type",
-                    match kind {
-                        EnumKind::Mixed => quote_ident!("Object").as_arg(),
-                        EnumKind::Str => quote_ident!("String").as_arg(),
-                        EnumKind::Num => quote_ident!("Number").as_arg(),
-                    },
-                );
-                p.decorators.push(dec);
-                return p;
-            }
-        }
+            .flatten();
 
         let dec = self.create_metadata_design_decorator(
             "design:type",
-            serialize_type(self.class_name, p.type_ann.as_ref()).as_arg(),
+            if let Some(type_arg) = expr_or_spread {
+                type_arg
+            } else {
+                serialize_type(self.class_name, p.type_ann.as_ref()).as_arg()
+            },
         );
         p.decorators.push(dec);
-
         p
     }
 }

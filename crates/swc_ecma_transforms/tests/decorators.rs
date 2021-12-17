@@ -6002,3 +6002,35 @@ test_exec!(
     }
     "
 );
+
+test!(
+    ts(),
+    |_| decorators(Config {
+        legacy: true,
+        emit_metadata: true,
+    }),
+    issue_2461_decorator_design_type_for_union_types,
+    "const SomeDecorator: PropertyDecorator = () => {}
+
+  class ChildItem {
+    @SomeDecorator
+    parentId?: string | null
+  }",
+    "var _class, _descriptor, _dec;
+  const SomeDecorator: PropertyDecorator = ()=>{ };
+  let ChildItem = ((_class = class ChildItem {
+    constructor(){
+        _initializerDefineProperty(this, \"parentId\", _descriptor, this);
+    }
+  }) || _class, _dec = typeof Reflect !== \"undefined\" && typeof Reflect.metadata === \
+     \"function\" && Reflect.metadata(\"design:type\", Object), _descriptor = \
+     _applyDecoratedDescriptor(_class.prototype, \"parentId\", [
+    SomeDecorator,
+    _dec
+  ], {
+      configurable: true,
+      enumerable: true,
+      writable: true,
+      initializer: void 0
+  }), _class);"
+);
