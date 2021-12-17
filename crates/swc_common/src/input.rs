@@ -176,6 +176,7 @@ impl<'a> Input for StringInput<'a> {
         }
     }
 
+    #[inline]
     fn eat_byte(&mut self, c: u8) -> bool {
         if self.is_byte(c) {
             if let Some((i, _)) = self.iter.next() {
