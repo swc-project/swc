@@ -71,9 +71,7 @@ pub trait TypeScriptPlugin: Sized + Clone + Sealed {
 
     fn build_tuple_type(&mut self, span: Span, elems: Vec<Self::TupleElement>) -> Self::Type;
 
-    fn with_type_of_tuple_elem<F, Ret>(&mut self, ty: &Self::TupleElement, op: F) -> Option<Ret>
-    where
-        F: FnOnce(&TsType) -> Ret;
+    fn deref_type_of_tuple_elem<'a>(&self, ty: &'a Self::TupleElement) -> Option<&'a TsType>;
 
     fn build_tuple_element(
         &mut self,
@@ -252,6 +250,22 @@ impl TypeScriptPlugin for NoopPlugin {
         Box::new(TsType::TsOptionalType(TsOptionalType { span, type_ann }))
     }
 
+    fn build_tpl_lit_type(
+        &mut self,
+        span: Span,
+        types: Vec<Self::Type>,
+        quasis: Vec<TplElement>,
+    ) -> Self::Type {
+        Box::new(TsType::TsLitType(TsLitType {
+            span,
+            lit: TsLit::Tpl(TsTplLitType {
+                span,
+                types,
+                quasis,
+            }),
+        }))
+    }
+
     fn build_tuple_type(&mut self, span: Span, elems: Vec<Self::TupleElement>) -> Self::Type {
         Box::new(TsType::TsTupleType(TsTupleType {
             span,
@@ -259,11 +273,8 @@ impl TypeScriptPlugin for NoopPlugin {
         }))
     }
 
-    fn with_type_of_tuple_elem<F, Ret>(&mut self, elem: &Self::TupleElement, op: F) -> Option<Ret>
-    where
-        F: FnOnce(&TsType) -> Ret,
-    {
-        Some(op(&elem.ty))
+    fn deref_type_of_tuple_elem<'a>(&self, ty: &'a Self::TupleElement) -> Option<&'a TsType> {
+        Some(&ty.ty)
     }
 
     fn build_tuple_element(
@@ -400,22 +411,6 @@ impl TypeScriptPlugin for NoopPlugin {
 
     fn convert_type_param_decl(&mut self, n: Self::TypeParamDecl) -> Option<TsTypeParamDecl> {
         Some(n)
-    }
-
-    fn build_tpl_lit_type(
-        &mut self,
-        span: Span,
-        types: Vec<Self::Type>,
-        quasis: Vec<TplElement>,
-    ) -> Self::Type {
-        Box::new(TsType::TsLitType(TsLitType {
-            span,
-            lit: TsLit::Tpl(TsTplLitType {
-                span,
-                types,
-                quasis,
-            }),
-        }))
     }
 }
 

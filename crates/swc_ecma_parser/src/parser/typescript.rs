@@ -492,9 +492,10 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
                 None
             };
 
+            let span = span!(p, type_pred_start);
             let node = p.plugin.typescript().build_type_from(|| {
                 Box::new(TsType::TsTypePredicate(TsTypePredicate {
-                    span: span!(p, type_pred_start),
+                    span,
                     asserts: has_type_pred_asserts,
                     param_name: TsThisTypeOrIdent::Ident(type_pred_var),
                     type_ann,
@@ -605,8 +606,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
 
             let type_ann = p.parse_ts_type()?;
 
-            Ok(self
-                .plugin
+            Ok(p.plugin
                 .typescript()
                 .build_ts_type_ann(span!(p, start), type_ann))
         })
@@ -627,7 +627,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
             }
 
             let ty = p.parse_ts_type()?;
-            Ok(self.plugin.typescript().convert_type(ty))
+            Ok(p.plugin.typescript().convert_type(ty))
         })
     }
 
@@ -1482,12 +1482,11 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
 
         let start = cur_pos!(self);
         let members = self.parse_ts_object_type_members()?;
-        Ok(self.plugin.typescript().build_type_from(|| {
-            Box::new(TsType::TsTypeLit(TsTypeLit {
-                span: span!(self, start),
-                members,
-            }))
-        }))
+        let span = span!(self, start);
+        Ok(self
+            .plugin
+            .typescript()
+            .build_type_from(|| Box::new(TsType::TsTypeLit(TsTypeLit { span, members }))))
     }
 
     /// `tsParseObjectTypeMembers`
@@ -1616,30 +1615,26 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         let mut seen_optional_element = false;
         let len = elem_types.len();
         for (i, elem_type) in elem_types.iter().enumerate() {
-            let opt = self
+            match self
                 .plugin
                 .typescript()
-                .with_type_of_tuple_elem(&elem_type, |ty| {
-                    match ty {
-                        TsType::TsRestType(..) => {}
-                        TsType::TsOptionalType(..) => {
-                            seen_optional_element = true;
-                        }
-                        _ if seen_optional_element => {
-                            syntax_error!(
-                                self,
-                                span!(self, start),
-                                SyntaxError::TsRequiredAfterOptional
-                            )
-                        }
-                        _ => {}
+                .deref_type_of_tuple_elem(&elem_type)
+            {
+                Some(ty) => match ty {
+                    TsType::TsRestType(..) => {}
+                    TsType::TsOptionalType(..) => {
+                        seen_optional_element = true;
                     }
-
-                    Ok(())
-                });
-
-            if let Some(res) = opt {
-                res?;
+                    _ if seen_optional_element => {
+                        syntax_error!(
+                            self,
+                            span!(self, start),
+                            SyntaxError::TsRequiredAfterOptional
+                        )
+                    }
+                    _ => {}
+                },
+                _ => {}
             };
         }
 
@@ -1736,9 +1731,11 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         expect!(self, '(');
         let type_ann = self.parse_ts_type()?;
         expect!(self, ')');
+
+        let span = span!(self, start);
         Ok(self.plugin.typescript().map_type(type_ann, |type_ann| {
             Box::new(TsType::TsParenthesizedType(TsParenthesizedType {
-                span: span!(self, start),
+                span,
                 type_ann,
             }))
         }))
@@ -1804,12 +1801,11 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
                 _ => unreachable!(),
             };
 
-            Ok(self.plugin.typescript().build_type_from(|| {
-                Box::new(TsType::TsLitType(TsLitType {
-                    span: span!(self, start),
-                    lit,
-                }))
-            }))
+            let span = span!(self, start);
+            Ok(self
+                .plugin
+                .typescript()
+                .build_type_from(|| Box::new(TsType::TsLitType(TsLitType { span, lit }))))
         }
     }
 
@@ -2101,7 +2097,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         trace_cur!(self, parse_ts_array_type_or_higher);
         debug_assert!(self.input.syntax().typescript());
 
-        let mut lo = cur_pos!(self);
+        let mut lo;
         let mut ty = self.parse_ts_non_array_type()?;
 
         while !self.input.had_line_break_before_cur() && eat!(self, '[') {

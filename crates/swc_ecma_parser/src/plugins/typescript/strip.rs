@@ -82,10 +82,7 @@ impl TypeScriptPlugin for StripPlugin {
 
     fn build_tuple_type(&mut self, span: Span, elems: Vec<Self::TupleElement>) -> Self::Type {}
 
-    fn with_type_of_tuple_elem<F, Ret>(&mut self, ty: &Self::TupleElement, op: F) -> Option<Ret>
-    where
-        F: FnOnce(&TsType) -> Ret,
-    {
+    fn deref_type_of_tuple_elem<'a>(&self, ty: &'a Self::TupleElement) -> Option<&'a TsType> {
         None
     }
 
