@@ -1756,20 +1756,20 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         // ----- end
 
         Ok(if is_fn_type {
-            TsFnOrConstructorType::TsFnType(TsFnType {
-                span: span!(self, start),
+            self.plugin.typescript().build_fn_type(
+                span!(self, start),
                 type_params,
                 params,
                 type_ann,
-            })
+            )
         } else {
-            TsFnOrConstructorType::TsConstructorType(TsConstructorType {
-                span: span!(self, start),
+            self.plugin.typescript().build_constructor_type(
+                span!(self, start),
                 type_params,
                 params,
                 type_ann,
                 is_abstract,
-            })
+            )
         })
     }
 

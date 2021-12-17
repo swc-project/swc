@@ -79,6 +79,23 @@ pub trait TypeScriptPlugin: Sized + Clone + Sealed {
         type_ann: Option<Box<TsType>>,
     ) -> Self::Type;
 
+    fn build_fn_type(
+        &mut self,
+        span: Span,
+        type_params: Option<TsTypeParamDecl>,
+        params: Vec<TsFnParam>,
+        type_ann: Self::TypeAnn,
+    ) -> Self::Type;
+
+    fn build_constructor_type(
+        &mut self,
+        span: Span,
+        type_params: Option<TsTypeParamDecl>,
+        params: Vec<TsFnParam>,
+        type_ann: Self::TypeAnn,
+        is_abstract: bool,
+    ) -> Self::Type;
+
     fn map_type<F>(&mut self, ty: Self::Type, op: F) -> Self::Type
     where
         F: FnOnce(Box<TsType>) -> Box<TsType>;
@@ -255,6 +272,42 @@ impl TypeScriptPlugin for NoopPlugin {
             name_type,
             type_ann,
         }))
+    }
+
+    fn build_fn_type(
+        &mut self,
+        span: Span,
+        type_params: Option<TsTypeParamDecl>,
+        params: Vec<TsFnParam>,
+        type_ann: Self::TypeAnn,
+    ) -> Self::Type {
+        Box::new(TsType::TsFnOrConstructorType(
+            TsFnOrConstructorType::TsFnType(TsFnType {
+                span,
+                type_params,
+                params,
+                type_ann,
+            }),
+        ))
+    }
+
+    fn build_constructor_type(
+        &mut self,
+        span: Span,
+        type_params: Option<TsTypeParamDecl>,
+        params: Vec<TsFnParam>,
+        type_ann: Self::TypeAnn,
+        is_abstract: bool,
+    ) -> Self::Type {
+        Box::new(TsType::TsFnOrConstructorType(
+            TsFnOrConstructorType::TsConstructorType(TsConstructorType {
+                span,
+                type_params,
+                params,
+                type_ann,
+                is_abstract,
+            }),
+        ))
     }
 
     fn map_type<F>(&mut self, ty: Self::Type, op: F) -> Self::Type
