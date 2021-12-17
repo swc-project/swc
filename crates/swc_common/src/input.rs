@@ -1,4 +1,5 @@
 use crate::syntax_pos::{BytePos, SourceFile};
+use debug_unreachable::debug_unreachable;
 use std::str;
 
 pub type SourceFileInput<'a> = StringInput<'a>;
@@ -182,7 +183,11 @@ impl<'a> Input for StringInput<'a> {
             if let Some((i, _)) = self.iter.next() {
                 self.last_pos = self.start_pos + BytePos((i + 1) as u32);
             } else {
-                unreachable!("bump should not be called when cur() == None");
+                unsafe {
+                    debug_unreachable!(
+                        "We can't enter here as we already checked the state using `is_byte`"
+                    )
+                }
             }
             true
         } else {
