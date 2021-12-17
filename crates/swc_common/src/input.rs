@@ -171,7 +171,21 @@ impl<'a> Input for StringInput<'a> {
         if self.iter.as_str().len() == 0 {
             false
         } else {
-            self.iter.as_str().as_bytes()[0] == c
+            // Safety: We checked that `self.iter.as_str().len() > 0`
+            unsafe { *self.iter.as_str().as_bytes().get_unchecked(0) == c }
+        }
+    }
+
+    fn eat_byte(&mut self, c: u8) -> bool {
+        if self.is_byte(c) {
+            if let Some((i, _)) = self.iter.next() {
+                self.last_pos = self.start_pos + BytePos((i + 1) as u32);
+            } else {
+                unreachable!("bump should not be called when cur() == None");
+            }
+            true
+        } else {
+            false
         }
     }
 }
