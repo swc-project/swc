@@ -2564,7 +2564,9 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     }
 
     /// `tsParseTypeArguments`
-    pub fn parse_ts_type_args(&mut self) -> PResult<TsTypeParamInstantiation> {
+    pub fn parse_ts_type_args(
+        &mut self,
+    ) -> PResult<<<P as Plugin>::TypeScript as TypeScriptPlugin>::TypeParamInstantiation> {
         trace_cur!(self, parse_ts_type_args);
         debug_assert!(self.input.syntax().typescript());
 
@@ -2586,10 +2588,10 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         // `<C<number> />`, so set exprAllowed = false
         self.input.set_expr_allowed(false);
         expect!(self, '>');
-        Ok(TsTypeParamInstantiation {
-            span: span!(self, start),
-            params,
-        })
+        Ok(self
+            .plugin
+            .typescript()
+            .build_type_param_instantiation(span!(self, start), params))
     }
 
     /// `tsParseIntersectionTypeOrHigher`

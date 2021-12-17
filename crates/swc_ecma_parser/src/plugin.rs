@@ -21,6 +21,7 @@ pub trait TypeScriptPlugin: Sized + Clone + Sealed {
     type TypeAnn;
     type TypeParam;
     type TypeParamDecl;
+    type TypeParamInstantiation;
 
     fn build_ts_as_expr(&mut self, span: Span, expr: Box<Expr>, type_ann: Self::Type) -> Box<Expr>;
 
@@ -84,6 +85,12 @@ pub trait TypeScriptPlugin: Sized + Clone + Sealed {
         params: Vec<Self::TypeParam>,
     ) -> Self::TypeParamDecl;
 
+    fn build_type_param_instantiation(
+        &mut self,
+        span: Span,
+        params: Vec<Self::Type>,
+    ) -> Self::TypeParamInstantiation;
+
     fn convert_type_param_decl(&mut self, n: Self::TypeParamDecl) -> Option<TsTypeParamDecl>;
 }
 
@@ -104,6 +111,7 @@ impl TypeScriptPlugin for NoopPlugin {
     type TypeAnn = TsTypeAnn;
     type TypeParam = TsTypeParam;
     type TypeParamDecl = TsTypeParamDecl;
+    type TypeParamInstantiation = TsTypeParamInstantiation;
 
     fn build_ts_as_expr(&mut self, span: Span, expr: Box<Expr>, type_ann: Self::Type) -> Box<Expr> {
         Box::new(Expr::TsAs(TsAsExpr {
@@ -219,6 +227,14 @@ impl TypeScriptPlugin for NoopPlugin {
         params: Vec<Self::TypeParam>,
     ) -> Self::TypeParamDecl {
         todo!()
+    }
+
+    fn build_type_param_instantiation(
+        &mut self,
+        span: Span,
+        params: Vec<Self::Type>,
+    ) -> Self::TypeParamInstantiation {
+        TsTypeParamInstantiation { span, params }
     }
 
     fn convert_type_param_decl(&mut self, n: Self::TypeParamDecl) -> Option<TsTypeParamDecl> {
