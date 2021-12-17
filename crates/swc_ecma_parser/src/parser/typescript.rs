@@ -252,11 +252,13 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
 
         let type_name = self.parse_ts_entity_name(/* allow_reserved_words */ true)?;
         trace_cur!(self, parse_ts_type_ref__type_args);
-        let type_params = if !self.input.had_line_break_before_cur() && is!(self, '<') {
+        let type_args = if !self.input.had_line_break_before_cur() && is!(self, '<') {
             Some(self.parse_ts_type_args()?)
         } else {
             None
         };
+        let type_args =
+            type_args.and_then(|n| self.plugin.typescript().convert_type_param_instantiation(n));
 
         if has_modifier {
             self.emit_err(span!(self, start), SyntaxError::TS2369);
@@ -266,7 +268,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
             Box::new(TsType::TsTypeRef(TsTypeRef {
                 span: span!(self, start),
                 type_name,
-                type_params,
+                type_params: type_args,
             }))
         }))
     }
@@ -361,6 +363,8 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         } else {
             None
         };
+        let type_args =
+            type_args.and_then(|n| self.plugin.typescript().convert_type_param_instantiation(n));
 
         Ok(TsImportType {
             span: span!(self, start),
@@ -951,6 +955,8 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         } else {
             None
         };
+        let type_args =
+            type_args.and_then(|n| self.plugin.typescript().convert_type_param_instantiation(n));
 
         Ok(TsExprWithTypeArgs {
             span: span!(self, start),
@@ -2540,6 +2546,10 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
             Some(v) => v,
             None => return Ok(None),
         };
+        let type_params = self
+            .plugin
+            .typescript()
+            .convert_type_param_decl(type_params);
 
         let ctx = Context {
             in_async: true,
@@ -2556,7 +2566,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
                 body,
                 is_async,
                 is_generator,
-                type_params: Some(type_params),
+                type_params,
                 params,
                 return_type,
             }))

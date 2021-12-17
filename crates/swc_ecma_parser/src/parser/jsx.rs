@@ -1,3 +1,5 @@
+use crate::plugin::TypeScriptPlugin;
+
 use super::*;
 use either::Either;
 use swc_common::{Span, Spanned, SyntaxContext};
