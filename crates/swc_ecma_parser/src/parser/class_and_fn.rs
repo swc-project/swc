@@ -158,7 +158,10 @@ impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
                 if super_class.is_none() {
                     super_class = Some(sc);
                     if let Some(tp) = type_params {
-                        super_type_params = Some(tp);
+                        super_type_params = self
+                            .plugin
+                            .typescript()
+                            .convert_type_param_instantiation(tp);
                     }
                 }
             }

@@ -208,6 +208,8 @@ impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
         } else {
             None
         };
+        let type_args =
+            type_args.and_then(|n| self.plugin.typescript().convert_type_param_instantiation(n));
 
         let mut attrs = vec![];
         while let Ok(..) = cur!(self, false) {

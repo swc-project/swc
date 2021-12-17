@@ -527,14 +527,16 @@ impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
             return_if_arrow!(self, callee);
 
             let type_args = if self.input.syntax().typescript() && is!(self, '<') {
-                self.try_parse_ts(|p| {
+                let n = self.try_parse_ts(|p| {
                     let args = p.parse_ts_type_args()?;
                     if !is!(p, '(') {
                         // This will fail
                         expect!(p, '(');
                     }
                     Ok(Some(args))
-                })
+                });
+
+                n.and_then(|n| self.plugin.typescript().convert_type_param_instantiation(n))
             } else {
                 None
             };
@@ -1038,6 +1040,10 @@ impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
                     }
 
                     let type_args = p.parse_ts_type_args()?;
+                    let type_args = p
+                        .plugin
+                        .typescript()
+                        .convert_type_param_instantiation(type_args);
 
                     if !no_call && is!(p, '(') {
                         // possibleAsync always false here, because we would have handled it
@@ -1048,7 +1054,7 @@ impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
                             Box::new(Expr::Call(CallExpr {
                                 span: span!(p, start),
                                 callee: obj_ref.clone(),
-                                type_args: Some(type_args),
+                                type_args,
                                 args,
                             })),
                             true,
@@ -1059,7 +1065,7 @@ impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
                                 ExprOrSuper::Expr(ref obj) => obj.clone(),
                                 _ => unreachable!(),
                             },
-                            Some(type_args),
+                            type_args,
                         )
                         .map(|expr| (Box::new(Expr::TaggedTpl(expr)), true))
                         .map(Some)
@@ -1246,6 +1252,8 @@ impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
         } else {
             None
         };
+        let type_args =
+            type_args.and_then(|n| self.plugin.typescript().convert_type_param_instantiation(n));
 
         if let Expr::New(ne @ NewExpr { args: None, .. }) = *callee {
             // If this is parsed using 'NewExpression' rule, just return it.
