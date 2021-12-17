@@ -1997,11 +1997,9 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
                 match kind {
                     Some(kind) if !peeked_is_dot => {
                         bump!(self);
+                        let span = span!(self, start);
                         return Ok(self.plugin.typescript().build_type_from(|| {
-                            Box::new(TsType::TsKeywordType(TsKeywordType {
-                                span: span!(self, start),
-                                kind,
-                            }))
+                            Box::new(TsType::TsKeywordType(TsKeywordType { span, kind }))
                         }));
                     }
                     _ => {
@@ -2035,12 +2033,11 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
                     _ => unreachable!(),
                 };
 
-                return Ok(self.plugin.typescript().build_type_from(|| {
-                    Box::new(TsType::TsLitType(TsLitType {
-                        span: span!(self, start),
-                        lit,
-                    }))
-                }));
+                let span = span!(self, start);
+                return Ok(self
+                    .plugin
+                    .typescript()
+                    .build_type_from(|| Box::new(TsType::TsLitType(TsLitType { span, lit }))));
             }
 
             tok!("import") => {
@@ -2103,9 +2100,10 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         while !self.input.had_line_break_before_cur() && eat!(self, '[') {
             if eat!(self, ']') {
                 lo = cur_pos!(self);
+                let span = span!(self, lo);
                 ty = self.plugin.typescript().map_type(ty, |ty| {
                     Box::new(TsType::TsArrayType(TsArrayType {
-                        span: span!(self, lo),
+                        span,
                         elem_type: ty,
                     }))
                 });
@@ -2137,9 +2135,11 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         }
 
         let type_ann = self.parse_ts_type_operator_or_higher()?;
+
+        let span = span!(self, start);
         Ok(self.plugin.typescript().map_type(type_ann, |type_ann| {
             Box::new(TsType::TsTypeOperator(TsTypeOperator {
-                span: span!(self, start),
+                span,
                 op,
                 type_ann,
             }))
@@ -2159,12 +2159,12 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
             constraint: None,
             default: None,
         };
-        Ok(self.plugin.typescript().build_type_from(|| {
-            Box::new(TsType::TsInferType(TsInferType {
-                span: span!(self, start),
-                type_param,
-            }))
-        }))
+
+        let span = span!(self, start);
+        Ok(self
+            .plugin
+            .typescript()
+            .build_type_from(|| Box::new(TsType::TsInferType(TsInferType { span, type_param }))))
     }
 
     /// `tsParseTypeOperatorOrHigher`
