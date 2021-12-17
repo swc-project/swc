@@ -956,3 +956,51 @@ test!(
     for(var key in keys)_loop(key);
     "
 );
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| block_scoping(),
+    issue_2998_1,
+    "
+    let a = 5;
+for (let b = 0; b < a; b++) {
+    let c = 0, b = 10, d = 100;
+    console.log(b);
+}
+    ",
+    "
+    var a = 5;
+for(var b = 0; b < a; b++){
+    var c = 0, b1 = 10, d = 100;
+    console.log(b);
+}
+    "
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| block_scoping(),
+    issue_2998_2,
+    "
+    for (var a; ;) { }
+    for (var a = ['a', 'b']; ;) { }
+    ",
+    "
+    for (var a; ;) { }
+    for (var a = ['a', 'b']; ;) { }
+    "
+);
+
+test_exec!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| block_scoping(),
+    issue_2998_3,
+    "let a = 5;
+const expected = [];
+for (let b = 0; b < a; b++) {
+    let c = 0, b = 10, d = 100;
+    expected.push(b);
+}
+expect(expected).toEqual([0,1,2,3,4]);
+"
+);
