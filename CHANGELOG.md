@@ -5,6 +5,9 @@
 
 
 
+- **(es/compat)** Fix `block_scoping` (#3058) ([a381fb8](https://github.com/swc-project/swc/commit/a381fb8bce0ed82e7b0a201bb175acb13ce90205))
+
+
 - **(es/lexer)** Don't report lexer errors while backtracking (#3051) ([61e9b5f](https://github.com/swc-project/swc/commit/61e9b5f84115ded8c5361e6674d10e5826fd1635))
 
 
