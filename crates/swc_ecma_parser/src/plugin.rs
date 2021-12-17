@@ -58,6 +58,8 @@ pub trait TypeScriptPlugin: Sized + Clone + Sealed {
 
     fn build_intersection_type(&mut self, span: Span, types: Vec<Self::Type>) -> Self::Type;
 
+    fn build_optional_type(&mut self, span: Span, type_ann: Self::Type) -> Self::Type;
+
     fn build_tuple_type(&mut self, span: Span, elems: Vec<Self::TupleElement>) -> Self::Type;
 
     fn build_tuple_element(
@@ -210,6 +212,10 @@ impl TypeScriptPlugin for NoopPlugin {
         Box::new(TsType::TsUnionOrIntersectionType(
             TsUnionOrIntersectionType::TsIntersectionType(TsIntersectionType { span, types }),
         ))
+    }
+
+    fn build_optional_type(&mut self, span: Span, type_ann: Self::Type) -> Self::Type {
+        Box::new(TsType::TsOptionalType(TsOptionalType { span, type_ann }))
     }
 
     fn build_tuple_type(&mut self, span: Span, elems: Vec<Self::TupleElement>) -> Self::Type {

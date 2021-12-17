@@ -1700,10 +1700,10 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         if eat!(self, '?') {
             let type_ann = ty;
 
-            let ty = TsType::TsOptionalType(TsOptionalType {
-                span: span!(self, start),
-                type_ann,
-            });
+            let ty = self
+                .plugin
+                .typescript()
+                .build_optional_type(span!(self, start), type_ann);
             return Ok(self
                 .plugin
                 .typescript()
