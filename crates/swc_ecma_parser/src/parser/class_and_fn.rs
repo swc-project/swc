@@ -100,7 +100,8 @@ impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
             let (mut super_class, mut super_type_params) = if eat!(p, "extends") {
                 let super_class = p.parse_lhs_expr().map(Some)?;
                 let super_type_params = if p.input.syntax().typescript() && is!(p, '<') {
-                    Some(p.parse_ts_type_args()?)
+                    let n = p.parse_ts_type_args()?;
+                    self.plugin.typescript().convert_type_param_instantiation(n)
                 } else {
                     None
                 };

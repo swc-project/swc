@@ -91,6 +91,11 @@ pub trait TypeScriptPlugin: Sized + Clone + Sealed {
         params: Vec<Self::Type>,
     ) -> Self::TypeParamInstantiation;
 
+    fn convert_type_param_instantiation(
+        &mut self,
+        n: Self::TypeParamInstantiation,
+    ) -> Option<TsTypeParamInstantiation>;
+
     fn convert_type_param_decl(&mut self, n: Self::TypeParamDecl) -> Option<TsTypeParamDecl>;
 }
 
@@ -146,7 +151,13 @@ impl TypeScriptPlugin for NoopPlugin {
         true_type: Self::Type,
         false_type: Self::Type,
     ) -> Self::Type {
-        todo!()
+        Box::new(TsType::TsConditionalType(TsConditionalType {
+            span,
+            check_type,
+            extends_type,
+            true_type,
+            false_type,
+        }))
     }
 
     fn build_indexed_access_type(
@@ -226,7 +237,7 @@ impl TypeScriptPlugin for NoopPlugin {
         span: Span,
         params: Vec<Self::TypeParam>,
     ) -> Self::TypeParamDecl {
-        todo!()
+        TsTypeParamDecl { span, params }
     }
 
     fn build_type_param_instantiation(
@@ -235,6 +246,13 @@ impl TypeScriptPlugin for NoopPlugin {
         params: Vec<Self::Type>,
     ) -> Self::TypeParamInstantiation {
         TsTypeParamInstantiation { span, params }
+    }
+
+    fn convert_type_param_instantiation(
+        &mut self,
+        n: Self::TypeParamInstantiation,
+    ) -> Option<TsTypeParamInstantiation> {
+        Some(n)
     }
 
     fn convert_type_param_decl(&mut self, n: Self::TypeParamDecl) -> Option<TsTypeParamDecl> {
