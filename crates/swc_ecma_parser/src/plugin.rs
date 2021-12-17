@@ -19,6 +19,7 @@ pub trait TypeScriptPlugin: Sized + Clone + Sealed {
     /// Used as return type of parse_ts_type().
     type Type;
     type TypeAnn;
+    type TupleElement;
     type TypeParam;
     type TypeParamDecl;
     type TypeParamInstantiation;
@@ -56,6 +57,15 @@ pub trait TypeScriptPlugin: Sized + Clone + Sealed {
     fn build_union_type(&mut self, span: Span, types: Vec<Self::Type>) -> Self::Type;
 
     fn build_intersection_type(&mut self, span: Span, types: Vec<Self::Type>) -> Self::Type;
+
+    fn build_tuple_type(&mut self, span: Span, elems: Vec<Self::TupleElement>) -> Self::Type;
+
+    fn build_tuple_element(
+        &mut self,
+        span: Span,
+        label: Option<Pat>,
+        ty: Self::Type,
+    ) -> Self::TupleElement;
 
     fn build_mapped_type(
         &mut self,
@@ -124,6 +134,7 @@ impl Plugin for NoopPlugin {
 impl TypeScriptPlugin for NoopPlugin {
     type Type = Box<TsType>;
     type TypeAnn = TsTypeAnn;
+    type TupleElement = TsTupleElement;
     type TypeParam = TsTypeParam;
     type TypeParamDecl = TsTypeParamDecl;
     type TypeParamInstantiation = TsTypeParamInstantiation;
@@ -199,6 +210,19 @@ impl TypeScriptPlugin for NoopPlugin {
         Box::new(TsType::TsUnionOrIntersectionType(
             TsUnionOrIntersectionType::TsIntersectionType(TsIntersectionType { span, types }),
         ))
+    }
+
+    fn build_tuple_type(&mut self, span: Span, elems: Vec<Self::TupleElement>) -> Self::Type {
+        Box::new(TsType::TsTupleType(TsTupleType { span, elems }))
+    }
+
+    fn build_tuple_element(
+        &mut self,
+        span: Span,
+        label: Option<Pat>,
+        ty: Self::Type,
+    ) -> Self::TupleElement {
+        TsTupleElement { span, label, ty }
     }
 
     fn build_mapped_type(

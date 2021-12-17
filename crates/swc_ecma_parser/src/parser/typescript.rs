@@ -1631,10 +1631,10 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
             }
         }
 
-        Ok(TsTupleType {
-            span: span!(self, start),
-            elem_types,
-        })
+        Ok(self
+            .plugin
+            .typescript()
+            .build_tuple_type(span!(self, start), elem_types))
     }
 
     fn try_parse_ts_tuple_element_name(&mut self) -> Option<Pat> {
@@ -1672,7 +1672,9 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
     }
 
     /// `tsParseTupleElementType`
-    fn parse_ts_tuple_element(&mut self) -> PResult<TsTupleElement> {
+    fn parse_ts_tuple_element(
+        &mut self,
+    ) -> PResult<<<P as Plugin>::TypeScript as TypeScriptPlugin>::TupleElement> {
         debug_assert!(self.input.syntax().typescript());
 
         // parses `...TsType[]`
@@ -1682,14 +1684,15 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
 
         if eat!(self, "...") {
             let type_ann = self.parse_ts_type()?;
-            return Ok(TsTupleElement {
-                span: span!(self, start),
-                label,
-                ty: self
-                    .plugin
-                    .typescript()
-                    .build_rest_type(span!(self, start), type_ann),
-            });
+
+            let ty = self
+                .plugin
+                .typescript()
+                .build_rest_type(span!(self, start), type_ann);
+            return Ok(self
+                .plugin
+                .typescript()
+                .build_tuple_element(span!(self, start), label, ty));
         }
 
         let ty = self.parse_ts_type()?;
