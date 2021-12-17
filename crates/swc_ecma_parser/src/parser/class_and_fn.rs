@@ -101,7 +101,7 @@ impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
                 let super_class = p.parse_lhs_expr().map(Some)?;
                 let super_type_params = if p.input.syntax().typescript() && is!(p, '<') {
                     let n = p.parse_ts_type_args()?;
-                    self.plugin.typescript().convert_type_param_instantiation(n)
+                    p.plugin.typescript().convert_type_param_instantiation(n)
                 } else {
                     None
                 };
@@ -158,10 +158,8 @@ impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
                 if super_class.is_none() {
                     super_class = Some(sc);
                     if let Some(tp) = type_params {
-                        super_type_params = self
-                            .plugin
-                            .typescript()
-                            .convert_type_param_instantiation(tp);
+                        super_type_params =
+                            p.plugin.typescript().convert_type_param_instantiation(tp);
                     }
                 }
             }
@@ -1085,7 +1083,7 @@ impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
 
                     Ok(if is!(p, '<') {
                         let decl = p.parse_ts_type_params()?;
-                        self.plugin.typescript().convert_type_param_decl(decl)
+                        p.plugin.typescript().convert_type_param_decl(decl)
                     } else if is!(p, JSXTagStart) {
                         debug_assert_eq!(
                             p.input.token_context().current(),
@@ -1100,7 +1098,7 @@ impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
 
                         let decl = p.parse_ts_type_params()?;
 
-                        self.plugin.typescript().convert_type_param_decl(decl)
+                        p.plugin.typescript().convert_type_param_decl(decl)
                     } else {
                         None
                     })
@@ -1124,7 +1122,7 @@ impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
             let return_type = if p.syntax().typescript() && is!(p, ':') {
                 let type_ann = p.parse_ts_type_or_type_predicate_ann(&tok!(':'))?;
 
-                self.plugin.typescript().convert_type_ann(type_ann)
+                p.plugin.typescript().convert_type_ann(type_ann)
             } else {
                 None
             };

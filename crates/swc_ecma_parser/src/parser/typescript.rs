@@ -264,9 +264,10 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
             self.emit_err(span!(self, start), SyntaxError::TS2369);
         }
 
+        let span = span!(self, start);
         Ok(self.plugin.typescript().build_type_from(|| {
             Box::new(TsType::TsTypeRef(TsTypeRef {
-                span: span!(self, start),
+                span,
                 type_name,
                 type_params: type_args,
             }))
@@ -294,9 +295,10 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
             None
         };
 
+        let span = span!(self, start);
         Ok(self.plugin.typescript().build_type_from(|| {
             Box::new(TsType::TsTypePredicate(TsTypePredicate {
-                span: span!(self, start),
+                span,
                 asserts: has_asserts_keyword,
                 param_name,
                 type_ann,
@@ -390,12 +392,11 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
             .map(From::from)?
         };
 
-        Ok(self.plugin.typescript().build_type_from(|| {
-            Box::new(TsType::TsTypeQuery(TsTypeQuery {
-                span: span!(self, start),
-                expr_name,
-            }))
-        }))
+        let span = span!(self, start);
+        Ok(self
+            .plugin
+            .typescript()
+            .build_type_from(|| Box::new(TsType::TsTypeQuery(TsTypeQuery { span, expr_name }))))
     }
 
     /// `tsParseTypeParameter`
@@ -437,8 +438,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
                     true,
                 )?;
 
-                Ok(self
-                    .plugin
+                Ok(p.plugin
                     .typescript()
                     .build_type_param_decl(span!(p, start), params))
             })
@@ -487,12 +487,12 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
                     // eat_colon
                     false, pos,
                 )?;
-                self.plugin.typescript().convert_type_ann(ty)
+                p.plugin.typescript().convert_type_ann(ty)
             } else {
                 None
             };
 
-            let node = self.plugin.typescript().build_type_from(|| {
+            let node = p.plugin.typescript().build_type_from(|| {
                 Box::new(TsType::TsTypePredicate(TsTypePredicate {
                     span: span!(p, type_pred_start),
                     asserts: has_type_pred_asserts,
@@ -503,7 +503,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
 
             let span = span!(p, return_token_start);
 
-            Ok(self.plugin.typescript().build_ts_type_ann(span, node))
+            Ok(p.plugin.typescript().build_ts_type_ann(span, node))
         })
     }
 

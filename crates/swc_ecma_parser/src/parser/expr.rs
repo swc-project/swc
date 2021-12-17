@@ -98,7 +98,7 @@ impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
                 }
 
                 let type_parameters = p.parse_ts_type_params()?;
-                let type_parameters = self
+                let type_parameters = p
                     .plugin
                     .typescript()
                     .convert_type_param_decl(type_parameters);
@@ -684,7 +684,7 @@ impl<'a, I: Tokens, P: Plugin> Parser<I, P> {
             let items_ref = &paren_items;
             if let Some(expr) = self.try_parse_ts(|p| {
                 let return_type = p.parse_ts_type_or_type_predicate_ann(&tok!(':'))?;
-                let return_type = self.plugin.typescript().convert_type_ann(return_type);
+                let return_type = p.plugin.typescript().convert_type_ann(return_type);
 
                 expect!(p, "=>");
 
