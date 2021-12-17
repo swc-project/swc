@@ -1031,6 +1031,7 @@ impl<I: Tokens, P: Plugin> Parser<I, P> {
         let id = self.parse_ident_name()?;
         let type_params = self.try_parse_ts_type_params()?;
         let type_ann = self.expect_then_parse_ts_type(&tok!('='), "=")?;
+        let type_ann = self.plugin.typescript().force_type(type_ann);
         expect!(self, ';');
         Ok(TsTypeAliasDecl {
             declare: false,

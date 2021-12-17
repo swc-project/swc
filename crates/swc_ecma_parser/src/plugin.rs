@@ -24,6 +24,8 @@ pub trait TypeScriptPlugin: Sized + Clone + Sealed {
     type TypeParamDecl;
     type TypeParamInstantiation;
 
+    fn force_type(&mut self, ty: Self::Type) -> Box<TsType>;
+
     fn build_ts_as_expr(&mut self, span: Span, expr: Box<Expr>, type_ann: Self::Type) -> Box<Expr>;
 
     fn build_ts_type_assertion(
@@ -157,6 +159,10 @@ impl TypeScriptPlugin for NoopPlugin {
     type TypeParam = TsTypeParam;
     type TypeParamDecl = TsTypeParamDecl;
     type TypeParamInstantiation = TsTypeParamInstantiation;
+
+    fn force_type(&mut self, ty: Self::Type) -> Box<TsType> {
+        ty
+    }
 
     fn build_ts_as_expr(&mut self, span: Span, expr: Box<Expr>, type_ann: Self::Type) -> Box<Expr> {
         Box::new(Expr::TsAs(TsAsExpr {
