@@ -12,6 +12,9 @@ use std::{
 use swc::{config::Options, Compiler, TransformOutput};
 use swc_common::{FileName, SourceFile};
 use swc_ecma_ast::Program;
+use tracing::{instrument, span, Level};
+use tracing_chrome::ChromeLayerBuilder;
+use tracing_subscriber::{prelude::__tracing_subscriber_SubscriberExt, util::SubscriberInitExt};
 
 /// Input to transform
 #[derive(Debug)]
@@ -147,15 +150,24 @@ pub fn transform(cx: CallContext) -> napi::Result<JsObject> {
 
 #[js_function(4)]
 pub fn transform_sync(cx: CallContext) -> napi::Result<JsObject> {
-    exec_transform(cx, |c, src, options| {
-        Ok(c.cm.new_source_file(
-            if options.filename.is_empty() {
-                FileName::Anon
-            } else {
-                FileName::Real(options.filename.clone().into())
-            },
-            src,
-        ))
+    let (chrome_layer, guard) = ChromeLayerBuilder::new().build();
+    tracing_subscriber::registry().with(chrome_layer).init();
+
+    let mut span = span!(Level::INFO, "transform_sync");
+    span.in_scope(|| {
+        tracing::info!("start");
+        exec_transform(cx, |c, src, options| {
+            tracing::info!("complete");
+            guard.flush();
+            Ok(c.cm.new_source_file(
+                if options.filename.is_empty() {
+                    FileName::Anon
+                } else {
+                    FileName::Real(options.filename.clone().into())
+                },
+                src,
+            ))
+        })
     })
 }
 

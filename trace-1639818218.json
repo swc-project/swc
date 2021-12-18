@@ -1,0 +1,6 @@
+[{"ph":"M","pid":1,"name":"thread_name","tid":0,"args":{"name":"0"}},
+{"ph":"B","pid":1,"ts":14850.349,"name":"transform_sync","cat":"node::transform","tid":0,"args":{"[file]":"crates/node/src/transform.rs","[line]":156}},
+{"ph":"i","pid":1,"ts":21655.704,"name":"event crates/node/src/transform.rs:158","cat":"node::transform","tid":0,"s":"p","args":{"[file]":"crates/node/src/transform.rs","[line]":158}},
+{"ph":"i","pid":1,"ts":121208.866,"name":"event crates/node/src/transform.rs:160","cat":"node::transform","tid":0,"s":"p","args":{"[file]":"crates/node/src/transform.rs","[line]":160}},
+{"ph":"i","pid":1,"ts":326766.107,"name":"event crates/swc_ecma_loader/src/resolvers/node.rs:288","cat":"swc_ecma_loader::resolvers::node","tid":0,"s":"p","args":{"[file]":"crates/swc_ecma_loader/src/resolvers/node.rs","[line]":288}},
+{"ph":"E","pid":1,"ts":359277.802,"name":"transform_sync","cat":"node::transform","tid":0,"args":{"[file]":"crates/node/src/transform.rs","[line]":156}},

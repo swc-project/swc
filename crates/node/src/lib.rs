@@ -10,7 +10,8 @@ use napi::{CallContext, Env, JsFunction, JsObject, JsUndefined};
 use std::{env, panic::set_hook, sync::Arc};
 use swc::{Compiler, TransformOutput};
 use swc_common::{self, sync::Lazy, FilePathMapping, SourceMap};
-use tracing_subscriber::EnvFilter;
+use tracing_chrome::ChromeLayerBuilder;
+use tracing_subscriber::prelude::*;
 
 mod bundle;
 mod minify;
@@ -37,12 +38,13 @@ fn init(mut exports: JsObject) -> napi::Result<()> {
         }));
     }
 
+    /*
     let _ = tracing_subscriber::FmtSubscriber::builder()
         .without_time()
         .with_target(false)
         .with_ansi(true)
         .with_env_filter(EnvFilter::from_env("SWC_LOG"))
-        .try_init();
+        .try_init(); */
 
     exports.create_named_method("define", define_compiler_class)?;
 
