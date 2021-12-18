@@ -52,7 +52,7 @@ impl<'a> From<&'a SourceFile> for StringInput<'a> {
 impl<'a> Input for StringInput<'a> {
     #[inline]
     fn cur(&mut self) -> Option<char> {
-        self.iter.clone().nth(0).map(|i| i.1)
+        self.iter.clone().next().map(|i| i.1)
     }
 
     #[inline]
