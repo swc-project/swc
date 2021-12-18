@@ -34,6 +34,9 @@
 
 - **(es/compat)** Migrate `regenerator` to `VisitMut` (#3037) ([29eb71a](https://github.com/swc-project/swc/commit/29eb71aaf9b1154aba1a28c408aaa1a2bd7a8ec7))
 
+
+- **(es/parser)** Improve performance (#3059) ([b4d95b4](https://github.com/swc-project/swc/commit/b4d95b44a7465941e58ec66a13c800e00409b188))
+
 ### Refactor
 
 
