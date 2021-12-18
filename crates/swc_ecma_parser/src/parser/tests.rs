@@ -83,6 +83,7 @@ fn issue_1813() {
     )
 }
 
+#[test]
 fn parse_module_export_named_span() {
     let m = module("export function foo() {}");
     if let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { span, .. })) = &m.body[0] {

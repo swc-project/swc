@@ -1,4 +1,3 @@
-#![allow(dead_code, unused_variables)]
 #![deny(non_snake_case)]
 pub use self::input::{Capturing, Tokens, TokensInput};
 use self::{input::Buffer, util::ParseObject};

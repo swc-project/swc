@@ -782,7 +782,6 @@ impl<'a, I: Tokens> StmtLikeParser<'a, ModuleItem> for Parser<I> {
             syntax_error!(self, SyntaxError::NonTopLevelImportExport);
         }
 
-        let start = cur_pos!(self);
         let decl = if is!(self, "import") {
             self.parse_import()?
         } else if is!(self, "export") {

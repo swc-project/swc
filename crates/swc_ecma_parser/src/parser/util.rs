@@ -183,19 +183,6 @@ impl<'a, I: Tokens> Parser<I> {
         f(self)
     }
 
-    /// Creates a span from `start` to current pos.
-    pub(super) fn span(&mut self, start: BytePos) -> Span {
-        let end = last_pos!(self);
-        if cfg!(debug_assertions) && start > end {
-            unreachable!(
-                "assertion failed: (span.start <= span.end).
- start = {}, end = {}",
-                start.0, end.0
-            )
-        }
-        Span::new(start, end, Default::default())
-    }
-
     pub(super) fn syntax(&self) -> Syntax {
         self.input.syntax()
     }

@@ -21,7 +21,7 @@ impl<'a, I: Tokens> Parser<I> {
             while eat!(self, ',') {
                 exprs.push(self.parse_assignment_expr()?);
             }
-            let end = exprs.last().unwrap().span().hi();
+
             return Ok(Box::new(Expr::Seq(SeqExpr {
                 span: span!(self, start),
                 exprs,
@@ -473,14 +473,13 @@ impl<'a, I: Tokens> Parser<I> {
         Ok(Box::new(Expr::Array(ArrayLit { span, elems })))
     }
 
+    #[allow(dead_code)]
     fn parse_member_expr(&mut self) -> PResult<Box<Expr>> {
         self.parse_member_expr_or_new_expr(false)
     }
 
     /// `parseImportMetaProperty`
     pub(super) fn parse_import_meta_prop(&mut self, import: Ident) -> PResult<MetaPropExpr> {
-        let start = cur_pos!(self);
-
         let meta = import;
 
         expect!(self, '.');
@@ -1416,8 +1415,6 @@ impl<'a, I: Tokens> Parser<I> {
             };
 
             if optional || (self.input.syntax().typescript() && is!(self, ':')) {
-                let start = cur_pos!(self);
-
                 // TODO: `async(...args?: any[]) : any => {}`
                 //
                 // if self.input.syntax().typescript() && optional && arg.spread.is_some() {
@@ -1480,7 +1477,7 @@ impl<'a, I: Tokens> Parser<I> {
                         *type_ann = new_type_ann;
                     }
                     Pat::Expr(ref expr) => unreachable!("invalid pattern: Expr({:?})", expr),
-                    Pat::Invalid(ref i) => {
+                    Pat::Invalid(..) => {
                         // We don't have to panic here.
                         // See: https://github.com/swc-project/swc/issues/1170
                         //

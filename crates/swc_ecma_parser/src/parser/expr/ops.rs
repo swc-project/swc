@@ -287,7 +287,6 @@ impl<'a, I: Tokens> Parser<I> {
                     }))
                 }
             };
-            let span = Span::new(start, arg.span().hi(), Default::default());
 
             if op == op!("delete") {
                 match *arg {
@@ -341,7 +340,6 @@ impl<'a, I: Tokens> Parser<I> {
         if is_one_of!(self, "++", "--") {
             self.check_assign_target(&expr, false);
 
-            let start = cur_pos!(self);
             let op = if bump!(self) == tok!("++") {
                 op!("++")
             } else {

@@ -124,7 +124,7 @@ impl<I: Tokens> Parser<I> {
             if self.is_ts_list_terminator(kind)? {
                 break;
             }
-            let (start, element) = parse_element(self)?;
+            let (_, element) = parse_element(self)?;
             buf.push(element);
 
             if eat!(self, ',') {
@@ -507,7 +507,7 @@ impl<I: Tokens> Parser<I> {
                 self.input.set_ctx(ctx);
                 Ok(res)
             }
-            Err(err) => Ok(false),
+            Err(..) => Ok(false),
             _ => Ok(false),
         }
     }
@@ -1380,7 +1380,7 @@ impl<I: Tokens> Parser<I> {
         if let Some(v) = self.try_parse_ts(|p| {
             let start = p.input.cur_pos();
 
-            let reaodnly = p.parse_ts_modifier(&["readonly"], false)?.is_some();
+            let readonly = p.parse_ts_modifier(&["readonly"], false)?.is_some();
 
             let is_get = if eat!(p, "get") {
                 true
@@ -1391,7 +1391,6 @@ impl<I: Tokens> Parser<I> {
 
             let (computed, key) = p.parse_ts_property_name()?;
 
-            let key_span = key.span();
             let optional = eat!(p, '?');
 
             if is_get {
@@ -1570,7 +1569,7 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!(self);
-        let elem_types = self.parse_ts_bracketed_list(
+        let elems = self.parse_ts_bracketed_list(
             ParsingContext::TupleElementTypes,
             |p| p.parse_ts_tuple_element_type(),
             /* bracket */ true,
@@ -1582,9 +1581,9 @@ impl<I: Tokens> Parser<I> {
         //   If there's a rest element, it must be at the end of the tuple
 
         let mut seen_optional_element = false;
-        let len = elem_types.len();
-        for (i, elem_type) in elem_types.iter().enumerate() {
-            match elem_type.ty {
+
+        for elem in elems.iter() {
+            match elem.ty {
                 TsType::TsRestType(..) => {}
                 TsType::TsOptionalType(..) => {
                     seen_optional_element = true;
@@ -1602,7 +1601,7 @@ impl<I: Tokens> Parser<I> {
 
         Ok(TsTupleType {
             span: span!(self, start),
-            elem_types,
+            elem_types: elems,
         })
     }
 
@@ -2511,7 +2510,6 @@ impl<I: Tokens> Parser<I> {
         };
         self.with_ctx(ctx).parse_with(|p| {
             let is_generator = false;
-            let expr = true; // May be set again by parseFunctionBody.
             let is_async = true;
             let body = p.parse_fn_body(true, false)?;
             Ok(Some(ArrowExpr {
