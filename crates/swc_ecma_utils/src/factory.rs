@@ -1,6 +1,6 @@
 use std::iter;
 use swc_atoms::js_word;
-use swc_common::{Span, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 
 /// Extension methods for [Expr].
@@ -114,3 +114,23 @@ pub trait ExprFactory: Into<Expr> {
 }
 
 impl<T: Into<Expr>> ExprFactory for T {}
+
+pub trait IntoIndirectCall: Into<CallExpr> {
+    fn into_indirect(self) -> CallExpr {
+        let mut s: CallExpr = self.into();
+
+        let callee = ExprOrSuper::Expr(Box::new(Expr::Seq(SeqExpr {
+            span: DUMMY_SP,
+            exprs: vec![Box::new(0_f64.into()), s.callee.expect_expr().take()],
+        })));
+
+        CallExpr {
+            span: DUMMY_SP,
+            callee,
+            args: s.args.take(),
+            type_args: s.type_args.take(),
+        }
+    }
+}
+
+impl<T: Into<CallExpr>> IntoIndirectCall for T {}

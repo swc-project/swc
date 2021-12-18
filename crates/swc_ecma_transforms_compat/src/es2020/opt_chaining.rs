@@ -5,7 +5,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Check;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
-    alias_if_required, prepend, private_ident, quote_ident, undefined, ExprFactory, StmtLike,
+    alias_if_required, prepend, private_ident, undefined, ExprFactory, IntoIndirectCall, StmtLike,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith,
@@ -517,7 +517,7 @@ impl OptChaining {
                         obj.clone(),
                         obj.clone(),
                         if is_eval {
-                            indirect_eval_call(args.take(), type_args.take())
+                            Box::new(e.expr.take().expect_call().into_indirect().into())
                         } else {
                             e.expr.take()
                         },
@@ -710,30 +710,4 @@ fn is_simple_expr(expr: &Expr) -> bool {
         }
         _ => false,
     }
-}
-
-fn indirect_eval_call(
-    args: Vec<ExprOrSpread>,
-    type_args: Option<TsTypeParamInstantiation>,
-) -> Box<Expr> {
-    let callee = ExprOrSuper::Expr(Box::new(Expr::Seq(SeqExpr {
-        span: DUMMY_SP,
-        exprs: vec![
-            Box::new(
-                Lit::Num(Number {
-                    span: DUMMY_SP,
-                    value: 0.0,
-                })
-                .into(),
-            ),
-            Box::new(Expr::Ident(quote_ident!("eval"))),
-        ],
-    })));
-
-    Box::new(Expr::Call(CallExpr {
-        span: DUMMY_SP,
-        callee,
-        args,
-        type_args,
-    }))
 }
