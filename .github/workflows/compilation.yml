@@ -48,6 +48,10 @@ jobs:
         run: |
           (cd crates/swc_ecma_ast && cargo hack check --feature-powerset --no-dev-deps)
 
+      - name: Check swc_ecma_parser
+        run: |
+          (cd crates/swc_ecma_parser && cargo hack check --feature-powerset --no-dev-deps)
+
       - name: Check swc_ecma_loader
         run: |
           (cd crates/swc_ecma_loader && cargo hack check --feature-powerset --no-dev-deps)
