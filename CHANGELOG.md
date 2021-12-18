@@ -11,6 +11,9 @@
 - **(es/lexer)** Don't report lexer errors while backtracking (#3051) ([61e9b5f](https://github.com/swc-project/swc/commit/61e9b5f84115ded8c5361e6674d10e5826fd1635))
 
 
+- **(es/lexer)** Fix lexing of numbers with large exponent (#3061) ([0c813ae](https://github.com/swc-project/swc/commit/0c813ae4530b34b4203ae844b470786c0305d268))
+
+
 - **(es/loader)** Support fully-specified ESM import specifiers (#3050) ([d5c7fb8](https://github.com/swc-project/swc/commit/d5c7fb898fd0f92c51e04b09e8a77098dbd098ac))
 
 
