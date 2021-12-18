@@ -125,10 +125,10 @@ impl NodeModulesResolver {
                 let extensions = match old_ext {
                     // Note that the official compiler code always tries ".ts" before
                     // ".tsx" even if the original extension was ".jsx".
-                    "js" => &["ts", "tsx"],
-                    "jsx" => &["ts", "tsx"],
-                    "mjs" => &["mts"],
-                    "cjs" => &["cts"],
+                    "js" => &*["ts", "tsx"],
+                    "jsx" => &*["ts", "tsx"],
+                    "mjs" => &*["mts"],
+                    "cjs" => &*["cts"],
                     _ => &[],
                 };
 
