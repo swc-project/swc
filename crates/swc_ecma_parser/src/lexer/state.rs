@@ -701,7 +701,9 @@ where
         let mut l = Lexer::new(syntax, target, fm, None);
         let res = f(&mut l);
 
+        #[cfg(debug_assertions)]
         let c = vec![TokenContext::BraceStmt];
+        #[cfg(debug_assertions)]
         debug_assert_eq!(l.state.context.0, c);
 
         res
