@@ -28,6 +28,12 @@
 
 - **(webpack/ast)** Expose fields of `AstOutput` (#3046) ([0892018](https://github.com/swc-project/swc/commit/08920189ba62cee4f836a417bffcef014e97becb))
 
+### Features
+
+
+
+- **(es/parser)** Report an error for `export type * from "mod";` (#3064) ([f1a2832](https://github.com/swc-project/swc/commit/f1a28329cbfa6cdda275ca16615c82472bda5121))
+
 ### Performance
 
 
