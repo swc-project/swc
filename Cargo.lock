@@ -2565,7 +2565,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.15.0"
+version = "0.15.1"
 dependencies = [
  "abi_stable",
  "ahash",
