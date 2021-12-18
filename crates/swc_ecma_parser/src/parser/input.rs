@@ -299,6 +299,7 @@ impl<I: Tokens> Buffer<I> {
         prev.map(|it| it.token)
     }
 
+    #[allow(dead_code)]
     pub fn cur_debug(&self) -> Option<&Token> {
         self.cur.as_ref().map(|it| &it.token)
     }
@@ -393,31 +394,12 @@ impl<I: Tokens> Buffer<I> {
     }
 
     #[inline]
-    pub fn peeked_is(&mut self, expected: &Token) -> bool {
-        match self.peek() {
-            Some(t) => *expected == *t,
-            _ => false,
-        }
-    }
-
-    #[inline]
     pub fn eat(&mut self, expected: &Token) -> bool {
         let v = self.is(expected);
         if v {
             self.bump();
         }
         v
-    }
-
-    #[inline]
-    pub fn eat_keyword(&mut self, kwd: Keyword) -> bool {
-        match self.cur() {
-            Some(Token::Word(Word::Keyword(k))) if *k == kwd => {
-                self.bump();
-                true
-            }
-            _ => false,
-        }
     }
 
     /// Returns start of current token.

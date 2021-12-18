@@ -2,7 +2,7 @@ use super::{pat::PatType, util::ExprExt, *};
 use crate::{lexer::TokenContext, token::AssignOpToken};
 use either::Either;
 use swc_atoms::js_word;
-use swc_common::{ast_node, Spanned};
+use swc_common::{ast_node, util::take::Take, Spanned};
 
 mod ops;
 #[cfg(test)]
@@ -21,7 +21,7 @@ impl<'a, I: Tokens> Parser<I> {
             while eat!(self, ',') {
                 exprs.push(self.parse_assignment_expr()?);
             }
-            let end = exprs.last().unwrap().span().hi();
+
             return Ok(Box::new(Expr::Seq(SeqExpr {
                 span: span!(self, start),
                 exprs,
@@ -225,7 +225,6 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     /// Parse a primary expression or arrow function
-    #[allow(clippy::cognitive_complexity)]
     pub(super) fn parse_primary_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_primary_expr);
 
@@ -474,14 +473,13 @@ impl<'a, I: Tokens> Parser<I> {
         Ok(Box::new(Expr::Array(ArrayLit { span, elems })))
     }
 
+    #[allow(dead_code)]
     fn parse_member_expr(&mut self) -> PResult<Box<Expr>> {
         self.parse_member_expr_or_new_expr(false)
     }
 
     /// `parseImportMetaProperty`
     pub(super) fn parse_import_meta_prop(&mut self, import: Ident) -> PResult<MetaPropExpr> {
-        let start = cur_pos!(self);
-
         let meta = import;
 
         expect!(self, '.');
@@ -846,7 +844,6 @@ impl<'a, I: Tokens> Parser<I> {
         }
     }
 
-    #[allow(clippy::vec_box)]
     fn parse_tpl_elements(
         &mut self,
         is_tagged_tpl: bool,
@@ -969,8 +966,9 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_subscripts(&mut self, mut obj: ExprOrSuper, no_call: bool) -> PResult<Box<Expr>> {
+        let start = obj.span().lo;
         loop {
-            obj = match self.parse_subscript(obj, no_call)? {
+            obj = match self.parse_subscript(start, obj, no_call)? {
                 (expr, false) => return Ok(expr),
                 (expr, true) => ExprOrSuper::Expr(expr),
             }
@@ -978,10 +976,13 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     /// returned bool is true if this method should be called again.
-    #[allow(clippy::cognitive_complexity)]
-    fn parse_subscript(&mut self, obj: ExprOrSuper, no_call: bool) -> PResult<(Box<Expr>, bool)> {
+    fn parse_subscript(
+        &mut self,
+        start: BytePos,
+        mut obj: ExprOrSuper,
+        no_call: bool,
+    ) -> PResult<(Box<Expr>, bool)> {
         let _ = cur!(self, false);
-        let start = obj.span().lo();
 
         if self.input.syntax().typescript() {
             if !self.input.had_line_break_before_cur() && is!(self, '!') {
@@ -1009,15 +1010,20 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             } && is!(self, '<')
             {
-                let obj_ref = &obj;
+                let is_dynamic_import = is_import(&obj);
+
+                let mut obj_opt = Some(obj);
                 // tsTryParseAndCatch is expensive, so avoid if not necessary.
                 // There are number of things we are going to "maybe" parse, like type arguments
                 // on tagged template expressions. If any of them fail, walk it back and
                 // continue.
+
+                let mut_obj_opt = &mut obj_opt;
+
                 let result = self.try_parse_ts(|p| {
                     if !no_call
-                        && p.at_possible_async(match obj_ref {
-                            ExprOrSuper::Expr(ref expr) => &*expr,
+                        && p.at_possible_async(match &mut_obj_opt {
+                            Some(ExprOrSuper::Expr(ref expr)) => &**expr,
                             _ => unreachable!(),
                         })?
                     {
@@ -1034,12 +1040,12 @@ impl<'a, I: Tokens> Parser<I> {
                     if !no_call && is!(p, '(') {
                         // possibleAsync always false here, because we would have handled it
                         // above. (won't be any undefined arguments)
-                        let args = p.parse_args(is_import(&obj))?;
+                        let args = p.parse_args(is_dynamic_import)?;
 
                         Ok(Some((
                             Box::new(Expr::Call(CallExpr {
                                 span: span!(p, start),
-                                callee: obj_ref.clone(),
+                                callee: mut_obj_opt.take().unwrap(),
                                 type_args: Some(type_args),
                                 args,
                             })),
@@ -1047,8 +1053,8 @@ impl<'a, I: Tokens> Parser<I> {
                         )))
                     } else if is!(p, '`') {
                         p.parse_tagged_tpl(
-                            match *obj_ref {
-                                ExprOrSuper::Expr(ref obj) => obj.clone(),
+                            match mut_obj_opt {
+                                Some(ExprOrSuper::Expr(obj)) => obj.take(),
                                 _ => unreachable!(),
                             },
                             Some(type_args),
@@ -1066,6 +1072,8 @@ impl<'a, I: Tokens> Parser<I> {
                 if let Some(result) = result {
                     return Ok(result);
                 }
+
+                obj = obj_opt.unwrap();
             }
         }
 
@@ -1286,7 +1294,6 @@ impl<'a, I: Tokens> Parser<I> {
         self.parse_expr()
     }
 
-    #[allow(clippy::cognitive_complexity)]
     pub(super) fn parse_args_or_pats(&mut self) -> PResult<Vec<PatOrExprOrSpread>> {
         trace_cur!(self, parse_args_or_pats);
 
@@ -1409,8 +1416,6 @@ impl<'a, I: Tokens> Parser<I> {
             };
 
             if optional || (self.input.syntax().typescript() && is!(self, ':')) {
-                let start = cur_pos!(self);
-
                 // TODO: `async(...args?: any[]) : any => {}`
                 //
                 // if self.input.syntax().typescript() && optional && arg.spread.is_some() {
@@ -1473,7 +1478,7 @@ impl<'a, I: Tokens> Parser<I> {
                         *type_ann = new_type_ann;
                     }
                     Pat::Expr(ref expr) => unreachable!("invalid pattern: Expr({:?})", expr),
-                    Pat::Invalid(ref i) => {
+                    Pat::Invalid(..) => {
                         // We don't have to panic here.
                         // See: https://github.com/swc-project/swc/issues/1170
                         //

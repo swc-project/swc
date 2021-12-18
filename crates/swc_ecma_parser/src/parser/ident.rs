@@ -6,7 +6,6 @@ use swc_atoms::js_word;
 
 impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_maybe_private_name(&mut self) -> PResult<Either<PrivateName, Ident>> {
-        let start = cur_pos!(self);
         let is_private = is!(self, '#');
 
         if is_private {

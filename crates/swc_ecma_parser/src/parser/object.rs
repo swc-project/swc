@@ -156,8 +156,6 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
         }
 
         if eat!(self, '*') {
-            let span_of_gen = span!(self, start);
-
             let name = self.parse_prop_name()?;
             return self
                 .parse_fn_args_body(
