@@ -74,19 +74,19 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     // https://tc39.es/ecma262/#prod-ModuleExportName
-    pub(super) fn parse_module_export_name(&mut self) -> PResult<ModuleExportName> {
-        let module_export_name = match cur!(self, false) {
-            Ok(Token::Str { .. }) => ModuleExportName::Str(match self.parse_lit()? {
-                Lit::Str(str_lit) => str_lit,
-                _ => unreachable!(""),
-            }),
-            Ok(Token::Word(..)) => ModuleExportName::Ident(self.parse_ident_name()?),
-            _ => {
-                syntax_error!(self, SyntaxError::ExpectedIdentOrStrLit)
-            }
-        };
-        Ok(module_export_name)
-    }
+    // pub(super) fn parse_module_export_name(&mut self) -> PResult<ModuleExportName> {
+    //     let module_export_name = match cur!(self, false) {
+    //         Ok(Token::Str { .. }) => ModuleExportName::Str(match self.parse_lit()? {
+    //             Lit::Str(str_lit) => str_lit,
+    //             _ => unreachable!(""),
+    //         }),
+    //         Ok(Token::Word(..)) => ModuleExportName::Ident(self.parse_ident_name()?),
+    //         _ => {
+    //             syntax_error!(self, SyntaxError::ExpectedIdentOrStrLit)
+    //         }
+    //     };
+    //     Ok(module_export_name)
+    // }
 
     /// Identifier
     ///
