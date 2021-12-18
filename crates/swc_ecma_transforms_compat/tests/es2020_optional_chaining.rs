@@ -118,6 +118,7 @@ eval?.("console.log()");
 window.eval?.("console.log()");
 "#,
     r#"
+var ref;
 eval === null || eval === void 0 ? void 0 : (0, eval)();
 eval === null || eval === void 0 ? void 0 : (0, eval)("console.log()");
 (ref = window.eval) === null || ref === void 0 ? void 0 : ref.call(window, "console.log()");
