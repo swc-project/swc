@@ -219,8 +219,8 @@ impl ClassProperties {
                                             span,
                                             specifiers: vec![ExportNamedSpecifier {
                                                 span: DUMMY_SP,
-                                                orig: ident,
-                                                exported: Some(private_ident!("default")),
+                                                orig: ModuleExportName::Ident(ident),
+                                                exported: Some(ModuleExportName::Ident(private_ident!("default"))),
                                                 is_type_only: false,
                                             }
                                             .into()],

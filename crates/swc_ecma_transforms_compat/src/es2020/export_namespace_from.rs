@@ -56,8 +56,8 @@ impl VisitMut for ExportNamespaceFrom {
                                     specifiers: vec![ExportSpecifier::Named(
                                         ExportNamedSpecifier {
                                             span: DUMMY_SP,
-                                            orig: local,
-                                            exported: Some(ns.name),
+                                            orig: ModuleExportName::Ident(local),
+                                            exported: Some(ModuleExportName::Ident(ns.name)),
                                             is_type_only: false,
                                         },
                                     )],
