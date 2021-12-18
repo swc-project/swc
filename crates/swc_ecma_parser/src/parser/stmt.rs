@@ -87,7 +87,6 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     /// `parseStatementContent`
-    #[allow(clippy::cognitive_complexity)]
     fn parse_stmt_internal(
         &mut self,
         start: BytePos,
@@ -456,7 +455,6 @@ impl<'a, I: Tokens> Parser<I> {
         stmt
     }
 
-    #[allow(clippy::cognitive_complexity)]
     fn parse_switch_stmt(&mut self) -> PResult<Stmt> {
         let switch_start = cur_pos!(self);
 
@@ -804,7 +802,6 @@ impl<'a, I: Tokens> Parser<I> {
         })
     }
 
-    #[allow(clippy::cognitive_complexity)]
     fn parse_do_stmt(&mut self) -> PResult<Stmt> {
         let start = cur_pos!(self);
 

@@ -455,7 +455,6 @@ impl<'a, I: Tokens> Parser<I> {
         Ok(StaticBlock { span, body }.into())
     }
 
-    #[allow(clippy::cognitive_complexity)]
     fn parse_class_member_with_is_static(
         &mut self,
         start: BytePos,

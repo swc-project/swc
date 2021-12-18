@@ -1,7 +1,6 @@
 use super::*;
 
 impl<'a, I: Tokens> Parser<I> {
-    #[allow(clippy::cognitive_complexity)]
     fn parse_import(&mut self) -> PResult<ModuleItem> {
         let start = cur_pos!(self);
 
@@ -308,7 +307,6 @@ impl<'a, I: Tokens> Parser<I> {
         Ok(self.with_ctx(ctx).parse_binding_ident()?.id)
     }
 
-    #[allow(clippy::cognitive_complexity)]
     fn parse_export(&mut self, decorators: Vec<Decorator>) -> PResult<ModuleDecl> {
         if !self.ctx().module {
             // Switch to module mode

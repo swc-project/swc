@@ -156,7 +156,6 @@ impl<I: Tokens> Parser<I> {
         Ok(buf)
     }
 
-    #[allow(clippy::cognitive_complexity)]
     fn parse_ts_bracketed_list<T, F>(
         &mut self,
         kind: ParsingContext,
@@ -1062,7 +1061,6 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseExternalModuleReference`
-    #[allow(clippy::cognitive_complexity)]
     fn parse_ts_external_module_ref(&mut self) -> PResult<TsExternalModuleRef> {
         debug_assert!(self.input.syntax().typescript());
 
@@ -1513,7 +1511,6 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseMappedType`
-    #[allow(clippy::cognitive_complexity)]
     fn parse_ts_mapped_type(&mut self) -> PResult<TsMappedType> {
         debug_assert!(self.input.syntax().typescript());
 
@@ -1788,7 +1785,6 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
-    #[allow(clippy::vec_box)]
     fn parse_ts_tpl_type_elements(&mut self) -> PResult<(Vec<Box<TsType>>, Vec<TplElement>)> {
         if !cfg!(feature = "typescript") {
             return Ok(Default::default());
@@ -1897,7 +1893,6 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseNonArrayType`
-    #[allow(clippy::cognitive_complexity)]
     fn parse_ts_non_array_type(&mut self) -> PResult<Box<TsType>> {
         if !cfg!(feature = "typescript") {
             unreachable!()
@@ -2366,7 +2361,6 @@ impl<I: Tokens> Parser<I> {
     /// tsParseExpressionStatement.
     ///
     /// `tsParseDeclaration`
-    #[allow(clippy::cognitive_complexity)]
     fn parse_ts_decl(
         &mut self,
         start: BytePos,

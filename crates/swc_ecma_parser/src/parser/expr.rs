@@ -225,7 +225,6 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     /// Parse a primary expression or arrow function
-    #[allow(clippy::cognitive_complexity)]
     pub(super) fn parse_primary_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_primary_expr);
 
@@ -846,7 +845,6 @@ impl<'a, I: Tokens> Parser<I> {
         }
     }
 
-    #[allow(clippy::vec_box)]
     fn parse_tpl_elements(
         &mut self,
         is_tagged_tpl: bool,
@@ -1296,7 +1294,6 @@ impl<'a, I: Tokens> Parser<I> {
         self.parse_expr()
     }
 
-    #[allow(clippy::cognitive_complexity)]
     pub(super) fn parse_args_or_pats(&mut self) -> PResult<Vec<PatOrExprOrSpread>> {
         trace_cur!(self, parse_args_or_pats);
 
