@@ -107,6 +107,23 @@ foo == null ? void 0 : foo.bar == null ? void 0 : foo.bar(foo.bar, true);
 "#
 );
 
+// indirect_eval_call
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    indirect_eval_call,
+    r#"
+eval?.();
+eval?.("console.log()");
+window.eval?.("console.log()");
+"#,
+    r#"
+eval === null || eval === void 0 ? void 0 : (0, eval)();
+eval === null || eval === void 0 ? void 0 : (0, eval)("console.log()");
+(ref = window.eval) === null || ref === void 0 ? void 0 : ref.call(window, "console.log()");
+"#
+);
+
 // general_function_param_loose
 test!(
     ignore,
