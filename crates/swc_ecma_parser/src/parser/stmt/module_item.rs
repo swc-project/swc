@@ -393,6 +393,16 @@ impl<'a, I: Tokens> Parser<I> {
 
         if eat!(self, '*') {
             has_star = true;
+            if self.input.syntax().typescript() && type_only {
+                // export type * from "mod";
+                // or
+                // export type * as foo from "mod";
+                syntax_error!(
+                    self,
+                    span!(self, start),
+                    SyntaxError::TS1383
+                )
+            }
             if is!(self, "from") {
                 let (src, asserts) = self.parse_from_clause_and_semi()?;
                 return Ok(ModuleDecl::ExportAll(ExportAll {
