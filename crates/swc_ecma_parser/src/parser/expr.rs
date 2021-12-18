@@ -966,8 +966,9 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_subscripts(&mut self, mut obj: ExprOrSuper, no_call: bool) -> PResult<Box<Expr>> {
+        let start = obj.span().lo;
         loop {
-            obj = match self.parse_subscript(obj, no_call)? {
+            obj = match self.parse_subscript(start, obj, no_call)? {
                 (expr, false) => return Ok(expr),
                 (expr, true) => ExprOrSuper::Expr(expr),
             }
@@ -977,11 +978,11 @@ impl<'a, I: Tokens> Parser<I> {
     /// returned bool is true if this method should be called again.
     fn parse_subscript(
         &mut self,
+        start: BytePos,
         mut obj: ExprOrSuper,
         no_call: bool,
     ) -> PResult<(Box<Expr>, bool)> {
         let _ = cur!(self, false);
-        let start = obj.span().lo();
 
         if self.input.syntax().typescript() {
             if !self.input.had_line_break_before_cur() && is!(self, '!') {
