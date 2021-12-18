@@ -226,6 +226,8 @@ pub trait Input: Clone {
     fn reset_to(&mut self, to: BytePos);
 
     /// Implementors can override the method to make it faster.
+    ///
+    /// `c` must be ASCII.
     #[inline]
     fn is_byte(&mut self, c: u8) -> bool {
         match self.cur() {
@@ -235,6 +237,8 @@ pub trait Input: Clone {
     }
 
     /// Implementors can override the method to make it faster.
+    ///
+    /// `c` must be ASCII.
     #[inline]
     fn eat_byte(&mut self, c: u8) -> bool {
         if self.is_byte(c) {
