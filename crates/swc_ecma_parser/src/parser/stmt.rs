@@ -2161,21 +2161,17 @@ export default function waitUntil(callback, options = {}) {
     #[should_panic(expected = "Only named exports may use 'export type'.")]
     fn error_for_type_only_star_exports_with_name() {
         let src = "export type * as bar from 'mod'";
-        test_parser(
-            src,
-            Syntax::Typescript(Default::default()),
-            |p| p.parse_module()
-        );
+        test_parser(src, Syntax::Typescript(Default::default()), |p| {
+            p.parse_module()
+        });
     }
 
     #[test]
     #[should_panic(expected = "Only named exports may use 'export type'.")]
     fn error_for_type_only_star_exports_without_name() {
         let src = "export type * from 'mod'";
-        test_parser(
-            src,
-            Syntax::Typescript(Default::default()),
-            |p| p.parse_module()
-        );
+        test_parser(src, Syntax::Typescript(Default::default()), |p| {
+            p.parse_module()
+        });
     }
 }

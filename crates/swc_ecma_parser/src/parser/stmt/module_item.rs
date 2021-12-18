@@ -397,11 +397,7 @@ impl<'a, I: Tokens> Parser<I> {
                 // export type * from "mod";
                 // or
                 // export type * as foo from "mod";
-                syntax_error!(
-                    self,
-                    span!(self, start),
-                    SyntaxError::TS1383
-                )
+                syntax_error!(self, span!(self, start), SyntaxError::TS1383)
             }
             if is!(self, "from") {
                 let (src, asserts) = self.parse_from_clause_and_semi()?;
