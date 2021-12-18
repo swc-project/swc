@@ -503,20 +503,19 @@ impl OptChaining {
                 ..
             }) => {
                 let obj_span = obj.span();
-                let (is_super_access, is_eval) = match obj.as_ref() {
+                let is_super_access = match obj.as_ref() {
                     Expr::Member(MemberExpr {
                         obj: ExprOrSuper::Super(..),
                         ..
-                    }) => (true, false),
-                    Expr::Ident(Ident { sym, .. }) if *sym == *"eval" => (false, true),
-                    _ => (false, false),
+                    }) => true,
+                    _ => false,
                 };
 
                 let (left, right, alt) = match obj.as_ref() {
-                    Expr::Ident(..) => (
+                    Expr::Ident(ident) => (
                         obj.clone(),
                         obj.clone(),
-                        if is_eval {
+                        if *ident.sym == *"eval" {
                             Box::new(e.expr.take().expect_call().into_indirect().into())
                         } else {
                             e.expr.take()
