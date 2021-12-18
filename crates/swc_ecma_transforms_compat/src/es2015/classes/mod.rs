@@ -116,7 +116,9 @@ where
                                             specifiers: vec![ExportNamedSpecifier {
                                                 span: DUMMY_SP,
                                                 orig: ModuleExportName::Ident(ident),
-                                                exported: Some(ModuleExportName::Ident(quote_ident!("default"))),
+                                                exported: Some(ModuleExportName::Ident(
+                                                    quote_ident!("default"),
+                                                )),
                                                 is_type_only: false,
                                             }
                                             .into()],

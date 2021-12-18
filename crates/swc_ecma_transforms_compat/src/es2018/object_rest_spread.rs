@@ -284,7 +284,10 @@ impl VisitMut for ObjectRest {
                         .into_iter()
                         .map(|(sym, ctxt)| ExportNamedSpecifier {
                             span: DUMMY_SP,
-                            orig: ModuleExportName::Ident(Ident::new(sym, DUMMY_SP.with_ctxt(ctxt))),
+                            orig: ModuleExportName::Ident(Ident::new(
+                                sym,
+                                DUMMY_SP.with_ctxt(ctxt),
+                            )),
                             exported: None,
                             is_type_only: false,
                         })
