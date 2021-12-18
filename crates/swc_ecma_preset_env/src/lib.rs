@@ -85,7 +85,7 @@ where
 
     // Proposals
 
-    // ES2021
+    // ES2022
     let pass = add!(
         pass,
         ClassProperties,
