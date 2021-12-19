@@ -1,11 +1,11 @@
-use crate::rule::{default_visitor_rule, Rule};
+use crate::rule::{visitor_rule, Rule};
 use swc_common::{collections::AHashMap, errors::HANDLER, Span};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{Visit, VisitWith};
 
 pub fn const_assign() -> Box<dyn Rule> {
-    default_visitor_rule(ConstAssign::default())
+    visitor_rule(ConstAssign::default())
 }
 
 #[derive(Debug, Default)]

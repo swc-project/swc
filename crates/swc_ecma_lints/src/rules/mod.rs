@@ -3,10 +3,13 @@ use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_fold_type, Fold};
 
 mod const_assign;
-mod duplicated_binding;
+mod duplicate_bindings;
 
 pub fn all() -> Vec<Box<dyn Rule>> {
-    vec![self::const_assign::const_assign()]
+    vec![
+        const_assign::const_assign(),
+        duplicate_bindings::duplicate_bindings(),
+    ]
 }
 
 pub fn lint_to_fold<R>(r: R) -> impl Fold

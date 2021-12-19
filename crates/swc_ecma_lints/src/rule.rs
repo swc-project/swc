@@ -76,7 +76,7 @@ impl Emitter for Capturing {
     }
 }
 
-pub(crate) fn default_visitor_rule<V>(v: V) -> Box<dyn Rule>
+pub(crate) fn visitor_rule<V>(v: V) -> Box<dyn Rule>
 where
     V: 'static + Send + Sync + Visit + Default + Debug,
 {
