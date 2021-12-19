@@ -4,7 +4,7 @@ use rayon::prelude::*;
 use std::{fmt::Debug, marker::PhantomData, sync::Arc};
 use swc_common::errors::{Diagnostic, DiagnosticBuilder, Emitter, Handler, HANDLER};
 use swc_ecma_ast::Program;
-use swc_ecma_visit::Visit;
+use swc_ecma_visit::{Visit, VisitWith};
 
 /// A lint rule.
 ///
@@ -30,7 +30,7 @@ where
             let errors = self
                 .par_iter()
                 .flat_map(|rule| {
-                    let mut emitter = Capturing::default();
+                    let emitter = Capturing::default();
                     {
                         let handler = Handler::with_emitter(true, false, Box::new(emitter.clone()));
                         HANDLER.set(&handler, || {
@@ -80,5 +80,7 @@ impl<V> Rule for VisitorDefaultRule<V>
 where
     V: Send + Sync + Visit + Default + Debug,
 {
-    fn lint(&self, program: &Program) {}
+    fn lint(&self, program: &Program) {
+        program.visit_with(&mut V::default());
+    }
 }
