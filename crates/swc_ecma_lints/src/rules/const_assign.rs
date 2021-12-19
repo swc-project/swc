@@ -97,6 +97,15 @@ impl Visit for Collector<'_> {
         }
     }
 
+    fn visit_expr(&mut self, e: &Expr) {
+        let old_var_decl_kind = self.var_decl_kind;
+        self.var_decl_kind = None;
+
+        e.visit_children_with(self);
+
+        self.var_decl_kind = old_var_decl_kind;
+    }
+
     fn visit_pat(&mut self, p: &Pat) {
         p.visit_children_with(self);
 
