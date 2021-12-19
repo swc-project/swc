@@ -1,5 +1,6 @@
 use serde::Deserialize;
 use std::{iter::once, mem};
+use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Check;
@@ -503,7 +504,7 @@ impl OptChaining {
                 ..
             }) => {
                 let obj_span = obj.span();
-                let is_super_access = match obj.as_ref() {
+                let is_super_access = match **obj {
                     Expr::Member(MemberExpr {
                         obj: ExprOrSuper::Super(..),
                         ..
@@ -511,11 +512,11 @@ impl OptChaining {
                     _ => false,
                 };
 
-                let (left, right, alt) = match obj.as_ref() {
+                let (left, right, alt) = match &**obj {
                     Expr::Ident(ident) => (
                         obj.clone(),
                         obj.clone(),
-                        if *ident.sym == *"eval" {
+                        if ident.sym == js_word!("eval") {
                             Box::new(e.expr.take().expect_call().into_indirect().into())
                         } else {
                             e.expr.take()
