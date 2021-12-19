@@ -1,5 +1,5 @@
 use crate::rule::{default_visitor_rule, Rule};
-use swc_common::{collections::AHashSet, errors::HANDLER};
+use swc_common::{collections::AHashMap, errors::HANDLER, Span};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{Visit, VisitWith};
@@ -10,7 +10,7 @@ pub fn const_assign() -> Box<dyn Rule> {
 
 #[derive(Debug, Default)]
 struct ConstAssign {
-    const_vars: AHashSet<Id>,
+    const_vars: AHashMap<Id, Span>,
 
     is_pat_decl: bool,
 }
@@ -21,13 +21,14 @@ impl ConstAssign {
             return;
         }
 
-        if self.const_vars.contains(&id.to_id()) {
+        if let Some(&decl_span) = self.const_vars.get(&id.to_id()) {
             HANDLER.with(|handler| {
                 handler
                     .struct_span_err(
                         id.span,
                         "Cannot reassign to a variable declared with `const`",
                     )
+                    .span_note(decl_span, &format!("{} was declared here", id.sym))
                     .emit();
             });
         }
@@ -80,7 +81,7 @@ impl Visit for ConstAssign {
 }
 
 struct Collector<'a> {
-    const_vars: &'a mut AHashSet<Id>,
+    const_vars: &'a mut AHashMap<Id, Span>,
 
     var_decl_kind: Option<VarDeclKind>,
 }
@@ -90,7 +91,7 @@ impl Visit for Collector<'_> {
         p.visit_children_with(self);
 
         if let Some(VarDeclKind::Const) = self.var_decl_kind {
-            self.const_vars.insert(p.key.to_id());
+            *self.const_vars.entry(p.key.to_id()).or_default() = p.span;
         }
     }
 
@@ -99,7 +100,7 @@ impl Visit for Collector<'_> {
 
         if let Some(VarDeclKind::Const) = self.var_decl_kind {
             if let Pat::Ident(i) = p {
-                self.const_vars.insert(i.to_id());
+                *self.const_vars.entry(i.to_id()).or_default() = i.id.span;
             }
         }
     }
