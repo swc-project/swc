@@ -41,6 +41,15 @@ impl Visit for ConstAssign {
         self.check(&p.key);
     }
 
+    fn visit_module(&mut self, program: &Module) {
+        program.visit_children_with(&mut Collector {
+            const_vars: &mut self.const_vars,
+            var_decl_kind: None,
+        });
+
+        program.visit_children_with(self);
+    }
+
     fn visit_pat(&mut self, p: &Pat) {
         p.visit_children_with(self);
 
@@ -53,7 +62,7 @@ impl Visit for ConstAssign {
         }
     }
 
-    fn visit_program(&mut self, program: &Program) {
+    fn visit_script(&mut self, program: &Script) {
         program.visit_children_with(&mut Collector {
             const_vars: &mut self.const_vars,
             var_decl_kind: None,
