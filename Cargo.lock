@@ -259,9 +259,9 @@ dependencies = [
 
 [[package]]
 name = "browserslist-rs"
-version = "0.5.0"
+version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a8ef1b801330a25a7bd505ea9b7f73d3d061cd531066f0fe20d78865fbf61151"
+checksum = "05e8d671fb6bc653acdcfbdb1b30ac1117df4cf9bb6a0a813668c8ea49f58622"
 dependencies = [
  "ahash",
  "anyhow",
