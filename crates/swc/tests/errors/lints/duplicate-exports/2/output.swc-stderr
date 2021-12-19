@@ -1,0 +1,14 @@
+error: Duplicate export
+ 
+  |
+5 | / export default () => {
+6 | |     let b = 2;
+7 | | }
+  | |_^
+  |
+note: default was exported at here
+ 
+  |
+3 | export { a as default };
+  |               ^^^^^^^
+
