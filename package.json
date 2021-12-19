@@ -63,6 +63,7 @@
         "version": "napi version -p scripts/npm"
     },
     "devDependencies": {
+        "@babel/compat-data": "^7.16.4",
         "@babel/core": "^7.13.16",
         "@babel/plugin-proposal-class-properties": "^7.13.0",
         "@babel/plugin-proposal-decorators": "^7.13.15",
