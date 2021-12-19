@@ -57,6 +57,18 @@ impl Visit for DuplicatedBindings {
         }
     }
 
+    fn visit_class_decl(&mut self, d: &ClassDecl) {
+        self.add(&d.ident, false);
+
+        d.visit_children_with(self);
+    }
+
+    fn visit_fn_decl(&mut self, d: &FnDecl) {
+        self.add(&d.ident, false);
+
+        d.visit_children_with(self);
+    }
+
     fn visit_import_default_specifier(&mut self, s: &ImportDefaultSpecifier) {
         s.visit_children_with(self);
 
