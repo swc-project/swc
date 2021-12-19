@@ -4,6 +4,7 @@ members = [
   "crates/node",
   "crates/swc_css",
   "crates/swc_ecmascript",
+  "crates/swc_ecma_lints",
   "crates/swc_ecma_plugin_ast",
   "crates/swc_estree_compat",
   "crates/swc_plugin",

@@ -1,0 +1,12 @@
+error: Duplicate binding
+ 
+  |
+2 | import { hi } from 'foo';
+  |          ^^
+  |
+note: hi was declared at here
+ 
+  |
+1 | import { hi } from 'foo';
+  |          ^^
+
