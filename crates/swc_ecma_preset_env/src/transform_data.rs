@@ -137,6 +137,12 @@ pub enum Feature {
     /// `proposal-private-methods`
     PrivateMethods,
 
+    /// `proposal-class-static-block`
+    ClassStaticBlock,
+
+    /// `proposal-private-property-in-object`
+    PrivatePropertyInObject,
+
     /// `transform-unicode-escapes`
     UnicodeEscapes,
 

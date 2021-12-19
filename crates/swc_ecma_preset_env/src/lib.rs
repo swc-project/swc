@@ -85,12 +85,14 @@ where
 
     // Proposals
 
-    // ES2021
+    // ES2022
     let pass = add!(
         pass,
         ClassProperties,
         es2022::class_properties(es2022::class_properties::Config { loose })
     );
+    let pass = add!(pass, ClassStaticBlock, es2022::static_blocks());
+    let pass = add!(pass, PrivatePropertyInObject, es2022::private_in_object());
 
     // ES2021
     let pass = add!(
