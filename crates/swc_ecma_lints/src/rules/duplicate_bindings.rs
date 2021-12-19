@@ -63,6 +63,19 @@ impl Visit for DuplicateBindings {
         d.visit_children_with(self);
     }
 
+    fn visit_expr(&mut self, e: &Expr) {
+        let old_var_decl_kind = self.var_decl_kind.take();
+        let old_is_pat_decl = self.is_pat_decl;
+
+        self.var_decl_kind = None;
+        self.is_pat_decl = false;
+
+        e.visit_children_with(self);
+
+        self.is_pat_decl = old_is_pat_decl;
+        self.var_decl_kind = old_var_decl_kind;
+    }
+
     fn visit_fn_decl(&mut self, d: &FnDecl) {
         self.add(&d.ident, false);
 
