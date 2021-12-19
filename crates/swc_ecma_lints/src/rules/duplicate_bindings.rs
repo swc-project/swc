@@ -7,18 +7,18 @@ use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use crate::rule::{visitor_rule, Rule};
 
 pub fn duplicate_bindings() -> Box<dyn Rule> {
-    visitor_rule(DuplicatedBindings::default())
+    visitor_rule(DuplicateBindings::default())
 }
 
 #[derive(Debug, Default)]
-struct DuplicatedBindings {
+struct DuplicateBindings {
     bindings: AHashMap<Id, Span>,
 
     var_decl_kind: Option<VarDeclKind>,
     is_pat_decl: bool,
 }
 
-impl DuplicatedBindings {
+impl DuplicateBindings {
     /// Add a binding.
     fn add(&mut self, id: &Ident, check_for_var_kind: bool) {
         if check_for_var_kind {
@@ -46,7 +46,7 @@ impl DuplicatedBindings {
     }
 }
 
-impl Visit for DuplicatedBindings {
+impl Visit for DuplicateBindings {
     noop_visit_type!();
 
     fn visit_assign_pat_prop(&mut self, p: &AssignPatProp) {
