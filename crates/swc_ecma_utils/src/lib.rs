@@ -2,7 +2,7 @@
 pub extern crate swc_ecma_ast;
 
 pub use self::{
-    factory::ExprFactory,
+    factory::{ExprFactory, IntoIndirectCall},
     ident::{id, Id},
     value::{
         Type::{

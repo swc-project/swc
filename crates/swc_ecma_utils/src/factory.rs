@@ -114,3 +114,18 @@ pub trait ExprFactory: Into<Expr> {
 }
 
 impl<T: Into<Expr>> ExprFactory for T {}
+
+pub trait IntoIndirectCall: Into<CallExpr> {
+    fn into_indirect(self) -> CallExpr {
+        let s = self.into();
+
+        let callee = ExprOrSuper::Expr(Box::new(Expr::Seq(SeqExpr {
+            span: DUMMY_SP,
+            exprs: vec![Box::new(0_f64.into()), s.callee.expect_expr()],
+        })));
+
+        CallExpr { callee, ..s }
+    }
+}
+
+impl<T: Into<CallExpr>> IntoIndirectCall for T {}
