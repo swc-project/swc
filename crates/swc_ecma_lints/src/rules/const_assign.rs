@@ -17,7 +17,7 @@ struct ConstAssign {
 
 impl ConstAssign {
     fn check(&mut self, id: &Ident) {
-        if !self.is_pat_decl {
+        if self.is_pat_decl {
             return;
         }
 
