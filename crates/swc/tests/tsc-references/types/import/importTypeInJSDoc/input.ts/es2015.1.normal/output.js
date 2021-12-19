@@ -6,10 +6,10 @@ module.exports = MyClass;
 a = new Foo({
     doer: Foo.Bar
 });
-const q1 = /** @type {import("./externs").Bar} */ ({
-    doer: (q)=>q
+const q = /** @type {import("./externs").Bar} */ ({
+    doer: (q1)=>q1
 });
-const r1 = /** @type {typeof import("./externs").Bar} */ ((r)=>r
+const r = /** @type {typeof import("./externs").Bar} */ ((r1)=>r1
 );
 // @target: es6
 // @outDir: ./out

@@ -223,10 +223,10 @@ var D10 = /*#__PURE__*/ function(Base) {
     }
     return D10;
 }(Base);
-var E1;
+var E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
 var D11 = /*#__PURE__*/ function(Base) {
     "use strict";
@@ -238,11 +238,11 @@ var D11 = /*#__PURE__*/ function(Base) {
     }
     return D11;
 }(Base);
-function f1() {
+function f() {
 }
-(function(f) {
-    f.bar = 1;
-})(f1 || (f1 = {
+(function(f1) {
+    f1.bar = 1;
+})(f || (f = {
 }));
 var D12 = /*#__PURE__*/ function(Base) {
     "use strict";

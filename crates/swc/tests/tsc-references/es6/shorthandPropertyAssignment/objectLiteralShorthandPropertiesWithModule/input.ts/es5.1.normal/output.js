@@ -1,9 +1,9 @@
 // module export
-var m1;
-(function(m) {
+var m;
+(function(m1) {
     var x;
-    m.x = x;
-})(m1 || (m1 = {
+    m1.x = x;
+})(m || (m = {
 }));
 (function(m) {
     var z = x;
@@ -11,5 +11,5 @@ var m1;
         a: x,
         x: x
     };
-})(m1 || (m1 = {
+})(m || (m = {
 }));

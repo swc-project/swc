@@ -10,7 +10,7 @@ function _defineProperties(target, props) {
 function _createClass(Constructor, protoProps, staticProps) {
     return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
 }
-var obj1 = {
+export var obj = {
     method1: function(p) {
         return p;
     },
@@ -18,7 +18,6 @@ var obj1 = {
         return p;
     }
 };
-export { obj1 as obj };
 export var classExpression = function() {
     "use strict";
     function _class() {
@@ -39,8 +38,8 @@ export var classExpression = function() {
         }
     ]), _class;
 }();
-export function funcInferredReturnType(obj) {
-    return obj;
+export function funcInferredReturnType(obj1) {
+    return obj1;
 }
 export var ClassWithPrivateNamedProperties = function() {
     "use strict";

@@ -17,15 +17,15 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var A1;
-(function(A) {
+var A;
+(function(A1) {
     var Point = function Point(x, y) {
         "use strict";
         _classCallCheck(this, Point);
         this.x = x;
         this.y = y;
     };
-    A.Point = Point;
+    A1.Point = Point;
     var B1;
     (function(B) {
         B.Origin = new Point(0, 0);
@@ -48,8 +48,7 @@ var A1;
             return Line;
         }();
         B.Line = Line;
-    })(B1 || (B1 = {
+    })(B1 = A1.B || (A1.B = {
     }));
-    A.B = B1;
-})(A1 || (A1 = {
+})(A || (A = {
 }));

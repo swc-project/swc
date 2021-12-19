@@ -12,7 +12,7 @@ var v4;
 function f() {
     class C {
     }
-    ;
+    let E;
     (function(E) {
     })(E || (E = {
     }));

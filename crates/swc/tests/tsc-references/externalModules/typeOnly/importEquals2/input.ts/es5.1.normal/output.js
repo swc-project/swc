@@ -1,5 +1,3 @@
-// @Filename: /b.ts
-import * as a from './a';
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
@@ -13,3 +11,6 @@ module.exports = a;
 // @Filename: /c.ts
 var a = require('./b');
 new a.A(); // Error
+// @esModuleInterop: true
+// @Filename: /a.ts
+export { };

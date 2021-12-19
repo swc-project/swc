@@ -1,33 +1,32 @@
-macro_rules! impl_fold_fn {
+macro_rules! impl_visit_mut_fn {
     () => {
-        fn fold_function(&mut self, f: Function) -> Function {
+        fn visit_mut_function(&mut self, f: &mut Function) {
             if f.body.is_none() {
-                return f;
+                return;
             }
 
-            let f = f.fold_children_with(self);
+            f.visit_mut_children_with(self);
 
-            let (params, body) = self.fold_fn_like(f.params, f.body.unwrap());
+            let (params, body) = self.visit_mut_fn_like(&mut f.params, &mut f.body.take().unwrap());
 
-            Function {
-                params,
-                body: Some(body),
-                ..f
-            }
+            f.params = params;
+            f.body = Some(body);
         }
 
-        fn fold_arrow_expr(&mut self, f: ArrowExpr) -> ArrowExpr {
+        fn visit_mut_arrow_expr(&mut self, f: &mut ArrowExpr) {
             use swc_common::Spanned;
 
-            let f = f.fold_children_with(self);
+            f.visit_mut_children_with(self);
 
             let was_expr = match f.body {
                 BlockStmtOrExpr::Expr(..) => true,
                 _ => false,
             };
             let body_span = f.body.span();
-            let (params, mut body) = self.fold_fn_like(
-                f.params
+            let (params, mut body) = self.visit_mut_fn_like(
+                &mut f
+                    .params
+                    .take()
                     .into_iter()
                     .map(|pat| Param {
                         span: DUMMY_SP,
@@ -35,13 +34,13 @@ macro_rules! impl_fold_fn {
                         pat,
                     })
                     .collect(),
-                match f.body {
-                    BlockStmtOrExpr::BlockStmt(block) => block,
+                &mut match &mut f.body {
+                    BlockStmtOrExpr::BlockStmt(block) => block.take(),
                     BlockStmtOrExpr::Expr(expr) => BlockStmt {
                         span: body_span,
                         stmts: vec![Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
-                            arg: Some(expr),
+                            arg: Some(expr.take()),
                         })],
                     },
                 },
@@ -61,66 +60,57 @@ macro_rules! impl_fold_fn {
                 BlockStmtOrExpr::BlockStmt(body)
             };
 
-            ArrowExpr {
-                params: params.into_iter().map(|param| param.pat).collect(),
-                body,
-                ..f
-            }
+            f.params = params.into_iter().map(|param| param.pat).collect();
+            f.body = body;
         }
 
-        fn fold_setter_prop(&mut self, f: SetterProp) -> SetterProp {
+        fn visit_mut_setter_prop(&mut self, f: &mut SetterProp) {
             if f.body.is_none() {
-                return f;
+                return;
             }
 
-            let f = f.fold_children_with(self);
+            f.visit_mut_children_with(self);
 
-            let (mut params, body) = self.fold_fn_like(
-                vec![Param {
+            let (mut params, body) = self.visit_mut_fn_like(
+                &mut vec![Param {
                     span: DUMMY_SP,
                     decorators: Default::default(),
-                    pat: f.param,
+                    pat: f.param.take(),
                 }],
-                f.body.unwrap(),
+                &mut f.body.take().unwrap(),
             );
             debug_assert!(params.len() == 1);
 
-            SetterProp {
-                param: params.pop().unwrap().pat,
-                body: Some(body),
-                ..f
-            }
+            f.param = params.pop().unwrap().pat;
+            f.body = Some(body);
         }
 
-        fn fold_getter_prop(&mut self, f: GetterProp) -> GetterProp {
+        fn visit_mut_getter_prop(&mut self, f: &mut GetterProp) {
             if f.body.is_none() {
-                return f;
+                return;
             }
 
-            let f = f.fold_children_with(self);
+            f.visit_mut_children_with(self);
 
-            let (params, body) = self.fold_fn_like(vec![], f.body.unwrap());
+            let (params, body) = self.visit_mut_fn_like(&mut vec![], &mut f.body.take().unwrap());
             debug_assert_eq!(params, vec![]);
 
-            GetterProp {
-                body: Some(body),
-                ..f
-            }
+            f.body = Some(body);
         }
 
-        fn fold_catch_clause(&mut self, f: CatchClause) -> CatchClause {
-            let f = f.fold_children_with(self);
+        fn visit_mut_catch_clause(&mut self, f: &mut CatchClause) {
+            f.visit_mut_children_with(self);
 
-            let (mut params, body) = match f.param {
-                Some(pat) => self.fold_fn_like(
-                    vec![Param {
+            let (mut params, body) = match &mut f.param {
+                Some(pat) => self.visit_mut_fn_like(
+                    &mut vec![Param {
                         span: DUMMY_SP,
                         decorators: vec![],
-                        pat,
+                        pat: pat.take(),
                     }],
-                    f.body,
+                    &mut f.body.take(),
                 ),
-                None => self.fold_fn_like(vec![], f.body),
+                None => self.visit_mut_fn_like(&mut vec![], &mut f.body.take()),
             };
             assert!(
                 params.len() == 0 || params.len() == 1,
@@ -133,22 +123,22 @@ macro_rules! impl_fold_fn {
                 Some(params.pop().unwrap())
             };
 
-            CatchClause {
-                param: param.map(|param| param.pat),
-                body,
-                ..f
-            }
+            f.param = param.map(|param| param.pat);
+            f.body = body;
         }
 
-        fn fold_constructor(&mut self, f: Constructor) -> Constructor {
+        fn visit_mut_constructor(&mut self, f: &mut Constructor) {
             if f.body.is_none() {
-                return f;
+                return;
             }
 
-            let f = f.fold_children_with(self);
+            tracing::trace!("visit_mut_constructor(parmas.len() = {})", f.params.len());
 
-            let params = f
+            f.visit_mut_children_with(self);
+
+            let mut params = f
                 .params
+                .take()
                 .into_iter()
                 .map(|pat| match pat {
                     ParamOrTsParamProp::Param(p) => p,
@@ -158,13 +148,15 @@ macro_rules! impl_fold_fn {
                 })
                 .collect();
 
-            let (params, body) = self.fold_fn_like(params, f.body.unwrap());
+            let (params, body) = self.visit_mut_fn_like(&mut params, &mut f.body.take().unwrap());
 
-            Constructor {
-                params: params.into_iter().map(ParamOrTsParamProp::Param).collect(),
-                body: Some(body),
-                ..f
-            }
+            tracing::trace!(
+                "visit_mut_constructor(parmas.len() = {}, after)",
+                params.len()
+            );
+
+            f.params = params.into_iter().map(ParamOrTsParamProp::Param).collect();
+            f.body = Some(body);
         }
     };
 }

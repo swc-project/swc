@@ -1,10 +1,10 @@
+function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
+    return arr2;
+}
 function _arrayWithoutHoles(arr) {
-    if (Array.isArray(arr)) {
-        for(var i = 0, arr2 = new Array(arr.length); i < arr.length; i++){
-            arr2[i] = arr[i];
-        }
-        return arr2;
-    }
+    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
 }
 function _assertThisInitialized(self) {
     if (self === void 0) {
@@ -51,10 +51,10 @@ function _inherits(subClass, superClass) {
     if (superClass) _setPrototypeOf(subClass, superClass);
 }
 function _iterableToArray(iter) {
-    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+    if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
 }
 function _nonIterableSpread() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance");
+    throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 function _possibleConstructorReturn(self, call) {
     if (call && (_typeof(call) === "object" || typeof call === "function")) {
@@ -70,11 +70,19 @@ function _setPrototypeOf(o, p) {
     return _setPrototypeOf(o, p);
 }
 function _toConsumableArray(arr) {
-    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
 }
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
+function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(n);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
 function _isNativeReflectConstruct() {
     if (typeof Reflect === "undefined" || !Reflect.construct) return false;
     if (Reflect.construct.sham) return false;
@@ -90,14 +98,14 @@ function _isNativeReflectConstruct() {
 function _createSuper(Derived) {
     var hasNativeReflectConstruct = _isNativeReflectConstruct();
     return function _createSuperInternal() {
-        var Super = _getPrototypeOf(Derived), result;
+        var Super = _getPrototypeOf(Derived), result1;
         if (hasNativeReflectConstruct) {
             var NewTarget = _getPrototypeOf(this).constructor;
-            result = Reflect.construct(Super, arguments, NewTarget);
+            result1 = Reflect.construct(Super, arguments, NewTarget);
         } else {
-            result = Super.apply(this, arguments);
+            result1 = Super.apply(this, arguments);
         }
-        return _possibleConstructorReturn(this, result);
+        return _possibleConstructorReturn(this, result1);
     };
 }
 var Shape = function Shape() {
@@ -122,12 +130,12 @@ var Options = function Options() {
     "use strict";
     _classCallCheck(this, Options);
 };
-var E1;
+var E;
 (function(E) {
     E[E["A"] = 0] = "A";
     E[E["B"] = 1] = "B";
     E[E["C"] = 2] = "C";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
 function getProperty(obj, key) {
     return obj[key];
@@ -497,12 +505,12 @@ function path(obj) {
     for(var _len = arguments.length, keys = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
         keys[_key - 1] = arguments[_key];
     }
-    var result = obj;
+    var result2 = obj;
     var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
     try {
         for(var _iterator = keys[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
             var k = _step.value;
-            result = result[k];
+            result2 = result2[k];
         }
     } catch (err) {
         _didIteratorError = true;
@@ -518,7 +526,7 @@ function path(obj) {
             }
         }
     }
-    return result;
+    return result2;
 }
 function f1(thing) {
     var x1 = path(thing, 'a'); // { x: number, y: string }
@@ -558,7 +566,7 @@ function f(p) {
     var a;
     a[p].add; // any
 }
-var result1 = dispatchMethod("someMethod", [
+var result = dispatchMethod("someMethod", [
     "hello",
     35
 ]);
@@ -675,11 +683,11 @@ function f3(t, k, tk) {
         t[key] = tk; // ok, T[K] ==> T[keyof T]
     }
 }
-var Flag1;
+var Flag;
 (function(Flag) {
     Flag["FLAG_1"] = "flag_1";
     Flag["FLAG_2"] = "flag_2";
-})(Flag1 || (Flag1 = {
+})(Flag || (Flag = {
 }));
 function getFlagsFromSimpleRecord(record, flags) {
     return record[flags[0]];

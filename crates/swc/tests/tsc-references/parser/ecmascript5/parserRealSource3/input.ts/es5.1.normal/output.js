@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
-var TypeScript1;
-(function(TypeScript) {
-    var NodeType1;
+var TypeScript;
+(function(TypeScript1) {
+    var NodeType;
     (function(NodeType) {
         NodeType[NodeType["None"] = 0] = "None";
         NodeType[NodeType["Empty"] = 1] = "Empty";
@@ -114,8 +114,7 @@ var TypeScript1;
         NodeType[NodeType["Debugger"] = 106] = "Debugger";
         NodeType[NodeType["GeneralNode"] = 71] = "GeneralNode";
         NodeType[NodeType["LastAsg"] = 41] = "LastAsg";
-    })(NodeType1 || (NodeType1 = {
+    })(NodeType = TypeScript1.NodeType || (TypeScript1.NodeType = {
     }));
-    TypeScript.NodeType = NodeType1;
-})(TypeScript1 || (TypeScript1 = {
+})(TypeScript || (TypeScript = {
 }));

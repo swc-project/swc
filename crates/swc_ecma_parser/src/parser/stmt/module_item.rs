@@ -1,11 +1,10 @@
 use super::*;
 
 impl<'a, I: Tokens> Parser<I> {
-    #[allow(clippy::cognitive_complexity)]
     fn parse_import(&mut self) -> PResult<ModuleItem> {
         let start = cur_pos!(self);
 
-        if self.input.syntax().import_meta() && peeked_is!(self, '.') {
+        if peeked_is!(self, '.') {
             let expr = self.parse_expr()?;
 
             eat!(self, ';');
@@ -308,7 +307,6 @@ impl<'a, I: Tokens> Parser<I> {
         Ok(self.with_ctx(ctx).parse_binding_ident()?.id)
     }
 
-    #[allow(clippy::cognitive_complexity)]
     fn parse_export(&mut self, decorators: Vec<Decorator>) -> PResult<ModuleDecl> {
         if !self.ctx().module {
             // Switch to module mode
@@ -395,6 +393,12 @@ impl<'a, I: Tokens> Parser<I> {
 
         if eat!(self, '*') {
             has_star = true;
+            if self.input.syntax().typescript() && type_only {
+                // export type * from "mod";
+                // or
+                // export type * as foo from "mod";
+                self.emit_err(span!(self, start), SyntaxError::TS1383)
+            }
             if is!(self, "from") {
                 let (src, asserts) = self.parse_from_clause_and_semi()?;
                 return Ok(ModuleDecl::ExportAll(ExportAll {
@@ -404,9 +408,6 @@ impl<'a, I: Tokens> Parser<I> {
                 }));
             }
             if eat!(self, "as") {
-                if !self.input.syntax().export_namespace_from() {
-                    syntax_error!(self, span!(self, start), SyntaxError::ExportNamespaceFrom)
-                }
                 let _ = cur!(self, false);
 
                 let name = self.parse_ident_name()?;
@@ -787,7 +788,6 @@ impl<'a, I: Tokens> StmtLikeParser<'a, ModuleItem> for Parser<I> {
             syntax_error!(self, SyntaxError::NonTopLevelImportExport);
         }
 
-        let start = cur_pos!(self);
         let decl = if is!(self, "import") {
             self.parse_import()?
         } else if is!(self, "export") {

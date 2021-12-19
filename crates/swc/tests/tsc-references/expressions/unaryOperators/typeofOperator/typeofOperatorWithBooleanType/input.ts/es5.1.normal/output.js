@@ -41,11 +41,11 @@ var A = /*#__PURE__*/ function() {
     ]);
     return A;
 }();
-var M1;
-(function(M) {
+var M;
+(function(M1) {
     var n;
-    M.n = n;
-})(M1 || (M1 = {
+    M1.n = n;
+})(M || (M = {
 }));
 var objA = new A();
 // boolean type var
@@ -58,7 +58,7 @@ var ResultIsString3 = _typeof({
 });
 // boolean type expressions
 var ResultIsString4 = _typeof(objA.a);
-var ResultIsString5 = _typeof(M1.n);
+var ResultIsString5 = _typeof(M.n);
 var ResultIsString6 = _typeof(foo());
 var ResultIsString7 = _typeof(A.foo());
 // multiple typeof  operator
@@ -69,7 +69,7 @@ typeof BOOLEAN === "undefined" ? "undefined" : _typeof(BOOLEAN);
 _typeof(foo());
 _typeof(true), false;
 _typeof(objA.a);
-_typeof(M1.n);
+_typeof(M.n);
 // use typeof in type query
 var z;
 var x;
@@ -83,4 +83,4 @@ var y = {
 z: _typeof(y.a);
 z: _typeof(objA.a);
 z: _typeof(A.foo);
-z: _typeof(M1.n);
+z: _typeof(M.n);

@@ -12,11 +12,11 @@ class A {
         return 1;
     }
 }
-var M1;
-(function(M) {
+var M;
+(function(M1) {
     var n;
-    M.n = n;
-})(M1 || (M1 = {
+    M1.n = n;
+})(M || (M = {
 }));
 var objA = new A();
 // number type var
@@ -36,7 +36,7 @@ var ResultIsBoolean5 = !{
 };
 // number type expressions
 var ResultIsBoolean6 = !objA.a;
-var ResultIsBoolean7 = !M1.n;
+var ResultIsBoolean7 = !M.n;
 var ResultIsBoolean8 = !NUMBER1[0];
 var ResultIsBoolean9 = !foo();
 var ResultIsBoolean10 = !A.foo();
@@ -50,5 +50,5 @@ var ResultIsBoolean13 = !!!(NUMBER + NUMBER);
 !NUMBER1;
 !foo();
 !objA.a;
-!M1.n;
-!objA.a, M1.n;
+!M.n;
+!objA.a, M.n;

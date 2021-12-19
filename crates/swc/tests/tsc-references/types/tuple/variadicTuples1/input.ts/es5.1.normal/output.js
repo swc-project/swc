@@ -1,28 +1,36 @@
+function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
+    return arr2;
+}
 function _arrayWithHoles(arr) {
     if (Array.isArray(arr)) return arr;
 }
 function _arrayWithoutHoles(arr) {
-    if (Array.isArray(arr)) {
-        for(var i = 0, arr2 = new Array(arr.length); i < arr.length; i++){
-            arr2[i] = arr[i];
-        }
-        return arr2;
-    }
+    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
 }
 function _iterableToArray(iter) {
-    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+    if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
 }
 function _nonIterableRest() {
-    throw new TypeError("Invalid attempt to destructure non-iterable instance");
+    throw new TypeError("Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 function _nonIterableSpread() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance");
+    throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 function _toArray(arr) {
-    return _arrayWithHoles(arr) || _iterableToArray(arr) || _nonIterableRest();
+    return _arrayWithHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
 }
 function _toConsumableArray(arr) {
-    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
+}
+function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(n);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
 }
 // Variadics in array literals
 function tup2(t, u) {
@@ -34,7 +42,7 @@ function tup2(t, u) {
         3
     ]);
 }
-var t21 = tup2([
+var t2 = tup2([
     'hello'
 ], [
     10,
@@ -71,7 +79,7 @@ var tc5 = concat2([
     5,
     6
 ]); // (1 | 2 | 3 | 4 | 5 | 6)[]
-function foo2(t1, t2, a1) {
+function foo2(t1, t21, a1) {
     foo1(1, 'abc', true, 42, 43, 44);
     foo1.apply(void 0, _toConsumableArray(t1).concat([
         true,
@@ -79,12 +87,12 @@ function foo2(t1, t2, a1) {
         43,
         44
     ]));
-    foo1.apply(void 0, _toConsumableArray(t1).concat(_toConsumableArray(t2), [
+    foo1.apply(void 0, _toConsumableArray(t1).concat(_toConsumableArray(t21), [
         42,
         43,
         44
     ]));
-    foo1.apply(void 0, _toConsumableArray(t1).concat(_toConsumableArray(t2), _toConsumableArray(a1)));
+    foo1.apply(void 0, _toConsumableArray(t1).concat(_toConsumableArray(t21), _toConsumableArray(a1)));
     foo1.apply(void 0, _toConsumableArray(t1)); // Error
     foo1.apply(void 0, _toConsumableArray(t1).concat([
         45
@@ -212,21 +220,21 @@ function f12(t, m, r) {
     r = t;
     r = m;
 }
-function f13(t0, t1, t2) {
+function f13(t0, t1, t22) {
     t0 = t1;
-    t0 = t2;
+    t0 = t22;
     t1 = t0;
-    t1 = t2;
-    t2 = t0; // Error
-    t2 = t1; // Error
+    t1 = t22;
+    t22 = t0; // Error
+    t22 = t1; // Error
 }
-function f14(t0, t1, t2) {
+function f14(t0, t1, t23) {
     t0 = t1;
-    t0 = t2;
+    t0 = t23;
     t1 = t0; // Error
-    t1 = t2;
-    t2 = t0; // Error
-    t2 = t1; // Error
+    t1 = t23;
+    t23 = t0; // Error
+    t23 = t1; // Error
 }
 function f15(k0, k1, k2, k3) {
     k0 = 'length';
@@ -245,10 +253,10 @@ function curry(f) {
         a[_key1 - 1] = arguments[_key1];
     }
     return function() {
-        for(var _len = arguments.length, b = new Array(_len), _key = 0; _key < _len; _key++){
-            b[_key] = arguments[_key];
+        for(var _len = arguments.length, b1 = new Array(_len), _key = 0; _key < _len; _key++){
+            b1[_key] = arguments[_key];
         }
-        return f.apply(void 0, _toConsumableArray(a).concat(_toConsumableArray(b)));
+        return f.apply(void 0, _toConsumableArray(a).concat(_toConsumableArray(b1)));
     };
 }
 var fn1 = function(a, b, c, d) {
@@ -364,7 +372,7 @@ function f23(args) {
         42
     ]); // [string]
 }
-var b1 = a.bind("", 1); // Desc<[boolean], object>
+var b = a.bind("", 1); // Desc<[boolean], object>
 function callApi(method) {
     return function() {
         for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){

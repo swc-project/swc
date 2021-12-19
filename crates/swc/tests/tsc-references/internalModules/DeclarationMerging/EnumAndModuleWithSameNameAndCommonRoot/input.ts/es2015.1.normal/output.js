@@ -1,20 +1,20 @@
-var enumdule1;
+var enumdule;
 (function(enumdule) {
     enumdule[enumdule["Red"] = 0] = "Red";
     enumdule[enumdule["Blue"] = 1] = "Blue";
-})(enumdule1 || (enumdule1 = {
+})(enumdule || (enumdule = {
 }));
 (function(enumdule) {
     class Point {
-        constructor(x, y){
-            this.x = x;
-            this.y = y;
+        constructor(x1, y1){
+            this.x = x1;
+            this.y = y1;
         }
     }
     enumdule.Point = Point;
-})(enumdule1 || (enumdule1 = {
+})(enumdule || (enumdule = {
 }));
-var x1;
-var x1 = enumdule1.Red;
-var y1;
-var y1 = new enumdule1.Point(0, 0);
+var x;
+var x = enumdule.Red;
+var y;
+var y = new enumdule.Point(0, 0);

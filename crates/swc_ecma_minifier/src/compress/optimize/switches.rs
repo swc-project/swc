@@ -4,7 +4,7 @@ use std::mem::take;
 use swc_common::{util::take::Take, EqIgnoreSpan, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, prepend, ExprExt, StmtExt, Type, Value::Known};
-use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 /// Methods related to option `switches`.
 impl<M> Optimizer<'_, M>
@@ -48,7 +48,7 @@ where
                 let mut v = BreakFinder {
                     found_unlabelled_break_for_stmt: false,
                 };
-                case.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+                case.visit_with(&mut v);
                 v.found_unlabelled_break_for_stmt
             });
             if should_preserve_switch {
@@ -336,27 +336,27 @@ struct BreakFinder {
 impl Visit for BreakFinder {
     noop_visit_type!();
 
-    fn visit_break_stmt(&mut self, s: &BreakStmt, _: &dyn Node) {
+    fn visit_break_stmt(&mut self, s: &BreakStmt) {
         if s.label.is_none() {
             self.found_unlabelled_break_for_stmt = true;
         }
     }
 
     /// We don't care about breaks in a lop[
-    fn visit_for_stmt(&mut self, _: &ForStmt, _: &dyn Node) {}
+    fn visit_for_stmt(&mut self, _: &ForStmt) {}
 
     /// We don't care about breaks in a lop[
-    fn visit_for_in_stmt(&mut self, _: &ForInStmt, _: &dyn Node) {}
+    fn visit_for_in_stmt(&mut self, _: &ForInStmt) {}
 
     /// We don't care about breaks in a lop[
-    fn visit_for_of_stmt(&mut self, _: &ForOfStmt, _: &dyn Node) {}
+    fn visit_for_of_stmt(&mut self, _: &ForOfStmt) {}
 
     /// We don't care about breaks in a lop[
-    fn visit_do_while_stmt(&mut self, _: &DoWhileStmt, _: &dyn Node) {}
+    fn visit_do_while_stmt(&mut self, _: &DoWhileStmt) {}
 
     /// We don't care about breaks in a lop[
-    fn visit_while_stmt(&mut self, _: &WhileStmt, _: &dyn Node) {}
+    fn visit_while_stmt(&mut self, _: &WhileStmt) {}
 
-    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
-    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {}
+    fn visit_function(&mut self, _: &Function) {}
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 }

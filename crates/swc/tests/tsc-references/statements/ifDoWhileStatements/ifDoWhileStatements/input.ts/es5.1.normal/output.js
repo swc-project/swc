@@ -93,8 +93,8 @@ function F(x) {
 function F21(x) {
     return x < 42;
 }
-var M1;
-(function(M) {
+var M;
+(function(M1) {
     var F2 = function F2(x) {
         return x.toString();
     };
@@ -102,12 +102,12 @@ var M1;
         "use strict";
         _classCallCheck(this, A);
     };
-    M.A = A;
-    M.F2 = F2;
-})(M1 || (M1 = {
+    M1.A = A;
+    M1.F2 = F2;
+})(M || (M = {
 }));
-var N1;
-(function(N) {
+var N;
+(function(N1) {
     var F2 = function F2(x) {
         return x.toString();
     };
@@ -115,9 +115,9 @@ var N1;
         "use strict";
         _classCallCheck(this, A);
     };
-    N.A = A;
-    N.F2 = F2;
-})(N1 || (N1 = {
+    N1.A = A;
+    N1.F2 = F2;
+})(N || (N = {
 }));
 // literals
 if (true) {

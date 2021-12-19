@@ -1,10 +1,11 @@
-var A, B1, A1;
-!function(B) {
-    B.a = A1;
+var B, A, A1;
+!function(B1) {
+    var a = A;
+    B1.a = a;
     class D extends a.C {
     }
-    B.D = D;
-}(B1 || (B1 = {
-})), (A = A1 || (A1 = {
+    B1.D = D;
+}(B || (B = {
+})), (A1 = A || (A = {
 })).C = class {
-}, A.b = B1, new B1.a.C();
+}, A1.b = B, new B.a.C();

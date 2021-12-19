@@ -1,25 +1,23 @@
-!function(A) {
-    var Utils;
-    (Utils || (Utils = {
-    })).mirror = function(p) {
-        return {
-            x: p.y,
-            y: p.x
-        };
-    }, A.Utils = Utils;
-}(A1 || (A1 = {
-})), (function(A) {
-    var Utils1, Plane;
-    A.Origin = {
+var A;
+((A = A1 || (A1 = {
+})).Utils || (A.Utils = {
+})).mirror = function(p) {
+    return {
+        x: p.y,
+        y: p.x
+    };
+}, (function(A2) {
+    var Utils, Plane;
+    A2.Origin = {
         x: 0,
         y: 0
-    }, Utils1 = Utils || (Utils = {
+    }, Utils = A2.Utils || (A2.Utils = {
     }), Plane = function(tl, br) {
         "use strict";
         (function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
         })(this, Plane), this.tl = tl, this.br = br;
-    }, Utils1.Plane = Plane;
+    }, Utils.Plane = Plane;
 })(A1 || (A1 = {
 }));
 var A1, o, o, o = A1.Origin, o = A1.Utils.mirror(o);

@@ -4,8 +4,8 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
+    for(var i1 = 0; i1 < props.length; i1++){
+        var descriptor = props[i1];
         descriptor.enumerable = descriptor.enumerable || false;
         descriptor.configurable = true;
         if ("value" in descriptor) descriptor.writable = true;
@@ -29,24 +29,24 @@ var C = // generic types should behave as if they have properties of their const
             key: "f",
             value: function f() {
                 var x;
-                var a = x['getDate'](); // number
-                return a + x.getDate();
+                var a1 = x['getDate'](); // number
+                return a1 + x.getDate();
             }
         }
     ]);
     return C;
 }();
 var r = new C().f();
-var i1;
-var r2 = i1.foo.getDate();
-var r2b = i1.foo['getDate']();
-var a1;
-var r3 = a1().getDate();
-var r3b = a1()['getDate']();
+var i;
+var r2 = i.foo.getDate();
+var r2b = i.foo['getDate']();
+var a;
+var r3 = a().getDate();
+var r3b = a()['getDate']();
 var b = {
     foo: function(x) {
-        var a = x['getDate'](); // number
-        return a + x.getDate();
+        var a2 = x['getDate'](); // number
+        return a2 + x.getDate();
     }
 };
 var r4 = b.foo(new Date());

@@ -83,13 +83,13 @@ function f33() {
     var z;
     var z;
 }
-const f40 = (a)=>a
+const f40 = (a1)=>a1
 ;
-const f41 = (a)=>a
+const f41 = (a2)=>a2
 ;
-const f42 = (a)=>a
+const f42 = (a3)=>a3
 ;
-const f43 = (a)=>a
+const f43 = (a4)=>a4
 ;
 const f44 = (value)=>value
 ;
@@ -98,7 +98,7 @@ const f45 = (value)=>value
 // Repro from #21863
 function f50() {
 }
-var a1 = {
+var a = {
     o: 1,
     b: 2,
     c: [
@@ -108,7 +108,7 @@ var a1 = {
         }
     ]
 };
-assign(a1, {
+assign(a, {
     o: 2,
     c: {
         0: {

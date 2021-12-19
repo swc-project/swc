@@ -5,8 +5,8 @@ var num;
 var strOrNum;
 var var1;
 // Inside module
-var m11;
-(function(m1) {
+var m1;
+(function(m11) {
     // global vars in function declaration
     num = typeof var1 === "string" && var1.length; // string
     // variables in module declaration
@@ -22,16 +22,16 @@ var m11;
     } else {
         strOrNum = var3; // string | number
     }
-    m1.var3 = var3;
-})(m11 || (m11 = {
+    m11.var3 = var3;
+})(m1 || (m1 = {
 }));
 // local module
-var m21;
-(function(m2) {
+var m2;
+(function(m21) {
     var var2;
     var var3;
-    var m31;
-    (function(m3) {
+    let m31;
+    (function(m32) {
         // global vars in function declaration
         num = typeof var1 === "string" && var1.length; // string
         // local variables from outer module declaration
@@ -51,9 +51,34 @@ var m21;
         } else {
             strOrNum = var5; // string | number
         }
-        m3.var5 = var5;
+        m32.var5 = var5;
     })(m31 || (m31 = {
     }));
-    m2.var3 = var3;
-})(m21 || (m21 = {
+    m21.var3 = var3;
+})(m2 || (m2 = {
+}));
+// Dotted module
+var m3;
+(function(m33) {
+    let m41;
+    (function(m4) {
+        // global vars in function declaration
+        num = typeof var1 === "string" && var1.length; // string
+        // variables in module declaration
+        var var2;
+        if (typeof var2 === "string") {
+            num = var2.length; // string
+        } else {
+            num = var2; // number
+        }
+        var var3;
+        if (typeof var3 === "string") {
+            strOrNum = var3; // string | number
+        } else {
+            strOrNum = var3; // string | number
+        }
+        m4.var3 = var3;
+    })(m41 = m33.m4 || (m33.m4 = {
+    }));
+})(m3 || (m3 = {
 }));

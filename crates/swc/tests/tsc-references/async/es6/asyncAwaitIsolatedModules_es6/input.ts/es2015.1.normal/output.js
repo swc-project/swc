@@ -35,13 +35,13 @@ function _f0() {
     });
     return _f0.apply(this, arguments);
 }
-function f14() {
-    return _f11.apply(this, arguments);
+function f1() {
+    return _f1.apply(this, arguments);
 }
-function _f11() {
-    _f11 = _asyncToGenerator(function*() {
+function _f1() {
+    _f1 = _asyncToGenerator(function*() {
     });
-    return _f11.apply(this, arguments);
+    return _f1.apply(this, arguments);
 }
 function f3() {
     return _f3.apply(this, arguments);
@@ -130,18 +130,18 @@ class C {
         })();
     }
 }
-var M1;
-(function(M) {
-    function f1() {
-        return _f1.apply(this, arguments);
+var M;
+(function(M1) {
+    function f14() {
+        return _f11.apply(this, arguments);
     }
-    function _f1() {
-        _f1 = _asyncToGenerator(function*() {
+    function _f11() {
+        _f11 = _asyncToGenerator(function*() {
         });
-        return _f1.apply(this, arguments);
+        return _f11.apply(this, arguments);
     }
-    M.f1 = f1;
-})(M1 || (M1 = {
+    M1.f1 = f14;
+})(M || (M = {
 }));
 // @target: ES6
 // @isolatedModules: true

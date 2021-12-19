@@ -3,14 +3,16 @@ use smallvec::SmallVec;
 use std::mem::take;
 use swc_atoms::JsWord;
 use swc_common::{
-    util::{map::Map, move_map::MoveMap},
+    util::{map::Map, move_map::MoveMap, take::Take},
     BytePos, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     ident::IdentLike, member_expr, quote_ident, quote_str, undefined, ExprFactory,
 };
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{
+    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
+};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub(super) struct Loc {
@@ -849,14 +851,15 @@ impl CaseHandler<'_> {
         // case, we can skip the rest of the statements until the next case.
         let mut already_ended = false;
 
-        let stmts = {
-            let stmts = take(&mut self.listing);
+        let mut stmts = {
+            let mut stmts = take(&mut self.listing);
             let mut v = InvalidToLit { map: &self.marked };
 
-            stmts.fold_with(&mut v)
+            stmts.visit_mut_with(&mut v);
+            stmts
         };
 
-        for (i, stmt) in stmts.into_iter().enumerate() {
+        for (i, stmt) in stmts.iter_mut().enumerate() {
             let case = SwitchCase {
                 span: DUMMY_SP,
                 test: Some(Box::new(Expr::Lit(Lit::Num(Number {
@@ -879,11 +882,10 @@ impl CaseHandler<'_> {
                     }
                     _ => false,
                 };
-                cases
-                    .last_mut()
-                    .unwrap()
-                    .cons
-                    .push(stmt.fold_with(&mut UnmarkedInvalidHandler { case_id: i }));
+
+                stmt.visit_mut_with(&mut UnmarkedInvalidHandler { case_id: i });
+
+                cases.last_mut().unwrap().cons.push(stmt.take());
 
                 if is_completion {
                     already_ended = true;
@@ -1273,13 +1275,16 @@ impl CaseHandler<'_> {
                         //    getSafeParam: () => t.cloneDeep(safeParam),
                         //    catchParamName: handler.param.name
                         //});
-                        handler = handler.map(|handler| {
-                            let body = handler.body.fold_with(&mut CatchParamHandler {
+                        handler = handler.map(|mut handler| {
+                            handler.body.visit_mut_with(&mut CatchParamHandler {
                                 safe_param: &safe_param,
                                 param: handler.param.as_ref(),
                             });
 
-                            CatchClause { body, ..handler }
+                            CatchClause {
+                                body: handler.body,
+                                ..handler
+                            }
                         });
 
                         try_entry.catch_entry = match folder.with_entry(
@@ -1539,7 +1544,7 @@ struct LeapFinder {
 
 macro_rules! leap {
     ($name:ident,$T:ty) => {
-        fn $name(&mut self, _: &$T, _: &dyn Node) {
+        fn $name(&mut self, _: &$T) {
             self.found = true;
         }
     };
@@ -1549,9 +1554,9 @@ impl Visit for LeapFinder {
     noop_visit_type!();
 
     /// Ignored
-    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
+    fn visit_function(&mut self, _: &Function) {}
     /// Ignored
-    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {}
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 
     leap!(visit_yield_expr, YieldExpr);
     leap!(visit_break_stmt, BreakStmt);
@@ -1565,7 +1570,7 @@ where
     T: VisitWith<LeapFinder>,
 {
     let mut v = LeapFinder { found: false };
-    node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+    node.visit_with(&mut v);
     v.found
 }
 
@@ -1583,19 +1588,17 @@ struct UnmarkedInvalidHandler {
     case_id: usize,
 }
 
-/// TODO: VisitMut
-impl Fold for UnmarkedInvalidHandler {
-    noop_fold_type!();
+impl VisitMut for UnmarkedInvalidHandler {
+    noop_visit_mut_type!();
 
-    fn fold_expr(&mut self, e: Expr) -> Expr {
-        let e = e.fold_children_with(self);
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
 
-        match e {
-            Expr::Invalid(Invalid { span }) => Expr::Lit(Lit::Num(Number {
-                span,
+        if let Expr::Invalid(Invalid { span }) = e {
+            *e = Expr::Lit(Lit::Num(Number {
+                span: *span,
                 value: self.case_id as _,
-            })),
-            _ => e,
+            }));
         }
     }
 }
@@ -1606,30 +1609,24 @@ struct InvalidToLit<'a> {
     map: &'a [Loc],
 }
 
-/// TODO: VisitMut
-impl Fold for InvalidToLit<'_> {
-    noop_fold_type!();
+impl VisitMut for InvalidToLit<'_> {
+    noop_visit_mut_type!();
 
-    fn fold_expr(&mut self, e: Expr) -> Expr {
-        let e = e.fold_children_with(self);
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
 
-        match e {
-            Expr::Invalid(Invalid { span }) => {
-                //
-                if span.lo == span.hi {
-                    if let Some(Loc { stmt_index, .. }) =
-                        self.map.iter().find(|loc| loc.id == span.lo.0)
-                    {
-                        return Expr::Lit(Lit::Num(Number {
-                            span: DUMMY_SP,
-                            value: (*stmt_index) as _,
-                        }));
-                    }
+        if let Expr::Invalid(Invalid { span }) = e {
+            if span.lo == span.hi {
+                if let Some(Loc { stmt_index, .. }) =
+                    self.map.iter().find(|loc| loc.id == span.lo.0)
+                {
+                    *e = Expr::Lit(Lit::Num(Number {
+                        span: DUMMY_SP,
+                        value: (*stmt_index) as _,
+                    }));
+                    return;
                 }
-
-                Expr::Invalid(Invalid { span })
             }
-            _ => e,
         }
     }
 }
@@ -1639,24 +1636,19 @@ struct CatchParamHandler<'a> {
     param: Option<&'a Pat>,
 }
 
-/// TODO: VisitMut
-impl Fold for CatchParamHandler<'_> {
-    noop_fold_type!();
+impl VisitMut for CatchParamHandler<'_> {
+    noop_visit_mut_type!();
 
-    fn fold_expr(&mut self, node: Expr) -> Expr {
-        match self.param {
-            None => return node,
-            Some(Pat::Ident(i)) => match &node {
-                Expr::Ident(r) => {
-                    if r.sym == i.id.sym && i.id.span.ctxt() == r.span.ctxt() {
-                        return self.safe_param.clone();
-                    }
+    fn visit_mut_expr(&mut self, node: &mut Expr) {
+        if let Some(Pat::Ident(i)) = self.param {
+            if let Expr::Ident(r) = node {
+                if r.sym == i.id.sym && i.id.span.ctxt() == r.span.ctxt() {
+                    *node = self.safe_param.clone();
+                    return;
                 }
-                _ => {}
-            },
-            _ => {}
+            }
         }
 
-        node.fold_children_with(self)
+        node.visit_mut_children_with(self);
     }
 }

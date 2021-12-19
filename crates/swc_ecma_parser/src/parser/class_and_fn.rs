@@ -455,7 +455,6 @@ impl<'a, I: Tokens> Parser<I> {
         Ok(StaticBlock { span, body }.into())
     }
 
-    #[allow(clippy::cognitive_complexity)]
     fn parse_class_member_with_is_static(
         &mut self,
         start: BytePos,
@@ -608,19 +607,12 @@ impl<'a, I: Tokens> Parser<I> {
         };
         let is_optional = self.input.syntax().typescript() && eat!(self, '?');
 
-        let is_private = match key {
-            Either::Left(PrivateName { .. }) => true,
-            _ => false,
-        };
-        let is_simple = {
-            match &mut key {
-                Either::Right(PropName::Ident(i)) => {
-                    i.optional = is_optional;
-                    true
-                }
-                _ => false,
+        match &mut key {
+            Either::Right(PropName::Ident(i)) => {
+                i.optional = is_optional;
             }
-        };
+            _ => {}
+        }
 
         if self.is_class_method() {
             // handle a(){} / get(){} / set(){} / async(){}
@@ -902,10 +894,6 @@ impl<'a, I: Tokens> Parser<I> {
         is_abstract: bool,
         is_override: bool,
     ) -> PResult<ClassMember> {
-        if !self.input.syntax().class_props() {
-            syntax_error!(self, span!(self, start), SyntaxError::ClassProperty)
-        }
-
         if is_constructor(&key) {
             syntax_error!(self, key.span(), SyntaxError::PropertyNamedConstructor);
         }
@@ -922,9 +910,6 @@ impl<'a, I: Tokens> Parser<I> {
         };
         self.with_ctx(ctx).parse_with(|p| {
             let value = if is!(p, '=') {
-                if !p.input.syntax().class_props() {
-                    syntax_error!(p, span!(p, start), SyntaxError::ClassProperty);
-                }
                 assert_and_bump!(p, '=');
                 Some(p.parse_assignment_expr()?)
             } else {
@@ -954,17 +939,7 @@ impl<'a, I: Tokens> Parser<I> {
                 .into(),
                 Either::Right(key) => ClassProp {
                     span: span!(p, start),
-                    computed: match key {
-                        PropName::Computed(..) => true,
-                        _ => false,
-                    },
-                    key: match key {
-                        PropName::Ident(i) => Box::new(Expr::Ident(i)),
-                        PropName::Str(s) => Box::new(Expr::Lit(Lit::Str(s))),
-                        PropName::Num(n) => Box::new(Expr::Lit(Lit::Num(n))),
-                        PropName::BigInt(b) => Box::new(Expr::Lit(Lit::BigInt(b))),
-                        PropName::Computed(e) => e.expr,
-                    },
+                    key,
                     value,
                     is_static,
                     decorators,
@@ -1014,7 +989,6 @@ impl<'a, I: Tokens> Parser<I> {
         let is_async = start_of_async.is_some();
 
         let is_generator = {
-            let start = cur_pos!(self);
             if eat!(self, '*') {
                 // if is_async {
                 //     syntax_error!(self, span!(self, start), SyntaxError::AsyncGenerator {});
@@ -1042,7 +1016,6 @@ impl<'a, I: Tokens> Parser<I> {
             // function declaration does not change context for `BindingIdentifier`.
             self.parse_maybe_opt_binding_ident()?
         };
-        let is_constructor = T::is_constructor(&ident);
 
         self.parse_with(|p| {
             let f = p.parse_fn_args_body(
@@ -1391,7 +1364,7 @@ impl OutputType for Decl {
             function,
         })
     }
-    fn finish_class(span: Span, ident: Ident, class: Class) -> Self {
+    fn finish_class(_: Span, ident: Ident, class: Class) -> Self {
         Decl::Class(ClassDecl {
             declare: false,
             ident,
@@ -1467,6 +1440,8 @@ struct MakeMethodArgs {
 
 #[cfg(test)]
 mod tests {
+    #![allow(unused)]
+
     use super::*;
     use swc_common::DUMMY_SP as span;
     use swc_ecma_visit::assert_eq_ignore_span;

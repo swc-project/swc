@@ -7,7 +7,7 @@ function ExpandoDecl(n) {
 ExpandoDecl.prop = 2, ExpandoDecl.m = function(n) {
     return n + 1;
 }, ExpandoDecl.prop + ExpandoDecl.m(12) + ExpandoDecl(101).length;
-var Ns1, ExpandoExpr = function(n) {
+var Ns, ExpandoExpr = function(n) {
     return n.toString();
 };
 ExpandoExpr.prop = {
@@ -32,13 +32,13 @@ ExpandoArrow.prop = 2, ExpandoArrow.m = function(n) {
     return nested.total = n + 1000000, nested;
 }).also = -1, ExpandoMerge.p1 = 111, (ExpandoMerge || (ExpandoMerge = {
 })).p2 = 222, (ExpandoMerge || (ExpandoMerge = {
-})).p3 = 333, ExpandoMerge.p1 + ExpandoMerge.p2 + ExpandoMerge.p3 + ExpandoMerge(1), (function(Ns) {
+})).p3 = 333, ExpandoMerge.p1 + ExpandoMerge.p2 + ExpandoMerge.p3 + ExpandoMerge(1), (function(Ns1) {
     var ExpandoNamespace = function() {
     };
-    ExpandoNamespace.p6 = 42, Ns.foo = function() {
+    ExpandoNamespace.p6 = 42, Ns1.foo = function() {
         return ExpandoNamespace;
     };
-})(Ns1 || (Ns1 = {
+})(Ns || (Ns = {
 }));
 var ExpandoExpr2 = function(n) {
     return n.toString();

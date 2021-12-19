@@ -1,13 +1,13 @@
 // @declaration: true
-function foo(f) {
-    return f;
+function foo(f1) {
+    return f1;
 }
-function bar(f) {
-    return f;
+function bar(f2) {
+    return f2;
 }
-let f1 = foo((x)=>x
+let f = foo((x)=>x
 );
-let fResult = f1("foo");
+let fResult = f("foo");
 let g = foo((x)=>x
 );
 let gResult = g("foo");

@@ -1,13 +1,13 @@
 // Initializer expressions for instance member variables are evaluated in the scope of the class constructor body but are not permitted to reference parameters or local variables of the constructor. 
 class C {
-    constructor(x){
+    constructor(x1){
         this.a // error
          = x;
     }
 }
 class D {
-    constructor(x){
-        this.x = x;
+    constructor(x2){
+        this.x = x2;
         this.a // error
          = x;
     }
@@ -20,8 +20,8 @@ class E {
     }
 }
 class F {
-    constructor(x){
-        this.x = x;
+    constructor(x3){
+        this.x = x3;
         this.a // ok
          = this.x;
         this.b // error

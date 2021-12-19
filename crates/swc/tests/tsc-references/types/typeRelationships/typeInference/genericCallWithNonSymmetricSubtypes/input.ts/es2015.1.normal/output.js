@@ -1,12 +1,12 @@
 // generic type argument inference where inference leads to two candidates that are both supertypes of all candidates
 // we choose the first candidate so the result is dependent on the order of the arguments provided
 function foo(x, y) {
-    var r;
-    return r;
+    var r1;
+    return r1;
 }
 var a;
 var b;
-var r1 = foo(a, b); // { x: number; y?: number; };
+var r = foo(a, b); // { x: number; y?: number; };
 var r2 = foo(b, a); // { x: number; z?: number; };
 var x;
 var y;

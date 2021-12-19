@@ -5,10 +5,10 @@ class Base {
 class Derived extends Base {
 }
 function f(x) {
-    var r;
-    return r;
+    var r1;
+    return r1;
 }
-var r1 = f({
+var r = f({
     foo: new Base(),
     bar: new Derived()
 });
@@ -17,8 +17,8 @@ var r2 = f({
     bar: new Derived()
 });
 function f2(x) {
-    var r;
-    return r;
+    var r8;
+    return r8;
 }
 var i;
 var r3 = f2(i);

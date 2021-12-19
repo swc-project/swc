@@ -2,8 +2,8 @@ function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
 function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
+    for(var i1 = 0; i1 < props.length; i1++){
+        var descriptor = props[i1];
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
@@ -27,7 +27,7 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-function _createSuper(Derived) {
+function _createSuper(Derived1) {
     var hasNativeReflectConstruct = function() {
         if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
         if (Reflect.construct.sham) return !1;
@@ -40,7 +40,7 @@ function _createSuper(Derived) {
         }
     }();
     return function() {
-        var obj, self, call, result, Super = _getPrototypeOf(Derived);
+        var obj, self, call, result, Super = _getPrototypeOf(Derived1);
         if (hasNativeReflectConstruct) {
             var NewTarget = _getPrototypeOf(this).constructor;
             result = Reflect.construct(Super, arguments, NewTarget);
@@ -51,18 +51,18 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var b, d1, d2, i1, Base1 = function() {
+var b, d1, d2, i, Base = function() {
     "use strict";
-    _classCallCheck(this, Base1);
-}, Derived1 = function(Base) {
+    _classCallCheck(this, Base);
+}, Derived = function(Base1) {
     "use strict";
-    _inherits(Derived1, Base);
-    var _super = _createSuper(Derived1);
-    function Derived1() {
-        return _classCallCheck(this, Derived1), _super.apply(this, arguments);
+    _inherits(Derived, Base1);
+    var _super = _createSuper(Derived);
+    function Derived() {
+        return _classCallCheck(this, Derived), _super.apply(this, arguments);
     }
-    return Derived1;
-}(Base1), Derived2 = function(Derived) {
+    return Derived;
+}(Base), Derived2 = function(Derived) {
     "use strict";
     _inherits(Derived2, Derived);
     var _super = _createSuper(Derived2);
@@ -70,7 +70,7 @@ var b, d1, d2, i1, Base1 = function() {
         return _classCallCheck(this, Derived2), _super.apply(this, arguments);
     }
     return Derived2;
-}(Derived1);
+}(Derived);
 function foo(t) {
     return t;
 }
@@ -129,4 +129,4 @@ var C = function() {
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }(), c = new C(b, d1);
-c.foo(d1, d2), c.foo2(b, d2), c.foo3(d1, d1), c.foo4(d1, d2), c.foo5(d1, d2), c.foo5(d2, d2), c.foo6(), c.foo7(d1), c.foo8(), i1.foo(d1, d2), i1.foo2(b, d2), i1.foo3(d1, d1), i1.foo4(d1, d2), i1.foo5(d1, d2), i1.foo5(d2, d2), i1.foo6(), i1.foo7(d1), i1.foo8();
+c.foo(d1, d2), c.foo2(b, d2), c.foo3(d1, d1), c.foo4(d1, d2), c.foo5(d1, d2), c.foo5(d2, d2), c.foo6(), c.foo7(d1), c.foo8(), i.foo(d1, d2), i.foo2(b, d2), i.foo3(d1, d1), i.foo4(d1, d2), i.foo5(d1, d2), i.foo5(d2, d2), i.foo6(), i.foo7(d1), i.foo8();

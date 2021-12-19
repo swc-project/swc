@@ -40,7 +40,7 @@ var C = /*#__PURE__*/ function() {
 }();
 var a;
 var b = {
-    foo: function(x) {
+    foo: function foo(x) {
     },
     a: function foo(x, y) {
     },

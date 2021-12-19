@@ -86,6 +86,16 @@
 //! }
 //! ```
 //!
+//! ## Cargo features
+//!
+//! ### `typescript`
+//!
+//! Enables typescript parser.
+//!
+//! ### `verify`
+//!
+//! Verify more errors, using `swc_ecma_visit`.
+//!
 //! ## Known issues
 //!
 //! ### Null character after `\`
@@ -148,10 +158,8 @@ impl Syntax {
         match self {
             Syntax::Es(EsConfig {
                 import_assertions, ..
-            })
-            | Syntax::Typescript(TsConfig {
-                import_assertions, ..
             }) => import_assertions,
+            Syntax::Typescript(_) => true,
         }
     }
 
@@ -190,10 +198,6 @@ impl Syntax {
         }
     }
 
-    pub const fn num_sep(self) -> bool {
-        true
-    }
-
     pub fn decorators(self) -> bool {
         match self {
             Syntax::Es(EsConfig {
@@ -204,18 +208,6 @@ impl Syntax {
             }) => true,
             _ => false,
         }
-    }
-
-    pub const fn class_private_methods(self) -> bool {
-        true
-    }
-
-    pub const fn class_private_props(self) -> bool {
-        true
-    }
-
-    pub const fn class_props(self) -> bool {
-        true
     }
 
     pub fn decorators_before_export(self) -> bool {
@@ -254,24 +246,6 @@ impl Syntax {
         }
     }
 
-    /// `true`
-    pub const fn export_namespace_from(self) -> bool {
-        true
-    }
-
-    /// `true`
-    pub const fn nullish_coalescing(self) -> bool {
-        true
-    }
-
-    pub const fn import_meta(self) -> bool {
-        true
-    }
-
-    pub const fn top_level_await(self) -> bool {
-        true
-    }
-
     pub fn dts(self) -> bool {
         match self {
             Syntax::Typescript(t) => t.dts,
@@ -297,7 +271,7 @@ impl Syntax {
 }
 
 #[derive(Debug, Clone, Copy, Default, Serialize, Deserialize)]
-#[serde(deny_unknown_fields, rename_all = "camelCase")]
+#[serde(rename_all = "camelCase")]
 pub struct TsConfig {
     #[serde(default)]
     pub tsx: bool,
@@ -305,43 +279,19 @@ pub struct TsConfig {
     #[serde(default)]
     pub decorators: bool,
 
-    #[serde(default)]
-    pub dynamic_import: bool,
-
     /// `.d.ts`
     #[serde(skip, default)]
     pub dts: bool,
 
     #[serde(skip, default)]
     pub no_early_errors: bool,
-
-    /// Stage 3.
-    #[serde(default)]
-    pub import_assertions: bool,
 }
 
 #[derive(Debug, Clone, Copy, Default, Serialize, Deserialize)]
-#[serde(deny_unknown_fields, rename_all = "camelCase")]
+#[serde(rename_all = "camelCase")]
 pub struct EsConfig {
     #[serde(default)]
     pub jsx: bool,
-    /// Support numeric separator.
-    /// Stage 3.
-    #[serde(rename = "numericSeparator")]
-    #[serde(default)]
-    pub num_sep: bool,
-
-    #[serde(rename = "classPrivateProperty")]
-    #[serde(default)]
-    pub class_private_props: bool,
-
-    #[serde(rename = "privateMethod")]
-    #[serde(default)]
-    pub class_private_methods: bool,
-
-    #[serde(rename = "classProperty")]
-    #[serde(default)]
-    pub class_props: bool,
 
     /// Support function bind expression.
     #[serde(rename = "functionBind")]
@@ -362,27 +312,6 @@ pub struct EsConfig {
     #[serde(default)]
     pub export_default_from: bool,
 
-    #[serde(default)]
-    pub export_namespace_from: bool,
-
-    #[serde(default)]
-    pub dynamic_import: bool,
-
-    /// Stage 3.
-    #[serde(default)]
-    pub nullish_coalescing: bool,
-
-    #[serde(default)]
-    pub optional_chaining: bool,
-
-    /// Stage 3.
-    #[serde(default)]
-    pub import_meta: bool,
-
-    /// Stage 3.
-    #[serde(default)]
-    pub top_level_await: bool,
-
     /// Stage 3.
     #[serde(default)]
     pub import_assertions: bool,
@@ -397,6 +326,9 @@ pub struct EsConfig {
 /// Syntactic context.
 #[derive(Debug, Clone, Copy, Default)]
 pub struct Context {
+    /// `true` while backtracking
+    ignore_error: bool,
+
     /// Is in module code?
     module: bool,
     can_be_module: bool,

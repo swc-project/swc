@@ -2,10 +2,10 @@ use super::{ops::Operations, LOG};
 use crate::scope::ScopeKind;
 use std::{cell::RefCell, mem::take};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{collections::AHashMap, SyntaxContext, DUMMY_SP};
+use swc_common::{collections::AHashMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id, StmtOrModuleItem};
-use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use tracing::{debug, span, trace, Level};
 
 #[derive(Debug, Default)]
@@ -21,7 +21,7 @@ pub(super) struct ScopeData {
     pub kind: ScopeKind,
 
     pub direct_decls: RefCell<AHashMap<JsWord, Vec<SyntaxContext>>>,
-    pub decls: RefCell<AHashMap<JsWord, Vec<SyntaxContext>>>,
+    pub decls: RefCell<AHashMap<JsWord, Vec<(u16, SyntaxContext)>>>,
 
     /// Usages in current scope.
     pub direct_usages: RefCell<AHashMap<JsWord, Vec<SyntaxContext>>>,
@@ -31,6 +31,7 @@ pub(super) struct ScopeData {
 pub(super) struct CurScope<'a> {
     pub parent: Option<&'a CurScope<'a>>,
     pub data: ScopeData,
+    pub depth: u16,
 }
 
 impl CurScope<'_> {
@@ -72,7 +73,7 @@ impl CurScope<'_> {
             let ctxts_of_decls = b.get_mut(&id.0);
 
             if let Some(ctxts_of_decls) = ctxts_of_decls {
-                if let Some(pos) = ctxts_of_decls.iter().position(|&ctxt| ctxt == id.1) {
+                if let Some(pos) = ctxts_of_decls.iter().position(|&(_, ctxt)| ctxt == id.1) {
                     ctxts_of_decls.remove(pos);
                 }
             }
@@ -94,7 +95,7 @@ impl CurScope<'_> {
             let ctxts_of_decls = b.get_mut(&sym);
 
             if let Some(ctxts_of_decls) = ctxts_of_decls {
-                ctxts_of_decls.retain(|&ctxt| !dropped_ctxts.contains(&ctxt));
+                ctxts_of_decls.retain(|&(_, ctxt)| !dropped_ctxts.contains(&ctxt));
             }
         }
 
@@ -123,8 +124,8 @@ impl CurScope<'_> {
         {
             let mut b = self.data.decls.borrow_mut();
             let ctxts_of_decls = b.entry(id.0.clone()).or_default();
-            if !ctxts_of_decls.contains(&id.1) {
-                ctxts_of_decls.push(id.1);
+            if !ctxts_of_decls.iter().any(|(_, ctxt)| ctxt == &id.1) {
+                ctxts_of_decls.push((self.depth, id.1));
             }
         }
 
@@ -143,7 +144,7 @@ impl CurScope<'_> {
 
     /// Given usage (`sym`), will it be resolved as `ctxt` if we don't rename
     /// it?
-    fn conflict(&self, sym: &JsWord, ctxt: SyntaxContext) -> Vec<SyntaxContext> {
+    fn conflict(&self, sym: &JsWord, ctxt: SyntaxContext) -> Vec<(u16, SyntaxContext)> {
         let mut conflicts = match self.parent {
             Some(s) => s.conflict(sym, ctxt),
             None => vec![],
@@ -153,10 +154,25 @@ impl CurScope<'_> {
             if ctxts.len() > 1 {
                 return conflicts;
             }
-            conflicts.extend(ctxts.iter().copied().filter(|&cx| cx != ctxt));
+            conflicts.extend(ctxts.iter().copied().filter(|(_, cx)| cx != &ctxt));
         }
 
         conflicts
+    }
+
+    fn scope_depth(&self, id: &Id) -> u16 {
+        if let Some(ctxts) = self.data.decls.borrow().get(&id.0) {
+            for (scope_depth, ctxt) in ctxts.iter() {
+                if ctxt == &id.1 {
+                    return *scope_depth;
+                }
+            }
+        }
+
+        match self.parent {
+            Some(parent) => parent.scope_depth(id),
+            None => 0,
+        }
     }
 
     fn add_usage(&self, id: Id) {
@@ -256,6 +272,7 @@ impl UsageAnalyzer<'_> {
                     kind,
                     ..Default::default()
                 },
+                depth: self.cur.depth + 1,
             },
             is_pat_decl: self.is_pat_decl,
         };
@@ -290,12 +307,12 @@ impl UsageAnalyzer<'_> {
             };
 
             for stmt in stmts {
-                stmt.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+                stmt.visit_with(&mut v);
             }
         }
 
         for stmt in stmts {
-            stmt.visit_with(&Invalid { span: DUMMY_SP }, self);
+            stmt.visit_with(self);
         }
     }
 
@@ -315,7 +332,7 @@ impl UsageAnalyzer<'_> {
             let ctxts_of_decls = b.get(&id.0);
 
             if let Some(ctxts_of_decls) = ctxts_of_decls {
-                let cur_scope_conflict = if ctxts_of_decls.contains(&id.1) {
+                let cur_scope_conflict = if ctxts_of_decls.iter().any(|(_, ctxt)| ctxt == &id.1) {
                     ctxts_of_decls.len() > 1
                 } else {
                     ctxts_of_decls.len() > 0
@@ -352,14 +369,37 @@ impl UsageAnalyzer<'_> {
 
         let id = self.get_renamed_id(id);
 
-        // We rename decl instead of usage.
+        // We rename based on the scope depth of the identifier
         let conflicts = self.cur.conflict(&id.0, id.1);
+        if !conflicts.is_empty() {
+            let scope_depth = self.cur.scope_depth(&id);
+            let mut top_match = (scope_depth, id.1.clone());
 
-        for ctxt in conflicts {
-            if LOG {
-                debug!("Renaming decl: Usage-decl conflict (ctxt={:?})", ctxt);
+            for (scope_depth, ctxt) in conflicts.iter() {
+                if scope_depth < &top_match.0 {
+                    top_match = (*scope_depth, ctxt.clone());
+                }
             }
-            self.rename((id.0.clone(), ctxt));
+
+            let top_level_depth = 1; // 1 because script and module create a scope
+            let renames = if top_match.0 == top_level_depth {
+                let mut all_candidates = conflicts;
+                all_candidates.push((scope_depth, id.1.clone()));
+                all_candidates
+                    .into_iter()
+                    .filter(|(depth, _)| *depth > top_level_depth)
+                    .collect()
+            } else {
+                conflicts
+            };
+
+            for (_, ctxt) in renames {
+                if LOG {
+                    debug!("Renaming decl: Usage-decl conflict (ctxt={:?})", ctxt);
+                }
+
+                self.rename((id.0.clone(), ctxt));
+            }
         }
 
         self.cur.add_usage(id);
@@ -369,11 +409,11 @@ impl UsageAnalyzer<'_> {
 impl Visit for UsageAnalyzer<'_> {
     noop_visit_type!();
 
-    fn visit_arrow_expr(&mut self, f: &ArrowExpr, _: &dyn Node) {
+    fn visit_arrow_expr(&mut self, f: &ArrowExpr) {
         self.visit_with_scope(f.span.ctxt, ScopeKind::Fn, |v| {
             let old = v.is_pat_decl;
             v.is_pat_decl = true;
-            f.params.visit_with(f, v);
+            f.params.visit_with(v);
             v.is_pat_decl = old;
 
             match &f.body {
@@ -382,13 +422,13 @@ impl Visit for UsageAnalyzer<'_> {
                     body.visit_children_with(v);
                 }
                 BlockStmtOrExpr::Expr(body) => {
-                    body.visit_with(f, v);
+                    body.visit_with(v);
                 }
             }
         })
     }
 
-    fn visit_assign_pat_prop(&mut self, node: &AssignPatProp, _: &dyn Node) {
+    fn visit_assign_pat_prop(&mut self, node: &AssignPatProp) {
         node.visit_children_with(self);
 
         {
@@ -400,28 +440,28 @@ impl Visit for UsageAnalyzer<'_> {
         }
     }
 
-    fn visit_block_stmt(&mut self, f: &BlockStmt, _: &dyn Node) {
+    fn visit_block_stmt(&mut self, f: &BlockStmt) {
         self.visit_with_scope(f.span.ctxt, ScopeKind::Block, |v| f.visit_children_with(v))
     }
 
-    fn visit_catch_clause(&mut self, c: &CatchClause, _: &dyn Node) {
+    fn visit_catch_clause(&mut self, c: &CatchClause) {
         let old = self.is_pat_decl;
 
         self.is_pat_decl = true;
-        c.param.visit_with(c, self);
+        c.param.visit_with(self);
 
         self.is_pat_decl = false;
-        c.body.visit_with(c, self);
+        c.body.visit_with(self);
 
         self.is_pat_decl = old;
     }
 
-    fn visit_class_decl(&mut self, c: &ClassDecl, _: &dyn Node) {
+    fn visit_class_decl(&mut self, c: &ClassDecl) {
         self.add_decl(c.ident.to_id());
         c.visit_children_with(self);
     }
 
-    fn visit_class_expr(&mut self, c: &ClassExpr, _: &dyn Node) {
+    fn visit_class_expr(&mut self, c: &ClassExpr) {
         self.visit_with_scope(c.class.span.ctxt, ScopeKind::Fn, |v| {
             if let Some(i) = &c.ident {
                 v.add_decl(i.to_id());
@@ -431,10 +471,10 @@ impl Visit for UsageAnalyzer<'_> {
         })
     }
 
-    fn visit_constructor(&mut self, c: &Constructor, _: &dyn Node) {
+    fn visit_constructor(&mut self, c: &Constructor) {
         self.visit_with_scope(c.span.ctxt, ScopeKind::Fn, |v| {
             v.is_pat_decl = true;
-            c.params.visit_with(c, v);
+            c.params.visit_with(v);
             v.is_pat_decl = false;
 
             match c.body.as_ref() {
@@ -446,12 +486,12 @@ impl Visit for UsageAnalyzer<'_> {
         })
     }
 
-    fn visit_class_method(&mut self, m: &ClassMethod, _: &dyn Node) {
-        m.function.decorators.visit_with(m, self);
+    fn visit_class_method(&mut self, m: &ClassMethod) {
+        m.function.decorators.visit_with(self);
 
         self.visit_with_scope(m.function.span.ctxt, ScopeKind::Fn, |v| {
             v.is_pat_decl = true;
-            m.function.params.visit_with(m, v);
+            m.function.params.visit_with(v);
             v.is_pat_decl = false;
 
             match m.function.body.as_ref() {
@@ -463,15 +503,15 @@ impl Visit for UsageAnalyzer<'_> {
         })
     }
 
-    fn visit_export_default_specifier(&mut self, n: &ExportDefaultSpecifier, _: &dyn Node) {
+    fn visit_export_default_specifier(&mut self, n: &ExportDefaultSpecifier) {
         self.add_usage(n.exported.to_id());
     }
 
-    fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier, _: &dyn Node) {
+    fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {
         self.add_usage(n.orig.to_id());
     }
 
-    fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
+    fn visit_expr(&mut self, e: &Expr) {
         e.visit_children_with(self);
 
         match e {
@@ -482,14 +522,14 @@ impl Visit for UsageAnalyzer<'_> {
         }
     }
 
-    fn visit_fn_decl(&mut self, f: &FnDecl, _: &dyn Node) {
-        f.function.decorators.visit_with(f, self);
+    fn visit_fn_decl(&mut self, f: &FnDecl) {
+        f.function.decorators.visit_with(self);
 
         self.add_decl(f.ident.to_id());
 
         self.visit_with_scope(f.function.span.ctxt, ScopeKind::Fn, |v| {
             v.is_pat_decl = true;
-            f.function.params.visit_with(f, v);
+            f.function.params.visit_with(v);
             v.is_pat_decl = false;
 
             match f.function.body.as_ref() {
@@ -501,12 +541,12 @@ impl Visit for UsageAnalyzer<'_> {
         })
     }
 
-    fn visit_fn_expr(&mut self, f: &FnExpr, _: &dyn Node) {
-        f.function.decorators.visit_with(f, self);
+    fn visit_fn_expr(&mut self, f: &FnExpr) {
+        f.function.decorators.visit_with(self);
 
         self.visit_with_scope(f.function.span.ctxt, ScopeKind::Fn, |v| {
             v.is_pat_decl = true;
-            f.function.params.visit_with(f, v);
+            f.function.params.visit_with(v);
 
             if let Some(i) = &f.ident {
                 v.add_decl(i.to_id());
@@ -522,34 +562,34 @@ impl Visit for UsageAnalyzer<'_> {
         })
     }
 
-    fn visit_import_default_specifier(&mut self, s: &ImportDefaultSpecifier, _: &dyn Node) {
+    fn visit_import_default_specifier(&mut self, s: &ImportDefaultSpecifier) {
         self.add_decl(s.local.to_id());
     }
 
-    fn visit_import_named_specifier(&mut self, s: &ImportNamedSpecifier, _: &dyn Node) {
+    fn visit_import_named_specifier(&mut self, s: &ImportNamedSpecifier) {
         self.add_decl(s.local.to_id());
     }
 
-    fn visit_import_star_as_specifier(&mut self, s: &ImportStarAsSpecifier, _: &dyn Node) {
+    fn visit_import_star_as_specifier(&mut self, s: &ImportStarAsSpecifier) {
         self.add_decl(s.local.to_id());
     }
 
-    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
-        e.obj.visit_with(e, self);
+    fn visit_member_expr(&mut self, e: &MemberExpr) {
+        e.obj.visit_with(self);
 
         if e.computed {
-            e.obj.visit_with(e, self);
+            e.obj.visit_with(self);
         }
     }
 
-    fn visit_method_prop(&mut self, f: &MethodProp, _: &dyn Node) {
-        f.key.visit_with(f, self);
+    fn visit_method_prop(&mut self, f: &MethodProp) {
+        f.key.visit_with(self);
 
-        f.function.decorators.visit_with(f, self);
+        f.function.decorators.visit_with(self);
 
         self.visit_with_scope(f.function.span.ctxt, ScopeKind::Fn, |v| {
             v.is_pat_decl = true;
-            f.function.params.visit_with(f, v);
+            f.function.params.visit_with(v);
 
             v.is_pat_decl = false;
             match f.function.body.as_ref() {
@@ -561,24 +601,24 @@ impl Visit for UsageAnalyzer<'_> {
         })
     }
 
-    fn visit_module(&mut self, m: &Module, _: &dyn Node) {
+    fn visit_module(&mut self, m: &Module) {
         self.visit_with_scope(m.span.ctxt, ScopeKind::Fn, |v| m.visit_children_with(v))
     }
 
-    fn visit_module_items(&mut self, stmts: &[ModuleItem], _: &dyn Node) {
+    fn visit_module_items(&mut self, stmts: &[ModuleItem]) {
         self.visit_stmt_likes(stmts);
     }
 
-    fn visit_param(&mut self, p: &Param, _: &dyn Node) {
-        p.decorators.visit_with(p, self);
+    fn visit_param(&mut self, p: &Param) {
+        p.decorators.visit_with(self);
 
         let old = self.is_pat_decl;
         self.is_pat_decl = true;
-        p.pat.visit_with(p, self);
+        p.pat.visit_with(self);
         self.is_pat_decl = old;
     }
 
-    fn visit_pat(&mut self, p: &Pat, _: &dyn Node) {
+    fn visit_pat(&mut self, p: &Pat) {
         p.visit_children_with(self);
 
         match p {
@@ -593,7 +633,7 @@ impl Visit for UsageAnalyzer<'_> {
         }
     }
 
-    fn visit_prop(&mut self, p: &Prop, _: &dyn Node) {
+    fn visit_prop(&mut self, p: &Prop) {
         p.visit_children_with(self);
 
         match p {
@@ -604,22 +644,22 @@ impl Visit for UsageAnalyzer<'_> {
         }
     }
 
-    fn visit_script(&mut self, s: &Script, _: &dyn Node) {
+    fn visit_script(&mut self, s: &Script) {
         self.visit_with_scope(s.span.ctxt, ScopeKind::Fn, |v| s.visit_children_with(v))
     }
 
-    fn visit_stmts(&mut self, stmts: &[Stmt], _: &dyn Node) {
+    fn visit_stmts(&mut self, stmts: &[Stmt]) {
         self.visit_stmt_likes(stmts);
     }
 
-    fn visit_var_declarator(&mut self, v: &VarDeclarator, _: &dyn Node) {
+    fn visit_var_declarator(&mut self, v: &VarDeclarator) {
         let old = self.is_pat_decl;
 
         self.is_pat_decl = true;
-        v.name.visit_with(v, self);
+        v.name.visit_with(self);
 
         self.is_pat_decl = false;
-        v.init.visit_with(v, self);
+        v.init.visit_with(self);
 
         self.is_pat_decl = old;
     }
@@ -639,9 +679,9 @@ struct Hoister<'a, 'b> {
 impl Visit for Hoister<'_, '_> {
     noop_visit_type!();
 
-    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {}
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 
-    fn visit_assign_pat_prop(&mut self, node: &AssignPatProp, _: &dyn Node) {
+    fn visit_assign_pat_prop(&mut self, node: &AssignPatProp) {
         node.visit_children_with(self);
 
         {
@@ -660,16 +700,16 @@ impl Visit for Hoister<'_, '_> {
         }
     }
 
-    fn visit_block_stmt(&mut self, b: &BlockStmt, _: &dyn Node) {
+    fn visit_block_stmt(&mut self, b: &BlockStmt) {
         let old = self.in_block_stmt;
         self.in_block_stmt = true;
         b.visit_children_with(self);
         self.in_block_stmt = old;
     }
 
-    fn visit_block_stmt_or_expr(&mut self, _: &BlockStmtOrExpr, _: &dyn Node) {}
+    fn visit_block_stmt_or_expr(&mut self, _: &BlockStmtOrExpr) {}
 
-    fn visit_class_decl(&mut self, c: &ClassDecl, _: &dyn Node) {
+    fn visit_class_decl(&mut self, c: &ClassDecl) {
         c.visit_children_with(self);
 
         if self.in_block_stmt {
@@ -679,11 +719,11 @@ impl Visit for Hoister<'_, '_> {
         self.inner.add_decl(c.ident.to_id());
     }
 
-    fn visit_constructor(&mut self, c: &Constructor, _: &dyn Node) {
-        c.params.visit_with(c, self);
+    fn visit_constructor(&mut self, c: &Constructor) {
+        c.params.visit_with(self);
     }
 
-    fn visit_fn_decl(&mut self, f: &FnDecl, _: &dyn Node) {
+    fn visit_fn_decl(&mut self, f: &FnDecl) {
         if LOG {
             trace!("hoister: Fn decl: `{}`", f.ident);
         }
@@ -691,11 +731,11 @@ impl Visit for Hoister<'_, '_> {
         self.inner.add_decl(f.ident.to_id());
     }
 
-    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
+    fn visit_function(&mut self, _: &Function) {}
 
-    fn visit_param(&mut self, _: &Param, _: &dyn Node) {}
+    fn visit_param(&mut self, _: &Param) {}
 
-    fn visit_pat(&mut self, p: &Pat, _: &dyn Node) {
+    fn visit_pat(&mut self, p: &Pat) {
         p.visit_children_with(self);
 
         match p {
@@ -717,23 +757,23 @@ impl Visit for Hoister<'_, '_> {
         }
     }
 
-    fn visit_var_decl(&mut self, v: &VarDecl, _: &dyn Node) {
+    fn visit_var_decl(&mut self, v: &VarDecl) {
         let old = self.var_decl_kind;
 
         self.var_decl_kind = Some(v.kind);
-        v.decls.visit_with(v, self);
+        v.decls.visit_with(self);
 
         self.var_decl_kind = old;
     }
 
-    fn visit_var_declarator(&mut self, v: &VarDeclarator, _: &dyn Node) {
+    fn visit_var_declarator(&mut self, v: &VarDeclarator) {
         let old = self.is_pat_decl;
 
         self.is_pat_decl = true;
-        v.name.visit_with(v, self);
+        v.name.visit_with(self);
 
         self.is_pat_decl = false;
-        v.init.visit_with(v, self);
+        v.init.visit_with(self);
 
         self.is_pat_decl = old;
     }

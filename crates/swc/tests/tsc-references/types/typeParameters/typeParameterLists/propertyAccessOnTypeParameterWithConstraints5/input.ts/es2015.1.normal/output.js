@@ -11,22 +11,22 @@ class B extends A {
 class C {
     f() {
         var x;
-        var a = x['foo'](); // should be string
-        return a + x.foo() + x.notHere();
+        var a1 = x['foo'](); // should be string
+        return a1 + x.foo() + x.notHere();
     }
 }
 var r = new C().f();
 var i;
 var r2 = i.foo.notHere();
 var r2b = i.foo['foo']();
-var a1;
+var a;
 // BUG 794164
-var r3 = a1().notHere();
-var r3b = a1()['foo']();
+var r3 = a().notHere();
+var r3b = a()['foo']();
 var b = {
     foo: (x)=>{
-        var a = x['foo'](); // should be string
-        return a + x.notHere();
+        var a2 = x['foo'](); // should be string
+        return a2 + x.notHere();
     },
     // BUG 794164
     bar: b.foo(1).notHere()

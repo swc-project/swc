@@ -1,3 +1,3 @@
 import x from "x;/";
 import y from "y;";
-y, x;
+const obj = (y, x);

@@ -1,12 +1,12 @@
-var my1, q;
-!function(my) {
+var my, q;
+!function(my1) {
     var div;
-    my.div = div;
-}(my1 || (my1 = {
-})), React.createElement(my1.div, {
+    my1.div = div;
+}(my || (my = {
+})), React.createElement(my.div, {
     n: "x"
-}), React.createElement(my1.other, null), (function(q) {
-    var mine = my1;
+}), React.createElement(my.other, null), (function(q) {
+    var mine = my;
     React.createElement(mine.div, {
         n: "x"
     }), React.createElement(mine.non, null);

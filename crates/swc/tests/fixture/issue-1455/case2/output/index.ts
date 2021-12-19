@@ -29,7 +29,7 @@ function _asyncToGenerator(fn) {
     };
 }
 var obj = {
-    find: function(param) {
+    find: function find(param) {
         var platform = param.platform;
         return {
             platform: platform

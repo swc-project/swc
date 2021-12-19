@@ -1,5 +1,5 @@
-var A1;
-(A1 = A || (A = {
+var A, A1;
+(A = A1 || (A1 = {
 })).A = class {
-}, A1.AG = class {
-}, new A.A(), new A.AG(), new A.A2(), new A.A2();
+}, A.AG = class {
+}, new A1.A(), new A1.AG(), new A1.A2(), new A1.A2();

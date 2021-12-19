@@ -1,13 +1,13 @@
-var moduleA1;
-(function(moduleA) {
+var moduleA;
+(function(moduleA1) {
     class Point {
         constructor(x, y){
             this.x = x;
             this.y = y;
         }
     }
-    moduleA.Point = Point;
-})(moduleA1 || (moduleA1 = {
+    moduleA1.Point = Point;
+})(moduleA || (moduleA = {
 }));
 var p;
 var p;

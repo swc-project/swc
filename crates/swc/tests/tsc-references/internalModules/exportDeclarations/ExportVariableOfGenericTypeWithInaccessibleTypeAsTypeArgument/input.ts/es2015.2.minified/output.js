@@ -1,6 +1,6 @@
-var A1;
-!function(A) {
+var A;
+!function(A1) {
     var beez;
-    A.beez2 = new Array(), A.beez = beez;
-}(A1 || (A1 = {
+    A1.beez2 = new Array(), A1.beez = beez;
+}(A || (A = {
 }));

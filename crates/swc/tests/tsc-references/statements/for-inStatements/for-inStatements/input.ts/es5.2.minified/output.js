@@ -2,8 +2,8 @@ function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
 function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
+    for(var i1 = 0; i1 < props.length; i1++){
+        var descriptor = props[i1];
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
@@ -37,10 +37,10 @@ for(aString in {
 });
 for(anAny in {
 });
-for(var x1 in {
+for(var x in {
 });
-for(var x1 in []);
-for(var x1 in [
+for(var x in []);
+for(var x in [
     1,
     2,
     3,
@@ -49,22 +49,22 @@ for(var x1 in [
 ]);
 function fn() {
 }
-for(var x1 in fn());
-for(var x1 in /[a-z]/);
-for(var x1 in new Date());
-for(var x1 in c || d);
-for(var x1 in e ? c : d);
-for(var x1 in c);
-for(var x1 in d);
-for(var x1 in d[x1]);
-for(var x1 in c[d]);
-for(var x1 in function(x) {
-    return x;
+for(var x in fn());
+for(var x in /[a-z]/);
+for(var x in new Date());
+for(var x in c || d);
+for(var x in e ? c : d);
+for(var x in c);
+for(var x in d);
+for(var x in d[x]);
+for(var x in c[d]);
+for(var x in function(x1) {
+    return x1;
 });
-for(var x1 in function(x, y) {
-    return x + y;
+for(var x in function(x2, y) {
+    return x2 + y;
 });
-var Color, aString, anAny, c, d, e, i1, M1, Color1, A = function() {
+var Color, aString, anAny, c, d, e, i, M, Color, A = function() {
     "use strict";
     function A() {
         _classCallCheck(this, A);
@@ -143,16 +143,16 @@ var Color, aString, anAny, c, d, e, i1, M1, Color1, A = function() {
         }
     ]), B;
 }(A);
-for(var x1 in i1[42]);
-for(var x1 in !function(M) {
+for(var x in i[42]);
+for(var x in !function(M1) {
     var X = function() {
         "use strict";
         _classCallCheck(this, X);
     };
-    M.X = X;
-}(M1 || (M1 = {
-})), M1);
-for(var x1 in M1.X);
-for(var x1 in (Color = Color1 || (Color1 = {
-}))[Color.Red = 0] = "Red", Color[Color.Blue = 1] = "Blue", Color1);
-for(var x1 in Color1.Blue);
+    M1.X = X;
+}(M || (M = {
+})), M);
+for(var x in M.X);
+for(var x in (Color = Color || (Color = {
+}))[Color.Red = 0] = "Red", Color[Color.Blue = 1] = "Blue", Color);
+for(var x in Color.Blue);

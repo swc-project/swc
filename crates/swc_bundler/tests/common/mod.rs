@@ -17,6 +17,7 @@ use swc_common::{
 };
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
+use swc_ecma_transforms_base::resolver::resolver_with_mark;
 use swc_ecma_transforms_react::react;
 use swc_ecma_transforms_typescript::strip;
 use swc_ecma_visit::FoldWith;
@@ -114,7 +115,6 @@ impl Load for Loader {
             Syntax::Typescript(TsConfig {
                 decorators: true,
                 tsx,
-                dynamic_import: true,
                 ..Default::default()
             }),
             EsVersion::Es2020,
@@ -129,15 +129,17 @@ impl Load for Loader {
             err.into_diagnostic(&handler).emit();
             panic!("failed to parse")
         });
-        let module =
-            module
-                .fold_with(&mut strip())
-                .fold_with(&mut react::<SingleThreadedComments>(
-                    self.cm.clone(),
-                    None,
-                    Default::default(),
-                    top_level_mark,
-                ));
+
+        let mark = Mark::fresh(Mark::root());
+        let module = module
+            .fold_with(&mut resolver_with_mark(mark))
+            .fold_with(&mut strip(mark))
+            .fold_with(&mut react::<SingleThreadedComments>(
+                self.cm.clone(),
+                None,
+                Default::default(),
+                top_level_mark,
+            ));
 
         Ok(ModuleData {
             fm,
@@ -165,10 +167,39 @@ impl NodeResolver {
             return Ok(path.to_path_buf());
         }
 
-        for ext in EXTENSIONS {
-            let ext_path = path.with_extension(ext);
-            if ext_path.is_file() {
-                return Ok(ext_path);
+        if let Some(name) = path.file_name() {
+            let mut ext_path = path.to_path_buf();
+            let name = name.to_string_lossy();
+            for ext in EXTENSIONS {
+                ext_path.set_file_name(format!("{}.{}", name, ext));
+                if ext_path.is_file() {
+                    return Ok(ext_path);
+                }
+            }
+
+            // TypeScript-specific behavior: if the extension is ".js" or ".jsx",
+            // try replacing it with ".ts" or ".tsx".
+            ext_path.set_file_name(name.into_owned());
+            let old_ext = path.extension().and_then(|ext| ext.to_str());
+
+            if let Some(old_ext) = old_ext {
+                let extensions = match old_ext {
+                    // Note that the official compiler code always tries ".ts" before
+                    // ".tsx" even if the original extension was ".jsx".
+                    "js" => ["ts", "tsx"].as_slice(),
+                    "jsx" => ["ts", "tsx"].as_slice(),
+                    "mjs" => ["mts"].as_slice(),
+                    "cjs" => ["cts"].as_slice(),
+                    _ => [].as_slice(),
+                };
+
+                for ext in extensions {
+                    ext_path.set_extension(ext);
+
+                    if ext_path.is_file() {
+                        return Ok(ext_path);
+                    }
+                }
             }
         }
 

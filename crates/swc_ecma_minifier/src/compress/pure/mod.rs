@@ -203,7 +203,7 @@ where
 
         e.args.visit_mut_with(self);
 
-        self.drop_arguemtns_of_symbol_call(e);
+        self.drop_arguments_of_symbol_call(e);
     }
 
     fn visit_mut_cond_expr(&mut self, e: &mut CondExpr) {
@@ -394,7 +394,7 @@ where
         self.optimize_arrow_method_prop(p);
 
         if cfg!(feature = "debug") && cfg!(debug_assertions) {
-            p.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+            p.visit_with(&mut AssertValid);
         }
     }
 
@@ -448,7 +448,7 @@ where
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         let _tracing = if cfg!(feature = "debug") && self.debug_infinite_loop {
-            let text = dump(&*s);
+            let text = dump(&*s, false);
 
             if text.lines().count() < 10 {
                 Some(span!(Level::ERROR, "visit_mut_stmt", "start" = &*text).entered())
@@ -471,7 +471,7 @@ where
         }
 
         if cfg!(feature = "debug") && self.debug_infinite_loop {
-            let text = dump(&*s);
+            let text = dump(&*s, false);
 
             if text.lines().count() < 10 {
                 tracing::debug!("after: visit_mut_children_with: {}", text);
@@ -502,7 +502,7 @@ where
         }
 
         if cfg!(feature = "debug") && self.debug_infinite_loop {
-            let text = dump(&*s);
+            let text = dump(&*s, false);
 
             if text.lines().count() < 10 {
                 tracing::debug!("after: visit_mut_stmt: {}", text);
@@ -510,7 +510,7 @@ where
         }
 
         if cfg!(feature = "debug") && cfg!(debug_assertions) {
-            s.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+            s.visit_with(&mut AssertValid);
         }
     }
 
@@ -525,7 +525,7 @@ where
         });
 
         if cfg!(feature = "debug") && cfg!(debug_assertions) {
-            items.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+            items.visit_with(&mut AssertValid);
         }
     }
 

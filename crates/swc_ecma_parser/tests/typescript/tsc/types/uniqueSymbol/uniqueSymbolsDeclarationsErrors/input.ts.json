@@ -1425,14 +1425,22 @@
               "ctxt": 0
             },
             "key": {
-              "type": "Identifier",
+              "type": "Computed",
               "span": {
-                "start": 990,
-                "end": 991,
+                "start": 989,
+                "end": 992,
                 "ctxt": 0
               },
-              "value": "s",
-              "optional": false
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 990,
+                  "end": 991,
+                  "ctxt": 0
+                },
+                "value": "s",
+                "optional": false
+              }
             },
             "value": null,
             "typeAnnotation": {
@@ -1454,7 +1462,6 @@
             },
             "isStatic": false,
             "decorators": [],
-            "computed": true,
             "accessibility": null,
             "isAbstract": false,
             "isOptional": false,
@@ -1471,14 +1478,22 @@
               "ctxt": 0
             },
             "key": {
-              "type": "Identifier",
+              "type": "Computed",
               "span": {
-                "start": 1011,
-                "end": 1012,
+                "start": 1010,
+                "end": 1013,
                 "ctxt": 0
               },
-              "value": "s",
-              "optional": false
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1011,
+                  "end": 1012,
+                  "ctxt": 0
+                },
+                "value": "s",
+                "optional": false
+              }
             },
             "value": null,
             "typeAnnotation": {
@@ -1500,7 +1515,6 @@
             },
             "isStatic": true,
             "decorators": [],
-            "computed": true,
             "accessibility": null,
             "isAbstract": false,
             "isOptional": false,

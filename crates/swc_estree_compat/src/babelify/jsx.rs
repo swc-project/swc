@@ -246,7 +246,7 @@ impl Babelify for JSXElement {
     fn babelify(self, ctx: &Context) -> Self::Output {
         let self_closing = match Flavor::current() {
             Flavor::Babel => None,
-            Flavor::Acorn => Some(self.closing.is_some()),
+            Flavor::Acorn { .. } => Some(self.closing.is_some()),
         };
         BabelJSXElement {
             base: ctx.base(self.span),

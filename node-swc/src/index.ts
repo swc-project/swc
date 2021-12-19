@@ -1,3 +1,4 @@
+import { resolve } from "path";
 import {
   Plugin,
   ParseOptions,
@@ -12,7 +13,9 @@ export * from "./types";
 import { BundleInput, compileBundleOptions } from "./spack";
 import { loadBinding } from "@node-rs/helper";
 
-const bindings = loadBinding(__dirname, "swc", "@swc/core")
+// Allow overrides to the location of the .node binding file
+const bindingsOverride = process.env["SWC_BINARY_PATH"];
+const bindings = !!bindingsOverride ? require(resolve(bindingsOverride)) : loadBinding(__dirname, "swc", "@swc/core");
 
 /**
  * Version of the swc binding.

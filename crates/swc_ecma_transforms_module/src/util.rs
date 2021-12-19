@@ -648,8 +648,7 @@ impl Scope {
 
                 let mut found: Vec<(JsWord, Span)> = vec![];
                 let mut v = DestructuringFinder { found: &mut found };
-                expr.left
-                    .visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
+                expr.left.visit_with(&mut v);
                 if v.found.is_empty() {
                     return Expr::Assign(AssignExpr {
                         left: expr.left,
@@ -988,7 +987,7 @@ macro_rules! mark_as_nested {
 
         fn fold_class_prop(&mut self, mut n: ClassProp) -> ClassProp {
             use swc_common::util::take::Take;
-            if n.computed {
+            if n.key.is_computed() {
                 let key = n.key.take().fold_children_with(self);
 
                 let old = self.in_top_level;

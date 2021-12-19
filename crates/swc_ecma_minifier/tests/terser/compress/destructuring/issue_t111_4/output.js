@@ -1,7 +1,7 @@
-let p = (x)=>(console.log(x), x)
+let p = (x1)=>(console.log(x1), x1)
 , { length: length  } = [
     0
-], { x: x1  } = {
+], { x: x  } = {
     x: 2
 };
-p(`${length} ${x1}`);
+p(`${length} ${x}`);

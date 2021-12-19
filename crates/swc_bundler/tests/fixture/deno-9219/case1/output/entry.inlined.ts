@@ -33,7 +33,7 @@ function hasKey(obj, keys) {
     const key1 = keys[keys.length - 1];
     return key1 in o;
 }
-function parse(args, { "--": doubleDash = false , alias: alias2 = {
+function parse(args1, { "--": doubleDash = false , alias: alias2 = {
 } , boolean: __boolean = false , default: defaults = {
 } , stopEarly =false , string =[] , unknown =(i)=>i
   } = {
@@ -140,12 +140,12 @@ function parse(args, { "--": doubleDash = false , alias: alias2 = {
         setArg(key3, defaults[key3] === undefined ? false : defaults[key3]);
     }
     let notFlags = [];
-    if (args.includes("--")) {
-        notFlags = args.slice(args.indexOf("--") + 1);
-        args = args.slice(0, args.indexOf("--"));
+    if (args1.includes("--")) {
+        notFlags = args1.slice(args1.indexOf("--") + 1);
+        args1 = args1.slice(0, args1.indexOf("--"));
     }
-    for(let i = 0; i < args.length; i++){
-        const arg = args[i];
+    for(let i = 0; i < args1.length; i++){
+        const arg = args1[i];
         if (/^--.+=/.test(arg)) {
             const m = arg.match(/^--([^=]+)=(.*)$/s);
             assert(m != null);
@@ -164,7 +164,7 @@ function parse(args, { "--": doubleDash = false , alias: alias2 = {
             const m = arg.match(/^--(.+)/);
             assert(m != null);
             const [, key] = m;
-            const next = args[i + 1];
+            const next = args1[i + 1];
             if (next !== undefined && !/^-/.test(next) && !get(flags.bools, key) && !flags.allBools && (get(aliases, key) ? !aliasIsBoolean(key) : true)) {
                 setArg(key, next, arg);
                 i++;
@@ -203,11 +203,11 @@ function parse(args, { "--": doubleDash = false , alias: alias2 = {
             }
             const [key] = arg.slice(-1);
             if (!broken && key !== "-") {
-                if (args[i + 1] && !/^(-|--)[^-]/.test(args[i + 1]) && !get(flags.bools, key) && (get(aliases, key) ? !aliasIsBoolean(key) : true)) {
-                    setArg(key, args[i + 1], arg);
+                if (args1[i + 1] && !/^(-|--)[^-]/.test(args1[i + 1]) && !get(flags.bools, key) && (get(aliases, key) ? !aliasIsBoolean(key) : true)) {
+                    setArg(key, args1[i + 1], arg);
                     i++;
-                } else if (args[i + 1] && /^(true|false)$/.test(args[i + 1])) {
-                    setArg(key, args[i + 1] === "true", arg);
+                } else if (args1[i + 1] && /^(true|false)$/.test(args1[i + 1])) {
+                    setArg(key, args1[i + 1] === "true", arg);
                     i++;
                 } else {
                     setArg(key, get(flags.strings, key) ? "" : true, arg);
@@ -218,7 +218,7 @@ function parse(args, { "--": doubleDash = false , alias: alias2 = {
                 argv._.push(flags.strings["_"] ?? !isNumber(arg) ? arg : Number(arg));
             }
             if (stopEarly) {
-                argv._.push(...args.slice(i + 1));
+                argv._.push(...args1.slice(i + 1));
                 break;
             }
         }
@@ -245,7 +245,7 @@ function parse(args, { "--": doubleDash = false , alias: alias2 = {
     }
     return argv;
 }
-const args1 = parse(Deno.args, {
+const args = parse(Deno.args, {
     boolean: [
         "help",
         "verbose", 
@@ -258,4 +258,4 @@ const args1 = parse(Deno.args, {
         verbose: false
     }
 });
-console.dir(args1);
+console.dir(args);

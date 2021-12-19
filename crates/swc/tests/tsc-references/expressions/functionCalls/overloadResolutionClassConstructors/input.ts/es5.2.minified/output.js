@@ -45,34 +45,34 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var SomeBase1 = function() {
+var SomeBase = function() {
     "use strict";
-    _classCallCheck(this, SomeBase1);
-}, SomeDerived1 = function(SomeBase) {
+    _classCallCheck(this, SomeBase);
+}, SomeDerived1 = function(SomeBase1) {
     "use strict";
-    _inherits(SomeDerived1, SomeBase);
+    _inherits(SomeDerived1, SomeBase1);
     var _super = _createSuper(SomeDerived1);
     function SomeDerived1() {
         return _classCallCheck(this, SomeDerived1), _super.apply(this, arguments);
     }
     return SomeDerived1;
-}(SomeBase1), SomeDerived2 = function(SomeBase) {
+}(SomeBase), SomeDerived2 = function(SomeBase2) {
     "use strict";
-    _inherits(SomeDerived2, SomeBase);
+    _inherits(SomeDerived2, SomeBase2);
     var _super = _createSuper(SomeDerived2);
     function SomeDerived2() {
         return _classCallCheck(this, SomeDerived2), _super.apply(this, arguments);
     }
     return SomeDerived2;
-}(SomeBase1), SomeDerived3 = function(SomeBase) {
+}(SomeBase), SomeDerived3 = function(SomeBase3) {
     "use strict";
-    _inherits(SomeDerived3, SomeBase);
+    _inherits(SomeDerived3, SomeBase3);
     var _super = _createSuper(SomeDerived3);
     function SomeDerived3() {
         return _classCallCheck(this, SomeDerived3), _super.apply(this, arguments);
     }
     return SomeDerived3;
-}(SomeBase1), fn1 = function() {
+}(SomeBase), fn1 = function() {
     "use strict";
     _classCallCheck(this, fn1);
 };

@@ -1,5 +1,5 @@
-var E, E1, M;
-(E = E1 || (E1 = {
+var E, E, M;
+(E = E || (E = {
 }))[E.A = 0] = "A";
 var C = function() {
     "use strict";

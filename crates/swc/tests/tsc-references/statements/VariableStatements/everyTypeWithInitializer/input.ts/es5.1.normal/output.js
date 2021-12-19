@@ -14,18 +14,18 @@ var D = function D() {
 function F(x) {
     return 42;
 }
-var M1;
-(function(M) {
-    var F2 = function F2(x) {
-        return x.toString();
+var M;
+(function(M1) {
+    var F2 = function F2(x1) {
+        return x1.toString();
     };
     var A = function A() {
         "use strict";
         _classCallCheck(this, A);
     };
-    M.A = A;
-    M.F2 = F2;
-})(M1 || (M1 = {
+    M1.A = A;
+    M1.F2 = F2;
+})(M || (M = {
 }));
 var aNumber = 9.9;
 var aString = 'this is a string';
@@ -43,8 +43,8 @@ var aFunction = F;
 var aLambda = function(x) {
     return 2;
 };
-var aModule = M1;
-var aClassInModule = new M1.A();
-var aFunctionInModule = M1.F2;
+var aModule = M;
+var aClassInModule = new M.A();
+var aFunctionInModule = M.F2;
 // no initializer or annotation, so this is an 'any'
-var x1;
+var x;

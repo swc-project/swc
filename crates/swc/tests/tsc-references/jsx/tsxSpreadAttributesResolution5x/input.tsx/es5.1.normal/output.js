@@ -37,11 +37,11 @@ function _extends() {
     };
     return _extends.apply(this, arguments);
 }
-function _getPrototypeOf(o) {
-    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-        return o.__proto__ || Object.getPrototypeOf(o);
+function _getPrototypeOf(o1) {
+    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o1) {
+        return o1.__proto__ || Object.getPrototypeOf(o1);
     };
-    return _getPrototypeOf(o);
+    return _getPrototypeOf(o1);
 }
 function _inherits(subClass, superClass) {
     if (typeof superClass !== "function" && superClass !== null) {
@@ -62,15 +62,15 @@ function _possibleConstructorReturn(self, call) {
     }
     return _assertThisInitialized(self);
 }
-function _setPrototypeOf(o, p) {
-    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-        o.__proto__ = p;
-        return o;
+function _setPrototypeOf(o1, p1) {
+    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o1, p1) {
+        o1.__proto__ = p1;
+        return o1;
     };
-    return _setPrototypeOf(o, p);
+    return _setPrototypeOf(o1, p1);
 }
-var _typeof = function(obj) {
-    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
+var _typeof = function(obj1) {
+    return obj1 && typeof Symbol !== "undefined" && obj1.constructor === Symbol ? "symbol" : typeof obj1;
 };
 function _isNativeReflectConstruct() {
     if (typeof Reflect === "undefined" || !Reflect.construct) return false;
@@ -121,13 +121,13 @@ var Poisoned = /*#__PURE__*/ function(_Component) {
     ]);
     return Poisoned;
 }(React.Component);
-var obj1 = {
+var obj = {
     x: "hello world",
     y: 2
 };
 // Error as "obj" has type { x: string; y: number }
-var p1 = /*#__PURE__*/ React.createElement(Poisoned, _extends({
-}, obj1));
+var p = /*#__PURE__*/ React.createElement(Poisoned, _extends({
+}, obj));
 var EmptyProp = /*#__PURE__*/ function(_Component) {
     "use strict";
     _inherits(EmptyProp, _Component);
@@ -146,10 +146,10 @@ var EmptyProp = /*#__PURE__*/ function(_Component) {
     ]);
     return EmptyProp;
 }(React.Component);
-var o1 = {
+var o = {
     prop1: false
 };
 // Ok
 var e = /*#__PURE__*/ React.createElement(EmptyProp, _extends({
-}, o1));
+}, o));
 export { };

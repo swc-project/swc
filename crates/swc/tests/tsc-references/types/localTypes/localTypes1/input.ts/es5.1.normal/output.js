@@ -85,6 +85,7 @@ function _createSuper(Derived) {
 }
 // @target: es5
 function f1() {
+    var E;
     (function(E) {
         E[E["A"] = 0] = "A";
         E[E["B"] = 1] = "B";
@@ -95,7 +96,6 @@ function f1() {
         "use strict";
         _classCallCheck(this, C);
     };
-    ;
     var a = [
         new C()
     ];
@@ -104,6 +104,7 @@ function f1() {
 }
 function f2() {
     var g = function g() {
+        var E;
         (function(E) {
             E[E["A"] = 0] = "A";
             E[E["B"] = 1] = "B";
@@ -114,7 +115,6 @@ function f2() {
             "use strict";
             _classCallCheck(this, C);
         };
-        ;
         var a = [
             new C()
         ];
@@ -125,6 +125,7 @@ function f2() {
 }
 function f3(b) {
     if (true) {
+        var E;
         (function(E) {
             E[E["A"] = 0] = "A";
             E[E["B"] = 1] = "B";
@@ -136,20 +137,18 @@ function f3(b) {
                 "use strict";
                 _classCallCheck(this, C);
             };
-            ;
             var a = [
                 new C()
             ];
             a[0].x = E.B;
             return a;
         } else {
-            var A = function A() {
+            var A1 = function A1() {
                 "use strict";
-                _classCallCheck(this, A);
+                _classCallCheck(this, A1);
             };
-            ;
             var c = [
-                new A()
+                new A1()
             ];
             c[0].x = E.B;
             return c;
@@ -158,6 +157,7 @@ function f3(b) {
 }
 function f5() {
     var z1 = function z1() {
+        var E;
         (function(E) {
             E[E["A"] = 0] = "A";
             E[E["B"] = 1] = "B";
@@ -171,6 +171,7 @@ function f5() {
         return new C();
     };
     var z2 = function() {
+        var E;
         (function(E) {
             E[E["A"] = 0] = "A";
             E[E["B"] = 1] = "B";
@@ -184,25 +185,26 @@ function f5() {
         return new C();
     };
 }
-var A1 = /*#__PURE__*/ function() {
+var A = /*#__PURE__*/ function() {
     "use strict";
-    function A1() {
-        _classCallCheck(this, A1);
-        var E1;
+    function A() {
+        _classCallCheck(this, A);
+        var E;
         (function(E) {
             E[E["A"] = 0] = "A";
             E[E["B"] = 1] = "B";
             E[E["C"] = 2] = "C";
-        })(E1 || (E1 = {
+        })(E || (E = {
         }));
         var C = function C() {
             _classCallCheck(this, C);
         };
     }
-    _createClass(A1, [
+    _createClass(A, [
         {
             key: "m",
             value: function m() {
+                var E;
                 (function(E) {
                     E[E["A"] = 0] = "A";
                     E[E["B"] = 1] = "B";
@@ -218,6 +220,7 @@ var A1 = /*#__PURE__*/ function() {
         {
             key: "p",
             get: function get() {
+                var E;
                 (function(E) {
                     E[E["A"] = 0] = "A";
                     E[E["B"] = 1] = "B";
@@ -231,7 +234,7 @@ var A1 = /*#__PURE__*/ function() {
             }
         }
     ]);
-    return A1;
+    return A;
 }();
 function f6() {
     var g = function g() {

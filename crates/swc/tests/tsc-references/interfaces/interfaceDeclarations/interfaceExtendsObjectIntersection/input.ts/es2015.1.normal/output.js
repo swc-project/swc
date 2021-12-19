@@ -12,12 +12,12 @@ class C6 extends Constructor() {
 }
 class C7 extends Constructor() {
 }
-var EX1;
+var EX;
 (function(EX) {
     EX[EX["A"] = 0] = "A";
     EX[EX["B"] = 1] = "B";
     EX[EX["C"] = 2] = "C";
-})(EX1 || (EX1 = {
+})(EX || (EX = {
 }));
 class C20 extends Constructor() {
 }

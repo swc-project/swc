@@ -12,8 +12,8 @@ function _defineProperty(obj, key, value) {
     return obj;
 }
 function _objectSpread(target) {
-    for(var i = 1; i < arguments.length; i++){
-        var source = arguments[i] != null ? arguments[i] : {
+    for(var i1 = 1; i1 < arguments.length; i1++){
+        var source = arguments[i1] != null ? arguments[i1] : {
         };
         var ownKeys = Object.keys(source);
         if (typeof Object.getOwnPropertySymbols === "function") {
@@ -27,12 +27,12 @@ function _objectSpread(target) {
     }
     return target;
 }
-var i1 = _objectSpread({
+var i = _objectSpread({
 }, indexed1, {
     b: 11
 });
 // only indexed has indexer, so i[101]: any
-i1[101];
+i[101];
 var ii = _objectSpread({
 }, indexed1, indexed2);
 // both have indexer, so i[1001]: number | boolean

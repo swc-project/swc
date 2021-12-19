@@ -1,5 +1,4 @@
-var AppType1;
-export { AppType1 as AppType };
+export var AppType;
 (function(AppType) {
     AppType["HeaderDetail"] = "HeaderDetail";
     AppType["HeaderMultiDetail"] = "HeaderMultiDetail";
@@ -10,39 +9,38 @@ export { AppType1 as AppType };
     AppType["Composite"] = "Composite";
     AppType["ListOnly"] = "ListOnly";
     AppType["ModuleSettings"] = "ModuleSettings";
-})(AppType1 || (AppType1 = {
+})(AppType || (AppType = {
 }));
-var AppStyle1;
-export { AppStyle1 as AppStyle };
+export var AppStyle;
 (function(AppStyle) {
     AppStyle[AppStyle["Tree"] = 0] = "Tree";
     AppStyle[AppStyle["TreeEntity"] = 1] = "TreeEntity";
     AppStyle[AppStyle["Standard"] = 2] = "Standard";
     AppStyle[AppStyle["MiniApp"] = 3] = "MiniApp";
     AppStyle[AppStyle["PivotTable"] = 4] = "PivotTable";
-})(AppStyle1 || (AppStyle1 = {
+})(AppStyle || (AppStyle = {
 }));
 const appTypeStylesWithError = new Map([
     [
-        AppType1.Standard,
+        AppType.Standard,
         [
-            AppStyle1.Standard,
-            AppStyle1.MiniApp
+            AppStyle.Standard,
+            AppStyle.MiniApp
         ]
     ],
     [
-        AppType1.Relationship,
+        AppType.Relationship,
         [
-            AppStyle1.Standard,
-            AppStyle1.Tree,
-            AppStyle1.TreeEntity
+            AppStyle.Standard,
+            AppStyle.Tree,
+            AppStyle.TreeEntity
         ]
     ],
     [
-        AppType1.AdvancedList,
+        AppType.AdvancedList,
         [
-            AppStyle1.Standard,
-            AppStyle1.MiniApp
+            AppStyle.Standard,
+            AppStyle.MiniApp
         ]
     ]
 ]);

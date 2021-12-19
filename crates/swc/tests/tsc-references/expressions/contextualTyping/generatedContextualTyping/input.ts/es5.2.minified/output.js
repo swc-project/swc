@@ -45,27 +45,27 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var x193, x194, x195, x196, x197, x198, x199, x200, x201, x202, x203, x204, Base1 = function() {
+var x193, x194, x195, x196, x197, x198, x199, x200, x201, x202, x203, x204, Base = function() {
     "use strict";
-    _classCallCheck(this, Base1);
-}, Derived1 = function(Base) {
+    _classCallCheck(this, Base);
+}, Derived1 = function(Base1) {
     "use strict";
-    _inherits(Derived1, Base);
+    _inherits(Derived1, Base1);
     var _super = _createSuper(Derived1);
     function Derived1() {
         return _classCallCheck(this, Derived1), _super.apply(this, arguments);
     }
     return Derived1;
-}(Base1), Derived2 = function(Base) {
+}(Base), Derived2 = function(Base2) {
     "use strict";
-    _inherits(Derived2, Base);
+    _inherits(Derived2, Base2);
     var _super = _createSuper(Derived2);
     function Derived2() {
         return _classCallCheck(this, Derived2), _super.apply(this, arguments);
     }
     return Derived2;
-}(Base1);
-new Base1();
+}(Base);
+new Base();
 var d1 = new Derived1(), d2 = new Derived2(), x13 = function() {
     "use strict";
     _classCallCheck(this, x13), this.member = function() {

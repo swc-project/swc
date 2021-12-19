@@ -23,7 +23,7 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var React1 = require("react");
+var React = require("react");
 export function makeP(Ctor) {
     return (function(_PureComponent) {
         "use strict";
@@ -75,5 +75,5 @@ export function makeP(Ctor) {
                 }
             }
         ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), _class;
-    })(React1.PureComponent);
+    })(React.PureComponent);
 }

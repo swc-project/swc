@@ -1,20 +1,20 @@
 // @lib: es5
-var id1 = 10000;
-var name1 = "my name";
+var id = 10000;
+var name = "my name";
 var person = {
-    name: name1,
-    id: id1
+    name,
+    id
 }; // error
-function bar(name, id) {
+function bar(name1, id1) {
     return {
-        name,
-        id
+        name: name1,
+        id: id1
     };
 } // error
-function foo(name, id) {
+function foo(name2, id2) {
     return {
-        name,
-        id
+        name: name2,
+        id: id2
     };
 } // error
 var person1; // ok

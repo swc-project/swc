@@ -98,33 +98,41 @@
                     "ctxt": 0
                   },
                   "key": {
-                    "type": "MemberExpression",
+                    "type": "Computed",
                     "span": {
-                      "start": 97,
-                      "end": 112,
+                      "start": 96,
+                      "end": 113,
                       "ctxt": 0
                     },
-                    "object": {
-                      "type": "Identifier",
+                    "expression": {
+                      "type": "MemberExpression",
                       "span": {
                         "start": 97,
-                        "end": 103,
-                        "ctxt": 0
-                      },
-                      "value": "Symbol",
-                      "optional": false
-                    },
-                    "property": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 104,
                         "end": 112,
                         "ctxt": 0
                       },
-                      "value": "iterator",
-                      "optional": false
-                    },
-                    "computed": false
+                      "object": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 97,
+                          "end": 103,
+                          "ctxt": 0
+                        },
+                        "value": "Symbol",
+                        "optional": false
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 104,
+                          "end": 112,
+                          "ctxt": 0
+                        },
+                        "value": "iterator",
+                        "optional": false
+                      },
+                      "computed": false
+                    }
                   },
                   "value": null,
                   "typeAnnotation": {
@@ -156,7 +164,6 @@
                   },
                   "isStatic": false,
                   "decorators": [],
-                  "computed": true,
                   "accessibility": null,
                   "isAbstract": false,
                   "isOptional": false,

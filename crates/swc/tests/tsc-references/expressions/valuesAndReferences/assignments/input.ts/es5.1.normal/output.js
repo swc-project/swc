@@ -9,13 +9,13 @@ var C = function C() {
     _classCallCheck(this, C);
 };
 C = null; // Error
-var E1;
+var E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E1 || (E1 = {
+})(E || (E = {
 }));
-E1 = null; // Error
-E1.A = null; // OK per spec, Error per implementation (509581)
+E = null; // Error
+E.A = null; // OK per spec, Error per implementation (509581)
 function fn() {
 }
 fn = null; // Should be error

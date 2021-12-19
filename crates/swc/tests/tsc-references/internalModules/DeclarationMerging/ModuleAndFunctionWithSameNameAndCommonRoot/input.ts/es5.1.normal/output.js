@@ -1,28 +1,29 @@
 // @filename: module.ts
-var A1;
-(function(A) {
+var A;
+(function(A1) {
+    var Point1;
     (function(Point) {
         Point.Origin = {
             x: 0,
             y: 0
         };
-    })(Point || (Point = {
+    })(Point1 = A1.Point || (A1.Point = {
     }));
-})(A1 || (A1 = {
+})(A || (A = {
 }));
-(function(A) {
+(function(A2) {
     var Point = function Point() {
         return {
             x: 0,
             y: 0
         };
     };
-    A.Point = Point;
-})(A1 || (A1 = {
+    A2.Point = Point;
+})(A || (A = {
 }));
 // @filename: simple.ts
-var B1;
-(function(B) {
+var B;
+(function(B1) {
     var Point = function Point() {
         return {
             x: 0,
@@ -34,8 +35,8 @@ var B1;
             x: 0,
             y: 0
         };
-    })(Point || (Point = {
+    })(Point = B1.Point || (B1.Point = {
     }));
-    B.Point = Point;
-})(B1 || (B1 = {
+    B1.Point = Point;
+})(B || (B = {
 }));

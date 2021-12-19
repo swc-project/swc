@@ -1,5 +1,5 @@
-(E = E1 || (E1 = {
-}))[E.A = 0] = "A", (F = F1 || (F1 = {
+(E = E || (E = {
+}))[E.A = 0] = "A", (F = F || (F = {
 }))[F.B = 0] = "B";
-var E, F, E1, F1, e = E1.A, f = F1.B;
+var E, F, E, F, e = E.A, f = F.B;
 f = f, f = 1;

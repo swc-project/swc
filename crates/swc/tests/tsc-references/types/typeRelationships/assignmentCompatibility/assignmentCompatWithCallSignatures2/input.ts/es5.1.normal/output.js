@@ -24,7 +24,7 @@ t = {
     }
 };
 t = {
-    f: function(x) {
+    f: function f(x) {
         return '';
     }
 };

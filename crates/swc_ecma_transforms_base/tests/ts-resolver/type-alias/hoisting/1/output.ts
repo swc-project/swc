@@ -1,7 +1,7 @@
 module Foo {
     export type ServerHandle__2 = HandleFunction__2 | http.Server;
     export class IncomingMessage__2 extends http.IncomingMessage {
-        originalUrl__0?: http.IncomingMessage["url"] | undefined;
+        originalUrl?: http.IncomingMessage["url"] | undefined;
     }
     type NextFunction__2 = (err?: any) => void;
     export type SimpleHandleFunction__2 = (req: IncomingMessage__2, res: http.ServerResponse) => void;

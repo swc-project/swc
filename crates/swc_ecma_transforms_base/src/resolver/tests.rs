@@ -125,16 +125,35 @@ fn issue_1279_2() {
             }
         }",
         "
-        let Foo1 = class Foo {
+        let Foo = class Foo {
             static f = 1;
             static g = Foo.f;
             method() {
-                let Foo = class Foo {
+                let Foo1 = class Foo {
                     static nested = 1;
                     static nested2 = Foo.nested;
                 };
             }
         };
+        ",
+        Config {
+            keep_class_names: true,
+        },
+    );
+}
+
+#[test]
+fn issue_2516() {
+    run_test_with_config(
+        Default::default(),
+        || resolver(),
+        "class A {
+            static A = class {}
+          }",
+        "
+        let A = class A {
+            static A = class {}
+          };
         ",
         Config {
             keep_class_names: true,

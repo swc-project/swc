@@ -1,25 +1,25 @@
-var _iteratorNormalCompletion1 = true, _didIteratorError1 = false, _iteratorError1 = undefined;
+var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 try {
-    for(var _iterator1 = [][Symbol.iterator](), _step1; !(_iteratorNormalCompletion1 = (_step1 = _iterator1.next()).done); _iteratorNormalCompletion1 = true){
+    for(var _iterator1 = [][Symbol.iterator](), _step1; !(_iteratorNormalCompletion = (_step1 = _iterator1.next()).done); _iteratorNormalCompletion = true){
         var v1 = _step1.value;
         var foo = function foo() {
-            var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
+            var _iteratorNormalCompletion1 = true, _didIteratorError1 = false, _iteratorError1 = undefined;
             try {
-                for(var _iterator = [][Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
-                    var v = _step.value;
-                    v;
+                for(var _iterator2 = [][Symbol.iterator](), _step2; !(_iteratorNormalCompletion1 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion1 = true){
+                    var v2 = _step2.value;
+                    v2;
                 }
             } catch (err) {
-                _didIteratorError = true;
-                _iteratorError = err;
+                _didIteratorError1 = true;
+                _iteratorError1 = err;
             } finally{
                 try {
-                    if (!_iteratorNormalCompletion && _iterator.return != null) {
-                        _iterator.return();
+                    if (!_iteratorNormalCompletion1 && _iterator2.return != null) {
+                        _iterator2.return();
                     }
                 } finally{
-                    if (_didIteratorError) {
-                        throw _iteratorError;
+                    if (_didIteratorError1) {
+                        throw _iteratorError1;
                     }
                 }
             }
@@ -27,16 +27,16 @@ try {
         v1;
     }
 } catch (err) {
-    _didIteratorError1 = true;
-    _iteratorError1 = err;
+    _didIteratorError = true;
+    _iteratorError = err;
 } finally{
     try {
-        if (!_iteratorNormalCompletion1 && _iterator1.return != null) {
+        if (!_iteratorNormalCompletion && _iterator1.return != null) {
             _iterator1.return();
         }
     } finally{
-        if (_didIteratorError1) {
-            throw _iteratorError1;
+        if (_didIteratorError) {
+            throw _iteratorError;
         }
     }
 }

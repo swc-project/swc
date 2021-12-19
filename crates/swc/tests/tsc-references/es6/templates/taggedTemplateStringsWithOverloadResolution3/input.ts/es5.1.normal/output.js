@@ -269,12 +269,12 @@ function fn3() {
 }
 var s = fn3(_templateObject6(), 3);
 var s = fn3(_templateObject7(), '', 3, '');
-var n1 = fn3(_templateObject8(), 5, 5, 5);
-var n1;
+var n = fn3(_templateObject8(), 5, 5, 5);
+var n;
 // Generic overloads with differing arity tagging with arguments matching each overload type parameter count
 var s = fn3(_templateObject9(), 4);
 var s = fn3(_templateObject10(), '', '', '');
-var n1 = fn3(_templateObject11(), '', '', 3);
+var n = fn3(_templateObject11(), '', '', 3);
 // Generic overloads with differing arity tagging with argument count that doesn't match any overload
 fn3(_templateObject12()); // Error
 function fn4() {
@@ -292,9 +292,9 @@ fn4(_templateObject19(), null, true);
 function fn5() {
     return undefined;
 }
-fn5(_templateObject20(), function(n) {
-    return n.toFixed();
+fn5(_templateObject20(), function(n1) {
+    return n1.toFixed();
 }); // will error; 'n' should have type 'string'.
-fn5(_templateObject21(), function(n) {
-    return n.substr(0);
+fn5(_templateObject21(), function(n2) {
+    return n2.substr(0);
 });

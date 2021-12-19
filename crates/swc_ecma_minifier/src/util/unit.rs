@@ -16,7 +16,15 @@ pub(crate) trait CompileUnit:
 {
     fn is_module() -> bool;
 
-    fn dump(&self) -> String;
+    fn dump(&self) -> String {
+        if !cfg!(feature = "debug") {
+            return String::new();
+        }
+
+        self.force_dump()
+    }
+
+    fn force_dump(&self) -> String;
 
     fn apply<V>(&mut self, visitor: &mut V)
     where
@@ -32,11 +40,7 @@ impl CompileUnit for Module {
         true
     }
 
-    fn dump(&self) -> String {
-        if !cfg!(feature = "debug") {
-            return String::new();
-        }
-
+    fn force_dump(&self) -> String {
         dump(
             &self
                 .clone()
@@ -45,6 +49,7 @@ impl CompileUnit for Module {
                 .fold_with(&mut as_folder(DropSpan {
                     preserve_ctxt: false,
                 })),
+            true,
         )
     }
 
@@ -69,11 +74,7 @@ impl CompileUnit for FnExpr {
         false
     }
 
-    fn dump(&self) -> String {
-        if !cfg!(feature = "debug") {
-            return String::new();
-        }
-
+    fn force_dump(&self) -> String {
         dump(
             &self
                 .clone()
@@ -82,6 +83,7 @@ impl CompileUnit for FnExpr {
                 .fold_with(&mut as_folder(DropSpan {
                     preserve_ctxt: false,
                 })),
+            true,
         )
     }
 

@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
-var TypeScript1;
-(function(TypeScript) {
+var TypeScript;
+(function(TypeScript1) {
     function lastOf(items) {
         return items === null || items.length === 0 ? null : items[items.length - 1];
     }
-    TypeScript.lastOf = lastOf;
+    TypeScript1.lastOf = lastOf;
     function max(a, b) {
         return a >= b ? a : b;
     }
-    TypeScript.max = max;
+    TypeScript1.max = max;
     function min(a, b) {
         return a <= b ? a : b;
     }
-    TypeScript.min = min;
+    TypeScript1.min = min;
     class AstPath {
         static reverseIndexOf(items, index) {
             return items === null || items.length <= index ? null : items[items.length - index - 1];
@@ -51,7 +51,7 @@ var TypeScript1;
             this.top++;
         }
         nodeType() {
-            if (this.ast() == null) return TypeScript1.NodeType.None;
+            if (this.ast() == null) return TypeScript.NodeType.None;
             return this.ast().nodeType;
         }
         ast() {
@@ -68,182 +68,182 @@ var TypeScript1;
         }
         isNameOfClass() {
             if (this.ast() === null || this.parent() === null) return false;
-            return this.ast().nodeType === TypeScript1.NodeType.Name && this.parent().nodeType === TypeScript1.NodeType.ClassDeclaration && this.parent().name === this.ast();
+            return this.ast().nodeType === TypeScript.NodeType.Name && this.parent().nodeType === TypeScript.NodeType.ClassDeclaration && this.parent().name === this.ast();
         }
         isNameOfInterface() {
             if (this.ast() === null || this.parent() === null) return false;
-            return this.ast().nodeType === TypeScript1.NodeType.Name && this.parent().nodeType === TypeScript1.NodeType.InterfaceDeclaration && this.parent().name === this.ast();
+            return this.ast().nodeType === TypeScript.NodeType.Name && this.parent().nodeType === TypeScript.NodeType.InterfaceDeclaration && this.parent().name === this.ast();
         }
         isNameOfArgument() {
             if (this.ast() === null || this.parent() === null) return false;
-            return this.ast().nodeType === TypeScript1.NodeType.Name && this.parent().nodeType === TypeScript1.NodeType.ArgDecl && this.parent().id === this.ast();
+            return this.ast().nodeType === TypeScript.NodeType.Name && this.parent().nodeType === TypeScript.NodeType.ArgDecl && this.parent().id === this.ast();
         }
         isNameOfVariable() {
             if (this.ast() === null || this.parent() === null) return false;
-            return this.ast().nodeType === TypeScript1.NodeType.Name && this.parent().nodeType === TypeScript1.NodeType.VarDecl && this.parent().id === this.ast();
+            return this.ast().nodeType === TypeScript.NodeType.Name && this.parent().nodeType === TypeScript.NodeType.VarDecl && this.parent().id === this.ast();
         }
         isNameOfModule() {
             if (this.ast() === null || this.parent() === null) return false;
-            return this.ast().nodeType === TypeScript1.NodeType.Name && this.parent().nodeType === TypeScript1.NodeType.ModuleDeclaration && this.parent().name === this.ast();
+            return this.ast().nodeType === TypeScript.NodeType.Name && this.parent().nodeType === TypeScript.NodeType.ModuleDeclaration && this.parent().name === this.ast();
         }
         isNameOfFunction() {
             if (this.ast() === null || this.parent() === null) return false;
-            return this.ast().nodeType === TypeScript1.NodeType.Name && this.parent().nodeType === TypeScript1.NodeType.FuncDecl && this.parent().name === this.ast();
+            return this.ast().nodeType === TypeScript.NodeType.Name && this.parent().nodeType === TypeScript.NodeType.FuncDecl && this.parent().name === this.ast();
         }
         isChildOfScript() {
             var ast = lastOf(this.asts);
-            return this.count() >= 3 && this.asts[this.top] === ast && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.List && this.asts[this.top - 2].nodeType === TypeScript1.NodeType.Script;
+            return this.count() >= 3 && this.asts[this.top] === ast && this.asts[this.top - 1].nodeType === TypeScript.NodeType.List && this.asts[this.top - 2].nodeType === TypeScript.NodeType.Script;
         }
         isChildOfModule() {
             var ast = lastOf(this.asts);
-            return this.count() >= 3 && this.asts[this.top] === ast && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.List && this.asts[this.top - 2].nodeType === TypeScript1.NodeType.ModuleDeclaration;
+            return this.count() >= 3 && this.asts[this.top] === ast && this.asts[this.top - 1].nodeType === TypeScript.NodeType.List && this.asts[this.top - 2].nodeType === TypeScript.NodeType.ModuleDeclaration;
         }
         isChildOfClass() {
             var ast = lastOf(this.asts);
-            return this.count() >= 3 && this.asts[this.top] === ast && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.List && this.asts[this.top - 2].nodeType === TypeScript1.NodeType.ClassDeclaration;
+            return this.count() >= 3 && this.asts[this.top] === ast && this.asts[this.top - 1].nodeType === TypeScript.NodeType.List && this.asts[this.top - 2].nodeType === TypeScript.NodeType.ClassDeclaration;
         }
         isArgumentOfClassConstructor() {
             var ast = lastOf(this.asts);
-            return this.count() >= 5 && this.asts[this.top] === ast && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.List && this.asts[this.top - 2].nodeType === TypeScript1.NodeType.FuncDecl && this.asts[this.top - 3].nodeType === TypeScript1.NodeType.List && this.asts[this.top - 4].nodeType === TypeScript1.NodeType.ClassDeclaration && this.asts[this.top - 2].isConstructor && this.asts[this.top - 2].arguments === this.asts[this.top - 1] && this.asts[this.top - 4].constructorDecl === this.asts[this.top - 2];
+            return this.count() >= 5 && this.asts[this.top] === ast && this.asts[this.top - 1].nodeType === TypeScript.NodeType.List && this.asts[this.top - 2].nodeType === TypeScript.NodeType.FuncDecl && this.asts[this.top - 3].nodeType === TypeScript.NodeType.List && this.asts[this.top - 4].nodeType === TypeScript.NodeType.ClassDeclaration && this.asts[this.top - 2].isConstructor && this.asts[this.top - 2].arguments === this.asts[this.top - 1] && this.asts[this.top - 4].constructorDecl === this.asts[this.top - 2];
         }
         isChildOfInterface() {
             var ast = lastOf(this.asts);
-            return this.count() >= 3 && this.asts[this.top] === ast && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.List && this.asts[this.top - 2].nodeType === TypeScript1.NodeType.InterfaceDeclaration;
+            return this.count() >= 3 && this.asts[this.top] === ast && this.asts[this.top - 1].nodeType === TypeScript.NodeType.List && this.asts[this.top - 2].nodeType === TypeScript.NodeType.InterfaceDeclaration;
         }
         isTopLevelImplicitModule() {
-            return this.count() >= 1 && this.asts[this.top].nodeType === TypeScript1.NodeType.ModuleDeclaration && TypeScript1.hasFlag(this.asts[this.top].modFlags, TypeScript1.ModuleFlags.IsWholeFile);
+            return this.count() >= 1 && this.asts[this.top].nodeType === TypeScript.NodeType.ModuleDeclaration && TypeScript.hasFlag(this.asts[this.top].modFlags, TypeScript.ModuleFlags.IsWholeFile);
         }
         isBodyOfTopLevelImplicitModule() {
-            return this.count() >= 2 && this.asts[this.top - 0].nodeType === TypeScript1.NodeType.List && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.ModuleDeclaration && this.asts[this.top - 1].members == this.asts[this.top - 0] && TypeScript1.hasFlag(this.asts[this.top - 1].modFlags, TypeScript1.ModuleFlags.IsWholeFile);
+            return this.count() >= 2 && this.asts[this.top - 0].nodeType === TypeScript.NodeType.List && this.asts[this.top - 1].nodeType === TypeScript.NodeType.ModuleDeclaration && this.asts[this.top - 1].members == this.asts[this.top - 0] && TypeScript.hasFlag(this.asts[this.top - 1].modFlags, TypeScript.ModuleFlags.IsWholeFile);
         }
         isBodyOfScript() {
-            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.Script && this.asts[this.top - 1].bod == this.asts[this.top - 0];
+            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript.NodeType.Script && this.asts[this.top - 1].bod == this.asts[this.top - 0];
         }
         isBodyOfSwitch() {
-            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.Switch && this.asts[this.top - 1].caseList == this.asts[this.top - 0];
+            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript.NodeType.Switch && this.asts[this.top - 1].caseList == this.asts[this.top - 0];
         }
         isBodyOfModule() {
-            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.ModuleDeclaration && this.asts[this.top - 1].members == this.asts[this.top - 0];
+            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript.NodeType.ModuleDeclaration && this.asts[this.top - 1].members == this.asts[this.top - 0];
         }
         isBodyOfClass() {
-            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.ClassDeclaration && this.asts[this.top - 1].members == this.asts[this.top - 0];
+            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript.NodeType.ClassDeclaration && this.asts[this.top - 1].members == this.asts[this.top - 0];
         }
         isBodyOfFunction() {
-            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.FuncDecl && this.asts[this.top - 1].bod == this.asts[this.top - 0];
+            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript.NodeType.FuncDecl && this.asts[this.top - 1].bod == this.asts[this.top - 0];
         }
         isBodyOfInterface() {
-            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.InterfaceDeclaration && this.asts[this.top - 1].members == this.asts[this.top - 0];
+            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript.NodeType.InterfaceDeclaration && this.asts[this.top - 1].members == this.asts[this.top - 0];
         }
         isBodyOfBlock() {
-            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.Block && this.asts[this.top - 1].statements == this.asts[this.top - 0];
+            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript.NodeType.Block && this.asts[this.top - 1].statements == this.asts[this.top - 0];
         }
         isBodyOfFor() {
-            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.For && this.asts[this.top - 1].body == this.asts[this.top - 0];
+            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript.NodeType.For && this.asts[this.top - 1].body == this.asts[this.top - 0];
         }
         isBodyOfCase() {
-            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.Case && this.asts[this.top - 1].body == this.asts[this.top - 0];
+            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript.NodeType.Case && this.asts[this.top - 1].body == this.asts[this.top - 0];
         }
         isBodyOfTry() {
-            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.Try && this.asts[this.top - 1].body == this.asts[this.top - 0];
+            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript.NodeType.Try && this.asts[this.top - 1].body == this.asts[this.top - 0];
         }
         isBodyOfCatch() {
-            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.Catch && this.asts[this.top - 1].body == this.asts[this.top - 0];
+            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript.NodeType.Catch && this.asts[this.top - 1].body == this.asts[this.top - 0];
         }
         isBodyOfDoWhile() {
-            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.DoWhile && this.asts[this.top - 1].body == this.asts[this.top - 0];
+            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript.NodeType.DoWhile && this.asts[this.top - 1].body == this.asts[this.top - 0];
         }
         isBodyOfWhile() {
-            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.While && this.asts[this.top - 1].body == this.asts[this.top - 0];
+            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript.NodeType.While && this.asts[this.top - 1].body == this.asts[this.top - 0];
         }
         isBodyOfForIn() {
-            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.ForIn && this.asts[this.top - 1].body == this.asts[this.top - 0];
+            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript.NodeType.ForIn && this.asts[this.top - 1].body == this.asts[this.top - 0];
         }
         isBodyOfWith() {
-            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.With && this.asts[this.top - 1].body == this.asts[this.top - 0];
+            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript.NodeType.With && this.asts[this.top - 1].body == this.asts[this.top - 0];
         }
         isBodyOfFinally() {
-            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.Finally && this.asts[this.top - 1].body == this.asts[this.top - 0];
+            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript.NodeType.Finally && this.asts[this.top - 1].body == this.asts[this.top - 0];
         }
         isCaseOfSwitch() {
-            return this.count() >= 3 && this.asts[this.top - 2].nodeType === TypeScript1.NodeType.Switch && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.List && this.asts[this.top - 2].caseList == this.asts[this.top - 1];
+            return this.count() >= 3 && this.asts[this.top - 2].nodeType === TypeScript.NodeType.Switch && this.asts[this.top - 1].nodeType === TypeScript.NodeType.List && this.asts[this.top - 2].caseList == this.asts[this.top - 1];
         }
         isDefaultCaseOfSwitch() {
-            return this.count() >= 3 && this.asts[this.top - 2].nodeType === TypeScript1.NodeType.Switch && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.List && this.asts[this.top - 2].caseList == this.asts[this.top - 1] && this.asts[this.top - 2].defaultCase == this.asts[this.top - 0];
+            return this.count() >= 3 && this.asts[this.top - 2].nodeType === TypeScript.NodeType.Switch && this.asts[this.top - 1].nodeType === TypeScript.NodeType.List && this.asts[this.top - 2].caseList == this.asts[this.top - 1] && this.asts[this.top - 2].defaultCase == this.asts[this.top - 0];
         }
         isListOfObjectLit() {
-            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.ObjectLit && this.asts[this.top - 0].nodeType === TypeScript1.NodeType.List && this.asts[this.top - 1].operand == this.asts[this.top - 0];
+            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript.NodeType.ObjectLit && this.asts[this.top - 0].nodeType === TypeScript.NodeType.List && this.asts[this.top - 1].operand == this.asts[this.top - 0];
         }
         isBodyOfObjectLit() {
             return this.isListOfObjectLit();
         }
         isEmptyListOfObjectLit() {
-            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.ObjectLit && this.asts[this.top - 0].nodeType === TypeScript1.NodeType.List && this.asts[this.top - 1].operand == this.asts[this.top - 0] && this.asts[this.top - 0].members.length == 0;
+            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript.NodeType.ObjectLit && this.asts[this.top - 0].nodeType === TypeScript.NodeType.List && this.asts[this.top - 1].operand == this.asts[this.top - 0] && this.asts[this.top - 0].members.length == 0;
         }
         isMemberOfObjectLit() {
-            return this.count() >= 3 && this.asts[this.top - 2].nodeType === TypeScript1.NodeType.ObjectLit && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.List && this.asts[this.top - 0].nodeType === TypeScript1.NodeType.Member && this.asts[this.top - 2].operand == this.asts[this.top - 1];
+            return this.count() >= 3 && this.asts[this.top - 2].nodeType === TypeScript.NodeType.ObjectLit && this.asts[this.top - 1].nodeType === TypeScript.NodeType.List && this.asts[this.top - 0].nodeType === TypeScript.NodeType.Member && this.asts[this.top - 2].operand == this.asts[this.top - 1];
         }
         isNameOfMemberOfObjectLit() {
-            return this.count() >= 4 && this.asts[this.top - 3].nodeType === TypeScript1.NodeType.ObjectLit && this.asts[this.top - 2].nodeType === TypeScript1.NodeType.List && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.Member && this.asts[this.top - 0].nodeType === TypeScript1.NodeType.Name && this.asts[this.top - 3].operand == this.asts[this.top - 2];
+            return this.count() >= 4 && this.asts[this.top - 3].nodeType === TypeScript.NodeType.ObjectLit && this.asts[this.top - 2].nodeType === TypeScript.NodeType.List && this.asts[this.top - 1].nodeType === TypeScript.NodeType.Member && this.asts[this.top - 0].nodeType === TypeScript.NodeType.Name && this.asts[this.top - 3].operand == this.asts[this.top - 2];
         }
         isListOfArrayLit() {
-            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.ArrayLit && this.asts[this.top - 0].nodeType === TypeScript1.NodeType.List && this.asts[this.top - 1].operand == this.asts[this.top - 0];
+            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript.NodeType.ArrayLit && this.asts[this.top - 0].nodeType === TypeScript.NodeType.List && this.asts[this.top - 1].operand == this.asts[this.top - 0];
         }
         isTargetOfMember() {
-            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.Member && this.asts[this.top - 1].operand1 === this.asts[this.top - 0];
+            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript.NodeType.Member && this.asts[this.top - 1].operand1 === this.asts[this.top - 0];
         }
         isMemberOfMember() {
-            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.Member && this.asts[this.top - 1].operand2 === this.asts[this.top - 0];
+            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript.NodeType.Member && this.asts[this.top - 1].operand2 === this.asts[this.top - 0];
         }
         isItemOfList() {
-            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.List;
+            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript.NodeType.List;
         //(<Tools.ASTList>this.asts[this.top - 1]).operand2 === this.asts[this.top - 0];
         }
         isThenOfIf() {
-            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.If && this.asts[this.top - 1].thenBod == this.asts[this.top - 0];
+            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript.NodeType.If && this.asts[this.top - 1].thenBod == this.asts[this.top - 0];
         }
         isElseOfIf() {
-            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.If && this.asts[this.top - 1].elseBod == this.asts[this.top - 0];
+            return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript.NodeType.If && this.asts[this.top - 1].elseBod == this.asts[this.top - 0];
         }
         isBodyOfDefaultCase() {
             return this.isBodyOfCase();
         }
         isSingleStatementList() {
-            return this.count() >= 1 && this.asts[this.top].nodeType === TypeScript1.NodeType.List && this.asts[this.top].members.length === 1;
+            return this.count() >= 1 && this.asts[this.top].nodeType === TypeScript.NodeType.List && this.asts[this.top].members.length === 1;
         }
         isArgumentListOfFunction() {
-            return this.count() >= 2 && this.asts[this.top - 0].nodeType === TypeScript1.NodeType.List && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.FuncDecl && this.asts[this.top - 1].arguments === this.asts[this.top - 0];
+            return this.count() >= 2 && this.asts[this.top - 0].nodeType === TypeScript.NodeType.List && this.asts[this.top - 1].nodeType === TypeScript.NodeType.FuncDecl && this.asts[this.top - 1].arguments === this.asts[this.top - 0];
         }
         isArgumentOfFunction() {
-            return this.count() >= 3 && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.List && this.asts[this.top - 2].nodeType === TypeScript1.NodeType.FuncDecl && this.asts[this.top - 2].arguments === this.asts[this.top - 1];
+            return this.count() >= 3 && this.asts[this.top - 1].nodeType === TypeScript.NodeType.List && this.asts[this.top - 2].nodeType === TypeScript.NodeType.FuncDecl && this.asts[this.top - 2].arguments === this.asts[this.top - 1];
         }
         isArgumentListOfCall() {
-            return this.count() >= 2 && this.asts[this.top - 0].nodeType === TypeScript1.NodeType.List && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.Call && this.asts[this.top - 1].arguments === this.asts[this.top - 0];
+            return this.count() >= 2 && this.asts[this.top - 0].nodeType === TypeScript.NodeType.List && this.asts[this.top - 1].nodeType === TypeScript.NodeType.Call && this.asts[this.top - 1].arguments === this.asts[this.top - 0];
         }
         isArgumentListOfNew() {
-            return this.count() >= 2 && this.asts[this.top - 0].nodeType === TypeScript1.NodeType.List && this.asts[this.top - 1].nodeType === TypeScript1.NodeType.New && this.asts[this.top - 1].arguments === this.asts[this.top - 0];
+            return this.count() >= 2 && this.asts[this.top - 0].nodeType === TypeScript.NodeType.List && this.asts[this.top - 1].nodeType === TypeScript.NodeType.New && this.asts[this.top - 1].arguments === this.asts[this.top - 0];
         }
         isSynthesizedBlock() {
-            return this.count() >= 1 && this.asts[this.top - 0].nodeType === TypeScript1.NodeType.Block && this.asts[this.top - 0].isStatementBlock === false;
+            return this.count() >= 1 && this.asts[this.top - 0].nodeType === TypeScript.NodeType.Block && this.asts[this.top - 0].isStatementBlock === false;
         }
         constructor(){
             this.asts = [];
             this.top = -1;
         }
     }
-    TypeScript.AstPath = AstPath;
+    TypeScript1.AstPath = AstPath;
     function isValidAstNode(ast) {
         if (ast === null) return false;
         if (ast.minChar === -1 || ast.limChar === -1) return false;
         return true;
     }
-    TypeScript.isValidAstNode = isValidAstNode;
+    TypeScript1.isValidAstNode = isValidAstNode;
     class AstPathContext {
         constructor(){
-            this.path = new TypeScript1.AstPath();
+            this.path = new TypeScript.AstPath();
         }
     }
-    TypeScript.AstPathContext = AstPathContext;
-    var GetAstPathOptions1;
+    TypeScript1.AstPathContext = AstPathContext;
+    let GetAstPathOptions;
     (function(GetAstPathOptions) {
         GetAstPathOptions[GetAstPathOptions["Default"] = 0] = "Default";
         GetAstPathOptions[GetAstPathOptions["EdgeInclusive"] = 1] = "EdgeInclusive";
@@ -255,9 +255,9 @@ var TypeScript1;
         // we don't find the "precomment" attached to the errorneous empty stmt.
         //TODO: It would be nice to be able to get rid of this.
         "DontPruneSearchBasedOnPosition"] = 2] = "DontPruneSearchBasedOnPosition";
-    })(GetAstPathOptions1 || (GetAstPathOptions1 = {
+    })(GetAstPathOptions = TypeScript1.GetAstPathOptions || (TypeScript1.GetAstPathOptions = {
     }));
-    function getAstPathToPosition(script, pos, options = GetAstPathOptions1.Default) {
+    function getAstPathToPosition(script, pos, options = GetAstPathOptions.Default) {
         var lookInComments = (comments)=>{
             if (comments && comments.length > 0) {
                 for(var i = 0; i < comments.length; i++){
@@ -281,7 +281,7 @@ var TypeScript1;
                 //  bar
                 //  0123
                 // If "position == 3", the caret is at the "right" of the "r" character, which should be considered valid
-                var inclusive = hasFlag(options, GetAstPathOptions1.EdgeInclusive) || cur.nodeType === TypeScript1.NodeType.Name || pos === script.limChar; // Special "EOF" case
+                var inclusive = hasFlag(options, GetAstPathOptions.EdgeInclusive) || cur.nodeType === TypeScript.NodeType.Name || pos === script.limChar; // Special "EOF" case
                 var minChar = cur.minChar;
                 var limChar = cur.limChar + (inclusive ? 1 : 0);
                 if (pos >= minChar && pos < limChar) {
@@ -301,7 +301,7 @@ var TypeScript1;
                 if (pos >= minChar) {
                     lookInComments(cur.postComments);
                 }
-                if (!hasFlag(options, GetAstPathOptions1.DontPruneSearchBasedOnPosition)) {
+                if (!hasFlag(options, GetAstPathOptions.DontPruneSearchBasedOnPosition)) {
                     // Don't go further down the tree if pos is outside of [minChar, limChar]
                     walker.options.goChildren = minChar <= pos && pos <= limChar;
                 }
@@ -309,14 +309,14 @@ var TypeScript1;
             return cur;
         };
         var ctx = new AstPathContext();
-        TypeScript1.getAstWalkerFactory().walk(script, pre, null, null, ctx);
+        TypeScript.getAstWalkerFactory().walk(script, pre, null, null, ctx);
         return ctx.path;
     }
-    TypeScript.getAstPathToPosition = getAstPathToPosition;
+    TypeScript1.getAstPathToPosition = getAstPathToPosition;
     function getTokenizationOffset(script, position) {
         var bestOffset = 0;
         var pre = (cur, parent, walker)=>{
-            if (TypeScript1.isValidAstNode(cur)) {
+            if (TypeScript.isValidAstNode(cur)) {
                 // Did we find a closer offset?
                 if (cur.minChar <= position) {
                     bestOffset = max(bestOffset, cur.minChar);
@@ -328,10 +328,10 @@ var TypeScript1;
             }
             return cur;
         };
-        TypeScript1.getAstWalkerFactory().walk(script, pre);
+        TypeScript.getAstWalkerFactory().walk(script, pre);
         return bestOffset;
     }
-    TypeScript.getTokenizationOffset = getTokenizationOffset;
+    TypeScript1.getTokenizationOffset = getTokenizationOffset;
     function walkAST(ast, callback) {
         var pre = function(cur, parent, walker) {
             var path = walker.state;
@@ -345,9 +345,8 @@ var TypeScript1;
             return cur;
         };
         var path1 = new AstPath();
-        TypeScript1.getAstWalkerFactory().walk(ast, pre, post, null, path1);
+        TypeScript.getAstWalkerFactory().walk(ast, pre, post, null, path1);
     }
-    TypeScript.walkAST = walkAST;
-    TypeScript.GetAstPathOptions = GetAstPathOptions1;
-})(TypeScript1 || (TypeScript1 = {
+    TypeScript1.walkAST = walkAST;
+})(TypeScript || (TypeScript = {
 }));

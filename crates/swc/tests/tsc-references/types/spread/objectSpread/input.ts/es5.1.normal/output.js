@@ -48,7 +48,7 @@ function _objectSpread(target) {
 }
 // @strictNullChecks: true
 // @target: es5
-var o1 = {
+var o = {
     a: 1,
     b: 'no'
 };
@@ -61,14 +61,14 @@ var swap = {
     b: -1
 };
 var addAfter = _objectSpread({
-}, o1, {
+}, o, {
     c: false
 });
 var addBefore = _objectSpread({
     c: false
-}, o1);
+}, o);
 var override = _objectSpread({
-}, o1, {
+}, o, {
     b: 'override'
 });
 var nested = _objectSpread({
@@ -81,9 +81,9 @@ var nested = _objectSpread({
     c: 'whatever'
 });
 var combined = _objectSpread({
-}, o1, o2);
+}, o, o2);
 var combinedAfter = _objectSpread({
-}, o1, o2, {
+}, o, o2, {
     b: 'ok'
 });
 var combinedNestedChangeType = _objectSpread({
@@ -97,7 +97,7 @@ var combinedNestedChangeType = _objectSpread({
 });
 var propertyNested = {
     a: _objectSpread({
-    }, o1)
+    }, o)
 };
 // accessors don't copy the descriptor
 // (which means that readonly getters become read/write properties)
@@ -123,49 +123,49 @@ function from16326(header, authToken) {
 }
 // boolean && T results in Partial<T>
 function conditionalSpreadBoolean(b) {
-    var o = {
+    var o1 = {
         x: 12,
         y: 13
     };
-    o = _objectSpread({
-    }, o, b && {
+    o1 = _objectSpread({
+    }, o1, b && {
         x: 14
     });
     var o2 = _objectSpread({
     }, b && {
         x: 21
     });
-    return o;
+    return o1;
 }
 function conditionalSpreadNumber(nt) {
-    var o = {
+    var o3 = {
         x: 15,
         y: 16
     };
-    o = _objectSpread({
-    }, o, nt && {
+    o3 = _objectSpread({
+    }, o3, nt && {
         x: nt
     });
     var o2 = _objectSpread({
     }, nt && {
         x: nt
     });
-    return o;
+    return o3;
 }
 function conditionalSpreadString(st) {
-    var o = {
+    var o4 = {
         x: 'hi',
         y: 17
     };
-    o = _objectSpread({
-    }, o, st && {
+    o4 = _objectSpread({
+    }, o4, st && {
         x: st
     });
     var o2 = _objectSpread({
     }, st && {
         x: st
     });
-    return o;
+    return o4;
 }
 // any results in any
 var anything;
@@ -193,18 +193,18 @@ var spreadC = _objectSpread({
 // own methods are enumerable
 var cplus = _objectSpread({
 }, c, {
-    plus: function() {
+    plus: function plus() {
         return this.p + 1;
     }
 });
 cplus.plus();
 // new field's type conflicting with existing field is OK
 var changeTypeAfter = _objectSpread({
-}, o1, {
+}, o, {
     a: 'wrong type?'
 });
 var changeTypeBoth = _objectSpread({
-}, o1, swap);
+}, o, swap);
 // optional
 function container(definiteBoolean, definiteString, optionalString, optionalNumber) {
     var optionalUnionStops = _objectSpread({
@@ -215,18 +215,18 @@ function container(definiteBoolean, definiteString, optionalString, optionalNumb
     }, optionalString, optionalNumber);
     // computed property
     var computedFirst = _objectSpread(_defineProperty({
-    }, 'before everything', 12), o1, {
+    }, 'before everything', 12), o, {
         b: 'yes'
     });
     var computedAfter = _objectSpread({
-    }, o1, _defineProperty({
+    }, o, _defineProperty({
         b: 'yeah'
     }, 'at the end', 14));
 }
 // shortcut syntax
 var a = 12;
 var shortCutted = _objectSpread({
-}, o1, {
+}, o, {
     a: a
 });
 // non primitive

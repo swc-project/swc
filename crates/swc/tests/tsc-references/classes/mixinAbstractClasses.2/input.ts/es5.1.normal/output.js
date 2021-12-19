@@ -108,17 +108,17 @@ var AbstractBase = function AbstractBase() {
     "use strict";
     _classCallCheck(this, AbstractBase);
 };
-var MixedBase1 = Mixin(AbstractBase);
+var MixedBase = Mixin(AbstractBase);
 var DerivedFromAbstract = // error expected: Non-abstract class 'DerivedFromAbstract' does not implement inherited abstract member 'abstractBaseMethod' from class 'AbstractBase & Mixin'.
-/*#__PURE__*/ function(MixedBase) {
+/*#__PURE__*/ function(MixedBase1) {
     "use strict";
-    _inherits(DerivedFromAbstract, MixedBase);
+    _inherits(DerivedFromAbstract, MixedBase1);
     var _super = _createSuper(DerivedFromAbstract);
     function DerivedFromAbstract() {
         _classCallCheck(this, DerivedFromAbstract);
         return _super.apply(this, arguments);
     }
     return DerivedFromAbstract;
-}(MixedBase1);
+}(MixedBase);
 // error expected: Cannot create an instance of an abstract class.
-new MixedBase1();
+new MixedBase();

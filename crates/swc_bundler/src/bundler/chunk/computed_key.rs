@@ -5,7 +5,7 @@ use swc_atoms::js_word;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, private_ident, ExprFactory};
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, Node, Visit};
+use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, Visit};
 
 impl<L, R> Bundler<'_, L, R>
 where
@@ -186,11 +186,11 @@ struct TopLevelAwaitFinder {
 impl Visit for TopLevelAwaitFinder {
     noop_visit_type!();
 
-    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
-    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {}
-    fn visit_class_member(&mut self, _: &ClassMember, _: &dyn Node) {}
+    fn visit_function(&mut self, _: &Function) {}
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
+    fn visit_class_member(&mut self, _: &ClassMember) {}
 
-    fn visit_await_expr(&mut self, _: &AwaitExpr, _: &dyn Node) {
+    fn visit_await_expr(&mut self, _: &AwaitExpr) {
         self.found = true;
     }
 }

@@ -20,7 +20,8 @@ impl<I: Tokens> Parser<I> {
             && !is!(self, ')')
             && !is!(self, ':')
             && !is!(self, '=')
-            && !is!(self, '?'))
+            && !is!(self, '?')
+            && !is!(self, '!'))
     }
 
     /// Parses a modifier matching one the given modifier names.
@@ -123,7 +124,7 @@ impl<I: Tokens> Parser<I> {
             if self.is_ts_list_terminator(kind)? {
                 break;
             }
-            let (start, element) = parse_element(self)?;
+            let (_, element) = parse_element(self)?;
             buf.push(element);
 
             if eat!(self, ',') {
@@ -155,7 +156,6 @@ impl<I: Tokens> Parser<I> {
         Ok(buf)
     }
 
-    #[allow(clippy::cognitive_complexity)]
     fn parse_ts_bracketed_list<T, F>(
         &mut self,
         kind: ParsingContext,
@@ -489,17 +489,25 @@ impl<I: Tokens> Parser<I> {
         if !self.input.syntax().typescript() {
             return Ok(false);
         }
-        let prev_emit_err = self.emit_err;
+        let prev_ignore_error = self.input.get_ctx().ignore_error;
         let mut cloned = self.clone();
-        cloned.emit_err = false;
+        let ctx = Context {
+            ignore_error: true,
+            ..self.input.get_ctx()
+        };
+        cloned.set_ctx(ctx);
         let res = op(&mut cloned);
         match res {
             Ok(Some(res)) if res => {
                 *self = cloned;
-                self.emit_err = prev_emit_err;
+                let ctx = Context {
+                    ignore_error: prev_ignore_error,
+                    ..self.input.get_ctx()
+                };
+                self.input.set_ctx(ctx);
                 Ok(res)
             }
-            Err(err) => Ok(false),
+            Err(..) => Ok(false),
             _ => Ok(false),
         }
     }
@@ -512,18 +520,32 @@ impl<I: Tokens> Parser<I> {
         if !self.input.syntax().typescript() {
             return None;
         }
-        trace_cur!(self, try_parse_ts);
-        let prev_emit_err = self.emit_err;
+        #[cfg(feature = "debug")]
+        let _tracing = {
+            let cur = format!("{:?}", self.input.cur());
+            tracing::span!(tracing::Level::ERROR, "try_parse_ts", cur = &*cur).entered()
+        };
 
+        trace_cur!(self, try_parse_ts);
+
+        let prev_ignore_error = self.input.get_ctx().ignore_error;
         let mut cloned = self.clone();
-        cloned.emit_err = false;
+        let ctx = Context {
+            ignore_error: true,
+            ..self.input.get_ctx()
+        };
+        cloned.set_ctx(ctx);
         let res = op(&mut cloned);
         match res {
             Ok(Some(res)) => {
                 *self = cloned;
                 trace_cur!(self, try_parse_ts__success_value);
+                let ctx = Context {
+                    ignore_error: prev_ignore_error,
+                    ..self.input.get_ctx()
+                };
+                self.input.set_ctx(ctx);
 
-                self.emit_err = prev_emit_err;
                 Some(res)
             }
             Ok(None) => {
@@ -1039,7 +1061,6 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseExternalModuleReference`
-    #[allow(clippy::cognitive_complexity)]
     fn parse_ts_external_module_ref(&mut self) -> PResult<TsExternalModuleRef> {
         debug_assert!(self.input.syntax().typescript());
 
@@ -1068,7 +1089,11 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().typescript());
 
         let mut cloned = self.clone();
-        cloned.emit_err = false;
+        let ctx = Context {
+            ignore_error: true,
+            ..cloned.ctx()
+        };
+        cloned.set_ctx(ctx);
         let res = op(&mut cloned);
         res
     }
@@ -1355,7 +1380,7 @@ impl<I: Tokens> Parser<I> {
         if let Some(v) = self.try_parse_ts(|p| {
             let start = p.input.cur_pos();
 
-            let reaodnly = p.parse_ts_modifier(&["readonly"], false)?.is_some();
+            let readonly = p.parse_ts_modifier(&["readonly"], false)?.is_some();
 
             let is_get = if eat!(p, "get") {
                 true
@@ -1366,7 +1391,6 @@ impl<I: Tokens> Parser<I> {
 
             let (computed, key) = p.parse_ts_property_name()?;
 
-            let key_span = key.span();
             let optional = eat!(p, '?');
 
             if is_get {
@@ -1486,7 +1510,6 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseMappedType`
-    #[allow(clippy::cognitive_complexity)]
     fn parse_ts_mapped_type(&mut self) -> PResult<TsMappedType> {
         debug_assert!(self.input.syntax().typescript());
 
@@ -1546,7 +1569,7 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!(self);
-        let elem_types = self.parse_ts_bracketed_list(
+        let elems = self.parse_ts_bracketed_list(
             ParsingContext::TupleElementTypes,
             |p| p.parse_ts_tuple_element_type(),
             /* bracket */ true,
@@ -1558,9 +1581,9 @@ impl<I: Tokens> Parser<I> {
         //   If there's a rest element, it must be at the end of the tuple
 
         let mut seen_optional_element = false;
-        let len = elem_types.len();
-        for (i, elem_type) in elem_types.iter().enumerate() {
-            match elem_type.ty {
+
+        for elem in elems.iter() {
+            match elem.ty {
                 TsType::TsRestType(..) => {}
                 TsType::TsOptionalType(..) => {
                     seen_optional_element = true;
@@ -1578,7 +1601,7 @@ impl<I: Tokens> Parser<I> {
 
         Ok(TsTupleType {
             span: span!(self, start),
-            elem_types,
+            elem_types: elems,
         })
     }
 
@@ -1761,7 +1784,6 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
-    #[allow(clippy::vec_box)]
     fn parse_ts_tpl_type_elements(&mut self) -> PResult<(Vec<Box<TsType>>, Vec<TplElement>)> {
         if !cfg!(feature = "typescript") {
             return Ok(Default::default());
@@ -1870,7 +1892,6 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseNonArrayType`
-    #[allow(clippy::cognitive_complexity)]
     fn parse_ts_non_array_type(&mut self) -> PResult<Box<TsType>> {
         if !cfg!(feature = "typescript") {
             unreachable!()
@@ -2339,7 +2360,6 @@ impl<I: Tokens> Parser<I> {
     /// tsParseExpressionStatement.
     ///
     /// `tsParseDeclaration`
-    #[allow(clippy::cognitive_complexity)]
     fn parse_ts_decl(
         &mut self,
         start: BytePos,
@@ -2490,7 +2510,6 @@ impl<I: Tokens> Parser<I> {
         };
         self.with_ctx(ctx).parse_with(|p| {
             let is_generator = false;
-            let expr = true; // May be set again by parseFunctionBody.
             let is_async = true;
             let body = p.parse_fn_body(true, false)?;
             Ok(Some(ArrowExpr {
@@ -2616,8 +2635,13 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().typescript());
 
         let cloned = self.input.token_context().clone();
+
+        #[cfg(debug_assertions)]
         self.input
             .set_token_context(TokenContexts(vec![cloned.0[0]]));
+        #[cfg(not(debug_assertions))]
+        self.input
+            .set_token_context(TokenContexts(smallvec::smallvec![cloned.0[0]]));
         let res = op(self);
         self.input.set_token_context(cloned);
 

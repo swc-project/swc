@@ -1,31 +1,31 @@
-class C extends N1.E {
+class C extends N.E {
 } // error
-var M1;
-(function(M) {
+var M;
+(function(M1) {
     class D extends C {
     }
-    M.D = D;
-})(M1 || (M1 = {
+    M1.D = D;
+})(M || (M = {
 }));
-var N1;
-(function(N) {
-    class E extends M1.D {
+var N;
+(function(N1) {
+    class E extends M.D {
     }
-    N.E = E;
-})(N1 || (N1 = {
+    N1.E = E;
+})(N || (N = {
 }));
 var O;
 (function(O) {
-    class C2 extends Q1.E2 {
+    class C2 extends Q.E2 {
     } // error
-    var P1;
+    let P1;
     (function(P) {
         class D2 extends C2 {
         }
         P.D2 = D2;
     })(P1 || (P1 = {
     }));
-    var Q1;
+    let Q1;
     (function(Q) {
         class E2 extends P1.D2 {
         }

@@ -10,8 +10,8 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
+    for(var i1 = 0; i1 < props.length; i1++){
+        var descriptor = props[i1];
         descriptor.enumerable = descriptor.enumerable || false;
         descriptor.configurable = true;
         if ("value" in descriptor) descriptor.writable = true;
@@ -123,14 +123,14 @@ var C = /*#__PURE__*/ function() {
     return C;
 }();
 var c = new C();
-var i1;
+var i;
 var a;
-c = i1;
+c = i;
 c = a;
-i1 = c;
-i1 = a;
+i = c;
+i = a;
 a = c;
-a = i1;
+a = i;
 var r1 = c.foo('hi');
 var r2 = c.foo('bye');
 var r3 = c.foo('hm');

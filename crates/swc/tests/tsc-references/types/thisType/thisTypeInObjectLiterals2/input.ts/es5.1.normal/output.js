@@ -5,12 +5,12 @@
 // of the object literal.
 var obj1 = {
     a: 1,
-    f: function() {
+    f: function f() {
         return this.a;
     },
     b: "hello",
     c: {
-        g: function() {
+        g: function g() {
             this.g();
         }
     },
@@ -27,7 +27,7 @@ var obj1 = {
 var p1 = {
     x: 10,
     y: 20,
-    moveBy: function(dx, dy, dz) {
+    moveBy: function moveBy(dx, dy, dz) {
         this.x += dx;
         this.y += dy;
         if (this.z && dz) {
@@ -38,7 +38,7 @@ var p1 = {
 var p2 = {
     x: 10,
     y: 20,
-    moveBy: function(dx, dy, dz) {
+    moveBy: function moveBy(dx, dy, dz) {
         this.x += dx;
         this.y += dy;
         if (this.z && dz) {
@@ -49,7 +49,7 @@ var p2 = {
 var p3 = {
     x: 10,
     y: 20,
-    moveBy: function(dx, dy, dz) {
+    moveBy: function moveBy(dx, dy, dz) {
         this.x += dx;
         this.y += dy;
         if (this.z && dz) {
@@ -60,7 +60,7 @@ var p3 = {
 var p4 = {
     x: 10,
     y: 20,
-    moveBy: function(dx, dy, dz) {
+    moveBy: function moveBy(dx, dy, dz) {
         this.x += dx;
         this.y += dy;
         if (this.z && dz) {
@@ -71,7 +71,7 @@ var p4 = {
 f1({
     x: 10,
     y: 20,
-    moveBy: function(dx, dy, dz) {
+    moveBy: function moveBy(dx, dy, dz) {
         this.x += dx;
         this.y += dy;
         if (this.z && dz) {
@@ -82,7 +82,7 @@ f1({
 f2({
     x: 10,
     y: 20,
-    moveBy: function(dx, dy, dz) {
+    moveBy: function moveBy(dx, dy, dz) {
         this.x += dx;
         this.y += dy;
         if (this.z && dz) {
@@ -96,7 +96,7 @@ var x1 = makeObject({
         y: 0
     },
     methods: {
-        moveBy: function(dx, dy) {
+        moveBy: function moveBy(dx, dy) {
             this.x += dx; // Strongly typed this
             this.y += dy; // Strongly typed this
         }
@@ -108,7 +108,7 @@ var x2 = makeObject2({
         y: 0
     },
     methods: {
-        moveBy: function(dx, dy) {
+        moveBy: function moveBy(dx, dy) {
             this.x += dx; // Strongly typed this
             this.y += dy; // Strongly typed this
         }
@@ -119,10 +119,10 @@ var p10 = defineProp(p1, "foo", {
 });
 p10.foo = p10.foo + 1;
 var p11 = defineProp(p1, "bar", {
-    get: function() {
+    get: function get() {
         return this.x;
     },
-    set: function(value) {
+    set: function set(value) {
         this.x = value;
     }
 });
@@ -132,10 +132,10 @@ var p12 = defineProps(p1, {
         value: 42
     },
     bar: {
-        get: function() {
+        get: function get() {
             return this.x;
         },
-        set: function(value) {
+        set: function set(value) {
             this.x = value;
         }
     }
@@ -150,19 +150,19 @@ var vue = new Vue({
         };
     },
     methods: {
-        f: function(x) {
+        f: function f(x) {
             return this.x;
         }
     },
     computed: {
-        test: function() {
+        test: function test() {
             return this.x;
         },
         hello: {
-            get: function() {
+            get: function get() {
                 return "hi";
             },
-            set: function(value) {
+            set: function set(value) {
             }
         }
     }

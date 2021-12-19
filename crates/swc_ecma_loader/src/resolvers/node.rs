@@ -115,6 +115,31 @@ impl NodeModulesResolver {
                     return Ok(Some(ext_path));
                 }
             }
+
+            // TypeScript-specific behavior: if the extension is ".js" or ".jsx",
+            // try replacing it with ".ts" or ".tsx".
+            ext_path.set_file_name(name.into_owned());
+            let old_ext = path.extension().and_then(|ext| ext.to_str());
+
+            if let Some(old_ext) = old_ext {
+                let extensions: &[&str] = match old_ext {
+                    // Note that the official compiler code always tries ".ts" before
+                    // ".tsx" even if the original extension was ".jsx".
+                    "js" => &["ts", "tsx"],
+                    "jsx" => &["ts", "tsx"],
+                    "mjs" => &["mts"],
+                    "cjs" => &["cts"],
+                    _ => &[],
+                };
+
+                for ext in extensions {
+                    ext_path.set_extension(ext);
+
+                    if ext_path.is_file() {
+                        return Ok(Some(ext_path));
+                    }
+                }
+            }
         }
 
         bail!("file not found: {}", path.display())

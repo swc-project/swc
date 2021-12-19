@@ -1,4 +1,4 @@
-var M1;
+var M;
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
@@ -12,12 +12,12 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-!function(M) {
+!function(M1) {
     var A1 = function() {
         "use strict";
         _classCallCheck(this, A1);
     };
-    M.A = A1;
+    M1.A = A1;
     var B = function(A) {
         "use strict";
         !function(subClass, superClass) {
@@ -59,6 +59,6 @@ function _setPrototypeOf(o, p) {
         }
         return B;
     }(A1);
-    M.B = B;
-}(M1 || (M1 = {
-})), new M1.A, new M1.B;
+    M1.B = B;
+}(M || (M = {
+})), new M.A, new M.B;

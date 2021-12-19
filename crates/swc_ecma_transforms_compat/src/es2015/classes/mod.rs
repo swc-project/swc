@@ -6,7 +6,7 @@ use self::{
     prop_name::HashKey,
 };
 use std::iter;
-use swc_common::{comments::Comments, Mark, Spanned, DUMMY_SP};
+use swc_common::{comments::Comments, util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, native::is_native, perf::Check};
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
@@ -15,19 +15,22 @@ use swc_ecma_utils::{
     alias_if_required, default_constructor, prepend, private_ident, prop_name_to_expr, quote_expr,
     quote_ident, quote_str, ExprFactory, IsDirective, ModuleItemLike, StmtLike,
 };
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
+};
+use tracing::debug;
 
 mod constructor;
 mod prop_name;
 
-pub fn classes<C>(comments: Option<C>) -> impl Fold
+pub fn classes<C>(comments: Option<C>) -> impl Fold + VisitMut
 where
     C: Comments,
 {
-    Classes {
+    as_folder(Classes {
         in_strict: false,
         comments,
-    }
+    })
 }
 
 type IndexMap<K, V> = indexmap::IndexMap<K, V, ahash::RandomState>;
@@ -83,18 +86,18 @@ impl<C> Classes<C>
 where
     C: Comments,
 {
-    fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
+    fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike + ModuleItemLike + FoldWith<Self>,
+        T: StmtLike + ModuleItemLike + VisitMutWith<Self> + Take,
     {
         let mut buf = Vec::with_capacity(stmts.len());
         let mut first = true;
         let old = self.in_strict;
 
-        for stmt in stmts {
-            match T::try_into_stmt(stmt) {
+        for stmt in stmts.into_iter() {
+            match T::try_into_stmt(stmt.take()) {
                 Err(node) => match node.try_into_module_decl() {
-                    Ok(decl) => {
+                    Ok(mut decl) => {
                         match decl {
                             ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
                                 decl: DefaultDecl::Class(ClassExpr { ident, class }),
@@ -102,8 +105,8 @@ where
                             }) => {
                                 let ident = ident.unwrap_or_else(|| quote_ident!("_default"));
 
-                                let decl = self.fold_class_as_var_decl(ident.clone(), class);
-                                let decl = decl.fold_children_with(self);
+                                let mut decl = self.fold_class_as_var_decl(ident.clone(), class);
+                                decl.visit_mut_children_with(self);
                                 buf.push(T::from_stmt(Stmt::Decl(Decl::Var(decl))));
 
                                 buf.push(
@@ -137,8 +140,8 @@ where
                                     }),
                                 ..
                             }) => {
-                                let decl = self.fold_class_as_var_decl(ident, class);
-                                let decl = decl.fold_children_with(self);
+                                let mut decl = self.fold_class_as_var_decl(ident, class);
+                                decl.visit_mut_children_with(self);
                                 buf.push(
                                     match T::try_from_module_decl(ModuleDecl::ExportDecl(
                                         ExportDecl {
@@ -151,22 +154,23 @@ where
                                     },
                                 );
                             }
-                            _ => buf.push(
-                                match T::try_from_module_decl(decl.fold_children_with(self)) {
+                            _ => buf.push({
+                                decl.visit_mut_children_with(self);
+                                match T::try_from_module_decl(decl) {
                                     Ok(t) => t,
                                     Err(..) => unreachable!(),
-                                },
-                            ),
+                                }
+                            }),
                         };
                     }
                     Err(..) => unreachable!(),
                 },
-                Ok(stmt) => {
+                Ok(mut stmt) => {
                     if first {
                         self.in_strict |= stmt.is_use_strict();
                     }
 
-                    let stmt = stmt.fold_children_with(self);
+                    stmt.visit_mut_children_with(self);
                     buf.push(T::from_stmt(stmt));
                 }
             }
@@ -174,41 +178,44 @@ where
         }
 
         self.in_strict = old;
-
-        buf
+        *stmts = buf;
     }
 }
 
-/// TODO: VisitMut
 #[fast_path(ClassFinder)]
-impl<C> Fold for Classes<C>
+impl<C> VisitMut for Classes<C>
 where
     C: Comments,
 {
-    noop_fold_type!();
+    noop_visit_mut_type!();
 
-    fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        self.fold_stmt_like(items)
+    fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
+        self.visit_mut_stmt_like(items)
     }
 
-    fn fold_stmts(&mut self, items: Vec<Stmt>) -> Vec<Stmt> {
-        self.fold_stmt_like(items)
+    fn visit_mut_stmts(&mut self, items: &mut Vec<Stmt>) {
+        self.visit_mut_stmt_like(items)
     }
 
-    fn fold_decl(&mut self, n: Decl) -> Decl {
-        let n = match n {
-            Decl::Class(decl) => Decl::Var(self.fold_class_as_var_decl(decl.ident, decl.class)),
-            _ => n,
+    fn visit_mut_decl(&mut self, n: &mut Decl) {
+        match n {
+            Decl::Class(decl) => {
+                *n = Decl::Var(self.fold_class_as_var_decl(decl.ident.take(), decl.class.take()))
+            }
+            _ => {}
         };
 
-        n.fold_children_with(self)
+        n.visit_mut_children_with(self);
     }
 
-    fn fold_expr(&mut self, n: Expr) -> Expr {
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
         match n {
-            Expr::Class(e) => self.fold_class(e.ident, e.class).fold_children_with(self),
+            Expr::Class(e) => {
+                *n = self.fold_class(e.ident.take(), e.class.take());
+                n.visit_mut_children_with(self)
+            }
 
-            _ => n.fold_children_with(self),
+            _ => n.visit_mut_children_with(self),
         }
     }
 }
@@ -460,7 +467,7 @@ where
                 constructor.unwrap_or_else(|| default_constructor(super_class_ident.is_some()));
 
             // Rename variables to avoid conflicting with class name
-            constructor.body = constructor.body.fold_with(&mut VarRenamer {
+            constructor.body.visit_mut_with(&mut VarRenamer {
                 mark: Mark::fresh(Mark::root()),
                 class_name: &class_name.sym,
             });
@@ -468,15 +475,15 @@ where
             // Black magic to detect injected constructor.
             let is_constructor_default = constructor.span.is_dummy();
             if is_constructor_default {
+                debug!("Dropping constructor parameters because the constructor is injected");
                 constructor.params = vec![];
             }
 
             let mut insert_this = false;
 
             if super_class_ident.is_some() {
-                let (c, inserted_this) = replace_this_in_constructor(this_mark, constructor);
+                let inserted_this = replace_this_in_constructor(this_mark, &mut constructor);
 
-                constructor = c;
                 insert_this |= inserted_this;
             }
 
@@ -509,7 +516,7 @@ where
 
                 // We should fold body instead of constructor itself.
                 // Handle `super()`
-                body = body.fold_with(&mut ConstructorFolder {
+                body.visit_mut_with(&mut ConstructorFolder {
                     class_name: &class_name,
                     mode: if insert_this {
                         Some(SuperFoldingMode::Assign)
@@ -655,7 +662,7 @@ where
     fn handle_super_access(
         &mut self,
         class_name: &Ident,
-        body: Vec<Stmt>,
+        mut body: Vec<Stmt>,
         this_mark: Option<Mark>,
     ) -> Vec<Stmt> {
         let mut vars = vec![];
@@ -671,7 +678,7 @@ where
             this_alias_mark: None,
         };
 
-        let mut body = body.fold_with(&mut folder);
+        body.visit_mut_with(&mut folder);
 
         if let Some(mark) = folder.this_alias_mark {
             prepend(
@@ -787,7 +794,7 @@ where
 
         let (mut props, mut static_props) = (IndexMap::default(), IndexMap::default());
 
-        for m in methods {
+        for mut m in methods {
             let key = HashKey::from(&m.key);
             let key_prop = Box::new(mk_key_prop(&m.key));
             let computed = match m.key {
@@ -813,11 +820,11 @@ where
                 in_injected_define_property_call: false,
                 this_alias_mark: None,
             };
-            let mut function = m.function.fold_with(&mut folder);
+            m.function.visit_mut_with(&mut folder);
 
             if let Some(mark) = folder.this_alias_mark {
                 prepend(
-                    &mut function.body.as_mut().unwrap().stmts,
+                    &mut m.function.body.as_mut().unwrap().stmts,
                     Stmt::Decl(Decl::Var(VarDecl {
                         span: DUMMY_SP,
                         declare: false,
@@ -836,7 +843,7 @@ where
 
             if !vars.is_empty() {
                 prepend(
-                    &mut function.body.as_mut().unwrap().stmts,
+                    &mut m.function.body.as_mut().unwrap().stmts,
                     Stmt::Decl(Decl::Var(VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
@@ -858,7 +865,7 @@ where
                 } else {
                     None
                 },
-                function,
+                function: m.function,
             }));
 
             let data = append_to.entry(key).or_insert_with(|| Data {
@@ -913,7 +920,7 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
     impl Visit for SuperFinder {
         noop_visit_type!();
 
-        fn visit_expr_or_super(&mut self, node: &ExprOrSuper, _: &dyn Node) {
+        fn visit_expr_or_super(&mut self, node: &ExprOrSuper) {
             match *node {
                 ExprOrSuper::Super(..) => self.found = true,
                 _ => node.visit_children_with(self),
@@ -939,7 +946,7 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
     let mut v = SuperFinder { found: false };
     let body = &body[..pos];
 
-    v.visit_stmts(body, &Invalid { span: DUMMY_SP });
+    v.visit_stmts(body);
 
     if v.found {
         return false;
@@ -974,7 +981,7 @@ struct ClassFinder {
 impl Visit for ClassFinder {
     noop_visit_type!();
 
-    fn visit_class(&mut self, _: &Class, _: &dyn Node) {
+    fn visit_class(&mut self, _: &Class) {
         self.found = true
     }
 }

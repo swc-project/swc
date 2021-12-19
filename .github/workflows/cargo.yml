@@ -192,16 +192,13 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: "16"
+          cache: "yarn"
 
       # We explicitly do this to cache properly.
       - name: Install Rust
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 16
 
       - uses: denoland/setup-deno@v1
         if: matrix.crate == 'swc_bundler'
@@ -221,8 +218,7 @@ jobs:
           # This does not have any effect on windows.
           npm config set prefix $HOME/npm
           yarn
-          (cd crates/swc_ecma_transforms && yarn)
-          npm i -g jest
+          npm i -g jest mocha
           echo $HOME
           echo $HOME/npm/bin >> $GITHUB_PATH
 
@@ -235,7 +231,7 @@ jobs:
       - name: Verify dependencies
         shell: bash
         run: |
-          jest -v
+          jest -v && mocha --version
 
       - name: Cache
         uses: actions/cache@v2
@@ -250,8 +246,13 @@ jobs:
 
       - name: Run cargo test
         run: |
-          jest -v
+          jest -v && mocha --version
           cargo test --color always -p ${{ matrix.crate }}
+
+      - name: Run cargo test (swc_ecma_parser)
+        if: matrix.crate == 'swc_ecma_parser'
+        run: |
+          cargo test --color always -p swc_ecma_parser --features verify
 
       - name: Run cargo test (swc_ecma_transforms)
         if: matrix.crate == 'swc_ecma_transforms'

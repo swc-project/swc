@@ -11,12 +11,12 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var E, E1, _typeof = function(obj) {
+var E, E, _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, C31 = function() {
+}, C3 = function() {
     "use strict";
-    _classCallCheck(this, C31);
-}, D1 = function(C3) {
+    _classCallCheck(this, C3);
+}, D1 = function(C31) {
     "use strict";
     !function(subClass, superClass) {
         if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
@@ -27,7 +27,7 @@ var E, E1, _typeof = function(obj) {
                 configurable: !0
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
-    }(D1, C3);
+    }(D1, C31);
     var _super = function(Derived) {
         var hasNativeReflectConstruct = function() {
             if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
@@ -56,7 +56,7 @@ var E, E1, _typeof = function(obj) {
         return _classCallCheck(this, D1), _super.apply(this, arguments);
     }
     return D1;
-}(C31), C1 = function() {
+}(C3), C1 = function() {
     "use strict";
     _classCallCheck(this, C1);
 }, C2 = function() {
@@ -65,8 +65,8 @@ var E, E1, _typeof = function(obj) {
 };
 function f() {
 }
-(E1 = E || (E = {
-}))[E1.A = 0] = "A", (f || (f = {
+(E = E || (E = {
+}))[E.A = 0] = "A", (f || (f = {
 })).bar = 1;
 var c = function() {
     "use strict";

@@ -88,7 +88,7 @@ warning: ClassProp
 2 |     foo = '1';
   |     ^^^^^^^^^^
 
-warning: Expr
+warning: PropName
  --> $DIR/tests/span/js/decl/class.js:2:5
   |
 2 |     foo = '1';
@@ -130,7 +130,7 @@ warning: ClassProp
 3 |     static bar = 2;
   |     ^^^^^^^^^^^^^^^
 
-warning: Expr
+warning: PropName
  --> $DIR/tests/span/js/decl/class.js:3:12
   |
 3 |     static bar = 2;

@@ -41,7 +41,7 @@ impl VisitMut for KeywordRenamer {
     }
 
     fn visit_mut_class_prop(&mut self, n: &mut ClassProp) {
-        if n.computed {
+        if n.key.is_computed() {
             n.key.visit_mut_with(self);
         }
 

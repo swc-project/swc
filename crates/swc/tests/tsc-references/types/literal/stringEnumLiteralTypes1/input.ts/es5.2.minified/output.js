@@ -1,3 +1,3 @@
-var Choice, Choice1;
-(Choice1 = Choice || (Choice = {
-})).Unknown = "", Choice1.Yes = "yes", Choice1.No = "no";
+var Choice, Choice;
+(Choice = Choice || (Choice = {
+})).Unknown = "", Choice.Yes = "yes", Choice.No = "no";

@@ -3,17 +3,18 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-(function(A) {
+var A;
+(function(A3) {
     var A1 = function A1() {
         "use strict";
         _classCallCheck(this, A1);
     };
-    A.A = A1;
-    var AG = function AG() {
+    A3.A = A1;
+    var AG1 = function AG1() {
         "use strict";
-        _classCallCheck(this, AG);
+        _classCallCheck(this, AG1);
     };
-    A.AG = AG;
+    A3.AG = AG1;
     var A2 = function A2() {
         "use strict";
         _classCallCheck(this, A2);
@@ -27,7 +28,7 @@ function _classCallCheck(instance, Constructor) {
 // no errors expected, these are all exported
 var a;
 var a = new A.A();
-var AG1 = new A.AG();
+var AG = new A.AG();
 // errors expected, these are not exported
 var a2 = new A.A2();
 var ag2 = new A.A2();

@@ -1,4 +1,13 @@
 #!/usr/bin/env bash
 set -eu
 
-./scripts/cargo/bump-with-cmd.sh "cargo mono bump $@" 
+git pull || true
+
+yarn changelog
+cargo mono bump -i
+# Ensure that Cargo.lock is up-to-date
+cargo metadata --format-version 1 > /dev/null
+git add -A
+git commit -m 'chore: Publish crates'
+git push
+cargo mono publish --no-verify

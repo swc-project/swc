@@ -3,18 +3,18 @@ var combineResult = [
     10
 ];
 combineResult[0], combineResult[1];
-var zipResult1 = function(array1, array2) {
+var zipResult = function(array1, array2) {
     if (array1.length != array2.length) return [
         [
             void 0,
             void 0
         ]
     ];
-    for(var zipResult, length = array1.length, i = 0; i < length; ++i)zipResult.push([
+    for(var zipResult1, length = array1.length, i = 0; i < length; ++i)zipResult1.push([
         array1[i],
         array2[i]
     ]);
-    return zipResult;
+    return zipResult1;
 }([
     "foo",
     "bar"
@@ -22,4 +22,4 @@ var zipResult1 = function(array1, array2) {
     5,
     6
 ]);
-zipResult1[0], zipResult1[0][0], f1(void 0), f2(void 0);
+zipResult[0], zipResult[0][0], f1(void 0), f2(void 0);

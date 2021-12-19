@@ -3,13 +3,13 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-var M1;
-(function(M) {
+var M;
+(function(M1) {
     var Foo = function Foo() {
         "use strict";
         _classCallCheck(this, Foo);
     };
-    M.Foo = Foo;
+    M1.Foo = Foo;
     var S1;
     (function(S) {
         var Bar = function Bar() {
@@ -17,31 +17,31 @@ var M1;
             _classCallCheck(this, Bar);
         };
         S.Bar = Bar;
-    })(S1 || (S1 = {
+    })(S1 = M1.S || (M1.S = {
     }));
-    M.S = S1;
-})(M1 || (M1 = {
+})(M || (M = {
 }));
-(function(M) {
+(function(M2) {
     // Emit M.Foo
     Foo, /*#__PURE__*/ React.createElement(Foo, null);
+    var S;
     (function(S) {
         // Emit M.Foo
         Foo, /*#__PURE__*/ React.createElement(Foo, null);
         // Emit S.Bar
         Bar, /*#__PURE__*/ React.createElement(Bar, null);
-    })(S || (S = {
+    })(S = M2.S || (M2.S = {
     }));
-})(M1 || (M1 = {
+})(M || (M = {
 }));
 (function(M) {
     // Emit M.S.Bar
     S.Bar, /*#__PURE__*/ React.createElement(S.Bar, null);
-})(M1 || (M1 = {
+})(M || (M = {
 }));
 (function(M) {
-    var M2 = 100;
+    var M3 = 100;
     // Emit M_1.Foo
     Foo, /*#__PURE__*/ React.createElement(Foo, null);
-})(M1 || (M1 = {
+})(M || (M = {
 }));

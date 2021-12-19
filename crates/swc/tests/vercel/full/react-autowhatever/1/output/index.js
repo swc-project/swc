@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), exports.default = void 0;
-var a, b = require("react/jsx-runtime"), c = function(a) {
+var a = require("react/jsx-runtime"), b = function(a) {
     if (a && a.__esModule) return a;
     var b = {
     };
@@ -14,16 +14,18 @@ var a, b = require("react/jsx-runtime"), c = function(a) {
         }
     }
     return b.default = a, b;
-}(require("react")), d = (a = require("prop-types")) && a.__esModule ? a : {
-    default: a
-};
-function e(a, b) {
+}(require("react")), c = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+}(require("prop-types"));
+function d(a, b) {
     for(var c = 0; c < b.length; c++){
         var d = b[c];
         d.enumerable = d.enumerable || !1, d.configurable = !0, "value" in d && (d.writable = !0), Object.defineProperty(a, d.key, d);
     }
 }
-function f(a, b, c) {
+function e(a, b, c) {
     return b in a ? Object.defineProperty(a, b, {
         value: c,
         enumerable: !0,
@@ -36,14 +38,14 @@ function b(d) {
         return d.__proto__ || Object.getPrototypeOf(d);
     }, b(d);
 }
-function h(a) {
+function g(a) {
     for(var c = 1; c < arguments.length; c++){
         var d = null != arguments[c] ? arguments[c] : {
-        }, e = Object.keys(d);
-        "function" == typeof Object.getOwnPropertySymbols && (e = e.concat(Object.getOwnPropertySymbols(d).filter(function(a) {
+        }, f = Object.keys(d);
+        "function" == typeof Object.getOwnPropertySymbols && (f = f.concat(Object.getOwnPropertySymbols(d).filter(function(a) {
             return Object.getOwnPropertyDescriptor(d, a).enumerable;
-        }))), e.forEach(function(b) {
-            f(a, b, d[b]);
+        }))), f.forEach(function(b) {
+            e(a, b, d[b]);
         });
     }
     return a;
@@ -53,7 +55,7 @@ function c(d, e) {
         return d.__proto__ = e, d;
     }, c(d, e);
 }
-var l = function(d) {
+var l = function(e) {
     "use strict";
     !function(a, b) {
         if ("function" != typeof b && null !== b) throw new TypeError("Super expression must either be null or a function");
@@ -64,8 +66,8 @@ var l = function(d) {
                 configurable: !0
             }
         }), b && c(a, b);
-    }(l, d);
-    var b, g, i, k = function(c) {
+    }(l, e);
+    var b, h, j, k = function(c) {
         var d = function() {
             if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
             if (Reflect.construct.sham) return !1;
@@ -97,7 +99,7 @@ var l = function(d) {
             a.props.onHighlightedItemChange(null === b ? null : b.item);
         }, a;
     }
-    return b = l, g = [
+    return b = l, h = [
         {
             key: "shouldComponentUpdate",
             value: function(a) {
@@ -107,47 +109,47 @@ var l = function(d) {
         {
             key: "render",
             value: function() {
-                var a = this, c = this.props, d = c.items, e = c.itemProps, f = c.renderItem, g = c.renderItemData, i = c.sectionIndex, j = c.highlightedItemIndex, k = c.getItemId, l = c.theme, m = c.keyPrefix, n = null === i ? m : "".concat(m, "section-").concat(i, "-"), o = "function" == typeof e;
-                return b.jsx("ul", h({
+                var b = this, c = this.props, d = c.items, e = c.itemProps, f = c.renderItem, h = c.renderItemData, i = c.sectionIndex, j = c.highlightedItemIndex, k = c.getItemId, l = c.theme, m = c.keyPrefix, n = null === i ? m : "".concat(m, "section-").concat(i, "-"), o = "function" == typeof e;
+                return a.jsx("ul", g({
                     role: "listbox"
                 }, l("".concat(n, "items-list"), "itemsList"), {
                     children: d.map(function(c, d) {
                         var m = d === j, p = "".concat(n, "item-").concat(d), q = o ? e({
                             sectionIndex: i,
                             itemIndex: d
-                        }) : e, r = h({
+                        }) : e, r = g({
                             id: k(i, d),
                             "aria-selected": m
                         }, l(p, "item", 0 === d && "itemFirst", m && "itemHighlighted"), q);
-                        return m && (r.ref = a.storeHighlightedItemReference), b.jsx(Item, h({
+                        return m && (r.ref = b.storeHighlightedItemReference), a.jsx(Item, g({
                         }, r, {
                             sectionIndex: i,
                             isHighlighted: m,
                             itemIndex: d,
                             item: c,
                             renderItem: f,
-                            renderItemData: g
+                            renderItemData: h
                         }));
                     })
                 }));
             }
         }
-    ], e(b.prototype, g), i && e(b, i), l;
-}(c.Component);
+    ], d(b.prototype, h), j && d(b, j), l;
+}(b.Component);
 l.propTypes = {
-    items: d.default.array.isRequired,
-    itemProps: d.default.oneOfType([
-        d.default.object,
-        d.default.func
+    items: c.default.array.isRequired,
+    itemProps: c.default.oneOfType([
+        c.default.object,
+        c.default.func
     ]),
-    renderItem: d.default.func.isRequired,
-    renderItemData: d.default.object.isRequired,
-    sectionIndex: d.default.number,
-    highlightedItemIndex: d.default.number,
-    onHighlightedItemChange: d.default.func.isRequired,
-    getItemId: d.default.func.isRequired,
-    theme: d.default.func.isRequired,
-    keyPrefix: d.default.string.isRequired
+    renderItem: c.default.func.isRequired,
+    renderItemData: c.default.object.isRequired,
+    sectionIndex: c.default.number,
+    highlightedItemIndex: c.default.number,
+    onHighlightedItemChange: c.default.func.isRequired,
+    getItemId: c.default.func.isRequired,
+    theme: c.default.func.isRequired,
+    keyPrefix: c.default.string.isRequired
 }, l.defaultProps = {
     sectionIndex: null
 }, exports.default = l, new l();

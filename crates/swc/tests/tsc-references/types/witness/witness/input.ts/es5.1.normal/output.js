@@ -19,10 +19,10 @@ function _createClass(Constructor, protoProps, staticProps) {
 }
 // Initializers
 var varInit = varInit; // any
-var pInit1;
+var pInit;
 function fn() {
-    var pInit = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : pInit;
-    var pInit;
+    var pInit1 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : pInit1;
+    var pInit1;
 }
 var InitClass = /*#__PURE__*/ function() {
     "use strict";
@@ -45,8 +45,8 @@ var InitClass = /*#__PURE__*/ function() {
 function fnReturn1() {
     return fnReturn1();
 }
-var a1;
-var a1 = fnReturn1();
+var a;
+var a = fnReturn1();
 function fnReturn2() {
     return fnReturn2;
 }
@@ -122,16 +122,16 @@ var C = // New operator
         {
             key: "fn3",
             value: function fn3() {
-                var a;
-                return new a(this.fn3);
+                var a1;
+                return new a1(this.fn3);
             }
         }
     ]);
     return C;
 }();
 function fn5() {
-    var a;
-    return new a(fn5);
+    var a2;
+    return new a2(fn5);
 }
 var fn5r = fn5(); // fn5r: should be 'any', but is 'number'
 // Property access
@@ -140,12 +140,12 @@ var propAcc1 = {
 };
 var propAcc1;
 // Property access of module member
-var M21;
-(function(M2) {
-    M2.x = M21.x;
+var M2;
+(function(M21) {
+    M21.x = M2.x;
     var y = x;
     var y;
-})(M21 || (M21 = {
+})(M2 || (M2 = {
 }));
 var C2 = function C2() {
     "use strict";

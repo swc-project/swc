@@ -1,11 +1,11 @@
-var Formatting1;
+var Formatting;
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
         var descriptor = props[i];
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-!function(Formatting) {
+!function(Formatting1) {
     var Indenter = function() {
         "use strict";
         var Constructor, protoProps, staticProps;
@@ -343,6 +343,6 @@ function _defineProperties(target, props) {
             }
         ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Indenter;
     }();
-    Formatting.Indenter = Indenter;
-}(Formatting1 || (Formatting1 = {
+    Formatting1.Indenter = Indenter;
+}(Formatting || (Formatting = {
 }));

@@ -6,7 +6,7 @@
 var Inner = function Inner() {
 };
 Inner.prototype = {
-    m: function() {
+    m: function m() {
     },
     i: 1
 };

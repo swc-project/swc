@@ -10,8 +10,8 @@ function _classCallCheck(instance, Constructor) {
     }
 }
 function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
+    for(var i1 = 0; i1 < props.length; i1++){
+        var descriptor = props[i1];
         descriptor.enumerable = descriptor.enumerable || false;
         descriptor.configurable = true;
         if ("value" in descriptor) descriptor.writable = true;
@@ -126,25 +126,25 @@ var C = /*#__PURE__*/ function() {
             key: "f",
             value: function f() {
                 var x;
-                var a = x['foo'](); // should be string
-                return a + x.foo() + x.notHere();
+                var a1 = x['foo'](); // should be string
+                return a1 + x.foo() + x.notHere();
             }
         }
     ]);
     return C;
 }();
 var r = new C().f();
-var i1;
-var r2 = i1.foo.notHere();
-var r2b = i1.foo['foo']();
-var a1;
+var i;
+var r2 = i.foo.notHere();
+var r2b = i.foo['foo']();
+var a;
 // BUG 794164
-var r3 = a1().notHere();
-var r3b = a1()['foo']();
+var r3 = a().notHere();
+var r3b = a()['foo']();
 var b = {
     foo: function(x) {
-        var a = x['foo'](); // should be string
-        return a + x.notHere();
+        var a2 = x['foo'](); // should be string
+        return a2 + x.notHere();
     },
     // BUG 794164
     bar: b.foo(1).notHere()

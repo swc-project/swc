@@ -1,50 +1,47 @@
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashSet, DUMMY_SP};
+use swc_common::{collections::AHashSet, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 struct ClassStaticBlock;
 
-pub fn static_blocks() -> impl Fold {
-    ClassStaticBlock
+pub fn static_blocks() -> impl Fold + VisitMut {
+    as_folder(ClassStaticBlock)
 }
 
 impl ClassStaticBlock {
-    fn fold_class_for_static_block(&mut self, class: Class) -> Class {
+    fn visit_mut_class_for_static_block(&mut self, class: &mut Class) {
         let mut private_names = AHashSet::default();
         for member in &class.body {
             if let ClassMember::PrivateProp(private_property) = member {
                 private_names.insert(private_property.key.id.sym.clone());
             }
         }
-        let mut members = vec![];
-        for member in class.body {
-            let new_member = match member {
-                ClassMember::StaticBlock(static_block) => {
-                    let static_block_private_id: JsWord = {
-                        let mut id_value: JsWord = "_".into();
-                        let mut count = 0;
-                        while private_names.contains(&id_value) {
-                            count = count + 1;
-                            id_value = format!("_{}", count).into();
-                        }
-                        private_names.insert(id_value.clone());
-                        id_value
-                    };
-                    ClassMember::PrivateProp(
-                        self.fold_static_block(static_block, static_block_private_id),
-                    )
-                }
-                m => m,
+
+        for member in class.body.iter_mut() {
+            if let ClassMember::StaticBlock(static_block) = member {
+                let static_block_private_id: JsWord = {
+                    let mut id_value: JsWord = "_".into();
+                    let mut count = 0;
+                    while private_names.contains(&id_value) {
+                        count = count + 1;
+                        id_value = format!("_{}", count).into();
+                    }
+                    private_names.insert(id_value.clone());
+                    id_value
+                };
+                *member = ClassMember::PrivateProp(
+                    self.visit_mut_static_block(static_block.take(), static_block_private_id),
+                )
             };
-            members.push(new_member);
-        }
-        Class {
-            body: members,
-            ..class
         }
     }
-    fn fold_static_block(&mut self, static_block: StaticBlock, private_id: JsWord) -> PrivateProp {
+
+    fn visit_mut_static_block(
+        &mut self,
+        static_block: StaticBlock,
+        private_id: JsWord,
+    ) -> PrivateProp {
         PrivateProp {
             span: DUMMY_SP,
             is_static: true,
@@ -83,34 +80,21 @@ impl ClassStaticBlock {
     }
 }
 
-impl Fold for ClassStaticBlock {
-    noop_fold_type!();
+impl VisitMut for ClassStaticBlock {
+    noop_visit_mut_type!();
 
-    fn fold_decl(&mut self, declaration: Decl) -> Decl {
-        let declaration = declaration.fold_children_with(self);
-        match declaration {
-            Decl::Class(class_declaration) => {
-                let class = self.fold_class_for_static_block(class_declaration.class);
-                Decl::Class(ClassDecl {
-                    class,
-                    ..class_declaration
-                })
-            }
-            _ => declaration,
+    fn visit_mut_decl(&mut self, declaration: &mut Decl) {
+        declaration.visit_mut_children_with(self);
+
+        if let Decl::Class(class_declaration) = declaration {
+            self.visit_mut_class_for_static_block(&mut class_declaration.class);
         }
     }
 
-    fn fold_expr(&mut self, expression: Expr) -> Expr {
-        let expression = expression.fold_children_with(self);
-        match expression {
-            Expr::Class(class_expression) => {
-                let class = self.fold_class_for_static_block(class_expression.class);
-                Expr::Class(ClassExpr {
-                    class,
-                    ..class_expression
-                })
-            }
-            _ => expression,
+    fn visit_mut_expr(&mut self, expression: &mut Expr) {
+        expression.visit_mut_children_with(self);
+        if let Expr::Class(class_expression) = expression {
+            self.visit_mut_class_for_static_block(&mut class_expression.class);
         }
     }
 }

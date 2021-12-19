@@ -3,13 +3,13 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-var Tools1;
-(function(Tools) {
+var Tools;
+(function(Tools1) {
     var NullLogger = function NullLogger() {
         "use strict";
         _classCallCheck(this, NullLogger);
     };
-    Tools.NullLogger = NullLogger;
-})(Tools1 || (Tools1 = {
+    Tools1.NullLogger = NullLogger;
+})(Tools || (Tools = {
 }));
-var logger = Tools1.NullLogger();
+var logger = Tools.NullLogger();

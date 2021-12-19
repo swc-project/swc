@@ -1,11 +1,11 @@
 use super::get_prototype_of;
 use std::iter;
 use swc_atoms::js_word;
-use swc_common::{Mark, Span, DUMMY_SP};
+use swc_common::{util::take::Take, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{alias_ident_for, is_rest_arguments, quote_ident, ExprFactory};
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 /// Process function body.
 ///
@@ -42,57 +42,55 @@ pub struct SuperFieldAccessFolder<'a> {
 
 macro_rules! mark_nested {
     ($name:ident, $T:tt) => {
-        fn $name(&mut self, n: $T) -> $T {
+        fn $name(&mut self, n: &mut $T) {
             // injected `_defineProperty` should be handled like method
             if self.folding_constructor && !self.in_injected_define_property_call {
                 let old = self.in_nested_scope;
                 self.in_nested_scope = true;
-                let n = n.fold_children_with(self);
+                n.visit_mut_children_with(self);
                 self.in_nested_scope = old;
-                n
             } else {
-                n.fold_children_with(self)
+                n.visit_mut_children_with(self)
             }
         }
     };
 }
 
-/// TODO: VisitMut
-impl<'a> Fold for SuperFieldAccessFolder<'a> {
-    noop_fold_type!();
+impl<'a> VisitMut for SuperFieldAccessFolder<'a> {
+    noop_visit_mut_type!();
 
     // mark_nested!(fold_function, Function);
-    mark_nested!(fold_class, Class);
+    mark_nested!(visit_mut_class, Class);
 
-    fold_only_key!();
+    visit_mut_only_key!();
 
-    fn fold_function(&mut self, n: Function) -> Function {
+    fn visit_mut_function(&mut self, n: &mut Function) {
         if self.folding_constructor {
-            return n;
+            return;
         }
 
         if self.folding_constructor && !self.in_injected_define_property_call {
             let old = self.in_nested_scope;
             self.in_nested_scope = true;
-            let n = n.fold_children_with(self);
+            n.visit_mut_children_with(self);
             self.in_nested_scope = old;
-            n
         } else {
-            n.fold_children_with(self)
+            n.visit_mut_children_with(self);
         }
     }
 
-    fn fold_expr(&mut self, n: Expr) -> Expr {
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
         match n {
             Expr::This(ThisExpr { span }) if self.in_nested_scope => {
                 if self.this_alias_mark.is_none() {
                     self.this_alias_mark = Some(Mark::fresh(Mark::root()));
                 }
 
-                return Expr::Ident(quote_ident!(
+                *n = Expr::Ident(quote_ident!(
                     span.apply_mark(self.this_alias_mark.unwrap()),
                     "_this"
                 ));
+                return;
             }
             _ => {}
         }
@@ -110,20 +108,20 @@ impl<'a> Fold for SuperFieldAccessFolder<'a> {
                 }) => {
                     let old = self.in_injected_define_property_call;
                     self.in_injected_define_property_call = true;
-                    let n = n.fold_children_with(self);
+                    n.visit_mut_children_with(self);
                     self.in_injected_define_property_call = old;
-                    return n;
+                    return;
                 }
                 _ => {}
             },
             _ => {}
         }
 
-        let n = self.fold_super_member_call(n);
-        let n = self.fold_super_member_set(n);
-        let n = self.fold_super_member_get(n);
+        self.visit_mut_super_member_call(n);
+        self.visit_mut_super_member_set(n);
+        self.visit_mut_super_member_get(n);
 
-        n.fold_children_with(self)
+        n.visit_mut_children_with(self)
     }
 }
 
@@ -136,7 +134,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
     /// ```js
     /// _get(_getPrototypeOf(Clazz.prototype), 'foo', this).call(this, a)
     /// ```
-    fn fold_super_member_call(&mut self, n: Expr) -> Expr {
+    fn visit_mut_super_member_call(&mut self, n: &mut Expr) {
         match n {
             Expr::Call(CallExpr {
                 callee: ExprOrSuper::Expr(ref callee_expr),
@@ -162,7 +160,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                     let mut args = args.clone();
 
                     if args.len() == 1 && is_rest_arguments(&args[0]) {
-                        return Expr::Call(CallExpr {
+                        *n = Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee: MemberExpr {
                                 span: DUMMY_SP,
@@ -180,9 +178,10 @@ impl<'a> SuperFieldAccessFolder<'a> {
                                 .collect(),
                             type_args: type_args.clone(),
                         });
+                        return;
                     }
 
-                    return Expr::Call(CallExpr {
+                    *n = Expr::Call(CallExpr {
                         span: DUMMY_SP,
                         callee: MemberExpr {
                             span: DUMMY_SP,
@@ -196,9 +195,9 @@ impl<'a> SuperFieldAccessFolder<'a> {
                     });
                 }
 
-                _ => n,
+                _ => {}
             },
-            _ => n,
+            _ => {}
         }
     }
 
@@ -209,14 +208,9 @@ impl<'a> SuperFieldAccessFolder<'a> {
     /// ```js
     /// _set(_getPrototypeOf(Clazz.prototype), "foo", bar, this, true)
     /// ```
-    fn fold_super_member_set(&mut self, n: Expr) -> Expr {
+    fn visit_mut_super_member_set(&mut self, n: &mut Expr) {
         match n {
-            Expr::Update(UpdateExpr {
-                span,
-                arg,
-                op,
-                prefix,
-            }) => match *arg {
+            Expr::Update(UpdateExpr { arg, op, .. }) => match &mut **arg {
                 Expr::Member(MemberExpr {
                     obj:
                         ExprOrSuper::Super(Super {
@@ -230,33 +224,28 @@ impl<'a> SuperFieldAccessFolder<'a> {
                         op!("--") => op!("-="),
                     };
 
-                    self.super_to_set_call(
-                        super_token,
+                    *n = self.super_to_set_call(
+                        *super_token,
                         true,
-                        prop,
+                        prop.take(),
                         op,
                         Box::new(Expr::Lit(Lit::Num(Number {
                             span: DUMMY_SP,
                             value: 1.0,
                         }))),
-                    )
+                    );
                 }
-                _ => Expr::Update(UpdateExpr {
-                    span,
-                    arg,
-                    op,
-                    prefix,
-                }),
+                _ => {}
             },
 
             Expr::Assign(AssignExpr {
                 span,
-                mut left,
+                left,
                 op,
                 right,
             }) => {
                 if let PatOrExpr::Expr(expr) = left {
-                    match *expr {
+                    match &mut **expr {
                         Expr::Member(MemberExpr {
                             obj:
                                 ExprOrSuper::Super(Super {
@@ -264,16 +253,23 @@ impl<'a> SuperFieldAccessFolder<'a> {
                                 }),
                             prop,
                             ..
-                        }) => return self.super_to_set_call(super_token, false, prop, op, right),
-                        _ => {
-                            left = PatOrExpr::Expr(expr);
+                        }) => {
+                            *n = self.super_to_set_call(
+                                *super_token,
+                                false,
+                                prop.take(),
+                                *op,
+                                right.take(),
+                            );
+                            return;
                         }
+                        _ => {}
                     }
                 }
 
                 if let PatOrExpr::Pat(pat) = left {
-                    match *pat {
-                        Pat::Expr(expr) => match *expr {
+                    match &mut **pat {
+                        Pat::Expr(expr) => match &mut **expr {
                             Expr::Member(MemberExpr {
                                 obj:
                                     ExprOrSuper::Super(Super {
@@ -282,23 +278,29 @@ impl<'a> SuperFieldAccessFolder<'a> {
                                 prop,
                                 ..
                             }) => {
-                                return self.super_to_set_call(super_token, false, prop, op, right);
+                                *n = self.super_to_set_call(
+                                    *super_token,
+                                    false,
+                                    prop.take(),
+                                    *op,
+                                    right.take(),
+                                );
+                                return;
                             }
-                            _ => {
-                                left = PatOrExpr::Pat(Box::new(Pat::Expr(expr)));
-                            }
+                            _ => {}
                         },
-                        _ => left = PatOrExpr::Pat(pat),
+                        _ => {}
                     }
                 };
-                Expr::Assign(AssignExpr {
-                    span,
-                    left: left.fold_children_with(self),
-                    op,
-                    right,
+                left.visit_mut_children_with(self);
+                *n = Expr::Assign(AssignExpr {
+                    span: *span,
+                    left: left.take(),
+                    op: *op,
+                    right: right.take(),
                 })
             }
-            _ => n,
+            _ => {}
         }
     }
 
@@ -310,16 +312,16 @@ impl<'a> SuperFieldAccessFolder<'a> {
     /// ```js
     /// _get(_getPrototypeOf(Clazz.prototype), 'foo', this)
     /// ```
-    fn fold_super_member_get(&mut self, n: Expr) -> Expr {
+    fn visit_mut_super_member_get(&mut self, n: &mut Expr) {
         match n {
             Expr::Member(MemberExpr {
                 obj: ExprOrSuper::Super(Super { span: super_token }),
                 prop,
                 computed,
                 ..
-            }) => self.super_to_get_call(super_token, prop, computed),
+            }) => *n = self.super_to_get_call(*super_token, (*prop).take(), *computed),
 
-            _ => n,
+            _ => {}
         }
     }
 

@@ -136,8 +136,8 @@ pub(crate) fn class_has_side_effect(c: &Class) -> bool {
             }
 
             ClassMember::ClassProp(p) => {
-                if p.computed {
-                    if p.key.may_have_side_effects() {
+                if let PropName::Computed(key) = &p.key {
+                    if key.expr.may_have_side_effects() {
                         return true;
                     }
                 }

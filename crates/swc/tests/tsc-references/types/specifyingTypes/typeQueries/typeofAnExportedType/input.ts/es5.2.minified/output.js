@@ -1,37 +1,34 @@
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
-var E, r1, r2, c, c2, r3, r4, r4b, i, i2, r5, r5, M1, r6, r7, r8, r9, E1, r10, r11, r12, r13, x = 1;
-export { M1 as M, E1 as E };
+export var E, r1, r2, c, c2, r3, r4, r4b, i, i2, r5, r5, M, r6, r7, r8, r9, E, r10, r11, r12, r13, x = 1;
 export var y = {
     foo: ""
 };
-var C1 = function() {
+export var C = function() {
     "use strict";
-    _classCallCheck(this, C1);
+    _classCallCheck(this, C);
 };
-export { C1 as C };
-!function(M) {
-    M.foo = "";
-    var C = function() {
+!function(M1) {
+    M1.foo = "";
+    var C1 = function() {
         "use strict";
-        _classCallCheck(this, C);
+        _classCallCheck(this, C1);
     };
-    M.C = C;
-}(M1 || (M1 = {
+    M1.C = C1;
+}(M || (M = {
 }));
-export var Z = M1;
-(E = E1 || (E1 = {
+export var Z = M;
+(E = E || (E = {
 }))[E.A = 0] = "A";
-function foo1() {
+export function foo() {
 }
-export { foo1 as foo };
-!function(foo) {
-    foo.y = 1;
-    var C = function() {
+!function(foo1) {
+    foo1.y = 1;
+    var C2 = function() {
         "use strict";
-        _classCallCheck(this, C);
+        _classCallCheck(this, C2);
     };
-    foo.C = C;
-}(foo1 || (foo1 = {
+    foo1.C = C2;
+}(foo || (foo = {
 }));

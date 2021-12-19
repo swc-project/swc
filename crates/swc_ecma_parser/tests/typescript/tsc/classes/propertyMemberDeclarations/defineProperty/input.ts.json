@@ -148,7 +148,6 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
@@ -178,7 +177,6 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
@@ -208,7 +206,6 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": "public",
           "isAbstract": false,
           "isOptional": false,
@@ -225,17 +222,25 @@
             "ctxt": 0
           },
           "key": {
-            "type": "StringLiteral",
+            "type": "Computed",
             "span": {
-              "start": 125,
-              "end": 135,
+              "start": 124,
+              "end": 136,
               "ctxt": 0
             },
-            "value": "computed",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 125,
+                "end": 135,
+                "ctxt": 0
+              },
+              "value": "computed",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
             }
           },
           "value": {
@@ -250,7 +255,6 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "computed": true,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
@@ -267,14 +271,22 @@
             "ctxt": 0
           },
           "key": {
-            "type": "Identifier",
+            "type": "Computed",
             "span": {
-              "start": 148,
-              "end": 149,
+              "start": 147,
+              "end": 150,
               "ctxt": 0
             },
-            "value": "x",
-            "optional": false
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 148,
+                "end": 149,
+                "ctxt": 0
+              },
+              "value": "x",
+              "optional": false
+            }
           },
           "value": {
             "type": "NumericLiteral",
@@ -288,7 +300,6 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "computed": true,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
@@ -460,7 +471,6 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
@@ -490,7 +500,6 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
@@ -547,7 +556,6 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": "public",
           "isAbstract": false,
           "isOptional": false,
@@ -604,7 +612,6 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": "public",
           "isAbstract": false,
           "isOptional": false,
@@ -660,7 +667,6 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
@@ -813,7 +819,6 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,

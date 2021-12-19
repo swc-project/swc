@@ -56,10 +56,10 @@ function _isNativeReflectConstruct() {
         return false;
     }
 }
-function _createSuper(Derived) {
+function _createSuper(Derived1) {
     var hasNativeReflectConstruct = _isNativeReflectConstruct();
     return function _createSuperInternal() {
-        var Super = _getPrototypeOf(Derived), result;
+        var Super = _getPrototypeOf(Derived1), result;
         if (hasNativeReflectConstruct) {
             var NewTarget = _getPrototypeOf(this).constructor;
             result = Reflect.construct(Super, arguments, NewTarget);
@@ -73,31 +73,31 @@ var Base = function Base() {
     "use strict";
     _classCallCheck(this, Base);
 };
-var Derived1 = /*#__PURE__*/ function(Base) {
+var Derived = /*#__PURE__*/ function(Base) {
     "use strict";
-    _inherits(Derived1, Base);
-    var _super = _createSuper(Derived1);
-    function Derived1() {
-        _classCallCheck(this, Derived1);
+    _inherits(Derived, Base);
+    var _super = _createSuper(Derived);
+    function Derived() {
+        _classCallCheck(this, Derived);
         return _super.apply(this, arguments);
     }
-    return Derived1;
+    return Derived;
 }(Base);
 function f(x) {
-    var r;
-    return r;
+    var r1;
+    return r1;
 }
-var r1 = f({
+var r = f({
     foo: new Base(),
-    bar: new Derived1()
+    bar: new Derived()
 });
 var r2 = f({
-    foo: new Derived1(),
-    bar: new Derived1()
+    foo: new Derived(),
+    bar: new Derived()
 });
 function f2(x) {
-    var r;
-    return r;
+    var r8;
+    return r8;
 }
 var i;
 var r3 = f2(i);
@@ -107,7 +107,7 @@ function f3(x, y) {
 var r4 = f3(new Base(), function(x) {
     return x;
 });
-var r5 = f3(new Derived1(), function(x) {
+var r5 = f3(new Derived(), function(x) {
     return x;
 });
 var r6 = f3(null, null); // any

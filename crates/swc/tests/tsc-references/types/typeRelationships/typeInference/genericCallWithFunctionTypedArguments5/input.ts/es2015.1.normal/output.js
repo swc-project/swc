@@ -1,11 +1,11 @@
 // Generic call with parameter of object type with member of function type of n args passed object whose associated member is call signature with n+1 args
-function foo(arg) {
-    return arg.cb(null);
+function foo(arg1) {
+    return arg1.cb(null);
 }
-var arg1 = {
+var arg = {
     cb: (x)=>''
 };
-var r = foo(arg1); // {}
+var r = foo(arg); // {}
 // more args not allowed
 var r2 = foo({
     cb: (x, y)=>''
@@ -13,11 +13,11 @@ var r2 = foo({
 var r3 = foo({
     cb: (x, y)=>''
 }); // error
-function foo2(arg) {
-    return arg.cb(null, null);
+function foo2(arg2) {
+    return arg2.cb(null, null);
 }
 // fewer args ok
-var r4 = foo(arg1); // {}
+var r4 = foo(arg); // {}
 var r5 = foo({
     cb: (x)=>''
 }); // {}

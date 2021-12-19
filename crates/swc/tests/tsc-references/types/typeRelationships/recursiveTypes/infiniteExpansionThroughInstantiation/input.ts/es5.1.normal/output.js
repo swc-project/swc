@@ -1,8 +1,8 @@
-var list1;
-var ownerList1;
-list1 = ownerList1;
+var list;
+var ownerList;
+list = ownerList;
 function other(x) {
-    var list;
-    var ownerList;
-    list = ownerList;
+    var list1;
+    var ownerList1;
+    list1 = ownerList1;
 }

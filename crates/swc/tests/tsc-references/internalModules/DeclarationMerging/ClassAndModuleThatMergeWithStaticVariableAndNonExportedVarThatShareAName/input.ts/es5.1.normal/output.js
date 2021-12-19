@@ -17,22 +17,22 @@ Point.Origin = {
     var Origin = ""; // not an error, since not exported
 })(Point || (Point = {
 }));
-var A1;
-(function(A) {
+var A;
+(function(A1) {
     var Point = function Point(x, y) {
         "use strict";
         _classCallCheck(this, Point);
         this.x = x;
         this.y = y;
     };
-    A.Point = Point;
+    A1.Point = Point;
     Point.Origin = {
         x: 0,
         y: 0
     };
     (function(Point) {
         var Origin = ""; // not an error since not exported
-    })(Point || (Point = {
+    })(Point = A1.Point || (A1.Point = {
     }));
-})(A1 || (A1 = {
+})(A || (A = {
 }));

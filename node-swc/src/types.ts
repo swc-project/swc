@@ -494,6 +494,8 @@ export interface JscConfig {
     optimizeHygiene?: boolean
   },
 
+  baseUrl?: string
+
   paths?: {
     [from: string]: [string]
   }
@@ -1564,7 +1566,7 @@ export interface NamedExportSpecifier extends Node, HasSpan {
   /**
    * `Some(bar)` in `export { foo as bar }`
    */
-  exported: Identifier;
+  exported: Identifier | null;
 }
 
 interface HasInterpreter {

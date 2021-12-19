@@ -3,13 +3,18 @@ authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 build = "build.rs"
 edition = "2018"
 exclude = ["artifacts.json", "index.node"]
-license = "MIT"
+license = "Apache-2.0"
 name = "node"
 publish = false
 version = "0.1.0"
 
 [lib]
 crate-type = ["cdylib"]
+
+[features]
+default = ["swc_v1"]
+swc_v1 = ["swc_node_bundler/swc_v1", "swc/wrong-target"]
+swc_v2 = ["swc_node_bundler/swc_v2"]
 
 [build-dependencies]
 napi-build = {version = "1"}
@@ -20,9 +25,10 @@ backtrace = "0.3"
 napi = {version = "1", features = ["serde-json"]}
 napi-derive = {version = "1"}
 path-clean = "0.1"
+proc-macro2 = "=1.0.32"
 serde = {version = "1", features = ["derive"]}
 serde_json = {version = "1", features = ["unbounded_depth"]}
-swc = {path = "../swc", features = ["concurrent", "wrong-target", "plugin"]}
+swc = {path = "../swc", features = ["concurrent", "plugin"]}
 swc_atoms = {version = "0.2.4", path = "../swc_atoms"}
 swc_bundler = {path = "../swc_bundler"}
 swc_common = {path = "../swc_common", features = ["sourcemap"]}

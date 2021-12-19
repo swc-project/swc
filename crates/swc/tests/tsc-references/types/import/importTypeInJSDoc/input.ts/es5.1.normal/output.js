@@ -6,13 +6,13 @@ module.exports = MyClass;
 a = new Foo({
     doer: Foo.Bar
 });
-var q1 = /** @type {import("./externs").Bar} */ ({
-    doer: function(q) {
-        return q;
+var q = /** @type {import("./externs").Bar} */ ({
+    doer: function(q1) {
+        return q1;
     }
 });
-var r1 = /** @type {typeof import("./externs").Bar} */ function(r) {
-    return r;
+var r = /** @type {typeof import("./externs").Bar} */ function(r1) {
+    return r1;
 };
 // @target: es6
 // @outDir: ./out

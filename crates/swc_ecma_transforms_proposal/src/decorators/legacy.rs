@@ -7,10 +7,10 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
     alias_if_required, default_constructor, ident::IdentLike, member_expr, prepend, private_ident,
-    prop_name_to_expr_value, quote_ident, replace_ident, undefined, ExprFactory, Id,
-    ModuleItemLike, StmtLike,
+    prop_name_to_expr, prop_name_to_expr_value, quote_ident, replace_ident, undefined, ExprFactory,
+    Id, ModuleItemLike, StmtLike,
 };
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Visit, VisitWith};
 
 mod metadata;
 
@@ -41,7 +41,7 @@ pub(super) fn new(metadata: bool) -> Legacy {
 }
 
 impl Visit for Legacy {
-    fn visit_ts_enum_decl(&mut self, e: &TsEnumDecl, _: &dyn Node) {
+    fn visit_ts_enum_decl(&mut self, e: &TsEnumDecl) {
         let enum_kind = e
             .members
             .iter()
@@ -133,7 +133,7 @@ impl Fold for Legacy {
     fn fold_module(&mut self, m: Module) -> Module {
         // Collect required information.
         // For example, value type of enum affects codegen
-        m.visit_with(&Invalid { span: DUMMY_SP }, self);
+        m.visit_with(self);
 
         let mut m = m.fold_children_with(self);
 
@@ -513,8 +513,8 @@ impl Legacy {
                 }
 
                 // TODO: Handle s prop name
-                let name = match *p.key {
-                    Expr::Ident(ref i) => Box::new(Expr::Lit(Lit::Str(Str {
+                let name = match &p.key {
+                    PropName::Ident(ref i) => Box::new(Expr::Lit(Lit::Str(Str {
                         span: i.span,
                         value: i.sym.clone(),
                         has_escape: false,
@@ -522,7 +522,7 @@ impl Legacy {
                             contains_quote: false,
                         },
                     }))),
-                    _ => p.key.clone(),
+                    _ => prop_name_to_expr(p.key.clone()).into(),
                 };
                 let init = private_ident!("_init");
                 if p.is_static {

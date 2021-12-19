@@ -23,10 +23,10 @@ var Foo = function() {
 }, Foo2 = function() {
     "use strict";
     _classCallCheck(this, Foo2);
-}, C1 = function() {
+}, C = function() {
     "use strict";
-    _classCallCheck(this, C1);
-}, D = function(C) {
+    _classCallCheck(this, C);
+}, D = function(C1) {
     "use strict";
     !function(subClass, superClass) {
         if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
@@ -37,7 +37,7 @@ var Foo = function() {
                 configurable: !0
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
-    }(D, C);
+    }(D, C1);
     var Constructor, protoProps, staticProps, _super = function(Derived) {
         var hasNativeReflectConstruct = function() {
             if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
@@ -78,4 +78,4 @@ var Foo = function() {
             }
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), D;
-}(C1);
+}(C);

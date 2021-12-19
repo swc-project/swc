@@ -1,10 +1,7 @@
-var ns1;
-!function(ns) {
-    var nested;
-    ns.Class = class {
-    }, ns.Value = "", (nested || (nested = {
-    })).NestedClass = class {
-    }, ns.nested = nested;
-}(ns1 || (ns1 = {
-})), ns1.Class, ns1.Value;
+var ns, ns1;
+(ns1 = ns || (ns = {
+})).Class = class {
+}, ns1.Value = "", (ns1.nested || (ns1.nested = {
+})).NestedClass = class {
+}, ns.Class, ns.Value;
 export { };

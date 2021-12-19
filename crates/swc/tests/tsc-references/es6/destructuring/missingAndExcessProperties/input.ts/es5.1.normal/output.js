@@ -3,8 +3,8 @@ function _throw(e) {
 }
 // Missing properties
 function f1() {
-    var ref = {
-    }, x = ref.x, y = ref.y;
+    var ref7 = {
+    }, x = ref7.x, y = ref7.y;
     var ref4 = {
     }, _x = ref4.x, x = _x === void 0 ? 1 : _x, y = ref4.y;
     var ref5 = {
@@ -12,16 +12,16 @@ function f1() {
     var ref6 = {
     }, _x1 = ref6.x, x = _x1 === void 0 ? 1 : _x1, _y1 = ref6.y, y = _y1 === void 0 ? 1 : _y1;
 }
-var ref7, ref1, ref2, ref3;
+var ref, ref1, ref2, ref3;
 // Missing properties
 function f2() {
     var x, y;
-    var ref;
-    ref = {
-    }, x = ref.x, y = ref.y, ref;
+    var ref11;
+    ref11 = {
+    }, x = ref11.x, y = ref11.y, ref11;
     var ref8;
     ref8 = {
-    }, ref7 = 1, x = ref7, y = ref8.y, ref8;
+    }, ref = 1, x = ref, y = ref8.y, ref8;
     var ref9;
     ref9 = {
     }, x = ref9.x, ref1 = 1, y = ref1, ref9;
@@ -31,10 +31,10 @@ function f2() {
 }
 // Excess properties
 function f3() {
-    var ref = {
+    var ref13 = {
         x: 0,
         y: 0
-    }, ref = ref !== null ? ref : _throw(new TypeError("Cannot destructure undefined"));
+    }, ref13 = ref13 !== null ? ref13 : _throw(new TypeError("Cannot destructure undefined"));
     var x = {
         x: 0,
         y: 0
@@ -43,19 +43,19 @@ function f3() {
         x: 0,
         y: 0
     }.y;
-    var ref11 = {
+    var ref12 = {
         x: 0,
         y: 0
-    }, x = ref11.x, y = ref11.y;
+    }, x = ref12.x, y = ref12.y;
 }
 // Excess properties
 function f4() {
     var x, y;
-    var ref;
-    ref = {
+    var ref15;
+    ref15 = {
         x: 0,
         y: 0
-    }, ref;
+    }, ref15;
     x = ({
         x: 0,
         y: 0
@@ -64,9 +64,9 @@ function f4() {
         x: 0,
         y: 0
     }).y;
-    var ref12;
-    ref12 = {
+    var ref14;
+    ref14 = {
         x: 0,
         y: 0
-    }, x = ref12.x, y = ref12.y, ref12;
+    }, x = ref14.x, y = ref14.y, ref14;
 }

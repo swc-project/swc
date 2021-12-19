@@ -5,7 +5,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{should_work, Check};
 use swc_ecma_utils::{prepend, private_ident, quote_ident, undefined, ExprFactory};
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith,
 };
 
 pub fn new_target() -> impl Fold + VisitMut + CompilerPass {
@@ -237,7 +237,7 @@ struct ShouldWork {
 impl Visit for ShouldWork {
     noop_visit_type!();
 
-    fn visit_meta_prop_expr(&mut self, n: &MetaPropExpr, _: &dyn Node) {
+    fn visit_meta_prop_expr(&mut self, n: &MetaPropExpr) {
         match n {
             MetaPropExpr {
                 meta:

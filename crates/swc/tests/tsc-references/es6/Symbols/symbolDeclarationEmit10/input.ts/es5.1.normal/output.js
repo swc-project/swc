@@ -1,9 +1,9 @@
-function _defineEnumerableProperties(obj, descs) {
+function _defineEnumerableProperties(obj1, descs) {
     for(var key in descs){
         var desc = descs[key];
         desc.configurable = desc.enumerable = true;
         if ("value" in desc) desc.writable = true;
-        Object.defineProperty(obj, key, desc);
+        Object.defineProperty(obj1, key, desc);
     }
     if (Object.getOwnPropertySymbols) {
         var objectSymbols = Object.getOwnPropertySymbols(descs);
@@ -12,16 +12,16 @@ function _defineEnumerableProperties(obj, descs) {
             var desc = descs[sym];
             desc.configurable = desc.enumerable = true;
             if ("value" in desc) desc.writable = true;
-            Object.defineProperty(obj, sym, desc);
+            Object.defineProperty(obj1, sym, desc);
         }
     }
-    return obj;
+    return obj1;
 }
 var _obj, _mutatorMap = {
 };
 //@target: ES6
 //@declaration: true
-var obj1 = (_obj = {
+var obj = (_obj = {
 }, _mutatorMap[Symbol.isConcatSpreadable] = _mutatorMap[Symbol.isConcatSpreadable] || {
 }, _mutatorMap[Symbol.isConcatSpreadable].get = function() {
     return '';

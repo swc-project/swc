@@ -1,10 +1,10 @@
 function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
+    for(var i1 = 0; i1 < props.length; i1++){
+        var descriptor = props[i1];
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-var i1, a, C = function() {
+var i, a, C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C() {
@@ -22,7 +22,7 @@ var i1, a, C = function() {
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }();
-new C().f(), i1.foo.toString(), i1.foo.toString(), a().toString(), a().toString(), ({
+new C().f(), i.foo.toString(), i.foo.toString(), a().toString(), a().toString(), ({
     foo: function(x) {
         return x.toString() + x.toString();
     }

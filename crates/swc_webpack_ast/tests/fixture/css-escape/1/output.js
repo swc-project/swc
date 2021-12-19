@@ -1,2 +1,5 @@
-if (null) module.exports;
-else if (define, define.amd) define(null, null);
+if (exports) module.exports = null;
+else {
+    define, define.amd;
+    define([], factory.bind(root, root));
+}

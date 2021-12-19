@@ -1,8 +1,7 @@
-var A1;
 //@filename: part1.ts
-export { A1 as A };
-(function(A) {
-    var Utils1;
+export var A;
+(function(A1) {
+    let Utils1;
     (function(Utils) {
         function mirror(p) {
             return {
@@ -11,20 +10,20 @@ export { A1 as A };
             };
         }
         Utils.mirror = mirror;
-    })(Utils1 || (Utils1 = {
+    })(Utils1 = A1.Utils || (A1.Utils = {
     }));
-    A.Origin = {
+    A1.Origin = {
         x: 0,
         y: 0
     };
-    A.Utils = Utils1;
-})(A1 || (A1 = {
+})(A || (A = {
 }));
-(function(A) {
-    A.Origin = {
+(function(A2) {
+    A2.Origin = {
         x: 0,
         y: 0
     };
+    let Utils2;
     (function(Utils) {
         class Plane {
             constructor(tl, br){
@@ -33,7 +32,7 @@ export { A1 as A };
             }
         }
         Utils.Plane = Plane;
-    })(Utils || (Utils = {
+    })(Utils2 = A2.Utils || (A2.Utils = {
     }));
-})(A1 || (A1 = {
+})(A || (A = {
 }));

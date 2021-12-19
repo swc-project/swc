@@ -4,6 +4,8 @@ use super::{
 };
 use crate::{error::Error, input::Tokens, lexer::util::CharExt, token::*, EsVersion, Syntax};
 use enum_kind::Kind;
+#[cfg(not(debug_assertions))]
+use smallvec::SmallVec;
 use std::mem::take;
 use swc_common::BytePos;
 use tracing::trace;
@@ -325,12 +327,17 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
 
 impl State {
     pub fn new(syntax: Syntax, start_pos: BytePos) -> Self {
+        #[cfg(debug_assertions)]
+        let context = TokenContexts(vec![TokenContext::BraceStmt]);
+        #[cfg(not(debug_assertions))]
+        let context = TokenContexts(SmallVec::from_slice(&[TokenContext::BraceStmt]));
+
         State {
             is_expr_allowed: true,
             is_first: true,
             had_line_break: false,
             prev_hi: start_pos,
-            context: TokenContexts(vec![TokenContext::BraceStmt]),
+            context,
             token_type: None,
             start: BytePos(0),
             line_start: BytePos(0),
@@ -564,7 +571,13 @@ impl State {
 }
 
 #[derive(Clone, Default)]
+#[cfg(debug_assertions)]
 pub struct TokenContexts(pub(crate) Vec<TokenContext>);
+
+#[derive(Clone, Default)]
+#[cfg(not(debug_assertions))]
+pub struct TokenContexts(pub(crate) SmallVec<[TokenContext; 32]>);
+
 impl TokenContexts {
     /// Returns true if following `LBrace` token is `block statement` according
     /// to  `ctx`, `prev`, `is_expr_allowed`.
@@ -688,7 +701,9 @@ where
         let mut l = Lexer::new(syntax, target, fm, None);
         let res = f(&mut l);
 
+        #[cfg(debug_assertions)]
         let c = vec![TokenContext::BraceStmt];
+        #[cfg(debug_assertions)]
         debug_assert_eq!(l.state.context.0, c);
 
         res

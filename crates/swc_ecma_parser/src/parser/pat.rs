@@ -220,11 +220,7 @@ impl<'a, I: Tokens> Parser<I> {
                     }
                     *type_ann = new_type_ann;
                 }
-                Pat::Assign(AssignPat {
-                    ref mut type_ann,
-                    ref mut span,
-                    ..
-                }) => {
+                Pat::Assign(AssignPat { ref mut span, .. }) => {
                     if let Some(_) = self.try_parse_ts_type_ann()? {
                         *span = Span::new(pat_start, self.input.prev_span().hi, Default::default());
                         self.emit_err(*span, SyntaxError::TSTypeAnnotationAfterAssign);
@@ -353,6 +349,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
     }
 
+    #[allow(dead_code)]
     pub(super) fn parse_setter_param(&mut self, key_span: Span) -> PResult<Param> {
         let params = self.parse_formal_params()?;
         let cnt = params.iter().filter(|p| is_not_this(p)).count();

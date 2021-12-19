@@ -62,11 +62,11 @@ function _f0() {
     }));
     return _f0.apply(this, arguments);
 }
-function f14() {
-    return _f11.apply(this, arguments);
+function f1() {
+    return _f1.apply(this, arguments);
 }
-function _f11() {
-    _f11 = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+function _f1() {
+    _f1 = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -75,7 +75,7 @@ function _f11() {
             }
         }, _callee);
     }));
-    return _f11.apply(this, arguments);
+    return _f1.apply(this, arguments);
 }
 function f3() {
     return _f3.apply(this, arguments);
@@ -206,7 +206,7 @@ var f13 = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
     }, _callee);
 }));
 var o = {
-    m1: function() {
+    m1: function m1() {
         return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
@@ -217,7 +217,7 @@ var o = {
             }, _callee);
         }))();
     },
-    m2: function() {
+    m2: function m2() {
         return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
@@ -228,7 +228,7 @@ var o = {
             }, _callee);
         }))();
     },
-    m3: function() {
+    m3: function m3() {
         return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
@@ -334,13 +334,13 @@ var C = /*#__PURE__*/ function() {
     ]);
     return C;
 }();
-var M1;
-(function(M) {
-    function f1() {
-        return _f1.apply(this, arguments);
+var M;
+(function(M1) {
+    function f14() {
+        return _f11.apply(this, arguments);
     }
-    function _f1() {
-        _f1 = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    function _f11() {
+        _f11 = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
@@ -349,10 +349,10 @@ var M1;
                 }
             }, _callee);
         }));
-        return _f1.apply(this, arguments);
+        return _f11.apply(this, arguments);
     }
-    M.f1 = f1;
-})(M1 || (M1 = {
+    M1.f1 = f14;
+})(M || (M = {
 }));
 // @target: ES6
 // @isolatedModules: true

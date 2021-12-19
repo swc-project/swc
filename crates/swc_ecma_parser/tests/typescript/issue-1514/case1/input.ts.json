@@ -70,12 +70,11 @@
             },
             "isStatic": false,
             "decorators": [],
-            "computed": false,
             "accessibility": null,
             "isAbstract": false,
             "isOptional": false,
             "isOverride": false,
-            "readonly": true,
+            "readonly": false,
             "declare": false,
             "definite": true
           }

@@ -11,10 +11,10 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var M1, C1 = function() {
+var M, C = function() {
     "use strict";
-    _classCallCheck(this, C1);
-}, C2 = function(C) {
+    _classCallCheck(this, C);
+}, C2 = function(C1) {
     "use strict";
     !function(subClass, superClass) {
         if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
@@ -25,7 +25,7 @@ var M1, C1 = function() {
                 configurable: !0
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
-    }(C2, C);
+    }(C2, C1);
     var _super = function(Derived) {
         var hasNativeReflectConstruct = function() {
             if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
@@ -54,17 +54,17 @@ var M1, C1 = function() {
         return _classCallCheck(this, C2), _super.apply(this, arguments);
     }
     return C2;
-}(C1), D = function() {
+}(C), D = function() {
     "use strict";
     _classCallCheck(this, D);
 };
-!function(M) {
+!function(M1) {
     var A = function() {
         "use strict";
         _classCallCheck(this, A);
     };
-    M.A = A, M.F2 = function(x) {
+    M1.A = A, M1.F2 = function(x) {
         return x.toString();
     };
-}(M1 || (M1 = {
-})), new C1(), new D(), new C1(), new C2(), new C1(), new C2(), new D(), new D(), new Array(), M1.A;
+}(M || (M = {
+})), new C(), new D(), new C(), new C2(), new C(), new C2(), new D(), new D(), new Array(), M.A;

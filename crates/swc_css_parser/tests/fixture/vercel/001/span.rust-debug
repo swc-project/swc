@@ -1,0 +1,105 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/vercel/001/input.css:1:1
+  |
+1 | / :nth-child(4n) {
+2 | |     margin-right: 0;
+3 | | }
+  | |__^
+
+error: Rule
+ --> $DIR/tests/fixture/vercel/001/input.css:1:1
+  |
+1 | / :nth-child(4n) {
+2 | |     margin-right: 0;
+3 | | }
+  | |_^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/vercel/001/input.css:1:1
+  |
+1 | / :nth-child(4n) {
+2 | |     margin-right: 0;
+3 | | }
+  | |_^
+
+error: SelectorList
+ --> $DIR/tests/fixture/vercel/001/input.css:1:1
+  |
+1 | :nth-child(4n) {
+  | ^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/vercel/001/input.css:1:1
+  |
+1 | :nth-child(4n) {
+  | ^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/vercel/001/input.css:1:1
+  |
+1 | :nth-child(4n) {
+  | ^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/vercel/001/input.css:1:1
+  |
+1 | :nth-child(4n) {
+  | ^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/vercel/001/input.css:1:1
+  |
+1 | :nth-child(4n) {
+  | ^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/vercel/001/input.css:1:2
+  |
+1 | :nth-child(4n) {
+  |  ^^^^^^^^^
+
+error: Nth
+ --> $DIR/tests/fixture/vercel/001/input.css:1:12
+  |
+1 | :nth-child(4n) {
+  |            ^^
+
+error: AnPlusB
+ --> $DIR/tests/fixture/vercel/001/input.css:1:12
+  |
+1 | :nth-child(4n) {
+  |            ^^
+
+error: Block
+ --> $DIR/tests/fixture/vercel/001/input.css:1:16
+  |
+1 |   :nth-child(4n) {
+  |  ________________^
+2 | |     margin-right: 0;
+3 | | }
+  | |_^
+
+error: Declaration
+ --> $DIR/tests/fixture/vercel/001/input.css:2:5
+  |
+2 |     margin-right: 0;
+  |     ^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/vercel/001/input.css:2:5
+  |
+2 |     margin-right: 0;
+  |     ^^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/vercel/001/input.css:2:19
+  |
+2 |     margin-right: 0;
+  |                   ^
+
+error: Num
+ --> $DIR/tests/fixture/vercel/001/input.css:2:19
+  |
+2 |     margin-right: 0;
+  |                   ^
+

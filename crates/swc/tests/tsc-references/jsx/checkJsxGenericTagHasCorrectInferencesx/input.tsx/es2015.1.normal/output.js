@@ -4,27 +4,27 @@
 // @skipLibCheck: true
 // @libFiles: react.d.ts,lib.d.ts
 import * as React from "react";
-let a1 = /*#__PURE__*/ React.createElement(GenericComponent, {
+let a = /*#__PURE__*/ React.createElement(GenericComponent, {
     initialValues: {
         x: "y"
     },
-    nextValues: (a)=>a
+    nextValues: (a1)=>a1
 }); // No error
 let b = /*#__PURE__*/ React.createElement(GenericComponent, {
     initialValues: 12,
-    nextValues: (a)=>a
+    nextValues: (a2)=>a2
 }); // No error - Values should be reinstantiated with `number` (since `object` is a default, not a constraint)
 let c = /*#__PURE__*/ React.createElement(GenericComponent, {
     initialValues: {
         x: "y"
     },
-    nextValues: (a)=>({
-            x: a.x
+    nextValues: (a3)=>({
+            x: a3.x
         })
 }); // No Error
 let d = /*#__PURE__*/ React.createElement(GenericComponent, {
     initialValues: {
         x: "y"
     },
-    nextValues: (a)=>a.x
+    nextValues: (a4)=>a4.x
 }); // Error - `string` is not assignable to `{x: string}`

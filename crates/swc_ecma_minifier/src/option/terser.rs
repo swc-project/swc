@@ -396,6 +396,7 @@ impl TerserCompressorOptions {
             keep_fnames: self.keep_fnames,
             keep_infinity: self.keep_infinity,
             loops: self.loops.unwrap_or(self.defaults),
+            module: self.module,
             negate_iife: self.negate_iife.unwrap_or(self.defaults),
             passes: self.passes,
             props: self.properties.unwrap_or(self.defaults),

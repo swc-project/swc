@@ -1,10 +1,10 @@
 use std::{fs, path::PathBuf};
-use swc_common::{chain, Mark, DUMMY_SP};
+use swc_common::{chain, Mark, Span};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{EsConfig, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::resolver_with_mark;
 use swc_ecma_transforms_testing::test_fixture;
-use swc_ecma_visit::{as_folder, Node, Visit, VisitMutWith, VisitWith};
+use swc_ecma_visit::{as_folder, VisitMut, VisitMutWith};
 use swc_webpack_ast::reducer::ast_reducer;
 
 #[testing::fixture("tests/fixture/**/input.js")]
@@ -21,7 +21,8 @@ fn fixture(input: PathBuf) {
 
             chain!(
                 resolver_with_mark(top_level_mark),
-                as_folder(ast_reducer(top_level_mark))
+                as_folder(ast_reducer(top_level_mark)),
+                as_folder(AssertValid)
             )
         },
         &input,
@@ -31,17 +32,64 @@ fn fixture(input: PathBuf) {
 
 struct AssertValid;
 
-impl Visit for AssertValid {
-    fn visit_invalid(&mut self, i: &Invalid, _: &dyn Node) {
+impl VisitMut for AssertValid {
+    fn visit_mut_array_pat(&mut self, a: &mut ArrayPat) {
+        if a.optional {
+            panic!("found an optional pattern: {:?}", a)
+        }
+
+        a.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_empty_stmt(&mut self, i: &mut EmptyStmt) {
+        panic!("found empty: {:?}", i)
+    }
+
+    fn visit_mut_ident(&mut self, i: &mut Ident) {
+        if i.optional {
+            panic!("found an optional pattern: {:?}", i)
+        }
+
+        i.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
+        s.test.visit_mut_with(self);
+        if !s.cons.is_empty() {
+            s.cons.visit_mut_with(self);
+        }
+
+        s.alt.visit_mut_with(self);
+    }
+
+    fn visit_mut_invalid(&mut self, i: &mut Invalid) {
         panic!("found invalid: {:?}", i)
     }
 
-    fn visit_empty_stmt(&mut self, i: &EmptyStmt, _: &dyn Node) {
-        panic!("found empty: {:?}", i)
+    fn visit_mut_module(&mut self, m: &mut Module) {
+        dbg!(&*m);
+
+        m.body.visit_mut_with(self);
+    }
+
+    fn visit_mut_object_pat(&mut self, pat: &mut ObjectPat) {
+        if pat.optional {
+            panic!("found a optional pattern: {:?}", pat)
+        }
+
+        pat.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_span(&mut self, sp: &mut Span) {
+        assert!(!sp.is_dummy());
+    }
+
+    fn visit_mut_ts_type(&mut self, ty: &mut TsType) {
+        panic!("found a typescript type: {:?}", ty)
     }
 }
 
-#[testing::fixture("../swc_ecma_parser/tests/typescript/tsc/**/input.ts")]
+#[testing::fixture("../swc_ecma_parser/tests/typescript/**/input.ts")]
 #[testing::fixture("../swc/tests/tsc-references/**/output.js")]
 fn assert_no_invalid(input: PathBuf) {
     testing::run_test(false, |cm, _handler| {
@@ -77,8 +125,7 @@ fn assert_no_invalid(input: PathBuf) {
         };
 
         module.visit_mut_with(&mut pass);
-        dbg!(&module);
-        module.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid);
+        module.visit_mut_with(&mut AssertValid);
 
         Ok(())
     })
@@ -112,7 +159,7 @@ fn test_babelify(input: PathBuf) {
             res?
         };
 
-        let s = swc_webpack_ast::webpack_ast(cm.clone(), fm.clone(), module).unwrap();
+        let s = swc_webpack_ast::webpack_ast(cm.clone(), fm.clone(), module.into()).unwrap();
         println!("{} bytes", s.len());
 
         fs::write(&output_path, s.as_bytes()).unwrap();

@@ -69,14 +69,14 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
-var A1;
-(function(A) {
+var A;
+(function(A1) {
     var Point = function Point() {
         "use strict";
         _classCallCheck(this, Point);
     };
-    A.Point = Point;
-    A.Origin = {
+    A1.Point = Point;
+    A1.Origin = {
         x: 0,
         y: 0
     };
@@ -90,8 +90,8 @@ var A1;
         }
         return Point3d;
     }(Point);
-    A.Point3d = Point3d;
-    A.Origin3d = {
+    A1.Point3d = Point3d;
+    A1.Origin3d = {
         x: 0,
         y: 0,
         z: 0
@@ -102,6 +102,6 @@ var A1;
         this.start = start;
         this.end = end;
     };
-    A.Line = Line;
-})(A1 || (A1 = {
+    A1.Line = Line;
+})(A || (A = {
 }));
