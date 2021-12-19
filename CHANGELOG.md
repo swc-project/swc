@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Features
+
+
+
+- **(es/preset-env)** Upgrade `browserslist-rs` (#3069) ([a1b315a](https://github.com/swc-project/swc/commit/a1b315a114d63aa06856de63d02070d471c271d0))
+
 ## [1.2.121] - 2021-12-19
 
 ### Bug Fixes
