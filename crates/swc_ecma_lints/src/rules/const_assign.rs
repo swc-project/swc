@@ -1,11 +1,10 @@
 use crate::rule::{default_visitor_rule, Rule};
-use std::sync::Arc;
 use swc_common::{collections::AHashSet, errors::HANDLER};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{Visit, VisitWith};
 
-pub fn const_assign() -> Arc<dyn Rule> {
+pub fn const_assign() -> Box<dyn Rule> {
     default_visitor_rule(ConstAssign::default())
 }
 

@@ -76,11 +76,11 @@ impl Emitter for Capturing {
     }
 }
 
-pub(crate) fn default_visitor_rule<V>(v: V) -> Arc<dyn Rule>
+pub(crate) fn default_visitor_rule<V>(v: V) -> Box<dyn Rule>
 where
     V: 'static + Send + Sync + Visit + Default + Debug,
 {
-    Arc::new(VisitorRule(v))
+    Box::new(VisitorRule(v))
 }
 
 #[derive(Debug)]

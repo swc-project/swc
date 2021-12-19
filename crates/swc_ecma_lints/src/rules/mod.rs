@@ -1,12 +1,11 @@
 use crate::rule::Rule;
-use std::sync::Arc;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_fold_type, Fold};
 
 mod const_assign;
 mod duplicated_binding;
 
-pub fn all() -> Vec<Arc<dyn Rule>> {
+pub fn all() -> Vec<Box<dyn Rule>> {
     vec![self::const_assign::const_assign()]
 }
 
