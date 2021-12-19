@@ -2949,7 +2949,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.59.1"
+version = "0.59.2"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -3135,7 +3135,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.56.0"
+version = "0.56.1"
 dependencies = [
  "once_cell",
  "rayon",
