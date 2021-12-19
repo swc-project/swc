@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.2.121] - 2021-12-19
 
 ### Bug Fixes
 
@@ -42,6 +42,9 @@
 
 
 - **(crates)** Use interactive bump ([276d74f](https://github.com/swc-project/swc/commit/276d74f2e9b508cd96e53c6798f28a7bb47afaed))
+
+
+- **(node)** Publish v1.2.121 ([806c9db](https://github.com/swc-project/swc/commit/806c9db1a1c40e26402a08010ca74bc0f4221dab))
 
 ### Performance
 
