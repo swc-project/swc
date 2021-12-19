@@ -1,9 +1,10 @@
 use auto_impl::auto_impl;
 use parking_lot::Mutex;
 use rayon::prelude::*;
-use std::{fmt::Debug, sync::Arc};
+use std::{fmt::Debug, marker::PhantomData, sync::Arc};
 use swc_common::errors::{Diagnostic, DiagnosticBuilder, Emitter, Handler, HANDLER};
 use swc_ecma_ast::Program;
+use swc_ecma_visit::Visit;
 
 /// A lint rule.
 ///
@@ -61,4 +62,23 @@ impl Emitter for Capturing {
     fn emit(&mut self, db: &DiagnosticBuilder<'_>) {
         self.errors.lock().push((**db).clone());
     }
+}
+
+pub(crate) fn default_visitor_rule<V>() -> Arc<dyn Rule>
+where
+    V: 'static + Send + Sync + Visit + Default + Debug,
+{
+    Arc::new(VisitorDefaultRule::<V>(PhantomData))
+}
+
+#[derive(Debug)]
+struct VisitorDefaultRule<V>(PhantomData<V>)
+where
+    V: Send + Sync + Visit + Default;
+
+impl<V> Rule for VisitorDefaultRule<V>
+where
+    V: Send + Sync + Visit + Default + Debug,
+{
+    fn lint(&self, program: &Program) {}
 }
