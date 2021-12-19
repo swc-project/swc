@@ -1,9 +1,43 @@
 use crate::rule::Rule;
 use std::sync::Arc;
+use swc_ecma_ast::*;
+use swc_ecma_visit::{noop_fold_type, Fold};
 
 mod const_assign;
 mod duplicated_binding;
 
 pub fn all() -> Vec<Arc<dyn Rule>> {
     vec![self::const_assign::const_assign()]
+}
+
+pub fn lint_to_fold<R>(r: R) -> impl Fold
+where
+    R: Rule,
+{
+    LintFolder(r)
+}
+
+struct LintFolder<R>(R)
+where
+    R: Rule;
+
+impl<R> Fold for LintFolder<R>
+where
+    R: Rule,
+{
+    noop_fold_type!();
+
+    #[inline(always)]
+    fn fold_module(&mut self, program: Module) -> Module {
+        self.0.lint_module(&program);
+
+        program
+    }
+
+    #[inline(always)]
+    fn fold_script(&mut self, program: Script) -> Script {
+        self.0.lint_script(&program);
+
+        program
+    }
 }

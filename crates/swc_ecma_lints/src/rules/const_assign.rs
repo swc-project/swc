@@ -6,7 +6,7 @@ use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{Visit, VisitWith};
 
 pub fn const_assign() -> Arc<dyn Rule> {
-    default_visitor_rule::<ConstAssign>()
+    default_visitor_rule(ConstAssign::default())
 }
 
 #[derive(Debug, Default)]

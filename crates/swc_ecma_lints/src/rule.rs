@@ -1,9 +1,9 @@
 use auto_impl::auto_impl;
 use parking_lot::Mutex;
 use rayon::prelude::*;
-use std::{fmt::Debug, marker::PhantomData, sync::Arc};
+use std::{fmt::Debug, sync::Arc};
 use swc_common::errors::{Diagnostic, DiagnosticBuilder, Emitter, Handler, HANDLER};
-use swc_ecma_ast::Program;
+use swc_ecma_ast::{Module, Script};
 use swc_ecma_visit::{Visit, VisitWith};
 
 /// A lint rule.
@@ -11,30 +11,28 @@ use swc_ecma_visit::{Visit, VisitWith};
 /// # Implementation notes
 ///
 /// Must report error to [swc_common::HANDLER]
-#[auto_impl(Box, Arc)]
+#[auto_impl(Box, &mut)]
 pub trait Rule: Debug + Send + Sync {
-    fn lint(&self, program: &Program);
+    fn lint_module(&mut self, program: &Module);
+    fn lint_script(&mut self, program: &Script);
 }
 
-/// This preserves the order of errors.
-impl<R> Rule for Vec<R>
-where
-    R: Rule,
-{
-    fn lint(&self, program: &Program) {
+macro_rules! for_vec {
+    ($name:ident, $program:ident, $s:expr) => {{
+        let program = $program;
         if cfg!(target_arch = "wasm32") {
-            for rule in self {
-                rule.lint(program);
+            for rule in $s {
+                rule.$name(program);
             }
         } else {
-            let errors = self
-                .par_iter()
+            let errors = $s
+                .par_iter_mut()
                 .flat_map(|rule| {
                     let emitter = Capturing::default();
                     {
                         let handler = Handler::with_emitter(true, false, Box::new(emitter.clone()));
                         HANDLER.set(&handler, || {
-                            rule.lint(program);
+                            rule.$name(program);
                         });
                     }
 
@@ -50,6 +48,20 @@ where
                 }
             });
         }
+    }};
+}
+
+/// This preserves the order of errors.
+impl<R> Rule for Vec<R>
+where
+    R: Rule,
+{
+    fn lint_module(&mut self, program: &Module) {
+        for_vec!(lint_module, program, self)
+    }
+
+    fn lint_script(&mut self, program: &Script) {
+        for_vec!(lint_script, program, self)
     }
 }
 
@@ -64,23 +76,27 @@ impl Emitter for Capturing {
     }
 }
 
-pub(crate) fn default_visitor_rule<V>() -> Arc<dyn Rule>
+pub(crate) fn default_visitor_rule<V>(v: V) -> Arc<dyn Rule>
 where
     V: 'static + Send + Sync + Visit + Default + Debug,
 {
-    Arc::new(VisitorDefaultRule::<V>(PhantomData))
+    Arc::new(VisitorRule(v))
 }
 
 #[derive(Debug)]
-struct VisitorDefaultRule<V>(PhantomData<V>)
+struct VisitorRule<V>(V)
 where
-    V: Send + Sync + Visit + Default;
+    V: Send + Sync + Visit;
 
-impl<V> Rule for VisitorDefaultRule<V>
+impl<V> Rule for VisitorRule<V>
 where
-    V: Send + Sync + Visit + Default + Debug,
+    V: Send + Sync + Visit + Debug,
 {
-    fn lint(&self, program: &Program) {
-        program.visit_with(&mut V::default());
+    fn lint_module(&mut self, program: &Module) {
+        program.visit_with(&mut self.0);
+    }
+
+    fn lint_script(&mut self, program: &Script) {
+        program.visit_with(&mut self.0);
     }
 }
