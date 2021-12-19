@@ -1,0 +1,12 @@
+error: Cannot reassign to a variable declared with `const`
+ 
+  |
+5 | a = 600;
+  | ^
+  |
+note: a was declared here
+ 
+  |
+1 | const a = 500;
+  |       ^
+
