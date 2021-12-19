@@ -5,6 +5,9 @@
 
 
 
+- **(es/lints)** Implement simple validations (#2763) ([f21af5b](https://github.com/swc-project/swc/commit/f21af5bcd600aa94f8bd99b1250524bbc823662c))
+
+
 - **(es/preset-env)** Upgrade `browserslist-rs` (#3069) ([a1b315a](https://github.com/swc-project/swc/commit/a1b315a114d63aa06856de63d02070d471c271d0))
 
 ## [1.2.121] - 2021-12-19
