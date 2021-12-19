@@ -2,7 +2,7 @@ use crate::rule::{visitor_rule, Rule};
 use swc_common::{collections::AHashMap, errors::HANDLER, Span};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_visit::{Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 pub fn const_assign() -> Box<dyn Rule> {
     visitor_rule(ConstAssign::default())
@@ -36,6 +36,8 @@ impl ConstAssign {
 }
 
 impl Visit for ConstAssign {
+    noop_visit_type!();
+
     fn visit_assign_pat_prop(&mut self, p: &AssignPatProp) {
         p.visit_children_with(self);
 
