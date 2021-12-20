@@ -49,6 +49,8 @@ impl HygieneRenamerBuilder {
 
         self.map.insert(id, name);
     }
+
+    pub fn assign_names_by_scope(&mut self) {}
 }
 
 fn ascii_uppercase_first_letter(s: &str) -> Option<String> {
