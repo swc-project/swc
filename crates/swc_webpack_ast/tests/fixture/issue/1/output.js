@@ -47,7 +47,7 @@ class Container extends React.Component {
         const el = null;
     }
     render() {
-        null === process.env.NODE_ENV;
+        if ("production" === process.env.NODE_ENV) ;
         const { ReactDevOverlay  } = require("@next/react-dev-overlay/lib/client");
         React.createElement(null, null, this);
     }
@@ -131,7 +131,7 @@ const renderPromise = ()=>{
         const error = null;
     };
 };
-process.env.NODE_ENV;
+if (process.env.NODE_ENV) ;
 const currentStyleTags = null, currentHrefs = null, noscript = null, nonce = null;
 ()=>{
     const styleTag = null;

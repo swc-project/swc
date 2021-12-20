@@ -241,7 +241,7 @@ if (process.env.NODE_ENV !== "production") {
     var sourceInfo;
     var typeString;
     var element;
-    exports.Fragment;
+    if (exports.Fragment) ;
     var didWarnAboutDeprecatedCreateFactory;
     var validatedFactory;
     var newElement1;

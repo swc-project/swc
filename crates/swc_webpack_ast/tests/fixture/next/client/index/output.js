@@ -82,7 +82,7 @@ const emitter = null;
 exports.emitter = null;
 let CachedComponent;
 (function*() {
-    process.env.NODE_ENV === null;
+    if (process.env.NODE_ENV === "development") ;
     let initialErr;
     const appEntrypoint = null;
     const { component: app , exports: mod  } = null;
@@ -105,14 +105,14 @@ let CachedComponent;
     }
     exports.router = null;
     const renderCtx = null;
-    process.env.NODE_ENV === null;
+    if (process.env.NODE_ENV === "production") ;
 });
 (function*() {
     const renderErr = null;
-    process.env.NODE_ENV === null;
+    if (process.env.NODE_ENV === "development") ;
 });
 const { App , err  } = null;
-process.env.NODE_ENV !== null;
+if (process.env.NODE_ENV !== "production") ;
 (()=>{
     import("../pages/_error")(null);
 })(()=>{
@@ -122,7 +122,7 @@ process.env.NODE_ENV !== null;
 let reactRoot;
 let shouldHydrate;
 const reactEl = null;
-process.env.__NEXT_REACT_ROOT;
+if (process.env.__NEXT_REACT_ROOT) ;
 const navStartEntries = null;
 const wrapApp = ()=>{
     const appProps = null;
@@ -158,7 +158,7 @@ const renderPromise = ()=>{
         const error = null;
     };
 };
-process.env.NODE_ENV;
+if (process.env.NODE_ENV) ;
 const currentStyleTags = null;
 const currentHrefs = null;
 const noscript = null;
@@ -176,4 +176,4 @@ let referenceNode;
 };
 const elem = null;
 process.env.__NEXT_STRICT_MODE;
-process.env.__NEXT_TEST_MODE;
+if (process.env.__NEXT_TEST_MODE) ;

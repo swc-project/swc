@@ -82,7 +82,7 @@ if (process.env.NODE_ENV !== "production") {
     var previousPriorityLevel;
     var currentTime = exports.unstable_now();
     var currentTime1;
-    exports.unstable_shouldYield();
+    if (exports.unstable_shouldYield()) ;
     var callback;
     var didUserCallbackTimeout;
     var continuationCallback;
