@@ -431,11 +431,9 @@ impl ReduceAst {
     }
 
     fn ignore_expr(&mut self, e: &mut Expr, ignore_return_value: bool) {
-        if ignore_return_value {
-            if e.is_member() && is_related_to_process(&e) {
-                e.take();
-                return;
-            }
+        // We should preserve `process`
+        if is_related_to_process(&e) {
+            return;
         }
 
         match e {
