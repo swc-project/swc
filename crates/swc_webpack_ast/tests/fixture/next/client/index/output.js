@@ -51,7 +51,7 @@ if (process.env.__NEXT_I18N_SUPPORT) {
     const { formatUrl  } = require("../shared/lib/router/utils/format-url");
     const parsedAs = null;
     const localePathResult = null;
-    const detectedDomain = null;
+    const detectedDomain = process.env.__NEXT_I18N_DOMAINS;
 }
 const { initScriptLoader  } = require("./script");
 const pageLoader = null;
@@ -64,6 +64,9 @@ let router;
 exports.router = null;
 let CachedApp, onPerfEntry;
 class Container {
+    componentDidMount() {
+        process.env.__NEXT_HAS_REWRITES, process.env.__NEXT_HAS_REWRITES;
+    }
     scrollToHash() {
         let { hash  } = null;
         const el = null;
@@ -79,6 +82,7 @@ const emitter = null;
 exports.emitter = null;
 let CachedComponent;
 (function*() {
+    process.env.NODE_ENV === null;
     let initialErr;
     const appEntrypoint = null;
     const { component: app , exports: mod  } = null;
@@ -88,7 +92,7 @@ let CachedComponent;
         let perfStartEntry;
         const webVitals = null;
     };
-    const pageEntrypoint = null;
+    const pageEntrypoint = process.env.NODE_ENV;
     if (process.env.NODE_ENV !== "production") {
         const { isValidElementType  } = require("react-is");
     }
@@ -101,11 +105,14 @@ let CachedComponent;
     }
     exports.router = null;
     const renderCtx = null;
+    process.env.NODE_ENV === null;
 });
 (function*() {
     const renderErr = null;
+    process.env.NODE_ENV === null;
 });
 const { App , err  } = null;
+process.env.NODE_ENV !== null;
 (()=>{
     import("../pages/_error")(null);
 })(()=>{
@@ -115,6 +122,7 @@ const { App , err  } = null;
 let reactRoot;
 let shouldHydrate;
 const reactEl = null;
+process.env.__NEXT_REACT_ROOT;
 const navStartEntries = null;
 const wrapApp = ()=>{
     const appProps = null;
@@ -141,7 +149,7 @@ if (process.env.__NEXT_RSC) {
 let lastAppProps;
 let { App: App1 , Component , props , err: err1 , __N_RSC  } = null;
 let styleSheets;
-const isRSC = !__N_RSC;
+const isRSC = (process.env.__NEXT_RSC && null, !!__N_RSC);
 const appProps = null;
 let canceled;
 let resolvePromise;
@@ -150,6 +158,7 @@ const renderPromise = ()=>{
         const error = null;
     };
 };
+process.env.NODE_ENV;
 const currentStyleTags = null;
 const currentHrefs = null;
 const noscript = null;
@@ -157,6 +166,7 @@ const nonce = null;
 ()=>{
     const styleTag = null;
 };
+process.env.NODE_ENV;
 const desiredHrefs = null;
 const currentStyleTags1 = null;
 const currentHrefs1 = null;
@@ -165,3 +175,5 @@ let referenceNode;
     const targetTag = null;
 };
 const elem = null;
+process.env.__NEXT_STRICT_MODE;
+process.env.__NEXT_TEST_MODE;
