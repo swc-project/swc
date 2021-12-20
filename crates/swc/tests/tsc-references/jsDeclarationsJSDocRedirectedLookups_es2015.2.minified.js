@@ -1,0 +1,1 @@
+Promise.resolve(0);
