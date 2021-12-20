@@ -1,0 +1,16 @@
+{
+  "mappings": ";AAAA,EAKG,AALH;;;;;CAKG,AALH,EAKG,CACHA,OAAO,CAACC,GAAG,CAAC,GAAG,CAACC,KAAK,GAAGC,KAAK",
+  "names": [
+    "console",
+    "log",
+    "Error",
+    "stack"
+  ],
+  "sources": [
+    "../../input/index.js"
+  ],
+  "sourcesContent": [
+    "/**\n * This is a\n * long\n * license\n * header\n */\nconsole.log(new Error().stack)"
+  ],
+  "version": 3
+}

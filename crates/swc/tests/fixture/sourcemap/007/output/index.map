@@ -1,0 +1,16 @@
+{
+  "mappings": "AAAA,EAEG,AAFH;;CAEG,AAFH,EAEG,CACH,MAAM,CAAC,GAAK,CAACA,WAAW,GAAG,QAAQ,CAAPC,IAAI,EAAK,CAAC;IAClCC,OAAO,CAACC,GAAG,CAACF,IAAI;IAChBC,OAAO,CAACC,GAAG,CAACF,IAAI;IAChBC,OAAO,CAACC,GAAG,CAACF,IAAI;IAChBC,OAAO,CAACC,GAAG,CAACF,IAAI;AACpB,CAAC",
+  "names": [
+    "LogSomeText",
+    "text",
+    "console",
+    "log"
+  ],
+  "sources": [
+    "../../input/index.js"
+  ],
+  "sourcesContent": [
+    "/**\n * Logs some text\n */\nexport const LogSomeText = (text) => {\n    console.log(text);\n    console.log(text);\n    console.log(text);\n    console.log(text);\n};"
+  ],
+  "version": 3
+}
