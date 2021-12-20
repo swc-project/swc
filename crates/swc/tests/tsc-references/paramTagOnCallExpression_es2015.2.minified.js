@@ -1,0 +1,1 @@
+exports.inherits = factory("inherits");
