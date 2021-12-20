@@ -11,7 +11,7 @@
       "syntax": "typescript",
       "tsx": false,
     },
-    "target": "es2016",
+    "target": "es2016"
   },
   "sourceMaps": true
 }
