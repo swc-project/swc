@@ -71,55 +71,41 @@ fn spec(file: PathBuf) {
         .replace("\\", "/");
 
     // Ignore some useless tests
-    let ignore = file_name.contains("tsc/es6/functionDeclarations/FunctionDeclaration7_es6")
-        || file_name
-            .contains("tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInStrings11_ES5")
-        || file_name
-            .contains("tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInStrings10_ES5")
-        || file_name
-            .contains("tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInStrings11_ES6")
-        || file_name
-            .contains("tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInStrings10_ES6")
-        || file_name.contains(
-            "tsc/types/objectTypeLiteral/propertySignatures/propertyNamesOfReservedWords",
-        )
-        || file_name.contains("unicodeExtendedEscapes/unicodeExtendedEscapesInTemplates10_ES5")
-        || file_name.contains("unicodeExtendedEscapes/unicodeExtendedEscapesInTemplates10_ES6")
-        || file_name
-            .contains("tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInTemplates11_ES5")
-        || file_name
-            .contains("tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInTemplates11_ES6")
-        || file_name.contains("tsc/es6/variableDeclarations/VariableDeclaration6_es6")
-        || file_name.contains(
-            "tsc/parser/ecmascriptnext/numericSeparators/parser.numericSeparators.decimal",
-        );
+    let ignore = file_name.contains("tsc/FunctionDeclaration7_es6")
+        || file_name.contains("unicodeExtendedEscapesInStrings11_ES5")
+        || file_name.contains("tsc/unicodeExtendedEscapesInStrings10_ES5")
+        || file_name.contains("tsc/unicodeExtendedEscapesInStrings11_ES6")
+        || file_name.contains("tsc/unicodeExtendedEscapesInStrings10_ES6")
+        || file_name.contains("tsc/propertyNamesOfReservedWords")
+        || file_name.contains("unicodeExtendedEscapesInTemplates10_ES5")
+        || file_name.contains("unicodeExtendedEscapesInTemplates10_ES6")
+        || file_name.contains("tsc/unicodeExtendedEscapesInTemplates11_ES5")
+        || file_name.contains("tsc/unicodeExtendedEscapesInTemplates11_ES6")
+        || file_name.contains("tsc/variableDeclarations/VariableDeclaration6_es6")
+        || file_name.contains("tsc/parser.numericSeparators.decimal");
 
     // Useful only for error reporting
     let ignore = ignore
-        || file_name.contains(
-            "tsc/types/objectTypeLiteral/callSignatures/callSignaturesWithParameterInitializers",
-        )
-        || file_name.contains("tsc/jsdoc/jsdocDisallowedInTypescript")
-        || file_name.contains("tsc/expressions/superCalls/errorSuperCalls")
-        || file_name.contains("tsc/types/rest/restElementMustBeLast");
+        || file_name.contains("tsc/callSignaturesWithParameterInitializers")
+        || file_name.contains("tsc/jsdocDisallowedInTypescript")
+        || file_name.contains("tsc/errorSuperCalls")
+        || file_name.contains("tsc/restElementMustBeLast");
 
     // Postponed
     let ignore = ignore
-        || file_name.contains("tsc/jsx/inline/inlineJsxFactoryDeclarationsx")
-        || file_name.contains("tsc/externalModules/typeOnly/importDefaultNamedType")
-        || file_name.contains("tsc/jsx/tsxAttributeResolution5x")
-        || file_name.contains("tsc/jsx/tsxErrorRecovery2x")
-        || file_name.contains("tsc/jsx/tsxErrorRecovery3x")
-        || file_name.contains("tsc/jsx/tsxErrorRecovery5x")
-        || file_name.contains("tsc/jsx/tsxReactEmitEntitiesx/input.tsx")
-        || file_name.contains("tsc/jsx/tsxTypeArgumentsJsxPreserveOutputx/input.tsx")
-        || file_name.contains(
-            "tsc/es7/exponentiationOperator/emitCompoundExponentiationAssignmentWithIndexingOnLHS3",
-        )
-        || file_name.contains("tsc/expressions/objectLiterals/objectLiteralGettersAndSetters")
-        || file_name.contains("tsc/types/rest/restElementMustBeLast")
-        || file_name.contains("tsc/jsx/unicodeEscapesInJsxtagsx/input.tsx")
-        || file_name.contains("tsc/es6/functionDeclarations/FunctionDeclaration6_es6");
+        || file_name.contains("tsc/inlineJsxFactoryDeclarationsx")
+        || file_name.contains("tsc/importDefaultNamedType")
+        || file_name.contains("tsc/tsxAttributeResolution5x")
+        || file_name.contains("tsc/tsxErrorRecovery2x")
+        || file_name.contains("tsc/tsxErrorRecovery3x")
+        || file_name.contains("tsc/tsxErrorRecovery5x")
+        || file_name.contains("tsc/tsxReactEmitEntitiesx/input.tsx")
+        || file_name.contains("tsc/tsxTypeArgumentsJsxPreserveOutputx/input.tsx")
+        || file_name.contains("tsc/emitCompoundExponentiationAssignmentWithIndexingOnLHS3")
+        || file_name.contains("tsc/objectLiteralGettersAndSetters")
+        || file_name.contains("tsc/restElementMustBeLast")
+        || file_name.contains("tsc/unicodeEscapesInJsxtagsx")
+        || file_name.contains("tsc/FunctionDeclaration6_es6");
 
     if ignore {
         return;
