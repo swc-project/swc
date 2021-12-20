@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
-import "core-js/modules/es.object.to-string";
-import "core-js/modules/es.promise";
+import "core-js/modules/es.object.to-string.js";
+import "core-js/modules/es.promise.js";
 import regeneratorRuntime from "regenerator-runtime";
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useEffect, useState } from 'react';

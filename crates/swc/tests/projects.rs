@@ -451,7 +451,7 @@ fn issue_779_1() {
     let f = file("tests/projects/issue-779-1/input.js").unwrap();
     println!("{}", f);
 
-    assert!(f.contains("require(\"core-js/modules/es.array-buffer.constructor\");"))
+    assert!(f.contains("require(\"core-js/modules/es.array-buffer.constructor.js\");"))
 }
 
 #[test]
@@ -468,7 +468,7 @@ fn issue_783() {
     println!("{}", f);
 
     assert!(!f.contains("require(\"core-js\");"));
-    assert!(f.contains("require(\"core-js/modules/es.array-buffer.constructor\");"))
+    assert!(f.contains("require(\"core-js/modules/es.array-buffer.constructor.js\");"))
 }
 
 #[test]
