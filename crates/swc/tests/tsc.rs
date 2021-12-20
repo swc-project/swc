@@ -30,25 +30,18 @@ fn fixture(input: PathBuf) {
         return;
     }
 
-    let base = Path::new("..")
-        .join("swc_ecma_parser")
-        .join("tests")
-        .join("typescript")
-        .join("tsc")
-        .canonicalize()
-        .unwrap();
+    let parent = input.parent().unwrap();
 
     for (name, opts) in matrix() {
-        let rel_path = input.strip_prefix(&base).unwrap();
-
-        let output_dir = Path::new("tests")
-            .join("tsc-references")
-            .join(rel_path)
-            .join(&name);
+        let output_dir = Path::new("tests").join("tsc-references");
 
         let _ = create_dir_all(&output_dir);
 
-        let output_path = output_dir.join("output.js");
+        let output_path = output_dir.join(format!(
+            "{}_{}.js",
+            parent.file_name().unwrap().to_str().unwrap(),
+            name
+        ));
 
         compile(&input, &output_path, opts);
     }
