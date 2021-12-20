@@ -224,7 +224,6 @@ impl Fold for Metadata<'_> {
         if p.type_ann.is_none() {
             return p;
         }
-
         if let Some(name) = p
             .type_ann
             .as_ref()
@@ -259,7 +258,6 @@ impl Fold for Metadata<'_> {
             serialize_type(self.class_name, p.type_ann.as_ref()).as_arg(),
         );
         p.decorators.push(dec);
-
         p
     }
 }
@@ -401,14 +399,12 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
 
     fn serialize_type_list(class_name: &str, types: &[Box<TsType>]) -> Expr {
         let mut u = None;
-
         for ty in types {
             // Skip parens if need be
             let ty = match &**ty {
                 TsType::TsParenthesizedType(ty) => &ty.type_ann,
                 _ => ty,
             };
-
             match &**ty {
                 // Always elide `never` from the union/intersection if possible
                 TsType::TsKeywordType(TsKeywordType {
@@ -428,7 +424,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                     kind: TsKeywordTypeKind::TsUndefinedKeyword,
                     ..
                 }) => {
-                    continue;
+                    return quote_ident!("Object").into();
                 }
 
                 _ => {}
@@ -469,7 +465,10 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
             }
         }
 
-        *undefined(DUMMY_SP)
+        match u {
+            Some(i) => i,
+            _ => quote_ident!("Object").into(),
+        }
     }
 
     fn serialize_type_node(class_name: &str, ty: &TsType) -> Expr {
