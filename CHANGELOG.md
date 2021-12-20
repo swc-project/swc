@@ -11,6 +11,9 @@
 
 
 
+- **(cli)** Setup packages for CLI (#3070) ([2e89a4f](https://github.com/swc-project/swc/commit/2e89a4f5a8fda133a8d990ecfc0104e64075d15c))
+
+
 - **(es/lints)** Implement simple validations (#2763) ([f21af5b](https://github.com/swc-project/swc/commit/f21af5bcd600aa94f8bd99b1250524bbc823662c))
 
 
@@ -18,6 +21,9 @@
 
 
 - **(es/preset-env)** Add ES2022 features to `preset-env` (#3072) ([7beaabd](https://github.com/swc-project/swc/commit/7beaabd533c9f5f368da8baa7365c7e1a30f9512))
+
+
+- **(es/preset-env)** Add `.js` to generated imports (#3077) ([7d125f5](https://github.com/swc-project/swc/commit/7d125f5cdb0c078cb02958c6d168f9c993f3e830))
 
 ### Miscellaneous Tasks
 
