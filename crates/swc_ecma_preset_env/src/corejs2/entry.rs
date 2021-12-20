@@ -36,7 +36,7 @@ impl Entry {
         }
 
         if regenerator {
-            v.imports.insert("regenerator-runtime/runtime".into());
+            v.imports.insert("regenerator-runtime/runtime.js".into());
         }
 
         v

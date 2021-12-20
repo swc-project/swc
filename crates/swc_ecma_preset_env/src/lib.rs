@@ -318,7 +318,7 @@ impl Fold for Polyfills {
                 };
 
                 if regenerator::is_required(&m) {
-                    r.insert("regenerator-runtime/runtime".into());
+                    r.insert("regenerator-runtime/runtime.js".into());
                 }
 
                 r
@@ -343,17 +343,17 @@ impl Fold for Polyfills {
             .into_iter()
             .filter(|s| !self.excludes.contains(&**s))
             .map(|s| -> JsWord {
-                if s != "regenerator-runtime/runtime" {
-                    format!("core-js/modules/{}", s).into()
+                if s != "regenerator-runtime/runtime.js" {
+                    format!("core-js/modules/{}.js", s).into()
                 } else {
-                    format!("regenerator-runtime/runtime").into()
+                    format!("regenerator-runtime/runtime.js").into()
                 }
             })
             .chain(self.includes.iter().map(|s| {
-                if s != "regenerator-runtime/runtime" {
-                    format!("core-js/modules/{}", s).into()
+                if s != "regenerator-runtime/runtime.js" {
+                    format!("core-js/modules/{}.js", s).into()
                 } else {
-                    format!("regenerator-runtime/runtime").into()
+                    format!("regenerator-runtime/runtime.js").into()
                 }
             }))
             .collect::<Vec<_>>();

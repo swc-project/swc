@@ -70,7 +70,7 @@ impl Entry {
             ..
         } = self;
 
-        if *remove_regenerator && src == "regenerator-runtime/runtime" {
+        if *remove_regenerator && src == "regenerator-runtime/runtime.js" {
             return true;
         }
 
