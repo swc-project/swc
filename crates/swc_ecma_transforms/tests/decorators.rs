@@ -5043,10 +5043,10 @@ let Sample = _class = _dec11(_class = _dec10(_class = _dec9(((_class = class Sam
 }, _dec1 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec2 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
     typeof Symbol === "undefined" ? Object : Symbol,
     Object,
+    Object,
     void 0,
-    void 0,
-    void 0,
-    void 0,
+    String,
+    Object,
     typeof Maybe === "undefined" ? Object : Maybe,
     Object,
     Object,
@@ -5054,7 +5054,7 @@ let Sample = _class = _dec11(_class = _dec10(_class = _dec9(((_class = class Sam
     Array,
     void 0,
     Boolean,
-    void 0,
+    Object,
     Object,
     typeof Object === "undefined" ? Object : Object,
     Object,
@@ -6010,22 +6010,22 @@ test!(
         emit_metadata: true,
     }),
     issue_2461_decorator_design_type_for_union_types,
-    "const SomeDecorator: PropertyDecorator = () => {}
+    "const ThingDecorator: PropertyDecorator = () => {}
 
-  class ChildItem {
-    @SomeDecorator
-    parentId?: string | null
+  class Thing {
+    @ThingDecorator
+    thing?: string | null
   }",
     "var _class, _descriptor, _dec;
-  const SomeDecorator: PropertyDecorator = ()=>{ };
-  let ChildItem = ((_class = class ChildItem {
+  const ThingDecorator: PropertyDecorator = ()=>{ };
+  let Thing = ((_class = class Thing {
     constructor(){
-        _initializerDefineProperty(this, \"parentId\", _descriptor, this);
+        _initializerDefineProperty(this, \"thing\", _descriptor, this);
     }
   }) || _class, _dec = typeof Reflect !== \"undefined\" && typeof Reflect.metadata === \
      \"function\" && Reflect.metadata(\"design:type\", Object), _descriptor = \
-     _applyDecoratedDescriptor(_class.prototype, \"parentId\", [
-    SomeDecorator,
+     _applyDecoratedDescriptor(_class.prototype, \"thing\", [
+      ThingDecorator,
     _dec
   ], {
       configurable: true,

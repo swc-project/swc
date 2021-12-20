@@ -224,36 +224,38 @@ impl Fold for Metadata<'_> {
         if p.type_ann.is_none() {
             return p;
         }
-
-        let expr_or_spread = p
+        if let Some(name) = p
             .type_ann
             .as_ref()
             .map(|ty| &ty.type_ann)
             .map(|type_ann| match &**type_ann {
-                TsType::TsTypeRef(type_ref) => match &type_ref.type_name {
-                    TsEntityName::Ident(type_name) => {
-                        let kind = self.enums.get(&type_name.to_id());
-                        match kind {
-                            Some(EnumKind::Mixed) => Some(quote_ident!("Object").as_arg()),
-                            Some(EnumKind::Str) => Some(quote_ident!("String").as_arg()),
-                            Some(EnumKind::Num) => Some(quote_ident!("Number").as_arg()),
-                            _ => None,
-                        }
-                    }
-                    _ => None,
-                },
-                TsType::TsUnionOrIntersectionType(_union) => Some(quote_ident!("Object").as_arg()),
+                TsType::TsTypeRef(r) => Some(r),
                 _ => None,
             })
-            .flatten();
+            .flatten()
+            .map(|r| match &r.type_name {
+                TsEntityName::TsQualifiedName(_) => None,
+                TsEntityName::Ident(i) => Some(i),
+            })
+            .flatten()
+        {
+            if let Some(kind) = self.enums.get(&name.to_id()) {
+                let dec = self.create_metadata_design_decorator(
+                    "design:type",
+                    match kind {
+                        EnumKind::Mixed => quote_ident!("Object").as_arg(),
+                        EnumKind::Str => quote_ident!("String").as_arg(),
+                        EnumKind::Num => quote_ident!("Number").as_arg(),
+                    },
+                );
+                p.decorators.push(dec);
+                return p;
+            }
+        }
 
         let dec = self.create_metadata_design_decorator(
             "design:type",
-            if let Some(type_arg) = expr_or_spread {
-                type_arg
-            } else {
-                serialize_type(self.class_name, p.type_ann.as_ref()).as_arg()
-            },
+            serialize_type(self.class_name, p.type_ann.as_ref()).as_arg(),
         );
         p.decorators.push(dec);
         p
@@ -397,14 +399,12 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
 
     fn serialize_type_list(class_name: &str, types: &[Box<TsType>]) -> Expr {
         let mut u = None;
-
         for ty in types {
             // Skip parens if need be
             let ty = match &**ty {
                 TsType::TsParenthesizedType(ty) => &ty.type_ann,
                 _ => ty,
             };
-
             match &**ty {
                 // Always elide `never` from the union/intersection if possible
                 TsType::TsKeywordType(TsKeywordType {
@@ -424,7 +424,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                     kind: TsKeywordTypeKind::TsUndefinedKeyword,
                     ..
                 }) => {
-                    continue;
+                    return quote_ident!("Object").into();
                 }
 
                 _ => {}
@@ -465,7 +465,10 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
             }
         }
 
-        *undefined(DUMMY_SP)
+        match u {
+            Some(i) => i,
+            _ => quote_ident!("Object").into(),
+        }
     }
 
     fn serialize_type_node(class_name: &str, ty: &TsType) -> Expr {
