@@ -1851,7 +1851,8 @@ impl VisitMut for ReduceAst {
                     }
                 }
 
-                if is.cons.is_empty() && is.alt.is_empty() {
+                if is.cons.is_empty() && is.alt.is_empty() && self.is_safe_to_flatten_test(&is.test)
+                {
                     self.changed = true;
                     *stmt = Stmt::Expr(ExprStmt {
                         span: is.test.span(),
