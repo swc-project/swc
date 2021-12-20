@@ -21,66 +21,68 @@ fn identity(entry: PathBuf) {
 
     let ignored = &[
         // Cannot run the test with current test suite
-        "tsc/directives/multilinex",
+        "multilinex",
         // Stack size
         "stack-size",
         "issue-716",
-        "tsc/types/specifyingTypes/typeLiterals/parenthesizedTypes/input.ts",
+        "parenthesizedTypes/input.ts",
         // TODO: Unignore unicode escape test
         "unicodeExtendedEscapes",
         // Trolling with yield
-        "tsc/es6/yieldExpressions/generatorTypeCheck40/input.ts",
-        "tsc/es6/yieldExpressions/generatorTypeCheck55/input.ts",
-        "tsc/es6/yieldExpressions/generatorTypeCheck60/input.ts",
-        "tsc/es6/functionDeclarations/FunctionDeclaration6_es6/input.ts",
-        "tsc/es6/functionDeclarations/FunctionDeclaration7_es6/input.ts",
+        "generatorTypeCheck40/input.ts",
+        "generatorTypeCheck55/input.ts",
+        "generatorTypeCheck60/input.ts",
+        "FunctionDeclaration6_es6/input.ts",
+        "FunctionDeclaration7_es6/input.ts",
         // Trolling with pattern
-        "tsc/es6/destructuring/restPropertyWithBindingPattern/input.ts",
-        "tsc/expressions/optionalChaining/elementAccessChain/elementAccessChain.3/input.ts",
-        "tsc/expressions/optionalChaining/propertyAccessChain/propertyAccessChain.3/input.ts",
+        "restPropertyWithBindingPattern/input.ts",
+        "elementAccessChain.3",
+        "propertyAccessChain.3",
         // TODO: Unignore
         // These tests are hard to debug because file is large
-        "tsc/es7/exponentiationOperator/emitCompoundExponentiationAssignmentWithIndexingOnLHS3/\
-         input.ts",
-        "tsc/es7/exponentiationOperator/emitExponentiationOperator1/input.ts",
-        "tsc/es7/exponentiationOperator/emitExponentiationOperator3/input.ts",
-        "tsc/es7/exponentiationOperator/emitExponentiationOperator4/input.ts",
-        "tsc/es7/exponentiationOperator/emitExponentiationOperatorInTempalteString4/input.ts",
-        "tsc/es7/exponentiationOperator/emitExponentiationOperatorInTempalteString4ES6/input.ts",
-        "tsc/es7/exponentiationOperator/\
-         exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands/input.ts",
+        "emitCompoundExponentiationAssignmentWithIndexingOnLHS3/input.ts",
+        "emitExponentiationOperator1/input.ts",
+        "emitExponentiationOperator3/input.ts",
+        "emitExponentiationOperator4/input.ts",
+        "emitExponentiationOperatorInTempalteString4/input.ts",
+        "emitExponentiationOperatorInTempalteString4ES6/input.ts",
+        "exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands/input.ts",
         // `let[0] = 'foo'` is useless
-        "tsc/expressions/elementAccess/letIdentifierInElementAccess01/input.ts",
+        "letIdentifierInElementAccess01/input.ts",
         // Parser issue
-        "tsc/expressions/superCalls/errorSuperCalls/input.ts",
+        "errorSuperCalls/input.ts",
         // TypeScript parser issue
-        "tsc/expressions/objectLiterals/objectLiteralGettersAndSetters/input.ts",
-        "tsc/parser/ecmascript5/SuperExpressions/parserSuperExpression2/input.ts",
+        "objectLiteralGettersAndSetters/input.ts",
+        "parserSuperExpression2/input.ts",
         // TODO: Unignore
-        "tsc/jsx",
-        "tsc/types/contextualTypes/jsxAttributes/\
-         contextuallyTypedStringLiteralsInJsxAttributes01x/input.tsx",
-        "tsc/types/contextualTypes/jsxAttributes/\
-         contextuallyTypedStringLiteralsInJsxAttributes02x/input.tsx",
+        "inlineJsxFactoryDeclarationsx",
+        "tsxAttributeResolution5x",
+        "jsxReactTestSuitex",
+        "tsxErrorRecovery2x",
+        "tsxErrorRecovery3x",
+        "tsxReactEmitNestingx",
+        "tsxTypeArgumentsJsxPreserveOutputx",
+        "unicodeEscapesInJsxtagsx",
+        "tsc/contextuallyTypedStringLiteralsInJsxAttributes01x/input.tsx",
+        "tsc/contextuallyTypedStringLiteralsInJsxAttributes02x/input.tsx",
         // TODO: Unignore
         // Tests require ast change
-        "tsc/types/thisType/thisTypeInAccessors/input.ts",
-        "tsc/types/thisType/thisTypeInAccessorsNegative/input.ts",
+        "tsc/thisTypeInAccessors/input.ts",
+        "tsc/thisTypeInAccessorsNegative/input.ts",
         // Invalid syntax
-        "tsc/types/rest/objectRestNegative/input.ts",
-        "tsc/jsdoc/jsdocDisallowedInTypescript/input.ts",
-        "tsc/types/rest/restElementMustBeLast/input.ts",
-        "tsc/types/rest/objectRestPropertyMustBeLast/input.ts",
-        "tsc/types/objectTypeLiteral/propertySignatures/propertyNamesOfReservedWords/input.ts",
-        "tsc/types/objectTypeLiteral/callSignatures/callSignaturesWithParameterInitializers/input.\
-         ts",
+        "tsc/objectRestNegative/input.ts",
+        "tsc/jsdocDisallowedInTypescript/input.ts",
+        "tsc/restElementMustBeLast/input.ts",
+        "tsc/objectRestPropertyMustBeLast/input.ts",
+        "tsc/propertyNamesOfReservedWords/input.ts",
+        "tsc/callSignaturesWithParameterInitializers/input.ts",
     ];
 
     // TODO: Unignore const enum test
-    let ignore = file_name.contains("export-import-require/input.ts")
-        || file_name.contains("v4/issue-866/input.ts")
+    let ignore = file_name.contains("export-import-require")
+        || file_name.contains("issue-866")
         || file_name.contains("jsdocTypeFromChainedAssignment3")
-        || file_name.contains("tsc/enums/enumConstantMembers/input.ts")
+        || file_name.contains("enumConstantMembers")
         || ignored.iter().any(|ignored| file_name.contains(ignored));
 
     if ignore {
