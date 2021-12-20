@@ -1,2 +1,0 @@
-var v = function(x) {
-};
