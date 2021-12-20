@@ -1,8 +1,9 @@
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use swc::{
     config::{IsModule, Options},
-    Compiler,
+    try_with_handler, Compiler,
 };
+use swc_common::{sync::Lrc, FilePathMapping, SourceMap};
 use testing::{NormalizedOutput, Tester};
 
 fn file(f: impl AsRef<Path>) -> NormalizedOutput {
@@ -41,4 +42,38 @@ fn issue_1532() {
     println!("{}", f);
 
     assert!(f.contains("unknown variant `esnext`"))
+}
+
+#[testing::fixture("tests/errors/**/input.js")]
+fn fixture(input: PathBuf) {
+    let _log = testing::init();
+    let output_path = input.parent().unwrap().join("output.swc-stderr");
+
+    let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
+    let err = try_with_handler(cm.clone(), true, |handler| {
+        let c = Compiler::new(cm.clone());
+
+        let fm = cm.load_file(&input).expect("failed to load file");
+
+        match c.process_js_file(
+            fm,
+            &handler,
+            &Options {
+                swcrc: true,
+                is_module: IsModule::Bool(true),
+
+                ..Default::default()
+            },
+        ) {
+            Ok(..) => {}
+            Err(err) => return Err(err),
+        }
+
+        Ok(())
+    })
+    .expect_err("should fail");
+
+    let output = NormalizedOutput::from(format!("{:?}", err));
+
+    output.compare_to_file(&output_path).unwrap();
 }

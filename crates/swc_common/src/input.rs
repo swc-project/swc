@@ -1,4 +1,5 @@
 use crate::syntax_pos::{BytePos, SourceFile};
+use debug_unreachable::debug_unreachable;
 use std::str;
 
 pub type SourceFileInput<'a> = StringInput<'a>;
@@ -51,7 +52,7 @@ impl<'a> From<&'a SourceFile> for StringInput<'a> {
 impl<'a> Input for StringInput<'a> {
     #[inline]
     fn cur(&mut self) -> Option<char> {
-        self.iter.clone().nth(0).map(|i| i.1)
+        self.iter.clone().next().map(|i| i.1)
     }
 
     #[inline]
@@ -69,7 +70,9 @@ impl<'a> Input for StringInput<'a> {
         if let Some((i, c)) = self.iter.next() {
             self.last_pos = self.start_pos + BytePos((i + c.len_utf8()) as u32);
         } else {
-            unreachable!("bump should not be called when cur() == None");
+            unsafe {
+                debug_unreachable!("bump should not be called when cur() == None");
+            }
         }
     }
 
@@ -171,7 +174,26 @@ impl<'a> Input for StringInput<'a> {
         if self.iter.as_str().len() == 0 {
             false
         } else {
-            self.iter.as_str().as_bytes()[0] == c
+            // Safety: We checked that `self.iter.as_str().len() > 0`
+            unsafe { *self.iter.as_str().as_bytes().get_unchecked(0) == c }
+        }
+    }
+
+    #[inline]
+    fn eat_byte(&mut self, c: u8) -> bool {
+        if self.is_byte(c) {
+            if let Some((i, _)) = self.iter.next() {
+                self.last_pos = self.start_pos + BytePos((i + 1) as u32);
+            } else {
+                unsafe {
+                    debug_unreachable!(
+                        "We can't enter here as we already checked the state using `is_byte`"
+                    )
+                }
+            }
+            true
+        } else {
+            false
         }
     }
 }
@@ -204,6 +226,8 @@ pub trait Input: Clone {
     fn reset_to(&mut self, to: BytePos);
 
     /// Implementors can override the method to make it faster.
+    ///
+    /// `c` must be ASCII.
     #[inline]
     fn is_byte(&mut self, c: u8) -> bool {
         match self.cur() {
@@ -213,6 +237,8 @@ pub trait Input: Clone {
     }
 
     /// Implementors can override the method to make it faster.
+    ///
+    /// `c` must be ASCII.
     #[inline]
     fn eat_byte(&mut self, c: u8) -> bool {
         if self.is_byte(c) {

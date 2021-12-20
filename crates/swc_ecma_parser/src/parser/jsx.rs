@@ -45,7 +45,6 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_jsx_element_name(&mut self) -> PResult<JSXElementName> {
         debug_assert!(self.input.syntax().jsx());
 
-        let start_pos = cur_pos!(self);
         let mut node = match self.parse_jsx_namespaced_name()? {
             JSXAttrName::Ident(i) => JSXElementName::Ident(i),
             JSXAttrName::JSXNamespacedName(i) => JSXElementName::JSXNamespacedName(i),
@@ -131,7 +130,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     /// Parses JSX expression enclosed into curly brackets.
-    pub(super) fn parse_jsx_expr_container(&mut self, start: BytePos) -> PResult<JSXExprContainer> {
+    pub(super) fn parse_jsx_expr_container(&mut self, _: BytePos) -> PResult<JSXExprContainer> {
         debug_assert!(self.input.syntax().jsx());
 
         let start = cur_pos!(self);
@@ -327,7 +326,7 @@ impl<'a, I: Tokens> Parser<I> {
             let span = span!(p, start);
 
             Ok(match (opening_element, closing_element) {
-                (Either::Left(opening), Some(Either::Right(closing))) => {
+                (Either::Left(..), Some(Either::Right(closing))) => {
                     syntax_error!(p, closing.span(), SyntaxError::JSXExpectedClosingTagForLtGt);
                 }
                 (Either::Right(opening), Some(Either::Left(closing))) => {

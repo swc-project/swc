@@ -87,7 +87,6 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     /// `parseStatementContent`
-    #[allow(clippy::cognitive_complexity)]
     fn parse_stmt_internal(
         &mut self,
         start: BytePos,
@@ -456,7 +455,6 @@ impl<'a, I: Tokens> Parser<I> {
         stmt
     }
 
-    #[allow(clippy::cognitive_complexity)]
     fn parse_switch_stmt(&mut self) -> PResult<Stmt> {
         let switch_start = cur_pos!(self);
 
@@ -804,7 +802,6 @@ impl<'a, I: Tokens> Parser<I> {
         })
     }
 
-    #[allow(clippy::cognitive_complexity)]
     fn parse_do_stmt(&mut self) -> PResult<Stmt> {
         let start = cur_pos!(self);
 
@@ -996,7 +993,6 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_for_head(&mut self) -> PResult<ForHead> {
-        let start = cur_pos!(self);
         let strict = self.ctx().strict;
 
         if is_one_of!(self, "const", "var")
@@ -1005,8 +1001,6 @@ impl<'a, I: Tokens> Parser<I> {
             let decl = self.parse_var_stmt(true)?;
 
             if is_one_of!(self, "of", "in") {
-                let is_in = is!(self, "in");
-
                 if decl.decls.len() != 1 {
                     for d in decl.decls.iter().skip(1) {
                         self.emit_err(d.name.span(), SyntaxError::TooManyVarInForInHead);
@@ -1059,7 +1053,7 @@ impl<'a, I: Tokens> Parser<I> {
             // for ({} in foo) is invalid
             if self.input.syntax().typescript() && is_in {
                 match pat {
-                    Pat::Ident(ref v) => {}
+                    Pat::Ident(..) => {}
                     Pat::Expr(..) => {}
                     ref v => self.emit_err(v.span(), SyntaxError::TS2491),
                 }
@@ -1175,7 +1169,7 @@ where
 }
 
 impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<I> {
-    fn handle_import_export(&mut self, top_level: bool, _: Vec<Decorator>) -> PResult<Stmt> {
+    fn handle_import_export(&mut self, _: bool, _: Vec<Decorator>) -> PResult<Stmt> {
         let start = cur_pos!(self);
         if self.input.syntax().dynamic_import() && is!(self, "import") && peeked_is!(self, '(') {
             let expr = self.parse_expr()?;
@@ -2161,5 +2155,23 @@ export default function waitUntil(callback, options = {}) {
             }),
             |p| p.parse_expr(),
         );
+    }
+
+    #[test]
+    #[should_panic(expected = "Only named exports may use 'export type'.")]
+    fn error_for_type_only_star_exports_with_name() {
+        let src = "export type * as bar from 'mod'";
+        test_parser(src, Syntax::Typescript(Default::default()), |p| {
+            p.parse_module()
+        });
+    }
+
+    #[test]
+    #[should_panic(expected = "Only named exports may use 'export type'.")]
+    fn error_for_type_only_star_exports_without_name() {
+        let src = "export type * from 'mod'";
+        test_parser(src, Syntax::Typescript(Default::default()), |p| {
+            p.parse_module()
+        });
     }
 }

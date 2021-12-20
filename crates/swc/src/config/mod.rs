@@ -29,6 +29,7 @@ use swc_common::{
 };
 use swc_ecma_ast::{EsVersion, Expr, Program};
 use swc_ecma_ext_transforms::jest;
+use swc_ecma_lints::rules::lint_to_fold;
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
 };
@@ -241,7 +242,7 @@ impl Default for InputSourceMap {
 }
 
 impl Options {
-    /// `parss`: `(syntax, target, is_module)`
+    /// `parse`: `(syntax, target, is_module)`
     pub fn build_as_input<'a, P>(
         &self,
         cm: &Arc<SourceMap>,
@@ -383,6 +384,7 @@ impl Options {
                 ),
                 syntax.typescript()
             ),
+            lint_to_fold(swc_ecma_lints::rules::all()),
             crate::plugin::plugins(experimental.plugins),
             custom_before_pass(&program),
             // handle jsx

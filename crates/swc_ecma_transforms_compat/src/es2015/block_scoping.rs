@@ -30,6 +30,7 @@ pub fn block_scoping() -> impl Fold {
         scope: Default::default(),
         vars: vec![],
         var_decl_kind: VarDeclKind::Var,
+        in_loop_body_scope: false,
     })
 }
 
@@ -54,6 +55,7 @@ struct BlockScoping {
     scope: ScopeStack,
     vars: Vec<VarDeclarator>,
     var_decl_kind: VarDeclKind,
+    in_loop_body_scope: bool,
 }
 
 impl BlockScoping {
@@ -71,7 +73,9 @@ impl BlockScoping {
         };
         self.scope.push(kind);
 
+        self.in_loop_body_scope = true;
         node.visit_mut_with(self);
+        self.in_loop_body_scope = false;
 
         if remove {
             self.scope.truncate(len);
@@ -557,6 +561,23 @@ impl VisitMut for BlockScoping {
         self.var_decl_kind = old;
 
         var.kind = VarDeclKind::Var;
+
+        if !self.in_loop_body_scope {
+            return;
+        }
+
+        // If loop body contains same ident to loop node's ident, rename it to avoid
+        // variable hoisting overwrites inner declaration.
+        for decl in var.decls.iter_mut() {
+            if let Pat::Ident(name) = &mut decl.name {
+                if let Some(ScopeKind::ForLetLoop { args, .. }) = self.scope.last() {
+                    let id = &(*name).id.to_id();
+                    if args.contains(id) {
+                        (*name).id = private_ident!((*name).id.take().sym);
+                    }
+                }
+            }
+        }
     }
 
     fn visit_mut_var_declarator(&mut self, var: &mut VarDeclarator) {

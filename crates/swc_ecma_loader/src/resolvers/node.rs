@@ -122,14 +122,14 @@ impl NodeModulesResolver {
             let old_ext = path.extension().and_then(|ext| ext.to_str());
 
             if let Some(old_ext) = old_ext {
-                let extensions = match old_ext {
+                let extensions: &[&str] = match old_ext {
                     // Note that the official compiler code always tries ".ts" before
                     // ".tsx" even if the original extension was ".jsx".
-                    "js" => ["ts", "tsx"].as_slice(),
-                    "jsx" => ["ts", "tsx"].as_slice(),
-                    "mjs" => ["mts"].as_slice(),
-                    "cjs" => ["cts"].as_slice(),
-                    _ => [].as_slice(),
+                    "js" => &["ts", "tsx"],
+                    "jsx" => &["ts", "tsx"],
+                    "mjs" => &["mts"],
+                    "cjs" => &["cts"],
+                    _ => &[],
                 };
 
                 for ext in extensions {
