@@ -1,0 +1,16 @@
+{
+  "mappings": ";AAAAA,QAAQ,CAAC,CAAoB,yBAAQ,CAAC;IAClCC,EAAE,CAAC,CAAO,YAAQ,CAAC;QACfC,MAAM,CAAC,KAAK,EAAEC,IAAI,CAAC,IAAI;IAC3B,CAAC;IAEDF,EAAE,CAAC,CAAO,YAAQ,CAAC;QACf,EAAI,AAAJ,EAAI,CACJC,MAAM,CAAC,KAAK,EAAEC,IAAI,CAAC,IAAI;IAC3B,CAAC;IAEDF,EAAE,CAAC,CAAO,YAAQ,CAAC;QACf,EAEG,AAFH;;SAEG,AAFH,EAEG,CACHC,MAAM,CAAC,KAAK,EAAEC,IAAI,CAAC,IAAI;IAC3B,CAAC;IAEDF,EAAE,CAAC,CAAO,YAAQ,CAAC;QACfC,MAAM,CAAC,KAAK,EAAEC,IAAI,CAAC,IAAI;IAC3B,CAAC;AACL,CAAC",
+  "names": [
+    "describe",
+    "it",
+    "expect",
+    "toBe"
+  ],
+  "sources": [
+    "../../input/index.js"
+  ],
+  "sourcesContent": [
+    "describe(\"multiline comments\", () => {\n    it(\"test1\", () => {\n        expect(false).toBe(true);\n    });\n\n    it(\"test2\", () => {\n        /**/\n        expect(false).toBe(true);\n    });\n\n    it(\"test3\", () => {\n        /*\n         *\n         */\n        expect(false).toBe(true);\n    });\n\n    it(\"test4\", () => {\n        expect(false).toBe(true);\n    });\n});"
+  ],
+  "version": 3
+}
