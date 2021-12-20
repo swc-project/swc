@@ -81,7 +81,6 @@ fn spec(file: PathBuf) {
         || file_name.contains("unicodeExtendedEscapesInTemplates10_ES6")
         || file_name.contains("tsc/unicodeExtendedEscapesInTemplates11_ES5")
         || file_name.contains("tsc/unicodeExtendedEscapesInTemplates11_ES6")
-        || file_name.contains("tsc/variableDeclarations/VariableDeclaration6_es6")
         || file_name.contains("tsc/parser.numericSeparators.decimal");
 
     // Useful only for error reporting
