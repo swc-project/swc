@@ -1520,8 +1520,8 @@
         return weeksInYear(this.isoWeekYear(), 1, 4);
     }, proto.date = getSetDayOfMonth, proto.day = proto.days = function(input) {
         if (!this.isValid()) return null != input ? this : NaN;
-        var input3, locale, day = this._isUTC ? this._d.getUTCDay() : this._d.getDay();
-        return null == input ? day : (input3 = input, locale = this.localeData(), input = "string" != typeof input3 ? input3 : isNaN(input3) ? "number" == typeof (input3 = locale.weekdaysParse(input3)) ? input3 : null : parseInt(input3, 10), this.add(input - day, "d"));
+        var input4, locale, day = this._isUTC ? this._d.getUTCDay() : this._d.getDay();
+        return null == input ? day : (input4 = input, locale = this.localeData(), input = "string" != typeof input4 ? input4 : isNaN(input4) ? "number" == typeof (input4 = locale.weekdaysParse(input4)) ? input4 : null : parseInt(input4, 10), this.add(input - day, "d"));
     }, proto.weekday = function(input) {
         if (!this.isValid()) return null != input ? this : NaN;
         var weekday = (this.day() + 7 - this.localeData()._week.dow) % 7;
@@ -1529,7 +1529,7 @@
     }, proto.isoWeekday = function(input) {
         if (!this.isValid()) return null != input ? this : NaN;
         if (null == input) return this.day() || 7;
-        var input4, locale, weekday = (input4 = input, locale = this.localeData(), "string" == typeof input4 ? locale.weekdaysParse(input4) % 7 || 7 : isNaN(input4) ? null : input4);
+        var input5, locale, weekday = (input5 = input, locale = this.localeData(), "string" == typeof input5 ? locale.weekdaysParse(input5) % 7 || 7 : isNaN(input5) ? null : input5);
         return this.day(this.day() % 7 ? weekday : weekday - 7);
     }, proto.dayOfYear = function(input) {
         var dayOfYear = Math.round((this.clone().startOf("day") - this.clone().startOf("year")) / 86400000) + 1;
