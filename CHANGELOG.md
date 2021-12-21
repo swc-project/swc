@@ -43,6 +43,12 @@
 
 - **(scripts)** Use `cargo profile instruments` instead of `cargo instruments` (#3086) ([d482d61](https://github.com/swc-project/swc/commit/d482d61b9fd9997367d0dd27e3b90c662064ae3d))
 
+### Performance
+
+
+
+- **(es/hygiene)** Fix performance bug (#3090) ([a81661c](https://github.com/swc-project/swc/commit/a81661c74a59376b15b1211385e95891102d2928))
+
 ### Refactor
 
 
