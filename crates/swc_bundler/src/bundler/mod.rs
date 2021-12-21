@@ -31,6 +31,11 @@ pub struct Config {
     /// temporary variables, it's really hard to see what's going on.
     pub disable_inliner: bool,
 
+    /// Useful if you are going to minify the code.
+    pub disable_hygiene: bool,
+
+    pub disable_fixer: bool,
+
     /// List of modules which should be preserved.
     pub external_modules: Vec<JsWord>,
 
