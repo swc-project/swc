@@ -7,36 +7,50 @@ use std::{
     collections::HashMap,
     env, fs,
     path::{Path, PathBuf},
-    time::Instant,
+    time::{Duration, Instant},
 };
 use swc_atoms::js_word;
 use swc_bundler::{Bundle, Bundler, Load, ModuleData, ModuleRecord, Resolve};
 use swc_common::{
     errors::{ColorConfig, Handler},
     sync::Lrc,
-    FileName, Globals, SourceMap, Span,
+    FileName, Globals, Mark, SourceMap, Span, GLOBALS,
 };
 use swc_ecma_ast::*;
-use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
+use swc_ecma_codegen::{
+    text_writer::{omit_trailing_semi, JsWriter, WriteJs},
+    Emitter,
+};
 use swc_ecma_loader::{
     resolvers::{lru::CachingResolver, node::NodeModulesResolver},
     TargetEnv,
 };
+use swc_ecma_minifier::option::{
+    CompressOptions, ExtraOptions, MangleOptions, MinifyOptions, TopLevelOptions,
+};
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
+use swc_ecma_transforms_base::fixer::fixer;
+use swc_ecma_visit::VisitMutWith;
 
-fn print_bundles(cm: Lrc<SourceMap>, modules: Vec<Bundle>) {
+fn print_bundles(cm: Lrc<SourceMap>, modules: Vec<Bundle>, minify: bool) {
     for bundled in modules {
         let code = {
             let mut buf = vec![];
 
             {
+                let wr = JsWriter::new(cm.clone(), "\n", &mut buf, None);
                 let mut emitter = Emitter {
                     cfg: swc_ecma_codegen::Config {
+                        minify,
                         ..Default::default()
                     },
                     cm: cm.clone(),
                     comments: None,
-                    wr: JsWriter::new(cm.clone(), "\n", &mut buf, None),
+                    wr: if minify {
+                        Box::new(omit_trailing_semi(wr)) as Box<dyn WriteJs>
+                    } else {
+                        Box::new(wr) as Box<dyn WriteJs>
+                    },
                 };
 
                 emitter.emit_module(&bundled.module).unwrap();
@@ -48,11 +62,12 @@ fn print_bundles(cm: Lrc<SourceMap>, modules: Vec<Bundle>) {
         #[cfg(feature = "concurrent")]
         rayon::spawn(move || drop(bundled));
 
+        println!("Created output.js ({}kb)", code.len() / 1024);
         fs::write("output.js", &code).unwrap();
     }
 }
 
-fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
+fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool, minify: bool) {
     testing::run_test2(false, |cm, _| {
         let start = Instant::now();
 
@@ -69,12 +84,14 @@ fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
                 require: true,
                 disable_inliner: !inline,
                 external_modules: Default::default(),
+                disable_fixer: minify,
+                disable_hygiene: minify,
                 module: Default::default(),
             },
             Box::new(Hook),
         );
 
-        let modules = bundler
+        let mut modules = bundler
             .bundle(entries)
             .map_err(|err| println!("{:?}", err))?;
         println!("Bundled as {} modules", modules.len());
@@ -86,14 +103,50 @@ fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
 
         {
             let dur = start.elapsed();
-            println!("Bundler.bundle() took {:?}", dur);
+            println!("Bundler.bundle() took {}", to_ms(dur));
         }
 
         let error = false;
+        if minify {
+            let start = Instant::now();
+
+            modules = modules
+                .into_iter()
+                .map(|mut b| {
+                    GLOBALS.set(&globals, || {
+                        b.module = swc_ecma_minifier::optimize(
+                            b.module,
+                            cm.clone(),
+                            None,
+                            None,
+                            &MinifyOptions {
+                                compress: Some(CompressOptions {
+                                    top_level: Some(TopLevelOptions { functions: true }),
+                                    ..Default::default()
+                                }),
+                                mangle: Some(MangleOptions {
+                                    top_level: true,
+                                    ..Default::default()
+                                }),
+                                ..Default::default()
+                            },
+                            &ExtraOptions {
+                                top_level_mark: Mark::fresh(Mark::root()),
+                            },
+                        );
+                        b.module.visit_mut_with(&mut fixer(None));
+                        b
+                    })
+                })
+                .collect();
+
+            let dur = start.elapsed();
+            println!("Minification took {}", to_ms(dur));
+        }
 
         {
             let cm = cm.clone();
-            print_bundles(cm, modules);
+            print_bundles(cm, modules, minify);
         }
 
         if error {
@@ -105,15 +158,21 @@ fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
     .expect("failed to process a module");
 }
 
+fn to_ms(dur: Duration) -> String {
+    format!("{}ms", dur.as_millis())
+}
+
 fn main() -> Result<(), Error> {
+    let minify = env::var("MINIFY").unwrap_or_else(|_| "0".to_string()) == "1";
+
     let main_file = env::args().nth(1).unwrap();
     let mut entries = HashMap::default();
     entries.insert("main".to_string(), FileName::Real(main_file.clone().into()));
 
     let start = Instant::now();
-    do_test(Path::new(&main_file), entries, false);
+    do_test(Path::new(&main_file), entries, false, minify);
     let dur = start.elapsed();
-    println!("Took {:?}", dur);
+    println!("Took {}", to_ms(dur));
 
     Ok(())
 }
