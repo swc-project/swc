@@ -104,8 +104,25 @@ impl NodeModulesResolver {
     /// Resolve a path as a file. If `path` refers to a file, it is returned;
     /// otherwise the `path` + each extension is tried.
     fn resolve_as_file(&self, path: &Path) -> Result<Option<PathBuf>, Error> {
-        if path.is_file() {
-            return Ok(Some(path.to_path_buf()));
+        let try_exact = path.extension().is_some();
+        if try_exact {
+            if path.is_file() {
+                return Ok(Some(path.to_path_buf()));
+            }
+        } else {
+            // We try `.js` first.
+            let mut path = path.to_path_buf();
+            path.set_extension("js");
+            if path.is_file() {
+                return Ok(Some(path));
+            }
+        }
+
+        // Try exact file after checking .js, for performance
+        if !try_exact {
+            if path.is_file() {
+                return Ok(Some(path.to_path_buf()));
+            }
         }
 
         if let Some(name) = path.file_name() {
