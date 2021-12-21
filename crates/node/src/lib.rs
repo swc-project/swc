@@ -19,9 +19,6 @@ mod print;
 mod transform;
 mod util;
 
-#[cfg(all(not(feature = "swc_v1"), not(feature = "swc_v2")))]
-compile_error!("Please enable swc_v1 or swc_v2 feature");
-
 static COMPILER: Lazy<Arc<Compiler>> = Lazy::new(|| {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
 
