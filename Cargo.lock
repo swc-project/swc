@@ -2559,7 +2559,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.98.2"
+version = "0.98.3"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2890,7 +2890,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_loader"
-version = "0.25.1"
+version = "0.25.2"
 dependencies = [
  "ahash",
  "anyhow",
