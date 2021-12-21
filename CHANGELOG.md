@@ -7,6 +7,9 @@
 
 - **(es/compat)** Fix handling of union of the legacy decorator pass (#3057) ([938e544](https://github.com/swc-project/swc/commit/938e544ac55503e91811cfc4e0c333deb2ccc7ed))
 
+
+- **(es/typescript)** Export destructured properties in typescript namespaces (#3084) ([31dea3d](https://github.com/swc-project/swc/commit/31dea3dd319a19b75554b061cb1374d12718af24))
+
 ### Features
 
 
@@ -30,6 +33,12 @@
 
 
 - **(repo)** Make `git` faster (#3075) ([8afb5af](https://github.com/swc-project/swc/commit/8afb5af517e87b85ae1bdd8156509850c53fa276))
+
+### Testing
+
+
+
+- **(es/codegen)** Add some tests for sourcemap (#3078) ([0e58950](https://github.com/swc-project/swc/commit/0e5895043ffdc76857f798e0daabc05797ff22ac))
 
 ## [1.2.121] - 2021-12-19
 

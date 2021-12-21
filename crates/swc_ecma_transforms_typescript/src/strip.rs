@@ -2699,7 +2699,15 @@ fn create_prop_pat(obj: &Ident, pat: Pat) -> Pat {
                         value: Box::new(create_prop_pat(obj, *kv.value)),
                         ..kv
                     }),
-                    ObjectPatProp::Assign(..) => prop,
+                    ObjectPatProp::Assign(assign) => ObjectPatProp::KeyValue(KeyValuePatProp {
+                        key: PropName::Ident(assign.key.clone()),
+                        value: Box::new(Pat::Expr(Box::new(Expr::Member(MemberExpr {
+                            span: DUMMY_SP,
+                            obj: ExprOrSuper::Expr(Box::new(Expr::Ident(obj.clone()))),
+                            prop: Box::new(Expr::Ident(assign.key.into())),
+                            computed: false,
+                        })))),
+                    }),
                     ObjectPatProp::Rest(_) => {
                         todo!("Rest pattern property in an exported variable from namespace")
                     }
