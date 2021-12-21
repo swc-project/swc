@@ -35,6 +35,10 @@ impl Drop for Timer {
 
 /// Creates a timer. For input arguments, see [tracing::span].
 ///
+/// # Convention
+///
+/// The string passed to `timer!` should start with a verb.
+///
 /// # Example usage
 ///
 /// ```
