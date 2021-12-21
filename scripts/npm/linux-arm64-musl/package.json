@@ -9,7 +9,8 @@
   ],
   "main": "swc.linux-arm64-musl.node",
   "files": [
-    "swc.linux-arm64-musl.node"
+    "swc.linux-arm64-musl.node",
+    "swc"
   ],
   "description": "Super-fast alternative for babel",
   "keywords": [
