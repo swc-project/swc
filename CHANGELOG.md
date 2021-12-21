@@ -28,11 +28,23 @@
 
 - **(es/preset-env)** Add `.js` to generated imports (#3077) ([7d125f5](https://github.com/swc-project/swc/commit/7d125f5cdb0c078cb02958c6d168f9c993f3e830))
 
+
+- **(node)** Report correct error when `swc_v1` and `swc_v2` is enabled at the same time (#3080) ([f1b8126](https://github.com/swc-project/swc/commit/f1b81266cf895dac28f68151b9c16eaa9401ec43))
+
 ### Miscellaneous Tasks
 
 
 
 - **(repo)** Make `git` faster (#3075) ([8afb5af](https://github.com/swc-project/swc/commit/8afb5af517e87b85ae1bdd8156509850c53fa276))
+
+
+- **(scripts)** Use `cargo profile instruments` instead of `cargo instruments` (#3086) ([d482d61](https://github.com/swc-project/swc/commit/d482d61b9fd9997367d0dd27e3b90c662064ae3d))
+
+### Refactor
+
+
+
+- **(es/minifier)** Use `swc_timer` (#3087) ([0e4dce6](https://github.com/swc-project/swc/commit/0e4dce694da75f6fb3848a2f0479410bf3076412))
 
 ### Testing
 
