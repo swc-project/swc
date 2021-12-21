@@ -132,6 +132,8 @@ impl TestBuilder {
                     Config {
                         require: true,
                         disable_inliner: true,
+                        disable_hygiene: false,
+                        disable_fixer: false,
                         external_modules: vec![],
                         module: Default::default(),
                     },

@@ -4,7 +4,7 @@
 //!
 //! ## `debug`
 //!
-//! If you enable this cargo feature and set the environemnt variable named
+//! If you enable this cargo feature and set the environment variable named
 //! `SWC_RUN` to `1`, the minifier will validate the code using node before each
 //! step.
 //!
@@ -23,14 +23,13 @@ use crate::{
         mangle_names::name_mangler, mangle_props::mangle_properties,
         precompress::precompress_optimizer,
     },
-    util::now,
 };
 use mode::Minification;
 use pass::postcompress::postcompress_optimizer;
-use std::time::Instant;
 use swc_common::{comments::Comments, sync::Lrc, SourceMap, GLOBALS};
 use swc_ecma_ast::Module;
 use swc_ecma_visit::{FoldWith, VisitMutWith};
+use swc_timer::timer;
 use timing::Timings;
 
 mod analyzer;
@@ -57,14 +56,16 @@ pub fn optimize(
     options: &MinifyOptions,
     extra: &ExtraOptions,
 ) -> Module {
+    let _timer = timer!("minify");
+
     let marks = Marks::new();
 
-    let start = now();
     if let Some(defs) = options.compress.as_ref().map(|c| &c.global_defs) {
+        let _timer = timer!("inline global defs");
         // Apply global defs.
         //
         // As terser treats `CONFIG['VALUE']` and `CONFIG.VALUE` differently, we don't
-        // have to see if optimized code matches global definition and wecan run
+        // have to see if optimized code matches global definition and we can run
         // this at startup.
 
         if !defs.is_empty() {
@@ -72,16 +73,11 @@ pub fn optimize(
             m.visit_mut_with(&mut global_defs::globals_defs(defs, extra.top_level_mark));
         }
     }
-    if let Some(start) = start {
-        tracing::info!("global_defs took {:?}", Instant::now() - start);
-    }
 
     if let Some(options) = &options.compress {
-        let start = now();
+        let _timer = timer!("precompress");
+
         m.visit_mut_with(&mut precompress_optimizer(options, marks));
-        if let Some(start) = start {
-            tracing::info!("precompress took {:?}", Instant::now() - start);
-        }
     }
 
     m.visit_mut_with(&mut info_marker(comments, marks, extra.top_level_mark));
@@ -115,19 +111,19 @@ pub fn optimize(
         t.section("compress");
     }
     if let Some(options) = &options.compress {
-        let start = now();
-        m = GLOBALS
-            .with(|globals| m.fold_with(&mut compressor(globals, marks, &options, &Minification)));
-        if let Some(start) = start {
-            tracing::info!("compressor took {:?}", Instant::now() - start);
+        {
+            let _timer = timer!("compress ast");
+
+            m = GLOBALS.with(|globals| {
+                m.fold_with(&mut compressor(globals, marks, &options, &Minification))
+            });
         }
+
         // Again, we don't need to validate ast
 
-        let start = now();
+        let _timer = timer!("postcompress");
+
         m.visit_mut_with(&mut postcompress_optimizer(options));
-        if let Some(start) = start {
-            tracing::info!("postcompressor took {:?}", Instant::now() - start);
-        }
     }
 
     if let Some(ref mut _t) = timings {
@@ -142,6 +138,7 @@ pub fn optimize(
     }
 
     if let Some(mangle) = &options.mangle {
+        let _timer = timer!("mangle names");
         // TODO: base54.reset();
 
         let char_freq_info = compute_char_freq(&m);

@@ -35,6 +35,10 @@ impl Drop for Timer {
 
 /// Creates a timer. For input arguments, see [tracing::span].
 ///
+/// # Convention
+///
+/// The string passed to `timer!` should start with a verb.
+///
 /// # Example usage
 ///
 /// ```
@@ -56,6 +60,7 @@ macro_rules! timer {
         #[cfg(not(target_arch = "wasm32"))]
         let span = $crate::tracing::span!($crate::tracing::Level::INFO, $($args)*).entered();
 
+        #[cfg(not(target_arch = "wasm32"))]
         $crate::Timer::new(span)
     }};
 }
