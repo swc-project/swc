@@ -1259,9 +1259,9 @@ dependencies = [
 
 [[package]]
 name = "napi-build"
-version = "1.2.0"
+version = "1.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d9584cc599cffd833a65527fb655bb65180f6ec8f26fba3081d2d989faa03bef"
+checksum = "ebd4419172727423cf30351406c54f6cc1b354a2cfb4f1dba3e6cd07f6d5522b"
 
 [[package]]
 name = "napi-derive"
@@ -2559,7 +2559,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.98.3"
+version = "0.98.4"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2890,7 +2890,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_loader"
-version = "0.25.3"
+version = "0.25.4"
 dependencies = [
  "ahash",
  "anyhow",
