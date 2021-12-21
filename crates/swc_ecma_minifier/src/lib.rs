@@ -31,6 +31,7 @@ use std::time::Instant;
 use swc_common::{comments::Comments, sync::Lrc, SourceMap, GLOBALS};
 use swc_ecma_ast::Module;
 use swc_ecma_visit::{FoldWith, VisitMutWith};
+use swc_timer::timer;
 use timing::Timings;
 
 mod analyzer;
@@ -142,6 +143,7 @@ pub fn optimize(
     }
 
     if let Some(mangle) = &options.mangle {
+        let _timer = timer!("mangle names");
         // TODO: base54.reset();
 
         let char_freq_info = compute_char_freq(&m);
