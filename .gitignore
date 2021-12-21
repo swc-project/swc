@@ -6,6 +6,8 @@
 native/artifacts.json
 artifacts.json
 *.node
+/scripts/npm/**/swc
+/scripts/npm/**/swc.exe
 
 
 target/

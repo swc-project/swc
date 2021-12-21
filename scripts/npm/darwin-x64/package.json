@@ -9,7 +9,8 @@
   ],
   "main": "swc.darwin-x64.node",
   "files": [
-    "swc.darwin-x64.node"
+    "swc.darwin-x64.node",
+    "swc"
   ],
   "description": "Super-fast alternative for babel",
   "keywords": [

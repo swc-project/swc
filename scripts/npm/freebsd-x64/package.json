@@ -9,7 +9,8 @@
   ],
   "main": "swc.freebsd-x64.node",
   "files": [
-    "swc.freebsd-x64.node"
+    "swc.freebsd-x64.node",
+    "swc"
   ],
   "description": "Super-fast alternative for babel",
   "keywords": [

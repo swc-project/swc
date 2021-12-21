@@ -9,7 +9,8 @@
   ],
   "main": "swc.android-arm64.node",
   "files": [
-    "swc.android-arm64.node"
+    "swc.android-arm64.node",
+    "swc"
   ],
   "description": "Super-fast alternative for babel",
   "keywords": [

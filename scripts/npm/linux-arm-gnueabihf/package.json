@@ -9,7 +9,8 @@
   ],
   "main": "swc.linux-arm-gnueabihf.node",
   "files": [
-    "swc.linux-arm-gnueabihf.node"
+    "swc.linux-arm-gnueabihf.node",
+    "swc"
   ],
   "description": "Super-fast alternative for babel",
   "keywords": [

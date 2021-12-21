@@ -60,3 +60,7 @@ crates/
 packages/
 cspell.json
 deny.toml
+.mocha.setup.js
+.mocharc.js
+jest.config.js
+cliff.toml

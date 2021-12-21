@@ -9,7 +9,8 @@
   ],
   "main": "swc.win32-ia32-msvc.node",
   "files": [
-    "swc.win32-ia32-msvc.node"
+    "swc.win32-ia32-msvc.node",
+    "swc.exe"
   ],
   "description": "Super-fast alternative for babel",
   "keywords": [
