@@ -58,6 +58,8 @@ pub fn optimize(
     options: &MinifyOptions,
     extra: &ExtraOptions,
 ) -> Module {
+    let _timer = timer!("minification");
+
     let marks = Marks::new();
 
     let start = now();
@@ -78,11 +80,9 @@ pub fn optimize(
     }
 
     if let Some(options) = &options.compress {
-        let start = now();
+        let _timer = timer!("precompress");
+
         m.visit_mut_with(&mut precompress_optimizer(options, marks));
-        if let Some(start) = start {
-            tracing::info!("precompress took {:?}", Instant::now() - start);
-        }
     }
 
     m.visit_mut_with(&mut info_marker(comments, marks, extra.top_level_mark));
@@ -116,19 +116,19 @@ pub fn optimize(
         t.section("compress");
     }
     if let Some(options) = &options.compress {
-        let start = now();
-        m = GLOBALS
-            .with(|globals| m.fold_with(&mut compressor(globals, marks, &options, &Minification)));
-        if let Some(start) = start {
-            tracing::info!("compressor took {:?}", Instant::now() - start);
+        {
+            let _timer = timer!("compress ast");
+
+            m = GLOBALS.with(|globals| {
+                m.fold_with(&mut compressor(globals, marks, &options, &Minification))
+            });
         }
+
         // Again, we don't need to validate ast
 
-        let start = now();
+        let _timer = timer!("postcompress");
+
         m.visit_mut_with(&mut postcompress_optimizer(options));
-        if let Some(start) = start {
-            tracing::info!("postcompressor took {:?}", Instant::now() - start);
-        }
     }
 
     if let Some(ref mut _t) = timings {
