@@ -8,6 +8,9 @@
 - **(es/compat)** Fix handling of union of the legacy decorator pass (#3057) ([938e544](https://github.com/swc-project/swc/commit/938e544ac55503e91811cfc4e0c333deb2ccc7ed))
 
 
+- **(es/loader)** Prefer ESM (#3089) ([ba2563f](https://github.com/swc-project/swc/commit/ba2563f59ed819e67a56e39cdcf38a7ccabd8f47))
+
+
 - **(es/typescript)** Export destructured properties in typescript namespaces (#3084) ([31dea3d](https://github.com/swc-project/swc/commit/31dea3dd319a19b75554b061cb1374d12718af24))
 
 ### Features
@@ -39,6 +42,12 @@
 
 
 - **(scripts)** Use `cargo profile instruments` instead of `cargo instruments` (#3086) ([d482d61](https://github.com/swc-project/swc/commit/d482d61b9fd9997367d0dd27e3b90c662064ae3d))
+
+### Performance
+
+
+
+- **(es/hygiene)** Fix performance bug (#3090) ([a81661c](https://github.com/swc-project/swc/commit/a81661c74a59376b15b1211385e95891102d2928))
 
 ### Refactor
 

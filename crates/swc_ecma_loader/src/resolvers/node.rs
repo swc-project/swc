@@ -61,6 +61,8 @@ struct PackageJson {
     main: Option<String>,
     #[serde(default)]
     browser: Option<Browser>,
+    #[serde(default)]
+    module: Option<String>,
 }
 
 #[derive(Deserialize)]
@@ -102,8 +104,25 @@ impl NodeModulesResolver {
     /// Resolve a path as a file. If `path` refers to a file, it is returned;
     /// otherwise the `path` + each extension is tried.
     fn resolve_as_file(&self, path: &Path) -> Result<Option<PathBuf>, Error> {
-        if path.is_file() {
-            return Ok(Some(path.to_path_buf()));
+        let try_exact = path.extension().is_some();
+        if try_exact {
+            if path.is_file() {
+                return Ok(Some(path.to_path_buf()));
+            }
+        } else {
+            // We try `.js` first.
+            let mut path = path.to_path_buf();
+            path.set_extension("js");
+            if path.is_file() {
+                return Ok(Some(path));
+            }
+        }
+
+        // Try exact file after checking .js, for performance
+        if !try_exact {
+            if path.is_file() {
+                return Ok(Some(path.to_path_buf()));
+            }
         }
 
         if let Some(name) = path.file_name() {
@@ -178,13 +197,17 @@ impl NodeModulesResolver {
 
         let main_fields = match self.target_env {
             TargetEnv::Node => {
-                vec![pkg.main.as_ref().clone()]
+                vec![pkg.module.as_ref().clone(), pkg.main.as_ref().clone()]
             }
             TargetEnv::Browser => {
                 if let Some(browser) = &pkg.browser {
                     match browser {
                         Browser::Str(path) => {
-                            vec![Some(path), pkg.main.as_ref().clone()]
+                            vec![
+                                Some(path),
+                                pkg.module.as_ref().clone(),
+                                pkg.main.as_ref().clone(),
+                            ]
                         }
                         Browser::Obj(map) => {
                             let bucket = BROWSER_CACHE.entry(pkg_dir.to_path_buf()).or_default();
@@ -237,11 +260,11 @@ impl NodeModulesResolver {
                                     }
                                 }
                             }
-                            vec![pkg.main.as_ref().clone()]
+                            vec![pkg.module.as_ref().clone(), pkg.main.as_ref().clone()]
                         }
                     }
                 } else {
-                    vec![pkg.main.as_ref().clone()]
+                    vec![pkg.module.as_ref().clone(), pkg.main.as_ref().clone()]
                 }
             }
         };
