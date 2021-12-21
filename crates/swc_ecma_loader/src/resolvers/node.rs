@@ -61,6 +61,8 @@ struct PackageJson {
     main: Option<String>,
     #[serde(default)]
     browser: Option<Browser>,
+    #[serde(default)]
+    module: Option<String>,
 }
 
 #[derive(Deserialize)]
@@ -178,13 +180,17 @@ impl NodeModulesResolver {
 
         let main_fields = match self.target_env {
             TargetEnv::Node => {
-                vec![pkg.main.as_ref().clone()]
+                vec![pkg.module.as_ref().clone(), pkg.main.as_ref().clone()]
             }
             TargetEnv::Browser => {
                 if let Some(browser) = &pkg.browser {
                     match browser {
                         Browser::Str(path) => {
-                            vec![Some(path), pkg.main.as_ref().clone()]
+                            vec![
+                                Some(path),
+                                pkg.module.as_ref().clone(),
+                                pkg.main.as_ref().clone(),
+                            ]
                         }
                         Browser::Obj(map) => {
                             let bucket = BROWSER_CACHE.entry(pkg_dir.to_path_buf()).or_default();
@@ -237,11 +243,11 @@ impl NodeModulesResolver {
                                     }
                                 }
                             }
-                            vec![pkg.main.as_ref().clone()]
+                            vec![pkg.module.as_ref().clone(), pkg.main.as_ref().clone()]
                         }
                     }
                 } else {
-                    vec![pkg.main.as_ref().clone()]
+                    vec![pkg.module.as_ref().clone(), pkg.main.as_ref().clone()]
                 }
             }
         };
