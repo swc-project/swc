@@ -60,6 +60,7 @@ macro_rules! timer {
         #[cfg(not(target_arch = "wasm32"))]
         let span = $crate::tracing::span!($crate::tracing::Level::INFO, $($args)*).entered();
 
+        #[cfg(not(target_arch = "wasm32"))]
         $crate::Timer::new(span)
     }};
 }
