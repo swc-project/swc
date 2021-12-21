@@ -33,7 +33,7 @@ function hasKey(obj, keys) {
     const key1 = keys[keys.length - 1];
     return key1 in o;
 }
-function parse(args1, { "--": doubleDash = false , alias: alias2 = {
+function parse(args1, { "--": doubleDash = false , alias: alias3 = {
 } , boolean: __boolean = false , default: defaults = {
 } , stopEarly =false , string =[] , unknown =(i)=>i
   } = {
@@ -60,9 +60,9 @@ function parse(args1, { "--": doubleDash = false , alias: alias2 = {
     }
     const aliases = {
     };
-    if (alias2 !== undefined) {
-        for(const key in alias2){
-            const val = getForce(alias2, key);
+    if (alias3 !== undefined) {
+        for(const key in alias3){
+            const val = getForce(alias3, key);
             if (typeof val === "string") {
                 aliases[key] = [
                     val
