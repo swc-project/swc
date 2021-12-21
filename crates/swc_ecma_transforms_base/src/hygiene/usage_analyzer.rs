@@ -14,7 +14,7 @@ pub(super) struct Data {
     /// Top level scope uses [SyntaxContext::empty].
     pub scopes: AHashMap<SyntaxContext, ScopeData>,
     pub ops: RefCell<Operations>,
-    idx_cache: AHashMap<Id, usize>,
+    idx_cache: AHashMap<JsWord, usize>,
 }
 
 #[derive(Debug, Default)]
@@ -234,7 +234,7 @@ impl UsageAnalyzer<'_> {
     }
 
     fn new_symbol(&mut self, orig: Id) -> JsWord {
-        let i = self.data.idx_cache.entry(orig.clone()).or_default();
+        let i = self.data.idx_cache.entry(orig.0.clone()).or_default();
         loop {
             *i += 1;
             let word: JsWord = format!("{}{}", orig.0, i).into();
