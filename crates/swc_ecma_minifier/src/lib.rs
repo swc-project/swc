@@ -4,7 +4,7 @@
 //!
 //! ## `debug`
 //!
-//! If you enable this cargo feature and set the environemnt variable named
+//! If you enable this cargo feature and set the environment variable named
 //! `SWC_RUN` to `1`, the minifier will validate the code using node before each
 //! step.
 //!
@@ -23,11 +23,9 @@ use crate::{
         mangle_names::name_mangler, mangle_props::mangle_properties,
         precompress::precompress_optimizer,
     },
-    util::now,
 };
 use mode::Minification;
 use pass::postcompress::postcompress_optimizer;
-use std::time::Instant;
 use swc_common::{comments::Comments, sync::Lrc, SourceMap, GLOBALS};
 use swc_ecma_ast::Module;
 use swc_ecma_visit::{FoldWith, VisitMutWith};
@@ -58,25 +56,22 @@ pub fn optimize(
     options: &MinifyOptions,
     extra: &ExtraOptions,
 ) -> Module {
-    let _timer = timer!("minification");
+    let _timer = timer!("minify");
 
     let marks = Marks::new();
 
-    let start = now();
     if let Some(defs) = options.compress.as_ref().map(|c| &c.global_defs) {
+        let _timer = timer!("inline global defs");
         // Apply global defs.
         //
         // As terser treats `CONFIG['VALUE']` and `CONFIG.VALUE` differently, we don't
-        // have to see if optimized code matches global definition and wecan run
+        // have to see if optimized code matches global definition and we can run
         // this at startup.
 
         if !defs.is_empty() {
             let defs = defs.iter().map(|(k, v)| (k.clone(), v.clone())).collect();
             m.visit_mut_with(&mut global_defs::globals_defs(defs, extra.top_level_mark));
         }
-    }
-    if let Some(start) = start {
-        tracing::info!("global_defs took {:?}", Instant::now() - start);
     }
 
     if let Some(options) = &options.compress {
