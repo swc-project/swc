@@ -37,3 +37,9 @@ diff_struct!(TsAsExpr, [span, expr, type_ann]);
 diff_struct!(TsTypeAssertion, [span, expr, type_ann]);
 diff_struct!(TsConstAssertion, [span, expr]);
 diff_struct!(TsNonNullExpr, [span, expr]);
+diff_struct!(
+    TsInterfaceDecl,
+    [span, id, declare, type_params, extends, body]
+);
+diff_struct!(TsInterfaceBody, [span, body]);
+diff_struct!(TsTypeAliasDecl, [span, declare, id, type_params, type_ann]);

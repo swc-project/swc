@@ -14,6 +14,34 @@ diff_struct!(DebuggerStmt, [span]);
 diff_struct!(WithStmt, [span, obj, body]);
 diff_struct!(ReturnStmt, [span, arg]);
 diff_struct!(ThrowStmt, [span, arg]);
+diff_struct!(LabeledStmt, [span, label, body]);
+diff_struct!(BreakStmt, [span, label]);
+diff_struct!(ContinueStmt, [span, label]);
+diff_struct!(IfStmt, [span, test, cons, alt]);
+diff_struct!(SwitchStmt, [span, discriminant, cases]);
+diff_struct!(SwitchCase, [span, test, cons]);
+diff_struct!(TryStmt, [span, block, handler, finalizer]);
+diff_struct!(WhileStmt, [span, test, body]);
+diff_struct!(DoWhileStmt, [span, test, body]);
+diff_struct!(ForStmt, [span, init, test, update, body]);
+diff_struct!(ForInStmt, [span, left, right, body]);
+diff_struct!(ForOfStmt, [span, left, right, body, await_token]);
+diff_struct!(ExprStmt, [span, expr]);
+
+diff_struct!(CatchClause, [span, param, body]);
+
+diff_enum!(VarDeclOrPat, [VarDecl, Pat]);
+diff_enum!(VarDeclOrExpr, [VarDecl, Expr]);
+
+diff_enum!(
+    Decl,
+    [Class, Fn, TsInterface, TsTypeAlias, TsEnum, TsModule]
+);
+
+diff_struct!(VarDecl, [span, kind, decls, declare]);
+diff_struct!(VarDeclarator, [span, name, init, definite]);
+diff_struct!(ClassDecl, [ident, class, declare]);
+diff_struct!(FnDecl, [ident, function, declare]);
 
 diff_struct!(
     Function,
