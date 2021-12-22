@@ -1,0 +1,11 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript"
+        },
+        "target": "es5"
+    },
+    "module": {
+        "type": "commonjs"
+    }
+}

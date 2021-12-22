@@ -355,6 +355,58 @@ _o;"#
 );
 
 test!(
+    syntax(),
+    |_| tr(),
+    export_variable_issue_2858_1,
+    r#"export const { a: a2, b: b2 } = { a: 1, b: 2 };"#,
+    r#"
+var ref = {
+    a: 1,
+    b: 2,
+};
+export const a2 = ref.a, b2 = ref.b;
+"#
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    export_variable_issue_2858_2,
+    r#"export const { a: b } = { a: 1 }"#,
+    r#"
+var ref = {
+    a: 1
+};
+export const b = ref.a;
+"#
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    export_variable_issue_2858_3,
+    r#"
+export const {
+    a: a1,
+    b: b1,
+    b: { c: c1 },
+} = { a: 1, b: { c: 1 } };
+"#,
+    r#"
+var ref = {
+    a: 1,
+    b: {
+      c: 1,
+    },
+  },
+  _b = ref.b;
+export const a1 = ref.a,
+  b1 = ref.b,
+  c1 = _b.c;
+"#
+);
+
+test!(
     ignore,
     syntax(),
     |_| tr(),
