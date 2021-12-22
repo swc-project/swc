@@ -27,3 +27,5 @@ diff_struct!(
         return_type
     ]
 );
+
+diff_struct!(Param, [span, decorators, pat]);
