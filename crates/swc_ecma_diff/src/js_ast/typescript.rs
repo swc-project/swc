@@ -86,3 +86,89 @@ diff_struct!(
 diff_enum!(TsModuleRef, []);
 diff_struct!(TsExportAssignment, [span, expr]);
 diff_struct!(TsNamespaceExportDecl, [id, span]);
+
+diff_struct!(TsKeywordType, [span, kind]);
+trivial!(TsKeywordTypeKind);
+diff_struct!(TsThisType, [span]);
+diff_enum!(TsUnionOrIntersectionType, [TsUnionType, TsIntersectionType]);
+diff_enum!(TsFnOrConstructorType, [TsFnType, TsConstructorType]);
+diff_struct!(TsTypeRef, [span, type_name, type_params]);
+diff_struct!(TsTypeQuery, [span, expr_name]);
+diff_enum!(TsTypeQueryExpr, []);
+diff_struct!(TsTypeLit, [span, members]);
+diff_struct!(TsTupleType, [span, elem_types]);
+diff_struct!(TsTupleElement, [span, label, ty]);
+diff_struct!(TsArrayType, [span, elem_type]);
+diff_struct!(TsOptionalType, [span, type_ann]);
+diff_struct!(TsRestType, [span, type_ann]);
+diff_struct!(
+    TsConditionalType,
+    [span, check_type, extends_type, true_type, false_type]
+);
+diff_struct!(TsInferType, [span, type_param]);
+diff_struct!(TsParenthesizedType, [span, type_ann]);
+diff_struct!(TsTypeOperator, [span, op, type_ann]);
+diff_struct!(TsIndexedAccessType, [span, obj_type, index_type, readonly]);
+diff_struct!(
+    TsMappedType,
+    [span, readonly, type_param, type_ann, name_type, optional]
+);
+diff_struct!(TsLitType, [span, lit]);
+trivial!(TruePlusMinus);
+diff_enum!(TsLit, []);
+diff_struct!(TsTypePredicate, [span, param_name, asserts, type_ann]);
+diff_enum!(TsThisTypeOrIdent, [TsThisType, Ident]);
+diff_struct!(TsImportType, [span, arg, type_args, qualifier]);
+diff_struct!(TsQualifiedName, [left, right]);
+diff_struct!(TsUnionType, [span, types]);
+diff_struct!(TsIntersectionType, [span, types]);
+diff_struct!(TsFnType, [span, params, type_params, type_ann]);
+diff_struct!(
+    TsConstructorType,
+    [span, params, type_params, type_ann, is_abstract]
+);
+
+diff_struct!(TsCallSignatureDecl, [span, params, type_ann, type_params]);
+diff_struct!(
+    TsConstructSignatureDecl,
+    [span, params, type_ann, type_params]
+);
+diff_struct!(
+    TsPropertySignature,
+    [
+        span,
+        key,
+        type_ann,
+        optional,
+        readonly,
+        computed,
+        init,
+        params,
+        type_params
+    ]
+);
+diff_struct!(
+    TsMethodSignature,
+    [
+        span,
+        key,
+        type_ann,
+        params,
+        type_params,
+        readonly,
+        computed,
+        optional
+    ]
+);
+diff_struct!(
+    TsGetterSignature,
+    [span, readonly, key, computed, optional, type_ann]
+);
+diff_struct!(
+    TsSetterSignature,
+    [span, readonly, key, computed, optional, param]
+);
+
+diff_struct!(TsNamespaceDecl, [span, declare, global, id, body]);
+
+diff_struct!(TsModuleBlock, [span, body]);

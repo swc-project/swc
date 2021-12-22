@@ -89,7 +89,7 @@ where
             ctx.path.push(PathComponent::VecElem { index: idx });
             idx += 1;
 
-            let diff = l.diff(&mut r, &mut ctx);
+            let diff = l.diff(r, &mut ctx);
 
             if matches!(diff, DiffResult::Identical) {
                 continue;

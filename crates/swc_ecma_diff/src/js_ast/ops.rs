@@ -6,3 +6,4 @@ diff_string_enum!(UpdateOp);
 diff_string_enum!(VarDeclKind);
 diff_string_enum!(BinaryOp);
 trivial!(MethodKind);
+trivial!(TsTypeOperatorOp);
