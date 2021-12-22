@@ -4,6 +4,7 @@ use swc_ecma_ast::{Module, ModuleItem};
 
 mod expr;
 mod ident;
+mod pat;
 mod stmt;
 mod typescript;
 

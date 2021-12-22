@@ -49,3 +49,4 @@ diff_struct!(ExprOrSpread, [spread, expr]);
 diff_struct!(ObjectLit, [span, props]);
 diff_struct!(FnExpr, [ident, function]);
 diff_struct!(UnaryExpr, [span, op, arg]);
+diff_struct!(Decorator, [span, expr]);
