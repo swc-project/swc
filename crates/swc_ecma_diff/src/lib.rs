@@ -1,4 +1,4 @@
-pub use self::ctx::{Ctxt, PathComponent};
+pub use self::ctx::{Ctx, PathComponent};
 use swc_common::Span;
 
 mod ast_impl;
@@ -38,11 +38,11 @@ impl From<Difference> for DiffResult {
 
 pub trait Diff {
     /// This may remove common node from `self` and `other`.
-    fn diff(&mut self, other: &mut Self, ctx: &mut Ctxt) -> DiffResult;
+    fn diff(&mut self, other: &mut Self, ctx: &mut Ctx) -> DiffResult;
 }
 
 impl Diff for Span {
-    fn diff(&mut self, other: &mut Self, ctx: &mut Ctxt) -> DiffResult {
+    fn diff(&mut self, other: &mut Self, ctx: &mut Ctx) -> DiffResult {
         if ctx.config.ignore_span {
             return DiffResult::Identical;
         }

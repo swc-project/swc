@@ -3,7 +3,7 @@ use swc_atoms::JsWord;
 
 /// The context for [Diff]. This contains config and path.
 #[derive(Debug)]
-pub struct Ctxt {
+pub struct Ctx {
     pub(crate) path: Vec<PathComponent>,
     pub(crate) config: Config,
 }
@@ -13,3 +13,5 @@ pub enum PathComponent {
     Prop { key: JsWord },
     VecElem { index: usize },
 }
+
+impl Ctx {}
