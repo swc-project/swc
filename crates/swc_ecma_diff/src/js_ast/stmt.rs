@@ -89,3 +89,82 @@ diff_struct!(
     [span, params, body, key, accessibility, is_optional]
 );
 diff_enum!(ParamOrTsParamProp, [Param, TsParamProp]);
+diff_enum!(
+    ModuleDecl,
+    [
+        Import,
+        ExportDecl,
+        ExportNamed,
+        ExportDefaultDecl,
+        ExportDefaultExpr,
+        ExportAll,
+        TsImportEquals,
+        TsExportAssignment,
+        TsNamespaceExport
+    ]
+);
+diff_struct!(StaticBlock, [span, body]);
+diff_struct!(
+    ClassMethod,
+    [
+        span,
+        key,
+        function,
+        kind,
+        is_static,
+        accessibility,
+        is_abstract,
+        is_optional,
+        is_override
+    ]
+);
+diff_struct!(
+    PrivateMethod,
+    [
+        span,
+        key,
+        function,
+        kind,
+        is_static,
+        accessibility,
+        is_abstract,
+        is_optional,
+        is_override
+    ]
+);
+diff_struct!(
+    ClassProp,
+    [
+        span,
+        key,
+        value,
+        type_ann,
+        is_static,
+        is_abstract,
+        is_optional,
+        is_override,
+        readonly,
+        accessibility,
+        decorators,
+        declare,
+        definite
+    ]
+);
+diff_struct!(
+    PrivateProp,
+    [
+        span,
+        key,
+        value,
+        type_ann,
+        is_static,
+        is_abstract,
+        is_optional,
+        is_override,
+        readonly,
+        computed,
+        accessibility,
+        decorators,
+        definite
+    ]
+);

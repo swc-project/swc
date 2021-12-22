@@ -62,3 +62,4 @@ diff_struct!(TsModuleDecl, [span, id, body, declare, global]);
 diff_enum!(TsModuleName, [Ident, Str]);
 diff_enum!(TsNamespaceBody, [TsModuleBlock, TsNamespaceDecl]);
 trivial!(Accessibility);
+diff_enum!(TsIndexSignature, []);
