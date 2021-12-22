@@ -13,6 +13,10 @@ macro_rules! diff_struct {
                     } = _node;
                 }
 
+                if *self == *other {
+                    return crate::DiffResult::Identical;
+                }
+
                 ctx.diff_struct(stringify!($T), |ctx| {
 
                     $(

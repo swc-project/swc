@@ -49,6 +49,10 @@ pub trait Diff: Debug {
 
 impl Diff for Span {
     fn diff(&mut self, other: &mut Self, ctx: &mut Ctx) -> DiffResult {
+        if *self == *other {
+            return DiffResult::Identical;
+        }
+
         if ctx.config.ignore_span {
             return DiffResult::Identical;
         }

@@ -13,3 +13,17 @@ diff_struct!(EmptyStmt, [span]);
 diff_struct!(DebuggerStmt, [span]);
 diff_struct!(WithStmt, [span, obj, body]);
 diff_struct!(ReturnStmt, [span, arg]);
+
+diff_struct!(
+    Function,
+    [
+        params,
+        decorators,
+        span,
+        body,
+        is_generator,
+        is_async,
+        type_params,
+        return_type
+    ]
+);

@@ -40,3 +40,12 @@ diff_enum!(
         Invalid
     ]
 );
+
+diff_enum!(PropOrSpread, [Prop, Spread]);
+
+diff_struct!(ThisExpr, [span]);
+diff_struct!(ArrayLit, [span, elems]);
+diff_struct!(ExprOrSpread, [spread, expr]);
+diff_struct!(ObjectLit, [span, props]);
+diff_struct!(FnExpr, [ident, function]);
+diff_struct!(UnaryExpr, [span, op, arg]);
