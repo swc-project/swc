@@ -29,7 +29,7 @@ fn diff(l: PathBuf) {
     let r = l.with_file_name("r.js");
     let spec = l.with_file_name("output.swc-diff");
 
-    let diff_str = testing::run_test(false, |cm, handler| {
+    let diff_str = testing::run_test(false, |cm, _handler| {
         let mut l = parse(cm.clone(), &l);
         let mut r = parse(cm.clone(), &r);
 

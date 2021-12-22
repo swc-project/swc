@@ -43,7 +43,24 @@ impl From<Difference> for DiffResult {
 
 impl Display for Difference {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        writeln!(f, "Path: {:?}", self.path)?;
+        write!(f, "Path: ")?;
+        for c in &self.path {
+            match c {
+                PathComponent::StructProp { struct_name, key } => {
+                    write!(
+                        f,
+                        ".{key}({struct_name})",
+                        key = key,
+                        struct_name = struct_name
+                    )?;
+                }
+                PathComponent::VecElem { index } => {
+                    write!(f, "[{}]", index)?;
+                }
+            }
+        }
+        writeln!(f)?;
+
         writeln!(f, "Left: {}", self.left.0)?;
         writeln!(f, "Right: {}", self.right.0)?;
 
@@ -59,8 +76,14 @@ impl Display for DiffResult {
                 writeln!(f, "{}", d)?;
             }
             DiffResult::Multiple(d) => {
-                for d in d {
-                    writeln!(f, "{}", d)?;
+                if d.len() == 1 {
+                    for d in d {
+                        write!(f, "{}", d)?;
+                    }
+                } else {
+                    for d in d {
+                        writeln!(f, "{}", d)?;
+                    }
                 }
             }
         }

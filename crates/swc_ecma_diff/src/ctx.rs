@@ -13,7 +13,7 @@ pub struct Ctx {
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub enum PathComponent {
-    StructProp { key: JsWord },
+    StructProp { struct_name: JsWord, key: JsWord },
     VecElem { index: usize },
 }
 
@@ -25,13 +25,14 @@ impl Ctx {
         }
     }
 
-    pub(crate) fn diff_struct<F>(&mut self, _name: &str, f: F) -> DiffResult
+    pub(crate) fn diff_struct<F>(&mut self, struct_name: &str, f: F) -> DiffResult
     where
         F: FnOnce(&mut StructDiffCtx),
     {
         let mut helper = StructDiffCtx {
             parent: self,
             results: Default::default(),
+            struct_name: struct_name.into(),
         };
         f(&mut helper);
 
@@ -46,6 +47,7 @@ impl Ctx {
 pub(crate) struct StructDiffCtx<'a> {
     parent: &'a mut Ctx,
     results: Vec<DiffResult>,
+    struct_name: JsWord,
 }
 
 impl StructDiffCtx<'_> {
@@ -55,6 +57,7 @@ impl StructDiffCtx<'_> {
     {
         let mut ctx = self.parent.clone();
         ctx.path.push(PathComponent::StructProp {
+            struct_name: self.struct_name.clone(),
             key: field_name.into(),
         });
 
