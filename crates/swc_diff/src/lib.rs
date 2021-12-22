@@ -113,7 +113,7 @@ where
     T: Diff,
 {
     fn diff(&mut self, other: &mut Self, ctx: &mut Ctx) -> DiffResult {
-        match (self, other) {
+        let result = match (self, other) {
             (Some(l), Some(r)) => l.diff(&mut r, ctx),
             (None, None) => DiffResult::Identical,
             (None, Some(r)) => DiffResult::Different(Difference {
@@ -126,7 +126,15 @@ where
                 left: Node(format!("{:?}", l)),
                 right: Node("None".into()),
             }),
+        };
+
+        if matches!(result, DiffResult::Identical) {
+            self.take();
+            other.take();
+            return result;
         }
+
+        result
     }
 }
 
