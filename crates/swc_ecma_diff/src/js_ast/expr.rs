@@ -65,7 +65,6 @@ diff_struct!(CondExpr, [span, test, cons, alt]);
 diff_struct!(CallExpr, [span, callee, args, type_args]);
 diff_struct!(NewExpr, [span, callee, args, type_args]);
 diff_struct!(SeqExpr, [span, exprs]);
-diff_struct!(Tpl, [span, exprs, quasis]);
 diff_struct!(TaggedTpl, [span, tag, tpl, type_params]);
 diff_struct!(TplElement, [span, cooked, raw, tail]);
 diff_struct!(Str, [span, value, has_escape, kind]);
@@ -144,3 +143,5 @@ impl Diff for StrKind {
         DiffResult::Identical
     }
 }
+
+trivial!(Tpl);

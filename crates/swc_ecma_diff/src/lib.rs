@@ -134,19 +134,41 @@ where
         let mut l = self.iter_mut();
         let mut r = other.iter_mut();
         let mut idx = 0;
+        let mut removed = vec![];
 
         while let (Some(l), Some(r)) = (l.next(), r.next()) {
-            let mut ctx = ctx.clone();
-            ctx.path.push(PathComponent::VecElem { index: idx });
+            let cur_idx = idx;
             idx += 1;
+
+            let mut ctx = ctx.clone();
+            ctx.path.push(PathComponent::VecElem { index: cur_idx });
 
             let diff = l.diff(r, &mut ctx);
 
             if matches!(diff, DiffResult::Identical) {
+                removed.push(cur_idx);
                 continue;
             }
 
             results.push(diff);
+        }
+
+        if !removed.is_empty() {
+            let new_l = self
+                .drain(..)
+                .enumerate()
+                .filter(|(i, _)| !removed.contains(i))
+                .map(|(_, v)| v)
+                .collect::<Vec<_>>();
+            let new_r = other
+                .drain(..)
+                .enumerate()
+                .filter(|(i, _)| !removed.contains(i))
+                .map(|(_, v)| v)
+                .collect::<Vec<_>>();
+
+            *self = new_l;
+            *other = new_r;
         }
 
         // TODO: Dump extra nodes
