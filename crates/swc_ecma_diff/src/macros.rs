@@ -68,13 +68,12 @@ macro_rules! diff_enum {
                 fn _assert_all_variants(_node: &$T){
                     match _node {
                         $(
-
-                            $T::$Variant(l) => {},
+                            $T::$Variant(..) => {},
                         )*
                     }
                 }
 
-                match (self, other) {
+                match (&mut *self, &mut * other) {
                     $(
                         (
                             $T::$Variant(l),
@@ -94,13 +93,6 @@ macro_rules! diff_enum {
 
 macro_rules! diff_string_enum {
     ($T:ty) => {
-        impl crate::Diff for $T {
-            fn diff(&mut self, other: &mut Self, ctx: &mut crate::Ctx) -> crate::DiffResult {
-                let l = self.as_str();
-                let r = other.as_str();
-
-                crate::Diff::diff(&mut *l, &mut *r, ctx)
-            }
-        }
+        trivial!($T);
     };
 }

@@ -140,7 +140,7 @@ diff_struct!(BindingIdent, [id, type_ann]);
 
 /// Ignored
 impl Diff for StrKind {
-    fn diff(&mut self, other: &mut Self, ctx: &mut Ctx) -> DiffResult {
+    fn diff(&mut self, _: &mut Self, _: &mut Ctx) -> DiffResult {
         DiffResult::Identical
     }
 }
