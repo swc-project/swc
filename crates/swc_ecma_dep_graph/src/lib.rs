@@ -69,7 +69,8 @@ pub struct DependencyDescriptor {
     /// Import assertions for this dependency.
     /// NOTE: it's filled only for static imports and exports.
     pub import_assertions: HashMap<String, String>,
-    /// Import assertions for dynamic imports. Present if `is_dynamic` is true.
+    /// Import assertions for dynamic imports. Present if `is_dynamic` is `true`
+    /// and `kind` is not `DependencyKind::Require`.
     pub dynamic_import_assertions: Option<DynamicImportAssertions>,
 }
 
@@ -194,6 +195,11 @@ impl<'a> Visit for DependencyCollector<'a> {
 
         // import() are always dynamic, even if at top level
         let is_dynamic = !self.is_top_level || kind == DependencyKind::Import;
+        let dynamic_import_assertions = if kind == DependencyKind::Import {
+            Some(parse_dynamic_import_assertions(node.args.get(1)))
+        } else {
+            None
+        };
 
         if let Some(arg) = node.args.get(0) {
             if let Lit(lit) = &*arg.expr {
@@ -208,9 +214,7 @@ impl<'a> Visit for DependencyCollector<'a> {
                         specifier,
                         specifier_span: str_.span,
                         import_assertions: HashMap::new(),
-                        dynamic_import_assertions: Some(parse_dynamic_import_assertions(
-                            node.args.get(1),
-                        )),
+                        dynamic_import_assertions,
                     });
                 }
             }
@@ -502,7 +506,7 @@ try {
                     specifier: JsWord::from("some_package"),
                     specifier_span: Span::new(BytePos(402), BytePos(416), Default::default()),
                     import_assertions: HashMap::default(),
-                    dynamic_import_assertions: Some(Default::default()),
+                    dynamic_import_assertions: None,
                 }
             ]
         );
