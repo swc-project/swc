@@ -113,8 +113,8 @@ where
     T: Diff,
 {
     fn diff(&mut self, other: &mut Self, ctx: &mut Ctx) -> DiffResult {
-        let result = match (self, other) {
-            (Some(l), Some(r)) => l.diff(&mut r, ctx),
+        let result = match (&mut *self, &mut *other) {
+            (Some(l), Some(r)) => l.diff(r, ctx),
             (None, None) => DiffResult::Identical,
             (None, Some(r)) => DiffResult::Different(Difference {
                 path: ctx.path.clone(),
@@ -129,8 +129,9 @@ where
         };
 
         if matches!(result, DiffResult::Identical) {
-            self.take();
-            other.take();
+            // Remove common node.
+            *self = None;
+            *other = None;
             return result;
         }
 

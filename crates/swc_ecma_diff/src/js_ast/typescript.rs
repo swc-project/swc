@@ -66,7 +66,7 @@ diff_struct!(
     TsIndexSignature,
     [params, type_ann, readonly, is_static, span]
 );
-diff_enum!(TsFnParam, []);
+diff_enum!(TsFnParam, [Ident, Array, Object, Rest]);
 diff_struct!(
     TsParamProp,
     [

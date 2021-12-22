@@ -35,7 +35,7 @@ diff_enum!(VarDeclOrExpr, [VarDecl, Expr]);
 
 diff_enum!(
     Decl,
-    [Class, Fn, TsInterface, TsTypeAlias, TsEnum, TsModule]
+    [Class, Fn, TsInterface, TsTypeAlias, TsEnum, TsModule, Var]
 );
 
 diff_struct!(VarDecl, [span, kind, decls, declare]);
@@ -174,6 +174,14 @@ diff_struct!(ExportDefaultDecl, [span, decl]);
 diff_struct!(ExportDefaultExpr, [span, expr]);
 diff_struct!(NamedExport, [span, specifiers, src, type_only, asserts]);
 diff_struct!(ExportAll, [span, src, asserts]);
-diff_enum!(ImportSpecifier, []);
-diff_enum!(ExportSpecifier, []);
-diff_enum!(DefaultDecl, []);
+diff_enum!(ImportSpecifier, [Named, Default, Namespace]);
+diff_enum!(ExportSpecifier, [Named, Default, Namespace]);
+diff_enum!(DefaultDecl, [Class, Fn, TsInterfaceDecl]);
+
+diff_struct!(ImportNamedSpecifier, [span, local, imported, is_type_only]);
+diff_struct!(ImportDefaultSpecifier, [span, local]);
+diff_struct!(ImportStarAsSpecifier, [span, local]);
+
+diff_struct!(ExportNamedSpecifier, [span, orig, exported, is_type_only]);
+diff_struct!(ExportDefaultSpecifier, [exported]);
+diff_struct!(ExportNamespaceSpecifier, [span, name]);

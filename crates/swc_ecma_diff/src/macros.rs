@@ -32,6 +32,8 @@ macro_rules! diff_struct {
     ) => {
         impl crate::Diff for $T {
             fn diff(&mut self, other: &mut Self, ctx: &mut crate::Ctx) -> crate::DiffResult {
+                // Ensure that we diff all fields.
+                #[allow(unused)]
                 fn _assert_all_fields(_node: &$T){
                     let $T {
                         $($field,)*
@@ -62,6 +64,7 @@ macro_rules! diff_enum {
     ) => {
         impl crate::Diff for $T {
             fn diff(&mut self, other: &mut Self, ctx: &mut crate::Ctx) -> crate::DiffResult {
+                // Ensure that we handle all variants.
                 fn _assert_all_variants(_node: &$T){
                     match _node {
                         $(
