@@ -1,6 +1,6 @@
+use crate::{Ctx, Diff, DiffResult, Node};
+use swc_common::EqIgnoreSpan;
 use swc_ecma_ast::*;
-
-use crate::{Ctx, Diff, DiffResult};
 
 diff_enum!(
     Expr,
@@ -144,4 +144,16 @@ impl Diff for StrKind {
     }
 }
 
-trivial!(Tpl);
+impl Diff for Tpl {
+    fn diff(&mut self, other: &mut Self, ctx: &mut Ctx) -> DiffResult {
+        if self.eq_ignore_span(&*other) {
+            return crate::DiffResult::Identical;
+        }
+
+        DiffResult::Different(crate::Difference {
+            path: ctx.path.clone(),
+            left: Node(format!("{:?}", self)),
+            right: Node(format!("{:?}", other)),
+        })
+    }
+}
