@@ -1,5 +1,7 @@
 use swc_atoms::JsWord;
 
+mod ast_impl;
+
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct DiffResult {}
 
