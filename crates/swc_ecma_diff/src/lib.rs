@@ -131,6 +131,8 @@ where
             }));
         }
 
+        let mut should_retry = false;
+
         let should_try_shifting = ctx.path.iter().all(|v| match v {
             PathComponent::VecElem { l, r } => *l == *r,
             _ => true,
@@ -169,6 +171,7 @@ where
                     if matches!(diff, DiffResult::Identical) {
                         l_removed.push(l_idx);
                         r_removed.push(r_idx);
+                        should_retry = true;
                         break;
                     }
 
@@ -223,6 +226,8 @@ where
             }
 
             if !removed.is_empty() {
+                should_retry = true;
+
                 let new_l = self
                     .drain(..)
                     .enumerate()
@@ -239,6 +244,10 @@ where
                 *self = new_l;
                 *other = new_r;
             }
+        }
+
+        if should_retry {
+            return self.diff(other, ctx);
         }
 
         // TODO: Dump extra nodes
