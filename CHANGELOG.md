@@ -23,6 +23,9 @@
 - **(cli)** Setup packages for CLI (#3070) ([2e89a4f](https://github.com/swc-project/swc/commit/2e89a4f5a8fda133a8d990ecfc0104e64075d15c))
 
 
+- **(es/dep-graph)** Add `DependencyDescriptor::dynamic_import_assertions` (#3095) ([7d57eb2](https://github.com/swc-project/swc/commit/7d57eb2dc490b4dd7c24c35f4a4df9c13f267d56))
+
+
 - **(es/lints)** Implement simple validations (#2763) ([f21af5b](https://github.com/swc-project/swc/commit/f21af5bcd600aa94f8bd99b1250524bbc823662c))
 
 
@@ -36,6 +39,9 @@
 
 
 - **(node)** Report correct error when `swc_v1` and `swc_v2` is enabled at the same time (#3080) ([f1b8126](https://github.com/swc-project/swc/commit/f1b81266cf895dac28f68151b9c16eaa9401ec43))
+
+
+- **(node/core)** Include noop swc binaries (#3088) ([42046e1](https://github.com/swc-project/swc/commit/42046e104dfa301a803f3dfd85da2801b0ebad66))
 
 ### Miscellaneous Tasks
 
