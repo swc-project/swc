@@ -7,3 +7,9 @@ diff_enum!(
         While, DoWhile, For, ForIn, ForOf, Decl, Expr
     ]
 );
+
+diff_struct!(BlockStmt, [span, stmts]);
+diff_struct!(EmptyStmt, [span]);
+diff_struct!(DebuggerStmt, [span]);
+diff_struct!(WithStmt, [span, obj, body]);
+diff_struct!(ReturnStmt, [span, arg]);

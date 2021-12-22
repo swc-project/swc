@@ -6,7 +6,7 @@ macro_rules! diff_struct {
         ]
     ) => {
         impl crate::Diff for $T {
-            fn diff(&mut self, other: &mut Self, ctx: &mut Ctx) -> DiffResult {
+            fn diff(&mut self, other: &mut Self, ctx: &mut crate::Ctx) -> crate::DiffResult {
                 ctx.diff_struct(stringify!($T), |ctx| {
 
                     $(
