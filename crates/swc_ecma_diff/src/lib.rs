@@ -38,11 +38,11 @@ impl From<Difference> for DiffResult {
 
 pub trait Diff {
     /// This may remove common node from `self` and `other`.
-    fn diff(&mut self, other: &mut Self, ctx: &mut Ctx) -> DiffResult;
+    fn diff(&mut self, other: &mut Self, ctx: Ctx) -> DiffResult;
 }
 
 impl Diff for Span {
-    fn diff(&mut self, other: &mut Self, ctx: &mut Ctx) -> DiffResult {
+    fn diff(&mut self, other: &mut Self, ctx: Ctx) -> DiffResult {
         if ctx.config.ignore_span {
             return DiffResult::Identical;
         }
