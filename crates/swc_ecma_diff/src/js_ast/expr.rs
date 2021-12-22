@@ -81,7 +81,10 @@ diff_struct!(
 );
 diff_struct!(ClassExpr, [ident, class]);
 diff_struct!(YieldExpr, [span, arg, delegate]);
-diff_struct!(MetaPropExpr, [span, meta, prop]);
+diff_struct!(MetaPropExpr, [meta, prop]);
+diff_struct!(AwaitExpr, [span, arg]);
+diff_struct!(ParenExpr, [span, expr]);
+diff_struct!(JSXMemberExpr, [obj, prop]);
 
 /// Ignored
 impl Diff for StrKind {
