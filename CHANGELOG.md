@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(es/bundler)** Add an option to disable tree-shaking (#3102) ([d98a593](https://github.com/swc-project/swc/commit/d98a59339a0fa2a14f2bcb92c6deeb810ec339be))
+
+## [1.2.122] - 2021-12-22
+
 ### Bug Fixes
 
 
@@ -50,7 +58,13 @@
 
 
 
+- **(node)** Publish v1.2.122 ([f4cc323](https://github.com/swc-project/swc/commit/f4cc323e08c73f10bd4cc323a81dd5d3778395df))
+
+
 - **(repo)** Make `git` faster (#3075) ([8afb5af](https://github.com/swc-project/swc/commit/8afb5af517e87b85ae1bdd8156509850c53fa276))
+
+
+- **(repo)** Add section for the actual behavior to the issue template (#3100) ([0472199](https://github.com/swc-project/swc/commit/047219932fd18e7e78131f44ab5fb3be0518dc04))
 
 
 - **(scripts)** Use `cargo profile instruments` instead of `cargo instruments` (#3086) ([d482d61](https://github.com/swc-project/swc/commit/d482d61b9fd9997367d0dd27e3b90c662064ae3d))

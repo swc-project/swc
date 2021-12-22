@@ -1193,9 +1193,9 @@ dependencies = [
 
 [[package]]
 name = "mimalloc-rust-sys"
-version = "1.7.3"
+version = "1.7.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a8af39e0593dcb39b0b48baf857022dbe02d750a00591f85ecebf31dabba8a5b"
+checksum = "96f7f32dcc7aeb79781116048bbd27cc819b9db55805690b3379d536d40e9590"
 dependencies = [
  "cc",
  "cty",
@@ -2621,7 +2621,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.92.1"
+version = "0.93.0"
 dependencies = [
  "ahash",
  "anyhow",
