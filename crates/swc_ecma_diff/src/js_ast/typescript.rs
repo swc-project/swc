@@ -30,6 +30,18 @@ diff_enum!(
     ]
 );
 diff_enum!(TsEntityName, [TsQualifiedName, Ident]);
+diff_enum!(
+    TsTypeElement,
+    [
+        TsCallSignatureDecl,
+        TsConstructSignatureDecl,
+        TsPropertySignature,
+        TsGetterSignature,
+        TsSetterSignature,
+        TsMethodSignature,
+        TsIndexSignature
+    ]
+);
 
 diff_struct!(TsTypeParamInstantiation, [span, params]);
 diff_struct!(TsExprWithTypeArgs, [span, expr, type_args]);
