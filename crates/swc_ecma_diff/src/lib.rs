@@ -28,6 +28,8 @@ pub enum DiffResult {
     Identical,
 
     Different(Difference),
+
+    Multiple(Vec<DiffResult>),
 }
 
 impl From<Difference> for DiffResult {
@@ -38,13 +40,19 @@ impl From<Difference> for DiffResult {
 
 pub trait Diff {
     /// This may remove common node from `self` and `other`.
-    fn diff(&mut self, other: &mut Self, ctx: Ctx) -> DiffResult;
+    fn diff(&mut self, other: &mut Self, ctx: &mut Ctx) -> DiffResult;
 }
 
 impl Diff for Span {
-    fn diff(&mut self, other: &mut Self, ctx: Ctx) -> DiffResult {
+    fn diff(&mut self, other: &mut Self, ctx: &mut Ctx) -> DiffResult {
         if ctx.config.ignore_span {
             return DiffResult::Identical;
         }
+
+        DiffResult::Different(Difference {
+            path: ctx.path.clone(),
+            left: Node(format!("{:?}", self)),
+            right: Node(format!("{:?}", other)),
+        })
     }
 }
