@@ -78,12 +78,12 @@ diff_struct!(
         param
     ]
 );
-diff_enum!(TsParamPropParam, []);
+diff_enum!(TsParamPropParam, [Ident, Assign]);
 diff_struct!(
     TsImportEqualsDecl,
     [span, declare, is_export, is_type_only, id, module_ref]
 );
-diff_enum!(TsModuleRef, []);
+diff_enum!(TsModuleRef, [TsEntityName, TsExternalModuleRef]);
 diff_struct!(TsExportAssignment, [span, expr]);
 diff_struct!(TsNamespaceExportDecl, [id, span]);
 
@@ -94,7 +94,7 @@ diff_enum!(TsUnionOrIntersectionType, [TsUnionType, TsIntersectionType]);
 diff_enum!(TsFnOrConstructorType, [TsFnType, TsConstructorType]);
 diff_struct!(TsTypeRef, [span, type_name, type_params]);
 diff_struct!(TsTypeQuery, [span, expr_name]);
-diff_enum!(TsTypeQueryExpr, []);
+diff_enum!(TsTypeQueryExpr, [TsEntityName, Import]);
 diff_struct!(TsTypeLit, [span, members]);
 diff_struct!(TsTupleType, [span, elem_types]);
 diff_struct!(TsTupleElement, [span, label, ty]);
@@ -115,7 +115,7 @@ diff_struct!(
 );
 diff_struct!(TsLitType, [span, lit]);
 trivial!(TruePlusMinus);
-diff_enum!(TsLit, []);
+diff_enum!(TsLit, [Number, Str, Bool, BigInt, Tpl]);
 diff_struct!(TsTypePredicate, [span, param_name, asserts, type_ann]);
 diff_enum!(TsThisTypeOrIdent, [TsThisType, Ident]);
 diff_struct!(TsImportType, [span, arg, type_args, qualifier]);
@@ -172,3 +172,7 @@ diff_struct!(
 diff_struct!(TsNamespaceDecl, [span, declare, global, id, body]);
 
 diff_struct!(TsModuleBlock, [span, body]);
+
+diff_struct!(TsExternalModuleRef, [span, expr]);
+
+diff_struct!(TsTplLitType, [span, types, quasis]);
