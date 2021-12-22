@@ -1,0 +1,16 @@
+[package]
+authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "EcmaScript code minifier."
+documentation = "https://rustdoc.swc.rs/swc_ecma_diff/"
+edition = "2018"
+include = ["Cargo.toml", "src/**/*.rs"]
+license = "Apache-2.0"
+name = "swc_ecma_diff"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.1.0"
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
+
+[dependencies]

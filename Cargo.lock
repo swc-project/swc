@@ -2862,6 +2862,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_ecma_diff"
+version = "0.1.0"
+
+[[package]]
 name = "swc_ecma_ext_transforms"
 version = "0.42.0"
 dependencies = [
