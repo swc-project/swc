@@ -39,17 +39,27 @@ macro_rules! diff_struct {
                         $($field,)*
                     } = _node;
                 }
+                use swc_common::EqIgnoreSpan;
 
-                if *self == *other {
-                    return crate::DiffResult::Identical;
-                }
 
-                ctx.diff_struct(stringify!($T), |ctx| {
+                let result = ctx.diff_struct(stringify!($T), |ctx| {
 
                     $(
                         ctx.field(stringify!($field), &mut self.$field, &mut other.$field);
                     )*
-                })
+                });
+
+                if ctx.config.ignore_span{
+                    if self.eq_ignore_span(&*other) {
+                        return crate::DiffResult::Identical;
+                    }
+                } else {
+                    if *self == *other {
+                        return crate::DiffResult::Identical;
+                    }
+                }
+
+                result
             }
         }
     };
