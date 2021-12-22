@@ -84,3 +84,8 @@ diff_enum!(
         StaticBlock
     ]
 );
+diff_struct!(
+    Constructor,
+    [span, params, body, key, accessibility, is_optional]
+);
+diff_enum!(ParamOrTsParamProp, [Param, TsParamProp]);

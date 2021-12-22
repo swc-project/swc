@@ -1,3 +1,28 @@
+macro_rules! trivial {
+    ($T:ty) => {
+        impl crate::Diff for $T {
+            fn diff(&mut self, other: &mut Self, ctx: &mut crate::Ctx) -> crate::DiffResult {
+                if *self == *other {
+                    return crate::DiffResult::Identical;
+                }
+
+                crate::DiffResult::Different(crate::Difference {
+                    path: ctx.path.clone(),
+                    left: crate::Node(format!("{:?}", self)),
+                    right: crate::Node(format!("{:?}", other)),
+                })
+            }
+        }
+    };
+
+    (
+        $T:ty, $($tt:tt)*
+    ) => {
+        trivial!($T);
+        trivial!($($tt)*);
+    };
+}
+
 macro_rules! diff_struct {
     (
         $T:ident,

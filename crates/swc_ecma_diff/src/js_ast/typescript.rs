@@ -55,3 +55,10 @@ diff_struct!(
 );
 diff_struct!(TsInterfaceBody, [span, body]);
 diff_struct!(TsTypeAliasDecl, [span, declare, id, type_params, type_ann]);
+diff_struct!(TsEnumDecl, [span, declare, id, members, is_const]);
+diff_struct!(TsEnumMember, [span, id, init]);
+diff_enum!(TsEnumMemberId, [Str, Ident]);
+diff_struct!(TsModuleDecl, [span, id, body, declare, global]);
+diff_enum!(TsModuleName, [Ident, Str]);
+diff_enum!(TsNamespaceBody, [TsModuleBlock, TsNamespaceDecl]);
+trivial!(Accessibility);

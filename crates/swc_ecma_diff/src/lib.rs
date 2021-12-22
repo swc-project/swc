@@ -138,31 +138,6 @@ where
     }
 }
 
-macro_rules! trivial {
-    ($T:ty) => {
-        impl Diff for $T {
-            fn diff(&mut self, other: &mut Self, ctx: &mut Ctx) -> DiffResult {
-                if *self == *other {
-                    return DiffResult::Identical;
-                }
-
-                DiffResult::Different(Difference {
-                    path: ctx.path.clone(),
-                    left: Node(format!("{:?}", self)),
-                    right: Node(format!("{:?}", other)),
-                })
-            }
-        }
-    };
-
-    (
-        $T:ty, $($tt:tt)*
-    ) => {
-        trivial!($T);
-        trivial!($($tt)*);
-    };
-}
-
 trivial!(bool, (), char);
 trivial!(usize, u8, u16, u32, u64, u128);
 trivial!(isize, i8, i16, i32, i64, i128);
