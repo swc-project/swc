@@ -40,9 +40,8 @@ macro_rules! diff_enum {
                 fn _assert_all_variants(_node: &$T){
                     match _node {
                         $(
-                            (
-                                $T::$Variant(l)
-                            ) => {},
+
+                            $T::$Variant(l) => {},
                         )*
                     }
                 }

@@ -13,6 +13,7 @@ diff_struct!(EmptyStmt, [span]);
 diff_struct!(DebuggerStmt, [span]);
 diff_struct!(WithStmt, [span, obj, body]);
 diff_struct!(ReturnStmt, [span, arg]);
+diff_struct!(ThrowStmt, [span, arg]);
 
 diff_struct!(
     Function,

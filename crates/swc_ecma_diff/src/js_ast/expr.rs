@@ -116,6 +116,7 @@ diff_struct!(SpreadElement, [dot3_token, expr]);
 diff_struct!(Super, [span]);
 diff_struct!(Bool, [span, value]);
 diff_struct!(Null, [span]);
+diff_struct!(Number, [span, value]);
 
 /// Ignored
 impl Diff for StrKind {
