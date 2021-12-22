@@ -14,6 +14,7 @@ all-features = true
 rustdoc-args = ["--cfg", "docsrs"]
 
 [dependencies]
+ansi_term = "0.12.1"
 auto_impl = "0.5.0"
 num-bigint = "0.2"
 string_cache = "0.8"
