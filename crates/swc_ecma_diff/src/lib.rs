@@ -54,7 +54,7 @@ impl Display for Difference {
                         struct_name = struct_name
                     )?;
                 }
-                PathComponent::VecElem { l, r, .. } => {
+                PathComponent::VecElem { l, r } => {
                     write!(f, "[{} <-> {}]", l, r)?;
                 }
             }
@@ -132,7 +132,7 @@ where
         }
 
         let should_try_shifting = ctx.path.iter().all(|v| match v {
-            PathComponent::VecElem { is_shifting, .. } => !*is_shifting,
+            PathComponent::VecElem { l, r } => *l == *r,
             _ => true,
         });
 
@@ -162,11 +162,7 @@ where
             for (l_idx, l) in self.iter_mut().enumerate() {
                 for (r_idx, r) in other.iter_mut().enumerate() {
                     let mut ctx = ctx.clone();
-                    ctx.path.push(PathComponent::VecElem {
-                        l: l_idx,
-                        r: r_idx,
-                        is_shifting: true,
-                    });
+                    ctx.path.push(PathComponent::VecElem { l: l_idx, r: r_idx });
 
                     let diff = l.diff(r, &mut ctx);
 
@@ -214,7 +210,6 @@ where
                 ctx.path.push(PathComponent::VecElem {
                     l: cur_idx,
                     r: cur_idx,
-                    is_shifting: false,
                 });
 
                 let diff = l.diff(r, &mut ctx);

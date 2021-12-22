@@ -13,15 +13,8 @@ pub struct Ctx {
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub enum PathComponent {
-    StructProp {
-        struct_name: JsWord,
-        key: JsWord,
-    },
-    VecElem {
-        l: usize,
-        r: usize,
-        is_shifting: bool,
-    },
+    StructProp { struct_name: JsWord, key: JsWord },
+    VecElem { l: usize, r: usize },
 }
 
 impl Ctx {
