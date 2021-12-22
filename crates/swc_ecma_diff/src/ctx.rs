@@ -18,6 +18,13 @@ pub enum PathComponent {
 }
 
 impl Ctx {
+    pub fn new(config: Config) -> Self {
+        Ctx {
+            path: Default::default(),
+            config,
+        }
+    }
+
     pub(crate) fn diff_struct<F>(&mut self, _name: &str, f: F) -> DiffResult
     where
         F: FnOnce(&mut StructDiffCtx),
