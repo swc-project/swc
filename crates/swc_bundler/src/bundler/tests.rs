@@ -134,6 +134,7 @@ impl TestBuilder {
                         disable_inliner: true,
                         disable_hygiene: false,
                         disable_fixer: false,
+                        disable_dce: false,
                         external_modules: vec![],
                         module: Default::default(),
                     },

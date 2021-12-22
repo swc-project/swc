@@ -86,6 +86,7 @@ fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool, mini
                 external_modules: Default::default(),
                 disable_fixer: minify,
                 disable_hygiene: minify,
+                disable_dce: false,
                 module: Default::default(),
             },
             Box::new(Hook),
