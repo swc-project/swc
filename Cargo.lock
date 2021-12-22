@@ -1193,9 +1193,9 @@ dependencies = [
 
 [[package]]
 name = "mimalloc-rust-sys"
-version = "1.7.2"
+version = "1.7.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "96f7f32dcc7aeb79781116048bbd27cc819b9db55805690b3379d536d40e9590"
+checksum = "a8af39e0593dcb39b0b48baf857022dbe02d750a00591f85ecebf31dabba8a5b"
 dependencies = [
  "cc",
  "cty",
@@ -2559,7 +2559,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.98.4"
+version = "0.99.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2851,7 +2851,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_dep_graph"
-version = "0.51.0"
+version = "0.52.0"
 dependencies = [
  "swc_atoms 0.2.9",
  "swc_common",
@@ -3288,7 +3288,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.98.3"
+version = "0.99.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3324,7 +3324,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.16.0"
+version = "0.17.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3539,7 +3539,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.14.0"
+version = "0.15.0"
 dependencies = [
  "anyhow",
  "rayon",
