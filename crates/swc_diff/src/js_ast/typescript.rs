@@ -2,6 +2,8 @@ use swc_ecma_ast::*;
 
 diff_struct!(TsTypeAnn, [span, type_ann]);
 diff_struct!(TsTypeParamDecl, [span, params]);
+diff_struct!(TsTypeParam, [span, name, constraint, default]);
+
 diff_enum!(
     TsType,
     [

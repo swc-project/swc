@@ -50,3 +50,6 @@ diff_struct!(ObjectLit, [span, props]);
 diff_struct!(FnExpr, [ident, function]);
 diff_struct!(UnaryExpr, [span, op, arg]);
 diff_struct!(Decorator, [span, expr]);
+diff_struct!(UpdateExpr, [span, prefix, op, arg]);
+diff_struct!(BinExpr, [span, op, left, right]);
+diff_struct!(AssignExpr, [span, op, left, right]);
