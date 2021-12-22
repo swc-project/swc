@@ -14,6 +14,9 @@
 - **(es/loader)** Update `lru` (#3092) ([15cbe4f](https://github.com/swc-project/swc/commit/15cbe4fcaad7b7b2f7bcc9fd413594a18ede25d8))
 
 
+- **(es/transforms)** Fix `descturcturing` (#3098) ([df87c2b](https://github.com/swc-project/swc/commit/df87c2b30221f990cdd63125c9ef6036f370145e))
+
+
 - **(es/typescript)** Export destructured properties in typescript namespaces (#3084) ([31dea3d](https://github.com/swc-project/swc/commit/31dea3dd319a19b75554b061cb1374d12718af24))
 
 ### Features
