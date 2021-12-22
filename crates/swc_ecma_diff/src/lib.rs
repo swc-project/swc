@@ -38,6 +38,7 @@ impl From<Difference> for DiffResult {
     }
 }
 
+#[auto_impl::auto_impl(Box)]
 pub trait Diff {
     /// This may remove common node from `self` and `other`.
     fn diff(&mut self, other: &mut Self, ctx: &mut Ctx) -> DiffResult;
@@ -54,5 +55,48 @@ impl Diff for Span {
             left: Node(format!("{:?}", self)),
             right: Node(format!("{:?}", other)),
         })
+    }
+}
+
+impl<T> Diff for Vec<T>
+where
+    T: Diff,
+{
+    fn diff(&mut self, other: &mut Self, ctx: &mut Ctx) -> DiffResult {
+        let mut results = Vec::new();
+
+        if self.len() != other.len() {
+            results.push(DiffResult::Different(Difference {
+                path: ctx.path.clone(),
+                left: Node(format!("len = {}", self.len())),
+                right: Node(format!("len = {}", other.len())),
+            }));
+        }
+
+        let mut l = self.iter_mut();
+        let mut r = other.iter_mut();
+        let mut idx = 0;
+
+        while let (Some(l), Some(r)) = (l.next(), r.next()) {
+            let mut ctx = ctx.clone();
+            ctx.path.push(PathComponent::VecElem { index: idx });
+            idx += 1;
+
+            let diff = l.diff(&mut r, &mut ctx);
+
+            if matches!(diff, DiffResult::Identical) {
+                continue;
+            }
+
+            results.push(diff);
+        }
+
+        // TODO: Dump extra nodes
+
+        if results.is_empty() {
+            return DiffResult::Identical;
+        }
+
+        DiffResult::Multiple(results)
     }
 }
