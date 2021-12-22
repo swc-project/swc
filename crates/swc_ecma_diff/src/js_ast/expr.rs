@@ -105,11 +105,20 @@ diff_enum!(
         JSXFragment
     ]
 );
+diff_struct!(JSXAttr, [span, name, value]);
+diff_enum!(JSXAttrName, [Ident, JSXNamespacedName]);
+diff_enum!(
+    JSXAttrValue,
+    [Lit, JSXExprContainer, JSXElement, JSXFragment]
+);
 diff_struct!(JSXClosingElement, [span, name]);
 diff_struct!(JSXFragment, [span, opening, children, closing]);
 diff_enum!(JSXElementName, [Ident, JSXMemberExpr, JSXNamespacedName]);
 diff_struct!(JSXOpeningFragment, [span]);
 diff_struct!(JSXClosingFragment, [span]);
+diff_struct!(JSXSpreadChild, [span, expr]);
+diff_struct!(JSXExprContainer, [span, expr]);
+diff_enum!(JSXExpr, [JSXEmptyExpr, Expr]);
 diff_struct!(PrivateName, [span, id]);
 diff_struct!(OptChainExpr, [span, question_dot_token, expr]);
 diff_struct!(SpreadElement, [dot3_token, expr]);
@@ -117,6 +126,17 @@ diff_struct!(Super, [span]);
 diff_struct!(Bool, [span, value]);
 diff_struct!(Null, [span]);
 diff_struct!(Number, [span, value]);
+diff_struct!(BigInt, [span, value]);
+diff_struct!(Regex, [span, exp, flags]);
+diff_struct!(JSXText, [span, value, raw]);
+diff_struct!(AssignProp, [key, value]);
+diff_struct!(KeyValueProp, [key, value]);
+diff_struct!(GetterProp, [span, key, type_ann, body]);
+diff_struct!(SetterProp, [span, key, param, body]);
+diff_struct!(MethodProp, [key, function]);
+diff_enum!(PropName, [Ident, Str, BigInt, Num, Computed]);
+diff_struct!(ComputedPropName, [span, expr]);
+diff_struct!(BindingIdent, [id, type_ann]);
 
 /// Ignored
 impl Diff for StrKind {
