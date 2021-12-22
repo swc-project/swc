@@ -2806,19 +2806,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "swc_diff"
-version = "0.1.0"
-dependencies = [
- "auto_impl 0.5.0",
- "string_cache",
- "swc_atoms 0.2.9",
- "swc_common",
- "swc_ecma_ast",
- "swc_ecma_codegen",
- "swc_ecma_parser",
-]
-
-[[package]]
 name = "swc_ecma_ast"
 version = "0.60.0"
 dependencies = [
@@ -2872,6 +2859,19 @@ dependencies = [
  "swc_ecma_parser",
  "swc_ecma_visit",
  "testing",
+]
+
+[[package]]
+name = "swc_ecma_diff"
+version = "0.1.0"
+dependencies = [
+ "auto_impl 0.5.0",
+ "string_cache",
+ "swc_atoms 0.2.9",
+ "swc_common",
+ "swc_ecma_ast",
+ "swc_ecma_codegen",
+ "swc_ecma_parser",
 ]
 
 [[package]]

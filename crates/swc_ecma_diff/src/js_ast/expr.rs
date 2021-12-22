@@ -47,6 +47,7 @@ diff_enum!(PropOrSpread, [Prop, Spread]);
 diff_enum!(BlockStmtOrExpr, [BlockStmt, Expr]);
 diff_enum!(ExprOrSuper, [Expr, Super]);
 diff_enum!(Lit, [Str, Num, Regex, BigInt]);
+diff_enum!(JSXAttrOrSpread, [JSXAttr, SpreadElement]);
 
 diff_struct!(ThisExpr, [span]);
 diff_struct!(ArrayLit, [span, elems]);
@@ -85,6 +86,29 @@ diff_struct!(MetaPropExpr, [meta, prop]);
 diff_struct!(AwaitExpr, [span, arg]);
 diff_struct!(ParenExpr, [span, expr]);
 diff_struct!(JSXMemberExpr, [obj, prop]);
+diff_struct!(JSXNamespacedName, [ns, name]);
+diff_enum!(JSXObject, [JSXMemberExpr, Ident]);
+diff_struct!(JSXEmptyExpr, [span]);
+diff_struct!(JSXElement, [span, opening, children, closing]);
+diff_struct!(
+    JSXOpeningElement,
+    [span, name, attrs, self_closing, type_args]
+);
+diff_enum!(
+    JSXElementChild,
+    [
+        JSXElement,
+        JSXText,
+        JSXSpreadChild,
+        JSXExprContainer,
+        JSXFragment
+    ]
+);
+diff_struct!(JSXClosingElement, [span, name]);
+diff_struct!(JSXFragment, [span, opening, children, closing]);
+diff_enum!(JSXElementName, [Ident, JSXMemberExpr, JSXNamespacedName]);
+diff_struct!(JSXOpeningFragment, [span]);
+diff_struct!(JSXClosingFragment, [span]);
 
 /// Ignored
 impl Diff for StrKind {
