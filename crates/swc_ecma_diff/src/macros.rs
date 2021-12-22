@@ -62,7 +62,7 @@ macro_rules! diff_string_enum {
                 let l = self.as_str();
                 let r = other.as_str();
 
-                crate::Diff::diff(&mut l, &mut r, ctx)
+                crate::Diff::diff(&mut *l, &mut *r, ctx)
             }
         }
     };

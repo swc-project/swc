@@ -33,3 +33,7 @@ diff_enum!(TsEntityName, [TsQualifiedName, Ident]);
 
 diff_struct!(TsTypeParamInstantiation, [span, params]);
 diff_struct!(TsExprWithTypeArgs, [span, expr, type_args]);
+diff_struct!(TsAsExpr, [span, expr, type_ann]);
+diff_struct!(TsTypeAssertion, [span, expr, type_ann]);
+diff_struct!(TsConstAssertion, [span, expr]);
+diff_struct!(TsNonNullExpr, [span, expr]);

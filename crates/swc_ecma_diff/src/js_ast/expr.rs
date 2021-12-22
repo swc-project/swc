@@ -46,8 +46,9 @@ diff_enum!(
 diff_enum!(PropOrSpread, [Prop, Spread]);
 diff_enum!(BlockStmtOrExpr, [BlockStmt, Expr]);
 diff_enum!(ExprOrSuper, [Expr, Super]);
-diff_enum!(Lit, [Str, Num, Regex, BigInt]);
+diff_enum!(Lit, [Str, Bool, Null, BigInt, Num, Regex, JSXText]);
 diff_enum!(JSXAttrOrSpread, [JSXAttr, SpreadElement]);
+diff_enum!(Prop, [Shorthand, KeyValue, Assign, Getter, Setter, Method]);
 
 diff_struct!(ThisExpr, [span]);
 diff_struct!(ArrayLit, [span, elems]);
@@ -109,6 +110,12 @@ diff_struct!(JSXFragment, [span, opening, children, closing]);
 diff_enum!(JSXElementName, [Ident, JSXMemberExpr, JSXNamespacedName]);
 diff_struct!(JSXOpeningFragment, [span]);
 diff_struct!(JSXClosingFragment, [span]);
+diff_struct!(PrivateName, [span, id]);
+diff_struct!(OptChainExpr, [span, question_dot_token, expr]);
+diff_struct!(SpreadElement, [dot3_token, expr]);
+diff_struct!(Super, [span]);
+diff_struct!(Bool, [span, value]);
+diff_struct!(Null, [span]);
 
 /// Ignored
 impl Diff for StrKind {
