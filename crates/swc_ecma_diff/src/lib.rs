@@ -174,8 +174,9 @@ where
                         should_retry = true;
                         break;
                     }
-
-                    results.push(diff);
+                    if l_idx == r_idx {
+                        results.push(diff);
+                    }
                 }
             }
 
