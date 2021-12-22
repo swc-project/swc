@@ -49,7 +49,7 @@ impl Display for Difference {
                 PathComponent::StructProp { struct_name, key } => {
                     write!(
                         f,
-                        ".{key}({struct_name})",
+                        "({struct_name}.{key})",
                         key = key,
                         struct_name = struct_name
                     )?;
