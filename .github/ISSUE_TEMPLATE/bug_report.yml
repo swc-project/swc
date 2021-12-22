@@ -34,6 +34,13 @@ body:
       description: A clear and concise description of what you expect to happen.
     validations:
       required: true
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual behavior
+      description: A clear and concise description of actual behavior.
+    validations:
+      required: false
   - type: input
     id: version
     attributes:
