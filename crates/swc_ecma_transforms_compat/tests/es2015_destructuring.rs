@@ -355,6 +355,19 @@ _o;"#
 );
 
 test!(
+    syntax(),
+    |_| tr(),
+    export_variable_issue_2858,
+    r#"export const { a: b } = { a: 1 }"#,
+    r#"
+var ref = {
+    a: 1
+};
+export const b = ref.a
+"#
+);
+
+test!(
     ignore,
     syntax(),
     |_| tr(),
