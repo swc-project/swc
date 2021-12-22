@@ -1,5 +1,5 @@
 pub use self::ctx::{Ctx, PathComponent};
-use std::fmt::Debug;
+use std::fmt::{self, Debug, Display, Formatter};
 use swc_common::Span;
 
 #[macro_use]
@@ -38,6 +38,34 @@ pub enum DiffResult {
 impl From<Difference> for DiffResult {
     fn from(v: Difference) -> Self {
         DiffResult::Different(v)
+    }
+}
+
+impl Display for Difference {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        writeln!(f, "Path: {:?}", self.path)?;
+        writeln!(f, "Left: {}", self.left.0)?;
+        writeln!(f, "Right: {}", self.right.0)?;
+
+        Ok(())
+    }
+}
+
+impl Display for DiffResult {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        match self {
+            DiffResult::Identical => {}
+            DiffResult::Different(d) => {
+                writeln!(f, "{}", d)?;
+            }
+            DiffResult::Multiple(d) => {
+                for d in d {
+                    writeln!(f, "{}", d)?;
+                }
+            }
+        }
+
+        Ok(())
     }
 }
 

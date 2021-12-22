@@ -36,7 +36,7 @@ fn diff(l: PathBuf) {
         let mut ctx = Ctx::new(Config { ignore_span: true });
         let res = l.diff(&mut r, &mut ctx);
 
-        Ok(format!("{:?}", res))
+        Ok(format!("{}", res))
     })
     .map(NormalizedOutput::from)
     .unwrap();
