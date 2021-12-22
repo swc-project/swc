@@ -62,4 +62,27 @@ diff_struct!(TsModuleDecl, [span, id, body, declare, global]);
 diff_enum!(TsModuleName, [Ident, Str]);
 diff_enum!(TsNamespaceBody, [TsModuleBlock, TsNamespaceDecl]);
 trivial!(Accessibility);
-diff_enum!(TsIndexSignature, []);
+diff_struct!(
+    TsIndexSignature,
+    [params, type_ann, readonly, is_static, span]
+);
+diff_enum!(TsFnParam, []);
+diff_struct!(
+    TsParamProp,
+    [
+        span,
+        decorators,
+        accessibility,
+        is_override,
+        readonly,
+        param
+    ]
+);
+diff_enum!(TsParamPropParam, []);
+diff_struct!(
+    TsImportEqualsDecl,
+    [span, declare, is_export, is_type_only, id, module_ref]
+);
+diff_enum!(TsModuleRef, []);
+diff_struct!(TsExportAssignment, [span, expr]);
+diff_struct!(TsNamespaceExportDecl, [id, span]);

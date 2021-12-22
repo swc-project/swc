@@ -168,3 +168,12 @@ diff_struct!(
         definite
     ]
 );
+diff_struct!(ImportDecl, [span, specifiers, src, type_only, asserts]);
+diff_struct!(ExportDecl, [span, decl]);
+diff_struct!(ExportDefaultDecl, [span, decl]);
+diff_struct!(ExportDefaultExpr, [span, expr]);
+diff_struct!(NamedExport, [span, specifiers, src, type_only, asserts]);
+diff_struct!(ExportAll, [span, src, asserts]);
+diff_enum!(ImportSpecifier, []);
+diff_enum!(ExportSpecifier, []);
+diff_enum!(DefaultDecl, []);
