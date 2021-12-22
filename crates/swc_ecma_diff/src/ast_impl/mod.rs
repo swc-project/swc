@@ -15,16 +15,4 @@ impl Diff for Module {
     }
 }
 
-impl Diff for ModuleItem {
-    fn diff(&mut self, other: &mut Self, ctx: &mut Ctx) -> DiffResult {
-        match (self, other) {
-            (ModuleItem::Stmt(l), ModuleItem::Stmt(r)) => l.diff(r, ctx),
-            (ModuleItem::ModuleDecl(l), ModuleItem::ModuleDecl(r)) => l.diff(r, ctx),
-            _ => DiffResult::Different(Difference {
-                path: ctx.path.clone(),
-                left: Node(format!("{:?}", self)),
-                right: Node(format!("{:?}", other)),
-            }),
-        }
-    }
-}
+diff_enum!(ModuleItem, [Stmt, ModuleDecl]);

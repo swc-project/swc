@@ -1,6 +1,8 @@
 pub use self::ctx::{Ctx, PathComponent};
 use swc_common::Span;
 
+#[macro_use]
+mod macros;
 mod ast_impl;
 mod ctx;
 
