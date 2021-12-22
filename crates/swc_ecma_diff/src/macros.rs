@@ -1,3 +1,23 @@
+macro_rules! diff_struct {
+    (
+        $T:ident,
+        [
+            $($field:ident),*
+        ]
+    ) => {
+        impl crate::Diff for $T {
+            fn diff(&mut self, other: &mut Self, ctx: &mut Ctx) -> DiffResult {
+                ctx.diff_struct(stringify!($T), |ctx| {
+
+                    $(
+                        ctx.field(stringify!($field), &mut self.$field, &mut other.$field);
+                    )*
+                })
+            }
+        }
+    };
+}
+
 macro_rules! diff_enum {
     (
         $T:ident,
