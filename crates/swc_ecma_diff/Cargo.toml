@@ -15,6 +15,7 @@ rustdoc-args = ["--cfg", "docsrs"]
 
 [dependencies]
 auto_impl = "0.5.0"
+num-bigint = "0.2"
 string_cache = "0.8"
 swc_atoms = {version = "0.2.9", path = "../swc_atoms"}
 swc_common = {version = "0.15.1", path = "../swc_common"}

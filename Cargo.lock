@@ -2866,6 +2866,7 @@ name = "swc_ecma_diff"
 version = "0.1.0"
 dependencies = [
  "auto_impl 0.5.0",
+ "num-bigint",
  "string_cache",
  "swc_atoms 0.2.9",
  "swc_common",
