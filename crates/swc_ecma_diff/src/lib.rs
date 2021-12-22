@@ -54,8 +54,8 @@ impl Display for Difference {
                         struct_name = struct_name
                     )?;
                 }
-                PathComponent::VecElem { index } => {
-                    write!(f, "[{}]", index)?;
+                PathComponent::VecElem { l, r } => {
+                    write!(f, "[{} <-> {}]", l, r)?;
                 }
             }
         }
@@ -131,44 +131,114 @@ where
             }));
         }
 
-        let mut l = self.iter_mut();
-        let mut r = other.iter_mut();
-        let mut idx = 0;
-        let mut removed = vec![];
+        let should_try_shifting = ctx.path.iter().all(|v| match v {
+            PathComponent::VecElem { l, r } => *l == *r,
+            _ => true,
+        });
 
-        while let (Some(l), Some(r)) = (l.next(), r.next()) {
-            let cur_idx = idx;
-            idx += 1;
+        // If we are visiting this vector for the first time, we can shift indexes to
+        // reduce output files.
+        //
+        // e.g.
+        //
+        // A:
+        //
+        // console.log('Foo')
+        // console.log('Bar')
+        // console.log('Baz')
+        //
+        //
+        // B:
+        //
+        // console.log('Bar')
+        // console.log('Baz')
+        //
+        //
+        // We can remove two statements.
+        if should_try_shifting {
+            let mut l_removed = vec![];
+            let mut r_removed = vec![];
 
-            let mut ctx = ctx.clone();
-            ctx.path.push(PathComponent::VecElem { index: cur_idx });
+            for (l_idx, l) in self.iter_mut().enumerate() {
+                for (r_idx, r) in other.iter_mut().enumerate() {
+                    let mut ctx = ctx.clone();
+                    ctx.path.push(PathComponent::VecElem { l: l_idx, r: r_idx });
 
-            let diff = l.diff(r, &mut ctx);
+                    let diff = l.diff(r, &mut ctx);
 
-            if matches!(diff, DiffResult::Identical) {
-                removed.push(cur_idx);
-                continue;
+                    if matches!(diff, DiffResult::Identical) {
+                        l_removed.push(l_idx);
+                        r_removed.push(r_idx);
+                        break;
+                    }
+
+                    results.push(diff);
+                }
             }
 
-            results.push(diff);
-        }
+            if !l_removed.is_empty() {
+                let new_l = self
+                    .drain(..)
+                    .enumerate()
+                    .filter(|(i, _)| !l_removed.contains(i))
+                    .map(|(_, v)| v)
+                    .collect::<Vec<_>>();
 
-        if !removed.is_empty() {
-            let new_l = self
-                .drain(..)
-                .enumerate()
-                .filter(|(i, _)| !removed.contains(i))
-                .map(|(_, v)| v)
-                .collect::<Vec<_>>();
-            let new_r = other
-                .drain(..)
-                .enumerate()
-                .filter(|(i, _)| !removed.contains(i))
-                .map(|(_, v)| v)
-                .collect::<Vec<_>>();
+                *self = new_l;
+            }
 
-            *self = new_l;
-            *other = new_r;
+            if !r_removed.is_empty() {
+                let new_r = other
+                    .drain(..)
+                    .enumerate()
+                    .filter(|(i, _)| !r_removed.contains(i))
+                    .map(|(_, v)| v)
+                    .collect::<Vec<_>>();
+                *other = new_r;
+            }
+        } else {
+            let mut l = self.iter_mut();
+            let mut r = other.iter_mut();
+            let mut idx = 0;
+            let mut removed = vec![];
+
+            while let (Some(l), Some(r)) = (l.next(), r.next()) {
+                let cur_idx = idx;
+                idx += 1;
+
+                let mut ctx = ctx.clone();
+                ctx.path.push(PathComponent::VecElem {
+                    l: cur_idx,
+                    r: cur_idx,
+                });
+
+                let diff = l.diff(r, &mut ctx);
+
+                if matches!(diff, DiffResult::Identical) {
+                    removed.push(cur_idx);
+                    continue;
+                }
+
+                results.push(diff);
+            }
+
+            if !removed.is_empty() {
+                let new_l = self
+                    .drain(..)
+                    .enumerate()
+                    .filter(|(i, _)| !removed.contains(i))
+                    .map(|(_, v)| v)
+                    .collect::<Vec<_>>();
+                let new_r = other
+                    .drain(..)
+                    .enumerate()
+                    .filter(|(i, _)| !removed.contains(i))
+                    .map(|(_, v)| v)
+                    .collect::<Vec<_>>();
+
+                *self = new_l;
+                *other = new_r;
+            }
         }
 
         // TODO: Dump extra nodes

@@ -14,7 +14,7 @@ pub struct Ctx {
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub enum PathComponent {
     StructProp { struct_name: JsWord, key: JsWord },
-    VecElem { index: usize },
+    VecElem { l: usize, r: usize },
 }
 
 impl Ctx {
@@ -68,40 +68,5 @@ impl StructDiffCtx<'_> {
         }
 
         self.results.push(diff);
-    }
-}
-
-pub(crate) trait IterExt<T>: Sized + Iterator<Item = T> {
-    fn with_ctx(self, parent: Ctx) -> IterWithCtx<Self> {
-        IterWithCtx {
-            iter: self,
-            ctx: parent,
-            idx: 0,
-        }
-    }
-}
-
-impl<I, T> IterExt<T> for I where Self: Iterator<Item = T> {}
-
-pub(crate) struct IterWithCtx<I> {
-    idx: usize,
-    ctx: Ctx,
-    iter: I,
-}
-
-impl<I> Iterator for IterWithCtx<I>
-where
-    I: Iterator,
-{
-    type Item = (I::Item, Ctx);
-
-    fn next(&mut self) -> Option<Self::Item> {
-        let item = self.iter.next()?;
-        let mut ctx = self.ctx.clone();
-        ctx.path.push(PathComponent::VecElem { index: self.idx });
-
-        self.idx += 1;
-
-        Some((item, ctx))
     }
 }
