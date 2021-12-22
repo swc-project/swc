@@ -1,6 +1,6 @@
 [package]
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
-description = "EcmaScript code minifier."
+description = "Diffing tools for ECMAScript"
 documentation = "https://rustdoc.swc.rs/swc_ecma_diff/"
 edition = "2018"
 include = ["Cargo.toml", "src/**/*.rs"]
@@ -14,3 +14,10 @@ all-features = true
 rustdoc-args = ["--cfg", "docsrs"]
 
 [dependencies]
+swc_atoms = {version = "0.2.9", path = "../swc_atoms"}
+swc_common = {version = "0.15.1", path = "../swc_common"}
+swc_ecma_ast = {version = "0.60.0", path = "../swc_ecma_ast"}
+
+[dev-dependencies]
+swc_ecma_codegen = {version = "0.84.0", path = "../swc_ecma_codegen"}
+swc_ecma_parser = {version = "0.82.5", path = "../swc_ecma_parser"}
