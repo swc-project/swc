@@ -167,7 +167,7 @@ trivial!(bool, (), char);
 trivial!(usize, u8, u16, u32, u64, u128);
 trivial!(isize, i8, i16, i32, i64, i128);
 trivial!(f32, f64);
-trivial!(String);
+trivial!(String, str);
 
 impl<S> Diff for string_cache::Atom<S>
 where

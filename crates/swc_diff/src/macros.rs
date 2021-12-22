@@ -54,3 +54,16 @@ macro_rules! diff_enum {
         }
     };
 }
+
+macro_rules! diff_string_enum {
+    ($T:ty) => {
+        impl crate::Diff for $T {
+            fn diff(&mut self, other: &mut Self, ctx: &mut crate::Ctx) -> crate::DiffResult {
+                let l = self.as_str();
+                let r = other.as_str();
+
+                crate::Diff::diff(&mut l, &mut r, ctx)
+            }
+        }
+    };
+}
