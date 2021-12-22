@@ -29,3 +29,29 @@ diff_struct!(
 );
 
 diff_struct!(Param, [span, decorators, pat]);
+diff_struct!(
+    Class,
+    [
+        span,
+        decorators,
+        body,
+        super_class,
+        is_abstract,
+        type_params,
+        super_type_params,
+        implements
+    ]
+);
+diff_enum!(
+    ClassMember,
+    [
+        Constructor,
+        Method,
+        PrivateMethod,
+        ClassProp,
+        PrivateProp,
+        TsIndexSignature,
+        Empty,
+        StaticBlock
+    ]
+);

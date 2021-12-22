@@ -29,3 +29,7 @@ diff_enum!(
         TsImportType
     ]
 );
+diff_enum!(TsEntityName, [TsQualifiedName, Ident]);
+
+diff_struct!(TsTypeParamInstantiation, [span, params]);
+diff_struct!(TsExprWithTypeArgs, [span, expr, type_args]);

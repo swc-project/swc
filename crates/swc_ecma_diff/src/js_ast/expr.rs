@@ -1,5 +1,7 @@
 use swc_ecma_ast::*;
 
+use crate::{Ctx, Diff, DiffResult};
+
 diff_enum!(
     Expr,
     [
@@ -42,6 +44,9 @@ diff_enum!(
 );
 
 diff_enum!(PropOrSpread, [Prop, Spread]);
+diff_enum!(BlockStmtOrExpr, [BlockStmt, Expr]);
+diff_enum!(ExprOrSuper, [Expr, Super]);
+diff_enum!(Lit, [Str, Num, Regex, BigInt]);
 
 diff_struct!(ThisExpr, [span]);
 diff_struct!(ArrayLit, [span, elems]);
@@ -53,3 +58,34 @@ diff_struct!(Decorator, [span, expr]);
 diff_struct!(UpdateExpr, [span, prefix, op, arg]);
 diff_struct!(BinExpr, [span, op, left, right]);
 diff_struct!(AssignExpr, [span, op, left, right]);
+diff_struct!(MemberExpr, [span, obj, prop, computed]);
+diff_struct!(CondExpr, [span, test, cons, alt]);
+diff_struct!(CallExpr, [span, callee, args, type_args]);
+diff_struct!(NewExpr, [span, callee, args, type_args]);
+diff_struct!(SeqExpr, [span, exprs]);
+diff_struct!(Tpl, [span, exprs, quasis]);
+diff_struct!(TaggedTpl, [span, tag, tpl, type_params]);
+diff_struct!(TplElement, [span, cooked, raw, tail]);
+diff_struct!(Str, [span, value, has_escape, kind]);
+diff_struct!(
+    ArrowExpr,
+    [
+        span,
+        params,
+        body,
+        is_async,
+        is_generator,
+        type_params,
+        return_type
+    ]
+);
+diff_struct!(ClassExpr, [ident, class]);
+diff_struct!(YieldExpr, [span, arg, delegate]);
+diff_struct!(MetaPropExpr, [span, meta, prop]);
+
+/// Ignored
+impl Diff for StrKind {
+    fn diff(&mut self, other: &mut Self, ctx: &mut Ctx) -> DiffResult {
+        DiffResult::Identical
+    }
+}
