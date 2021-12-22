@@ -1,4 +1,5 @@
 pub use self::ctx::{Ctx, PathComponent};
+use std::fmt::Debug;
 use swc_common::Span;
 
 #[macro_use]
@@ -41,7 +42,7 @@ impl From<Difference> for DiffResult {
 }
 
 #[auto_impl::auto_impl(Box)]
-pub trait Diff {
+pub trait Diff: Debug {
     /// This may remove common node from `self` and `other`.
     fn diff(&mut self, other: &mut Self, ctx: &mut Ctx) -> DiffResult;
 }
@@ -100,5 +101,27 @@ where
         }
 
         DiffResult::Multiple(results)
+    }
+}
+
+impl<T> Diff for Option<T>
+where
+    T: Diff,
+{
+    fn diff(&mut self, other: &mut Self, ctx: &mut Ctx) -> DiffResult {
+        match (self, other) {
+            (Some(l), Some(r)) => l.diff(&mut r, ctx),
+            (None, None) => DiffResult::Identical,
+            (None, Some(r)) => DiffResult::Different(Difference {
+                path: ctx.path.clone(),
+                left: Node("None".into()),
+                right: Node(format!("{:?}", r)),
+            }),
+            (Some(l), None) => DiffResult::Different(Difference {
+                path: ctx.path.clone(),
+                left: Node(format!("{:?}", l)),
+                right: Node("None".into()),
+            }),
+        }
     }
 }
