@@ -4,8 +4,8 @@ use swc_common::Span;
 
 #[macro_use]
 mod macros;
-mod ast_impl;
 mod ctx;
+mod js_ast;
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct Config {
