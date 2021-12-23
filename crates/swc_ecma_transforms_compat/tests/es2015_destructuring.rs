@@ -233,6 +233,60 @@ const ref = {},
 "
 );
 
+test_exec!(
+    syntax(),
+    |_| tr(),
+    object_pat_assign_prop_binding_3,
+    r#"
+let foo = 1;
+let bar = 2;
+let x;
+let y;
+({ [++foo]: x = "c", [++bar]: y = "d" } = { 2: "a" });
+
+expect(foo).toBe(2);
+expect(bar).toBe(3);
+expect(x).toBe("a");
+expect(y).toBe("d");
+"#
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    object_pat_assign_prop_binding_isseu_2850,
+    "const obj = { foo = 123, bar: x = 123 } = { foo: 24, bar: 45 };",
+    "
+var ref, ref1, ref2;
+const obj =(
+    ref = {
+        foo: 24,
+        bar: 45
+    },
+    ref1 = ref.foo,
+    foo = ref1 === void 0 ? 123 : ref1,
+    (
+        ref2 = ref.bar,
+        x = ref2 === void 0 ? 123 : ref2
+    ),
+    ref
+);
+"
+);
+
+test_exec!(
+    syntax(),
+    |_| tr(),
+    object_pat_assign_prop_binding_isseu_2850_exec,
+    r#"
+const obj = { foo = 123, bar: x = 123 } = { foo: 24, bar: 45 };
+
+expect(obj).toEqual({ foo: 24, bar: 45 });
+expect(foo).toBe(24);
+expect(x).toBe(45);
+"#
+);
+
 test!(
     syntax(),
     |_| tr(),
