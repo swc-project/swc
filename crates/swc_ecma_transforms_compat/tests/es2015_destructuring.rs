@@ -201,6 +201,41 @@ ref = {}, ref1 = ref.code, code = ref1 === void 0 ? 1 : ref1, ref;"
 test!(
     syntax(),
     |_| tr(),
+    object_pat_assign_prop_2,
+    "const {code = 1} = {}",
+    "
+const ref = {},
+  _code = ref.code,
+  code = _code === void 0 ? 1 : _code;
+"
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    object_pat_assign_prop_binding,
+    "({foo: bar = 1} = {})",
+    "
+var ref, ref1;
+ref = {}, ref1 = ref.foo, bar = ref1 === void 0 ? 1 : ref1, ref;
+"
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    object_pat_assign_prop_binding_2,
+    "const {foo: bar = 1} = {}",
+    "
+const ref = {},
+  tmp = ref.foo,
+  bar = tmp === void 0 ? 1 : tmp;
+"
+);
+
+test!(
+    syntax(),
+    |_| tr(),
     obj_assign_pat,
     r#"let { a = 1 } = foo"#,
     r#"let _a = foo.a, a = _a === void 0 ? 1 : _a;"#
