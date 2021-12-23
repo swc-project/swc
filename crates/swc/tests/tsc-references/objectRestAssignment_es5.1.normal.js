@@ -83,7 +83,7 @@ _complex = complex, nested = _objectWithoutProperties(_complex.x, [
 ]), rest = _objectWithoutProperties(_complex, [
     "x",
     "y"
-]), ref = _complex, ({ ka  } = ref.x), other = ref.y, ref, _complex;
+]), ref = _complex, ka = ref.x.ka, other = ref.y, ref, _complex;
 // should be:
 var overEmit;
 // var _g = overEmit.a, [_h, ...y] = _g, nested2 = __rest(_h, []), _j = overEmit.b, { z } = _j, c = __rest(_j, ["z"]), rest2 = __rest(overEmit, ["a", "b"]);
@@ -95,11 +95,11 @@ var _a = _toArray(overEmit.a), ref1 = _a[0], ref1 = ref1 !== null ? ref1 : _thro
     "b"
 ]);
 var _overEmit;
-var ref2;
+var ref2, ref3, ref4;
 _overEmit = overEmit, nested2 = _extends({
 }, _overEmit.a[0]), c = _objectWithoutProperties(_overEmit.b, [
     "z"
 ]), rest2 = _objectWithoutProperties(_overEmit, [
     "a",
     "b"
-]), ref2 = _overEmit, [{}, ...y] = ref2.a, ({ z  } = ref2.b), ref2, _overEmit;
+]), ref2 = _overEmit, ref3 = _toArray(ref2.a), ref4 = ref3[0], ref4, y = ref3.slice(1), ref3, z = ref2.b.z, ref2, _overEmit;

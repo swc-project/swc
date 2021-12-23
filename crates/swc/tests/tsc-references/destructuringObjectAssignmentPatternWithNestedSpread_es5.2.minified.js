@@ -1,4 +1,4 @@
-var _c, ref, a, d;
+var _c;
 (function(source, excluded) {
     if (null == source) return {
     };
@@ -21,4 +21,4 @@ var _c, ref, a, d;
     }
 }).x, [
     "a"
-]), ref = _c, { a  } = d = ref.x;
+]), (void 0 === _c.x, _c.x).a;

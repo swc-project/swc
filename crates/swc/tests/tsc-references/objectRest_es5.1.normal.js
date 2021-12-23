@@ -128,7 +128,7 @@ _complex = complex, nested = _objectWithoutProperties(_complex.x, [
 ]), rest = _objectWithoutProperties(_complex, [
     "x",
     "y"
-]), ref = _complex, ({ ka  } = ref.x), other = ref.y, ref, _complex;
+]), ref = _complex, ka = ref.x.ka, other = ref.y, ref, _complex;
 var _ref = {
     x: 1,
     y: 2

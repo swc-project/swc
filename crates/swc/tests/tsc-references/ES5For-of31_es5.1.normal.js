@@ -1,10 +1,9 @@
 var a, b;
 var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 try {
-    var ref, ref1;
     for(var _iterator = [][Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
-        var ref2;
-        ref2 = _step.value, ref = 1, b = ref, ref1 = "", a = ref1, ref2;
+        var ref, ref1, ref2;
+        ref = _step.value, ref1 = ref.a, b = ref1 === void 0 ? 1 : ref1, ref2 = ref.b, a = ref2 === void 0 ? "" : ref2, ref;
         a;
         b;
     }
