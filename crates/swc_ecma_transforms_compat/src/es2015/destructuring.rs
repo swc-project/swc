@@ -622,7 +622,9 @@ impl VisitMut for AssignFolder {
                         if is_literal(right) && ignore_return_value {
                             match &mut **right {
                                 Expr::Array(arr)
-                                    if elems.len() == arr.elems.len() || has_rest_pat(elems) =>
+                                    if elems.len() == arr.elems.len()
+                                        || (elems.len() < arr.elems.len()
+                                            && has_rest_pat(elems)) =>
                                 {
                                     let mut arr_elems = Some(arr.elems.take().into_iter());
                                     elems.into_iter().for_each(|p| match p {
@@ -652,15 +654,25 @@ impl VisitMut for AssignFolder {
                                                     e.expr
                                                 })
                                                 .unwrap_or_else(|| undefined(p.span()));
-                                            exprs.push(Box::new(Expr::Assign(AssignExpr {
+
+                                            let mut expr = Expr::Assign(AssignExpr {
                                                 span: p.span(),
                                                 left: PatOrExpr::Pat(Box::new(p.take())),
                                                 op: op!("="),
                                                 right,
-                                            })));
+                                            });
+
+                                            self.visit_mut_expr(&mut expr);
+
+                                            exprs.push(Box::new(expr));
                                         }
 
-                                        None => {}
+                                        None => {
+                                            arr_elems
+                                                .as_mut()
+                                                .expect("pattern after rest element?")
+                                                .next();
+                                        }
                                     });
                                     *expr = SeqExpr { span: *span, exprs }.into();
                                     return;

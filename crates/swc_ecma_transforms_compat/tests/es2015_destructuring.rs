@@ -183,6 +183,92 @@ ref = [], ref1 = ref[0], code = ref1 === void 0 ? 1 : ref1, ref;"
 test!(
     syntax(),
     |_| tr(),
+    array_pat_assign_prop_binding,
+    "[code = 1] = [1]",
+    "
+var ref;
+    ref = 1, 
+    code = ref === void 0 ? 1 : ref;
+"
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    array_pat_assign_prop_binding_2,
+    "[foo = 1, bar = 2] = [3];",
+    "
+var ref, ref1, ref2;
+    ref = [3],
+    ref1 = ref[0],
+    foo = ref1 === void 0 ? 1 : ref1,
+    ref2 = ref[1],
+    bar = ref2 === void 0 ? 2 : ref2,
+    ref;
+"
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    array_pat_assign_prop_binding_3,
+    "[foo = 1, bar = 2] = [3, 4];",
+    "
+var ref, ref1;
+    ref = 3,
+    foo = ref === void 0 ? 1 : ref,
+    ref1 = 4,
+    bar = ref1 === void 0 ? 2 : ref1;
+"
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    array_pat_assign_prop_binding_4,
+    "const [foo = 1] = [2];",
+    "const tmp = 2, foo = tmp === void 0 ? 1 : tmp;"
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    array_pat_assign_prop_binding_5,
+    "const [foo = 1, bar] = [2, 3];",
+    "
+const tmp = 2,
+    foo = tmp === void 0 ? 1 : tmp,
+    bar = 3;
+"
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    array_pat_assign_prop_binding_6,
+    "const [foo = 1] = [];",
+    "
+const ref = [],
+    tmp = ref[0],
+    foo = tmp === void 0 ? 1 : tmp;
+"
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    array_pat_assign_prop_binding_7,
+    "const [foo = 1] = [1, 2];",
+    "
+const ref = [1, 2],
+    tmp = ref[0],
+    foo = tmp === void 0 ? 1 : tmp;
+"
+);
+
+test!(
+    syntax(),
+    |_| tr(),
     issue_260_02,
     "[code = 1, ...rest] = [];",
     "code = 1 = void 0, rest = [];",
@@ -643,13 +729,13 @@ var x = z[0],
     y = z.slice(1);"#
 );
 
-//test!(
-//    syntax(),
-//    |_| tr(),
-//    member_expr,
-//    r#"[foo.foo, foo.bar] = [1, 2];"#,
-//    r#"foo.foo = 1, foo.bar = 2;"#
-//);
+test!(
+    syntax(),
+    |_| tr(),
+    member_expr,
+    r#"[foo.foo, foo.bar] = [1, 2];"#,
+    r#"foo.foo = 1, foo.bar = 2;"#
+);
 
 test!(
     syntax(),
