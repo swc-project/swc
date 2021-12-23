@@ -118,11 +118,13 @@ jobs:
           - swc
           - swc_atoms
           - swc_bundler
+          - swc_cli
           - swc_common
           - swc_css
           - swc_css_ast
           - swc_css_codegen
           - swc_css_codegen_macros
+          - swc_css_minifier
           - swc_css_parser
           - swc_css_utils
           - swc_css_visit
@@ -130,7 +132,9 @@ jobs:
           - swc_ecma_codegen
           - swc_ecma_codegen_macros
           - swc_ecma_dep_graph
+          - swc_ecma_diff
           - swc_ecma_ext_transforms
+          - swc_ecma_lints
           - swc_ecma_loader
           - swc_ecma_minifier
           - swc_ecma_parser
