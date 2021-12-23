@@ -509,6 +509,7 @@ fn exec_with_node_test_runner(test_name: &str, src: &str) -> Result<(), ()> {
 
     let output = base_cmd
         .arg(&format!("{}", path.display()))
+        .arg("--color")
         .current_dir(root)
         .output()
         .expect("failed to run mocha");
