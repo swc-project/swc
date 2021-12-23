@@ -6048,11 +6048,17 @@ fn fixture(input: PathBuf) {
             ..Default::default()
         }),
         |_| {
-            decorators(Config {
-                legacy: true,
-                emit_metadata: true,
-                ..Default::default()
-            })
+            let top_level_mark = Mark::fresh(Mark::root());
+
+            chain!(
+                resolver_with_mark(top_level_mark),
+                strip(top_level_mark),
+                decorators(Config {
+                    legacy: true,
+                    emit_metadata: true,
+                    ..Default::default()
+                })
+            )
         },
         &code,
     );
