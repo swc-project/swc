@@ -2863,7 +2863,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_diff"
-version = "0.1.0"
+version = "0.0.1"
 dependencies = [
  "ansi_term 0.12.1",
  "auto_impl 0.5.0",
