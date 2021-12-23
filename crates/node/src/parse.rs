@@ -1,9 +1,12 @@
 use crate::{
     get_compiler,
-    util::{deserialize_json, try_with, CtxtExt, MapErr},
+    util::{deserialize_json, get_deserialized, try_with, MapErr},
 };
 use anyhow::Context as _;
-use napi::{CallContext, Either, Env, JsObject, JsString, JsUndefined, Task};
+use napi::{
+    bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
+    Env, Task,
+};
 use std::{
     path::{Path, PathBuf},
     sync::Arc,
@@ -27,19 +30,13 @@ pub struct ParseFileTask {
     pub options: String,
 }
 
-pub fn complete_parse<'a>(env: &Env, program: Program, _c: &Compiler) -> napi::Result<JsString> {
-    let s = serde_json::to_string(&program)
-        .context("failed to serialize Program")
-        .convert_err()?;
-    env.create_string_from_std(s)
-}
-
+#[napi]
 impl Task for ParseTask {
     type Output = Program;
-    type JsValue = JsString;
+    type JsValue = String;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
-        let options: ParseOptions = deserialize_json(&self.options).convert_err()?;
+        let options: ParseOptions = deserialize_json(&self.options)?;
         let fm = self
             .c
             .cm
@@ -60,19 +57,20 @@ impl Task for ParseTask {
         Ok(program)
     }
 
-    fn resolve(self, env: Env, result: Self::Output) -> napi::Result<Self::JsValue> {
-        complete_parse(&env, result, &self.c)
+    fn resolve(&mut self, _env: Env, result: Self::Output) -> napi::Result<Self::JsValue> {
+        Ok(serde_json::to_string(&result)?)
     }
 }
 
+#[napi]
 impl Task for ParseFileTask {
     type Output = Program;
-    type JsValue = JsString;
+    type JsValue = String;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
         try_with(self.c.cm.clone(), false, |handler| {
             self.c.run(|| {
-                let options: ParseOptions = deserialize_json(&self.options).convert_err()?;
+                let options: ParseOptions = deserialize_json(&self.options)?;
 
                 let fm = self
                     .c
@@ -93,42 +91,44 @@ impl Task for ParseFileTask {
         .convert_err()
     }
 
-    fn resolve(self, env: Env, result: Self::Output) -> napi::Result<Self::JsValue> {
-        complete_parse(&env, result, &self.c)
+    fn resolve(&mut self, _env: Env, result: Self::Output) -> napi::Result<Self::JsValue> {
+        Ok(serde_json::to_string(&result)?)
     }
 }
 
-#[js_function(3)]
-pub fn parse(ctx: CallContext) -> napi::Result<JsObject> {
-    let c = get_compiler(&ctx);
-    let src = ctx.get::<JsString>(0)?.into_utf8()?.as_str()?.to_string();
-    let options = ctx.get_buffer_as_string(1)?;
-    let filename = ctx.get::<Either<JsString, JsUndefined>>(2)?;
-    let filename = if let Either::A(value) = filename {
-        FileName::Real(value.into_utf8()?.as_str()?.to_owned().into())
+#[napi]
+pub fn parse(
+    src: String,
+    options: Buffer,
+    filename: Option<String>,
+    signal: Option<AbortSignal>,
+) -> AsyncTask<ParseTask> {
+    let c = get_compiler();
+    let options = String::from_utf8_lossy(options.as_ref()).to_string();
+    let filename = if let Some(value) = filename {
+        FileName::Real(value.into())
     } else {
         FileName::Anon
     };
 
-    ctx.env
-        .spawn(ParseTask {
+    AsyncTask::with_optional_signal(
+        ParseTask {
             c: c.clone(),
             filename,
             src,
             options,
-        })
-        .map(|t| t.promise_object())
+        },
+        signal,
+    )
 }
 
-#[js_function(3)]
-pub fn parse_sync(cx: CallContext) -> napi::Result<JsString> {
-    let c = get_compiler(&cx);
+#[napi]
+pub fn parse_sync(src: String, opts: Buffer, filename: Option<String>) -> napi::Result<String> {
+    let c = get_compiler();
 
-    let src = cx.get::<JsString>(0)?.into_utf8()?.as_str()?.to_owned();
-    let options: ParseOptions = cx.get_deserialized(1)?;
-    let filename = cx.get::<Either<JsString, JsUndefined>>(2)?;
-    let filename = if let Either::A(value) = filename {
-        FileName::Real(value.into_utf8()?.as_str()?.to_owned().into())
+    let options: ParseOptions = get_deserialized(&opts)?;
+    let filename = if let Some(value) = filename {
+        FileName::Real(value.into())
     } else {
         FileName::Anon
     };
@@ -148,19 +148,18 @@ pub fn parse_sync(cx: CallContext) -> napi::Result<JsString> {
     })
     .convert_err()?;
 
-    complete_parse(&cx.env, program, &c)
+    Ok(serde_json::to_string(&program)?)
 }
 
-#[js_function(2)]
-pub fn parse_file_sync(cx: CallContext) -> napi::Result<JsString> {
-    let c = get_compiler(&cx);
-    let path = cx.get::<JsString>(0)?.into_utf8()?;
-    let options: ParseOptions = cx.get_deserialized(1)?;
+#[napi]
+pub fn parse_file_sync(path: String, opts: Buffer) -> napi::Result<String> {
+    let c = get_compiler();
+    let options: ParseOptions = get_deserialized(&opts)?;
 
     let program = {
         try_with(c.cm.clone(), false, |handler| {
             let fm =
-                c.cm.load_file(Path::new(path.as_str()?))
+                c.cm.load_file(Path::new(path.as_str()))
                     .expect("failed to read program file");
 
             c.parse_js(
@@ -175,16 +174,18 @@ pub fn parse_file_sync(cx: CallContext) -> napi::Result<JsString> {
     }
     .convert_err()?;
 
-    complete_parse(cx.env, program, &c)
+    Ok(serde_json::to_string(&program)?)
 }
 
-#[js_function(2)]
-pub fn parse_file(cx: CallContext) -> napi::Result<JsObject> {
-    let c = get_compiler(&cx);
-    let path = PathBuf::from(cx.get::<JsString>(0)?.into_utf8()?.as_str()?);
-    let options = cx.get_buffer_as_string(1)?;
+#[napi]
+pub fn parse_file(
+    path: String,
+    options: Buffer,
+    signal: Option<AbortSignal>,
+) -> AsyncTask<ParseFileTask> {
+    let c = get_compiler();
+    let path = PathBuf::from(&path);
+    let options = String::from_utf8_lossy(options.as_ref()).to_string();
 
-    cx.env
-        .spawn(ParseFileTask { c, path, options })
-        .map(|t| t.promise_object())
+    AsyncTask::with_optional_signal(ParseFileTask { c, path, options }, signal)
 }
