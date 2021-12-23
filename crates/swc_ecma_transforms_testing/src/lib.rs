@@ -315,8 +315,8 @@ pub fn test_transform<F, P>(
             return Ok(());
         }
 
-        println!(">>>>> Orig <<<<<\n{}", input);
-        println!(">>>>> Code <<<<<\n{}", actual_src);
+        println!(">>>>> {} <<<<<\n{}", Color::Green.paint("Orig"), input);
+        println!(">>>>> {} <<<<<\n{}", Color::Green.paint("Code"), actual_src);
         if actual_src != expected_src {
             panic!(
                 r#"assertion failed: `(left == right)`
@@ -445,8 +445,11 @@ where
         let src = tester.print(&module, &tester.comments.clone());
 
         println!(
-            "\t>>>>> Orig <<<<<\n{}\n\t>>>>> Code <<<<<\n{}",
-            input, src_without_helpers
+            "\t>>>>> {} <<<<<\n{}\n\t>>>>> {} <<<<<\n{}",
+            Color::Green.paint("Orig"),
+            input,
+            Color::Green.paint("Code"),
+            src_without_helpers
         );
 
         exec_with_node_test_runner(test_name, &src)
@@ -508,7 +511,7 @@ fn exec_with_node_test_runner(test_name: &str, src: &str) -> Result<(), ()> {
         .arg(&format!("{}", path.display()))
         .current_dir(root)
         .status()
-        .expect("failed to run jest");
+        .expect("failed to run mocha");
     if status.success() {
         fs::write(&success_cache, "").unwrap();
         return Ok(());
