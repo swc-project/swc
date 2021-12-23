@@ -507,12 +507,18 @@ fn exec_with_node_test_runner(test_name: &str, src: &str) -> Result<(), ()> {
         Command::new(&test_runner_path)
     };
 
-    let status = base_cmd
+    let output = base_cmd
         .arg(&format!("{}", path.display()))
         .current_dir(root)
-        .status()
+        .output()
         .expect("failed to run mocha");
-    if status.success() {
+
+    println!(">>>>> {} <<<<<", Color::Red.paint("Stdout"));
+    println!("{}", String::from_utf8_lossy(&output.stdout));
+    println!(">>>>> {} <<<<<", Color::Red.paint("Stderr"));
+    println!("{}", String::from_utf8_lossy(&output.stderr));
+
+    if output.status.success() {
         fs::write(&success_cache, "").unwrap();
         return Ok(());
     }
