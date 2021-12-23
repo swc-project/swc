@@ -271,7 +271,14 @@ test!(
     |_| tr(),
     issue_260_02,
     "[code = 1, ...rest] = [];",
-    "code = 1 = void 0, rest = [];",
+    "
+var ref, ref1;
+    ref = [],
+    ref1 = ref[0],
+    code = ref1 === void 0 ? 1 : ref1,
+    rest = ref.slice(1),
+    ref;
+",
     ok_if_code_eq
 );
 
@@ -405,7 +412,15 @@ test!(
     |_| tr(),
     array2,
     r#"[a, [b], [c]] = ["hello", [", ", "junk"], ["world"]];"#,
-    r#"a = 'hello', [b] = [', ', 'junk'], [c] = ['world'];
+    r#"
+var ref, ref1;
+    a = "hello",
+    ref = [", ", "junk"],
+    b = ref[0],
+    ref,
+    ref1 = ["world"],
+    c = ref1[0],
+    ref1;
 "#
 );
 
@@ -1649,9 +1664,18 @@ var [a, [b], [c]] = ["hello", [", ", "junk"], ["world"]];
 
 "#,
     r#"
-var a = 'hello', ref = [', ', 'junk'], b = ref[0], c = 'world';
-a = 'hello', [b] = [', ', 'junk'], [c] = ['world'];
-
+var a = "hello",
+    ref = [", ", "junk"],
+    b = ref[0],
+    c = "world";
+var ref1, ref2;
+    a = "hello",
+    ref1 = [", ", "junk"],
+    b = ref1[0],
+    ref1,
+    ref2 = ["world"],
+    c = ref2[0],
+    ref2;
 "#
 );
 
