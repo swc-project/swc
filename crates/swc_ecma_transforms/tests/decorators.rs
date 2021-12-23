@@ -5,6 +5,8 @@
     feature = "swc_ecma_transforms_proposal",
 ))]
 
+use std::{fs, path::PathBuf};
+
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms::resolver_with_mark;
@@ -6034,3 +6036,30 @@ test!(
       initializer: void 0
   }), _class);"
 );
+
+#[testing::fixture("tests/fixture/decorator/**/exec.ts")]
+fn fixture(input: PathBuf) {
+    let code = fs::read_to_string(&input).expect("failed to read file");
+
+    swc_ecma_transforms_testing::exec_tr(
+        "decorator",
+        Syntax::Typescript(TsConfig {
+            decorators: true,
+            ..Default::default()
+        }),
+        |_| {
+            let top_level_mark = Mark::fresh(Mark::root());
+
+            chain!(
+                resolver_with_mark(top_level_mark),
+                strip(top_level_mark),
+                decorators(Config {
+                    legacy: true,
+                    emit_metadata: true,
+                    ..Default::default()
+                })
+            )
+        },
+        &code,
+    );
+}

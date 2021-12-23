@@ -1193,9 +1193,9 @@ dependencies = [
 
 [[package]]
 name = "mimalloc-rust-sys"
-version = "1.7.3"
+version = "1.7.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a8af39e0593dcb39b0b48baf857022dbe02d750a00591f85ecebf31dabba8a5b"
+checksum = "96f7f32dcc7aeb79781116048bbd27cc819b9db55805690b3379d536d40e9590"
 dependencies = [
  "cc",
  "cty",
@@ -2621,7 +2621,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.92.1"
+version = "0.93.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3032,7 +3032,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.103.2"
+version = "0.103.3"
 dependencies = [
  "pretty_assertions 0.6.1",
  "sourcemap",
@@ -3059,7 +3059,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.49.1"
+version = "0.49.2"
 dependencies = [
  "once_cell",
  "phf",
@@ -3092,7 +3092,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.59.2"
+version = "0.59.3"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -3306,7 +3306,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.99.0"
+version = "0.99.1"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -4021,7 +4021,7 @@ checksum = "fd6fbd9a79829dd1ad0cc20627bf1ed606756a7f77edff7b66b7064f9cb327c6"
 
 [[package]]
 name = "wasm"
-version = "1.2.121"
+version = "1.2.122"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",

@@ -349,11 +349,18 @@ impl AssignFolder {
                 }
 
                 let can_be_null = can_be_null(decl.init.as_ref().unwrap());
-                let ref_ident = make_ref_ident(self.c, decls, decl.init);
+
+                let ref_decls = if self.exporting {
+                    &mut self.vars
+                } else {
+                    decls.as_mut()
+                };
+
+                let ref_ident = make_ref_ident(self.c, ref_decls, decl.init);
 
                 let ref_ident = if can_be_null {
                     let init = Box::new(Expr::Ident(ref_ident.clone()));
-                    make_ref_ident(self.c, decls, Some(init))
+                    make_ref_ident(self.c, ref_decls, Some(init))
                 } else {
                     ref_ident
                 };

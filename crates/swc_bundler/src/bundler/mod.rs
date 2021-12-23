@@ -36,6 +36,9 @@ pub struct Config {
 
     pub disable_fixer: bool,
 
+    /// Disable tree-shaking optimization.
+    pub disable_dce: bool,
+
     /// List of modules which should be preserved.
     pub external_modules: Vec<JsWord>,
 
