@@ -657,7 +657,7 @@ impl VisitMut for AssignFolder {
 
                                             let mut expr = Expr::Assign(AssignExpr {
                                                 span: p.span(),
-                                                left: PatOrExpr::Pat(Box::new(p.take())),
+                                                left: Box::new(p.take()).into(),
                                                 op: op!("="),
                                                 right,
                                             });
@@ -956,22 +956,25 @@ impl VisitMut for AssignFolder {
 
                         let mut exprs = vec![];
 
-                        exprs.push(Box::new(Expr::Assign(AssignExpr {
-                            span: *span,
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(ref_ident.clone().into()))),
-                            op: op!("="),
-                            right: right.take(),
-                        })));
+                        exprs.push(Box::new(
+                            AssignExpr {
+                                span: *span,
+                                left: Box::new(Pat::Ident(ref_ident.clone().into())).into(),
+                                op: op!("="),
+                                right: right.take(),
+                            }
+                            .into(),
+                        ));
 
-                        let mut cond_expr = Expr::Assign(AssignExpr {
+                        let mut assign_cond_expr = Expr::Assign(AssignExpr {
                             span: *span,
-                            left: PatOrExpr::Pat(pat.left.take()),
+                            left: pat.left.take().into(),
                             op: op!("="),
                             right: Box::new(make_cond_expr(ref_ident, pat.right.take())),
                         });
 
-                        cond_expr.visit_mut_with(self);
-                        exprs.push(Box::new(cond_expr));
+                        assign_cond_expr.visit_mut_with(self);
+                        exprs.push(Box::new(assign_cond_expr));
 
                         *expr = Expr::Seq(SeqExpr {
                             span: DUMMY_SP,
