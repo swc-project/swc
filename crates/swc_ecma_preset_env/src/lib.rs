@@ -82,6 +82,11 @@ where
         BugfixTaggedTemplateCaching,
         bugfixes::template_literal_caching()
     );
+    let pass = add!(
+        pass,
+        BugfixSafariIdDestructuringCollisionInFunctionExpression,
+        bugfixes::safari_id_destructuring_collision_in_function_expression()
+    );
 
     // Proposals
 
