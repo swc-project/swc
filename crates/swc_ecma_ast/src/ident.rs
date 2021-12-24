@@ -114,6 +114,13 @@ impl Ident {
     ///
     /// Returns [Cow::Owned] if it's modified.
     pub fn symbol_for_str(s: &str) -> Cow<str> {
+        if s.is_reserved() || s.is_reserved_in_strict_mode(true) || s.is_reserved_in_strict_bind() {
+            let mut buf = String::with_capacity(s.len() + 1);
+            buf.push('_');
+            buf.push_str(s);
+            return Cow::Owned(buf);
+        }
+
         {
             let mut chars = s.chars();
 
@@ -141,11 +148,7 @@ impl Ident {
             }
         }
 
-        if buf.is_empty()
-            || buf.is_reserved()
-            || buf.is_reserved_in_strict_mode(true)
-            || buf.is_reserved_in_strict_bind()
-        {
+        if buf.is_empty() {
             buf.push('_');
         }
 
