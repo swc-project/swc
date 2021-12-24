@@ -1,12 +1,13 @@
 use crate::typescript::TsTypeAnn;
 use serde::{Deserialize, Serialize};
-use std::fmt::Display;
+use std::{borrow::Cow, fmt::Display};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     ast_node, util::take::Take, EqIgnoreSpan, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
+use unicode_xid::UnicodeXID;
 
-/// Identifer used as a pattern.
+/// Identifier used as a pattern.
 #[derive(Spanned, Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan, Serialize, Deserialize)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct BindingIdent {
@@ -83,6 +84,67 @@ pub struct Ident {
     /// TypeScript only. Used in case of an optional parameter.
     #[serde(default)]
     pub optional: bool,
+}
+
+impl Ident {
+    /// Returns true if `c` is a valid character for an identifier start.
+    pub fn is_valid_start(c: char) -> bool {
+        c == '$' || c == '_' || c.is_ascii_alphabetic() || {
+            if c.is_ascii() {
+                false
+            } else {
+                UnicodeXID::is_xid_start(c)
+            }
+        }
+    }
+
+    /// Returns true if `c` is a valid character for an identifier part after
+    /// start.
+    pub fn is_valid_continue(c: char) -> bool {
+        c == '$' || c == '_' || c == '\u{200c}' || c == '\u{200d}' || c.is_ascii_alphanumeric() || {
+            if c.is_ascii() {
+                false
+            } else {
+                UnicodeXID::is_xid_continue(c)
+            }
+        }
+    }
+
+    /// Alternative for `toIdentifier` of babel.
+    pub fn symbol_for_str(s: &str) -> Cow<str> {
+        {
+            let mut chars = s.chars();
+
+            if let Some(first) = chars.next() {
+                if Self::is_valid_start(first) {
+                    if chars.all(Self::is_valid_continue) {
+                        return Cow::Borrowed(s);
+                    }
+                }
+            }
+        }
+
+        let mut buf = String::with_capacity(s.len() + 2);
+        let mut has_start = false;
+
+        for c in s.chars() {
+            if !has_start && Self::is_valid_start(c) {
+                has_start = true;
+                buf.push(c);
+                continue;
+            }
+
+            if Self::is_valid_continue(c) {
+                buf.push(c);
+            }
+        }
+
+        if buf.is_empty() {
+            buf.push('_');
+        }
+
+        Cow::Owned(buf)
+    }
 }
 
 /// See [Ident] for documentation.

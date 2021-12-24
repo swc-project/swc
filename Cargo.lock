@@ -2817,6 +2817,7 @@ dependencies = [
  "string_enum",
  "swc_atoms 0.2.9",
  "swc_common",
+ "unicode-xid",
 ]
 
 [[package]]
