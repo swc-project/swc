@@ -18,8 +18,7 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
     noop_visit_mut_type!();
 
     fn visit_mut_binding_ident(&mut self, i: &mut BindingIdent) {
-        let sym = i.id.sym.clone();
-        if self.fn_expr_name.eq(&sym) {
+        if self.fn_expr_name.eq(&i.id.sym) {
             self.destructured_id_span = Some(i.id.span);
         }
     }
