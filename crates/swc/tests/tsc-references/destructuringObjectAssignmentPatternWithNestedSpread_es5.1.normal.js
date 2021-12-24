@@ -40,4 +40,4 @@ var _c;
 var ref;
 _c = c, b = _objectWithoutProperties(_c.x, [
     "a"
-]), ref = _c, { a  } = d = ref.x, ref, _c;
+]), ref = _c, d = ref.x, a = (d === void 0 ? d : d).a, ref, _c;
