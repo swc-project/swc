@@ -171,6 +171,8 @@ pub enum SyntaxError {
 
     NumericSeparatorIsAllowedOnlyBetweenTwoDigits,
 
+    ImportAssertions,
+
     TS1003,
     TS1005,
     TS1009,
@@ -429,6 +431,10 @@ impl SyntaxError {
                 "Nullish coalescing operator(??) requires parens when mixing with logical operators"
                     .into()
             }
+
+            SyntaxError::ImportAssertions => "import assertions require target to es2022 or \
+                                              higher and importAssertions:true for ecmascript"
+                .into(),
 
             SyntaxError::TS1056 => {
                 "jsc.target should be es5 or upper to use getter / setter".into()

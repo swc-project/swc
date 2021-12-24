@@ -275,6 +275,14 @@ where
         }
 
         emit!(n.src);
+
+        if let Some(asserts) = &n.asserts {
+            formatting_space!();
+            keyword!("assert");
+            formatting_space!();
+            emit!(asserts);
+        }
+
         formatting_semi!();
     }
 
