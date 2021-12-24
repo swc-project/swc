@@ -965,7 +965,7 @@ fn escape_keywords(mut e: Box<Expr>) -> Box<Expr> {
                     Cow::Owned(sym) => {
                         i.sym = sym.into();
                     }
-                    _=>{}
+                    _ => {}
                 }
             }
         }
