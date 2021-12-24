@@ -5,6 +5,9 @@
 
 
 
+- **(es/compat)** Fix `classes` pass (#3107) ([d923f89](https://github.com/swc-project/swc/commit/d923f89db19b4343034569595dc3bbbce29b86b0))
+
+
 - **(es/helpers)** Fix decorators (#3105) ([f66c2cd](https://github.com/swc-project/swc/commit/f66c2cd375f78711fdf6a058003010bce8999aed))
 
 ### Features
@@ -15,6 +18,9 @@
 
 
 - **(es/diff)** Initialize a diff tool for ecmascript (#3101) ([ff0b55b](https://github.com/swc-project/swc/commit/ff0b55b7782cfa9c428d88d366520b53307bca42))
+
+
+- **(node)** Upgrade `napi` to v2 (#2958) ([206da12](https://github.com/swc-project/swc/commit/206da128a1f1ecd43c7580a7ad5f58ebc363c812))
 
 ## [1.2.122] - 2021-12-22
 

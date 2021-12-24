@@ -1,16 +1,19 @@
 use crate::{
-    complete_output, get_compiler,
-    util::{deserialize_json, try_with, CtxtExt, MapErr},
+    get_compiler,
+    util::{deserialize_json, get_deserialized, try_with, MapErr},
 };
-use anyhow::{Context as _, Error};
-use napi::{CallContext, Env, JsBoolean, JsObject, JsString, Task};
+use anyhow::Context as _;
+use napi::{
+    bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
+    Env, Task,
+};
 use path_clean::clean;
 use std::{
     path::{Path, PathBuf},
     sync::Arc,
 };
 use swc::{config::Options, Compiler, TransformOutput};
-use swc_common::{FileName, SourceFile};
+use swc_common::FileName;
 use swc_ecma_ast::Program;
 
 /// Input to transform
@@ -30,12 +33,13 @@ pub struct TransformTask {
     pub options: String,
 }
 
+#[napi]
 impl Task for TransformTask {
     type Output = TransformOutput;
-    type JsValue = JsObject;
+    type JsValue = TransformOutput;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
-        let mut options: Options = deserialize_json(&self.options).convert_err()?;
+        let mut options: Options = deserialize_json(&self.options)?;
         if !options.filename.is_empty() {
             options.config.adjust(Path::new(&options.filename));
         }
@@ -75,108 +79,112 @@ impl Task for TransformTask {
         .convert_err()
     }
 
-    fn resolve(self, env: Env, result: Self::Output) -> napi::Result<Self::JsValue> {
-        complete_output(&env, result)
+    fn resolve(&mut self, _env: Env, result: Self::Output) -> napi::Result<Self::JsValue> {
+        Ok(result)
     }
 }
 
-/// returns `compiler, (src / path), options, plugin, callback`
-pub fn schedule_transform<F>(cx: CallContext, op: F) -> napi::Result<JsObject>
-where
-    F: FnOnce(&Arc<Compiler>, String, bool, String) -> TransformTask,
-{
-    let c = get_compiler(&cx);
+#[napi]
+pub fn transform(
+    src: String,
+    is_module: bool,
+    options: Buffer,
+    signal: Option<AbortSignal>,
+) -> napi::Result<AsyncTask<TransformTask>> {
+    let c = get_compiler();
 
-    let src = cx.get::<JsString>(0)?.into_utf8()?.as_str()?.to_owned();
-    let is_module = cx.get::<JsBoolean>(1)?;
-    let options = cx.get_buffer_as_string(2)?;
+    let options = String::from_utf8_lossy(options.as_ref()).to_string();
 
-    let task = op(&c, src, is_module.get_value()?, options);
+    let input = if is_module {
+        Input::Program(src)
+    } else {
+        Input::Source { src }
+    };
 
-    cx.env.spawn(task).map(|t| t.promise_object())
+    let task = TransformTask {
+        c: c.clone(),
+        input,
+        options,
+    };
+    Ok(AsyncTask::with_optional_signal(task, signal))
 }
 
-pub fn exec_transform<F>(cx: CallContext, op: F) -> napi::Result<JsObject>
-where
-    F: FnOnce(&Compiler, String, &Options) -> Result<Arc<SourceFile>, Error>,
-{
-    let c = get_compiler(&cx);
+#[napi]
+pub fn transform_sync(s: String, is_module: bool, opts: Buffer) -> napi::Result<TransformOutput> {
+    let c = get_compiler();
 
-    let s = cx.get::<JsString>(0)?.into_utf8()?;
-    let is_module = cx.get::<JsBoolean>(1)?;
-    let mut options: Options = cx.get_deserialized(2)?;
+    let mut options: Options = get_deserialized(&opts)?;
 
     if !options.filename.is_empty() {
         options.config.adjust(Path::new(&options.filename));
     }
 
-    let output = try_with(c.cm.clone(), !options.config.error.filename, |handler| {
+    try_with(c.cm.clone(), !options.config.error.filename, |handler| {
         c.run(|| {
-            if is_module.get_value()? {
+            if is_module {
                 let program: Program =
-                    deserialize_json(s.as_str()?).context("failed to deserialize Program")?;
+                    deserialize_json(s.as_str()).context("failed to deserialize Program")?;
                 c.process_js(&handler, program, &options)
             } else {
-                let fm =
-                    op(&c, s.as_str()?.to_string(), &options).context("failed to load file")?;
+                let fm = c.cm.new_source_file(
+                    if options.filename.is_empty() {
+                        FileName::Anon
+                    } else {
+                        FileName::Real(options.filename.clone().into())
+                    },
+                    s,
+                );
                 c.process_js_file(fm, &handler, &options)
             }
         })
     })
-    .convert_err()?;
-
-    complete_output(cx.env, output)
+    .convert_err()
 }
 
-#[js_function(4)]
-pub fn transform(cx: CallContext) -> napi::Result<JsObject> {
-    schedule_transform(cx, |c, src, is_module, options| {
-        let input = if is_module {
-            Input::Program(src)
-        } else {
-            Input::Source { src }
-        };
+#[napi]
+pub fn transform_file(
+    src: String,
+    _is_module: bool,
+    options: Buffer,
+    signal: Option<AbortSignal>,
+) -> napi::Result<AsyncTask<TransformTask>> {
+    let c = get_compiler();
 
-        TransformTask {
-            c: c.clone(),
-            input,
-            options,
-        }
-    })
+    let options = String::from_utf8_lossy(options.as_ref()).to_string();
+    let path = clean(&src);
+    let task = TransformTask {
+        c: c.clone(),
+        input: Input::File(path.into()),
+        options,
+    };
+    Ok(AsyncTask::with_optional_signal(task, signal))
 }
 
-#[js_function(4)]
-pub fn transform_sync(cx: CallContext) -> napi::Result<JsObject> {
-    exec_transform(cx, |c, src, options| {
-        Ok(c.cm.new_source_file(
-            if options.filename.is_empty() {
-                FileName::Anon
+#[napi]
+pub fn transform_file_sync(
+    s: String,
+    is_module: bool,
+    opts: Buffer,
+) -> napi::Result<TransformOutput> {
+    let c = get_compiler();
+
+    let mut options: Options = get_deserialized(&opts)?;
+
+    if !options.filename.is_empty() {
+        options.config.adjust(Path::new(&options.filename));
+    }
+
+    try_with(c.cm.clone(), !options.config.error.filename, |handler| {
+        c.run(|| {
+            if is_module {
+                let program: Program =
+                    deserialize_json(s.as_str()).context("failed to deserialize Program")?;
+                c.process_js(&handler, program, &options)
             } else {
-                FileName::Real(options.filename.clone().into())
-            },
-            src,
-        ))
+                let fm = c.cm.load_file(Path::new(&s)).expect("failed to load file");
+                c.process_js_file(fm, &handler, &options)
+            }
+        })
     })
-}
-
-#[js_function(4)]
-pub fn transform_file(cx: CallContext) -> napi::Result<JsObject> {
-    schedule_transform(cx, |c, path, _, options| {
-        let path = clean(&path);
-
-        TransformTask {
-            c: c.clone(),
-            input: Input::File(path.into()),
-            options,
-        }
-    })
-}
-
-#[js_function(4)]
-pub fn transform_file_sync(cx: CallContext) -> napi::Result<JsObject> {
-    exec_transform(cx, |c, path, _| {
-        Ok(c.cm
-            .load_file(Path::new(&path))
-            .expect("failed to load file"))
-    })
+    .convert_err()
 }

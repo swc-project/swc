@@ -12,5 +12,5 @@ version = "0.5.1"
 
 [dependencies]
 
-[target.'cfg(all(target_arch = "x86_64", not(target_env = "musl")))'.dependencies]
-mimalloc-rust = "=0.1.1"
+[target.'cfg(not(all(target_os = "linux", target_arch = "aarch64", target_env = "musl")))'.dependencies]
+mimalloc-rust = "=0.1.5"
