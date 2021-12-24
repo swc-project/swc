@@ -7,4 +7,4 @@ class ValidationStrategy {
         return 2;
     }
 }
-console.log(ValidationStrategy);
+console.log(ValidationStrategy.prototype['string!']);
