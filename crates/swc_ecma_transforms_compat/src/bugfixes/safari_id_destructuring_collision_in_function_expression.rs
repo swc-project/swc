@@ -15,17 +15,24 @@ pub fn safari_id_destructuring_collision_in_function_expression() -> impl Fold +
 struct SafariIdDestructuringCollisionInFunctionExpression {
     fn_expr_name: JsWord,
     destructured_id_span: Option<Span>,
-    binding_ident_syms: AHashSet<JsWord>,
+    other_ident_syms: AHashSet<JsWord>,
+    in_body: bool,
 }
 
 impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
     noop_visit_mut_type!();
 
-    fn visit_mut_binding_ident(&mut self, i: &mut BindingIdent) {
-        if self.fn_expr_name.eq(&i.id.sym) {
-            self.destructured_id_span = Some(i.id.span);
+    fn visit_mut_binding_ident(&mut self, binding_ident: &mut BindingIdent) {
+        if !self.in_body && self.fn_expr_name.eq(&binding_ident.id.sym) {
+            self.destructured_id_span = Some(binding_ident.id.span);
         } else {
-            self.binding_ident_syms.insert(i.id.sym.clone());
+            self.other_ident_syms.insert(binding_ident.id.sym.clone());
+        }
+    }
+
+    fn visit_mut_ident(&mut self, ident: &mut Ident) {
+        if self.in_body && !self.fn_expr_name.eq(&ident.sym) {
+            self.other_ident_syms.insert(ident.sym.clone());
         }
     }
 
@@ -41,13 +48,15 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
         if let Some(ident) = &n.ident {
             self.fn_expr_name = ident.sym.clone();
             n.function.params.visit_mut_children_with(self);
+            self.in_body = true;
             n.function.body.visit_mut_children_with(self);
+            self.in_body = false;
             if let Some(id_span) = &self.destructured_id_span {
                 let mut rename_map = AHashMap::default();
                 let new_id: JsWord = {
                     let mut id_value: JsWord = format!("_{}", self.fn_expr_name).into();
                     let mut count = 0;
-                    while self.binding_ident_syms.contains(&id_value) {
+                    while self.other_ident_syms.contains(&id_value) {
                         count = count + 1;
                         id_value = format!("_{}{}", self.fn_expr_name, count).into();
                     }
@@ -86,5 +95,21 @@ mod tests {
         "(function a([_a1, _a]) {
           _a1 + _a;
         });"
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| safari_id_destructuring_collision_in_function_expression(),
+        use_duplicated_id,
+        "(function a([a]) { console.log(_a); })",
+        "(function a([_a1]) { console.log(_a); });"
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| safari_id_destructuring_collision_in_function_expression(),
+        foo,
+        "(function _a([_a]) { console.log(_a); })",
+        "(function _a([__a]) { console.log(__a); });"
     );
 }
