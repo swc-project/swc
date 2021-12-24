@@ -116,9 +116,9 @@ dependencies = [
 
 [[package]]
 name = "anyhow"
-version = "1.0.51"
+version = "1.0.52"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8b26702f315f53b6071259e15dd9d64528213b44d61de1ec926eca7715d62203"
+checksum = "84450d0b4a8bd1ba4144ce8ce718fbc5d071358b1e5384bace6536b3d1f2d5b3"
 
 [[package]]
 name = "arbitrary"
@@ -1327,7 +1327,7 @@ dependencies = [
  "swc_node_base",
  "swc_node_bundler",
  "tracing",
- "tracing-subscriber 0.3.3",
+ "tracing-subscriber 0.3.4",
 ]
 
 [[package]]
@@ -2559,7 +2559,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.99.0"
+version = "0.99.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2807,7 +2807,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.60.0"
+version = "0.60.1"
 dependencies = [
  "arbitrary",
  "is-macro",
@@ -3033,7 +3033,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.103.3"
+version = "0.103.4"
 dependencies = [
  "pretty_assertions 0.6.1",
  "sourcemap",
@@ -3093,7 +3093,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.59.3"
+version = "0.59.4"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -3307,7 +3307,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.99.1"
+version = "0.99.2"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3847,9 +3847,9 @@ dependencies = [
 
 [[package]]
 name = "tracing-subscriber"
-version = "0.3.3"
+version = "0.3.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "245da694cc7fc4729f3f418b304cb57789f1bed2a78c575407ab8a23f53cb4d3"
+checksum = "d5e6136799e1079699e0d9784c883e03af55cf6a1bee48fe1d79ca552c1bc36f"
 dependencies = [
  "ansi_term 0.12.1",
  "lazy_static",
