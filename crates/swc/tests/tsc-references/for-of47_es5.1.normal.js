@@ -13,10 +13,9 @@ var E;
 }));
 var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 try {
-    var ref;
     for(var _iterator = array[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
-        var ref1;
-        ref1 = _step.value, x = ref1.x, ref = E.x, y = ref, ref1;
+        var ref, ref1;
+        ref = _step.value, x = ref.x, ref1 = ref.y, y = ref1 === void 0 ? E.x : ref1, ref;
         x;
         y;
     }

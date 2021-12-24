@@ -30,29 +30,33 @@ function _objectWithoutPropertiesLoose(source, excluded) {
     for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
     return target;
 }
-_objectWithoutProperties((_complex = complex).x, [
-    "ka"
-]), _objectWithoutProperties(_complex, [
-    "x",
-    "y"
-]), ref = _complex, { ka  } = ref.x;
-var arr, ka, complex, _complex, ref, overEmit, _overEmit, ref1, _a = function(arr) {
-    if (Array.isArray(arr)) return arr;
-}(arr = overEmit.a) || function(iter) {
-    if ("undefined" != typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) return Array.from(iter);
-}(arr) || function(o, minLen) {
+function _toArray(arr) {
+    return (function(arr) {
+        if (Array.isArray(arr)) return arr;
+    })(arr) || (function(iter) {
+        if ("undefined" != typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) return Array.from(iter);
+    })(arr) || _unsupportedIterableToArray(arr, i) || (function() {
+        throw new TypeError("Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+    })();
+}
+function _unsupportedIterableToArray(o, minLen) {
     if (o) {
         if ("string" == typeof o) return _arrayLikeToArray(o, minLen);
         var n = Object.prototype.toString.call(o).slice(8, -1);
         if ("Object" === n && o.constructor && (n = o.constructor.name), "Map" === n || "Set" === n) return Array.from(n);
         if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
     }
-}(arr, i) || function() {
-    throw new TypeError("Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}(), ref2 = _a[0], ref2 = null !== ref2 ? ref2 : function(e) {
+}
+_objectWithoutProperties((_complex = complex).x, [
+    "ka"
+]), _objectWithoutProperties(_complex, [
+    "x",
+    "y"
+]), _complex.x.ka;
+var complex, _complex, overEmit, _overEmit, ref, ref1, _a = _toArray(overEmit.a), ref2 = _a[0], ref2 = null !== ref2 ? ref2 : function(e) {
     throw e;
-}(new TypeError("Cannot destructure undefined")), y = _a.slice(1), z = overEmit.b.z;
-_extends({
+}(new TypeError("Cannot destructure undefined"));
+_a.slice(1), overEmit.b.z, _extends({
 }, overEmit.a[0]), _objectWithoutProperties(overEmit.b, [
     "z"
 ]), _objectWithoutProperties(overEmit, [
@@ -64,4 +68,4 @@ _extends({
 ]), _objectWithoutProperties(_overEmit, [
     "a",
     "b"
-]), ref1 = _overEmit, [{}, ...y] = ref1.a, { z  } = ref1.b;
+]), (ref1 = _toArray((ref = _overEmit).a))[0], ref1.slice(1), ref.b.z;

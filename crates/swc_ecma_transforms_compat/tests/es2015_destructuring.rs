@@ -18,7 +18,7 @@ fn syntax() -> Syntax {
 }
 
 fn tr() -> impl Fold {
-    destructuring(Config { loose: true })
+    chain!(resolver(), destructuring(Config { loose: true }))
 }
 
 test!(
@@ -183,9 +183,102 @@ ref = [], ref1 = ref[0], code = ref1 === void 0 ? 1 : ref1, ref;"
 test!(
     syntax(),
     |_| tr(),
+    array_pat_assign_prop_binding,
+    "[code = 1] = [1]",
+    "
+var ref;
+    ref = 1, 
+    code = ref === void 0 ? 1 : ref;
+"
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    array_pat_assign_prop_binding_2,
+    "[foo = 1, bar = 2] = [3];",
+    "
+var ref, ref1, ref2;
+    ref = [3],
+    ref1 = ref[0],
+    foo = ref1 === void 0 ? 1 : ref1,
+    ref2 = ref[1],
+    bar = ref2 === void 0 ? 2 : ref2,
+    ref;
+"
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    array_pat_assign_prop_binding_3,
+    "[foo = 1, bar = 2] = [3, 4];",
+    "
+var ref, ref1;
+    ref = 3,
+    foo = ref === void 0 ? 1 : ref,
+    ref1 = 4,
+    bar = ref1 === void 0 ? 2 : ref1;
+"
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    array_pat_assign_prop_binding_4,
+    "const [foo = 1] = [2];",
+    "const tmp = 2, foo = tmp === void 0 ? 1 : tmp;"
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    array_pat_assign_prop_binding_5,
+    "const [foo = 1, bar] = [2, 3];",
+    "
+const tmp = 2,
+    foo = tmp === void 0 ? 1 : tmp,
+    bar = 3;
+"
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    array_pat_assign_prop_binding_6,
+    "const [foo = 1] = [];",
+    "
+const ref = [],
+    tmp = ref[0],
+    foo = tmp === void 0 ? 1 : tmp;
+"
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    array_pat_assign_prop_binding_7,
+    "const [foo = 1] = [1, 2];",
+    "
+const ref = [1, 2],
+    tmp = ref[0],
+    foo = tmp === void 0 ? 1 : tmp;
+"
+);
+
+test!(
+    syntax(),
+    |_| tr(),
     issue_260_02,
     "[code = 1, ...rest] = [];",
-    "code = 1 = void 0, rest = [];",
+    "
+var ref, ref1;
+    ref = [],
+    ref1 = ref[0],
+    code = ref1 === void 0 ? 1 : ref1,
+    rest = ref.slice(1),
+    ref;
+",
     ok_if_code_eq
 );
 
@@ -196,6 +289,95 @@ test!(
     "({code = 1} = {})",
     "var ref, ref1;
 ref = {}, ref1 = ref.code, code = ref1 === void 0 ? 1 : ref1, ref;"
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    object_pat_assign_prop_2,
+    "const {code = 1} = {}",
+    "
+const ref = {},
+  _code = ref.code,
+  code = _code === void 0 ? 1 : _code;
+"
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    object_pat_assign_prop_binding,
+    "({foo: bar = 1} = {})",
+    "
+var ref, ref1;
+ref = {}, ref1 = ref.foo, bar = ref1 === void 0 ? 1 : ref1, ref;
+"
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    object_pat_assign_prop_binding_2,
+    "const {foo: bar = 1} = {}",
+    "
+const ref = {},
+  tmp = ref.foo,
+  bar = tmp === void 0 ? 1 : tmp;
+"
+);
+
+test_exec!(
+    syntax(),
+    |_| tr(),
+    object_pat_assign_prop_binding_3,
+    r#"
+let foo = 1;
+let bar = 2;
+let x;
+let y;
+({ [++foo]: x = "c", [++bar]: y = "d" } = { 2: "a" });
+
+expect(foo).toBe(2);
+expect(bar).toBe(3);
+expect(x).toBe("a");
+expect(y).toBe("d");
+"#
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    object_pat_assign_prop_binding_isseu_2850,
+    "const obj = { foo = 123, bar: x = 123 } = { foo: 24, bar: 45 };",
+    "
+var ref, ref1, ref2;
+const obj =(
+    ref = {
+        foo: 24,
+        bar: 45
+    },
+    ref1 = ref.foo,
+    foo = ref1 === void 0 ? 123 : ref1,
+    (
+        ref2 = ref.bar,
+        x = ref2 === void 0 ? 123 : ref2
+    ),
+    ref
+);
+"
+);
+
+test_exec!(
+    syntax(),
+    |_| tr(),
+    object_pat_assign_prop_binding_isseu_2850_exec,
+    r#"
+const obj = { foo = 123, bar: x = 123 } = { foo: 24, bar: 45 };
+
+expect(obj).toEqual({ foo: 24, bar: 45 });
+expect(foo).toBe(24);
+expect(x).toBe(45);
+"#
 );
 
 test!(
@@ -230,7 +412,15 @@ test!(
     |_| tr(),
     array2,
     r#"[a, [b], [c]] = ["hello", [", ", "junk"], ["world"]];"#,
-    r#"a = 'hello', [b] = [', ', 'junk'], [c] = ['world'];
+    r#"
+var ref, ref1;
+    a = "hello",
+    ref = [", ", "junk"],
+    b = ref[0],
+    ref,
+    ref1 = ["world"],
+    c = ref1[0],
+    ref1;
 "#
 );
 
@@ -554,13 +744,13 @@ var x = z[0],
     y = z.slice(1);"#
 );
 
-//test!(
-//    syntax(),
-//    |_| tr(),
-//    member_expr,
-//    r#"[foo.foo, foo.bar] = [1, 2];"#,
-//    r#"foo.foo = 1, foo.bar = 2;"#
-//);
+test!(
+    syntax(),
+    |_| tr(),
+    member_expr,
+    r#"[foo.foo, foo.bar] = [1, 2];"#,
+    r#"foo.foo = 1, foo.bar = 2;"#
+);
 
 test!(
     syntax(),
@@ -686,8 +876,8 @@ test!(
 }",
     "
 function foo(bar) {
-    const foo = bar.foo;
-    return foo;
+    const foo1 = bar.foo;
+    return foo1;
 }"
 );
 
@@ -1474,9 +1664,18 @@ var [a, [b], [c]] = ["hello", [", ", "junk"], ["world"]];
 
 "#,
     r#"
-var a = 'hello', ref = [', ', 'junk'], b = ref[0], c = 'world';
-a = 'hello', [b] = [', ', 'junk'], [c] = ['world'];
-
+var a = "hello",
+    ref = [", ", "junk"],
+    b = ref[0],
+    c = "world";
+var ref1, ref2;
+    a = "hello",
+    ref1 = [", ", "junk"],
+    b = ref1[0],
+    ref1,
+    ref2 = ["world"],
+    c = ref2[0],
+    ref2;
 "#
 );
 

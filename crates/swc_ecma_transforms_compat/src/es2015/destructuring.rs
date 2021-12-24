@@ -622,7 +622,9 @@ impl VisitMut for AssignFolder {
                         if is_literal(right) && ignore_return_value {
                             match &mut **right {
                                 Expr::Array(arr)
-                                    if elems.len() == arr.elems.len() || has_rest_pat(elems) =>
+                                    if elems.len() == arr.elems.len()
+                                        || (elems.len() < arr.elems.len()
+                                            && has_rest_pat(elems)) =>
                                 {
                                     let mut arr_elems = Some(arr.elems.take().into_iter());
                                     elems.into_iter().for_each(|p| match p {
@@ -652,15 +654,25 @@ impl VisitMut for AssignFolder {
                                                     e.expr
                                                 })
                                                 .unwrap_or_else(|| undefined(p.span()));
-                                            exprs.push(Box::new(Expr::Assign(AssignExpr {
+
+                                            let mut expr = Expr::Assign(AssignExpr {
                                                 span: p.span(),
-                                                left: PatOrExpr::Pat(Box::new(p.take())),
+                                                left: Box::new(p.take()).into(),
                                                 op: op!("="),
                                                 right,
-                                            })));
+                                            });
+
+                                            self.visit_mut_expr(&mut expr);
+
+                                            exprs.push(Box::new(expr));
                                         }
 
-                                        None => {}
+                                        None => {
+                                            arr_elems
+                                                .as_mut()
+                                                .expect("pattern after rest element?")
+                                                .next();
+                                        }
                                     });
                                     *expr = SeqExpr { span: *span, exprs }.into();
                                     return;
@@ -855,7 +867,7 @@ impl VisitMut for AssignFolder {
                                         _ => false,
                                     };
 
-                                    exprs.push(Box::new(Expr::Assign(AssignExpr {
+                                    let mut expr = Expr::Assign(AssignExpr {
                                         span,
                                         left: PatOrExpr::Pat(value.take()),
                                         op: op!("="),
@@ -864,7 +876,10 @@ impl VisitMut for AssignFolder {
                                             Box::new(prop_name_to_expr(key.take())),
                                             computed,
                                         )),
-                                    })));
+                                    });
+
+                                    expr.visit_mut_with(self);
+                                    exprs.push(Box::new(expr));
                                 }
                                 ObjectPatProp::Assign(AssignPatProp { key, value, .. }) => {
                                     let computed = false;
@@ -931,23 +946,33 @@ impl VisitMut for AssignFolder {
                         });
                     }
                     Pat::Assign(pat) => {
-                        let ref_ident = make_ref_ident(self.c, &mut self.vars, None);
+                        let ref_ident = match *pat.right {
+                            Expr::Ident(ref i) => i.clone(),
+
+                            _ => make_ref_ident(self.c, &mut self.vars, None),
+                        };
 
                         let mut exprs = vec![];
 
-                        exprs.push(Box::new(Expr::Assign(AssignExpr {
-                            span: *span,
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(ref_ident.clone().into()))),
-                            op: op!("="),
-                            right: pat.right.take(),
-                        })));
+                        exprs.push(Box::new(
+                            AssignExpr {
+                                span: *span,
+                                left: Box::new(Pat::Ident(ref_ident.clone().into())).into(),
+                                op: op!("="),
+                                right: right.take(),
+                            }
+                            .into(),
+                        ));
 
-                        exprs.push(Box::new(Expr::Assign(AssignExpr {
+                        let mut assign_cond_expr = Expr::Assign(AssignExpr {
                             span: *span,
-                            left: PatOrExpr::Pat(pat.left.take()),
+                            left: pat.left.take().into(),
                             op: op!("="),
-                            right: Box::new(Expr::Ident(ref_ident)),
-                        })));
+                            right: Box::new(make_cond_expr(ref_ident, pat.right.take())),
+                        });
+
+                        assign_cond_expr.visit_mut_with(self);
+                        exprs.push(Box::new(assign_cond_expr));
 
                         *expr = Expr::Seq(SeqExpr {
                             span: DUMMY_SP,
