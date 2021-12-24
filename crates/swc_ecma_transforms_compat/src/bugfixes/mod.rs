@@ -15,6 +15,7 @@ pub fn bugfixes() -> impl Fold {
     chain!(
         async_arrows_in_class(),
         edge_default_param(),
-        template_literal_caching()
+        template_literal_caching(),
+        safari_id_destructuring_collision_in_function_expression()
     )
 }
