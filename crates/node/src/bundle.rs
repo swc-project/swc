@@ -1,9 +1,12 @@
 use crate::{
     get_compiler,
-    util::{CtxtExt, MapErr},
+    util::{get_deserialized, MapErr},
 };
 use anyhow::{bail, Error};
-use napi::{CallContext, Env, JsObject, Status, Task};
+use napi::{
+    bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
+    Env, Status, Task,
+};
 use serde::Deserialize;
 use std::{
     panic::{catch_unwind, AssertUnwindSafe},
@@ -36,15 +39,16 @@ struct StaticConfigItem {
     config: swc_node_bundler::v1::Config,
 }
 
-struct BundleTask {
+pub(crate) struct BundleTask {
     swc: Arc<swc::Compiler>,
     config: ConfigItem,
 }
 
 #[cfg(feature = "swc_v1")]
+#[napi]
 impl Task for BundleTask {
     type Output = AHashMap<String, TransformOutput>;
-    type JsValue = JsObject;
+    type JsValue = AHashMap<String, TransformOutput>;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
         let builtins = if let TargetEnv::Node = self.config.static_items.config.target {
@@ -154,31 +158,34 @@ impl Task for BundleTask {
         ))
     }
 
-    fn resolve(self, env: Env, output: Self::Output) -> napi::Result<Self::JsValue> {
-        env.to_js_value(&output)?.coerce_to_object()
+    fn resolve(&mut self, _env: Env, output: Self::Output) -> napi::Result<Self::JsValue> {
+        Ok(output)
     }
 }
 
 #[cfg(feature = "swc_v2")]
 impl Task for BundleTask {
     type Output = AHashMap<String, TransformOutput>;
-    type JsValue = JsObject;
+    type JsValue = AHashMap<String, TransformOutput>;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
         todo!()
     }
 
-    fn resolve(self, env: Env, output: Self::Output) -> napi::Result<Self::JsValue> {
+    fn resolve(&mut self, env: Env, output: Self::Output) -> napi::Result<Self::JsValue> {
         todo!()
     }
 }
 
 #[cfg(feature = "swc_v1")]
-#[js_function(1)]
-pub(crate) fn bundle(cx: CallContext) -> napi::Result<JsObject> {
-    let c: Arc<Compiler> = get_compiler(&cx);
+#[napi(ts_return_type = "Promise<{ [index: string]: { code: string, map?: string } }>")]
+pub(crate) fn bundle(
+    conf_items: Buffer,
+    signal: Option<AbortSignal>,
+) -> napi::Result<AsyncTask<BundleTask>> {
+    let c: Arc<Compiler> = get_compiler();
 
-    let static_items: StaticConfigItem = cx.get_deserialized(0)?;
+    let static_items: StaticConfigItem = get_deserialized(&conf_items)?;
 
     let loader = Box::new(swc_node_bundler::loaders::swc::SwcLoader::new(
         c.clone(),
@@ -218,21 +225,22 @@ pub(crate) fn bundle(cx: CallContext) -> napi::Result<JsObject> {
         Box::new(environment_resolver(target_env, alias))
     };
 
-    cx.env
-        .spawn(BundleTask {
+    Ok(AsyncTask::with_optional_signal(
+        BundleTask {
             swc: c.clone(),
             config: ConfigItem {
                 loader,
                 resolver,
                 static_items,
             },
-        })
-        .map(|t| t.promise_object())
+        },
+        signal,
+    ))
 }
 
 #[cfg(feature = "swc_v2")]
-#[js_function(1)]
-pub(crate) fn bundle(cx: CallContext) -> napi::Result<JsObject> {
+#[napi]
+pub(crate) fn bundle() -> napi::Result<AsyncTask<BundleTask>> {
     todo!()
 }
 
