@@ -18,7 +18,7 @@ fn syntax() -> Syntax {
 }
 
 fn tr() -> impl Fold {
-    destructuring(Config { loose: true })
+    chain!(resolver(), destructuring(Config { loose: true }))
 }
 
 test!(
@@ -876,8 +876,8 @@ test!(
 }",
     "
 function foo(bar) {
-    const foo = bar.foo;
-    return foo;
+    const foo1 = bar.foo;
+    return foo1;
 }"
 );
 
