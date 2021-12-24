@@ -53,7 +53,6 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
                     }
                     id_value
                 };
-                dbg!(new_id.clone());
                 let id = (self.fn_expr_name.clone(), id_span.ctxt());
                 rename_map.insert(id, new_id);
                 n.function.visit_mut_children_with(&mut rename(&rename_map));
