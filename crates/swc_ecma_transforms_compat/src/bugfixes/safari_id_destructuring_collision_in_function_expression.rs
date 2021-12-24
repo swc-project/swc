@@ -71,8 +71,12 @@ mod tests {
         ::swc_ecma_parser::Syntax::default(),
         |_| safari_id_destructuring_collision_in_function_expression(),
         basic,
-        "(function a ([a]) {})",
-        "(function a ([_a]) {})"
+        "(function a ([a]) { a });
+         (function a({ ...a }) { a });
+         (function a({ a }) { a });",
+        "(function a([_a]) { _a; });
+         (function a({ ..._a }) { _a; });
+         (function a({ a: _a }) { _a; });"
     );
 
     test!(
