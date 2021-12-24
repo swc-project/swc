@@ -115,7 +115,6 @@ impl Ident {
     /// Returns [Ok] if it's a valid identifier and [Err] if it's not valid.
     /// The returned [Err] contains the valid symbol.
     pub fn verify_symbol(s: &str) -> Result<(), String> {
-        #[inline]
         fn is_reserved_symbol(s: &str) -> bool {
             s.is_reserved() || s.is_reserved_in_strict_mode(true) || s.is_reserved_in_strict_bind()
         }
