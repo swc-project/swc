@@ -5,7 +5,7 @@ use self::{
     },
     prop_name::HashKey,
 };
-use std::{borrow::Cow, iter};
+use std::iter;
 use swc_common::{comments::Comments, util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, native::is_native, perf::Check};
@@ -959,13 +959,10 @@ fn escape_keywords(mut e: Box<Expr>) -> Box<Expr> {
     match &mut *e {
         Expr::Fn(f) => {
             if let Some(i) = &mut f.ident {
-                let sym = Ident::symbol_for_str(&i.sym);
+                let sym = Ident::verify_symbol(&i.sym);
 
-                match sym {
-                    Cow::Owned(sym) => {
-                        i.sym = sym.into();
-                    }
-                    _ => {}
+                if let Err(new) = sym {
+                    i.sym = new.into();
                 }
             }
         }

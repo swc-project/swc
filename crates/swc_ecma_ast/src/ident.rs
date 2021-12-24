@@ -1,6 +1,6 @@
 use crate::typescript::TsTypeAnn;
 use serde::{Deserialize, Serialize};
-use std::{borrow::Cow, fmt::Display};
+use std::fmt::Display;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     ast_node, util::take::Take, EqIgnoreSpan, Span, Spanned, SyntaxContext, DUMMY_SP,
@@ -112,13 +112,14 @@ impl Ident {
 
     /// Alternative for `toIdentifier` of babel.
     ///
-    /// Returns [Cow::Owned] if it's modified.
-    pub fn symbol_for_str(s: &str) -> Cow<str> {
+    /// Returns [Ok] if it's a valid identifier and [Err] if it's not valid.
+    /// The returned [Err] contains the valid symbol.
+    pub fn verify_symbol(s: &str) -> Result<(), String> {
         if s.is_reserved() || s.is_reserved_in_strict_mode(true) || s.is_reserved_in_strict_bind() {
             let mut buf = String::with_capacity(s.len() + 1);
             buf.push('_');
             buf.push_str(s);
-            return Cow::Owned(buf);
+            return Err(buf);
         }
 
         {
@@ -127,7 +128,7 @@ impl Ident {
             if let Some(first) = chars.next() {
                 if Self::is_valid_start(first) {
                     if chars.all(Self::is_valid_continue) {
-                        return Cow::Borrowed(s);
+                        return Ok(());
                     }
                 }
             }
@@ -152,7 +153,7 @@ impl Ident {
             buf.push('_');
         }
 
-        Cow::Owned(buf)
+        Err(buf)
     }
 }
 
