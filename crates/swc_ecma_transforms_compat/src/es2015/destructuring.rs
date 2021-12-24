@@ -947,9 +947,7 @@ impl VisitMut for AssignFolder {
                     }
                     Pat::Assign(pat) => {
                         let ref_ident = match *pat.right {
-                            Expr::Ident(ref i) if i.span.ctxt() != SyntaxContext::empty() => {
-                                i.clone()
-                            }
+                            Expr::Ident(ref i) => i.clone(),
 
                             _ => make_ref_ident(self.c, &mut self.vars, None),
                         };
