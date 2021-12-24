@@ -115,7 +115,12 @@ impl Ident {
     /// Returns [Ok] if it's a valid identifier and [Err] if it's not valid.
     /// The returned [Err] contains the valid symbol.
     pub fn verify_symbol(s: &str) -> Result<(), String> {
-        if s.is_reserved() || s.is_reserved_in_strict_mode(true) || s.is_reserved_in_strict_bind() {
+        #[inline]
+        fn is_reserved_symbol(s: &str) -> bool {
+            s.is_reserved() || s.is_reserved_in_strict_mode(true) || s.is_reserved_in_strict_bind()
+        }
+
+        if is_reserved_symbol(s) {
             let mut buf = String::with_capacity(s.len() + 1);
             buf.push('_');
             buf.push_str(s);
@@ -151,6 +156,13 @@ impl Ident {
 
         if buf.is_empty() {
             buf.push('_');
+        }
+
+        if is_reserved_symbol(&buf) {
+            let mut new_buf = String::with_capacity(buf.len() + 1);
+            new_buf.push('_');
+            new_buf.push_str(&buf);
+            buf = new_buf;
         }
 
         Err(buf)
