@@ -959,11 +959,10 @@ fn escape_keywords(mut e: Box<Expr>) -> Box<Expr> {
     match &mut *e {
         Expr::Fn(f) => {
             if let Some(i) = &mut f.ident {
-                if i.is_reserved()
-                    || i.is_reserved_in_strict_mode(true)
-                    || i.is_reserved_in_strict_bind()
-                {
-                    i.sym = format!("_{}", i.sym).into();
+                let sym = Ident::verify_symbol(&i.sym);
+
+                if let Err(new) = sym {
+                    i.sym = new.into();
                 }
             }
         }
