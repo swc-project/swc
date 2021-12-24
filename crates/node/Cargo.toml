@@ -22,13 +22,13 @@ napi-build = {version = "1"}
 [dependencies]
 anyhow = "1"
 backtrace = "0.3"
-napi = {version = "1", features = ["serde-json"]}
-napi-derive = {version = "1"}
+napi = {version = "2", default-features = false, features = ["napi3", "serde-json"]}
+napi-derive = {version = "2", default-features = false, features = ["type-def"]}
 path-clean = "0.1"
 proc-macro2 = "=1.0.32"
 serde = {version = "1", features = ["derive"]}
 serde_json = {version = "1", features = ["unbounded_depth"]}
-swc = {path = "../swc", features = ["concurrent", "plugin"]}
+swc = {path = "../swc", features = ["concurrent", "plugin", "node"]}
 swc_atoms = {version = "0.2.4", path = "../swc_atoms"}
 swc_bundler = {path = "../swc_bundler"}
 swc_common = {path = "../swc_common", features = ["sourcemap"]}

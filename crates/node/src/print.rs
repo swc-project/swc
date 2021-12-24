@@ -1,8 +1,11 @@
 use crate::{
-    complete_output, get_compiler,
-    util::{deserialize_json, CtxtExt, MapErr},
+    get_compiler,
+    util::{deserialize_json, get_deserialized, MapErr},
 };
-use napi::{CallContext, Env, JsObject, JsString, Task};
+use napi::{
+    bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
+    Env, Task,
+};
 use std::sync::Arc;
 use swc::{
     config::{Options, SourceMapsConfig},
@@ -18,13 +21,14 @@ pub struct PrintTask {
     pub options: String,
 }
 
+#[napi]
 impl Task for PrintTask {
     type Output = TransformOutput;
-    type JsValue = JsObject;
+    type JsValue = TransformOutput;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
-        let program: Program = deserialize_json(&self.program_json).convert_err()?;
-        let options: Options = deserialize_json(&self.options).convert_err()?;
+        let program: Program = deserialize_json(&self.program_json)?;
+        let options: Options = deserialize_json(&self.options)?;
 
         self.c
             .print(
@@ -45,56 +49,55 @@ impl Task for PrintTask {
             .convert_err()
     }
 
-    fn resolve(self, env: Env, result: Self::Output) -> napi::Result<Self::JsValue> {
-        complete_output(&env, result)
+    fn resolve(&mut self, _env: Env, result: Self::Output) -> napi::Result<Self::JsValue> {
+        Ok(result)
     }
 }
 
-#[js_function(2)]
-pub fn print(cx: CallContext) -> napi::Result<JsObject> {
-    let c = get_compiler(&cx);
-    let program_json = cx.get::<JsString>(0)?.into_utf8()?.as_str()?.to_string();
-    let options = cx.get_buffer_as_string(1)?;
+#[napi]
+pub fn print(
+    program_json: String,
+    options: Buffer,
+    signal: Option<AbortSignal>,
+) -> napi::Result<AsyncTask<PrintTask>> {
+    let c = get_compiler();
+    let options = String::from_utf8_lossy(&options).to_string();
 
-    cx.env
-        .spawn(PrintTask {
+    Ok(AsyncTask::with_optional_signal(
+        PrintTask {
             c: c.clone(),
             program_json,
             options,
-        })
-        .map(|t| t.promise_object())
+        },
+        signal,
+    ))
 }
 
-#[js_function(2)]
-pub fn print_sync(cx: CallContext) -> napi::Result<JsObject> {
-    let c = get_compiler(&cx);
+#[napi]
+pub fn print_sync(program: String, options: Buffer) -> napi::Result<TransformOutput> {
+    let c = get_compiler();
 
-    let program = cx.get::<JsString>(0)?.into_utf8()?;
-    let program: Program =
-        deserialize_json(&program.as_str()?).expect("failed to deserialize Program");
+    let program: Program = deserialize_json(&program.as_str())?;
 
-    let options: Options = cx.get_deserialized(1)?;
+    let options: Options = get_deserialized(&options)?;
 
     // Defaults to es3
     let codegen_target = options.codegen_target().unwrap_or_default();
 
-    let result = {
-        c.print(
-            &program,
-            None,
-            options.output_path,
-            true,
-            codegen_target,
-            options
-                .source_maps
-                .clone()
-                .unwrap_or(SourceMapsConfig::Bool(false)),
-            &Default::default(),
-            None,
-            options.config.minify,
-            None,
-        )
-    }
-    .convert_err()?;
-    complete_output(cx.env, result)
+    c.print(
+        &program,
+        None,
+        options.output_path,
+        true,
+        codegen_target,
+        options
+            .source_maps
+            .clone()
+            .unwrap_or(SourceMapsConfig::Bool(false)),
+        &Default::default(),
+        None,
+        options.config.minify,
+        None,
+    )
+    .convert_err()
 }

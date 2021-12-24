@@ -1,8 +1,11 @@
 use crate::{
-    complete_output, get_compiler,
-    util::{deserialize_json, try_with, CtxtExt, MapErr},
+    get_compiler,
+    util::{deserialize_json, get_deserialized, try_with, MapErr},
 };
-use napi::{CallContext, JsObject, Task};
+use napi::{
+    bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
+    Task,
+};
 use serde::Deserialize;
 use std::sync::Arc;
 use swc::{config::JsMinifyOptions, TransformOutput};
@@ -42,14 +45,15 @@ impl MinifyTarget {
     }
 }
 
+#[napi]
 impl Task for MinifyTask {
     type Output = TransformOutput;
 
-    type JsValue = JsObject;
+    type JsValue = TransformOutput;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
-        let input: MinifyTarget = deserialize_json(&self.code).convert_err()?;
-        let options: JsMinifyOptions = deserialize_json(&self.options).convert_err()?;
+        let input: MinifyTarget = deserialize_json(&self.code)?;
+        let options: JsMinifyOptions = deserialize_json(&self.options)?;
 
         try_with(self.c.cm.clone(), false, |handler| {
             let fm = input.to_file(self.c.cm.clone());
@@ -59,34 +63,31 @@ impl Task for MinifyTask {
         .convert_err()
     }
 
-    fn resolve(self, env: napi::Env, output: Self::Output) -> napi::Result<Self::JsValue> {
-        complete_output(&env, output)
+    fn resolve(&mut self, _env: napi::Env, output: Self::Output) -> napi::Result<Self::JsValue> {
+        Ok(output)
     }
 }
 
-#[js_function(2)]
-pub fn minify(cx: CallContext) -> napi::Result<JsObject> {
-    let code = cx.get_buffer_as_string(0)?;
-    let options = cx.get_buffer_as_string(1)?;
+#[napi]
+fn minify(code: Buffer, opts: Buffer, signal: Option<AbortSignal>) -> AsyncTask<MinifyTask> {
+    let code = String::from_utf8_lossy(code.as_ref()).to_string();
+    let options = String::from_utf8_lossy(opts.as_ref()).to_string();
 
-    let c = get_compiler(&cx);
+    let c = get_compiler();
 
     let task = MinifyTask { c, code, options };
 
-    cx.env.spawn(task).map(|t| t.promise_object())
+    AsyncTask::with_optional_signal(task, signal)
 }
 
-#[js_function(2)]
-pub fn minify_sync(cx: CallContext) -> napi::Result<JsObject> {
-    let code: MinifyTarget = cx.get_deserialized(0)?;
-    let opts = cx.get_deserialized(1)?;
+#[napi]
+pub fn minify_sync(code: Buffer, opts: Buffer) -> napi::Result<TransformOutput> {
+    let code: MinifyTarget = get_deserialized(code)?;
+    let opts = get_deserialized(opts)?;
 
-    let c = get_compiler(&cx);
+    let c = get_compiler();
 
     let fm = code.to_file(c.cm.clone());
 
-    let output =
-        try_with(c.cm.clone(), false, |handler| c.minify(fm, &handler, &opts)).convert_err()?;
-
-    complete_output(&cx.env, output)
+    try_with(c.cm.clone(), false, |handler| c.minify(fm, &handler, &opts)).convert_err()
 }
