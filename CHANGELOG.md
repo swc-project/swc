@@ -5,6 +5,9 @@
 
 
 
+- **(es/ast)** Fix `Ident::verify_symbol` (#3108) ([e5971f7](https://github.com/swc-project/swc/commit/e5971f77d5861038f7dcd905a9aca72c84b1a035))
+
+
 - **(es/compat)** Fix `classes` pass (#3107) ([d923f89](https://github.com/swc-project/swc/commit/d923f89db19b4343034569595dc3bbbce29b86b0))
 
 
