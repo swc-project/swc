@@ -9,7 +9,7 @@ include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0"
 name = "swc"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.99.1"
+version = "0.99.2"
 
 [lib]
 name = "swc"
@@ -33,6 +33,7 @@ concurrent = [
   "swc_ecma_transforms_optimization/concurrent",
 ]
 debug = ["swc_ecma_visit/debug"]
+node = ["napi", "napi-derive"]
 plugin = [
   "swc_plugin_runner",
 ]
@@ -79,6 +80,18 @@ swc_node_comments = {version = "0.2.0", path = "../swc_node_comments"}
 swc_plugin_runner = {version = "0.22.0", path = "../swc_plugin_runner", optional = true}
 swc_visit = {version = "0.3.0", path = "../swc_visit"}
 tracing = "0.1.28"
+
+[dependencies.napi-derive]
+default-features = false
+features = ["type-def"]
+optional = true
+version = "2.0.0"
+
+[dependencies.napi]
+default-features = false
+features = ["napi3"]
+optional = true
+version = "2.0.0"
 
 [dev-dependencies]
 rayon = "1"

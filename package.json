@@ -38,7 +38,8 @@
                 "aarch64-apple-darwin",
                 "aarch64-linux-android",
                 "aarch64-unknown-linux-musl",
-                "aarch64-pc-windows-msvc"
+                "aarch64-pc-windows-msvc",
+                "armv7-linux-androideabi"
             ]
         }
     },
@@ -56,8 +57,8 @@
         "prepare": "husky install && git config feature.manyFiles true",
         "artifacts": "napi artifacts --dist scripts/npm",
         "prepublishOnly": "tsc -d && napi prepublish -p scripts/npm --tagstyle npm",
-        "build": "tsc -d && napi build --platform --release --cargo-name node --cargo-flags=\"-p node\"",
-        "build:dev": "tsc -d && napi build --platform --cargo-name node --cargo-flags=\"-p node\"",
+        "build": "napi build --platform --cargo-name node --js ./node-swc/src/binding.js --dts ./node-swc/src/binding.d.ts -p node --release && tsc -d",
+        "build:dev": "napi build --platform --cargo-name node --js ./node-swc/src/binding.js --dts ./node-swc/src/binding.d.ts -p node && tsc -d",
         "build:ts": "tsc -d",
         "test": "cross-env NODE_OPTIONS='--experimental-vm-modules' jest node-swc/__tests__",
         "version": "napi version -p scripts/npm"
@@ -72,7 +73,7 @@
         "@babel/preset-react": "^7.13.13",
         "@babel/preset-typescript": "^7.13.0",
         "@babel/types": "^7.14.0",
-        "@napi-rs/cli": "^1.0.4",
+        "@napi-rs/cli": "^2.0.0",
         "@swc/helpers": "^0.2.10",
         "@types/jest": "^26.0.23",
         "@types/node": "^14.14.41",
@@ -99,7 +100,7 @@
         "source-map-support": "^0.5.19",
         "sourcemap-validator": "^2.1.0",
         "terser": "^5.7.1",
-        "typescript": "^4.2.0-beta"
+        "typescript": "^4.5.2"
     },
     "funding": {
         "type": "opencollective",
