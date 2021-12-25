@@ -1,4 +1,4 @@
 import data from "./data.json" assert {
-    type: "data"
+    type: "json"
 };
 console.log(data);
