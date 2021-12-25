@@ -102,6 +102,22 @@ where
                             _ => None,
                         })
                     {
+                        let exported = match &exported {
+                            Some(ModuleExportName::Ident(ident)) => Some(ident),
+                            Some(ModuleExportName::Str(..)) => {
+                                unimplemented!(
+                                    "Handling duplicate exports for string names is unimplementd \
+                                     yet"
+                                )
+                            }
+                            _ => None,
+                        };
+                        let orig = match &orig {
+                            ModuleExportName::Ident(ident) => ident,
+                            _ => unimplemented!(
+                                "Handling duplicate exports for string names is unimplementd yet"
+                            ),
+                        };
                         if let Some(exported) = &exported {
                             exports.push(exported.sym.clone());
                         } else {
@@ -480,6 +496,24 @@ where
                                 })
                                 .filter(|e| !e.is_type_only)
                             {
+                                let exported = match &exported {
+                                    Some(ModuleExportName::Ident(ident)) => Some(ident),
+                                    Some(ModuleExportName::Str(..)) => {
+                                        unimplemented!(
+                                            "Handling duplicate exports for string names is \
+                                             unimplementd yet"
+                                        )
+                                    }
+                                    _ => None,
+                                };
+                                let orig = match &orig {
+                                    ModuleExportName::Ident(ident) => ident,
+                                    _ => unimplemented!(
+                                        "Handling duplicate exports for string names is \
+                                         unimplementd yet"
+                                    ),
+                                };
+
                                 let mut scope = self.scope.borrow_mut();
                                 let is_import_default = orig.sym == js_word!("default");
 
@@ -567,7 +601,7 @@ where
                                             span: DUMMY_SP,
                                             left: PatOrExpr::Expr(Box::new(
                                                 quote_ident!("exports")
-                                                    .make_member(exported.unwrap_or(orig)),
+                                                    .make_member(*exported.unwrap_or(orig)),
                                             )),
                                             op: op!("="),
                                             right: value,
