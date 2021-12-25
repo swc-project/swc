@@ -1172,6 +1172,154 @@ test_exec!(
 test!(
     Syntax::default(),
     |_| tr(()),
+    hoist_function_in_generator_issue_2556_1,
+    r#"
+function* foo() {
+    return bar;
+    function bar() { }
+}
+"#,
+    r#"
+var regeneratorRuntime = require("regenerator-runtime");
+var _marked = regeneratorRuntime.mark(foo);
+function foo() {
+  var bar;
+
+  return regeneratorRuntime.wrap(function foo$(_ctx) {
+    while (1)
+      switch (_ctx.prev = _ctx.next) {
+        case 0:
+          bar = function _bar() {};
+
+          return _ctx.abrupt("return", bar);
+        case 3:
+        case "end":
+          return _ctx.stop();
+      }
+  }, _marked);
+}
+"#
+);
+
+test_exec!(
+    Syntax::default(),
+    |_| chain!(async_to_generator(), tr(())),
+    hoist_function_in_async_issue_2556_2,
+    "
+async function foo() {
+    return bar;
+    async function bar() {
+        return 1;
+    }
+    async function bar() {
+        return 2;
+    }
+    async function bar() {
+        return 3;
+    }
+}
+
+return foo()
+    .then((bar) => bar())
+    .then((x) => {
+        expect(x).toEqual(3);
+    });
+"
+);
+
+test!(
+    Syntax::default(),
+    |_| chain!(async_to_generator(), tr(())),
+    hoist_function_in_async_issue_2556_4,
+    r#"
+function requester() {
+	return pureRequester
+  
+    async function pureRequester() {
+      	await refreshThenRequest()
+        return true;
+        
+        async function refreshThenRequest() {
+        
+        }
+    }
+}
+"#,
+    r#"
+var regeneratorRuntime = require("regenerator-runtime");
+function requester() {
+  return pureRequester;
+  function pureRequester() {
+    return _pureRequester.apply(this, arguments);
+  }
+  function _pureRequester() {
+    _pureRequester = _asyncToGenerator(
+      regeneratorRuntime.mark(function _callee1() {
+        var refreshThenRequest, _refreshThenRequest;
+        return regeneratorRuntime.wrap(function _callee$(_ctx1) {
+          while (1)
+            switch (_ctx1.prev = _ctx1.next) {
+              case 0:
+                refreshThenRequest = function _refreshThenRequest1() {
+                  return _refreshThenRequest.apply(this, arguments);
+                };
+                _refreshThenRequest = function __refreshThenRequest() {
+                  _refreshThenRequest = _asyncToGenerator(
+                    regeneratorRuntime.mark(function _callee() {
+                      return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                        while (1)
+                          switch (_ctx.prev = _ctx.next) {
+                            case 0:
+                            case "end":
+                              return _ctx.stop();
+                          }
+                      }, _callee);
+                    })
+                  );
+                  return _refreshThenRequest.apply(this, arguments);
+                };
+                _ctx1.next = 4;
+                return refreshThenRequest();
+              case 4:
+                return _ctx1.abrupt("return", true);
+              case 7:
+              case "end":
+                return _ctx1.stop();
+            }
+        }, _callee1);
+      })
+    );
+    return _pureRequester.apply(this, arguments);
+  }
+}
+"#
+);
+
+test_exec!(
+    Syntax::default(),
+    |_| chain!(async_to_generator(), tr(())),
+    hoist_function_in_async_issue_2556_5,
+    r#"
+function requester() {
+    return pureRequester;
+  
+    async function pureRequester() {
+      await refreshThenRequest();
+      return true;
+  
+      async function refreshThenRequest() {}
+    }
+  }
+  
+  return requester()().then(function test(result) {
+      expect(result).toBe(true);
+  });
+"#
+);
+
+test!(
+    Syntax::default(),
+    |_| tr(()),
     issue_1125_2,
     "
     function _test() {

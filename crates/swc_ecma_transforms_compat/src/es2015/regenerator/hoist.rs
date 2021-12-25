@@ -14,6 +14,7 @@ where
     let mut v = Hoister {
         vars: Default::default(),
         arguments: None,
+        functions: Default::default(),
     };
     node.visit_mut_with(&mut v);
 
@@ -24,6 +25,7 @@ where
 pub(super) struct Hoister {
     pub vars: Vars,
     pub arguments: Option<Ident>,
+    pub functions: Vec<Stmt>,
 }
 
 impl Hoister {
@@ -53,6 +55,27 @@ impl Hoister {
             span: DUMMY_SP,
             exprs,
         })
+    }
+
+    fn function_to_expr(&mut self, mut func: FnDecl) -> Expr {
+        func.visit_mut_children_with(self);
+
+        let FnDecl {
+            ident, function, ..
+        } = func;
+
+        self.vars.push(ident.clone());
+
+        AssignExpr {
+            span: function.span,
+            left: PatOrExpr::Pat(Box::new(ident.clone().into())),
+            op: op!("="),
+            right: Box::new(Expr::Fn(FnExpr {
+                ident: private_ident!(ident.span, format!("_{}", ident.sym)).into(),
+                function,
+            })),
+        }
+        .into()
     }
 }
 
@@ -103,13 +126,29 @@ impl VisitMut for Hoister {
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
-        if let Stmt::Decl(Decl::Var(var)) = s {
-            let span = var.span;
-            let expr = Box::new(self.var_decl_to_expr(var.take()));
+        match s {
+            Stmt::Decl(Decl::Var(var)) => {
+                let span = var.span;
+                let expr = Box::new(self.var_decl_to_expr(var.take()));
 
-            *s = Stmt::Expr(ExprStmt { span, expr });
-            return;
+                *s = Stmt::Expr(ExprStmt { span, expr });
+                return;
+            }
+            Stmt::Decl(Decl::Fn(func)) => {
+                let span = func.function.span;
+                let expr = Box::new(self.function_to_expr(func.take()));
+
+                let stmt = ExprStmt { span, expr }.into();
+
+                self.functions.push(stmt);
+
+                // cleanup
+                *s = Stmt::dummy();
+                return;
+            }
+            _ => {}
         }
+
         s.visit_mut_children_with(self);
     }
 

@@ -364,6 +364,8 @@ impl Regenerator {
             }
         }));
 
+        handler.explode_stmts(hoister.functions);
+
         handler.explode_stmts(body.stmts);
 
         let mut cases = vec![];
