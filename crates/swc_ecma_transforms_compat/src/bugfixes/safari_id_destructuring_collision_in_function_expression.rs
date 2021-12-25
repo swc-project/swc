@@ -118,4 +118,12 @@ mod tests {
             _a = 3;
         })"
     );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| safari_id_destructuring_collision_in_function_expression(),
+        assignment_expr_in_default_value,
+        "(function a([a = a = 3]) {})",
+        "(function a([_a = _a = 3]) {})"
+    );
 }
