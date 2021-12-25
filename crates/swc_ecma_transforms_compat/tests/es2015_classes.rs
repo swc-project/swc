@@ -34,7 +34,13 @@ test!(
     syntax(),
     |t| tr(t),
     bigint_literial_methods,
-    "class Foo{ 1n(){} }",
+    "
+class Foo {
+  1n() {}
+  get 2n() {}
+  set 3n(x) {}
+}
+",
     r#"
 let Foo = function () {
   "use strict";
@@ -45,6 +51,14 @@ let Foo = function () {
     {
       key: "1",
       value: function () {},
+    },
+    {
+      key: "2",
+      get: function () {},
+    },
+    {
+      key: "3",
+      set: function (x) {},
     },
   ]);
   return Foo;
