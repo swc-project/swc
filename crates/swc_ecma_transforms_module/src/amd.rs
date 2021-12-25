@@ -352,6 +352,21 @@ where
                                 })
                                 .filter(|e| !e.is_type_only)
                             {
+                                let orig = match orig {
+                                    ModuleExportName::Ident(ident) => ident,
+                                    _ => unimplemented!(
+                                        "module transforms for string literal specifiers is \
+                                         unimplemented yet"
+                                    ),
+                                };
+                                let exported = match exported {
+                                    Some(ModuleExportName::Ident(ident)) => Some(ident),
+                                    Some(ModuleExportName::Str(..)) => unimplemented!(
+                                        "module transforms for string literal specifiers is \
+                                         unimplemented yet"
+                                    ),
+                                    _ => None,
+                                };
                                 let mut scope_ref_mut = self.scope.borrow_mut();
                                 let scope = &mut *scope_ref_mut;
                                 let is_import_default = orig.sym == js_word!("default");
