@@ -729,8 +729,8 @@ where
                     PropName::Num(n) => Box::new(Expr::Lit(Lit::Num(n))),
                     PropName::BigInt(ref b) => Box::new(Expr::Lit(
                         Str {
-                            span: b.span.clone(),
-                            value: format!("{}", b.value.clone()).into(),
+                            span: b.span,
+                            value: format!("{}", b.value).into(),
                             has_escape: false,
                             kind: Default::default(),
                         }
