@@ -601,7 +601,7 @@ where
                                             span: DUMMY_SP,
                                             left: PatOrExpr::Expr(Box::new(
                                                 quote_ident!("exports")
-                                                    .make_member(*exported.unwrap_or(orig)),
+                                                    .make_member((exported.unwrap_or(orig)).clone()),
                                             )),
                                             op: op!("="),
                                             right: value,
@@ -619,7 +619,7 @@ where
 
                                                 // export { foo as bar }
                                                 //  -> 'bar'
-                                                let i = exported.unwrap_or_else(|| orig);
+                                                let i = (exported.unwrap_or_else(|| orig)).clone();
                                                 Lit::Str(quote_str!(i.span, i.sym)).as_arg()
                                             },
                                             make_descriptor(value).as_arg(),
