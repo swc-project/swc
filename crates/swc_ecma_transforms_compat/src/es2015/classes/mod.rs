@@ -727,7 +727,15 @@ where
                     }
                     PropName::Str(ref s) => Box::new(Expr::Lit(Lit::Str(s.clone()))),
                     PropName::Num(n) => Box::new(Expr::Lit(Lit::Num(n))),
-                    PropName::BigInt(ref b) => Box::new(Expr::Lit(Lit::BigInt(b.clone()))),
+                    PropName::BigInt(ref b) => Box::new(Expr::Lit(
+                        Str {
+                            span: b.span.clone(),
+                            value: format!("{}", b.value.clone()).into(),
+                            has_escape: false,
+                            kind: Default::default(),
+                        }
+                        .into(),
+                    )),
                     PropName::Computed(ref c) => c.expr.clone(),
                 },
             })
