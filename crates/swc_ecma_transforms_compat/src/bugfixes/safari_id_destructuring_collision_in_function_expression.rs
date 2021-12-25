@@ -36,14 +36,6 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
         }
     }
 
-    fn visit_mut_param(&mut self, param: &mut Param) {
-        param.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_block_stmt(&mut self, block: &mut BlockStmt) {
-        block.visit_mut_children_with(self);
-    }
-
     fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
         if let Some(ident) = &n.ident {
             self.fn_expr_name = ident.sym.clone();
