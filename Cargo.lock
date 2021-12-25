@@ -1273,9 +1273,9 @@ checksum = "ebd4419172727423cf30351406c54f6cc1b354a2cfb4f1dba3e6cd07f6d5522b"
 
 [[package]]
 name = "napi-derive"
-version = "2.0.2"
+version = "2.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "99deb5dff51f1301df7e01e4ce3ef03abba278d7d08e2fffb969c28c150c013c"
+checksum = "1fb47b1f5f021abe96fcb84e7977f46c0aa645904c18cdb7b3a031e61899bf48"
 dependencies = [
  "convert_case",
  "napi-derive-backend",
@@ -1286,9 +1286,9 @@ dependencies = [
 
 [[package]]
 name = "napi-derive-backend"
-version = "1.0.19"
+version = "1.0.21"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "92f4038329fd9986f15382c8f6253829273cbfbcc7fbf2d88588fe7f42ae8e09"
+checksum = "487c39117657211e9bf93acade9363eac61ceead142e4906d15ff08d29fa448d"
 dependencies = [
  "convert_case",
  "once_cell",
@@ -2583,7 +2583,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.99.4"
+version = "0.99.5"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3107,7 +3107,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_classes"
-version = "0.36.0"
+version = "0.36.1"
 dependencies = [
  "swc_atoms 0.2.9",
  "swc_common",
@@ -3119,7 +3119,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.59.6"
+version = "0.59.7"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -3333,7 +3333,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.99.2"
+version = "0.99.3"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
