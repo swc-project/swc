@@ -82,7 +82,7 @@ mod tests {
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| safari_id_destructuring_collision_in_function_expression(),
-        avoid_collision,
+        avoid_collision_1,
         "(function a([a, _a]) { a + _a })",
         "(function a([_a1, _a]) {
           _a1 + _a;
@@ -100,8 +100,22 @@ mod tests {
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| safari_id_destructuring_collision_in_function_expression(),
-        foo,
+        avoid_collision_2,
         "(function _a([_a]) { console.log(_a); })",
         "(function _a([__a]) { console.log(__a); });"
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| safari_id_destructuring_collision_in_function_expression(),
+        assign_outside_var,
+        "let _a;
+        (function a([a]) {
+            _a = 3;
+        })",
+        "let _a;
+        (function a([_a1]) {
+            _a = 3;
+        })"
     );
 }
