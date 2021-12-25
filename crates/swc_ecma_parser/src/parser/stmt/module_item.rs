@@ -763,8 +763,16 @@ impl<'a, I: Tokens> Parser<I> {
         let _ = cur!(self, false);
         let asserts = if self.input.syntax().import_assertions()
             && !self.input.had_line_break_before_cur()
-            && eat!(self, "assert")
+            && is!(self, "assert")
         {
+            let valid = self.target() >= EsVersion::Es2022;
+
+            if !valid {
+                self.emit_err(self.input.cur_span(), SyntaxError::ImportAssertions);
+            }
+
+            eat!(self, "assert");
+
             match *self.parse_object::<Box<Expr>>()? {
                 Expr::Object(v) => Some(v),
                 _ => unreachable!(),

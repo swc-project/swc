@@ -410,6 +410,13 @@ where
             keyword!("from");
             formatting_space!();
             emit!(src);
+
+            if let Some(asserts) = &node.asserts {
+                formatting_space!();
+                keyword!("assert");
+                formatting_space!();
+                emit!(asserts);
+            }
         }
         formatting_semi!();
     }
@@ -425,6 +432,14 @@ where
         keyword!("from");
         formatting_space!();
         emit!(node.src);
+
+        if let Some(asserts) = &node.asserts {
+            formatting_space!();
+            keyword!("assert");
+            formatting_space!();
+            emit!(asserts);
+        }
+
         formatting_semi!();
     }
 
