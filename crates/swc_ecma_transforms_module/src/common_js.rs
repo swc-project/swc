@@ -600,8 +600,9 @@ where
                                         AssignExpr {
                                             span: DUMMY_SP,
                                             left: PatOrExpr::Expr(Box::new(
-                                                quote_ident!("exports")
-                                                    .make_member((exported.unwrap_or(orig)).clone()),
+                                                quote_ident!("exports").make_member(
+                                                    (exported.unwrap_or(orig)).clone(),
+                                                ),
                                             )),
                                             op: op!("="),
                                             right: value,
