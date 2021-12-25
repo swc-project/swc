@@ -57,7 +57,20 @@ impl Visit for DuplicateExports {
     }
 
     fn visit_export_named_specifier(&mut self, s: &ExportNamedSpecifier) {
-        self.add(&s.exported.as_ref().unwrap_or(&s.orig));
+        let ident = if let Some(exported) = &s.exported {
+            if let ModuleExportName::Ident(exported_ident) = exported {
+                exported_ident
+            } else {
+                unimplemented!("Handling duplicate exports for string names is unimplementd yet");
+            }
+        } else {
+            if let ModuleExportName::Ident(orig_ident) = &s.orig {
+                orig_ident
+            } else {
+                unimplemented!("Handling duplicate exports for string names is unimplementd yet");
+            }
+        };
+        self.add(&ident);
     }
 
     fn visit_export_namespace_specifier(&mut self, s: &ExportNamespaceSpecifier) {
