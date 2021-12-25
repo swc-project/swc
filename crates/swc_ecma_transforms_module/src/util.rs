@@ -397,12 +397,12 @@ impl Scope {
                             local, imported, ..
                         } = i;
                         let imported_ident = match imported {
-                            Some(ModuleExportName::Ident(ident)) => {
-                                Some(ident)
-                            },
-                            _ => None
+                            Some(ModuleExportName::Ident(ident)) => Some(ident),
+                            _ => None,
                         };
-                        let name = imported_ident.map(|i| i.sym).unwrap_or_else(|| local.sym.clone());
+                        let name = imported_ident
+                            .map(|i| i.sym)
+                            .unwrap_or_else(|| local.sym.clone());
                         let is_default = name == js_word!("default");
 
                         self.idents

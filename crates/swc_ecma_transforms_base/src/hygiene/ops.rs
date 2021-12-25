@@ -234,7 +234,10 @@ impl<'a> VisitMut for Operator<'a> {
                                 class,
                                 declare,
                             }))));
-                            export!(ModuleExportName::Ident(orig_ident), ModuleExportName::Ident(ident));
+                            export!(
+                                ModuleExportName::Ident(orig_ident),
+                                ModuleExportName::Ident(ident)
+                            );
                         }
                         Err(..) => {
                             stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
@@ -266,7 +269,10 @@ impl<'a> VisitMut for Operator<'a> {
                                 function,
                                 declare,
                             }))));
-                            export!(ModuleExportName::Ident(orig_ident), ModuleExportName::Ident(ident));
+                            export!(
+                                ModuleExportName::Ident(orig_ident),
+                                ModuleExportName::Ident(ident)
+                            );
                         }
                         Err(..) => {
                             stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
