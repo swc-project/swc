@@ -1375,6 +1375,107 @@ return main().then((results) => {
 
 test!(
     Syntax::default(),
+    |_| chain!(async_to_generator(), tr(())),
+    hoist_function_in_async_issue_2556_6,
+    r#"
+async function foo(a) {
+    return bar1;
+
+    const bar1 = "bar1";
+    console.log("dead code should not output", bar1);
+
+    async function bar1(b) {
+        return a + b;
+    }
+}
+
+foo(1)
+    .then((t) => t(2))
+    .then(console.log);
+"#,
+    r#"
+var regeneratorRuntime = require("regenerator-runtime");
+function foo(a) {
+    return _foo.apply(this, arguments);
+}
+function _foo() {
+    _foo = _asyncToGenerator(
+        regeneratorRuntime.mark(function _callee1(a) {
+            var bar1, bar1, _bar1;
+            return regeneratorRuntime.wrap(function _callee$(_ctx1) {
+                while (1)
+                    switch (_ctx1.prev = _ctx1.next) {
+                        case 0:
+                            bar1 = function _bar11(b) {
+                                return _bar1.apply(this, arguments);
+                            };
+                            _bar1 = function __bar1() {
+                                _bar1 = _asyncToGenerator(
+                                    regeneratorRuntime.mark(function _callee(
+                                        b
+                                    ) {
+                                        return regeneratorRuntime.wrap(
+                                            function _callee$(_ctx) {
+                                                while (1)
+                                                    switch (_ctx.prev = _ctx.next) {
+                                                        case 0:
+                                                            return _ctx.abrupt(
+                                                                "return",
+                                                                a + b
+                                                            );
+                                                        case 1:
+                                                        case "end":
+                                                            return _ctx.stop();
+                                                    }
+                                            },
+                                            _callee
+                                        );
+                                    })
+                                );
+                                return _bar1.apply(this, arguments);
+                            };
+                            return _ctx1.abrupt("return", bar1);
+                        case 7:
+                        case "end":
+                            return _ctx1.stop();
+                    }
+            }, _callee1);
+        })
+    );
+    return _foo.apply(this, arguments);
+}
+foo(1)
+    .then((t) => t(2))
+    .then(console.log);
+"#
+);
+
+test_exec!(
+    Syntax::default(),
+    |_| chain!(async_to_generator(), tr(())),
+    hoist_function_in_async_issue_2556_7,
+    r#"
+async function foo(a) {
+    return bar1;
+
+    const bar1 = "bar1";
+    console.log("dead code should not output", bar1);
+
+    async function bar1(b) {
+        return a + b;
+    }
+}
+
+return foo(1)
+    .then((t) => t(2))
+    .then((result) => {
+        expect(result).toBe(3);
+    });
+"#
+);
+
+test!(
+    Syntax::default(),
     |_| tr(()),
     issue_1125_2,
     "
