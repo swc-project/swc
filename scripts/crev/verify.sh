@@ -7,3 +7,10 @@ set -eu
 
 
 cargo crev verify --show-latest-trusted --skip-verified --recursive | grep 'none'
+
+if [ ! -z "$1" ] ; then
+    echo "Opening the crate $1"
+
+    cargo crev open $@
+    cargo crev review $@
+fi
