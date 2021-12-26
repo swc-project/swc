@@ -5,10 +5,11 @@
 
 set -eu
 
+# Exclude local crates.
+cargo crev verify --show-latest-trusted --skip-verified --recursive |\
+    grep -v "^local"
 
-cargo crev verify --show-latest-trusted --skip-verified --recursive | grep 'none'
-
-if [ ! -z "$1" ] ; then
+if [ ! -z "${1-}" ] ; then
     echo "Opening the crate $1"
 
     cargo crev open $@
