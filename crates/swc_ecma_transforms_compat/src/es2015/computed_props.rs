@@ -39,7 +39,10 @@ use swc_ecma_visit::{
 /// TODO(kdy1): cache reference like (_f = f, mutatorMap[_f].get = function(){})
 ///     instead of (mutatorMap[f].get = function(){}
 pub fn computed_properties(c: Config) -> impl Fold {
-    as_folder(ComputedProps { c })
+    as_folder(ComputedProps {
+        c,
+        ..Default::default()
+    })
 }
 
 #[derive(Debug, Clone, Copy, Default, Deserialize)]
@@ -49,34 +52,14 @@ pub struct Config {
     pub loose: bool,
 }
 
-trait GetConfig {
-    fn get_config(&self) -> Config;
-}
-
-struct ComputedProps {
-    c: Config,
-}
-
-impl GetConfig for ComputedProps {
-    fn get_config(&self) -> Config {
-        self.c
-    }
-}
-
 #[derive(Default)]
-struct ObjectLitFolder {
+struct ComputedProps {
     vars: Vec<VarDeclarator>,
     used_define_enum_props: bool,
     c: Config,
 }
 
-impl GetConfig for ObjectLitFolder {
-    fn get_config(&self) -> Config {
-        self.c
-    }
-}
-
-impl VisitMut for ObjectLitFolder {
+impl VisitMut for ComputedProps {
     noop_visit_mut_type!();
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
@@ -361,24 +344,11 @@ impl Visit for ComplexVisitor {
     }
 }
 
-impl VisitMut for ComputedProps {
-    noop_visit_mut_type!();
-
-    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        self.visit_mut_stmt_like(n);
-    }
-
-    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
-        self.visit_mut_stmt_like(n);
-    }
-}
-
-trait UpdateStms {
+impl ComputedProps {
     fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike + VisitWith<ShouldWork> + VisitMutWith<Self> + VisitMutWith<ObjectLitFolder>,
+        T: StmtLike + VisitWith<ShouldWork> + VisitMutWith<Self>,
         Vec<T>: VisitWith<ShouldWork>,
-        Self: VisitMut + GetConfig + Sized,
     {
         let mut stmts_updated = Vec::with_capacity(stmts.len());
 
@@ -388,8 +358,8 @@ trait UpdateStms {
                 continue;
             }
 
-            let mut folder = ObjectLitFolder {
-                c: self.get_config(),
+            let mut folder = Self {
+                c: self.c,
                 ..Default::default()
             };
 
@@ -412,9 +382,6 @@ trait UpdateStms {
         *stmts = stmts_updated;
     }
 }
-
-impl UpdateStms for ComputedProps {}
-impl UpdateStms for ObjectLitFolder {}
 
 fn prop_name_to_expr(p: PropName, loose: bool) -> (Expr, bool) {
     match p {
