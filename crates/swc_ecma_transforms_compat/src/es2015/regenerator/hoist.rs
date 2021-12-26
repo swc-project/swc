@@ -71,7 +71,7 @@ impl Hoister {
             left: PatOrExpr::Pat(Box::new(ident.clone().into())),
             op: op!("="),
             right: Box::new(Expr::Fn(FnExpr {
-                ident: private_ident!(ident.span, format!("_{}", ident.sym)).into(),
+                ident: Some(Ident::new(format!("_{}", ident.sym).into(), ident.span)),
                 function,
             })),
         }
