@@ -6,4 +6,4 @@
 set -eu
 
 
-cargo crev verify --skip-verified --recursive
+cargo crev verify --skip-verified --recursive | grep 'none'
