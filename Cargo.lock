@@ -1052,7 +1052,7 @@ dependencies = [
  "dashmap",
  "nom 5.1.2",
  "serde",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_parser",
@@ -1342,7 +1342,7 @@ dependencies = [
  "serde",
  "serde_json",
  "swc",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_bundler",
  "swc_common",
  "swc_ecma_ast",
@@ -2601,7 +2601,7 @@ dependencies = [
  "serde",
  "serde_json",
  "sourcemap",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -2636,16 +2636,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "swc_atoms"
-version = "0.2.9"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9f5229fe227ff0060e13baa386d6e368797700eab909523f730008d191ee53ae"
-dependencies = [
- "string_cache",
- "string_cache_codegen",
-]
-
-[[package]]
 name = "swc_bundler"
 version = "0.93.0"
 dependencies = [
@@ -2667,7 +2657,7 @@ dependencies = [
  "reqwest",
  "retain_mut",
  "sha-1",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -2751,7 +2741,7 @@ dependencies = [
  "is-macro",
  "serde",
  "string_enum",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
 ]
 
@@ -2761,7 +2751,7 @@ version = "0.42.1"
 dependencies = [
  "auto_impl 0.4.1",
  "bitflags",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_css_ast",
  "swc_css_codegen_macros",
@@ -2785,7 +2775,7 @@ dependencies = [
 name = "swc_css_minifier"
 version = "0.6.0"
 dependencies = [
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_css_ast",
  "swc_css_codegen",
@@ -2803,7 +2793,7 @@ dependencies = [
  "lexical",
  "serde",
  "serde_json",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_css_ast",
  "swc_css_visit",
@@ -2815,7 +2805,7 @@ dependencies = [
 name = "swc_css_utils"
 version = "0.37.0"
 dependencies = [
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_css_ast",
  "swc_css_visit",
@@ -2825,7 +2815,7 @@ dependencies = [
 name = "swc_css_visit"
 version = "0.39.0"
 dependencies = [
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_css_ast",
  "swc_visit",
@@ -2841,7 +2831,7 @@ dependencies = [
  "serde",
  "serde_json",
  "string_enum",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "unicode-xid",
 ]
@@ -2855,7 +2845,7 @@ dependencies = [
  "num-bigint",
  "once_cell",
  "sourcemap",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_codegen_macros",
@@ -2880,7 +2870,7 @@ dependencies = [
 name = "swc_ecma_dep_graph"
 version = "0.52.0"
 dependencies = [
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_parser",
@@ -2896,7 +2886,7 @@ dependencies = [
  "auto_impl 0.5.0",
  "num-bigint",
  "string_cache",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -2911,7 +2901,7 @@ name = "swc_ecma_ext_transforms"
 version = "0.42.0"
 dependencies = [
  "phf",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_parser",
@@ -2926,7 +2916,7 @@ dependencies = [
  "auto_impl 0.5.0",
  "parking_lot 0.11.1",
  "rayon",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_utils",
@@ -2947,7 +2937,7 @@ dependencies = [
  "regex",
  "serde",
  "serde_json",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "testing",
  "tracing",
@@ -2970,7 +2960,7 @@ dependencies = [
  "serde",
  "serde_json",
  "serde_regex",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3000,7 +2990,7 @@ dependencies = [
  "serde",
  "serde_json",
  "smallvec 1.7.0",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_visit",
@@ -3021,7 +3011,7 @@ dependencies = [
  "rplugin",
  "serde",
  "serde_json",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_parser",
@@ -3045,7 +3035,7 @@ dependencies = [
  "serde_json",
  "st-map",
  "string_enum",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3063,7 +3053,7 @@ version = "0.103.4"
 dependencies = [
  "pretty_assertions 0.6.1",
  "sourcemap",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3093,7 +3083,7 @@ dependencies = [
  "rayon",
  "scoped-tls",
  "smallvec 1.7.0",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3109,7 +3099,7 @@ dependencies = [
 name = "swc_ecma_transforms_classes"
 version = "0.36.1"
 dependencies = [
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_transforms_base",
@@ -3131,7 +3121,7 @@ dependencies = [
  "serde",
  "serde_json",
  "smallvec 1.7.0",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_parser",
@@ -3166,7 +3156,7 @@ dependencies = [
  "indexmap",
  "pathdiff",
  "serde",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_loader",
@@ -3190,7 +3180,7 @@ dependencies = [
  "rayon",
  "retain_mut",
  "serde_json",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_parser",
@@ -3216,7 +3206,7 @@ dependencies = [
  "serde",
  "serde_json",
  "smallvec 1.7.0",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_loader",
@@ -3245,7 +3235,7 @@ dependencies = [
  "serde",
  "sha-1",
  "string_enum",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3286,7 +3276,7 @@ name = "swc_ecma_transforms_typescript"
 version = "0.69.1"
 dependencies = [
  "serde",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3309,7 +3299,7 @@ version = "0.56.1"
 dependencies = [
  "once_cell",
  "rayon",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_parser",
@@ -3324,7 +3314,7 @@ name = "swc_ecma_visit"
 version = "0.46.0"
 dependencies = [
  "num-bigint",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_visit",
@@ -3363,7 +3353,7 @@ dependencies = [
  "scoped-tls",
  "serde",
  "serde_json",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
 ]
 
@@ -3379,7 +3369,7 @@ dependencies = [
  "serde",
  "serde_json",
  "swc",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_parser",
@@ -3447,7 +3437,7 @@ dependencies = [
  "serde_json",
  "string_enum",
  "swc",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_bundler",
  "swc_common",
  "swc_ecma_ast",
@@ -3482,7 +3472,7 @@ dependencies = [
  "rplugin",
  "serde",
  "serde_json",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_plugin_ast",
@@ -3499,7 +3489,7 @@ dependencies = [
  "anyhow",
  "serde",
  "serde_json",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_ecma_plugin_ast",
 ]
@@ -3516,7 +3506,7 @@ dependencies = [
  "rplugin",
  "serde",
  "serde_json",
- "swc_atoms 0.2.9 (registry+https://github.com/rust-lang/crates.io-index)",
+ "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3531,7 +3521,7 @@ name = "swc_plugin_testing"
 version = "0.24.0"
 dependencies = [
  "anyhow",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3544,7 +3534,7 @@ dependencies = [
 name = "swc_stylis"
 version = "0.41.1"
 dependencies = [
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_css_ast",
  "swc_css_codegen",
@@ -3590,7 +3580,7 @@ dependencies = [
  "rayon",
  "serde",
  "serde_json",
- "swc_atoms 0.2.9",
+ "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_parser",
