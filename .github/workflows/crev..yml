@@ -1,0 +1,23 @@
+name: "crev: Dependencies"
+
+on: [push, pull_request]
+
+jobs:
+  check-deps:
+    name: Check dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+
+      - name: Install required tools
+        run: |
+          cargo install cargo-crev
+
+      - name: Check licenses
+        run: |
+          cargo crev verify
