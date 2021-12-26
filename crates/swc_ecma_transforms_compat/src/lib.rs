@@ -3,6 +3,7 @@
 pub use self::{
     bugfixes::bugfixes, es2015::es2015, es2016::es2016, es2017::es2017, es2018::es2018,
     es2019::es2019, es2020::es2020, es2021::es2021, es2022::es2022, es3::es3,
+    experimental::experimental,
 };
 
 #[macro_use]
@@ -17,4 +18,5 @@ pub mod es2020;
 pub mod es2021;
 pub mod es2022;
 pub mod es3;
+pub mod experimental;
 pub mod reserved_words;
