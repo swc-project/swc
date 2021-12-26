@@ -17,6 +17,7 @@ jobs:
       - name: Install required tools
         run: |
           cargo install cargo-crev
+          cargo crev trust --level high https://github.com/kdy1/crev-proofs
 
       - name: Check licenses
         run: |
