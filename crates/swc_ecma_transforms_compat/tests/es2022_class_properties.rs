@@ -5238,6 +5238,45 @@ test!(
 
 test!(
     syntax(),
+    |_| class_properties(class_properties::Config { loose: false }),
+    issue_3055_1,
+    "
+export class Node {
+    foo() {
+        this.#bar(this);
+    }
+
+    #bar(parent) {
+        parent.#baz(this);
+        parent.baz.#baz(this);
+    }
+
+    #baz(child) { }
+}
+",
+    "
+var _bar = new WeakSet(),
+    _baz = new WeakSet();
+export class Node {
+    foo() {
+        _classPrivateMethodGet(this, _bar, bar).call(this, this);
+    }
+    constructor() {
+        _bar.add(this);
+        _baz.add(this);
+    }
+}
+function bar(parent) {
+    var _baz1;
+    _classPrivateMethodGet(parent, _baz, baz).call(parent, this);
+    _classPrivateMethodGet(_baz1 = parent.baz, _baz, baz).call(_baz1, this);
+}
+function baz(child) {}
+"
+);
+
+test!(
+    syntax(),
     |_| chain!(
         class_properties(class_properties::Config { loose: false }),
         async_to_generator()
