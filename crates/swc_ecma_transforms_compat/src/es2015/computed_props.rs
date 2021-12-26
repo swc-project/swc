@@ -49,8 +49,18 @@ pub struct Config {
     pub loose: bool,
 }
 
+trait GetConfig {
+    fn get_config(&self) -> Config;
+}
+
 struct ComputedProps {
     c: Config,
+}
+
+impl GetConfig for ComputedProps {
+    fn get_config(&self) -> Config {
+        self.c
+    }
 }
 
 #[derive(Default)]
@@ -60,8 +70,22 @@ struct ObjectLitFolder {
     c: Config,
 }
 
+impl GetConfig for ObjectLitFolder {
+    fn get_config(&self) -> Config {
+        self.c
+    }
+}
+
 impl VisitMut for ObjectLitFolder {
     noop_visit_mut_type!();
+
+    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        self.visit_mut_stmt_like(n);
+    }
+
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+        self.visit_mut_stmt_like(n);
+    }
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);
@@ -349,11 +373,12 @@ impl VisitMut for ComputedProps {
     }
 }
 
-impl ComputedProps {
+trait UpdateStms {
     fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike + VisitWith<ShouldWork> + VisitMutWith<Self> + VisitMutWith<ObjectLitFolder>,
         Vec<T>: VisitWith<ShouldWork>,
+        Self: VisitMut + GetConfig + Sized,
     {
         let mut stmts_updated = Vec::with_capacity(stmts.len());
 
@@ -364,7 +389,7 @@ impl ComputedProps {
             }
 
             let mut folder = ObjectLitFolder {
-                c: self.c,
+                c: self.get_config(),
                 ..Default::default()
             };
 
@@ -387,6 +412,9 @@ impl ComputedProps {
         *stmts = stmts_updated;
     }
 }
+
+impl UpdateStms for ComputedProps {}
+impl UpdateStms for ObjectLitFolder {}
 
 fn prop_name_to_expr(p: PropName, loose: bool) -> (Expr, bool) {
     match p {
