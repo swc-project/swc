@@ -18,7 +18,7 @@ parking_lot = "0.7"
 rplugin = {version = "0.3.0", path = "../rplugin"}
 serde = {version = "1.0.126", features = ["derive"]}
 serde_json = "1.0.64"
-swc_atoms = "0.2.7"
+swc_atoms = {version = "0.2.7", path = '../swc_atoms'}
 swc_common = {version = "0.15.0", path = "../swc_common", features = ["plugin-rt"]}
 swc_ecma_ast = {version = "0.60.0", path = "../swc_ecma_ast"}
 swc_ecma_parser = {version = "0.82.0", path = "../swc_ecma_parser"}
