@@ -2,9 +2,10 @@ pub use self::{
     arrow::arrow, block_scoped_fn::block_scoped_functions, block_scoping::block_scoping,
     classes::classes, computed_props::computed_properties, destructuring::destructuring,
     duplicate_keys::duplicate_keys, for_of::for_of, function_name::function_name,
-    instanceof::instance_of, new_target::new_target, parameters::parameters,
-    regenerator::regenerator, shorthand_property::shorthand, spread::spread,
-    sticky_regex::sticky_regex, template_literal::template_literal, typeof_symbol::typeof_symbol,
+    instanceof::instance_of, new_target::new_target, object_super::object_super,
+    parameters::parameters, regenerator::regenerator, shorthand_property::shorthand,
+    spread::spread, sticky_regex::sticky_regex, template_literal::template_literal,
+    typeof_symbol::typeof_symbol,
 };
 use serde::Deserialize;
 use swc_common::{chain, comments::Comments, Mark};
@@ -21,6 +22,7 @@ pub mod for_of;
 mod function_name;
 mod instanceof;
 pub mod new_target;
+mod object_super;
 pub mod parameters;
 pub mod regenerator;
 mod shorthand_property;
@@ -54,6 +56,7 @@ where
         function_name(),
         exprs(),
         for_of(c.for_of),
+        object_super(),
         // Should come before parameters
         // See: https://github.com/swc-project/swc/issues/1036
         parameters(c.parameters),
