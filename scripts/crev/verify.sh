@@ -9,6 +9,7 @@ set -eu
 TEXT=$(\
     cargo crev verify --show-latest-trusted --skip-verified --recursive |\
     grep -v "^local" |\
+    grep -v "=[ ]*$" |\
     tee /dev/stderr \
 )
 
