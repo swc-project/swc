@@ -22,8 +22,6 @@ use testing::NormalizedOutput;
 
 #[testing::fixture("tests/pass/**/input")]
 fn pass(input_dir: PathBuf) {
-    let _ = pretty_env_logger::try_init();
-
     let entry = input_dir.parent().unwrap().to_path_buf();
 
     let _ = create_dir_all(entry.join("output"));

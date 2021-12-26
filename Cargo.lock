@@ -641,19 +641,6 @@ dependencies = [
 
 [[package]]
 name = "env_logger"
-version = "0.6.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "aafcde04e90a5226a6443b7aabdb016ba2f8307c847d524724bd9b346dd1a2d3"
-dependencies = [
- "atty",
- "humantime",
- "log",
- "regex",
- "termcolor",
-]
-
-[[package]]
-name = "env_logger"
 version = "0.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "44533bbbb3bb3c1fa17d9f2e4e38bbbaf8396ba82193c4cb1b6445d711445d36"
@@ -1774,17 +1761,6 @@ dependencies = [
  "ctor",
  "diff",
  "output_vt100",
-]
-
-[[package]]
-name = "pretty_env_logger"
-version = "0.3.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "717ee476b1690853d222af4634056d830b5197ffd747726a9a1eee6da9f49074"
-dependencies = [
- "chrono",
- "env_logger 0.6.2",
- "log",
 ]
 
 [[package]]
@@ -2983,7 +2959,7 @@ version = "0.82.5"
 dependencies = [
  "either",
  "enum_kind",
- "env_logger 0.7.1",
+ "env_logger",
  "lexical",
  "num-bigint",
  "pretty_assertions 0.6.1",
@@ -3431,7 +3407,6 @@ dependencies = [
  "is-macro",
  "once_cell",
  "pretty_assertions 0.6.1",
- "pretty_env_logger",
  "regex",
  "serde",
  "serde_json",
