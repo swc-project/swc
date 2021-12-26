@@ -118,6 +118,26 @@ expect(obj.inside).toBe("middle");
 "#
 );
 
+test_exec!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(()),
+    issue_2680_3,
+    r#"
+const obj = {
+  foo() {
+      const obj2 = {
+          get [1]() {
+              return 42;
+          },
+      };
+      return obj2;
+  },
+};
+
+expect(obj.foo()[1]).toBe(42);
+"#
+);
+
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| computed_properties(Default::default()),
