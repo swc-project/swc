@@ -1381,9 +1381,6 @@ test!(
 async function foo(a) {
     return bar1;
 
-    const bar1 = "bar1";
-    console.log("dead code should not output", bar1);
-
     async function bar1(b) {
         return a + b;
     }
@@ -1401,7 +1398,7 @@ function foo(a) {
 function _foo() {
     _foo = _asyncToGenerator(
         regeneratorRuntime.mark(function _callee1(a) {
-            var bar1, bar1, _bar1;
+            var bar1, _bar1;
             return regeneratorRuntime.wrap(function _callee$(_ctx1) {
                 while (1)
                     switch (_ctx1.prev = _ctx1.next) {
@@ -1435,7 +1432,7 @@ function _foo() {
                                 return _bar1.apply(this, arguments);
                             };
                             return _ctx1.abrupt("return", bar1);
-                        case 7:
+                        case 5:
                         case "end":
                             return _ctx1.stop();
                     }
@@ -1457,9 +1454,6 @@ test_exec!(
     r#"
 async function foo(a) {
     return bar1;
-
-    const bar1 = "bar1";
-    console.log("dead code should not output", bar1);
 
     async function bar1(b) {
         return a + b;
@@ -1485,9 +1479,6 @@ var fib = function fib() {
 async function init() {
     return fib;
 
-    const fib = 55;
-    console.log("dead code", fib);
-
     async function fib(n) {
         if (n <= 1) {
             return n;
@@ -1509,7 +1500,7 @@ function init() {
 function _init() {
     _init = _asyncToGenerator(
         regeneratorRuntime.mark(function _callee1() {
-            var fib1, fib1, _fib;
+            var fib1, _fib;
             return regeneratorRuntime.wrap(function _callee$(_ctx1) {
                 while (1)
                     switch (_ctx1.prev = _ctx1.next) {
@@ -1561,7 +1552,7 @@ function _init() {
                                 return _fib.apply(this, arguments);
                             };
                             return _ctx1.abrupt("return", fib1);
-                        case 7:
+                        case 5:
                         case "end":
                             return _ctx1.stop();
                     }
