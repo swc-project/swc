@@ -1476,6 +1476,105 @@ return foo(1)
 
 test!(
     Syntax::default(),
+    |_| chain!(async_to_generator(), tr(())),
+    hoist_function_in_async_issue_2556_8,
+    r#"
+var fib = function fib() {
+    return 42;
+};
+async function init() {
+    return fib;
+
+    const fib = 55;
+    console.log("dead code", fib);
+
+    async function fib(n) {
+        if (n <= 1) {
+            return n;
+        }
+        const x = await fib(n - 1);
+        const y = await fib(n - 2);
+        return x + y;
+    }
+}
+"#,
+    r#"
+var regeneratorRuntime = require("regenerator-runtime");
+var fib = function fib() {
+    return 42;
+};
+function init() {
+    return _init.apply(this, arguments);
+}
+function _init() {
+    _init = _asyncToGenerator(
+        regeneratorRuntime.mark(function _callee1() {
+            var fib1, fib1, _fib;
+            return regeneratorRuntime.wrap(function _callee$(_ctx1) {
+                while (1)
+                    switch (_ctx1.prev = _ctx1.next) {
+                        case 0:
+                            fib1 = function _fib1(n) {
+                                return _fib.apply(this, arguments);
+                            };
+                            _fib = function __fib() {
+                                _fib = _asyncToGenerator(
+                                    regeneratorRuntime.mark(function _callee(
+                                        n
+                                    ) {
+                                        var x, y;
+                                        return regeneratorRuntime.wrap(
+                                            function _callee$(_ctx) {
+                                                while (1)
+                                                    switch (_ctx.prev = _ctx.next) {
+                                                        case 0:
+                                                            if (!(n <= 1)) {
+                                                                _ctx.next = 2;
+                                                                break;
+                                                            }
+                                                            return _ctx.abrupt(
+                                                                "return",
+                                                                n
+                                                            );
+                                                        case 2:
+                                                            _ctx.next = 4;
+                                                            return fib1(n - 1);
+                                                        case 4:
+                                                            x = _ctx.sent;
+                                                            _ctx.next = 7;
+                                                            return fib1(n - 2);
+                                                        case 7:
+                                                            y = _ctx.sent;
+                                                            return _ctx.abrupt(
+                                                                "return",
+                                                                x + y
+                                                            );
+                                                        case 9:
+                                                        case "end":
+                                                            return _ctx.stop();
+                                                    }
+                                            },
+                                            _callee
+                                        );
+                                    })
+                                );
+                                return _fib.apply(this, arguments);
+                            };
+                            return _ctx1.abrupt("return", fib1);
+                        case 7:
+                        case "end":
+                            return _ctx1.stop();
+                    }
+            }, _callee1);
+        })
+    );
+    return _init.apply(this, arguments);
+}
+"#
+);
+
+test!(
+    Syntax::default(),
     |_| tr(()),
     issue_1125_2,
     "
