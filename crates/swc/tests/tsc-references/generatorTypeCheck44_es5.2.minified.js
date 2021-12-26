@@ -15,7 +15,8 @@ var _obj, _marked = regeneratorRuntime.mark(function() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
-                return _ctx.next = 3, 0;
+                return _obj = {
+                }, _ctx.next = 3, 0;
             case 3:
                 return _ctx.t0 = _ctx.sent, _ctx.next = 6, 0;
             case 6:
