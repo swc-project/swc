@@ -668,16 +668,20 @@ impl<'a> FieldAccessFolder<'a> {
                         var
                     });
 
-                    let first_arg = if aliased {
-                        AssignExpr {
-                            span: DUMMY_SP,
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(var.clone().into()))),
-                            op: op!("="),
-                            right: obj.take(),
-                        }
-                        .as_arg()
-                    } else {
+                    let first_arg = if is_alias_initialized {
                         var.clone().as_arg()
+                    } else {
+                        if aliased {
+                            AssignExpr {
+                                span: DUMMY_SP,
+                                left: PatOrExpr::Pat(Box::new(Pat::Ident(var.clone().into()))),
+                                op: op!("="),
+                                right: obj.take(),
+                            }
+                            .as_arg()
+                        } else {
+                            var.clone().as_arg()
+                        }
                     };
 
                     let args = if is_method {
