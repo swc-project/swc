@@ -10,5 +10,5 @@ set -eu
 
 echo "Opening the crate $1"
 
-cargo crev open $1
-cargo crev review $1
+cargo crev open $@
+cargo crev review $@
