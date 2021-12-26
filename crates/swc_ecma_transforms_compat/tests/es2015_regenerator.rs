@@ -1317,6 +1317,62 @@ function requester() {
 "#
 );
 
+test_exec!(
+    Syntax::default(),
+    |_| chain!(async_to_generator(), tr(())),
+    issue_2620,
+    r#"
+async function main() {
+    class Weird1 {
+        weird = async () => {
+            return !!this;
+        };
+
+        decoy1 = async () => {};
+        decoy2 = () => {};
+    }
+
+    class Weird2 {
+        weird = async () => {
+            return !!this;
+        };
+
+        //    decoy1 = async () => { };
+        decoy2 = () => {};
+    }
+
+    class Weird3 {
+        weird = async () => {
+            return !!this;
+        };
+
+        decoy1 = async () => {};
+        //    decoy2 = () => { };
+    }
+
+    class Weird4 {
+        decoy1 = async () => {};
+        decoy2 = () => {};
+
+        weird = async () => {
+            return !!this;
+        };
+    }
+
+    return Promise.all([
+        new Weird4().weird(),
+        new Weird3().weird(),
+        new Weird2().weird(),
+        new Weird1().weird(),
+    ]);
+}
+
+return main().then((results) => {
+    expect(results).toEqual([true, true, true, true]);
+});
+"#
+);
+
 test!(
     Syntax::default(),
     |_| tr(()),
