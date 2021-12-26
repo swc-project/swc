@@ -8,6 +8,6 @@ set -eu
 
 ./scripts/crev/verify.sh || true
 
-echo "Opening the crate $1"
+echo "Opening the crate $@"
 
-cargo crev crate diff $1 | less
+cargo crev crate diff $@ | less

@@ -6,4 +6,4 @@
 set -eu
 
 
-cargo crev verify --skip-verified --recursive | grep 'none'
+cargo crev verify --show-latest-trusted --skip-verified --recursive | grep 'none'
