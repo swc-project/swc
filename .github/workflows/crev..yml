@@ -14,11 +14,11 @@ jobs:
         with:
           profile: minimal
 
-      - name: Install required tools
+      - name: Configure cargo-crev
         run: |
           cargo install cargo-crev
           cargo crev trust --level high https://github.com/kdy1/crev-proofs
 
-      - name: Check licenses
+      - name: Check dependencies
         run: |
           cargo crev verify --show-latest-trusted --skip-verified --recursive
