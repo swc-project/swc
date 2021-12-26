@@ -140,6 +140,41 @@ expect(obj.foo()[1]).toBe(42);
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
+    |_| tr(()),
+    issue_2680_4,
+    r#"
+const obj = {
+  foo() {
+      const obj2 = {
+          get [1]() {
+              return 42;
+          },
+      };
+      return obj2;
+  },
+};
+"#,
+    "
+const obj = {
+  foo() {
+    var _obj, _mutatorMap = {};
+    const obj2 = (
+        _obj = {},
+        _mutatorMap[1] = _mutatorMap[1] || {},
+        _mutatorMap[1].get = function () {
+            return 42;
+        },
+        _defineEnumerableProperties(_obj, _mutatorMap),
+        _obj
+    );
+    return obj2;
+  },
+};
+"
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
     |_| computed_properties(Default::default()),
     argument,
     r#"foo({
