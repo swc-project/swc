@@ -6,12 +6,23 @@
 set -eu
 
 # Exclude local crates.
-cargo crev verify --show-latest-trusted --skip-verified --recursive |\
-    grep -v "^local"
+TEXT=$(\
+    cargo crev verify --show-latest-trusted --skip-verified --recursive |\
+    grep -v "^local" |\
+    tee /dev/stderr \
+)
 
 if [ ! -z "${1-}" ] ; then
     echo "Opening the crate $1"
 
     cargo crev open $@
     cargo crev review $@
+
+else
+    if [ ! -z "$TEXT" ]; then
+        echo "Found a depenedncy requires verification"
+        exit 1
+    else
+        echo "All dependencies are verified"
+    fi
 fi

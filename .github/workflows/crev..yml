@@ -21,4 +21,4 @@ jobs:
 
       - name: Check dependencies
         run: |
-          cargo crev verify --show-latest-trusted --skip-verified --recursive
+          ./scripts/crev/verify.sh
