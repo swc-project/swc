@@ -1172,6 +1172,401 @@ test_exec!(
 test!(
     Syntax::default(),
     |_| tr(()),
+    hoist_function_in_generator_issue_2556_1,
+    r#"
+function* foo() {
+    return bar;
+    function bar() { }
+}
+"#,
+    r#"
+var regeneratorRuntime = require("regenerator-runtime");
+var _marked = regeneratorRuntime.mark(foo);
+function foo() {
+  var bar;
+
+  return regeneratorRuntime.wrap(function foo$(_ctx) {
+    while (1)
+      switch (_ctx.prev = _ctx.next) {
+        case 0:
+          bar = function _bar() {};
+
+          return _ctx.abrupt("return", bar);
+        case 3:
+        case "end":
+          return _ctx.stop();
+      }
+  }, _marked);
+}
+"#
+);
+
+test_exec!(
+    Syntax::default(),
+    |_| chain!(async_to_generator(), tr(())),
+    hoist_function_in_async_issue_2556_2,
+    "
+async function foo() {
+    return bar;
+    async function bar() {
+        return 1;
+    }
+    async function bar() {
+        return 2;
+    }
+    async function bar() {
+        return 3;
+    }
+}
+
+return foo()
+    .then((bar) => bar())
+    .then((x) => {
+        expect(x).toEqual(3);
+    });
+"
+);
+
+test!(
+    Syntax::default(),
+    |_| chain!(async_to_generator(), tr(())),
+    hoist_function_in_async_issue_2556_4,
+    r#"
+function requester() {
+	return pureRequester
+  
+    async function pureRequester() {
+      	await refreshThenRequest()
+        return true;
+        
+        async function refreshThenRequest() {
+        
+        }
+    }
+}
+"#,
+    r#"
+var regeneratorRuntime = require("regenerator-runtime");
+function requester() {
+  return pureRequester;
+  function pureRequester() {
+    return _pureRequester.apply(this, arguments);
+  }
+  function _pureRequester() {
+    _pureRequester = _asyncToGenerator(
+      regeneratorRuntime.mark(function _callee1() {
+        var refreshThenRequest, _refreshThenRequest;
+        return regeneratorRuntime.wrap(function _callee$(_ctx1) {
+          while (1)
+            switch (_ctx1.prev = _ctx1.next) {
+              case 0:
+                refreshThenRequest = function _refreshThenRequest1() {
+                  return _refreshThenRequest.apply(this, arguments);
+                };
+                _refreshThenRequest = function __refreshThenRequest() {
+                  _refreshThenRequest = _asyncToGenerator(
+                    regeneratorRuntime.mark(function _callee() {
+                      return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                        while (1)
+                          switch (_ctx.prev = _ctx.next) {
+                            case 0:
+                            case "end":
+                              return _ctx.stop();
+                          }
+                      }, _callee);
+                    })
+                  );
+                  return _refreshThenRequest.apply(this, arguments);
+                };
+                _ctx1.next = 4;
+                return refreshThenRequest();
+              case 4:
+                return _ctx1.abrupt("return", true);
+              case 7:
+              case "end":
+                return _ctx1.stop();
+            }
+        }, _callee1);
+      })
+    );
+    return _pureRequester.apply(this, arguments);
+  }
+}
+"#
+);
+
+test_exec!(
+    Syntax::default(),
+    |_| chain!(async_to_generator(), tr(())),
+    hoist_function_in_async_issue_2556_5,
+    r#"
+function requester() {
+    return pureRequester;
+  
+    async function pureRequester() {
+      await refreshThenRequest();
+      return true;
+  
+      async function refreshThenRequest() {}
+    }
+  }
+  
+  return requester()().then(function test(result) {
+      expect(result).toBe(true);
+  });
+"#
+);
+
+test_exec!(
+    Syntax::default(),
+    |_| chain!(async_to_generator(), tr(())),
+    issue_2620,
+    r#"
+async function main() {
+    class Weird1 {
+        weird = async () => {
+            return !!this;
+        };
+
+        decoy1 = async () => {};
+        decoy2 = () => {};
+    }
+
+    class Weird2 {
+        weird = async () => {
+            return !!this;
+        };
+
+        //    decoy1 = async () => { };
+        decoy2 = () => {};
+    }
+
+    class Weird3 {
+        weird = async () => {
+            return !!this;
+        };
+
+        decoy1 = async () => {};
+        //    decoy2 = () => { };
+    }
+
+    class Weird4 {
+        decoy1 = async () => {};
+        decoy2 = () => {};
+
+        weird = async () => {
+            return !!this;
+        };
+    }
+
+    return Promise.all([
+        new Weird4().weird(),
+        new Weird3().weird(),
+        new Weird2().weird(),
+        new Weird1().weird(),
+    ]);
+}
+
+return main().then((results) => {
+    expect(results).toEqual([true, true, true, true]);
+});
+"#
+);
+
+test!(
+    Syntax::default(),
+    |_| chain!(async_to_generator(), tr(())),
+    hoist_function_in_async_issue_2556_6,
+    r#"
+async function foo(a) {
+    return bar1;
+
+    async function bar1(b) {
+        return a + b;
+    }
+}
+
+foo(1)
+    .then((t) => t(2))
+    .then(console.log);
+"#,
+    r#"
+var regeneratorRuntime = require("regenerator-runtime");
+function foo(a) {
+    return _foo.apply(this, arguments);
+}
+function _foo() {
+    _foo = _asyncToGenerator(
+        regeneratorRuntime.mark(function _callee1(a) {
+            var bar1, _bar1;
+            return regeneratorRuntime.wrap(function _callee$(_ctx1) {
+                while (1)
+                    switch (_ctx1.prev = _ctx1.next) {
+                        case 0:
+                            bar1 = function _bar11(b) {
+                                return _bar1.apply(this, arguments);
+                            };
+                            _bar1 = function __bar1() {
+                                _bar1 = _asyncToGenerator(
+                                    regeneratorRuntime.mark(function _callee(
+                                        b
+                                    ) {
+                                        return regeneratorRuntime.wrap(
+                                            function _callee$(_ctx) {
+                                                while (1)
+                                                    switch (_ctx.prev = _ctx.next) {
+                                                        case 0:
+                                                            return _ctx.abrupt(
+                                                                "return",
+                                                                a + b
+                                                            );
+                                                        case 1:
+                                                        case "end":
+                                                            return _ctx.stop();
+                                                    }
+                                            },
+                                            _callee
+                                        );
+                                    })
+                                );
+                                return _bar1.apply(this, arguments);
+                            };
+                            return _ctx1.abrupt("return", bar1);
+                        case 5:
+                        case "end":
+                            return _ctx1.stop();
+                    }
+            }, _callee1);
+        })
+    );
+    return _foo.apply(this, arguments);
+}
+foo(1)
+    .then((t) => t(2))
+    .then(console.log);
+"#
+);
+
+test_exec!(
+    Syntax::default(),
+    |_| chain!(async_to_generator(), tr(())),
+    hoist_function_in_async_issue_2556_7,
+    r#"
+async function foo(a) {
+    return bar1;
+
+    async function bar1(b) {
+        return a + b;
+    }
+}
+
+return foo(1)
+    .then((t) => t(2))
+    .then((result) => {
+        expect(result).toBe(3);
+    });
+"#
+);
+
+test!(
+    Syntax::default(),
+    |_| chain!(async_to_generator(), tr(())),
+    hoist_function_in_async_issue_2556_8,
+    r#"
+var fib = function fib() {
+    return 42;
+};
+async function init() {
+    return fib;
+
+    async function fib(n) {
+        if (n <= 1) {
+            return n;
+        }
+        const x = await fib(n - 1);
+        const y = await fib(n - 2);
+        return x + y;
+    }
+}
+"#,
+    r#"
+var regeneratorRuntime = require("regenerator-runtime");
+var fib = function fib() {
+    return 42;
+};
+function init() {
+    return _init.apply(this, arguments);
+}
+function _init() {
+    _init = _asyncToGenerator(
+        regeneratorRuntime.mark(function _callee1() {
+            var fib1, _fib;
+            return regeneratorRuntime.wrap(function _callee$(_ctx1) {
+                while (1)
+                    switch (_ctx1.prev = _ctx1.next) {
+                        case 0:
+                            fib1 = function _fib1(n) {
+                                return _fib.apply(this, arguments);
+                            };
+                            _fib = function __fib() {
+                                _fib = _asyncToGenerator(
+                                    regeneratorRuntime.mark(function _callee(
+                                        n
+                                    ) {
+                                        var x, y;
+                                        return regeneratorRuntime.wrap(
+                                            function _callee$(_ctx) {
+                                                while (1)
+                                                    switch (_ctx.prev = _ctx.next) {
+                                                        case 0:
+                                                            if (!(n <= 1)) {
+                                                                _ctx.next = 2;
+                                                                break;
+                                                            }
+                                                            return _ctx.abrupt(
+                                                                "return",
+                                                                n
+                                                            );
+                                                        case 2:
+                                                            _ctx.next = 4;
+                                                            return fib1(n - 1);
+                                                        case 4:
+                                                            x = _ctx.sent;
+                                                            _ctx.next = 7;
+                                                            return fib1(n - 2);
+                                                        case 7:
+                                                            y = _ctx.sent;
+                                                            return _ctx.abrupt(
+                                                                "return",
+                                                                x + y
+                                                            );
+                                                        case 9:
+                                                        case "end":
+                                                            return _ctx.stop();
+                                                    }
+                                            },
+                                            _callee
+                                        );
+                                    })
+                                );
+                                return _fib.apply(this, arguments);
+                            };
+                            return _ctx1.abrupt("return", fib1);
+                        case 5:
+                        case "end":
+                            return _ctx1.stop();
+                    }
+            }, _callee1);
+        })
+    );
+    return _init.apply(this, arguments);
+}
+"#
+);
+
+test!(
+    Syntax::default(),
+    |_| tr(()),
     issue_1125_2,
     "
     function _test() {
