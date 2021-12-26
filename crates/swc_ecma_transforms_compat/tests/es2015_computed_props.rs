@@ -77,6 +77,49 @@ var obj = ( _obj = {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
+    |_| tr(()),
+    issue_2680,
+    r#"
+const obj = {
+    get [1]() {}
+};
+"#,
+    "
+var _obj, _mutatorMap = {};
+const obj = (
+    _obj = {},
+    _mutatorMap[1] = _mutatorMap[1] || {},
+    _mutatorMap[1].get = function() {},
+    _defineEnumerableProperties(_obj, _mutatorMap), 
+    _obj
+);
+"
+);
+
+test_exec!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(()),
+    issue_2680_2,
+    r#"
+let a = "outside";
+const obj = {
+  get [{
+    get [a]() {
+      let a = "inside";
+      return a;
+    },
+  }.outside]() {
+    let a = "middle";
+    return a;
+  },
+};
+
+expect(obj.inside).toBe("middle");
+"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
     |_| computed_properties(Default::default()),
     argument,
     r#"foo({

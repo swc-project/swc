@@ -56,7 +56,6 @@ struct ComputedProps {
 #[derive(Default)]
 struct ObjectLitFolder {
     vars: Vec<VarDeclarator>,
-    used_define_enum_props: bool,
     c: Config,
 }
 
@@ -87,22 +86,26 @@ impl VisitMut for ObjectLitFolder {
 
                 let props_cnt = props.len();
 
-                exprs.push(if !self.c.loose && props_cnt == 1 {
-                    Box::new(Expr::Object(ObjectLit {
-                        span: DUMMY_SP,
-                        props: obj_props,
-                    }))
-                } else {
-                    Box::new(Expr::Assign(AssignExpr {
-                        span: DUMMY_SP,
-                        left: PatOrExpr::Pat(Box::new(Pat::Ident(obj_ident.clone().into()))),
-                        op: op!("="),
-                        right: Box::new(Expr::Object(ObjectLit {
+                let used_define_enum_props = used_define_enum_props(props);
+
+                exprs.push(
+                    if !self.c.loose && props_cnt == 1 && !used_define_enum_props {
+                        Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
                             props: obj_props,
-                        })),
-                    }))
-                });
+                        }))
+                    } else {
+                        Box::new(Expr::Assign(AssignExpr {
+                            span: DUMMY_SP,
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(obj_ident.clone().into()))),
+                            op: op!("="),
+                            right: Box::new(Expr::Object(ObjectLit {
+                                span: DUMMY_SP,
+                                props: obj_props,
+                            })),
+                        }))
+                    },
+                );
 
                 let mut single_cnt_prop = None;
 
@@ -135,8 +138,6 @@ impl VisitMut for ObjectLitFolder {
                             }
                             prop @ Prop::Getter(GetterProp { .. })
                             | prop @ Prop::Setter(SetterProp { .. }) => {
-                                self.used_define_enum_props = true;
-
                                 // getter/setter property name
                                 let gs_prop_name = match prop {
                                     Prop::Getter(..) => Some("get"),
@@ -278,7 +279,7 @@ impl VisitMut for ObjectLitFolder {
                     init: None,
                     definite: false,
                 });
-                if self.used_define_enum_props {
+                if used_define_enum_props {
                     self.vars.push(VarDeclarator {
                         span: DUMMY_SP,
                         name: Pat::Ident(mutator_map.clone().into()),
@@ -305,6 +306,28 @@ impl VisitMut for ObjectLitFolder {
             }
             _ => {}
         };
+    }
+}
+
+fn used_define_enum_props<T: VisitWith<DefineEnumVisitor>>(node: &T) -> bool {
+    let mut visitor = DefineEnumVisitor::default();
+    node.visit_children_with(&mut visitor);
+    visitor.used_define_enum_props
+}
+
+#[derive(Default)]
+struct DefineEnumVisitor {
+    used_define_enum_props: bool,
+}
+
+impl Visit for DefineEnumVisitor {
+    noop_visit_type!();
+
+    fn visit_prop(&mut self, prop: &Prop) {
+        match prop {
+            Prop::Getter(..) | Prop::Setter(..) => self.used_define_enum_props = true,
+            _ => {}
+        }
     }
 }
 
