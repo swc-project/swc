@@ -1,8 +1,9 @@
+var fib = function fib(n) {
+    return 42;
+};
+
 async function init() {
     return fib;
-
-    const fib = 55;
-    console.log("dead code", fib);
 
     async function fib(n) {
         if (n <= 1) {
