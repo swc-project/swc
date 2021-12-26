@@ -7,6 +7,9 @@
 
 - **(es/compat)** Fix handling of hoisted functions in regenerator (#3119) ([ac78a52](https://github.com/swc-project/swc/commit/ac78a527ebba3e8df2342e65b4fd5c2d36240ff0))
 
+
+- **(es/compat)** Fix private methods of a class (#3123) ([1b6ac25](https://github.com/swc-project/swc/commit/1b6ac25d5c6c009c38a7097b910f7b6838ab560b))
+
 ## [1.2.123] - 2021-12-26
 
 ### Bug Fixes
