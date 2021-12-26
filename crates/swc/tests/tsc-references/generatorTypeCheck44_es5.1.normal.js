@@ -27,8 +27,8 @@ function g() {
     return regeneratorRuntime.wrap(function g$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                ({
-                });
+                _obj = {
+                };
                 _ctx.next = 3;
                 return 0;
             case 3:

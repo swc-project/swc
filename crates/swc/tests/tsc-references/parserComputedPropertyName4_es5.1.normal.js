@@ -20,7 +20,7 @@ function _defineEnumerableProperties(obj, descs) {
 var _obj, _mutatorMap = {
 };
 //@target: ES6
-var v = ({
+var v = (_obj = {
 }, _mutatorMap[e] = _mutatorMap[e] || {
 }, _mutatorMap[e].get = function() {
 }, _defineEnumerableProperties(_obj, _mutatorMap), _obj);
