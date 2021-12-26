@@ -20,4 +20,4 @@ jobs:
 
       - name: Check licenses
         run: |
-          cargo crev verify
+          cargo crev verify --show-latest-trusted --skip-verified --recursive
