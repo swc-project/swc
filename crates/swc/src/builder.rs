@@ -178,6 +178,10 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         } else {
             Either::Right(chain!(
                 Optional::new(
+                    compat::experimental::experimental(),
+                    should_enable(self.target, EsVersion::Experimental)
+                ),
+                Optional::new(
                     compat::es2022::es2022(compat::es2022::Config { loose: self.loose }),
                     should_enable(self.target, EsVersion::Es2022)
                 ),
