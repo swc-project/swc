@@ -173,6 +173,22 @@ jobs:
         exclude:
           - os: windows-latest
             crate: swc_node_bundler
+
+          - os: windows-latest
+            crate: swc_ecma_utils
+
+          - os: windows-latest
+            crate: swc_ecma_visit
+
+          - os: windows-latest
+            crate: swc_visit
+
+          - os: windows-latest
+            crate: swc_visit_macros
+
+          - os: windows-latest
+            crate: testing_macros
+
         include:
           - os: macos-latest
             crate: swc_plugin_runner
