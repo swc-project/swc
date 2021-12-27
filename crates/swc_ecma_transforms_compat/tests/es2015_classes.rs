@@ -33,6 +33,42 @@ fn spec_tr(tester: &Tester) -> impl Fold {
 test!(
     syntax(),
     |t| tr(t),
+    bigint_literial_methods,
+    "
+class Foo {
+  1n() {}
+  get 2n() {}
+  set 3n(x) {}
+}
+",
+    r#"
+let Foo = function () {
+  "use strict";
+  function Foo() {
+    _classCallCheck(this, Foo);
+  }
+  _createClass(Foo, [
+    {
+      key: "1",
+      value: function () {},
+    },
+    {
+      key: "2",
+      get: function () {},
+    },
+    {
+      key: "3",
+      set: function (x) {},
+    },
+  ]);
+  return Foo;
+}();
+"#
+);
+
+test!(
+    syntax(),
+    |t| tr(t),
     issue_189,
     r#"
 class HomePage extends React.Component {}
