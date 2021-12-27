@@ -2829,7 +2829,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.60.2"
+version = "0.60.3"
 dependencies = [
  "arbitrary",
  "is-macro",
@@ -3055,7 +3055,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.103.4"
+version = "0.103.5"
 dependencies = [
  "pretty_assertions 0.6.1",
  "sourcemap",
@@ -3115,7 +3115,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.59.7"
+version = "0.59.9"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -3329,7 +3329,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.99.3"
+version = "0.99.4"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3914,9 +3914,9 @@ checksum = "0685c84d5d54d1c26f7d3eb96cd41550adb97baed141a761cf335d3d33bcd0ae"
 
 [[package]]
 name = "typenum"
-version = "1.14.0"
+version = "1.15.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b63708a265f51345575b27fe43f9500ad611579e764c79edbc2037b1121959ec"
+checksum = "dcf81ac59edc17cc8697ff311e8f5ef2d99fcbd9817b34cec66f90b6c3dfd987"
 
 [[package]]
 name = "unicode-bidi"
