@@ -191,6 +191,8 @@ jobs:
           git config --system core.eol lf
 
       - uses: actions/checkout@v2
+        with:
+          submodules: true
 
       # Source map format
       - uses: actions/setup-node@v2
@@ -208,13 +210,6 @@ jobs:
         if: matrix.crate == 'swc_bundler'
         with:
           deno-version: v1.x
-
-      - name: Checkout submodules
-        shell: bash
-        run: |
-          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
-          git submodule sync --recursive
-          git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
 
       - name: Install node dependencies
         shell: bash
