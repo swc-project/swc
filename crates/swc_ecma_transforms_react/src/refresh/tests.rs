@@ -698,6 +698,34 @@ test!(
 );
 
 test!(
+    ignore,
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    tr,
+    register_identifiers_used_in_jsx_false_positive,
+    r#"
+  const A = foo() {}
+  const B = () => {
+    const A = () => null
+    return <A />
+  }
+"#,
+    r#"
+  const A = foo() {}
+  const B = () => {
+    const A = () => null
+    return <A />
+  }
+
+  _c = B;
+  var _c;
+  $RefreshReg$(_c, "B");
+"#
+);
+
+test!(
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
         jsx: true,
         ..Default::default()
@@ -1427,4 +1455,32 @@ test!(
     $RefreshReg$(_c, 'Comp$dynamic');
     $RefreshReg$(_c1, 'Comp');
 "
+);
+
+test!(
+    Default::default(),
+    tr,
+    issue_2261,
+    "
+    export function App() {
+      console.log(useState())
+    
+      return null;
+    }
+  ",
+    r#"
+    var _s = $RefreshSig$();
+
+    export function App() {
+      _s();
+      console.log(useState())
+    
+      return null;
+    }
+
+    _s(App, "useState{}");
+    _c = App;
+    var _c;
+    $RefreshReg$(_c, "App")
+"#
 );
