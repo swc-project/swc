@@ -259,9 +259,9 @@ dependencies = [
 
 [[package]]
 name = "browserslist-rs"
-version = "0.5.1"
+version = "0.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "05e8d671fb6bc653acdcfbdb1b30ac1117df4cf9bb6a0a813668c8ea49f58622"
+checksum = "31071741816efb54c473a6480724b2d31ed44eb460382d37f60cf4655fbe80a6"
 dependencies = [
  "ahash",
  "anyhow",
@@ -271,11 +271,13 @@ dependencies = [
  "js-sys",
  "nom 7.1.0",
  "once_cell",
+ "quote",
  "serde",
  "serde-wasm-bindgen",
  "serde_json",
+ "string_cache",
+ "string_cache_codegen",
  "thiserror",
- "ustr",
  "wasm-bindgen",
 ]
 
@@ -290,12 +292,6 @@ name = "bumpalo"
 version = "3.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8f1e260c3a9040a7c19a12468758f4c16f31a81a1fe087482be9570ec864bb6c"
-
-[[package]]
-name = "byteorder"
-version = "1.4.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "14c189c53d098945499cdfa7ecc63567cf3886b3332b312a5b4585d8d3a6a610"
 
 [[package]]
 name = "bytes"
@@ -2583,7 +2579,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.99.5"
+version = "0.99.6"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3031,7 +3027,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.76.1"
+version = "0.76.2"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3333,7 +3329,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.99.4"
+version = "0.99.5"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3974,19 +3970,6 @@ dependencies = [
  "idna",
  "matches",
  "percent-encoding",
-]
-
-[[package]]
-name = "ustr"
-version = "0.8.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cbd539d8973e229b9d04f15d36e6a8f8d8f85f946b366f06bb001aaed3fa9dd9"
-dependencies = [
- "ahash",
- "byteorder",
- "lazy_static",
- "parking_lot 0.11.1",
- "serde",
 ]
 
 [[package]]
