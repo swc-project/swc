@@ -3033,7 +3033,11 @@ expect(a.doTest()).resolves.toEqual(3);
 #[testing::fixture("tests/fixture/async-to-generator/**/exec.js")]
 fn exec(input: PathBuf) {
     let input = read_to_string(&input).unwrap();
-    compare_stdout(Default::default(), |_| async_to_generator(), &input);
+    compare_stdout(
+        Default::default(),
+        |_| chain!(resolver(), async_to_generator()),
+        &input,
+    );
 }
 
 #[testing::fixture("tests/fixture/async-to-generator/**/exec.js")]
@@ -3045,6 +3049,7 @@ fn exec_regenerator(input: PathBuf) {
             let top_level_mark = Mark::fresh(Mark::root());
 
             chain!(
+                resolver(),
                 async_to_generator(),
                 es2015::for_of(Default::default()),
                 regenerator(Default::default(), top_level_mark)
