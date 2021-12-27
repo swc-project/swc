@@ -1314,6 +1314,191 @@ fn issue_1272_2_js() {
 }
 
 #[test]
+fn issue_2853_1_js() {
+    let (tokens, errors) = lex_errors(crate::Syntax::Es(Default::default()), "const a = \"\\0a\"");
+
+    assert_eq!(errors, vec![]);
+    assert_eq!(
+        tokens,
+        vec![
+            Word(Word::Keyword(Keyword::Const)),
+            Word(Word::Ident("a".into())),
+            Token::AssignOp(AssignOpToken::Assign),
+            Token::Str {
+                value: "\u{0000}a".into(),
+                has_escape: true,
+            }
+        ],
+    );
+}
+
+#[test]
+fn issue_2853_2_ts() {
+    let (tokens, errors) = lex_errors(
+        crate::Syntax::Typescript(Default::default()),
+        "const a = \"\\0a\"",
+    );
+
+    assert_eq!(errors, vec![]);
+    assert_eq!(
+        tokens,
+        vec![
+            Word(Word::Keyword(Keyword::Const)),
+            Word(Word::Ident("a".into())),
+            Token::AssignOp(AssignOpToken::Assign),
+            Token::Str {
+                value: "\u{0000}a".into(),
+                has_escape: true,
+            }
+        ],
+    );
+}
+
+#[test]
+fn issue_2853_3_js() {
+    let (tokens, errors) = lex_errors(
+        crate::Syntax::Es(Default::default()),
+        "const a = \"\u{0000}a\"",
+    );
+
+    assert_eq!(errors, vec![]);
+    assert_eq!(
+        tokens,
+        vec![
+            Word(Word::Keyword(Keyword::Const)),
+            Word(Word::Ident("a".into())),
+            Token::AssignOp(AssignOpToken::Assign),
+            Token::Str {
+                value: "\u{0000}a".into(),
+                has_escape: false,
+            }
+        ],
+    );
+}
+
+#[test]
+fn issue_2853_4_ts() {
+    let (tokens, errors) = lex_errors(
+        crate::Syntax::Typescript(Default::default()),
+        "const a = \"\u{0000}a\"",
+    );
+
+    assert_eq!(errors, vec![]);
+    assert_eq!(
+        tokens,
+        vec![
+            Word(Word::Keyword(Keyword::Const)),
+            Word(Word::Ident("a".into())),
+            Token::AssignOp(AssignOpToken::Assign),
+            Token::Str {
+                value: "\u{0000}a".into(),
+                has_escape: false,
+            }
+        ],
+    );
+}
+
+#[test]
+fn issue_2853_5_jsx() {
+    let (tokens, errors) = lex_errors(
+        crate::Syntax::Es(crate::EsConfig {
+            jsx: true,
+            ..Default::default()
+        }),
+        "const a = \"\\0a\"",
+    );
+
+    assert_eq!(errors, vec![]);
+    assert_eq!(
+        tokens,
+        vec![
+            Word(Word::Keyword(Keyword::Const)),
+            Word(Word::Ident("a".into())),
+            Token::AssignOp(AssignOpToken::Assign),
+            Token::Str {
+                value: "\u{0000}a".into(),
+                has_escape: true,
+            }
+        ]
+    );
+}
+
+#[test]
+fn issue_2853_6_tsx() {
+    let (tokens, errors) = lex_errors(
+        crate::Syntax::Typescript(crate::TsConfig {
+            tsx: true,
+            ..Default::default()
+        }),
+        "const a = \"\\0a\"",
+    );
+
+    assert_eq!(errors, vec![]);
+    assert_eq!(
+        tokens,
+        vec![
+            Word(Word::Keyword(Keyword::Const)),
+            Word(Word::Ident("a".into())),
+            Token::AssignOp(AssignOpToken::Assign),
+            Token::Str {
+                value: "\u{0000}a".into(),
+                has_escape: true,
+            }
+        ]
+    );
+}
+
+#[test]
+fn issue_2853_7_jsx() {
+    let (tokens, errors) = lex_errors(
+        crate::Syntax::Es(crate::EsConfig {
+            jsx: true,
+            ..Default::default()
+        }),
+        "const a = \"\u{0000}a\"",
+    );
+
+    assert_eq!(errors, vec![]);
+    assert_eq!(
+        tokens,
+        vec![
+            Word(Word::Keyword(Keyword::Const)),
+            Word(Word::Ident("a".into())),
+            Token::AssignOp(AssignOpToken::Assign),
+            Token::Str {
+                value: "\u{0000}a".into(),
+                has_escape: false,
+            }
+        ]
+    );
+}
+
+#[test]
+fn issue_2853_8_tsx() {
+    let (tokens, errors) = lex_errors(
+        crate::Syntax::Typescript(crate::TsConfig {
+            tsx: true,
+            ..Default::default()
+        }),
+        "const a = \"\u{0000}a\"",
+    );
+
+    assert_eq!(errors, vec![]);
+    assert_eq!(
+        tokens,
+        vec![
+            Word(Word::Keyword(Keyword::Const)),
+            Word(Word::Ident("a".into())),
+            Token::AssignOp(AssignOpToken::Assign),
+            Token::Str {
+                value: "\u{0000}a".into(),
+                has_escape: false,
+            }
+        ]
+    );
+}
+
+#[test]
 #[ignore = "Raw token should be different. See https://github.com/denoland/deno/issues/9620"]
 fn normalize_tpl_carriage_return() {
     assert_eq!(
