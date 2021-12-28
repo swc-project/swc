@@ -112,21 +112,15 @@ impl VisitMut for Inlining<'_> {
 
         e.left.map_with_mut(|n| n.normalize_expr());
 
-        {
-            let mut v = IdentListVisitor {
-                scope: &mut self.scope,
-            };
-
-            e.left.visit_with(&mut v);
-            e.right.visit_with(&mut v);
-        }
-
-        e.left.visit_mut_with(self);
-
-        e.right.visit_mut_with(self);
-
         match e.op {
-            op!("=") => {}
+            op!("=") => {
+                let mut v = WriteVisitor {
+                    scope: &mut self.scope,
+                };
+
+                e.left.visit_with(&mut v);
+                e.right.visit_with(&mut v);
+            }
             _ => {
                 let mut v = IdentListVisitor {
                     scope: &mut self.scope,
@@ -136,6 +130,10 @@ impl VisitMut for Inlining<'_> {
                 e.right.visit_with(&mut v)
             }
         }
+
+        e.left.visit_mut_with(self);
+
+        e.right.visit_mut_with(self);
 
         if self.scope.is_inline_prevented(&e.right) {
             // Prevent inline for lhd
