@@ -2547,7 +2547,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.99.7"
+version = "0.100.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2802,7 +2802,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.84.0"
+version = "0.84.1"
 dependencies = [
  "bitflags",
  "memchr",
@@ -3164,7 +3164,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.65.1"
+version = "0.65.2"
 dependencies = [
  "either",
  "serde",
@@ -3323,7 +3323,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.17.0"
+version = "0.18.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3537,7 +3537,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.15.0"
+version = "0.16.0"
 dependencies = [
  "anyhow",
  "rayon",

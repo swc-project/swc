@@ -490,8 +490,9 @@ export interface JscConfig {
    */
   keepClassNames?: boolean
 
-  experimetal?: {
-    optimizeHygiene?: boolean
+  experimental?: {
+    optimizeHygiene?: boolean,
+    keepImportAssertions?: boolean
   },
 
   baseUrl?: string
