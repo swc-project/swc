@@ -1,6 +1,7 @@
 var _obj, _mutatorMap = {
 };
-_mutatorMap[e] = _mutatorMap[e] || {
+_obj = {
+}, _mutatorMap[e] = _mutatorMap[e] || {
 }, _mutatorMap[e].set = function(v) {
 }, (function(obj, descs) {
     for(var key in descs){

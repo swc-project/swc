@@ -11,11 +11,11 @@ function _defineProperty(obj, key, value) {
     }
     return obj;
 }
-var _obj;
 // @target: es6
 function f() {
     var t;
     var k;
+    var _obj;
     var v = (_obj = {
     }, _defineProperty(_obj, t, 0), _defineProperty(_obj, k, 1), _obj);
 }
