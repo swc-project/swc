@@ -37,6 +37,7 @@ test!(
     };
     Object.setPrototypeOf(obj, Base);"#,
     r#"
+    var _obj;
     const Base = {
         test: 1
     };
@@ -67,6 +68,7 @@ test!(
     };
     Object.setPrototypeOf(obj, Base);"#,
     r#"
+    var _obj;
     const Base = {
         test: 1
     };
@@ -77,4 +79,46 @@ test!(
         }
     };
     Object.setPrototypeOf(obj, Base);"#
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    nested_object_super_property_in_key,
+    r#"
+    const Hello = {
+        toString() {
+            return 'hello';
+        }
+    };
+      
+    const Outer = {
+        constructor() {
+            const Inner = {
+                [super.toString()]() {
+                    return 'hello';
+                },
+            };
+      
+        return Inner;
+        }
+    };
+    Object.setPrototypeOf(Outer, Hello);"#,
+    r#"var _obj;
+    const Hello = {
+        toString: function toString() {
+            return 'hello';
+        }
+    };
+    const Outer = _obj = {
+        constructor: function constructor() {
+            const Inner = {
+                [_get(_getPrototypeOf(_obj), "toString", this).call(this)]: function () {
+                    return 'hello';
+                }
+            };
+        return Inner;
+        }
+    };
+    Object.setPrototypeOf(Outer, Hello);"#
 );

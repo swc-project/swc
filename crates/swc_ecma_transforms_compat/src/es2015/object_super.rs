@@ -2,17 +2,88 @@ use swc_atoms::js_word;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{private_ident, quote_ident, ExprFactory, UsageFinder};
+use swc_ecma_utils::{private_ident, quote_ident, ExprFactory, StmtLike, UsageFinder};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
-struct ObjectSuper;
-pub fn object_super() -> impl Fold + VisitMut {
-    as_folder(ObjectSuper)
+struct ObjectSuper {
+    extra_var: Vec<Ident>,
 }
+pub fn object_super() -> impl Fold + VisitMut {
+    as_folder(ObjectSuper {
+        extra_var: Vec::new(),
+    })
+}
+// struct AddVarDecl;
+// impl VisitMut for AddVarDecl{
+//     noop_visit_mut_type!();
+//     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+//         self.visit_mut_stmt_like(n);
+//     }
 
+//     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+//         self.visit_mut_stmt_like(n);
+//     }
+// }
+// impl AddVarDecl{
+//     fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
+//     where
+//         T: StmtLike + VisitMutWith<ObjectSuper>,
+//         Vec<T>: VisitMutWith<Self>,
+//     {
+
+//     }
+// }
 impl VisitMut for ObjectSuper {
     noop_visit_mut_type!();
+    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        n.visit_mut_children_with(self);
+        if self.extra_var.len() != 0 {
+            n.insert(
+                0,
+                ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: self
+                        .extra_var
+                        .take()
+                        .into_iter()
+                        .map(|v| VarDeclarator {
+                            span: DUMMY_SP,
+                            name: Pat::Ident(v.into()),
+                            init: None,
+                            definite: false,
+                        })
+                        .collect(),
+                }))),
+            );
+        }
+    }
 
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+        n.visit_mut_children_with(self);
+        if self.extra_var.len() != 0 {
+            n.insert(
+                0,
+                Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: self
+                        .extra_var
+                        .take()
+                        .into_iter()
+                        .map(|v| VarDeclarator {
+                            span: DUMMY_SP,
+                            name: Pat::Ident(v.into()),
+                            init: None,
+                            definite: false,
+                        })
+                        .collect(),
+                })),
+            );
+        }
+    }
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);
         if let Expr::Object(ObjectLit { span, props }) = expr {
@@ -35,9 +106,10 @@ impl VisitMut for ObjectSuper {
                 *expr = Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: AssignOp::Assign,
-                    left: PatOrExpr::Expr(Box::new(Expr::Ident(obj_ref))),
+                    left: PatOrExpr::Expr(Box::new(Expr::Ident(obj_ref.clone()))),
                     right: Box::new(expr.take()),
-                })
+                });
+                self.extra_var.push(obj_ref)
             }
         }
     }
@@ -59,6 +131,7 @@ impl SuperReplacer<'_> {
     }
 }
 impl VisitMut for SuperReplacer<'_> {
+    noop_visit_mut_type!();
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         match expr {
             Expr::Member(MemberExpr {
@@ -209,7 +282,9 @@ mod tests {
                 let c = super.x;
             }
         }",
-        r#"let obj = _obj = {
+        r#"
+        var _obj;
+        let obj = _obj = {
             a: function a() {
                 let c = _get(_getPrototypeOf(_obj), "x", this);
             }
@@ -232,7 +307,8 @@ mod tests {
                 super.y(1,2,3);
             }
         }",
-        r#"let obj = _obj = {
+        r#"var _obj;
+        let obj = _obj = {
             a: function a() {
                 _get(_getPrototypeOf(_obj), "y", this).call(this,1,2,3);
             }
@@ -255,7 +331,9 @@ mod tests {
                 super.x = 1;
             }
         }",
-        r#"let obj = _obj = {
+        r#"
+        var _obj;
+        let obj = _obj = {
             a: function a() {
                 _set(_getPrototypeOf(_obj), "x", 1, this, true);
             }
