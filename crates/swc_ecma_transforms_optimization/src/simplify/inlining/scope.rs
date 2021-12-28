@@ -12,6 +12,7 @@ use swc_common::collections::{AHashMap, AHashSet};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::ExprRefExt;
 use swc_ecma_utils::{ident::IdentLike, Id};
+use tracing::{span, Level};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ScopeKind {
@@ -51,6 +52,7 @@ impl Inlining<'_> {
                 ident_type: self.ident_type,
                 pat_mode: self.pat_mode,
                 in_test: self.in_test,
+                pass: self.pass,
             };
 
             op(&mut child);
@@ -429,6 +431,14 @@ impl<'a> Scope<'a> {
     }
 
     pub fn add_write(&mut self, id: &Id, force_no_inline: bool) {
+        let _tracing = span!(
+            Level::DEBUG,
+            "add_write",
+            force_no_inline = force_no_inline,
+            id = &*format!("{:?}", id)
+        )
+        .entered();
+
         if self.write_prevents_inline(id) {
             tracing::trace!("prevent inlining because of write: {}", id.0);
 
