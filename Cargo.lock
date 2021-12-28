@@ -2547,7 +2547,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.100.0"
+version = "0.100.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3013,7 +3013,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.103.6"
+version = "0.103.7"
 dependencies = [
  "pretty_assertions 0.6.1",
  "sourcemap",
@@ -3135,7 +3135,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.73.0"
+version = "0.73.1"
 dependencies = [
  "ahash",
  "dashmap",
@@ -3287,7 +3287,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.99.6"
+version = "0.99.7"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
