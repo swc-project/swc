@@ -808,7 +808,7 @@ impl Actual {
                         }
                     }
                 })
-                .collect()
+                .collect::<Vec<_>>()
         };
         let ident = raw_ident.clone().unwrap_or_else(|| quote_ident!("ref"));
 
@@ -895,7 +895,7 @@ impl Actual {
                         span: DUMMY_SP,
                         is_async: false,
                         is_generator: false,
-                        params: vec![],
+                        params: params.clone(),
                         body: Some(BlockStmt {
                             span: DUMMY_SP,
                             stmts: vec![apply],

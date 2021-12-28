@@ -3030,6 +3030,27 @@ expect(a.doTest()).resolves.toEqual(3);
 "
 );
 
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    function_length_issue_3135_1,
+    r#"
+const bar1 = async function* (one, two, three) {
+  return 42;
+};
+"#,
+    r#"
+const bar1 = (function (one, two, three) {
+  var _ref = _wrapAsyncGenerator(function* (one, two, three) {
+      return 42;
+  });
+  return function (one, two, three) {
+      return _ref.apply(this, arguments);
+  };
+})();
+"#
+);
+
 #[testing::fixture("tests/fixture/async-to-generator/**/exec.js")]
 fn exec(input: PathBuf) {
     let input = read_to_string(&input).unwrap();
