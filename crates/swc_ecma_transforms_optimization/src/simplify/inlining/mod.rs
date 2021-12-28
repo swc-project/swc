@@ -10,6 +10,7 @@ use swc_ecma_utils::{contains_this_expr, find_ids, ident::IdentLike, undefined, 
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
+use tracing::{span, Level};
 
 mod scope;
 
@@ -39,6 +40,7 @@ pub fn inlining(_: Config) -> impl 'static + RepeatedJsPass + VisitMut {
         ident_type: IdentType::Ref,
         in_test: false,
         pat_mode: PatFoldingMode::VarDecl,
+        pass: Default::default(),
     })
 }
 
@@ -62,6 +64,7 @@ impl Repeated for Inlining<'_> {
     fn reset(&mut self) {
         self.changed = false;
         self.is_first_run = false;
+        self.pass += 1;
     }
 }
 
@@ -74,6 +77,7 @@ struct Inlining<'a> {
     ident_type: IdentType,
     in_test: bool,
     pat_mode: PatFoldingMode,
+    pass: usize,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -458,6 +462,8 @@ impl VisitMut for Inlining<'_> {
     }
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
+        let _tracing = span!(Level::ERROR, "inlining", pass = self.pass).entered();
+
         let old_phase = self.phase;
 
         self.phase = Phase::Analysis;
