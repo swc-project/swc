@@ -1806,9 +1806,9 @@ checksum = "a1d01941d82fa2ab50be1e79e6714289dd7cde78eba4c074bc5a4374f650dfe0"
 
 [[package]]
 name = "quote"
-version = "1.0.10"
+version = "1.0.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "38bc8cc6a5f2e3655e0899c1b848643b2562f853f114bfec7be120678e3ace05"
+checksum = "3dff9853339d4a5b75094c8edd65c3a0e81da8281855332d79559ddd8591b236"
 dependencies = [
  "proc-macro2",
 ]
@@ -2546,7 +2546,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.99.6"
+version = "0.99.7"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3012,7 +3012,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.103.5"
+version = "0.103.6"
 dependencies = [
  "pretty_assertions 0.6.1",
  "sourcemap",
@@ -3072,7 +3072,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.59.9"
+version = "0.59.10"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -3286,7 +3286,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.99.5"
+version = "0.99.6"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",

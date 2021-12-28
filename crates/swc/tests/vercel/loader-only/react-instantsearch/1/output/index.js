@@ -59,7 +59,6 @@ function serializeQueryParameters(parameters) {
         return encode('%s=%s', key, isObjectOrArray(parameters[key]) ? JSON.stringify(parameters[key]) : parameters[key]);
     }).join('&');
 }
-var _obj;
 /**
  * Creates a new instance of the InstantSearchManager which controls the widgets and
  * trigger the search when the widgets are updated.
@@ -454,6 +453,7 @@ var _obj;
             searchingForFacetValues: true
         }));
         helper.searchForFacetValues(facetName, query, maxFacetHitsWithinRange).then(function(content) {
+            var _obj;
             store.setState(swcHelpers.objectSpread({
             }, store.getState(), {
                 error: null,
