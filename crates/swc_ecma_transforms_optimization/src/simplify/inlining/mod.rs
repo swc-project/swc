@@ -165,24 +165,26 @@ impl VisitMut for Inlining<'_> {
             return;
         }
 
-        match *e.right {
-            Expr::Lit(..) | Expr::Ident(..) => {
-                //
-                match e.left.as_ident() {
-                    Some(i) => {
-                        let id = i.to_id();
-                        self.scope.add_write(&id, false);
+        //
+        match e.left.as_ident() {
+            Some(i) => {
+                let id = i.to_id();
+                self.scope.add_write(&id, false);
 
-                        if let Some(var) = self.scope.find_binding(&id) {
-                            if !var.is_inline_prevented() {
+                if let Some(var) = self.scope.find_binding(&id) {
+                    if !var.is_inline_prevented() {
+                        match *e.right {
+                            Expr::Lit(..) | Expr::Ident(..) => {
                                 *var.value.borrow_mut() = Some(*e.right.clone());
+                            }
+
+                            _ => {
+                                *var.value.borrow_mut() = None;
                             }
                         }
                     }
-                    _ => {}
                 }
             }
-
             _ => {}
         }
     }
