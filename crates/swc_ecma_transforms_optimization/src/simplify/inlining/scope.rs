@@ -436,7 +436,8 @@ impl<'a> Scope<'a> {
             "add_write",
             force_no_inline = force_no_inline,
             id = &*format!("{:?}", id)
-        );
+        )
+        .entered();
 
         if self.write_prevents_inline(id) {
             tracing::trace!("prevent inlining because of write: {}", id.0);
