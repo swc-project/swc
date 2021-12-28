@@ -3,7 +3,7 @@ use std::cell::RefCell;
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashSet, Mark, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, Id};
+use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 #[cfg(test)]
@@ -106,6 +106,9 @@ struct Scope<'a> {
 
     /// All types declared in the scope
     declared_types: AHashSet<JsWord>,
+
+    /// Id of import declarations reexports ident need to check overlap
+    import_declarations: AHashSet<Id>,
 }
 
 impl<'a> Scope<'a> {
@@ -117,6 +120,7 @@ impl<'a> Scope<'a> {
             declared_symbols: Default::default(),
             hoisted_symbols: Default::default(),
             declared_types: Default::default(),
+            import_declarations: Default::default(),
         }
     }
 }
@@ -418,7 +422,21 @@ impl<'a> VisitMut for Resolver<'a> {
         // We need to analyze these identifiers for type stripping purposes.
         self.ident_type = IdentType::Binding;
         self.in_type = n.type_only;
+
         n.visit_mut_children_with(self);
+
+        for specifier in &n.specifiers {
+            match specifier {
+                ImportSpecifier::Default(ImportDefaultSpecifier { ref local, .. })
+                | ImportSpecifier::Named(ImportNamedSpecifier { ref local, .. })
+                | ImportSpecifier::Namespace(ImportStarAsSpecifier { ref local, .. })
+                    if n.type_only =>
+                {
+                    self.current.import_declarations.insert(local.to_id());
+                }
+                _ => {}
+            }
+        }
     }
 
     fn visit_mut_arrow_expr(&mut self, e: &mut ArrowExpr) {
@@ -846,7 +864,34 @@ impl<'a> VisitMut for Resolver<'a> {
         }
 
         // Phase 2.
-        stmts.visit_mut_children_with(self)
+        stmts.visit_mut_children_with(self);
+
+        for item in stmts.iter_mut() {
+            match item {
+                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) if export.src.is_some() => {
+                    let mark = Mark::fresh(Mark::root());
+
+                    // `look back` exported specifiers if given export is reexport,
+                    // if there's collapsing ident in the same scope apply new context instead.
+                    // Refer https://github.com/swc-project/swc/issues/3114 for an example.
+
+                    for specifier in export.specifiers.iter_mut() {
+                        if let ExportSpecifier::Named(named_specifier) = specifier {
+                            if self
+                                .current
+                                .import_declarations
+                                .contains(&named_specifier.orig.to_id())
+                            {
+                                let span = named_specifier.orig.span;
+                                named_specifier.orig.span =
+                                    span.with_ctxt(SyntaxContext::empty().apply_mark(mark));
+                            }
+                        }
+                    }
+                }
+                _ => {}
+            };
+        }
     }
 
     fn visit_mut_object_lit(&mut self, o: &mut ObjectLit) {
