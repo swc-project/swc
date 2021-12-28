@@ -304,12 +304,16 @@ impl VisitMut for Inlining<'_> {
                                 let expr = var.value.borrow();
 
                                 if let Some(expr) = &*expr {
+                                    tracing::debug!("Inlining: {:?}", id);
+
                                     if *node != *expr {
                                         self.changed = true;
                                     }
 
                                     Some(expr.clone())
                                 } else {
+                                    tracing::debug!("Inlining: {:?} as undefined", id);
+
                                     if var.is_undefined.get() {
                                         *node = *undefined(i.span);
                                         return;
