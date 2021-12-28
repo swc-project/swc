@@ -365,7 +365,10 @@ impl Options {
                 }),
                 syntax.decorators()
             ),
-            import_assertions(),
+            // `experimental.import_assertions` is negated because that option
+            // is true to keep import assertions, whereas the transform strips
+            // them.
+            Optional::new(import_assertions(), !experimental.import_assertions),
             // Do a resolver pass after decorators as it might
             // emit runtime declarations and do it before
             // type stripping as we need to know scope information
@@ -932,6 +935,9 @@ pub struct JscExperimental {
     /// This requires cargo feature `plugin`.
     #[serde(default)]
     pub plugins: Option<Vec<PluginConfig>>,
+    /// If true, keeps import assertions in the output.
+    #[serde(default)]
+    pub import_assertions: bool,
 }
 
 impl Merge for JscExperimental {

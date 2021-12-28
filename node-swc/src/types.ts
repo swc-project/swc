@@ -490,8 +490,9 @@ export interface JscConfig {
    */
   keepClassNames?: boolean
 
-  experimetal?: {
-    optimizeHygiene?: boolean
+  experimental?: {
+    optimizeHygiene?: boolean,
+    importAssertions?: boolean
   },
 
   baseUrl?: string
@@ -513,8 +514,7 @@ export type JscTarget =
   | "es2019"
   | "es2020"
   | "es2021"
-  | "es2022"
-  | "experimental";
+  | "es2022";
 
 export type ParserConfig = TsParserConfig | EsParserConfig;
 export interface TsParserConfig {

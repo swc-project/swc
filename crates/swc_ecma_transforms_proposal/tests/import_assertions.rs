@@ -1,10 +1,10 @@
 use swc_ecma_parser::{EsConfig, Syntax};
-use swc_ecma_transforms_compat::experimental;
+use swc_ecma_transforms_proposal::import_assertions;
 use swc_ecma_transforms_testing::test;
 use swc_ecma_visit::Fold;
 
 fn tr() -> impl Fold {
-    experimental::import_assertions()
+    import_assertions()
 }
 
 fn syntax() -> Syntax {

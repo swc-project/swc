@@ -115,8 +115,6 @@ pub enum EsVersion {
     Es2021,
     #[serde(rename = "es2022")]
     Es2022,
-    #[serde(rename = "experimental")]
-    Experimental,
 }
 
 impl EsVersion {
