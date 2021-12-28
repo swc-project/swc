@@ -492,7 +492,7 @@ export interface JscConfig {
 
   experimental?: {
     optimizeHygiene?: boolean,
-    importAssertions?: boolean
+    keepImportAssertions?: boolean
   },
 
   baseUrl?: string
