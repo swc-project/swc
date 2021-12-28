@@ -77,6 +77,104 @@ var obj = ( _obj = {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
+    |_| tr(()),
+    issue_2680,
+    r#"
+const obj = {
+    get [1]() {}
+};
+"#,
+    "
+var _obj, _mutatorMap = {};
+const obj = (
+    _obj = {},
+    _mutatorMap[1] = _mutatorMap[1] || {},
+    _mutatorMap[1].get = function() {},
+    _defineEnumerableProperties(_obj, _mutatorMap), 
+    _obj
+);
+"
+);
+
+test_exec!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(()),
+    issue_2680_2,
+    r#"
+let a = "outside";
+const obj = {
+  get [{
+    get [a]() {
+      let a = "inside";
+      return a;
+    },
+  }.outside]() {
+    let a = "middle";
+    return a;
+  },
+};
+
+expect(obj.inside).toBe("middle");
+"#
+);
+
+test_exec!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(()),
+    issue_2680_3,
+    r#"
+const obj = {
+  foo() {
+      const obj2 = {
+          get [1]() {
+              return 42;
+          },
+      };
+      return obj2;
+  },
+};
+
+expect(obj.foo()[1]).toBe(42);
+"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(()),
+    issue_2680_4,
+    r#"
+const obj = {
+  foo() {
+      const obj2 = {
+          get [1]() {
+              return 42;
+          },
+      };
+      return obj2;
+  },
+};
+"#,
+    "
+const obj = {
+  foo() {
+    var _obj, _mutatorMap = {};
+    const obj2 = (
+        _obj = {},
+        _mutatorMap[1] = _mutatorMap[1] || {},
+        _mutatorMap[1].get = function () {
+            return 42;
+        },
+        _defineEnumerableProperties(_obj, _mutatorMap),
+        _obj
+    );
+    return obj2;
+  },
+};
+"
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
     |_| computed_properties(Default::default()),
     argument,
     r#"foo({

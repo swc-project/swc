@@ -39,7 +39,10 @@ use swc_ecma_visit::{
 /// TODO(kdy1): cache reference like (_f = f, mutatorMap[_f].get = function(){})
 ///     instead of (mutatorMap[f].get = function(){}
 pub fn computed_properties(c: Config) -> impl Fold {
-    as_folder(ComputedProps { c })
+    as_folder(ComputedProps {
+        c,
+        ..Default::default()
+    })
 }
 
 #[derive(Debug, Clone, Copy, Default, Deserialize)]
@@ -49,19 +52,23 @@ pub struct Config {
     pub loose: bool,
 }
 
-struct ComputedProps {
-    c: Config,
-}
-
 #[derive(Default)]
-struct ObjectLitFolder {
+struct ComputedProps {
     vars: Vec<VarDeclarator>,
     used_define_enum_props: bool,
     c: Config,
 }
 
-impl VisitMut for ObjectLitFolder {
+impl VisitMut for ComputedProps {
     noop_visit_mut_type!();
+
+    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        self.visit_mut_stmt_like(n);
+    }
+
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+        self.visit_mut_stmt_like(n);
+    }
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);
@@ -87,22 +94,29 @@ impl VisitMut for ObjectLitFolder {
 
                 let props_cnt = props.len();
 
-                exprs.push(if !self.c.loose && props_cnt == 1 {
-                    Box::new(Expr::Object(ObjectLit {
-                        span: DUMMY_SP,
-                        props: obj_props,
-                    }))
-                } else {
-                    Box::new(Expr::Assign(AssignExpr {
-                        span: DUMMY_SP,
-                        left: PatOrExpr::Pat(Box::new(Pat::Ident(obj_ident.clone().into()))),
-                        op: op!("="),
-                        right: Box::new(Expr::Object(ObjectLit {
+                self.used_define_enum_props = props.iter().any(|pp| match *pp {
+                    PropOrSpread::Prop(ref p) if p.is_getter() || p.is_setter() => true,
+                    _ => false,
+                });
+
+                exprs.push(
+                    if !self.c.loose && props_cnt == 1 && !self.used_define_enum_props {
+                        Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
                             props: obj_props,
-                        })),
-                    }))
-                });
+                        }))
+                    } else {
+                        Box::new(Expr::Assign(AssignExpr {
+                            span: DUMMY_SP,
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(obj_ident.clone().into()))),
+                            op: op!("="),
+                            right: Box::new(Expr::Object(ObjectLit {
+                                span: DUMMY_SP,
+                                props: obj_props,
+                            })),
+                        }))
+                    },
+                );
 
                 let mut single_cnt_prop = None;
 
@@ -330,22 +344,10 @@ impl Visit for ComplexVisitor {
     }
 }
 
-impl VisitMut for ComputedProps {
-    noop_visit_mut_type!();
-
-    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        self.visit_mut_stmt_like(n);
-    }
-
-    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
-        self.visit_mut_stmt_like(n);
-    }
-}
-
 impl ComputedProps {
     fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike + VisitWith<ShouldWork> + VisitMutWith<Self> + VisitMutWith<ObjectLitFolder>,
+        T: StmtLike + VisitWith<ShouldWork> + VisitMutWith<Self>,
         Vec<T>: VisitWith<ShouldWork>,
     {
         let mut stmts_updated = Vec::with_capacity(stmts.len());
@@ -356,7 +358,7 @@ impl ComputedProps {
                 continue;
             }
 
-            let mut folder = ObjectLitFolder {
+            let mut folder = Self {
                 c: self.c,
                 ..Default::default()
             };
