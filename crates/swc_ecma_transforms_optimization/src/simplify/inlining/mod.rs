@@ -98,16 +98,6 @@ impl Inlining<'_> {
 impl VisitMut for Inlining<'_> {
     noop_visit_mut_type!();
 
-    fn visit_mut_if_stmt(&mut self, stmt: &mut IfStmt) {
-        let old_in_test = self.in_test;
-        self.in_test = true;
-        stmt.test.visit_mut_with(self);
-        self.in_test = old_in_test;
-
-        self.visit_with_child(ScopeKind::Cond, &mut stmt.cons);
-        self.visit_with_child(ScopeKind::Cond, &mut stmt.alt);
-    }
-
     fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr) {
         self.visit_with_child(ScopeKind::Fn { named: false }, node)
     }
@@ -456,11 +446,36 @@ impl VisitMut for Inlining<'_> {
         })
     }
 
+    fn visit_mut_if_stmt(&mut self, stmt: &mut IfStmt) {
+        let old_in_test = self.in_test;
+        self.in_test = true;
+        stmt.test.visit_mut_with(self);
+        self.in_test = old_in_test;
+
+        self.visit_with_child(ScopeKind::Cond, &mut stmt.cons);
+        self.visit_with_child(ScopeKind::Cond, &mut stmt.alt);
+    }
+
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
         e.obj.visit_mut_with(self);
         if e.computed {
             e.prop.visit_mut_with(self);
         }
+    }
+
+    fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
+        let old_phase = self.phase;
+
+        self.phase = Phase::Analysis;
+        items.visit_mut_children_with(self);
+
+        tracing::trace!("Switching to Inlining phase");
+
+        // Inline
+        self.phase = Phase::Inlining;
+        items.visit_mut_children_with(self);
+
+        self.phase = old_phase;
     }
 
     fn visit_mut_new_expr(&mut self, node: &mut NewExpr) {
@@ -505,6 +520,26 @@ impl VisitMut for Inlining<'_> {
             },
 
             _ => {}
+        }
+    }
+
+    fn visit_mut_stmts(&mut self, items: &mut Vec<Stmt>) {
+        let old_phase = self.phase;
+
+        match old_phase {
+            Phase::Analysis => {
+                items.visit_mut_children_with(self);
+            }
+            Phase::Inlining => {
+                self.phase = Phase::Analysis;
+                items.visit_mut_children_with(self);
+
+                // Inline
+                self.phase = Phase::Inlining;
+                items.visit_mut_children_with(self);
+
+                self.phase = old_phase
+            }
         }
     }
 
@@ -708,41 +743,6 @@ impl VisitMut for Inlining<'_> {
 
         node.test.visit_mut_with(self);
         self.visit_with_child(ScopeKind::Loop, &mut node.body);
-    }
-
-    fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
-        let old_phase = self.phase;
-
-        self.phase = Phase::Analysis;
-        items.visit_mut_children_with(self);
-
-        tracing::trace!("Switching to Inlining phase");
-
-        // Inline
-        self.phase = Phase::Inlining;
-        items.visit_mut_children_with(self);
-
-        self.phase = old_phase;
-    }
-
-    fn visit_mut_stmts(&mut self, items: &mut Vec<Stmt>) {
-        let old_phase = self.phase;
-
-        match old_phase {
-            Phase::Analysis => {
-                items.visit_mut_children_with(self);
-            }
-            Phase::Inlining => {
-                self.phase = Phase::Analysis;
-                items.visit_mut_children_with(self);
-
-                // Inline
-                self.phase = Phase::Inlining;
-                items.visit_mut_children_with(self);
-
-                self.phase = old_phase
-            }
-        }
     }
 }
 
