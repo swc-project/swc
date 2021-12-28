@@ -25,6 +25,14 @@ test!(
 test!(
     syntax(),
     |_| tr(),
+    side_effect_import_with_assertions,
+    r#"import "./test.json" assert {type: "json"};"#,
+    r#"import "./test.json";"#
+);
+
+test!(
+    syntax(),
+    |_| tr(),
     named_export_with_assertions,
     r#"export {default as test} from "./test.json" assert {type: "json"};"#,
     r#"export {default as test} from "./test.json";"#
