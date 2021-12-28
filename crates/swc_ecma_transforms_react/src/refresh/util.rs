@@ -2,6 +2,7 @@ use indexmap::IndexSet;
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashSet, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 pub trait CollectIdent {
     fn collect_ident(&self, collection: &mut IndexSet<JsWord>);
@@ -215,46 +216,48 @@ pub fn is_import_or_require(expr: &Expr) -> bool {
     false
 }
 
-pub fn callee_should_ignore<'a>(
-    ignore: &'a AHashSet<Ident>,
-    callee: &ExprOrSuper,
-) -> Option<ExprOrSuper> {
-    let expr = if let ExprOrSuper::Expr(expr) = callee {
-        Some(expr)
-    } else {
-        None
-    }?;
-    let ident = if let Expr::Ident(ident) = expr.as_ref() {
-        Some(ident)
-    } else {
-        None
-    }?;
-    ignore
-        .get(ident)
-        .map(|ident| ExprOrSuper::Expr(Box::new(Expr::Ident(ident.clone()))))
+pub struct UsedInJsx(AHashSet<JsWord>);
+
+impl Visit for UsedInJsx {
+    noop_visit_type!();
+
+    fn visit_call_expr(&mut self, n: &CallExpr) {
+        n.visit_children_with(self);
+
+        if let ExprOrSuper::Expr(expr) = &n.callee {
+            let ident = match expr.as_ref() {
+                Expr::Ident(ident) => ident,
+                Expr::Member(MemberExpr { prop, .. }) => {
+                    if let Expr::Ident(ident) = prop.as_ref() {
+                        ident
+                    } else {
+                        return;
+                    }
+                }
+                _ => return,
+            };
+            if matches!(
+                ident.sym.as_ref(),
+                "createElement" | "jsx" | "jsxDEV" | "jsxs"
+            ) {
+                if let Some(ExprOrSpread { expr, .. }) = n.args.get(0) {
+                    if let Expr::Ident(ident) = expr.as_ref() {
+                        self.0.insert(ident.sym.clone());
+                    }
+                }
+            }
+        }
+    }
+
+    fn visit_jsx_opening_element(&mut self, n: &JSXOpeningElement) {
+        if let JSXElementName::Ident(ident) = &n.name {
+            self.0.insert(ident.sym.clone());
+        }
+    }
 }
 
-pub fn gen_custom_hook_record(elems: Vec<Option<ExprOrSpread>>) -> Expr {
-    Expr::Fn(FnExpr {
-        ident: None,
-        function: Function {
-            is_generator: false,
-            is_async: false,
-            params: Vec::new(),
-            decorators: Vec::new(),
-            span: DUMMY_SP,
-            body: Some(BlockStmt {
-                span: DUMMY_SP,
-                stmts: vec![Stmt::Return(ReturnStmt {
-                    span: DUMMY_SP,
-                    arg: Some(Box::new(Expr::Array(ArrayLit {
-                        span: DUMMY_SP,
-                        elems,
-                    }))),
-                })],
-            }),
-            type_params: None,
-            return_type: None,
-        },
-    })
+pub fn collect_ident_in_jsx<V: VisitWith<UsedInJsx>>(item: &V) -> AHashSet<JsWord> {
+    let mut visitor = UsedInJsx(AHashSet::default());
+    item.visit_with(&mut visitor);
+    visitor.0
 }
