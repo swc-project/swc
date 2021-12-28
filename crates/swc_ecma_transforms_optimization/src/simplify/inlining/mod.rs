@@ -120,7 +120,30 @@ impl VisitMut for Inlining<'_> {
 
                 e.left.visit_with(&mut v);
                 e.right.visit_with(&mut v);
+
+                match &mut e.left {
+                    PatOrExpr::Expr(left) => {
+                        //
+                        match &**left {
+                            Expr::Member(ref left) => {
+                                tracing::trace!("Assign to member expression!");
+                                let mut v = IdentListVisitor {
+                                    scope: &mut self.scope,
+                                };
+
+                                left.visit_with(&mut v);
+                                e.right.visit_with(&mut v);
+                            }
+
+                            _ => {}
+                        }
+                    }
+                    PatOrExpr::Pat(p) => {
+                        p.visit_mut_with(self);
+                    }
+                }
             }
+
             _ => {
                 let mut v = IdentListVisitor {
                     scope: &mut self.scope,
@@ -130,8 +153,6 @@ impl VisitMut for Inlining<'_> {
                 e.right.visit_with(&mut v)
             }
         }
-
-        e.left.visit_mut_with(self);
 
         e.right.visit_mut_with(self);
 
