@@ -7,7 +7,7 @@ set -eu
 
 # Exclude local crates.
 TEXT=$(\
-    cargo crev verify --show-latest-trusted --skip-verified --recursive |\
+    cargo crev verify --show-latest-trusted --skip-verified --recursive --skip-known-owners |\
     grep -v "^local" |\
     grep -v "↑" |\
     grep -v "=[ ]*$" |\
