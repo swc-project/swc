@@ -2547,7 +2547,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.100.2"
+version = "0.100.3"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2943,7 +2943,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.82.5"
+version = "0.82.6"
 dependencies = [
  "either",
  "enum_kind",
@@ -3287,7 +3287,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.99.8"
+version = "0.99.9"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
