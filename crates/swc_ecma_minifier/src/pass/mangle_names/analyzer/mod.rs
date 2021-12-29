@@ -4,6 +4,7 @@ use swc_common::collections::{AHashMap, AHashSet};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use tracing::trace;
 
 mod scope;
 
@@ -24,10 +25,17 @@ impl Analyzer {
     }
 
     fn add_decl(&mut self, id: Id) {
+        if cfg!(feature = "debug") {
+            trace!("add_decl({:?})", id);
+        }
         self.scope.add_decl(&id);
     }
 
     fn add_usage(&mut self, id: Id) {
+        if cfg!(feature = "debug") {
+            trace!("add_usage({:?})", id);
+        }
+
         self.scope.add_usage(&id);
     }
 
