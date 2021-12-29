@@ -121,12 +121,17 @@ impl Visit for Analyzer {
     }
 
     fn visit_expr(&mut self, e: &Expr) {
+        let old_is_pat_decl = self.is_pat_decl;
+
+        self.is_pat_decl = false;
         e.visit_children_with(self);
 
         match e {
             Expr::Ident(i) => self.add_usage(i.to_id()),
             _ => {}
         }
+
+        self.is_pat_decl = old_is_pat_decl;
     }
 
     fn visit_fn_decl(&mut self, f: &FnDecl) {
