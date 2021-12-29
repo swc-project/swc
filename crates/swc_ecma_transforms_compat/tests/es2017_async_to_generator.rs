@@ -3035,19 +3035,217 @@ test!(
     |_| async_to_generator(),
     function_length_issue_3135_1,
     r#"
-const bar1 = async function* (one, two, three) {
-  return 42;
+async function foo(x, y, ...z) {
+    return 42;
+}
+"#,
+    r#"
+function foo(x, y) {
+  return _foo.apply(this, arguments);
+}
+function _foo() {
+    _foo = _asyncToGenerator(function*(x, y, ...z) {
+        return 42;
+    });
+    return _foo.apply(this, arguments);
+}
+"#
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    function_length_issue_3135_2,
+    r#"
+async function* foo(x, y, ...z) {
+    return 42;
+}
+"#,
+    r#"
+function foo(x, y) {
+  return _foo.apply(this, arguments);
+}
+function _foo() {
+    _foo = _wrapAsyncGenerator(function*(x, y, ...z) {
+        return 42;
+    });
+    return _foo.apply(this, arguments);
+}
+"#
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    function_length_issue_3135_3,
+    r#"
+const foo = async function (x, y, ...z) {
+    return 42;
+}
+"#,
+    r#"
+const foo = /*#__PURE__*/ function () {
+  var _ref = _asyncToGenerator(function* (x, y, ...z) {
+      return 42;
+  });
+  return function foo(x, y) {
+      return _ref.apply(this, arguments);
+  };
+}();
+"#
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    function_length_issue_3135_4,
+    r#"
+const foo = async function* (x, y, ...z) {
+    return 42;
+}
+"#,
+    r#"
+const foo = /*#__PURE__*/ function (x, y) {
+    var _ref = _wrapAsyncGenerator(function* (x, y, ...z) {
+        return 42;
+    });
+    return function foo(x, y) {
+        return _ref.apply(this, arguments);
+    };
+}();
+"#
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    function_length_issue_3135_5,
+    r#"
+const foo = async (x, y, ...z) => {
+    return this;
 };
 "#,
     r#"
-const bar1 = (function (one, two, three) {
-  var _ref = _wrapAsyncGenerator(function* (one, two, three) {
-      return 42;
-  });
-  return function (one, two, three) {
-      return _ref.apply(this, arguments);
-  };
-})();
+var _this = this;
+const foo = /*#__PURE__*/ function () {
+    var _ref = _asyncToGenerator((function* (x, y, ...z) {
+        return _this;
+    }).bind(_this)).bind(_this);
+
+    return function foo(x, y) {
+        return _ref.apply(this, arguments);
+    };
+}();
+"#
+);
+
+test!(
+    // TODO: resolve bind issue
+    ignore,
+    Syntax::default(),
+    |_| async_to_generator(),
+    async_wrap_this,
+    r#"
+const foo = async (x, y, ...z) => {
+    return this;
+};
+"#,
+    r#"
+var _this = this;
+const foo = /*#__PURE__*/ function () {
+    var _ref = _asyncToGenerator(function* (x, y, ...z) {
+        return _this;
+    });
+
+    return function foo(x, y) {
+        return _ref.apply(this, arguments);
+    };
+}();
+"#
+);
+
+test!(
+    // TODO: arguments
+    ignore,
+    Syntax::default(),
+    |_| async_to_generator(),
+    async_wrap_arguments,
+    r#"
+function foo() {
+    const bar = async () => {
+        return arguments;
+    };
+}
+"#,
+    r#"
+function foo() {
+  var _arguments = arguments;
+
+  const bar = /*#__PURE__*/ function () {
+      var _ref = _asyncToGenerator(function* () {
+          return _arguments;
+      });
+
+      return function bar() {
+          return _ref.apply(this, arguments);
+      };
+  }();
+}
+"#
+);
+
+test!(
+    // TODO: super and new.target
+    ignore,
+    Syntax::default(),
+    |_| async_to_generator(),
+    async_wrap_super_and_new_target,
+    r#"
+class Foo {
+    constractur() {
+        const foo = async () => {
+            return new.target;
+        };
+    }
+
+    hello() {
+        const world = async () => {
+            return super.hello();
+        };
+    }
+}
+"#,
+    r#"
+class Foo {
+    constractur() {
+        var _newtarget = new.target;
+
+        const foo = /*#__PURE__*/ function () {
+            var _ref = _asyncToGenerator(function* () {
+                return _newtarget;
+            });
+
+            return function foo() {
+                return _ref.apply(this, arguments);
+            };
+        }();
+    }
+
+    hello() {
+        var _superprop_getHello = () => super.hello,
+            _this = this;
+
+        const world = /*#__PURE__*/ function () {
+            var _ref2 = _asyncToGenerator(function* () {
+                return _superprop_getHello().call(_this);
+            });
+
+            return function world() {
+                return _ref2.apply(this, arguments);
+            };
+        }();
+    }
+}
 "#
 );
 
