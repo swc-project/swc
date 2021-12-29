@@ -49,6 +49,7 @@ function _defineProperty(obj, key, value) {
 var A = function A() {
     "use strict";
     _classCallCheck(this, A);
+    var _this1 = this;
     // @target: es5
     // @lib: esnext, dom
     // @downlevelIteration: true
@@ -74,5 +75,5 @@ var A = function A() {
                     return _ctx.stop();
             }
         }, _callee, this);
-    }).bind(this)).bind(this);
+    }).bind(_this1)).bind(_this1);
 };
