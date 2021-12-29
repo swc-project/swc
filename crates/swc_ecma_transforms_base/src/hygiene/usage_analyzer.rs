@@ -472,21 +472,6 @@ impl Visit for UsageAnalyzer<'_> {
         })
     }
 
-    fn visit_constructor(&mut self, c: &Constructor) {
-        self.visit_with_scope(c.span.ctxt, ScopeKind::Fn, |v| {
-            v.is_pat_decl = true;
-            c.params.visit_with(v);
-            v.is_pat_decl = false;
-
-            match c.body.as_ref() {
-                Some(body) => {
-                    body.visit_children_with(v);
-                }
-                None => {}
-            }
-        })
-    }
-
     fn visit_class_method(&mut self, m: &ClassMethod) {
         m.function.decorators.visit_with(self);
 
@@ -496,6 +481,21 @@ impl Visit for UsageAnalyzer<'_> {
             v.is_pat_decl = false;
 
             match m.function.body.as_ref() {
+                Some(body) => {
+                    body.visit_children_with(v);
+                }
+                None => {}
+            }
+        })
+    }
+
+    fn visit_constructor(&mut self, c: &Constructor) {
+        self.visit_with_scope(c.span.ctxt, ScopeKind::Fn, |v| {
+            v.is_pat_decl = true;
+            c.params.visit_with(v);
+            v.is_pat_decl = false;
+
+            match c.body.as_ref() {
                 Some(body) => {
                     body.visit_children_with(v);
                 }
@@ -608,6 +608,14 @@ impl Visit for UsageAnalyzer<'_> {
 
     fn visit_module_items(&mut self, stmts: &[ModuleItem]) {
         self.visit_stmt_likes(stmts);
+    }
+
+    fn visit_named_export(&mut self, n: &NamedExport) {
+        if n.src.is_some() {
+            return;
+        }
+
+        n.visit_children_with(self);
     }
 
     fn visit_param(&mut self, p: &Param) {

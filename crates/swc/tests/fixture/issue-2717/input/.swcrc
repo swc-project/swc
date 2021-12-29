@@ -1,0 +1,13 @@
+{
+    "jsc": {
+        "externalHelpers": true,
+        "parser": {
+            "syntax": "typescript",
+            "tsx": false
+        },
+        "minify": {
+            "compress": true,
+            "mangle": true
+        }
+    }
+}

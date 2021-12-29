@@ -7,10 +7,10 @@ var a = require("react/jsx-runtime"), b = function(a) {
     var b = {
     };
     if (null != a) {
-        for(var b in a)if (Object.prototype.hasOwnProperty.call(a, b)) {
-            var d = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(a, b) : {
+        for(var c in a)if (Object.prototype.hasOwnProperty.call(a, c)) {
+            var d = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(a, c) : {
             };
-            d.get || d.set ? Object.defineProperty(b, b, d) : b[b] = a[b];
+            d.get || d.set ? Object.defineProperty(b, c, d) : b[c] = a[c];
         }
     }
     return b.default = a, b;
@@ -21,18 +21,18 @@ function c(a, b) {
         d.enumerable = d.enumerable || !1, d.configurable = !0, "value" in d && (d.writable = !0), Object.defineProperty(a, d.key, d);
     }
 }
-function d(a, b, c) {
-    return b in a ? Object.defineProperty(a, b, {
-        value: c,
+function d(a, c, d) {
+    return c in a ? Object.defineProperty(a, c, {
+        value: d,
         enumerable: !0,
         configurable: !0,
         writable: !0
-    }) : a[b] = c, a;
+    }) : a[c] = d, a;
 }
-function b(d) {
-    return b = Object.setPrototypeOf ? Object.getPrototypeOf : function b(d) {
-        return d.__proto__ || Object.getPrototypeOf(d);
-    }, b(d);
+function e(a) {
+    return e = Object.setPrototypeOf ? Object.getPrototypeOf : function e(a) {
+        return a.__proto__ || Object.getPrototypeOf(a);
+    }, e(a);
 }
 function f(a) {
     for(var c = 1; c < arguments.length; c++){
@@ -40,18 +40,18 @@ function f(a) {
         }, f = Object.keys(e);
         "function" == typeof Object.getOwnPropertySymbols && (f = f.concat(Object.getOwnPropertySymbols(e).filter(function(a) {
             return Object.getOwnPropertyDescriptor(e, a).enumerable;
-        }))), f.forEach(function(b) {
-            d(a, b, e[b]);
+        }))), f.forEach(function(c) {
+            d(a, c, e[c]);
         });
     }
     return a;
 }
-function c(d, e) {
-    return c = Object.setPrototypeOf || function c(d, e) {
-        return d.__proto__ = e, d;
-    }, c(d, e);
+function g(a, b) {
+    return g = Object.setPrototypeOf || function g(a, b) {
+        return a.__proto__ = b, a;
+    }, g(a, b);
 }
-var k = function(d) {
+var h = function(b) {
     "use strict";
     !function(a, b) {
         if ("function" != typeof b && null !== b) throw new TypeError("Super expression must either be null or a function");
@@ -61,10 +61,10 @@ var k = function(d) {
                 writable: !0,
                 configurable: !0
             }
-        }), b && c(a, b);
-    }(k, d);
-    var b, g, i, j = function(c) {
-        var d = function() {
+        }), b && g(a, b);
+    }(h, b);
+    var d, i, j, k = function(b) {
+        var c = function() {
             if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
             if (Reflect.construct.sham) return !1;
             if ("function" == typeof Proxy) return !0;
@@ -76,26 +76,26 @@ var k = function(d) {
             }
         }();
         return function() {
-            var a, a, f, g, h = b(c);
-            if (d) {
-                var i = b(this).constructor;
+            var a, d, f, g, h = e(b);
+            if (c) {
+                var i = e(this).constructor;
                 g = Reflect.construct(h, arguments, i);
             } else g = h.apply(this, arguments);
-            return a = this, (f = g) && ("object" == ((a = f) && "undefined" != typeof Symbol && a.constructor === Symbol ? "symbol" : typeof a) || "function" == typeof f) ? f : (function(a) {
-                if (void 0 === a) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-                return a;
-            })(a);
+            return d = this, (f = g) && ("object" == ((a = f) && "undefined" != typeof Symbol && a.constructor === Symbol ? "symbol" : typeof a) || "function" == typeof f) ? f : (function(d) {
+                if (void 0 === d) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+                return d;
+            })(d);
         };
-    }(k);
-    function k() {
+    }(h);
+    function h() {
         var a;
-        return !function(a, b) {
-            if (!(a instanceof b)) throw new TypeError("Cannot call a class as a function");
-        }(this, k), a = j.apply(this, arguments), a.storeHighlightedItemReference = function(b) {
+        return !function(a, d) {
+            if (!(a instanceof d)) throw new TypeError("Cannot call a class as a function");
+        }(this, h), a = k.apply(this, arguments), a.storeHighlightedItemReference = function(b) {
             a.props.onHighlightedItemChange(null === b ? null : b.item);
         }, a;
     }
-    return b = k, g = [
+    return d = h, i = [
         {
             key: "shouldComponentUpdate",
             value: function(a) {
@@ -132,10 +132,10 @@ var k = function(d) {
                 }));
             }
         }
-    ], c(b.prototype, g), i && c(b, i), k;
+    ], c(d.prototype, i), j && c(d, j), h;
 }(b.Component);
-k.propTypes = {
+h.propTypes = {
     items: 500
-}, k.defaultProps = {
+}, h.defaultProps = {
     sectionIndex: null
-}, exports.default = k, new k();
+}, exports.default = h, new h();

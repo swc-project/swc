@@ -324,6 +324,14 @@ impl<'a> VisitMut for Operator<'a> {
         *items = stmts
     }
 
+    fn visit_mut_named_export(&mut self, e: &mut NamedExport) {
+        if e.src.is_some() {
+            return;
+        }
+
+        e.visit_mut_children_with(self);
+    }
+
     fn visit_mut_object_pat_prop(&mut self, n: &mut ObjectPatProp) {
         n.visit_mut_children_with(self);
 
