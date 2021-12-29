@@ -1,13 +1,13 @@
 import * as a from "@swc/helpers";
-Promise.all(assignAll).then(function(a) {
-    var c = a.asyncToGenerator(function*(a) {
-        let b = "DELETE FROM \"TABLE\" WHERE \"UUID\" IN ( ";
-        for(let c in obj){
-            let d = obj[c];
-            b += `'${d.id}', `;
-            let e = yield listOfUser(d.id);
-            e.forEach((a)=>{
-                insertQuery += `INSERT INTO "TABLE"("UUID", id, other_ids_here) VALUES ('${uuidv4()}', '${d.id}', now());`;
+Promise.all(assignAll).then(function(b) {
+    var c = a.asyncToGenerator(function*(b) {
+        let c = "DELETE FROM \"TABLE\" WHERE \"UUID\" IN ( ";
+        for(let d in obj){
+            let e = obj[d];
+            c += `'${e.id}', `;
+            let f = yield listOfUser(e.id);
+            f.forEach((a)=>{
+                insertQuery += `INSERT INTO "TABLE"("UUID", id, other_ids_here) VALUES ('${uuidv4()}', '${e.id}', now());`;
             });
         }
     });
@@ -16,10 +16,10 @@ Promise.all(assignAll).then(function(a) {
     };
 }());
 export const listOfUser = function(b) {
-    return new Promise(function(a, c) {
-        var e = a.asyncToGenerator(function*(a, c) {
-            const d = `Select Distinct id from "TABLE" Where id = '${b}' And user_id IS not null`;
-            postgreSQL.query(d, null, function(a, b) {
+    return new Promise(function(c, d) {
+        var e = a.asyncToGenerator(function*(c, d) {
+            const e = `Select Distinct id from "TABLE" Where id = '${b}' And user_id IS not null`;
+            postgreSQL.query(e, null, function(a, b) {
                 a ? (void 0)(a) : (void 0)(b.rows);
             });
         });

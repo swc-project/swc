@@ -4,13 +4,6 @@
             "syntax": "typescript",
             "tsx": false
         },
-        "transform": {
-            "optimizer": {
-                "jsonify": {
-                    "minCost": 0
-                }
-            }
-        },
         "target": "es2021",
         "loose": false,
         "minify": {
