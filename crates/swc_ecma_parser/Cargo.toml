@@ -36,8 +36,7 @@ typed-arena = "2.0.1"
 unicode-xid = "0.2"
 
 [dev-dependencies]
-env_logger = "0.7"
-pretty_assertions = "0.6"
+pretty_assertions = "0.7.2"
 serde_json = "1"
 swc_ecma_visit = {version = "0.46.0", path = "../swc_ecma_visit"}
 swc_node_base = {version = "0.5.0", path = "../swc_node_base"}
