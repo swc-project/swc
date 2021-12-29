@@ -604,78 +604,78 @@ where
                     }
                     _ => stmts.push(T::from_stmt(stmt)),
                 },
-                Err(node) => match node.try_into_module_decl() {
-                    Ok(decl) => match decl {
-                        ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
-                            span,
-                            decl: DefaultDecl::Class(ClassExpr { ident, class }),
-                            ..
-                        }) => {
-                            let orig_ident = ident.clone();
-                            let ident = ident.unwrap_or_else(|| private_ident!("_class"));
-                            let (decl, extra_exprs) =
-                                self.fold_class_as_decl(ident.clone(), orig_ident, class);
-                            stmts.push(T::from_stmt(Stmt::Decl(decl)));
-                            stmts.extend(
-                                extra_exprs.into_iter().map(|e| T::from_stmt(e.into_stmt())),
-                            );
-                            stmts.push(
-                                match T::try_from_module_decl(ModuleDecl::ExportNamed(
-                                    NamedExport {
-                                        span,
-                                        specifiers: vec![ExportNamedSpecifier {
-                                            span: DUMMY_SP,
-                                            orig: ident,
-                                            exported: Some(Ident::new(
-                                                js_word!("default"),
-                                                DUMMY_SP,
-                                            )),
-                                            is_type_only: false,
-                                        }
-                                        .into()],
-                                        src: None,
-                                        type_only: false,
-                                        asserts: None,
+                Err(node) => {
+                    match node.try_into_module_decl() {
+                        Ok(decl) => match decl {
+                            ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                                span,
+                                decl: DefaultDecl::Class(ClassExpr { ident, class }),
+                                ..
+                            }) => {
+                                let orig_ident = ident.clone();
+                                let ident = ident.unwrap_or_else(|| private_ident!("_class"));
+                                let (decl, extra_exprs) =
+                                    self.fold_class_as_decl(ident.clone(), orig_ident, class);
+                                stmts.push(T::from_stmt(Stmt::Decl(decl)));
+                                stmts.extend(
+                                    extra_exprs.into_iter().map(|e| T::from_stmt(e.into_stmt())),
+                                );
+                                stmts.push(
+                                    match T::try_from_module_decl(ModuleDecl::ExportNamed(
+                                        NamedExport {
+                                            span,
+                                            specifiers: vec![ExportNamedSpecifier {
+                                                span: DUMMY_SP,
+                                                orig: ModuleExportName::Ident(ident),
+                                                exported: Some(ModuleExportName::Ident(
+                                                    Ident::new(js_word!("default"), DUMMY_SP),
+                                                )),
+                                                is_type_only: false,
+                                            }
+                                            .into()],
+                                            src: None,
+                                            type_only: false,
+                                            asserts: None,
+                                        },
+                                    )) {
+                                        Ok(t) => t,
+                                        Err(..) => unreachable!(),
                                     },
-                                )) {
-                                    Ok(t) => t,
-                                    Err(..) => unreachable!(),
-                                },
-                            );
-                        }
-                        ModuleDecl::ExportDecl(ExportDecl {
-                            span,
-                            decl:
-                                Decl::Class(ClassDecl {
-                                    ident,
-                                    declare: false,
-                                    class,
-                                }),
-                            ..
-                        }) => {
-                            let orig_ident = ident.clone();
-                            let (decl, extra_exprs) =
-                                self.fold_class_as_decl(ident, Some(orig_ident), class);
-                            stmts.push(
-                                match T::try_from_module_decl(ModuleDecl::ExportDecl(ExportDecl {
-                                    span,
-                                    decl,
-                                })) {
-                                    Ok(t) => t,
-                                    Err(..) => unreachable!(),
-                                },
-                            );
-                            stmts.extend(
-                                extra_exprs.into_iter().map(|e| T::from_stmt(e.into_stmt())),
-                            );
-                        }
-                        _ => stmts.push(match T::try_from_module_decl(decl) {
-                            Ok(t) => t,
-                            Err(..) => unreachable!(),
-                        }),
-                    },
-                    Err(_) => unreachable!(),
-                },
+                                );
+                            }
+                            ModuleDecl::ExportDecl(ExportDecl {
+                                span,
+                                decl:
+                                    Decl::Class(ClassDecl {
+                                        ident,
+                                        declare: false,
+                                        class,
+                                    }),
+                                ..
+                            }) => {
+                                let orig_ident = ident.clone();
+                                let (decl, extra_exprs) =
+                                    self.fold_class_as_decl(ident, Some(orig_ident), class);
+                                stmts.push(
+                                    match T::try_from_module_decl(ModuleDecl::ExportDecl(
+                                        ExportDecl { span, decl },
+                                    )) {
+                                        Ok(t) => t,
+                                        Err(..) => unreachable!(),
+                                    },
+                                );
+                                stmts.extend(
+                                    extra_exprs.into_iter().map(|e| T::from_stmt(e.into_stmt())),
+                                );
+                            }
+                            _ => stmts.push(match T::try_from_module_decl(decl) {
+                                Ok(t) => t,
+                                Err(..) => unreachable!(),
+                            }),
+                        },
+                        Err(_) => unreachable!(),
+                    }
+                }
             }
         }
     }
@@ -1537,9 +1537,15 @@ where
                             ref is_type_only,
                             ..
                         }) => {
+                            let orig_ident = match orig {
+                                ModuleExportName::Ident(ident) => ident,
+                                ModuleExportName::Str(..) => {
+                                    unimplemented!("module string names unimplemented")
+                                }
+                            };
                             if *is_type_only {
                                 false
-                            } else if let Some(e) = self.scope.decls.get(&orig.to_id()) {
+                            } else if let Some(e) = self.scope.decls.get(&orig_ident.to_id()) {
                                 e.has_concrete
                             } else {
                                 true
@@ -2620,9 +2626,15 @@ where
                             ref is_type_only,
                             ..
                         }) => {
+                            let orig_ident = match orig {
+                                ModuleExportName::Ident(ident) => ident,
+                                ModuleExportName::Str(..) => {
+                                    unimplemented!("module string names unimplemented")
+                                }
+                            };
                             if *is_type_only {
                                 false
-                            } else if let Some(e) = self.scope.decls.get(&orig.to_id()) {
+                            } else if let Some(e) = self.scope.decls.get(&orig_ident.to_id()) {
                                 e.has_concrete
                             } else {
                                 true
