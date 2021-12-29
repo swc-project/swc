@@ -1118,9 +1118,9 @@ dependencies = [
 
 [[package]]
 name = "lru"
-version = "0.7.1"
+version = "0.7.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "469898e909a1774d844793b347135a0cd344ca2f69d082013ecb8061a2229a3a"
+checksum = "274353858935c992b13c0ca408752e2121da852d07dec7ce5f108c77dfa14d1f"
 dependencies = [
  "hashbrown",
 ]
@@ -2601,7 +2601,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.93.0"
+version = "0.93.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2909,7 +2909,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.60.1"
+version = "0.60.2"
 dependencies = [
  "ahash",
  "ansi_term 0.12.1",
@@ -3013,7 +3013,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.103.8"
+version = "0.103.9"
 dependencies = [
  "pretty_assertions 0.6.1",
  "sourcemap",
@@ -3040,7 +3040,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.49.2"
+version = "0.49.3"
 dependencies = [
  "once_cell",
  "phf",
@@ -3286,7 +3286,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.99.9"
+version = "0.99.10"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",

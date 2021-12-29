@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.2.124] - 2021-12-29
 
 ### Bug Fixes
 
@@ -21,6 +21,9 @@
 
 
 - **(es/parser)** Support import assertions in specifier-less imports (#3134) ([2f3ca22](https://github.com/swc-project/swc/commit/2f3ca22ecf7f567256695c39a904f02ff75e2c85))
+
+
+- **(es/renamer)** Fix renamer (#3139) ([43c8cda](https://github.com/swc-project/swc/commit/43c8cda31a89bfc027ea3948bd9653d97d3fc29c))
 
 
 - **(es/utils)** Fix `is_valid_ident` (#3133) ([ec7e0ae](https://github.com/swc-project/swc/commit/ec7e0aee256cc7cc13f81ef22164c29f42bb43be))
