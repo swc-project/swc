@@ -413,14 +413,6 @@ impl<'a> VisitMut for Resolver<'a> {
     typed_ref!(visit_mut_ts_this_type_or_ident, TsThisTypeOrIdent);
     typed_ref!(visit_mut_ts_expr_with_type_args, TsExprWithTypeArgs);
 
-    fn visit_mut_import_decl(&mut self, n: &mut ImportDecl) {
-        // Always resolve the import declaration identifiers even if it's type only.
-        // We need to analyze these identifiers for type stripping purposes.
-        self.ident_type = IdentType::Binding;
-        self.in_type = n.type_only;
-        n.visit_mut_children_with(self);
-    }
-
     fn visit_mut_arrow_expr(&mut self, e: &mut ArrowExpr) {
         let child_mark = Mark::fresh(Mark::root());
 
@@ -792,6 +784,14 @@ impl<'a> VisitMut for Resolver<'a> {
         }
     }
 
+    fn visit_mut_import_decl(&mut self, n: &mut ImportDecl) {
+        // Always resolve the import declaration identifiers even if it's type only.
+        // We need to analyze these identifiers for type stripping purposes.
+        self.ident_type = IdentType::Binding;
+        self.in_type = n.type_only;
+        n.visit_mut_children_with(self);
+    }
+
     fn visit_mut_import_named_specifier(&mut self, s: &mut ImportNamedSpecifier) {
         let old = self.ident_type;
         self.ident_type = IdentType::Binding;
@@ -847,6 +847,14 @@ impl<'a> VisitMut for Resolver<'a> {
 
         // Phase 2.
         stmts.visit_mut_children_with(self)
+    }
+
+    fn visit_mut_named_export(&mut self, e: &mut NamedExport) {
+        if e.src.is_some() {
+            return;
+        }
+
+        e.visit_mut_children_with(self);
     }
 
     fn visit_mut_object_lit(&mut self, o: &mut ObjectLit) {
@@ -925,14 +933,6 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_ts_as_expr(&mut self, n: &mut TsAsExpr) {
-        if self.handle_types {
-            n.type_ann.visit_mut_with(self);
-        }
-
-        n.expr.visit_mut_with(self);
-    }
-
-    fn visit_mut_ts_type_assertion(&mut self, n: &mut TsTypeAssertion) {
         if self.handle_types {
             n.type_ann.visit_mut_with(self);
         }
@@ -1219,6 +1219,14 @@ impl<'a> VisitMut for Resolver<'a> {
         n.type_params.visit_mut_with(&mut child);
         n.type_ann.visit_mut_with(&mut child);
         self.in_type = old_in_type;
+    }
+
+    fn visit_mut_ts_type_assertion(&mut self, n: &mut TsTypeAssertion) {
+        if self.handle_types {
+            n.type_ann.visit_mut_with(self);
+        }
+
+        n.expr.visit_mut_with(self);
     }
 
     fn visit_mut_ts_type_param(&mut self, param: &mut TsTypeParam) {

@@ -2351,7 +2351,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.93.0"
+version = "0.93.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2651,7 +2651,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.60.1"
+version = "0.60.2"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -2753,7 +2753,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.103.8"
+version = "0.103.9"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -2779,7 +2779,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.49.2"
+version = "0.49.3"
 dependencies = [
  "once_cell",
  "phf",
@@ -3004,7 +3004,6 @@ dependencies = [
  "swc_ecma_parser",
  "swc_ecma_visit",
  "tracing",
- "unicode-xid",
 ]
 
 [[package]]
@@ -3021,7 +3020,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.99.9"
+version = "0.99.10"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3676,7 +3675,7 @@ checksum = "fd6fbd9a79829dd1ad0cc20627bf1ed606756a7f77edff7b66b7064f9cb327c6"
 
 [[package]]
 name = "wasm"
-version = "1.2.123"
+version = "1.2.124"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",

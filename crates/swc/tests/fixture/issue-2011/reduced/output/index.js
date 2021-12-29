@@ -1,5 +1,5 @@
-function _classCallCheck(a, a) {
-    if (!(a instanceof a)) throw new TypeError("Cannot call a class as a function");
+function _classCallCheck(a, b) {
+    if (!(a instanceof b)) throw new TypeError("Cannot call a class as a function");
 }
 function _defineProperties(a, b) {
     for(var c = 0; c < b.length; c++){
@@ -14,18 +14,18 @@ var ClassA = function() {
 module.exports = (function() {
     var a, c, d = function() {
         "use strict";
-        var a, b, c;
+        var b, c, e;
         function d() {
             _classCallCheck(this, d);
         }
-        return a = d, b = [
+        return b = d, c = [
             {
                 key: "it",
                 value: function() {
                     this.bb = new d.MyA();
                 }
             }
-        ], _defineProperties(a.prototype, b), c && _defineProperties(a, c), d;
+        ], _defineProperties(b.prototype, c), e && _defineProperties(b, e), d;
     }();
     return a = d, c = ClassA, "MyA" in a ? Object.defineProperty(a, "MyA", {
         value: c,
