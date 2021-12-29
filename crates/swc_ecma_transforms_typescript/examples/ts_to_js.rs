@@ -8,7 +8,7 @@ use swc_common::{
     comments::SingleThreadedComments,
     errors::{ColorConfig, Handler},
     sync::Lrc,
-    Mark, SourceMap,
+    Globals, Mark, SourceMap, GLOBALS,
 };
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
@@ -56,34 +56,37 @@ fn main() {
         .map_err(|e| e.into_diagnostic(&handler).emit())
         .expect("failed to parse module.");
 
-    let top_level_mark = Mark::fresh(Mark::root());
+    let globals = Globals::default();
+    GLOBALS.set(&globals, || {
+        let top_level_mark = Mark::fresh(Mark::root());
 
-    // Optionally transforms decorators here before the resolver pass
-    // as it might produce runtime declarations.
+        // Optionally transforms decorators here before the resolver pass
+        // as it might produce runtime declarations.
 
-    // Conduct identifier scope analysis
-    let module = module.fold_with(&mut resolver_with_mark(top_level_mark));
+        // Conduct identifier scope analysis
+        let module = module.fold_with(&mut resolver_with_mark(top_level_mark));
 
-    // Remove typescript types
-    let module = module.fold_with(&mut strip(top_level_mark));
+        // Remove typescript types
+        let module = module.fold_with(&mut strip(top_level_mark));
 
-    // Fix up any identifiers with the same name, but different contexts
-    let module = module.fold_with(&mut hygiene());
+        // Fix up any identifiers with the same name, but different contexts
+        let module = module.fold_with(&mut hygiene());
 
-    // Ensure that we have enough parenthesis.
-    let module = module.fold_with(&mut fixer(Some(&comments)));
+        // Ensure that we have enough parenthesis.
+        let module = module.fold_with(&mut fixer(Some(&comments)));
 
-    let mut buf = vec![];
-    {
-        let mut emitter = Emitter {
-            cfg: swc_ecma_codegen::Config { minify: false },
-            cm: cm.clone(),
-            comments: Some(&comments),
-            wr: JsWriter::new(cm.clone(), "\n", &mut buf, None),
-        };
+        let mut buf = vec![];
+        {
+            let mut emitter = Emitter {
+                cfg: swc_ecma_codegen::Config { minify: false },
+                cm: cm.clone(),
+                comments: Some(&comments),
+                wr: JsWriter::new(cm.clone(), "\n", &mut buf, None),
+            };
 
-        emitter.emit_module(&module).unwrap();
-    }
+            emitter.emit_module(&module).unwrap();
+        }
 
-    println!("{}", String::from_utf8(buf).expect("non-utf8?"));
+        println!("{}", String::from_utf8(buf).expect("non-utf8?"));
+    })
 }
