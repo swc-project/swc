@@ -42,6 +42,7 @@ struct AsyncToGenerator;
 struct Actual {
     in_prototype_assignment: bool,
     extra_stmts: Vec<Stmt>,
+    hoist_stmts: Vec<Stmt>,
 }
 
 #[fast_path(ShouldWork)]
@@ -69,9 +70,11 @@ impl AsyncToGenerator {
             let mut actual = Actual {
                 in_prototype_assignment: false,
                 extra_stmts: vec![],
+                hoist_stmts: vec![],
             };
 
             stmt.visit_mut_with(&mut actual);
+            stmts_updated.extend(actual.hoist_stmts.into_iter().map(T::from_stmt));
             stmts_updated.push(stmt);
             stmts_updated.extend(actual.extra_stmts.into_iter().map(T::from_stmt));
         }
@@ -132,6 +135,7 @@ impl VisitMut for Actual {
                 ident: None,
                 function: m.function.take(),
             },
+            None,
             false,
         );
 
@@ -235,6 +239,7 @@ impl VisitMut for Actual {
                     ..prop.function.take()
                 },
             },
+            None,
             true,
         );
 
@@ -285,6 +290,11 @@ impl VisitMut for Actual {
                     ident: None,
                     ref function,
                 }) if function.is_async || function.is_generator => {
+                    self.visit_mut_expr_with_binding(init, Some(id.clone()));
+                    return;
+                }
+
+                Expr::Arrow(arrow_expr) if arrow_expr.is_async || arrow_expr.is_generator => {
                     self.visit_mut_expr_with_binding(init, Some(id.clone()));
                     return;
                 }
@@ -678,7 +688,23 @@ impl Actual {
                 return_type,
             }) => {
                 // Apply arrow
-                let used_this = contains_this_expr(body);
+                let this = if contains_this_expr(body) {
+                    let this = private_ident!("_this");
+                    self.hoist_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: vec![VarDeclarator {
+                            span: DUMMY_SP,
+                            name: this.clone().into(),
+                            init: Some(Box::new(ThisExpr { span: DUMMY_SP }.into())),
+                            definite: false,
+                        }],
+                        declare: false,
+                    })));
+                    Some(this)
+                } else {
+                    None
+                };
 
                 let fn_expr = FnExpr {
                     ident: None,
@@ -686,11 +712,11 @@ impl Actual {
                         decorators: vec![],
                         span: *span,
                         params: params
-                            .into_iter()
+                            .iter()
                             .map(|pat| Param {
                                 span: DUMMY_SP,
                                 decorators: Default::default(),
-                                pat: pat.take(),
+                                pat: pat.clone(),
                             })
                             .collect(),
                         is_async: true,
@@ -710,17 +736,115 @@ impl Actual {
                     },
                 };
 
-                if !used_this {
-                    *expr = make_fn_ref(fn_expr, false);
+                let ref_ident = quote_ident!("ref");
+                let real_fn_ident = private_ident!(ref_ident.span, format!("_{}", ref_ident.sym));
+
+                let right = if let Some(this) = this {
+                    Expr::Call(CallExpr {
+                        span: span.take(),
+                        callee: make_fn_ref(fn_expr, Some(this.clone()), false)
+                            .make_member(quote_ident!("bind"))
+                            .as_callee(),
+                        args: vec![this.clone().as_arg()],
+                        type_args: Default::default(),
+                    })
+                } else {
+                    make_fn_ref(fn_expr, None, false)
+                };
+
+                if binding_ident.is_none() {
+                    *expr = right;
                     return;
                 }
 
+                let ref_stmt: Stmt = Stmt::Decl(
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: vec![VarDeclarator {
+                            span: DUMMY_SP,
+                            name: Pat::Ident(real_fn_ident.clone().into()),
+                            init: Some(Box::new(right)),
+                            definite: false,
+                        }],
+                        declare: false,
+                    }
+                    .into(),
+                );
+
+                let apply = Stmt::Return(ReturnStmt {
+                    span: DUMMY_SP,
+                    arg: Some(Box::new(real_fn_ident.apply(
+                        DUMMY_SP,
+                        Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
+                        vec![quote_ident!("arguments").as_arg()],
+                    ))),
+                });
+
+                let function = Function {
+                    span: DUMMY_SP,
+                    is_async: false,
+                    is_generator: false,
+                    params: params
+                        .into_iter()
+                        .map_while(|pat| match pat {
+                            Pat::Ident(..) => Some(Param {
+                                span: DUMMY_SP,
+                                decorators: Default::default(),
+                                pat: pat.clone(),
+                            }),
+                            Pat::Array(..) | Pat::Object(..) => Some(Param {
+                                span: DUMMY_SP,
+                                decorators: Default::default(),
+                                pat: Pat::Ident(private_ident!("_").into()),
+                            }),
+                            _ => None,
+                        })
+                        .collect(),
+                    body: Some(BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: vec![apply],
+                    }),
+                    decorators: Default::default(),
+                    type_params: Default::default(),
+                    return_type: Default::default(),
+                };
+
+                let return_function = Stmt::Return(ReturnStmt {
+                    span: DUMMY_SP,
+                    arg: Some(Box::new(
+                        FnExpr {
+                            function,
+                            ident: binding_ident,
+                        }
+                        .into(),
+                    )),
+                });
+
+                let block_stmt = BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![ref_stmt, return_function],
+                };
+
+                let function = Function {
+                    span: *span,
+                    body: Some(block_stmt),
+                    params: Default::default(),
+                    is_generator: false,
+                    is_async: false,
+                    decorators: Default::default(),
+                    return_type: Default::default(),
+                    type_params: Default::default(),
+                };
+
                 *expr = Expr::Call(CallExpr {
-                    span: span.take(),
-                    callee: make_fn_ref(fn_expr, false)
-                        .make_member(quote_ident!("bind"))
-                        .as_callee(),
-                    args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                    span: DUMMY_SP,
+                    callee: Expr::Fn(FnExpr {
+                        ident: None,
+                        function,
+                    })
+                    .as_callee(),
+                    args: vec![],
                     type_args: Default::default(),
                 });
             }
@@ -809,7 +933,7 @@ impl Actual {
             });
         }
 
-        let callee = make_fn_ref(callee.take(), self.in_prototype_assignment);
+        let callee = make_fn_ref(callee.take(), None, self.in_prototype_assignment);
 
         Expr::Call(CallExpr {
             span,
@@ -862,6 +986,7 @@ impl Actual {
                 ident: None,
                 function: f.take(),
             },
+            None,
             true,
         );
 
@@ -987,7 +1112,7 @@ impl Actual {
 /// Creates
 ///
 /// `_asyncToGenerator(function*() {})` from `async function() {}`;
-fn make_fn_ref(mut expr: FnExpr, should_not_bind_this: bool) -> Expr {
+fn make_fn_ref(mut expr: FnExpr, this_ident: Option<Ident>, should_not_bind_this: bool) -> Expr {
     expr.function.body.visit_mut_with(&mut AsyncFnBodyHandler {
         is_async_generator: expr.function.is_generator,
     });
@@ -1010,7 +1135,7 @@ fn make_fn_ref(mut expr: FnExpr, should_not_bind_this: bool) -> Expr {
         Expr::Call(CallExpr {
             span: DUMMY_SP,
             callee: expr.make_member(quote_ident!("bind")).as_callee(),
-            args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+            args: vec![this_ident.map_or(ThisExpr { span: DUMMY_SP }.as_arg(), |x| x.as_arg())],
             type_args: Default::default(),
         })
     } else {
