@@ -92,6 +92,30 @@ impl Visit for Analyzer {
         c.class.visit_with(self);
     }
 
+    fn visit_default_decl(&mut self, d: &DefaultDecl) {
+        match d {
+            DefaultDecl::Class(c) => {
+                if let Some(id) = &c.ident {
+                    self.add_decl(id.to_id());
+                }
+
+                self.with_scope(|v| {
+                    c.class.visit_with(v);
+                })
+            }
+            DefaultDecl::Fn(f) => {
+                if let Some(id) = &f.ident {
+                    self.add_decl(id.to_id());
+                }
+
+                self.with_scope(|v| {
+                    f.function.visit_with(v);
+                })
+            }
+            DefaultDecl::TsInterfaceDecl(_) => {}
+        }
+    }
+
     fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {
         self.add_usage(n.orig.to_id());
     }
