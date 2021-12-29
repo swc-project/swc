@@ -27,7 +27,5 @@
     },
     "module": {
         "type": "es6"
-    },
-    "minify": false,
-    "isModule": true
+    }
 }
