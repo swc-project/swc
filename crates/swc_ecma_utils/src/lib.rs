@@ -30,7 +30,6 @@ use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use tracing::trace;
-use unicode_xid::UnicodeXID;
 
 #[macro_use]
 mod macros;

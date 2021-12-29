@@ -3270,7 +3270,6 @@ dependencies = [
  "swc_ecma_visit",
  "testing",
  "tracing",
- "unicode-xid",
 ]
 
 [[package]]
