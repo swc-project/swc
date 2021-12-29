@@ -6,12 +6,7 @@
 use self::common::*;
 use anyhow::Error;
 use ntest::timeout;
-use std::{
-    collections::HashMap,
-    fs::write,
-    path::PathBuf,
-    process::{Command, Stdio},
-};
+use std::{collections::HashMap, fs::write, path::PathBuf, process::Command};
 use swc_atoms::js_word;
 use swc_bundler::{Bundler, Load, ModuleRecord};
 use swc_common::{collections::AHashSet, FileName, Mark, Span, GLOBALS};
@@ -1011,15 +1006,18 @@ fn run(url: &str, exports: &[&str]) {
         .arg("run")
         .arg("--no-check")
         .arg(&path)
-        .stdout(Stdio::inherit())
-        .stderr(Stdio::inherit())
-        .status()
-        .unwrap();
+        .output()
+        .expect("failed to get output from deno");
 
-    std::mem::forget(dir);
+    if !output.status.success() {
+        std::mem::forget(dir);
 
-    dbg!(output);
-    assert!(output.success());
+        panic!(
+            "failed to execute:\n{}\n{}",
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr)
+        )
+    }
 }
 
 fn bundle(url: &str, minify: bool) -> String {
@@ -1211,14 +1209,18 @@ fn exec(input: PathBuf) {
         .arg("--no-check")
         .arg("--allow-net")
         .arg(&path)
-        .stdout(Stdio::inherit())
-        .stderr(Stdio::inherit())
-        .status()
+        .output()
         .unwrap();
 
-    std::mem::forget(dir);
+    if !output.status.success() {
+        std::mem::forget(dir);
 
-    assert!(output.success());
+        panic!(
+            "failed to execute:\n{}\n{}",
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr)
+        )
+    }
 }
 
 #[testing::fixture("tests/deno-exec/**/entry.ts")]
@@ -1252,12 +1254,16 @@ fn exec_minified(input: PathBuf) {
         .arg("--no-check")
         .arg("--allow-net")
         .arg(&path)
-        .stdout(Stdio::inherit())
-        .stderr(Stdio::inherit())
-        .status()
+        .output()
         .unwrap();
 
-    std::mem::forget(dir);
+    if !output.status.success() {
+        std::mem::forget(dir);
 
-    assert!(output.success());
+        panic!(
+            "failed to execute:\n{}\n{}",
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr)
+        )
+    }
 }
