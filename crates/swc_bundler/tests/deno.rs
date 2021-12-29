@@ -1011,15 +1011,18 @@ fn run(url: &str, exports: &[&str]) {
         .arg("run")
         .arg("--no-check")
         .arg(&path)
-        .stdout(Stdio::inherit())
-        .stderr(Stdio::inherit())
-        .status()
-        .unwrap();
+        .output()
+        .expect("failed to get output from deno");
 
-    std::mem::forget(dir);
+    if !output.status.success() {
+        std::mem::forget(dir);
 
-    dbg!(output);
-    assert!(output.success());
+        panic!(
+            "failed to execute:\n{}\n{}",
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr)
+        )
+    }
 }
 
 fn bundle(url: &str, minify: bool) -> String {
