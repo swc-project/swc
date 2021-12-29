@@ -3085,11 +3085,11 @@ const foo = async function (x, y, ...z) {
 "#,
     r#"
 const foo = /*#__PURE__*/ function () {
-  var _foo = _asyncToGenerator(function* (x, y, ...z) {
+  var _ref = _asyncToGenerator(function* (x, y, ...z) {
       return 42;
   });
   return function foo(x, y) {
-      return _foo.apply(this, arguments);
+      return _ref.apply(this, arguments);
   };
 }();
 "#
@@ -3106,11 +3106,11 @@ const foo = async function* (x, y, ...z) {
 "#,
     r#"
 const foo = /*#__PURE__*/ function () {
-    var _foo = _wrapAsyncGenerator(function* (x, y, ...z) {
+    var _ref = _wrapAsyncGenerator(function* (x, y, ...z) {
         return 42;
     });
     return function foo(x, y) {
-        return _foo.apply(this, arguments);
+        return _ref.apply(this, arguments);
     };
 }();
 "#
@@ -3120,6 +3120,62 @@ test!(
     Syntax::default(),
     |_| async_to_generator(),
     function_length_issue_3135_5,
+    r#"
+const foo = async function foo(x, y, ...z) {
+    if (x) {
+        return foo(0, y);
+    }
+    return 0;
+};
+"#,
+    r#"
+const foo = (function () {
+  var _foo = _asyncToGenerator(function* (x, y, ...z) {
+      if (x) {
+          return foo(0, y);
+      }
+      return 0;
+  });
+  function foo(x, y) {
+      return _foo.apply(this, arguments);
+  }
+  return foo;
+})();
+"#
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    function_length_issue_3135_6,
+    r#"
+const foo = async function* foo(x, y, ...z) {
+  if (x) {
+      return foo(0, y);
+  }
+  return 0;
+};
+"#,
+    r#"
+const foo = function () {
+  var _foo = _wrapAsyncGenerator(function* (x, y, ...z) {
+      if (x) {
+          return foo(0, y);
+      }
+      return 0;
+  });
+  function foo(x, y) {
+      return _foo.apply(this, arguments);
+  }
+  return foo;
+}();
+"#
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    function_length_issue_3135_7,
     r#"
 const foo = async (x, y, ...z) => {
     return this;

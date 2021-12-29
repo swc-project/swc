@@ -174,188 +174,7 @@ impl VisitMut for Actual {
     }
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        match expr {
-            Expr::Paren(ParenExpr { expr, .. }) => {
-                expr.visit_mut_with(self);
-                return;
-            }
-
-            // Optimization for iife.
-            Expr::Call(CallExpr {
-                span,
-                callee: ExprOrSuper::Expr(callee),
-                args,
-                type_args,
-            }) if callee.is_fn_expr() => {
-                *expr = self.handle_iife(
-                    *span,
-                    &mut (*callee).take().expect_fn_expr(),
-                    args,
-                    type_args.take(),
-                );
-                return;
-            }
-
-            Expr::Call(CallExpr {
-                span,
-                callee: ExprOrSuper::Expr(callee),
-                args,
-                type_args,
-            }) if match &**callee {
-                Expr::Paren(ParenExpr { expr, .. }) => match &**expr {
-                    Expr::Fn(..) => true,
-                    _ => false,
-                },
-                _ => false,
-            } =>
-            {
-                *expr = self.handle_iife(
-                    *span,
-                    &mut (*callee).take().expect_paren().expr.expect_fn_expr(),
-                    args,
-                    type_args.take(),
-                );
-                return;
-            }
-
-            Expr::Assign(assign_expr) => {
-                // flag if expression is assignment to prototype chain should not try to bind
-                // this context
-                match &assign_expr.left {
-                    PatOrExpr::Pat(pat) => match &**pat {
-                        Pat::Expr(pat_expr) => match &**pat_expr {
-                            Expr::Member(MemberExpr {
-                                obj: ExprOrSuper::Expr(ex),
-                                computed: false,
-                                ..
-                            }) => match &**ex {
-                                Expr::Member(MemberExpr {
-                                    prop,
-                                    computed: false,
-                                    ..
-                                }) => match &**prop {
-                                    Expr::Ident(ident) => {
-                                        self.in_prototype_assignment = *ident.sym == *"prototype";
-                                    }
-                                    _ => {}
-                                },
-                                _ => {}
-                            },
-                            _ => {}
-                        },
-                        _ => {}
-                    },
-                    _ => {}
-                }
-
-                assign_expr.visit_mut_children_with(self);
-                self.in_prototype_assignment = false;
-                return;
-            }
-            _ => {}
-        }
-
-        expr.visit_mut_children_with(self);
-
-        match expr {
-            Expr::Arrow(ArrowExpr {
-                is_async: true,
-                span,
-                params,
-                body,
-                is_generator,
-                type_params,
-                return_type,
-            }) => {
-                // Apply arrow
-                let used_this = contains_this_expr(body);
-
-                let fn_expr = FnExpr {
-                    ident: None,
-                    function: Function {
-                        decorators: vec![],
-                        span: *span,
-                        params: params
-                            .into_iter()
-                            .map(|pat| Param {
-                                span: DUMMY_SP,
-                                decorators: Default::default(),
-                                pat: pat.take(),
-                            })
-                            .collect(),
-                        is_async: true,
-                        is_generator: *is_generator,
-                        body: Some(match body.take() {
-                            BlockStmtOrExpr::BlockStmt(block) => block,
-                            BlockStmtOrExpr::Expr(expr) => BlockStmt {
-                                span: DUMMY_SP,
-                                stmts: vec![Stmt::Return(ReturnStmt {
-                                    span: expr.span(),
-                                    arg: Some(expr),
-                                })],
-                            },
-                        }),
-                        type_params: type_params.take(),
-                        return_type: return_type.take(),
-                    },
-                };
-
-                if !used_this {
-                    *expr = make_fn_ref(fn_expr, false);
-                    return;
-                }
-
-                *expr = Expr::Call(CallExpr {
-                    span: span.take(),
-                    callee: make_fn_ref(fn_expr, false)
-                        .make_member(quote_ident!("bind"))
-                        .as_callee(),
-                    args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                    type_args: Default::default(),
-                });
-            }
-
-            Expr::Fn(
-                fn_expr @ FnExpr {
-                    function:
-                        Function {
-                            is_async: true,
-                            body: Some(..),
-                            ..
-                        },
-                    ..
-                },
-            ) => {
-                self.visit_fn(fn_expr.ident.clone(), &mut fn_expr.function, false);
-
-                let function = fn_expr.function.take();
-                let body = Some(BlockStmt {
-                    span: DUMMY_SP,
-                    stmts: self
-                        .extra_stmts
-                        .drain(..)
-                        .chain(function.body.unwrap().stmts)
-                        .collect(),
-                });
-
-                *expr = Expr::Call(CallExpr {
-                    span: DUMMY_SP,
-                    callee: Expr::Fn(FnExpr {
-                        ident: None,
-                        function: Function {
-                            body,
-                            params: Default::default(),
-                            ..function
-                        },
-                    })
-                    .as_callee(),
-                    args: vec![],
-                    type_args: Default::default(),
-                });
-            }
-
-            _ => {}
-        }
+        self.visit_mut_expr_with_binding(expr, None);
     }
 
     fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
@@ -364,7 +183,7 @@ impl VisitMut for Actual {
             return;
         }
 
-        self.visit_fn(Some(f.ident.clone()), &mut f.function, true);
+        self.visit_fn(Some(f.ident.clone()), None, &mut f.function, true);
     }
 
     fn visit_mut_module_item(&mut self, item: &mut ModuleItem) {
@@ -373,7 +192,7 @@ impl VisitMut for Actual {
             ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export_default)) => {
                 if let DefaultDecl::Fn(expr) = &mut export_default.decl {
                     if expr.function.is_async {
-                        self.visit_fn(expr.ident.clone(), &mut expr.function, true);
+                        self.visit_fn(expr.ident.clone(), None, &mut expr.function, true);
                         *item = ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(
                             ExportDefaultDecl {
                                 decl: DefaultDecl::Fn(expr.take()),
@@ -461,15 +280,13 @@ impl VisitMut for Actual {
             ..
         } = var
         {
-            match init.as_mut() {
+            match init.as_ref() {
                 Expr::Fn(FnExpr {
-                    ident,
+                    ident: None,
                     ref function,
-                }) if ident.is_none() && (function.is_async || function.is_generator) => {
-                    *ident = Some(Ident {
-                        span: DUMMY_SP,
-                        ..id.clone()
-                    });
+                }) if function.is_async || function.is_generator => {
+                    self.visit_mut_expr_with_binding(init, Some(id.clone()));
+                    return;
                 }
 
                 _ => {}
@@ -766,6 +583,196 @@ impl VisitMut for MethodFolder {
 }
 
 impl Actual {
+    fn visit_mut_expr_with_binding(&mut self, expr: &mut Expr, binding_ident: Option<Ident>) {
+        match expr {
+            Expr::Paren(ParenExpr { expr, .. }) => {
+                expr.visit_mut_with(self);
+                return;
+            }
+
+            // Optimization for iife.
+            Expr::Call(CallExpr {
+                span,
+                callee: ExprOrSuper::Expr(callee),
+                args,
+                type_args,
+            }) if callee.is_fn_expr() => {
+                *expr = self.handle_iife(
+                    *span,
+                    &mut (*callee).take().expect_fn_expr(),
+                    args,
+                    type_args.take(),
+                );
+                return;
+            }
+
+            Expr::Call(CallExpr {
+                span,
+                callee: ExprOrSuper::Expr(callee),
+                args,
+                type_args,
+            }) if match &**callee {
+                Expr::Paren(ParenExpr { expr, .. }) => match &**expr {
+                    Expr::Fn(..) => true,
+                    _ => false,
+                },
+                _ => false,
+            } =>
+            {
+                *expr = self.handle_iife(
+                    *span,
+                    &mut (*callee).take().expect_paren().expr.expect_fn_expr(),
+                    args,
+                    type_args.take(),
+                );
+                return;
+            }
+
+            Expr::Assign(assign_expr) => {
+                // flag if expression is assignment to prototype chain should not try to bind
+                // this context
+                match &assign_expr.left {
+                    PatOrExpr::Pat(pat) => match &**pat {
+                        Pat::Expr(pat_expr) => match &**pat_expr {
+                            Expr::Member(MemberExpr {
+                                obj: ExprOrSuper::Expr(ex),
+                                computed: false,
+                                ..
+                            }) => match &**ex {
+                                Expr::Member(MemberExpr {
+                                    prop,
+                                    computed: false,
+                                    ..
+                                }) => match &**prop {
+                                    Expr::Ident(ident) => {
+                                        self.in_prototype_assignment = *ident.sym == *"prototype";
+                                    }
+                                    _ => {}
+                                },
+                                _ => {}
+                            },
+                            _ => {}
+                        },
+                        _ => {}
+                    },
+                    _ => {}
+                }
+
+                assign_expr.visit_mut_children_with(self);
+                self.in_prototype_assignment = false;
+                return;
+            }
+            _ => {}
+        }
+
+        expr.visit_mut_children_with(self);
+
+        match expr {
+            Expr::Arrow(ArrowExpr {
+                is_async: true,
+                span,
+                params,
+                body,
+                is_generator,
+                type_params,
+                return_type,
+            }) => {
+                // Apply arrow
+                let used_this = contains_this_expr(body);
+
+                let fn_expr = FnExpr {
+                    ident: None,
+                    function: Function {
+                        decorators: vec![],
+                        span: *span,
+                        params: params
+                            .into_iter()
+                            .map(|pat| Param {
+                                span: DUMMY_SP,
+                                decorators: Default::default(),
+                                pat: pat.take(),
+                            })
+                            .collect(),
+                        is_async: true,
+                        is_generator: *is_generator,
+                        body: Some(match body.take() {
+                            BlockStmtOrExpr::BlockStmt(block) => block,
+                            BlockStmtOrExpr::Expr(expr) => BlockStmt {
+                                span: DUMMY_SP,
+                                stmts: vec![Stmt::Return(ReturnStmt {
+                                    span: expr.span(),
+                                    arg: Some(expr),
+                                })],
+                            },
+                        }),
+                        type_params: type_params.take(),
+                        return_type: return_type.take(),
+                    },
+                };
+
+                if !used_this {
+                    *expr = make_fn_ref(fn_expr, false);
+                    return;
+                }
+
+                *expr = Expr::Call(CallExpr {
+                    span: span.take(),
+                    callee: make_fn_ref(fn_expr, false)
+                        .make_member(quote_ident!("bind"))
+                        .as_callee(),
+                    args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                    type_args: Default::default(),
+                });
+            }
+
+            Expr::Fn(
+                fn_expr @ FnExpr {
+                    function:
+                        Function {
+                            is_async: true,
+                            body: Some(..),
+                            ..
+                        },
+                    ..
+                },
+            ) => {
+                self.visit_fn(
+                    fn_expr.ident.clone(),
+                    binding_ident,
+                    &mut fn_expr.function,
+                    false,
+                );
+
+                let function = fn_expr.function.take();
+                let body = Some(BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: self
+                        .extra_stmts
+                        .drain(..)
+                        .chain(function.body.unwrap().stmts)
+                        .collect(),
+                });
+
+                *expr = Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: Expr::Fn(FnExpr {
+                        ident: None,
+                        function: Function {
+                            body,
+                            params: Default::default(),
+                            ..function
+                        },
+                    })
+                    .as_callee(),
+                    args: vec![],
+                    type_args: Default::default(),
+                });
+            }
+
+            _ => {}
+        }
+    }
+
     fn handle_iife(
         &mut self,
         span: Span,
@@ -812,7 +819,13 @@ impl Actual {
         })
     }
 
-    fn visit_fn(&mut self, raw_ident: Option<Ident>, f: &mut Function, is_decl: bool) {
+    fn visit_fn(
+        &mut self,
+        function_ident: Option<Ident>,
+        binding_ident: Option<Ident>,
+        f: &mut Function,
+        is_decl: bool,
+    ) {
         if f.body.is_none() {
             return;
         }
@@ -839,7 +852,9 @@ impl Actual {
                 })
                 .collect::<Vec<_>>()
         };
-        let ident = raw_ident.clone().unwrap_or_else(|| quote_ident!("ref"));
+        let ident = function_ident
+            .clone()
+            .unwrap_or_else(|| quote_ident!("ref"));
 
         let real_fn_ident = private_ident!(ident.span, format!("_{}", ident.sym));
         let right = make_fn_ref(
@@ -934,34 +949,28 @@ impl Actual {
                         return_type: Default::default(),
                     };
 
-                    match raw_ident {
-                        Some(ident @ Ident { span, .. }) if !span.is_dummy() => {
-                            vec![
-                                Stmt::Decl(
-                                    FnDecl {
-                                        ident: ident.clone(),
-                                        declare: false,
-                                        function: f,
-                                    }
-                                    .into(),
-                                ),
-                                ReturnStmt {
-                                    span: DUMMY_SP,
-                                    arg: Some(Box::new(ident.into())),
-                                }
-                                .into(),
-                            ]
-                        }
-                        _ => {
-                            vec![ReturnStmt {
+                    if function_ident.is_some() {
+                        vec![
+                            Stmt::Decl(Decl::Fn(FnDecl {
+                                ident: function_ident.clone().unwrap(),
+                                declare: false,
+                                function: f,
+                            })),
+                            Stmt::Return(ReturnStmt {
                                 span: DUMMY_SP,
-                                arg: Some(Box::new(Expr::Fn(FnExpr {
-                                    ident: raw_ident,
-                                    function: f,
-                                }))),
-                            }
-                            .into()]
-                        }
+                                arg: Some(Box::new(Expr::Ident(function_ident.clone().unwrap()))),
+                            }),
+                        ]
+                    } else {
+                        let ident = if function_ident.is_some() {
+                            function_ident
+                        } else {
+                            binding_ident
+                        };
+                        vec![Stmt::Return(ReturnStmt {
+                            span: DUMMY_SP,
+                            arg: Some(Box::new(Expr::Fn(FnExpr { ident, function: f }))),
+                        })]
                     }
                 },
             }),
