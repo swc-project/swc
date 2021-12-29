@@ -201,8 +201,8 @@ impl Fold for Decorators {
                             span: DUMMY_SP,
                             specifiers: vec![ExportNamedSpecifier {
                                 span: DUMMY_SP,
-                                orig: ident,
-                                exported: Some(quote_ident!("default")),
+                                orig: ModuleExportName::Ident(ident),
+                                exported: Some(ModuleExportName::Ident(quote_ident!("default"))),
                                 is_type_only: false,
                             }
                             .into()],
