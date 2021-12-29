@@ -1,4 +1,18 @@
 # Changelog
+## [unreleased]
+
+### Documentation
+
+
+
+- **(es/ast)** Improve rustdoc (#3142) ([333acb5](https://github.com/swc-project/swc/commit/333acb56223139817c1df0c8b3763190b55a6295))
+
+### Refactor
+
+
+
+- **(*)** Drop unused dependencies (#3138) ([72c9636](https://github.com/swc-project/swc/commit/72c963662d63338235378d71ee856c782cdeddfe))
+
 ## [1.2.124] - 2021-12-29
 
 ### Bug Fixes
