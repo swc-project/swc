@@ -26,5 +26,4 @@ swc_ecma_plugin_ast = {version = "0.7.0", path = "../swc_ecma_plugin_ast"}
 swc_plugin_js_api = {version = "0.5.0", path = "../swc_plugin_js_api"}
 
 [dev-dependencies]
-swc_ecma_codegen = {version = "0.84.0", path = "../swc_ecma_codegen"}
 testing = {version = "0.16.0", path = "../testing"}

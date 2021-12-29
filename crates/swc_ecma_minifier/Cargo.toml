@@ -47,4 +47,3 @@ anyhow = "1"
 pretty_assertions = "0.6.1"
 swc_node_base = {version = "0.5.0", path = "../swc_node_base"}
 testing = {version = "0.16.0", path = "../testing"}
-walkdir = "2.3.1"

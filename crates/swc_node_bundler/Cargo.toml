@@ -40,6 +40,4 @@ tracing = "0.1.28"
 
 [dev-dependencies]
 pretty_assertions = "0.6.1"
-tempfile = "3"
 testing = {path = "../testing"}
-walkdir = "2.3.1"

@@ -32,6 +32,5 @@ swc_ecma_visit = {version = "0.46.0", path = "../swc_ecma_visit"}
 [dev-dependencies]
 serde_json = "1.0.66"
 swc_ecma_transforms_compat = {version = "0.59.0", path = "../swc_ecma_transforms_compat"}
-swc_ecma_transforms_module = {version = "0.65.0", path = "../swc_ecma_transforms_module"}
 swc_ecma_transforms_testing = {version = "0.51.0", path = "../swc_ecma_transforms_testing"}
 testing = {version = "0.16.0", path = "../testing"}

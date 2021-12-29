@@ -14,7 +14,6 @@ version = "0.6.0"
 swc_atoms = {version = "0.2.9", path = "../swc_atoms"}
 swc_common = {version = "0.15.0", path = "../swc_common"}
 swc_css_ast = {version = "0.40.0", path = "../swc_css_ast"}
-swc_css_utils = {version = "0.37.0", path = "../swc_css_utils"}
 swc_css_visit = {version = "0.39.0", path = "../swc_css_visit"}
 
 [dev-dependencies]

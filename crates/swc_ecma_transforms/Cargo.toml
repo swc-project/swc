@@ -45,4 +45,3 @@ swc_ecma_codegen = {version = "0.84.0", path = "../swc_ecma_codegen"}
 swc_ecma_transforms_testing = {version = "0.51.0", path = "../swc_ecma_transforms_testing"}
 tempfile = "3"
 testing = {version = "0.16.0", path = "../testing"}
-walkdir = "2"

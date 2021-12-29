@@ -31,4 +31,3 @@ unicode-xid = "0.2"
 
 [dev-dependencies]
 swc_ecma_parser = {version = "0.82.0", path = "../swc_ecma_parser"}
-testing = {version = "0.16.0", path = "../testing"}
