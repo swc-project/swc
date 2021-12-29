@@ -413,13 +413,14 @@ where
                         ImportSpecifier::Named(n) => {
                             self.imported_idents.insert(n.local.to_id(), export_ctxt);
                             match &mut n.imported {
-                                Some(imported) => {
+                                Some(ModuleExportName::Ident(imported)) => {
                                     imported.span.ctxt = export_ctxt;
-                                }
+                                },
+                                Some(ModuleExportName::Str(..)) => unimplemented!("module string names unimplemented"),
                                 None => {
                                     let mut imported: Ident = n.local.clone();
                                     imported.span.ctxt = export_ctxt;
-                                    n.imported = Some(imported);
+                                    n.imported = Some(ModuleExportName::Ident(imported));
                                 }
                             }
                         }
@@ -543,17 +544,23 @@ where
     }
 
     fn visit_mut_export_named_specifier(&mut self, s: &mut ExportNamedSpecifier) {
-        self.add_forced_ns_for(s.orig.to_id());
+        let orig = match s.orig {
+            ModuleExportName::Ident(ident) => ident,
+            ModuleExportName::Str(..) => unimplemented!("module string names unimplemented")
+        };
+
+        self.add_forced_ns_for(orig.to_id());
 
         match &mut s.exported {
-            Some(exported) => {
+            Some(ModuleExportName::Ident(exported)) => {
                 // PR 3139 (https://github.com/swc-project/swc/pull/3139) removes the syntax context from any named exports from other sources.
                 exported.span.ctxt = self.module_ctxt;
-            }
+            },
+            Some(ModuleExportName::Str(..)) => unimplemented!("module string names unimplemented"),
             None => {
                 let exported =
-                    Ident::new(s.orig.sym.clone(), s.orig.span.with_ctxt(self.module_ctxt));
-                s.exported = Some(exported);
+                    Ident::new(orig.sym.clone(), orig.span.with_ctxt(self.module_ctxt));
+                s.exported = Some(ModuleExportName::Ident(exported));
             }
         }
     }

@@ -228,31 +228,40 @@ where
                             });
                         }
                         ExportSpecifier::Named(n) => {
+                            let orig = match &n.orig {
+                                ModuleExportName::Ident(ident) => ident,
+                                ModuleExportName::Str(..) => unimplemented!("module string names unimplemented")
+                            };
                             if let Some((_, export_ctxt)) = ctxt {
-                                n.orig.span.ctxt = export_ctxt;
+                                orig.span.ctxt = export_ctxt;
                             }
 
                             match &mut n.exported {
-                                Some(exported) => {
+                                Some(ModuleExportName::Ident(exported)) => {
                                     exported.span.ctxt = self.export_ctxt;
                                 }
+                                Some(ModuleExportName::Str(..)) => unimplemented!("module string names unimplemented"),
                                 None => {
-                                    let mut exported: Ident = n.orig.clone();
+                                    let mut exported: Ident = orig.clone();
                                     exported.span.ctxt = self.export_ctxt;
-                                    n.exported = Some(exported);
+                                    n.exported = Some(ModuleExportName::Ident(exported));
                                 }
                             }
 
-                            if let Some(exported) = &n.exported {
-                                v.push(Specifier::Specific {
-                                    local: exported.clone().into(),
-                                    alias: Some(n.orig.clone().into()),
-                                });
-                            } else {
-                                v.push(Specifier::Specific {
-                                    local: n.orig.clone().into(),
-                                    alias: None,
-                                });
+                            match &n.exported {
+                                Some(ModuleExportName::Ident(exported)) => {
+                                    v.push(Specifier::Specific {
+                                        local: exported.clone().into(),
+                                        alias: Some(orig.clone().into()),
+                                    });
+                                },
+                                Some(ModuleExportName::Str(..)) => unimplemented!("module string names unimplemented"),
+                                _ => {
+                                    v.push(Specifier::Specific {
+                                        local: orig.clone().into(),
+                                        alias: None,
+                                    });
+                                }
                             }
                         }
                     }
