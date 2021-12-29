@@ -265,7 +265,7 @@ where
                                             continue;
                                         }
 
-                                        match named.orig {
+                                        match &named.orig {
                                             ModuleExportName::Ident(orig) => {
                                                 vars.push((
                                                     module_id,
@@ -986,7 +986,8 @@ where
                                                 });
                                             }
                                             ExportSpecifier::Named(s) => {
-                                                let exported = match s.exported {
+                                                let exp = s.exported.clone();
+                                                let exported = match exp {
                                                     Some(ModuleExportName::Ident(ident)) => {
                                                         Some(ident)
                                                     }
@@ -997,7 +998,7 @@ where
                                                     }
                                                     _ => None,
                                                 };
-                                                let orig = match s.orig {
+                                                let orig = match &s.orig {
                                                     ModuleExportName::Ident(ident) => ident,
                                                     _ => unimplemented!(
                                                         "module string names unimplemented"

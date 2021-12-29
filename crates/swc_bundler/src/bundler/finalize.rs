@@ -220,7 +220,9 @@ where
                                         Some(ModuleExportName::Ident(exported)) => {
                                             let orig = match s.orig {
                                                 ModuleExportName::Ident(ident) => ident,
-                                                ModuleExportName::Str(..) => unimplemented!("module string names unimplemented")
+                                                ModuleExportName::Str(..) => unimplemented!(
+                                                    "module string names unimplemented"
+                                                ),
                                             };
                                             props.push(PropOrSpread::Prop(Box::new(
                                                 Prop::KeyValue(KeyValueProp {
@@ -228,12 +230,16 @@ where
                                                     value: Box::new(Expr::Ident(orig)),
                                                 }),
                                             )));
-                                        },
-                                        Some(ModuleExportName::Str(..)) => unimplemented!("module string names unimplemented"),
+                                        }
+                                        Some(ModuleExportName::Str(..)) => {
+                                            unimplemented!("module string names unimplemented")
+                                        }
                                         None => {
                                             let orig = match s.orig {
                                                 ModuleExportName::Ident(ident) => ident,
-                                                ModuleExportName::Str(..) => unimplemented!("module string names unimplemented")
+                                                ModuleExportName::Str(..) => unimplemented!(
+                                                    "module string names unimplemented"
+                                                ),
                                             };
                                             props.push(PropOrSpread::Prop(Box::new(
                                                 Prop::Shorthand(orig),

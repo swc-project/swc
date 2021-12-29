@@ -17,7 +17,7 @@ use swc_atoms::js_word;
 use swc_common::{sync::Lrc, FileName, SourceFile, SyntaxContext};
 use swc_ecma_ast::{
     CallExpr, Expr, ExprOrSuper, Ident, ImportDecl, ImportSpecifier, MemberExpr, Module,
-    ModuleDecl, Str,
+    ModuleDecl, ModuleExportName, Str,
 };
 use swc_ecma_transforms_base::resolver::resolver_with_mark;
 use swc_ecma_visit::{
@@ -346,10 +346,19 @@ where
                 let mut specifiers = vec![];
                 for s in decl.specifiers {
                     match s {
-                        ImportSpecifier::Named(s) => specifiers.push(Specifier::Specific {
-                            local: s.local.into(),
-                            alias: s.imported.map(From::from),
-                        }),
+                        ImportSpecifier::Named(s) => {
+                            let imported = match s.imported {
+                                Some(ModuleExportName::Ident(ident)) => Some(ident),
+                                Some(ModuleExportName::Str(..)) => {
+                                    unimplemented!("module string names unimplemented")
+                                }
+                                _ => None,
+                            };
+                            specifiers.push(Specifier::Specific {
+                                local: s.local.into(),
+                                alias: imported.map(From::from),
+                            })
+                        }
                         ImportSpecifier::Default(s) => specifiers.push(Specifier::Specific {
                             local: s.local.into(),
                             alias: Some(Id::new(js_word!("default"), s.span.ctxt())),

@@ -415,8 +415,10 @@ where
                             match &mut n.imported {
                                 Some(ModuleExportName::Ident(imported)) => {
                                     imported.span.ctxt = export_ctxt;
-                                },
-                                Some(ModuleExportName::Str(..)) => unimplemented!("module string names unimplemented"),
+                                }
+                                Some(ModuleExportName::Str(..)) => {
+                                    unimplemented!("module string names unimplemented")
+                                }
                                 None => {
                                     let mut imported: Ident = n.local.clone();
                                     imported.span.ctxt = export_ctxt;
@@ -544,9 +546,9 @@ where
     }
 
     fn visit_mut_export_named_specifier(&mut self, s: &mut ExportNamedSpecifier) {
-        let orig = match s.orig {
+        let orig = match &s.orig {
             ModuleExportName::Ident(ident) => ident,
-            ModuleExportName::Str(..) => unimplemented!("module string names unimplemented")
+            ModuleExportName::Str(..) => unimplemented!("module string names unimplemented"),
         };
 
         self.add_forced_ns_for(orig.to_id());
@@ -555,11 +557,10 @@ where
             Some(ModuleExportName::Ident(exported)) => {
                 // PR 3139 (https://github.com/swc-project/swc/pull/3139) removes the syntax context from any named exports from other sources.
                 exported.span.ctxt = self.module_ctxt;
-            },
+            }
             Some(ModuleExportName::Str(..)) => unimplemented!("module string names unimplemented"),
             None => {
-                let exported =
-                    Ident::new(orig.sym.clone(), orig.span.with_ctxt(self.module_ctxt));
+                let exported = Ident::new(orig.sym.clone(), orig.span.with_ctxt(self.module_ctxt));
                 s.exported = Some(ModuleExportName::Ident(exported));
             }
         }

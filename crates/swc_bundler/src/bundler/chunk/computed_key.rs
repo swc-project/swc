@@ -300,7 +300,7 @@ impl Fold for ExportToReturn {
                             Some(ModuleExportName::Ident(exported)) => {
                                 // As injected named exports are converted to variables by other
                                 // passes, we should not create a variable for it.
-                                if let ModuleExportName::Ident(orig) = named.orig {
+                                if let ModuleExportName::Ident(orig) = &named.orig {
                                     self.export_key_value(exported.clone(), orig.clone());
                                 } else {
                                     unimplemented!("module string names unimplemented")
@@ -310,7 +310,7 @@ impl Fold for ExportToReturn {
                                 unimplemented!("module string names unimplemented")
                             }
                             None => {
-                                if let ModuleExportName::Ident(orig) = named.orig {
+                                if let ModuleExportName::Ident(orig) = &named.orig {
                                     self.export_id(orig.clone());
                                 } else {
                                     unimplemented!("module string names unimplemented")

@@ -228,9 +228,11 @@ where
                             });
                         }
                         ExportSpecifier::Named(n) => {
-                            let orig = match &n.orig {
+                            let orig = match &mut n.orig {
                                 ModuleExportName::Ident(ident) => ident,
-                                ModuleExportName::Str(..) => unimplemented!("module string names unimplemented")
+                                ModuleExportName::Str(..) => {
+                                    unimplemented!("module string names unimplemented")
+                                }
                             };
                             if let Some((_, export_ctxt)) = ctxt {
                                 orig.span.ctxt = export_ctxt;
@@ -240,7 +242,9 @@ where
                                 Some(ModuleExportName::Ident(exported)) => {
                                     exported.span.ctxt = self.export_ctxt;
                                 }
-                                Some(ModuleExportName::Str(..)) => unimplemented!("module string names unimplemented"),
+                                Some(ModuleExportName::Str(..)) => {
+                                    unimplemented!("module string names unimplemented")
+                                }
                                 None => {
                                     let mut exported: Ident = orig.clone();
                                     exported.span.ctxt = self.export_ctxt;
@@ -254,8 +258,10 @@ where
                                         local: exported.clone().into(),
                                         alias: Some(orig.clone().into()),
                                     });
-                                },
-                                Some(ModuleExportName::Str(..)) => unimplemented!("module string names unimplemented"),
+                                }
+                                Some(ModuleExportName::Str(..)) => {
+                                    unimplemented!("module string names unimplemented")
+                                }
                                 _ => {
                                     v.push(Specifier::Specific {
                                         local: orig.clone().into(),

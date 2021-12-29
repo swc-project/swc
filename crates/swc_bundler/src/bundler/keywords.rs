@@ -50,8 +50,12 @@ impl VisitMut for KeywordRenamer {
     }
 
     fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
-        if let Some(renamed) = self.renamed(&n.orig) {
-            n.orig = renamed;
+        let orig = match &n.orig {
+            ModuleExportName::Ident(ident) => ident,
+            ModuleExportName::Str(..) => unimplemented!("module string names unimplemented"),
+        };
+        if let Some(renamed) = self.renamed(orig) {
+            n.orig = ModuleExportName::Ident(renamed);
         }
     }
 
