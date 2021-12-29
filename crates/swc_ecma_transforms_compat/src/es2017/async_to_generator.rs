@@ -688,20 +688,24 @@ impl Actual {
                 return_type,
             }) => {
                 // Apply arrow
-                let this = if contains_this_expr(body) {
-                    let this = private_ident!("_this");
-                    self.hoist_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        decls: vec![VarDeclarator {
+                let this: Option<ExprOrSpread> = if contains_this_expr(body) {
+                    if binding_ident.is_none() {
+                        Some(ThisExpr { span: DUMMY_SP }.as_arg())
+                    } else {
+                        let this = private_ident!("_this");
+                        self.hoist_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
                             span: DUMMY_SP,
-                            name: this.clone().into(),
-                            init: Some(Box::new(ThisExpr { span: DUMMY_SP }.into())),
-                            definite: false,
-                        }],
-                        declare: false,
-                    })));
-                    Some(this)
+                            kind: VarDeclKind::Var,
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: this.clone().into(),
+                                init: Some(Box::new(ThisExpr { span: DUMMY_SP }.into())),
+                                definite: false,
+                            }],
+                            declare: false,
+                        })));
+                        Some(this.as_arg())
+                    }
                 } else {
                     None
                 };
@@ -745,7 +749,7 @@ impl Actual {
                         callee: make_fn_ref(fn_expr, Some(this.clone()), false)
                             .make_member(quote_ident!("bind"))
                             .as_callee(),
-                        args: vec![this.clone().as_arg()],
+                        args: vec![this.clone()],
                         type_args: Default::default(),
                     })
                 } else {
@@ -1112,7 +1116,11 @@ impl Actual {
 /// Creates
 ///
 /// `_asyncToGenerator(function*() {})` from `async function() {}`;
-fn make_fn_ref(mut expr: FnExpr, this_ident: Option<Ident>, should_not_bind_this: bool) -> Expr {
+fn make_fn_ref(
+    mut expr: FnExpr,
+    this_expr: Option<ExprOrSpread>,
+    should_not_bind_this: bool,
+) -> Expr {
     expr.function.body.visit_mut_with(&mut AsyncFnBodyHandler {
         is_async_generator: expr.function.is_generator,
     });
@@ -1135,7 +1143,7 @@ fn make_fn_ref(mut expr: FnExpr, this_ident: Option<Ident>, should_not_bind_this
         Expr::Call(CallExpr {
             span: DUMMY_SP,
             callee: expr.make_member(quote_ident!("bind")).as_callee(),
-            args: vec![this_ident.map_or(ThisExpr { span: DUMMY_SP }.as_arg(), |x| x.as_arg())],
+            args: vec![this_expr.unwrap_or(ThisExpr { span: DUMMY_SP }.as_arg())],
             type_args: Default::default(),
         })
     } else {

@@ -1392,11 +1392,10 @@ let TestClass = {
 let TestClass = {
     name: 'John Doe',
     testMethodFailure () {
-      var _this = this;
       return new Promise(_asyncToGenerator((function*(resolve) {
         console.log(this);
         setTimeout(resolve, 1000);
-      }).bind(_this)).bind(_this));
+      }).bind(this)).bind(this));
     }
 };
 

@@ -2933,28 +2933,25 @@ export default class MyClass3 {
     r#"
     class MyClass {
       constructor(){
-          var _this = this;
           _defineProperty(this, "myAsyncMethod", _asyncToGenerator((function*() {
               console.log(this);
-          }).bind(_this)).bind(_this));
+          }).bind(this)).bind(this));
       }
     }
 
     (class MyClass2 {
         constructor(){
-            var _this = this;
             _defineProperty(this, "myAsyncMethod", _asyncToGenerator((function*() {
                 console.log(this);
-            }).bind(_this)).bind(_this));
+            }).bind(this)).bind(this));
         }
     })
 
     class MyClass3 {
         constructor(){
-            var _this = this;
             _defineProperty(this, "myAsyncMethod", _asyncToGenerator((function*() {
                 console.log(this);
-            }).bind(_this)).bind(_this));
+            }).bind(this)).bind(this));
         }
     }
     export { MyClass3 as default };
@@ -3470,12 +3467,11 @@ export default class MyClass3 {
     r#"
 class MyClass {
     constructor(){
-        var _this = this;
         _myAsyncMethod.set(this, {
             writable: true,
             value: _asyncToGenerator((function*() {
                 console.log(this);
-            }).bind(_this)).bind(_this)
+            }).bind(this)).bind(this)
         });
     }
 }
@@ -3483,12 +3479,11 @@ var _myAsyncMethod = new WeakMap();
 (function() {
     class MyClass2 {
         constructor(){
-            var _this = this;
             _myAsyncMethod2.set(this, {
                 writable: true,
                 value: _asyncToGenerator((function*() {
                     console.log(this);
-                }).bind(_this)).bind(_this)
+                }).bind(this)).bind(this)
             });
         }
     }
@@ -3497,12 +3492,11 @@ var _myAsyncMethod = new WeakMap();
 })();
 class MyClass3 {
     constructor(){
-        var _this = this;
         _myAsyncMethod1.set(this, {
             writable: true,
             value: _asyncToGenerator((function*() {
                 console.log(this);
-            }).bind(_this)).bind(_this)
+            }).bind(this)).bind(this)
         });
     }
 }
