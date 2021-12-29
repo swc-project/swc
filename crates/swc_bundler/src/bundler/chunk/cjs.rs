@@ -266,20 +266,24 @@ where
                 // TODO
                 for spec in i.specifiers.clone() {
                     match spec {
-                        ImportSpecifier::Named(s) => {
-                            if let Some(imported) = s.imported {
+                        ImportSpecifier::Named(s) => match s.imported {
+                            Some(ModuleExportName::Ident(imported)) => {
                                 props.push(ObjectPatProp::KeyValue(KeyValuePatProp {
                                     key: imported.into(),
                                     value: Box::new(s.local.into()),
                                 }));
-                            } else {
+                            }
+                            Some(ModuleExportName::Str(..)) => {
+                                unimplemented!("module string names unimplemented")
+                            }
+                            _ => {
                                 props.push(ObjectPatProp::Assign(AssignPatProp {
                                     span: s.span,
                                     key: s.local,
                                     value: None,
                                 }));
                             }
-                        }
+                        },
                         ImportSpecifier::Default(s) => {
                             props.push(ObjectPatProp::KeyValue(KeyValuePatProp {
                                 key: PropName::Ident(Ident::new("default".into(), DUMMY_SP)),
