@@ -125,7 +125,12 @@ impl Visit for Analyzer {
     }
 
     fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {
-        self.add_usage(n.orig.to_id());
+        match &n.orig {
+            ModuleExportName::Ident(orig) => {
+                self.add_usage(orig.to_id());
+            }
+            ModuleExportName::Str(..) => unimplemented!("module string names unimplemented"),
+        };
     }
 
     fn visit_expr(&mut self, e: &Expr) {
