@@ -39,7 +39,7 @@ swc_ecma_visit = {version = "0.46.0", path = "../swc_ecma_visit"}
 unicode-xid = "0.2"
 
 [dev-dependencies]
-pretty_assertions = "0.6"
+pretty_assertions = "0.7.2"
 sourcemap = "6"
 swc_ecma_codegen = {version = "0.84.0", path = "../swc_ecma_codegen"}
 swc_ecma_transforms_testing = {version = "0.51.0", path = "../swc_ecma_transforms_testing"}

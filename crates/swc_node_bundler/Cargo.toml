@@ -39,5 +39,5 @@ swc_node_base = {path = "../swc_node_base"}
 tracing = "0.1.28"
 
 [dev-dependencies]
-pretty_assertions = "0.6.1"
+pretty_assertions = "0.7.2"
 testing = {path = "../testing"}

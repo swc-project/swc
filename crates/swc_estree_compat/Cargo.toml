@@ -28,7 +28,7 @@ swc_estree_ast = {version = "0.5.0", path = "../swc_estree_ast"}
 swc_node_comments = {version = "0.2.0", path = "../swc_node_comments/"}
 
 [dev-dependencies]
-pretty_assertions = "0.7.1"
+pretty_assertions = "0.7.2"
 swc = {version = "0.100.0", path = "../swc"}
 swc_ecma_ast = {version = "0.60.0", path = "../swc_ecma_ast"}
 swc_ecma_parser = {version = "0.82.0", path = "../swc_ecma_parser"}
