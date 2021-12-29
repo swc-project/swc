@@ -342,7 +342,11 @@ impl VisitMut for Actual {
                     span: DUMMY_SP,
                     callee: Expr::Fn(FnExpr {
                         ident: None,
-                        function: Function { body, ..function },
+                        function: Function {
+                            body,
+                            params: Default::default(),
+                            ..function
+                        },
                     })
                     .as_callee(),
                     args: vec![],
@@ -449,6 +453,31 @@ impl VisitMut for Actual {
     }
 
     fn visit_mut_stmts(&mut self, _n: &mut Vec<Stmt>) {}
+
+    fn visit_mut_var_declarator(&mut self, var: &mut VarDeclarator) {
+        if let VarDeclarator {
+            name: Pat::Ident(BindingIdent { id, .. }),
+            init: Some(init),
+            ..
+        } = var
+        {
+            match init.as_mut() {
+                Expr::Fn(FnExpr {
+                    ident,
+                    ref function,
+                }) if ident.is_none() && (function.is_async || function.is_generator) => {
+                    *ident = Some(Ident {
+                        span: DUMMY_SP,
+                        ..id.clone()
+                    });
+                }
+
+                _ => {}
+            }
+        }
+
+        var.visit_mut_children_with(self);
+    }
 }
 
 /// Hoists super access
@@ -905,26 +934,34 @@ impl Actual {
                         return_type: Default::default(),
                     };
 
-                    if raw_ident.is_some() {
-                        vec![
-                            Stmt::Decl(Decl::Fn(FnDecl {
-                                ident: raw_ident.clone().unwrap(),
-                                declare: false,
-                                function: f,
-                            })),
-                            Stmt::Return(ReturnStmt {
+                    match raw_ident {
+                        Some(ident @ Ident { span, .. }) if !span.is_dummy() => {
+                            vec![
+                                Stmt::Decl(
+                                    FnDecl {
+                                        ident: ident.clone(),
+                                        declare: false,
+                                        function: f,
+                                    }
+                                    .into(),
+                                ),
+                                ReturnStmt {
+                                    span: DUMMY_SP,
+                                    arg: Some(Box::new(ident.into())),
+                                }
+                                .into(),
+                            ]
+                        }
+                        _ => {
+                            vec![ReturnStmt {
                                 span: DUMMY_SP,
-                                arg: Some(Box::new(Expr::Ident(raw_ident.clone().unwrap()))),
-                            }),
-                        ]
-                    } else {
-                        vec![Stmt::Return(ReturnStmt {
-                            span: DUMMY_SP,
-                            arg: Some(Box::new(Expr::Fn(FnExpr {
-                                ident: raw_ident,
-                                function: f,
-                            }))),
-                        })]
+                                arg: Some(Box::new(Expr::Fn(FnExpr {
+                                    ident: raw_ident,
+                                    function: f,
+                                }))),
+                            }
+                            .into()]
+                        }
                     }
                 },
             }),

@@ -3085,11 +3085,11 @@ const foo = async function (x, y, ...z) {
 "#,
     r#"
 const foo = /*#__PURE__*/ function () {
-  var _ref = _asyncToGenerator(function* (x, y, ...z) {
+  var _foo = _asyncToGenerator(function* (x, y, ...z) {
       return 42;
   });
   return function foo(x, y) {
-      return _ref.apply(this, arguments);
+      return _foo.apply(this, arguments);
   };
 }();
 "#
@@ -3105,12 +3105,12 @@ const foo = async function* (x, y, ...z) {
 }
 "#,
     r#"
-const foo = /*#__PURE__*/ function (x, y) {
-    var _ref = _wrapAsyncGenerator(function* (x, y, ...z) {
+const foo = /*#__PURE__*/ function () {
+    var _foo = _wrapAsyncGenerator(function* (x, y, ...z) {
         return 42;
     });
     return function foo(x, y) {
-        return _ref.apply(this, arguments);
+        return _foo.apply(this, arguments);
     };
 }();
 "#
@@ -3129,10 +3129,10 @@ const foo = async (x, y, ...z) => {
 var _this = this;
 const foo = /*#__PURE__*/ function () {
     var _ref = _asyncToGenerator((function* (x, y, ...z) {
-        return _this;
+        return this;
     }).bind(_this)).bind(_this);
 
-    return function foo(x, y) {
+    return function (x, y) {
         return _ref.apply(this, arguments);
     };
 }();
