@@ -849,6 +849,10 @@ impl Visit for ShouldWork {
         self.found = true;
     }
 
+    fn visit_private_method(&mut self, _: &PrivateMethod) {
+        self.found = true;
+    }
+
     fn visit_constructor(&mut self, _: &Constructor) {
         self.found = true;
     }
