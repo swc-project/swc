@@ -160,6 +160,31 @@ function (Bar) {
 
 test!(
     syntax(),
+    |_| chain!(
+        resolver(),
+        function_name(),
+        class_properties(class_properties::Config { loose: false }),
+    ),
+    private_class_method,
+    r#"
+class Foo {
+    #foo () {}
+}
+"#,
+    r#"
+var _foo = new WeakSet();
+class Foo {
+    constructor(){
+        _foo.add(this);
+    }
+}
+function foo() {
+}
+"#
+);
+
+test!(
+    syntax(),
     |t| tr(t),
     private_foobar,
     r#"
