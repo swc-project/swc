@@ -1230,9 +1230,8 @@ dependencies = [
  "napi",
  "napi-build",
  "napi-derive",
+ "node_macro_deps",
  "path-clean",
- "proc-macro2",
- "quote",
  "serde",
  "serde_json",
  "swc",
@@ -1246,6 +1245,14 @@ dependencies = [
  "swc_node_bundler",
  "tracing",
  "tracing-subscriber",
+]
+
+[[package]]
+name = "node_macro_deps"
+version = "0.1.0"
+dependencies = [
+ "proc-macro2",
+ "quote",
 ]
 
 [[package]]
