@@ -2,7 +2,7 @@
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 description = "EcmaScript code minifier."
 documentation = "https://rustdoc.swc.rs/swc_ecma_minifier/"
-edition = "2018"
+edition = "2021"
 include = ["Cargo.toml", "src/**/*.rs", "src/lists/*.json"]
 license = "Apache-2.0"
 name = "swc_ecma_minifier"

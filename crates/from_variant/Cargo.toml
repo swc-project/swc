@@ -2,7 +2,7 @@
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 description = "Automatically derive From impls for enums"
 documentation = "https://rustdoc.swc.rs/from_variant/"
-edition = "2018"
+edition = "2021"
 license = "Apache-2.0"
 name = "from_variant"
 repository = "https://github.com/swc-project/swc.git"

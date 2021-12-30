@@ -2,7 +2,7 @@
 authors = ["강동윤 <kdy1997.dev@gmail.com>", "Daniel Woznicki <daniel.woznicki@gmail.com>"]
 description = "ESTree AST node definitions"
 documentation = "https://rustdoc.swc.rs/swc_estree_ast/"
-edition = "2018"
+edition = "2021"
 license = "Apache-2.0"
 name = "swc_estree_ast"
 repository = "https://github.com/swc-project/swc.git"
