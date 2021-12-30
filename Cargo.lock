@@ -3119,10 +3119,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_malloc"
+version = "0.1.0"
+dependencies = [
+ "mimalloc-rust",
+]
+
+[[package]]
 name = "swc_node_base"
 version = "0.5.1"
 dependencies = [
- "mimalloc-rust",
+ "swc_malloc",
 ]
 
 [[package]]

@@ -1,10 +1,6 @@
-//! This crate configures memory allocator.
+//! This crate configures global configurations.
 //!
-//! The swc crates related to the  node binding should depend on this crate.
+//! This crate exists to support configuring global configurations, like memory
+//! allocator while benchmarking.
 
-#[cfg(all(
-    not(debug_assertions),
-    not(all(target_os = "linux", target_arch = "aarch64", target_env = "musl")),
-))]
-#[global_allocator]
-static ALLOC: mimalloc_rust::GlobalMiMalloc = mimalloc_rust::GlobalMiMalloc;
+extern crate swc_malloc;
