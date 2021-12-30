@@ -30,7 +30,6 @@ use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use tracing::trace;
-use unicode_xid::UnicodeXID;
 
 #[macro_use]
 mod macros;
@@ -1861,8 +1860,8 @@ pub fn is_valid_ident(s: &JsWord) -> bool {
     if s.len() == 0 {
         return false;
     }
-    let first = s.chars().next().unwrap();
-    UnicodeXID::is_xid_start(first) && s.chars().skip(1).all(UnicodeXID::is_xid_continue)
+
+    Ident::verify_symbol(&s).is_ok()
 }
 
 pub fn drop_span<T>(mut t: T) -> T

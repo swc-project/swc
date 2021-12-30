@@ -642,6 +642,12 @@ impl Take for TaggedTpl {
 pub struct TplElement {
     pub span: Span,
     pub tail: bool,
+
+    /// This value is never used by `swc_ecma_codegen`, and this fact is
+    /// considered as a public API.
+    ///
+    /// If you are going to use codegen right after creating a [TplElement], you
+    /// don't have to worry about this value.
     pub cooked: Option<Str>,
     pub raw: Str,
 }

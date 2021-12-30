@@ -7,16 +7,25 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 pub struct WrapperState {
     this: Option<Ident>,
     args: Option<Ident>,
+    new_target: Option<Ident>,
 }
 
 impl WrapperState {
-    pub fn new(this: Option<Ident>, args: Option<Ident>) -> Self {
-        Self { this, args }
+    pub fn new(this: Option<Ident>, args: Option<Ident>, new_target: Option<Ident>) -> Self {
+        Self {
+            this,
+            args,
+            new_target,
+        }
     }
     pub fn to_decl(self) -> Vec<VarDeclarator> {
-        let Self { this, args } = self;
+        let Self {
+            this,
+            args,
+            new_target,
+        } = self;
 
-        let mut decls = Vec::with_capacity(2);
+        let mut decls = Vec::with_capacity(3);
         if let Some(this_id) = this {
             decls.push(VarDeclarator {
                 span: DUMMY_SP,
@@ -33,6 +42,17 @@ impl WrapperState {
                     js_word!("arguments"),
                     DUMMY_SP,
                 )))),
+                definite: false,
+            });
+        }
+        if let Some(id) = new_target {
+            decls.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(id.into()),
+                init: Some(Box::new(Expr::MetaProp(MetaPropExpr {
+                    meta: Ident::new(js_word!("new"), DUMMY_SP),
+                    prop: Ident::new(js_word!("target"), DUMMY_SP),
+                }))),
                 definite: false,
             });
         }
@@ -54,9 +74,13 @@ impl WrapperState {
     }
 
     pub fn to_stmt_in_subclass(self) -> (Option<Stmt>, Option<Ident>) {
-        let Self { this, args } = self;
+        let Self {
+            this,
+            args,
+            new_target,
+        } = self;
 
-        let mut decls = Vec::with_capacity(2);
+        let mut decls = Vec::with_capacity(3);
         if let Some(this_id) = &this {
             decls.push(VarDeclarator {
                 span: DUMMY_SP,
@@ -73,6 +97,17 @@ impl WrapperState {
                     js_word!("arguments"),
                     DUMMY_SP,
                 )))),
+                definite: false,
+            });
+        }
+        if let Some(id) = new_target {
+            decls.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(id.into()),
+                init: Some(Box::new(Expr::MetaProp(MetaPropExpr {
+                    meta: Ident::new(js_word!("new"), DUMMY_SP),
+                    prop: Ident::new(js_word!("target"), DUMMY_SP),
+                }))),
                 definite: false,
             });
         }
@@ -127,6 +162,24 @@ impl<'a> VisitMut for FunctionWrapper<'a> {
                     .this
                     .get_or_insert_with(|| private_ident!("_this"));
                 *e = Expr::Ident(this.clone());
+            }
+            Expr::MetaProp(MetaPropExpr {
+                meta:
+                    Ident {
+                        sym: js_word!("new"),
+                        ..
+                    },
+                prop:
+                    Ident {
+                        sym: js_word!("target"),
+                        ..
+                    },
+            }) => {
+                let target = self
+                    .state
+                    .new_target
+                    .get_or_insert_with(|| private_ident!("_newtarget"));
+                *e = Expr::Ident(target.clone());
             }
             _ => e.visit_mut_children_with(self),
         }

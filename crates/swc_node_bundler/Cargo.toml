@@ -3,7 +3,7 @@ authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 build = "build.rs"
 description = "Speedy web compiler"
 documentation = "https://rustdoc.swc.rs/swc/"
-edition = "2018"
+edition = "2021"
 license = "Apache-2.0"
 name = "swc_node_bundler"
 publish = false
@@ -39,8 +39,5 @@ swc_node_base = {path = "../swc_node_base"}
 tracing = "0.1.28"
 
 [dev-dependencies]
-pretty_assertions = "0.6.1"
-pretty_env_logger = "0.3"
-tempfile = "3"
+pretty_assertions = "0.7.2"
 testing = {path = "../testing"}
-walkdir = "2.3.1"

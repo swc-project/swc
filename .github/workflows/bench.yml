@@ -60,7 +60,7 @@ jobs:
         run: mkdir raw-data && curl -o raw-data/benchmark-data.json https://raw.githubusercontent.com/swc-project/raw-data/gh-pages/benchmark-data.json
 
       - name: Analyze benchmark result
-        uses: rhysd/github-action-benchmark@v1
+        uses: benchmark-action/github-action-benchmark@v1
         with:
           # What benchmark tool the output.txt came from
           tool: "cargo"
@@ -79,7 +79,7 @@ jobs:
 
       - name: Analyze benchmark result (root)
         if: ${{ github.event_name == 'push' }}
-        uses: rhysd/github-action-benchmark@v1
+        uses: benchmark-action/github-action-benchmark@v1
         with:
           # What benchmark tool the output.txt came from
           tool: "cargo"

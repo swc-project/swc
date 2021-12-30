@@ -5,6 +5,106 @@
 
 
 
+- **(es/compat)** Visit all private class methods (#3150) ([35b6461](https://github.com/swc-project/swc/commit/35b64613bb1f6de52d7362e66d28c50513dbbe12))
+
+
+- **(es/compat)** Fix length of async functions (#3136) ([f78d005](https://github.com/swc-project/swc/commit/f78d005a9587d2ea44741c4cef80fa711e8a1d26))
+
+
+- **(es/utils)** Fix handling of `new.target` (#3145) ([356082a](https://github.com/swc-project/swc/commit/356082ad84fa69cf09b5627598a2576bd1b27c36))
+
+### Documentation
+
+
+
+- **(es/ast)** Improve rustdoc (#3142) ([333acb5](https://github.com/swc-project/swc/commit/333acb56223139817c1df0c8b3763190b55a6295))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Update `github-action-benchmark` (#3148) ([5a3bdc9](https://github.com/swc-project/swc/commit/5a3bdc9ed37ba39a0591c66bd89eddb95f6df850))
+
+### Refactor
+
+
+
+- **(*)** Drop unused dependencies (#3138) ([72c9636](https://github.com/swc-project/swc/commit/72c963662d63338235378d71ee856c782cdeddfe))
+
+
+- **(*)** Use 2021 edition (#3151) ([194b3e9](https://github.com/swc-project/swc/commit/194b3e9b67fb096dee8dbd12fff9167e4217174b))
+
+
+- **(bundler)** Improve test suite (#3144) ([8a1016f](https://github.com/swc-project/swc/commit/8a1016fb406dd04dcf432ccf4e07036f81d4c9c6))
+
+### Testing
+
+
+
+- **(es/parser)** Add tests about null escape (#3147) ([a4e8e53](https://github.com/swc-project/swc/commit/a4e8e53c1958f842206916eade24a269d582d69c))
+
+## [1.2.124] - 2021-12-29
+
+### Bug Fixes
+
+
+
+- **(es)** Handle import assertions correctly (#3113) ([c9adf03](https://github.com/swc-project/swc/commit/c9adf0333811b2830fe3f3c06d6fd9706f7bb9ae))
+
+
+- **(es/compat)** Fix handling of hoisted functions in regenerator (#3119) ([ac78a52](https://github.com/swc-project/swc/commit/ac78a527ebba3e8df2342e65b4fd5c2d36240ff0))
+
+
+- **(es/compat)** Fix private methods of a class (#3123) ([1b6ac25](https://github.com/swc-project/swc/commit/1b6ac25d5c6c009c38a7097b910f7b6838ab560b))
+
+
+- **(es/compat)** Fix `computed_properties` (#3120) ([27d3fd9](https://github.com/swc-project/swc/commit/27d3fd93b0ad2b5e305ded8145100b060ac6c2a3))
+
+
+- **(es/optimization)** Fix inlining (#3132) ([693c22a](https://github.com/swc-project/swc/commit/693c22aa93ce115aca294f61feefe4582336ada3))
+
+
+- **(es/parser)** Support import assertions in specifier-less imports (#3134) ([2f3ca22](https://github.com/swc-project/swc/commit/2f3ca22ecf7f567256695c39a904f02ff75e2c85))
+
+
+- **(es/renamer)** Fix renamer (#3139) ([43c8cda](https://github.com/swc-project/swc/commit/43c8cda31a89bfc027ea3948bd9653d97d3fc29c))
+
+
+- **(es/utils)** Fix `is_valid_ident` (#3133) ([ec7e0ae](https://github.com/swc-project/swc/commit/ec7e0aee256cc7cc13f81ef22164c29f42bb43be))
+
+
+- **(node-swc)** Recover from `ldd` not found (#3125) ([054a195](https://github.com/swc-project/swc/commit/054a19518ce77f36520a17e146c65632aeab3080))
+
+### Features
+
+
+
+- **(es/preset-env)** Upgrade `browserslist-rs` (#3122) ([83f71c2](https://github.com/swc-project/swc/commit/83f71c2c0b8382e70172b1e2d4d9a18852e7a995))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Reduce CI time (#3128) ([61cd7da](https://github.com/swc-project/swc/commit/61cd7da265bd775605a0e48346f70b41adf9a225))
+
+### Refactor
+
+
+
+- **(es/react/fast-refresh)** Use `VisitMut` (#3129) ([f8f04e0](https://github.com/swc-project/swc/commit/f8f04e031e218393abd8ae5ca6469484b0fe90d3))
+
+### Security
+
+
+
+- **(repo)** Configure `cargo-crev` (#3124) ([cec325b](https://github.com/swc-project/swc/commit/cec325be6329bbdc175d7850443de8aabfcf31d6))
+
+## [1.2.123] - 2021-12-26
+
+### Bug Fixes
+
+
+
 - **(es/ast)** Fix `Ident::verify_symbol` (#3108) ([e5971f7](https://github.com/swc-project/swc/commit/e5971f77d5861038f7dcd905a9aca72c84b1a035))
 
 
@@ -12,6 +112,9 @@
 
 
 - **(es/compat)** Fix `destructuring` (#3104) ([9f5a8f7](https://github.com/swc-project/swc/commit/9f5a8f728ade23640430d82f9f4bbcb341e30e2a))
+
+
+- **(es/compat)** Fix handling of class methods with a big int as a key (#3118) ([a1cb4a4](https://github.com/swc-project/swc/commit/a1cb4a4aa57bd54e6718f293a65361952f4ef11d))
 
 
 - **(es/helpers)** Fix decorators (#3105) ([f66c2cd](https://github.com/swc-project/swc/commit/f66c2cd375f78711fdf6a058003010bce8999aed))
@@ -27,6 +130,15 @@
 
 
 - **(node)** Upgrade `napi` to v2 (#2958) ([206da12](https://github.com/swc-project/swc/commit/206da128a1f1ecd43c7580a7ad5f58ebc363c812))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Fix script for publishing ([f51314c](https://github.com/swc-project/swc/commit/f51314cd51990b2caf8b18a7d8a647236a0ec893))
+
+
+- **(xi)** Fix publishing script ([e0e7f74](https://github.com/swc-project/swc/commit/e0e7f749551c15eae875457d584b869088794aea))- **general**: Fix `package.json` ([999df43](https://github.com/swc-project/swc/commit/999df436f7b9317167a822d6e0602324c8871dae))
 
 ## [1.2.122] - 2021-12-22
 

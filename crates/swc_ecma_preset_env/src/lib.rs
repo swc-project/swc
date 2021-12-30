@@ -200,12 +200,13 @@ where
     );
     let pass = add!(pass, BlockScoping, es2015::block_scoping(), true);
 
+    let pass = add!(pass, NewTarget, es2015::new_target(), true);
+
     // TODO:
     //    Literals,
     //    ObjectSuper,
     //    DotAllRegex,
     //    UnicodeRegex,
-    //    NewTarget,
     //    AsyncGeneratorFunctions,
     //    UnicodePropertyRegex,
     //    JsonStrings,

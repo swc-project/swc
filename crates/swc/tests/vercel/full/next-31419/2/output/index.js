@@ -1,6 +1,6 @@
 import * as a from "@swc/helpers";
-Promise.all(assignAll).then(function(a) {
-    var c = a.asyncToGenerator(function*(a) {
+Promise.all(assignAll).then(function() {
+    var b = a.asyncToGenerator(function*(a) {
         let b = "DELETE FROM \"TABLE\" WHERE \"UUID\" IN ( ";
         for(let c in obj){
             let d = obj[c];
@@ -11,20 +11,20 @@ Promise.all(assignAll).then(function(a) {
             });
         }
     });
-    return function() {
-        return c.apply(this, arguments);
+    return function(a) {
+        return b.apply(this, arguments);
     };
 }());
 export const listOfUser = function(b) {
-    return new Promise(function(a, c) {
-        var e = a.asyncToGenerator(function*(a, c) {
+    return new Promise(function() {
+        var c = a.asyncToGenerator(function*(a, c) {
             const d = `Select Distinct id from "TABLE" Where id = '${b}' And user_id IS not null`;
-            postgreSQL.query(d, null, function(a, b) {
-                a ? (void 0)(a) : (void 0)(b.rows);
+            postgreSQL.query(d, null, function(b, d) {
+                b ? c(b) : a(d.rows);
             });
         });
-        return function() {
-            return e.apply(this, arguments);
+        return function(a, c) {
+            return c.apply(this, arguments);
         };
     }());
 };
