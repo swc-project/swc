@@ -165,7 +165,7 @@ test!(
         function_name(),
         class_properties(class_properties::Config { loose: false }),
     ),
-    private_function,
+    private_class_method,
     r#"
 class Foo {
     #foo () {}
