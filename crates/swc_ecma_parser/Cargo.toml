@@ -2,7 +2,7 @@
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 description = "Feature-complete es2019 parser."
 documentation = "https://rustdoc.swc.rs/swc_ecma_parser/"
-edition = "2018"
+edition = "2021"
 include = ["Cargo.toml", "src/**/*.rs", "examples/**/*.rs"]
 license = "Apache-2.0"
 name = "swc_ecma_parser"
