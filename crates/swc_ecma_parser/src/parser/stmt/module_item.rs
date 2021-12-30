@@ -65,13 +65,25 @@ impl<'a, I: Tokens> Parser<I> {
                 },
                 _ => unreachable!(),
             };
+            let _ = cur!(self, false);
+            let asserts = if self.input.syntax().import_assertions()
+                && !self.input.had_line_break_before_cur()
+                && eat!(self, "assert")
+            {
+                match *self.parse_object::<Box<Expr>>()? {
+                    Expr::Object(v) => Some(v),
+                    _ => unreachable!(),
+                }
+            } else {
+                None
+            };
             expect!(self, ';');
             return Ok(ModuleDecl::Import(ImportDecl {
                 span: span!(self, start),
                 src,
                 specifiers: vec![],
                 type_only: false,
-                asserts: None,
+                asserts,
             }))
             .map(ModuleItem::from);
         }

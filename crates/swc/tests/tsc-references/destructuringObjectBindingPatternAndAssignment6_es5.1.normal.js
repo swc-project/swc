@@ -14,8 +14,8 @@ function _defineProperty(obj, key, value) {
 // @target: es5,esnext
 var a = "a";
 var b = "b";
-var _obj;
 var ref = function() {
+    var _obj;
     return _obj = {
     }, _defineProperty(_obj, a, 1), _defineProperty(_obj, b, 1), _obj;
 }(), aVal = ref[a], bVal = ref[b];

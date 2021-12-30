@@ -21,4 +21,3 @@ dashmap = "4.0.2"
 swc_ecma_ast = {version = "0.60.0", path = "../swc_ecma_ast"}
 swc_ecma_parser = {version = "0.82.0", path = "../swc_ecma_parser"}
 testing = {version = "0.16.0", path = "../testing"}
-walkdir = "2"

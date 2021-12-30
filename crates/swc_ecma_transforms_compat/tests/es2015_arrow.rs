@@ -507,3 +507,19 @@ const b = function() {
 };
 "#
 );
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| arrow(),
+    chrome_46,
+    "function foo() {
+      const a = (a) => new.target
+    }",
+    "function foo() {
+      var _newtarget = new.target;
+
+      const a = function (a) {
+        return _newtarget;
+      };
+    }"
+);

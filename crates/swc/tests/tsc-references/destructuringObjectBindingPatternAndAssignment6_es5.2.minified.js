@@ -6,6 +6,9 @@ function _defineProperty(obj, key, value) {
         writable: !0
     }) : obj[key] = value, obj;
 }
-var _obj, ref = (_defineProperty(_obj = {
-}, "a", 1), _defineProperty(_obj, "b", 1), _obj), aVal = ref.a, bVal = ref.b;
+var ref = function() {
+    var _obj;
+    return _defineProperty(_obj = {
+    }, "a", 1), _defineProperty(_obj, "b", 1), _obj;
+}(), aVal = ref.a, bVal = ref.b;
 console.log(aVal, bVal);

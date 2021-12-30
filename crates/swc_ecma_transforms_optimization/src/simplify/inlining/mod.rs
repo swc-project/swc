@@ -10,6 +10,7 @@ use swc_ecma_utils::{contains_this_expr, find_ids, ident::IdentLike, undefined, 
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
+use tracing::{span, Level};
 
 mod scope;
 
@@ -39,6 +40,7 @@ pub fn inlining(_: Config) -> impl 'static + RepeatedJsPass + VisitMut {
         ident_type: IdentType::Ref,
         in_test: false,
         pat_mode: PatFoldingMode::VarDecl,
+        pass: Default::default(),
     })
 }
 
@@ -62,6 +64,7 @@ impl Repeated for Inlining<'_> {
     fn reset(&mut self) {
         self.changed = false;
         self.is_first_run = false;
+        self.pass += 1;
     }
 }
 
@@ -74,6 +77,7 @@ struct Inlining<'a> {
     ident_type: IdentType,
     in_test: bool,
     pat_mode: PatFoldingMode,
+    pass: usize,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -98,16 +102,6 @@ impl Inlining<'_> {
 impl VisitMut for Inlining<'_> {
     noop_visit_mut_type!();
 
-    fn visit_mut_if_stmt(&mut self, stmt: &mut IfStmt) {
-        let old_in_test = self.in_test;
-        self.in_test = true;
-        stmt.test.visit_mut_with(self);
-        self.in_test = old_in_test;
-
-        self.visit_with_child(ScopeKind::Cond, &mut stmt.cons);
-        self.visit_with_child(ScopeKind::Cond, &mut stmt.alt);
-    }
-
     fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr) {
         self.visit_with_child(ScopeKind::Fn { named: false }, node)
     }
@@ -118,31 +112,38 @@ impl VisitMut for Inlining<'_> {
 
         e.left.map_with_mut(|n| n.normalize_expr());
 
-        match &mut e.left {
-            PatOrExpr::Expr(left) => {
-                //
-                match &**left {
-                    Expr::Member(ref left) => {
-                        tracing::trace!("Assign to member expression!");
-                        let mut v = IdentListVisitor {
-                            scope: &mut self.scope,
-                        };
+        match e.op {
+            op!("=") => {
+                let mut v = WriteVisitor {
+                    scope: &mut self.scope,
+                };
 
-                        left.visit_with(&mut v);
-                        e.right.visit_with(&mut v);
+                e.left.visit_with(&mut v);
+                e.right.visit_with(&mut v);
+
+                match &mut e.left {
+                    PatOrExpr::Expr(left) => {
+                        //
+                        match &**left {
+                            Expr::Member(ref left) => {
+                                tracing::trace!("Assign to member expression!");
+                                let mut v = IdentListVisitor {
+                                    scope: &mut self.scope,
+                                };
+
+                                left.visit_with(&mut v);
+                                e.right.visit_with(&mut v);
+                            }
+
+                            _ => {}
+                        }
                     }
-
-                    _ => {}
+                    PatOrExpr::Pat(p) => {
+                        p.visit_mut_with(self);
+                    }
                 }
             }
-            PatOrExpr::Pat(p) => {
-                p.visit_mut_with(self);
-            }
-        }
-        e.right.visit_mut_with(self);
 
-        match e.op {
-            op!("=") => {}
             _ => {
                 let mut v = IdentListVisitor {
                     scope: &mut self.scope,
@@ -153,6 +154,8 @@ impl VisitMut for Inlining<'_> {
             }
         }
 
+        e.right.visit_mut_with(self);
+
         if self.scope.is_inline_prevented(&e.right) {
             // Prevent inline for lhd
             let ids: Vec<Id> = find_ids(&e.left);
@@ -162,24 +165,26 @@ impl VisitMut for Inlining<'_> {
             return;
         }
 
-        match *e.right {
-            Expr::Lit(..) | Expr::Ident(..) => {
-                //
-                match e.left.as_ident() {
-                    Some(i) => {
-                        let id = i.to_id();
-                        self.scope.add_write(&id, false);
+        //
+        match e.left.as_ident() {
+            Some(i) => {
+                let id = i.to_id();
+                self.scope.add_write(&id, false);
 
-                        if let Some(var) = self.scope.find_binding(&id) {
-                            if !var.is_inline_prevented() {
+                if let Some(var) = self.scope.find_binding(&id) {
+                    if !var.is_inline_prevented() {
+                        match *e.right {
+                            Expr::Lit(..) | Expr::Ident(..) => {
                                 *var.value.borrow_mut() = Some(*e.right.clone());
+                            }
+
+                            _ => {
+                                *var.value.borrow_mut() = None;
                             }
                         }
                     }
-                    _ => {}
                 }
             }
-
             _ => {}
         }
     }
@@ -314,12 +319,16 @@ impl VisitMut for Inlining<'_> {
                                 let expr = var.value.borrow();
 
                                 if let Some(expr) = &*expr {
+                                    tracing::debug!("Inlining: {:?}", id);
+
                                     if *node != *expr {
                                         self.changed = true;
                                     }
 
                                     Some(expr.clone())
                                 } else {
+                                    tracing::debug!("Inlining: {:?} as undefined", id);
+
                                     if var.is_undefined.get() {
                                         *node = *undefined(i.span);
                                         return;
@@ -456,11 +465,38 @@ impl VisitMut for Inlining<'_> {
         })
     }
 
+    fn visit_mut_if_stmt(&mut self, stmt: &mut IfStmt) {
+        let old_in_test = self.in_test;
+        self.in_test = true;
+        stmt.test.visit_mut_with(self);
+        self.in_test = old_in_test;
+
+        self.visit_with_child(ScopeKind::Cond, &mut stmt.cons);
+        self.visit_with_child(ScopeKind::Cond, &mut stmt.alt);
+    }
+
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
         e.obj.visit_mut_with(self);
         if e.computed {
             e.prop.visit_mut_with(self);
         }
+    }
+
+    fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
+        let _tracing = span!(Level::ERROR, "inlining", pass = self.pass).entered();
+
+        let old_phase = self.phase;
+
+        self.phase = Phase::Analysis;
+        items.visit_mut_children_with(self);
+
+        tracing::trace!("Switching to Inlining phase");
+
+        // Inline
+        self.phase = Phase::Inlining;
+        items.visit_mut_children_with(self);
+
+        self.phase = old_phase;
     }
 
     fn visit_mut_new_expr(&mut self, node: &mut NewExpr) {
@@ -505,6 +541,26 @@ impl VisitMut for Inlining<'_> {
             },
 
             _ => {}
+        }
+    }
+
+    fn visit_mut_stmts(&mut self, items: &mut Vec<Stmt>) {
+        let old_phase = self.phase;
+
+        match old_phase {
+            Phase::Analysis => {
+                items.visit_mut_children_with(self);
+            }
+            Phase::Inlining => {
+                self.phase = Phase::Analysis;
+                items.visit_mut_children_with(self);
+
+                // Inline
+                self.phase = Phase::Inlining;
+                items.visit_mut_children_with(self);
+
+                self.phase = old_phase
+            }
         }
     }
 
@@ -708,41 +764,6 @@ impl VisitMut for Inlining<'_> {
 
         node.test.visit_mut_with(self);
         self.visit_with_child(ScopeKind::Loop, &mut node.body);
-    }
-
-    fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
-        let old_phase = self.phase;
-
-        self.phase = Phase::Analysis;
-        items.visit_mut_children_with(self);
-
-        tracing::trace!("Switching to Inlining phase");
-
-        // Inline
-        self.phase = Phase::Inlining;
-        items.visit_mut_children_with(self);
-
-        self.phase = old_phase;
-    }
-
-    fn visit_mut_stmts(&mut self, items: &mut Vec<Stmt>) {
-        let old_phase = self.phase;
-
-        match old_phase {
-            Phase::Analysis => {
-                items.visit_mut_children_with(self);
-            }
-            Phase::Inlining => {
-                self.phase = Phase::Analysis;
-                items.visit_mut_children_with(self);
-
-                // Inline
-                self.phase = Phase::Inlining;
-                items.visit_mut_children_with(self);
-
-                self.phase = old_phase
-            }
-        }
     }
 }
 

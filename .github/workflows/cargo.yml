@@ -68,13 +68,8 @@ jobs:
           - windows-latest
     steps:
       - uses: actions/checkout@v2
-
-      - name: Checkout submodules
-        shell: bash
-        run: |
-          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
-          git submodule sync --recursive
-          git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
+        with:
+          submodules: true
 
       # We explicitly do this to cache properly.
       - name: Install Rust
@@ -178,6 +173,22 @@ jobs:
         exclude:
           - os: windows-latest
             crate: swc_node_bundler
+
+          - os: windows-latest
+            crate: swc_ecma_utils
+
+          - os: windows-latest
+            crate: swc_ecma_visit
+
+          - os: windows-latest
+            crate: swc_visit
+
+          - os: windows-latest
+            crate: swc_visit_macros
+
+          - os: windows-latest
+            crate: testing_macros
+
         include:
           - os: macos-latest
             crate: swc_plugin_runner
@@ -191,6 +202,8 @@ jobs:
           git config --system core.eol lf
 
       - uses: actions/checkout@v2
+        with:
+          submodules: true
 
       # Source map format
       - uses: actions/setup-node@v2
@@ -208,13 +221,6 @@ jobs:
         if: matrix.crate == 'swc_bundler'
         with:
           deno-version: v1.x
-
-      - name: Checkout submodules
-        shell: bash
-        run: |
-          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
-          git submodule sync --recursive
-          git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
 
       - name: Install node dependencies
         shell: bash

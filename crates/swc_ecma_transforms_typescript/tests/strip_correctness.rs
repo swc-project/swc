@@ -156,6 +156,7 @@ fn identity(entry: PathBuf) {
                 decorators_before_export: true,
                 export_default_from: true,
                 private_in_object: true,
+                import_assertions: true,
                 ..Default::default()
             }),
             (&*js_fm).into(),
