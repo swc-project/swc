@@ -2,7 +2,7 @@
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 description = "Macros for swc_ecma_transforms."
 documentation = "https://rustdoc.swc.rs/swc_ecma_transforms_macros/"
-edition = "2018"
+edition = "2021"
 license = "Apache-2.0"
 name = "swc_ecma_transforms_macros"
 repository = "https://github.com/swc-project/swc.git"

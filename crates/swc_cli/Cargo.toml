@@ -1,16 +1,16 @@
 [package]
 description = "Commandline for swc"
-name = "swc_cli"
-version = "0.1.0"
-edition = "2018"
+edition = "2021"
 include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0"
+name = "swc_cli"
 repository = "https://github.com/swc-project/swc.git"
+version = "0.1.0"
 
 [[bin]]
 name = "swc"
 path = "./src/main.rs"
 
 [dependencies]
-structopt = { version = "0.3.25", features = [ "paw" ] }
 paw = "1.0"
+structopt = {version = "0.3.25", features = ["paw"]}

@@ -1,7 +1,7 @@
 [package]
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 build = "build.rs"
-edition = "2018"
+edition = "2021"
 exclude = ["artifacts.json", "index.node"]
 license = "Apache-2.0"
 name = "node"
@@ -24,9 +24,8 @@ anyhow = "1"
 backtrace = "0.3"
 napi = {version = "2", default-features = false, features = ["napi3", "serde-json"]}
 napi-derive = {version = "2", default-features = false, features = ["type-def"]}
+node_macro_deps = {path = "../node_macro_deps"}
 path-clean = "0.1"
-proc-macro2 = "=1.0.32"
-quote = "=1.0.10"
 serde = {version = "1", features = ["derive"]}
 serde_json = {version = "1", features = ["unbounded_depth"]}
 swc = {path = "../swc", features = ["concurrent", "plugin", "node"]}

@@ -1,7 +1,7 @@
 [package]
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 description = "Webpack AST optimizer"
-edition = "2018"
+edition = "2021"
 license = "Apache-2.0"
 name = "swc_webpack_ast"
 repository = "https://github.com/swc-project/swc.git"

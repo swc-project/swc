@@ -2,7 +2,7 @@
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 description = "Compatibility layer between estree and swc"
 documentation = "https://rustdoc.swc.rs/swc_estree_compat/"
-edition = "2018"
+edition = "2021"
 license = "Apache-2.0"
 name = "swc_estree_compat"
 repository = "https://github.com/swc-project/swc.git"
