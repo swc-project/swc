@@ -29,5 +29,10 @@ function _asyncToGenerator(fn) {
 }
 // @target: ES6
 // @noEmitHelpers: true
-var foo = _asyncToGenerator(function*() {
-});
+var foo = function() {
+    var _ref = _asyncToGenerator(function*() {
+    });
+    return function foo() {
+        return _ref.apply(this, arguments);
+    };
+}();

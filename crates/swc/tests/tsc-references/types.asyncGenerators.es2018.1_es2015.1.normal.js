@@ -176,7 +176,7 @@ const assignability1 = function() {
     var _ref = _wrapAsyncGenerator(function*() {
         yield 1;
     });
-    return function() {
+    return function assignability1() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -184,7 +184,7 @@ const assignability2 = function() {
     var _ref = _wrapAsyncGenerator(function*() {
         yield Promise.resolve(1);
     });
-    return function() {
+    return function assignability2() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -195,7 +195,7 @@ const assignability3 = function() {
             2
         ];
     });
-    return function() {
+    return function assignability3() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -205,7 +205,7 @@ const assignability4 = function() {
             Promise.resolve(1)
         ];
     });
-    return function() {
+    return function assignability4() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -215,7 +215,7 @@ const assignability5 = function() {
             yield 1;
         })();
     });
-    return function() {
+    return function assignability5() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -223,7 +223,7 @@ const assignability6 = function() {
     var _ref = _wrapAsyncGenerator(function*() {
         yield 1;
     });
-    return function() {
+    return function assignability6() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -231,7 +231,7 @@ const assignability7 = function() {
     var _ref = _wrapAsyncGenerator(function*() {
         yield Promise.resolve(1);
     });
-    return function() {
+    return function assignability7() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -242,7 +242,7 @@ const assignability8 = function() {
             2
         ];
     });
-    return function() {
+    return function assignability8() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -252,7 +252,7 @@ const assignability9 = function() {
             Promise.resolve(1)
         ];
     });
-    return function() {
+    return function assignability9() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -262,7 +262,7 @@ const assignability10 = function() {
             yield 1;
         })();
     });
-    return function() {
+    return function assignability10() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -270,7 +270,7 @@ const assignability11 = function() {
     var _ref = _wrapAsyncGenerator(function*() {
         yield 1;
     });
-    return function() {
+    return function assignability11() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -278,7 +278,7 @@ const assignability12 = function() {
     var _ref = _wrapAsyncGenerator(function*() {
         yield Promise.resolve(1);
     });
-    return function() {
+    return function assignability12() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -289,7 +289,7 @@ const assignability13 = function() {
             2
         ];
     });
-    return function() {
+    return function assignability13() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -299,7 +299,7 @@ const assignability14 = function() {
             Promise.resolve(1)
         ];
     });
-    return function() {
+    return function assignability14() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -309,7 +309,7 @@ const assignability15 = function() {
             yield 1;
         })();
     });
-    return function() {
+    return function assignability15() {
         return _ref.apply(this, arguments);
     };
 }();

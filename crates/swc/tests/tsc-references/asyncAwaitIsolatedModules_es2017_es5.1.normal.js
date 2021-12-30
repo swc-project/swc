@@ -102,7 +102,7 @@ var f4 = function() {
             }
         }, _callee);
     }));
-    return function() {
+    return function f4() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -116,7 +116,7 @@ var f5 = function() {
             }
         }, _callee);
     }));
-    return function() {
+    return function f5() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -130,81 +130,116 @@ var f6 = function() {
             }
         }, _callee);
     }));
-    return function() {
+    return function f6() {
         return _ref.apply(this, arguments);
     };
 }();
-var f7 = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-    return regeneratorRuntime.wrap(function _callee$(_ctx) {
-        while(1)switch(_ctx.prev = _ctx.next){
-            case 0:
-            case "end":
-                return _ctx.stop();
-        }
-    }, _callee);
-}));
-var f8 = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-    return regeneratorRuntime.wrap(function _callee$(_ctx) {
-        while(1)switch(_ctx.prev = _ctx.next){
-            case 0:
-            case "end":
-                return _ctx.stop();
-        }
-    }, _callee);
-}));
-var f9 = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-    return regeneratorRuntime.wrap(function _callee$(_ctx) {
-        while(1)switch(_ctx.prev = _ctx.next){
-            case 0:
-            case "end":
-                return _ctx.stop();
-        }
-    }, _callee);
-}));
-var f10 = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-    return regeneratorRuntime.wrap(function _callee$(_ctx) {
-        while(1)switch(_ctx.prev = _ctx.next){
-            case 0:
-                return _ctx.abrupt("return", p);
-            case 1:
-            case "end":
-                return _ctx.stop();
-        }
-    }, _callee);
-}));
-var f11 = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-    return regeneratorRuntime.wrap(function _callee$(_ctx) {
-        while(1)switch(_ctx.prev = _ctx.next){
-            case 0:
-                return _ctx.abrupt("return", mp);
-            case 1:
-            case "end":
-                return _ctx.stop();
-        }
-    }, _callee);
-}));
-var f12 = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-    return regeneratorRuntime.wrap(function _callee$(_ctx) {
-        while(1)switch(_ctx.prev = _ctx.next){
-            case 0:
-                return _ctx.abrupt("return", mp);
-            case 1:
-            case "end":
-                return _ctx.stop();
-        }
-    }, _callee);
-}));
-var f13 = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-    return regeneratorRuntime.wrap(function _callee$(_ctx) {
-        while(1)switch(_ctx.prev = _ctx.next){
-            case 0:
-                return _ctx.abrupt("return", p);
-            case 1:
-            case "end":
-                return _ctx.stop();
-        }
-    }, _callee);
-}));
+var f7 = function() {
+    var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, _callee);
+    }));
+    return function f7() {
+        return _ref.apply(this, arguments);
+    };
+}();
+var f8 = function() {
+    var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, _callee);
+    }));
+    return function f8() {
+        return _ref.apply(this, arguments);
+    };
+}();
+var f9 = function() {
+    var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, _callee);
+    }));
+    return function f9() {
+        return _ref.apply(this, arguments);
+    };
+}();
+var f10 = function() {
+    var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                    return _ctx.abrupt("return", p);
+                case 1:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, _callee);
+    }));
+    return function f10() {
+        return _ref.apply(this, arguments);
+    };
+}();
+var f11 = function() {
+    var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                    return _ctx.abrupt("return", mp);
+                case 1:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, _callee);
+    }));
+    return function f11() {
+        return _ref.apply(this, arguments);
+    };
+}();
+var f12 = function() {
+    var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                    return _ctx.abrupt("return", mp);
+                case 1:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, _callee);
+    }));
+    return function f12() {
+        return _ref.apply(this, arguments);
+    };
+}();
+var f13 = function() {
+    var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                    return _ctx.abrupt("return", p);
+                case 1:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, _callee);
+    }));
+    return function f13() {
+        return _ref.apply(this, arguments);
+    };
+}();
 var o = {
     m1: function m1() {
         return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
@@ -336,7 +371,7 @@ var C = /*#__PURE__*/ function() {
 }();
 var M;
 (function(M1) {
-    function f14() {
+    function f11() {
         return _f11.apply(this, arguments);
     }
     function _f11() {
@@ -351,7 +386,7 @@ var M;
         }));
         return _f11.apply(this, arguments);
     }
-    M1.f1 = f14;
+    M1.f1 = f11;
 })(M || (M = {
 }));
 // @target: es2017

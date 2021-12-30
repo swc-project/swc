@@ -26,33 +26,36 @@ var C = function() {
         {
             key: "method",
             value: function() {
-                (function(fn) {
-                    return function() {
-                        var self = this, args = arguments;
-                        return new Promise(function(resolve, reject) {
-                            var gen = fn.apply(self, args);
-                            function _next(value) {
-                                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+                var _this = this;
+                (function() {
+                    (function(fn) {
+                        return function() {
+                            var self = this, args = arguments;
+                            return new Promise(function(resolve, reject) {
+                                var gen = fn.apply(self, args);
+                                function _next(value) {
+                                    asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+                                }
+                                function _throw(err) {
+                                    asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+                                }
+                                _next(void 0);
+                            });
+                        };
+                    })(regeneratorRuntime.mark(function _callee() {
+                        return regeneratorRuntime.wrap(function(_ctx) {
+                            for(;;)switch(_ctx.prev = _ctx.next){
+                                case 0:
+                                    return _ctx.next = 2, this;
+                                case 2:
+                                    return _ctx.abrupt("return", _ctx.sent);
+                                case 3:
+                                case "end":
+                                    return _ctx.stop();
                             }
-                            function _throw(err) {
-                                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-                            }
-                            _next(void 0);
-                        });
-                    };
-                })(regeneratorRuntime.mark(function _callee() {
-                    return regeneratorRuntime.wrap(function(_ctx) {
-                        for(;;)switch(_ctx.prev = _ctx.next){
-                            case 0:
-                                return _ctx.next = 2, this;
-                            case 2:
-                                return _ctx.abrupt("return", _ctx.sent);
-                            case 3:
-                            case "end":
-                                return _ctx.stop();
-                        }
-                    }, _callee, this);
-                }).bind(this)).bind(this);
+                        }, _callee, this);
+                    }).bind(_this)).bind(_this);
+                })();
             }
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;

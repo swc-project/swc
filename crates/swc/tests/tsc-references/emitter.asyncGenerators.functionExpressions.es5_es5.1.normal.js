@@ -104,7 +104,7 @@ var f1 = function() {
             }
         }, _callee);
     }));
-    return function() {
+    return function f1() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -125,7 +125,7 @@ var f2 = function() {
             }
         }, _callee);
     }));
-    return function() {
+    return function f2() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -146,7 +146,7 @@ var f3 = function() {
             }
         }, _callee);
     }));
-    return function() {
+    return function f3() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -168,7 +168,7 @@ var f4 = function() {
             }
         }, _callee);
     }));
-    return function() {
+    return function f4() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -199,7 +199,7 @@ var f5 = function() {
             }
         }, _callee1);
     }));
-    return function() {
+    return function f5() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -220,7 +220,7 @@ var f6 = function() {
             }
         }, _callee);
     }));
-    return function() {
+    return function f6() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -237,7 +237,7 @@ var f7 = function() {
             }
         }, _callee);
     }));
-    return function() {
+    return function f7() {
         return _ref.apply(this, arguments);
     };
 }();

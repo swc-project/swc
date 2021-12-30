@@ -27,9 +27,19 @@ function _asyncToGenerator(fn) {
         });
     };
 }
-const x = _asyncToGenerator(function*(i) {
-    return yield someOtherFunction(i);
-});
-const x1 = _asyncToGenerator(function*(i) {
-    return yield someOtherFunction(i);
-});
+const x = function() {
+    var _ref = _asyncToGenerator(function*(i) {
+        return yield someOtherFunction(i);
+    });
+    return function x(i) {
+        return _ref.apply(this, arguments);
+    };
+}();
+const x1 = function() {
+    var _ref = _asyncToGenerator(function*(i) {
+        return yield someOtherFunction(i);
+    });
+    return function x1(i) {
+        return _ref.apply(this, arguments);
+    };
+}();
