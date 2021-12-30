@@ -122,3 +122,29 @@ test!(
     };
     Object.setPrototypeOf(Outer, Hello);"#
 );
+
+test!(
+    syntax(),
+    |_| tr(),
+    super_increment_postfix,
+    r#"var Base = {
+        test: '1',
+    };
+      
+    var obj = {
+        bar() {
+            return super.test++;
+        }
+      };
+    Object.setPrototypeOf(obj, Base);"#,
+    r#"var _ref, _super, _obj;
+    var Base = {
+        test: "1"
+    };
+    var obj = _obj = {
+        bar: function bar() {
+            return _set(_getPrototypeOf(_obj), "test", (_super = +_get(_getPrototypeOf(_obj), "test", this)) + 1, this, true), _super;
+        }
+    };
+    Object.setPrototypeOf(obj, Base);"#
+);
