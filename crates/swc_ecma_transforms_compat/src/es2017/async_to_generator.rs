@@ -745,7 +745,7 @@ impl Actual {
 
                 let right = if let Some(this) = this {
                     Expr::Call(CallExpr {
-                        span: span.take(),
+                        span: *span,
                         callee: make_fn_ref(fn_expr, Some(this.clone()), false)
                             .make_member(quote_ident!("bind"))
                             .as_callee(),
@@ -1091,11 +1091,7 @@ impl Actual {
                             }),
                         ]
                     } else {
-                        let ident = if function_ident.is_some() {
-                            function_ident
-                        } else {
-                            binding_ident
-                        };
+                        let ident = function_ident.or(binding_ident);
                         vec![Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
                             arg: Some(Box::new(Expr::Fn(FnExpr { ident, function: f }))),
