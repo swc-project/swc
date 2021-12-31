@@ -2,7 +2,7 @@ export function Colors(member) {
     return Colors.ValueFor(member);
 }
 (function(Colors1) {
-    Colors1.ValueMap = {
+    var ValueMap = Colors1.ValueMap = {
         Red: {
             value: 0,
             label: "Red"
@@ -16,7 +16,7 @@ export function Colors(member) {
             label: "Green"
         }
     };
-    Colors1.Values = [
+    var Values = Colors1.Values = [
         0,
         1,
         2
