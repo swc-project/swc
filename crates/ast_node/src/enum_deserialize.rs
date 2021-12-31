@@ -113,7 +113,7 @@ pub fn expand(
                                         swc_common::private::serde::de::ContentDeserializer::<
                                             __D::Error,
                                         >::new(
-                                            __tagged.content
+                                            __content
                                         ),
                                     ),
                                     Self::Variant,
@@ -367,11 +367,11 @@ pub fn expand(
                         }
 
                         let __tagged = match serde::Deserializer::deserialize_any(
-                        __deserializer,
-                        swc_common::private::serde::de::TaggedContentVisitor::<__TypeVariant>::new(
-                            "type",
-                            "ast node defined by #[ast_serde]",
-                        ),
+                            swc_common::private::serde::de::ContentRefDeserializer::<__D::Error>::new(&__content),
+                            swc_common::private::serde::de::TaggedContentVisitor::<__TypeVariant>::new(
+                                "type",
+                                "ast node defined by #[ast_serde]",
+                           ),
                     ) {
                         swc_common::private::serde::Ok(__val) => __val,
                         swc_common::private::serde::Err(__err) => {
@@ -425,6 +425,10 @@ pub fn expand(
                             enum __TypeVariant {
                                 variants,
                             }
+
+                            let __content = <swc_common::private::serde::de::Content as serde::Deserialize>::deserialize(
+                                __deserializer,
+                            )?;
 
                             let __tagged = tag_expr;
 
