@@ -629,7 +629,7 @@ mod ast {
     pub struct ImportNamedSpecifier {
         pub span: Span,
         pub local: Ident,
-        pub imported: Option<Ident>,
+        pub imported: Option<ModuleExportName>,
         pub is_type_only: bool,
     }
     pub enum ExportSpecifier {
@@ -646,8 +646,8 @@ mod ast {
     }
     pub struct ExportNamedSpecifier {
         pub span: Span,
-        pub orig: Ident,
-        pub exported: Option<Ident>,
+        pub orig: ModuleExportName,
+        pub exported: Option<ModuleExportName>,
         pub is_type_only: bool,
     }
     pub enum BinaryOp {
@@ -1343,5 +1343,10 @@ mod ast {
     pub enum StrKind {
         Normal { contains_quote: bool },
         Synthesized,
+    }
+
+    pub enum ModuleExportName {
+        Ident(Ident),
+        Str(Str),
     }
 }
