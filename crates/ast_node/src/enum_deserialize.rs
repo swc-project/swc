@@ -35,6 +35,8 @@ pub fn expand(
         _ => unreachable!("expand_enum is called with none-enum item"),
     };
 
+    let mut has_wildcard = false;
+
     let deserialize = {
         let mut all_tags: Punctuated<_, token::Comma> = Default::default();
         let match_type = data
@@ -80,6 +82,8 @@ pub fn expand(
                         _ => false,
                     }
                 {
+                    has_wildcard=true;
+
                     Quote::new_call_site()
                         .quote_with(smart_quote!(
                             Vars {
@@ -284,6 +288,43 @@ pub fn expand(
                 });
             }
 
+            if !has_wildcard {
+                visit_str_arms.push(Arm {
+                    attrs: Default::default(),
+                    pat: Pat::Wild(PatWild {
+                        attrs: Default::default(),
+                        underscore_token: ident.span().as_token(),
+                    }),
+                    guard: None,
+                    fat_arrow_token: ident.span().as_token(),
+                    body: q!({
+                        swc_common::private::serde::Err(serde::de::Error::invalid_value(
+                            serde::de::Unexpected::Unsigned(__value),
+                            &"variant index 0 <= i < 2",
+                        ))
+                    })
+                    .parse(),
+                    comma: Some(ident.span().as_token()),
+                });
+                visit_bytes_arms.push(Arm {
+                    attrs: Default::default(),
+                    pat: Pat::Wild(PatWild {
+                        attrs: Default::default(),
+                        underscore_token: ident.span().as_token(),
+                    }),
+                    guard: None,
+                    fat_arrow_token: ident.span().as_token(),
+                    body: q!({
+                        swc_common::private::serde::Err(serde::de::Error::invalid_value(
+                            serde::de::Unexpected::Unsigned(__value),
+                            &"variant index 0 <= i < 2",
+                        ))
+                    })
+                    .parse(),
+                    comma: Some(ident.span().as_token()),
+                });
+            }
+
             let visit_str_body = Expr::Match(ExprMatch {
                 attrs: Default::default(),
                 match_token: call_site(),
@@ -365,7 +406,7 @@ pub fn expand(
                         __deserializer,
                         swc_common::private::serde::de::TaggedContentVisitor::<__TypeVariant>::new(
                             "type",
-                            "ast node defined by #[ast_serde]",
+                            "ast node defined by #[astserde]",
                         ),
                     ) {
                         swc_common::private::serde::Ok(__val) => __val,
