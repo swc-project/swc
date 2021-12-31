@@ -39,7 +39,7 @@ pub fn expand(
 
     let deserialize = {
         let mut all_tags: Punctuated<_, token::Comma> = Default::default();
-        let match_type = data
+        let tag_match_arms = data
             .variants
             .iter()
             .map(|variant| {
@@ -76,6 +76,8 @@ pub fn expand(
                     !tags.is_empty(),
                     "All #[ast_node] enum variants have one or more tag"
                 );
+
+                // TODO: Clean up this code
                 if tags.len() == 1
                     && match tags.first() {
                         Some(Lit::Str(s)) => &*s.value() == "*",
@@ -83,63 +85,46 @@ pub fn expand(
                     }
                 {
                     has_wildcard = true;
-
-                    Quote::new_call_site()
-                        .quote_with(smart_quote!(
-                            Vars {
-                                Enum: &ident,
-                                Variant: &variant.ident,
-                                VariantFieldType: &field_type,
-                            },
-                            {
-                                match std::result::Result::map(
-                                    <VariantFieldType as serde::Deserialize>::deserialize(
-                                        swc_common::private::serde::de::ContentRefDeserializer::<D::Error>::new(
-                                            &content,
-                                        ),
-                                    ),
-                                    Enum::Variant,
-                                ) {
-                                    Ok(v) => return Ok(v),
-                                    Err(err) => return Err(err),
-                                }
-                            }
-                        ))
-                        .parse()
                 } else {
                     for tag in tags.iter() {
                         all_tags.push(tag.clone());
                     }
-                    Quote::new_call_site()
-                        .quote_with(smart_quote!(
-                            Vars {
-                                Enum: &ident,
-                                Variant: &variant.ident,
-                                VariantFieldType: &field_type,
-                                tags,
-                            },
-                            {
-                                {
-                                    const TAGS: &[&str] = &[tags];
-                                    if TAGS.contains(&&*ty.ty) {
-                                        return std::result::Result::map(
-                                            <VariantFieldType as serde::Deserialize>::deserialize(
-                                                swc_common::private::serde::de::ContentRefDeserializer::<
-                                                    D::Error,
-                                                >::new(
-                                                    &content
-                                                ),
-                                            ),
-                                            Enum::Variant,
-                                        );
-                                    }
-                                }
-                            }
-                        ))
-                        .parse()
+                }
+
+                Arm {
+                    attrs: Default::default(),
+                    pat: q!(
+                        Vars {
+                            Variant: &variant.ident
+                        },
+                        (__TypeVariant::Variant)
+                    )
+                    .parse(),
+                    guard: Default::default(),
+                    fat_arrow_token: variant.ident.span().as_token(),
+                    body: q!(
+                        Vars {
+                            Variant: &variant.ident,
+                            FieldType: field_type,
+                        },
+                        {
+                            swc_common::private::serde::Result::map(
+                                    <FieldType as serde::Deserialize>::deserialize(
+                                        swc_common::private::serde::de::ContentDeserializer::<
+                                            __D::Error,
+                                        >::new(
+                                            __tagged.content
+                                        ),
+                                    ),
+                                    Self::Variant,
+                                )
+                        }
+                    )
+                    .parse(),
+                    comma: Some(variant.ident.span().as_token()),
                 }
             })
-            .collect::<Vec<Expr>>();
+            .collect::<Vec<Arm>>();
 
         let tag_expr = {
             let variants: Punctuated<Variant, Token![,]> = {
@@ -414,42 +399,31 @@ pub fn expand(
             .parse::<Expr>()
         };
 
-        let mut match_type_expr = Quote::new_call_site();
-        for expr in match_type {
-            match_type_expr = match_type_expr.quote_with(smart_quote!(Vars { expr }, { expr }));
-        }
-
-        match_type_expr = match_type_expr.quote_with(smart_quote!(Vars { all_tags }, {
-            return Err(serde::de::Error::unknown_variant(&ty.ty, &[all_tags]));
-        }));
+        let mut match_type_expr = Expr::Match(ExprMatch {
+            attrs: Default::default(),
+            match_token: call_site(),
+            expr: q!({ __tagged }).parse(),
+            brace_token: call_site(),
+            arms: tag_match_arms,
+        });
 
         Quote::new_call_site()
             .quote_with(smart_quote!(
                 Vars {
                     match_type_expr,
                     Enum: &ident,
-                    tag_expr
+                    tag_expr,
                 },
                 {
                     impl<'de> serde::Deserialize<'de> for Enum {
                         #[allow(unreachable_code)]
-                        fn deserialize<D>(__deserializer: D) -> ::std::result::Result<Self, D::Error>
+                        fn deserialize<D>(
+                            __deserializer: D,
+                        ) -> ::std::result::Result<Self, D::Error>
                         where
                             D: serde::Deserializer<'de>,
                         {
                             let __tagged = tag_expr;
-
-
-                            let content =
-                                <swc_common::private::serde::de::Content as serde::Deserialize>::deserialize(
-                                    __deserializer,
-                                )?;
-
-                            let ty = swc_common::serializer::Type::deserialize(
-                                swc_common::private::serde::de::ContentRefDeserializer::<D::Error>::new(
-                                    &content,
-                                ),
-                            )?;
 
                             match_type_expr
                         }
