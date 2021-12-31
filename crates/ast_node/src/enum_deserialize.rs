@@ -155,13 +155,31 @@ pub fn expand(
                 {
                     impl<'de> serde::Deserialize<'de> for Enum {
                         #[allow(unreachable_code)]
-                        fn deserialize<D>(Deserializer: D) -> ::std::result::Result<Self, D::Error>
+                        fn deserialize<D>(__deserializer: D) -> ::std::result::Result<Self, D::Error>
                         where
                             D: serde::Deserializer<'de>,
                         {
+                            enum __TypeVariant {
+                                
+                            }
+
+                            let __tagged = match serde::Deserializer::deserialize_any(
+                                __deserializer,
+                                swc_common::private::serde::de::TaggedContentVisitor::<__TypeVariant>::new(
+                                    "type",
+                                    "ast node defined by #[ast_serde]",
+                                ),
+                            ) {
+                                swc_common::private::serde::Ok(__val) => __val,
+                                swc_common::private::serde::Err(__err) => {
+                                    return swc_common::private::serde::Err(__err);
+                                }
+                            };
+
+
                             let content =
                                 <swc_common::private::serde::de::Content as serde::Deserialize>::deserialize(
-                                    Deserializer,
+                                    __deserializer,
                                 )?;
 
                             let ty = swc_common::serializer::Type::deserialize(
