@@ -13,13 +13,12 @@ pub mod serde_fork {
     // This issue is tracking making some of this stuff public:
     // https://github.com/serde-rs/serde/issues/741
 
-    use lib::*;
-
-    use __private::size_hint;
-    use de::{
+    use ::serde::de::{
         self, Deserialize, DeserializeSeed, Deserializer, EnumAccess, Expected, IgnoredAny,
         MapAccess, SeqAccess, Unexpected, Visitor,
     };
+    use serde::{__private::size_hint, forward_to_deserialize_any};
+    use std::{fmt, marker::PhantomData};
 
     /// Used from generated code to buffer the contents of the Deserializer when
     /// deserializing untagged enums and internally tagged enums.
@@ -62,8 +61,8 @@ pub mod serde_fork {
             match *self {
                 Content::Str(x) => Some(x),
                 Content::String(ref x) => Some(x),
-                Content::Bytes(x) => str::from_utf8(x).ok(),
-                Content::ByteBuf(ref x) => str::from_utf8(x).ok(),
+                Content::Bytes(x) => std::str::from_utf8(x).ok(),
+                Content::ByteBuf(ref x) => std::str::from_utf8(x).ok(),
                 _ => None,
             }
         }
@@ -284,7 +283,7 @@ pub mod serde_fork {
             V: SeqAccess<'de>,
         {
             let mut vec = Vec::with_capacity(size_hint::cautious(visitor.size_hint()));
-            while let Some(e) = try!(visitor.next_element()) {
+            while let Some(e) = visitor.next_element()? {
                 vec.push(e);
             }
             Ok(Content::Seq(vec))
@@ -295,7 +294,7 @@ pub mod serde_fork {
             V: MapAccess<'de>,
         {
             let mut vec = Vec::with_capacity(size_hint::cautious(visitor.size_hint()));
-            while let Some(kv) = try!(visitor.next_entry()) {
+            while let Some(kv) = visitor.next_entry()? {
                 vec.push(kv);
             }
             Ok(Content::Map(vec))
@@ -327,7 +326,7 @@ pub mod serde_fork {
     impl<'de> TagOrContentVisitor<'de> {
         fn new(name: &'static str) -> Self {
             TagOrContentVisitor {
-                name: name,
+                name,
                 value: PhantomData,
             }
         }
@@ -624,7 +623,7 @@ pub mod serde_fork {
         pub fn new(name: &'static str, expecting: &'static str) -> Self {
             TaggedContentVisitor {
                 tag_name: name,
-                expecting: expecting,
+                expecting,
                 value: PhantomData,
             }
         }
@@ -660,7 +659,7 @@ pub mod serde_fork {
         where
             S: SeqAccess<'de>,
         {
-            let tag = match try!(seq.next_element()) {
+            let tag = match seq.next_element()? {
                 Some(tag) => tag,
                 None => {
                     return Err(de::Error::missing_field(self.tag_name));
@@ -668,8 +667,8 @@ pub mod serde_fork {
             };
             let rest = de::value::SeqAccessDeserializer::new(seq);
             Ok(TaggedContent {
-                tag: tag,
-                content: try!(Content::deserialize(rest)),
+                tag,
+                content: Content::deserialize(rest)?,
             })
         }
 
@@ -679,16 +678,16 @@ pub mod serde_fork {
         {
             let mut tag = None;
             let mut vec = Vec::with_capacity(size_hint::cautious(map.size_hint()));
-            while let Some(k) = try!(map.next_key_seed(TagOrContentVisitor::new(self.tag_name))) {
+            while let Some(k) = map.next_key_seed(TagOrContentVisitor::new(self.tag_name))? {
                 match k {
                     TagOrContent::Tag => {
                         if tag.is_some() {
                             return Err(de::Error::duplicate_field(self.tag_name));
                         }
-                        tag = Some(try!(map.next_value()));
+                        tag = Some(map.next_value()?);
                     }
                     TagOrContent::Content(k) => {
-                        let v = try!(map.next_value());
+                        let v = map.next_value()?;
                         vec.push((k, v));
                     }
                 }
@@ -696,7 +695,7 @@ pub mod serde_fork {
             match tag {
                 None => Err(de::Error::missing_field(self.tag_name)),
                 Some(tag) => Ok(TaggedContent {
-                    tag: tag,
+                    tag,
                     content: Content::Map(vec),
                 }),
             }
@@ -812,7 +811,7 @@ pub mod serde_fork {
         E: de::Error,
     {
         #[cold]
-        fn invalid_type(self, exp: &Expected) -> E {
+        fn invalid_type(self, exp: &dyn Expected) -> E {
             de::Error::invalid_type(self.content.unexpected(), exp)
         }
 
@@ -860,8 +859,8 @@ pub mod serde_fork {
     {
         let seq = content.into_iter().map(ContentDeserializer::new);
         let mut seq_visitor = de::value::SeqDeserializer::new(seq);
-        let value = try!(visitor.visit_seq(&mut seq_visitor));
-        try!(seq_visitor.end());
+        let value = visitor.visit_seq(&mut seq_visitor)?;
+        seq_visitor.end()?;
         Ok(value)
     }
 
@@ -877,8 +876,8 @@ pub mod serde_fork {
             .into_iter()
             .map(|(k, v)| (ContentDeserializer::new(k), ContentDeserializer::new(v)));
         let mut map_visitor = de::value::MapDeserializer::new(map);
-        let value = try!(visitor.visit_map(&mut map_visitor));
-        try!(map_visitor.end());
+        let value = visitor.visit_map(&mut map_visitor)?;
+        map_visitor.end()?;
         Ok(value)
     }
 
@@ -1243,7 +1242,7 @@ pub mod serde_fork {
         /// private API, don't use
         pub fn new(content: Content<'de>) -> Self {
             ContentDeserializer {
-                content: content,
+                content,
                 err: PhantomData,
             }
         }
@@ -1264,8 +1263,8 @@ pub mod serde_fork {
     {
         pub fn new(variant: Content<'de>, value: Option<Content<'de>>) -> EnumDeserializer<'de, E> {
             EnumDeserializer {
-                variant: variant,
-                value: value,
+                variant,
+                value,
                 err: PhantomData,
             }
         }
@@ -1406,7 +1405,7 @@ pub mod serde_fork {
             if len == 0 {
                 visitor.visit_unit()
             } else {
-                let ret = try!(visitor.visit_seq(&mut self));
+                let ret = visitor.visit_seq(&mut self)?;
                 let remaining = self.iter.len();
                 if remaining == 0 {
                     Ok(ret)
@@ -1532,7 +1531,7 @@ pub mod serde_fork {
         E: de::Error,
     {
         #[cold]
-        fn invalid_type(self, exp: &Expected) -> E {
+        fn invalid_type(self, exp: &dyn Expected) -> E {
             de::Error::invalid_type(self.content.unexpected(), exp)
         }
 
@@ -1583,8 +1582,8 @@ pub mod serde_fork {
     {
         let seq = content.iter().map(ContentRefDeserializer::new);
         let mut seq_visitor = de::value::SeqDeserializer::new(seq);
-        let value = try!(visitor.visit_seq(&mut seq_visitor));
-        try!(seq_visitor.end());
+        let value = visitor.visit_seq(&mut seq_visitor)?;
+        seq_visitor.end()?;
         Ok(value)
     }
 
@@ -1603,8 +1602,8 @@ pub mod serde_fork {
             )
         });
         let mut map_visitor = de::value::MapDeserializer::new(map);
-        let value = try!(visitor.visit_map(&mut map_visitor));
-        try!(map_visitor.end());
+        let value = visitor.visit_map(&mut map_visitor)?;
+        map_visitor.end()?;
         Ok(value)
     }
 
@@ -1921,8 +1920,8 @@ pub mod serde_fork {
             };
 
             visitor.visit_enum(EnumRefDeserializer {
-                variant: variant,
-                value: value,
+                variant,
+                value,
                 err: PhantomData,
             })
         }
@@ -1954,7 +1953,7 @@ pub mod serde_fork {
         /// private API, don't use
         pub fn new(content: &'a Content<'de>) -> Self {
             ContentRefDeserializer {
-                content: content,
+                content,
                 err: PhantomData,
             }
         }
@@ -2104,7 +2103,7 @@ pub mod serde_fork {
             if len == 0 {
                 visitor.visit_unit()
             } else {
-                let ret = try!(visitor.visit_seq(&mut self));
+                let ret = visitor.visit_seq(&mut self)?;
                 let remaining = self.iter.len();
                 if remaining == 0 {
                     Ok(ret)
@@ -2255,8 +2254,8 @@ pub mod serde_fork {
         /// Not public API.
         pub fn new(type_name: &'a str, variant_name: &'a str) -> Self {
             InternallyTaggedUnitVisitor {
-                type_name: type_name,
-                variant_name: variant_name,
+                type_name,
+                variant_name,
             }
         }
     }
@@ -2283,7 +2282,7 @@ pub mod serde_fork {
         where
             M: MapAccess<'de>,
         {
-            while try!(access.next_entry::<IgnoredAny, IgnoredAny>()).is_some() {}
+            while access.next_entry::<IgnoredAny, IgnoredAny>()?.is_some() {}
             Ok(())
         }
     }
@@ -2300,8 +2299,8 @@ pub mod serde_fork {
         /// Not public API.
         pub fn new(type_name: &'a str, variant_name: &'a str) -> Self {
             UntaggedUnitVisitor {
-                type_name: type_name,
-                variant_name: variant_name,
+                type_name,
+                variant_name,
             }
         }
     }
@@ -2332,4 +2331,3 @@ pub mod serde_fork {
         }
     }
 }
-
