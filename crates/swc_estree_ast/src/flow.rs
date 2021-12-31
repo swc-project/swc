@@ -220,7 +220,7 @@ pub enum FlowDeclaration {
     DeclareOpaqueType(DeclareOpaqueType),
     #[tag("DeclareVariable")]
     Var(DeclareVariable),
-    #[tag("DeclareExportAllDeclaration")]
+    #[tag("DeclareExportDeclaration")]
     ExportDecl(DeclareExportDeclaration),
     #[tag("DeclareExportAllDeclaration")]
     ExportAllDecl(DeclareExportAllDeclaration),

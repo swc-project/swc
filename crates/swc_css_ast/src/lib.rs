@@ -22,9 +22,9 @@ pub enum Rule {
     #[tag("QualifiedRule")]
     QualifiedRule(QualifiedRule),
 
-    #[tag("*")]
-    AtRule(AtRule),
-
     #[tag("Tokens")]
     Invalid(Tokens),
+
+    #[tag("*")]
+    AtRule(AtRule),
 }
