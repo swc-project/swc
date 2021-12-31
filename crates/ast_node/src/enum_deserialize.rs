@@ -1,4 +1,4 @@
-use pmutil::{smart_quote, Quote};
+use pmutil::{q, smart_quote, Quote};
 use swc_macros_common::prelude::*;
 use syn::{
     self,
@@ -146,11 +146,49 @@ pub fn expand(
             return Err(serde::de::Error::unknown_variant(&ty.ty, &[all_tags]));
         }));
 
+        let tag_expr = q!(Vars {}, {
+            {
+                enum __TypeVariant {}
+                enum __TypeVariantVisitor;
+
+                impl<'de> serde::Deserialize<'de> for __TypeVariant {
+                    #[inline]
+                    fn deserialize<__D>(
+                        __deserializer: __D,
+                    ) -> swc_common::private::serde::Result<Self, __D::Error>
+                    where
+                        __D: serde::Deserializer<'de>,
+                    {
+                        serde::Deserializer::deserialize_identifier(
+                            __deserializer,
+                            __TypeVariantVisitor,
+                        )
+                    }
+                }
+
+                let __tagged = match serde::Deserializer::deserialize_any(
+                    __deserializer,
+                    swc_common::private::serde::de::TaggedContentVisitor::<__TypeVariant>::new(
+                        "type",
+                        "ast node defined by #[ast_serde]",
+                    ),
+                ) {
+                    swc_common::private::serde::Ok(__val) => __val,
+                    swc_common::private::serde::Err(__err) => {
+                        return swc_common::private::serde::Err(__err);
+                    }
+                };
+
+                __tagged
+            }
+        });
+
         Quote::new_call_site()
             .quote_with(smart_quote!(
                 Vars {
                     match_type_expr,
-                    Enum: &ident
+                    Enum: &ident,
+                    tag_expr
                 },
                 {
                     impl<'de> serde::Deserialize<'de> for Enum {
@@ -159,22 +197,7 @@ pub fn expand(
                         where
                             D: serde::Deserializer<'de>,
                         {
-                            enum __TypeVariant {
-                                
-                            }
-
-                            let __tagged = match serde::Deserializer::deserialize_any(
-                                __deserializer,
-                                swc_common::private::serde::de::TaggedContentVisitor::<__TypeVariant>::new(
-                                    "type",
-                                    "ast node defined by #[ast_serde]",
-                                ),
-                            ) {
-                                swc_common::private::serde::Ok(__val) => __val,
-                                swc_common::private::serde::Err(__err) => {
-                                    return swc_common::private::serde::Err(__err);
-                                }
-                            };
+                            let __tagged = tag_expr;
 
 
                             let content =
