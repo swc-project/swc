@@ -370,7 +370,7 @@ pub fn expand(
                         __deserializer,
                         swc_common::private::serde::de::TaggedContentVisitor::<__TypeVariant>::new(
                             "type",
-                            "ast node defined by #[astserde]",
+                            "ast node defined by #[ast_serde]",
                         ),
                     ) {
                         swc_common::private::serde::Ok(__val) => __val,
