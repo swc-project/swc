@@ -82,7 +82,7 @@ pub fn expand(
                         _ => false,
                     }
                 {
-                    has_wildcard=true;
+                    has_wildcard = true;
 
                     Quote::new_call_site()
                         .quote_with(smart_quote!(
@@ -140,15 +140,6 @@ pub fn expand(
                 }
             })
             .collect::<Vec<Expr>>();
-
-        let mut match_type_expr = Quote::new_call_site();
-        for expr in match_type {
-            match_type_expr = match_type_expr.quote_with(smart_quote!(Vars { expr }, { expr }));
-        }
-
-        match_type_expr = match_type_expr.quote_with(smart_quote!(Vars { all_tags }, {
-            return Err(serde::de::Error::unknown_variant(&ty.ty, &[all_tags]));
-        }));
 
         let tag_expr = {
             let variants: Punctuated<Variant, Token![,]> = {
@@ -267,7 +258,7 @@ pub fn expand(
                         Vars {
                             Variant: &variant.ident,
                         },
-                        { __TypeVariant::Variant }
+                        { Ok(__TypeVariant::Variant) }
                     )
                     .parse(),
                     comma: Some(variant.ident.span().as_token()),
@@ -281,7 +272,7 @@ pub fn expand(
                         Vars {
                             Variant: &variant.ident,
                         },
-                        { __TypeVariant::Variant }
+                        { Ok(__TypeVariant::Variant) }
                     )
                     .parse(),
                     comma: Some(variant.ident.span().as_token()),
@@ -342,10 +333,13 @@ pub fn expand(
                 Vars {
                     variants,
                     visit_str_body,
-                    visit_bytes_body
+                    visit_bytes_body,
+                    all_tags: &all_tags,
                 },
                 {
                     {
+                        static VARIANTS: &[&str] = &[all_tags];
+
                         enum __TypeVariant {
                             variants,
                         }
@@ -419,6 +413,15 @@ pub fn expand(
             )
             .parse::<Expr>()
         };
+
+        let mut match_type_expr = Quote::new_call_site();
+        for expr in match_type {
+            match_type_expr = match_type_expr.quote_with(smart_quote!(Vars { expr }, { expr }));
+        }
+
+        match_type_expr = match_type_expr.quote_with(smart_quote!(Vars { all_tags }, {
+            return Err(serde::de::Error::unknown_variant(&ty.ty, &[all_tags]));
+        }));
 
         Quote::new_call_site()
             .quote_with(smart_quote!(
