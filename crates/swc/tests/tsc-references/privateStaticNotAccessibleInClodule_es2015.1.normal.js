@@ -2,6 +2,6 @@
 class C {
 }
 (function(C1) {
-    C1.y = C.bar;
+    var y = C1.y = C.bar;
 })(C || (C = {
 }));

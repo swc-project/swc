@@ -3,14 +3,14 @@ var A;
     class Point {
     }
     A1.Point = Point;
-    A1.Origin = {
+    var Origin = A1.Origin = {
         x: 0,
         y: 0
     };
     class Point3d extends Point {
     }
     A1.Point3d = Point3d;
-    A1.Origin3d = {
+    var Origin3d = A1.Origin3d = {
         x: 0,
         y: 0,
         z: 0

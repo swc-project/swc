@@ -47,7 +47,7 @@ C2.y = undefined;
 var N1;
 (function(N11) {
     var x;
-    N11.y = this;
+    var y = N11.y = this;
     N11.x = x;
 })(N1 || (N1 = {
 }));

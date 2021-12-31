@@ -28,7 +28,7 @@ var A;
     A1.Point = Point;
     var B1;
     (function(B) {
-        B.Origin = new Point(0, 0);
+        var Origin = B.Origin = new Point(0, 0);
         var Line = /*#__PURE__*/ function() {
             "use strict";
             function Line(start, end) {

@@ -23,7 +23,7 @@ var otherRoot;
 (function(otherRoot1) {
     let A2;
     (function(A) {
-        A.Origin = {
+        var Origin = A.Origin = {
             x: 0,
             y: 0
         };

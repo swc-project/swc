@@ -11,7 +11,7 @@ var ns;
         _classCallCheck(this, Class);
     };
     ns1.Class = Class;
-    ns1.Value = "";
+    var Value = ns1.Value = "";
     var nested1;
     (function(nested) {
         var NestedClass = function NestedClass() {

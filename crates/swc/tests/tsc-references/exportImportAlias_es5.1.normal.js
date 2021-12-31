@@ -6,7 +6,7 @@ function _classCallCheck(instance, Constructor) {
 // expect no errors here
 var A;
 (function(A1) {
-    A1.x = 'hello world';
+    var x1 = A1.x = 'hello world';
     var Point = function Point(x, y) {
         "use strict";
         _classCallCheck(this, Point);
@@ -62,7 +62,7 @@ var K;
     };
     K1.L = L;
     (function(L) {
-        L.y = 12;
+        var y = L.y = 12;
     })(L = K1.L || (K1.L = {
     }));
 })(K || (K = {

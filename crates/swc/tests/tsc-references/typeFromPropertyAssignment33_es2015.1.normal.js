@@ -1,15 +1,15 @@
 (function(ExpandoMerge1) {
-    ExpandoMerge1.p3 = 333;
-    ExpandoMerge1.p4 = 4;
-    ExpandoMerge1.p5 = 5;
-    ExpandoMerge1.p6 = 6;
-    ExpandoMerge1.p7 = 7;
-    ExpandoMerge1.p8 = 6;
-    ExpandoMerge1.p9 = 7;
+    var p3 = ExpandoMerge1.p3 = 333;
+    var p4 = ExpandoMerge1.p4 = 4;
+    var p5 = ExpandoMerge1.p5 = 5;
+    var p6 = ExpandoMerge1.p6 = 6;
+    var p7 = ExpandoMerge1.p7 = 7;
+    var p8 = ExpandoMerge1.p8 = 6;
+    var p9 = ExpandoMerge1.p9 = 7;
 })(ExpandoMerge || (ExpandoMerge = {
 }));
 (function(ExpandoMerge2) {
-    ExpandoMerge2.p2 = 222;
+    var p2 = ExpandoMerge2.p2 = 222;
 })(ExpandoMerge || (ExpandoMerge = {
 }));
 // @Filename: expando.ts

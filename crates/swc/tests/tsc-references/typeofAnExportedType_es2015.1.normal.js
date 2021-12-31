@@ -17,7 +17,7 @@ export var r5;
 export var r5;
 export var M;
 (function(M1) {
-    M1.foo = '';
+    var foo = M1.foo = '';
     class C1 {
     }
     M1.C = C1;
@@ -39,7 +39,7 @@ export var r12;
 export function foo() {
 }
 (function(foo1) {
-    foo1.y = 1;
+    var y = foo1.y = 1;
     class C2 {
     }
     foo1.C = C2;

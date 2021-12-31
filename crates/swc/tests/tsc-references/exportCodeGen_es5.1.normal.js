@@ -10,7 +10,7 @@ var A;
     var lt12 = function lt12() {
         return x < 12;
     };
-    A1.x = 12;
+    var x = A1.x = 12;
 })(A || (A = {
 }));
 // should not fully qualify 'x'
@@ -57,7 +57,7 @@ var E;
     E1.C = C1;
     var M1;
     (function(M) {
-        M.x = 42;
+        var x = M.x = 42;
     })(M1 = E1.M || (E1.M = {
     }));
 })(E || (E = {

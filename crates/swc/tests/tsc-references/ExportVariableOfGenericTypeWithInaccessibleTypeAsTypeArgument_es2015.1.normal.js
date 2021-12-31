@@ -3,7 +3,7 @@ var A;
     class B {
     }
     var beez;
-    A1.beez2 = new Array();
+    var beez2 = A1.beez2 = new Array();
     A1.beez = beez;
 })(A || (A = {
 }));

@@ -248,9 +248,9 @@ var TypeScript;
         ModuleGenTarget[ModuleGenTarget["Local"] = 2] = "Local";
     })(ModuleGenTarget = TypeScript1.ModuleGenTarget || (TypeScript1.ModuleGenTarget = {
     }));
-    TypeScript1.codeGenTarget = CodeGenTarget.ES3;
-    TypeScript1.moduleGenTarget = ModuleGenTarget.Synchronous;
-    TypeScript1.optimizeModuleCodeGen = true;
+    var codeGenTarget = TypeScript1.codeGenTarget = CodeGenTarget.ES3;
+    var moduleGenTarget = TypeScript1.moduleGenTarget = ModuleGenTarget.Synchronous;
+    var optimizeModuleCodeGen = TypeScript1.optimizeModuleCodeGen = true;
     function flagsToString(e, flags) {
         var builder = "";
         for(var i = 1; i < 1 << 31; i = i << 1){

@@ -8,7 +8,7 @@ export function f() {
 // @Filename: test/foo_2.ts
 export var M2;
 (function(M21) {
-    M21.x = true;
+    var x = M21.x = true;
 })(M2 || (M2 = {
 }));
 // @Filename: test/foo_3.ts

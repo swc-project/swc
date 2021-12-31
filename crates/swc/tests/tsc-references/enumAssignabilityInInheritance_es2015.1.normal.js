@@ -31,14 +31,14 @@ var r4 = foo13(E.A);
 function f() {
 }
 (function(f1) {
-    f1.bar = 1;
+    var bar = f1.bar = 1;
 })(f || (f = {
 }));
 var r4 = foo14(E.A);
 class CC {
 }
 (function(CC1) {
-    CC1.bar = 1;
+    var bar = CC1.bar = 1;
 })(CC || (CC = {
 }));
 var r4 = foo15(E.A);

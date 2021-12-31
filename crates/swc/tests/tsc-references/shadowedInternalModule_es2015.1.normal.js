@@ -1,7 +1,7 @@
 // all errors imported modules conflict with local variables
 var A;
 (function(A1) {
-    A1.Point = {
+    var Point = A1.Point = {
         x: 0,
         y: 0
     };

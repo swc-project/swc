@@ -9,7 +9,7 @@ var A;
     A1.Point = Point;
     let B1;
     (function(B) {
-        B.Origin = new Point(0, 0);
+        var Origin = B.Origin = new Point(0, 0);
         class Line {
             static fromOrigin(p) {
                 return new Line({

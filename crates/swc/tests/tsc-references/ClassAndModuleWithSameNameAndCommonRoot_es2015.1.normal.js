@@ -19,7 +19,7 @@ var X;
     (function(Y) {
         let Point1;
         (function(Point) {
-            Point.Origin = new Point1(0, 0);
+            var Origin = Point.Origin = new Point1(0, 0);
         })(Point1 = Y.Point || (Y.Point = {
         }));
     })(Y2 = X2.Y || (X2.Y = {
@@ -34,7 +34,7 @@ var cl = X.Y.Point.Origin; // error not expected here same as bug 83996 ?
 class A {
 }
 (function(A1) {
-    A1.Instance = new A();
+    var Instance = A1.Instance = new A();
 })(A || (A = {
 }));
 // ensure merging works as expected

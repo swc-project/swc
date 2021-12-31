@@ -4,7 +4,7 @@ function foo() {
     return "test";
 }
 (function(foo1) {
-    foo1.answer = 42;
+    var answer = foo1.answer = 42;
 })(foo || (foo = {
 }));
 module.exports = foo;

@@ -33,7 +33,7 @@ var r3 = foo3(a); // any
 function f() {
 }
 (function(f1) {
-    f1.bar = 1;
+    var bar = f1.bar = 1;
 })(f || (f = {
 }));
 var r3 = foo3(a); // any
@@ -42,7 +42,7 @@ var CC = function CC() {
     _classCallCheck(this, CC);
 };
 (function(CC) {
-    CC.bar = 1;
+    var bar = CC.bar = 1;
 })(CC || (CC = {
 }));
 var r3 = foo3(a); // any

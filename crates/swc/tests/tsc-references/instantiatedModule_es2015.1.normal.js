@@ -1,7 +1,7 @@
 // adding the var makes this an instantiated module
 var M;
 (function(M1) {
-    M1.Point = 1;
+    var Point = M1.Point = 1;
 })(M || (M = {
 }));
 // primary expression

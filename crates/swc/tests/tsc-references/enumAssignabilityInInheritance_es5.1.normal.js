@@ -40,7 +40,7 @@ var r4 = foo13(E.A);
 function f() {
 }
 (function(f1) {
-    f1.bar = 1;
+    var bar = f1.bar = 1;
 })(f || (f = {
 }));
 var r4 = foo14(E.A);
@@ -49,7 +49,7 @@ var CC = function CC() {
     _classCallCheck(this, CC);
 };
 (function(CC) {
-    CC.bar = 1;
+    var bar = CC.bar = 1;
 })(CC || (CC = {
 }));
 var r4 = foo15(E.A);
