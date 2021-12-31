@@ -298,9 +298,8 @@ pub fn expand(
                     guard: None,
                     fat_arrow_token: ident.span().as_token(),
                     body: q!({
-                        swc_common::private::serde::Err(serde::de::Error::invalid_value(
-                            serde::de::Unexpected::Unsigned(__value),
-                            &"variant index 0 <= i < 2",
+                        swc_common::private::serde::Err(serde::de::Error::unknown_variant(
+                            __value, VARIANTS,
                         ))
                     })
                     .parse(),
@@ -315,9 +314,8 @@ pub fn expand(
                     guard: None,
                     fat_arrow_token: ident.span().as_token(),
                     body: q!({
-                        swc_common::private::serde::Err(serde::de::Error::invalid_value(
-                            serde::de::Unexpected::Unsigned(__value),
-                            &"variant index 0 <= i < 2",
+                        swc_common::private::serde::Err(serde::de::Error::unknown_variant(
+                            __value, VARIANTS,
                         ))
                     })
                     .parse(),
