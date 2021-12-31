@@ -171,7 +171,7 @@ adding labels to triage issues:
 [e-mentor]: https://github.com/swc-project/swc/labels/E-mentor
 [code of conduct]: https://www.rust-lang.org/conduct.html
 [development-models]: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/getting-started/about-collaborative-development-models
-[discord]: https://discord.gg/2ZhncgMt
+[discord]: https://discord.com/invite/GnHbXTdZz6
 [`testing/lib.rs`]: https://github.com/swc-project/swc/blob/main/crates/testing/src/lib.rs
 [irlo]: https://internals.rust-lang.org/
 [lru]: https://docs.github.com/en/search-github/getting-started-with-searching-on-github/sorting-search-results#sort-by-updated-date
