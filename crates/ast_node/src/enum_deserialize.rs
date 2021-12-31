@@ -386,7 +386,7 @@ pub fn expand(
         let match_type_expr = Expr::Match(ExprMatch {
             attrs: Default::default(),
             match_token: call_site(),
-            expr: q!({ __tagged }).parse(),
+            expr: q!({ __tagged.tag }).parse(),
             brace_token: call_site(),
             arms: tag_match_arms,
         });
