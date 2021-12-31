@@ -127,18 +127,6 @@ pub fn expand(
             .collect::<Vec<Arm>>();
 
         let tag_expr = {
-            let variants: Punctuated<Variant, Token![,]> = {
-                data.variants
-                    .iter()
-                    .cloned()
-                    .map(|variant| Variant {
-                        attrs: Default::default(),
-                        fields: Fields::Unit,
-                        ..variant
-                    })
-                    .collect()
-            };
-
             let mut visit_str_arms = vec![];
             let mut visit_bytes_arms = vec![];
 
@@ -316,7 +304,6 @@ pub fn expand(
 
             q!(
                 Vars {
-                    variants,
                     visit_str_body,
                     visit_bytes_body,
                     all_tags: &all_tags,
@@ -325,9 +312,6 @@ pub fn expand(
                     {
                         static VARIANTS: &[&str] = &[all_tags];
 
-                        enum __TypeVariant {
-                            variants,
-                        }
                         struct __TypeVariantVisitor;
 
                         impl<'de> serde::de::Visitor<'de> for __TypeVariantVisitor {
@@ -399,7 +383,7 @@ pub fn expand(
             .parse::<Expr>()
         };
 
-        let mut match_type_expr = Expr::Match(ExprMatch {
+        let match_type_expr = Expr::Match(ExprMatch {
             attrs: Default::default(),
             match_token: call_site(),
             expr: q!({ __tagged }).parse(),
@@ -407,22 +391,38 @@ pub fn expand(
             arms: tag_match_arms,
         });
 
+        let variants: Punctuated<Variant, Token![,]> = {
+            data.variants
+                .iter()
+                .cloned()
+                .map(|variant| Variant {
+                    attrs: Default::default(),
+                    fields: Fields::Unit,
+                    ..variant
+                })
+                .collect()
+        };
         Quote::new_call_site()
             .quote_with(smart_quote!(
                 Vars {
                     match_type_expr,
                     Enum: &ident,
                     tag_expr,
+                    variants
                 },
                 {
                     impl<'de> serde::Deserialize<'de> for Enum {
                         #[allow(unreachable_code)]
-                        fn deserialize<D>(
-                            __deserializer: D,
-                        ) -> ::std::result::Result<Self, D::Error>
+                        fn deserialize<__D>(
+                            __deserializer: __D,
+                        ) -> ::std::result::Result<Self, __D::Error>
                         where
-                            D: serde::Deserializer<'de>,
+                            __D: serde::Deserializer<'de>,
                         {
+                            enum __TypeVariant {
+                                variants,
+                            }
+
                             let __tagged = tag_expr;
 
                             match_type_expr
