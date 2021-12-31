@@ -278,9 +278,12 @@ pub fn expand(
                     guard: None,
                     fat_arrow_token: ident.span().as_token(),
                     body: q!({
-                        swc_common::private::serde::Err(serde::de::Error::unknown_variant(
-                            __value, VARIANTS,
-                        ))
+                        {
+                            let __value = &_serde::__private::from_utf8_lossy(__value);
+                            swc_common::private::serde::Err(serde::de::Error::unknown_variant(
+                                __value, VARIANTS,
+                            ))
+                        }
                     })
                     .parse(),
                     comma: Some(ident.span().as_token()),
