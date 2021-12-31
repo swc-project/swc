@@ -1,4 +1,4 @@
-use pmutil::{q, smart_quote, Quote};
+use pmutil::{q, smart_quote, Quote, SpanExt};
 use swc_macros_common::prelude::*;
 use syn::{
     self,
@@ -147,92 +147,221 @@ pub fn expand(
         }));
 
         let tag_expr = {
-            q!(Vars {}, {
-                {
-                    enum __TypeVariant {}
-                    struct __TypeVariantVisitor;
+            let variants: Punctuated<Variant, Token![,]> = {
+                data.variants
+                    .iter()
+                    .cloned()
+                    .map(|variant| Variant {
+                        attrs: Default::default(),
+                        fields: Fields::Unit,
+                        ..variant
+                    })
+                    .collect()
+            };
 
-                    impl<'de> serde::de::Visitor<'de> for __FieldVisitor {
-                        type Value = __TypeVariant;
-                        fn expecting(
-                            &self,
-                            __formatter: &mut swc_common::private::serde::Formatter,
-                        ) -> swc_common::private::serde::fmt::Result {
-                            swc_common::private::serde::Formatter::write_str(
-                                __formatter,
-                                "variant identifier",
-                            )
+            let mut visit_str_arms = vec![];
+            let mut visit_bytes_arms = vec![];
+
+            for variant in &data.variants {
+                let tags = variant
+                    .attrs
+                    .iter()
+                    .filter_map(|attr| -> Option<VariantAttr> {
+                        if !is_attr_name(attr, "tag") {
+                            return None;
                         }
-                        fn visit_u64<__E>(
-                            self,
-                            __value: u64,
-                        ) -> swc_common::private::serde::Result<Self::Value, __E>
-                        where
-                            __E: serde::de::Error,
-                        {
-                            match __value {
-                                0u64 => swc_common::private::serde::Ok(__Field::__field0),
-                                1u64 => swc_common::private::serde::Ok(__Field::__field1),
-                                _ => swc_common::private::serde::Err(
-                                    serde::de::Error::invalid_value(
-                                        serde::de::Unexpected::Unsigned(__value),
-                                        &"variant index 0 <= i < 2",
-                                    ),
-                                ),
-                            }
+                        let tags =
+                            parse2(attr.tokens.clone()).expect("failed to parse #[tag] attribute");
+
+                        Some(tags)
+                    })
+                    .flat_map(|v| v.tags)
+                    .collect::<Punctuated<_, token::Comma>>();
+
+                assert!(
+                    !tags.is_empty(),
+                    "All #[ast_node] enum variants have one or more tag"
+                );
+                let (str_pat, bytes_pat) = {
+                    if tags.len() == 1
+                        && match tags.first() {
+                            Some(Lit::Str(s)) => &*s.value() == "*",
+                            _ => false,
                         }
-                        fn visit_str<__E>(
-                            self,
-                            __value: &str,
-                        ) -> swc_common::private::serde::Result<Self::Value, __E>
-                        where
-                            __E: serde::de::Error,
-                        {
-                            match __value {
-                                "Request" => swc_common::private::serde::Ok(__Field::__field0),
-                                "Response" => swc_common::private::serde::Ok(__Field::__field1),
-                                _ => swc_common::private::serde::Err(
-                                    serde::de::Error::unknown_variant(__value, VARIANTS),
-                                ),
-                            }
-                        }
-                        fn visit_bytes<__E>(
-                            self,
-                            __value: &[u8],
-                        ) -> swc_common::private::serde::Result<Self::Value, __E>
-                        where
-                            __E: serde::de::Error,
-                        {
-                            match __value {
-                                b"Request" => swc_common::private::serde::Ok(__Field::__field0),
-                                b"Response" => swc_common::private::serde::Ok(__Field::__field1),
+                    {
+                        (
+                            Pat::Wild(PatWild {
+                                attrs: Default::default(),
+                                underscore_token: variant.ident.span().as_token(),
+                            }),
+                            Pat::Wild(PatWild {
+                                attrs: Default::default(),
+                                underscore_token: variant.ident.span().as_token(),
+                            }),
+                        )
+                    } else {
+                        fn make_pat(lit: Lit) -> (Pat, Pat) {
+                            let s = match lit.clone() {
+                                Lit::Str(s) => s.value().clone(),
                                 _ => {
-                                    let __value =
-                                        &swc_common::private::serde::from_utf8_lossy(__value);
-                                    swc_common::private::serde::Err(
-                                        serde::de::Error::unknown_variant(__value, VARIANTS),
-                                    )
+                                    unreachable!()
                                 }
-                            }
+                            };
+                            (
+                                Pat::Lit(PatLit {
+                                    attrs: Default::default(),
+                                    expr: Box::new(Expr::Lit(ExprLit {
+                                        attrs: Default::default(),
+                                        lit: lit.clone(),
+                                    })),
+                                }),
+                                Pat::Lit(PatLit {
+                                    attrs: Default::default(),
+                                    expr: Box::new(Expr::Lit(ExprLit {
+                                        attrs: Default::default(),
+                                        lit: Lit::ByteStr(LitByteStr::new(
+                                            s.as_bytes(),
+                                            call_site(),
+                                        )),
+                                    })),
+                                }),
+                            )
                         }
-                    }
+                        if tags.len() == 1 {
+                            make_pat(tags.first().unwrap().clone())
+                        } else {
+                            let mut str_cases = Punctuated::new();
+                            let mut bytes_cases = Punctuated::new();
 
-                    impl<'de> serde::Deserialize<'de> for __TypeVariant {
-                        #[inline]
-                        fn deserialize<__D>(
-                            __deserializer: __D,
-                        ) -> swc_common::private::serde::Result<Self, __D::Error>
-                        where
-                            __D: serde::Deserializer<'de>,
-                        {
-                            serde::Deserializer::deserialize_identifier(
-                                __deserializer,
-                                __TypeVariantVisitor,
+                            for tag in tags {
+                                let (str_pat, bytes_pat) = make_pat(tag.clone());
+                                str_cases.push(str_pat);
+                                bytes_cases.push(bytes_pat);
+                            }
+
+                            (
+                                Pat::Or(PatOr {
+                                    attrs: Default::default(),
+                                    leading_vert: Default::default(),
+                                    cases: str_cases,
+                                }),
+                                Pat::Or(PatOr {
+                                    attrs: Default::default(),
+                                    leading_vert: Default::default(),
+                                    cases: bytes_cases,
+                                }),
                             )
                         }
                     }
+                };
+                visit_str_arms.push(Arm {
+                    attrs: Default::default(),
+                    pat: str_pat,
+                    guard: None,
+                    fat_arrow_token: variant.ident.span().as_token(),
+                    body: q!(
+                        Vars {
+                            Variant: &variant.ident,
+                        },
+                        { __TypeVariant::Variant }
+                    )
+                    .parse(),
+                    comma: Some(variant.ident.span().as_token()),
+                });
+                visit_bytes_arms.push(Arm {
+                    attrs: Default::default(),
+                    pat: bytes_pat,
+                    guard: None,
+                    fat_arrow_token: variant.ident.span().as_token(),
+                    body: q!(
+                        Vars {
+                            Variant: &variant.ident,
+                        },
+                        { __TypeVariant::Variant }
+                    )
+                    .parse(),
+                    comma: Some(variant.ident.span().as_token()),
+                });
+            }
 
-                    let __tagged = match serde::Deserializer::deserialize_any(
+            let visit_str_body = Expr::Match(ExprMatch {
+                attrs: Default::default(),
+                match_token: call_site(),
+                expr: q!((__value)).parse(),
+                brace_token: call_site(),
+                arms: visit_str_arms,
+            });
+            let visit_bytes_body = Expr::Match(ExprMatch {
+                attrs: Default::default(),
+                match_token: call_site(),
+                expr: q!((__value)).parse(),
+                brace_token: call_site(),
+                arms: visit_bytes_arms,
+            });
+
+            q!(
+                Vars {
+                    variants,
+                    visit_str_body,
+                    visit_bytes_body
+                },
+                {
+                    {
+                        enum __TypeVariant {
+                            variants,
+                        }
+                        struct __TypeVariantVisitor;
+
+                        impl<'de> serde::de::Visitor<'de> for __TypeVariantVisitor {
+                            type Value = __TypeVariant;
+                            fn expecting(
+                                &self,
+                                __formatter: &mut swc_common::private::serde::Formatter,
+                            ) -> swc_common::private::serde::fmt::Result
+                            {
+                                swc_common::private::serde::Formatter::write_str(
+                                    __formatter,
+                                    "variant identifier",
+                                )
+                            }
+
+                            fn visit_str<__E>(
+                                self,
+                                __value: &str,
+                            ) -> swc_common::private::serde::Result<Self::Value, __E>
+                            where
+                                __E: serde::de::Error,
+                            {
+                                visit_str_body
+                            }
+
+                            fn visit_bytes<__E>(
+                                self,
+                                __value: &[u8],
+                            ) -> swc_common::private::serde::Result<Self::Value, __E>
+                            where
+                                __E: serde::de::Error,
+                            {
+                                visit_bytes_body
+                            }
+                        }
+
+                        impl<'de> serde::Deserialize<'de> for __TypeVariant {
+                            #[inline]
+                            fn deserialize<__D>(
+                                __deserializer: __D,
+                            ) -> swc_common::private::serde::Result<Self, __D::Error>
+                            where
+                                __D: serde::Deserializer<'de>,
+                            {
+                                serde::Deserializer::deserialize_identifier(
+                                    __deserializer,
+                                    __TypeVariantVisitor,
+                                )
+                            }
+                        }
+
+                        let __tagged = match serde::Deserializer::deserialize_any(
                         __deserializer,
                         swc_common::private::serde::de::TaggedContentVisitor::<__TypeVariant>::new(
                             "type",
@@ -245,9 +374,10 @@ pub fn expand(
                         }
                     };
 
-                    __tagged
+                        __tagged
+                    }
                 }
-            })
+            )
             .parse::<Expr>()
         };
 
