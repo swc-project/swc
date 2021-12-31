@@ -149,7 +149,7 @@ pub fn expand(
         let tag_expr = q!(Vars {}, {
             {
                 enum __TypeVariant {}
-                enum __TypeVariantVisitor;
+                struct __TypeVariantVisitor;
 
                 impl<'de> serde::Deserialize<'de> for __TypeVariant {
                     #[inline]
@@ -181,7 +181,8 @@ pub fn expand(
 
                 __tagged
             }
-        });
+        })
+        .parse::<Expr>();
 
         Quote::new_call_site()
             .quote_with(smart_quote!(
