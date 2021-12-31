@@ -2,6 +2,7 @@
 
 pub use ::serde::__private as serde;
 
+/// Partial fork of serde. ** This is internal api. **
 pub mod serde_fork {
     // This module is private and nothing here should be used outside of
     // generated code.
