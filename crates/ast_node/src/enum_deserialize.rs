@@ -279,7 +279,7 @@ pub fn expand(
                     fat_arrow_token: ident.span().as_token(),
                     body: q!({
                         {
-                            let __value = &_serde::__private::from_utf8_lossy(__value);
+                            let __value = &swc_common::private::serde::from_utf8_lossy(__value);
                             swc_common::private::serde::Err(serde::de::Error::unknown_variant(
                                 __value, VARIANTS,
                             ))
