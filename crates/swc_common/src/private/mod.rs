@@ -2,4 +2,6 @@
 
 pub use ::serde::__private as serde;
 
-pub mod serde_fork;
+pub mod serde_fork {
+    pub use ::serde::__private::de::*;
+}
