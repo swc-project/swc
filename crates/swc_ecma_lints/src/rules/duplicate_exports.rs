@@ -60,13 +60,13 @@ impl Visit for DuplicateExports {
         let exported = match &s.exported {
             Some(ModuleExportName::Ident(ident)) => Some(ident),
             Some(ModuleExportName::Str(..)) => {
-                unimplemented!("Handling duplicate exports for string names is unimplementd yet")
+                unimplemented!("module string names unimplemented")
             }
             _ => None,
         };
         let orig = match &s.orig {
             ModuleExportName::Ident(ident) => ident,
-            _ => unimplemented!("Handling duplicate exports for string names is unimplementd yet"),
+            _ => unimplemented!("module string names unimplemented"),
         };
         self.add(&exported.as_ref().unwrap_or(&orig));
     }

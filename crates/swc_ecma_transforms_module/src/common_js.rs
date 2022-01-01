@@ -105,18 +105,13 @@ where
                         let exported = match &exported {
                             Some(ModuleExportName::Ident(ident)) => Some(ident),
                             Some(ModuleExportName::Str(..)) => {
-                                unimplemented!(
-                                    "Handling duplicate exports for string names is unimplementd \
-                                     yet"
-                                )
+                                unimplemented!("module string names unimplemented")
                             }
                             _ => None,
                         };
                         let orig = match &orig {
                             ModuleExportName::Ident(ident) => ident,
-                            _ => unimplemented!(
-                                "Handling duplicate exports for string names is unimplementd yet"
-                            ),
+                            _ => unimplemented!("module string names unimplemented"),
                         };
                         if let Some(exported) = &exported {
                             exports.push(exported.sym.clone());
@@ -499,19 +494,13 @@ where
                                 let exported = match &exported {
                                     Some(ModuleExportName::Ident(ident)) => Some(ident),
                                     Some(ModuleExportName::Str(..)) => {
-                                        unimplemented!(
-                                            "Handling duplicate exports for string names is \
-                                             unimplementd yet"
-                                        )
+                                        unimplemented!("module string names unimplemented")
                                     }
                                     _ => None,
                                 };
                                 let orig = match &orig {
                                     ModuleExportName::Ident(ident) => ident,
-                                    _ => unimplemented!(
-                                        "Handling duplicate exports for string names is \
-                                         unimplementd yet"
-                                    ),
+                                    _ => unimplemented!("module string names unimplemented"),
                                 };
 
                                 let mut scope = self.scope.borrow_mut();
