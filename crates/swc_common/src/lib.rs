@@ -28,6 +28,8 @@
 //! Allows replacing operations related to thread-local variables with a trait.
 #![deny(unused)]
 #![cfg_attr(docsrs, feature(doc_cfg))]
+#![feature(specialization)]
+
 pub use self::{
     eq::{EqIgnoreSpan, TypeEq},
     errors::{SourceMapper, SourceMapperDyn},

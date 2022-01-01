@@ -110,9 +110,9 @@ pub fn expand(
                         {
                             swc_common::private::serde::Result::map(
                                 <FieldType as serde::Deserialize>::deserialize(
-                                    swc_common::private::serde::de::ContentRefDeserializer::<
+                                    swc_common::private::serde_fork::ContentDeserializer::<
                                         __D::Error,
-                                    >::new(&__content),
+                                    >::new(__content),
                                 ),
                                 Self::Variant,
                             )
@@ -365,14 +365,14 @@ pub fn expand(
                         }
 
                         let ty = swc_common::serializer::Type::deserialize(
-                            swc_common::private::serde::de::ContentRefDeserializer::<__D::Error>::new(
+                            swc_common::private::serde_fork::ContentRefDeserializer::<__D::Error>::new(
                                 &__content,
                             ),
                         )?;
 
                         let __tagged = __TypeVariant::deserialize(
-                            swc_common::private::serde::de::ContentDeserializer::<__D::Error>::new(
-                                swc_common::private::serde::de::Content::Str(&ty.ty),
+                            swc_common::private::serde_fork::ContentDeserializer::<__D::Error>::new(
+                                swc_common::private::serde_fork::Content::Str(&ty.ty),
                             )
                         )?;
 
@@ -423,7 +423,7 @@ pub fn expand(
                                 variants,
                             }
 
-                            let __content = <swc_common::private::serde::de::Content as serde::Deserialize>::deserialize(
+                            let __content = <swc_common::private::serde_fork::Content as serde::Deserialize>::deserialize(
                                 __deserializer,
                             )?;
 

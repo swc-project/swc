@@ -101,10 +101,35 @@ pub mod serde_fork {
         where
             D: Deserializer<'de>,
         {
+            <Content as DeserImpl<'de, D>>::deserialize_spec(deserializer)
+        }
+    }
+
+    trait DeserImpl<'de, D>: Sized
+    where
+        D: Deserializer<'de>,
+    {
+        fn deserialize_spec(deserializer: D) -> Result<Self, D::Error>;
+    }
+
+    impl<'de, D> DeserImpl<'de, D> for Content<'de>
+    where
+        D: Deserializer<'de>,
+    {
+        default fn deserialize_spec(deserializer: D) -> Result<Self, D::Error> {
             // Untagged and internally tagged enums are only supported in
             // self-describing formats.
             let visitor = ContentVisitor { value: PhantomData };
             deserializer.deserialize_any(visitor)
+        }
+    }
+
+    impl<'de, E> DeserImpl<'de, ContentDeserializer<'de, E>> for Content<'de>
+    where
+        ContentDeserializer<'de, E>: Deserializer<'de, Error = E>,
+    {
+        fn deserialize_spec(deserializer: ContentDeserializer<'de, E>) -> Result<Self, E> {
+            Ok(deserializer.content)
         }
     }
 
