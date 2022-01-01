@@ -9,6 +9,10 @@ export class ExternalObject<T> {
     [K: symbol]: T
   }
 }
+export interface TransformOutput {
+  code: string
+  map?: string | undefined | null
+}
 export function bundle(confItems: Buffer, signal?: AbortSignal | undefined | null): Promise<{ [index: string]: { code: string, map?: string } }>
 export function minify(code: Buffer, opts: Buffer, signal?: AbortSignal | undefined | null): Promise<TransformOutput>
 export function minifySync(code: Buffer, opts: Buffer): TransformOutput
