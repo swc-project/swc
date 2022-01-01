@@ -109,15 +109,13 @@ pub fn expand(
                         },
                         {
                             swc_common::private::serde::Result::map(
-                                    <FieldType as serde::Deserialize>::deserialize(
-                                        swc_common::private::serde::de::ContentDeserializer::<
-                                            __D::Error,
-                                        >::new(
-                                            __content
-                                        ),
-                                    ),
-                                    Self::Variant,
-                                )
+                                <FieldType as serde::Deserialize>::deserialize(
+                                    swc_common::private::serde::de::ContentRefDeserializer::<
+                                        __D::Error,
+                                    >::new(&__content),
+                                ),
+                                Self::Variant,
+                            )
                         }
                     )
                     .parse(),
