@@ -566,8 +566,8 @@ impl Swcify for swc_estree_ast::ExportSpecifier {
     fn swcify(self, ctx: &Context) -> Self::Output {
         ExportNamedSpecifier {
             span: ctx.span(&self.base),
-            orig: self.local.swcify(ctx).id,
-            exported: Some(self.exported.swcify(ctx).expect_ident()),
+            orig: self.local.swcify(ctx),
+            exported: Some(self.exported.swcify(ctx)),
             is_type_only: matches!(self.export_kind, ExportKind::Type),
         }
     }
@@ -648,6 +648,19 @@ impl Swcify for ImportSpecifierType {
     }
 }
 
+impl Swcify for swc_estree_ast::ModuleExportNameType {
+    type Output = swc_ecma_ast::ModuleExportName;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        match self {
+            swc_estree_ast::ModuleExportNameType::Ident(ident) => {
+                swc_ecma_ast::ModuleExportName::Ident(ident.swcify(ctx).id)
+            }
+            swc_estree_ast::ModuleExportNameType::Str(str) => str.swcify(ctx).into(),
+        }
+    }
+}
+
 impl Swcify for swc_estree_ast::ImportSpecifier {
     type Output = ImportNamedSpecifier;
 
@@ -655,7 +668,7 @@ impl Swcify for swc_estree_ast::ImportSpecifier {
         ImportNamedSpecifier {
             span: ctx.span(&self.base),
             local: self.local.swcify(ctx).id,
-            imported: Some(self.imported.swcify(ctx).expect_ident()),
+            imported: Some(self.imported.swcify(ctx)),
             is_type_only: matches!(self.import_kind, Some(ImportKind::Type)),
         }
     }
