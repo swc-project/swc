@@ -20,7 +20,7 @@ use swc_ecma_visit::{
 };
 
 /// Value does not contain TsLit::Bool
-type EnumValues = AHashMap<JsWord, TsLit>;
+type EnumValues = AHashMap<JsWord, Option<TsLit>>;
 
 #[derive(Debug, Serialize, Deserialize)]
 #[non_exhaustive]
@@ -848,7 +848,7 @@ where
                     }
 
                     Expr::Ident(ref id) => {
-                        if let Some(v) = values.get(&id.sym) {
+                        if let Some(Some(v)) = values.get(&id.sym) {
                             return Ok(v.clone());
                         }
                         //
@@ -965,7 +965,7 @@ where
                             TsEnumMemberId::Ident(i) => i.sym.clone(),
                             TsEnumMemberId::Str(s) => s.value.clone(),
                         },
-                        val.clone(),
+                        Some(val.clone()),
                     );
 
                     match val {
@@ -986,7 +986,15 @@ where
                             previous: &values,
                             ident: &id,
                         };
-                        v.visit_mut_children_with(&mut visitor);
+                        visitor.visit_mut_expr(&mut v);
+
+                        values.insert(
+                            match &m.id {
+                                TsEnumMemberId::Ident(i) => i.sym.clone(),
+                                TsEnumMemberId::Str(s) => s.value.clone(),
+                            },
+                            None,
+                        );
 
                         Ok(v)
                     }

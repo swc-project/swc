@@ -1,9 +1,15 @@
-var X = 4;
+var x = 10;
+
 enum Foo {
-    A,
-    B = A,
-    C = A + 2,
-    D = C * X,
-    E = C + 4,
-    F = Math.E * 2,
+    a = 10,
+    b = a,
+    c = b + x,
+    d = c,
+}
+
+enum Bar {
+    a = 1,
+    b = Foo.a,
+    E = b,
+    F = Math.E,
 }

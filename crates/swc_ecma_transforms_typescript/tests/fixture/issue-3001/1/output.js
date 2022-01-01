@@ -5,7 +5,7 @@ var Foo;
     Foo[Foo["b"] = 0] = "b";
     Foo[Foo["c"] = 1] = "c";
     Foo[Foo["d"] = 1 + Foo.c * x] = "d";
-    Foo[Foo["e"] = 2 * d] = "e";
+    Foo[Foo["e"] = 2 * Foo.d] = "e";
     Foo[Foo["f"] = Foo.e * 10] = "f";
 })(Foo || (Foo = {
 }));
