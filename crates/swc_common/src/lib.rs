@@ -70,6 +70,8 @@ pub mod serializer;
 pub mod source_map;
 pub mod sync;
 mod syntax_pos;
+#[cfg(test)]
+mod tests;
 pub mod util;
 
 #[cfg(all(not(debug_assertions), feature = "plugin-rt", feature = "plugin-mode"))]
