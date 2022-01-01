@@ -280,5 +280,5 @@ pub enum ModuleExportNameType {
     #[tag("Identifier")]
     Ident(Identifier),
     #[tag("StringLiteral")]
-    Str(StringLiteral)
+    Str(StringLiteral),
 }
