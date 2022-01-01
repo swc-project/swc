@@ -9,6 +9,7 @@ use swc_common::{
     Mark, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::ext::ExprRefExt;
 use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
 use swc_ecma_utils::{
     constructor::inject_after_super, default_constructor, ident::IdentLike, member_expr, prepend,
@@ -2754,6 +2755,17 @@ impl VisitMut for EnumValuesVisitor<'_> {
         match expr {
             Expr::Ident(ident) if self.previous.contains_key(&ident.sym) => {
                 *expr = self.ident.clone().make_member(ident.clone());
+            }
+            Expr::Member(MemberExpr {
+                obj: ExprOrSuper::Expr(ref obj),
+                // prop,
+                ..
+            }) if obj
+                .as_ident()
+                .and_then(|obj| self.previous.get(&obj.sym))
+                .is_some() =>
+            {
+                *expr = self.ident.clone().make_member(expr.clone());
             }
             Expr::Member(..) => {
                 // skip

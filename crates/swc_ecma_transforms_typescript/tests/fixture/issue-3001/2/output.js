@@ -15,3 +15,10 @@ var Bar;
     Bar[Bar["F"] = Math.E] = "F";
 })(Bar || (Bar = {
 }));
+var Baz;
+(function(Baz) {
+    Baz[Baz["a"] = 0] = "a";
+    Baz[Baz["b"] = 1] = "b";
+    Baz[Baz["x"] = Baz.a.toString()] = "x";
+})(Baz || (Baz = {
+}));
