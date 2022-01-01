@@ -366,18 +366,17 @@ pub fn expand(
                             }
                         }
 
-                        let __tagged = match serde::Deserializer::deserialize_any(
-                            swc_common::private::serde::de::ContentRefDeserializer::<__D::Error>::new(&__content),
-                            swc_common::private::serde::de::TaggedContentVisitor::<__TypeVariant>::new(
-                                "type",
-                                "ast node defined by #[ast_serde]",
-                           ),
-                    ) {
-                        swc_common::private::serde::Ok(__val) => __val,
-                        swc_common::private::serde::Err(__err) => {
-                            return swc_common::private::serde::Err(__err);
-                        }
-                    };
+                        let ty = swc_common::serializer::Type::deserialize(
+                            swc_common::private::serde::de::ContentRefDeserializer::<__D::Error>::new(
+                                &__content,
+                            ),
+                        )?;
+
+                        let __tagged = __TypeVariant::deserialize(
+                            swc_common::private::serde::de::ContentDeserializer::<__D::Error>::new(
+                                swc_common::private::serde::de::Content::Str(&ty.ty),
+                            )
+                        )?;
 
                         __tagged
                     }
@@ -389,7 +388,7 @@ pub fn expand(
         let match_type_expr = Expr::Match(ExprMatch {
             attrs: Default::default(),
             match_token: call_site(),
-            expr: q!({ __tagged.tag }).parse(),
+            expr: q!({ __tagged }).parse(),
             brace_token: call_site(),
             arms: tag_match_arms,
         });
