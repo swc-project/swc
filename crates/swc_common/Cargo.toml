@@ -23,6 +23,7 @@ diagnostic-serde = []
 plugin-base = ["abi_stable", "anyhow", "bincode", "diagnostic-serde"]
 plugin-mode = ["plugin-base"]
 plugin-rt = ["plugin-base"]
+rkyv-impl = ["rkyv"]
 tty-emitter = ["atty", "termcolor"]
 
 [dependencies]
@@ -41,6 +42,7 @@ num-bigint = "0.2"
 once_cell = "1"
 owning_ref = "0.4"
 parking_lot = {version = "0.11", optional = true}
+rkyv = {version = "0.7.28", optional = true}
 rustc-hash = "1.1.0"
 scoped-tls = "1"
 serde = {version = "1.0.119", features = ["derive"]}
