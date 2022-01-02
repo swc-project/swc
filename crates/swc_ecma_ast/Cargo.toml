@@ -15,7 +15,7 @@ rustdoc-args = ["--cfg", "docsrs"]
 [features]
 default = []
 fuzzing = ["arbitrary", "swc_common/arbitrary"]
-rkyv-impl = ["rykv"]
+rkyv-impl = ["rkyv"]
 
 [dependencies]
 arbitrary = {version = "1", optional = true, features = ["derive"]}
