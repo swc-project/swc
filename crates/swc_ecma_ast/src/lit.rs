@@ -45,7 +45,7 @@ pub struct BigInt {
 
 struct EncodeBigInt;
 
-#[cfg_attr(feature="rkyv")]
+#[cfg(feature = "rkyv")]
 impl rkyv::with::ArchiveWith<BigIntValue> for EncodeBigInt {}
 
 #[cfg(feature = "arbitrary")]
@@ -196,9 +196,11 @@ pub struct Regex {
     pub span: Span,
 
     #[serde(rename = "pattern")]
+    #[cfg_attr(feature = "rkyv", with(crate::EncodeJsWord))]
     pub exp: JsWord,
 
     #[serde(default)]
+    #[cfg_attr(feature = "rkyv", with(crate::EncodeJsWord))]
     pub flags: JsWord,
 }
 

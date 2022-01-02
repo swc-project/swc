@@ -133,5 +133,5 @@ impl Default for EsVersion {
 
 struct EncodeJsWord;
 
-#[cfg_attr(feature = "rkyv")]
-impl rkyv::with::ArchiveWith<JsWord> for EncodeJsWord {}
+#[cfg(feature = "rkyv")]
+impl rkyv::with::ArchiveWith<swc_atoms::JsWord> for EncodeJsWord {}
