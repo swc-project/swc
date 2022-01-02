@@ -8,10 +8,11 @@ use std::{
 };
 use structopt::StructOpt;
 use swc_common::{FileName, Mark, SourceMap};
+use swc_ecma_ast::*;
 use swc_ecma_diff::Diff;
 use swc_ecma_minifier::option::{ExtraOptions, MinifyOptions};
 use swc_ecma_transforms_base::{fixer::fixer, resolver::resolver_with_mark};
-use swc_ecma_visit::VisitMutWith;
+use swc_ecma_visit::{VisitMut, VisitMutWith};
 use tempfile::NamedTempFile;
 
 /// Diff the output of swc minifier and terser.
@@ -40,6 +41,7 @@ impl DiffMinifiedCommand {
 
             m.visit_mut_with(&mut resolver_with_mark(top_level_mark));
             m.visit_mut_with(&mut fixer(None));
+            m.visit_mut_with(&mut Normalizer::default());
 
             m = swc_ecma_minifier::optimize(
                 m,
@@ -59,6 +61,7 @@ impl DiffMinifiedCommand {
             );
 
             m.visit_mut_with(&mut fixer(None));
+            m.visit_mut_with(&mut Normalizer::default());
 
             m
         };
@@ -67,10 +70,12 @@ impl DiffMinifiedCommand {
         let mut terser_module = parse(&terser_fm)?;
 
         {
-            // Diff
-
             terser_module.visit_mut_with(&mut resolver_with_mark(top_level_mark));
             terser_module.visit_mut_with(&mut fixer(None));
+            terser_module.visit_mut_with(&mut Normalizer::default());
+        }
+        {
+            // Diff
 
             let config = swc_ecma_diff::Config { ignore_span: true };
             let mut ctx = swc_ecma_diff::Ctx::new(config);
@@ -127,5 +132,20 @@ impl DiffMinifiedCommand {
 
         let src = String::from_utf8(output.stdout).context("failed to parse terser output")?;
         Ok(src)
+    }
+}
+
+#[derive(Debug, Default)]
+struct Normalizer {}
+
+impl VisitMut for Normalizer {
+    fn visit_mut_new_expr(&mut self, e: &mut NewExpr) {
+        e.visit_mut_children_with(self);
+
+        if let Some(args) = &e.args {
+            if args.len() == 0 {
+                e.args = None;
+            }
+        }
     }
 }
