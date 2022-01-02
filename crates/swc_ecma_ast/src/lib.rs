@@ -134,7 +134,34 @@ impl Default for EsVersion {
 struct EncodeJsWord;
 
 #[cfg(feature = "rkyv")]
-impl rkyv::with::ArchiveWith<swc_atoms::JsWord> for EncodeJsWord {}
+impl rkyv::with::ArchiveWith<swc_atoms::JsWord> for EncodeJsWord {
+    type Archived = rkyv::Archived<String>;
+
+    type Resolver = Resolver<String>;
+
+    unsafe fn resolve_with(
+        field: &swc_atoms::JsWord,
+        pos: usize,
+        resolver: Self::Resolver,
+        out: *mut Self::Archived,
+    ) {
+        let s = field.to_string();
+        s.resolve_with(pos, resolver, out);
+    }
+}
 
 #[cfg(feature = "rkyv")]
-impl rkyv::with::ArchiveWith<Option<swc_atoms::JsWord>> for EncodeJsWord {}
+impl rkyv::with::ArchiveWith<Option<swc_atoms::JsWord>> for EncodeJsWord {
+    type Archived = rkyv::Archived<Option<String>>;
+    type Resolver = Resolver<Option<String>>;
+
+    unsafe fn resolve_with(
+        field: &Option<swc_atoms::JsWord>,
+        pos: usize,
+        resolver: Self::Resolver,
+        out: *mut Self::Archived,
+    ) {
+        let s = field.map(|s| s.to_string());
+        s.resolve_with(pos, resolver, out);
+    }
+}
