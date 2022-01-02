@@ -12,7 +12,7 @@ mod minified;
 
 #[derive(Debug, StructOpt)]
 enum Cmd {
-    Minified(DiffMinifiedCommand),
+    DiffMin(DiffMinifiedCommand),
 }
 
 struct Track {
@@ -54,7 +54,7 @@ fn main() -> Result<()> {
     GLOBALS.set(&globals, || {
         HANDLER.set(&handler, || {
             match cmd {
-                Cmd::Minified(cmd) => {
+                Cmd::DiffMin(cmd) => {
                     cmd.run()?;
                 }
             }
