@@ -1,4 +1,8 @@
 module.exports = Point;
+class Bar {
+    constructor(input){
+    }
+}
 export { Bar };
 export const x = {
     x: 0,

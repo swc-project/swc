@@ -44,7 +44,11 @@ export class F {
     constructor(a, b){
     }
 }
+class G {
+}
 export { G };
+class HH {
+}
 export { HH as H };
 export class I {
 }

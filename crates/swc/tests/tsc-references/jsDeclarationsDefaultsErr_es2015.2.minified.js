@@ -5,6 +5,8 @@ class Cls {
 }
 Cls.y = "ok";
 export default Cls;
+class C {
+}
 export { C as default };
 const x;
 export { x as default }; /**

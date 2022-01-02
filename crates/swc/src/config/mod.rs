@@ -34,7 +34,7 @@ use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
 };
 use swc_ecma_minifier::option::{
-    terser::{TerserCompressorOptions, TerserEcmaVersion},
+    terser::{TerserCompressorOptions, TerserEcmaVersion, TerserTopLevelOptions},
     MangleOptions, ManglePropertiesOptions,
 };
 #[allow(deprecated)]
@@ -274,7 +274,7 @@ impl Options {
             keep_class_names,
             base_url,
             paths,
-            minify: js_minify,
+            minify: mut js_minify,
             experimental,
             ..
         } = config.jsc;
@@ -285,6 +285,40 @@ impl Options {
 
         let program = parse(syntax, target, is_module)?;
         let mut transform = transform.unwrap_or_default();
+
+        if program.is_module() {
+            js_minify = js_minify.map(|c| {
+                let compress = c
+                    .compress
+                    .into_obj()
+                    .map(|mut c| {
+                        if c.toplevel.is_none() {
+                            c.toplevel = Some(TerserTopLevelOptions::Bool(true));
+                        }
+
+                        c
+                    })
+                    .map(BoolOrObject::Obj)
+                    .unwrap_or(BoolOrObject::Bool(false));
+
+                let mangle = c
+                    .mangle
+                    .into_obj()
+                    .map(|mut c| {
+                        c.top_level = true;
+
+                        c
+                    })
+                    .map(BoolOrObject::Obj)
+                    .unwrap_or(BoolOrObject::Bool(false));
+
+                JsMinifyOptions {
+                    compress,
+                    mangle,
+                    ..c
+                }
+            });
+        }
 
         let regenerator = transform.regenerator.clone();
 

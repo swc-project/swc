@@ -1,4 +1,4 @@
-function test(list) {
+export function test(list) {
     let cur = list.findIndex(p => p == 1);
     if (!~cur) {
         cur = list.findIndex(p => p !== 0);
