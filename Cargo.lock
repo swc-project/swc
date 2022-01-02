@@ -625,6 +625,7 @@ name = "esdiff"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "pretty_assertions 1.0.0",
  "rayon",
  "structopt",
  "swc_atoms",
@@ -1678,6 +1679,18 @@ name = "pretty_assertions"
 version = "0.7.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1cab0e7c02cf376875e9335e0ba1da535775beb5450d21e1dffca068818ed98b"
+dependencies = [
+ "ansi_term",
+ "ctor",
+ "diff",
+ "output_vt100",
+]
+
+[[package]]
+name = "pretty_assertions"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ec0cfe1b2403f172ba0f234e500906ee0a3e493fb81092dac23ebefe129301cc"
 dependencies = [
  "ansi_term",
  "ctor",
@@ -2771,7 +2784,7 @@ dependencies = [
  "backtrace",
  "indexmap",
  "once_cell",
- "pretty_assertions",
+ "pretty_assertions 0.7.2",
  "rayon",
  "regex",
  "retain_mut",
@@ -2802,7 +2815,7 @@ dependencies = [
  "enum_kind",
  "lexical",
  "num-bigint",
- "pretty_assertions",
+ "pretty_assertions 0.7.2",
  "serde",
  "serde_json",
  "smallvec",
@@ -2846,7 +2859,7 @@ dependencies = [
  "dashmap",
  "indexmap",
  "once_cell",
- "pretty_assertions",
+ "pretty_assertions 0.7.2",
  "semver 1.0.4",
  "serde",
  "serde_json",
@@ -2868,7 +2881,7 @@ dependencies = [
 name = "swc_ecma_transforms"
 version = "0.104.0"
 dependencies = [
- "pretty_assertions",
+ "pretty_assertions 0.7.2",
  "sourcemap",
  "swc_atoms",
  "swc_common",
@@ -3174,7 +3187,7 @@ dependencies = [
  "ahash",
  "anyhow",
  "copyless",
- "pretty_assertions",
+ "pretty_assertions 0.7.2",
  "rayon",
  "serde",
  "serde_json",
@@ -3239,7 +3252,7 @@ dependencies = [
  "dashmap",
  "is-macro",
  "once_cell",
- "pretty_assertions",
+ "pretty_assertions 0.7.2",
  "regex",
  "serde",
  "serde_json",
@@ -3432,7 +3445,7 @@ dependencies = [
  "ansi_term",
  "difference",
  "once_cell",
- "pretty_assertions",
+ "pretty_assertions 0.7.2",
  "regex",
  "serde_json",
  "swc_common",

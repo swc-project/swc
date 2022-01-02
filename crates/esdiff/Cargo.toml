@@ -13,6 +13,7 @@ version = "0.1.0"
 
 [dependencies]
 anyhow = "1"
+pretty_assertions = "1.0.0"
 rayon = "1"
 structopt = "0.3.25"
 swc_atoms = {path = "../swc_atoms/"}
