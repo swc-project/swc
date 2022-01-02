@@ -446,7 +446,7 @@ where
                 self.report_usage(orig, false);
                 self.data.var_or_default(orig.to_id()).prevent_inline();
             }
-            ModuleExportName::Str(..) => {},
+            ModuleExportName::Str(..) => {}
         };
     }
 

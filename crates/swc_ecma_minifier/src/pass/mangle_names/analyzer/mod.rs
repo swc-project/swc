@@ -129,7 +129,7 @@ impl Visit for Analyzer {
             ModuleExportName::Ident(orig) => {
                 self.add_usage(orig.to_id());
             }
-            ModuleExportName::Str(..) => {},
+            ModuleExportName::Str(..) => {}
         };
     }
 

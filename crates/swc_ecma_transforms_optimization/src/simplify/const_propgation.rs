@@ -157,9 +157,9 @@ impl VisitMut for ConstPropagation<'_> {
                         n.exported = None;
                     }
                 }
-                ModuleExportName::Str(..) => {},
+                ModuleExportName::Str(..) => {}
             },
-            Some(ModuleExportName::Str(..)) => {},
+            Some(ModuleExportName::Str(..)) => {}
             None => {}
         }
     }
