@@ -1539,9 +1539,7 @@ where
                         }) => {
                             let orig_ident = match orig {
                                 ModuleExportName::Ident(ident) => ident,
-                                ModuleExportName::Str(..) => {
-                                    unimplemented!("module string names unimplemented")
-                                }
+                                ModuleExportName::Str(..) => return true,
                             };
                             if *is_type_only {
                                 false

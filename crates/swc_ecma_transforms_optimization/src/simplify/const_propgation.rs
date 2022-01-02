@@ -134,7 +134,7 @@ impl VisitMut for ConstPropagation<'_> {
     fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
         let id = match &n.orig {
             ModuleExportName::Ident(ident) => ident.to_id(),
-            ModuleExportName::Str(..) => unimplemented!("module string names unimplemented"),
+            ModuleExportName::Str(..) => return,
         };
         if let Some(expr) = self.scope.find_var(&id) {
             match &**expr {
@@ -157,9 +157,9 @@ impl VisitMut for ConstPropagation<'_> {
                         n.exported = None;
                     }
                 }
-                ModuleExportName::Str(..) => unimplemented!("module string names unimplemented"),
+                ModuleExportName::Str(..) => {},
             },
-            Some(ModuleExportName::Str(..)) => unimplemented!("module string names unimplemented"),
+            Some(ModuleExportName::Str(..)) => {},
             None => {}
         }
     }
