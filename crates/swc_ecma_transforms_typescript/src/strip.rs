@@ -9,16 +9,19 @@ use swc_common::{
     Mark, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::ext::ExprRefExt;
 use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
 use swc_ecma_utils::{
     constructor::inject_after_super, default_constructor, ident::IdentLike, member_expr, prepend,
     private_ident, prop_name_to_expr, quote_ident, replace_ident, var::VarCollector, ExprFactory,
     Id, ModuleItemLike, StmtLike,
 };
-use swc_ecma_visit::{as_folder, Fold, Visit, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{
+    as_folder, noop_visit_mut_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
+};
 
 /// Value does not contain TsLit::Bool
-type EnumValues = AHashMap<JsWord, TsLit>;
+type EnumValues = AHashMap<JsWord, Option<TsLit>>;
 
 #[derive(Debug, Serialize, Deserialize)]
 #[non_exhaustive]
@@ -846,7 +849,7 @@ where
                     }
 
                     Expr::Ident(ref id) => {
-                        if let Some(v) = values.get(&id.sym) {
+                        if let Some(Some(v)) = values.get(&id.sym) {
                             return Ok(v.clone());
                         }
                         //
@@ -963,7 +966,7 @@ where
                             TsEnumMemberId::Ident(i) => i.sym.clone(),
                             TsEnumMemberId::Str(s) => s.value.clone(),
                         },
-                        val.clone(),
+                        Some(val.clone()),
                     );
 
                     match val {
@@ -978,7 +981,24 @@ where
                 })
                 .or_else(|err| match &m.init {
                     None => Err(err),
-                    Some(v) => Ok(*v.clone()),
+                    Some(v) => {
+                        let mut v = *v.clone();
+                        let mut visitor = EnumValuesVisitor {
+                            previous: &values,
+                            ident: &id,
+                        };
+                        visitor.visit_mut_expr(&mut v);
+
+                        values.insert(
+                            match &m.id {
+                                TsEnumMemberId::Ident(i) => i.sym.clone(),
+                                TsEnumMemberId::Str(s) => s.value.clone(),
+                            },
+                            None,
+                        );
+
+                        Ok(v)
+                    }
                 })?;
 
                 Ok((m, val))
@@ -2721,5 +2741,36 @@ fn create_prop_pat(obj: &Ident, pat: Pat) -> Pat {
         }),
         // TODO
         Pat::Expr(..) => pat,
+    }
+}
+
+struct EnumValuesVisitor<'a> {
+    ident: &'a Ident,
+    previous: &'a EnumValues,
+}
+impl VisitMut for EnumValuesVisitor<'_> {
+    noop_visit_mut_type!();
+
+    fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        match expr {
+            Expr::Ident(ident) if self.previous.contains_key(&ident.sym) => {
+                *expr = self.ident.clone().make_member(ident.clone());
+            }
+            Expr::Member(MemberExpr {
+                obj: ExprOrSuper::Expr(ref obj),
+                // prop,
+                ..
+            }) if obj
+                .as_ident()
+                .and_then(|obj| self.previous.get(&obj.sym))
+                .is_some() =>
+            {
+                *expr = self.ident.clone().make_member(expr.clone());
+            }
+            Expr::Member(..) => {
+                // skip
+            }
+            _ => expr.visit_mut_children_with(self),
+        }
     }
 }
