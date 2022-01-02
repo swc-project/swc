@@ -1,4 +1,4 @@
-var Test;
+export var Test;
 (function(a) {
     let b;
     (function(b) {
