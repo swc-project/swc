@@ -1,4 +1,6 @@
 var C, K, C, K;
+class _class {
+}
 export { _class as default };
 export class A {
 }
