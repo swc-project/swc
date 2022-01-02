@@ -29,7 +29,11 @@ use std::{
 #[serde(transparent)]
 #[cfg_attr(feature = "abi_stable", repr(transparent))]
 #[cfg_attr(feature = "abi_stable", derive(abi_stable::StableAbi))]
-pub struct SyntaxContext(u32);
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+pub struct SyntaxContext(#[cfg_attr(feature = "rkyv", omit_bounds)] u32);
 
 #[cfg(feature = "arbitrary")]
 #[cfg_attr(docsrs, doc(cfg(feature = "arbitrary")))]

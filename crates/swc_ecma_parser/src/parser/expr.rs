@@ -1561,10 +1561,10 @@ impl<'a, I: Tokens> Parser<I> {
 
 #[ast_node]
 pub(in crate::parser) enum PatOrExprOrSpread {
+    #[tag("ExprOrSpread")]
+    ExprOrSpread(ExprOrSpread),
     #[tag("*")]
     Pat(Pat),
-    #[tag("*")]
-    ExprOrSpread(ExprOrSpread),
 }
 
 /// simple leaf methods.

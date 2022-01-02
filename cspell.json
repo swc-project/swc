@@ -114,6 +114,7 @@
         "regs",
         "repr",
         "rfind",
+        "rkyv",
         "rplugin",
         "rpos",
         "rposition",

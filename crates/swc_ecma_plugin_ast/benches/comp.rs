@@ -4,6 +4,7 @@
 extern crate swc_node_base;
 extern crate test;
 
+use rkyv::Deserialize;
 use rplugin::StableAst;
 use std::{hint::black_box, path::Path};
 use swc_common::input::SourceFileInput;
@@ -31,6 +32,30 @@ fn input() -> Program {
 }
 
 #[bench]
+fn rkyv_serialize(b: &mut Bencher) {
+    let program = input();
+
+    b.iter(|| {
+        let v = rkyv::to_bytes::<_, 512>(&program).unwrap();
+        black_box(v);
+    })
+}
+
+#[bench]
+fn rkyv_deserialize(b: &mut Bencher) {
+    let program = input();
+    let bytes = rkyv::to_bytes::<_, 512>(&program).unwrap();
+
+    b.iter(|| {
+        let archived = unsafe { rkyv::archived_root::<Program>(&bytes[..]) };
+
+        let v: Program = archived.deserialize(&mut rkyv::Infallible).unwrap();
+
+        black_box(v);
+    })
+}
+
+#[bench]
 fn json_serialize(b: &mut Bencher) {
     let program = input();
 
@@ -44,6 +69,8 @@ fn json_serialize(b: &mut Bencher) {
 fn json_deserialize(b: &mut Bencher) {
     let program = input();
     let json_str = serde_json::to_string(&program).unwrap();
+
+    eprintln!("json: {}", json_str);
 
     b.iter(|| {
         let v: Program = serde_json::from_str(&json_str).unwrap();

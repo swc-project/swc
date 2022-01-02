@@ -5,18 +5,8 @@ const { platform, arch } = process
 
 let nativeBinding = null
 let localFileExisted = false
+let isMusl = false
 let loadError = null
-
-const isMusl = () => {
-  try {
-    const isMusl = readFileSync('/usr/bin/ldd', 'utf8').includes('musl')
-    
-    return isMusl;
-  } catch(e) {
-    return false;
-  }
-}
-
 
 switch (platform) {
   case 'android':
@@ -132,7 +122,8 @@ switch (platform) {
   case 'linux':
     switch (arch) {
       case 'x64':
-        if (isMusl()) {
+        isMusl = readFileSync('/usr/bin/ldd', 'utf8').includes('musl')
+        if (isMusl) {
           localFileExisted = existsSync(
             join(__dirname, 'swc.linux-x64-musl.node')
           )
@@ -161,7 +152,8 @@ switch (platform) {
         }
         break
       case 'arm64':
-        if (isMusl()) {
+        isMusl = readFileSync('/usr/bin/ldd', 'utf8').includes('musl')
+        if (isMusl) {
           localFileExisted = existsSync(
             join(__dirname, 'swc.linux-arm64-musl.node')
           )
