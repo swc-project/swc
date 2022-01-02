@@ -628,6 +628,10 @@ pub struct TsTypeOperator {
 
 #[derive(StringEnum, Clone, Copy, PartialEq, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub enum TsTypeOperatorOp {
     /// `keyof`
     KeyOf,

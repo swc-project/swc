@@ -74,6 +74,7 @@ impl<'a> arbitrary::Arbitrary<'a> for BigInt {
 pub struct Str {
     pub span: Span,
 
+    #[cfg_attr(feature = "rkyv", with(crate::EncodeJsWord))]
     pub value: JsWord,
 
     /// This includes line escape.

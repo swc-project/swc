@@ -135,3 +135,6 @@ struct EncodeJsWord;
 
 #[cfg(feature = "rkyv")]
 impl rkyv::with::ArchiveWith<swc_atoms::JsWord> for EncodeJsWord {}
+
+#[cfg(feature = "rkyv")]
+impl rkyv::with::ArchiveWith<Option<swc_atoms::JsWord>> for EncodeJsWord {}
