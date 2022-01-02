@@ -624,6 +624,7 @@ dependencies = [
 name = "esdiff"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
  "rayon",
  "structopt",
  "swc_atoms",
@@ -636,6 +637,9 @@ dependencies = [
  "swc_ecma_transforms_base",
  "swc_ecma_utils",
  "swc_ecma_visit",
+ "swc_timer",
+ "tracing",
+ "tracing-subscriber",
 ]
 
 [[package]]
