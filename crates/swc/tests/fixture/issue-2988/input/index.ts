@@ -1,4 +1,4 @@
-namespace Test {
+export namespace Test {
     export enum testEnum {
         Test = "1",
         Test2 = "2",
