@@ -25,6 +25,12 @@
 
 - **(es/ast)** Improve rustdoc (#3142) ([333acb5](https://github.com/swc-project/swc/commit/333acb56223139817c1df0c8b3763190b55a6295))- **general**: Update discord link (#3161) ([fb20480](https://github.com/swc-project/swc/commit/fb2048035f0aa67761aa213c58795accfde7a6d0))
 
+### Features
+
+
+
+- **(es/ast)** Add `rkyv` support (#3166) ([bf751cb](https://github.com/swc-project/swc/commit/bf751cb6905c7520f0846b9f0a6f4f44edecbdb3))
+
 ### Miscellaneous Tasks
 
 

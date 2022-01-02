@@ -140,7 +140,7 @@ dependencies = [
 
 [[package]]
 name = "ast_node"
-version = "0.7.5"
+version = "0.7.6"
 dependencies = [
  "darling",
  "pmutil",
@@ -2491,7 +2491,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.15.2"
+version = "0.15.3"
 dependencies = [
  "abi_stable",
  "ahash",
@@ -2623,7 +2623,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.60.5"
+version = "0.60.6"
 dependencies = [
  "arbitrary",
  "is-macro",
@@ -2798,7 +2798,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_plugin_ast"
-version = "0.7.1"
+version = "0.7.2"
 dependencies = [
  "abi_stable",
  "num-bigint",
