@@ -58,6 +58,8 @@ impl DiffMinifiedCommand {
                 &ExtraOptions { top_level_mark },
             );
 
+            m.visit_mut_with(&mut fixer(None));
+
             m
         };
 
