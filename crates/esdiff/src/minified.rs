@@ -1,4 +1,4 @@
-use crate::util::parse;
+use crate::util::{parse, print_js};
 use anyhow::{bail, Context, Result};
 use std::{
     path::PathBuf,
@@ -73,7 +73,12 @@ impl DiffMinifiedCommand {
             eprintln!("Diff: \n{}", diff_res);
         }
 
-        todo!()
+        let swc_output = print_js(cm.clone(), &swc_module).context("failed to print js")?;
+        let terser_output = print_js(cm.clone(), &terser_module).context("failed to print js")?;
+
+        pretty_assertions::assert_eq!(swc_output, terser_output);
+
+        Ok(())
     }
 
     /// Invoke `terser`
