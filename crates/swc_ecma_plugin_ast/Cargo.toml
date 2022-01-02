@@ -12,10 +12,11 @@ version = "0.7.1"
 [dependencies]
 abi_stable = "0.10.3"
 num-bigint = "0.2"
+rkyv = "0.7.28"
 rplugin = {version = "0.3.0", path = "../rplugin/"}
 swc_atoms = {version = "0.2", path = "../swc_atoms"}
 swc_common = {version = "0.15.0", path = "../swc_common", features = ["plugin-base"]}
-swc_ecma_ast = {version = "0.60.0", path = "../swc_ecma_ast/"}
+swc_ecma_ast = {version = "0.60.0", path = "../swc_ecma_ast/", features = ["rkyv"]}
 
 [dev-dependencies]
 serde = "1.0.133"
