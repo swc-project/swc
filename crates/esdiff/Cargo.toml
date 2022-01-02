@@ -1,0 +1,32 @@
+[package]
+authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "Diffing tools for ECMAScript"
+documentation = "https://rustdoc.swc.rs/esdiff/"
+edition = "2021"
+include = ["Cargo.toml", "src/**/*.rs"]
+license = "Apache-2.0"
+name = "esdiff"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.1.0"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1"
+pretty_assertions = "1.0.0"
+rayon = "1"
+structopt = "0.3.25"
+swc_atoms = {path = "../swc_atoms/"}
+swc_common = {path = "../swc_common/", features = ["concurrent", "tty-emitter"]}
+swc_ecma_ast = {path = "../swc_ecma_ast/"}
+swc_ecma_codegen = {path = "../swc_ecma_codegen"}
+swc_ecma_diff = {path = "../swc_ecma_diff/"}
+swc_ecma_minifier = {path = "../swc_ecma_minifier/"}
+swc_ecma_parser = {path = "../swc_ecma_parser/"}
+swc_ecma_transforms_base = {path = "../swc_ecma_transforms_base/"}
+swc_ecma_utils = {path = "../swc_ecma_utils/"}
+swc_ecma_visit = {path = "../swc_ecma_visit/"}
+swc_timer = {path = "../swc_timer/"}
+tempfile = "3.2.0"
+tracing = "0.1.29"
+tracing-subscriber = {version = "0.3.5", features = ["env-filter"]}
