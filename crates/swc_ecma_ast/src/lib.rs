@@ -166,9 +166,20 @@ where
 }
 
 #[cfg(feature = "rkyv")]
-impl<D> rkyv::with::DeserializeWith<rkyv::Archived<String>, swc_atoms::JsWord, D> for EncodeJsWord where
-    D: ?Sized + rkyv::Fallible
+impl<D> rkyv::with::DeserializeWith<rkyv::Archived<String>, swc_atoms::JsWord, D> for EncodeJsWord
+where
+    D: ?Sized + rkyv::Fallible,
 {
+    fn deserialize_with(
+        field: &rkyv::Archived<String>,
+        deserializer: &mut D,
+    ) -> Result<swc_atoms::JsWord, D::Error> {
+        use rkyv::Deserialize;
+
+        let s: String = field.deserialize(deserializer)?;
+
+        Ok(s.into())
+    }
 }
 
 #[cfg(feature = "rkyv")]
@@ -200,7 +211,7 @@ where
         serializer: &mut S,
     ) -> Result<Self::Resolver, S::Error> {
         value
-            .map(|value| rkyv::string::ArchivedString::serialize_from_str(value, serializer))
+            .map(|value| rkyv::string::ArchivedString::serialize_from_str(&value, serializer))
             .transpose()
     }
 }
@@ -211,4 +222,14 @@ impl<D> rkyv::with::DeserializeWith<rkyv::Archived<Option<String>>, Option<swc_a
 where
     D: ?Sized + rkyv::Fallible,
 {
+    fn deserialize_with(
+        field: &rkyv::Archived<Option<String>>,
+        deserializer: &mut D,
+    ) -> Result<Option<swc_atoms::JsWord>, D::Error> {
+        use rkyv::Deserialize;
+
+        let s: Option<String> = field.deserialize(deserializer)?;
+
+        Ok(s.map(|s| s.into()))
+    }
 }
