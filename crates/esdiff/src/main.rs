@@ -2,7 +2,10 @@ use crate::minified::DiffMinifiedCommand;
 use anyhow::Result;
 use std::{sync::Arc, time::Instant};
 use structopt::StructOpt;
-use swc_common::SourceMap;
+use swc_common::{
+    errors::{ColorConfig, Handler, HANDLER},
+    SourceMap, GLOBALS,
+};
 
 mod minified;
 
@@ -22,7 +25,9 @@ impl Drop for Track {
 }
 
 fn main() -> Result<()> {
+    let globals = swc_common::Globals::default();
     let cm = Arc::new(SourceMap::default());
+    let handler = Handler::with_tty_emitter(ColorConfig::Always, true, false, Some(cm.clone()));
 
     let _track = Track {
         start: Instant::now(),
@@ -30,11 +35,15 @@ fn main() -> Result<()> {
 
     let cmd = Cmd::from_args();
 
-    match cmd {
-        Cmd::Minified(cmd) => {
-            cmd.run()?;
-        }
-    }
+    GLOBALS.set(&globals, || {
+        HANDLER.set(&handler, || {
+            match cmd {
+                Cmd::Minified(cmd) => {
+                    cmd.run()?;
+                }
+            }
 
-    Ok(())
+            Ok(())
+        })
+    })
 }

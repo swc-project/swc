@@ -16,7 +16,7 @@ anyhow = "1"
 rayon = "1"
 structopt = "0.3.25"
 swc_atoms = {path = "../swc_atoms/"}
-swc_common = {path = "../swc_common/", features = ["concurrent"]}
+swc_common = {path = "../swc_common/", features = ["concurrent", "tty-emitter"]}
 swc_ecma_ast = {path = "../swc_ecma_ast/"}
 swc_ecma_codegen = {path = "../swc_ecma_codegen"}
 swc_ecma_diff = {path = "../swc_ecma_diff/"}
