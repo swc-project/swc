@@ -12,6 +12,22 @@ mod tests {
     }
 
     #[test]
+    fn empty_block_statement() {
+        assert_pretty("{\n}", "{}");
+        assert_pretty("{\n//todo\n}", "{\n//todo\n}");
+
+        assert_pretty(
+            "try {\n\n} catch {\n  // Pass\n}\n",
+            "try {} catch  {\n// Pass\n}",
+        );
+    }
+
+    #[test]
+    fn empty_object_lit() {
+        assert_pretty("Object.assign({\n}, a, b);", "Object.assign({}, a, b);");
+    }
+
+    #[test]
     fn labeled_statement() {
         assert_min("foo: {}", "foo:{}");
         assert_min("foo: bar;", "foo:bar");

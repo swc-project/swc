@@ -1594,15 +1594,21 @@ where
             };
             punct!(span, "{");
         }
-        if !self.cfg.minify {
+
+        let is_empty = node.props.len() == 0 && is_empty_comments(&node.span(), &self.comments);
+
+        if !is_empty && !self.cfg.minify {
             self.wr.write_line()?;
         }
-        self.emit_list(
-            node.span(),
-            Some(&node.props),
-            ListFormat::ObjectLiteralExpressionProperties | ListFormat::CanSkipTrailingComma,
-        )?;
-        if !self.cfg.minify {
+
+        let list_format = if is_empty {
+            ListFormat::SingleLine
+        } else {
+            ListFormat::ObjectLiteralExpressionProperties | ListFormat::CanSkipTrailingComma
+        };
+
+        self.emit_list(node.span(), Some(&node.props), list_format)?;
+        if !is_empty && !self.cfg.minify {
             self.wr.write_line()?;
         }
         {
@@ -1612,7 +1618,7 @@ where
                 Span::new(node.span.hi - BytePos(1), node.span.hi, Default::default())
             };
             punct!(span, "}");
-        }
+        };
     }
 
     #[emitter]
@@ -2273,11 +2279,16 @@ where
             };
             punct!(span, "{");
         }
-        self.emit_list(
-            node.span(),
-            Some(&node.stmts),
-            ListFormat::MultiLineBlockStatements,
-        )?;
+
+        let is_empty = node.stmts.len() == 0 && is_empty_comments(&node.span(), &self.comments);
+
+        let list_format = if is_empty {
+            ListFormat::SingleLine
+        } else {
+            ListFormat::MultiLineBlockStatements
+        };
+
+        self.emit_list(node.span(), Some(&node.stmts), list_format)?;
 
         self.emit_leading_comments_of_span(node.span(), true)?;
 
@@ -3253,4 +3264,8 @@ fn is_space_require_before_rhs(rhs: &Expr) -> bool {
 
         _ => false,
     }
+}
+
+fn is_empty_comments(span: &Span, comments: &Option<&dyn Comments>) -> bool {
+    return span.is_dummy() || comments.map_or(true, |c| !c.has_leading(span.hi() - BytePos(1)));
 }
