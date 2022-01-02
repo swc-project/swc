@@ -719,6 +719,10 @@ impl Take for Super {
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(
+    feature = "rkyv",
+    archive(bound(serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace"))
+)]
 pub struct ExprOrSpread {
     #[serde(default)]
     #[cfg_attr(feature = "rkyv", omit_bounds)]

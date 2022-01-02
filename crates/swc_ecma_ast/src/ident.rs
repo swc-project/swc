@@ -14,6 +14,10 @@ use unicode_xid::UnicodeXID;
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(
+    feature = "rkyv",
+    archive(bound(serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace"))
+)]
 pub struct BindingIdent {
     #[span]
     #[serde(flatten)]
