@@ -621,6 +621,24 @@ dependencies = [
 ]
 
 [[package]]
+name = "esdiff"
+version = "0.1.0"
+dependencies = [
+ "rayon",
+ "structopt",
+ "swc_atoms",
+ "swc_common",
+ "swc_ecma_ast",
+ "swc_ecma_codegen",
+ "swc_ecma_diff",
+ "swc_ecma_minifier",
+ "swc_ecma_parser",
+ "swc_ecma_transforms_base",
+ "swc_ecma_utils",
+ "swc_ecma_visit",
+]
+
+[[package]]
 name = "fixedbitset"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2681,7 +2699,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_diff"
-version = "0.0.1"
+version = "0.1.0"
 dependencies = [
  "ansi_term",
  "auto_impl",
