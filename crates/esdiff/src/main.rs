@@ -9,6 +9,7 @@ use swc_common::{
 use tracing_subscriber::EnvFilter;
 
 mod minified;
+mod util;
 
 #[derive(Debug, StructOpt)]
 enum Cmd {
@@ -55,7 +56,7 @@ fn main() -> Result<()> {
         HANDLER.set(&handler, || {
             match cmd {
                 Cmd::DiffMin(cmd) => {
-                    cmd.run()?;
+                    cmd.run(cm.clone())?;
                 }
             }
 
