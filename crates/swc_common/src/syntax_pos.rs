@@ -28,13 +28,20 @@ pub mod hygiene;
 #[derive(Debug, Clone, Copy, Hash, PartialEq, Eq, Ord, PartialOrd, Serialize, Deserialize)]
 #[cfg_attr(feature = "abi_stable", repr(C))]
 #[cfg_attr(feature = "abi_stable", derive(abi_stable::StableAbi))]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub struct Span {
     #[serde(rename = "start")]
+    #[cfg_attr(feature = "rkyv", omit_bounds)]
     pub lo: BytePos,
     #[serde(rename = "end")]
+    #[cfg_attr(feature = "rkyv", omit_bounds)]
     pub hi: BytePos,
     /// Information about where the macro came from, if this piece of
     /// code was created by a macro expansion.
+    #[cfg_attr(feature = "rkyv", omit_bounds)]
     pub ctxt: SyntaxContext,
 }
 
@@ -806,7 +813,11 @@ pub trait Pos {
 #[cfg_attr(feature = "abi_stable", repr(transparent))]
 #[cfg_attr(feature = "abi_stable", derive(abi_stable::StableAbi))]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub struct BytePos(pub u32);
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+pub struct BytePos(#[cfg_attr(feature = "rkyv", omit_bounds)] pub u32);
 
 /// A character offset. Because of multibyte utf8 characters, a byte offset
 /// is not equivalent to a character offset. The SourceMap will convert BytePos
