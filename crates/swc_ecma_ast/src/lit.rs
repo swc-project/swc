@@ -44,6 +44,7 @@ pub struct BigInt {
 }
 
 #[cfg(feature = "rkyv")]
+#[derive(Debug, Clone, Copy)]
 pub struct EncodeBigInt;
 
 #[cfg(feature = "rkyv")]

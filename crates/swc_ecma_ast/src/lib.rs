@@ -1,7 +1,6 @@
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![deny(unreachable_patterns)]
 #![deny(missing_copy_implementations)]
-#![deny(missing_debug_implementations)]
 #![deny(trivial_casts)]
 #![deny(trivial_numeric_casts)]
 #![deny(unreachable_pub)]
@@ -132,6 +131,7 @@ impl Default for EsVersion {
 }
 
 #[cfg(feature = "rkyv")]
+#[derive(Debug, Clone, Copy)]
 pub struct EncodeJsWord;
 
 #[cfg(feature = "rkyv")]
