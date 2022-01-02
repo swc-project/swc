@@ -1,3 +1,3 @@
-function test(a, b) {
+export function test(a, b) {
     a.__proto__ = b
 }
