@@ -20,7 +20,7 @@ var A;
 })(A || (A = {
 }));
 (function(A2) {
-    A2.Origin = {
+    var Origin = A2.Origin = {
         x: 0,
         y: 0
     };

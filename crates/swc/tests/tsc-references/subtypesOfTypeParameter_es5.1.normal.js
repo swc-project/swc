@@ -103,7 +103,7 @@ var E;
 function f() {
 }
 (function(f3) {
-    f3.bar = 1;
+    var bar = f3.bar = 1;
 })(f || (f = {
 }));
 var c = function c() {
@@ -111,7 +111,7 @@ var c = function c() {
     _classCallCheck(this, c);
 };
 (function(c) {
-    c.bar = 1;
+    var bar = c.bar = 1;
 })(c || (c = {
 }));
 // errors throughout

@@ -14,7 +14,7 @@ Point.Origin = {
     y: 0
 };
 (function(Point) {
-    Point.Origin = "";
+    var Origin = Point.Origin = "";
 })(Point || (Point = {
 }));
 var A;
@@ -31,7 +31,7 @@ var A;
         y: 0
     };
     (function(Point) {
-        Point.Origin = "";
+        var Origin = Point.Origin = "";
     })(Point = A1.Point || (A1.Point = {
     }));
 })(A || (A = {

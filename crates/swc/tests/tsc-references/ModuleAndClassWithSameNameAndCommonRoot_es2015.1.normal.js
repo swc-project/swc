@@ -5,7 +5,7 @@ var X;
     (function(Y) {
         let Point1;
         (function(Point) {
-            Point.Origin = new Point1(0, 0);
+            var Origin = Point.Origin = new Point1(0, 0);
         })(Point1 = Y.Point || (Y.Point = {
         }));
     })(Y1 = X1.Y || (X1.Y = {
@@ -27,7 +27,7 @@ var X;
 })(X || (X = {
 }));
 (function(A1) {
-    A1.Instance = new A();
+    var Instance = A1.Instance = new A();
 })(A || (A = {
 }));
 // duplicate identifier

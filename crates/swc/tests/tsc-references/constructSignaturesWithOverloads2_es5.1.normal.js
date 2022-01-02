@@ -8,7 +8,7 @@ var C = function C(x) {
     _classCallCheck(this, C);
 };
 (function(C) {
-    C.x = 1;
+    var x = C.x = 1;
 })(C || (C = {
 }));
 var r1 = new C(1, '');
@@ -17,7 +17,7 @@ var C2 = function C2(x) {
     _classCallCheck(this, C2);
 };
 (function(C2) {
-    C2.x = 1;
+    var x = C2.x = 1;
 })(C2 || (C2 = {
 }));
 var r2 = new C2(1, '');

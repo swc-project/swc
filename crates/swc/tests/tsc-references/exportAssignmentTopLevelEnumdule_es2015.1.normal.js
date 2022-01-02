@@ -8,7 +8,7 @@ foo;
 })(foo || (foo = {
 }));
 (function(foo) {
-    foo.answer = 42;
+    var answer = foo.answer = 42;
 })(foo || (foo = {
 }));
 module.exports = foo;

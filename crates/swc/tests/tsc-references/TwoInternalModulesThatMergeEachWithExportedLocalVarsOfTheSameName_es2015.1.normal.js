@@ -12,14 +12,14 @@ export var A;
         Utils.mirror = mirror;
     })(Utils1 = A1.Utils || (A1.Utils = {
     }));
-    A1.Origin = {
+    var Origin = A1.Origin = {
         x: 0,
         y: 0
     };
 })(A || (A = {
 }));
 (function(A2) {
-    A2.Origin = {
+    var Origin = A2.Origin = {
         x: 0,
         y: 0
     };

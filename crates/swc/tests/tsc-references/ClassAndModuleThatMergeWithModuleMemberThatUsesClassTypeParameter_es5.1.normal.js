@@ -29,7 +29,7 @@ var clodule3 = function clodule3() {
     _classCallCheck(this, clodule3);
 };
 (function(clodule3) {
-    clodule3.y = {
+    var y = clodule3.y = {
         id: T
     };
 })(clodule3 || (clodule3 = {

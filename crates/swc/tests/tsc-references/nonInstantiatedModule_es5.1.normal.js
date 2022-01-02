@@ -5,7 +5,7 @@ function _classCallCheck(instance, Constructor) {
 }
 var M;
 (function(M1) {
-    M1.a = 1;
+    var a = M1.a = 1;
 })(M || (M = {
 }));
 // primary expression

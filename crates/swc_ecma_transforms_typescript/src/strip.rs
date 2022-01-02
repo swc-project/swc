@@ -1613,19 +1613,38 @@ where
                         match decl.name {
                             Pat::Ident(name) => {
                                 //
-                                let left = PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
+                                let left = Box::new(Expr::Member(MemberExpr {
                                     span: DUMMY_SP,
                                     obj: parent_module_name.clone().as_obj(),
                                     prop: Box::new(Expr::Ident(name.id.clone())),
                                     computed: false,
-                                })));
+                                }))
+                                .into();
 
-                                exprs.push(Box::new(Expr::Assign(AssignExpr {
+                                let expr = AssignExpr {
                                     span: DUMMY_SP,
                                     op: op!("="),
                                     left,
                                     right: init,
-                                })))
+                                }
+                                .into();
+
+                                let decl = VarDeclarator {
+                                    span: name.id.span,
+                                    name: name.clone().into(),
+                                    init: Some(Box::new(expr)),
+                                    definite: false,
+                                };
+
+                                let stmt: Stmt = Decl::Var(VarDecl {
+                                    span: DUMMY_SP,
+                                    kind: VarDeclKind::Var,
+                                    declare: false,
+                                    decls: vec![decl],
+                                })
+                                .into();
+
+                                stmts.push(stmt.into());
                             }
                             _ => {
                                 let pat = Box::new(create_prop_pat(&parent_module_name, decl.name));

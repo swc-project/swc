@@ -3462,13 +3462,13 @@ to!(
             throw new Error();
         }
         util1.assertNever = assertNever;
-        util1.arrayToEnum = (items) => {
+        var arrayToEnum = util1.arrayToEnum = (items)=>{
         };
-        util1.getValidEnumValues = (obj) => {
+        var getValidEnumValues = util1.getValidEnumValues = (obj)=>{
         };
-        util1.getValues = (obj) => {
+        var getValues = util1.getValues = (obj)=>{
         };
-        util1.objectValues = (obj) => {
+        var objectValues = util1.objectValues = (obj)=>{
         };
     })(util || (util = {}));
     "
@@ -3533,7 +3533,7 @@ to!(
     (function (Test1) {
         let Inner1;
         (function (Inner) {
-            Inner.c = 3;
+            var c = Inner.c = 3;
         })(Inner1 = Test1.Inner || (Test1.Inner = {}));
     })(Test || (Test = {}));
     "
@@ -3588,7 +3588,7 @@ to!(
         })(MyEnum = MyNamespace2.MyEnum || (MyNamespace2.MyEnum = {}));
         let MyInnerNamespace2;
         (function (MyInnerNamespace) {
-            MyInnerNamespace.Dec2 = 2;
+            var Dec2 = MyInnerNamespace.Dec2 = 2;
         })(MyInnerNamespace2 = MyNamespace2.MyInnerNamespace || (MyNamespace2.MyInnerNamespace = {}));
     })(MyNamespace || (MyNamespace = {}));
     (function (MyNamespace) {

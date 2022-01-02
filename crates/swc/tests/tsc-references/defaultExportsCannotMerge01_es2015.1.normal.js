@@ -8,8 +8,8 @@ export default function Decl() {
 };
 export var Decl;
 (function(Decl1) {
-    Decl1.x = 10;
-    Decl1.y = 20;
+    var x = Decl1.x = 10;
+    var y = Decl1.y = 20;
 })(Decl || (Decl = {
 }));
 Entity();

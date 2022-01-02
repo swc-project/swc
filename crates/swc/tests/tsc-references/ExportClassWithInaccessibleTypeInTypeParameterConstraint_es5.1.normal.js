@@ -89,7 +89,7 @@ var A;
         "use strict";
         _classCallCheck(this, Point);
     };
-    A1.Origin = {
+    var Origin = A1.Origin = {
         x: 0,
         y: 0
     };
@@ -104,7 +104,7 @@ var A;
         return Point3d;
     }(Point);
     A1.Point3d = Point3d;
-    A1.Origin3d = {
+    var Origin3d = A1.Origin3d = {
         x: 0,
         y: 0,
         z: 0
