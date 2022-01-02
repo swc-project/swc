@@ -2509,6 +2509,7 @@ dependencies = [
  "owning_ref",
  "parking_lot",
  "rayon",
+ "rkyv",
  "rustc-hash",
  "scoped-tls",
  "serde",
