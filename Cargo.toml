@@ -35,6 +35,3 @@ opt-level = 3
 
 [profile.test.package.pretty_assertions]
 opt-level = 3
-
-[patch.crates-io]
-serde = {git = 'https://github.com/kdy1/serde', branch = "content-specialization"}
