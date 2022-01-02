@@ -17,6 +17,9 @@
 - **(es/typescript)** Fix handling of references in a TypeScript enum (#3163) ([e02307d](https://github.com/swc-project/swc/commit/e02307d4c82e043079131b414198ee5b4b7560e5))
 
 
+- **(es/typescript)** Declare the exported variables in a namespace (#3162) ([366dc0e](https://github.com/swc-project/swc/commit/366dc0eec3e19b4e608dc4df8eb728f6d710f9b7))
+
+
 - **(es/utils)** Fix handling of `new.target` (#3145) ([356082a](https://github.com/swc-project/swc/commit/356082ad84fa69cf09b5627598a2576bd1b27c36))
 
 ### Documentation
@@ -30,6 +33,9 @@
 
 
 - **(es/ast)** Add `rkyv` support (#3166) ([bf751cb](https://github.com/swc-project/swc/commit/bf751cb6905c7520f0846b9f0a6f4f44edecbdb3))
+
+
+- **(es/diff)** Add a internal CLI program for debugging minifier (#3168) ([1aa55e6](https://github.com/swc-project/swc/commit/1aa55e616a7bc2ffa791600e908ddb10a4009e7b))
 
 ### Miscellaneous Tasks
 
