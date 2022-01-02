@@ -41,7 +41,7 @@ class D11 extends Base {
 function f() {
 }
 (function(f1) {
-    f1.bar = 1;
+    var bar = f1.bar = 1;
 })(f || (f = {
 }));
 class D12 extends Base {
@@ -49,7 +49,7 @@ class D12 extends Base {
 class c {
 }
 (function(c1) {
-    c1.bar = 1;
+    var bar = c1.bar = 1;
 })(c || (c = {
 }));
 class D13 extends Base {

@@ -2,7 +2,7 @@
 // @Filename: foo_0.ts
 var foo;
 (function(foo1) {
-    foo1.answer = 42;
+    var answer = foo1.answer = 42;
 })(foo || (foo = {
 }));
 // @Filename: foo_1.ts

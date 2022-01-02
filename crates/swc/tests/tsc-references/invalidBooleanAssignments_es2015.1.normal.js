@@ -17,7 +17,7 @@ var h = x;
 var h2 = x; // no error
 var M;
 (function(M1) {
-    M1.a = 1;
+    var a = M1.a = 1;
 })(M || (M = {
 }));
 M = x;

@@ -19,11 +19,11 @@ var Geometry;
     var Points = A;
     Geometry1.Points = Points;
     var Lines = B;
-    Geometry1.Origin = {
+    var Origin = Geometry1.Origin = {
         x: 0,
         y: 0
     };
-    Geometry1.Unit = new Lines.Line(Origin, {
+    var Unit = Geometry1.Unit = new Lines.Line(Origin, {
         x: 1,
         y: 0
     });

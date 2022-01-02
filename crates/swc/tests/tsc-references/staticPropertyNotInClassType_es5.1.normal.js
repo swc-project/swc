@@ -46,7 +46,7 @@ var NonGeneric;
         return C;
     }();
     (function(C) {
-        C.bar = '';
+        var bar = C.bar = '';
     })(C || (C = {
     }));
     var c = new C(1, 2);
@@ -85,7 +85,7 @@ var Generic;
         return C;
     }();
     (function(C) {
-        C.bar = '';
+        var bar = C.bar = '';
     })(C || (C = {
     }));
     var c = new C(1, '');

@@ -24,7 +24,7 @@ export var r5;
 export var r5;
 var M;
 (function(M1) {
-    M1.foo = '';
+    var foo = M1.foo = '';
     var C = function C() {
         "use strict";
         _classCallCheck(this, C);
@@ -47,7 +47,7 @@ export var r12;
 function foo() {
 }
 (function(foo1) {
-    foo1.y = 1;
+    var y = foo1.y = 1;
     var C = function C() {
         "use strict";
         _classCallCheck(this, C);

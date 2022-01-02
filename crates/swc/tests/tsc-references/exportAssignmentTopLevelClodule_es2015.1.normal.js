@@ -6,7 +6,7 @@ class Foo {
     }
 }
 (function(Foo1) {
-    Foo1.answer = 42;
+    var answer = Foo1.answer = 42;
 })(Foo || (Foo = {
 }));
 module.exports = Foo;

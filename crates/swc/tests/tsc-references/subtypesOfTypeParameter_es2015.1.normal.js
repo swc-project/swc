@@ -19,13 +19,13 @@ var E;
 function f() {
 }
 (function(f3) {
-    f3.bar = 1;
+    var bar = f3.bar = 1;
 })(f || (f = {
 }));
 class c {
 }
 (function(c1) {
-    c1.bar = 1;
+    var bar = c1.bar = 1;
 })(c || (c = {
 }));
 // errors throughout

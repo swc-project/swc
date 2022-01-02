@@ -61,16 +61,16 @@ var Y;
         Color[Color["Red"] = 1] = "Red";
     })(Color = Y1.Color || (Y1.Color = {
     }));
-    Y1.x = 12;
+    var x = Y1.x = 12;
     function F(s) {
         return 2;
     }
     Y1.F = F;
-    Y1.array = null;
-    Y1.fn = (s)=>{
+    var array = Y1.array = null;
+    var fn = Y1.fn = (s)=>{
         return 'hello ' + s;
     };
-    Y1.ol = {
+    var ol = Y1.ol = {
         s: 'hello',
         id: 2,
         isvalid: true

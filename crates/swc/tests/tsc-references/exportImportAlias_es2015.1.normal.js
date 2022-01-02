@@ -1,7 +1,7 @@
 // expect no errors here
 var A;
 (function(A1) {
-    A1.x = 'hello world';
+    var x1 = A1.x = 'hello world';
     class Point {
         constructor(x, y){
             this.x = x;
@@ -57,7 +57,7 @@ var K;
     }
     K1.L = L1;
     (function(L) {
-        L.y = 12;
+        var y = L.y = 12;
     })(L1 = K1.L || (K1.L = {
     }));
 })(K || (K = {

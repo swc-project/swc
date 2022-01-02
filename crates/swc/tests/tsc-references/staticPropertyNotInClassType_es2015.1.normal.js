@@ -15,7 +15,7 @@ var NonGeneric;
         }
     }
     (function(C) {
-        C.bar = '';
+        var bar = C.bar = '';
     })(C1 || (C1 = {
     }));
     var c = new C1(1, 2);
@@ -42,7 +42,7 @@ var Generic;
         }
     }
     (function(C) {
-        C.bar = '';
+        var bar = C.bar = '';
     })(C2 || (C2 = {
     }));
     var c = new C2(1, '');

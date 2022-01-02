@@ -37,13 +37,13 @@ var E;
 function f() {
 }
 (function(f22) {
-    f22.bar = 1;
+    var bar = f22.bar = 1;
 })(f || (f = {
 }));
 class c {
 }
 (function(c1) {
-    c1.bar = 1;
+    var bar = c1.bar = 1;
 })(c || (c = {
 }));
 function f4(x) {

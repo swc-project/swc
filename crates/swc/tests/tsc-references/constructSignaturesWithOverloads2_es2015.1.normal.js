@@ -5,7 +5,7 @@ class C {
     }
 }
 (function(C1) {
-    C1.x = 1;
+    var x = C1.x = 1;
 })(C || (C = {
 }));
 var r1 = new C(1, '');
@@ -14,7 +14,7 @@ class C2 {
     }
 }
 (function(C21) {
-    C21.x = 1;
+    var x = C21.x = 1;
 })(C2 || (C2 = {
 }));
 var r2 = new C2(1, '');

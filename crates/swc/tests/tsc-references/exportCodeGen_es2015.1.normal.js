@@ -2,7 +2,7 @@
 // with fully qualified
 var A;
 (function(A1) {
-    A1.x = 12;
+    var x = A1.x = 12;
     function lt12() {
         return x < 12;
     }
@@ -50,7 +50,7 @@ var E;
     E1.C = C1;
     let M1;
     (function(M) {
-        M.x = 42;
+        var x = M.x = 42;
     })(M1 = E1.M || (E1.M = {
     }));
 })(E || (E = {

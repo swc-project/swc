@@ -58,6 +58,6 @@ var Y;
 // generate code.
 var D;
 (function(D1) {
-    D1.E = 'hello';
+    var E = D1.E = 'hello';
 })(D || (D = {
 }));

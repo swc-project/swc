@@ -7,7 +7,7 @@ var A;
         }
     }
     A1.Point = Point;
-    A1.Origin = new Point(0, 0);
+    var Origin = A1.Origin = new Point(0, 0);
 })(A || (A = {
 }));
 // no code gen expected

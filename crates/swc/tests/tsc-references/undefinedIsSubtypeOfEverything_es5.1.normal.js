@@ -241,7 +241,7 @@ var D11 = /*#__PURE__*/ function(Base) {
 function f() {
 }
 (function(f1) {
-    f1.bar = 1;
+    var bar = f1.bar = 1;
 })(f || (f = {
 }));
 var D12 = /*#__PURE__*/ function(Base) {
@@ -259,7 +259,7 @@ var c = function c() {
     _classCallCheck(this, c);
 };
 (function(c) {
-    c.bar = 1;
+    var bar = c.bar = 1;
 })(c || (c = {
 }));
 var D13 = /*#__PURE__*/ function(Base) {

@@ -64,7 +64,7 @@ var r14 = true ? null : E.A;
 function f() {
 }
 (function(f1) {
-    f1.bar = 1;
+    var bar = f1.bar = 1;
 })(f || (f = {
 }));
 var af;
@@ -75,7 +75,7 @@ var c = function c() {
     _classCallCheck(this, c);
 };
 (function(c) {
-    c.bar = 1;
+    var bar = c.bar = 1;
 })(c || (c = {
 }));
 var ac;

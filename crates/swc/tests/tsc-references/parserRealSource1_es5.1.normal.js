@@ -76,9 +76,9 @@ var TypeScript;
     };
     var CompilerDiagnostics1;
     (function(CompilerDiagnostics) {
-        CompilerDiagnostics.debug = false;
-        CompilerDiagnostics.diagnosticWriter = null;
-        CompilerDiagnostics.analysisPass = 0;
+        var debug = CompilerDiagnostics.debug = false;
+        var diagnosticWriter = CompilerDiagnostics.diagnosticWriter = null;
+        var analysisPass = CompilerDiagnostics.analysisPass = 0;
         function Alert(output) {
             if (diagnosticWriter) {
                 diagnosticWriter.Alert(output);
