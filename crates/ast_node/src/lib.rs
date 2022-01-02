@@ -5,7 +5,7 @@ extern crate proc_macro;
 use darling;
 use pmutil::{smart_quote, Quote, ToTokensExt};
 use swc_macros_common::prelude::*;
-use syn::{self, *};
+use syn::{self, visit_mut::VisitMut, *};
 
 mod ast_node_macro;
 mod enum_deserialize;
@@ -145,6 +145,15 @@ pub fn ast_serde(
     print("ast_serde", item)
 }
 
+struct AddAttr;
+
+impl VisitMut for AddAttr {
+    fn visit_field_mut(&mut self, f: &mut Field) {
+        f.attrs
+            .push(parse_quote!(#[cfg_attr(feature = "rkyv",omit_bounds)]));
+    }
+}
+
 /// Alias for
 /// `#[derive(Spanned, Fold, Clone, Debug, PartialEq)]` for a struct and
 /// `#[derive(Spanned, Fold, Clone, Debug, PartialEq, FromVariant)]` for an
@@ -157,7 +166,9 @@ pub fn ast_node(
     args: proc_macro::TokenStream,
     input: proc_macro::TokenStream,
 ) -> proc_macro::TokenStream {
-    let input: DeriveInput = parse(input).expect("failed to parse input as a DeriveInput");
+    let mut input: DeriveInput = parse(input).expect("failed to parse input as a DeriveInput");
+
+    AddAttr.visit_data_mut(&mut input.data);
 
     // we should use call_site
     let mut item = Quote::new(Span::call_site());
@@ -176,6 +187,10 @@ pub fn ast_node(
                     PartialEq,
                     ::serde::Serialize,
                     ::swc_common::DeserializeEnum,
+                )]
+                #[cfg_attr(
+                    feature = "rkyv",
+                    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
                 )]
                 #[serde(untagged)]
                 input
@@ -219,6 +234,10 @@ pub fn ast_node(
                 item.quote_with(smart_quote!(Vars { input, serde_tag, serde_rename }, {
                     #[derive(::swc_common::Spanned, Clone, Debug, PartialEq)]
                     #[derive(::serde::Serialize, ::serde::Deserialize)]
+                    #[cfg_attr(
+                        feature = "rkyv",
+                        derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+                    )]
                     serde_tag
                     #[serde(rename_all = "camelCase")]
                     serde_rename
