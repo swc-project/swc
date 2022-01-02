@@ -32,7 +32,7 @@ fn main() -> Result<()> {
     let handler = Handler::with_tty_emitter(ColorConfig::Always, true, false, Some(cm.clone()));
 
     let _logger = {
-        let log_env = env::var("RUST_LOG").unwrap_or_else(|_| "debug".to_string());
+        let log_env = env::var("RUST_LOG").unwrap_or_else(|_| "info".to_string());
 
         let logger = tracing_subscriber::FmtSubscriber::builder()
             .without_time()
