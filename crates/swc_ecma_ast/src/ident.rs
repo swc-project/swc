@@ -10,11 +10,17 @@ use unicode_xid::UnicodeXID;
 /// Identifier used as a pattern.
 #[derive(Spanned, Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan, Serialize, Deserialize)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub struct BindingIdent {
     #[span]
     #[serde(flatten)]
+    #[cfg_attr(feature = "rkyv", omit_bounds)]
     pub id: Ident,
     #[serde(default, rename = "typeAnnotation")]
+    #[cfg_attr(feature = "rkyv", omit_bounds)]
     pub type_ann: Option<TsTypeAnn>,
 }
 

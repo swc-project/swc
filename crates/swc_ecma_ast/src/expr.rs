@@ -715,11 +715,17 @@ impl Take for Super {
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub struct ExprOrSpread {
     #[serde(default)]
+    #[cfg_attr(feature = "rkyv", omit_bounds)]
     pub spread: Option<Span>,
 
     #[serde(rename = "expression")]
+    #[cfg_attr(feature = "rkyv", omit_bounds)]
     pub expr: Box<Expr>,
 }
 
