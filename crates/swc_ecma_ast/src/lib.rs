@@ -153,6 +153,18 @@ impl rkyv::with::ArchiveWith<swc_atoms::JsWord> for EncodeJsWord {
 }
 
 #[cfg(feature = "rkyv")]
+impl<S> rkyv::with::SerializeWith<swc_atoms::JsWord, S> for EncodeJsWord where
+    S: ?Sized + rkyv::ser::Serializer
+{
+}
+
+#[cfg(feature = "rkyv")]
+impl<D> rkyv::with::DeserializeWith<rkyv::Archived<String>, swc_atoms::JsWord, D> for EncodeJsWord where
+    D: ?Sized + rkyv::Fallible
+{
+}
+
+#[cfg(feature = "rkyv")]
 impl rkyv::with::ArchiveWith<Option<swc_atoms::JsWord>> for EncodeJsWord {
     type Archived = rkyv::Archived<Option<String>>;
 
@@ -169,4 +181,18 @@ impl rkyv::with::ArchiveWith<Option<swc_atoms::JsWord>> for EncodeJsWord {
         let s = field.map(|s| s.to_string());
         s.resolve(pos, resolver, out);
     }
+}
+
+#[cfg(feature = "rkyv")]
+impl<S> rkyv::with::SerializeWith<Option<swc_atoms::JsWord>, S> for EncodeJsWord where
+    S: ?Sized + rkyv::ser::Serializer
+{
+}
+
+#[cfg(feature = "rkyv")]
+impl<D> rkyv::with::DeserializeWith<rkyv::Archived<Option<String>>, Option<swc_atoms::JsWord>, D>
+    for EncodeJsWord
+where
+    D: ?Sized + rkyv::Fallible,
+{
 }
