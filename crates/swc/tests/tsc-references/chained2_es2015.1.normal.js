@@ -9,7 +9,5 @@ export { A };
 export { types as default };
 new types.A();
 new types.B();
-const a = {
-};
-const b = {
-};
+const a = {};
+const b = {};

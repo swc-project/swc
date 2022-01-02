@@ -1,11 +1,8 @@
 //@target: ES6
-function f(x, y, ...z) {
-}
-function f2(...x) {
-}
+function f(x, y, ...z) {}
+function f2(...x) {}
 class B {
-    constructor(x, y, ...z){
-    }
+    constructor(x, y, ...z){}
 }
 var a;
 var b;

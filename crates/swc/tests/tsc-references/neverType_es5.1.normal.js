@@ -35,12 +35,10 @@ function failOrThrow(shouldFail) {
     throw new Error();
 }
 function infiniteLoop1() {
-    while(true){
-    }
+    while(true){}
 }
 function infiniteLoop2() {
-    while(true){
-    }
+    while(true){}
 }
 function move1(direction) {
     switch(direction){
@@ -72,8 +70,7 @@ var C = /*#__PURE__*/ function() {
         {
             key: "void2",
             value: function void2() {
-                while(true){
-                }
+                while(true){}
             }
         },
         {
@@ -85,8 +82,7 @@ var C = /*#__PURE__*/ function() {
         {
             key: "never2",
             value: function never2() {
-                while(true){
-                }
+                while(true){}
             }
         }
     ]);

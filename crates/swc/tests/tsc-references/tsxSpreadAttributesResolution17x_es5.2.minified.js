@@ -41,8 +41,7 @@ export var _typeof, Empty = function(_Component) {
             if (Reflect.construct.sham) return !1;
             if ("function" == typeof Proxy) return !0;
             try {
-                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                })), !0;
+                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
             } catch (e) {
                 return !1;
             }
@@ -73,5 +72,4 @@ export var _typeof, Empty = function(_Component) {
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Empty;
 }(React.Component);
-React.createElement(Empty, _extends({
-}, obj));
+React.createElement(Empty, _extends({}, obj));

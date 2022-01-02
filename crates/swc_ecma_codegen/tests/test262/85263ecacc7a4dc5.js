@@ -1,5 +1,4 @@
 (function() {
     'use strict';
-    function a() {
-    }
+    function a() {}
 });

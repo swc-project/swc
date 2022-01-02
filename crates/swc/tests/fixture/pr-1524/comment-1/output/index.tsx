@@ -47,7 +47,6 @@ function _unsupportedIterableToArray(o, minLen) {
 function Bar() {
     var ref = _slicedToArray(useState(0), 2), foo = ref[0], setFoo = ref[1];
     // @refresh reset
-    React.useEffect(function() {
-    });
+    React.useEffect(function() {});
     return(/*#__PURE__*/ React.createElement("h1", null, foo, " "));
 }

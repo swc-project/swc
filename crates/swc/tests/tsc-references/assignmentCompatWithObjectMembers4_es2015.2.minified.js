@@ -10,8 +10,7 @@ var OnlyDerived, WithBase;
         }()
     };
     t2 = t2, b = b, b2 = b2, t = t;
-}(OnlyDerived || (OnlyDerived = {
-})), (function(WithBase) {
+}(OnlyDerived || (OnlyDerived = {})), (function(WithBase) {
     class Base {
     }
     var t, t2, b, a2 = {
@@ -21,5 +20,4 @@ var OnlyDerived, WithBase;
         }()
     };
     t2 = t2, b = b, b2 = b2, t = t;
-})(WithBase || (WithBase = {
-}));
+})(WithBase || (WithBase = {}));

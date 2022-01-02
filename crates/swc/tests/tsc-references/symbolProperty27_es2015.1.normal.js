@@ -2,8 +2,7 @@ var tmp = Symbol.toStringTag;
 //@target: ES6
 class C1 {
     [tmp]() {
-        return {
-        };
+        return {};
     }
 }
 var tmp1 = Symbol.toStringTag;

@@ -28,8 +28,7 @@ let obj = {
     y: 2
 };
 // Error as "obj" has type { x: string; y: number }
-let p = /*#__PURE__*/ React.createElement(Poisoned, _extends({
-}, obj));
+let p = /*#__PURE__*/ React.createElement(Poisoned, _extends({}, obj));
 class EmptyProp extends React.Component {
     render() {
         return(/*#__PURE__*/ React.createElement("div", null, "Default hi"));
@@ -39,6 +38,5 @@ let o = {
     prop1: false
 };
 // Ok
-let e = /*#__PURE__*/ React.createElement(EmptyProp, _extends({
-}, o));
+let e = /*#__PURE__*/ React.createElement(EmptyProp, _extends({}, o));
 export { };

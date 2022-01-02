@@ -1,8 +1,5 @@
-var _app, x, Outer = null != Outer ? Outer : {
-};
-Outer.app = null !== (_app = Outer.app) && void 0 !== _app ? _app : {
-}, Outer.app.SomeView = function() {
-}, Outer.app.Inner = class {
+var _app, x, Outer = null != Outer ? Outer : {};
+Outer.app = null !== (_app = Outer.app) && void 0 !== _app ? _app : {}, Outer.app.SomeView = function() {}, Outer.app.Inner = class {
     constructor(){
         this.y = 12;
     }

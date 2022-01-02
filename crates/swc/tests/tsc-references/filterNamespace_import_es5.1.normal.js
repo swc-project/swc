@@ -19,10 +19,8 @@ var ns;
             _classCallCheck(this, NestedClass);
         };
         nested.NestedClass = NestedClass;
-    })(nested1 = ns1.nested || (ns1.nested = {
-    }));
-})(ns || (ns = {
-}));
+    })(nested1 = ns1.nested || (ns1.nested = {}));
+})(ns || (ns = {}));
 ns.Class; // Error
 ns.Value; // Error
 var c;

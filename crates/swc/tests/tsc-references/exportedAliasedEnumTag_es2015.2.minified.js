@@ -1,4 +1,3 @@
-(module.exports = {
-}).Type = {
+(module.exports = {}).Type = {
     BEFORE: "before"
 };

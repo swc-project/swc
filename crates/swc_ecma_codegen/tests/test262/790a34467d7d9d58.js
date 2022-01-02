@@ -1,2 +1,1 @@
-function eval() {
-}
+function eval() {}

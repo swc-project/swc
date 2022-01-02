@@ -1,6 +1,5 @@
 class B {
-    static log(a) {
-    }
+    static log(a) {}
     foo() {
         B.log(this.x);
     }

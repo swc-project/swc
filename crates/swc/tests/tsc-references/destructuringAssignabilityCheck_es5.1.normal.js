@@ -48,14 +48,12 @@ function _unsupportedIterableToArray(o, minLen) {
     if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
 }
 // @strict: true
-var ref = _slicedToArray({
-}, 0); // should be error
+var ref = _slicedToArray({}, 0); // should be error
 var undefined = undefined !== null ? undefined : _throw(new TypeError("Cannot destructure undefined")); // error correctly
 (function(param) {
     var _param = _slicedToArray(param, 0);
     return 0;
-})({
-}); // should be error
+})({}); // should be error
 (function(param) {
     var param = param !== null ? param : _throw(new TypeError("Cannot destructure undefined"));
     return 0;
@@ -69,5 +67,4 @@ function bar(param) {
     return 0;
 }
 var ref1 = 1, ref1 = ref1 !== null ? ref1 : _throw(new TypeError("Cannot destructure undefined"));
-var ref2 = _slicedToArray({
-}, 0);
+var ref2 = _slicedToArray({}, 0);

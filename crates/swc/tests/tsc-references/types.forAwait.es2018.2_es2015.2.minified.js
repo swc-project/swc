@@ -34,8 +34,7 @@ function _f() {
         let y;
         var _iteratorError, _iteratorAbruptCompletion = !1, _didIteratorError = !1;
         try {
-            for(var _step, _iterator = _asyncIterator({
-            }); _iteratorAbruptCompletion = !(_step = yield _iterator.next()).done; _iteratorAbruptCompletion = !1)_step.value;
+            for(var _step, _iterator = _asyncIterator({}); _iteratorAbruptCompletion = !(_step = yield _iterator.next()).done; _iteratorAbruptCompletion = !1)_step.value;
         } catch (err) {
             _didIteratorError = !0, _iteratorError = err;
         } finally{
@@ -47,8 +46,7 @@ function _f() {
         }
         var _iteratorError1, _iteratorAbruptCompletion1 = !1, _didIteratorError1 = !1;
         try {
-            for(var _step1, _iterator1 = _asyncIterator({
-            }); _iteratorAbruptCompletion1 = !(_step1 = yield _iterator1.next()).done; _iteratorAbruptCompletion1 = !1)_step1.value;
+            for(var _step1, _iterator1 = _asyncIterator({}); _iteratorAbruptCompletion1 = !(_step1 = yield _iterator1.next()).done; _iteratorAbruptCompletion1 = !1)_step1.value;
         } catch (err1) {
             _didIteratorError1 = !0, _iteratorError1 = err1;
         } finally{

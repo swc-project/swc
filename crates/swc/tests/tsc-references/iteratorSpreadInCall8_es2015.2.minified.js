@@ -1,7 +1,6 @@
 var tmp = Symbol.iterator, tmp1 = Symbol.iterator;
 new class {
-    constructor(...s){
-    }
+    constructor(...s){}
 }(...new class {
     next() {
         return {

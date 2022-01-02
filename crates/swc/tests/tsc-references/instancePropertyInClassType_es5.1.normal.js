@@ -32,8 +32,7 @@ var NonGeneric;
                 get: function get() {
                     return 1;
                 },
-                set: function set(v) {
-                }
+                set: function set(v) {}
             },
             {
                 key: "fn",
@@ -50,8 +49,7 @@ var NonGeneric;
     var r3 = r.y;
     r.y = 4;
     var r6 = c.y(); // error
-})(NonGeneric || (NonGeneric = {
-}));
+})(NonGeneric || (NonGeneric = {}));
 var Generic;
 (function(Generic) {
     var C = /*#__PURE__*/ function() {
@@ -67,8 +65,7 @@ var Generic;
                 get: function get() {
                     return null;
                 },
-                set: function set(v) {
-                }
+                set: function set(v) {}
             },
             {
                 key: "fn",
@@ -85,5 +82,4 @@ var Generic;
     var r3 = r.y;
     r.y = '';
     var r6 = c.y(); // error
-})(Generic || (Generic = {
-}));
+})(Generic || (Generic = {}));

@@ -41,8 +41,7 @@ var React = require("react"), Opt = function(_Component) {
             if (Reflect.construct.sham) return !1;
             if ("function" == typeof Proxy) return !0;
             try {
-                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                })), !0;
+                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
             } catch (e) {
                 return !1;
             }
@@ -75,11 +74,7 @@ var React = require("react"), Opt = function(_Component) {
 }(React.Component), obj1 = {
     x: 2
 };
-React.createElement(Opt, null), React.createElement(Opt, _extends({
-}, {
-})), React.createElement(Opt, _extends({
-}, obj1)), React.createElement(Opt, _extends({
-}, obj1, {
+React.createElement(Opt, null), React.createElement(Opt, _extends({}, {})), React.createElement(Opt, _extends({}, obj1)), React.createElement(Opt, _extends({}, obj1, {
     y: !0
 })), React.createElement(Opt, {
     x: 2

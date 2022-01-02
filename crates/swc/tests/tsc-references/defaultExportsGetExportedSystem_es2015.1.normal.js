@@ -5,5 +5,4 @@ class Foo {
 // @filename: a.ts
 export { Foo as default };
 // @filename: b.ts
-export default function foo() {
-};
+export default function foo() {};

@@ -1,59 +1,44 @@
 export var A;
-(function(A) {
-})(A || (A = {
-}));
+(function(A) {})(A || (A = {}));
 export var B;
 (function(B) {
     B[B["Member"] = 0] = "Member";
-})(B || (B = {
-}));
+})(B || (B = {}));
 var C;
-(function(C) {
-})(C || (C = {
-}));
+(function(C) {})(C || (C = {}));
 export { C };
 var DD;
-(function(DD) {
-})(DD || (DD = {
-}));
+(function(DD) {})(DD || (DD = {}));
 export { DD as D };
 export var E;
-(function(E) {
-})(E || (E = {
-}));
+(function(E) {})(E || (E = {}));
 export { E as EE };
 export { F as FF };
 export var F;
-(function(F) {
-})(F || (F = {
-}));
+(function(F) {})(F || (F = {}));
 export var G;
 (function(G) {
     G[G["A"] = 1] = "A";
     G[G["B"] = 2] = "B";
     G[G["C"] = 3] = "C";
-})(G || (G = {
-}));
+})(G || (G = {}));
 export var H;
 (function(H) {
     H["A"] = "a";
     H["B"] = "b";
-})(H || (H = {
-}));
+})(H || (H = {}));
 export var I;
 (function(I) {
     I[I["A"] = "a"] = "a";
     I[I["B"] = 0] = 0;
     I[I["C"] = 1] = "C";
-})(I || (I = {
-}));
+})(I || (I = {}));
 export var J;
 (function(J) {
     J[J["A"] = 1] = "A";
     J[J["B"] = 2] = "B";
     J[J["C"] = 3] = "C";
-})(J || (J = {
-}));
+})(J || (J = {}));
 export var K;
 (function(K) {
     K[K["None"] = 0] = "None";
@@ -61,8 +46,7 @@ export var K;
     K[K["B"] = 2] = "B";
     K[K["C"] = 4] = "C";
     K[K["Mask"] = 7] = "Mask";
-})(K || (K = {
-}));
+})(K || (K = {}));
 export var L;
 (function(L) {
     L[L["None"] = 0] = "None";
@@ -70,5 +54,4 @@ export var L;
     L[L["B"] = 2] = "B";
     L[L["C"] = 4] = "C";
     L[L["Mask"] = 7] = "Mask";
-})(L || (L = {
-}));
+})(L || (L = {}));

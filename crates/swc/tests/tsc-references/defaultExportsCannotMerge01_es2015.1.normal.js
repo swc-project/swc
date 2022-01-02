@@ -10,8 +10,7 @@ export var Decl;
 (function(Decl1) {
     var x = Decl1.x = 10;
     var y = Decl1.y = 20;
-})(Decl || (Decl = {
-}));
+})(Decl || (Decl = {}));
 Entity();
 var x;
 var y;

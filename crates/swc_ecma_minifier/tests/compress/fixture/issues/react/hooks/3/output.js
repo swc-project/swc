@@ -14,6 +14,5 @@ export function EnvironmentsSelector() {
         return (0, fetch_api.Z)(endpoint, token, {
             throwOnHTTPError: !0
         });
-    }, void 0)).data, {
-    };
+    }, void 0)).data, {};
 }

@@ -18,34 +18,28 @@ var c, d, C = function() {
     return _createClass(C, [
         {
             key: "foo",
-            value: function(x, y) {
-            }
+            value: function(x, y) {}
         },
         {
             key: "bar",
-            value: function(x, y) {
-            }
+            value: function(x, y) {}
         },
         {
             key: "baz",
-            value: function(x, y) {
-            }
+            value: function(x, y) {}
         }
     ], [
         {
             key: "foo",
-            value: function(x, y) {
-            }
+            value: function(x, y) {}
         },
         {
             key: "bar",
-            value: function(x, y) {
-            }
+            value: function(x, y) {}
         },
         {
             key: "baz",
-            value: function(x, y) {
-            }
+            value: function(x, y) {}
         }
     ]), C;
 }(), D = function() {
@@ -56,34 +50,28 @@ var c, d, C = function() {
     return _createClass(D, [
         {
             key: "foo",
-            value: function(x, y) {
-            }
+            value: function(x, y) {}
         },
         {
             key: "bar",
-            value: function(x, y) {
-            }
+            value: function(x, y) {}
         },
         {
             key: "baz",
-            value: function(x, y) {
-            }
+            value: function(x, y) {}
         }
     ], [
         {
             key: "foo",
-            value: function(x, y) {
-            }
+            value: function(x, y) {}
         },
         {
             key: "bar",
-            value: function(x, y) {
-            }
+            value: function(x, y) {}
         },
         {
             key: "baz",
-            value: function(x, y) {
-            }
+            value: function(x, y) {}
         }
     ]), D;
 }();

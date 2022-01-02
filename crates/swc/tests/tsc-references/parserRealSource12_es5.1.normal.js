@@ -541,7 +541,5 @@ var TypeScript;
             }
         }
         ChildrenWalkers.walkLabeledStatementChildren = walkLabeledStatementChildren;
-    })(ChildrenWalkers1 || (ChildrenWalkers1 = {
-    }));
-})(TypeScript || (TypeScript = {
-}));
+    })(ChildrenWalkers1 || (ChildrenWalkers1 = {}));
+})(TypeScript || (TypeScript = {}));

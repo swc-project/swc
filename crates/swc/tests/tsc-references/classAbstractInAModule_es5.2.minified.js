@@ -36,8 +36,7 @@ function _setPrototypeOf(o, p) {
                 if (Reflect.construct.sham) return !1;
                 if ("function" == typeof Proxy) return !0;
                 try {
-                    return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                    })), !0;
+                    return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                 } catch (e) {
                     return !1;
                 }
@@ -60,5 +59,4 @@ function _setPrototypeOf(o, p) {
         return B;
     }(A1);
     M1.B = B;
-}(M || (M = {
-})), new M.A, new M.B;
+}(M || (M = {})), new M.A, new M.B;

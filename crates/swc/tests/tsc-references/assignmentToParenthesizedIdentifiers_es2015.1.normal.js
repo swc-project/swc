@@ -7,8 +7,7 @@ var M;
 (function(M1) {
     var y;
     M1.y = y;
-})(M || (M = {
-}));
+})(M || (M = {}));
 M.y = 3; // OK
 M.y = 3; // OK
 M.y = 3; // OK
@@ -27,13 +26,11 @@ var M2;
     (function(M3) {
         var x1;
         M3.x = x1;
-    })(M31 = M21.M3 || (M21.M3 = {
-    }));
+    })(M31 = M21.M3 || (M21.M3 = {}));
     M31 = {
         x: 3
     }; // Error
-})(M2 || (M2 = {
-}));
+})(M2 || (M2 = {}));
 M2.M3 = {
     x: 3
 }; // OK
@@ -52,8 +49,7 @@ M2.M3 = {
 M2.M3 = {
     x: ''
 }; // Error
-function fn() {
-}
+function fn() {}
 fn = ()=>3
 ; // Bug 823548: Should be error (fn is not a reference)
 fn = ()=>3
@@ -77,8 +73,7 @@ function fn2(x2, y) {
 var E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
-}));
+})(E || (E = {}));
 E = undefined; // Error
 E = undefined; // Error
 class C {

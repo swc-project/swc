@@ -1,3 +1,1 @@
-try {
-} catch (arguments) {
-}
+try {} catch (arguments) {}

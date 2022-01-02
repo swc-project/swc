@@ -52,8 +52,7 @@ var Errors;
         var b17;
         a17 = b17; // error
         b17 = a17; // error
-    })(WithNonGenericSignaturesInBaseType || (WithNonGenericSignaturesInBaseType = {
-    }));
+    })(WithNonGenericSignaturesInBaseType || (WithNonGenericSignaturesInBaseType = {}));
     let WithGenericSignaturesInBaseType;
     (function(WithGenericSignaturesInBaseType) {
         // target type has generic call signature
@@ -66,7 +65,5 @@ var Errors;
         var b3;
         a3 = b3; // ok
         b3 = a3; // ok
-    })(WithGenericSignaturesInBaseType || (WithGenericSignaturesInBaseType = {
-    }));
-})(Errors || (Errors = {
-}));
+    })(WithGenericSignaturesInBaseType || (WithGenericSignaturesInBaseType = {}));
+})(Errors || (Errors = {}));

@@ -1,7 +1,5 @@
-function foo({ x: [a, b] , y: { c , d , e  }  }) {
-}
-function baz(x) {
-}
+function foo({ x: [a, b] , y: { c , d , e  }  }) {}
+function baz(x) {}
 foo({
     x: [
         "string",

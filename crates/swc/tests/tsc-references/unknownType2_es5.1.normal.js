@@ -17,16 +17,11 @@ if (u === null) {
 if (u === symb) {
     var symbolAlias = u;
 }
-if (!(u === 42)) {
-}
-if (u !== 42) {
-}
-if (u == 42) {
-}
-if (u == true) {
-}
-if (u == Object) {
-}
+if (!(u === 42)) {}
+if (u !== 42) {}
+if (u == 42) {}
+if (u == true) {}
+if (u == Object) {}
 if (u === aString) {
     var uString = u;
 }
@@ -42,10 +37,8 @@ if (u === anObject) {
 if (u === anObjectLiteral) {
     var uObjectLiteral = u;
 }
-if (u === aUnion) {
-}
-if (u === anIntersection) {
-}
+if (u === aUnion) {}
+if (u === anIntersection) {}
 if (u === aFunction) {
     var uFunction = u;
 }
@@ -54,15 +47,13 @@ var NumberEnum;
     NumberEnum[NumberEnum["A"] = 0] = "A";
     NumberEnum[NumberEnum["B"] = 1] = "B";
     NumberEnum[NumberEnum["C"] = 2] = "C";
-})(NumberEnum || (NumberEnum = {
-}));
+})(NumberEnum || (NumberEnum = {}));
 var StringEnum;
 (function(StringEnum) {
     StringEnum["A"] = "A";
     StringEnum["B"] = "B";
     StringEnum["C"] = "C";
-})(StringEnum || (StringEnum = {
-}));
+})(StringEnum || (StringEnum = {}));
 if (u === NumberEnum || u === StringEnum) {
     var enumObj = u;
 }
@@ -173,21 +164,17 @@ function f2(x) {
     return x;
 }
 function notNotEquals(u1) {
-    if (u1 !== NumberEnum) {
-    } else {
+    if (u1 !== NumberEnum) {} else {
         var o = u1;
     }
-    if (u1 !== NumberEnum.A) {
-    } else {
+    if (u1 !== NumberEnum.A) {} else {
         var a = u1;
     }
-    if (u1 !== NumberEnum.A && u1 !== NumberEnum.B && u1 !== StringEnum.A) {
-    } else {
+    if (u1 !== NumberEnum.A && u1 !== NumberEnum.B && u1 !== StringEnum.A) {} else {
         var aOrB = u1;
     }
     // equivalent to
-    if (!(u1 === NumberEnum.A || u1 === NumberEnum.B || u1 === StringEnum.A)) {
-    } else {
+    if (!(u1 === NumberEnum.A || u1 === NumberEnum.B || u1 === StringEnum.A)) {} else {
         var aOrB1 = u1;
     }
 }

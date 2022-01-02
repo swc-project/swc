@@ -3,10 +3,7 @@
 // @checkJs: true
 // #24131
 // @Filename: a.js
-const a = {
-};
-a.d = function() {
-};
+const a = {};
+a.d = function() {};
 // @Filename: b.js
-a.d.prototype = {
-};
+a.d.prototype = {};

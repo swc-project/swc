@@ -277,5 +277,4 @@ function _f14() {
     M1.f1 = function() {
         return _f11.apply(this, arguments);
     };
-}(M || (M = {
-}));
+}(M || (M = {}));

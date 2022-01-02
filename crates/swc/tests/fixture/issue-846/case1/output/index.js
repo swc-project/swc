@@ -277,8 +277,7 @@ function _toElementDescriptor(elementObject) {
         kind: kind,
         key: key,
         placement: placement,
-        descriptor: Object.assign({
-        }, descriptor)
+        descriptor: Object.assign({}, descriptor)
     };
     if (kind !== "field") {
         _disallowProperty(elementObject, "initializer", "A method descriptor");
@@ -447,8 +446,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -482,8 +480,7 @@ var SomeClass = _decorate([], function(_initialize) {
                     dec
                 ],
                 key: "someMethod",
-                value: function someMethod() {
-                }
+                value: function someMethod() {}
             }
         ]
     };

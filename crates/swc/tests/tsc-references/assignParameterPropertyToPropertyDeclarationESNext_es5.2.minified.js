@@ -33,8 +33,7 @@ function _createSuper(Derived) {
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
         try {
-            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-            })), !0;
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
         } catch (e) {
             return !1;
         }
@@ -55,8 +54,7 @@ var C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C(foo) {
-        _classCallCheck(this, C), this.foo = foo, this.qux = this.bar, this.bar = this.foo, this.quiz = this.bar, this.quench = this.m1(), this.quanch = this.m3(), this.m3 = function() {
-        }, this.quim = this.baz, this.baz = this.foo, this.quid = this.baz;
+        _classCallCheck(this, C), this.foo = foo, this.qux = this.bar, this.bar = this.foo, this.quiz = this.bar, this.quench = this.m1(), this.quanch = this.m3(), this.m3 = function() {}, this.quim = this.baz, this.baz = this.foo, this.quid = this.baz;
     }
     return protoProps = [
         {

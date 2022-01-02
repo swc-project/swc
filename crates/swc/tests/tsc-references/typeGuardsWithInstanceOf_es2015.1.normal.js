@@ -2,12 +2,10 @@ var result;
 var result2;
 if (!(result instanceof RegExp)) {
     result = result2;
-} else if (!result.global) {
-}
+} else if (!result.global) {}
 class C {
     validate() {
-        return {
-        };
+        return {};
     }
 }
 function foo() {
@@ -19,7 +17,6 @@ function foo() {
     v // Validator & Partial<OnChanges> via subtype reduction
     ;
     if (v.onChanges) {
-        v.onChanges({
-        });
+        v.onChanges({});
     }
 }

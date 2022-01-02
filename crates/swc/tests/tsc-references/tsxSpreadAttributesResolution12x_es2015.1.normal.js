@@ -18,8 +18,7 @@ function _extends() {
 // @skipLibCheck: true
 // @libFiles: react.d.ts,lib.d.ts
 const React = require('react');
-const obj = {
-};
+const obj = {};
 const obj1 = {
     x: 2
 };
@@ -34,8 +33,7 @@ class OverWriteAttr extends React.Component {
 }
 let anyobj;
 // Error
-let x = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({
-}, obj, {
+let x = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({}, obj, {
     y: true,
     overwrite: "hi"
 }, obj1));
@@ -46,8 +44,7 @@ let x1 = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({
 }, {
     y: true
 }));
-let x2 = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({
-}, anyobj, {
+let x2 = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({}, anyobj, {
     x: 3
 }));
 let x3 = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({

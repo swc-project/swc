@@ -19,8 +19,7 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
     const isFirstWidgetIndex = isIndexWidget(firstWidget), isSecondWidgetIndex = isIndexWidget(secondWidget);
     return isFirstWidgetIndex && !isSecondWidgetIndex ? -1 : !isFirstWidgetIndex && isSecondWidgetIndex ? 1 : 0;
 };
-export default function createInstantSearchManager({ indexName , initialState ={
-} , searchClient , resultsState , stalledSearchDelay ,  }) {
+export default function createInstantSearchManager({ indexName , initialState ={} , searchClient , resultsState , stalledSearchDelay ,  }) {
     var results1;
     const helper = algoliasearchHelper(searchClient, indexName, {
         ...HIGHLIGHT_TAGS
@@ -89,8 +88,7 @@ export default function createInstantSearchManager({ indexName , initialState ={
                 ...acc,
                 [result._internalIndexId]: new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(result.state), result.rawResults)
             })
-        , {
-        }) : new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(results1.state), results1.rawResults) : null,
+        , {}) : new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(results1.state), results1.rawResults) : null,
         error: null,
         searching: !1,
         isSearchStalled: !0,
@@ -120,8 +118,7 @@ export default function createInstantSearchManager({ indexName , initialState ={
                 ...indices,
                 [indexId]: widgets.concat(widget)
             };
-        }, {
-        }), derivedParameters = Object.keys(derivedIndices).map((indexId)=>({
+        }, {}), derivedParameters = Object.keys(derivedIndices).map((indexId)=>({
                 parameters: derivedIndices[indexId].reduce((res, widget)=>widget.getSearchParameters(res)
                 , sharedParameters),
                 indexId
@@ -149,10 +146,8 @@ export default function createInstantSearchManager({ indexName , initialState ={
     function handleSearchSuccess({ indexId  }) {
         return (event)=>{
             const state = store.getState(), isDerivedHelpersEmpty = !helper.derivedHelpers.length;
-            let results = state.results ? state.results : {
-            };
-            results = !isDerivedHelpersEmpty && results.getFacetByName ? {
-            } : results, results = isDerivedHelpersEmpty ? event.results : {
+            let results = state.results ? state.results : {};
+            results = !isDerivedHelpersEmpty && results.getFacetByName ? {} : results, results = isDerivedHelpersEmpty ? event.results : {
                 ...results,
                 [indexId]: event.results
             };
@@ -311,18 +306,15 @@ export default function createInstantSearchManager({ indexName , initialState ={
 };
 function hydrateMetadata(resultsState) {
     return resultsState ? resultsState.metadata.map((datum)=>({
-            value: ()=>({
-                })
+            value: ()=>({})
             ,
             ...datum,
             items: datum.items && datum.items.map((item)=>({
-                    value: ()=>({
-                        })
+                    value: ()=>({})
                     ,
                     ...item,
                     items: item.items && item.items.map((nestedItem)=>({
-                            value: ()=>({
-                                })
+                            value: ()=>({})
                             ,
                             ...nestedItem
                         })

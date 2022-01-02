@@ -18,7 +18,6 @@ for(;;){
 }
 SEVEN: for(;;)for(;;)for(;;)continue SEVEN;
 EIGHT: for(;;){
-    var fn = function fn() {
-    };
+    var fn = function fn() {};
     continue EIGHT;
 }

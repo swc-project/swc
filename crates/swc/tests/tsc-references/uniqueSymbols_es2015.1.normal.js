@@ -143,8 +143,7 @@ const constInitToConstCallWithTypeQuery = constCall;
 const constInitToConstDeclAmbientWithTypeQuery = constType;
 // assignment from any
 // https://github.com/Microsoft/TypeScript/issues/29108
-const fromAny = {
-};
+const fromAny = {};
 // function return inference
 function funcReturnConstCall() {
     return constCall;

@@ -15,8 +15,7 @@ class Point {
         return null;
     } //expected duplicate identifier error
     Point1.Origin = Origin;
-})(Point || (Point = {
-}));
+})(Point || (Point = {}));
 var A;
 (function(A1) {
     class Point2 {
@@ -37,7 +36,5 @@ var A;
             return "";
         } //expected duplicate identifier error
         Point3.Origin = Origin;
-    })(Point2 = A1.Point || (A1.Point = {
-    }));
-})(A || (A = {
-}));
+    })(Point2 = A1.Point || (A1.Point = {}));
+})(A || (A = {}));

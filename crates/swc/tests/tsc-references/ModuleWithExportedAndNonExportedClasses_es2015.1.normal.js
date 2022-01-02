@@ -10,8 +10,7 @@ var A;
     }
     class AG2 {
     }
-})(A || (A = {
-}));
+})(A || (A = {}));
 // no errors expected, these are all exported
 var a;
 var a = new A.A();

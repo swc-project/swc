@@ -20,8 +20,7 @@ var c, C = function() {
                     return "";
                 };
             },
-            set: function(v) {
-            }
+            set: function(v) {}
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }();

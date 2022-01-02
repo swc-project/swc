@@ -105,10 +105,8 @@ function checkRedirectValues(redirect__6, req__6, method__6) {
 }
 export async function renderToHTML(req__7, res__7, pathname__7, query__7, renderOpts__7) {
     renderOpts__7.devOnlyCacheBusterQueryString = renderOpts__7.dev ? renderOpts__7.devOnlyCacheBusterQueryString || `?ts=${Date.now()}` : "";
-    query__7 = Object.assign({
-    }, query__7);
-    const { err__7 , dev__7 =false , ampPath__7 ="" , App__7 , Document__7 , pageConfig__7 ={
-    } , Component__7 , buildManifest__7 , fontManifest__7 , reactLoadableManifest__7 , ErrorDebug__7 , getStaticProps__7 , getStaticPaths__7 , getServerSideProps__7 , isDataReq__7 , params__7 , previewProps__7 , basePath__7 , devOnlyCacheBusterQueryString__7 , supportsDynamicHTML__7 , concurrentFeatures__7  } = renderOpts__7;
+    query__7 = Object.assign({}, query__7);
+    const { err__7 , dev__7 =false , ampPath__7 ="" , App__7 , Document__7 , pageConfig__7 ={} , Component__7 , buildManifest__7 , fontManifest__7 , reactLoadableManifest__7 , ErrorDebug__7 , getStaticProps__7 , getStaticPaths__7 , getServerSideProps__7 , isDataReq__7 , params__7 , previewProps__7 , basePath__7 , devOnlyCacheBusterQueryString__7 , supportsDynamicHTML__7 , concurrentFeatures__7  } = renderOpts__7;
     const getFontDefinition__7 = (url__8)=>{
         if (fontManifest__7) {
             return getFontDefinitionFromManifest(url__8, fontManifest__7);
@@ -116,8 +114,7 @@ export async function renderToHTML(req__7, res__7, pathname__7, query__7, render
         return "";
     };
     const callMiddleware__7 = async (method__9, args__9, props__9 = false)=>{
-        let results__9 = props__9 ? {
-        } : [];
+        let results__9 = props__9 ? {} : [];
         if (Document__7[`${method__9}Middleware`]) {
             let middlewareFunc__10 = await Document__7[`${method__9}Middleware`];
             middlewareFunc__10 = middlewareFunc__10.default || middlewareFunc__10;
@@ -190,8 +187,7 @@ export async function renderToHTML(req__7, res__7, pathname__7, query__7, render
             query__7 = {
                 ...query__7.amp ? {
                     amp: query__7.amp
-                } : {
-                }
+                } : {}
             };
             asPath__7 = `${pathname__7}${req__7.url.endsWith("/") && pathname__7 !== "/" && !pageIsDynamic__7 ? "/" : ""}`;
             req__7.url = pathname__7;
@@ -261,8 +257,7 @@ export async function renderToHTML(req__7, res__7, pathname__7, query__7, render
     const inAmpMode__7 = isInAmpMode(ampState__7);
     const reactLoadableModules__7 = [];
     let head__7 = defaultHead(inAmpMode__7);
-    let scriptLoader__7 = {
-    };
+    let scriptLoader__7 = {};
     const nextExport__7 = !isSSG__7 && (renderOpts__7.nextExport || dev__7 && (isAutoExport__7 || isFallback__7));
     const AppContainer__7 = ({ children__19  })=><RouterContext.Provider value={router__7}>
 
@@ -279,8 +274,7 @@ export async function renderToHTML(req__7, res__7, pathname__7, query__7, render
             updateScripts: (scripts__21)=>{
                 scriptLoader__7 = scripts__21;
             },
-            scripts: {
-            },
+            scripts: {},
             mountedInstances: new Set()
         }}>
 
@@ -408,8 +402,7 @@ export async function renderToHTML(req__7, res__7, pathname__7, query__7, render
         } else {
             data__23.revalidate = false;
         }
-        props__7.pageProps = Object.assign({
-        }, props__7.pageProps, "props" in data__23 ? data__23.props : undefined);
+        props__7.pageProps = Object.assign({}, props__7.pageProps, "props" in data__23 ? data__23.props : undefined);
         renderOpts__7.revalidate = "revalidate" in data__23 ? data__23.revalidate : undefined;
         renderOpts__7.pageData = props__7;
         if (renderOpts__7.isNotFound) {
@@ -495,20 +488,17 @@ export async function renderToHTML(req__7, res__7, pathname__7, query__7, render
         if ((dev__7 || isBuildTimeSSG__7) && !isSerializableProps(pathname__7, "getServerSideProps", data__26.props)) {
             throw new Error("invariant: getServerSideProps did not return valid props. Please report this.");
         }
-        props__7.pageProps = Object.assign({
-        }, props__7.pageProps, data__26.props);
+        props__7.pageProps = Object.assign({}, props__7.pageProps, data__26.props);
         renderOpts__7.pageData = props__7;
     }
-    if (!isSSG__7 && !getServerSideProps__7 && process.env.NODE_ENV !== "production" && Object.keys(props__7?.pageProps || {
-    }).includes("url")) {
+    if (!isSSG__7 && !getServerSideProps__7 && process.env.NODE_ENV !== "production" && Object.keys(props__7?.pageProps || {}).includes("url")) {
         console.warn(`The prop \`url\` is a reserved prop in Next.js for legacy reasons and will be overridden on page ${pathname__7}\n` + `See more info here: https://nextjs.org/docs/messages/reserved-page-prop`);
     }
     if (isDataReq__7 && !isSSG__7 || renderOpts__7.isRedirect) {
         return RenderResult.fromStatic(JSON.stringify(props__7));
     }
     if (isFallback__7) {
-        props__7.pageProps = {
-        };
+        props__7.pageProps = {};
     }
     if (isResSent(res__7) && !isSSG__7) return null;
     let filteredBuildManifest__7 = buildManifest__7;
@@ -533,8 +523,7 @@ export async function renderToHTML(req__7, res__7, pathname__7, query__7, render
     const generateStaticHTML__7 = supportsDynamicHTML__7 !== true;
     const renderDocument__7 = async ()=>{
         if (Document__7.getInitialProps) {
-            const renderPage__33 = (options__34 = {
-            })=>{
+            const renderPage__33 = (options__34 = {})=>{
                 if (ctx__7.err && ErrorDebug__7) {
                     const html__35 = ReactDOMServer.renderToString(<ErrorDebug__7 error={ctx__7.err}/>);
                     return {
@@ -619,8 +608,7 @@ export async function renderToHTML(req__7, res__7, pathname__7, query__7, render
         }
     }
     const hybridAmp__7 = ampState__7.hybrid;
-    const docComponentsRendered__7 = {
-    };
+    const docComponentsRendered__7 = {};
     const { assetPrefix__7 , buildId__7 , customServer__7 , defaultLocale__7 , disableOptimizedLoading__7 , domainLocales__7 , locale__7 , locales__7 , runtimeConfig__7  } = renderOpts__7;
     const htmlProps__7 = {
         __NEXT_DATA__: {

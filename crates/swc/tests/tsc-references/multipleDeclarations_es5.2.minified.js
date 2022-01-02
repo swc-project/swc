@@ -23,13 +23,11 @@ var X = function() {
     return _createClass(X, [
         {
             key: "m",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "mistake",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), X;
 }(), x = new X();
@@ -42,13 +40,11 @@ var Y = function() {
     return _createClass(Y, [
         {
             key: "mistake",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "m",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), Y;
 }();

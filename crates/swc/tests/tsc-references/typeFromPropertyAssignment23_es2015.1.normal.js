@@ -3,8 +3,7 @@
 // @allowJs: true
 // @Filename: a.js
 class B {
-    foo() {
-    }
+    foo() {}
     constructor(){
         this.n = 1;
     }
@@ -12,8 +11,7 @@ class B {
 class C extends B {
 }
 // this override should be fine (even if it's a little odd)
-C.prototype.foo = function() {
-};
+C.prototype.foo = function() {};
 class D extends B {
 }
 D.prototype.foo = ()=>{

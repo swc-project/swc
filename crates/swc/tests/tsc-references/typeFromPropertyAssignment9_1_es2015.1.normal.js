@@ -3,17 +3,14 @@
 // @checkJs: true
 // @target: esnext
 // @Filename: a.js
-var my = my !== null && my !== void 0 ? my : {
-};
+var my = my !== null && my !== void 0 ? my : {};
 /** @param {number} n */ my.method = function(n) {
     return n + 1;
 };
 my.number = 1;
-my.object = {
-};
+my.object = {};
 var _predicate;
-my.predicate = (_predicate = my.predicate) !== null && _predicate !== void 0 ? _predicate : {
-};
+my.predicate = (_predicate = my.predicate) !== null && _predicate !== void 0 ? _predicate : {};
 my.predicate.query = function() {
     var me = this;
     me.property = false;
@@ -36,14 +33,11 @@ my.predicate.type = class _class {
 };
 var _min;
 // global-ish prefixes
-var min = (_min = window.min) !== null && _min !== void 0 ? _min : {
-};
+var min = (_min = window.min) !== null && _min !== void 0 ? _min : {};
 var _nest;
-min.nest = (_nest = this.min.nest) !== null && _nest !== void 0 ? _nest : function() {
-};
+min.nest = (_nest = this.min.nest) !== null && _nest !== void 0 ? _nest : function() {};
 var _other;
 min.nest.other = (_other = self.min.nest.other) !== null && _other !== void 0 ? _other : class {
 };
 var _property;
-min.property = (_property = global.min.property) !== null && _property !== void 0 ? _property : {
-};
+min.property = (_property = global.min.property) !== null && _property !== void 0 ? _property : {};

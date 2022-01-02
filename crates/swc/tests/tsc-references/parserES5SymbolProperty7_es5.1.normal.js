@@ -27,8 +27,7 @@ var C = //@target: ES5
     _createClass(C, [
         {
             key: tmp,
-            value: function value() {
-            }
+            value: function value() {}
         }
     ]);
     return C;

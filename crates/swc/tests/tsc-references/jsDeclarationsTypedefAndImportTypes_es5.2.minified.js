@@ -16,8 +16,7 @@ var Conn = function() {
     return protoProps = [
         {
             key: "method",
-            value: function() {
-            }
+            value: function() {}
         }
     ], _defineProperties((Constructor = Conn).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Conn;
 }();

@@ -36,8 +36,7 @@ function _f() {
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    _iteratorAbruptCompletion = !1, _didIteratorError = !1, _ctx.prev = 3, _iterator = _asyncIterator({
-                    });
+                    _iteratorAbruptCompletion = !1, _didIteratorError = !1, _ctx.prev = 3, _iterator = _asyncIterator({});
                 case 5:
                     return _ctx.next = 7, _iterator.next();
                 case 7:
@@ -71,8 +70,7 @@ function _f() {
                 case 27:
                     return _ctx.finish(18);
                 case 28:
-                    _iteratorAbruptCompletion1 = !1, _didIteratorError1 = !1, _ctx.prev = 29, _iterator1 = _asyncIterator({
-                    });
+                    _iteratorAbruptCompletion1 = !1, _didIteratorError1 = !1, _ctx.prev = 29, _iterator1 = _asyncIterator({});
                 case 31:
                     return _ctx.next = 33, _iterator1.next();
                 case 33:

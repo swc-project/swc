@@ -7,8 +7,7 @@ function _defineProperty(obj, key, value) {
     }) : obj[key] = value, obj;
 }
 function _objectWithoutProperties(source, excluded) {
-    if (null == source) return {
-    };
+    if (null == source) return {};
     var key, i, target = _objectWithoutPropertiesLoose(source, excluded);
     if (Object.getOwnPropertySymbols) {
         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
@@ -17,10 +16,8 @@ function _objectWithoutProperties(source, excluded) {
     return target;
 }
 function _objectWithoutPropertiesLoose(source, excluded) {
-    if (null == source) return {
-    };
-    var key, i, target = {
-    }, sourceKeys = Object.keys(source);
+    if (null == source) return {};
+    var key, i, target = {}, sourceKeys = Object.keys(source);
     for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
     return target;
 }
@@ -59,8 +56,7 @@ try {
     for(var _step2, _iterator2 = array.map(function(a) {
         return (function(target) {
             for(var i = 1; i < arguments.length; i++){
-                var source = null != arguments[i] ? arguments[i] : {
-                }, ownKeys = Object.keys(source);
+                var source = null != arguments[i] ? arguments[i] : {}, ownKeys = Object.keys(source);
                 "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                     return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                 }))), ownKeys.forEach(function(key) {
@@ -68,8 +64,7 @@ try {
                 });
             }
             return target;
-        })({
-        }, a, {
+        })({}, a, {
             x: "a string"
         });
     })[Symbol.iterator](); !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = !0){

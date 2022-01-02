@@ -1,8 +1,6 @@
 class clodule {
-    static fn(id) {
-    }
+    static fn(id) {}
 }
-(clodule || (clodule = {
-})).fn = function(x, y) {
+(clodule || (clodule = {})).fn = function(x, y) {
     return x;
 };

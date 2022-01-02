@@ -26,8 +26,7 @@ var C = function() {
         {
             key: "method",
             value: function() {
-                var other = function() {
-                };
+                var other = function() {};
                 function _fn() {
                     return (_fn = (function(fn) {
                         return function() {

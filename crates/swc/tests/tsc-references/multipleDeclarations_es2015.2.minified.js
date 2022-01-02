@@ -4,10 +4,8 @@
     this.nothing();
 };
 class X {
-    m() {
-    }
-    mistake() {
-    }
+    m() {}
+    mistake() {}
     constructor(){
         this.m = this.m.bind(this), this.mistake = "frankly, complete nonsense";
     }
@@ -15,10 +13,8 @@ class X {
 let x = new X();
 X.prototype.mistake = !1, x.m(), x.mistake;
 class Y {
-    mistake() {
-    }
-    m() {
-    }
+    mistake() {}
+    m() {}
     constructor(){
         this.m = this.m.bind(this), this.mistake = "even more nonsense";
     }

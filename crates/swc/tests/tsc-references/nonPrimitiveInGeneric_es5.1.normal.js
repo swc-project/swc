@@ -2,24 +2,20 @@
 function generic(t) {
     var o = t; // expect error
 }
-var a = {
-};
+var a = {};
 var b = "42";
-generic({
-});
+generic({});
 generic(a);
 generic(123); // expect error
 generic(b); // expect error
 function bound(t) {
     var o = t; // ok
 }
-bound({
-});
+bound({});
 bound(a);
 bound(123); // expect error
 bound(b); // expect error
-function bound2() {
-}
+function bound2() {}
 bound2();
 bound2();
 bound2(); // expect error

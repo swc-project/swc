@@ -1,4 +1,3 @@
 class a extends b {
-    get c() {
-    }
+    get c() {}
 }

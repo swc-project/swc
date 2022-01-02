@@ -1,4 +1,3 @@
 class a {
-    prototype() {
-    }
+    prototype() {}
 }

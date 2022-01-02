@@ -93,8 +93,7 @@ const JpegImage = function jpegImage() {
     const dctSin6 = 3784;
     const dctSqrt2 = 5793;
     const dctSqrt1d2 = 2896;
-    function constructor() {
-    }
+    function constructor() {}
     function buildHuffmanTable(codeLengths, values) {
         let k = 0;
         const code = [];
@@ -532,8 +531,7 @@ const JpegImage = function jpegImage() {
         return a < 0 ? 0 : a > 255 ? 255 : a;
     }
     constructor.prototype = {
-        load: function load(path) {
-        },
+        load: function load(path) {},
         parse: function parse(data) {
             let offset = 0;
             function readUint16() {
@@ -674,15 +672,13 @@ const JpegImage = function jpegImage() {
                     case 65473:
                     case 65474:
                         readUint16();
-                        frame1 = {
-                        };
+                        frame1 = {};
                         frame1.extended = fileMarker === 65473;
                         frame1.progressive = fileMarker === 65474;
                         frame1.precision = data[offset++];
                         frame1.scanLines = readUint16();
                         frame1.samplesPerLine = readUint16();
-                        frame1.components = {
-                        };
+                        frame1.components = {};
                         frame1.componentsOrder = [];
                         let componentsCount = data[offset++], componentId;
                         for(i = 0; i < componentsCount; i++){

@@ -27,8 +27,7 @@ function f1(shape) {
 function f2(shape) {
     var partial;
     var partial;
-    var partial = {
-    };
+    var partial = {};
 }
 function f3(shape) {
     var x = pick(shape, "name", "location"); // { name: string, location: Point }

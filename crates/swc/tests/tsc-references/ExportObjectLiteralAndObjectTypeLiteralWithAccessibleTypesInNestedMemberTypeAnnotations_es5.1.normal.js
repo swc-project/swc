@@ -12,5 +12,4 @@ var A;
         this.y = y;
     };
     var UnitSquare = A1.UnitSquare = null;
-})(A || (A = {
-}));
+})(A || (A = {}));

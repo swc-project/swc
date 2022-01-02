@@ -1,3 +1,2 @@
 'use strict';
-var a = function() {
-}(b());
+var a = function() {}(b());

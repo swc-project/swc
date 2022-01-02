@@ -1,49 +1,38 @@
-var ns = {
-};
+var ns = {};
 ns.x = {
     status: "done",
-    m (n) {
-    }
+    m (n) {}
 }, ns.x = {
     status: "done",
-    m (n) {
-    }
+    m (n) {}
 }, ns.x;
 class Thing {
     fail() {
         this.s = {
             status: "done",
-            m (n) {
-            }
+            m (n) {}
         };
     }
     constructor(){
         this.s = {
             status: "done",
-            m (n) {
-            }
+            m (n) {}
         };
     }
 }
 exports.x = {
     status: "done",
-    m (n) {
-    }
+    m (n) {}
 }, module.exports.y = {
     status: "done",
-    m (n) {
-    }
+    m (n) {}
 }, module.exports.y, Thing.prototype.x = {
     status: "done",
-    m (n) {
-    }
-}, Thing.prototype.x, (function() {
-}).prototype = {
+    m (n) {}
+}, Thing.prototype.x, (function() {}).prototype = {
     status: "done",
-    m (n) {
-    }
+    m (n) {}
 }, module.exports = {
     status: "done",
-    m (n) {
-    }
+    m (n) {}
 };

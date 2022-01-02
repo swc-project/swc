@@ -2,12 +2,10 @@ var unionNumberString;
 class C {
 }
 class D extends C {
-    foo1() {
-    }
+    foo1() {}
 }
 class E extends C {
-    foo2() {
-    }
+    foo2() {}
 }
 var unionDE;
 var num;

@@ -11,6 +11,5 @@ class C {
 }
 var tmp1 = "set1";
 class D extends C {
-    set [tmp1](p) {
-    }
+    set [tmp1](p) {}
 }

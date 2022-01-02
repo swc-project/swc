@@ -1,5 +1,4 @@
-function Class() {
-}
+function Class() {}
 Class.prototype.containsError = function() {
     return this.notPresent;
 }, Class.prototype.m1 = function(a, b, c, d, tx, ty) {

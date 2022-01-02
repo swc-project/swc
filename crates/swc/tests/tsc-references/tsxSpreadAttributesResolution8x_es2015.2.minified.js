@@ -15,13 +15,10 @@ class OverWriteAttr extends React.Component {
         return React.createElement("div", null, "Hello");
     }
 }
-React.createElement(OverWriteAttr, _extends({
-}, {
-}, {
+React.createElement(OverWriteAttr, _extends({}, {}, {
     y: !0,
     overwrite: "hi"
-}, obj1)), React.createElement(OverWriteAttr, _extends({
-}, obj1, {
+}, obj1)), React.createElement(OverWriteAttr, _extends({}, obj1, {
     y: !0,
     overwrite: "hi"
 }));

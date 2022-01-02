@@ -59,8 +59,7 @@ var C = // @target: ES5
         {
             key: "method",
             value: function method() {
-                var other = function other() {
-                };
+                var other = function other() {};
                 function fn() {
                     return _fn.apply(this, arguments);
                 }

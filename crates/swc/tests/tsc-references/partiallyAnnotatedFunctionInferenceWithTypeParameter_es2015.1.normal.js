@@ -10,24 +10,15 @@ test((t1, t2)=>{
     t2.test2;
 });
 // zero arg
-test(()=>{
-});
+test(()=>{});
 // fewer args
-test((t1)=>{
-});
+test((t1)=>{});
 // rest arg
-test((...ts)=>{
-});
+test((...ts)=>{});
 // source function has rest arg
-testRest((t1)=>{
-});
-testRest((t1, t2, t3)=>{
-});
-testRest((t1, t2, t3)=>{
-});
-testRest((t1, t2, t3)=>{
-});
-testRest((t2, ...t3)=>{
-});
-testRest((t2, ...t3)=>{
-});
+testRest((t1)=>{});
+testRest((t1, t2, t3)=>{});
+testRest((t1, t2, t3)=>{});
+testRest((t1, t2, t3)=>{});
+testRest((t2, ...t3)=>{});
+testRest((t2, ...t3)=>{});

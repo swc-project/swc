@@ -52,8 +52,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     }), c2.foo(function(x) {
         return 1;
     });
-}(ImmediatelyFix || (ImmediatelyFix = {
-})), (function(WithCandidates) {
+}(ImmediatelyFix || (ImmediatelyFix = {})), (function(WithCandidates) {
     var c, c2, C = function() {
         "use strict";
         function C() {
@@ -108,5 +107,4 @@ function _createClass(Constructor, protoProps, staticProps) {
             }
         ]), C3;
     }();
-})(WithCandidates || (WithCandidates = {
-}));
+})(WithCandidates || (WithCandidates = {}));

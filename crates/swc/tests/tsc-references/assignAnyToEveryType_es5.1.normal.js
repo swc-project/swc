@@ -16,8 +16,7 @@ f = x;
 var E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
-}));
+})(E || (E = {}));
 var g = x;
 var g2 = E.A;
 g2 = x;
@@ -32,8 +31,7 @@ var j2 = x;
 var M;
 (function(M1) {
     var foo = M1.foo = 1;
-})(M || (M = {
-}));
+})(M || (M = {}));
 M = x;
 function k(a1) {
     a1 = x;

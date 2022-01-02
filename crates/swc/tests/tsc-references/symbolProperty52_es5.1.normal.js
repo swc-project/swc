@@ -12,8 +12,6 @@ function _defineProperty(obj1, key, value) {
     return obj1;
 }
 //@target: ES6
-var obj = _defineProperty({
-}, Symbol.nonsense, 0);
-obj = {
-};
+var obj = _defineProperty({}, Symbol.nonsense, 0);
+obj = {};
 obj[Symbol.nonsense];

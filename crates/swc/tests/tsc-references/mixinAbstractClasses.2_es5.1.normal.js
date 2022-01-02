@@ -63,8 +63,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -96,8 +95,7 @@ function Mixin(baseClass1) {
         _createClass(MixinClass, [
             {
                 key: "mixinMethod",
-                value: function mixinMethod() {
-                }
+                value: function mixinMethod() {}
             }
         ]);
         return MixinClass;

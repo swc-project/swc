@@ -97,8 +97,7 @@ function _inferReturnType1() {
     _inferReturnType1 = // @target: es2018
     // @lib: esnext
     // @noEmit: true
-    _wrapAsyncGenerator(function*() {
-    });
+    _wrapAsyncGenerator(function*() {});
     return _inferReturnType1.apply(this, arguments);
 }
 function inferReturnType2() {

@@ -14,5 +14,4 @@ var A;
         _classCallCheck(this, points);
     };
     A1.points = points;
-})(A || (A = {
-}));
+})(A || (A = {}));

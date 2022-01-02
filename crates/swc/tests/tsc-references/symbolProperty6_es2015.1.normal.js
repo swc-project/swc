@@ -2,8 +2,7 @@ var _key;
 var tmp = (_key = Symbol.iterator, Symbol.toPrimitive), tmp1 = Symbol.toStringTag;
 //@target: ES6
 class C {
-    [tmp]() {
-    }
+    [tmp]() {}
     get [tmp1]() {
         return 0;
     }

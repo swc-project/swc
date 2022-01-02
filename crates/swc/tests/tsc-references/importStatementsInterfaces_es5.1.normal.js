@@ -8,14 +8,12 @@ var C;
         y: 0,
         z: 0
     };
-})(C || (C = {
-}));
+})(C || (C = {}));
 // no code gen expected
 var D;
 (function(D) {
     var p;
-})(D || (D = {
-}));
+})(D || (D = {}));
 // no code gen expected
 var E;
 (function(E1) {
@@ -23,5 +21,4 @@ var E;
         return 0 - x.x;
     };
     E1.xDist = xDist;
-})(E || (E = {
-}));
+})(E || (E = {}));

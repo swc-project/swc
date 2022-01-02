@@ -40,8 +40,7 @@ var C = /*#__PURE__*/ function() {
             get: function get() {
                 return 1;
             },
-            set: function set(x) {
-            }
+            set: function set(x) {}
         },
         {
             key: "id",
@@ -52,21 +51,18 @@ var C = /*#__PURE__*/ function() {
     ], [
         {
             key: "foo",
-            value: function foo(x) {
-            }
+            value: function foo(x) {}
         },
         {
             key: "bar",
-            value: function bar(x) {
-            }
+            value: function bar(x) {}
         },
         {
             key: "sc",
             get: function get() {
                 return 1;
             },
-            set: function set(x) {
-            }
+            set: function set(x) {}
         },
         {
             key: "sd",
@@ -94,8 +90,7 @@ var D = /*#__PURE__*/ function() {
     _createClass(D, [
         {
             key: "foo",
-            value: function foo() {
-            }
+            value: function foo() {}
         }
     ]);
     return D;

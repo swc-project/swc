@@ -14,5 +14,4 @@ Outer.Inner = class I {
 /** @type {!Outer.Inner} */ Outer.i;
 // @Filename: b.js
 var msgs = Outer.i.messages();
-/** @param {Outer.Inner} inner */ function x(inner) {
-}
+/** @param {Outer.Inner} inner */ function x(inner) {}

@@ -13,8 +13,7 @@ function _extends() {
     return _extends.apply(this, arguments);
 }
 function _objectWithoutProperties(source, excluded) {
-    if (source == null) return {
-    };
+    if (source == null) return {};
     var target = _objectWithoutPropertiesLoose(source, excluded);
     var key, i;
     if (Object.getOwnPropertySymbols) {
@@ -29,10 +28,8 @@ function _objectWithoutProperties(source, excluded) {
     return target;
 }
 function _objectWithoutPropertiesLoose(source, excluded) {
-    if (source == null) return {
-    };
-    var target = {
-    };
+    if (source == null) return {};
+    var target = {};
     var sourceKeys = Object.keys(source);
     var key, i;
     for(i = 0; i < sourceKeys.length; i++){
@@ -63,8 +60,7 @@ var _typeof = function(obj) {
 // @target: es2015
 const a = 'a';
 function f1(obj) {
-    let r0 = _extends({
-    }, obj);
+    let r0 = _extends({}, obj);
     let { a: a1  } = obj, r1 = _objectWithoutProperties(obj, [
         "a"
     ]);

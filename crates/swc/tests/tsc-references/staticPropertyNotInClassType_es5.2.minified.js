@@ -30,17 +30,14 @@ function _createClass(Constructor, protoProps, staticProps) {
                 get: function() {
                     return 1;
                 },
-                set: function(v) {
-                }
+                set: function(v) {}
             }
         ]), C;
     }();
-    (C || (C = {
-    })).bar = "";
+    (C || (C = {})).bar = "";
     var c = new C(1, 2);
     c.fn(), c.foo, c.bar, c.x;
-}(NonGeneric || (NonGeneric = {
-})), (function(Generic) {
+}(NonGeneric || (NonGeneric = {})), (function(Generic) {
     var C = function() {
         "use strict";
         function C(a, b) {
@@ -59,14 +56,11 @@ function _createClass(Constructor, protoProps, staticProps) {
                 get: function() {
                     return 1;
                 },
-                set: function(v) {
-                }
+                set: function(v) {}
             }
         ]), C;
     }();
-    (C || (C = {
-    })).bar = "";
+    (C || (C = {})).bar = "";
     var c = new C(1, "");
     c.fn(), c.foo, c.bar, c.x;
-})(Generic || (Generic = {
-}));
+})(Generic || (Generic = {}));

@@ -8,8 +8,7 @@ function _defineProperty(obj, key, value) {
 }
 function _objectSpread(target) {
     for(var i = 1; i < arguments.length; i++){
-        var source = null != arguments[i] ? arguments[i] : {
-        }, ownKeys = Object.keys(source);
+        var source = null != arguments[i] ? arguments[i] : {}, ownKeys = Object.keys(source);
         "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
         }))), ownKeys.forEach(function(key) {
@@ -40,19 +39,16 @@ a2.a, a2.b, a2 = {
     b: 20
 }, a2 = {
     a: "def"
-}, a2 = {
-}, a2 = {
+}, a2 = {}, a2 = {
     a: "def",
     b: 20
 }, a2 = {
     a: 1
 };
-var b2 = _objectSpread({
-}, b1, {
+var b2 = _objectSpread({}, b1, {
     z: 55
 });
-_objectSpread({
-}, b2);
+_objectSpread({}, b2);
 var d1 = {
     kind: "a",
     pos: {
@@ -65,9 +61,7 @@ d1.kind, d1.pos, d1.pos.x, d1.pos.y, d1.pos.a, d1.pos.b, f({
     b: 2
 }, {
     a: "abc"
-}, {
-}), f({
-}, {
+}, {}), f({}, {
     a: "abc"
 }, {
     a: 1,

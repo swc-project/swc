@@ -8,11 +8,9 @@ class Handler {
     static get OPTIONS() {
         return 1;
     }
-    process() {
-    }
+    process() {}
 }
-Handler.statische = function() {
-};
+Handler.statische = function() {};
 const Strings = {
     a: "A",
     b: "B"

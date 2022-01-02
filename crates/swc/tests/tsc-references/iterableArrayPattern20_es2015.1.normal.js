@@ -19,6 +19,5 @@ class FooArrayIterator {
 }
 function fun(...[[a = new Foo], b = [
     new Foo
-]]) {
-}
+]]) {}
 fun(...new FooArrayIterator);

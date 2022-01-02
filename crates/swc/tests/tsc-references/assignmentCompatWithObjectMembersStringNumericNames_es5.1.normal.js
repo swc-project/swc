@@ -46,8 +46,7 @@ var JustStrings;
     a2 = b; // ok
     a2 = t2; // ok
     a2 = t;
-})(JustStrings || (JustStrings = {
-}));
+})(JustStrings || (JustStrings = {}));
 var NumbersAndStrings;
 (function(NumbersAndStrings) {
     var S = function S() {
@@ -90,5 +89,4 @@ var NumbersAndStrings;
     a2 = b; // error
     a2 = t2; // error
     a2 = t; // error
-})(NumbersAndStrings || (NumbersAndStrings = {
-}));
+})(NumbersAndStrings || (NumbersAndStrings = {}));

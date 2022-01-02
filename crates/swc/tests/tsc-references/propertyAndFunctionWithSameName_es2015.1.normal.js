@@ -4,6 +4,5 @@ class C {
     }
 }
 class D {
-    x(v) {
-    }
+    x(v) {}
 }

@@ -1,2 +1,1 @@
-function* g3() {
-}
+function* g3() {}

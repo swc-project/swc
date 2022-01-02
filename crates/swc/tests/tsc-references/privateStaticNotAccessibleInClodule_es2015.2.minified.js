@@ -1,4 +1,3 @@
 class C {
 }
-(C || (C = {
-})).y = C.bar;
+(C || (C = {})).y = C.bar;

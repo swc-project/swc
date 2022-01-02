@@ -13,8 +13,7 @@ var foo = function foo() {
 // @target: ES5
 // @filename: m1.ts
 export { foo as default };
-export default function bar() {
-};
+export default function bar() {};
 var x = 10;
 export default x;
 Entity();

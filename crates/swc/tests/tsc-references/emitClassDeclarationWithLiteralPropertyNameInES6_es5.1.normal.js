@@ -30,23 +30,19 @@ var B = // @target: es6
     _createClass(B, [
         {
             key: "foo",
-            value: function foo() {
-            }
+            value: function foo() {}
         },
         {
             key: 14,
-            value: function value() {
-            }
+            value: function value() {}
         },
         {
             key: 11,
-            value: function value() {
-            }
+            value: function value() {}
         },
         {
             key: "interface",
-            value: function _interface() {
-            }
+            value: function _interface() {}
         }
     ]);
     return B;

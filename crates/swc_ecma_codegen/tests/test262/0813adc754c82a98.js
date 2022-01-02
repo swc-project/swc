@@ -1,4 +1,3 @@
 class a {
-    constructor(){
-    }
+    constructor(){}
 }

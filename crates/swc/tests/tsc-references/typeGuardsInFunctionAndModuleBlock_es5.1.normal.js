@@ -50,10 +50,8 @@ var m;
             y = typeof x === "boolean" ? x.toString() // boolean
              : x.toString(); // number
         }
-    })(m2 || (m2 = {
-    }));
-})(m || (m = {
-}));
+    })(m2 || (m2 = {}));
+})(m || (m = {}));
 var m1;
 (function(m1) {
     var x;
@@ -70,9 +68,6 @@ var m1;
                 y = typeof x === "boolean" ? x.toString() // boolean
                  : x.toString(); // number
             }
-        })(m3 = m2.m3 || (m2.m3 = {
-        }));
-    })(m21 || (m21 = {
-    }));
-})(m1 || (m1 = {
-}));
+        })(m3 = m2.m3 || (m2.m3 = {}));
+    })(m21 || (m21 = {}));
+})(m1 || (m1 = {}));

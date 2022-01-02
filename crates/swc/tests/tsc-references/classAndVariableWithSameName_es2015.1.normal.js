@@ -6,5 +6,4 @@ var M;
     class D {
     }
     var D = 1; // error
-})(M || (M = {
-}));
+})(M || (M = {}));

@@ -53,8 +53,7 @@ function _asyncToGenerator(fn) {
         return _ref.apply(this, arguments);
     };
 }();
-/** @type {function(function(): string): void} */ const f = (p)=>{
-};
+/** @type {function(function(): string): void} */ const f = (p)=>{};
 // Error (good)
 f(_asyncToGenerator(function*() {
     return 0;

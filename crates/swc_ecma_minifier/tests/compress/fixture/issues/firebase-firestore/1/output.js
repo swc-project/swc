@@ -106,22 +106,19 @@
             }
             class W {
                 constructor(t, e){
-                    this.user = e, this.type = "OAuth", this.authHeaders = {
-                    }, this.authHeaders.Authorization = `Bearer ${t}`;
+                    this.user = e, this.type = "OAuth", this.authHeaders = {}, this.authHeaders.Authorization = `Bearer ${t}`;
                 }
             }
             class G {
                 getToken() {
                     return Promise.resolve(null);
                 }
-                invalidateToken() {
-                }
+                invalidateToken() {}
                 start(t, e) {
                     t.enqueueRetryable(()=>e(D.UNAUTHENTICATED)
                     );
                 }
-                shutdown() {
-                }
+                shutdown() {}
             }
             class H {
                 constructor(t){
@@ -192,10 +189,8 @@
                     t.enqueueRetryable(()=>e(D.FIRST_PARTY)
                     );
                 }
-                shutdown() {
-                }
-                invalidateToken() {
-                }
+                shutdown() {}
+                invalidateToken() {}
             }
             class X {
                 constructor(t2, e){
@@ -517,8 +512,7 @@
             }
             function Tt(t) {
                 var e, n;
-                return "server_timestamp" === (null === (n = ((null === (e = null == t ? void 0 : t.mapValue) || void 0 === e ? void 0 : e.fields) || {
-                }).__type__) || void 0 === n ? void 0 : n.stringValue);
+                return "server_timestamp" === (null === (n = ((null === (e = null == t ? void 0 : t.mapValue) || void 0 === e ? void 0 : e.fields) || {}).__type__) || void 0 === n ? void 0 : n.stringValue);
             }
             function Et(t) {
                 const e = t.mapValue.fields.__previous_value__;
@@ -607,9 +601,7 @@
                         return nt(t10.arrayValue.values || [], e8.arrayValue.values || [], Vt);
                     case 10:
                         return (function(t, e) {
-                            const n = t.mapValue.fields || {
-                            }, s = e.mapValue.fields || {
-                            };
+                            const n = t.mapValue.fields || {}, s = e.mapValue.fields || {};
                             if (ot(n) !== ot(s)) return !1;
                             for(const t11 in n)if (n.hasOwnProperty(t11) && (void 0 === s[t11] || !Vt(n[t11], s[t11]))) return !1;
                             return !0;
@@ -671,9 +663,7 @@
                         })(t13.arrayValue, e9.arrayValue);
                     case 10:
                         return (function(t, e) {
-                            const n = t.fields || {
-                            }, s = Object.keys(n), i = e.fields || {
-                            }, r = Object.keys(i);
+                            const n = t.fields || {}, s = Object.keys(n), i = e.fields || {}, r = Object.keys(i);
                             s.sort(), r.sort();
                             for(let t16 = 0; t16 < s.length && t16 < r.length; ++t16){
                                 const e = et(s[t16], r[t16]);
@@ -705,8 +695,7 @@
                     for (const s of t.values || [])n ? n = !1 : e += ",", e += xt(s);
                     return e + "]";
                 })(t17.arrayValue) : "mapValue" in t17 ? (function(t) {
-                    const e = Object.keys(t.fields || {
-                    }).sort();
+                    const e = Object.keys(t.fields || {}).sort();
                     let n = "{", s = !0;
                     for (const i of e)s ? s = !1 : n += ",", n += `${i}:${xt(t.fields[i])}`;
                     return n + "}";
@@ -729,18 +718,15 @@
             }
             function Bt(t) {
                 if (t.geoPointValue) return {
-                    geoPointValue: Object.assign({
-                    }, t.geoPointValue)
+                    geoPointValue: Object.assign({}, t.geoPointValue)
                 };
                 if (t.timestampValue && "object" == typeof t.timestampValue) return {
-                    timestampValue: Object.assign({
-                    }, t.timestampValue)
+                    timestampValue: Object.assign({}, t.timestampValue)
                 };
                 if (t.mapValue) {
                     const e = {
                         mapValue: {
-                            fields: {
-                            }
+                            fields: {}
                         }
                     };
                     return ct(t.mapValue.fields, (t, n)=>e.mapValue.fields[t] = Bt(n)
@@ -755,8 +741,7 @@
                     for(let n = 0; n < (t.arrayValue.values || []).length; ++n)e.arrayValue.values[n] = Bt(t.arrayValue.values[n]);
                     return e;
                 }
-                return Object.assign({
-                }, t);
+                return Object.assign({}, t);
             }
             class Ut {
                 constructor(t){
@@ -764,31 +749,26 @@
                 }
                 static empty() {
                     return new Ut({
-                        mapValue: {
-                        }
+                        mapValue: {}
                     });
                 }
                 field(t) {
                     if (t.isEmpty()) return this.value;
                     {
                         let e = this.value;
-                        for(let n = 0; n < t.length - 1; ++n)if (!Lt(e = (e.mapValue.fields || {
-                        })[t.get(n)])) return null;
-                        return (e = (e.mapValue.fields || {
-                        })[t.lastSegment()]) || null;
+                        for(let n = 0; n < t.length - 1; ++n)if (!Lt(e = (e.mapValue.fields || {})[t.get(n)])) return null;
+                        return (e = (e.mapValue.fields || {})[t.lastSegment()]) || null;
                     }
                 }
                 set(t, e) {
                     this.getFieldsMap(t.popLast())[t.lastSegment()] = Bt(e);
                 }
                 setAll(t18) {
-                    let e = ft.emptyPath(), n = {
-                    }, s = [];
+                    let e = ft.emptyPath(), n = {}, s = [];
                     t18.forEach((t, i)=>{
                         if (!e.isImmediateParentOf(i)) {
                             const t = this.getFieldsMap(e);
-                            this.applyChanges(t, n, s), n = {
-                            }, s = [], e = i.popLast();
+                            this.applyChanges(t, n, s), n = {}, s = [], e = i.popLast();
                         }
                         t ? n[i.lastSegment()] = Bt(t) : s.push(i.lastSegment());
                     });
@@ -805,15 +785,13 @@
                 getFieldsMap(t) {
                     let e = this.value;
                     e.mapValue.fields || (e.mapValue = {
-                        fields: {
-                        }
+                        fields: {}
                     });
                     for(let n = 0; n < t.length; ++n){
                         let s = e.mapValue.fields[t.get(n)];
                         Lt(s) && s.mapValue.fields || (s = {
                             mapValue: {
-                                fields: {
-                                }
+                                fields: {}
                             }
                         }, e.mapValue.fields[t.get(n)] = s), e = s;
                     }
@@ -1440,8 +1418,7 @@
                         return L();
                 }
             }
-            (ln = hn || (hn = {
-            }))[ln.OK = 0] = "OK", ln[ln.CANCELLED = 1] = "CANCELLED", ln[ln.UNKNOWN = 2] = "UNKNOWN", ln[ln.INVALID_ARGUMENT = 3] = "INVALID_ARGUMENT", ln[ln.DEADLINE_EXCEEDED = 4] = "DEADLINE_EXCEEDED", ln[ln.NOT_FOUND = 5] = "NOT_FOUND", ln[ln.ALREADY_EXISTS = 6] = "ALREADY_EXISTS", ln[ln.PERMISSION_DENIED = 7] = "PERMISSION_DENIED", ln[ln.UNAUTHENTICATED = 16] = "UNAUTHENTICATED", ln[ln.RESOURCE_EXHAUSTED = 8] = "RESOURCE_EXHAUSTED", ln[ln.FAILED_PRECONDITION = 9] = "FAILED_PRECONDITION", ln[ln.ABORTED = 10] = "ABORTED", ln[ln.OUT_OF_RANGE = 11] = "OUT_OF_RANGE", ln[ln.UNIMPLEMENTED = 12] = "UNIMPLEMENTED", ln[ln.INTERNAL = 13] = "INTERNAL", ln[ln.UNAVAILABLE = 14] = "UNAVAILABLE", ln[ln.DATA_LOSS = 15] = "DATA_LOSS";
+            (ln = hn || (hn = {}))[ln.OK = 0] = "OK", ln[ln.CANCELLED = 1] = "CANCELLED", ln[ln.UNKNOWN = 2] = "UNKNOWN", ln[ln.INVALID_ARGUMENT = 3] = "INVALID_ARGUMENT", ln[ln.DEADLINE_EXCEEDED = 4] = "DEADLINE_EXCEEDED", ln[ln.NOT_FOUND = 5] = "NOT_FOUND", ln[ln.ALREADY_EXISTS = 6] = "ALREADY_EXISTS", ln[ln.PERMISSION_DENIED = 7] = "PERMISSION_DENIED", ln[ln.UNAUTHENTICATED = 16] = "UNAUTHENTICATED", ln[ln.RESOURCE_EXHAUSTED = 8] = "RESOURCE_EXHAUSTED", ln[ln.FAILED_PRECONDITION = 9] = "FAILED_PRECONDITION", ln[ln.ABORTED = 10] = "ABORTED", ln[ln.OUT_OF_RANGE = 11] = "OUT_OF_RANGE", ln[ln.UNIMPLEMENTED = 12] = "UNIMPLEMENTED", ln[ln.INTERNAL = 13] = "INTERNAL", ln[ln.UNAVAILABLE = 14] = "UNAVAILABLE", ln[ln.DATA_LOSS = 15] = "DATA_LOSS";
             class wn {
                 constructor(t, e){
                     this.comparator = t, this.root = e || mn.EMPTY;
@@ -2349,8 +2326,7 @@
                 "batchId"
             ];
             class Ss {
-                constructor(){
-                }
+                constructor(){}
                 static prefixForUser(t) {
                     return [
                         t
@@ -2618,8 +2594,7 @@
                             this.db = await this.Dt(t70);
                             const e = Qs.open(this.db, t70, i ? "readonly" : "readwrite", n), r = s(e).catch((t)=>(e.abort(t), js.reject(t))
                             ).toPromise();
-                            return r.catch(()=>{
-                            }), await e.It, r;
+                            return r.catch(()=>{}), await e.It, r;
                         } catch (t) {
                             const e = "FirebaseError" !== t.name && r < 3;
                             if ($("SimpleDb", "Transaction failed with error:", t.message, "Retrying:", e), this.close(), !e) return Promise.reject(t);
@@ -2699,14 +2674,12 @@
                 }
                 Kt(t, e) {
                     let n;
-                    e ? n = t : (n = {
-                    }, e = t);
+                    e ? n = t : (n = {}, e = t);
                     const s = this.cursor(n);
                     return this.Bt(s, e);
                 }
                 jt(t71) {
-                    const e39 = this.cursor({
-                    });
+                    const e39 = this.cursor({});
                     return new js((n, s6)=>{
                         e39.onerror = (t)=>{
                             const e = Zs(t.target.error);
@@ -2865,8 +2838,7 @@
             Ri.DEFAULT_COLLECTION_PERCENTILE = 10, Ri.DEFAULT_MAX_SEQUENCE_NUMBERS_TO_COLLECT = 1000, Ri.DEFAULT = new Ri(41943040, Ri.DEFAULT_COLLECTION_PERCENTILE, Ri.DEFAULT_MAX_SEQUENCE_NUMBERS_TO_COLLECT), Ri.DISABLED = new Ri(-1, 0, 0);
             class vi {
                 constructor(t, e, n, s){
-                    this.userId = t, this.N = e, this.Ht = n, this.referenceDelegate = s, this.Jt = {
-                    };
+                    this.userId = t, this.N = e, this.Ht = n, this.referenceDelegate = s, this.Jt = {};
                 }
                 static Yt(t, e, n, s) {
                     B("" !== t.uid);
@@ -2892,8 +2864,7 @@
                 }
                 addMutationBatch(t78, e44, n17, s7) {
                     const i3 = Di(t78), r = Si(t78);
-                    return r.add({
-                    }).next((o)=>{
+                    return r.add({}).next((o)=>{
                         B("number" == typeof o);
                         const c = new ni(o, e44, n17, s7), a = function(t, e45, n) {
                             const s = n.baseMutations.map((e)=>ss(t.Wt, e)
@@ -3110,8 +3081,7 @@
             }
             class ji {
                 constructor(t, e){
-                    this.mapKeyFn = t, this.equalsFn = e, this.inner = {
-                    };
+                    this.mapKeyFn = t, this.equalsFn = e, this.inner = {};
                 }
                 get(t) {
                     const e = this.mapKeyFn(t), n = this.inner[e];
@@ -3188,8 +3158,7 @@
                 apply(t) {
                     return this.assertNotApplied(), this.changesApplied = !0, this.applyChanges(t);
                 }
-                assertNotApplied() {
-                }
+                assertNotApplied() {}
             }
             class rr {
                 constructor(t, e, n){
@@ -3525,8 +3494,7 @@
                         this.ds = n;
                     });
                 }
-                te(t) {
-                }
+                te(t) {}
                 containsKey(t, e) {
                     const n = new Pr(e, 0), s = this.ds.firstAfterOrEqual(n);
                     return js.resolve(e.isEqual(s && s.key));
@@ -3612,8 +3580,7 @@
             }
             class Cr {
                 constructor(t130, e73){
-                    this.bs = {
-                    }, this.Le = new X(0), this.Be = !1, this.Be = !0, this.referenceDelegate = t130(this), this.ze = new class {
+                    this.bs = {}, this.Le = new X(0), this.Be = !1, this.Be = !0, this.referenceDelegate = t130(this), this.ze = new class {
                         constructor(t131){
                             this.persistence = t131, this.Es = new ji((t)=>Wt(t)
                             , zt), this.lastRemoteSnapshotVersion = rt.min(), this.highestTargetId = 0, this.Is = 0, this.As = new br, this.targetCount = 0, this.Rs = Ni.se();
@@ -3687,8 +3654,7 @@
                         constructor(){
                             this.Gt = new class {
                                 constructor(){
-                                    this.index = {
-                                    };
+                                    this.index = {};
                                 }
                                 add(t) {
                                     const e = t.lastSegment(), n = t.popLast(), s = this.index[e] || new gn(ht.comparator), i = !s.has(n);
@@ -3795,10 +3761,8 @@
                 get started() {
                     return this.Be;
                 }
-                setDatabaseDeletedListener() {
-                }
-                setNetworkEnabled() {
-                }
+                setDatabaseDeletedListener() {}
+                setNetworkEnabled() {}
                 getIndexManager() {
                     return this.Ht;
                 }
@@ -3986,13 +3950,10 @@
             }
             class Kr {
                 constructor(){
-                    this.yi = new Ur, this.pi = {
-                    }, this.onlineStateHandler = null, this.sequenceNumberHandler = null;
+                    this.yi = new Ur, this.pi = {}, this.onlineStateHandler = null, this.sequenceNumberHandler = null;
                 }
-                addPendingMutation(t) {
-                }
-                updateMutationState(t, e, n) {
-                }
+                addPendingMutation(t) {}
+                updateMutationState(t, e, n) {}
                 addLocalQueryTarget(t) {
                     return this.yi.Fs(t), this.pi[t] || "not-current";
                 }
@@ -4017,22 +3978,15 @@
                 start() {
                     return this.yi = new Ur, Promise.resolve();
                 }
-                handleUserChange(t, e, n) {
-                }
-                setOnlineState(t) {
-                }
-                shutdown() {
-                }
-                writeSequenceNumber(t) {
-                }
-                notifyBundleLoaded() {
-                }
+                handleUserChange(t, e, n) {}
+                setOnlineState(t) {}
+                shutdown() {}
+                writeSequenceNumber(t) {}
+                notifyBundleLoaded() {}
             }
             class jr {
-                Ti(t) {
-                }
-                shutdown() {
-                }
+                Ti(t) {}
+                shutdown() {}
             }
             class Qr {
                 constructor(){
@@ -4102,8 +4056,7 @@
                 Li(t154, e90, n, s) {
                     const i = this.Bi(t154, e90);
                     $("RestConnection", "Sending: ", i, n);
-                    const r = {
-                    };
+                    const r = {};
                     return this.Ui(r, s), this.qi(t154, i, r, n).then((t)=>($("RestConnection", "Received: ", t), t)
                     , (e)=>{
                         throw F("RestConnection", `${t154} failed with error: `, e, "url: ", i, "request:", n), e;
@@ -4170,8 +4123,7 @@
                         "/channel"
                     ], s13 = (0, _firebase_webchannel_wrapper__WEBPACK_IMPORTED_MODULE_4__.UE)(), i9 = (0, _firebase_webchannel_wrapper__WEBPACK_IMPORTED_MODULE_4__.FJ)(), r = {
                         httpSessionIdParam: "gsessionid",
-                        initMessageHeaders: {
-                        },
+                        initMessageHeaders: {},
                         messageUrlParams: {
                             database: `projects/${this.databaseId.projectId}/databases/${this.databaseId.database}`
                         },
@@ -4183,8 +4135,7 @@
                         forceLongPolling: this.forceLongPolling,
                         detectBufferingProxy: this.autoDetectLongPolling
                     };
-                    this.useFetchStreams && (r.xmlHttpFactory = new _firebase_webchannel_wrapper__WEBPACK_IMPORTED_MODULE_4__.zI({
-                    })), this.Ui(r.initMessageHeaders, e86), (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__.uI)() || (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__.b$)() || (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__.d)() || (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__.w1)() || (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__.Mn)() || (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__.ru)() || (r.httpHeadersOverwriteParam = "$httpHeaders");
+                    this.useFetchStreams && (r.xmlHttpFactory = new _firebase_webchannel_wrapper__WEBPACK_IMPORTED_MODULE_4__.zI({})), this.Ui(r.initMessageHeaders, e86), (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__.uI)() || (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__.b$)() || (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__.d)() || (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__.w1)() || (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__.Mn)() || (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__.ru)() || (r.httpHeadersOverwriteParam = "$httpHeaders");
                     const o = n26.join("");
                     $("Connection", "Creating WebChannel: " + o, r);
                     const c = s13.createWebChannel(o, r);
@@ -4304,8 +4255,7 @@
                 async close(t, e) {
                     this.gr(), this.yr(), this.ar.cancel(), this.ir++, 4 !== t ? this.ar.reset() : e && e.code === K.RESOURCE_EXHAUSTED ? (O(e.toString()), O("Using maximum backoff delay to prevent overloading the backend."), this.ar.Yi()) : e && e.code === K.UNAUTHENTICATED && 3 !== this.state && this.credentialsProvider.invalidateToken(), null !== this.stream && (this.pr(), this.stream.close(), this.stream = null), this.state = t, await this.listener.Ci(e);
                 }
-                pr() {
-                }
+                pr() {}
                 auth() {
                     this.state = 1;
                     const t155 = this.Tr(this.ir), e91 = this.ir;
@@ -4407,8 +4357,7 @@
                     return this.listener.Rr(e93, n27);
                 }
                 br(t161) {
-                    const e95 = {
-                    };
+                    const e95 = {};
                     e95.database = Yn(this.N), e95.addTarget = (function(t163, e97) {
                         let n29;
                         const s14 = e97.target;
@@ -4422,8 +4371,7 @@
                             query: (function(t164, e98) {
                                 var t162, e96;
                                 const n = {
-                                    structuredQuery: {
-                                    }
+                                    structuredQuery: {}
                                 }, s = e98.path;
                                 null !== e98.collectionGroup ? (n.parent = Hn(t164, s), n.structuredQuery.from = [
                                     {
@@ -4520,8 +4468,7 @@
                     n28 && (e95.labels = n28), this.mr(e95);
                 }
                 Pr(t) {
-                    const e = {
-                    };
+                    const e = {};
                     e.database = Yn(this.N), e.removeTarget = t, this.mr(e);
                 }
             }
@@ -4555,8 +4502,7 @@
                     return B(!t171.writeResults || 0 === t171.writeResults.length), this.vr = !0, this.listener.Cr();
                 }
                 Nr() {
-                    const t = {
-                    };
+                    const t = {};
                     t.database = Yn(this.N), this.mr(t);
                 }
                 Sr(t172) {
@@ -4594,8 +4540,7 @@
             }
             class io {
                 constructor(t175, e103, n, s, i){
-                    this.localStore = t175, this.datastore = e103, this.asyncQueue = n, this.remoteSyncer = {
-                    }, this.jr = [], this.Qr = new Map, this.Wr = new Set, this.Gr = [], this.zr = i, this.zr.Ti((t176)=>{
+                    this.localStore = t175, this.datastore = e103, this.asyncQueue = n, this.remoteSyncer = {}, this.jr = [], this.Qr = new Map, this.Wr = new Set, this.Gr = [], this.zr = i, this.zr.Ti((t176)=>{
                         n.enqueueAndForget(async ()=>{
                             wo(this) && ($("RemoteStore", "Restarting streams for network reachability change."), await async function(t) {
                                 const e = q(t);
@@ -4820,8 +4765,7 @@
             }
             class xo {
                 constructor(t, e, n, s, i){
-                    this.asyncQueue = t, this.timerId = e, this.targetTimeMs = n, this.op = s, this.removalCallback = i, this.deferred = new Q, this.then = this.deferred.promise.then.bind(this.deferred.promise), this.deferred.promise.catch((t)=>{
-                    });
+                    this.asyncQueue = t, this.timerId = e, this.targetTimeMs = n, this.op = s, this.removalCallback = i, this.deferred = new Q, this.then = this.deferred.promise.then.bind(this.deferred.promise), this.deferred.promise.catch((t)=>{});
                 }
                 static createAndSchedule(t, e, n, s, i) {
                     const r = Date.now() + n, o = new xo(t, e, r, s, i);
@@ -5024,8 +4968,7 @@
             }
             class Qo {
                 constructor(t, e, n){
-                    this.query = t, this.oo = e, this.co = !1, this.ao = null, this.onlineState = "Unknown", this.options = n || {
-                    };
+                    this.query = t, this.oo = e, this.co = !1, this.ao = null, this.onlineState = "Unknown", this.options = n || {};
                 }
                 ro(t) {
                     if (!this.options.includeMetadataChanges) {
@@ -5156,8 +5099,7 @@
                 }
                 Vo(t194) {
                     t194 && (t194.addedDocuments.forEach((t)=>this.po = this.po.add(t)
-                    ), t194.modifiedDocuments.forEach((t)=>{
-                    }), t194.removedDocuments.forEach((t)=>this.po = this.po.delete(t)
+                    ), t194.modifiedDocuments.forEach((t)=>{}), t194.removedDocuments.forEach((t)=>this.po = this.po.delete(t)
                     ), this.current = t194.current);
                 }
                 So() {
@@ -5194,10 +5136,8 @@
             }
             class ec {
                 constructor(t196, e, n, s, i, r){
-                    this.localStore = t196, this.remoteStore = e, this.eventManager = n, this.sharedClientState = s, this.currentUser = i, this.maxConcurrentLimboResolutions = r, this.$o = {
-                    }, this.Oo = new ji((t)=>Re(t)
-                    , Ae), this.Fo = new Map, this.Mo = new Set, this.Lo = new wn(Pt.comparator), this.Bo = new Map, this.Uo = new br, this.qo = {
-                    }, this.Ko = new Map, this.jo = Ni.ie(), this.onlineState = "Unknown", this.Qo = void 0;
+                    this.localStore = t196, this.remoteStore = e, this.eventManager = n, this.sharedClientState = s, this.currentUser = i, this.maxConcurrentLimboResolutions = r, this.$o = {}, this.Oo = new ji((t)=>Re(t)
+                    , Ae), this.Fo = new Map, this.Mo = new Set, this.Lo = new wn(Pt.comparator), this.Bo = new Map, this.Uo = new br, this.qo = {}, this.Ko = new Map, this.jo = Ni.ie(), this.onlineState = "Unknown", this.Qo = void 0;
                 }
                 get isPrimaryClient() {
                     return !0 === this.Qo;
@@ -5646,8 +5586,7 @@
             }
             class Ta {
                 constructor(t229, e){
-                    this._credentials = e, this.type = "firestore-lite", this._persistenceKey = "(lite)", this._settings = new pa({
-                    }), this._settingsFrozen = !1, t229 instanceof ha ? this._databaseId = t229 : (this._app = t229, this._databaseId = (function(t) {
+                    this._credentials = e, this.type = "firestore-lite", this._persistenceKey = "(lite)", this._settings = new pa({}), this._settingsFrozen = !1, t229 instanceof ha ? this._databaseId = t229 : (this._app = t229, this._databaseId = (function(t) {
                         if (!Object.prototype.hasOwnProperty.apply(t.options, [
                             "projectId"
                         ])) throw new j(K.INVALID_ARGUMENT, "\"projectId\" not provided in firebase.initializeApp.");
@@ -5789,8 +5728,7 @@
                             }
                         }
                         enqueue(t) {
-                            if (this.bc(), this.gc) return new Promise(()=>{
-                            });
+                            if (this.bc(), this.gc) return new Promise(()=>{});
                             const e = new Q;
                             return this.Pc(()=>this.gc && this.Ic ? Promise.resolve() : (t().then(e.resolve, e.reject), e.promise)
                             ).then(()=>e.promise
@@ -5833,8 +5771,7 @@
                         bc() {
                             this.Tc && L();
                         }
-                        verifyOperationInProgress() {
-                        }
+                        verifyOperationInProgress() {}
                         async Sc() {
                             let t;
                             do await (t = this._c);
@@ -5960,8 +5897,7 @@
                     return this.settings.kc;
                 }
                 $c(t) {
-                    return new ru(Object.assign(Object.assign({
-                    }, this.settings), t), this.databaseId, this.N, this.ignoreUndefinedProperties, this.fieldTransforms, this.fieldMask);
+                    return new ru(Object.assign(Object.assign({}, this.settings), t), this.databaseId, this.N, this.ignoreUndefinedProperties, this.fieldTransforms, this.fieldMask);
                 }
                 Oc(t) {
                     var e;
@@ -6089,8 +6025,7 @@
                 })(t239, e136);
             }
             function pu(t241, e) {
-                const n = {
-                };
+                const n = {};
                 return at(t241) ? e.path && e.path.length > 0 && e.fieldMask.push(e.path) : ct(t241, (t, s)=>{
                     const i = yu(s, e.Oc(t));
                     null != i && (n[t] = i);
@@ -6177,8 +6112,7 @@
                 exists() {
                     return super.exists();
                 }
-                data(t = {
-                }) {
+                data(t = {}) {
                     if (this._document) {
                         if (this._converter) {
                             const e = new Nu(this._firestore, this._userDataWriter, this._key, this._document, this.metadata, null);
@@ -6187,8 +6121,7 @@
                         return this._userDataWriter.convertValue(this._document.data.value, t.serverTimestamps);
                     }
                 }
-                get(t, e = {
-                }) {
+                get(t, e = {}) {
                     if (this._document) {
                         const n = this._document.data.field(Su("DocumentSnapshot.get", t));
                         if (null !== n) return this._userDataWriter.convertValue(n, e.serverTimestamps);
@@ -6196,8 +6129,7 @@
                 }
             }
             class Nu extends Cu {
-                data(t = {
-                }) {
+                data(t = {}) {
                     return super.data(t);
                 }
             }
@@ -6221,8 +6153,7 @@
                         t.call(e, new Nu(this._firestore, this._userDataWriter, n.key, n, new Du(this._snapshot.mutatedKeys.has(n.key), this._snapshot.fromCache), this.query.converter));
                     });
                 }
-                docChanges(t244 = {
-                }) {
+                docChanges(t244 = {}) {
                     const e139 = !!t244.includeMetadataChanges;
                     if (e139 && this._snapshot.excludesMetadataChanges) throw new j(K.INVALID_ARGUMENT, "To include metadata changes with your document changes, you must also pass { includeMetadataChanges:true } to onSnapshot().");
                     return this._cachedChanges && this._cachedChangesIncludeMetadataChanges === e139 || (this._cachedChanges = (function(t245, e140) {
@@ -6296,8 +6227,7 @@
                     }
                 }
                 convertObject(t, e) {
-                    const n = {
-                    };
+                    const n = {};
                     return ct(t.fields, (t, s)=>{
                         n[t] = this.convertValue(s, e);
                     }), n;
@@ -6349,8 +6279,7 @@
                 const e141 = ga(t248.firestore, ka), n51 = ((t247 = e141)._firestoreClient || Ma(t247), t247._firestoreClient.verifyNotTerminated(), t247._firestoreClient), s24 = new ah(e141);
                 return (function(t) {
                     if (me(t) && 0 === t.explicitOrderBy.length) throw new j(K.UNIMPLEMENTED, "limitToLast() queries require specifying at least one orderBy() clause");
-                })(t248._query), (function(t249, e142, n52 = {
-                }) {
+                })(t248._query), (function(t249, e142, n52 = {}) {
                     const s25 = new Q;
                     return t249.asyncQueue.enqueueAndForget(async ()=>(function(t250, e, n53, s, i) {
                             const r = new Lc({

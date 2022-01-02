@@ -1,5 +1,4 @@
-function a(a, b = {
-}, c = false) {
+function a(a, b = {}, c = false) {
     return {
         rule: a,
         params: b,
@@ -49,16 +48,12 @@ const i = (a, b, c, d, e)=>{
     return a[`${b}.${c}`] || a[`${b}.${d}`] || a[b] || a[c] || a[d] || e;
 };
 const j = (a, { messages: b , attributes: c  })=>{
-    const d = {
-    };
-    const e = (b || {
-    })["default"] || ":attr is invalid";
+    const d = {};
+    const e = (b || {})["default"] || ":attr is invalid";
     for(let f in a){
         const k = a[f];
-        const l = (c || {
-        })[f] || f;
-        d[f] = {
-        };
+        const l = (c || {})[f] || f;
+        d[f] = {};
         for (let m of k){
             const n = h(m.rule);
             const o = n ? m.rule.substr(0, m.rule.length - n.length - 1) : m.rule;
@@ -73,8 +68,7 @@ const j = (a, { messages: b , attributes: c  })=>{
                     attributes: c
                 });
             } else {
-                const p = i(b || {
-                }, f, m.rule, o, e);
+                const p = i(b || {}, f, m.rule, o, e);
                 d[f][o] = g(p, m.params, l, n);
             }
         }
@@ -189,8 +183,7 @@ const r = async (a, b, e)=>{
     return g;
 };
 const s = async (a, b)=>{
-    const c = {
-    };
+    const c = {};
     const d = n(a);
     for(let e in b){
         const f = b[e] instanceof Array ? b[e] : [
@@ -209,8 +202,7 @@ const t = async (a, b, c = {
 })=>{
     const d = await s(a, b);
     const e = Object.keys(d).length === 0;
-    const f = e ? {
-    } : j(d, c);
+    const f = e ? {} : j(d, c);
     return [
         e,
         f

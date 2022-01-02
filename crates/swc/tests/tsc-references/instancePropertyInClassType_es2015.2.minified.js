@@ -4,8 +4,7 @@ var NonGeneric, Generic;
         get y() {
             return 1;
         }
-        set y(v) {
-        }
+        set y(v) {}
         fn() {
             return this;
         }
@@ -14,14 +13,12 @@ var NonGeneric, Generic;
         }
     }(1, 2), r = c.fn();
     r.x, r.y, r.y = 4, c.y();
-}(NonGeneric || (NonGeneric = {
-})), (function(Generic) {
+}(NonGeneric || (NonGeneric = {})), (function(Generic) {
     var c = new class {
         get y() {
             return null;
         }
-        set y(v) {
-        }
+        set y(v) {}
         fn() {
             return this;
         }
@@ -30,5 +27,4 @@ var NonGeneric, Generic;
         }
     }(1, ""), r = c.fn();
     r.x, r.y, r.y = "", c.y();
-})(Generic || (Generic = {
-}));
+})(Generic || (Generic = {}));

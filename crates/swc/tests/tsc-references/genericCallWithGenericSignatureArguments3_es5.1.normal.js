@@ -37,13 +37,11 @@ var r5 = foo(new Object(), function(x) {
 var E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
-}));
+})(E || (E = {}));
 var F;
 (function(F) {
     F[F["A"] = 0] = "A";
-})(F || (F = {
-}));
+})(F || (F = {}));
 var r6 = foo(E.A, function(x) {
     return E.A;
 }, function(x) {

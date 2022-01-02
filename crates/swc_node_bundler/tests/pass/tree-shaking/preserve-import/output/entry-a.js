@@ -1,3 +1,2 @@
-function b() {
-}
+function b() {}
 b();

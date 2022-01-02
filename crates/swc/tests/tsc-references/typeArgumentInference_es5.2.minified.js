@@ -1,24 +1,14 @@
 var anyVar;
-function noParams() {
-}
-function noGenericParams(n) {
-}
-function someGenerics1(n, m) {
-}
-function someGenerics2a(n) {
-}
-function someGenerics2b(n) {
-}
-function someGenerics3(producer) {
-}
-function someGenerics4(n, f) {
-}
-function someGenerics5(n, f) {
-}
-function someGenerics6(a, b, c) {
-}
-function someGenerics7(a, b, c) {
-}
+function noParams() {}
+function noGenericParams(n) {}
+function someGenerics1(n, m) {}
+function someGenerics2a(n) {}
+function someGenerics2b(n) {}
+function someGenerics3(producer) {}
+function someGenerics4(n, f) {}
+function someGenerics5(n, f) {}
+function someGenerics6(a, b, c) {}
+function someGenerics7(a, b, c) {}
 function someGenerics9(a, b, c) {
     return null;
 }
@@ -36,8 +26,7 @@ noParams(), noParams(), noParams(), noGenericParams(""), noGenericParams(""), no
     return n.substr(t * t);
 }), someGenerics3(function() {
     return "";
-}), someGenerics3(function() {
-}), someGenerics3(function() {
+}), someGenerics3(function() {}), someGenerics3(function() {
     return 3;
 }), someGenerics4(4, function() {
     return null;

@@ -6,8 +6,7 @@
 /**
  * @constructor
  */ class A {
-    constructor(){
-    }
+    constructor(){}
 }
 /**
  * @extends {A}

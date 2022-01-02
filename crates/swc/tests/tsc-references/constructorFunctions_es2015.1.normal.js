@@ -25,8 +25,7 @@ const c3_v2 = new C3();
 const c4_v1 = C4(); // error: @class tag requires 'new'
 const c4_v2 = new C4();
 var c5_v1;
-c5_v1 = function f() {
-};
+c5_v1 = function f() {};
 new c5_v1();
 var c5_v2;
 c5_v2 = class {
@@ -45,6 +44,5 @@ var c6_v1 = new C6();
 /**
  * @constructor
  * @param {number} num
- */ function C7(num) {
-}
+ */ function C7(num) {}
 var c7_v1 = new C7();

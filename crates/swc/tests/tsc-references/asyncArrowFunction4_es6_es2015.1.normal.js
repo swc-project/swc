@@ -1,4 +1,3 @@
 // @target: ES6
 // @noEmitHelpers: true
-var _await = ()=>{
-};
+var _await = ()=>{};

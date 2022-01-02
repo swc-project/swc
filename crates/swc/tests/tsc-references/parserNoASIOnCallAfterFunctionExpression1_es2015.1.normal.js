@@ -1,2 +1,1 @@
-var x = function() {
-}(window).foo;
+var x = function() {}(window).foo;

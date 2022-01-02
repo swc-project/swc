@@ -14,8 +14,7 @@ var C = function() {
     })(Constructor = C, [
         {
             key: "",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "",
@@ -25,8 +24,7 @@ var C = function() {
         },
         {
             key: "",
-            set: function(x) {
-            }
+            set: function(x) {}
         }
     ]), C;
 }();

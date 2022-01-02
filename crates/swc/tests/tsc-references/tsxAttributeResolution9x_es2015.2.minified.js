@@ -1,6 +1,5 @@
 export class MyComponent {
-    render() {
-    }
+    render() {}
 }
 React.createElement(MyComponent, {
     foo: "bar"

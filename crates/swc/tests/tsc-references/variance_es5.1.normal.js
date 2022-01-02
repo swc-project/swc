@@ -32,8 +32,7 @@ var Bar = // Repro from #30118
     _createClass(Bar, [
         {
             key: "cast",
-            value: function cast(_name) {
-            }
+            value: function cast(_name) {}
         },
         {
             key: "pushThis",

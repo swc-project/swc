@@ -41,8 +41,7 @@ var C = /*#__PURE__*/ function() {
         },
         {
             key: tmp1,
-            set: function set(p) {
-            }
+            set: function set(p) {}
         }
     ]);
     return C;

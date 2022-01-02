@@ -13,8 +13,7 @@ function _defineProperty(obj, key, value) {
 }
 function _objectSpread(target) {
     for(var i = 1; i < arguments.length; i++){
-        var source = arguments[i] != null ? arguments[i] : {
-        };
+        var source = arguments[i] != null ? arguments[i] : {};
         var ownKeys = Object.keys(source);
         if (typeof Object.getOwnPropertySymbols === "function") {
             ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
@@ -68,8 +67,7 @@ var a2 = [
     {
         a: "abc"
     },
-    {
-    }
+    {}
 ][0];
 a2.a; // string | number | undefined
 a2.b; // number | undefined
@@ -80,8 +78,7 @@ a2 = {
 a2 = {
     a: "def"
 };
-a2 = {
-};
+a2 = {};
 a2 = {
     a: "def",
     b: 20
@@ -89,23 +86,17 @@ a2 = {
 a2 = {
     a: 1
 }; // Error
-var b2 = _objectSpread({
-}, b1, {
+var b2 = _objectSpread({}, b1, {
     z: 55
 });
-var b3 = _objectSpread({
-}, b2);
-var c1 = !true ? {
-} : opts;
-var c2 = !true ? opts : {
-};
+var b3 = _objectSpread({}, b2);
+var c1 = !true ? {} : opts;
+var c2 = !true ? opts : {};
 var c3 = !true ? {
     a: 0,
     b: 0
-} : {
-};
-var c4 = !true ? {
-} : {
+} : {};
+var c4 = !true ? {} : {
     a: 0,
     b: 0
 };
@@ -139,10 +130,8 @@ var e1 = f({
     b: 2
 }, {
     a: "abc"
-}, {
-});
-var e2 = f({
-}, {
+}, {});
+var e2 = f({}, {
     a: "abc"
 }, {
     a: 1,

@@ -36,8 +36,7 @@ function _createSuper(Derived) {
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
         try {
-            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-            })), !0;
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
         } catch (e) {
             return !1;
         }
@@ -62,30 +61,26 @@ var x, Base = function() {
     return _createClass(Base, [
         {
             key: "b",
-            value: function(a) {
-            }
+            value: function(a) {}
         },
         {
             key: "c",
             get: function() {
                 return x;
             },
-            set: function(v) {
-            }
+            set: function(v) {}
         }
     ], [
         {
             key: "s",
-            value: function(a) {
-            }
+            value: function(a) {}
         },
         {
             key: "t",
             get: function() {
                 return x;
             },
-            set: function(v) {
-            }
+            set: function(v) {}
         }
     ]), Base;
 }(), Derived1 = function(Base) {
@@ -106,8 +101,7 @@ var x, Base = function() {
     return _createClass(Derived2, [
         {
             key: "b",
-            value: function(a) {
-            }
+            value: function(a) {}
         }
     ]), Derived2;
 }(Base), Derived3 = function(Base) {
@@ -135,8 +129,7 @@ var x, Base = function() {
     return _createClass(Derived4, [
         {
             key: "c",
-            set: function(v) {
-            }
+            set: function(v) {}
         }
     ]), Derived4;
 }(Base), Derived5 = function(Base) {
@@ -165,8 +158,7 @@ var x, Base = function() {
     return _createClass(Derived7, null, [
         {
             key: "s",
-            value: function(a) {
-            }
+            value: function(a) {}
         }
     ]), Derived7;
 }(Base), Derived8 = function(Base) {
@@ -194,8 +186,7 @@ var x, Base = function() {
     return _createClass(Derived9, null, [
         {
             key: "t",
-            set: function(v) {
-            }
+            set: function(v) {}
         }
     ]), Derived9;
 }(Base), Derived10 = function(Base) {

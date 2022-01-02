@@ -364,5 +364,4 @@ var TypeScript;
         return ast;
     }
     TypeScript1.postAssignScopes = postAssignScopes;
-})(TypeScript || (TypeScript = {
-}));
+})(TypeScript || (TypeScript = {}));

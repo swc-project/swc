@@ -1,6 +1,5 @@
 class Base {
-    constructor(){
-    }
+    constructor(){}
 }
 class Derived extends Base {
     static make() {

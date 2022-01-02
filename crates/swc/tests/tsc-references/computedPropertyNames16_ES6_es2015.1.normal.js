@@ -7,28 +7,23 @@ class C {
     get [tmp]() {
         return 0;
     }
-    set [tmp1](v) {
-    }
+    set [tmp1](v) {}
     static get [tmp2]() {
         return 0;
     }
-    set [tmp3](v) {
-    }
+    set [tmp3](v) {}
     get [tmp4]() {
         return 0;
     }
-    static set [tmp5](v) {
-    }
+    static set [tmp5](v) {}
     get [tmp6]() {
         return 0;
     }
-    set [tmp7](v) {
-    }
+    set [tmp7](v) {}
     static get [tmp8]() {
         return 0;
     }
-    set [tmp9](v) {
-    }
+    set [tmp9](v) {}
     get [tmp10]() {
         return 0;
     }

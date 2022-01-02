@@ -15,59 +15,48 @@ var s, n, a, tmp = s, tmp1 = n, tmp2 = s + s, tmp3 = s + n, tmp4 = +s, tmp5 = a,
     return Constructor = C, protoProps = [
         {
             key: tmp,
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: tmp1,
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: tmp3,
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: tmp4,
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: 0,
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: tmp5,
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "hello bye",
-            value: function() {
-            }
+            value: function() {}
         }
     ], staticProps = [
         {
             key: tmp2,
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: !0,
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: tmp6,
-            value: function() {
-            }
+            value: function() {}
         }
     ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }();

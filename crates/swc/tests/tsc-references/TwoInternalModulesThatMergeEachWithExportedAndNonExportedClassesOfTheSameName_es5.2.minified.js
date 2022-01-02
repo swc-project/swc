@@ -14,8 +14,7 @@ function _defineProperties(target, props) {
         _classCallCheck(this, Point);
     };
     A1.Point = Point;
-}(A || (A = {
-})), (function(A) {
+}(A || (A = {})), (function(A) {
     var Point = function() {
         "use strict";
         var Constructor, protoProps, staticProps;
@@ -34,23 +33,16 @@ function _defineProperties(target, props) {
             }
         ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Point;
     }();
-})(A || (A = {
-})), (function(X1) {
+})(A || (A = {})), (function(X1) {
     var Y, Z, Line;
-    Z = (Y = X1.Y || (X1.Y = {
-    })).Z || (Y.Z = {
-    }), Line = function() {
+    Z = (Y = X1.Y || (X1.Y = {})).Z || (Y.Z = {}), Line = function() {
         "use strict";
         _classCallCheck(this, Line);
     }, Z.Line = Line;
-})(X || (X = {
-})), (function(X2) {
+})(X || (X = {})), (function(X2) {
     var Y, Line;
-    (Y = X2.Y || (X2.Y = {
-    })).Z || (Y.Z = {
-    }), Line = function() {
+    (Y = X2.Y || (X2.Y = {})).Z || (Y.Z = {}), Line = function() {
         "use strict";
         _classCallCheck(this, Line);
     };
-})(X || (X = {
-}));
+})(X || (X = {}));

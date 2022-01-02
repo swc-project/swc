@@ -40,8 +40,7 @@ var D = /*#__PURE__*/ function() {
     _createClass(D, [
         {
             key: "x",
-            set: function set(v) {
-            } // error
+            set: function set(v) {} // error
         }
     ]);
     return D;
@@ -57,8 +56,7 @@ var E = /*#__PURE__*/ function() {
             get: function get() {
                 return 1;
             },
-            set: function set(v) {
-            }
+            set: function set(v) {}
         }
     ]);
     return E;

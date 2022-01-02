@@ -30,8 +30,7 @@ function foo2() {
     var ref = _toArray(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : undefined), r = ref.slice(0);
 }
 function foo3() {
-    var ref = _toArray(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
-    }), r = ref.slice(0);
+    var ref = _toArray(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {}), r = ref.slice(0);
 }
 function foo4() {
     var ref = _toArray(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : []), r = ref.slice(0);

@@ -37,8 +37,7 @@ function _fn() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    for(key in {
-                    });
+                    for(key in {});
                 case 1:
                 case "end":
                     return _ctx.stop();

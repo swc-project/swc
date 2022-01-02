@@ -37,5 +37,4 @@ var clodule = /*#__PURE__*/ function() {
         return clodule.sfn('a');
     };
     clodule1.fn = fn;
-})(clodule || (clodule = {
-}));
+})(clodule || (clodule = {}));

@@ -14,8 +14,7 @@ C2(), new C2(), C3(), new C3();
 var C4 = function() {
     if (!(this instanceof C4)) return new C4();
 };
-C4(), new C4(), new function() {
-}(), new class {
+C4(), new C4(), new function() {}(), new class {
 }(), new function() {
     this.functions = [
         (x)=>x
@@ -24,5 +23,4 @@ C4(), new C4(), new function() {
         ,
         (x)=>x - 1
     ];
-}(), new function(num) {
-}();
+}(), new function(num) {}();

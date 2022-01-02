@@ -1,5 +1,4 @@
-var a, x = {
-}, y = {
+var a, x = {}, y = {
     foo: "bar"
 };
 x = a, y = a, a = x, a = y;

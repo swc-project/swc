@@ -1,2 +1,1 @@
-function foo(x) {
-}
+function foo(x) {}

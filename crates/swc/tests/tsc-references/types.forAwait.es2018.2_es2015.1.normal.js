@@ -51,8 +51,7 @@ function _f() {
         {
             var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
             try {
-                for(var _iterator = _asyncIterator({
-                }), _step; _iteratorAbruptCompletion = !(_step = yield _iterator.next()).done; _iteratorAbruptCompletion = false){
+                for(var _iterator = _asyncIterator({}), _step; _iteratorAbruptCompletion = !(_step = yield _iterator.next()).done; _iteratorAbruptCompletion = false){
                     let _value = _step.value;
                     const x = _value;
                 }
@@ -74,8 +73,7 @@ function _f() {
         {
             var _iteratorAbruptCompletion1 = false, _didIteratorError1 = false, _iteratorError1;
             try {
-                for(var _iterator1 = _asyncIterator({
-                }), _step1; _iteratorAbruptCompletion1 = !(_step1 = yield _iterator1.next()).done; _iteratorAbruptCompletion1 = false){
+                for(var _iterator1 = _asyncIterator({}), _step1; _iteratorAbruptCompletion1 = !(_step1 = yield _iterator1.next()).done; _iteratorAbruptCompletion1 = false){
                     let _value = _step1.value;
                     y = _value;
                 }
@@ -138,10 +136,8 @@ function _f() {
                 }
             }
         }
-        for (const x of asyncIterable){
-        }
-        for (y of asyncIterable){
-        }
+        for (const x of asyncIterable){}
+        for (y of asyncIterable){}
     });
     return _f.apply(this, arguments);
 }

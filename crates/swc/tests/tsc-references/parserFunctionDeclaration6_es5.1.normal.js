@@ -1,4 +1,3 @@
 {
-    var bar = function bar() {
-    };
+    var bar = function bar() {};
 }

@@ -3,5 +3,4 @@ var tuple = [
     "",
     0
 ];
-for (var v of tuple){
-}
+for (var v of tuple){}

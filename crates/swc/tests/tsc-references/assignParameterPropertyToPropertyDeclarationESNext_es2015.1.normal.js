@@ -21,8 +21,7 @@ class C {
          = this.m1();
         this.quanch // should error
          = this.m3();
-        this.m3 = function() {
-        };
+        this.m3 = function() {};
         this.quim // should error
          = this.baz;
         this.baz // should error

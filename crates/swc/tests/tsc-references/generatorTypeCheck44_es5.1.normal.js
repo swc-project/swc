@@ -25,10 +25,8 @@ function g() {
     return regeneratorRuntime.wrap(function g$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                _mutatorMap = {
-                };
-                _obj = {
-                };
+                _mutatorMap = {};
+                _obj = {};
                 _ctx.next = 4;
                 return 0;
             case 4:
@@ -42,8 +40,7 @@ function g() {
                     _ctx.next = 11;
                     break;
                 }
-                _ctx.t1 = {
-                };
+                _ctx.t1 = {};
             case 11:
                 _mutatorMap[_ctx.t0] = _ctx.t1;
                 _ctx.next = 14;

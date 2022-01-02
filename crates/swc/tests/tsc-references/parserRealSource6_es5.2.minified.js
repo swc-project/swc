@@ -129,5 +129,4 @@ function _defineProperties(target, props) {
     }, TypeScript1.popTypeCollectionScope = function(context) {
         context.scopeChain = context.scopeChain.previous;
     }, TypeScript1.preFindEnclosingScope = preFindEnclosingScope, TypeScript1.findEnclosingScopeAt = findEnclosingScopeAt;
-}(TypeScript || (TypeScript = {
-}));
+}(TypeScript || (TypeScript = {}));

@@ -1,7 +1,5 @@
 var AppType, AppStyle, AppType, AppStyle;
-(AppType = AppType || (AppType = {
-})).HeaderDetail = "HeaderDetail", AppType.HeaderMultiDetail = "HeaderMultiDetail", AppType.AdvancedList = "AdvancedList", AppType.Standard = "Standard", AppType.Relationship = "Relationship", AppType.Report = "Report", AppType.Composite = "Composite", AppType.ListOnly = "ListOnly", AppType.ModuleSettings = "ModuleSettings", (AppStyle = AppStyle || (AppStyle = {
-}))[AppStyle.Tree = 0] = "Tree", AppStyle[AppStyle.TreeEntity = 1] = "TreeEntity", AppStyle[AppStyle.Standard = 2] = "Standard", AppStyle[AppStyle.MiniApp = 3] = "MiniApp", AppStyle[AppStyle.PivotTable = 4] = "PivotTable", new Map([
+(AppType = AppType || (AppType = {})).HeaderDetail = "HeaderDetail", AppType.HeaderMultiDetail = "HeaderMultiDetail", AppType.AdvancedList = "AdvancedList", AppType.Standard = "Standard", AppType.Relationship = "Relationship", AppType.Report = "Report", AppType.Composite = "Composite", AppType.ListOnly = "ListOnly", AppType.ModuleSettings = "ModuleSettings", (AppStyle = AppStyle || (AppStyle = {}))[AppStyle.Tree = 0] = "Tree", AppStyle[AppStyle.TreeEntity = 1] = "TreeEntity", AppStyle[AppStyle.Standard = 2] = "Standard", AppStyle[AppStyle.MiniApp = 3] = "MiniApp", AppStyle[AppStyle.PivotTable = 4] = "PivotTable", new Map([
     [
         AppType.Standard,
         [

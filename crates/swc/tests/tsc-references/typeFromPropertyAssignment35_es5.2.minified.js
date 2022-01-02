@@ -4,6 +4,5 @@ Emu.D = function _class() {
         if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
     }(this, _class), this._model = 1;
 };
-var Emu = {
-};
+var Emu = {};
 Emu.D._wrapperInstance;

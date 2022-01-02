@@ -20,8 +20,7 @@ function _extends() {
 var React = require('react');
 export default function Component(props) {
     return(// Error extra property
-    /*#__PURE__*/ React.createElement(AnotherComponent, _extends({
-    }, props, {
+    /*#__PURE__*/ React.createElement(AnotherComponent, _extends({}, props, {
         Property1: true
     })));
 };

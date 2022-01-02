@@ -1,4 +1,3 @@
 a = {
-    b: function(c, ...d) {
-    }
+    b: function(c, ...d) {}
 };

@@ -43,8 +43,7 @@ var ClassTypeParam;
             };
         }
     }
-})(ClassTypeParam || (ClassTypeParam = {
-}));
+})(ClassTypeParam || (ClassTypeParam = {}));
 var GenericSignaturesInvalid;
 (function(GenericSignaturesInvalid) {
     class Base2 {
@@ -81,8 +80,7 @@ var GenericSignaturesInvalid;
         b.a5 = t.a4;
         b.a5 = t.a5;
     }
-})(GenericSignaturesInvalid || (GenericSignaturesInvalid = {
-}));
+})(GenericSignaturesInvalid || (GenericSignaturesInvalid = {}));
 var GenericSignaturesValid;
 (function(GenericSignaturesValid) {
     class Base2 {
@@ -127,5 +125,4 @@ var GenericSignaturesValid;
             };
         }
     }
-})(GenericSignaturesValid || (GenericSignaturesValid = {
-}));
+})(GenericSignaturesValid || (GenericSignaturesValid = {}));

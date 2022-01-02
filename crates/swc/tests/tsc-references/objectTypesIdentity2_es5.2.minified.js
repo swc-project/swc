@@ -11,5 +11,4 @@ var E, E, A = function() {
     "use strict";
     _classCallCheck(this, C);
 };
-(E = E || (E = {
-}))[E.A = 0] = "A", E.A;
+(E = E || (E = {}))[E.A = 0] = "A", E.A;

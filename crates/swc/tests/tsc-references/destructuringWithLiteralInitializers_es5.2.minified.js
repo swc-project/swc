@@ -57,14 +57,12 @@ function f5() {
     ref.x, ref.y;
 }
 function f6() {
-    var ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
-    };
+    var ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
     ref.x, ref.y;
 }
 function f7() {
     var ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
-        a: {
-        }
+        a: {}
     }, _a = ref.a;
     _a.x, _a.y;
 }
@@ -93,8 +91,7 @@ function g5() {
 }), f2({
     x: 1,
     y: 1
-}), f3({
-}), f3({
+}), f3({}), f3({
     x: 1
 }), f3({
     y: 1
@@ -109,8 +106,7 @@ function g5() {
 }), f5({
     x: 1,
     y: 1
-}), f6(), f6({
-}), f6({
+}), f6(), f6({}), f6({
     x: 1
 }), f6({
     y: 1
@@ -118,8 +114,7 @@ function g5() {
     x: 1,
     y: 1
 }), f7(), f7({
-    a: {
-    }
+    a: {}
 }), f7({
     a: {
         x: 1

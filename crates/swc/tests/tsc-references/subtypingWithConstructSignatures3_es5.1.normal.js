@@ -49,8 +49,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -198,13 +197,11 @@ var Errors;
     var r8 = foo16(r8arg); // any
     var r9arg;
     var r9 = foo17(r9arg); // // (x: { <T extends Derived >(a: T): T; <T extends Base >(a: T): T; }): any[]; (x: { <T extends Derived2>(a: T): T; <T extends Base>(a: T): T; }): any[];
-})(Errors || (Errors = {
-}));
+})(Errors || (Errors = {}));
 var WithGenericSignaturesInBaseType;
 (function(WithGenericSignaturesInBaseType) {
     var r2arg2;
     var r2 = foo2(r2arg2); // <T>(x:T) => T[] since we can infer from generic signatures now
     var r3arg2;
     var r3 = foo3(r3arg2); // any
-})(WithGenericSignaturesInBaseType || (WithGenericSignaturesInBaseType = {
-}));
+})(WithGenericSignaturesInBaseType || (WithGenericSignaturesInBaseType = {}));

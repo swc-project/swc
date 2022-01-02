@@ -77,8 +77,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -103,8 +102,7 @@ function _createSuper(Derived) {
 // @skipLibCheck: true
 // @libFiles: react.d.ts,lib.d.ts
 var React = require('react');
-var obj = {
-};
+var obj = {};
 var obj1 = {
     x: 2
 };
@@ -132,13 +130,11 @@ var OverWriteAttr = /*#__PURE__*/ function(_Component) {
 }(React.Component);
 var anyobj;
 // OK
-var x = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({
-}, obj, {
+var x = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({}, obj, {
     y: true,
     overwrite: "hi"
 }, obj1));
-var x1 = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({
-}, obj1, obj3));
+var x1 = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({}, obj1, obj3));
 var x2 = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({
     x: 3,
     overwrite: "hi"
@@ -154,14 +150,12 @@ var x3 = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({
     x: 2,
     overwrite: "world"
 }));
-var x4 = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({
-}, {
+var x4 = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({}, {
     x: 2
 }, {
     overwrite: "world"
 }, {
     y: true
 }));
-var x5 = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({
-}, anyobj));
+var x5 = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({}, anyobj));
 export { };

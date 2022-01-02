@@ -22,5 +22,4 @@ var Generics;
         a1 = b21; // ok
         b21 = a1; // ok
     }
-})(Generics || (Generics = {
-}));
+})(Generics || (Generics = {}));

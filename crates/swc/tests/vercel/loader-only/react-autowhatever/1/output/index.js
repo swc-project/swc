@@ -62,8 +62,7 @@ function _inherits(subClass, superClass) {
 }
 function _objectSpread(target) {
     for(var i = 1; i < arguments.length; i++){
-        var source = arguments[i] != null ? arguments[i] : {
-        };
+        var source = arguments[i] != null ? arguments[i] : {};
         var ownKeys = Object.keys(source);
         if (typeof Object.getOwnPropertySymbols === "function") {
             ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
@@ -97,8 +96,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -165,8 +163,7 @@ var ItemsList = /*#__PURE__*/ function(Component1) {
                             allItemProps.ref = _this.storeHighlightedItemReference;
                         }
                         // `key` is provided by theme()
-                        /* eslint-disable react/jsx-key */ return(/*#__PURE__*/ _jsx(Item, _objectSpread({
-                        }, allItemProps, {
+                        /* eslint-disable react/jsx-key */ return(/*#__PURE__*/ _jsx(Item, _objectSpread({}, allItemProps, {
                             sectionIndex: sectionIndex,
                             isHighlighted: isHighlighted,
                             itemIndex: itemIndex,

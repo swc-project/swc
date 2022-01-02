@@ -16,13 +16,10 @@ export var C = function() {
         _classCallCheck(this, C1);
     };
     M1.C = C1;
-}(M || (M = {
-}));
+}(M || (M = {}));
 export var Z = M;
-(E = E || (E = {
-}))[E.A = 0] = "A";
-export function foo() {
-}
+(E = E || (E = {}))[E.A = 0] = "A";
+export function foo() {}
 !function(foo1) {
     foo1.y = 1;
     var C2 = function() {
@@ -30,5 +27,4 @@ export function foo() {
         _classCallCheck(this, C2);
     };
     foo1.C = C2;
-}(foo || (foo = {
-}));
+}(foo || (foo = {}));

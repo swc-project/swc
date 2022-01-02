@@ -27,8 +27,7 @@ function _createSuper(Derived1) {
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
         try {
-            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-            })), !0;
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
         } catch (e) {
             return !1;
         }
@@ -68,9 +67,7 @@ var TargetHasOptional, SourceHasOptional, Base = function() {
 !function(TargetHasOptional) {
     var c, a, d, e, f;
     new Base(), c = d, c = e, c = f, c = a, a = d, a = e, a = f, a = c;
-}(TargetHasOptional || (TargetHasOptional = {
-})), (function(SourceHasOptional) {
+}(TargetHasOptional || (TargetHasOptional = {})), (function(SourceHasOptional) {
     var c, a, d, e, f;
     new Base(), c = d, c = e, c = f, c = a, a = d, a = e, a = f, a = c;
-})(SourceHasOptional || (SourceHasOptional = {
-}));
+})(SourceHasOptional || (SourceHasOptional = {}));

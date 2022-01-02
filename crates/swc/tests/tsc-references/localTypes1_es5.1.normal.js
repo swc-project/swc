@@ -63,8 +63,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -90,8 +89,7 @@ function f1() {
         E[E["A"] = 0] = "A";
         E[E["B"] = 1] = "B";
         E[E["C"] = 2] = "C";
-    })(E || (E = {
-    }));
+    })(E || (E = {}));
     var C = function C() {
         "use strict";
         _classCallCheck(this, C);
@@ -109,8 +107,7 @@ function f2() {
             E[E["A"] = 0] = "A";
             E[E["B"] = 1] = "B";
             E[E["C"] = 2] = "C";
-        })(E || (E = {
-        }));
+        })(E || (E = {}));
         var C = function C() {
             "use strict";
             _classCallCheck(this, C);
@@ -130,8 +127,7 @@ function f3(b) {
             E[E["A"] = 0] = "A";
             E[E["B"] = 1] = "B";
             E[E["C"] = 2] = "C";
-        })(E || (E = {
-        }));
+        })(E || (E = {}));
         if (b) {
             var C = function C() {
                 "use strict";
@@ -162,8 +158,7 @@ function f5() {
             E[E["A"] = 0] = "A";
             E[E["B"] = 1] = "B";
             E[E["C"] = 2] = "C";
-        })(E || (E = {
-        }));
+        })(E || (E = {}));
         var C = function C() {
             "use strict";
             _classCallCheck(this, C);
@@ -176,8 +171,7 @@ function f5() {
             E[E["A"] = 0] = "A";
             E[E["B"] = 1] = "B";
             E[E["C"] = 2] = "C";
-        })(E || (E = {
-        }));
+        })(E || (E = {}));
         var C = function C() {
             "use strict";
             _classCallCheck(this, C);
@@ -194,8 +188,7 @@ var A = /*#__PURE__*/ function() {
             E[E["A"] = 0] = "A";
             E[E["B"] = 1] = "B";
             E[E["C"] = 2] = "C";
-        })(E || (E = {
-        }));
+        })(E || (E = {}));
         var C = function C() {
             _classCallCheck(this, C);
         };
@@ -209,8 +202,7 @@ var A = /*#__PURE__*/ function() {
                     E[E["A"] = 0] = "A";
                     E[E["B"] = 1] = "B";
                     E[E["C"] = 2] = "C";
-                })(E || (E = {
-                }));
+                })(E || (E = {}));
                 var C = function C() {
                     _classCallCheck(this, C);
                 };
@@ -225,8 +217,7 @@ var A = /*#__PURE__*/ function() {
                     E[E["A"] = 0] = "A";
                     E[E["B"] = 1] = "B";
                     E[E["C"] = 2] = "C";
-                })(E || (E = {
-                }));
+                })(E || (E = {}));
                 var C = function C() {
                     _classCallCheck(this, C);
                 };

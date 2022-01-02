@@ -22,11 +22,9 @@ class Button extends React.Component {
     render() {
         let condition;
         if (condition) {
-            return(/*#__PURE__*/ React.createElement(InnerButton, _extends({
-            }, this.props)));
+            return(/*#__PURE__*/ React.createElement(InnerButton, _extends({}, this.props)));
         } else {
-            return(/*#__PURE__*/ React.createElement(InnerButton, _extends({
-            }, this.props), /*#__PURE__*/ React.createElement("div", null, "Hello World")));
+            return(/*#__PURE__*/ React.createElement(InnerButton, _extends({}, this.props), /*#__PURE__*/ React.createElement("div", null, "Hello World")));
         }
     }
 }

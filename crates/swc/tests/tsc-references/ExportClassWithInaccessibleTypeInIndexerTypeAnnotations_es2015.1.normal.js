@@ -5,5 +5,4 @@ var A;
     class points {
     }
     A1.points = points;
-})(A || (A = {
-}));
+})(A || (A = {}));

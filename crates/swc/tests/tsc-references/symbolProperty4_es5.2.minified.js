@@ -6,12 +6,8 @@ function _defineProperty(obj, key, value) {
         writable: !0
     }) : obj[key] = value, obj;
 }
-var _obj, _mutatorMap = {
-};
-_defineProperty(_obj = {
-}, Symbol(), 0), _defineProperty(_obj, Symbol(), function() {
-}), _mutatorMap[Symbol()] = _mutatorMap[Symbol()] || {
-}, _mutatorMap[Symbol()].get = function() {
+var _obj, _mutatorMap = {};
+_defineProperty(_obj = {}, Symbol(), 0), _defineProperty(_obj, Symbol(), function() {}), _mutatorMap[Symbol()] = _mutatorMap[Symbol()] || {}, _mutatorMap[Symbol()].get = function() {
     return 0;
 }, (function(obj, descs) {
     for(var key in descs){

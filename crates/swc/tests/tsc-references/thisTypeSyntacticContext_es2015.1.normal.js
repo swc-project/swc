@@ -1,5 +1,4 @@
-function f() {
-}
+function f() {}
 const o = {
     n: 1
 };

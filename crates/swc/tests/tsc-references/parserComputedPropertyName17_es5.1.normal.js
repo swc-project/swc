@@ -17,10 +17,6 @@ function _defineEnumerableProperties(obj, descs) {
     }
     return obj;
 }
-var _obj, _mutatorMap = {
-};
+var _obj, _mutatorMap = {};
 //@target: ES6
-var v = (_obj = {
-}, _mutatorMap[e] = _mutatorMap[e] || {
-}, _mutatorMap[e].set = function(v) {
-}, _defineEnumerableProperties(_obj, _mutatorMap), _obj);
+var v = (_obj = {}, _mutatorMap[e] = _mutatorMap[e] || {}, _mutatorMap[e].set = function(v) {}, _defineEnumerableProperties(_obj, _mutatorMap), _obj);

@@ -8,8 +8,7 @@ var A;
         };
     };
     A1.Point = Point;
-})(A || (A = {
-}));
+})(A || (A = {}));
 (function(A2) {
     var Point1;
     (function(Point) {
@@ -17,10 +16,8 @@ var A;
             x: 0,
             y: 0
         };
-    })(Point1 = A2.Point || (A2.Point = {
-    }));
-})(A || (A = {
-}));
+    })(Point1 = A2.Point || (A2.Point = {}));
+})(A || (A = {}));
 // @filename: test.ts
 var fn;
 var fn = A.Point;
@@ -42,10 +39,8 @@ var B;
             x: 0,
             y: 0
         };
-    })(Point = B1.Point || (B1.Point = {
-    }));
-})(B || (B = {
-}));
+    })(Point = B1.Point || (B1.Point = {}));
+})(B || (B = {}));
 var fn;
 var fn = B.Point; // not expected to be an error. bug 840000: [corelang] Function of fundule not assignalbe as expected
 var cl;

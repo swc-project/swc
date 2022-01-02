@@ -43,9 +43,7 @@ var C = /*#__PURE__*/ function() {
         {
             key: "bar",
             value: function bar() {
-                var obj = _defineProperty({
-                }, foo(), function() {
-                });
+                var obj = _defineProperty({}, foo(), function() {});
                 return 0;
             }
         }

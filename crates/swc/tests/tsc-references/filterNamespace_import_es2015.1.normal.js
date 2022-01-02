@@ -10,10 +10,8 @@ var ns;
         class NestedClass {
         }
         nested.NestedClass = NestedClass;
-    })(nested1 = ns1.nested || (ns1.nested = {
-    }));
-})(ns || (ns = {
-}));
+    })(nested1 = ns1.nested || (ns1.nested = {}));
+})(ns || (ns = {}));
 ns.Class; // Error
 ns.Value; // Error
 let c;

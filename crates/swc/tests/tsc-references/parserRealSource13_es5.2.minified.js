@@ -12,6 +12,4 @@ var TypeScript, TypeScript1;
         });
         walker.walk(script, null);
     };
-}((TypeScript1 = TypeScript || (TypeScript = {
-})).AstWalkerWithDetailCallback || (TypeScript1.AstWalkerWithDetailCallback = {
-}));
+}((TypeScript1 = TypeScript || (TypeScript = {})).AstWalkerWithDetailCallback || (TypeScript1.AstWalkerWithDetailCallback = {}));

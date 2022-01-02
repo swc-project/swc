@@ -21,5 +21,4 @@ var M;
     var r5 = b1.bar; // any, should be number
     // BUG 856491
     var r6 = b1.baz; // any, should be boolean
-})(M || (M = {
-}));
+})(M || (M = {}));

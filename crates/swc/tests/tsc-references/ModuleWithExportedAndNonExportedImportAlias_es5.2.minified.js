@@ -7,8 +7,7 @@ var B, Geometry;
         })(this, Line), this.start = start, this.end = end;
     };
     B1.Line = Line;
-})(B || (B = {
-})), (function(Geometry1) {
+})(B || (B = {})), (function(Geometry1) {
     Geometry1.Points = A;
     var Origin = Geometry1.Origin = {
         x: 0,
@@ -18,5 +17,4 @@ var B, Geometry;
         x: 1,
         y: 0
     });
-})(Geometry || (Geometry = {
-})), Geometry.Origin, Geometry.Unit, Geometry.Lines.Line;
+})(Geometry || (Geometry = {})), Geometry.Origin, Geometry.Unit, Geometry.Lines.Line;

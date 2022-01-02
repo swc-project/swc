@@ -61,8 +61,7 @@ var M1;
     }
     class D9 extends Base {
     }
-})(M1 || (M1 = {
-}));
+})(M1 || (M1 = {}));
 var M2;
 (function(M2) {
     class Base2 {
@@ -85,5 +84,4 @@ var M2;
     }
     class D9 extends Base2 {
     }
-})(M2 || (M2 = {
-}));
+})(M2 || (M2 = {}));

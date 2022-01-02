@@ -20,8 +20,7 @@ function _unsupportedIterableToArray(o, minLen) {
         if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
     }
 }
-(function(a, b, c) {
-}).apply(this, _toConsumableArray(t1)), (function() {
+(function(a, b, c) {}).apply(this, _toConsumableArray(t1)), (function() {
     for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
 }).apply(this, _toConsumableArray(t1)), (function(a) {
     for(var _len = arguments.length, x = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)x[_key - 1] = arguments[_key];
@@ -29,8 +28,7 @@ function _unsupportedIterableToArray(o, minLen) {
     for(var _len = arguments.length, x = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)x[_key - 2] = arguments[_key];
 }).apply(this, _toConsumableArray(t1)), (function(a, b, c) {
     for(var _len = arguments.length, x = new Array(_len > 3 ? _len - 3 : 0), _key = 3; _key < _len; _key++)x[_key - 3] = arguments[_key];
-}).apply(this, _toConsumableArray(t1)), f1(function(a, b, c) {
-}), f1(function() {
+}).apply(this, _toConsumableArray(t1)), f1(function(a, b, c) {}), f1(function() {
     for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
 }), f1(function(a) {
     for(var _len = arguments.length, x = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)x[_key - 1] = arguments[_key];
@@ -38,8 +36,7 @@ function _unsupportedIterableToArray(o, minLen) {
     for(var _len = arguments.length, x = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)x[_key - 2] = arguments[_key];
 }), f1(function(a, b, c) {
     for(var _len = arguments.length, x = new Array(_len > 3 ? _len - 3 : 0), _key = 3; _key < _len; _key++)x[_key - 3] = arguments[_key];
-}), (function(a, b, c) {
-}).apply(this, _toConsumableArray(t2)), (function() {
+}), (function(a, b, c) {}).apply(this, _toConsumableArray(t2)), (function() {
     for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
 }).apply(this, _toConsumableArray(t2)), (function(a) {
     for(var _len = arguments.length, x = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)x[_key - 1] = arguments[_key];
@@ -47,8 +44,7 @@ function _unsupportedIterableToArray(o, minLen) {
     for(var _len = arguments.length, x = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)x[_key - 2] = arguments[_key];
 }).apply(this, _toConsumableArray(t2)), (function(a, b, c) {
     for(var _len = arguments.length, x = new Array(_len > 3 ? _len - 3 : 0), _key = 3; _key < _len; _key++)x[_key - 3] = arguments[_key];
-}).apply(this, _toConsumableArray(t2)), f2(function(a, b, c) {
-}), f2(function() {
+}).apply(this, _toConsumableArray(t2)), f2(function(a, b, c) {}), f2(function() {
     for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
 }), f2(function(a) {
     for(var _len = arguments.length, x = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)x[_key - 1] = arguments[_key];
@@ -56,8 +52,7 @@ function _unsupportedIterableToArray(o, minLen) {
     for(var _len = arguments.length, x = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)x[_key - 2] = arguments[_key];
 }), f2(function(a, b, c) {
     for(var _len = arguments.length, x = new Array(_len > 3 ? _len - 3 : 0), _key = 3; _key < _len; _key++)x[_key - 3] = arguments[_key];
-}), (function(a, b, c) {
-}).apply(this, [
+}), (function(a, b, c) {}).apply(this, [
     1
 ].concat(_toConsumableArray(t3))), (function() {
     for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
@@ -75,8 +70,7 @@ function _unsupportedIterableToArray(o, minLen) {
     for(var _len = arguments.length, x = new Array(_len > 3 ? _len - 3 : 0), _key = 3; _key < _len; _key++)x[_key - 3] = arguments[_key];
 }).apply(this, [
     1
-].concat(_toConsumableArray(t3))), f3(function(a, b, c) {
-}), f3(function() {
+].concat(_toConsumableArray(t3))), f3(function(a, b, c) {}), f3(function() {
     for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
 }), f3(function(a) {
     for(var _len = arguments.length, x = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)x[_key - 1] = arguments[_key];
@@ -111,8 +105,7 @@ function _unsupportedIterableToArray(o, minLen) {
     return 42;
 }, function(x) {
     return "" + x;
-}), (function(a, b) {
-}).apply(this, _toConsumableArray(tuple)), (function() {
+}), (function(a, b) {}).apply(this, _toConsumableArray(tuple)), (function() {
     for(var _len = arguments.length, rest = new Array(_len), _key = 0; _key < _len; _key++)rest[_key] = arguments[_key];
 })(1, ""), take(function() {
     for(var _len = arguments.length, rest = new Array(_len), _key = 0; _key < _len; _key++)rest[_key] = arguments[_key];

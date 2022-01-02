@@ -11,8 +11,7 @@ var fn1;
 var s = new fn1(undefined);
 var s;
 // No candidate overloads found
-new fn1({
-}); // Error
+new fn1({}); // Error
 var fn2;
 var d = new fn2(0, undefined);
 var d;

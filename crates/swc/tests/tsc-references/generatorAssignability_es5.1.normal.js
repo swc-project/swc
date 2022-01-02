@@ -587,8 +587,7 @@ function _f3() {
                             }
                         }, syncGenerator);
                     });
-                    o = _defineProperty({
-                    }, Symbol.asyncIterator, syncGenerator);
+                    o = _defineProperty({}, Symbol.asyncIterator, syncGenerator);
                     _iteratorAbruptCompletion = false, _didIteratorError6 = false;
                     _ctx1.prev = 3;
                     _iterator = _asyncIterator(o);

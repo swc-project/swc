@@ -1,5 +1,4 @@
-export var bar = {
-};
+export var bar = {};
 class Foo {
     constructor(){
         bar;

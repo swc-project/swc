@@ -1,4 +1,2 @@
 export var SignatureFlags;
-(function(SignatureFlags) {
-})(SignatureFlags || (SignatureFlags = {
-}));
+(function(SignatureFlags) {})(SignatureFlags || (SignatureFlags = {}));

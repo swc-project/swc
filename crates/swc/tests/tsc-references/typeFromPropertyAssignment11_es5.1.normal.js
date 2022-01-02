@@ -3,11 +3,9 @@
 // @checkJs: true
 // @target: es6
 // @Filename: module.js
-var Inner = function Inner() {
-};
+var Inner = function Inner() {};
 Inner.prototype = {
-    m: function m() {
-    },
+    m: function m() {},
     i: 1
 };
 // incremental assignments still work

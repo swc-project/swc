@@ -32,13 +32,11 @@ var onlyT;
     let E;
     (function(E) {
         E[E["A"] = 0] = "A";
-    })(E || (E = {
-    }));
+    })(E || (E = {}));
     let F;
     (function(F) {
         F[F["A"] = 0] = "A";
-    })(F || (F = {
-    }));
+    })(F || (F = {}));
     function foo3(x, a, b) {
         var r;
         return r;
@@ -46,8 +44,7 @@ var onlyT;
     var r71 = foo3(E.A, (x)=>E.A
     , (x)=>F.A
     ); // error
-})(onlyT || (onlyT = {
-}));
+})(onlyT || (onlyT = {}));
 var TU;
 (function(TU) {
     function foo(a, b) {
@@ -79,13 +76,11 @@ var TU;
     let E;
     (function(E) {
         E[E["A"] = 0] = "A";
-    })(E || (E = {
-    }));
+    })(E || (E = {}));
     let F;
     (function(F) {
         F[F["A"] = 0] = "A";
-    })(F || (F = {
-    }));
+    })(F || (F = {}));
     function foo3(x, a, b) {
         var r;
         return r;
@@ -93,5 +88,4 @@ var TU;
     var r72 = foo3(E.A, (x)=>E.A
     , (x)=>F.A
     );
-})(TU || (TU = {
-}));
+})(TU || (TU = {}));

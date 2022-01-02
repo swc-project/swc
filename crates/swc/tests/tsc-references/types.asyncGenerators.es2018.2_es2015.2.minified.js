@@ -59,8 +59,7 @@ function _wrapAsyncGenerator(fn) {
 }
 function _inferReturnType1() {
     return (_inferReturnType1 = _wrapAsyncGenerator(function*() {
-        yield* {
-        };
+        yield* {};
     })).apply(this, arguments);
 }
 function _inferReturnType2() {
@@ -155,8 +154,7 @@ function _explicitReturnType12() {
 }
 function _yieldStar() {
     return (_yieldStar = _wrapAsyncGenerator(function*() {
-        yield* {
-        };
+        yield* {};
     })).apply(this, arguments);
 }
 "function" == typeof Symbol && Symbol.asyncIterator && (AsyncGenerator.prototype[Symbol.asyncIterator] = function() {

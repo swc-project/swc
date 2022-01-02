@@ -7,8 +7,7 @@ class Base {
 class C extends Base {
     foo() {
         var obj = {
-            [super.bar()] () {
-            }
+            [super.bar()] () {}
         };
         return 0;
     }

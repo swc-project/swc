@@ -25,8 +25,7 @@ class B1 extends React.Component {
 }
 class B extends React.Component {
     render() {
-        return(/*#__PURE__*/ React.createElement(B1, _extends({
-        }, this.props, {
+        return(/*#__PURE__*/ React.createElement(B1, _extends({}, this.props, {
             x: "hi"
         })));
     }

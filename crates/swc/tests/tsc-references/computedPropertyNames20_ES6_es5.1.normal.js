@@ -12,5 +12,4 @@ function _defineProperty(obj1, key, value) {
     return obj1;
 }
 // @target: es6
-var obj = _defineProperty({
-}, this.bar, 0);
+var obj = _defineProperty({}, this.bar, 0);

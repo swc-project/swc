@@ -1,7 +1,6 @@
 (function() {
     var Backbone, root1 = this, previousBackbone = root1.Backbone, slice = [].slice;
-    (Backbone = "undefined" != typeof exports ? exports : root1.Backbone = {
-    }).VERSION = "1.1.0";
+    (Backbone = "undefined" != typeof exports ? exports : root1.Backbone = {}).VERSION = "1.1.0";
     var _ = root1._;
     _ || "undefined" == typeof require || (_ = require("underscore")), Backbone.$ = root1.jQuery || root1.Zepto || root1.ender || root1.$, Backbone.noConflict = function() {
         return root1.Backbone = previousBackbone, this;
@@ -11,8 +10,7 @@
             return eventsApi(this, "on", name, [
                 callback,
                 context
-            ]) && callback && (this._events || (this._events = {
-            }), (this._events[name] || (this._events[name] = [])).push({
+            ]) && callback && (this._events || (this._events = {}), (this._events[name] || (this._events[name] = [])).push({
                 callback: callback,
                 context: context,
                 ctx: context || this
@@ -34,8 +32,7 @@
                 callback,
                 context
             ])) return this;
-            if (!name && !callback && !context) return this._events = {
-            }, this;
+            if (!name && !callback && !context) return this._events = {}, this;
             for(i = 0, l = (names = name ? [
                 name
             ] : _.keys(this._events)).length; i < l; i++)if (name = names[i], events = this._events[name]) {
@@ -55,8 +52,7 @@
             var listeningTo = this._listeningTo;
             if (!listeningTo) return this;
             var remove = !name && !callback;
-            for(var id in callback || "object" != typeof name || (callback = this), obj && ((listeningTo = {
-            })[obj._listenId] = obj), listeningTo)(obj = listeningTo[id]).off(name, callback, this), (remove || _.isEmpty(obj._events)) && delete this._listeningTo[id];
+            for(var id in callback || "object" != typeof name || (callback = this), obj && ((listeningTo = {})[obj._listenId] = obj), listeningTo)(obj = listeningTo[id]).off(name, callback, this), (remove || _.isEmpty(obj._events)) && delete this._listeningTo[id];
             return this;
         }
     }, eventSplitter = /\s+/, eventsApi = function(obj, action, name, rest) {
@@ -99,26 +95,18 @@
         listenToOnce: "once"
     }, function(implementation, method) {
         Events[method] = function(obj, name, callback) {
-            return (this._listeningTo || (this._listeningTo = {
-            }))[obj._listenId || (obj._listenId = _.uniqueId("l"))] = obj, callback || "object" != typeof name || (callback = this), obj[implementation](name, callback, this), this;
+            return (this._listeningTo || (this._listeningTo = {}))[obj._listenId || (obj._listenId = _.uniqueId("l"))] = obj, callback || "object" != typeof name || (callback = this), obj[implementation](name, callback, this), this;
         };
     }), Events.bind = Events.on, Events.unbind = Events.off, _.extend(Backbone, Events);
     var Model = Backbone.Model = function(attributes, options) {
-        var attrs = attributes || {
-        };
-        options || (options = {
-        }), this.cid = _.uniqueId("c"), this.attributes = {
-        }, options.collection && (this.collection = options.collection), options.parse && (attrs = this.parse(attrs, options) || {
-        }), attrs = _.defaults({
-        }, attrs, _.result(this, "defaults")), this.set(attrs, options), this.changed = {
-        }, this.initialize.apply(this, arguments);
+        var attrs = attributes || {};
+        options || (options = {}), this.cid = _.uniqueId("c"), this.attributes = {}, options.collection && (this.collection = options.collection), options.parse && (attrs = this.parse(attrs, options) || {}), attrs = _.defaults({}, attrs, _.result(this, "defaults")), this.set(attrs, options), this.changed = {}, this.initialize.apply(this, arguments);
     };
     _.extend(Model.prototype, Events, {
         changed: null,
         validationError: null,
         idAttribute: "id",
-        initialize: function() {
-        },
+        initialize: function() {},
         toJSON: function(options) {
             return _.clone(this.attributes);
         },
@@ -137,11 +125,8 @@
         set: function(key, val, options) {
             var attr, attrs, unset, changes, silent, changing, prev, current;
             if (null == key) return this;
-            if ("object" == typeof key ? (attrs = key, options = val) : (attrs = {
-            })[key] = val, options || (options = {
-            }), !this._validate(attrs, options)) return !1;
-            for(attr in unset = options.unset, silent = options.silent, changes = [], changing = this._changing, this._changing = !0, changing || (this._previousAttributes = _.clone(this.attributes), this.changed = {
-            }), current = this.attributes, prev = this._previousAttributes, this.idAttribute in attrs && (this.id = attrs[this.idAttribute]), attrs)val = attrs[attr], _.isEqual(current[attr], val) || changes.push(attr), _.isEqual(prev[attr], val) ? delete this.changed[attr] : this.changed[attr] = val, unset ? delete current[attr] : current[attr] = val;
+            if ("object" == typeof key ? (attrs = key, options = val) : (attrs = {})[key] = val, options || (options = {}), !this._validate(attrs, options)) return !1;
+            for(attr in unset = options.unset, silent = options.silent, changes = [], changing = this._changing, this._changing = !0, changing || (this._previousAttributes = _.clone(this.attributes), this.changed = {}), current = this.attributes, prev = this._previousAttributes, this.idAttribute in attrs && (this.id = attrs[this.idAttribute]), attrs)val = attrs[attr], _.isEqual(current[attr], val) || changes.push(attr), _.isEqual(prev[attr], val) ? delete this.changed[attr] : this.changed[attr] = val, unset ? delete current[attr] : current[attr] = val;
             if (!silent) {
                 changes.length && (this._pending = !0);
                 for(var i = 0, l = changes.length; i < l; i++)this.trigger("change:" + changes[i], this, current[changes[i]], options);
@@ -151,17 +136,14 @@
             return this._pending = !1, this._changing = !1, this;
         },
         unset: function(attr, options) {
-            return this.set(attr, void 0, _.extend({
-            }, options, {
+            return this.set(attr, void 0, _.extend({}, options, {
                 unset: !0
             }));
         },
         clear: function(options) {
-            var attrs = {
-            };
+            var attrs = {};
             for(var key in this.attributes)attrs[key] = void 0;
-            return this.set(attrs, _.extend({
-            }, options, {
+            return this.set(attrs, _.extend({}, options, {
                 unset: !0
             }));
         },
@@ -171,8 +153,7 @@
         changedAttributes: function(diff) {
             if (!diff) return !!this.hasChanged() && _.clone(this.changed);
             var val, changed = !1, old = this._changing ? this._previousAttributes : this.attributes;
-            for(var attr in diff)_.isEqual(old[attr], val = diff[attr]) || ((changed || (changed = {
-            }))[attr] = val);
+            for(var attr in diff)_.isEqual(old[attr], val = diff[attr]) || ((changed || (changed = {}))[attr] = val);
             return changed;
         },
         previous: function(attr) {
@@ -182,8 +163,7 @@
             return _.clone(this._previousAttributes);
         },
         fetch: function(options) {
-            void 0 === (options = options ? _.clone(options) : {
-            }).parse && (options.parse = !0);
+            void 0 === (options = options ? _.clone(options) : {}).parse && (options.parse = !0);
             var model = this, success = options.success;
             return options.success = function(resp) {
                 if (!model.set(model.parse(resp, options), options)) return !1;
@@ -192,26 +172,22 @@
         },
         save: function(key, val, options) {
             var attrs, method, xhr, attributes = this.attributes;
-            if (null == key || "object" == typeof key ? (attrs = key, options = val) : (attrs = {
-            })[key] = val, options = _.extend({
+            if (null == key || "object" == typeof key ? (attrs = key, options = val) : (attrs = {})[key] = val, options = _.extend({
                 validate: !0
             }, options), attrs && !options.wait) {
                 if (!this.set(attrs, options)) return !1;
             } else if (!this._validate(attrs, options)) return !1;
-            attrs && options.wait && (this.attributes = _.extend({
-            }, attributes, attrs)), void 0 === options.parse && (options.parse = !0);
+            attrs && options.wait && (this.attributes = _.extend({}, attributes, attrs)), void 0 === options.parse && (options.parse = !0);
             var model = this, success = options.success;
             return options.success = function(resp) {
                 model.attributes = attributes;
                 var serverAttrs = model.parse(resp, options);
-                if (options.wait && (serverAttrs = _.extend(attrs || {
-                }, serverAttrs)), _.isObject(serverAttrs) && !model.set(serverAttrs, options)) return !1;
+                if (options.wait && (serverAttrs = _.extend(attrs || {}, serverAttrs)), _.isObject(serverAttrs) && !model.set(serverAttrs, options)) return !1;
                 success && success(model, resp, options), model.trigger("sync", model, resp, options);
             }, wrapError(this, options), "patch" == (method = this.isNew() ? "create" : options.patch ? "patch" : "update") && (options.attrs = attrs), xhr = this.sync(method, this, options), attrs && options.wait && (this.attributes = attributes), xhr;
         },
         destroy: function(options) {
-            options = options ? _.clone(options) : {
-            };
+            options = options ? _.clone(options) : {};
             var model = this, success = options.success, destroy = function() {
                 model.trigger("destroy", model, model.collection, options);
             };
@@ -236,16 +212,13 @@
             return null == this.id;
         },
         isValid: function(options) {
-            return this._validate({
-            }, _.extend(options || {
-            }, {
+            return this._validate({}, _.extend(options || {}, {
                 validate: !0
             }));
         },
         _validate: function(attrs, options) {
             if (!options.validate || !this.validate) return !0;
-            attrs = _.extend({
-            }, this.attributes, attrs);
+            attrs = _.extend({}, this.attributes, attrs);
             var error = this.validationError = this.validate(attrs, options) || null;
             return !error || (this.trigger("invalid", this, error, _.extend(options, {
                 validationError: error
@@ -265,8 +238,7 @@
         };
     });
     var Collection = Backbone.Collection = function(models, options) {
-        options || (options = {
-        }), options.model && (this.model = options.model), void 0 !== options.comparator && (this.comparator = options.comparator), this._reset(), this.initialize.apply(this, arguments), models && this.reset(models, _.extend({
+        options || (options = {}), options.model && (this.model = options.model), void 0 !== options.comparator && (this.comparator = options.comparator), this._reset(), this.initialize.apply(this, arguments), models && this.reset(models, _.extend({
             silent: !0
         }, options));
     }, setOptions = {
@@ -279,8 +251,7 @@
     };
     _.extend(Collection.prototype, Events, {
         model: Model,
-        initialize: function() {
-        },
+        initialize: function() {},
         toJSON: function(options) {
             return this.map(function(model) {
                 return model.toJSON(options);
@@ -296,21 +267,18 @@
         },
         remove: function(models, options) {
             var i, l, index, model, singular = !_.isArray(models);
-            for(options || (options = {
-            }), i = 0, l = (models = singular ? [
+            for(options || (options = {}), i = 0, l = (models = singular ? [
                 models
             ] : _.clone(models)).length; i < l; i++)(model = models[i] = this.get(models[i])) && (delete this._byId[model.id], delete this._byId[model.cid], index = this.indexOf(model), this.models.splice(index, 1), this.length--, options.silent || (options.index = index, model.trigger("remove", model, this, options)), this._removeReference(model));
             return singular ? models[0] : models;
         },
         set: function(models, options) {
-            (options = _.defaults({
-            }, options, setOptions)).parse && (models = this.parse(models, options));
+            (options = _.defaults({}, options, setOptions)).parse && (models = this.parse(models, options));
             var i, l, id, model, attrs, existing, sort, singular = !_.isArray(models);
             models = singular ? models ? [
                 models
             ] : [] : _.clone(models);
-            var at = options.at, targetModel = this.model, sortable = this.comparator && null == at && !1 !== options.sort, sortAttr = _.isString(this.comparator) ? this.comparator : null, toAdd = [], toRemove = [], modelMap = {
-            }, add = options.add, merge = options.merge, remove = options.remove, order = !sortable && !!add && !!remove && [];
+            var at = options.at, targetModel = this.model, sortable = this.comparator && null == at && !1 !== options.sort, sortAttr = _.isString(this.comparator) ? this.comparator : null, toAdd = [], toRemove = [], modelMap = {}, add = options.add, merge = options.merge, remove = options.remove, order = !sortable && !!add && !!remove && [];
             for(i = 0, l = models.length; i < l; i++){
                 if (id = (attrs = models[i]) instanceof Model ? model = attrs : attrs[targetModel.prototype.idAttribute], existing = this.get(id)) remove && (modelMap[existing.cid] = !0), merge && (attrs = attrs === model ? model.attributes : attrs, options.parse && (attrs = existing.parse(attrs, options)), existing.set(attrs, options), sortable && !sort && existing.hasChanged(sortAttr) && (sort = !0)), models[i] = existing;
                 else if (add) {
@@ -338,8 +306,7 @@
             return singular ? models[0] : models;
         },
         reset: function(models, options) {
-            options || (options = {
-            });
+            options || (options = {});
             for(var i = 0, l = this.models.length; i < l; i++)this._removeReference(this.models[i]);
             return options.previousModels = this.models, this._reset(), models = this.add(models, _.extend({
                 silent: !0
@@ -383,23 +350,20 @@
         },
         sort: function(options) {
             if (!this.comparator) throw new Error("Cannot sort a set without a comparator");
-            return options || (options = {
-            }), _.isString(this.comparator) || 1 === this.comparator.length ? this.models = this.sortBy(this.comparator, this) : this.models.sort(_.bind(this.comparator, this)), options.silent || this.trigger("sort", this, options), this;
+            return options || (options = {}), _.isString(this.comparator) || 1 === this.comparator.length ? this.models = this.sortBy(this.comparator, this) : this.models.sort(_.bind(this.comparator, this)), options.silent || this.trigger("sort", this, options), this;
         },
         pluck: function(attr) {
             return _.invoke(this.models, "get", attr);
         },
         fetch: function(options) {
-            void 0 === (options = options ? _.clone(options) : {
-            }).parse && (options.parse = !0);
+            void 0 === (options = options ? _.clone(options) : {}).parse && (options.parse = !0);
             var success = options.success, collection = this;
             return options.success = function(resp) {
                 collection[options.reset ? "reset" : "set"](resp, options), success && success(collection, resp, options), collection.trigger("sync", collection, resp, options);
             }, wrapError(this, options), this.sync("read", this, options);
         },
         create: function(model1, options1) {
-            if (options1 = options1 ? _.clone(options1) : {
-            }, !(model1 = this._prepareModel(model1, options1))) return !1;
+            if (options1 = options1 ? _.clone(options1) : {}, !(model1 = this._prepareModel(model1, options1))) return !1;
             options1.wait || this.add(model1, options1);
             var collection = this, success = options1.success;
             return options1.success = function(model, resp, options) {
@@ -413,13 +377,11 @@
             return new this.constructor(this.models);
         },
         _reset: function() {
-            this.length = 0, this.models = [], this._byId = {
-            };
+            this.length = 0, this.models = [], this._byId = {};
         },
         _prepareModel: function(attrs, options) {
             if (attrs instanceof Model) return attrs.collection || (attrs.collection = this), attrs;
-            (options = options ? _.clone(options) : {
-            }).collection = this;
+            (options = options ? _.clone(options) : {}).collection = this;
             var model = new this.model(attrs, options);
             return model.validationError ? (this.trigger("invalid", this, model.validationError, options), !1) : model;
         },
@@ -488,8 +450,7 @@
         };
     });
     var View = Backbone.View = function(options) {
-        this.cid = _.uniqueId("view"), options || (options = {
-        }), _.extend(this, _.pick(options, viewOptions)), this._ensureElement(), this.initialize.apply(this, arguments), this.delegateEvents();
+        this.cid = _.uniqueId("view"), options || (options = {}), _.extend(this, _.pick(options, viewOptions)), this._ensureElement(), this.initialize.apply(this, arguments), this.delegateEvents();
     }, delegateEventSplitter = /^(\S+)\s*(.*)$/, viewOptions = [
         "model",
         "collection",
@@ -505,8 +466,7 @@
         $: function(selector) {
             return this.$el.find(selector);
         },
-        initialize: function() {
-        },
+        initialize: function() {},
         render: function() {
             return this;
         },
@@ -533,8 +493,7 @@
         _ensureElement: function() {
             if (this.el) this.setElement(_.result(this, "el"), !1);
             else {
-                var attrs = _.extend({
-                }, _.result(this, "attributes"));
+                var attrs = _.extend({}, _.result(this, "attributes"));
                 this.id && (attrs.id = _.result(this, "id")), this.className && (attrs.class = _.result(this, "className"));
                 var $el = Backbone.$("<" + _.result(this, "tagName") + ">").attr(attrs);
                 this.setElement($el, !1);
@@ -542,8 +501,7 @@
         }
     }), Backbone.sync = function(method, model, options) {
         var type = methodMap[method];
-        _.defaults(options || (options = {
-        }), {
+        _.defaults(options || (options = {}), {
             emulateHTTP: Backbone.emulateHTTP,
             emulateJSON: Backbone.emulateJSON
         });
@@ -553,8 +511,7 @@
         };
         if (options.url || (params.url = _.result(model, "url") || urlError()), null == options.data && model && ("create" === method || "update" === method || "patch" === method) && (params.contentType = "application/json", params.data = JSON.stringify(options.attrs || model.toJSON(options))), options.emulateJSON && (params.contentType = "application/x-www-form-urlencoded", params.data = params.data ? {
             model: params.data
-        } : {
-        }), options.emulateHTTP && ("PUT" === type || "DELETE" === type || "PATCH" === type)) {
+        } : {}), options.emulateHTTP && ("PUT" === type || "DELETE" === type || "PATCH" === type)) {
             params.type = "POST", options.emulateJSON && (params.data._method = type);
             var beforeSend = options.beforeSend;
             options.beforeSend = function(xhr) {
@@ -578,12 +535,10 @@
         return Backbone.$.ajax.apply(Backbone.$, arguments);
     };
     var Router = Backbone.Router = function(options) {
-        options || (options = {
-        }), options.routes && (this.routes = options.routes), this._bindRoutes(), this.initialize.apply(this, arguments);
+        options || (options = {}), options.routes && (this.routes = options.routes), this._bindRoutes(), this.initialize.apply(this, arguments);
     }, optionalParam = /\((.*?)\)/g, namedParam = /(\(\?)?:\w+/g, splatParam = /\*\w+/g, escapeRegExp = /[\-{}\[\]+?.,\\\^$|#\s]/g;
     _.extend(Router.prototype, Events, {
-        initialize: function() {
-        },
+        initialize: function() {},
         route: function(route, name, callback) {
             _.isRegExp(route) || (route = this._routeToRegExp(route)), _.isFunction(name) && (callback = name, name = ""), callback || (callback = this[name]);
             var router = this;
@@ -642,8 +597,7 @@
             var loc = this.location, atRoot = loc.pathname.replace(/[^\/]$/, "$&/") === this.root;
             if (this._wantsHashChange && this._wantsPushState) {
                 if (!this._hasPushState && !atRoot) return this.fragment = this.getFragment(null, !0), this.location.replace(this.root + this.location.search + "#" + this.fragment), !0;
-                this._hasPushState && atRoot && loc.hash && (this.fragment = this.getHash().replace(routeStripper, ""), this.history.replaceState({
-                }, document.title, this.root + this.fragment + loc.search));
+                this._hasPushState && atRoot && loc.hash && (this.fragment = this.getHash().replace(routeStripper, ""), this.history.replaceState({}, document.title, this.root + this.fragment + loc.search));
             }
             if (!this.options.silent) return this.loadUrl();
         },
@@ -673,8 +627,7 @@
             });
             var url = this.root + (fragment = this.getFragment(fragment || ""));
             if (fragment = fragment.replace(pathStripper, ""), this.fragment !== fragment) {
-                if (this.fragment = fragment, "" === fragment && "/" !== url && (url = url.slice(0, -1)), this._hasPushState) this.history[options.replace ? "replaceState" : "pushState"]({
-                }, document.title, url);
+                if (this.fragment = fragment, "" === fragment && "/" !== url && (url = url.slice(0, -1)), this._hasPushState) this.history[options.replace ? "replaceState" : "pushState"]({}, document.title, url);
                 else {
                     if (!this._wantsHashChange) return this.location.assign(url);
                     this._updateHash(this.location, fragment, options.replace), this.iframe && fragment !== this.getFragment(this.getHash(this.iframe)) && (options.replace || this.iframe.document.open().close(), this._updateHash(this.iframe.location, fragment, options.replace));

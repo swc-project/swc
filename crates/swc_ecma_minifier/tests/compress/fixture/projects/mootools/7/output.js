@@ -7,8 +7,7 @@ export const exported = {
                     result = Object.toQueryString(value, key);
                     break;
                 case "array":
-                    var result, qs = {
-                    };
+                    var result, qs = {};
                     value.each(function(val, i) {
                         qs[i] = val;
                     }), result = Object.toQueryString(qs, key);

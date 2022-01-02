@@ -8,8 +8,7 @@ var A;
         }
     }
     A1.Point = Point;
-})(A || (A = {
-}));
+})(A || (A = {}));
 // @filename: test.ts
 var p;
 var p = A.Point.Origin;

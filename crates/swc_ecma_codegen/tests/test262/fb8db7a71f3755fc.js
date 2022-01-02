@@ -1,4 +1,3 @@
 class a {
-    set b(c) {
-    }
+    set b(c) {}
 }

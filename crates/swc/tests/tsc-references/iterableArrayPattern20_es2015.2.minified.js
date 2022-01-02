@@ -4,8 +4,7 @@ class Foo extends Bar {
 }
 !function(...[[a = new Foo], b = [
     new Foo
-]]) {
-}(...new class {
+]]) {}(...new class {
     next() {
         return {
             value: [

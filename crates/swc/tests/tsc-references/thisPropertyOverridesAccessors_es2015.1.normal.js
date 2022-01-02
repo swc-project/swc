@@ -7,8 +7,7 @@ class Foo {
     get p() {
         return 1;
     }
-    set p(value) {
-    }
+    set p(value) {}
 }
 // @Filename: bar.js
 class Bar extends Foo {

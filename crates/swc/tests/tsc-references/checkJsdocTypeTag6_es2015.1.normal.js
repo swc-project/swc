@@ -5,8 +5,7 @@
 /** @type {number} */ function f() {
     return 1;
 }
-/** @type {{ prop: string }} */ var g = function(prop) {
-};
+/** @type {{ prop: string }} */ var g = function(prop) {};
 /** @type {(a: number) => number} */ function add1(a, b) {
     return a + b;
 }

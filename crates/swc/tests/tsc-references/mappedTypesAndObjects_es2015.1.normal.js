@@ -11,13 +11,11 @@ function f2(x, y) {
     obj = y;
 }
 function f3(x) {
-    x = {
-    };
+    x = {};
 }
 // Repro from #13747
 class Form {
     constructor(){
-        this.values = {
-        };
+        this.values = {};
     }
 }

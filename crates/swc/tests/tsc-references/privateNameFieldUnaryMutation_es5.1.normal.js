@@ -52,10 +52,8 @@ var C = // @target: es2015
         var b = (_classPrivateFieldSet(this, _test, (old3 = +_classPrivateFieldGet(this, _test)) - 1), old3);
         var c = _classPrivateFieldSet(this, _test, +_classPrivateFieldGet(this, _test) + 1);
         var d = _classPrivateFieldSet(this, _test, +_classPrivateFieldGet(this, _test) - 1);
-        for(_classPrivateFieldSet(this, _test, 0); _classPrivateFieldGet(this, _test) < 10; _classPrivateFieldSet(this, _test, +_classPrivateFieldGet(this, _test) + 1)){
-        }
-        for(_classPrivateFieldSet(this, _test, 0); _classPrivateFieldGet(this, _test) < 10; _classPrivateFieldSet(this, _test, (old4 = +_classPrivateFieldGet(this, _test)) + 1), old4){
-        }
+        for(_classPrivateFieldSet(this, _test, 0); _classPrivateFieldGet(this, _test) < 10; _classPrivateFieldSet(this, _test, +_classPrivateFieldGet(this, _test) + 1)){}
+        for(_classPrivateFieldSet(this, _test, 0); _classPrivateFieldGet(this, _test) < 10; _classPrivateFieldSet(this, _test, (old4 = +_classPrivateFieldGet(this, _test)) + 1), old4){}
     }
     _createClass(C, [
         {
@@ -70,10 +68,8 @@ var C = // @target: es2015
                 var b = (_classPrivateFieldSet(_ref5 = this.getInstance(), _test, (old7 = +_classPrivateFieldGet(_ref5, _test)) - 1), old7);
                 var c = _classPrivateFieldSet(_ref6 = this.getInstance(), _test, +_classPrivateFieldGet(_ref6, _test) + 1);
                 var d = _classPrivateFieldSet(_ref7 = this.getInstance(), _test, +_classPrivateFieldGet(_ref7, _test) - 1);
-                for(_classPrivateFieldSet(this.getInstance(), _test, 0); _classPrivateFieldGet(_ref8 = this.getInstance(), _test) < 10; _classPrivateFieldSet(_ref9 = this.getInstance(), _test, +_classPrivateFieldGet(_ref9, _test) + 1)){
-                }
-                for(_classPrivateFieldSet(this.getInstance(), _test, 0); _classPrivateFieldGet(_ref10 = this.getInstance(), _test) < 10; _classPrivateFieldSet(_ref11 = this.getInstance(), _test, (old8 = +_classPrivateFieldGet(_ref11, _test)) + 1), old8){
-                }
+                for(_classPrivateFieldSet(this.getInstance(), _test, 0); _classPrivateFieldGet(_ref8 = this.getInstance(), _test) < 10; _classPrivateFieldSet(_ref9 = this.getInstance(), _test, +_classPrivateFieldGet(_ref9, _test) + 1)){}
+                for(_classPrivateFieldSet(this.getInstance(), _test, 0); _classPrivateFieldGet(_ref10 = this.getInstance(), _test) < 10; _classPrivateFieldSet(_ref11 = this.getInstance(), _test, (old8 = +_classPrivateFieldGet(_ref11, _test)) + 1), old8){}
             }
         },
         {

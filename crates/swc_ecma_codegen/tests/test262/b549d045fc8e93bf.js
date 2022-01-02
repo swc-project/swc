@@ -1,4 +1,2 @@
 "use strict";
-try {
-} catch (a) {
-}
+try {} catch (a) {}

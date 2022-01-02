@@ -162,8 +162,7 @@ var vue = new Vue({
             get: function get() {
                 return "hi";
             },
-            set: function set(value) {
-            }
+            set: function set(value) {}
         }
     }
 });

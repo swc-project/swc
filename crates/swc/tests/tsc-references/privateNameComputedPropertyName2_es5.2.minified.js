@@ -20,8 +20,7 @@ var getX, tmp = (getX = function(a) {
     return Constructor = A, protoProps = [
         {
             key: tmp,
-            value: function() {
-            }
+            value: function() {}
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), A;
 }(), _x = new WeakMap();

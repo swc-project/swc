@@ -32,8 +32,7 @@ var M, N, C = function() {
             if (Reflect.construct.sham) return !1;
             if ("function" == typeof Proxy) return !0;
             try {
-                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                })), !0;
+                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
             } catch (e) {
                 return !1;
             }
@@ -66,8 +65,7 @@ for(!function(M1) {
     M1.A = A, M1.F2 = function(x) {
         return x.toString();
     };
-}(M || (M = {
-})), (function(N1) {
+}(M || (M = {})), (function(N1) {
     var A = function() {
         "use strict";
         _classCallCheck(this, A);
@@ -75,8 +73,7 @@ for(!function(M1) {
     N1.A = A, N1.F2 = function(x) {
         return x.toString();
     };
-})(N || (N = {
-}));;);
+})(N || (N = {}));;);
 for(;;);
 do ;
 while (null)
@@ -134,8 +131,7 @@ for(var i = [
 ]; i;);
 do ;
 while (i)
-for(var j = {
-}; j;);
+for(var j = {}; j;);
 do ;
 while (j)
 for(var k = {

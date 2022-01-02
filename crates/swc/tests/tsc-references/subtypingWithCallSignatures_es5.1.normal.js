@@ -12,5 +12,4 @@ var CallSignature;
     var r4 = foo2(function(x) {
         return '';
     }); // ok because base returns void
-})(CallSignature || (CallSignature = {
-}));
+})(CallSignature || (CallSignature = {}));

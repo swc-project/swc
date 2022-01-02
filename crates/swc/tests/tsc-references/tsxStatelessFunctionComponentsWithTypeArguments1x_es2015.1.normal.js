@@ -25,8 +25,7 @@ function Baz(key1, value) {
         key1: key1,
         value: value
     });
-    let a1 = /*#__PURE__*/ React.createElement(ComponentWithTwoAttributes, _extends({
-    }, {
+    let a1 = /*#__PURE__*/ React.createElement(ComponentWithTwoAttributes, _extends({}, {
         key1,
         value: value
     }, {
@@ -52,7 +51,6 @@ let i = /*#__PURE__*/ React.createElement(InferParamComponent, {
         3,
         4
     ],
-    selectHandler: (val)=>{
-    }
+    selectHandler: (val)=>{}
 });
 export { };

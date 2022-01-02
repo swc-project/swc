@@ -44,8 +44,7 @@ function isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Date.prototype.toString.call(Reflect.construct(Date, [], function() {
-        }));
+        Date.prototype.toString.call(Reflect.construct(Date, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -151,8 +150,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;

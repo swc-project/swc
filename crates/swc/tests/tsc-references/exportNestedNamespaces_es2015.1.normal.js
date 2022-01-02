@@ -4,8 +4,7 @@ import * as s from './mod';
 // @checkJs: true
 // @noEmit: true
 // @Filename: mod.js
-exports.n = {
-};
+exports.n = {};
 exports.n.K = function() {
     this.x = 10;
 };

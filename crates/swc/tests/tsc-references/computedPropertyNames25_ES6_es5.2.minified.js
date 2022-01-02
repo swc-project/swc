@@ -64,8 +64,7 @@ var Base = function() {
             if (Reflect.construct.sham) return !1;
             if ("function" == typeof Proxy) return !0;
             try {
-                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                })), !0;
+                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
             } catch (e) {
                 return !1;
             }
@@ -96,9 +95,7 @@ var Base = function() {
                         configurable: !0,
                         writable: !0
                     }) : obj[key] = value;
-                })({
-                }, _get(_getPrototypeOf(C.prototype), "bar", this).call(this), function() {
-                }), 0;
+                })({}, _get(_getPrototypeOf(C.prototype), "bar", this).call(this), function() {}), 0;
             }
         }
     ]), C;

@@ -66,8 +66,7 @@ var isServerSide = "undefined" == typeof document, META = "M", TITLE = "T", LINK
                     var _ref;
                     return "charset" === meta.keyword ? {
                         charset: meta[meta.keyword]
-                    } : ((_ref = {
-                    })[meta.keyword] = meta[meta.keyword], _ref.content = meta.content, _ref);
+                    } : ((_ref = {})[meta.keyword] = meta[meta.keyword], _ref.content = meta.content, _ref);
                 })
             };
         }
@@ -101,8 +100,7 @@ var isServerSide = "undefined" == typeof document, META = "M", TITLE = "T", LINK
             }), found && (node.current = x);
         }), node.current ? originalOptions.current = Object.keys(options).reduce(function(acc, key) {
             return acc[key] = node.current.getAttribute(key), acc;
-        }, {
-        }) : (node.current = document.createElement("link"), Object.keys(options).forEach(function(key) {
+        }, {}) : (node.current = document.createElement("link"), Object.keys(options).forEach(function(key) {
             node.current.setAttribute(key, options[key]);
         }), document.head.appendChild(node.current)), function() {
             hasMounted.current = !1, originalOptions.current ? Object.keys(originalOptions.current).forEach(function(key) {

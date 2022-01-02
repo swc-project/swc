@@ -71,8 +71,7 @@ function _unsupportedIterableToArray(o, minLen) {
 function a1(param) {
     var _param = _slicedToArray(param, 3), a = _param[0], b = _param[1], ref = _slicedToArray(_param[2], 1), ref1 = _slicedToArray(ref[0], 1), c = ref1[0];
 }
-function a2(o) {
-}
+function a2(o) {}
 function a3(param) {
     var j = param.j, k = param.k, _l = param.l, m = _l.m, n = _l.n, _q = _slicedToArray(param.q, 3), a = _q[0], b = _q[1], c = _q[2];
 }
@@ -178,8 +177,7 @@ var // If the declaration specifies a binding pattern, the parameter type is the
 Foo;
 (function(Foo) {
     Foo[Foo["a"] = 0] = "a";
-})(Foo || (Foo = {
-}));
+})(Foo || (Foo = {}));
 function c0(param) {
     var _z = param.z, x = _z.x, j = _z.y.j;
 }
@@ -223,8 +221,7 @@ c1({
     z: 1
 }) // Implied type is {z:number}?
 ;
-c2({
-}); // Implied type is {z?: number}
+c2({}); // Implied type is {z?: number}
 c2({
     z: 1
 }); // Implied type is {z?: number}
@@ -253,8 +250,7 @@ c5([
 ]); // Implied type is is [any, any, [[any]]]
 // A parameter can be marked optional by following its name or binding pattern with a question mark (?)
 // or by including an initializer.
-function d0(x) {
-}
+function d0(x) {}
 function d0() {
     var x = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 10;
 }
@@ -266,13 +262,11 @@ var C2 = /*#__PURE__*/ function() {
     _createClass(C2, [
         {
             key: "d3",
-            value: function d3() {
-            }
+            value: function d3() {}
         },
         {
             key: "d4",
-            value: function d4() {
-            }
+            value: function d4() {}
         },
         {
             key: "e0",

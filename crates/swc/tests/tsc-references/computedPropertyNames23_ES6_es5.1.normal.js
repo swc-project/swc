@@ -30,8 +30,7 @@ function _defineProperty(obj, key, value) {
     }
     return obj;
 }
-var tmp = _defineProperty({
-}, this.bar(), 1)[0];
+var tmp = _defineProperty({}, this.bar(), 1)[0];
 var C = // @target: es6
 /*#__PURE__*/ function() {
     "use strict";
@@ -47,8 +46,7 @@ var C = // @target: es6
         },
         {
             key: tmp,
-            value: function value() {
-            }
+            value: function value() {}
         }
     ]);
     return C;

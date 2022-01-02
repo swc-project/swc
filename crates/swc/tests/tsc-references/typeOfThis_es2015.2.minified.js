@@ -1,6 +1,5 @@
 class MyTestClass {
-    memberFunc(t = this) {
-    }
+    memberFunc(t = this) {}
     get prop() {
         return this;
     }
@@ -22,13 +21,11 @@ class MyTestClass {
         p.staticCanary;
     }
     constructor(){
-        this.someFunc = ()=>{
-        }, this.canary, this.canary = 3;
+        this.someFunc = ()=>{}, this.canary, this.canary = 3;
     }
 }
 class MyGenericTestClass {
-    memberFunc(t = this) {
-    }
+    memberFunc(t = this) {}
     get prop() {
         return this;
     }
@@ -50,8 +47,7 @@ class MyGenericTestClass {
         p.staticCanary;
     }
     constructor(){
-        this.someFunc = ()=>{
-        }, this.canary, this.canary = 3;
+        this.someFunc = ()=>{}, this.canary, this.canary = 3;
     }
 }
 this.spaaaaace = 4;

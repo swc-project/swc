@@ -1,2 +1,1 @@
-({
-})[Symbol.nonsense];
+({})[Symbol.nonsense];

@@ -5,5 +5,4 @@ class D extends C {
 }
 (function(D1) {
     var y = D1.y = D.bar;
-})(D || (D = {
-}));
+})(D || (D = {}));

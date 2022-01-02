@@ -30,11 +30,9 @@ var M;
         _createClass(C, [
             {
                 key: tmp,
-                value: function value() {
-                }
+                value: function value() {}
             }
         ]);
         return C;
     }();
-})(M || (M = {
-}));
+})(M || (M = {}));

@@ -3,8 +3,7 @@ let getX;
 var tmp = (getX = (a)=>a.#x
 , "_");
 class A {
-    [tmp]() {
-    }
+    [tmp]() {}
     constructor(){
         _x.set(this, {
             writable: true,

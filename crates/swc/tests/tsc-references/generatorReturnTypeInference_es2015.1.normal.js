@@ -1,5 +1,4 @@
-function* g000() {
-}
+function* g000() {}
 // 'yield' iteration type inference
 function* g001() {
     yield;

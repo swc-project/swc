@@ -6,5 +6,4 @@ class StringIterator {
     }
 }
 var v;
-for (v of new StringIterator){
-} // Should fail
+for (v of new StringIterator){} // Should fail

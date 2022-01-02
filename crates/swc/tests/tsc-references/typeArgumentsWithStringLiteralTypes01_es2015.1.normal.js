@@ -32,8 +32,7 @@ var n1;
     c = takeReturnHelloWorld(c);
     d = takeReturnHelloWorld(d);
     e = takeReturnHelloWorld(e);
-})(n1 || (n1 = {
-}));
+})(n1 || (n1 = {}));
 var n2;
 (function(n21) {
     var a = n21.a = fun1("Hello", "Hello");
@@ -59,8 +58,7 @@ var n2;
     c = takeReturnHelloWorld(c);
     d = takeReturnHelloWorld(d);
     e = takeReturnHelloWorld(e);
-})(n2 || (n2 = {
-}));
+})(n2 || (n2 = {}));
 var n3;
 (function(n31) {
     var a = n31.a = fun2("Hello", "World");
@@ -86,5 +84,4 @@ var n3;
     c = takeReturnHelloWorld(c);
     d = takeReturnHelloWorld(d);
     e = takeReturnHelloWorld(e);
-})(n3 || (n3 = {
-}));
+})(n3 || (n3 = {}));

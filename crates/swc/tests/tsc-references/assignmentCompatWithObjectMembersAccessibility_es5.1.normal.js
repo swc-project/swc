@@ -44,8 +44,7 @@ var TargetIsPublic;
     e = i; // errror
     e = d; // errror
     e = e;
-})(TargetIsPublic || (TargetIsPublic = {
-}));
+})(TargetIsPublic || (TargetIsPublic = {}));
 (function(TargetIsPublic) {
     var Base = function Base() {
         "use strict";
@@ -87,5 +86,4 @@ var TargetIsPublic;
     e = i; // errror
     e = d; // errror
     e = e;
-})(TargetIsPublic || (TargetIsPublic = {
-}));
+})(TargetIsPublic || (TargetIsPublic = {}));

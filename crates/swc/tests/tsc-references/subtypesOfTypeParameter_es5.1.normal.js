@@ -49,8 +49,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -98,22 +97,18 @@ var C2 = function C2() {
 var E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
-}));
-function f() {
-}
+})(E || (E = {}));
+function f() {}
 (function(f3) {
     var bar = f3.bar = 1;
-})(f || (f = {
-}));
+})(f || (f = {}));
 var c = function c() {
     "use strict";
     _classCallCheck(this, c);
 };
 (function(c) {
     var bar = c.bar = 1;
-})(c || (c = {
-}));
+})(c || (c = {}));
 // errors throughout
 function f2(x1, y) {
     var f17 = function f17(a) {
@@ -145,10 +140,8 @@ function f2(x1, y) {
     var r6 = true ? x1 : {
         foo: 1
     };
-    var r7 = true ? function() {
-    } : x1;
-    var r7 = true ? x1 : function() {
-    };
+    var r7 = true ? function() {} : x1;
+    var r7 = true ? x1 : function() {};
     var r8 = true ? function(x) {
         return x;
     } : x1;
@@ -176,8 +169,6 @@ function f2(x1, y) {
     var r16 = true ? x1 : ac;
     var r19 = true ? new Object() : x1; // BCT is Object
     var r19 = true ? x1 : new Object(); // BCT is Object
-    var r20 = true ? {
-    } : x1; // ok
-    var r20 = true ? x1 : {
-    }; // ok
+    var r20 = true ? {} : x1; // ok
+    var r20 = true ? x1 : {}; // ok
 }

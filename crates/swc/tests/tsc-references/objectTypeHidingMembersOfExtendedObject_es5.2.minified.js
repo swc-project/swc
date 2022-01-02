@@ -38,8 +38,7 @@ var c, i, b, A = function() {
             if (Reflect.construct.sham) return !1;
             if ("function" == typeof Proxy) return !0;
             try {
-                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                })), !0;
+                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
             } catch (e) {
                 return !1;
             }
@@ -69,15 +68,13 @@ var c, i, b, A = function() {
     return protoProps = [
         {
             key: "valueOf",
-            value: function() {
-            }
+            value: function() {}
         }
     ], _defineProperties((Constructor = C).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }();
 c.valueOf(), c.data.hm, c.hm, i.valueOf(), i.data.hm, i.hm;
 var a = {
-    valueOf: function() {
-    },
+    valueOf: function() {},
     data: new B()
 };
 a.valueOf(), a.data.hm, i.hm, b.valueOf();

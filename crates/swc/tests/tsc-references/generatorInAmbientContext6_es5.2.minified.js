@@ -11,5 +11,4 @@ import regeneratorRuntime from "regenerator-runtime";
         }, generator);
     });
     M1.generator = generator;
-}(M || (M = {
-}));
+}(M || (M = {}));

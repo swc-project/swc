@@ -26,15 +26,13 @@ var C = /*#__PURE__*/ function() {
         {
             key: "foo",
             value: function foo() {
-                C.foo = function() {
-                };
+                C.foo = function() {};
             }
         },
         {
             key: "bar",
             value: function bar(x1) {
-                C.bar = function() {
-                } // error
+                C.bar = function() {} // error
                 ;
                 C.bar = function(x) {
                     return x;

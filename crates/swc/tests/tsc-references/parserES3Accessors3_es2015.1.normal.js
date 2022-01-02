@@ -1,4 +1,3 @@
 var v = {
-    get Foo () {
-    }
+    get Foo () {}
 };

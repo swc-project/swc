@@ -33,8 +33,7 @@ var obj, key, Base = function() {
             }
         }
     ]), Base;
-}(), tmp = ((key = super.bar()) in (obj = {
-}) ? Object.defineProperty(obj, key, {
+}(), tmp = ((key = super.bar()) in (obj = {}) ? Object.defineProperty(obj, key, {
     value: 1,
     enumerable: !0,
     configurable: !0,
@@ -57,8 +56,7 @@ var obj, key, Base = function() {
             if (Reflect.construct.sham) return !1;
             if ("function" == typeof Proxy) return !0;
             try {
-                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                })), !0;
+                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
             } catch (e) {
                 return !1;
             }
@@ -81,8 +79,7 @@ var obj, key, Base = function() {
     return _createClass(C, [
         {
             key: tmp,
-            value: function() {
-            }
+            value: function() {}
         }
     ]), C;
 }(Base);

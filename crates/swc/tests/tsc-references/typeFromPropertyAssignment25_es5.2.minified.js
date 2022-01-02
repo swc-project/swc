@@ -11,8 +11,7 @@ function _setPrototypeOf(o1, p) {
         return o1.__proto__ = p, o1;
     }, _setPrototypeOf(o1, p);
 }
-var Common = {
-};
+var Common = {};
 Common.I = function _class() {
     "use strict";
     _classCallCheck(this, _class), this.i = 1;
@@ -34,8 +33,7 @@ Common.I = function _class() {
             if (Reflect.construct.sham) return !1;
             if ("function" == typeof Proxy) return !0;
             try {
-                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                })), !0;
+                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
             } catch (e) {
                 return !1;
             }

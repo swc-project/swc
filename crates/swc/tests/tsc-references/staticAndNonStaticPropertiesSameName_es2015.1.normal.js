@@ -1,6 +1,4 @@
 class C {
-    f() {
-    }
-    static f() {
-    }
+    f() {}
+    static f() {}
 }

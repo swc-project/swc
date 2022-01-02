@@ -10,8 +10,7 @@ export var M1;
         }
     }
     M11.C1 = C1;
-})(M1 || (M1 = {
-}));
+})(M1 || (M1 = {}));
 // @Filename: foo2.ts
 const foo1 = require('./foo1');
 (function(M12) {
@@ -26,5 +25,4 @@ const foo1 = require('./foo1');
         }
     }
     M12.C1 = C1;
-})(M1 || (M1 = {
-}));
+})(M1 || (M1 = {}));

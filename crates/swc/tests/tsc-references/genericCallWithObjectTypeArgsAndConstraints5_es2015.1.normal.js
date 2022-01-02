@@ -11,8 +11,7 @@ var c;
 var d;
 var r2 = foo(d, c); // the constraints are self-referencing, no downstream error
 var r9 = foo(()=>1
-, ()=>{
-}); // the constraints are self-referencing, no downstream error
+, ()=>{}); // the constraints are self-referencing, no downstream error
 function other() {
     var r5 = foo(c, d); // error
 }

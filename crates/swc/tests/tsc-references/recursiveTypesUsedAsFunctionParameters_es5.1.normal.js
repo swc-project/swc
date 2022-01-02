@@ -11,15 +11,11 @@ var MyList = function MyList() {
     "use strict";
     _classCallCheck(this, MyList);
 };
-function foo(x) {
-}
-function foo2(x) {
-}
+function foo(x) {}
+function foo2(x) {}
 function other() {
-    var foo3 = function foo3(x) {
-    };
-    var foo4 = function foo4(x) {
-    };
+    var foo3 = function foo3(x) {};
+    var foo4 = function foo4(x) {};
     var foo5 = function foo5(x) {
         return null;
     };

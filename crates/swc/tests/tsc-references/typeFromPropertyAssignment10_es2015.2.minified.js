@@ -1,8 +1,5 @@
-var x, Outer = Outer || {
-};
-Outer.app = Outer.app || {
-}, Outer.app.SomeView = function() {
-}, Outer.app.Inner = class {
+var x, Outer = Outer || {};
+Outer.app = Outer.app || {}, Outer.app.SomeView = function() {}, Outer.app.Inner = class {
     constructor(){
         this.y = 12;
     }

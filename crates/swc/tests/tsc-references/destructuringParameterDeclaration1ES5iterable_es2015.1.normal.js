@@ -3,14 +3,10 @@
 // The identifiers specified in parameter declarations and binding patterns
 // in a parameter list must be unique within that parameter list.
 // If the declaration includes a type annotation, the parameter is of that type
-function a1([a, b, [[c]]]) {
-}
-function a2(o) {
-}
-function a3({ j , k , l: { m , n  } , q: [a, b, c]  }) {
-}
-function a4({ x , a  }) {
-}
+function a1([a, b, [[c]]]) {}
+function a2(o) {}
+function a3({ j , k , l: { m , n  } , q: [a, b, c]  }) {}
+function a4({ x , a  }) {}
 a1([
     1,
     2,
@@ -36,13 +32,11 @@ a1([
 function b1(z = [
     undefined,
     null
-]) {
-}
+]) {}
 function b2(z = null, o = {
     x: 0,
     y: undefined
-}) {
-}
+}) {}
 function b3({ z: { x , y: { j  }  }  } = {
     z: {
         x: "hi",
@@ -50,14 +44,12 @@ function b3({ z: { x , y: { j  }  }  } = {
             j: 1
         }
     }
-}) {
-}
+}) {}
 function b6([a, z, y] = [
     undefined,
     null,
     undefined
-]) {
-}
+]) {}
 function b7([[a], b, [[c, d]]] = [
     [
         undefined
@@ -69,8 +61,7 @@ function b7([[a], b, [[c, d]]] = [
             undefined
         ]
     ]
-]) {
-}
+]) {}
 b1([
     1,
     2,
@@ -105,24 +96,17 @@ var // If the declaration specifies a binding pattern, the parameter type is the
 Foo;
 (function(Foo) {
     Foo[Foo["a"] = 0] = "a";
-})(Foo || (Foo = {
-}));
-function c0({ z: { x , y: { j  }  }  }) {
-}
+})(Foo || (Foo = {}));
+function c0({ z: { x , y: { j  }  }  }) {}
 function c1({ z  } = {
     z: 10
-}) {
-}
-function c2({ z =10  }) {
-}
+}) {}
+function c2({ z =10  }) {}
 function c3({ b  } = {
     b: "hello"
-}) {
-}
-function c5([a, b, [[c]]]) {
-}
-function c6([a, b, [[c = 1]]]) {
-}
+}) {}
+function c5([a, b, [[c]]]) {}
+function c6([a, b, [[c = 1]]]) {}
 c0({
     z: {
         x: 1,
@@ -144,8 +128,7 @@ c1({
     z: 1
 }) // Implied type is {z:number}?
 ;
-c2({
-}); // Implied type is {z?: number}
+c2({}); // Implied type is {z?: number}
 c2({
     z: 1
 }); // Implied type is {z?: number}
@@ -174,44 +157,29 @@ c5([
 ]); // Implied type is is [any, any, [[any]]]
 // A parameter can be marked optional by following its name or binding pattern with a question mark (?)
 // or by including an initializer.
-function d0(x) {
-}
-function d0(x = 10) {
-}
+function d0(x) {}
+function d0(x = 10) {}
 class C2 {
-    d3() {
-    }
-    d4() {
-    }
-    e0([a, b, c]) {
-    }
-    constructor(){
-    }
+    d3() {}
+    d4() {}
+    e0([a, b, c]) {}
+    constructor(){}
 }
 class C3 {
-    d3([a, b, c]) {
-    }
-    d4({ x , y , z  }) {
-    }
-    e0([a, b, c]) {
-    }
+    d3([a, b, c]) {}
+    d4({ x , y , z  }) {}
+    e0([a, b, c]) {}
 }
 function d5({ x , y  } = {
     x: 1,
     y: 2
-}) {
-}
+}) {}
 d5(); // Parameter is optional as its declaration included an initializer
 // Destructuring parameter declarations do not permit type annotations on the individual binding patterns,
 // as such annotations would conflict with the already established meaning of colons in object literals.
 // Type annotations must instead be written on the top- level parameter declaration
-function e1({ x: number  }) {
-} // x has type any NOT number
-function e2({ x  }) {
-} // x is type number
-function e3({ x  }) {
-} // x is an optional with type number
-function e4({ x: [number, string, any]  }) {
-} // x has type [any, any, any]
-function e5({ x: [a, b, c]  }) {
-} // x has type [any, any, any]
+function e1({ x: number  }) {} // x has type any NOT number
+function e2({ x  }) {} // x is type number
+function e3({ x  }) {} // x is an optional with type number
+function e4({ x: [number, string, any]  }) {} // x has type [any, any, any]
+function e5({ x: [a, b, c]  }) {} // x has type [any, any, any]

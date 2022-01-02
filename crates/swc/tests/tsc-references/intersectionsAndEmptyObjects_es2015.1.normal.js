@@ -12,13 +12,10 @@ let x11;
 let x12;
 let x13;
 let x14;
-const intersectDictionaries = (d11, d21)=>Object.assign({
-    }, d11, d21)
+const intersectDictionaries = (d11, d21)=>Object.assign({}, d11, d21)
 ;
-const testDictionary = (_value)=>{
-};
-const d1 = {
-};
+const testDictionary = (_value)=>{};
+const d1 = {};
 testDictionary(d1);
 const d2 = intersectDictionaries(d1, d1);
 testDictionary(d2);

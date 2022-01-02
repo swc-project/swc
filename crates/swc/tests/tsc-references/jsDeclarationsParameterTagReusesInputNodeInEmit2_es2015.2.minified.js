@@ -1,6 +1,5 @@
 class Base {
-    constructor(){
-    }
+    constructor(){}
 }
 const BaseFactory = ()=>new Base()
 ;

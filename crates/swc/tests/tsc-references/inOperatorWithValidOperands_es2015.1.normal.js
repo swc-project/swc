@@ -16,8 +16,7 @@ var ra7 = a4 in x;
 // the right operand is required to be of type Any, an object type, or a type parameter type
 var b1;
 var rb1 = x in b1;
-var rb2 = x in {
-};
+var rb2 = x in {};
 function foo(t) {
     var rb3 = x in t;
 }

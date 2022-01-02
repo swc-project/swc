@@ -47,8 +47,7 @@ var B = // @target: es6
     ], [
         {
             key: "log",
-            value: function log(a) {
-            }
+            value: function log(a) {}
         }
     ]);
     return B;

@@ -1,7 +1,6 @@
 var obj, key, value;
 import regeneratorRuntime from "regenerator-runtime";
-obj = {
-}, key = foo(), value = regeneratorRuntime.mark(function _callee() {
+obj = {}, key = foo(), value = regeneratorRuntime.mark(function _callee() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:

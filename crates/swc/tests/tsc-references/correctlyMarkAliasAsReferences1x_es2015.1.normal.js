@@ -17,8 +17,7 @@ function _extends() {
     return _extends.apply(this, arguments);
 }
 let buttonProps; // any
-let k = /*#__PURE__*/ React.createElement("button", _extends({
-}, buttonProps), /*#__PURE__*/ React.createElement("span", {
+let k = /*#__PURE__*/ React.createElement("button", _extends({}, buttonProps), /*#__PURE__*/ React.createElement("span", {
     className: cx('class1', {
         class2: true
     })

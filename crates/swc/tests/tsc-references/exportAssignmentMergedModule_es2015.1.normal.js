@@ -7,8 +7,7 @@ var Foo;
     }
     Foo1.a = a1;
     var b = Foo1.b = true;
-})(Foo || (Foo = {
-}));
+})(Foo || (Foo = {}));
 (function(Foo2) {
     function c(a2) {
         return a2;
@@ -17,10 +16,8 @@ var Foo;
     let Test1;
     (function(Test) {
         var answer = Test.answer = 42;
-    })(Test1 = Foo2.Test || (Foo2.Test = {
-    }));
-})(Foo || (Foo = {
-}));
+    })(Test1 = Foo2.Test || (Foo2.Test = {}));
+})(Foo || (Foo = {}));
 module.exports = Foo;
 // @Filename: foo_1.ts
 const foo = require("./foo_0");

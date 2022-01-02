@@ -1,4 +1,3 @@
 var A;
-(A || (A = {
-})).points = class {
+(A || (A = {})).points = class {
 };

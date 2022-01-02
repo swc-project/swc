@@ -1,6 +1,5 @@
 React.createElement(class {
-    render() {
-    }
+    render() {}
 }, {
     bar: "world"
 });

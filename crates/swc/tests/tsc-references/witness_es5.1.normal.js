@@ -145,8 +145,7 @@ var M2;
     var x = M21.x = M2.x;
     var y = x;
     var y;
-})(M2 || (M2 = {
-}));
+})(M2 || (M2 = {}));
 var C2 = function C2() {
     "use strict";
     _classCallCheck(this, C2);

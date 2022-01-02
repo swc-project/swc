@@ -1,9 +1,7 @@
 Object.defineProperty(module.exports, "a", {
-    value: function() {
-    }
+    value: function() {}
 }), Object.defineProperty(module.exports, "b", {
-    value: function() {
-    }
+    value: function() {}
 }), Object.defineProperty(module.exports.b, "cat", {
     value: "cat"
 }), Object.defineProperty(module.exports, "d", {
@@ -29,13 +27,11 @@ Object.defineProperty(module.exports, "a", {
         return a.x && b.y();
     }
 }), Object.defineProperty(module.exports, "i", {
-    value: function() {
-    }
+    value: function() {}
 }), Object.defineProperty(module.exports, "ii", {
     value: module.exports.i
 }), Object.defineProperty(module.exports, "jj", {
     value: module.exports.j
 }), Object.defineProperty(module.exports, "j", {
-    value: function() {
-    }
+    value: function() {}
 });

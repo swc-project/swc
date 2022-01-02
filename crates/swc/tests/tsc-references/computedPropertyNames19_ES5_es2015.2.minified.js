@@ -1,3 +1,2 @@
 var M;
-M || (M = {
-}), this.bar;
+M || (M = {}), this.bar;

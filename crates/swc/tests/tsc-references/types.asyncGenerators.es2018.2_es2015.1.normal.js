@@ -95,8 +95,7 @@ function _inferReturnType1() {
     // @lib: esnext
     // @noEmit: true
     _wrapAsyncGenerator(function*() {
-        yield* {
-        };
+        yield* {};
     });
     return _inferReturnType1.apply(this, arguments);
 }
@@ -336,8 +335,7 @@ function yieldStar() {
 }
 function _yieldStar() {
     _yieldStar = _wrapAsyncGenerator(function*() {
-        yield* {
-        };
+        yield* {};
     });
     return _yieldStar.apply(this, arguments);
 }

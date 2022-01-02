@@ -2,12 +2,9 @@
 // @allowJs: true
 // @checkJs: true
 // @Filename: bug39167.js
-var test = {
-};
-test.K = test.K || function() {
-};
+var test = {};
+test.K = test.K || function() {};
 test.K.prototype = {
-    add: function add() {
-    }
+    add: function add() {}
 };
 new test.K().add;

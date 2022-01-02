@@ -15,6 +15,5 @@ class FooIterator {
         return this;
     }
 }
-function fun([a, b] = new FooIterator) {
-}
+function fun([a, b] = new FooIterator) {}
 fun(new FooIterator);

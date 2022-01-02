@@ -24,13 +24,11 @@ var tmp = (_classNameTDZError("C"), C).staticProp, tmp1 = (_classNameTDZError("C
         },
         {
             key: tmp1,
-            set: function(x) {
-            }
+            set: function(x) {}
         },
         {
             key: tmp2,
-            value: function() {
-            }
+            value: function() {}
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }();

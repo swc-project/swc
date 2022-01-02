@@ -136,5 +136,4 @@ var E, E, C = function() {
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }();
-(E = E || (E = {
-}))[E.A = 0] = "A";
+(E = E || (E = {}))[E.A = 0] = "A";

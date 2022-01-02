@@ -13,6 +13,5 @@ Emu.D = class _class {
     }
 };
 // @Filename: second.js
-var Emu = {
-};
+var Emu = {};
 /** @type {string} */ Emu.D._wrapperInstance;

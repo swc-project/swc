@@ -9,5 +9,4 @@ export var CompilerDiagnostics;
     }, CompilerDiagnostics1.assert = function(condition, s) {
         debug && (condition || Alert(s));
     };
-}(CompilerDiagnostics || (CompilerDiagnostics = {
-}));
+}(CompilerDiagnostics || (CompilerDiagnostics = {}));

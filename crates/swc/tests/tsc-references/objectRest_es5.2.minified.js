@@ -14,8 +14,7 @@ function _extends() {
     }).apply(this, arguments);
 }
 function _objectWithoutProperties(source, excluded) {
-    if (null == source) return {
-    };
+    if (null == source) return {};
     var key, i1, target = _objectWithoutPropertiesLoose(source, excluded);
     if (Object.getOwnPropertySymbols) {
         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
@@ -24,10 +23,8 @@ function _objectWithoutProperties(source, excluded) {
     return target;
 }
 function _objectWithoutPropertiesLoose(source, excluded) {
-    if (null == source) return {
-    };
-    var key, i1, target = {
-    }, sourceKeys = Object.keys(source);
+    if (null == source) return {};
+    var key, i1, target = {}, sourceKeys = Object.keys(source);
     for(i1 = 0; i1 < sourceKeys.length; i1++)key = sourceKeys[i1], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
     return target;
 }
@@ -50,8 +47,7 @@ var nestedrest, complex, _complex, ref, _tmp, _o, ref1, _typeof = function(obj) 
     a: 1,
     b: "no"
 };
-_extends({
-}, o), o.a, _objectWithoutProperties(o, [
+_extends({}, o), o.a, _objectWithoutProperties(o, [
     "a"
 ]), o.a, o.b, _objectWithoutProperties(o, [
     "a",
@@ -73,8 +69,7 @@ o2.d, _objectWithoutProperties(o2, [
     "d"
 ]), nestedrest.x;
 var _n1 = nestedrest.n1;
-_n1.y, _n1.n2.z, _extends({
-}, nestedrest.n1.n2.n3), _objectWithoutProperties(nestedrest, [
+_n1.y, _n1.n2.z, _extends({}, nestedrest.n1.n2.n3), _objectWithoutProperties(nestedrest, [
     "x",
     "n1"
 ]), complex.x.ka, complex.y, _objectWithoutProperties(complex.x, [
@@ -111,21 +106,18 @@ var Removable = function() {
     return Constructor = Removable, protoProps = [
         {
             key: "z",
-            set: function(value) {
-            }
+            set: function(value) {}
         },
         {
             key: "both",
             get: function() {
                 return 12;
             },
-            set: function(value) {
-            }
+            set: function(value) {}
         },
         {
             key: "m",
-            value: function() {
-            }
+            value: function() {}
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Removable;
 }(), removable = new Removable();

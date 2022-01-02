@@ -1,5 +1,4 @@
-export var a = 1 + {
-};
+export var a = 1 + {};
 export var Bet = function() {
     "use strict";
     !function(instance, Constructor) {

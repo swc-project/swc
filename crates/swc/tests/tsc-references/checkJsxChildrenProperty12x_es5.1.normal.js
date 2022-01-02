@@ -77,8 +77,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -117,11 +116,9 @@ var Button = /*#__PURE__*/ function(_Component) {
             value: function render() {
                 var condition;
                 if (condition) {
-                    return(/*#__PURE__*/ React.createElement(InnerButton, _extends({
-                    }, this.props)));
+                    return(/*#__PURE__*/ React.createElement(InnerButton, _extends({}, this.props)));
                 } else {
-                    return(/*#__PURE__*/ React.createElement(InnerButton, _extends({
-                    }, this.props), /*#__PURE__*/ React.createElement("div", null, "Hello World")));
+                    return(/*#__PURE__*/ React.createElement(InnerButton, _extends({}, this.props), /*#__PURE__*/ React.createElement("div", null, "Hello World")));
                 }
             }
         }

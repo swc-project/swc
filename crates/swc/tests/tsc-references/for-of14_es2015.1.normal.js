@@ -5,5 +5,4 @@ class StringIterator {
     }
 }
 var v;
-for (v of new StringIterator){
-} // Should fail because the iterator is not iterable
+for (v of new StringIterator){} // Should fail because the iterator is not iterable

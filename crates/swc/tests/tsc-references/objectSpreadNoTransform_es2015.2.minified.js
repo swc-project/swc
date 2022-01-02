@@ -9,8 +9,7 @@ function _defineProperty(obj, key, value) {
 }
 const o = function(target) {
     for(var i = 1; i < arguments.length; i++){
-        var source = null != arguments[i] ? arguments[i] : {
-        }, ownKeys = Object.keys(source);
+        var source = null != arguments[i] ? arguments[i] : {}, ownKeys = Object.keys(source);
         "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
         }))), ownKeys.forEach(function(key) {
@@ -25,13 +24,10 @@ const o = function(target) {
     b: "no"
 });
 (function(source, excluded) {
-    if (null == source) return {
-    };
+    if (null == source) return {};
     var key, i, target = function(source, excluded) {
-        if (null == source) return {
-        };
-        var key, i, target = {
-        }, sourceKeys = Object.keys(source);
+        if (null == source) return {};
+        var key, i, target = {}, sourceKeys = Object.keys(source);
         for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
         return target;
     }(source, excluded);

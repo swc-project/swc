@@ -23,8 +23,7 @@ var A;
         "use strict";
         _classCallCheck(this, AG2);
     };
-})(A || (A = {
-}));
+})(A || (A = {}));
 // no errors expected, these are all exported
 var a;
 var a = new A.A();

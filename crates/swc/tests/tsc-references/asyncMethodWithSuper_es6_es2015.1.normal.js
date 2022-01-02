@@ -120,10 +120,8 @@ function _wrapAsyncGenerator(fn) {
 // @lib: esnext
 // @noEmitHelpers: true
 class A {
-    x() {
-    }
-    y() {
-    }
+    x() {}
+    y() {}
 }
 class B extends A {
     // async method with only call/get on 'super' does not require a binding
@@ -165,8 +163,7 @@ class B extends A {
         , _super_method6 = (..._args)=>super["x"](..._args)
         ;
         return _asyncToGenerator(function*() {
-            const f = ()=>{
-            };
+            const f = ()=>{};
             // call with property access
             _super_x();
             // call with element access
@@ -229,8 +226,7 @@ class B extends A {
         , _super_x12 = (_args)=>super.x = _args
         ;
         return _asyncToGenerator(function*() {
-            const f = ()=>{
-            };
+            const f = ()=>{};
             _super_x(f);
             // destructuring assign with property access
             ({ f: _super_x10()  } = {
@@ -273,8 +269,7 @@ class B extends A {
         , _super_method12 = (_args)=>super["x"] = _args
         ;
         return _asyncToGenerator(function*() {
-            const f = ()=>{
-            };
+            const f = ()=>{};
             _super_method(f);
             // destructuring assign with element access
             ({ f: _super_method10()  } = {
@@ -317,8 +312,7 @@ class B extends A {
         , _super_x18 = (_args)=>super.x = _args
         ;
         return _wrapAsyncGenerator(function*() {
-            const f = ()=>{
-            };
+            const f = ()=>{};
             _super_x(f);
             // destructuring assign with property access
             ({ f: _super_x16()  } = {
@@ -361,8 +355,7 @@ class B extends A {
         , _super_method18 = (_args)=>super["x"] = _args
         ;
         return _wrapAsyncGenerator(function*() {
-            const f = ()=>{
-            };
+            const f = ()=>{};
             _super_method(f);
             // destructuring assign with element access
             ({ f: _super_method16()  } = {

@@ -71,8 +71,7 @@ function _asyncToGenerator(fn) {
         return _ref.apply(this, arguments);
     };
 }();
-/** @type {function(function(): string): void} */ var f = function(p) {
-};
+/** @type {function(function(): string): void} */ var f = function(p) {};
 // Error (good)
 f(_asyncToGenerator(regeneratorRuntime.mark(function _callee() {
     return regeneratorRuntime.wrap(function _callee$(_ctx) {

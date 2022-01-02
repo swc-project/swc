@@ -1,2 +1,1 @@
-a = function() {
-}(b());
+a = function() {}(b());

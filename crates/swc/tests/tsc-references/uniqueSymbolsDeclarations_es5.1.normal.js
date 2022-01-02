@@ -559,8 +559,7 @@ Math.random() * 2 ? N.s : "a";
 Math.random() * 2 ? N["s"] : "a";
 var _obj;
 // computed property names
-(_obj = {
-}, _defineProperty(_obj, s, "a"), _defineProperty(_obj, N.s, "b"), _obj);
+(_obj = {}, _defineProperty(_obj, s, "a"), _defineProperty(_obj, N.s, "b"), _obj);
 var C1 = function C1() {
     "use strict";
     _classCallCheck(this, C1);

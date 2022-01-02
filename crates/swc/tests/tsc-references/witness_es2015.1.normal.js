@@ -101,8 +101,7 @@ var M2;
     var x = M21.x = M2.x;
     var y = x;
     var y;
-})(M2 || (M2 = {
-}));
+})(M2 || (M2 = {}));
 // Property access of class instance type
 class C2 {
     constructor(){

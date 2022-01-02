@@ -1,2 +1,1 @@
-function f([a, b]) {
-}
+function f([a, b]) {}

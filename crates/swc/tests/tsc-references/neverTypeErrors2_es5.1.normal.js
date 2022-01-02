@@ -6,8 +6,7 @@ function f1() {
     x = false;
     x = undefined;
     x = null;
-    x = {
-    };
+    x = {};
     x();
 }
 function f2() {
@@ -16,8 +15,7 @@ function f2() {
 function f3() {
     return 1;
 }
-function f4() {
-}
+function f4() {}
 var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 try {
     for(var _iterator = f4()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
@@ -37,5 +35,4 @@ try {
         }
     }
 }
-for(var n1 in f4()){
-}
+for(var n1 in f4()){}

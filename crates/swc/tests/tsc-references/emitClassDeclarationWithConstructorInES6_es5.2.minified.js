@@ -18,8 +18,7 @@ var A = function() {
     return _createClass(A, [
         {
             key: "foo",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), A;
 }(), B = function() {

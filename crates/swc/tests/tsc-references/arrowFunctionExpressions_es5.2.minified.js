@@ -20,8 +20,7 @@ var MyClass = function() {
     return protoProps = [
         {
             key: "fn",
-            value: function() {
-            }
+            value: function() {}
         }
     ], _defineProperties((Constructor = MyClass).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), MyClass;
 }();

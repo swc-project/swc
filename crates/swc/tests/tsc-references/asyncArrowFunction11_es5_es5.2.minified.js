@@ -42,8 +42,7 @@ var A = function() {
                     for(_len = _args.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = _args[_key];
                     return _this = this, _ctx.next = 4, Promise.resolve();
                 case 4:
-                    obj = _defineProperty({
-                    }, "a", function() {
+                    obj = _defineProperty({}, "a", function() {
                         return _this;
                     });
                 case 5:

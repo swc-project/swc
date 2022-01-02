@@ -6,9 +6,7 @@ class C {
     get [tmp]() {
         return "hello";
     }
-    set [tmp1](x) {
-    }
-    [tmp2]() {
-    }
+    set [tmp1](x) {}
+    [tmp2]() {}
 }
 C.staticProp = 10;

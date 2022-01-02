@@ -26,8 +26,7 @@ export function MainButton(props) {
     }
     return this._buildMainButton(props);
 }
-const b0 = /*#__PURE__*/ React.createElement(MainButton, _extends({
-}, {
+const b0 = /*#__PURE__*/ React.createElement(MainButton, _extends({}, {
     onClick: (k)=>{
         console.log(k);
     }
@@ -40,8 +39,7 @@ const b2 = /*#__PURE__*/ React.createElement(MainButton, {
     },
     extra: true
 }); // k has type "left" | "right"
-const b3 = /*#__PURE__*/ React.createElement(MainButton, _extends({
-}, {
+const b3 = /*#__PURE__*/ React.createElement(MainButton, _extends({}, {
     goTo: "home"
 }, {
     extra: true
@@ -53,8 +51,7 @@ const b4 = /*#__PURE__*/ React.createElement(MainButton, {
 export function NoOverload(buttonProps) {
     return undefined;
 }
-const c1 = /*#__PURE__*/ React.createElement(NoOverload, _extends({
-}, {
+const c1 = /*#__PURE__*/ React.createElement(NoOverload, _extends({}, {
     onClick: (k)=>{
         console.log(k);
     }
@@ -64,8 +61,7 @@ const c1 = /*#__PURE__*/ React.createElement(NoOverload, _extends({
 export function NoOverload1(linkProps) {
     return undefined;
 }
-const d1 = /*#__PURE__*/ React.createElement(NoOverload1, _extends({
-}, {
+const d1 = /*#__PURE__*/ React.createElement(NoOverload1, _extends({}, {
     goTo: "home"
 }, {
     extra: true

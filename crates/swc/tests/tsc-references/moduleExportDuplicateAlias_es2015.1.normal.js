@@ -3,6 +3,5 @@
 // @filename: moduleExportAliasDuplicateAlias.js
 // @outdir: out
 exports.apply = undefined;
-function a() {
-}
+function a() {}
 exports.apply = a;

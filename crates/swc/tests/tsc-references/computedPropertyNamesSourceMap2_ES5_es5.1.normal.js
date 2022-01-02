@@ -30,14 +30,11 @@ function _defineProperty(obj, key, value) {
     }
     return obj;
 }
-var _obj, _mutatorMap = {
-};
+var _obj, _mutatorMap = {};
 // @target: es5
 // @sourceMap: true
-var v = (_obj = {
-}, _defineProperty(_obj, "hello", function() {
+var v = (_obj = {}, _defineProperty(_obj, "hello", function() {
     debugger;
-}), _mutatorMap["goodbye"] = _mutatorMap["goodbye"] || {
-}, _mutatorMap["goodbye"].get = function() {
+}), _mutatorMap["goodbye"] = _mutatorMap["goodbye"] || {}, _mutatorMap["goodbye"].get = function() {
     return 0;
 }, _defineEnumerableProperties(_obj, _mutatorMap), _obj);

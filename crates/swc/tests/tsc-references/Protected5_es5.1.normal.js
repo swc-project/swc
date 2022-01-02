@@ -25,8 +25,7 @@ var C = /*#__PURE__*/ function() {
     _createClass(C, null, [
         {
             key: "m",
-            value: function m() {
-            }
+            value: function m() {}
         }
     ]);
     return C;

@@ -36,5 +36,4 @@ export default 12;
  * @typedef {string | number} default
  */ // @filename: index6.js
 // merge type alias and function (OK)
-export default function func() {
-};
+export default function func() {};

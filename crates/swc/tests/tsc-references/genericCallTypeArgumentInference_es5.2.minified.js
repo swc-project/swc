@@ -46,18 +46,15 @@ var i, C = function() {
         },
         {
             key: "foo6",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "foo7",
-            value: function(u) {
-            }
+            value: function(u) {}
         },
         {
             key: "foo8",
-            value: function() {
-            }
+            value: function() {}
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }(), c = new C("", 1);

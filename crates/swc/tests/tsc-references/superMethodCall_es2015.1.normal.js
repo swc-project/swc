@@ -30,8 +30,7 @@ function _asyncToGenerator(fn) {
 // @strict: true
 // @target: ES6
 class Base {
-    method() {
-    }
+    method() {}
 }
 class Derived extends Base {
     method() {

@@ -18,8 +18,7 @@ setState(foo, {
     a: "hi"
 }), setState(foo, {
     b: void 0
-}), setState(foo, {
-}), setState(foo, foo), setState(foo, {
+}), setState(foo, {}), setState(foo, foo), setState(foo, {
     a: void 0
 }), setState(foo, {
     c: !0
@@ -48,8 +47,7 @@ c.setState({
     a: "hi"
 }), c.setState({
     b: void 0
-}), c.setState({
-}), c.setState(foo), c.setState({
+}), c.setState({}), c.setState(foo), c.setState({
     a: void 0
 }), c.setState({
     c: !0

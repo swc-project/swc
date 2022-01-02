@@ -3,13 +3,11 @@ function __swcpack_require__(mod) {
         if (obj && obj.__esModule) {
             return obj;
         } else {
-            var newObj = {
-            };
+            var newObj = {};
             if (obj != null) {
                 for(var key in obj){
                     if (Object.prototype.hasOwnProperty.call(obj, key)) {
-                        var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {
-                        };
+                        var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {};
                         if (desc.get || desc.set) {
                             Object.defineProperty(newObj, key, desc);
                         } else {
@@ -27,8 +25,7 @@ function __swcpack_require__(mod) {
         return cache;
     }
     var module = {
-        exports: {
-        }
+        exports: {}
     };
     mod(module, module.exports);
     cache = interop(module.exports);
@@ -40,8 +37,7 @@ var load = __swcpack_require__.bind(void 0, function(module, exports) {
     if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
 });
 var load1 = __swcpack_require__.bind(void 0, function(module, exports) {
-    var hasOwnProperty = {
-    }.hasOwnProperty;
+    var hasOwnProperty = {}.hasOwnProperty;
     module.exports = function(it, key) {
         return hasOwnProperty.call(it, key);
     };
@@ -58,8 +54,7 @@ var load2 = __swcpack_require__.bind(void 0, function(module, exports) {
 var load3 = __swcpack_require__.bind(void 0, function(module, exports) {
     // Thank's IE8 for his funny defineProperty
     module.exports = !load2()(function() {
-        return Object.defineProperty({
-        }, 'a', {
+        return Object.defineProperty({}, 'a', {
             get: function() {
                 return 7;
             }
@@ -90,8 +85,7 @@ var load7 = __swcpack_require__.bind(void 0, function(module, exports) {
     // typeof document.createElement is 'object' in old IE
     var is = isObject(document) && isObject(document.createElement);
     module.exports = function(it) {
-        return is ? document.createElement(it) : {
-        };
+        return is ? document.createElement(it) : {};
     };
 });
 var load8 = __swcpack_require__.bind(void 0, function(module, exports) {
@@ -128,8 +122,7 @@ var load10 = __swcpack_require__.bind(void 0, function(module, exports) {
         anObject(Attributes);
         if (IE8_DOM_DEFINE) try {
             return dP(O, P, Attributes);
-        } catch (e) {
-        }
+        } catch (e) {}
         if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported!');
         if ('value' in Attributes) O[P] = Attributes.value;
         return O;
@@ -169,11 +162,9 @@ var load15 = __swcpack_require__.bind(void 0, function(module, exports) {
     var core = load4();
     var global = load();
     var SHARED = '__core-js_shared__';
-    var store = global[SHARED] || (global[SHARED] = {
-    });
+    var store = global[SHARED] || (global[SHARED] = {});
     (module.exports = function(key, value) {
-        return store[key] || (store[key] = value !== undefined ? value : {
-        });
+        return store[key] || (store[key] = value !== undefined ? value : {});
     })('versions', []).push({
         version: core.version,
         mode: load14() ? 'pure' : 'global',
@@ -254,13 +245,9 @@ var load20 = __swcpack_require__.bind(void 0, function(module, exports1) {
         var IS_STATIC = type & $export.S;
         var IS_PROTO = type & $export.P;
         var IS_BIND = type & $export.B;
-        var target = IS_GLOBAL ? global : IS_STATIC ? global[name] || (global[name] = {
-        }) : (global[name] || {
-        })[PROTOTYPE];
-        var exports = IS_GLOBAL ? core : core[name] || (core[name] = {
-        });
-        var expProto = exports[PROTOTYPE] || (exports[PROTOTYPE] = {
-        });
+        var target = IS_GLOBAL ? global : IS_STATIC ? global[name] || (global[name] = {}) : (global[name] || {})[PROTOTYPE];
+        var exports = IS_GLOBAL ? core : core[name] || (core[name] = {});
+        var expProto = exports[PROTOTYPE] || (exports[PROTOTYPE] = {});
         var key, own, out, exp;
         if (IS_GLOBAL) source = name;
         for(key in source){
@@ -299,15 +286,13 @@ var load21 = __swcpack_require__.bind(void 0, function(module, exports) {
         return true;
     };
     var FREEZE = !load2()(function() {
-        return isExtensible(Object.preventExtensions({
-        }));
+        return isExtensible(Object.preventExtensions({}));
     });
     var setMeta = function(it) {
         setDesc(it, META, {
             value: {
                 i: 'O' + ++id,
-                w: {
-                } // weak collections IDs
+                w: {} // weak collections IDs
             }
         });
     };
@@ -381,17 +366,14 @@ var load25 = __swcpack_require__.bind(void 0, function(module, exports) {
     var wksExt = load24();
     var defineProperty = load10().f;
     module.exports = function(name) {
-        var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {
-        } : global.Symbol || {
-        });
+        var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {} : global.Symbol || {});
         if (name.charAt(0) != '_' && !(name in $Symbol)) defineProperty($Symbol, name, {
             value: wksExt.f(name)
         });
     };
 });
 var load26 = __swcpack_require__.bind(void 0, function(module, exports) {
-    var toString = {
-    }.toString;
+    var toString = {}.toString;
     module.exports = function(it) {
         return toString.call(it).slice(8, -1);
     };
@@ -510,8 +492,7 @@ var load38 = __swcpack_require__.bind(void 0, function(module, exports) {
     exports.f = Object.getOwnPropertySymbols;
 });
 var load39 = __swcpack_require__.bind(void 0, function(module, exports) {
-    exports.f = ({
-    }).propertyIsEnumerable;
+    exports.f = ({}).propertyIsEnumerable;
 });
 var load40 = __swcpack_require__.bind(void 0, function(module, exports) {
     // all enumerable object keys, includes symbols
@@ -569,8 +550,7 @@ var load45 = __swcpack_require__.bind(void 0, function(module, exports) {
     var dPs = load43();
     var enumBugKeys = load36();
     var IE_PROTO = load34()('IE_PROTO');
-    var Empty = function() {
-    };
+    var Empty = function() {};
     var PROTOTYPE = 'prototype';
     // Create object with fake `null` prototype: use iframe Object with cleared prototype
     var createDict = function() {
@@ -617,8 +597,7 @@ var load47 = __swcpack_require__.bind(void 0, function(module, exports) {
     // fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
     var toIObject = load29();
     var gOPN = load46().f;
-    var toString = {
-    }.toString;
+    var toString = {}.toString;
     var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames ? Object.getOwnPropertyNames(window) : [];
     var getWindowNames = function(it) {
         try {
@@ -644,8 +623,7 @@ var load48 = __swcpack_require__.bind(void 0, function(module, exports) {
         P = toPrimitive(P, true);
         if (IE8_DOM_DEFINE) try {
             return gOPD(O, P);
-        } catch (e) {
-        }
+        } catch (e) {}
         if (has(O, P)) return createDesc(!pIE.f.call(O, P), O[P]);
     };
 });
@@ -688,8 +666,7 @@ var load49 = __swcpack_require__.bind(void 0, function(module, exports) {
     var PROTOTYPE = 'prototype';
     var HIDDEN = wks('_hidden');
     var TO_PRIMITIVE = wks('toPrimitive');
-    var isEnum = {
-    }.propertyIsEnumerable;
+    var isEnum = {}.propertyIsEnumerable;
     var SymbolRegistry = shared('symbol-registry');
     var AllSymbols = shared('symbols');
     var OPSymbols = shared('op-symbols');
@@ -700,8 +677,7 @@ var load49 = __swcpack_require__.bind(void 0, function(module, exports) {
     var setter = !QObject || !QObject[PROTOTYPE] || !QObject[PROTOTYPE].findChild;
     // fallback for old Android, https://code.google.com/p/v8/issues/detail?id=687
     var setSymbolDesc = DESCRIPTORS && $fails(function() {
-        return _create(dP({
-        }, 'a', {
+        return _create(dP({}, 'a', {
             get: function() {
                 return dP(this, 'a', {
                     value: 7
@@ -731,8 +707,7 @@ var load49 = __swcpack_require__.bind(void 0, function(module, exports) {
         anObject(D);
         if (has(AllSymbols, key)) {
             if (!D.enumerable) {
-                if (!has(it, HIDDEN)) dP(it, HIDDEN, createDesc(1, {
-                }));
+                if (!has(it, HIDDEN)) dP(it, HIDDEN, createDesc(1, {}));
                 it[HIDDEN][key] = true;
             } else {
                 if (has(it, HIDDEN) && it[HIDDEN][key]) it[HIDDEN][key] = false;
@@ -927,10 +902,8 @@ var load53 = __swcpack_require__.bind(void 0, function(module, exports) {
     var core = load4();
     var fails = load2();
     module.exports = function(KEY, exec) {
-        var fn = (core.Object || {
-        })[KEY] || Object[KEY];
-        var exp = {
-        };
+        var fn = (core.Object || {})[KEY] || Object[KEY];
+        var exp = {};
         exp[KEY] = exec(fn);
         $export($export.S + $export.F * fails(function() {
             fn(1);
@@ -1055,10 +1028,8 @@ var load65 = __swcpack_require__.bind(void 0, function(module, exports) {
     var $assign = Object.assign;
     // should work with symbols and should have deterministic property order (V8 bug)
     module.exports = !$assign || load2()(function() {
-        var A = {
-        };
-        var B = {
-        };
+        var A = {};
+        var B = {};
         // eslint-disable-next-line no-undef
         var S = Symbol();
         var K = 'abcdefghijklmnopqrst';
@@ -1066,9 +1037,7 @@ var load65 = __swcpack_require__.bind(void 0, function(module, exports) {
         K.split('').forEach(function(k) {
             B[k] = k;
         });
-        return $assign({
-        }, A)[S] != 7 || Object.keys($assign({
-        }, B)).join('') != K;
+        return $assign({}, A)[S] != 7 || Object.keys($assign({}, B)).join('') != K;
     }) ? function assign(target, source) {
         var T = toObject(target);
         var aLen = arguments.length;
@@ -1119,8 +1088,7 @@ var load69 = __swcpack_require__.bind(void 0, function(module, exports) {
         if (!isObject(proto) && proto !== null) throw TypeError(proto + ": can't set as prototype!");
     };
     module.exports = {
-        set: Object.setPrototypeOf || ('__proto__' in {
-        } ? (function(test, buggy, set) {
+        set: Object.setPrototypeOf || ('__proto__' in {} ? (function(test, buggy, set) {
             try {
                 set = load19()(Function.call, load48().f(Object.prototype, '__proto__').set, 2);
                 set(test, []);
@@ -1134,8 +1102,7 @@ var load69 = __swcpack_require__.bind(void 0, function(module, exports) {
                 else set(O, proto);
                 return O;
             };
-        })({
-        }, false) : undefined),
+        })({}, false) : undefined),
         check: check
     };
 });
@@ -1158,8 +1125,7 @@ var load71 = __swcpack_require__.bind(void 0, function(module, exports) {
     var tryGet = function(it, key) {
         try {
             return it[key];
-        } catch (e) {
-        }
+        } catch (e) {}
     };
     module.exports = function(it) {
         var O, T, B;
@@ -1170,8 +1136,7 @@ var load72 = __swcpack_require__.bind(void 0, function(module, exports) {
     'use strict';
     // 19.1.3.6 Object.prototype.toString()
     var classof = load71();
-    var test = {
-    };
+    var test = {};
     test[load22()('toStringTag')] = 'z';
     if (test + '' != '[object z]') load17()(Object.prototype, 'toString', function toString() {
         return '[object ' + classof(this) + ']';
@@ -1202,8 +1167,7 @@ var load74 = __swcpack_require__.bind(void 0, function(module, exports) {
     var isObject = load5();
     var invoke = load73();
     var arraySlice = [].slice;
-    var factories = {
-    };
+    var factories = {};
     var construct = function(F, len, args) {
         if (!(len in factories)) {
             for(var n = [], i = 0; i < len; i++)n[i] = 'a[' + i + ']';
@@ -1277,8 +1241,7 @@ var load79 = __swcpack_require__.bind(void 0, function(module, exports) {
     var ltrim = RegExp('^' + space + space + '*');
     var rtrim = RegExp(space + space + '*$');
     var exporter = function(KEY, exec, ALIAS) {
-        var exp = {
-        };
+        var exp = {};
         var FORCE = fails(function() {
             return !!spaces[KEY]() || non[KEY]() != non;
         });
@@ -1495,8 +1458,7 @@ var load88 = __swcpack_require__.bind(void 0, function(module, exports) {
     };
     $export($export.P + $export.F * (!!$toFixed && (0.00008.toFixed(3) !== '0.000' || 0.9.toFixed(0) !== '1' || 1.255.toFixed(2) !== '1.25' || 1000000000000000100..toFixed(0) !== '1000000000000000128') || !load2()(function() {
         // V8 ~ Android 4.3-
-        $toFixed.call({
-        });
+        $toFixed.call({});
     })), 'Number', {
         toFixed: function toFixed(fractionDigits) {
             var x = aNumberValue(this, ERROR);
@@ -1559,8 +1521,7 @@ var load89 = __swcpack_require__.bind(void 0, function(module, exports) {
         return $toPrecision.call(1, undefined) !== '1';
     }) || !$fails(function() {
         // V8 ~ Android 4.3-
-        $toPrecision.call({
-        });
+        $toPrecision.call({});
     })), 'Number', {
         toPrecision: function toPrecision(precision) {
             var that = aNumberValue(this, 'Number#toPrecision: incorrect invocation!');
@@ -1954,16 +1915,14 @@ var load124 = __swcpack_require__.bind(void 0, function(module, exports) {
     };
 });
 var load125 = __swcpack_require__.bind(void 0, function(module, exports) {
-    module.exports = {
-    };
+    module.exports = {};
 });
 var load126 = __swcpack_require__.bind(void 0, function(module, exports) {
     'use strict';
     var create = load45();
     var descriptor = load11();
     var setToStringTag = load23();
-    var IteratorPrototype = {
-    };
+    var IteratorPrototype = {};
     // 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
     load12()(IteratorPrototype, load22()('iterator'), function() {
         return this;
@@ -2119,8 +2078,7 @@ var load132 = __swcpack_require__.bind(void 0, function(module, exports) {
             try {
                 re[MATCH] = false;
                 return !'/./'[KEY](re);
-            } catch (f) {
-            }
+            } catch (f) {}
         }
         return true;
     };
@@ -2193,8 +2151,7 @@ var load137 = __swcpack_require__.bind(void 0, function(module, exports) {
         return p1 + '>' + S + '</' + tag + '>';
     };
     module.exports = function(NAME, exec) {
-        var O = {
-        };
+        var O = {};
         O[NAME] = exec(createHTML);
         $export($export.P + $export.F * fails(function() {
             var test = ''[NAME]('"');
@@ -2468,8 +2425,7 @@ var load163 = __swcpack_require__.bind(void 0, function(module, exports) {
         Array.from(riter, function() {
             throw 2;
         });
-    } catch (e) {
-    }
+    } catch (e) {}
     module.exports = function(exec, skipClosing) {
         if (!skipClosing && !SAFE_CLOSING) return false;
         var safe = false;
@@ -2487,8 +2443,7 @@ var load163 = __swcpack_require__.bind(void 0, function(module, exports) {
                 return iter;
             };
             exec(arr);
-        } catch (e) {
-        }
+        } catch (e) {}
         return safe;
     };
 });
@@ -2536,8 +2491,7 @@ var load165 = __swcpack_require__.bind(void 0, function(module, exports) {
     var createProperty = load161();
     // WebKit Array.of isn't generic
     $export($export.S + $export.F * load2()(function() {
-        function F() {
-        }
+        function F() {}
         return !(Array.of.call(F) instanceof F);
     }), 'Array', {
         // 22.1.2.3 Array.of( ...items)
@@ -2557,8 +2511,7 @@ var load166 = __swcpack_require__.bind(void 0, function(module, exports) {
     module.exports = function(method, arg) {
         return !!method && fails(function() {
             // eslint-disable-next-line no-useless-call
-            arg ? method.call(null, function() {
-            }, 1) : method.call(null);
+            arg ? method.call(null, function() {}, 1) : method.call(null);
         });
     };
 });
@@ -2881,8 +2834,7 @@ var load184 = __swcpack_require__.bind(void 0, function(module, exports) {
     // 22.1.3.31 Array.prototype[@@unscopables]
     var UNSCOPABLES = load22()('unscopables');
     var ArrayProto = Array.prototype;
-    if (ArrayProto[UNSCOPABLES] == undefined) load12()(ArrayProto, UNSCOPABLES, {
-    });
+    if (ArrayProto[UNSCOPABLES] == undefined) load12()(ArrayProto, UNSCOPABLES, {});
     module.exports = function(key) {
         ArrayProto[UNSCOPABLES][key] = true;
     };
@@ -3220,8 +3172,7 @@ var load202 = __swcpack_require__.bind(void 0, function(module, exports) {
         var SYMBOL = wks(KEY);
         var DELEGATES_TO_SYMBOL = !fails(function() {
             // String methods call symbol-named RegEp methods
-            var O = {
-            };
+            var O = {};
             O[SYMBOL] = function() {
                 return 7;
             };
@@ -3238,8 +3189,7 @@ var load202 = __swcpack_require__.bind(void 0, function(module, exports) {
             if (KEY === 'split') {
                 // RegExp[@@split] doesn't call the regex's exec method, but first creates
                 // a new one. We need to return the patched regex when creating the new one.
-                re.constructor = {
-                };
+                re.constructor = {};
                 re.constructor[SPECIES] = function() {
                     return re;
                 };
@@ -3599,10 +3549,8 @@ var load209 = __swcpack_require__.bind(void 0, function(module, exports) {
     var anObject = load6();
     var toLength = load31();
     var getIterFn = load162();
-    var BREAK = {
-    };
-    var RETURN = {
-    };
+    var BREAK = {};
+    var RETURN = {};
     var exports = module.exports = function(iterable, entries, fn, that, ITERATOR) {
         var iterFn = ITERATOR ? function() {
             return iterable;
@@ -3636,8 +3584,7 @@ var load210 = __swcpack_require__.bind(void 0, function(module, exports) {
     var MessageChannel = global.MessageChannel;
     var Dispatch = global.Dispatch;
     var counter = 0;
-    var queue = {
-    };
+    var queue = {};
     var ONREADYSTATECHANGE = 'onreadystatechange';
     var defer, channel, port;
     var run = function() {
@@ -3856,22 +3803,19 @@ var load217 = __swcpack_require__.bind(void 0, function(module, exports) {
     var v8 = versions && versions.v8 || '';
     var $Promise = global[PROMISE];
     var isNode = classof(process) == 'process';
-    var empty = function() {
-    };
+    var empty = function() {};
     var Internal, newGenericPromiseCapability, OwnPromiseCapability, Wrapper;
     var newPromiseCapability = newGenericPromiseCapability = newPromiseCapabilityModule.f;
     var USE_NATIVE = !!function() {
         try {
             // correct subclassing with @@species support
             var promise = $Promise.resolve(1);
-            var FakePromise = (promise.constructor = {
-            })[load22()('species')] = function(exec) {
+            var FakePromise = (promise.constructor = {})[load22()('species')] = function(exec) {
                 exec(empty, empty);
             };
             // unhandled rejections tracking support, NodeJS Promise without it fails @@species test
             return (isNode || typeof PromiseRejectionEvent == 'function') && promise.then(empty) instanceof FakePromise && v8.indexOf('6.6') !== 0 && userAgent.indexOf('Chrome/66') === -1;
-        } catch (e) {
-        }
+        } catch (e) {}
     }();
     // helpers
     var isThenable = function(it) {
@@ -4286,8 +4230,7 @@ var load220 = __swcpack_require__.bind(void 0, function(module, exports) {
         var C = Base;
         var ADDER = IS_MAP ? 'set' : 'add';
         var proto = C && C.prototype;
-        var O = {
-        };
+        var O = {};
         var fixMethod = function(KEY) {
             var fn = proto[KEY];
             redefine(proto, KEY, KEY == 'delete' ? function(a) {
@@ -4314,8 +4257,7 @@ var load220 = __swcpack_require__.bind(void 0, function(module, exports) {
         } else {
             var instance = new C();
             // early implementations not supports chaining
-            var HASNT_CHAINING = instance[ADDER](IS_WEAK ? {
-            } : -0, 1) != instance;
+            var HASNT_CHAINING = instance[ADDER](IS_WEAK ? {} : -0, 1) != instance;
             // V8 ~  Chromium 40- weak-collections throws on primitives, but should return false
             var THROWS_ON_PRIMITIVES = fails(function() {
                 instance.has(1);
@@ -5020,8 +4962,7 @@ var load231 = __swcpack_require__.bind(void 0, function(module, exports) {
             ]).buffer)[0] === 1;
         });
         var FORCED_SET = !!Uint8Array && !!Uint8Array[PROTOTYPE].set && fails(function() {
-            new Uint8Array(1).set({
-            });
+            new Uint8Array(1).set({});
         });
         var toOffset = function(it, BYTES) {
             var offset = toInteger(it);
@@ -5197,20 +5138,17 @@ var load231 = __swcpack_require__.bind(void 0, function(module, exports) {
             defineProperty: $setDesc
         });
         if (fails(function() {
-            arrayToString.call({
-            });
+            arrayToString.call({});
         })) arrayToString = arrayToLocaleString = function toString() {
             return arrayJoin.call(this);
         };
-        var $TypedArrayPrototype$ = redefineAll({
-        }, proto);
+        var $TypedArrayPrototype$ = redefineAll({}, proto);
         redefineAll($TypedArrayPrototype$, $iterators);
         hide($TypedArrayPrototype$, ITERATOR, $iterators.values);
         redefineAll($TypedArrayPrototype$, {
             slice: $slice,
             set: $set,
-            constructor: function() {
-            },
+            constructor: function() {},
             toString: arrayToString,
             toLocaleString: $toLocaleString
         });
@@ -5230,12 +5168,10 @@ var load231 = __swcpack_require__.bind(void 0, function(module, exports) {
             var GETTER = 'get' + KEY;
             var SETTER = 'set' + KEY;
             var TypedArray = global[NAME];
-            var Base = TypedArray || {
-            };
+            var Base = TypedArray || {};
             var TAC = TypedArray && getPrototypeOf(TypedArray);
             var FORCED = !TypedArray || !$typed.ABV;
-            var O = {
-            };
+            var O = {};
             var TypedArrayPrototype = TypedArray && TypedArray[PROTOTYPE];
             var getter = function(that, index) {
                 var data = that._d;
@@ -5374,8 +5310,7 @@ var load231 = __swcpack_require__.bind(void 0, function(module, exports) {
             Iterators[NAME] = CORRECT_ITER_NAME ? $nativeIterator : $iterator;
             if (!LIBRARY && !CORRECT_ITER_NAME) hide(TypedArrayPrototype, ITERATOR, $iterator);
         };
-    } else module.exports = function() {
-    };
+    } else module.exports = function() {};
 });
 var load232 = __swcpack_require__.bind(void 0, function(module, exports) {
     load231()('Int8', 1, function(init) {
@@ -5445,13 +5380,11 @@ var load241 = __swcpack_require__.bind(void 0, function(module, exports) {
     var $export = load20();
     var aFunction = load18();
     var anObject = load6();
-    var rApply = (load().Reflect || {
-    }).apply;
+    var rApply = (load().Reflect || {}).apply;
     var fApply = Function.apply;
     // MS Edge argumentsList argument is optional
     $export($export.S + $export.F * !load2()(function() {
-        rApply(function() {
-        });
+        rApply(function() {});
     }), 'Reflect', {
         apply: function apply(target, thisArgument, argumentsList) {
             var T = aFunction(target);
@@ -5469,19 +5402,15 @@ var load242 = __swcpack_require__.bind(void 0, function(module, exports) {
     var isObject = load5();
     var fails = load2();
     var bind = load74();
-    var rConstruct = (load().Reflect || {
-    }).construct;
+    var rConstruct = (load().Reflect || {}).construct;
     // MS Edge supports only 2 arguments and argumentsList argument is optional
     // FF Nightly sets third argument as `new.target`, but does not create `this` from it
     var NEW_TARGET_BUG = fails(function() {
-        function F() {
-        }
-        return !(rConstruct(function() {
-        }, [], F) instanceof F);
+        function F() {}
+        return !(rConstruct(function() {}, [], F) instanceof F);
     });
     var ARGS_BUG = !fails(function() {
-        rConstruct(function() {
-        });
+        rConstruct(function() {});
     });
     $export($export.S + $export.F * (NEW_TARGET_BUG || ARGS_BUG), 'Reflect', {
         construct: function construct(Target, args /* , newTarget */ ) {
@@ -5527,8 +5456,7 @@ var load243 = __swcpack_require__.bind(void 0, function(module, exports) {
     // MS Edge has broken Reflect.defineProperty - throwing instead of returning false
     $export($export.S + $export.F * load2()(function() {
         // eslint-disable-next-line no-undef
-        Reflect.defineProperty(dP.f({
-        }, 1, {
+        Reflect.defineProperty(dP.f({}, 1, {
             value: 1
         }), 1, {
             value: 2
@@ -5956,8 +5884,7 @@ var load269 = __swcpack_require__.bind(void 0, function(module, exports) {
             var O = toIObject(object);
             var getDesc = gOPD.f;
             var keys = ownKeys(O);
-            var result = {
-            };
+            var result = {};
             var i = 0;
             var key, desc;
             while(keys.length > i){
@@ -6019,8 +5946,7 @@ var load273 = __swcpack_require__.bind(void 0, function(module, exports) {
         var K = Math.random();
         // In FF throws only define methods
         // eslint-disable-next-line no-undef, no-useless-call
-        __defineSetter__.call(null, K, function() {
-        });
+        __defineSetter__.call(null, K, function() {});
         delete load()[K];
     });
 });
@@ -6661,8 +6587,7 @@ var load321 = __swcpack_require__.bind(void 0, function(module, exports) {
         }
         if (subscriptionClosed(this)) cleanupSubscription(this);
     };
-    Subscription.prototype = redefineAll({
-    }, {
+    Subscription.prototype = redefineAll({}, {
         unsubscribe: function unsubscribe() {
             closeSubscription(this);
         }
@@ -6670,8 +6595,7 @@ var load321 = __swcpack_require__.bind(void 0, function(module, exports) {
     var SubscriptionObserver = function(subscription) {
         this._s = subscription;
     };
-    SubscriptionObserver.prototype = redefineAll({
-    }, {
+    SubscriptionObserver.prototype = redefineAll({}, {
         next: function next(value) {
             var subscription = this._s;
             if (!subscriptionClosed(subscription)) {
@@ -7339,8 +7263,7 @@ var load333 = __swcpack_require__.bind(void 0, function(module, exports) {
     var path = load330();
     var $export = load20();
     // Placeholder
-    load4()._ = path._ = path._ || {
-    };
+    load4()._ = path._ = path._ || {};
     $export($export.P + $export.F, 'Function', {
         part: load331()
     });

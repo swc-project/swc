@@ -24,24 +24,15 @@ function _asyncToGenerator(fn) {
     };
 }
 function _f0() {
-    return (_f0 = _asyncToGenerator(function*() {
-    })).apply(this, arguments);
+    return (_f0 = _asyncToGenerator(function*() {})).apply(this, arguments);
 }
 function _f1() {
-    return (_f1 = _asyncToGenerator(function*() {
-    })).apply(this, arguments);
+    return (_f1 = _asyncToGenerator(function*() {})).apply(this, arguments);
 }
 function _f3() {
-    return (_f3 = _asyncToGenerator(function*() {
-    })).apply(this, arguments);
+    return (_f3 = _asyncToGenerator(function*() {})).apply(this, arguments);
 }
-_asyncToGenerator(function*() {
-}), _asyncToGenerator(function*() {
-}), _asyncToGenerator(function*() {
-}), _asyncToGenerator(function*() {
-}), _asyncToGenerator(function*() {
-}), _asyncToGenerator(function*() {
-}), _asyncToGenerator(function*() {
+_asyncToGenerator(function*() {}), _asyncToGenerator(function*() {}), _asyncToGenerator(function*() {}), _asyncToGenerator(function*() {}), _asyncToGenerator(function*() {}), _asyncToGenerator(function*() {}), _asyncToGenerator(function*() {
     return p;
 }), _asyncToGenerator(function*() {
     return mp;
@@ -51,12 +42,10 @@ _asyncToGenerator(function*() {
     return p;
 }), (function(M1) {
     function _f11() {
-        return (_f11 = _asyncToGenerator(function*() {
-        })).apply(this, arguments);
+        return (_f11 = _asyncToGenerator(function*() {})).apply(this, arguments);
     }
     M1.f1 = function() {
         return _f11.apply(this, arguments);
     };
-})(M || (M = {
-}));
+})(M || (M = {}));
 export { };

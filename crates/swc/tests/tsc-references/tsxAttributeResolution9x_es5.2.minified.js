@@ -15,8 +15,7 @@ export var MyComponent = function() {
     return protoProps = [
         {
             key: "render",
-            value: function() {
-            }
+            value: function() {}
         }
     ], _defineProperties((Constructor = MyComponent).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), MyComponent;
 }();

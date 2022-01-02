@@ -16,6 +16,5 @@ var w = foo({
     a: 10
 });
 var w;
-var b = bar({
-});
+var b = bar({});
 var b;

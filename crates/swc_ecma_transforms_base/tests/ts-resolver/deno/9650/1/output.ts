@@ -1,6 +1,5 @@
 export class X {
-    constructor(){
-    }
+    constructor(){}
     bad(target__2: number) {
         const d__2 = 1;
         const min__2 = 0;

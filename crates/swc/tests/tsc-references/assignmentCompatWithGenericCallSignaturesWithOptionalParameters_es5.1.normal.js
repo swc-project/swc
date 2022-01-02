@@ -67,8 +67,7 @@ var ClassTypeParam;
             }; // ok, same number of params
         };
     };
-})(ClassTypeParam || (ClassTypeParam = {
-}));
+})(ClassTypeParam || (ClassTypeParam = {}));
 var GenericSignaturesInvalid;
 (function(GenericSignaturesInvalid) {
     var foo = function foo() {
@@ -109,8 +108,7 @@ var GenericSignaturesInvalid;
         "use strict";
         _classCallCheck(this, Target);
     };
-})(GenericSignaturesInvalid || (GenericSignaturesInvalid = {
-}));
+})(GenericSignaturesInvalid || (GenericSignaturesInvalid = {}));
 var GenericSignaturesValid;
 (function(GenericSignaturesValid) {
     var Base2 = function Base2() {
@@ -174,5 +172,4 @@ var GenericSignaturesValid;
             }; // ok, same number of params
         };
     };
-})(GenericSignaturesValid || (GenericSignaturesValid = {
-}));
+})(GenericSignaturesValid || (GenericSignaturesValid = {}));

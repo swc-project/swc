@@ -40,9 +40,7 @@ var C = // @target: es6
         {
             key: "bar",
             value: function bar() {
-                var obj = _defineProperty({
-                }, this.bar(), function() {
-                });
+                var obj = _defineProperty({}, this.bar(), function() {});
                 return 0;
             }
         }

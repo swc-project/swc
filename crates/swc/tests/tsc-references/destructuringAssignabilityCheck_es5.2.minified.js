@@ -38,13 +38,10 @@ function _unsupportedIterableToArray(o, minLen) {
         if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
     }
 }
-_slicedToArray({
-}, 0);
+_slicedToArray({}, 0);
 var undefined = undefined;
-_slicedToArray({
-}, 0), (function(param) {
+_slicedToArray({}, 0), (function(param) {
     var param = null !== param ? param : _throw(new TypeError("Cannot destructure undefined"));
 })(undefined);
 var ref = 1, ref = null !== ref ? ref : _throw(new TypeError("Cannot destructure undefined"));
-_slicedToArray({
-}, 0);
+_slicedToArray({}, 0);

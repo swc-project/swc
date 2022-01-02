@@ -11,9 +11,7 @@
     var { p1: {} , p2: []  } = a;
     let { p1: {} , p2: []  } = a;
     const { p1: {} , p2: []  } = a;
-    var {} = {
-    }, {} = {
-    };
+    var {} = {}, {} = {};
 }(), (function() {
     const ns = [];
     for (var {} of ns);

@@ -3,8 +3,7 @@ function fn1() {
 }
 var s = fn1`${undefined}`;
 // No candidate overloads found
-fn1`${{
-}}`; // Error
+fn1`${{}}`; // Error
 function fn2() {
     return undefined;
 }
@@ -29,8 +28,7 @@ var s = fn3`${''}${''}${''}`;
 var n = fn3`${''}${''}${3}`;
 // Generic overloads with differing arity tagging with argument count that doesn't match any overload
 fn3``; // Error
-function fn4() {
-}
+function fn4() {}
 // Generic overloads with constraints tagged with types that satisfy the constraints
 fn4`${''}${3}`;
 fn4`${3}${''}`;

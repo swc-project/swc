@@ -1,9 +1,7 @@
 // @target: es6
 class A {
-    foo() {
-    }
-    constructor(x){
-    }
+    foo() {}
+    constructor(x){}
 }
 class B {
     baz(z, v) {

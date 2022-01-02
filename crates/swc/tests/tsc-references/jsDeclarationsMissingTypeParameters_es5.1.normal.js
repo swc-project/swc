@@ -6,8 +6,7 @@
 // @filename: file.js
 /**
   * @param {Array=} y desc
-  */ function x(y) {
-}
+  */ function x(y) {}
 // @ts-ignore
 /** @param {function (Array)} func Invoked
  */ function y(func) {

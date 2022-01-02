@@ -28,8 +28,7 @@ var TypeScript;
             }
         }
         CompilerDiagnostics.assert = assert;
-    })(CompilerDiagnostics1 = TypeScript1.CompilerDiagnostics || (TypeScript1.CompilerDiagnostics = {
-    }));
+    })(CompilerDiagnostics1 = TypeScript1.CompilerDiagnostics || (TypeScript1.CompilerDiagnostics = {}));
     class NullLogger {
         information() {
             return false;
@@ -46,8 +45,7 @@ var TypeScript;
         fatal() {
             return false;
         }
-        log(s) {
-        }
+        log(s) {}
     }
     TypeScript1.NullLogger = NullLogger;
     class LoggerAdapter {
@@ -157,5 +155,4 @@ var TypeScript;
         return result;
     }
     TypeScript1.stringToLiteral = stringToLiteral;
-})(TypeScript || (TypeScript = {
-}));
+})(TypeScript || (TypeScript = {}));

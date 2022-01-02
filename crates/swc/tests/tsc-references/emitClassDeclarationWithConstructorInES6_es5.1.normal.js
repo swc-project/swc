@@ -26,8 +26,7 @@ var A = // @target: es6
     _createClass(A, [
         {
             key: "foo",
-            value: function foo() {
-            }
+            value: function foo() {}
         }
     ]);
     return A;

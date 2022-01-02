@@ -3,8 +3,7 @@ var E;
     E[E["A"] = 0] = "A";
     E[E["B"] = 1] = "B";
     E[E["C"] = 2] = "C";
-})(E || (E = {
-}));
+})(E || (E = {}));
 let cond;
 function f1(p1 = 1, p2 = "abc", p3 = true, p4 = E.A) {
     var v1 = 1;

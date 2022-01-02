@@ -24,7 +24,6 @@ var i, c, C = function() {
 }();
 c = c;
 var a = {
-    toString: function() {
-    }
+    toString: function() {}
 };
 a = a; // ok

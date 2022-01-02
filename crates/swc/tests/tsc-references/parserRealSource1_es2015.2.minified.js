@@ -9,9 +9,7 @@ var TypeScript, TypeScript1;
     }, CompilerDiagnostics.assert = function(condition, s) {
         debug && (condition || Alert(s));
     };
-})((TypeScript1 = TypeScript || (TypeScript = {
-})).CompilerDiagnostics || (TypeScript1.CompilerDiagnostics = {
-})), TypeScript1.NullLogger = class {
+})((TypeScript1 = TypeScript || (TypeScript = {})).CompilerDiagnostics || (TypeScript1.CompilerDiagnostics = {})), TypeScript1.NullLogger = class {
     information() {
         return !1;
     }
@@ -27,8 +25,7 @@ var TypeScript, TypeScript1;
     fatal() {
         return !1;
     }
-    log(s) {
-    }
+    log(s) {}
 }, TypeScript1.LoggerAdapter = class {
     information() {
         return this._information;

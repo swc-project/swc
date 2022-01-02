@@ -9,5 +9,4 @@ var Shapes;
         }
     }
     Shapes1.Point = Point, Point.origin = new Point(0, 0);
-}(Shapes || (Shapes = {
-})), new Shapes.Point(3, 4).getDist();
+}(Shapes || (Shapes = {})), new Shapes.Point(3, 4).getDist();

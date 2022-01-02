@@ -77,8 +77,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -127,8 +126,7 @@ var obj = {
     y: 2
 };
 // OK
-var p = /*#__PURE__*/ React.createElement(Poisoned, _extends({
-}, obj));
+var p = /*#__PURE__*/ React.createElement(Poisoned, _extends({}, obj));
 var EmptyProp = /*#__PURE__*/ function(_Component) {
     "use strict";
     _inherits(EmptyProp, _Component);
@@ -149,13 +147,9 @@ var EmptyProp = /*#__PURE__*/ function(_Component) {
 }(React.Component);
 // OK
 var j;
-var e1 = /*#__PURE__*/ React.createElement(EmptyProp, _extends({
-}, {
-}));
-var e2 = /*#__PURE__*/ React.createElement(EmptyProp, _extends({
-}, j));
-var e3 = /*#__PURE__*/ React.createElement(EmptyProp, _extends({
-}, {
+var e1 = /*#__PURE__*/ React.createElement(EmptyProp, _extends({}, {}));
+var e2 = /*#__PURE__*/ React.createElement(EmptyProp, _extends({}, j));
+var e3 = /*#__PURE__*/ React.createElement(EmptyProp, _extends({}, {
     ref: function(input) {
         _this.textInput = input;
     }
@@ -163,8 +157,7 @@ var e3 = /*#__PURE__*/ React.createElement(EmptyProp, _extends({
 var e4 = /*#__PURE__*/ React.createElement(EmptyProp, {
     "data-prop": true
 });
-var e5 = /*#__PURE__*/ React.createElement(EmptyProp, _extends({
-}, {
+var e5 = /*#__PURE__*/ React.createElement(EmptyProp, _extends({}, {
     "data-prop": true
 }));
 export { };

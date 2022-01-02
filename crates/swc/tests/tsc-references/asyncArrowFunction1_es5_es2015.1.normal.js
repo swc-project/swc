@@ -31,8 +31,7 @@ function _asyncToGenerator(fn) {
 // @lib: es5,es2015.promise
 // @noEmitHelpers: true
 var foo = function() {
-    var _ref = _asyncToGenerator(function*() {
-    });
+    var _ref = _asyncToGenerator(function*() {});
     return function foo() {
         return _ref.apply(this, arguments);
     };

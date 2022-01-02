@@ -14,10 +14,7 @@ React.createElement(Obj1, {
     x: 10
 }), React.createElement(Obj3, {
     x: 10
-}), React.createElement(Obj3, _extends({
-}, attributes)), React.createElement(Obj3, _extends({
-}, {
-})), React.createElement(Obj4, {
+}), React.createElement(Obj3, _extends({}, attributes)), React.createElement(Obj3, _extends({}, {})), React.createElement(Obj4, {
     x: 10
 }), React.createElement(Obj4, {
     x: "10"

@@ -3,8 +3,7 @@
 // @noTypesAndSymbols: true
 // GH#34952
 class Base {
-    method() {
-    }
+    method() {}
 }
 class Derived extends Base {
     method1() {

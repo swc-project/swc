@@ -16,5 +16,4 @@ function _classCallCheck(instance, Constructor) {
             y: 0
         }, p);
     };
-}(A || (A = {
-}));
+}(A || (A = {}));

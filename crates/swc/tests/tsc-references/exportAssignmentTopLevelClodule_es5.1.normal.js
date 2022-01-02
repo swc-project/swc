@@ -12,8 +12,7 @@ var Foo = function Foo() {
 };
 (function(Foo) {
     var answer = Foo.answer = 42;
-})(Foo || (Foo = {
-}));
+})(Foo || (Foo = {}));
 module.exports = Foo;
 // @Filename: foo_1.ts
 var foo = require("./foo_0");

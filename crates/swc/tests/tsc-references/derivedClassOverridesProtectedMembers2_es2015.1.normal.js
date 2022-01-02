@@ -2,39 +2,30 @@
 var x;
 var y;
 class Base {
-    b(a) {
-    }
+    b(a) {}
     get c() {
         return x;
     }
-    set c(v) {
-    }
-    static s(a) {
-    }
+    set c(v) {}
+    static s(a) {}
     static get t() {
         return x;
     }
-    static set t(v) {
-    }
-    constructor(a){
-    }
+    static set t(v) {}
+    constructor(a){}
 }
 // Increase visibility of all protected members to public
 class Derived extends Base {
-    b(a) {
-    }
+    b(a) {}
     get c() {
         return y;
     }
-    set c(v) {
-    }
-    static s(a) {
-    }
+    set c(v) {}
+    static s(a) {}
     static get t() {
         return y;
     }
-    static set t(a) {
-    }
+    static set t(a) {}
     constructor(a){
         super(a);
     }

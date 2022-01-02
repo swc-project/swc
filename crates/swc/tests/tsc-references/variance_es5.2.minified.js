@@ -15,8 +15,7 @@ var Bar = function() {
     return Constructor = Bar, protoProps = [
         {
             key: "cast",
-            value: function(_name) {
-            }
+            value: function(_name) {}
         },
         {
             key: "pushThis",

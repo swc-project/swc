@@ -12,8 +12,7 @@ function _defineProperty(obj, key, value) {
     return obj;
 }
 var _obj;
-var i = (_obj = {
-}, _defineProperty(_obj, Symbol.iterator, function(s) {
+var i = (_obj = {}, _defineProperty(_obj, Symbol.iterator, function(s) {
     return s;
 }), _defineProperty(_obj, Symbol.toStringTag, function(n) {
     return n;

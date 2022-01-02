@@ -34,10 +34,8 @@ function _f() {
     _f = // @target: es5
     // @lib: es5,es2015.promise
     // @filename: a.ts
-    _asyncToGenerator(function*() {
-    });
+    _asyncToGenerator(function*() {});
     return _f.apply(this, arguments);
 }
 // @filename: b.ts
-function g() {
-}
+function g() {}

@@ -1,6 +1,5 @@
 var Errors, WithGenericSignaturesInBaseType;
-Errors || (Errors = {
-}), foo2((x)=>null
+Errors || (Errors = {}), foo2((x)=>null
 ), foo7((x)=>(r)=>null
 ), foo8((x, y)=>(r)=>null
 ), foo10((...x)=>null
@@ -10,8 +9,7 @@ Errors || (Errors = {
 ), foo15((x)=>1
 ), foo16((x)=>null
 ), foo17((x)=>null
-), WithGenericSignaturesInBaseType || (WithGenericSignaturesInBaseType = {
-}), foo2((x)=>[
+), WithGenericSignaturesInBaseType || (WithGenericSignaturesInBaseType = {}), foo2((x)=>[
         ""
     ]
 ), foo3((x)=>null

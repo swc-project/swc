@@ -13,8 +13,7 @@ function _defineProperty(obj, key, value) {
 }
 var _obj;
 foo((_obj = {
-    0: function() {
-    }
+    0: function() {}
 }, _defineProperty(_obj, "hi" + "bye", true), _defineProperty(_obj, 0 + 1, 0), _defineProperty(_obj, +"hi", [
     0
 ]), _obj));

@@ -70,8 +70,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -123,8 +122,7 @@ var LeadGuard = /*#__PURE__*/ function(RoyalGuard) {
     _createClass(LeadGuard, [
         {
             key: "lead",
-            value: function lead() {
-            }
+            value: function lead() {}
         }
     ]);
     return LeadGuard;
@@ -140,8 +138,7 @@ var FollowerGuard = /*#__PURE__*/ function(RoyalGuard) {
     _createClass(FollowerGuard, [
         {
             key: "follow",
-            value: function follow() {
-            }
+            value: function follow() {}
         }
     ]);
     return FollowerGuard;

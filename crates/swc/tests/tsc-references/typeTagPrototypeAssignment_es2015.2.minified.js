@@ -1,2 +1,1 @@
-(function() {
-}).prototype = 12;
+(function() {}).prototype = 12;

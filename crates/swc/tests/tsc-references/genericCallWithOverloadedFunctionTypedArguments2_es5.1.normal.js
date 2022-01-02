@@ -10,8 +10,7 @@ var NonGenericParameter;
         var r;
         return r;
     }); // ok
-})(NonGenericParameter || (NonGenericParameter = {
-}));
+})(NonGenericParameter || (NonGenericParameter = {}));
 var GenericParameter;
 (function(GenericParameter) {
     var foo5 = function foo5(cb) {
@@ -34,5 +33,4 @@ var GenericParameter;
     }); // ok
     var a;
     var r14 = foo7(1, a); // ok
-})(GenericParameter || (GenericParameter = {
-}));
+})(GenericParameter || (GenericParameter = {}));
