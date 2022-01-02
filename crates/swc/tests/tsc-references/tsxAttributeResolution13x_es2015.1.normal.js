@@ -1,5 +1,4 @@
 //@jsx: preserve
 //@filename: test.tsx
-function Test() {
-}
+function Test() {}
 /*#__PURE__*/ React.createElement(Test, null);

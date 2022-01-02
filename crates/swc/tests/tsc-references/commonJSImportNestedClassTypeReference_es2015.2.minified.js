@@ -1,6 +1,5 @@
 const { K  } = require("./mod1");
-var NS = {
-};
+var NS = {};
 NS.K = class {
     values() {
         return new NS.K();

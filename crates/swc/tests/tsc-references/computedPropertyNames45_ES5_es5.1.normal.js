@@ -63,8 +63,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -119,8 +118,7 @@ var D = /*#__PURE__*/ function(C) {
     _createClass(D, [
         {
             key: tmp1,
-            set: function set(p) {
-            }
+            set: function set(p) {}
         }
     ]);
     return D;

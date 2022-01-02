@@ -29,8 +29,7 @@ var C = /*#__PURE__*/ function() {
     _createClass(C, [
         {
             key: "toString",
-            value: function toString() {
-            }
+            value: function toString() {}
         }
     ]);
     return C;
@@ -39,8 +38,7 @@ var c;
 o = c; // error
 c = o; // ok
 var a = {
-    toString: function() {
-    }
+    toString: function() {}
 };
 o = a; // error
 a = o; // ok

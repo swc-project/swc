@@ -13,8 +13,7 @@ function _extends() {
     return _extends.apply(this, arguments);
 }
 function _objectWithoutProperties(source, excluded) {
-    if (source == null) return {
-    };
+    if (source == null) return {};
     var target = _objectWithoutPropertiesLoose(source, excluded);
     var key, i;
     if (Object.getOwnPropertySymbols) {
@@ -29,10 +28,8 @@ function _objectWithoutProperties(source, excluded) {
     return target;
 }
 function _objectWithoutPropertiesLoose(source, excluded) {
-    if (source == null) return {
-    };
-    var target = {
-    };
+    if (source == null) return {};
+    var target = {};
     var sourceKeys = Object.keys(source);
     var key, i;
     for(i = 0; i < sourceKeys.length; i++){
@@ -58,16 +55,14 @@ _complex = complex, nested = _objectWithoutProperties(_complex.x, [
 // should be:
 let overEmit;
 // var _g = overEmit.a, [_h, ...y] = _g, nested2 = __rest(_h, []), _j = overEmit.b, { z } = _j, c = __rest(_j, ["z"]), rest2 = __rest(overEmit, ["a", "b"]);
-var { a: [{}, ...y] , b: { z  }  } = overEmit, nested2 = _extends({
-}, overEmit.a[0]), c = _objectWithoutProperties(overEmit.b, [
+var { a: [{}, ...y] , b: { z  }  } = overEmit, nested2 = _extends({}, overEmit.a[0]), c = _objectWithoutProperties(overEmit.b, [
     "z"
 ]), rest2 = _objectWithoutProperties(overEmit, [
     "a",
     "b"
 ]);
 var _overEmit;
-_overEmit = overEmit, nested2 = _extends({
-}, _overEmit.a[0]), c = _objectWithoutProperties(_overEmit.b, [
+_overEmit = overEmit, nested2 = _extends({}, _overEmit.a[0]), c = _objectWithoutProperties(_overEmit.b, [
     "z"
 ]), rest2 = _objectWithoutProperties(_overEmit, [
     "a",

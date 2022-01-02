@@ -1,4 +1,3 @@
 ({
-    get __proto__ () {
-    }
+    get __proto__ () {}
 });

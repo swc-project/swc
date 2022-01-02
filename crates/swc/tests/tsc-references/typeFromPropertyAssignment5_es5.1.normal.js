@@ -10,8 +10,7 @@ function _classCallCheck(instance, Constructor) {
 // @checkJs: true
 // @Filename: a.js
 // @target: es6
-export default function MyClass() {
-};
+export default function MyClass() {};
 MyClass.bar = function C() {
     "use strict";
     _classCallCheck(this, C);

@@ -1,5 +1,4 @@
-var _obj, _ref, ref, ref1, count = 0, obj = {
-};
+var _obj, _ref, ref, ref1, count = 0, obj = {};
 function incr() {
     return ++count;
 }

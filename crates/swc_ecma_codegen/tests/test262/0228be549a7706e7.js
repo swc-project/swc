@@ -1,4 +1,3 @@
 (class {
-    prototype() {
-    }
+    prototype() {}
 });

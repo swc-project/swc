@@ -27,8 +27,7 @@ function _createClass(Constructor, protoProps, staticProps) {
  * Foos a bar together using an `a` and a `b`
  * @param {number} a
  * @param {string} b
- */ export function foo(a, b) {
-}
+ */ export function foo(a, b) {}
 /**
  * Legacy - DO NOT USE
  */ export var Aleph = /*#__PURE__*/ function() {
@@ -45,8 +44,7 @@ function _createClass(Constructor, protoProps, staticProps) {
      * Doesn't actually do anything
      * @returns {void}
      */ key: "doIt",
-            value: function doIt() {
-            }
+            value: function doIt() {}
         }
     ]);
     return Aleph;

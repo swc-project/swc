@@ -13,8 +13,7 @@ function _defineProperty(obj, key, value) {
 }
 function _objectSpread(target) {
     for(var i = 1; i < arguments.length; i++){
-        var source = arguments[i] != null ? arguments[i] : {
-        };
+        var source = arguments[i] != null ? arguments[i] : {};
         var ownKeys = Object.keys(source);
         if (typeof Object.getOwnPropertySymbols === "function") {
             ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
@@ -30,8 +29,7 @@ function _objectSpread(target) {
 // @strict: true
 function f(cnd) {
     // Type is a union of 2^(n-1) members, where n is the number of spread objects
-    return _objectSpread({
-    }, cnd[1] && cnd[2] && {
+    return _objectSpread({}, cnd[1] && cnd[2] && {
         prop0: 0
     }, cnd[3] && {
         prop3a: 1,

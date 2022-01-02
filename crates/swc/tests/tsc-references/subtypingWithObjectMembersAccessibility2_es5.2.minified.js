@@ -27,8 +27,7 @@ function _createSuper(Derived1) {
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
         try {
-            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-            })), !0;
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
         } catch (e) {
             return !1;
         }
@@ -92,8 +91,7 @@ var ExplicitPublic, ImplicitPublic, Base = function() {
         }
         return B3;
     }(A31);
-}(ExplicitPublic || (ExplicitPublic = {
-})), (function(ImplicitPublic) {
+}(ExplicitPublic || (ExplicitPublic = {})), (function(ImplicitPublic) {
     var A4 = function() {
         "use strict";
         _classCallCheck(this, A4);
@@ -128,5 +126,4 @@ var ExplicitPublic, ImplicitPublic, Base = function() {
         }
         return B3;
     }(A32);
-})(ImplicitPublic || (ImplicitPublic = {
-}));
+})(ImplicitPublic || (ImplicitPublic = {}));

@@ -28,15 +28,13 @@ var resultIsObject5 = (OBJECT, OBJECT);
 //Literal and expression
 null, OBJECT;
 ANY = null, OBJECT;
-true, {
-};
+true, {};
 !BOOLEAN, [];
 "string", new Date();
 STRING.toLowerCase(), new CLASS();
 var resultIsObject6 = (null, OBJECT);
 var resultIsObject7 = (ANY = null, OBJECT);
-var resultIsObject8 = (true, {
-});
+var resultIsObject8 = (true, {});
 var resultIsObject9 = (!BOOLEAN, {
     a: 1,
     b: "s"

@@ -1,7 +1,5 @@
 (function() {
-    var check = function check() {
-    };
-    var checkNot = function checkNot() {
-    };
+    var check = function check() {};
+    var checkNot = function checkNot() {};
     MUnit.test(a);
 })();

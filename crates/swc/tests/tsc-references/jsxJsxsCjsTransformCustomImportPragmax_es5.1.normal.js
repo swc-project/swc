@@ -9,8 +9,7 @@ import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "preact/jsx-ru
 /// <reference path="/.lib/react16.d.ts" />
 /* @jsxImportSource preact */ var a = /*#__PURE__*/ _jsxs(_Fragment, {
     children: [
-        /*#__PURE__*/ _jsx("p", {
-        }),
+        /*#__PURE__*/ _jsx("p", {}),
         "text",
         /*#__PURE__*/ _jsx("div", {
             className: "foo"
@@ -19,8 +18,7 @@ import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "preact/jsx-ru
 });
 var a = /*#__PURE__*/ _jsxs(_Fragment, {
     children: [
-        /*#__PURE__*/ _jsx("p", {
-        }),
+        /*#__PURE__*/ _jsx("p", {}),
         "text",
         /*#__PURE__*/ _jsx("div", {
             className: "foo"

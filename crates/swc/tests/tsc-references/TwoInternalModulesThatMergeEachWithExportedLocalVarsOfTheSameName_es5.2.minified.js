@@ -1,7 +1,5 @@
 var A, A1;
-((A1 = A || (A = {
-})).Utils || (A1.Utils = {
-})).mirror = function(p) {
+((A1 = A || (A = {})).Utils || (A1.Utils = {})).mirror = function(p) {
     return {
         x: p.y,
         y: p.x
@@ -14,12 +12,10 @@ var A, A1;
     A2.Origin = {
         x: 0,
         y: 0
-    }, Utils = A2.Utils || (A2.Utils = {
-    }), Plane = function(tl, br) {
+    }, Utils = A2.Utils || (A2.Utils = {}), Plane = function(tl, br) {
         "use strict";
         (function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
         })(this, Plane), this.tl = tl, this.br = br;
     }, Utils.Plane = Plane;
-})(A || (A = {
-}));
+})(A || (A = {}));

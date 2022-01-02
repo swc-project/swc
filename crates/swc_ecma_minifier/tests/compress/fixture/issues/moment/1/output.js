@@ -112,8 +112,7 @@
             return fn.apply(this, arguments);
         }, fn);
     }
-    var deprecations = {
-    };
+    var deprecations = {};
     function deprecateSimple(name, msg) {
         null != hooks.deprecationHandler && hooks.deprecationHandler(name, msg), deprecations[name] || (warn(msg), deprecations[name] = !0);
     }
@@ -121,12 +120,9 @@
         return "undefined" != typeof Function && input instanceof Function || "[object Function]" === Object.prototype.toString.call(input);
     }
     function mergeConfigs(parentConfig, childConfig) {
-        var prop, res = extend({
-        }, parentConfig);
-        for(prop in childConfig)hasOwnProp(childConfig, prop) && (isObject(parentConfig[prop]) && isObject(childConfig[prop]) ? (res[prop] = {
-        }, extend(res[prop], parentConfig[prop]), extend(res[prop], childConfig[prop])) : null != childConfig[prop] ? res[prop] = childConfig[prop] : delete res[prop]);
-        for(prop in parentConfig)hasOwnProp(parentConfig, prop) && !hasOwnProp(childConfig, prop) && isObject(parentConfig[prop]) && (res[prop] = extend({
-        }, res[prop]));
+        var prop, res = extend({}, parentConfig);
+        for(prop in childConfig)hasOwnProp(childConfig, prop) && (isObject(parentConfig[prop]) && isObject(childConfig[prop]) ? (res[prop] = {}, extend(res[prop], parentConfig[prop]), extend(res[prop], childConfig[prop])) : null != childConfig[prop] ? res[prop] = childConfig[prop] : delete res[prop]);
+        for(prop in parentConfig)hasOwnProp(parentConfig, prop) && !hasOwnProp(childConfig, prop) && isObject(parentConfig[prop]) && (res[prop] = extend({}, res[prop]));
         return res;
     }
     function Locale(config) {
@@ -141,9 +137,7 @@
         for(i in obj)hasOwnProp(obj, i) && res.push(i);
         return res;
     };
-    var formattingTokens = /(\[[^\[]*\])|(\\)?([Hh]mm(ss)?|Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|Qo?|N{1,5}|YYYYYY|YYYYY|YYYY|YY|y{2,4}|yo?|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|kk?|mm?|ss?|S{1,9}|x|X|zz?|ZZ?|.)/g, localFormattingTokens = /(\[[^\[]*\])|(\\)?(LTS|LT|LL?L?L?|l{1,4})/g, formatFunctions = {
-    }, formatTokenFunctions = {
-    };
+    var formattingTokens = /(\[[^\[]*\])|(\\)?([Hh]mm(ss)?|Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|Qo?|N{1,5}|YYYYYY|YYYYY|YYYY|YY|y{2,4}|yo?|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|kk?|mm?|ss?|S{1,9}|x|X|zz?|ZZ?|.)/g, localFormattingTokens = /(\[[^\[]*\])|(\\)?(LTS|LT|LL?L?L?|l{1,4})/g, formatFunctions = {}, formatTokenFunctions = {};
     function addFormatToken(token, padded, ordinal, callback) {
         var func = callback;
         "string" == typeof callback && (func = function() {
@@ -176,8 +170,7 @@
         for(localFormattingTokens.lastIndex = 0; i >= 0 && localFormattingTokens.test(format);)format = format.replace(localFormattingTokens, replaceLongDateFormatTokens), localFormattingTokens.lastIndex = 0, i -= 1;
         return format;
     }
-    var aliases = {
-    };
+    var aliases = {};
     function addUnitAlias(unit, shorthand) {
         var lowerCase = unit.toLowerCase();
         aliases[lowerCase] = aliases[lowerCase + "s"] = aliases[shorthand] = unit;
@@ -186,13 +179,11 @@
         return "string" == typeof units ? aliases[units] || aliases[units.toLowerCase()] : void 0;
     }
     function normalizeObjectUnits(inputObject) {
-        var normalizedProp, prop, normalizedInput = {
-        };
+        var normalizedProp, prop, normalizedInput = {};
         for(prop in inputObject)hasOwnProp(inputObject, prop) && (normalizedProp = normalizeUnits(prop)) && (normalizedInput[normalizedProp] = inputObject[prop]);
         return normalizedInput;
     }
-    var priorities = {
-    };
+    var priorities = {};
     function addUnitPriority(unit, priority) {
         priorities[unit] = priority;
     }
@@ -234,10 +225,8 @@
     function regexEscape(s) {
         return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
     }
-    regexes = {
-    };
-    var tokens1 = {
-    };
+    regexes = {};
+    var tokens1 = {};
     function addParseToken(token, callback) {
         var i, func = callback;
         for("string" == typeof token && (token = [
@@ -248,8 +237,7 @@
     }
     function addWeekParseToken(token2, callback) {
         addParseToken(token2, function(input, array, config, token) {
-            config._w = config._w || {
-            }, callback(input, config._w, config, token);
+            config._w = config._w || {}, callback(input, config._w, config, token);
         });
     }
     function addTimeToArrayFromToken(token, input, config) {
@@ -559,9 +547,7 @@
         weekdaysMin: defaultLocaleWeekdaysMin,
         weekdaysShort: defaultLocaleWeekdaysShort,
         meridiemParse: /[ap]\.?m?\.?/i
-    }, locales = {
-    }, localeFamilies = {
-    };
+    }, locales = {}, localeFamilies = {};
     function commonPrefix(arr1, arr2) {
         var i, minl = Math.min(arr1.length, arr2.length);
         for(i = 0; i < minl; i += 1)if (arr1[i] !== arr2[i]) return i;
@@ -833,8 +819,7 @@
                 getParsingFlags(config).invalidFormat = !0, config._d = new Date(NaN);
                 return;
             }
-            for(i = 0; i < config._f.length; i++)currentScore = 0, validFormatFound = !1, tempConfig = copyConfig({
-            }, config), null != config._useUTC && (tempConfig._useUTC = config._useUTC), tempConfig._f = config._f[i], configFromStringAndFormat(tempConfig), isValid(tempConfig) && (validFormatFound = !0), currentScore += getParsingFlags(tempConfig).charsLeftOver, currentScore += 10 * getParsingFlags(tempConfig).unusedTokens.length, getParsingFlags(tempConfig).score = currentScore, bestFormatIsValid ? currentScore < scoreToBeat && (scoreToBeat = currentScore, bestMoment = tempConfig) : (null == scoreToBeat || currentScore < scoreToBeat || validFormatFound) && (scoreToBeat = currentScore, bestMoment = tempConfig, validFormatFound && (bestFormatIsValid = !0));
+            for(i = 0; i < config._f.length; i++)currentScore = 0, validFormatFound = !1, tempConfig = copyConfig({}, config), null != config._useUTC && (tempConfig._useUTC = config._useUTC), tempConfig._f = config._f[i], configFromStringAndFormat(tempConfig), isValid(tempConfig) && (validFormatFound = !0), currentScore += getParsingFlags(tempConfig).charsLeftOver, currentScore += 10 * getParsingFlags(tempConfig).unusedTokens.length, getParsingFlags(tempConfig).score = currentScore, bestFormatIsValid ? currentScore < scoreToBeat && (scoreToBeat = currentScore, bestMoment = tempConfig) : (null == scoreToBeat || currentScore < scoreToBeat || validFormatFound) && (scoreToBeat = currentScore, bestMoment = tempConfig, validFormatFound && (bestFormatIsValid = !0));
             extend(config, bestMoment || tempConfig);
         })(config3) : format ? configFromStringAndFormat(config3) : configFromInput(config3), isValid(config3) || (config3._d = null), config3);
     }
@@ -867,8 +852,7 @@
         })(config4) : isNumber(input) ? config4._d = new Date(input) : hooks.createFromInputFallback(config4);
     }
     function createLocalOrUTC(input, format, locale, strict, isUTC) {
-        var config, res, c = {
-        };
+        var config, res, c = {};
         return (!0 === format || !1 === format) && (strict = format, format = void 0), (!0 === locale || !1 === locale) && (strict = locale, locale = void 0), (isObject(input) && isObjectEmpty(input) || isArray(input) && 0 === input.length) && (input = void 0), c._isAMomentObject = !0, c._useUTC = c._isUTC = isUTC, c._l = locale, c._i = input, c._f = format, c._strict = strict, config = c, (res = new Moment(checkOverflow(prepareConfig(config))))._nextDay && (res.add(1, "d"), res._nextDay = void 0), res;
     }
     function createLocal(input, format, locale, strict) {
@@ -876,9 +860,7 @@
     }
     hooks.createFromInputFallback = deprecate("value provided is not in a recognized RFC2822 or ISO format. moment construction falls back to js Date(), which is not reliable across all browsers and versions. Non RFC2822/ISO date formats are discouraged. Please refer to http://momentjs.com/guides/#/warnings/js-date/ for more info.", function(config) {
         config._d = new Date(config._i + (config._useUTC ? " UTC" : ""));
-    }), hooks.ISO_8601 = function() {
-    }, hooks.RFC_2822 = function() {
-    };
+    }), hooks.ISO_8601 = function() {}, hooks.RFC_2822 = function() {};
     var prototypeMin = deprecate("moment().min is deprecated, use moment.max instead. http://momentjs.com/guides/#/warnings/min-max/", function() {
         var other = createLocal.apply(null, arguments);
         return this.isValid() && other.isValid() ? other < this ? this : other : createInvalid();
@@ -913,8 +895,7 @@
                 parseFloat(m[ordering[i]]) !== toInt(m[ordering[i]]) && (unitHasDecimal = !0);
             }
             return !0;
-        })(normalizedInput), this._milliseconds = +milliseconds + 1000 * seconds + 60000 * minutes + 3600000 * hours, this._days = +days + 7 * weeks, this._months = +months + 3 * quarters + 12 * years, this._data = {
-        }, this._locale = getLocale(), this._bubble();
+        })(normalizedInput), this._milliseconds = +milliseconds + 1000 * seconds + 60000 * minutes + 3600000 * hours, this._days = +days + 7 * weeks, this._months = +months + 3 * quarters + 12 * years, this._data = {}, this._locale = getLocale(), this._bubble();
     }
     function isDuration(obj) {
         return obj instanceof Duration;
@@ -953,8 +934,7 @@
     function isUtc() {
         return !!this.isValid() && this._isUTC && 0 === this._offset;
     }
-    hooks.updateOffset = function() {
-    };
+    hooks.updateOffset = function() {};
     var aspNetRegex = /^(-|\+)?(?:(\d*)[. ])?(\d+):(\d+)(?::(\d+)(\.\d*)?)?$/, isoRegex = /^(-|\+)?P(?:([-+]?[0-9,.]*)Y)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)W)?(?:([-+]?[0-9,.]*)D)?(?:T(?:([-+]?[0-9,.]*)H)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)S)?)?$/;
     function createDuration(input, key) {
         var sign, ret, diffRes, duration = input, match = null;
@@ -962,8 +942,7 @@
             ms: input._milliseconds,
             d: input._days,
             M: input._months
-        } : isNumber(input) || !isNaN(+input) ? (duration = {
-        }, key ? duration[key] = +input : duration.milliseconds = +input) : (match = aspNetRegex.exec(input)) ? (sign = "-" === match[1] ? -1 : 1, duration = {
+        } : isNumber(input) || !isNaN(+input) ? (duration = {}, key ? duration[key] = +input : duration.milliseconds = +input) : (match = aspNetRegex.exec(input)) ? (sign = "-" === match[1] ? -1 : 1, duration = {
             y: 0,
             d: toInt(match[2]) * sign,
             h: toInt(match[3]) * sign,
@@ -978,17 +957,14 @@
             h: parseIso(match[6], sign),
             m: parseIso(match[7], sign),
             s: parseIso(match[8], sign)
-        }) : null == duration ? duration = {
-        } : "object" == typeof duration && ("from" in duration || "to" in duration) && (diffRes = momentsDifference(createLocal(duration.from), createLocal(duration.to)), (duration = {
-        }).ms = diffRes.milliseconds, duration.M = diffRes.months), ret = new Duration(duration), isDuration(input) && hasOwnProp(input, "_locale") && (ret._locale = input._locale), isDuration(input) && hasOwnProp(input, "_isValid") && (ret._isValid = input._isValid), ret;
+        }) : null == duration ? duration = {} : "object" == typeof duration && ("from" in duration || "to" in duration) && (diffRes = momentsDifference(createLocal(duration.from), createLocal(duration.to)), (duration = {}).ms = diffRes.milliseconds, duration.M = diffRes.months), ret = new Duration(duration), isDuration(input) && hasOwnProp(input, "_locale") && (ret._locale = input._locale), isDuration(input) && hasOwnProp(input, "_isValid") && (ret._isValid = input._isValid), ret;
     }
     function parseIso(inp, sign) {
         var res = inp && parseFloat(inp.replace(",", "."));
         return (isNaN(res) ? 0 : res) * sign;
     }
     function positiveMomentsDifference(base, other) {
-        var res = {
-        };
+        var res = {};
         return res.months = other.month() - base.month() + (other.year() - base.year()) * 12, base.clone().add(res.months, "M").isAfter(other) && --res.months, res.milliseconds = +other - +base.clone().add(res.months, "M"), res;
     }
     function momentsDifference(base, other) {
@@ -1368,8 +1344,7 @@
     }, proto.isValid = function() {
         return isValid(this);
     }, proto.lang = lang, proto.locale = locale1, proto.localeData = localeData, proto.max = prototypeMax, proto.min = prototypeMin, proto.parsingFlags = function() {
-        return extend({
-        }, getParsingFlags(this));
+        return extend({}, getParsingFlags(this));
     }, proto.set = function(units1, value) {
         if ("object" == typeof units1) {
             var i, prioritized = function(unitsObj) {
@@ -1569,8 +1544,7 @@
         return null != input ? ("string" != typeof input && (input = -input), this.utcOffset(input, keepLocalTime), this) : -this.utcOffset();
     }), proto.isDSTShifted = deprecate("isDSTShifted is deprecated. See http://momentjs.com/guides/#/warnings/dst-shifted/ for more information", function() {
         if (!isUndefined(this._isDSTShifted)) return this._isDSTShifted;
-        var other, c = {
-        };
+        var other, c = {};
         return copyConfig(c, this), (c = prepareConfig(c))._a ? (other = c._isUTC ? createUTC(c._a) : createLocal(c._a), this._isDSTShifted = this.isValid() && (function(array1, array2, dontConvert) {
             var i, len = Math.min(array1.length, array2.length), lengthDiff = Math.abs(array1.length - array2.length), diffs = 0;
             for(i = 0; i < len; i++)(dontConvert && array1[i] !== array2[i] || !dontConvert && toInt(array1[i]) !== toInt(array2[i])) && diffs++;
@@ -1840,8 +1814,7 @@
     }, proto$2.months = months1, proto$2.years = years1, proto$2.humanize = function(argWithSuffix, argThresholds) {
         if (!this.isValid()) return this.localeData().invalidDate();
         var locale, output, posNegDuration, withoutSuffix, thresholds1, locale3, duration, seconds, minutes, hours, days, months, weeks, years, a, withSuffix = !1, th = thresholds;
-        return "object" == typeof argWithSuffix && (argThresholds = argWithSuffix, argWithSuffix = !1), "boolean" == typeof argWithSuffix && (withSuffix = argWithSuffix), "object" == typeof argThresholds && (th = Object.assign({
-        }, thresholds, argThresholds), null != argThresholds.s && null == argThresholds.ss && (th.ss = argThresholds.s - 1)), locale = this.localeData(), posNegDuration = this, withoutSuffix = !withSuffix, thresholds1 = th, locale3 = locale, seconds = round((duration = createDuration(posNegDuration).abs()).as("s")), minutes = round(duration.as("m")), hours = round(duration.as("h")), days = round(duration.as("d")), months = round(duration.as("M")), weeks = round(duration.as("w")), years = round(duration.as("y")), a = seconds <= thresholds1.ss && [
+        return "object" == typeof argWithSuffix && (argThresholds = argWithSuffix, argWithSuffix = !1), "boolean" == typeof argWithSuffix && (withSuffix = argWithSuffix), "object" == typeof argThresholds && (th = Object.assign({}, thresholds, argThresholds), null != argThresholds.s && null == argThresholds.ss && (th.ss = argThresholds.s - 1)), locale = this.localeData(), posNegDuration = this, withoutSuffix = !withSuffix, thresholds1 = th, locale3 = locale, seconds = round((duration = createDuration(posNegDuration).abs()).as("s")), minutes = round(duration.as("m")), hours = round(duration.as("h")), days = round(duration.as("d")), months = round(duration.as("M")), weeks = round(duration.as("w")), years = round(duration.as("y")), a = seconds <= thresholds1.ss && [
             "s",
             seconds
         ] || seconds < thresholds1.s && [

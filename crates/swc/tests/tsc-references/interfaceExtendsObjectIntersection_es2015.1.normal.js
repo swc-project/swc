@@ -17,8 +17,7 @@ var EX;
     EX[EX["A"] = 0] = "A";
     EX[EX["B"] = 1] = "B";
     EX[EX["C"] = 2] = "C";
-})(EX || (EX = {
-}));
+})(EX || (EX = {}));
 class C20 extends Constructor() {
 }
 class C21 extends Constructor() {

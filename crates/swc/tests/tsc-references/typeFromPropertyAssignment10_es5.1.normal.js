@@ -8,10 +8,8 @@ function _classCallCheck(instance, Constructor) {
 // @checkJs: true
 // @target: es6
 // @Filename: module.js
-var Outer = Outer || {
-};
-Outer.app = Outer.app || {
-};
+var Outer = Outer || {};
+Outer.app = Outer.app || {};
 // @Filename: someview.js
 Outer.app.SomeView = (function() {
     var SomeView = function SomeView() {

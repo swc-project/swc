@@ -50,8 +50,7 @@
                         })), (t < 0 ? "-" : "") + s1.options.prefix + a + n + s1.options.suffix;
                     }, this.easeOutExpo = function(t, i, a, s) {
                         return a * (1 - Math.pow(2, -10 * t / s)) * 1024 / 1023 + i;
-                    }, this.options = __assign(__assign({
-                    }, this.defaults), a1), this.formattingFn = this.options.formattingFn ? this.options.formattingFn : this.formatNumber, this.easingFn = this.options.easingFn ? this.options.easingFn : this.easeOutExpo, this.startVal = this.validateValue(this.options.startVal), this.frameVal = this.startVal, this.endVal = this.validateValue(i1), this.options.decimalPlaces = Math.max(this.options.decimalPlaces), this.resetDuration(), this.options.separator = String(this.options.separator), this.useEasing = this.options.useEasing, "" === this.options.separator && (this.options.useGrouping = !1), this.el = "string" == typeof t2 ? document.getElementById(t2) : t2, this.el ? this.printValue(this.startVal) : this.error = "[CountUp] target is null or undefined";
+                    }, this.options = __assign(__assign({}, this.defaults), a1), this.formattingFn = this.options.formattingFn ? this.options.formattingFn : this.formatNumber, this.easingFn = this.options.easingFn ? this.options.easingFn : this.easeOutExpo, this.startVal = this.validateValue(this.options.startVal), this.frameVal = this.startVal, this.endVal = this.validateValue(i1), this.options.decimalPlaces = Math.max(this.options.decimalPlaces), this.resetDuration(), this.options.separator = String(this.options.separator), this.useEasing = this.options.useEasing, "" === this.options.separator && (this.options.useGrouping = !1), this.el = "string" == typeof t2 ? document.getElementById(t2) : t2, this.el ? this.printValue(this.startVal) : this.error = "[CountUp] target is null or undefined";
                 }
                 return t1.prototype.determineDirectionAndSmartEasing = function() {
                     var t = this.finalEndVal ? this.finalEndVal : this.endVal;
@@ -98,8 +97,7 @@
             }
             exports.default = function(_param) {
                 var sizerSvg, src2 = _param.src, sizes = _param.sizes, _unoptimized = _param.unoptimized, unoptimized = void 0 !== _unoptimized && _unoptimized, _priority = _param.priority, priority = void 0 !== _priority && _priority, loading = _param.loading, _lazyBoundary = _param.lazyBoundary, lazyBoundary = void 0 === _lazyBoundary ? "200px" : _lazyBoundary, className = _param.className, quality = _param.quality, width = _param.width, height = _param.height, objectFit = _param.objectFit, objectPosition = _param.objectPosition, onLoadingComplete1 = _param.onLoadingComplete, _loader = _param.loader, loader = void 0 === _loader ? defaultImageLoader : _loader, _placeholder = _param.placeholder, placeholder1 = void 0 === _placeholder ? "empty" : _placeholder, blurDataURL = _param.blurDataURL, all = function(source, excluded) {
-                    if (null == source) return {
-                    };
+                    if (null == source) return {};
                     var key, i, target = _objectWithoutPropertiesLoose(source, excluded);
                     if (Object.getOwnPropertySymbols) {
                         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
@@ -200,8 +198,7 @@
                     backgroundSize: objectFit || "cover",
                     backgroundImage: "url(\"".concat(blurDataURL, "\")"),
                     backgroundPosition: objectPosition || "0% 0%"
-                } : {
-                };
+                } : {};
                 if ("fill" === layout) wrapperStyle.display = "block", wrapperStyle.position = "absolute", wrapperStyle.top = 0, wrapperStyle.left = 0, wrapperStyle.bottom = 0, wrapperStyle.right = 0;
                 else if (void 0 !== widthInt && void 0 !== heightInt) {
                     var quotient = heightInt / widthInt, paddingTop = isNaN(quotient) ? "100%" : "".concat(100 * quotient, "%");
@@ -241,8 +238,7 @@
                     alt: "",
                     "aria-hidden": !0,
                     src: "data:image/svg+xml;base64,".concat(_toBase64.toBase64(sizerSvg))
-                }) : null) : null, _react.default.createElement("img", Object.assign({
-                }, rest, imgAttributes, {
+                }) : null) : null, _react.default.createElement("img", Object.assign({}, rest, imgAttributes, {
                     decoding: "async",
                     "data-nimg": layout,
                     className: className,
@@ -250,8 +246,7 @@
                         setRef(img1), (function(img, src, layout, placeholder, onLoadingComplete) {
                             if (img) {
                                 var handleLoad = function() {
-                                    img.src !== emptyDataURL && ("decode" in img ? img.decode() : Promise.resolve()).catch(function() {
-                                    }).then(function() {
+                                    img.src !== emptyDataURL && ("decode" in img ? img.decode() : Promise.resolve()).catch(function() {}).then(function() {
                                         if ("blur" === placeholder && (img.style.filter = "none", img.style.backgroundSize = "none", img.style.backgroundImage = "none"), loadedImageURLs.add(src), onLoadingComplete) {
                                             var naturalWidth = img.naturalWidth, naturalHeight = img.naturalHeight;
                                             onLoadingComplete({
@@ -265,10 +260,8 @@
                             }
                         })(img1, srcString, layout, placeholder1, onLoadingComplete1);
                     },
-                    style: _objectSpread({
-                    }, imgStyle, blurStyle)
-                })), _react.default.createElement("noscript", null, _react.default.createElement("img", Object.assign({
-                }, rest, generateImgAttrs({
+                    style: _objectSpread({}, imgStyle, blurStyle)
+                })), _react.default.createElement("noscript", null, _react.default.createElement("img", Object.assign({}, rest, generateImgAttrs({
                     src: src2,
                     unoptimized: unoptimized,
                     layout: layout,
@@ -299,8 +292,7 @@
             }
             function _objectSpread(target) {
                 for(var _arguments = arguments, i = 1; i < arguments.length; i++)!function(i) {
-                    var source = null != _arguments[i] ? _arguments[i] : {
-                    }, ownKeys = Object.keys(source);
+                    var source = null != _arguments[i] ? _arguments[i] : {}, ownKeys = Object.keys(source);
                     "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
@@ -316,10 +308,8 @@
                 return target;
             }
             function _objectWithoutPropertiesLoose(source, excluded) {
-                if (null == source) return {
-                };
-                var key, i, target = {
-                }, sourceKeys = Object.keys(source);
+                if (null == source) return {};
+                var key, i, target = {}, sourceKeys = Object.keys(source);
                 for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
                 return target;
             }
@@ -616,8 +606,7 @@
             }
             function _objectSpread2(target) {
                 for(var i = 1; i < arguments.length; i++){
-                    var source = null != arguments[i] ? arguments[i] : {
-                    };
+                    var source = null != arguments[i] ? arguments[i] : {};
                     i % 2 ? ownKeys(Object(source), !0).forEach(function(key) {
                         _defineProperty(target, key, source[key]);
                     }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function(key) {
@@ -644,13 +633,10 @@
                 }).apply(this, arguments);
             }
             function _objectWithoutProperties(source1, excluded1) {
-                if (null == source1) return {
-                };
+                if (null == source1) return {};
                 var key2, i2, target1 = function(source, excluded) {
-                    if (null == source) return {
-                    };
-                    var key, i, target = {
-                    }, sourceKeys = Object.keys(source);
+                    if (null == source) return {};
+                    var key, i, target = {}, sourceKeys = Object.keys(source);
                     for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
                     return target;
                 }(source1, excluded1);
@@ -706,8 +692,7 @@
                 enableReinitialize: !0
             }, useCountUp = function(props) {
                 var _useMemo = React.useMemo(function() {
-                    return _objectSpread2(_objectSpread2({
-                    }, DEFAULTS), props);
+                    return _objectSpread2(_objectSpread2({}, DEFAULTS), props);
                 }, [
                     props
                 ]), ref = _useMemo.ref, startOnMount = _useMemo.startOnMount, enableReinitialize = _useMemo.enableReinitialize, delay = _useMemo.delay, onEnd = _useMemo.onEnd, onStart = _useMemo.onStart, onPauseResume = _useMemo.onPauseResume, onReset = _useMemo.onReset, onUpdate = _useMemo.onUpdate, instanceProps = _objectWithoutProperties(_useMemo, _excluded$1), countUpRef = React.useRef(), timerRef = React.useRef(), isInitializedRef = React.useRef(!1), createInstance = useEventCallback(function() {
@@ -792,9 +777,7 @@
                 "style"
             ];
             exports.ZP = function(props) {
-                var className = props.className, redraw = props.redraw, containerProps = props.containerProps, children = props.children, style = props.style, useCountUpProps = _objectWithoutProperties(props, _excluded), containerRef = React__default.default.useRef(null), isInitializedRef = React__default.default.useRef(!1), _useCountUp = useCountUp(_objectSpread2(_objectSpread2({
-                }, useCountUpProps), {
-                }, {
+                var className = props.className, redraw = props.redraw, containerProps = props.containerProps, children = props.children, style = props.style, useCountUpProps = _objectWithoutProperties(props, _excluded), containerRef = React__default.default.useRef(null), isInitializedRef = React__default.default.useRef(!1), _useCountUp = useCountUp(_objectSpread2(_objectSpread2({}, useCountUpProps), {}, {
                     ref: containerRef,
                     startOnMount: "function" != typeof children || 0 === props.delay,
                     enableReinitialize: !1

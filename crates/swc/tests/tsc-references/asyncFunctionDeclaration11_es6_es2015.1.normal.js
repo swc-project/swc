@@ -33,7 +33,6 @@ function _await() {
 function _await1() {
     _await1 = // @target: ES6
     // @noEmitHelpers: true
-    _asyncToGenerator(function*() {
-    });
+    _asyncToGenerator(function*() {});
     return _await1.apply(this, arguments);
 }

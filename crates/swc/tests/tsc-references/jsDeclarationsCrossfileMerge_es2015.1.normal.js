@@ -9,6 +9,5 @@ const m = require("./exporter");
 module.exports = m.default;
 module.exports.memberName = "thing";
 // @filename: exporter.js
-function validate() {
-}
+function validate() {}
 export default validate;

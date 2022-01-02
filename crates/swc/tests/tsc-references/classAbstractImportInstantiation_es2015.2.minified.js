@@ -3,6 +3,5 @@ var M;
     class A {
     }
     M1.A = A, new A;
-}(M || (M = {
-})), new M.A;
+}(M || (M = {})), new M.A;
 export { };

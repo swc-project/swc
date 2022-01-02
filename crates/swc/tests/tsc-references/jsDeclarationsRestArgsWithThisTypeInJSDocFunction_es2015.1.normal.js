@@ -7,6 +7,5 @@
 export class Clazz {
     /**
    * @param {function(this:Object, ...*):*} functionDeclaration
-   */ method(functionDeclaration) {
-    }
+   */ method(functionDeclaration) {}
 }

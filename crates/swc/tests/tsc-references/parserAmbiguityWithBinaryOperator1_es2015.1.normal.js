@@ -1,5 +1,4 @@
 function f1() {
     var a, b, c;
-    if (a < b || b > c + 1) {
-    }
+    if (a < b || b > c + 1) {}
 }

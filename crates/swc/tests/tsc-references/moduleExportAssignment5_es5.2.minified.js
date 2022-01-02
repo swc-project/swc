@@ -15,8 +15,7 @@ var Axios = function() {
     return protoProps = [
         {
             key: "m",
-            value: function() {
-            }
+            value: function() {}
         }
     ], _defineProperties((Constructor = Axios).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Axios;
 }(), axios = new Axios();

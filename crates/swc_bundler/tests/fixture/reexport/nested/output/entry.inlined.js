@@ -1,6 +1,5 @@
 const a = 1;
-function foo() {
-}
+function foo() {}
 class Class {
 }
 export { a as a };

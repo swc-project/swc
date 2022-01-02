@@ -1,20 +1,15 @@
 class Base {
-    b() {
-    }
+    b() {}
     get c() {
         return '';
     }
-    set c(v) {
-    }
-    static s() {
-    }
+    set c(v) {}
+    static s() {}
     static get t() {
         return '';
     }
-    static set t(v) {
-    }
-    constructor(x){
-    }
+    static set t(v) {}
+    constructor(x){}
 }
 class Derived extends Base {
 }

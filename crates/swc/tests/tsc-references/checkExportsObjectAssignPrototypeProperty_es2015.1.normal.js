@@ -26,8 +26,7 @@ Object.defineProperty(Person.prototype, "rwAccessors", {
     get () {
         return 98122;
     },
-    set (_) {
-    }
+    set (_) {}
 });
 Object.defineProperty(Person.prototype, "readonlyAccessor", {
     get () {

@@ -1,9 +1,7 @@
 // classes do not permit optional parameters, these are errors
 class C {
-    f() {
-    }
+    f() {}
 }
 class C2 {
-    f(x) {
-    }
+    f(x) {}
 }

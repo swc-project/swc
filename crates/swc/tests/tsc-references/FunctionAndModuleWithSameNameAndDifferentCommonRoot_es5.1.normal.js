@@ -8,8 +8,7 @@ var A;
         };
     };
     A1.Point = Point;
-})(A || (A = {
-}));
+})(A || (A = {}));
 // @filename: module.ts
 var B;
 (function(B1) {
@@ -19,10 +18,8 @@ var B;
             x: 0,
             y: 0
         };
-    })(Point1 = B1.Point || (B1.Point = {
-    }));
-})(B || (B = {
-}));
+    })(Point1 = B1.Point || (B1.Point = {}));
+})(B || (B = {}));
 // @filename: test.ts
 var fn;
 var fn = A.Point;

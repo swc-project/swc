@@ -1,4 +1,3 @@
 a = {
-    get null () {
-    }
+    get null () {}
 };

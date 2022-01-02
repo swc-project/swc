@@ -3,8 +3,7 @@
 // @checkJs: true
 // @allowJs: true
 // @Filename: bug24730.js
-var UI = {
-};
+var UI = {};
 UI.TreeElement = class _class {
     constructor(){
         this.treeOutline = 12;

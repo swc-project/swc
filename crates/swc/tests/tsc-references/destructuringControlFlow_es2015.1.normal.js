@@ -1,8 +1,7 @@
 // @strict: true
 function f1(obj) {
     if (obj.a) {
-        obj = {
-        };
+        obj = {};
         let a1 = obj["a"]; // string | undefined
         let a2 = obj.a; // string | undefined
     }

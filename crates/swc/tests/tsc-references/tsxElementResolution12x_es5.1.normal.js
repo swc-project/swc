@@ -25,11 +25,8 @@ var Obj3;
     x: 10
 }); // Error
 var attributes;
-/*#__PURE__*/ React.createElement(Obj3, _extends({
-}, attributes)); // Error
-/*#__PURE__*/ React.createElement(Obj3, _extends({
-}, {
-})); // OK
+/*#__PURE__*/ React.createElement(Obj3, _extends({}, attributes)); // Error
+/*#__PURE__*/ React.createElement(Obj3, _extends({}, {})); // OK
 var Obj4;
 /*#__PURE__*/ React.createElement(Obj4, {
     x: 10

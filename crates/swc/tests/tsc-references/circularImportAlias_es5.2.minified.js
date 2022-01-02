@@ -35,8 +35,7 @@ var B, A, _typeof = function(obj) {
                 if (Reflect.construct.sham) return !1;
                 if ("function" == typeof Proxy) return !0;
                 try {
-                    return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                    })), !0;
+                    return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                 } catch (e) {
                     return !1;
                 }
@@ -59,12 +58,10 @@ var B, A, _typeof = function(obj) {
         return D;
     }(a.C);
     B1.D = D;
-}(B || (B = {
-})), (function(A1) {
+}(B || (B = {})), (function(A1) {
     var C = function() {
         "use strict";
         _classCallCheck(this, C);
     };
     A1.C = C, A1.b = B;
-})(A || (A = {
-})), new B.a.C();
+})(A || (A = {})), new B.a.C();

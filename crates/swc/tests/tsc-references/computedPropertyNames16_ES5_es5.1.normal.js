@@ -36,13 +36,11 @@ var C = /*#__PURE__*/ function() {
         },
         {
             key: tmp1,
-            set: function set(v) {
-            }
+            set: function set(v) {}
         },
         {
             key: tmp3,
-            set: function set(v) {
-            }
+            set: function set(v) {}
         },
         {
             key: tmp4,
@@ -58,13 +56,11 @@ var C = /*#__PURE__*/ function() {
         },
         {
             key: tmp7,
-            set: function set(v) {
-            }
+            set: function set(v) {}
         },
         {
             key: tmp9,
-            set: function set(v) {
-            }
+            set: function set(v) {}
         },
         {
             key: tmp10,
@@ -81,8 +77,7 @@ var C = /*#__PURE__*/ function() {
         },
         {
             key: tmp5,
-            set: function set(v) {
-            }
+            set: function set(v) {}
         },
         {
             key: tmp8,

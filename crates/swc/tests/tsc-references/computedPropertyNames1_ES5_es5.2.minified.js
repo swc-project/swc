@@ -1,12 +1,7 @@
-var _obj, _mutatorMap = {
-};
-_obj = {
-}, _mutatorMap[1] = _mutatorMap[1] || {
-}, _mutatorMap[1].get = function() {
+var _obj, _mutatorMap = {};
+_obj = {}, _mutatorMap[1] = _mutatorMap[1] || {}, _mutatorMap[1].get = function() {
     return 0;
-}, _mutatorMap[1] = _mutatorMap[1] || {
-}, _mutatorMap[1].set = function(v) {
-}, (function(obj, descs) {
+}, _mutatorMap[1] = _mutatorMap[1] || {}, _mutatorMap[1].set = function(v) {}, (function(obj, descs) {
     for(var key in descs){
         var desc = descs[key];
         desc.configurable = desc.enumerable = !0, "value" in desc && (desc.writable = !0), Object.defineProperty(obj, key, desc);

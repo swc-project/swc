@@ -94,8 +94,7 @@ function _wrapAsyncGenerator(fn) {
 // @lib: esnext
 // @filename: F1.ts
 const f1 = function() {
-    var _ref = _wrapAsyncGenerator(function*() {
-    });
+    var _ref = _wrapAsyncGenerator(function*() {});
     return function f1() {
         return _ref.apply(this, arguments);
     };

@@ -1,8 +1,6 @@
 var E, F, x, E, F;
-function foo(x, a, b) {
-}
-function foo2(x, a, b) {
-}
+function foo(x, a, b) {}
+function foo2(x, a, b) {}
 foo("", (x)=>""
 , (x)=>null
 ), foo("", (x)=>""
@@ -15,9 +13,7 @@ foo("", (x)=>""
 , (x)=>""
 ), foo(new Object(), (x)=>""
 , (x)=>""
-), (E = E || (E = {
-}))[E.A = 0] = "A", (F = F || (F = {
-}))[F.A = 0] = "A", foo(E.A, (x)=>E.A
+), (E = E || (E = {}))[E.A = 0] = "A", (F = F || (F = {}))[F.A = 0] = "A", foo(E.A, (x)=>E.A
 , (x)=>F.A
 ), foo2("", (x)=>""
 , (x)=>null

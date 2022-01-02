@@ -11,12 +11,8 @@ var C2 = function C2() {
     "use strict";
     _classCallCheck(this, C2);
 };
-function f() {
-}
-function f2() {
-}
+function f() {}
+function f2() {}
 var a;
-var b = function() {
-};
-var b2 = function() {
-};
+var b = function() {};
+var b2 = function() {};

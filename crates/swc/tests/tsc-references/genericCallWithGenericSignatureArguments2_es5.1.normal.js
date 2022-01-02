@@ -44,20 +44,17 @@ var onlyT;
     var E;
     (function(E) {
         E[E["A"] = 0] = "A";
-    })(E || (E = {
-    }));
+    })(E || (E = {}));
     var F;
     (function(F) {
         F[F["A"] = 0] = "A";
-    })(F || (F = {
-    }));
+    })(F || (F = {}));
     var r71 = foo3(E.A, function(x) {
         return E.A;
     }, function(x) {
         return F.A;
     }); // error
-})(onlyT || (onlyT = {
-}));
+})(onlyT || (onlyT = {}));
 var TU;
 (function(TU) {
     var foo = function foo(a, b) {
@@ -101,17 +98,14 @@ var TU;
     var E;
     (function(E) {
         E[E["A"] = 0] = "A";
-    })(E || (E = {
-    }));
+    })(E || (E = {}));
     var F;
     (function(F) {
         F[F["A"] = 0] = "A";
-    })(F || (F = {
-    }));
+    })(F || (F = {}));
     var r72 = foo3(E.A, function(x) {
         return E.A;
     }, function(x) {
         return F.A;
     });
-})(TU || (TU = {
-}));
+})(TU || (TU = {}));

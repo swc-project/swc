@@ -17,8 +17,7 @@ var left, right, result, result2, C = function() {
         {
             key: "validate",
             value: function() {
-                return {
-                };
+                return {};
             }
         }
     ], _defineProperties((Constructor = C).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;

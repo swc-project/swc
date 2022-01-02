@@ -12,8 +12,7 @@ function foo(name1, id1) {
         id: id1
     };
 } // error
-function bar(obj) {
-}
+function bar(obj) {}
 bar({
     name: name,
     id: id

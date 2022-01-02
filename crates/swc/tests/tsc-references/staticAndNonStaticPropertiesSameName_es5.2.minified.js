@@ -15,14 +15,12 @@ var C = function() {
     return staticProps = [
         {
             key: "f",
-            value: function() {
-            }
+            value: function() {}
         }
     ], protoProps = [
         {
             key: "f",
-            value: function() {
-            }
+            value: function() {}
         }
     ], _defineProperties((Constructor = C).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }();

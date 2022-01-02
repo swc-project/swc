@@ -32,32 +32,28 @@ var C = // @target: es5
             get: function get() {
                 return "string"; // Error; get contextual type by set accessor parameter type annotation
             },
-            set: function set(x) {
-            }
+            set: function set(x) {}
         },
         {
             key: "Y",
             get: function get() {
                 return true;
             },
-            set: function set(y) {
-            }
+            set: function set(y) {}
         },
         {
             key: "W",
             get: function get() {
                 return true;
             },
-            set: function set(w) {
-            }
+            set: function set(w) {}
         },
         {
             key: "Z",
             get: function get() {
                 return 1;
             },
-            set: function set(z) {
-            }
+            set: function set(z) {}
         }
     ]);
     return C;

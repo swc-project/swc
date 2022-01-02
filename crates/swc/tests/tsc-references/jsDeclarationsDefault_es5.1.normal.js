@@ -51,8 +51,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -114,5 +113,4 @@ export default 12;
  * @typedef {string | number} default
  */ // @filename: index6.js
 // merge type alias and function (OK)
-export default function func() {
-};
+export default function func() {};

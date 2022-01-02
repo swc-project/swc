@@ -33,8 +33,7 @@ function _createSuper(Derived1) {
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
         try {
-            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-            })), !0;
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
         } catch (e) {
             return !1;
         }
@@ -60,30 +59,26 @@ var d2, Base = function() {
     return Constructor = Base, protoProps = [
         {
             key: "b",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "c",
             get: function() {
                 return "";
             },
-            set: function(v) {
-            }
+            set: function(v) {}
         }
     ], staticProps = [
         {
             key: "s",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "t",
             get: function() {
                 return "";
             },
-            set: function(v) {
-            }
+            set: function(v) {}
         }
     ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Base;
 }(), Derived = function(Base) {

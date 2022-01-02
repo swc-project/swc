@@ -31,8 +31,7 @@ var C = // accessors are not contextually typed
                     return "";
                 };
             },
-            set: function set(v) {
-            }
+            set: function set(v) {}
         }
     ]);
     return C;

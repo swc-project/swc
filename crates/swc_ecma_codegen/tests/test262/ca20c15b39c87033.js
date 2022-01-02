@@ -1,5 +1,4 @@
 class a {
-    static() {
-    }
+    static() {}
     ;
 }

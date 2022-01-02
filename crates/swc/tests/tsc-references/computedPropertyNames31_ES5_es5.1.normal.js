@@ -99,8 +99,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -149,9 +148,7 @@ var C = /*#__PURE__*/ function(Base) {
             value: function foo() {
                 var _this = this;
                 (function() {
-                    var obj = _defineProperty({
-                    }, _get(_getPrototypeOf(C.prototype), "bar", _this).call(_this), function() {
-                    } // needs capture
+                    var obj = _defineProperty({}, _get(_getPrototypeOf(C.prototype), "bar", _this).call(_this), function() {} // needs capture
                     );
                 });
                 return 0;

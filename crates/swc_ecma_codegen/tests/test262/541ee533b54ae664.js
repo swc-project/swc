@@ -1,2 +1,1 @@
-function a(__proto__) {
-}
+function a(__proto__) {}

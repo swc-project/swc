@@ -1,6 +1,5 @@
 (function() {
     if (!!a && b()) {
-        with (b){
-        }
+        with (b){}
     }
 }());

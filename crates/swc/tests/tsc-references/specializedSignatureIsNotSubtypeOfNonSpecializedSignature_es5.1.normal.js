@@ -17,8 +17,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-function foo(x) {
-}
+function foo(x) {}
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
@@ -27,8 +26,7 @@ var C = /*#__PURE__*/ function() {
     _createClass(C, [
         {
             key: "foo",
-            value: function foo(x) {
-            }
+            value: function foo(x) {}
         }
     ]);
     return C;
@@ -41,8 +39,7 @@ var C2 = /*#__PURE__*/ function() {
     _createClass(C2, [
         {
             key: "foo",
-            value: function foo(x) {
-            }
+            value: function foo(x) {}
         }
     ]);
     return C2;
@@ -55,8 +52,7 @@ var C3 = /*#__PURE__*/ function() {
     _createClass(C3, [
         {
             key: "foo",
-            value: function foo(x) {
-            }
+            value: function foo(x) {}
         }
     ]);
     return C3;

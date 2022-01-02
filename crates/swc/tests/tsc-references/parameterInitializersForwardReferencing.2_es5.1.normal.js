@@ -1,6 +1,5 @@
 function _objectWithoutProperties(source, excluded) {
-    if (source == null) return {
-    };
+    if (source == null) return {};
     var target = _objectWithoutPropertiesLoose(source, excluded);
     var key, i;
     if (Object.getOwnPropertySymbols) {
@@ -15,10 +14,8 @@ function _objectWithoutProperties(source, excluded) {
     return target;
 }
 function _objectWithoutPropertiesLoose(source, excluded) {
-    if (source == null) return {
-    };
-    var target = {
-    };
+    if (source == null) return {};
+    var target = {};
     var sourceKeys = Object.keys(source);
     var key, i;
     for(i = 0; i < sourceKeys.length; i++){
@@ -32,8 +29,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 // @noEmit: true
 // @noTypesAndSymbols: true
 // https://github.com/microsoft/TypeScript/issues/36295
-function a() {
-}
+function a() {}
 function b() {
     var _param = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : a();
     var _b = _param.b, b = _b === void 0 ? a() : _b, x = _objectWithoutProperties(_param, [

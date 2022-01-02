@@ -32,8 +32,7 @@ function _asyncToGenerator(fn) {
 // @noEmitHelpers: true
 class C {
     method() {
-        function other() {
-        }
+        function other() {}
         var _this = this;
         var fn = function() {
             var _ref = _asyncToGenerator((function*() {

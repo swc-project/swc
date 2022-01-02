@@ -2,8 +2,7 @@ class A {
     B() {
         return 42;
     }
-    constructor(){
-    }
+    constructor(){}
 }
 // @target: es2015
 // @sourcemap: false

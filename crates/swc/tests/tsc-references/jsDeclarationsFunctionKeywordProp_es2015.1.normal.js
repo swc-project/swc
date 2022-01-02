@@ -4,14 +4,11 @@
 // @outDir: ./out
 // @declaration: true
 // @filename: source.js
-function foo() {
-}
+function foo() {}
 foo.null = true;
-function bar() {
-}
+function bar() {}
 bar.async = true;
 bar.normal = false;
-function baz() {
-}
+function baz() {}
 baz.class = true;
 baz.normal = false;

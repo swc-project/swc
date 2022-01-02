@@ -1,6 +1,5 @@
 var A, A1;
-(A = A1 || (A1 = {
-})).fn = function(s) {
+(A = A1 || (A1 = {})).fn = function(s) {
     return !0;
 }, A.fng = function(s) {
     return null;

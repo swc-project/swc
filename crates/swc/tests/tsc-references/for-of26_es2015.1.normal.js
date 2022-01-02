@@ -9,5 +9,4 @@ class StringIterator {
     }
 }
 var x;
-for (var v of new StringIterator){
-}
+for (var v of new StringIterator){}

@@ -49,8 +49,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -108,8 +107,7 @@ var fn1;
 var s = new fn1(undefined);
 var s;
 // No candidate overloads found
-new fn1({
-}); // Error
+new fn1({}); // Error
 var fn2;
 var d = new fn2(0, undefined);
 var d;

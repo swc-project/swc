@@ -29,12 +29,9 @@ var MyPromise = function(executor) {
     "use strict";
     _classCallCheck(this, MyPromise);
 };
-function a(x, y, z) {
-}
-function b(x, y, z, what) {
-}
-function c(x, y, z) {
-}
+function a(x, y, z) {}
+function b(x, y, z, what) {}
+function c(x, y, z) {}
 new MyPromise(function(resolve) {
     return resolve();
 }), new MyPromise(function(resolve) {

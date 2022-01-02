@@ -77,8 +77,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -126,8 +125,7 @@ var obj = {
     y: 2
 };
 // Error as "obj" has type { x: string; y: number }
-var p = /*#__PURE__*/ React.createElement(Poisoned, _extends({
-}, obj));
+var p = /*#__PURE__*/ React.createElement(Poisoned, _extends({}, obj));
 var EmptyProp = /*#__PURE__*/ function(_Component) {
     "use strict";
     _inherits(EmptyProp, _Component);
@@ -150,6 +148,5 @@ var o = {
     prop1: false
 };
 // Ok
-var e = /*#__PURE__*/ React.createElement(EmptyProp, _extends({
-}, o));
+var e = /*#__PURE__*/ React.createElement(EmptyProp, _extends({}, o));
 export { };

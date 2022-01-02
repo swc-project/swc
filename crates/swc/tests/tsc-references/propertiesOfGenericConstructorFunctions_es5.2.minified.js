@@ -1,8 +1,6 @@
 function Multimap(ik, iv) {
     var obj, key, value;
-    this._map = {
-    }, obj = {
-    }, key = ik, value = iv, key in obj ? Object.defineProperty(obj, key, {
+    this._map = {}, obj = {}, key = ik, value = iv, key in obj ? Object.defineProperty(obj, key, {
         value: value,
         enumerable: !0,
         configurable: !0,

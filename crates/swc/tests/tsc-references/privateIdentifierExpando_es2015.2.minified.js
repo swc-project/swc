@@ -1,3 +1,2 @@
-const x = {
-};
+const x = {};
 x.#bar.baz = 20;

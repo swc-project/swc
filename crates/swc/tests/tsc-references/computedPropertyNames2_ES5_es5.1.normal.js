@@ -29,34 +29,28 @@ var C = /*#__PURE__*/ function() {
     _createClass(C, [
         {
             key: tmp,
-            value: function value() {
-            }
+            value: function value() {}
         },
         {
             key: tmp2,
-            get: function get() {
-            }
+            get: function get() {}
         },
         {
             key: tmp3,
-            set: function set(v) {
-            }
+            set: function set(v) {}
         }
     ], [
         {
             key: tmp1,
-            value: function value() {
-            }
+            value: function value() {}
         },
         {
             key: tmp4,
-            get: function get() {
-            }
+            get: function get() {}
         },
         {
             key: tmp5,
-            set: function set(v) {
-            }
+            set: function set(v) {}
         }
     ]);
     return C;

@@ -47,8 +47,6 @@ var o = {
     prop1: "string",
     prop2: true
 };
-if (typeof o.prop1 === "string" && o.prop1.toLowerCase()) {
-}
+if (typeof o.prop1 === "string" && o.prop1.toLowerCase()) {}
 var prop1 = o.prop1;
-if (typeof prop1 === "string" && prop1.toLocaleLowerCase()) {
-}
+if (typeof prop1 === "string" && prop1.toLocaleLowerCase()) {}

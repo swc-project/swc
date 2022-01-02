@@ -1,7 +1,6 @@
 //@filename: file.tsx
 class MyComponent {
-    render() {
-    }
+    render() {}
 }
 // Should be an OK
 var x = /*#__PURE__*/ React.createElement(MyComponent, {

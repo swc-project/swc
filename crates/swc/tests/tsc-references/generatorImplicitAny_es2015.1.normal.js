@@ -2,8 +2,7 @@
 // @strictNullChecks: true
 // @noImplicitReturns: true
 // @noImplicitAny: true
-function* g() {
-}
+function* g() {}
 function* g2() {
     const value = yield; // error: implicit any
 }

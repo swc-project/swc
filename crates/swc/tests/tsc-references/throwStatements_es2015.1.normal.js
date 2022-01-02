@@ -14,8 +14,7 @@ var M;
         return x1.toString();
     }
     M1.F2 = F2;
-})(M || (M = {
-}));
+})(M || (M = {}));
 var aNumber = 9.9;
 throw aNumber;
 var aString = 'this is a string';

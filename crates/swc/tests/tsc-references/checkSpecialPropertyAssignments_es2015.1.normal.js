@@ -2,8 +2,7 @@
 // @checkJs: true
 // @allowJs: true
 // @Filename: bug24252.js
-var A = {
-};
+var A = {};
 A.B = class _class {
     m() {
         /** @type {string[]} */ var x = [];

@@ -6,6 +6,5 @@ class Base {
 }
 var tmp = super.bar();
 class C extends Base {
-    [tmp]() {
-    }
+    [tmp]() {}
 }

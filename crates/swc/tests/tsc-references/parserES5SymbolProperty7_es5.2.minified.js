@@ -15,8 +15,7 @@ var tmp = Symbol.toStringTag, C = function() {
     return Constructor = C, protoProps = [
         {
             key: tmp,
-            value: function() {
-            }
+            value: function() {}
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }();

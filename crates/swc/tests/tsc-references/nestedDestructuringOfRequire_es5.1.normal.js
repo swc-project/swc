@@ -4,8 +4,7 @@
 // @declaration: true
 // @filename: mod1.js
 var chalk = {
-    grey: {
-    }
+    grey: {}
 };
 module.exports.chalk = chalk;
 // @filename: main.js

@@ -49,8 +49,7 @@ var N1;
     var x;
     var y = N11.y = this;
     N11.x = x;
-})(N1 || (N1 = {
-}));
+})(N1 || (N1 = {}));
 var C3 = /*#__PURE__*/ function() {
     "use strict";
     function C3() {

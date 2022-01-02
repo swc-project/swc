@@ -60,5 +60,4 @@ function _defineProperties(target, props) {
     }, TypeScript1.postPrintAST = function(ast, parent, walker) {
         return walker.state.decreaseIndent(), ast;
     };
-}(TypeScript || (TypeScript = {
-}));
+}(TypeScript || (TypeScript = {}));

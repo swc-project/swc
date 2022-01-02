@@ -32,8 +32,7 @@ var C = function() {
             if (Reflect.construct.sham) return !1;
             if ("function" == typeof Proxy) return !0;
             try {
-                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                })), !0;
+                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
             } catch (e) {
                 return !1;
             }
@@ -59,15 +58,9 @@ test(function(t1, t2) {
     t2.test2;
 }), test(function(t1, t2) {
     t2.test2;
-}), test(function() {
-}), test(function(t1) {
-}), test(function() {
+}), test(function() {}), test(function(t1) {}), test(function() {
     for(var _len = arguments.length, ts = new Array(_len), _key = 0; _key < _len; _key++)ts[_key] = arguments[_key];
-}), testRest(function(t1) {
-}), testRest(function(t1, t2, t3) {
-}), testRest(function(t1, t2, t3) {
-}), testRest(function(t1, t2, t3) {
-}), testRest(function(t2) {
+}), testRest(function(t1) {}), testRest(function(t1, t2, t3) {}), testRest(function(t1, t2, t3) {}), testRest(function(t1, t2, t3) {}), testRest(function(t2) {
     for(var _len = arguments.length, t3 = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)t3[_key - 1] = arguments[_key];
 }), testRest(function(t2) {
     for(var _len = arguments.length, t3 = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)t3[_key - 1] = arguments[_key];

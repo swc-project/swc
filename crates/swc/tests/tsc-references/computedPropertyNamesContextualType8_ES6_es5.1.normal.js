@@ -12,5 +12,4 @@ function _defineProperty(obj, key, value) {
     return obj;
 }
 var _obj;
-var o = (_obj = {
-}, _defineProperty(_obj, "" + "foo", ""), _defineProperty(_obj, "" + "bar", 0), _obj);
+var o = (_obj = {}, _defineProperty(_obj, "" + "foo", ""), _defineProperty(_obj, "" + "bar", 0), _obj);

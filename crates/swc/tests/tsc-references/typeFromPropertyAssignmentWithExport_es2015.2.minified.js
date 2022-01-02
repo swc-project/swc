@@ -1,5 +1,2 @@
-export const Adapter = {
-};
-Adapter.prop = {
-}, Adapter.asyncMethod = function() {
-};
+export const Adapter = {};
+Adapter.prop = {}, Adapter.asyncMethod = function() {};

@@ -1,7 +1,6 @@
 //@filename: file.tsx
 export class MyComponent {
-    render() {
-    }
+    render() {}
 }
 /*#__PURE__*/ React.createElement(MyComponent, {
     foo: "bar"

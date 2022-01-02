@@ -21,8 +21,7 @@ function _createClass(Constructor, protoProps, staticProps) {
 // @checkJs: true
 // @allowJs: true
 // @Filename: bug24252.js
-var A = {
-};
+var A = {};
 A.B = /*#__PURE__*/ (function() {
     "use strict";
     function _class() {

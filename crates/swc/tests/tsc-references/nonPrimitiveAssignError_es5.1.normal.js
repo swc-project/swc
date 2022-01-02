@@ -1,5 +1,4 @@
-var x = {
-};
+var x = {};
 var y = {
     foo: "bar"
 };

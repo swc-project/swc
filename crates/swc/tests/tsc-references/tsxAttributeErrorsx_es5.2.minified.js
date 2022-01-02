@@ -11,8 +11,7 @@ React.createElement("div", {
     text: 42
 }), React.createElement("div", {
     width: "foo"
-}), React.createElement("div", _extends({
-}, {
+}), React.createElement("div", _extends({}, {
     text: 100
 })), React.createElement("span", {
     foo: "bar",

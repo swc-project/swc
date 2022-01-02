@@ -16,5 +16,4 @@ throw !function(M1) {
     M1.A = A, M1.F2 = function(x) {
         return x.toString();
     };
-}(M || (M = {
-})), 9.9;
+}(M || (M = {})), 9.9;

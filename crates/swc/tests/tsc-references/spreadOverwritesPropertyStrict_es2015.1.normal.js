@@ -13,8 +13,7 @@ function _defineProperty(obj, key, value) {
 }
 function _objectSpread(target) {
     for(var i1 = 1; i1 < arguments.length; i1++){
-        var source = arguments[i1] != null ? arguments[i1] : {
-        };
+        var source = arguments[i1] != null ? arguments[i1] : {};
         var ownKeys = Object.keys(source);
         if (typeof Object.getOwnPropertySymbols === "function") {
             ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
@@ -31,20 +30,17 @@ var unused1 = _objectSpread({
     b: 1
 }, ab) // error
 ;
-var unused2 = _objectSpread({
-}, ab, ab) // ok, overwritten error doesn't apply to spreads
+var unused2 = _objectSpread({}, ab, ab) // ok, overwritten error doesn't apply to spreads
 ;
 var unused3 = _objectSpread({
     b: 1
 }, abq) // ok, abq might have b: undefined
 ;
-var unused4 = _objectSpread({
-}, ab, {
+var unused4 = _objectSpread({}, ab, {
     b: 1
 }) // ok, we don't care that b in ab is overwritten
 ;
-var unused5 = _objectSpread({
-}, abq, {
+var unused5 = _objectSpread({}, abq, {
     b: 1
 }) // ok
 ;
@@ -67,13 +63,11 @@ function h(obj) {
 function i(b, t) {
     return _objectSpread({
         command: "hi"
-    }, b ? t : {
-    }) // ok
+    }, b ? t : {}) // ok
     ;
 }
 function j() {
-    return _objectSpread({
-    }, {
+    return _objectSpread({}, {
         command: "hi"
     }, {
         command: "bye"

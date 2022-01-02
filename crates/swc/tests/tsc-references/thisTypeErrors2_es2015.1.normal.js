@@ -1,6 +1,5 @@
 class Base {
-    constructor(a){
-    }
+    constructor(a){}
 }
 class Generic {
 }

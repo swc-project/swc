@@ -16,40 +16,27 @@ export function MainButton(props) {
 }
 React.createElement(MainButton, {
     to: "/some/path",
-    onClick: (e)=>{
-    }
+    onClick: (e)=>{}
 }, "GO"), React.createElement(MainButton, _extends({
-    onClick: (e)=>{
-    }
-}, obj0), "Hello world"), React.createElement(MainButton, _extends({
-}, {
+    onClick: (e)=>{}
+}, obj0), "Hello world"), React.createElement(MainButton, _extends({}, {
     to: "10000"
 }, {
-    onClick: ()=>{
-    }
-})), React.createElement(MainButton, _extends({
-}, {
+    onClick: ()=>{}
+})), React.createElement(MainButton, _extends({}, {
     to: "10000"
 }, {
-    onClick: (k)=>{
-    }
-})), React.createElement(MainButton, _extends({
-}, obj3, {
+    onClick: (k)=>{}
+})), React.createElement(MainButton, _extends({}, obj3, {
     to: !0
-})), React.createElement(MainButton, _extends({
-}, {
-    onClick (e) {
-    }
-}, obj0)), React.createElement(MainButton, _extends({
-}, {
-    onClick (e) {
-    }
+})), React.createElement(MainButton, _extends({}, {
+    onClick (e) {}
+}, obj0)), React.createElement(MainButton, _extends({}, {
+    onClick (e) {}
 }, {
     children: 10
-})), React.createElement(MainButton, _extends({
-}, {
-    onClick (e) {
-    }
+})), React.createElement(MainButton, _extends({}, {
+    onClick (e) {}
 }, {
     children: "hello",
     className: !0

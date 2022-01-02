@@ -1,2 +1,1 @@
-var a = function arguments() {
-};
+var a = function arguments() {};

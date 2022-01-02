@@ -18,5 +18,4 @@ var Generics;
     }
     class B5 extends A1 {
     }
-})(Generics || (Generics = {
-}));
+})(Generics || (Generics = {}));

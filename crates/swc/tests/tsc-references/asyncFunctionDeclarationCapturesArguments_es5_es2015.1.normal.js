@@ -32,8 +32,7 @@ function _asyncToGenerator(fn) {
 // @noEmitHelpers: true
 class C {
     method() {
-        function other() {
-        }
+        function other() {}
         function fn() {
             return _fn.apply(this, arguments);
         }

@@ -17,14 +17,9 @@ function _defineEnumerableProperties(obj, descs) {
     }
     return obj;
 }
-var _obj, _mutatorMap = {
-};
+var _obj, _mutatorMap = {};
 // @target: es5
-var v = (_obj = {
-}, _mutatorMap[0 + 1] = _mutatorMap[0 + 1] || {
-}, _mutatorMap[0 + 1].get = function() {
+var v = (_obj = {}, _mutatorMap[0 + 1] = _mutatorMap[0 + 1] || {}, _mutatorMap[0 + 1].get = function() {
     return 0;
-}, _mutatorMap[0 + 1] = _mutatorMap[0 + 1] || {
-} //No error
-, _mutatorMap[0 + 1].set = function(v) {
-}, _defineEnumerableProperties(_obj, _mutatorMap), _obj);
+}, _mutatorMap[0 + 1] = _mutatorMap[0 + 1] || {} //No error
+, _mutatorMap[0 + 1].set = function(v) {}, _defineEnumerableProperties(_obj, _mutatorMap), _obj);

@@ -1,6 +1,5 @@
 //@target: ES6
-function foo(s1, ...s) {
-}
+function foo(s1, ...s) {}
 var tmp = Symbol.iterator;
 class SymbolIterator {
     next() {

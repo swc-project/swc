@@ -28,13 +28,11 @@ var C = /*#__PURE__*/ function() {
             get: function get() {
                 return null;
             },
-            set: function set(x) {
-            }
+            set: function set(x) {}
         },
         {
             key: "foo",
-            value: function foo() {
-            }
+            value: function foo() {}
         }
     ], [
         {
@@ -42,13 +40,11 @@ var C = /*#__PURE__*/ function() {
             get: function get() {
                 return null;
             },
-            set: function set(x) {
-            }
+            set: function set(x) {}
         },
         {
             key: "foo",
-            value: function foo() {
-            }
+            value: function foo() {}
         }
     ]);
     return C;

@@ -41,5 +41,4 @@ var Generic;
     var c = new C(1);
     var d = new D(1); // error
     var e = new E(1); // error
-})(Generic || (Generic = {
-}));
+})(Generic || (Generic = {}));

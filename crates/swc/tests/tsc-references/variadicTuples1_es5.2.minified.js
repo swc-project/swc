@@ -110,8 +110,7 @@ function callApi(method) {
     return function() {
         for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
         return method.apply(void 0, _toConsumableArray(args).concat([
-            {
-            }
+            {}
         ]));
     };
 }

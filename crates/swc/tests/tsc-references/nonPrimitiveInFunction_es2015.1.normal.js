@@ -1,9 +1,7 @@
 // @declaration: true
-function takeObject(o) {
-}
+function takeObject(o) {}
 function returnObject() {
-    return {
-    };
+    return {};
 }
 var nonPrimitive;
 var primitive;

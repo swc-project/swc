@@ -1,7 +1,6 @@
 // the constructor function itself does not need to be a subtype of the base type constructor function
 class Base {
-    constructor(x){
-    }
+    constructor(x){}
 }
 class Derived extends Base {
     constructor(x){

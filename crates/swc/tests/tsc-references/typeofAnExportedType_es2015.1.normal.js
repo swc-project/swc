@@ -21,8 +21,7 @@ export var M;
     class C1 {
     }
     M1.C = C1;
-})(M || (M = {
-}));
+})(M || (M = {}));
 export var r6;
 export var r7;
 export var Z = M;
@@ -31,18 +30,15 @@ export var r9;
 export var E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
-}));
+})(E || (E = {}));
 export var r10;
 export var r11;
 export var r12;
-export function foo() {
-}
+export function foo() {}
 (function(foo1) {
     var y = foo1.y = 1;
     class C2 {
     }
     foo1.C = C2;
-})(foo || (foo = {
-}));
+})(foo || (foo = {}));
 export var r13;

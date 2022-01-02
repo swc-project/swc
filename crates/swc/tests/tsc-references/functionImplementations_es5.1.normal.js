@@ -49,8 +49,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -71,8 +70,7 @@ function _createSuper(Derived1) {
 }
 // @allowUnreachableCode: true
 // FunctionExpression with no return type annotation and no return statement returns void
-var v = function() {
-}();
+var v = function() {}();
 // FunctionExpression f with no return type annotation and directly references f in its body returns any
 var a = function f() {
     return f;

@@ -2,8 +2,7 @@ var enumdule;
 (function(enumdule) {
     enumdule[enumdule["Red"] = 0] = "Red";
     enumdule[enumdule["Blue"] = 1] = "Blue";
-})(enumdule || (enumdule = {
-}));
+})(enumdule || (enumdule = {}));
 (function(enumdule) {
     class Point {
         constructor(x1, y1){
@@ -12,8 +11,7 @@ var enumdule;
         }
     }
     enumdule.Point = Point;
-})(enumdule || (enumdule = {
-}));
+})(enumdule || (enumdule = {}));
 var x;
 var x = enumdule.Red;
 var y;

@@ -12,12 +12,9 @@ var Root;
                 };
             }
             Utils.mirror = mirror;
-        })(Utils1 = A.Utils || (A.Utils = {
-        }));
-    })(A1 = Root1.A || (Root1.A = {
-    }));
-})(Root || (Root = {
-}));
+        })(Utils1 = A.Utils || (A.Utils = {}));
+    })(A1 = Root1.A || (Root1.A = {}));
+})(Root || (Root = {}));
 //@filename: part2.ts
 var otherRoot;
 (function(otherRoot1) {
@@ -36,9 +33,6 @@ var otherRoot;
                 }
             }
             Utils.Plane = Plane;
-        })(Utils2 = A.Utils || (A.Utils = {
-        }));
-    })(A2 = otherRoot1.A || (otherRoot1.A = {
-    }));
-})(otherRoot || (otherRoot = {
-}));
+        })(Utils2 = A.Utils || (A.Utils = {}));
+    })(A2 = otherRoot1.A || (otherRoot1.A = {}));
+})(otherRoot || (otherRoot = {}));

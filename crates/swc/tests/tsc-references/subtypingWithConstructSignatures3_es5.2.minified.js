@@ -28,8 +28,7 @@ function _createSuper(Derived) {
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
         try {
-            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-            })), !0;
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
         } catch (e) {
             return !1;
         }
@@ -76,9 +75,7 @@ function _createSuper(Derived) {
         return OtherDerived;
     }(Base1);
     foo2(r1arg1), foo7(r2arg1), foo8(r3arg1), foo10(r4arg1), foo11(r5arg1), foo12(r6arg1), foo15(r7arg1), foo15(r7arg3), foo16(r8arg), foo17(r9arg);
-}(Errors || (Errors = {
-})), (function(WithGenericSignaturesInBaseType) {
+}(Errors || (Errors = {})), (function(WithGenericSignaturesInBaseType) {
     var r3arg2;
     foo2(void 0), foo3(r3arg2);
-})(WithGenericSignaturesInBaseType || (WithGenericSignaturesInBaseType = {
-}));
+})(WithGenericSignaturesInBaseType || (WithGenericSignaturesInBaseType = {}));

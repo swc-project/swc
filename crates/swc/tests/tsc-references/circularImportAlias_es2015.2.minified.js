@@ -5,7 +5,5 @@ var B, A, A1;
     class D extends a.C {
     }
     B1.D = D;
-}(B || (B = {
-})), (A1 = A || (A = {
-})).C = class {
+}(B || (B = {})), (A1 = A || (A = {})).C = class {
 }, A1.b = B, new B.a.C();

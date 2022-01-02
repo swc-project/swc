@@ -41,8 +41,7 @@ var React = require("react"), TextComponent = function(_Component) {
             if (Reflect.construct.sham) return !1;
             if ("function" == typeof Proxy) return !0;
             try {
-                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                })), !0;
+                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
             } catch (e) {
                 return !1;
             }
@@ -73,13 +72,10 @@ var React = require("react"), TextComponent = function(_Component) {
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), TextComponent;
 }(React.Component);
-React.createElement(TextComponent, _extends({
-}, {
+React.createElement(TextComponent, _extends({}, {
     editable: !1
-})), React.createElement(TextComponent, _extends({
-}, {
+})), React.createElement(TextComponent, _extends({}, {
     editable: !0,
-    onEdit: function() {
-    }
+    onEdit: function() {}
 }));
 export { };

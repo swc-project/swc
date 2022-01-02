@@ -7,13 +7,10 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-var _predicate, _sort, _min, _nest, _other, _property, my = null != my ? my : {
-};
+var _predicate, _sort, _min, _nest, _other, _property, my = null != my ? my : {};
 my.method = function(n) {
     return n + 1;
-}, my.number = 1, my.object = {
-}, my.predicate = null !== (_predicate = my.predicate) && void 0 !== _predicate ? _predicate : {
-}, my.predicate.query = function() {
+}, my.number = 1, my.object = {}, my.predicate = null !== (_predicate = my.predicate) && void 0 !== _predicate ? _predicate : {}, my.predicate.query = function() {
     var me = this;
     me.property = !1;
 }, new my.predicate.query(), my.predicate.query.another = function() {
@@ -35,11 +32,8 @@ my.method = function(n) {
         }
     ], _defineProperties((Constructor = _class).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), _class;
 })();
-var min = null !== (_min = window.min) && void 0 !== _min ? _min : {
-};
-min.nest = null !== (_nest = this.min.nest) && void 0 !== _nest ? _nest : function() {
-}, min.nest.other = null !== (_other = self.min.nest.other) && void 0 !== _other ? _other : function _class() {
+var min = null !== (_min = window.min) && void 0 !== _min ? _min : {};
+min.nest = null !== (_nest = this.min.nest) && void 0 !== _nest ? _nest : function() {}, min.nest.other = null !== (_other = self.min.nest.other) && void 0 !== _other ? _other : function _class() {
     "use strict";
     _classCallCheck(this, _class);
-}, min.property = null !== (_property = global.min.property) && void 0 !== _property ? _property : {
-};
+}, min.property = null !== (_property = global.min.property) && void 0 !== _property ? _property : {};

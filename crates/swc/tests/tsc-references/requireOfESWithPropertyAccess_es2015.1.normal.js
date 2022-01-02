@@ -10,7 +10,6 @@ x.grey;
 x.x.grey;
 // @filename: ch.js
 const x = {
-    grey: {
-    }
+    grey: {}
 };
 export { x };

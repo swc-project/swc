@@ -14,8 +14,7 @@ var _key, tmp = (_key = Symbol.iterator, Symbol.isConcatSpreadable), tmp1 = Symb
     })(Constructor = C, [
         {
             key: tmp,
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: tmp1,
@@ -25,8 +24,7 @@ var _key, tmp = (_key = Symbol.iterator, Symbol.isConcatSpreadable), tmp1 = Symb
         },
         {
             key: tmp2,
-            set: function(x) {
-            }
+            set: function(x) {}
         }
     ]), C;
 }();

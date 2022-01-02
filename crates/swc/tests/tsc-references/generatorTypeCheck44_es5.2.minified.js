@@ -15,9 +15,7 @@ var _marked = regeneratorRuntime.mark(function() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
-                return _mutatorMap = {
-                }, _obj = {
-                }, _ctx.next = 4, 0;
+                return _mutatorMap = {}, _obj = {}, _ctx.next = 4, 0;
             case 4:
                 return _ctx.t0 = _ctx.sent, _ctx.next = 7, 0;
             case 7:
@@ -25,8 +23,7 @@ var _marked = regeneratorRuntime.mark(function() {
                     _ctx.next = 11;
                     break;
                 }
-                _ctx.t1 = {
-                };
+                _ctx.t1 = {};
             case 11:
                 return _mutatorMap[_ctx.t0] = _ctx.t1, _ctx.next = 14, 0;
             case 14:

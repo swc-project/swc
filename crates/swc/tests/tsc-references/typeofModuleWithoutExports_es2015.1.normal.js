@@ -3,6 +3,5 @@ var M;
     var x = 1;
     class C {
     }
-})(M || (M = {
-}));
+})(M || (M = {}));
 var r;

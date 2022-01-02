@@ -19,5 +19,4 @@ var Generics;
         a1 = b3; // ok
         b3 = a1; // ok
     }
-})(Generics || (Generics = {
-}));
+})(Generics || (Generics = {}));

@@ -2,8 +2,7 @@
 var M;
 (function(M1) {
     var Point = M1.Point = 1;
-})(M || (M = {
-}));
+})(M || (M = {}));
 // primary expression
 var m;
 var m = M;
@@ -25,8 +24,7 @@ var M2;
         }
     }
     M21.Point = Point;
-})(M2 || (M2 = {
-}));
+})(M2 || (M2 = {}));
 var m2;
 var m2 = M2;
 // static side of the class
@@ -44,10 +42,8 @@ var M3;
     (function(Color) {
         Color[Color["Blue"] = 0] = "Blue";
         Color[Color["Red"] = 1] = "Red";
-    })(Color = M31.Color || (M31.Color = {
-    }));
-})(M3 || (M3 = {
-}));
+    })(Color = M31.Color || (M31.Color = {}));
+})(M3 || (M3 = {}));
 var m3;
 var m3 = M3;
 var a3;

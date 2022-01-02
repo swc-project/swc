@@ -23,8 +23,7 @@ var m1;
         strOrNum = var3; // string | number
     }
     m11.var3 = var3;
-})(m1 || (m1 = {
-}));
+})(m1 || (m1 = {}));
 // local module
 var m2;
 (function(m21) {
@@ -52,11 +51,9 @@ var m2;
             strOrNum = var5; // string | number
         }
         m32.var5 = var5;
-    })(m31 || (m31 = {
-    }));
+    })(m31 || (m31 = {}));
     m21.var3 = var3;
-})(m2 || (m2 = {
-}));
+})(m2 || (m2 = {}));
 // Dotted module
 var m3;
 (function(m33) {
@@ -78,7 +75,5 @@ var m3;
             strOrNum = var3; // string | number
         }
         m4.var3 = var3;
-    })(m41 = m33.m4 || (m33.m4 = {
-    }));
-})(m3 || (m3 = {
-}));
+    })(m41 = m33.m4 || (m33.m4 = {}));
+})(m3 || (m3 = {}));

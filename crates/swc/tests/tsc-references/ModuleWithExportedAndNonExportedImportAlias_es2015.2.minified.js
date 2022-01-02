@@ -1,6 +1,5 @@
 var B, Geometry;
-(B || (B = {
-})).Line = class {
+(B || (B = {})).Line = class {
     constructor(start, end){
         this.start = start, this.end = end;
     }
@@ -14,5 +13,4 @@ var B, Geometry;
         x: 1,
         y: 0
     });
-})(Geometry || (Geometry = {
-})), Geometry.Origin, Geometry.Unit, Geometry.Lines.Line;
+})(Geometry || (Geometry = {})), Geometry.Origin, Geometry.Unit, Geometry.Lines.Line;

@@ -32,8 +32,7 @@ var C = /*#__PURE__*/ function() {
     _createClass(C, [
         {
             key: "foo",
-            value: function foo() {
-            }
+            value: function foo() {}
         }
     ]);
     return C;
@@ -74,5 +73,4 @@ var rb8 = _instanceof(x, o1);
 var rb9 = _instanceof(x, o2);
 var rb10 = _instanceof(x, o3);
 // both operands are invalid
-var rc1 = _instanceof('', {
-});
+var rc1 = _instanceof('', {});

@@ -16,9 +16,7 @@ class OverWriteAttr extends React.Component {
     }
 }
 let anyobj;
-React.createElement(OverWriteAttr, _extends({
-}, {
-}, {
+React.createElement(OverWriteAttr, _extends({}, {}, {
     y: !0,
     overwrite: "hi"
 }, obj1)), React.createElement(OverWriteAttr, _extends({
@@ -27,8 +25,7 @@ React.createElement(OverWriteAttr, _extends({
     x: 3
 }, {
     y: !0
-})), React.createElement(OverWriteAttr, _extends({
-}, anyobj, {
+})), React.createElement(OverWriteAttr, _extends({}, anyobj, {
     x: 3
 })), React.createElement(OverWriteAttr, _extends({
     overwrite: "hi"

@@ -1,5 +1,4 @@
-async function foo() {
-}
+async function foo() {}
 const mod = {
     foo: foo
 };

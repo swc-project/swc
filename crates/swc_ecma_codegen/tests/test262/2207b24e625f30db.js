@@ -1,5 +1,4 @@
 (function() {
-    var a = {
-    };
+    var a = {};
     a.b = (c(), 1); // ok
 }());

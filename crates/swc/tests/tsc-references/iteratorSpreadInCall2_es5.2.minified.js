@@ -35,8 +35,7 @@ var arr, tmp = Symbol.iterator, SymbolIterator = function() {
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), SymbolIterator;
 }();
-(function(s) {
-}).apply(void 0, function(arr) {
+(function(s) {}).apply(void 0, function(arr) {
     if (Array.isArray(arr)) return _arrayLikeToArray(arr);
 }(arr = new SymbolIterator) || function(iter) {
     if ("undefined" != typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) return Array.from(iter);

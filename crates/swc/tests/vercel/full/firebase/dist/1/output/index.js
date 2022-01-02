@@ -68,8 +68,7 @@ var a, b = require("@firebase/util"), c = require("tslib"), d = require("@fireba
             options: this.options
         };
     }, a;
-}(), i = ((a = {
-})["no-app"] = "No Firebase App '{$appName}' has been created - call Firebase App.initializeApp()", a["invalid-app-argument"] = "firebase.{$appName}() takes either no argument or a Firebase App instance.", a), j = new b.ErrorFactory("app-compat", "Firebase", i);
+}(), i = ((a = {})["no-app"] = "No Firebase App '{$appName}' has been created - call Firebase App.initializeApp()", a["invalid-app-argument"] = "firebase.{$appName}() takes either no argument or a Firebase App instance.", a), j = new b.ErrorFactory("app-compat", "Firebase", i);
 function k() {
     var a = function(a) {
         var c = function(a) {
@@ -77,12 +76,10 @@ function k() {
                 appName: a
             });
             return d[a];
-        }, d = {
-        }, e = {
+        }, d = {}, e = {
             __esModule: !0,
             initializeApp: function(c, f) {
-                void 0 === f && (f = {
-                });
+                void 0 === f && (f = {});
                 var h = g.initializeApp(c, f);
                 if (b.contains(d, h.name)) return d[h.name];
                 var i = new a(h, e);
@@ -128,8 +125,7 @@ function k() {
             }
         }), c.App = a, e;
     }(h);
-    return a.INTERNAL = c.__assign(c.__assign({
-    }, a.INTERNAL), {
+    return a.INTERNAL = c.__assign(c.__assign({}, a.INTERNAL), {
         createFirebaseNamespace: k,
         extendNamespace: function(c) {
             b.deepExtend(a, c);

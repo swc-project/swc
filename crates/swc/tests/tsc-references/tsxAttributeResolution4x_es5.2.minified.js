@@ -7,13 +7,11 @@ function _extends() {
         return target;
     }).apply(this, arguments);
 }
-React.createElement("test1", _extends({
-}, {
+React.createElement("test1", _extends({}, {
     x: function(n) {
         return 0;
     }
-})), React.createElement("test1", _extends({
-}, {
+})), React.createElement("test1", _extends({}, {
     x: function(n) {
         return n.len;
     }

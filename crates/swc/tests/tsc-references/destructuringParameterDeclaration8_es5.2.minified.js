@@ -1,8 +1,7 @@
 function test(param) {
     param.method, param.nested.p;
 }
-test({
-}), test({
+test({}), test({
     method: "x",
     nested: {
         p: "a"

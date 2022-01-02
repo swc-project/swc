@@ -8,5 +8,4 @@ a = 7;
 switch(b){
 }
 a = 8;
-with (g){
-}
+with (g){}

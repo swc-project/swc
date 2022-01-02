@@ -8,5 +8,4 @@ class clodule {
         return clodule.sfn('a');
     }
     clodule1.fn = fn;
-})(clodule || (clodule = {
-}));
+})(clodule || (clodule = {}));

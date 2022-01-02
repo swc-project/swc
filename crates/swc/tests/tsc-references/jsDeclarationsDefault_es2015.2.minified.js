@@ -19,5 +19,4 @@ export default class extends Fab {
     }
 };
 export default 12;
-export default function func() {
-};
+export default function func() {};

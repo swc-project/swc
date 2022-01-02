@@ -1,5 +1,4 @@
-var UI = {
-};
+var UI = {};
 UI.TreeElement = class {
     constructor(){
         this.treeOutline = 12;

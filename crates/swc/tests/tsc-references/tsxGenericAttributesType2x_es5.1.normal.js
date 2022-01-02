@@ -20,8 +20,7 @@ function _extends() {
 var React = require('react');
 var decorator4 = function decorator4(Component) {
     return function(props) {
-        /*#__PURE__*/ return React.createElement(Component, _extends({
-        }, props, {
+        /*#__PURE__*/ return React.createElement(Component, _extends({}, props, {
             y: "blah"
         }));
     };

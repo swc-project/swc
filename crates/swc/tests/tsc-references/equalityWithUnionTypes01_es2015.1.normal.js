@@ -4,8 +4,4 @@ var x = {
 };
 var y = x;
 var z = x;
-if (y === z || z === y) {
-} else if (y !== z || z !== y) {
-} else if (y == z || z == y) {
-} else if (y != z || z != y) {
-}
+if (y === z || z === y) {} else if (y !== z || z !== y) {} else if (y == z || z == y) {} else if (y != z || z != y) {}

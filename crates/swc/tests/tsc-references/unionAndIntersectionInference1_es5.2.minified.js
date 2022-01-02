@@ -7,8 +7,6 @@ var y = void 0;
     return "other one";
 }), null.toUpperCase(), pigify(mbp).oinks, pigify(mbp).walks, f1("a"), f2("a", "b"), (function(a, b) {
     Object.assign(a, b);
-})(function() {
-}, {
-    func: function() {
-    }
+})(function() {}, {
+    func: function() {}
 });

@@ -8,14 +8,12 @@ function a() {
     if (c) {
         e();
         var c;
-        function b() {
-        }
+        function b() {}
         ;
         // but nested declarations should not be kept.
         (function() {
             var f;
-            function e() {
-            }
+            function e() {}
             ;
         })();
     }

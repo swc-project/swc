@@ -19,10 +19,8 @@ var B = function B() {
     "use strict";
     _classCallCheck(this, B);
 };
-function acceptA(a) {
-}
-function acceptB(b) {
-}
+function acceptA(a) {}
+function acceptB(b) {}
 function test(x) {
     if (_instanceof(x, B)) {
         acceptA(x);

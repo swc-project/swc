@@ -1,7 +1,6 @@
 "use strict";
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-    var desc = {
-    };
+    var desc = {};
     Object.keys(descriptor).forEach(function(key) {
         desc[key] = descriptor[key];
     });
@@ -60,12 +59,10 @@ function _asyncToGenerator(fn) {
 var _class, _dec, _dec1, _dec2, _dec3, _dec4, _dec5;
 let Foo = ((_class = class Foo {
     fnName1(argName) {
-        return _asyncToGenerator(function*() {
-        })();
+        return _asyncToGenerator(function*() {})();
     }
     fnName2(argName = false) {
-        return _asyncToGenerator(function*() {
-        })();
+        return _asyncToGenerator(function*() {})();
     }
 }) || _class, _dec = function(target, key) {
     return Arg('GraphQLArgName', {

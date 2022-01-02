@@ -1,3 +1,2 @@
 // @target: es6
-function* foo() {
-}
+function* foo() {}

@@ -14,8 +14,7 @@ export var Clazz = function() {
     })(Constructor = Clazz, [
         {
             key: "method",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), Clazz;
 }();

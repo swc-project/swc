@@ -1,5 +1,4 @@
-var local, x, Outer = {
-};
+var local, x, Outer = {};
 Outer.Inner = function _class() {
     "use strict";
     (function(instance, Constructor) {

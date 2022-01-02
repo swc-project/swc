@@ -12,8 +12,7 @@ var B;
         this.end = end;
     };
     B1.Line = Line;
-})(B || (B = {
-}));
+})(B || (B = {}));
 var Geometry;
 (function(Geometry1) {
     var Points = A;
@@ -27,8 +26,7 @@ var Geometry;
         x: 1,
         y: 0
     });
-})(Geometry || (Geometry = {
-}));
+})(Geometry || (Geometry = {}));
 // expected to work since all are exported
 var p;
 var p;

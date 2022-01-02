@@ -49,8 +49,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -84,13 +83,11 @@ var c = [
     null
 ]; // {}[]
 var d = [
-    {
-    },
+    {},
     1
 ]; // {}[]
 var e = [
-    {
-    },
+    {},
     Object
 ]; // {}[]
 var f = [
@@ -286,8 +283,7 @@ var derived2;
             }
         ]
     ]; // {}[]
-})(Derived || (Derived = {
-}));
+})(Derived || (Derived = {}));
 var WithContextualType;
 (function(WithContextualType) {
     // no errors
@@ -307,8 +303,7 @@ var WithContextualType;
             return derived2;
         }
     ];
-})(WithContextualType || (WithContextualType = {
-}));
+})(WithContextualType || (WithContextualType = {}));
 function foo(t, u) {
     var a = [
         t,

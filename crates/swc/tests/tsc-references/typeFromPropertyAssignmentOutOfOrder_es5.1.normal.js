@@ -49,8 +49,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -100,9 +99,6 @@ Workspace.Object = /*#__PURE__*/ (function(_Object) {
 })(Common.Object);
 /** @type {Workspace.Object} */ var am;
 // @filename: roots.js
-var First = {
-};
-var Common = {
-};
-var Workspace = {
-};
+var First = {};
+var Common = {};
+var Workspace = {};

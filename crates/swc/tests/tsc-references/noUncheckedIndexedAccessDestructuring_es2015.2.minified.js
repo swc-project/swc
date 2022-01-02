@@ -15,21 +15,17 @@ const [, , ...s3] = strArray;
 s3.push(void 0);
 const { t1  } = strMap;
 t1.toString();
-const t2 = _extends({
-}, strMap);
+const t2 = _extends({}, strMap);
 t2.z.toString();
 {
     const { x , y , z  } = numMapPoint;
     x.toFixed(), y.toFixed(), z.toFixed();
 }{
     const { x  } = numMapPoint, q = function(source, excluded) {
-        if (null == source) return {
-        };
+        if (null == source) return {};
         var key, i, target = function(source, excluded) {
-            if (null == source) return {
-            };
-            var key, i, target = {
-            }, sourceKeys = Object.keys(source);
+            if (null == source) return {};
+            var key, i, target = {}, sourceKeys = Object.keys(source);
             for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
             return target;
         }(source, excluded);

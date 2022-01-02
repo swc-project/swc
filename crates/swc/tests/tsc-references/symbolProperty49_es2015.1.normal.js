@@ -4,9 +4,7 @@ var M;
     var Symbol;
     var tmp = Symbol.iterator;
     class C {
-        [tmp]() {
-        }
+        [tmp]() {}
     }
     M1.Symbol = Symbol;
-})(M || (M = {
-}));
+})(M || (M = {}));

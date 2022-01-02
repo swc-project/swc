@@ -21,11 +21,9 @@ var React = require('react');
 export default function Component(props) {
     var condition1;
     if (condition1) {
-        return(/*#__PURE__*/ React.createElement(ChildComponent, _extends({
-        }, props)));
+        return(/*#__PURE__*/ React.createElement(ChildComponent, _extends({}, props)));
     } else {
-        return(/*#__PURE__*/ React.createElement(ChildComponent, _extends({
-        }, props, {
+        return(/*#__PURE__*/ React.createElement(ChildComponent, _extends({}, props, {
             property1: "NewString"
         })));
     }

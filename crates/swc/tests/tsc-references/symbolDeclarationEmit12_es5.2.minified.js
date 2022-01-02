@@ -17,26 +17,21 @@ function _defineProperties(target, props) {
         return Constructor = C, protoProps = [
             {
                 key: tmp,
-                value: function(x) {
-                }
+                value: function(x) {}
             },
             {
                 key: tmp1,
-                value: function() {
-                }
+                value: function() {}
             },
             {
                 key: tmp2,
-                get: function() {
-                }
+                get: function() {}
             },
             {
                 key: tmp3,
-                set: function(x) {
-                }
+                set: function(x) {}
             }
         ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
     }();
     M1.C = C;
-}(M || (M = {
-}));
+}(M || (M = {}));

@@ -65,13 +65,11 @@ var C = function() {
             get: function() {
                 return null;
             },
-            set: function(x) {
-            }
+            set: function(x) {}
         },
         {
             key: "foo",
-            value: function() {
-            }
+            value: function() {}
         }
     ], [
         {
@@ -79,18 +77,15 @@ var C = function() {
             get: function() {
                 return null;
             },
-            set: function(x) {
-            }
+            set: function(x) {}
         },
         {
             key: "foo",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "bar",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), C2;
 }();

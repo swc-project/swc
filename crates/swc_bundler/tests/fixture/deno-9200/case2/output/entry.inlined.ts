@@ -1,5 +1,4 @@
-function foo() {
-}
+function foo() {}
 export { foo as foo };
 const mod = {
     foo

@@ -1,6 +1,5 @@
 var A;
-(A || (A = {
-})).Origin = {
+(A || (A = {})).Origin = {
     x: 0,
     y: 0
 };

@@ -2,10 +2,8 @@ var A, Y;
 !function(A) {
     var Color;
     let Color;
-    (Color = Color || (Color = {
-    }))[Color.Blue = 0] = "Blue", Color[Color.Red = 1] = "Red";
-}(A || (A = {
-})), (function(Y1) {
+    (Color = Color || (Color = {}))[Color.Blue = 0] = "Blue", Color[Color.Red = 1] = "Red";
+}(A || (A = {})), (function(Y1) {
     var Color;
     class A1 {
     }
@@ -16,8 +14,7 @@ var A, Y;
     }, Y1.BB = class extends A1 {
     };
     let Color;
-    (Color = Color = Y1.Color || (Y1.Color = {
-    }))[Color.Blue = 0] = "Blue", Color[Color.Red = 1] = "Red", Y1.x = 12, Y1.F = function(s) {
+    (Color = Color = Y1.Color || (Y1.Color = {}))[Color.Blue = 0] = "Blue", Color[Color.Red = 1] = "Red", Y1.x = 12, Y1.F = function(s) {
         return 2;
     }, Y1.array = null, Y1.fn = (s)=>"hello " + s
     , Y1.ol = {
@@ -25,5 +22,4 @@ var A, Y;
         id: 2,
         isvalid: !0
     };
-})(Y || (Y = {
-}));
+})(Y || (Y = {}));

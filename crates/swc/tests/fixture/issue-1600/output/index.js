@@ -1,4 +1,2 @@
-var x = function a() {
-};
-var y = function a() {
-};
+var x = function a() {};
+var y = function a() {};

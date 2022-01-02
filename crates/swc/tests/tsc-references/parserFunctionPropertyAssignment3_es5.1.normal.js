@@ -1,4 +1,3 @@
 var v = {
-    "foo": function() {
-    }
+    "foo": function() {}
 };

@@ -28,14 +28,12 @@ function f() {
         _createClass(C, [
             {
                 key: "bar",
-                value: function bar() {
-                }
+                value: function bar() {}
             }
         ], [
             {
                 key: "foo",
-                value: function foo() {
-                }
+                value: function foo() {}
             }
         ]);
         return C;

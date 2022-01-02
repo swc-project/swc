@@ -1,4 +1,3 @@
 class C {
-    static m() {
-    }
+    static m() {}
 }

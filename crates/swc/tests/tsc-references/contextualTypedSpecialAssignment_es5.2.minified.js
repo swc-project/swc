@@ -4,16 +4,13 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-var ns = {
-};
+var ns = {};
 ns.x = {
     status: "done",
-    m: function(n) {
-    }
+    m: function(n) {}
 }, ns.x = {
     status: "done",
-    m: function(n) {
-    }
+    m: function(n) {}
 }, ns.x;
 var Thing = function() {
     "use strict";
@@ -23,8 +20,7 @@ var Thing = function() {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
         }(this, Thing), this.s = {
             status: "done",
-            m: function(n) {
-            }
+            m: function(n) {}
         };
     }
     return Constructor = Thing, protoProps = [
@@ -33,8 +29,7 @@ var Thing = function() {
             value: function() {
                 this.s = {
                     status: "done",
-                    m: function(n) {
-                    }
+                    m: function(n) {}
                 };
             }
         }
@@ -42,23 +37,17 @@ var Thing = function() {
 }();
 exports.x = {
     status: "done",
-    m: function(n) {
-    }
+    m: function(n) {}
 }, module.exports.y = {
     status: "done",
-    m: function(n) {
-    }
+    m: function(n) {}
 }, module.exports.y, Thing.prototype.x = {
     status: "done",
-    m: function(n) {
-    }
-}, Thing.prototype.x, (function() {
-}).prototype = {
+    m: function(n) {}
+}, Thing.prototype.x, (function() {}).prototype = {
     status: "done",
-    m: function(n) {
-    }
+    m: function(n) {}
 }, module.exports = {
     status: "done",
-    m: function(n) {
-    }
+    m: function(n) {}
 };

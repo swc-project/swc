@@ -34,8 +34,7 @@
     ];
 }
 class C {
-    /** @param {Array<[string, {x?:number, y?:number}]>} value */ set x(value) {
-    }
+    /** @param {Array<[string, {x?:number, y?:number}]>} value */ set x(value) {}
     get x() {
         return [
             [

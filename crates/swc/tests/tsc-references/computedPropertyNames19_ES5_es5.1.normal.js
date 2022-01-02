@@ -14,7 +14,5 @@ function _defineProperty(obj, key, value) {
 // @target: es5
 var M;
 (function(M) {
-    var obj = _defineProperty({
-    }, this.bar, 0);
-})(M || (M = {
-}));
+    var obj = _defineProperty({}, this.bar, 0);
+})(M || (M = {}));

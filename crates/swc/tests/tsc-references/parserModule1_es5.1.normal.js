@@ -23,5 +23,4 @@ export var CompilerDiagnostics;
     CompilerDiagnostics1.Alert = Alert;
     CompilerDiagnostics1.debugPrint = debugPrint;
     CompilerDiagnostics1.assert = assert;
-})(CompilerDiagnostics || (CompilerDiagnostics = {
-}));
+})(CompilerDiagnostics || (CompilerDiagnostics = {}));

@@ -3,30 +3,22 @@ function _throw(e) {
 }
 // Missing properties
 function f1() {
-    var ref = {
-    }, x = ref.x, y = ref.y;
-    var ref1 = {
-    }, _x = ref1.x, x = _x === void 0 ? 1 : _x, y = ref1.y;
-    var ref2 = {
-    }, x = ref2.x, _y = ref2.y, y = _y === void 0 ? 1 : _y;
-    var ref3 = {
-    }, _x1 = ref3.x, x = _x1 === void 0 ? 1 : _x1, _y1 = ref3.y, y = _y1 === void 0 ? 1 : _y1;
+    var ref = {}, x = ref.x, y = ref.y;
+    var ref1 = {}, _x = ref1.x, x = _x === void 0 ? 1 : _x, y = ref1.y;
+    var ref2 = {}, x = ref2.x, _y = ref2.y, y = _y === void 0 ? 1 : _y;
+    var ref3 = {}, _x1 = ref3.x, x = _x1 === void 0 ? 1 : _x1, _y1 = ref3.y, y = _y1 === void 0 ? 1 : _y1;
 }
 // Missing properties
 function f2() {
     var x, y;
     var ref;
-    ref = {
-    }, x = ref.x, y = ref.y, ref;
+    ref = {}, x = ref.x, y = ref.y, ref;
     var ref4, ref5;
-    ref4 = {
-    }, ref5 = ref4.x, x = ref5 === void 0 ? 1 : ref5, y = ref4.y, ref4;
+    ref4 = {}, ref5 = ref4.x, x = ref5 === void 0 ? 1 : ref5, y = ref4.y, ref4;
     var ref6, ref7;
-    ref6 = {
-    }, x = ref6.x, ref7 = ref6.y, y = ref7 === void 0 ? 1 : ref7, ref6;
+    ref6 = {}, x = ref6.x, ref7 = ref6.y, y = ref7 === void 0 ? 1 : ref7, ref6;
     var ref8, ref9, ref10;
-    ref8 = {
-    }, ref9 = ref8.x, x = ref9 === void 0 ? 1 : ref9, ref10 = ref8.y, y = ref10 === void 0 ? 1 : ref10, ref8;
+    ref8 = {}, ref9 = ref8.x, x = ref9 === void 0 ? 1 : ref9, ref10 = ref8.y, y = ref10 === void 0 ? 1 : ref10, ref8;
 }
 // Excess properties
 function f3() {

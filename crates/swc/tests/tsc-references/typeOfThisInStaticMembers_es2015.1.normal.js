@@ -4,8 +4,7 @@ class C {
         var t = this;
         return this;
     }
-    constructor(x){
-    }
+    constructor(x){}
 }
 var t = C.bar();
 // all ok
@@ -18,8 +17,7 @@ class C2 {
         var t = this;
         return this;
     }
-    constructor(x){
-    }
+    constructor(x){}
 }
 var t2 = C2.bar();
 // all ok

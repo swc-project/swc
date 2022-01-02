@@ -18,8 +18,7 @@ function g() {
     return regeneratorRuntime.wrap(function g$(_ctx1) {
         while(1)switch(_ctx1.prev = _ctx1.next){
             case 0:
-                return _ctx1.delegateYield(_defineProperty({
-                }, Symbol.iterator, regeneratorRuntime.mark(function _callee() {
+                return _ctx1.delegateYield(_defineProperty({}, Symbol.iterator, regeneratorRuntime.mark(function _callee() {
                     return regeneratorRuntime.wrap(function _callee$(_ctx) {
                         while(1)switch(_ctx.prev = _ctx.next){
                             case 0:

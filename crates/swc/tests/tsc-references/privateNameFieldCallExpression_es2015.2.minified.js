@@ -25,8 +25,7 @@ class A {
             }
         }), _fieldFunc2.set(this, {
             writable: !0,
-            value: function(a, ...b) {
-            }
+            value: function(a, ...b) {}
         }), this.x = 1;
     }
 }

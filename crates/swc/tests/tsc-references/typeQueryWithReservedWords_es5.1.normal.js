@@ -25,18 +25,15 @@ var Controller = /*#__PURE__*/ function() {
     _createClass(Controller, [
         {
             key: "create",
-            value: function create() {
-            }
+            value: function create() {}
         },
         {
             key: "delete",
-            value: function _delete() {
-            }
+            value: function _delete() {}
         },
         {
             key: "var",
-            value: function _var() {
-            }
+            value: function _var() {}
         }
     ]);
     return Controller;

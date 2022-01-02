@@ -22,16 +22,12 @@ function outside() {
 }
 function defaultArgFunction(a = function() {
     return b;
-}, b = 1) {
-}
+}, b = 1) {}
 function defaultArgArrow(a = ()=>()=>b
-, b = 3) {
-}
+, b = 3) {}
 class C {
-    method(a = b, b = 1) {
-    }
-    constructor(a = b, b = 1){
-    }
+    method(a = b, b = 1) {}
+    constructor(a = b, b = 1){}
 }
 // Function expressions
 var x = (a = b, b = c, c = d)=>{
@@ -40,5 +36,4 @@ var x = (a = b, b = c, c = d)=>{
 // Should not produce errors - can reference later parameters if they occur within a function expression initializer.
 function f(a, b = function() {
     return c;
-}, c = b()) {
-}
+}, c = b()) {}

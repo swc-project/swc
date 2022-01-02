@@ -289,8 +289,7 @@ function f23(args) {
 }
 const b = a.bind("", 1); // Desc<[boolean], object>
 function callApi(method) {
-    return (...args)=>method(...args, {
-        })
+    return (...args)=>method(...args, {})
     ;
 }
 callApi(getUser);

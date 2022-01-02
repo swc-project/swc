@@ -1,5 +1,4 @@
-(E = E || (E = {
-}))[E.A = 0] = "A";
+(E = E || (E = {}))[E.A = 0] = "A";
 var E, E, C = function() {
     "use strict";
     !function(instance, Constructor) {

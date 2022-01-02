@@ -1,4 +1,3 @@
 //@target: ES6
 //@noImplicitAny: true
-function* g() {
-}
+function* g() {}

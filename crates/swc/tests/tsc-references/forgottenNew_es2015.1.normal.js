@@ -3,6 +3,5 @@ var Tools;
     class NullLogger {
     }
     Tools1.NullLogger = NullLogger;
-})(Tools || (Tools = {
-}));
+})(Tools || (Tools = {}));
 var logger = Tools.NullLogger();

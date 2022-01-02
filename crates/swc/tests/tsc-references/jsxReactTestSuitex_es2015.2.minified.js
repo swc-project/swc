@@ -20,21 +20,16 @@ React.createElement("div", null, React.createElement("span", null), React.create
     attr2: "bar"
 })), React.createElement("div", null, "\xa0"), React.createElement("div", null, "\xa0 "), React.createElement("hasOwnProperty", null, "testing"), React.createElement(Component, {
     constructor: "foo"
-}), React.createElement(Namespace.Component, null), React.createElement(Namespace.DeepNamespace.Component, null), React.createElement(Component, _extends({
-}, x, {
+}), React.createElement(Namespace.Component, null), React.createElement(Namespace.DeepNamespace.Component, null), React.createElement(Component, _extends({}, x, {
     y: 2,
     z: !0
-})), React.createElement(Component, _extends({
-}, this.props, {
+})), React.createElement(Component, _extends({}, this.props, {
     sound: "moo"
 })), React.createElement("font-face", null), React.createElement(Component, {
     x: y
-}), React.createElement("x-component", null), React.createElement(Component, _extends({
-}, x)), React.createElement(Component, _extends({
-}, x, {
+}), React.createElement("x-component", null), React.createElement(Component, _extends({}, x)), React.createElement(Component, _extends({}, x, {
     y: 2
-})), React.createElement(Component, _extends({
-}, x, {
+})), React.createElement(Component, _extends({}, x, {
     y: 2,
     z: !0
 })), React.createElement(Component, _extends({

@@ -1,6 +1,5 @@
 class C {
-    method() {
-    }
+    method() {}
     constructor(){
         this.p = 1;
     }

@@ -26,8 +26,7 @@ var A = function() {
     return protoProps = [
         {
             key: "m",
-            value: function() {
-            }
+            value: function() {}
         }
     ], _defineProperties((Constructor = A).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), A;
 }(), B = function(A) {
@@ -48,8 +47,7 @@ var A = function() {
             if (Reflect.construct.sham) return !1;
             if ("function" == typeof Proxy) return !0;
             try {
-                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                })), !0;
+                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
             } catch (e) {
                 return !1;
             }

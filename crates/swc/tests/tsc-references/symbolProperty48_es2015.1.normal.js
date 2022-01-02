@@ -4,8 +4,6 @@ var M;
     var Symbol;
     var tmp = Symbol.iterator;
     class C {
-        [tmp]() {
-        }
+        [tmp]() {}
     }
-})(M || (M = {
-}));
+})(M || (M = {}));

@@ -5,8 +5,7 @@ var x;
 x("test");
 x(42);
 var y = x.b;
-if (!!x.c) {
-}
+if (!!x.c) {}
 var z = {
     x: 1,
     y: 2

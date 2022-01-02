@@ -7,8 +7,7 @@ let a = {
 let b = {
     a: 3
 };
-let c = {
-};
+let c = {};
 let d = {
     a: ""
 };

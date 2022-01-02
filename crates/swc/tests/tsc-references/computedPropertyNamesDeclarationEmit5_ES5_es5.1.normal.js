@@ -30,15 +30,9 @@ function _defineProperty(obj, key, value) {
     }
     return obj;
 }
-var _obj, _mutatorMap = {
-};
+var _obj, _mutatorMap = {};
 // @target: es5
 // @declaration: true
-var v = (_obj = {
-}, _defineProperty(_obj, "" + "", 0), _defineProperty(_obj, "" + "", function() {
-}), _mutatorMap["" + ""] = _mutatorMap["" + ""] || {
-}, _mutatorMap["" + ""].get = function() {
+var v = (_obj = {}, _defineProperty(_obj, "" + "", 0), _defineProperty(_obj, "" + "", function() {}), _mutatorMap["" + ""] = _mutatorMap["" + ""] || {}, _mutatorMap["" + ""].get = function() {
     return 0;
-}, _mutatorMap["" + ""] = _mutatorMap["" + ""] || {
-}, _mutatorMap["" + ""].set = function(x) {
-}, _defineEnumerableProperties(_obj, _mutatorMap), _obj);
+}, _mutatorMap["" + ""] = _mutatorMap["" + ""] || {}, _mutatorMap["" + ""].set = function(x) {}, _defineEnumerableProperties(_obj, _mutatorMap), _obj);

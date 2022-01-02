@@ -18,32 +18,28 @@ var C = function() {
             get: function() {
                 return "string";
             },
-            set: function(x) {
-            }
+            set: function(x) {}
         },
         {
             key: "Y",
             get: function() {
                 return !0;
             },
-            set: function(y) {
-            }
+            set: function(y) {}
         },
         {
             key: "W",
             get: function() {
                 return !0;
             },
-            set: function(w) {
-            }
+            set: function(w) {}
         },
         {
             key: "Z",
             get: function() {
                 return 1;
             },
-            set: function(z) {
-            }
+            set: function(z) {}
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }();

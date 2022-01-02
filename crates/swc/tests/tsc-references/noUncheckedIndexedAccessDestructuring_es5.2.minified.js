@@ -51,18 +51,14 @@ function _unsupportedIterableToArray(o, minLen) {
         if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
     }
 }
-_slicedToArray(strArray, 1)[0].toString(), _toArray(strArray).slice(0).push(void 0), _toArray(strArray).slice(2).push(void 0), strMap.t1.toString(), _extends({
-}, strMap).z.toString();
+_slicedToArray(strArray, 1)[0].toString(), _toArray(strArray).slice(0).push(void 0), _toArray(strArray).slice(2).push(void 0), strMap.t1.toString(), _extends({}, strMap).z.toString();
 var ref, x = numMapPoint.x, y = numMapPoint.y, z = numMapPoint.z;
 x.toFixed(), y.toFixed(), z.toFixed();
 var x1 = numMapPoint.x, q = function(source, excluded) {
-    if (null == source) return {
-    };
+    if (null == source) return {};
     var key, i, target = function(source, excluded) {
-        if (null == source) return {
-        };
-        var key, i, target = {
-        }, sourceKeys = Object.keys(source);
+        if (null == source) return {};
+        var key, i, target = {}, sourceKeys = Object.keys(source);
         for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
         return target;
     }(source, excluded);

@@ -5,8 +5,7 @@ function foo() {
 class C {
     static bar() {
         var obj = {
-            [foo()] () {
-            }
+            [foo()] () {}
         };
         return 0;
     }

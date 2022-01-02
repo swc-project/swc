@@ -9,14 +9,10 @@ var C1 = function() {
     "use strict";
     _classCallCheck(this, C2);
 };
-function f() {
-}
-(E = E || (E = {
-}))[E.A = 0] = "A", (f || (f = {
-})).bar = 1;
+function f() {}
+(E = E || (E = {}))[E.A = 0] = "A", (f || (f = {})).bar = 1;
 var E, E, c = function() {
     "use strict";
     _classCallCheck(this, c);
 };
-(c || (c = {
-})).bar = 1, new Object();
+(c || (c = {})).bar = 1, new Object();

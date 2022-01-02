@@ -11,8 +11,7 @@ var M;
     };
     M1.A = A;
     new A;
-})(M || (M = {
-}));
+})(M || (M = {}));
 var myA = M.A;
 new myA;
 export { };

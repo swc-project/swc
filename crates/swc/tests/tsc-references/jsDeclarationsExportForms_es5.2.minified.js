@@ -14,8 +14,7 @@ export var Foo = function() {
         if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
     }(this, Foo);
 };
-export function func() {
-}
+export function func() {}
 export * from "./cls";
 export * from "./func";
 export * from "./cls";

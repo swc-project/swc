@@ -21,29 +21,25 @@ var N1, C1 = function() {
     return _createClass(C2, null, [
         {
             key: "foo",
-            value: function(x) {
-            }
+            value: function(x) {}
         }
     ]), C2;
 }();
 C2.y = void 0, (function(N11) {
     var x;
     N11.y = this, N11.x = x;
-})(N1 || (N1 = {
-}));
+})(N1 || (N1 = {}));
 var C3 = function() {
     "use strict";
     function C3() {
         _classCallCheck(this, C3), this.x1 = {
-            g: function(x) {
-            }
+            g: function(x) {}
         };
     }
     return _createClass(C3, [
         {
             key: "f",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), C3;
 }();

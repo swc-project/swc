@@ -1,14 +1,11 @@
 class BaseClass {
-    baseMethod() {
-    }
+    baseMethod() {}
 }
 class Child extends BaseClass {
-    method() {
-    }
+    method() {}
 }
 class ChildNoBaseClass {
-    method2() {
-    }
+    method2() {}
 }
 class Grandchild extends ChildNoBaseClass {
 }

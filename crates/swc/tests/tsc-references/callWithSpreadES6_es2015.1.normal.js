@@ -1,5 +1,4 @@
-function foo(x, y, ...z) {
-}
+function foo(x, y, ...z) {}
 var a;
 var z;
 var obj;
@@ -22,8 +21,7 @@ xa[1].foo(...[
     "abc"
 ]);
 class C {
-    foo(x, y, ...z) {
-    }
+    foo(x, y, ...z) {}
     constructor(x, y, ...z1){
         this.foo(x, y);
         this.foo(x, y, ...z1);

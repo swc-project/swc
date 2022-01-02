@@ -11,8 +11,7 @@ function _defineProperty(obj, key, value) {
 }
 function _objectSpread(target) {
     for(var i = 1; i < arguments.length; i++){
-        var source = null != arguments[i] ? arguments[i] : {
-        }, ownKeys = Object.keys(source);
+        var source = null != arguments[i] ? arguments[i] : {}, ownKeys = Object.keys(source);
         "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
         }))), ownKeys.forEach(function(key) {
@@ -24,22 +23,18 @@ function _objectSpread(target) {
 const props = {
     answer: 42
 };
-_jsx("div", _objectSpread({
-}, props, {
+_jsx("div", _objectSpread({}, props, {
     children: "text"
-}), "foo"), _createElement("div", _objectSpread({
-}, props, {
+}), "foo"), _createElement("div", _objectSpread({}, props, {
     key: "bar",
     children: "text"
 }));
 const props2 = {
     answer: 42
 };
-_jsx("div", _objectSpread({
-}, props2, {
+_jsx("div", _objectSpread({}, props2, {
     children: "text"
-}), "foo"), _createElement("div", _objectSpread({
-}, props2, {
+}), "foo"), _createElement("div", _objectSpread({}, props2, {
     key: "bar",
     children: "text"
 }));

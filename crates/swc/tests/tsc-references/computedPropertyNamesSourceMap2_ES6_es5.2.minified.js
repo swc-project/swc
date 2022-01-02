@@ -1,5 +1,4 @@
-var _obj, _mutatorMap = {
-};
+var _obj, _mutatorMap = {};
 (function(obj, key, value) {
     key in obj ? Object.defineProperty(obj, key, {
         value: value,
@@ -7,10 +6,7 @@ var _obj, _mutatorMap = {
         configurable: !0,
         writable: !0
     }) : obj[key] = value;
-})(_obj = {
-}, "hello", function() {
-}), _mutatorMap.goodbye = _mutatorMap.goodbye || {
-}, _mutatorMap.goodbye.get = function() {
+})(_obj = {}, "hello", function() {}), _mutatorMap.goodbye = _mutatorMap.goodbye || {}, _mutatorMap.goodbye.get = function() {
     return 0;
 }, (function(obj, descs) {
     for(var key in descs){

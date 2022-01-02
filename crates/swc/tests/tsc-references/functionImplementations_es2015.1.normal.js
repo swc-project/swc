@@ -1,7 +1,6 @@
 // @allowUnreachableCode: true
 // FunctionExpression with no return type annotation and no return statement returns void
-var v = function() {
-}();
+var v = function() {}();
 // FunctionExpression f with no return type annotation and directly references f in its body returns any
 var a = function f() {
     return f;

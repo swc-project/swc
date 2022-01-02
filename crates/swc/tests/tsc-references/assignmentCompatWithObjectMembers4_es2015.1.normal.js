@@ -42,8 +42,7 @@ var OnlyDerived;
     a2 = b; // error
     a2 = t2; // error
     a2 = t; // error
-})(OnlyDerived || (OnlyDerived = {
-}));
+})(OnlyDerived || (OnlyDerived = {}));
 var WithBase;
 (function(WithBase) {
     class Base {
@@ -87,5 +86,4 @@ var WithBase;
     a2 = b; // ok
     a2 = t2; // ok
     a2 = t; // ok
-})(WithBase || (WithBase = {
-}));
+})(WithBase || (WithBase = {}));

@@ -33,8 +33,7 @@ var Conn = // @allowJs: true
     _createClass(Conn, [
         {
             key: "method",
-            value: function method() {
-            }
+            value: function method() {}
         }
     ]);
     return Conn;

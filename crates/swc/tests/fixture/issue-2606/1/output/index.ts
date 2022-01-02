@@ -7,11 +7,9 @@ exports.test2 = exports.test = void 0;
 function warn() {
     throw new Error("this should not be called");
 }
-const test = {
-};
+const test = {};
 exports.test = test;
-const test2 = {
-};
+const test2 = {};
 exports.test2 = test2;
 Object.defineProperty(test, "warn", {
     get: ()=>warn

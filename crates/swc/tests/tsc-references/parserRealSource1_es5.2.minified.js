@@ -22,8 +22,7 @@ function _createClass(Constructor, protoProps, staticProps) {
         }, CompilerDiagnostics.assert = function(condition, s) {
             debug && (condition || Alert(s));
         };
-    }(TypeScript1.CompilerDiagnostics || (TypeScript1.CompilerDiagnostics = {
-    }));
+    }(TypeScript1.CompilerDiagnostics || (TypeScript1.CompilerDiagnostics = {}));
     var NullLogger = function() {
         "use strict";
         function NullLogger() {
@@ -62,8 +61,7 @@ function _createClass(Constructor, protoProps, staticProps) {
             },
             {
                 key: "log",
-                value: function(s) {
-                }
+                value: function(s) {}
             }
         ]), NullLogger;
     }();
@@ -202,5 +200,4 @@ function _createClass(Constructor, protoProps, staticProps) {
         }
         return result;
     };
-}(TypeScript || (TypeScript = {
-}));
+}(TypeScript || (TypeScript = {}));

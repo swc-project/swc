@@ -9,8 +9,7 @@ var array = [
 var E;
 (function(E) {
     E[E["x"] = 0] = "x";
-})(E || (E = {
-}));
+})(E || (E = {}));
 var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 try {
     for(var _iterator = array[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){

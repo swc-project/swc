@@ -5,7 +5,6 @@ foo("", function(obj, key, value) {
         configurable: !0,
         writable: !0
     }) : obj[key] = value, obj;
-}({
-}, Symbol.unscopables, function(s) {
+}({}, Symbol.unscopables, function(s) {
     return s.length;
 }));

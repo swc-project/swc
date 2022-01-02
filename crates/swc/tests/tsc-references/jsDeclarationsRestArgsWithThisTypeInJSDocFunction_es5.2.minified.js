@@ -15,8 +15,7 @@ export var Clazz = function() {
     return Constructor = Clazz, protoProps = [
         {
             key: "method",
-            value: function(functionDeclaration) {
-            }
+            value: function(functionDeclaration) {}
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Clazz;
 }();

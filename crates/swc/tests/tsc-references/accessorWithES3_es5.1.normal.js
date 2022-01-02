@@ -42,8 +42,7 @@ var D = /*#__PURE__*/ function() {
     _createClass(D, [
         {
             key: "x",
-            set: function set(v) {
-            }
+            set: function set(v) {}
         }
     ]);
     return D;
@@ -54,6 +53,5 @@ var x = {
     }
 };
 var y = {
-    set b (v){
-    }
+    set b (v){}
 };

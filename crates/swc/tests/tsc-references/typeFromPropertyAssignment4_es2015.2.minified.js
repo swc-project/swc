@@ -1,5 +1,4 @@
-var local, x, Outer = {
-};
+var local, x, Outer = {};
 Outer.Inner = class {
     constructor(){
         this.y = 12;

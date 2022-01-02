@@ -1,6 +1,5 @@
 class Bar {
-    cast(_name) {
-    }
+    cast(_name) {}
     pushThis() {
         Bar.instance.push(this);
     }

@@ -6,13 +6,9 @@ function _defineProperty(obj, key, value) {
         writable: !0
     }) : obj[key] = value, obj;
 }
-var _obj, _mutatorMap = {
-}, i = (_defineProperty(_obj = {
-}, Symbol.iterator, 0), _defineProperty(_obj, Symbol.toStringTag, function() {
+var _obj, _mutatorMap = {}, i = (_defineProperty(_obj = {}, Symbol.iterator, 0), _defineProperty(_obj, Symbol.toStringTag, function() {
     return "";
-}), _mutatorMap[Symbol.toPrimitive] = _mutatorMap[Symbol.toPrimitive] || {
-}, _mutatorMap[Symbol.toPrimitive].set = function(p) {
-}, function(obj, descs) {
+}), _mutatorMap[Symbol.toPrimitive] = _mutatorMap[Symbol.toPrimitive] || {}, _mutatorMap[Symbol.toPrimitive].set = function(p) {}, function(obj, descs) {
     for(var key in descs){
         var desc = descs[key];
         desc.configurable = desc.enumerable = !0, "value" in desc && (desc.writable = !0), Object.defineProperty(obj, key, desc);

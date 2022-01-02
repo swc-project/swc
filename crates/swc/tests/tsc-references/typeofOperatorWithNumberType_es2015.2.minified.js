@@ -7,8 +7,7 @@ class A {
 !function(M1) {
     var n;
     M1.n = n;
-}(M || (M = {
-}));
+}(M || (M = {}));
 var objA = new A();
 objA.a, M.n, A.foo(), objA.a, M.n, objA.a, M.n;
 z: ;

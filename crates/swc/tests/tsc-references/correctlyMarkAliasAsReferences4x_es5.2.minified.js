@@ -10,8 +10,7 @@ function _extends() {
         return target;
     }).apply(this, arguments);
 }
-React.createElement("button", _extends({
-}, buttonProps, {
+React.createElement("button", _extends({}, buttonProps, {
     className: cx("class1", {
         class2: !0
     })

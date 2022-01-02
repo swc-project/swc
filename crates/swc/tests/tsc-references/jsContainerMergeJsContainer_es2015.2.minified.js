@@ -1,5 +1,2 @@
-const a = {
-};
-a.d = function() {
-}, a.d.prototype = {
-};
+const a = {};
+a.d = function() {}, a.d.prototype = {};

@@ -7,8 +7,7 @@ var _dec = typeof Reflect !== "undefined" && typeof Reflect.metadata === "functi
 };
 let MyClass1 = _class = _dec2(_class = _dec1(_class = _dec((_class = // work
 class MyClass1 {
-    constructor(param1){
-    }
+    constructor(param1){}
 }) || _class) || _class) || _class) || _class;
 var _dec3 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
     typeof Injected === "undefined" ? Object : Injected,

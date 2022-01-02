@@ -12,5 +12,4 @@ var TwoLevels;
         Foo: null
     };
     var r = true ? a1 : b1;
-})(TwoLevels || (TwoLevels = {
-}));
+})(TwoLevels || (TwoLevels = {}));

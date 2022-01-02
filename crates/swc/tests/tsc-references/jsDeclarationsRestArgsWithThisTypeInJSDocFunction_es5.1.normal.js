@@ -33,8 +33,7 @@ export var Clazz = /*#__PURE__*/ function() {
             /**
    * @param {function(this:Object, ...*):*} functionDeclaration
    */ key: "method",
-            value: function method(functionDeclaration) {
-            }
+            value: function method(functionDeclaration) {}
         }
     ]);
     return Clazz;

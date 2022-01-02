@@ -95,8 +95,7 @@ function _wrapAsyncGenerator(fn) {
 // @filename: C1.ts
 class C1 {
     f() {
-        return _wrapAsyncGenerator(function*() {
-        })();
+        return _wrapAsyncGenerator(function*() {})();
     }
 }
 // @filename: C2.ts
@@ -153,8 +152,7 @@ class C7 {
 }
 // @filename: C8.ts
 class C8 {
-    g() {
-    }
+    g() {}
     f() {
         return _wrapAsyncGenerator((function*() {
             this.g();
@@ -163,8 +161,7 @@ class C8 {
 }
 // @filename: C9.ts
 class B9 {
-    g() {
-    }
+    g() {}
 }
 class C9 extends B9 {
     f() {

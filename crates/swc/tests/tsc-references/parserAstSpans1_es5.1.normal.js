@@ -86,8 +86,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -114,23 +113,19 @@ var c1 = /*#__PURE__*/ function() {
     _createClass(c1, [
         {
             key: "i1_f1",
-            value: function i1_f1() {
-            }
+            value: function i1_f1() {}
         },
         {
             key: "i1_nc_f1",
-            value: function i1_nc_f1() {
-            }
+            value: function i1_nc_f1() {}
         },
         {
             key: "f1",
-            value: /** c1_f1*/ function f1() {
-            }
+            value: /** c1_f1*/ function f1() {}
         },
         {
             key: "nc_f1",
-            value: /** c1_nc_f1*/ function nc_f1() {
-            }
+            value: /** c1_nc_f1*/ function nc_f1() {}
         }
     ]);
     return c1;
@@ -172,8 +167,7 @@ var c2 = /*#__PURE__*/ function() {
     _createClass(c2, [
         {
             key: "c2_f1",
-            value: /** c2 c2_f1*/ function c2_f1() {
-            }
+            value: /** c2 c2_f1*/ function c2_f1() {}
         },
         {
             key: "c2_prop",
@@ -183,8 +177,7 @@ var c2 = /*#__PURE__*/ function() {
         },
         {
             key: "c2_nc_f1",
-            value: function c2_nc_f1() {
-            }
+            value: function c2_nc_f1() {}
         },
         {
             key: "c2_nc_prop",
@@ -194,8 +187,7 @@ var c2 = /*#__PURE__*/ function() {
         },
         {
             key: "f1",
-            value: /** c2 f1*/ function f1() {
-            }
+            value: /** c2 f1*/ function f1() {}
         },
         {
             key: "prop",
@@ -205,8 +197,7 @@ var c2 = /*#__PURE__*/ function() {
         },
         {
             key: "nc_f1",
-            value: function nc_f1() {
-            }
+            value: function nc_f1() {}
         },
         {
             key: "nc_prop",
@@ -231,8 +222,7 @@ var c3 = /*#__PURE__*/ function(c2) {
     _createClass(c3, [
         {
             key: "f1",
-            value: /** c3 f1*/ function f1() {
-            }
+            value: /** c3 f1*/ function f1() {}
         },
         {
             key: "prop",
@@ -242,8 +232,7 @@ var c3 = /*#__PURE__*/ function(c2) {
         },
         {
             key: "nc_f1",
-            value: function nc_f1() {
-            }
+            value: function nc_f1() {}
         },
         {
             key: "nc_prop",

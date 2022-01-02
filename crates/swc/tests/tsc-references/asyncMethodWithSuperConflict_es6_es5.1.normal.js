@@ -192,8 +192,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -221,13 +220,11 @@ var A = // @target: es6
     _createClass(A, [
         {
             key: "x",
-            value: function x() {
-            }
+            value: function x() {}
         },
         {
             key: "y",
-            value: function y() {
-            }
+            value: function y() {}
         }
     ]);
     return A;
@@ -340,8 +337,7 @@ var B = /*#__PURE__*/ function(A) {
                             case 0:
                                 _super = null;
                                 _superIndex = null;
-                                f = function() {
-                                };
+                                f = function() {};
                                 _super_x();
                                 _super_method();
                                 a = _super_x2();

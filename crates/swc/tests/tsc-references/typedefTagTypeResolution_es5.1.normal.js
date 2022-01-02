@@ -17,7 +17,5 @@
  */ /**
  * @template V
  * @param {V} vvvvv
- */ function g(vvvvv) {
-}
-/** @type {Cb} */ var cb = function(x) {
-};
+ */ function g(vvvvv) {}
+/** @type {Cb} */ var cb = function(x) {};

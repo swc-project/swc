@@ -1,8 +1,6 @@
-export function foo() {
-}
+export function foo() {}
 export class Aleph {
-    doIt() {
-    }
+    doIt() {}
     constructor(a, b){
         this.field = b;
     }

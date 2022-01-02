@@ -1,3 +1,2 @@
 //@target: ES5
-for (var v of X){
-}
+for (var v of X){}

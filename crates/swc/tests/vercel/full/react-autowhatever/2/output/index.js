@@ -4,12 +4,10 @@ Object.defineProperty(exports, "__esModule", {
 }), exports.default = void 0;
 var a = require("react/jsx-runtime"), b = function(a) {
     if (a && a.__esModule) return a;
-    var b = {
-    };
+    var b = {};
     if (null != a) {
         for(var c in a)if (Object.prototype.hasOwnProperty.call(a, c)) {
-            var d = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(a, c) : {
-            };
+            var d = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(a, c) : {};
             d.get || d.set ? Object.defineProperty(b, c, d) : b[c] = a[c];
         }
     }
@@ -36,8 +34,7 @@ function e(a) {
 }
 function f(a) {
     for(var c = 1; c < arguments.length; c++){
-        var e = null != arguments[c] ? arguments[c] : {
-        }, f = Object.keys(e);
+        var e = null != arguments[c] ? arguments[c] : {}, f = Object.keys(e);
         "function" == typeof Object.getOwnPropertySymbols && (f = f.concat(Object.getOwnPropertySymbols(e).filter(function(a) {
             return Object.getOwnPropertyDescriptor(e, a).enumerable;
         }))), f.forEach(function(c) {
@@ -69,8 +66,7 @@ var h = function(b) {
             if (Reflect.construct.sham) return !1;
             if ("function" == typeof Proxy) return !0;
             try {
-                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                })), !0;
+                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
             } catch (a) {
                 return !1;
             }
@@ -119,8 +115,7 @@ var h = function(b) {
                             id: k(i, d),
                             "aria-selected": m
                         }, l(p, "item", 0 === d && "itemFirst", m && "itemHighlighted"), q);
-                        return m && (r.ref = b.storeHighlightedItemReference), a.jsx(Item, f({
-                        }, r, {
+                        return m && (r.ref = b.storeHighlightedItemReference), a.jsx(Item, f({}, r, {
                             sectionIndex: i,
                             isHighlighted: m,
                             itemIndex: d,

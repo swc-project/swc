@@ -11,8 +11,7 @@ var React = require("react");
 export function MainButton(props) {
     return props.goTo ? this._buildMainLink(props) : this._buildMainButton(props);
 }
-React.createElement(MainButton, _extends({
-}, {
+React.createElement(MainButton, _extends({}, {
     onClick: function(k) {
         console.log(k);
     }
@@ -23,8 +22,7 @@ React.createElement(MainButton, _extends({
         console.log(k);
     },
     extra: !0
-}), React.createElement(MainButton, _extends({
-}, {
+}), React.createElement(MainButton, _extends({}, {
     goTo: "home"
 }, {
     extra: !0
@@ -32,20 +30,16 @@ React.createElement(MainButton, _extends({
     goTo: "home",
     extra: !0
 });
-export function NoOverload() {
-}
-React.createElement(NoOverload, _extends({
-}, {
+export function NoOverload() {}
+React.createElement(NoOverload, _extends({}, {
     onClick: function(k) {
         console.log(k);
     }
 }, {
     extra: !0
 }));
-export function NoOverload1() {
-}
-React.createElement(NoOverload1, _extends({
-}, {
+export function NoOverload1() {}
+React.createElement(NoOverload1, _extends({}, {
     goTo: "home"
 }, {
     extra: !0

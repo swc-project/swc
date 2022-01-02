@@ -13,13 +13,10 @@ class TextComponent extends React.Component {
         return React.createElement("span", null, "Some Text..");
     }
 }
-React.createElement(TextComponent, _extends({
-}, {
+React.createElement(TextComponent, _extends({}, {
     editable: !1
-})), React.createElement(TextComponent, _extends({
-}, {
+})), React.createElement(TextComponent, _extends({}, {
     editable: !0,
-    onEdit: ()=>{
-    }
+    onEdit: ()=>{}
 }));
 export { };

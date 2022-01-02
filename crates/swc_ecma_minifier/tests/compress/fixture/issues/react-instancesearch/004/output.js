@@ -51,11 +51,8 @@ export default function createInstantSearchManager(param1) {
             return targetedIndexNotEqualMainIndex || subIndexNotEqualMainIndex;
         }).sort(sortIndexWidgetsFirst).reduce(function(indices, widget) {
             var indexId = isMultiIndexContext(widget) ? widget.props.indexContextValue.targetedIndex : widget.props.indexId, widgets = indices[indexId] || [];
-            return swcHelpers.objectSpread({
-            }, indices, swcHelpers.defineProperty({
-            }, indexId, widgets.concat(widget)));
-        }, {
-        }), derivedParameters = Object.keys(derivedIndices).map(function(indexId) {
+            return swcHelpers.objectSpread({}, indices, swcHelpers.defineProperty({}, indexId, widgets.concat(widget)));
+        }, {}), derivedParameters = Object.keys(derivedIndices).map(function(indexId) {
             return {
                 parameters: derivedIndices[indexId].reduce(function(res, widget) {
                     return widget.getSearchParameters(res);
@@ -84,19 +81,14 @@ export default function createInstantSearchManager(param1) {
     }, handleSearchSuccess = function(param) {
         var indexId = param.indexId;
         return function(event) {
-            var state = store.getState(), isDerivedHelpersEmpty = !helper.derivedHelpers.length, results = state.results ? state.results : {
-            };
-            results = !isDerivedHelpersEmpty && results.getFacetByName ? {
-            } : results, results = isDerivedHelpersEmpty ? event.results : swcHelpers.objectSpread({
-            }, results, swcHelpers.defineProperty({
-            }, indexId, event.results));
+            var state = store.getState(), isDerivedHelpersEmpty = !helper.derivedHelpers.length, results = state.results ? state.results : {};
+            results = !isDerivedHelpersEmpty && results.getFacetByName ? {} : results, results = isDerivedHelpersEmpty ? event.results : swcHelpers.objectSpread({}, results, swcHelpers.defineProperty({}, indexId, event.results));
             var currentState = store.getState(), nextIsSearchStalled = currentState.isSearchStalled;
             helper.hasPendingRequests() || (clearTimeout(stalledSearchTimer), stalledSearchTimer = null, nextIsSearchStalled = !1), currentState.resultsFacetValues;
             var partialState = swcHelpers.objectWithoutProperties(currentState, [
                 "resultsFacetValues"
             ]);
-            store.setState(swcHelpers.objectSpread({
-            }, partialState, {
+            store.setState(swcHelpers.objectSpread({}, partialState, {
                 results: results,
                 isSearchStalled: nextIsSearchStalled,
                 searching: !1,
@@ -109,8 +101,7 @@ export default function createInstantSearchManager(param1) {
         var partialState = swcHelpers.objectWithoutProperties(currentState, [
             "resultsFacetValues"
         ]);
-        store.setState(swcHelpers.objectSpread({
-        }, partialState, {
+        store.setState(swcHelpers.objectSpread({}, partialState, {
             isSearchStalled: nextIsSearchStalled,
             error: error,
             searching: !1
@@ -146,9 +137,7 @@ export default function createInstantSearchManager(param1) {
                 }));
             }, [])
         }));
-        client.cache = swcHelpers.objectSpread({
-        }, client.cache, swcHelpers.defineProperty({
-        }, key, JSON.stringify({
+        client.cache = swcHelpers.objectSpread({}, client.cache, swcHelpers.defineProperty({}, key, JSON.stringify({
             results: results.reduce(function(acc, result) {
                 return acc.concat(result.rawResults);
             }, [])
@@ -178,20 +167,16 @@ export default function createInstantSearchManager(param1) {
                 };
             })
         }));
-        client.cache = swcHelpers.objectSpread({
-        }, client.cache, swcHelpers.defineProperty({
-        }, key, JSON.stringify({
+        client.cache = swcHelpers.objectSpread({}, client.cache, swcHelpers.defineProperty({}, key, JSON.stringify({
             results: results.rawResults
         })));
-    }, helper = algoliasearchHelper(searchClient, indexName, swcHelpers.objectSpread({
-    }, HIGHLIGHT_TAGS));
+    }, helper = algoliasearchHelper(searchClient, indexName, swcHelpers.objectSpread({}, HIGHLIGHT_TAGS));
     addAlgoliaAgents(searchClient), helper.on("search", function() {
         stalledSearchTimer || (stalledSearchTimer = setTimeout(function() {
             var _ref = store.getState(), resultsFacetValues = _ref.resultsFacetValues, partialState = swcHelpers.objectWithoutProperties(_ref, [
                 "resultsFacetValues"
             ]);
-            store.setState(swcHelpers.objectSpread({
-            }, partialState, {
+            store.setState(swcHelpers.objectSpread({}, partialState, {
                 isSearchStalled: !0
             }));
         }, stalledSearchDelay));
@@ -200,8 +185,7 @@ export default function createInstantSearchManager(param1) {
     })).on("error", handleSearchError);
     var skip = !1, stalledSearchTimer = null, initialSearchParameters = helper.state, widgetsManager = createWidgetsManager(function() {
         var metadata = getMetadata(store.getState().widgets);
-        store.setState(swcHelpers.objectSpread({
-        }, store.getState(), {
+        store.setState(swcHelpers.objectSpread({}, store.getState(), {
             metadata: metadata,
             searching: !0
         })), search();
@@ -214,8 +198,7 @@ export default function createInstantSearchManager(param1) {
                 client.search = function(requests) {
                     for(var _len1 = arguments.length, methodArgs = new Array(_len1 > 1 ? _len1 - 1 : 0), _key1 = 1; _key1 < _len1; _key1++)methodArgs[_key1 - 1] = arguments[_key1];
                     var requestsWithSerializedParams = requests.map(function(request) {
-                        return swcHelpers.objectSpread({
-                        }, request, {
+                        return swcHelpers.objectSpread({}, request, {
                             params: function(parameters) {
                                 var encode = function(format) {
                                     for(var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)args[_key - 1] = arguments[_key];
@@ -251,15 +234,11 @@ export default function createInstantSearchManager(param1) {
         }
     }(searchClient, resultsState);
     var results1, state1, listeners, store = (state1 = {
-        widgets: void 0 === _initialState ? {
-        } : _initialState,
+        widgets: void 0 === _initialState ? {} : _initialState,
         metadata: hydrateMetadata(resultsState),
         results: (results1 = resultsState) ? Array.isArray(results1.results) ? results1.results.reduce(function(acc, result) {
-            return swcHelpers.objectSpread({
-            }, acc, swcHelpers.defineProperty({
-            }, result._internalIndexId, new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(result.state), result.rawResults)));
-        }, {
-        }) : new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(results1.state), results1.rawResults) : null,
+            return swcHelpers.objectSpread({}, acc, swcHelpers.defineProperty({}, result._internalIndexId, new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(result.state), result.rawResults)));
+        }, {}) : new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(results1.state), results1.rawResults) : null,
         error: null,
         searching: !1,
         isSearchStalled: !0,
@@ -290,21 +269,16 @@ export default function createInstantSearchManager(param1) {
         getSearchParameters: getSearchParameters,
         onSearchForFacetValues: function(param) {
             var facetName = param.facetName, query = param.query, _maxFacetHits = param.maxFacetHits;
-            store.setState(swcHelpers.objectSpread({
-            }, store.getState(), {
+            store.setState(swcHelpers.objectSpread({}, store.getState(), {
                 searchingForFacetValues: !0
             })), helper.searchForFacetValues(facetName, query, Math.max(1, Math.min(void 0 === _maxFacetHits ? 10 : _maxFacetHits, 100))).then(function(content) {
-                store.setState(swcHelpers.objectSpread({
-                }, store.getState(), {
+                store.setState(swcHelpers.objectSpread({}, store.getState(), {
                     error: null,
                     searchingForFacetValues: !1,
-                    resultsFacetValues: swcHelpers.objectSpread({
-                    }, store.getState().resultsFacetValues, (_obj = {
-                    }, swcHelpers.defineProperty(_obj, facetName, content.facetHits), swcHelpers.defineProperty(_obj, "query", query), _obj))
+                    resultsFacetValues: swcHelpers.objectSpread({}, store.getState().resultsFacetValues, (_obj = {}, swcHelpers.defineProperty(_obj, facetName, content.facetHits), swcHelpers.defineProperty(_obj, "query", query), _obj))
                 }));
             }, function(error) {
-                store.setState(swcHelpers.objectSpread({
-                }, store.getState(), {
+                store.setState(swcHelpers.objectSpread({}, store.getState(), {
                     searchingForFacetValues: !1,
                     error: error
                 }));
@@ -316,8 +290,7 @@ export default function createInstantSearchManager(param1) {
         },
         onExternalStateUpdate: function(nextSearchState) {
             var metadata = getMetadata(nextSearchState);
-            store.setState(swcHelpers.objectSpread({
-            }, store.getState(), {
+            store.setState(swcHelpers.objectSpread({}, store.getState(), {
                 widgets: nextSearchState,
                 metadata: metadata,
                 searching: !0
@@ -349,22 +322,19 @@ function hydrateMetadata(resultsState) {
     return resultsState ? resultsState.metadata.map(function(datum) {
         return swcHelpers.objectSpread({
             value: function() {
-                return {
-                };
+                return {};
             }
         }, datum, {
             items: datum.items && datum.items.map(function(item) {
                 return swcHelpers.objectSpread({
                     value: function() {
-                        return {
-                        };
+                        return {};
                     }
                 }, item, {
                     items: item.items && item.items.map(function(nestedItem) {
                         return swcHelpers.objectSpread({
                             value: function() {
-                                return {
-                                };
+                                return {};
                             }
                         }, nestedItem);
                     })

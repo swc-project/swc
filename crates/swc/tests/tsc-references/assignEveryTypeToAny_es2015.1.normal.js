@@ -18,8 +18,7 @@ x = e2;
 var E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
-}));
+})(E || (E = {}));
 x = E.A;
 var f = E.A;
 x = f;

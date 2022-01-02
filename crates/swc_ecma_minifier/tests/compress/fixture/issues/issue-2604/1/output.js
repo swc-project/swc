@@ -4,8 +4,7 @@ push({
             function za() {
                 try {
                     return eval(a);
-                } catch (b) {
-                }
+                } catch (b) {}
             }
             function Rb(a) {
                 return p() ? JSON : za();

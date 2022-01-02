@@ -3,9 +3,7 @@ if (!m) {
     throw new Error('b');
 }
 class Comparator {
-    constructor(comp, optionsOrLoose = {
-    }){
-    }
+    constructor(comp, optionsOrLoose = {}){}
     parse(comp) {
         const m2 = "another";
         if (!m2) {

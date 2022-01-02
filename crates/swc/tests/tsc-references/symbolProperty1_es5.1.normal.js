@@ -32,11 +32,7 @@ function _defineProperty(obj, key, value) {
 }
 //@target: ES6
 var s;
-var _obj, _mutatorMap = {
-};
-var x = (_obj = {
-}, _defineProperty(_obj, s, 0), _defineProperty(_obj, s, function() {
-}), _mutatorMap[s] = _mutatorMap[s] || {
-}, _mutatorMap[s].get = function() {
+var _obj, _mutatorMap = {};
+var x = (_obj = {}, _defineProperty(_obj, s, 0), _defineProperty(_obj, s, function() {}), _mutatorMap[s] = _mutatorMap[s] || {}, _mutatorMap[s].get = function() {
     return 0;
 }, _defineEnumerableProperties(_obj, _mutatorMap), _obj);

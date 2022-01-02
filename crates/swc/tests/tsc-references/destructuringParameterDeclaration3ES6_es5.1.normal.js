@@ -154,14 +154,12 @@ var E;
 (function(E) {
     E[E["a"] = 0] = "a";
     E[E["b"] = 1] = "b";
-})(E || (E = {
-}));
+})(E || (E = {}));
 var E1;
 (function(E1) {
     E1[E1["a"] = 0] = "a";
     E1[E1["b"] = 1] = "b";
-})(E1 || (E1 = {
-}));
+})(E1 || (E1 = {}));
 function foo1() {
     for(var _len = arguments.length, a = new Array(_len), _key = 0; _key < _len; _key++){
         a[_key] = arguments[_key];

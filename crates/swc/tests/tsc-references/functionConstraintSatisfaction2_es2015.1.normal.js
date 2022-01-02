@@ -3,10 +3,8 @@ function foo(x) {
     return x;
 }
 foo(1);
-foo(()=>{
-}, 1);
-foo(1, ()=>{
-});
+foo(()=>{}, 1);
+foo(1, ()=>{});
 function foo2(x) {
     return x;
 }

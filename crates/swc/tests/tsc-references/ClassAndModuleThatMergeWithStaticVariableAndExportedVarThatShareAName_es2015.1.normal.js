@@ -10,8 +10,7 @@ Point.Origin = {
 };
 (function(Point1) {
     var Origin = Point1.Origin = "";
-})(Point || (Point = {
-}));
+})(Point || (Point = {}));
 var A;
 (function(A1) {
     class Point2 {
@@ -27,7 +26,5 @@ var A;
     };
     (function(Point3) {
         var Origin = Point3.Origin = "";
-    })(Point2 = A1.Point || (A1.Point = {
-    }));
-})(A || (A = {
-}));
+    })(Point2 = A1.Point || (A1.Point = {}));
+})(A || (A = {}));

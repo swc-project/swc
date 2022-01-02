@@ -5,12 +5,10 @@ C = null; // Error
 var E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
-}));
+})(E || (E = {}));
 E = null; // Error
 E.A = null; // OK per spec, Error per implementation (509581)
-function fn() {
-}
+function fn() {}
 fn = null; // Should be error
 var v;
 v = null; // OK

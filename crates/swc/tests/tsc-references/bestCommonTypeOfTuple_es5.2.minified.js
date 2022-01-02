@@ -1,7 +1,5 @@
 var E1, E2, E1, E2, t1, t2, t3, t4;
-(E1 = E1 || (E1 = {
-}))[E1.one = 0] = "one", (E2 = E2 || (E2 = {
-}))[E2.two = 0] = "two", t1 = [
+(E1 = E1 || (E1 = {}))[E1.one = 0] = "one", (E2 = E2 || (E2 = {}))[E2.two = 0] = "two", t1 = [
     function(x) {
         return "foo";
     },

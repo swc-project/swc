@@ -23,9 +23,7 @@ var C = function() {
                         configurable: !0,
                         writable: !0
                     }) : obj[key] = value;
-                })({
-                }, "", function() {
-                }), 0;
+                })({}, "", function() {}), 0;
             }
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;

@@ -19,8 +19,7 @@ var g2 = 1;
 var M;
 (function(M1) {
     var x = M1.x = 1;
-})(M || (M = {
-}));
+})(M || (M = {}));
 M = x;
 function i(a1) {
     a1 = x;
@@ -29,6 +28,5 @@ i = x;
 var E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
-}));
+})(E || (E = {}));
 var j = x;

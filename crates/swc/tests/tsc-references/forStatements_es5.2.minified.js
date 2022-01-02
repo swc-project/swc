@@ -16,8 +16,7 @@ for(!function(M1) {
     M1.A = A, M1.F2 = function(x) {
         return x.toString();
     };
-}(M || (M = {
-}));;);
+}(M || (M = {}));;);
 for(;;);
 for(new Date(12);;);
 for(new Object();;);

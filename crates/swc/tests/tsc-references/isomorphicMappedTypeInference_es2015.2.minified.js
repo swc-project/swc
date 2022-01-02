@@ -16,8 +16,7 @@ let o = {
     b: 7
 };
 function getProps(obj, list) {
-    return {
-    };
+    return {};
 }
 o = o, f20({
     foo: 42,
@@ -39,8 +38,7 @@ o = o, f20({
     foo: 42,
     bar: "hello"
 });
-const myAny = {
-};
+const myAny = {};
 getProps(myAny, [
     "foo",
     "bar"

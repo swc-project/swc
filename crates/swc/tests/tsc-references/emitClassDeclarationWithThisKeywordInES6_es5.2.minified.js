@@ -34,8 +34,7 @@ var B = function() {
     ], staticProps = [
         {
             key: "log",
-            value: function(a) {
-            }
+            value: function(a) {}
         }
     ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), B;
 }();

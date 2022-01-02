@@ -1,3 +1,2 @@
 //@target: ES6
-for (var let of []){
-}
+for (var let of []){}

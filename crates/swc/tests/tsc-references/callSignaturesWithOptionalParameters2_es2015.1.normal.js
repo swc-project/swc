@@ -1,16 +1,12 @@
-function foo(x) {
-}
+function foo(x) {}
 foo(1);
 foo();
-function foo2(x, y) {
-}
+function foo2(x, y) {}
 foo2(1);
 foo2(1, 2);
 class C {
-    foo(x) {
-    }
-    foo2(x, y) {
-    }
+    foo(x) {}
+    foo2(x, y) {}
 }
 var c;
 c.foo();

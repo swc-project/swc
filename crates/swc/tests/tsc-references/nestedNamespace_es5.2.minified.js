@@ -7,5 +7,4 @@ export var types;
         }(this, A);
     };
     types1.A = A;
-}(types || (types = {
-}));
+}(types || (types = {}));

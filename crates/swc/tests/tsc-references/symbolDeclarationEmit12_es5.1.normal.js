@@ -30,8 +30,7 @@ var M;
         _createClass(C, [
             {
                 key: tmp,
-                value: function value(x) {
-                }
+                value: function value(x) {}
             },
             {
                 key: tmp1,
@@ -47,12 +46,10 @@ var M;
             },
             {
                 key: tmp3,
-                set: function set(x) {
-                }
+                set: function set(x) {}
             }
         ]);
         return C;
     }();
     M1.C = C;
-})(M || (M = {
-}));
+})(M || (M = {}));

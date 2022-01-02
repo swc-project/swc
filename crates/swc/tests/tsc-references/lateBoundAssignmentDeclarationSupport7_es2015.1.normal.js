@@ -6,8 +6,7 @@
 // @filename: lateBoundAssignmentDeclarationSupport7.js
 const _sym = Symbol();
 const _str = "my-fake-sym";
-function F() {
-}
+function F() {}
 F[_sym] = "ok";
 F[_str] = "ok";
 module.exports.F = F;

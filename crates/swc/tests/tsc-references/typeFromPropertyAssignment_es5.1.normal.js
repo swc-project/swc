@@ -29,8 +29,7 @@ var Outer = /*#__PURE__*/ function() {
     _createClass(O, [
         {
             key: "m",
-            value: function m(x, y) {
-            }
+            value: function m(x, y) {}
         }
     ]);
     return O;
@@ -43,8 +42,7 @@ Outer.Inner = /*#__PURE__*/ (function() {
     _createClass(I, [
         {
             key: "n",
-            value: function n(a, b) {
-            }
+            value: function n(a, b) {}
         }
     ]);
     return I;

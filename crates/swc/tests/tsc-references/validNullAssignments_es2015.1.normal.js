@@ -7,8 +7,7 @@ e = null; // ok
 var E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
-}));
+})(E || (E = {}));
 E.A = null; // error
 class C {
 }
@@ -21,8 +20,7 @@ I = null; // error
 var M;
 (function(M1) {
     var x = M1.x = 1;
-})(M || (M = {
-}));
+})(M || (M = {}));
 M = null; // error
 var h = null;
 function i(a1) {

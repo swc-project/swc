@@ -590,9 +590,7 @@ class TextProtoReader {
     }
 }
 var Status;
-(function(Status) {
-})(Status || (Status = {
-}));
+(function(Status) {})(Status || (Status = {}));
 const STATUS_TEXT = new Map([]);
 function deferred() {
     let methods;
@@ -1101,5 +1099,4 @@ function fixLength(req) {
 }
 listenAndServe({
     port: 8080
-}, async (req)=>{
-});
+}, async (req)=>{});

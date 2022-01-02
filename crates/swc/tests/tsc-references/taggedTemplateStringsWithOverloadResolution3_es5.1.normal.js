@@ -251,8 +251,7 @@ function fn1() {
 }
 var s = fn1(_templateObject(), undefined);
 // No candidate overloads found
-fn1(_templateObject1(), {
-}); // Error
+fn1(_templateObject1(), {}); // Error
 function fn2() {
     return undefined;
 }
@@ -277,8 +276,7 @@ var s = fn3(_templateObject10(), '', '', '');
 var n = fn3(_templateObject11(), '', '', 3);
 // Generic overloads with differing arity tagging with argument count that doesn't match any overload
 fn3(_templateObject12()); // Error
-function fn4() {
-}
+function fn4() {}
 // Generic overloads with constraints tagged with types that satisfy the constraints
 fn4(_templateObject13(), '', 3);
 fn4(_templateObject14(), 3, '');

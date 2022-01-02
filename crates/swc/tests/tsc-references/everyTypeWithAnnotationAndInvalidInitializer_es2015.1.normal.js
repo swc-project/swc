@@ -17,8 +17,7 @@ var M;
         return x.toString();
     }
     M1.F2 = F21;
-})(M || (M = {
-}));
+})(M || (M = {}));
 var N;
 (function(N1) {
     class A {
@@ -28,8 +27,7 @@ var N;
         return x.toString();
     }
     N1.F2 = F22;
-})(N || (N = {
-}));
+})(N || (N = {}));
 var aNumber = 'this is a string';
 var aString = 9.9;
 var aDate = 9.9;

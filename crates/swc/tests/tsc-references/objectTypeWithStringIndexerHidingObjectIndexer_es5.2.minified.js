@@ -1,6 +1,5 @@
 var c, i, o2;
-({
-})[""];
+({})[""];
 var C = function() {
     "use strict";
     !function(instance, Constructor) {

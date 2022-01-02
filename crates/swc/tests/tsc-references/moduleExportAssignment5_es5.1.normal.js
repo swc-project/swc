@@ -29,8 +29,7 @@ var Axios = // @noEmit: true
     _createClass(Axios, [
         {
             key: "m",
-            value: function m() {
-            }
+            value: function m() {}
         }
     ]);
     return Axios;

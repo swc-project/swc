@@ -93,8 +93,7 @@ function _f1() {
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    _iteratorAbruptCompletion = !1, _didIteratorError = !1, _ctx.prev = 2, _iterator = _asyncIterator({
-                    });
+                    _iteratorAbruptCompletion = !1, _didIteratorError = !1, _ctx.prev = 2, _iterator = _asyncIterator({});
                 case 4:
                     return _ctx.next = 6, _iterator.next();
                 case 6:
@@ -128,8 +127,7 @@ function _f1() {
                 case 26:
                     return _ctx.finish(17);
                 case 27:
-                    _iteratorAbruptCompletion1 = !1, _didIteratorError1 = !1, _ctx.prev = 28, _iterator1 = _asyncIterator({
-                    });
+                    _iteratorAbruptCompletion1 = !1, _didIteratorError1 = !1, _ctx.prev = 28, _iterator1 = _asyncIterator({});
                 case 30:
                     return _ctx.next = 32, _iterator1.next();
                 case 32:
@@ -204,8 +202,7 @@ function _f2() {
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    _iteratorAbruptCompletion = !1, _didIteratorError = !1, _ctx.prev = 2, _iterator = _asyncIterator({
-                    });
+                    _iteratorAbruptCompletion = !1, _didIteratorError = !1, _ctx.prev = 2, _iterator = _asyncIterator({});
                 case 4:
                     return _ctx.next = 6, _awaitAsyncGenerator(_iterator.next());
                 case 6:
@@ -239,8 +236,7 @@ function _f2() {
                 case 26:
                     return _ctx.finish(17);
                 case 27:
-                    _iteratorAbruptCompletion2 = !1, _didIteratorError2 = !1, _ctx.prev = 28, _iterator2 = _asyncIterator({
-                    });
+                    _iteratorAbruptCompletion2 = !1, _didIteratorError2 = !1, _ctx.prev = 28, _iterator2 = _asyncIterator({});
                 case 30:
                     return _ctx.next = 32, _awaitAsyncGenerator(_iterator2.next());
                 case 32:

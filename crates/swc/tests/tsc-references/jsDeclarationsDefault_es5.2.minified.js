@@ -43,8 +43,7 @@ var Bar = function(Fab1) {
             if (Reflect.construct.sham) return !1;
             if ("function" == typeof Proxy) return !0;
             try {
-                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                })), !0;
+                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
             } catch (e) {
                 return !1;
             }
@@ -69,5 +68,4 @@ var Bar = function(Fab1) {
 }(Fab);
 export default Bar;
 export default 12;
-export default function func() {
-};
+export default function func() {};

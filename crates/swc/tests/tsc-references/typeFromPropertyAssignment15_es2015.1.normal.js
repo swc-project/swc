@@ -2,11 +2,9 @@
 // @allowJs: true
 // @checkJs: true
 // @Filename: a.js
-var Outer = {
-};
+var Outer = {};
 Outer.Inner = class _class {
-    m() {
-    }
+    m() {}
     constructor(){
         this.x = 1;
     }

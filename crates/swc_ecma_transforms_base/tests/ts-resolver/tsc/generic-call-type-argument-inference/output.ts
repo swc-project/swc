@@ -1,6 +1,5 @@
 class C<T__2, U__2> {
-    constructor(public t__3: T__2, public u__3: U__2){
-    }
+    constructor(public t__3: T__2, public u__3: U__2){}
     foo(t__4: T__2, u__4: U__2) {
         return t__4;
     }

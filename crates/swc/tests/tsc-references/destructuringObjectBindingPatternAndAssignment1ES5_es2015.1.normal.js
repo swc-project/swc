@@ -3,8 +3,7 @@
 // V is an object assignment pattern and, for each assignment property P in V,
 //      S is the type Any, or
 var { a1  } = undefined;
-var { a2  } = {
-};
+var { a2  } = {};
 // V is an object assignment pattern and, for each assignment property P in V,
 //      S has an apparent property with the property name specified in
 //          P of a type that is assignable to the target given in P, or

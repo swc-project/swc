@@ -56,8 +56,7 @@ function _unsupportedIterableToArray(o, minLen) {
     if (n === "Map" || n === "Set") return Array.from(n);
     if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
 }
-(function(a, b, c) {
-}).apply(this, _toConsumableArray(t1));
+(function(a, b, c) {}).apply(this, _toConsumableArray(t1));
 (function() {
     for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++){
         x[_key] = arguments[_key];
@@ -78,8 +77,7 @@ function _unsupportedIterableToArray(o, minLen) {
         x[_key - 3] = arguments[_key];
     }
 }).apply(this, _toConsumableArray(t1));
-f1(function(a, b, c) {
-});
+f1(function(a, b, c) {});
 f1(function() {
     for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++){
         x[_key] = arguments[_key];
@@ -100,8 +98,7 @@ f1(function(a, b, c) {
         x[_key - 3] = arguments[_key];
     }
 });
-(function(a, b, c) {
-}).apply(this, _toConsumableArray(t2));
+(function(a, b, c) {}).apply(this, _toConsumableArray(t2));
 (function() {
     for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++){
         x[_key] = arguments[_key];
@@ -122,8 +119,7 @@ f1(function(a, b, c) {
         x[_key - 3] = arguments[_key];
     }
 }).apply(this, _toConsumableArray(t2));
-f2(function(a, b, c) {
-});
+f2(function(a, b, c) {});
 f2(function() {
     for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++){
         x[_key] = arguments[_key];
@@ -144,8 +140,7 @@ f2(function(a, b, c) {
         x[_key - 3] = arguments[_key];
     }
 });
-(function(a, b, c) {
-}).apply(this, [
+(function(a, b, c) {}).apply(this, [
     1
 ].concat(_toConsumableArray(t3)));
 (function() {
@@ -176,8 +171,7 @@ f2(function(a, b, c) {
 }).apply(this, [
     1
 ].concat(_toConsumableArray(t3)));
-f3(function(a, b, c) {
-});
+f3(function(a, b, c) {});
 f3(function() {
     for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++){
         x[_key] = arguments[_key];
@@ -199,8 +193,7 @@ f3(function(a, b, c) {
     }
 });
 function f4(t) {
-    var f = function f(cb) {
-    };
+    var f = function f(cb) {};
     (function() {
         for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++){
             x[_key] = arguments[_key];
@@ -275,8 +268,7 @@ var g8 = pipe(function(x, y) {
 }, function(x) {
     return "" + x;
 });
-(function foo(a, b) {
-}).apply(this, _toConsumableArray(tuple));
+(function foo(a, b) {}).apply(this, _toConsumableArray(tuple));
 (function foo() {
     for(var _len = arguments.length, rest = new Array(_len), _key = 0; _key < _len; _key++){
         rest[_key] = arguments[_key];

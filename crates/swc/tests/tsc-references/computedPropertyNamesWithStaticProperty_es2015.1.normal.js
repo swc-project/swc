@@ -10,7 +10,6 @@ class C {
     set [tmp1](x) {
         var y = x;
     }
-    [tmp2]() {
-    }
+    [tmp2]() {}
 }
 C.staticProp = 10;

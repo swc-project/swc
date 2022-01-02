@@ -200,8 +200,7 @@ var y;
     a["STRING"] = 'string';
     a["NUMBER"] = 'number';
     a["BOOLEAN"] = 'boolean';
-})(y || (y = {
-}));
+})(y || (y = {}));
 const z = (a, b, c)=>{
     if (~[
         '1',
@@ -243,8 +242,7 @@ function D(a, b) {
     return;
 }
 function E(a, b, c, d) {
-    const e = {
-    };
+    const e = {};
     for (const f of a){
         const g = v(f.name);
         if (typeof b[g] === 'undefined' && typeof f.default !== 'undefined') {
@@ -310,14 +308,12 @@ function E(a, b, c, d) {
         throw new Error('No arguments.');
     }
 }
-function F(a, b = {
-}) {
+function F(a, b = {}) {
     !b.flags && (b.flags = []);
     const c = x(a);
     let d = false;
     let e = false;
-    const f = {
-    };
+    const f = {};
     const g = [];
     const h = [];
     let i = false;
@@ -691,15 +687,13 @@ class sa {
     static from(ta) {
         const ua = new this(ta);
         if (ta instanceof sa) {
-            ua.options = Object.assign({
-            }, ta.options);
+            ua.options = Object.assign({}, ta.options);
         }
         return ua;
     }
     constructor(va){
         this.value = va;
-        this.options = {
-        };
+        this.options = {};
     }
     toString() {
         return this.value.toString();
@@ -710,8 +704,7 @@ class sa {
     }
     clone(xa) {
         const ya = new sa(xa ?? this);
-        ya.options = Object.assign({
-        }, this.options);
+        ya.options = Object.assign({}, this.options);
         return ya;
     }
     border(za, Aa = true) {
@@ -746,16 +739,14 @@ class Fa extends Array {
     static from(Ga) {
         const Ha = new this(...Ga);
         if (Ga instanceof Fa) {
-            Ha.options = Object.assign({
-            }, Ga.options);
+            Ha.options = Object.assign({}, Ga.options);
         }
         return Ha;
     }
     clone() {
         const Ia = new Fa(...this.map((a)=>a instanceof sa ? a.clone() : a
         ));
-        Ia.options = Object.assign({
-        }, this.options);
+        Ia.options = Object.assign({}, this.options);
         return Ia;
     }
     border(Ja, Ka = true) {
@@ -773,8 +764,7 @@ class Fa extends Array {
     }
     constructor(...La){
         super(...La);
-        this.options = {
-        };
+        this.options = {};
     }
 }
 function Ma(a, b) {
@@ -1159,8 +1149,7 @@ class Jc extends Array {
     static from(Kc) {
         const Lc = new this(...Kc);
         if (Kc instanceof Jc) {
-            Lc.options = Object.assign({
-            }, Kc.options);
+            Lc.options = Object.assign({}, Kc.options);
             Lc.headerRow = Kc.headerRow ? Fa.from(Kc.headerRow) : undefined;
         }
         return Lc;
@@ -1189,8 +1178,7 @@ class Jc extends Array {
     clone() {
         const Rc = new Jc(...this.map((a)=>a instanceof Fa ? a.clone() : Fa.from(a).clone()
         ));
-        Rc.options = Object.assign({
-        }, this.options);
+        Rc.options = Object.assign({}, this.options);
         Rc.headerRow = this.headerRow?.clone();
         return Rc;
     }
@@ -1747,8 +1735,7 @@ class vd {
                 await this.executeExecutable(this.rawArgs);
             }
             return {
-                options: {
-                },
+                options: {},
                 args: this.rawArgs,
                 cmd: this,
                 literal: this.literalArgs
@@ -1756,15 +1743,13 @@ class vd {
         } else if (this._useRawArgs) {
             if (ye) {
                 return {
-                    options: {
-                    },
+                    options: {},
                     args: this.rawArgs,
                     cmd: this,
                     literal: this.literalArgs
                 };
             }
-            return await this.execute({
-            }, ...this.rawArgs);
+            return await this.execute({}, ...this.rawArgs);
         } else {
             const { flags: Ae , unknown: Be , literal: Ce  } = this.parseFlags(this.rawArgs);
             this.literalArgs = Ce;
@@ -1795,8 +1780,7 @@ class vd {
                     await Deno.stdout.writeSync(b(this.getVersion() + '\n'));
                     Deno.exit(0);
                 }
-            }, this._versionOption?.opts ?? {
-            }));
+            }, this._versionOption?.opts ?? {}));
         }
         if (this._helpOption !== false) {
             this.option(this._helpOption?.flags || '-h, --help', this._helpOption?.desc || 'Show this help.', Object.assign({
@@ -1807,8 +1791,7 @@ class vd {
                     this.help();
                     Deno.exit(0);
                 }
-            }, this._helpOption?.opts ?? {
-            }));
+            }, this._helpOption?.opts ?? {}));
         }
         return this;
     }

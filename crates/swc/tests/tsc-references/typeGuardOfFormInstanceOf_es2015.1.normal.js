@@ -45,7 +45,6 @@ if (ctor5 instanceof C1) {
     ctor5.p2; // C2
 }
 var ctor6;
-if (ctor6 instanceof C1 || ctor6 instanceof C2) {
-} else {
+if (ctor6 instanceof C1 || ctor6 instanceof C2) {} else {
     ctor6.p4; // C3
 }

@@ -77,8 +77,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -103,8 +102,7 @@ function _createSuper(Derived) {
 // @skipLibCheck: true
 // @libFiles: react.d.ts,lib.d.ts
 var React = require('react');
-var obj = {
-};
+var obj = {};
 var obj1 = {
     x: 2
 };
@@ -131,11 +129,9 @@ var OverWriteAttr = /*#__PURE__*/ function(_Component) {
     return OverWriteAttr;
 }(React.Component);
 // OK
-var x = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({
-}, obj, {
+var x = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({}, obj, {
     y: true,
     overwrite: "hi"
 }, obj1));
-var x1 = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({
-}, obj1, obj3));
+var x1 = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({}, obj1, obj3));
 export { };

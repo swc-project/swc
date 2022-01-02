@@ -5,8 +5,7 @@ import MC from './a';
 // @checkJs: true
 // @Filename: a.js
 // @target: es6
-export default function MyClass() {
-};
+export default function MyClass() {};
 MyClass.bar = class C {
 };
 MyClass.bar;

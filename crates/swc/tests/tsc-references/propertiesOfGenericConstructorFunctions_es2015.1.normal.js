@@ -8,8 +8,7 @@
  * @param {string} ik
  * @param {V} iv
  */ function Multimap(ik, iv) {
-    /** @type {{ [s: string]: V }} */ this._map = {
-    };
+    /** @type {{ [s: string]: V }} */ this._map = {};
     // without type annotation
     this._map2 = {
         [ik]: iv

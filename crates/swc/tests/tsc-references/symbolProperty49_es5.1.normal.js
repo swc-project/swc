@@ -30,12 +30,10 @@ var M;
         _createClass(C, [
             {
                 key: tmp,
-                value: function value() {
-                }
+                value: function value() {}
             }
         ]);
         return C;
     }();
     M1.Symbol = Symbol;
-})(M || (M = {
-}));
+})(M || (M = {}));

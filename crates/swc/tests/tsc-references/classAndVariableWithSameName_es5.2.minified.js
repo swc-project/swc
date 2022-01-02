@@ -10,5 +10,4 @@ var M, C = function() {
         "use strict";
         _classCallCheck(this, D);
     }, D = 1;
-}(M || (M = {
-}));
+}(M || (M = {}));

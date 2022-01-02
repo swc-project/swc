@@ -13,8 +13,7 @@ function _defineProperty(obj, key, value) {
 }
 var _obj;
 //@target: ES6
-var i = (_obj = {
-}, _defineProperty(_obj, Symbol.iterator, {
+var i = (_obj = {}, _defineProperty(_obj, Symbol.iterator, {
     p: null
 }), _defineProperty(_obj, Symbol.toStringTag, function() {
     return {

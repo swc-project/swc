@@ -19,5 +19,4 @@ var Generics;
         "use strict";
         _classCallCheck(this, A);
     };
-})(Generics || (Generics = {
-}));
+})(Generics || (Generics = {}));

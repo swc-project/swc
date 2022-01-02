@@ -14,8 +14,7 @@ var A;
     };
     A1.fn = fn;
     A1.fng = fng;
-})(A || (A = {
-}));
+})(A || (A = {}));
 // these should not be errors since the functions are exported
 var fn1;
 var fn1 = A.fn;

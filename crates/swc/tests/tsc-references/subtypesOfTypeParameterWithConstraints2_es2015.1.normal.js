@@ -32,20 +32,16 @@ class C2 {
 var E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
-}));
-function f() {
-}
+})(E || (E = {}));
+function f() {}
 (function(f22) {
     var bar = f22.bar = 1;
-})(f || (f = {
-}));
+})(f || (f = {}));
 class c {
 }
 (function(c1) {
     var bar = c1.bar = 1;
-})(c || (c = {
-}));
+})(c || (c = {}));
 function f4(x) {
     var r0 = true ? x : null; // ok
     var r0 = true ? null : x; // ok
@@ -82,10 +78,8 @@ function f10(x) {
     }; // ok
 }
 function f11(x) {
-    var r7 = true ? ()=>{
-    } : x; // ok
-    var r7 = true ? x : ()=>{
-    }; // ok
+    var r7 = true ? ()=>{} : x; // ok
+    var r7 = true ? x : ()=>{}; // ok
 }
 function f12(x1) {
     var r8 = true ? (x)=>{
@@ -141,8 +135,6 @@ function f20(x) {
     var r19 = true ? x : new Object(); // ok
 }
 function f21(x) {
-    var r20 = true ? {
-    } : x; // ok
-    var r20 = true ? x : {
-    }; // ok
+    var r20 = true ? {} : x; // ok
+    var r20 = true ? x : {}; // ok
 }

@@ -9,8 +9,7 @@ function _classCallCheck(instance, Constructor) {
 // @target: ES5
 // @filename: t1.ts
 export var v = 1;
-export function f() {
-}
+export function f() {}
 export var C = function C() {
     "use strict";
     _classCallCheck(this, C);
@@ -20,21 +19,18 @@ export var E;
     E[E["A"] = 0] = "A";
     E[E["B"] = 1] = "B";
     E[E["C"] = 2] = "C";
-})(E || (E = {
-}));
+})(E || (E = {}));
 export var D;
 (function(D) {
     D[D["A"] = 0] = "A";
     D[D["B"] = 1] = "B";
     D[D["C"] = 2] = "C";
-})(D || (D = {
-}));
+})(D || (D = {}));
 export var M;
 (function(M1) {
     var x;
     M1.x = x;
-})(M || (M = {
-}));
+})(M || (M = {}));
 export var a = M.x;
 export { v as v1, f as f1, C as C1, E as E1, D as D1, a as a1 };
 // @filename: t2.ts

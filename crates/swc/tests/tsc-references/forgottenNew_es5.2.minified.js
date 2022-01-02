@@ -7,5 +7,4 @@ var Tools;
         }(this, NullLogger);
     };
     Tools1.NullLogger = NullLogger;
-}(Tools || (Tools = {
-})), Tools.NullLogger();
+}(Tools || (Tools = {})), Tools.NullLogger();

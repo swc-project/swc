@@ -557,5 +557,4 @@ var Formatting;
         }
     }
     Formatting1.Indenter = Indenter;
-})(Formatting || (Formatting = {
-}));
+})(Formatting || (Formatting = {}));

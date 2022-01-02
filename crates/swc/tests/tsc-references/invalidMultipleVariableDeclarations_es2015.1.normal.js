@@ -16,8 +16,7 @@ var M;
         return x.toString();
     }
     M1.F2 = F2;
-})(M || (M = {
-}));
+})(M || (M = {}));
 // all of these are errors
 var a;
 var a = 1;

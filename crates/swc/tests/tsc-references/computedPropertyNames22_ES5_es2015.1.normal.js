@@ -2,8 +2,7 @@
 class C {
     bar() {
         var obj = {
-            [this.bar()] () {
-            }
+            [this.bar()] () {}
         };
         return 0;
     }

@@ -25,8 +25,7 @@ var NUMBER, M, _typeof = function(obj) {
 !function(M1) {
     var n;
     M1.n = n;
-}(M || (M = {
-}));
+}(M || (M = {}));
 var objA = new A();
 void 0 === NUMBER || _typeof(NUMBER), _typeof(1), _typeof({
     x: 1,

@@ -1,16 +1,11 @@
 class C {
-    static foo(x) {
-    }
-    static bar(x) {
-    }
-    constructor(x){
-    }
+    static foo(x) {}
+    static bar(x) {}
+    constructor(x){}
 }
 class D extends C {
-    static baz(x) {
-    }
-    foo() {
-    }
+    static baz(x) {}
+    foo() {}
 }
 var d;
 var r1;

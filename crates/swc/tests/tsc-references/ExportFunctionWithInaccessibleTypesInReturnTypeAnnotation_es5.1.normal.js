@@ -23,5 +23,4 @@ var A;
         this.end = end;
     };
     A1.fromOrigin = fromOrigin;
-})(A || (A = {
-}));
+})(A || (A = {}));

@@ -1,6 +1,5 @@
 function a() {
     ({
-        *[yield] () {
-        }
+        *[yield] () {}
     });
 }

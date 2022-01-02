@@ -5,8 +5,7 @@ var M, E, E, C = function() {
     "use strict";
     _classCallCheck(this, C);
 };
-function foo() {
-}
+function foo() {}
 !function(M1) {
     M1.foo = "";
     var C1 = function() {
@@ -14,14 +13,11 @@ function foo() {
         _classCallCheck(this, C1);
     };
     M1.C = C1;
-}(M || (M = {
-})), (E = E || (E = {
-}))[E.A = 0] = "A", (function(foo1) {
+}(M || (M = {})), (E = E || (E = {}))[E.A = 0] = "A", (function(foo1) {
     foo1.y = 1;
     var C2 = function() {
         "use strict";
         _classCallCheck(this, C2);
     };
     foo1.C = C2;
-})(foo || (foo = {
-}));
+})(foo || (foo = {}));

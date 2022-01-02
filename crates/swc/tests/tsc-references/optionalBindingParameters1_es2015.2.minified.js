@@ -1,5 +1,4 @@
-function foo([x, y, z]) {
-}
+function foo([x, y, z]) {}
 foo([
     "",
     0,

@@ -2,5 +2,4 @@
 // @allowjs: true
 // @checkjs: true
 // @noemit: true
-/** @enum {string} */ module.exports = {
-};
+/** @enum {string} */ module.exports = {};

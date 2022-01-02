@@ -15,7 +15,5 @@ export { A };
 export { types as default };
 new types.A();
 new types.B();
-var a = {
-};
-var b = {
-};
+var a = {};
+var b = {};

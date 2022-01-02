@@ -13,5 +13,4 @@ function _defineProperty(obj, key, value) {
 }
 var _obj;
 //@target: ES6
-var x = (_obj = {
-}, _defineProperty(_obj, Symbol.isConcatSpreadable, 0), _defineProperty(_obj, Symbol.isConcatSpreadable, 1), _obj);
+var x = (_obj = {}, _defineProperty(_obj, Symbol.isConcatSpreadable, 0), _defineProperty(_obj, Symbol.isConcatSpreadable, 1), _obj);

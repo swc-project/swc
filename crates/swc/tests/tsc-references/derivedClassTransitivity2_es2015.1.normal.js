@@ -1,15 +1,12 @@
 // subclassing is not transitive when you can remove required parameters and add optional parameters
 class C {
-    foo(x, y) {
-    }
+    foo(x, y) {}
 }
 class D extends C {
-    foo(x) {
-    }
+    foo(x) {}
 }
 class E extends D {
-    foo(x, y) {
-    }
+    foo(x, y) {}
 }
 var c;
 var d;

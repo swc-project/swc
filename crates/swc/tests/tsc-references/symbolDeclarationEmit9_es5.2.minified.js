@@ -5,6 +5,4 @@
         configurable: !0,
         writable: !0
     }) : obj[key] = value, obj;
-}({
-}, Symbol.isConcatSpreadable, function() {
-});
+}({}, Symbol.isConcatSpreadable, function() {});

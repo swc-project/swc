@@ -1,4 +1,3 @@
 ({
-    get null () {
-    }
+    get null () {}
 });

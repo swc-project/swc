@@ -13,8 +13,7 @@ function _classCallCheck(instance, Constructor) {
         "1": ""
     };
     t2 = t2, b = b, b2 = b2, t = t;
-}(JustStrings || (JustStrings = {
-})), (function(NumbersAndStrings) {
+}(JustStrings || (JustStrings = {})), (function(NumbersAndStrings) {
     var t, t2, b, S = function() {
         "use strict";
         _classCallCheck(this, S);
@@ -25,5 +24,4 @@ function _classCallCheck(instance, Constructor) {
         1: ""
     };
     t2 = t2, b = b, b2 = b2, t = t;
-})(NumbersAndStrings || (NumbersAndStrings = {
-}));
+})(NumbersAndStrings || (NumbersAndStrings = {}));

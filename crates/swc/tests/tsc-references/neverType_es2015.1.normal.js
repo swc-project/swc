@@ -16,12 +16,10 @@ function failOrThrow(shouldFail) {
     throw new Error();
 }
 function infiniteLoop1() {
-    while(true){
-    }
+    while(true){}
 }
 function infiniteLoop2() {
-    while(true){
-    }
+    while(true){}
 }
 function move1(direction) {
     switch(direction){
@@ -43,15 +41,13 @@ class C {
         throw new Error();
     }
     void2() {
-        while(true){
-        }
+        while(true){}
     }
     never1() {
         throw new Error();
     }
     never2() {
-        while(true){
-        }
+        while(true){}
     }
 }
 function f1(x) {

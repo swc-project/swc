@@ -7,17 +7,13 @@ function _extends() {
         return target;
     }).apply(this, arguments);
 }
-React.createElement("test1", _extends({
-}, {
+React.createElement("test1", _extends({}, {
     x: "foo"
-})), React.createElement("test1", _extends({
-}, {
+})), React.createElement("test1", _extends({}, {
     x: 32
-})), React.createElement("test1", _extends({
-}, {
+})), React.createElement("test1", _extends({}, {
     y: 32
-})), React.createElement("test1", _extends({
-}, {
+})), React.createElement("test1", _extends({}, {
     x: 32,
     y: 32
 }, {
@@ -27,8 +23,7 @@ React.createElement("test1", _extends({
 }, {
     x: 32,
     y: 32
-})), React.createElement("test1", _extends({
-}, {
+})), React.createElement("test1", _extends({}, {
     x: "ok",
     y: 32,
     extra: 100

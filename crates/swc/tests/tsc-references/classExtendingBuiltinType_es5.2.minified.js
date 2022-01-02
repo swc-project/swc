@@ -7,8 +7,7 @@ function _construct(Parent, args, Class) {
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
         try {
-            return Date.prototype.toString.call(Reflect.construct(Date, [], function() {
-            })), !0;
+            return Date.prototype.toString.call(Reflect.construct(Date, [], function() {})), !0;
         } catch (e) {
             return !1;
         }
@@ -70,8 +69,7 @@ function _createSuper(Derived) {
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
         try {
-            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-            })), !0;
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
         } catch (e) {
             return !1;
         }

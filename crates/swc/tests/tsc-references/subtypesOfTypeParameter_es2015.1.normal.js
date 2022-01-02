@@ -14,20 +14,16 @@ class C2 {
 var E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
-}));
-function f() {
-}
+})(E || (E = {}));
+function f() {}
 (function(f3) {
     var bar = f3.bar = 1;
-})(f || (f = {
-}));
+})(f || (f = {}));
 class c {
 }
 (function(c1) {
     var bar = c1.bar = 1;
-})(c || (c = {
-}));
+})(c || (c = {}));
 // errors throughout
 function f2(x1, y) {
     var r0 = true ? x1 : null;
@@ -51,10 +47,8 @@ function f2(x1, y) {
     var r6 = true ? x1 : {
         foo: 1
     };
-    var r7 = true ? ()=>{
-    } : x1;
-    var r7 = true ? x1 : ()=>{
-    };
+    var r7 = true ? ()=>{} : x1;
+    var r7 = true ? x1 : ()=>{};
     var r8 = true ? (x)=>{
         return x;
     } : x1;
@@ -90,8 +84,6 @@ function f2(x1, y) {
     }
     var r19 = true ? new Object() : x1; // BCT is Object
     var r19 = true ? x1 : new Object(); // BCT is Object
-    var r20 = true ? {
-    } : x1; // ok
-    var r20 = true ? x1 : {
-    }; // ok
+    var r20 = true ? {} : x1; // ok
+    var r20 = true ? x1 : {}; // ok
 }

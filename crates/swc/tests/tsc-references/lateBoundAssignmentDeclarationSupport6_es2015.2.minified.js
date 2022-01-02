@@ -1,6 +1,5 @@
 const _sym = Symbol(), _str = "my-fake-sym";
-function F() {
-}
+function F() {}
 F.prototype.defsAClass = !0, Object.defineProperty(F.prototype, _str, {
     value: "ok"
 }), Object.defineProperty(F.prototype, _sym, {

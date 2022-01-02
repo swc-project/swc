@@ -8,6 +8,5 @@
     this.x = 1;
 };
 module.exports.MyClass.prototype = {
-    a: function a() {
-    }
+    a: function a() {}
 };

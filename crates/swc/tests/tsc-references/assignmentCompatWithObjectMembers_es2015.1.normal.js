@@ -37,8 +37,7 @@ var SimpleTypes;
     a2 = b;
     a2 = t2;
     a2 = t;
-})(SimpleTypes || (SimpleTypes = {
-}));
+})(SimpleTypes || (SimpleTypes = {}));
 var ObjectTypes;
 (function(ObjectTypes) {
     class S {
@@ -76,5 +75,4 @@ var ObjectTypes;
     a2 = b;
     a2 = t2;
     a2 = t;
-})(ObjectTypes || (ObjectTypes = {
-}));
+})(ObjectTypes || (ObjectTypes = {}));

@@ -28,14 +28,10 @@ function f2(w, x, y, z) {
     z = z;
 }
 function f3(w, x, y, z) {
-    w = {
-    }; // Error
-    x = {
-    }; // Error
-    y = {
-    }; // Error
-    z = {
-    };
+    w = {}; // Error
+    x = {}; // Error
+    y = {}; // Error
+    z = {};
 }
 function f10(x, y, z) {
     x = x;

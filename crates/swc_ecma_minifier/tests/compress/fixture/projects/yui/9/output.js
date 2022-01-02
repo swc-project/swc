@@ -8,8 +8,6 @@ export const E = {
             ext: m.ext,
             group: m.group,
             supersedes: []
-        }, m.root && (conf.root = m.root), m.base && (conf.base = m.base), m.configFn && (conf.configFn = m.configFn), this.addModule(conf, packName), lang && (Y.Env.lang = Y.Env.lang || {
-        }, Y.Env.lang[lang] = Y.Env.lang[lang] || {
-        }, Y.Env.lang[lang][name] = !0)), this.moduleInfo[packName];
+        }, m.root && (conf.root = m.root), m.base && (conf.base = m.base), m.configFn && (conf.configFn = m.configFn), this.addModule(conf, packName), lang && (Y.Env.lang = Y.Env.lang || {}, Y.Env.lang[lang] = Y.Env.lang[lang] || {}, Y.Env.lang[lang][name] = !0)), this.moduleInfo[packName];
     }
 };

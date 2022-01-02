@@ -10,10 +10,8 @@ var A;
             };
         }
         Utils.mirror = mirror;
-    })(Utils1 = A1.Utils || (A1.Utils = {
-    }));
-})(A || (A = {
-}));
+    })(Utils1 = A1.Utils || (A1.Utils = {}));
+})(A || (A = {}));
 (function(A2) {
     var Origin = A2.Origin = {
         x: 0,
@@ -28,10 +26,8 @@ var A;
             }
         }
         Utils.Plane = Plane;
-    })(Utils2 = A2.Utils || (A2.Utils = {
-    }));
-})(A || (A = {
-}));
+    })(Utils2 = A2.Utils || (A2.Utils = {}));
+})(A || (A = {}));
 //@filename: part3.ts
 // test the merging actually worked
 var o;

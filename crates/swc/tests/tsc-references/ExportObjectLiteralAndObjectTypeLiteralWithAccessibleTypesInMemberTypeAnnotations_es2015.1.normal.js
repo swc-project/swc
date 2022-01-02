@@ -14,5 +14,4 @@ var A;
         start: new Point(0, 0),
         end: new Point(1, 0)
     };
-})(A || (A = {
-}));
+})(A || (A = {}));

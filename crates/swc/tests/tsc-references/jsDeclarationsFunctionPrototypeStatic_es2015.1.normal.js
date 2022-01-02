@@ -5,12 +5,9 @@
 // @declaration: true
 // @filename: source.js
 module.exports = MyClass;
-function MyClass() {
-}
-MyClass.staticMethod = function() {
-};
-MyClass.prototype.method = function() {
-};
+function MyClass() {}
+MyClass.staticMethod = function() {};
+MyClass.prototype.method = function() {};
 MyClass.staticProperty = 123; /**
  * Callback to be invoked when test execution is complete.
  *

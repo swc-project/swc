@@ -1,6 +1,5 @@
 function Multimap(ik, iv) {
-    this._map = {
-    }, this._map2 = {
+    this._map = {}, this._map2 = {
         [ik]: iv
     };
 }

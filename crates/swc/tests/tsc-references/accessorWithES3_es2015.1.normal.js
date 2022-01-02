@@ -6,8 +6,7 @@ class C {
     }
 }
 class D {
-    set x(v) {
-    }
+    set x(v) {}
 }
 var x = {
     get a () {
@@ -15,6 +14,5 @@ var x = {
     }
 };
 var y = {
-    set b (v){
-    }
+    set b (v){}
 };

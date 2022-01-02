@@ -8,8 +8,7 @@ var x = [
     function() {
         return 1;
     },
-    function() {
-    }
+    function() {}
 ];
 var r2 = x[0]();
 var C = function C() {

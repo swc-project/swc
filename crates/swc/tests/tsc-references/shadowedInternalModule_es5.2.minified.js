@@ -1,6 +1,5 @@
 var A, X;
-(A || (A = {
-})).Point = {
+(A || (A = {})).Point = {
     x: 0,
     y: 0
 }, (function(X1) {
@@ -11,5 +10,4 @@ var A, X;
         }(this, Y);
     };
     X1.Y = Y;
-})(X || (X = {
-}));
+})(X || (X = {}));

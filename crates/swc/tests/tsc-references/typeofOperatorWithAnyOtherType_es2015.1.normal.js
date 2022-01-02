@@ -8,8 +8,7 @@ var ANY2 = [
 var obj;
 var obj1 = {
     x: "a",
-    y: ()=>{
-    }
+    y: ()=>{}
 };
 function foo() {
     var a;
@@ -25,8 +24,7 @@ var M;
 (function(M1) {
     var n;
     M1.n = n;
-})(M || (M = {
-}));
+})(M || (M = {}));
 var objA = new A();
 // any type var
 var ResultIsString1 = typeof ANY1;
@@ -38,8 +36,7 @@ var ResultIsString6 = typeof obj1;
 // any type literal
 var ResultIsString7 = typeof undefined;
 var ResultIsString8 = typeof null;
-var ResultIsString9 = typeof {
-};
+var ResultIsString9 = typeof {};
 // any type expressions
 var ResultIsString10 = typeof ANY2[0];
 var ResultIsString11 = typeof objA.a;

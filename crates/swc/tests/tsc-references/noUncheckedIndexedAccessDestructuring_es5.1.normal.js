@@ -51,8 +51,7 @@ function _nonIterableRest() {
     throw new TypeError("Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 function _objectWithoutProperties(source, excluded) {
-    if (source == null) return {
-    };
+    if (source == null) return {};
     var target = _objectWithoutPropertiesLoose(source, excluded);
     var key, i;
     if (Object.getOwnPropertySymbols) {
@@ -67,10 +66,8 @@ function _objectWithoutProperties(source, excluded) {
     return target;
 }
 function _objectWithoutPropertiesLoose(source, excluded) {
-    if (source == null) return {
-    };
-    var target = {
-    };
+    if (source == null) return {};
+    var target = {};
     var sourceKeys = Object.keys(source);
     var key, i;
     for(i = 0; i < sourceKeys.length; i++){
@@ -106,8 +103,7 @@ var _strArray2 = _toArray(strArray), s3 = _strArray2.slice(2);
 s3.push(undefined); // Should error, 'undefined' not part of s2's element type
 var t1 = strMap.t1;
 t1.toString(); // Should error, t1 possibly undefined
-var t2 = _extends({
-}, strMap);
+var t2 = _extends({}, strMap);
 t2.z.toString(); // Should error
 {
     var x = numMapPoint.x, y = numMapPoint.y, z = numMapPoint.z;

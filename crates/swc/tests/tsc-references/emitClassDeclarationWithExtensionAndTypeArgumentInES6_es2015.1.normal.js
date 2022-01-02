@@ -1,7 +1,6 @@
 // @target: es6
 class B {
-    constructor(a){
-    }
+    constructor(a){}
 }
 class C extends B {
 }

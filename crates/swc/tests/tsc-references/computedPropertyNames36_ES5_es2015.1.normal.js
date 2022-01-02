@@ -9,6 +9,5 @@ class C {
     get [tmp]() {
         return new Foo;
     }
-    set [tmp1](p) {
-    }
+    set [tmp1](p) {}
 }
