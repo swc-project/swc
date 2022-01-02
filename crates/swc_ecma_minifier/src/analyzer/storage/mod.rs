@@ -57,4 +57,6 @@ pub(crate) trait VarDataLike: Sized {
     fn mark_reassigned(&mut self);
 
     fn add_infects(&mut self, other: Id);
+
+    fn prevent_inline(&mut self);
 }

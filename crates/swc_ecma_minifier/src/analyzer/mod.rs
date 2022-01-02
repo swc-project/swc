@@ -402,7 +402,8 @@ where
     }
 
     fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {
-        self.report_usage(&n.orig, false)
+        self.report_usage(&n.orig, false);
+        self.data.var_or_default(n.orig.to_id()).prevent_inline();
     }
 
     fn visit_expr(&mut self, e: &Expr) {

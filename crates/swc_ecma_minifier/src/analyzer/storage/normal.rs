@@ -228,6 +228,10 @@ impl VarDataLike for VarUsageInfo {
         self.has_property_mutation = true;
     }
 
+    fn mark_used_as_callee(&mut self) {
+        self.used_as_callee = true;
+    }
+
     fn add_accessed_property(&mut self, name: swc_atoms::JsWord) {
         self.accessed_props.insert(name);
     }
@@ -244,7 +248,7 @@ impl VarDataLike for VarUsageInfo {
         self.infects.push(other);
     }
 
-    fn mark_used_as_callee(&mut self) {
-        self.used_as_callee = true;
+    fn prevent_inline(&mut self) {
+        self.inline_prevented = true;
     }
 }
