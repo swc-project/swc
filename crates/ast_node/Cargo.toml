@@ -19,5 +19,5 @@ quote = "1"
 swc_macros_common = {version = "0.3.2", path = "../swc_macros_common"}
 
 [dependencies.syn]
-features = ["derive", "fold", "parsing", "printing"]
+features = ["derive", "fold", "parsing", "printing", "visit"]
 version = "1"
