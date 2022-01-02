@@ -10,7 +10,7 @@ use structopt::StructOpt;
 use swc_common::{FileName, Mark, SourceMap};
 use swc_ecma_diff::Diff;
 use swc_ecma_minifier::option::{ExtraOptions, MinifyOptions};
-use swc_ecma_transforms_base::resolver::resolver_with_mark;
+use swc_ecma_transforms_base::{fixer::fixer, resolver::resolver_with_mark};
 use swc_ecma_visit::VisitMutWith;
 use tempfile::NamedTempFile;
 
@@ -39,6 +39,7 @@ impl DiffMinifiedCommand {
             let mut m = parse(&fm).context("failed to parse input file using swc")?;
 
             m.visit_mut_with(&mut resolver_with_mark(top_level_mark));
+            m.visit_mut_with(&mut fixer(None));
 
             m = swc_ecma_minifier::optimize(
                 m,
@@ -67,6 +68,7 @@ impl DiffMinifiedCommand {
             // Diff
 
             terser_module.visit_mut_with(&mut resolver_with_mark(top_level_mark));
+            terser_module.visit_mut_with(&mut fixer(None));
 
             let config = swc_ecma_diff::Config { ignore_span: true };
             let mut ctx = swc_ecma_diff::Ctx::new(config);
