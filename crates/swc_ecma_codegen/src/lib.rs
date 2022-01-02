@@ -1595,22 +1595,26 @@ where
             punct!(span, "{");
         }
 
-        let is_empty = node.props.len() == 0 && is_empty_comments(&node.span(), &self.comments);
+        let emit_new_line = !self.cfg.minify
+            && !(node.props.len() == 0 && is_empty_comments(&node.span(), &self.comments));
 
-        if !is_empty && !self.cfg.minify {
+        if emit_new_line {
             self.wr.write_line()?;
         }
 
-        let list_format = if is_empty {
-            ListFormat::SingleLine
-        } else {
-            ListFormat::ObjectLiteralExpressionProperties | ListFormat::CanSkipTrailingComma
-        };
+        let mut list_format =
+            ListFormat::ObjectLiteralExpressionProperties | ListFormat::CanSkipTrailingComma;
+
+        if !emit_new_line {
+            list_format -= ListFormat::MultiLine | ListFormat::Indented;
+        }
 
         self.emit_list(node.span(), Some(&node.props), list_format)?;
-        if !is_empty && !self.cfg.minify {
+
+        if emit_new_line {
             self.wr.write_line()?;
         }
+
         {
             let span = if node.span.is_dummy() {
                 DUMMY_SP
@@ -2280,13 +2284,14 @@ where
             punct!(span, "{");
         }
 
-        let is_empty = node.stmts.len() == 0 && is_empty_comments(&node.span(), &self.comments);
+        let emit_new_line = !self.cfg.minify
+            && !(node.stmts.len() == 0 && is_empty_comments(&node.span(), &self.comments));
 
-        let list_format = if is_empty {
-            ListFormat::SingleLine
-        } else {
-            ListFormat::MultiLineBlockStatements
-        };
+        let mut list_format = ListFormat::MultiLineBlockStatements;
+
+        if !emit_new_line {
+            list_format -= ListFormat::MultiLine | ListFormat::Indented;
+        }
 
         self.emit_list(node.span(), Some(&node.stmts), list_format)?;
 
