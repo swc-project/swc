@@ -45,6 +45,8 @@ fn json_deserialize(b: &mut Bencher) {
     let program = input();
     let json_str = serde_json::to_string(&program).unwrap();
 
+    eprintln!("json: {}", json_str);
+
     b.iter(|| {
         let v: Program = serde_json::from_str(&json_str).unwrap();
         black_box(v);
