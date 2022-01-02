@@ -14,6 +14,9 @@
 - **(es/compat)** Fix `new.target` in class properties (#3156) ([e112103](https://github.com/swc-project/swc/commit/e11210309cf2aab4aae77a76e4cdfba0bf9efa40))
 
 
+- **(es/minifier)** Fix for modules (#3170) ([790c506](https://github.com/swc-project/swc/commit/790c50631ba1daa124e62bcee299f89031a4ec3d))
+
+
 - **(es/typescript)** Fix handling of references in a TypeScript enum (#3163) ([e02307d](https://github.com/swc-project/swc/commit/e02307d4c82e043079131b414198ee5b4b7560e5))
 
 
