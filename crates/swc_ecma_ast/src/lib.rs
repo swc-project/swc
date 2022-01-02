@@ -137,7 +137,7 @@ struct EncodeJsWord;
 impl rkyv::with::ArchiveWith<swc_atoms::JsWord> for EncodeJsWord {
     type Archived = rkyv::Archived<String>;
 
-    type Resolver = Resolver<String>;
+    type Resolver = rkyv::Resolver<String>;
 
     unsafe fn resolve_with(
         field: &swc_atoms::JsWord,
@@ -145,15 +145,18 @@ impl rkyv::with::ArchiveWith<swc_atoms::JsWord> for EncodeJsWord {
         resolver: Self::Resolver,
         out: *mut Self::Archived,
     ) {
+        use rkyv::Archive;
+
         let s = field.to_string();
-        s.resolve_with(pos, resolver, out);
+        s.resolve(pos, resolver, out);
     }
 }
 
 #[cfg(feature = "rkyv")]
 impl rkyv::with::ArchiveWith<Option<swc_atoms::JsWord>> for EncodeJsWord {
     type Archived = rkyv::Archived<Option<String>>;
-    type Resolver = Resolver<Option<String>>;
+
+    type Resolver = rkyv::Resolver<Option<String>>;
 
     unsafe fn resolve_with(
         field: &Option<swc_atoms::JsWord>,
@@ -161,7 +164,9 @@ impl rkyv::with::ArchiveWith<Option<swc_atoms::JsWord>> for EncodeJsWord {
         resolver: Self::Resolver,
         out: *mut Self::Archived,
     ) {
+        use rkyv::Archive;
+
         let s = field.map(|s| s.to_string());
-        s.resolve_with(pos, resolver, out);
+        s.resolve(pos, resolver, out);
     }
 }
