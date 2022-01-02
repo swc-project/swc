@@ -39,8 +39,14 @@ pub enum Lit {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct BigInt {
     pub span: Span,
+    #[cfg_attr(feature = "rkyv", with(EncodeBigInt))]
     pub value: BigIntValue,
 }
+
+struct EncodeBigInt;
+
+#[cfg_attr(feature="rkyv")]
+impl rkyv::with::ArchiveWith<BigIntValue> for EncodeBigInt {}
 
 #[cfg(feature = "arbitrary")]
 #[cfg_attr(docsrs, doc(cfg(feature = "arbitrary")))]
