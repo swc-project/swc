@@ -131,7 +131,8 @@ impl Default for EsVersion {
     }
 }
 
-struct EncodeJsWord;
+#[cfg(feature = "rkyv")]
+pub struct EncodeJsWord;
 
 #[cfg(feature = "rkyv")]
 impl rkyv::with::ArchiveWith<swc_atoms::JsWord> for EncodeJsWord {
@@ -196,7 +197,7 @@ impl rkyv::with::ArchiveWith<Option<swc_atoms::JsWord>> for EncodeJsWord {
     ) {
         use rkyv::Archive;
 
-        let s = field.map(|s| s.to_string());
+        let s = field.as_ref().map(|s| s.to_string());
         s.resolve(pos, resolver, out);
     }
 }
@@ -211,6 +212,7 @@ where
         serializer: &mut S,
     ) -> Result<Self::Resolver, S::Error> {
         value
+            .as_ref()
             .map(|value| rkyv::string::ArchivedString::serialize_from_str(&value, serializer))
             .transpose()
     }

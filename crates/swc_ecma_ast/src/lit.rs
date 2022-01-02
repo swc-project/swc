@@ -43,10 +43,55 @@ pub struct BigInt {
     pub value: BigIntValue,
 }
 
-struct EncodeBigInt;
+#[cfg(feature = "rkyv")]
+pub struct EncodeBigInt;
 
 #[cfg(feature = "rkyv")]
-impl rkyv::with::ArchiveWith<BigIntValue> for EncodeBigInt {}
+impl rkyv::with::ArchiveWith<BigIntValue> for EncodeBigInt {
+    type Archived = rkyv::Archived<String>;
+
+    type Resolver = rkyv::Resolver<String>;
+
+    unsafe fn resolve_with(
+        field: &BigIntValue,
+        pos: usize,
+        resolver: Self::Resolver,
+        out: *mut Self::Archived,
+    ) {
+        use rkyv::Archive;
+
+        let s = field.to_string();
+        s.resolve(pos, resolver, out);
+    }
+}
+
+#[cfg(feature = "rkyv")]
+impl<S> rkyv::with::SerializeWith<BigIntValue, S> for EncodeBigInt
+where
+    S: ?Sized + rkyv::ser::Serializer,
+{
+    fn serialize_with(field: &BigIntValue, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
+        let field = field.to_string();
+        rkyv::string::ArchivedString::serialize_from_str(&field, serializer)
+    }
+}
+
+#[cfg(feature = "rkyv")]
+impl<D> rkyv::with::DeserializeWith<rkyv::Archived<String>, BigIntValue, D> for EncodeBigInt
+where
+    D: ?Sized + rkyv::Fallible,
+{
+    fn deserialize_with(
+        field: &rkyv::Archived<String>,
+        deserializer: &mut D,
+    ) -> Result<BigIntValue, D::Error> {
+        use rkyv::Deserialize;
+
+        let s: String = field.deserialize(deserializer)?;
+
+        Ok(s.parse().unwrap())
+    }
+}
 
 #[cfg(feature = "arbitrary")]
 #[cfg_attr(docsrs, doc(cfg(feature = "arbitrary")))]
