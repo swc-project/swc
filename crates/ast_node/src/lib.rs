@@ -150,7 +150,7 @@ struct AddAttr;
 impl VisitMut for AddAttr {
     fn visit_field_mut(&mut self, f: &mut Field) {
         f.attrs
-            .push(parse_quote!(#[cfg_attr(feature = "rkyv",omit_bounds)]));
+            .push(parse_quote!(#[cfg_attr(feature = "rkyv", omit_bounds)]));
     }
 }
 
@@ -191,6 +191,10 @@ pub fn ast_node(
                 #[cfg_attr(
                     feature = "rkyv",
                     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+                )]
+                #[cfg_attr(
+                    feature = "rkyv",
+                    archive(bound(serialize = "__S: rkyv::ser::ScratchSpace"))
                 )]
                 #[serde(untagged)]
                 input
@@ -238,6 +242,10 @@ pub fn ast_node(
                         feature = "rkyv",
                         derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
                     )]
+                    #[cfg_attr(
+                        feature = "rkyv",
+                        archive(bound(serialize = "__S: rkyv::ser::ScratchSpace"))
+                    )]
                     serde_tag
                     #[serde(rename_all = "camelCase")]
                     serde_rename
@@ -273,4 +281,31 @@ fn print_item<T: Into<TokenStream>>(
         }
     ));
     print(name, item)
+}
+
+fn extract_generic<'a>(name: &str, ty: &'a Type) -> Option<&'a Type> {
+    match ty {
+        Type::Path(p) => {
+            let last = p.path.segments.last().unwrap();
+
+            if !last.arguments.is_empty() {
+                if last.ident == name {
+                    match &last.arguments {
+                        PathArguments::AngleBracketed(tps) => {
+                            let arg = tps.args.first().unwrap();
+
+                            match arg {
+                                GenericArgument::Type(arg) => return Some(arg),
+                                _ => unimplemented!("generic parameter other than type"),
+                            }
+                        }
+                        _ => unimplemented!("Box() -> T or Box without a type parameter"),
+                    }
+                }
+            }
+        }
+        _ => {}
+    }
+
+    None
 }
