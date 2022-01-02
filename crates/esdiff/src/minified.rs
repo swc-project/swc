@@ -1,6 +1,7 @@
 use crate::util::{parse, print_js};
 use anyhow::{bail, Context, Result};
 use std::{
+    io::Write,
     path::PathBuf,
     process::{Command, Stdio},
     sync::Arc,
@@ -11,6 +12,7 @@ use swc_ecma_diff::Diff;
 use swc_ecma_minifier::option::{ExtraOptions, MinifyOptions};
 use swc_ecma_transforms_base::resolver::resolver_with_mark;
 use swc_ecma_visit::VisitMutWith;
+use tempfile::NamedTempFile;
 
 /// Diff the output of swc minifier and terser.
 #[derive(Debug, StructOpt)]
@@ -76,7 +78,24 @@ impl DiffMinifiedCommand {
         let swc_output = print_js(cm.clone(), &swc_module).context("failed to print js")?;
         let terser_output = print_js(cm.clone(), &terser_module).context("failed to print js")?;
 
-        pretty_assertions::assert_eq!(swc_output, terser_output);
+        if swc_output == terser_output {
+            return Ok(());
+        }
+
+        let mut swc_file = NamedTempFile::new()?;
+
+        writeln!(swc_file, "{}", swc_output)?;
+
+        let mut terser_file = NamedTempFile::new()?;
+
+        writeln!(terser_file, "{}", terser_output)?;
+
+        Command::new("code")
+            .arg("--wait")
+            .arg("--diff")
+            .arg(&swc_file.path())
+            .arg(&terser_file.path())
+            .status()?;
 
         Ok(())
     }
