@@ -140,7 +140,7 @@ dependencies = [
 
 [[package]]
 name = "ast_node"
-version = "0.7.4"
+version = "0.7.5"
 dependencies = [
  "darling",
  "pmutil",
@@ -2096,9 +2096,9 @@ dependencies = [
 
 [[package]]
 name = "serde_json"
-version = "1.0.73"
+version = "1.0.74"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bcbd0344bc6533bc7ec56df11d42fb70f1b912351c0825ccb7211b59d8af7cf5"
+checksum = "ee2bb9cd061c5865d345bb02ca49fcef1391741b672b54a0bf7b679badec3142"
 dependencies = [
  "itoa 1.0.1",
  "ryu",
@@ -2304,7 +2304,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.101.0"
+version = "0.101.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2410,7 +2410,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.15.1"
+version = "0.15.2"
 dependencies = [
  "abi_stable",
  "ahash",
@@ -2456,7 +2456,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_ast"
-version = "0.40.0"
+version = "0.40.1"
 dependencies = [
  "is-macro",
  "serde",
@@ -2541,7 +2541,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.60.4"
+version = "0.60.5"
 dependencies = [
  "arbitrary",
  "is-macro",
@@ -2691,7 +2691,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.82.6"
+version = "0.82.7"
 dependencies = [
  "either",
  "enum_kind",
@@ -2715,7 +2715,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_plugin_ast"
-version = "0.7.0"
+version = "0.7.1"
 dependencies = [
  "abi_stable",
  "num-bigint",
@@ -3027,7 +3027,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.100.0"
+version = "0.100.1"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3052,7 +3052,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_ast"
-version = "0.5.0"
+version = "0.5.1"
 dependencies = [
  "scoped-tls",
  "serde",

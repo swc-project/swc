@@ -31,6 +31,12 @@
 
 - **(ci)** Update `github-action-benchmark` (#3148) ([5a3bdc9](https://github.com/swc-project/swc/commit/5a3bdc9ed37ba39a0591c66bd89eddb95f6df850))- **general**: Add `enhancement` label to `feature_request` template (#3164) ([360ad7b](https://github.com/swc-project/swc/commit/360ad7b41c6fa35ce3afc81c2237d9acdae9a549))
 
+### Performance
+
+
+
+- **(es/ast/serde)** Make deserialization faster (#3160) ([7a83c0c](https://github.com/swc-project/swc/commit/7a83c0cb575b0ec6510d8dff6d1bd44d9c97fdb9))
+
 ### Refactor
 
 
