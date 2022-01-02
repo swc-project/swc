@@ -441,10 +441,11 @@ where
     }
 
     fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {
-        self.report_usage(&n.orig, false);
-        self.data.var_or_default(n.orig.to_id()).prevent_inline();
         match &n.orig {
-            ModuleExportName::Ident(orig) => self.report_usage(orig, false),
+            ModuleExportName::Ident(orig) => {
+                self.report_usage(orig, false);
+                self.data.var_or_default(orig.to_id()).prevent_inline();
+            }
             ModuleExportName::Str(..) => unimplemented!("module string names unimplemented"),
         };
     }
