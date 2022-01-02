@@ -153,9 +153,16 @@ impl rkyv::with::ArchiveWith<swc_atoms::JsWord> for EncodeJsWord {
 }
 
 #[cfg(feature = "rkyv")]
-impl<S> rkyv::with::SerializeWith<swc_atoms::JsWord, S> for EncodeJsWord where
-    S: ?Sized + rkyv::ser::Serializer
+impl<S> rkyv::with::SerializeWith<swc_atoms::JsWord, S> for EncodeJsWord
+where
+    S: ?Sized + rkyv::ser::Serializer,
 {
+    fn serialize_with(
+        field: &swc_atoms::JsWord,
+        serializer: &mut S,
+    ) -> Result<Self::Resolver, S::Error> {
+        rkyv::string::ArchivedString::serialize_from_str(field, serializer)
+    }
 }
 
 #[cfg(feature = "rkyv")]
@@ -184,9 +191,18 @@ impl rkyv::with::ArchiveWith<Option<swc_atoms::JsWord>> for EncodeJsWord {
 }
 
 #[cfg(feature = "rkyv")]
-impl<S> rkyv::with::SerializeWith<Option<swc_atoms::JsWord>, S> for EncodeJsWord where
-    S: ?Sized + rkyv::ser::Serializer
+impl<S> rkyv::with::SerializeWith<Option<swc_atoms::JsWord>, S> for EncodeJsWord
+where
+    S: ?Sized + rkyv::ser::Serializer,
 {
+    fn serialize_with(
+        value: &Option<swc_atoms::JsWord>,
+        serializer: &mut S,
+    ) -> Result<Self::Resolver, S::Error> {
+        value
+            .map(|value| rkyv::string::ArchivedString::serialize_from_str(value, serializer))
+            .transpose()
+    }
 }
 
 #[cfg(feature = "rkyv")]
