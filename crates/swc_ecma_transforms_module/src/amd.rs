@@ -354,17 +354,15 @@ where
                             {
                                 let orig = match orig {
                                     ModuleExportName::Ident(ident) => ident,
-                                    _ => unimplemented!(
-                                        "module transforms for string literal specifiers is \
-                                         unimplemented yet"
-                                    ),
+                                    ModuleExportName::Str(..) => {
+                                        unimplemented!("module string names unimplemented")
+                                    }
                                 };
                                 let exported = match exported {
                                     Some(ModuleExportName::Ident(ident)) => Some(ident),
-                                    Some(ModuleExportName::Str(..)) => unimplemented!(
-                                        "module transforms for string literal specifiers is \
-                                         unimplemented yet"
-                                    ),
+                                    Some(ModuleExportName::Str(..)) => {
+                                        unimplemented!("module string names unimplemented")
+                                    }
                                     _ => None,
                                 };
                                 let mut scope_ref_mut = self.scope.borrow_mut();

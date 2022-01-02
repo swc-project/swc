@@ -59,14 +59,12 @@ impl Visit for DuplicateExports {
     fn visit_export_named_specifier(&mut self, s: &ExportNamedSpecifier) {
         let exported = match &s.exported {
             Some(ModuleExportName::Ident(ident)) => Some(ident),
-            Some(ModuleExportName::Str(..)) => {
-                unimplemented!("module string names unimplemented")
-            }
+            Some(ModuleExportName::Str(..)) => return,
             _ => None,
         };
         let orig = match &s.orig {
             ModuleExportName::Ident(ident) => ident,
-            _ => unimplemented!("module string names unimplemented"),
+            ModuleExportName::Str(..) => return,
         };
         self.add(&exported.as_ref().unwrap_or(&orig));
     }
