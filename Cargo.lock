@@ -632,6 +632,7 @@ dependencies = [
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_codegen",
+ "swc_ecma_dep_graph",
  "swc_ecma_diff",
  "swc_ecma_minifier",
  "swc_ecma_parser",
