@@ -421,7 +421,7 @@ impl Options {
                 syntax.typescript()
             ),
             lint_to_fold(swc_ecma_lints::rules::all()),
-            crate::plugin::plugins(experimental.plugins),
+            crate::plugin::plugins(experimental),
             custom_before_pass(&program),
             // handle jsx
             Optional::new(
@@ -971,6 +971,13 @@ pub struct JscExperimental {
     /// If true, keeps import assertions in the output.
     #[serde(default)]
     pub keep_import_assertions: bool,
+    /// Location where swc may stores its intermediate cache.
+    /// Currently this is only being used for wasm plugin's bytecache.
+    /// Path should be absolute directory, which will be created if not exist.
+    /// This configuration behavior can change anytime under experimental flag
+    /// and will not be considered as breaking changes.
+    #[serde(default)]
+    pub cache_root: Option<String>,
 }
 
 impl Merge for JscExperimental {
