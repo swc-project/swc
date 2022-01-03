@@ -48,6 +48,12 @@ impl ReduceMinCommand {
     }
 }
 
+struct DependencyCollector {
+    cm: Arc<SourceMap>,
+
+    working_dir: PathBuf,
+}
+
 struct Runner {
     cm: Arc<SourceMap>,
 
