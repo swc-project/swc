@@ -644,8 +644,7 @@
                                 },
                                 "value": "Standard",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           },
                           {
@@ -686,8 +685,7 @@
                                       },
                                       "value": "Standard",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   }
                                 },
                                 {
@@ -718,8 +716,7 @@
                                       },
                                       "value": "MiniApp",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   }
                                 }
                               ]
@@ -766,8 +763,7 @@
                                 },
                                 "value": "Relationship",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           },
                           {
@@ -808,8 +804,7 @@
                                       },
                                       "value": "Standard",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   }
                                 },
                                 {
@@ -840,8 +835,7 @@
                                       },
                                       "value": "Tree",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   }
                                 },
                                 {
@@ -872,8 +866,7 @@
                                       },
                                       "value": "TreeEntity",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   }
                                 }
                               ]
@@ -920,8 +913,7 @@
                                 },
                                 "value": "AdvancedList",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           },
                           {
@@ -962,8 +954,7 @@
                                       },
                                       "value": "Standard",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   }
                                 },
                                 {
@@ -994,8 +985,7 @@
                                       },
                                       "value": "MiniApp",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   }
                                 }
                               ]

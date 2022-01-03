@@ -82,8 +82,7 @@
           },
           "value": "func1",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -119,8 +118,7 @@
           },
           "value": "func2",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -156,8 +154,7 @@
           },
           "value": "func3",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -193,8 +190,7 @@
           },
           "value": "func4",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -230,8 +226,7 @@
           },
           "value": "func5",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -267,8 +262,7 @@
           },
           "value": "func6",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -304,8 +298,7 @@
           },
           "value": "func7",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -341,8 +334,7 @@
           },
           "value": "func8",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -378,8 +370,7 @@
           },
           "value": "func9",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -415,8 +406,7 @@
           },
           "value": "func10",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -452,8 +442,7 @@
           },
           "value": "func11",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -489,8 +478,7 @@
           },
           "value": "func12",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -526,8 +514,7 @@
           },
           "value": "func13",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -563,8 +550,7 @@
           },
           "value": "func14",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -600,8 +586,7 @@
           },
           "value": "func15",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -637,8 +622,7 @@
           },
           "value": "func16",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -674,8 +658,7 @@
           },
           "value": "func17",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -711,8 +694,7 @@
           },
           "value": "func18",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -748,8 +730,7 @@
           },
           "value": "func19",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -785,8 +766,7 @@
           },
           "value": "func20",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -872,8 +852,7 @@
             },
             "value": "func1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -942,8 +921,7 @@
             },
             "value": "func2",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -1025,8 +1003,7 @@
               },
               "value": "exports",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -1073,8 +1050,7 @@
             },
             "value": "func3",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -1150,8 +1126,7 @@
               },
               "value": "exports",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -1162,8 +1137,7 @@
             },
             "value": "func4",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -1264,8 +1238,7 @@
                 },
                 "value": "exports",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "definite": false
@@ -1313,8 +1286,7 @@
             },
             "value": "func5",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -1404,8 +1376,7 @@
                 },
                 "value": "exports",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "right": {
               "type": "Identifier",
@@ -1463,8 +1434,7 @@
             },
             "value": "func6",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -1628,8 +1598,7 @@
             },
             "value": "func7",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -1730,8 +1699,7 @@
                 },
                 "value": "exports",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "definite": false
@@ -1779,8 +1747,7 @@
             },
             "value": "func8",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -1870,8 +1837,7 @@
                 },
                 "value": "exports",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "right": {
               "type": "AssignmentExpression",
@@ -1948,8 +1914,7 @@
             },
             "value": "func9",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -2058,8 +2023,7 @@
                   },
                   "value": "exports",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "ObjectExpression",
@@ -2117,8 +2081,7 @@
             },
             "value": "func10",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -2206,8 +2169,7 @@
               },
               "value": "exports",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "right": {
             "type": "AssignmentExpression",
@@ -2282,8 +2244,7 @@
             },
             "value": "func11",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -2359,8 +2320,7 @@
               },
               "value": "exports",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -2371,8 +2331,7 @@
             },
             "value": "func12",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -2460,8 +2419,7 @@
               },
               "value": "exports",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "right": {
             "type": "AssignmentExpression",
@@ -2536,8 +2494,7 @@
             },
             "value": "func11",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -2613,8 +2570,7 @@
               },
               "value": "exports",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -2625,8 +2581,7 @@
             },
             "value": "func12",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -2714,8 +2669,7 @@
               },
               "value": "exports",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "right": {
             "type": "ObjectExpression",
@@ -2770,8 +2724,7 @@
             },
             "value": "func13",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -2847,8 +2800,7 @@
               },
               "value": "exports",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -2859,8 +2811,7 @@
             },
             "value": "func14",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -2948,8 +2899,7 @@
               },
               "value": "exports",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "right": {
             "type": "ObjectExpression",
@@ -3004,8 +2954,7 @@
             },
             "value": "func15",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -3081,8 +3030,7 @@
               },
               "value": "exports",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -3093,8 +3041,7 @@
             },
             "value": "func16",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -3163,8 +3110,7 @@
             },
             "value": "exports",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "AssignmentExpression",
@@ -3238,8 +3184,7 @@
             },
             "value": "func17",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -3315,8 +3260,7 @@
               },
               "value": "exports",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -3327,8 +3271,7 @@
             },
             "value": "func18",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -3397,8 +3340,7 @@
             },
             "value": "exports",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -3452,8 +3394,7 @@
             },
             "value": "func19",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -3529,8 +3470,7 @@
               },
               "value": "exports",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -3541,8 +3481,7 @@
             },
             "value": "func20",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",

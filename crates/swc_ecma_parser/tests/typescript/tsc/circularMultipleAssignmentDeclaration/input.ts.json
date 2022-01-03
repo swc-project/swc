@@ -47,8 +47,7 @@
             },
             "value": "next",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "BinaryExpression",
@@ -84,8 +83,7 @@
               },
               "value": "next",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "right": {
             "type": "ObjectExpression",
@@ -177,8 +175,7 @@
                 },
                 "value": "next",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
               "type": "Identifier",
@@ -189,8 +186,7 @@
               },
               "value": "shared",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -201,8 +197,7 @@
             },
             "value": "mymethod",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",

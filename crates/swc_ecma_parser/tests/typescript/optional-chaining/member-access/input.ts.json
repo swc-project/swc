@@ -51,8 +51,7 @@
             },
             "value": "bar",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -120,8 +119,7 @@
                 },
                 "value": "bar",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "property": {
@@ -133,8 +131,7 @@
             },
             "value": "baz",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -190,8 +187,7 @@
               },
               "value": "bar",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -202,8 +198,7 @@
             },
             "value": "baz",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     }

@@ -302,8 +302,7 @@
             },
             "value": "A",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },

@@ -320,8 +320,7 @@
                               },
                               "value": "_t",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         }
                       ]
@@ -391,8 +390,7 @@
                           },
                           "value": "create",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [
                         {

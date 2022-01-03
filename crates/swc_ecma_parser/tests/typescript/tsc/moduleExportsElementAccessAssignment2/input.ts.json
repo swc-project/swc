@@ -249,39 +249,46 @@
                         "optional": false
                       },
                       "property": {
-                        "type": "BinaryExpression",
+                        "type": "Computed",
                         "span": {
-                          "start": 324,
-                          "end": 337,
+                          "start": 316,
+                          "end": 338,
                           "ctxt": 0
                         },
-                        "operator": "+",
-                        "left": {
-                          "type": "StringLiteral",
+                        "expression": {
+                          "type": "BinaryExpression",
                           "span": {
                             "start": 324,
-                            "end": 330,
-                            "ctxt": 0
-                          },
-                          "value": "AST_",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
-                        },
-                        "right": {
-                          "type": "Identifier",
-                          "span": {
-                            "start": 333,
                             "end": 337,
                             "ctxt": 0
                           },
-                          "value": "type",
-                          "optional": false
+                          "operator": "+",
+                          "left": {
+                            "type": "StringLiteral",
+                            "span": {
+                              "start": 324,
+                              "end": 330,
+                              "ctxt": 0
+                            },
+                            "value": "AST_",
+                            "hasEscape": false,
+                            "kind": {
+                              "type": "normal",
+                              "containsQuote": true
+                            }
+                          },
+                          "right": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 333,
+                              "end": 337,
+                              "ctxt": 0
+                            },
+                            "value": "type",
+                            "optional": false
+                          }
                         }
-                      },
-                      "computed": true
+                      }
                     },
                     "right": {
                       "type": "Identifier",
@@ -339,8 +346,7 @@
           },
           "value": "x",
           "optional": false
-        },
-        "computed": false
+        }
       }
     }
   ],

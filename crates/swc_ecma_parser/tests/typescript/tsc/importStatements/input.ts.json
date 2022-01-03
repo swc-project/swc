@@ -722,8 +722,7 @@
                       },
                       "value": "Point",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {
@@ -968,8 +967,7 @@
                               },
                               "value": "Origin",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "property": {
                             "type": "Identifier",
@@ -980,8 +978,7 @@
                             },
                             "value": "x",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "MemberExpression",
@@ -1009,8 +1006,7 @@
                             },
                             "value": "x",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       }
                     }

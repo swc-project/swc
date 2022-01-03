@@ -123,8 +123,7 @@
                     },
                     "value": "filter",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               },
               "arguments": [

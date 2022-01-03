@@ -88,8 +88,7 @@
               },
               "value": "x",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -146,8 +145,7 @@
           },
           "value": "grey",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -190,8 +188,7 @@
             },
             "value": "x",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "property": {
           "type": "Identifier",
@@ -202,8 +199,7 @@
           },
           "value": "grey",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {

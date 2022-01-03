@@ -1668,8 +1668,7 @@
             },
             "value": "commonPropertyType",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -1732,8 +1731,7 @@
               },
               "value": "commonMethodType",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "arguments": [
             {
@@ -1806,8 +1804,7 @@
             },
             "value": "commonPropertyDifferenType",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -1870,8 +1867,7 @@
               },
               "value": "commonMethodDifferentReturnType",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "arguments": [
             {
@@ -1925,8 +1921,7 @@
           },
           "value": "commonMethodDifferentParameterType",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1969,8 +1964,7 @@
             },
             "value": "commonMethodDifferentParameterType",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -2049,8 +2043,7 @@
               },
               "value": "commonMethodWithTypeParameter",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "arguments": [
             {
@@ -2130,8 +2123,7 @@
               },
               "value": "commonMethodWithOwnTypeParameter",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "arguments": [
             {
@@ -2211,8 +2203,7 @@
               },
               "value": "commonMethodWithOwnTypeParameter",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "arguments": [
             {
@@ -2292,8 +2283,7 @@
               },
               "value": "commonMethodWithOwnTypeParameter",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "arguments": [
             {
@@ -2347,8 +2337,7 @@
           },
           "value": "propertyOnlyInI1",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -2384,8 +2373,7 @@
           },
           "value": "propertyOnlyInI2",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -2428,8 +2416,7 @@
             },
             "value": "methodOnlyInI1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -2493,8 +2480,7 @@
             },
             "value": "methodOnlyInI2",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {

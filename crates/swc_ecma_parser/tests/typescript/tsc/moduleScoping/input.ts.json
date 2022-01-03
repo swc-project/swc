@@ -455,8 +455,7 @@
               },
               "value": "v3",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }

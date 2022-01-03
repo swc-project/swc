@@ -417,8 +417,7 @@
                 },
                 "value": "Crunch",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -473,8 +472,7 @@
           },
           "value": "n",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -579,8 +577,7 @@
                 },
                 "value": "day",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -616,8 +613,7 @@
                 },
                 "value": "n",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]

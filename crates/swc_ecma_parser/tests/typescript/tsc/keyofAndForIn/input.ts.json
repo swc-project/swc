@@ -378,16 +378,23 @@
                           "optional": false
                         },
                         "property": {
-                          "type": "Identifier",
+                          "type": "Computed",
                           "span": {
-                            "start": 190,
-                            "end": 192,
+                            "start": 186,
+                            "end": 193,
                             "ctxt": 0
                           },
-                          "value": "k1",
-                          "optional": false
-                        },
-                        "computed": true
+                          "expression": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 190,
+                              "end": 192,
+                              "ctxt": 0
+                            },
+                            "value": "k1",
+                            "optional": false
+                          }
+                        }
                       },
                       "definite": false
                     }
@@ -500,16 +507,23 @@
                           "optional": false
                         },
                         "property": {
-                          "type": "Identifier",
+                          "type": "Computed",
                           "span": {
-                            "start": 248,
-                            "end": 250,
+                            "start": 244,
+                            "end": 251,
                             "ctxt": 0
                           },
-                          "value": "k2",
-                          "optional": false
-                        },
-                        "computed": true
+                          "expression": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 248,
+                              "end": 250,
+                              "ctxt": 0
+                            },
+                            "value": "k2",
+                            "optional": false
+                          }
+                        }
                       },
                       "definite": false
                     }
@@ -1009,16 +1023,23 @@
                           "optional": false
                         },
                         "property": {
-                          "type": "Identifier",
+                          "type": "Computed",
                           "span": {
-                            "start": 410,
-                            "end": 412,
+                            "start": 406,
+                            "end": 413,
                             "ctxt": 0
                           },
-                          "value": "k1",
-                          "optional": false
-                        },
-                        "computed": true
+                          "expression": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 410,
+                              "end": 412,
+                              "ctxt": 0
+                            },
+                            "value": "k1",
+                            "optional": false
+                          }
+                        }
                       },
                       "definite": false
                     }
@@ -1131,16 +1152,23 @@
                           "optional": false
                         },
                         "property": {
-                          "type": "Identifier",
+                          "type": "Computed",
                           "span": {
-                            "start": 468,
-                            "end": 470,
+                            "start": 464,
+                            "end": 471,
                             "ctxt": 0
                           },
-                          "value": "k2",
-                          "optional": false
-                        },
-                        "computed": true
+                          "expression": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 468,
+                              "end": 470,
+                              "ctxt": 0
+                            },
+                            "value": "k2",
+                            "optional": false
+                          }
+                        }
                       },
                       "definite": false
                     }
@@ -1585,16 +1613,23 @@
                           "optional": false
                         },
                         "property": {
-                          "type": "Identifier",
+                          "type": "Computed",
                           "span": {
-                            "start": 631,
-                            "end": 633,
+                            "start": 627,
+                            "end": 634,
                             "ctxt": 0
                           },
-                          "value": "k1",
-                          "optional": false
-                        },
-                        "computed": true
+                          "expression": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 631,
+                              "end": 633,
+                              "ctxt": 0
+                            },
+                            "value": "k1",
+                            "optional": false
+                          }
+                        }
                       },
                       "definite": false
                     }
@@ -1707,16 +1742,23 @@
                           "optional": false
                         },
                         "property": {
-                          "type": "Identifier",
+                          "type": "Computed",
                           "span": {
-                            "start": 689,
-                            "end": 691,
+                            "start": 685,
+                            "end": 692,
                             "ctxt": 0
                           },
-                          "value": "k2",
-                          "optional": false
-                        },
-                        "computed": true
+                          "expression": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 689,
+                              "end": 691,
+                              "ctxt": 0
+                            },
+                            "value": "k2",
+                            "optional": false
+                          }
+                        }
                       },
                       "definite": false
                     }

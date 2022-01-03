@@ -94,8 +94,7 @@
                   },
                   "value": "dit",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "ThisExpression",
@@ -146,8 +145,7 @@
                   },
                   "value": "y",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -200,8 +198,7 @@
                   },
                   "value": "m3",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "ArrowFunctionExpression",
@@ -274,8 +271,7 @@
             },
             "value": "prototype",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -351,8 +347,7 @@
                           },
                           "value": "z",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "MemberExpression",
@@ -378,8 +373,7 @@
                           },
                           "value": "y",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   },
@@ -498,8 +492,7 @@
                   },
                   "value": "y",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -568,8 +561,7 @@
               },
               "value": "prototype",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -580,8 +572,7 @@
             },
             "value": "m2",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -640,8 +631,7 @@
                       },
                       "value": "z",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "MemberExpression",
@@ -667,8 +657,7 @@
                       },
                       "value": "y",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               },
@@ -860,8 +849,7 @@
           },
           "value": "dit",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -925,8 +913,7 @@
                 },
                 "value": "m2",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -996,8 +983,7 @@
                 },
                 "value": "m3",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -1067,8 +1053,7 @@
                 },
                 "value": "m4",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null

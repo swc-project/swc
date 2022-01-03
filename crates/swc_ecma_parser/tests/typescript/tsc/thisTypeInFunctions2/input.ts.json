@@ -1146,8 +1146,7 @@
                             },
                             "value": "willDestroy",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       }
                     ]
@@ -1237,8 +1236,7 @@
                             },
                             "value": "url",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       },
                       {
@@ -1272,8 +1270,7 @@
                             },
                             "value": "willDestroy",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       }
                     ]
@@ -1399,8 +1396,7 @@
                             },
                             "value": "mine",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       }
                     ]
@@ -1506,8 +1502,7 @@
                             },
                             "value": "mine",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       }
                     ]
@@ -1648,8 +1643,7 @@
                               },
                               "value": "length",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "CallExpression",
@@ -1682,8 +1676,7 @@
                                 },
                                 "value": "bar",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "arguments": [],
                             "typeArguments": null

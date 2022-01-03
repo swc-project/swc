@@ -232,8 +232,7 @@
                             },
                             "value": "d",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       }
                     },

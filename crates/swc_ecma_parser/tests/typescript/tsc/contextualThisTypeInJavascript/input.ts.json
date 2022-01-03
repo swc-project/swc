@@ -138,8 +138,7 @@
                           },
                           "value": "prop",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     },
                     {
@@ -173,8 +172,7 @@
                           },
                           "value": "method",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     },
                     {
@@ -208,8 +206,7 @@
                           },
                           "value": "unknown",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   ]

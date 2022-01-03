@@ -81,8 +81,7 @@
             },
             "value": "prototype",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",

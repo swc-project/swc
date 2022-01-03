@@ -103,8 +103,7 @@
                 "value": "bar",
                 "optional": false
               }
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -115,8 +114,7 @@
             },
             "value": "baz",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",

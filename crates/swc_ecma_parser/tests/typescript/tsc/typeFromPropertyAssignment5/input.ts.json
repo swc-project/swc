@@ -88,8 +88,7 @@
             },
             "value": "bar",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ClassExpression",
@@ -151,8 +150,7 @@
           },
           "value": "bar",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -232,8 +230,7 @@
           },
           "value": "bar",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {

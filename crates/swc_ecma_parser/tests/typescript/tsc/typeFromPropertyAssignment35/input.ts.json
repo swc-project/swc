@@ -88,8 +88,7 @@
                 },
                 "value": "_model",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -153,8 +152,7 @@
                       },
                       "value": "D",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [],
                   "typeArguments": null
@@ -224,8 +222,7 @@
                       },
                       "value": "D",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "property": {
                     "type": "Identifier",
@@ -236,8 +233,7 @@
                     },
                     "value": "_wrapperInstance",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "definite": false
               }
@@ -291,8 +287,7 @@
             },
             "value": "D",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ClassExpression",
@@ -369,8 +364,7 @@
                           },
                           "value": "_model",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "NumericLiteral",
@@ -478,8 +472,7 @@
             },
             "value": "D",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "property": {
           "type": "Identifier",
@@ -490,8 +483,7 @@
           },
           "value": "_wrapperInstance",
           "optional": false
-        },
-        "computed": false
+        }
       }
     }
   ],

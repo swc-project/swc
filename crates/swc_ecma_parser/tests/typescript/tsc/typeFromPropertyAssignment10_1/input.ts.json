@@ -107,8 +107,7 @@
             },
             "value": "app",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "BinaryExpression",
@@ -144,8 +143,7 @@
               },
               "value": "app",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "right": {
             "type": "ObjectExpression",
@@ -207,8 +205,7 @@
               },
               "value": "app",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -219,8 +216,7 @@
             },
             "value": "SomeView",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "CallExpression",
@@ -430,8 +426,7 @@
               },
               "value": "app",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -442,8 +437,7 @@
             },
             "value": "Inner",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ClassExpression",
@@ -520,8 +514,7 @@
                           },
                           "value": "y",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "NumericLiteral",
@@ -616,8 +609,7 @@
                   },
                   "value": "app",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -628,8 +620,7 @@
                 },
                 "value": "Inner",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -671,8 +662,7 @@
           },
           "value": "y",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -723,8 +713,7 @@
               },
               "value": "app",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -735,8 +724,7 @@
             },
             "value": "statische",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -871,8 +859,7 @@
               },
               "value": "app",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -883,8 +870,7 @@
             },
             "value": "Application",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "CallExpression",
@@ -1045,8 +1031,7 @@
                                       },
                                       "value": "view",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "right": {
                                     "type": "NewExpression",
@@ -1088,8 +1073,7 @@
                                           },
                                           "value": "app",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "property": {
                                         "type": "Identifier",
@@ -1100,8 +1084,7 @@
                                         },
                                         "value": "SomeView",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "arguments": [],
                                     "typeArguments": null
@@ -1218,8 +1201,7 @@
                   },
                   "value": "app",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -1230,8 +1212,7 @@
                 },
                 "value": "Application",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -1308,8 +1289,7 @@
                   },
                   "value": "app",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -1320,8 +1300,7 @@
                 },
                 "value": "Inner",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -1363,8 +1342,7 @@
           },
           "value": "y",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1433,8 +1411,7 @@
           },
           "value": "y",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1484,8 +1461,7 @@
               },
               "value": "app",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -1496,8 +1472,7 @@
             },
             "value": "statische",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {

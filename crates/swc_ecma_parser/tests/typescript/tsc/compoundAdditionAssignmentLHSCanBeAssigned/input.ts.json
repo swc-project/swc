@@ -457,8 +457,7 @@
             },
             "value": "a",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -866,8 +865,7 @@
             },
             "value": "a",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -1158,8 +1156,7 @@
             },
             "value": "a",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -1423,8 +1420,7 @@
             },
             "value": "a",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },

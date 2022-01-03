@@ -252,8 +252,7 @@
                         "value": "prop",
                         "optional": false
                       }
-                    },
-                    "computed": false
+                    }
                   }
                 },
                 {
@@ -365,8 +364,7 @@
                         "value": "prop",
                         "optional": false
                       }
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]

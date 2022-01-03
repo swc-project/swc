@@ -88,8 +88,7 @@
             },
             "value": "commands",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -150,8 +149,7 @@
               },
               "value": "commands",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -162,8 +160,7 @@
             },
             "value": "a",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -224,8 +221,7 @@
               },
               "value": "commands",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -236,8 +232,7 @@
             },
             "value": "b",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",

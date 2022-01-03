@@ -260,8 +260,7 @@
                     },
                     "value": "p",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               }
             ]
@@ -377,8 +376,7 @@
           },
           "value": "p",
           "optional": false
-        },
-        "computed": false
+        }
       }
     }
   ],

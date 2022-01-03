@@ -2267,15 +2267,22 @@
               "optional": false
             },
             "property": {
-              "type": "NumericLiteral",
+              "type": "Computed",
               "span": {
-                "start": 843,
-                "end": 844,
+                "start": 841,
+                "end": 845,
                 "ctxt": 0
               },
-              "value": 0.0
-            },
-            "computed": true
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 843,
+                  "end": 844,
+                  "ctxt": 0
+                },
+                "value": 0.0
+              }
+            }
           },
           "definite": false
         }
@@ -2327,20 +2334,27 @@
               "optional": false
             },
             "property": {
-              "type": "StringLiteral",
+              "type": "Computed",
               "span": {
-                "start": 857,
-                "end": 859,
+                "start": 855,
+                "end": 860,
                 "ctxt": 0
               },
-              "value": "",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 857,
+                  "end": 859,
+                  "ctxt": 0
+                },
+                "value": "",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
               }
-            },
-            "computed": true
+            }
           },
           "definite": false
         }
@@ -2507,15 +2521,22 @@
                 "optional": false
               },
               "property": {
-                "type": "NumericLiteral",
+                "type": "Computed",
                 "span": {
-                  "start": 995,
-                  "end": 996,
+                  "start": 991,
+                  "end": 997,
                   "ctxt": 0
                 },
-                "value": 0.0
-              },
-              "computed": true
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 995,
+                    "end": 996,
+                    "ctxt": 0
+                  },
+                  "value": 0.0
+                }
+              }
             },
             "property": {
               "type": "Identifier",
@@ -2526,8 +2547,7 @@
               },
               "value": "x",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -2722,19 +2742,25 @@
                 },
                 "value": "x",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
-              "type": "NumericLiteral",
+              "type": "Computed",
               "span": {
-                "start": 1052,
-                "end": 1053,
+                "start": 1046,
+                "end": 1054,
                 "ctxt": 0
               },
-              "value": 0.0
-            },
-            "computed": true
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 1052,
+                  "end": 1053,
+                  "ctxt": 0
+                },
+                "value": 0.0
+              }
+            }
           },
           "definite": false
         }

@@ -67,8 +67,7 @@
               },
               "value": "bar",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -122,8 +121,7 @@
               },
               "value": "foo",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -177,8 +175,7 @@
               },
               "value": "bar",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -239,8 +236,7 @@
                 },
                 "value": "m1",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -304,8 +300,7 @@
                 },
                 "value": "m3",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -385,8 +380,7 @@
                       },
                       "value": "foo",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]
@@ -566,8 +560,7 @@
               },
               "value": "baz",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -621,8 +614,7 @@
               },
               "value": "foo",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -676,8 +668,7 @@
               },
               "value": "baz",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -754,8 +745,7 @@
                       },
                       "value": "foo",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]
@@ -840,8 +830,7 @@
               },
               "value": "foo",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -947,8 +936,7 @@
                   },
                   "value": "foo1",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "MemberExpression",
@@ -974,8 +962,7 @@
                   },
                   "value": "foo2",
                   "optional": false
-                },
-                "computed": false
+                }
               }
             },
             "async": false,
@@ -1201,8 +1188,7 @@
                     },
                     "value": "p1",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "typeAnnotation": null,
                 "isStatic": false,
@@ -1374,8 +1360,7 @@
                     },
                     "value": "p1",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "typeAnnotation": null,
                 "isStatic": false,

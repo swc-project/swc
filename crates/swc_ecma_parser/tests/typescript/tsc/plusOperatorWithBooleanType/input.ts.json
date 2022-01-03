@@ -656,8 +656,7 @@
                 },
                 "value": "a",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "definite": false
@@ -726,8 +725,7 @@
                 },
                 "value": "n",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "definite": false
@@ -864,8 +862,7 @@
                   },
                   "value": "foo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null
@@ -1051,8 +1048,7 @@
             },
             "value": "a",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -1097,8 +1093,7 @@
             },
             "value": "n",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     }

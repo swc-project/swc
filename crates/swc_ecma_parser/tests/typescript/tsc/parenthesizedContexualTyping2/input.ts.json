@@ -2897,8 +2897,7 @@
                             },
                             "value": "random",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "arguments": [],
                         "typeArguments": null
@@ -3186,8 +3185,7 @@
                             },
                             "value": "random",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "arguments": [],
                         "typeArguments": null
@@ -3491,8 +3489,7 @@
                             },
                             "value": "random",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "arguments": [],
                         "typeArguments": null
@@ -3919,8 +3916,7 @@
                               },
                               "value": "random",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "arguments": [],
                           "typeArguments": null

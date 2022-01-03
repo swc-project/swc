@@ -576,8 +576,7 @@
                     },
                     "value": "Bar",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 {
                   "type": "JSXElement",

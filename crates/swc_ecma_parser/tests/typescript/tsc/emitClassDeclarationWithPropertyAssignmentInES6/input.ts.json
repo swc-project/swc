@@ -279,8 +279,7 @@
                       },
                       "value": "y",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -603,8 +602,7 @@
                       },
                       "value": "j",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "StringLiteral",

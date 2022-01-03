@@ -94,8 +94,7 @@
                   },
                   "value": "n",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "MemberExpression",
@@ -123,8 +122,7 @@
                   },
                   "value": "length",
                   "optional": false
-                },
-                "computed": false
+                }
               }
             }
           }
@@ -249,8 +247,7 @@
             },
             "value": "f",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {

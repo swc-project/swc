@@ -2390,8 +2390,7 @@
                           },
                           "value": "Yes",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   ],
@@ -2475,8 +2474,7 @@
                           },
                           "value": "No",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   ],
@@ -2951,8 +2949,7 @@
                     },
                     "value": "Yes",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "consequent": [
                   {
@@ -3012,8 +3009,7 @@
                     },
                     "value": "No",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "consequent": [
                   {
@@ -3175,8 +3171,7 @@
                     },
                     "value": "Yes",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "consequent": [
                   {
@@ -3236,8 +3231,7 @@
                     },
                     "value": "No",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "consequent": [
                   {
@@ -3597,8 +3591,7 @@
                   },
                   "value": "Yes",
                   "optional": false
-                },
-                "computed": false
+                }
               }
             },
             "consequent": {
@@ -4033,8 +4026,7 @@
                 },
                 "value": "kind",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "cases": [
               {
@@ -4070,8 +4062,7 @@
                     },
                     "value": "Yes",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "consequent": [
                   {
@@ -4107,8 +4098,7 @@
                         },
                         "value": "a",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 ]
@@ -4146,8 +4136,7 @@
                     },
                     "value": "No",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "consequent": [
                   {
@@ -4183,8 +4172,7 @@
                         },
                         "value": "b",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 ]
@@ -4306,8 +4294,7 @@
                 },
                 "value": "kind",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "cases": [
               {
@@ -4343,8 +4330,7 @@
                     },
                     "value": "Yes",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "consequent": [
                   {
@@ -4380,8 +4366,7 @@
                         },
                         "value": "a",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 ]
@@ -4419,8 +4404,7 @@
                     },
                     "value": "No",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "consequent": [
                   {
@@ -4456,8 +4440,7 @@
                         },
                         "value": "b",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 ]

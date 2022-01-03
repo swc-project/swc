@@ -47,8 +47,7 @@
             },
             "value": "exports",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ClassExpression",
@@ -134,8 +133,7 @@
                           },
                           "value": "x",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "NumericLiteral",
@@ -317,8 +315,7 @@
                       },
                       "value": "usage",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NewExpression",
@@ -395,8 +392,7 @@
             },
             "value": "exports",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",

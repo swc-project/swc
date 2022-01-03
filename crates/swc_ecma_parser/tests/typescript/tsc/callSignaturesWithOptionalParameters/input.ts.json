@@ -729,8 +729,7 @@
             },
             "value": "foo",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -776,8 +775,7 @@
             },
             "value": "foo",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -1113,8 +1111,7 @@
             },
             "value": "foo",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -1173,8 +1170,7 @@
             },
             "value": "foo",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -1455,8 +1451,7 @@
             },
             "value": "foo",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -1502,8 +1497,7 @@
             },
             "value": "foo",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -1856,8 +1850,7 @@
             },
             "value": "foo",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -1903,8 +1896,7 @@
             },
             "value": "foo",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -1963,8 +1955,7 @@
             },
             "value": "a",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -2023,8 +2014,7 @@
             },
             "value": "a",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -2095,8 +2085,7 @@
             },
             "value": "b",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -2142,8 +2131,7 @@
             },
             "value": "b",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {

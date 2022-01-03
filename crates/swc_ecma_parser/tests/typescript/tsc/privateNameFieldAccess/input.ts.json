@@ -142,8 +142,7 @@
                       },
                       "value": "log",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {
@@ -180,8 +179,7 @@
                             "value": "myField",
                             "optional": false
                           }
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   ],

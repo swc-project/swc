@@ -458,8 +458,7 @@
                           },
                           "value": "sfn",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [
                         {

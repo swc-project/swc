@@ -60,8 +60,7 @@
               },
               "value": "isArray",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }

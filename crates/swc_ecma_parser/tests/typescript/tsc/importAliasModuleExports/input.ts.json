@@ -138,8 +138,7 @@
             },
             "value": "exports",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",
@@ -245,8 +244,7 @@
               },
               "value": "prototype",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -257,8 +255,7 @@
             },
             "value": "foo",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -319,8 +316,7 @@
               },
               "value": "prototype",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -331,8 +327,7 @@
             },
             "value": "func",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -391,8 +386,7 @@
                       },
                       "value": "_func",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -454,8 +448,7 @@
             },
             "value": "defineProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -486,8 +479,7 @@
                 },
                 "value": "prototype",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -589,8 +581,7 @@
           },
           "value": "bar",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -636,8 +627,7 @@
           },
           "value": "foo",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -690,8 +680,7 @@
             },
             "value": "func",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -740,8 +729,7 @@
           },
           "value": "def",
           "optional": false
-        },
-        "computed": false
+        }
       }
     }
   ],

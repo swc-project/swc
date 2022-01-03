@@ -46,7 +46,7 @@ warning: CallExpr
 3 | | });
   | |__^
 
-warning: ExprOrSuper
+warning: Callee
  --> $DIR/tests/span/js/expr/arrow-2.js:1:1
   |
 1 | React.useEffect(() => {
@@ -64,12 +64,6 @@ warning: MemberExpr
 1 | React.useEffect(() => {
   | ^^^^^^^^^^^^^^^
 
-warning: ExprOrSuper
- --> $DIR/tests/span/js/expr/arrow-2.js:1:1
-  |
-1 | React.useEffect(() => {
-  | ^^^^^
-
 warning: Expr
  --> $DIR/tests/span/js/expr/arrow-2.js:1:1
   |
@@ -81,12 +75,6 @@ warning: Ident
   |
 1 | React.useEffect(() => {
   | ^^^^^
-
-warning: Expr
- --> $DIR/tests/span/js/expr/arrow-2.js:1:7
-  |
-1 | React.useEffect(() => {
-  |       ^^^^^^^^^
 
 warning: Ident
  --> $DIR/tests/span/js/expr/arrow-2.js:1:7

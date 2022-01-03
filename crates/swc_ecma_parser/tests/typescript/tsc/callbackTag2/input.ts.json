@@ -195,8 +195,7 @@
                     },
                     "value": "id",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               }
             ]

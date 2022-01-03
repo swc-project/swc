@@ -88,8 +88,7 @@
             },
             "value": "TreeElement",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ClassExpression",
@@ -166,8 +165,7 @@
                           },
                           "value": "treeOutline",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "NumericLiteral",
@@ -235,8 +233,7 @@
             },
             "value": "context",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NewExpression",
@@ -271,8 +268,7 @@
               },
               "value": "TreeElement",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "arguments": [],
           "typeArguments": null
@@ -363,8 +359,7 @@
                       },
                       "value": "doesNotExist",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 },
                 {
@@ -412,8 +407,7 @@
                           },
                           "value": "treeOutline",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "property": {
                         "type": "Identifier",
@@ -424,8 +418,7 @@
                         },
                         "value": "doesntExistEither",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -472,8 +465,7 @@
           },
           "value": "TreeElement",
           "optional": false
-        },
-        "computed": false
+        }
       },
       "isAbstract": false,
       "typeParams": null,

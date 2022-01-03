@@ -142,8 +142,7 @@
               },
               "value": "y",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -465,8 +464,7 @@
               },
               "value": "y",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -661,8 +659,7 @@
               },
               "value": "ka",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -813,8 +810,7 @@
               },
               "value": "ka",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "typeAnnotation": null,
           "isStatic": false,

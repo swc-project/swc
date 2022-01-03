@@ -385,8 +385,7 @@
             },
             "value": "func4",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -414,8 +413,7 @@
             },
             "value": "func5",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -460,8 +458,7 @@
             },
             "value": "func5",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -489,8 +486,7 @@
             },
             "value": "func4",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -1029,8 +1025,7 @@
             },
             "value": "func4",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -1058,8 +1053,7 @@
             },
             "value": "func5",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -1104,8 +1098,7 @@
             },
             "value": "func5",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -1133,8 +1126,7 @@
             },
             "value": "func4",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     }

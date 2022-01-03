@@ -10252,8 +10252,7 @@
                           },
                           "value": "get",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [
                         {

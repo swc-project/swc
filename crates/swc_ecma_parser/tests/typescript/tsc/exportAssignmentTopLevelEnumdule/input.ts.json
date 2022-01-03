@@ -335,8 +335,7 @@
             },
             "value": "green",
             "optional": false
-          },
-          "computed": false
+          }
         }
       },
       "consequent": {
@@ -399,8 +398,7 @@
                   },
                   "value": "answer",
                   "optional": false
-                },
-                "computed": false
+                }
               }
             }
           }

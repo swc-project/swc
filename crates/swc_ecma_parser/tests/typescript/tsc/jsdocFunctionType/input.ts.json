@@ -206,8 +206,7 @@
                               },
                               "value": "length",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "Identifier",
@@ -416,8 +415,7 @@
                       },
                       "value": "length",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "Identifier",
@@ -607,8 +605,7 @@
           },
           "value": "length",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -864,8 +861,7 @@
                   },
                   "value": "length",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -1050,8 +1046,7 @@
           },
           "value": "length",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1272,8 +1267,7 @@
           },
           "value": "length",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1382,8 +1376,7 @@
                         },
                         "value": "not_length_on_purpose",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "Identifier",

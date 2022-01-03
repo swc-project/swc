@@ -468,8 +468,7 @@
                 },
                 "value": "bind",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -553,8 +552,7 @@
                 },
                 "value": "bind",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -650,8 +648,7 @@
                 },
                 "value": "bind",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -764,8 +761,7 @@
                 },
                 "value": "bind",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -873,8 +869,7 @@
                 },
                 "value": "bind",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -958,8 +953,7 @@
                 },
                 "value": "bind",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -1043,8 +1037,7 @@
                 },
                 "value": "call",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -1157,8 +1150,7 @@
                 },
                 "value": "call",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -1254,8 +1246,7 @@
                 },
                 "value": "call",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -1363,8 +1354,7 @@
                 },
                 "value": "call",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -1489,8 +1479,7 @@
                 },
                 "value": "apply",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -1616,8 +1605,7 @@
                 },
                 "value": "apply",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -1726,8 +1714,7 @@
                 },
                 "value": "apply",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -1848,8 +1835,7 @@
                 },
                 "value": "apply",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -2909,8 +2895,7 @@
                   },
                   "value": "foo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -2921,8 +2906,7 @@
                 },
                 "value": "bind",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -3013,8 +2997,7 @@
                   },
                   "value": "foo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -3025,8 +3008,7 @@
                 },
                 "value": "bind",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -3129,8 +3111,7 @@
                   },
                   "value": "foo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -3141,8 +3122,7 @@
                 },
                 "value": "bind",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -3262,8 +3242,7 @@
                   },
                   "value": "foo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -3274,8 +3253,7 @@
                 },
                 "value": "bind",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -3390,8 +3368,7 @@
                   },
                   "value": "foo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -3402,8 +3379,7 @@
                 },
                 "value": "bind",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -3494,8 +3470,7 @@
                   },
                   "value": "overloaded",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -3506,8 +3481,7 @@
                 },
                 "value": "bind",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -3598,8 +3572,7 @@
                   },
                   "value": "generic",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -3610,8 +3583,7 @@
                 },
                 "value": "bind",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -3702,8 +3674,7 @@
                   },
                   "value": "foo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -3714,8 +3685,7 @@
                 },
                 "value": "call",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -3835,8 +3805,7 @@
                   },
                   "value": "foo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -3847,8 +3816,7 @@
                 },
                 "value": "call",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -3951,8 +3919,7 @@
                   },
                   "value": "foo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -3963,8 +3930,7 @@
                 },
                 "value": "call",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -4079,8 +4045,7 @@
                   },
                   "value": "foo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -4091,8 +4056,7 @@
                 },
                 "value": "call",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -4224,8 +4188,7 @@
                   },
                   "value": "foo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -4236,8 +4199,7 @@
                 },
                 "value": "call",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -4357,8 +4319,7 @@
                   },
                   "value": "foo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -4369,8 +4330,7 @@
                 },
                 "value": "apply",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -4503,8 +4463,7 @@
                   },
                   "value": "foo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -4515,8 +4474,7 @@
                 },
                 "value": "apply",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -4632,8 +4590,7 @@
                   },
                   "value": "foo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -4644,8 +4601,7 @@
                 },
                 "value": "apply",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -4773,8 +4729,7 @@
                   },
                   "value": "foo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -4785,8 +4740,7 @@
                 },
                 "value": "apply",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -4931,8 +4885,7 @@
                   },
                   "value": "foo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -4943,8 +4896,7 @@
                 },
                 "value": "apply",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -5070,8 +5022,7 @@
                 },
                 "value": "bind",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -5155,8 +5106,7 @@
                 },
                 "value": "bind",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -5252,8 +5202,7 @@
                 },
                 "value": "bind",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -5366,8 +5315,7 @@
                 },
                 "value": "bind",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -5454,8 +5402,7 @@
             },
             "value": "call",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -5544,8 +5491,7 @@
             },
             "value": "call",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -5617,8 +5563,7 @@
             },
             "value": "call",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -5702,8 +5647,7 @@
             },
             "value": "call",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -5804,8 +5748,7 @@
             },
             "value": "apply",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -5907,8 +5850,7 @@
             },
             "value": "apply",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -5993,8 +5935,7 @@
             },
             "value": "apply",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -6091,8 +6032,7 @@
             },
             "value": "apply",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {

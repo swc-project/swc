@@ -273,13 +273,13 @@
                       "ctxt": 0
                     },
                     "callee": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 287,
                         "end": 294,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 287,
@@ -296,8 +296,7 @@
                         },
                         "value": "x",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -318,13 +317,13 @@
                       "ctxt": 0
                     },
                     "callee": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 343,
                         "end": 350,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 343,
@@ -341,8 +340,7 @@
                         },
                         "value": "y",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -363,13 +361,13 @@
                       "ctxt": 0
                     },
                     "callee": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 399,
                         "end": 409,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 399,
@@ -378,20 +376,27 @@
                         }
                       },
                       "property": {
-                        "type": "StringLiteral",
+                        "type": "Computed",
                         "span": {
-                          "start": 405,
-                          "end": 408,
+                          "start": 399,
+                          "end": 409,
                           "ctxt": 0
                         },
-                        "value": "x",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 405,
+                            "end": 408,
+                            "ctxt": 0
+                          },
+                          "value": "x",
+                          "hasEscape": false,
+                          "kind": {
+                            "type": "normal",
+                            "containsQuote": true
+                          }
                         }
-                      },
-                      "computed": true
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -426,13 +431,13 @@
                         "typeAnnotation": null
                       },
                       "init": {
-                        "type": "MemberExpression",
+                        "type": "SuperPropExpression",
                         "span": {
                           "start": 466,
                           "end": 473,
                           "ctxt": 0
                         },
-                        "object": {
+                        "obj": {
                           "type": "Super",
                           "span": {
                             "start": 466,
@@ -449,8 +454,7 @@
                           },
                           "value": "x",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "definite": false
                     }
@@ -485,13 +489,13 @@
                         "typeAnnotation": null
                       },
                       "init": {
-                        "type": "MemberExpression",
+                        "type": "SuperPropExpression",
                         "span": {
                           "start": 527,
                           "end": 537,
                           "ctxt": 0
                         },
-                        "object": {
+                        "obj": {
                           "type": "Super",
                           "span": {
                             "start": 527,
@@ -500,20 +504,27 @@
                           }
                         },
                         "property": {
-                          "type": "StringLiteral",
+                          "type": "Computed",
                           "span": {
-                            "start": 533,
-                            "end": 536,
+                            "start": 527,
+                            "end": 537,
                             "ctxt": 0
                           },
-                          "value": "x",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
+                          "expression": {
+                            "type": "StringLiteral",
+                            "span": {
+                              "start": 533,
+                              "end": 536,
+                              "ctxt": 0
+                            },
+                            "value": "x",
+                            "hasEscape": false,
+                            "kind": {
+                              "type": "normal",
+                              "containsQuote": true
+                            }
                           }
-                        },
-                        "computed": true
+                        }
                       },
                       "definite": false
                     }
@@ -715,13 +726,13 @@
                       "ctxt": 0
                     },
                     "callee": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 786,
                         "end": 793,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 786,
@@ -738,8 +749,7 @@
                         },
                         "value": "x",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -760,13 +770,13 @@
                       "ctxt": 0
                     },
                     "callee": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 842,
                         "end": 852,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 842,
@@ -775,20 +785,27 @@
                         }
                       },
                       "property": {
-                        "type": "StringLiteral",
+                        "type": "Computed",
                         "span": {
-                          "start": 848,
-                          "end": 851,
+                          "start": 842,
+                          "end": 852,
                           "ctxt": 0
                         },
-                        "value": "x",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 848,
+                            "end": 851,
+                            "ctxt": 0
+                          },
+                          "value": "x",
+                          "hasEscape": false,
+                          "kind": {
+                            "type": "normal",
+                            "containsQuote": true
+                          }
                         }
-                      },
-                      "computed": true
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -823,13 +840,13 @@
                         "typeAnnotation": null
                       },
                       "init": {
-                        "type": "MemberExpression",
+                        "type": "SuperPropExpression",
                         "span": {
                           "start": 909,
                           "end": 916,
                           "ctxt": 0
                         },
-                        "object": {
+                        "obj": {
                           "type": "Super",
                           "span": {
                             "start": 909,
@@ -846,8 +863,7 @@
                           },
                           "value": "x",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "definite": false
                     }
@@ -882,13 +898,13 @@
                         "typeAnnotation": null
                       },
                       "init": {
-                        "type": "MemberExpression",
+                        "type": "SuperPropExpression",
                         "span": {
                           "start": 970,
                           "end": 980,
                           "ctxt": 0
                         },
-                        "object": {
+                        "obj": {
                           "type": "Super",
                           "span": {
                             "start": 970,
@@ -897,20 +913,27 @@
                           }
                         },
                         "property": {
-                          "type": "StringLiteral",
+                          "type": "Computed",
                           "span": {
-                            "start": 976,
-                            "end": 979,
+                            "start": 970,
+                            "end": 980,
                             "ctxt": 0
                           },
-                          "value": "x",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
+                          "expression": {
+                            "type": "StringLiteral",
+                            "span": {
+                              "start": 976,
+                              "end": 979,
+                              "ctxt": 0
+                            },
+                            "value": "x",
+                            "hasEscape": false,
+                            "kind": {
+                              "type": "normal",
+                              "containsQuote": true
+                            }
                           }
-                        },
-                        "computed": true
+                        }
                       },
                       "definite": false
                     }
@@ -932,13 +955,13 @@
                     },
                     "operator": "=",
                     "left": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 1027,
                         "end": 1034,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 1027,
@@ -955,8 +978,7 @@
                         },
                         "value": "x",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "Identifier",
@@ -986,13 +1008,13 @@
                     },
                     "operator": "=",
                     "left": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 1084,
                         "end": 1094,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 1084,
@@ -1001,20 +1023,27 @@
                         }
                       },
                       "property": {
-                        "type": "StringLiteral",
+                        "type": "Computed",
                         "span": {
-                          "start": 1090,
-                          "end": 1093,
+                          "start": 1084,
+                          "end": 1094,
                           "ctxt": 0
                         },
-                        "value": "x",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 1090,
+                            "end": 1093,
+                            "ctxt": 0
+                          },
+                          "value": "x",
+                          "hasEscape": false,
+                          "kind": {
+                            "type": "normal",
+                            "containsQuote": true
+                          }
                         }
-                      },
-                      "computed": true
+                      }
                     },
                     "right": {
                       "type": "Identifier",
@@ -1071,13 +1100,13 @@
                               "optional": false
                             },
                             "value": {
-                              "type": "MemberExpression",
+                              "type": "SuperPropExpression",
                               "span": {
                                 "start": 1168,
                                 "end": 1175,
                                 "ctxt": 0
                               },
-                              "object": {
+                              "obj": {
                                 "type": "Super",
                                 "span": {
                                   "start": 1168,
@@ -1094,8 +1123,7 @@
                                 },
                                 "value": "x",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           }
                         ],
@@ -1168,13 +1196,13 @@
                               "optional": false
                             },
                             "value": {
-                              "type": "MemberExpression",
+                              "type": "SuperPropExpression",
                               "span": {
                                 "start": 1255,
                                 "end": 1265,
                                 "ctxt": 0
                               },
-                              "object": {
+                              "obj": {
                                 "type": "Super",
                                 "span": {
                                   "start": 1255,
@@ -1183,20 +1211,27 @@
                                 }
                               },
                               "property": {
-                                "type": "StringLiteral",
+                                "type": "Computed",
                                 "span": {
-                                  "start": 1261,
-                                  "end": 1264,
+                                  "start": 1255,
+                                  "end": 1265,
                                   "ctxt": 0
                                 },
-                                "value": "x",
-                                "hasEscape": false,
-                                "kind": {
-                                  "type": "normal",
-                                  "containsQuote": true
+                                "expression": {
+                                  "type": "StringLiteral",
+                                  "span": {
+                                    "start": 1261,
+                                    "end": 1264,
+                                    "ctxt": 0
+                                  },
+                                  "value": "x",
+                                  "hasEscape": false,
+                                  "kind": {
+                                    "type": "normal",
+                                    "containsQuote": true
+                                  }
                                 }
-                              },
-                              "computed": true
+                              }
                             }
                           }
                         ],

@@ -170,8 +170,7 @@
                       },
                       "value": "noWiden",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -223,8 +222,7 @@
                       },
                       "value": "widen",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",

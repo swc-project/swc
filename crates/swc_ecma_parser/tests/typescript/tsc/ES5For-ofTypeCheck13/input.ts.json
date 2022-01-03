@@ -142,8 +142,7 @@
             },
             "value": "add",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -207,8 +206,7 @@
             },
             "value": "add",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {

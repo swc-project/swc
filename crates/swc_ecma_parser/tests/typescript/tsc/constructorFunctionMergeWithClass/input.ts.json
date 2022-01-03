@@ -91,8 +91,7 @@
                         },
                         "value": "otherProp",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "NumericLiteral",
@@ -211,8 +210,7 @@
             },
             "value": "prop",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",

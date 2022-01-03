@@ -88,8 +88,7 @@
                 },
                 "value": "x",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]
@@ -250,8 +249,7 @@
                 },
                 "value": "anotherX",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]
@@ -412,8 +410,7 @@
                 },
                 "value": "x",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]

@@ -96,8 +96,7 @@
             },
             "value": "prop",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -151,8 +150,7 @@
             },
             "value": "asyncMethod",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",

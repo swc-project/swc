@@ -138,8 +138,7 @@
             },
             "value": "exports",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",
@@ -220,8 +219,7 @@
                   },
                   "value": "p",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "NumericLiteral",
@@ -315,8 +313,7 @@
                     },
                     "value": "p",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "right": {
                   "type": "NumericLiteral",
@@ -378,8 +375,7 @@
             },
             "value": "C",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -438,8 +434,7 @@
                       },
                       "value": "p",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",

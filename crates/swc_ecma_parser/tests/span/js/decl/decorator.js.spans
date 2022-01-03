@@ -106,7 +106,7 @@ warning: CallExpr
 2 | @bar()
   |  ^^^^^
 
-warning: ExprOrSuper
+warning: Callee
  --> $DIR/tests/span/js/decl/decorator.js:2:2
   |
 2 | @bar()
@@ -142,7 +142,7 @@ warning: CallExpr
 3 | @baz()
   |  ^^^^^
 
-warning: ExprOrSuper
+warning: Callee
  --> $DIR/tests/span/js/decl/decorator.js:3:2
   |
 3 | @baz()

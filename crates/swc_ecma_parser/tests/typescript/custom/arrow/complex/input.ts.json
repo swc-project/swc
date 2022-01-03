@@ -329,8 +329,7 @@
                                   },
                                   "value": "initializer",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               }
                             }
                           ],
@@ -389,8 +388,7 @@
                                     },
                                     "value": "initializer",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "property": {
                                   "type": "Identifier",
@@ -401,8 +399,7 @@
                                   },
                                   "value": "elements",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               }
                             },
                             {
@@ -503,8 +500,7 @@
                                         },
                                         "value": "text",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "right": {
                                       "type": "Identifier",

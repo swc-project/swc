@@ -913,15 +913,22 @@
                     "optional": false
                   },
                   "property": {
-                    "type": "NumericLiteral",
+                    "type": "Computed",
                     "span": {
-                      "start": 360,
-                      "end": 361,
+                      "start": 357,
+                      "end": 362,
                       "ctxt": 0
                     },
-                    "value": 1.0
-                  },
-                  "computed": true
+                    "expression": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 360,
+                        "end": 361,
+                        "ctxt": 0
+                      },
+                      "value": 1.0
+                    }
+                  }
                 },
                 "definite": false
               }
@@ -1284,15 +1291,22 @@
                     "optional": false
                   },
                   "property": {
-                    "type": "NumericLiteral",
+                    "type": "Computed",
                     "span": {
-                      "start": 492,
-                      "end": 493,
+                      "start": 489,
+                      "end": 494,
                       "ctxt": 0
                     },
-                    "value": 1.0
-                  },
-                  "computed": true
+                    "expression": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 492,
+                        "end": 493,
+                        "ctxt": 0
+                      },
+                      "value": 1.0
+                    }
+                  }
                 },
                 "definite": false
               }

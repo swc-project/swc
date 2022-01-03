@@ -409,8 +409,7 @@
             },
             "value": "foo",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "StringLiteral",
@@ -461,8 +460,7 @@
           },
           "value": "lol",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -506,8 +504,7 @@
             },
             "value": "bar",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",
@@ -582,8 +579,7 @@
                 },
                 "value": "method1",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -646,8 +642,7 @@
             },
             "value": "bar1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "StringLiteral",
@@ -705,8 +700,7 @@
             },
             "value": "arrowFunc",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {

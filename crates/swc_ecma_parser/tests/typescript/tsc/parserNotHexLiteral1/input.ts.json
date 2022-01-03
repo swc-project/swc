@@ -142,8 +142,7 @@
             },
             "value": "info",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -174,8 +173,7 @@
                 },
                 "value": "x0",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ],
@@ -222,8 +220,7 @@
             },
             "value": "info",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -254,8 +251,7 @@
                 },
                 "value": "e0",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ],

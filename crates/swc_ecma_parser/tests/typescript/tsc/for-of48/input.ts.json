@@ -315,8 +315,7 @@
                 },
                 "value": "x",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ],

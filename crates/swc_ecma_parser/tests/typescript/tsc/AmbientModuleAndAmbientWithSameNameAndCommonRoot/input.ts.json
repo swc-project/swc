@@ -657,8 +657,7 @@
                 },
                 "value": "Point",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
               "type": "Identifier",
@@ -669,8 +668,7 @@
               },
               "value": "Origin",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -737,8 +735,7 @@
                 },
                 "value": "Point",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {

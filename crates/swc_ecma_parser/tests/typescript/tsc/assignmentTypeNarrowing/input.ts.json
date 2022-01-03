@@ -1252,8 +1252,7 @@
             },
             "value": "push",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {

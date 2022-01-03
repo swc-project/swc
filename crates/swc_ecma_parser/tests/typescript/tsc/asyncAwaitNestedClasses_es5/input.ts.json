@@ -376,8 +376,7 @@
                                       },
                                       "value": "func2",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "arguments": [],
                                   "typeArguments": null
@@ -495,8 +494,7 @@
                 },
                 "value": "B",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
               "type": "Identifier",
@@ -507,8 +505,7 @@
               },
               "value": "C",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -519,8 +516,7 @@
             },
             "value": "func",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null

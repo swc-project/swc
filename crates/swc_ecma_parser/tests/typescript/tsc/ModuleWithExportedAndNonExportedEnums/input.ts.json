@@ -264,8 +264,7 @@
                 },
                 "value": "Color",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
               "type": "Identifier",
@@ -276,8 +275,7 @@
               },
               "value": "Red",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -344,8 +342,7 @@
                 },
                 "value": "Day",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
               "type": "Identifier",
@@ -356,8 +353,7 @@
               },
               "value": "Monday",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }

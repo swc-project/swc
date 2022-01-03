@@ -68,8 +68,7 @@
                 },
                 "value": "iterator",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "computed": true,
             "optional": false,
@@ -127,8 +126,7 @@
                 },
                 "value": "iterator",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "computed": true,
             "optional": true,

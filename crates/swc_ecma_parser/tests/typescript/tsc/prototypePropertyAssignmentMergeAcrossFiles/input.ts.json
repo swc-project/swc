@@ -73,8 +73,7 @@
                   },
                   "value": "a",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "NumericLiteral",
@@ -142,8 +141,7 @@
               },
               "value": "prototype",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -154,8 +152,7 @@
             },
             "value": "foo",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -206,8 +203,7 @@
                     },
                     "value": "a",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               }
             ]

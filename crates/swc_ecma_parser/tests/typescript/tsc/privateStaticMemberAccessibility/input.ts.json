@@ -141,8 +141,7 @@
               },
               "value": "foo",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "typeAnnotation": null,
           "isStatic": true,
@@ -206,8 +205,7 @@
                 },
                 "value": "foo",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "async": false,
             "generator": false,

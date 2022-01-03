@@ -77,8 +77,7 @@
                       },
                       "value": "prototype",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 },
                 "value": {

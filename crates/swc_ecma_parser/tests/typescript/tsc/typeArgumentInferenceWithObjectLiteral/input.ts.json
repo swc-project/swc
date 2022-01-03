@@ -1480,8 +1480,7 @@
                     },
                     "value": "X",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               }
             ],
@@ -1641,8 +1640,7 @@
                             },
                             "value": "X",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "async": false,
                         "generator": false,
@@ -1881,8 +1879,7 @@
                             },
                             "value": "X",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "async": false,
                         "generator": false,
@@ -1921,8 +1918,7 @@
                     },
                     "value": "X",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               }
             ],
@@ -2082,8 +2078,7 @@
                             },
                             "value": "X",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "async": false,
                         "generator": false,
@@ -2122,8 +2117,7 @@
                     },
                     "value": "X",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               }
             ],

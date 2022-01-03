@@ -851,8 +851,7 @@
                 },
                 "value": "A",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -922,8 +921,7 @@
                 },
                 "value": "AG",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": {
@@ -1020,8 +1018,7 @@
                 },
                 "value": "A2",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -1091,8 +1088,7 @@
                 },
                 "value": "A2",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": {

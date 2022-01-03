@@ -183,8 +183,7 @@
               },
               "value": "length",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }

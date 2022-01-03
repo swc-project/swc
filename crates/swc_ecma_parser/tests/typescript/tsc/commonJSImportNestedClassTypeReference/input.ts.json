@@ -185,8 +185,7 @@
                   },
                   "value": "values",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null
@@ -281,8 +280,7 @@
             },
             "value": "K",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ClassExpression",
@@ -367,8 +365,7 @@
                             },
                             "value": "K",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "arguments": [],
                         "typeArguments": null
@@ -438,8 +435,7 @@
             },
             "value": "K",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -467,8 +463,7 @@
             },
             "value": "K",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     }

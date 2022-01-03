@@ -83,8 +83,7 @@
                 "value": "bar",
                 "optional": false
               }
-            },
-            "computed": false
+            }
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -154,8 +153,7 @@
                 "value": "foo",
                 "optional": false
               }
-            },
-            "computed": false
+            }
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -213,20 +211,27 @@
               }
             },
             "property": {
-              "type": "StringLiteral",
+              "type": "Computed",
               "span": {
-                "start": 108,
-                "end": 114,
+                "start": 103,
+                "end": 115,
                 "ctxt": 0
               },
-              "value": "#baz",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 108,
+                  "end": 114,
+                  "ctxt": 0
+                },
+                "value": "#baz",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
               }
-            },
-            "computed": true
+            }
           },
           "typeAnnotation": null,
           "isStatic": false,

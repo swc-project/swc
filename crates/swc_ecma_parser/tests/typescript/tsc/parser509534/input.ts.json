@@ -146,8 +146,7 @@
               },
               "value": "exports",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -158,8 +157,7 @@
             },
             "value": "route",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -240,8 +238,7 @@
                       },
                       "value": "get",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {
@@ -287,8 +284,7 @@
                               },
                               "value": "env",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "property": {
                             "type": "Identifier",
@@ -299,8 +295,7 @@
                             },
                             "value": "siteRoot",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "StringLiteral",
@@ -439,8 +434,7 @@
                                     },
                                     "value": "redirect",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "arguments": [
                                   {

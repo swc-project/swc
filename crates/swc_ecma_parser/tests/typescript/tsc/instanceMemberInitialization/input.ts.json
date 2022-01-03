@@ -163,8 +163,7 @@
             },
             "value": "x",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -291,8 +290,7 @@
                 },
                 "value": "x",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "right": {
               "type": "MemberExpression",
@@ -320,8 +318,7 @@
                 },
                 "value": "x",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "definite": false
@@ -543,8 +540,7 @@
                 },
                 "value": "Map_",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": {

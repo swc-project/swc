@@ -34,19 +34,7 @@ warning: CallExpr
 1 | import("foo")
   | ^^^^^^^^^^^^^
 
-warning: ExprOrSuper
- --> $DIR/tests/span/js/expr/dynamic-import.js:1:1
-  |
-1 | import("foo")
-  | ^^^^^^
-
-warning: Expr
- --> $DIR/tests/span/js/expr/dynamic-import.js:1:1
-  |
-1 | import("foo")
-  | ^^^^^^
-
-warning: Ident
+warning: Callee
  --> $DIR/tests/span/js/expr/dynamic-import.js:1:1
   |
 1 | import("foo")
