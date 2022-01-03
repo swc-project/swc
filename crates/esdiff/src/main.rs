@@ -60,6 +60,9 @@ fn main() -> Result<()> {
                 Cmd::DiffMin(cmd) => {
                     cmd.run(cm.clone())?;
                 }
+                Cmd::ReduceMin(cmd) => {
+                    cmd.run(cm.clone())?;
+                }
             }
 
             Ok(())
