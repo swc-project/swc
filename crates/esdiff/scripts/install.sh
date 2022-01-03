@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 set -eu
 
-cargo install --debug --path .
+cargo install --locked --debug --path .
