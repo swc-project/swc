@@ -2421,7 +2421,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.102.1"
+version = "0.102.2"
 dependencies = [
  "ahash",
  "anyhow",
