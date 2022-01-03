@@ -181,7 +181,9 @@ impl<'a> SuperReplacer<'a> {
     /// ```
     fn visit_mut_super_member_set(&mut self, n: &mut Expr) {
         match n {
-            Expr::Update(UpdateExpr { arg, op, .. }) => match &mut **arg {
+            Expr::Update(UpdateExpr {
+                arg, op, prefix, ..
+            }) => match &mut **arg {
                 Expr::Member(MemberExpr {
                     obj:
                         ExprOrSuper::Super(Super {
@@ -206,6 +208,7 @@ impl<'a> SuperReplacer<'a> {
                             value: 1.0,
                         }))),
                         *computed,
+                        *prefix,
                     );
                     self.processed = true;
                 }
@@ -237,6 +240,7 @@ impl<'a> SuperReplacer<'a> {
                                 *op,
                                 right.take(),
                                 *computed,
+                                false,
                             );
                             self.processed = true;
                             return;
@@ -316,17 +320,17 @@ impl<'a> SuperReplacer<'a> {
         op: AssignOp,
         rhs: Box<Expr>,
         computed: bool,
+        prefix: bool,
     ) -> Expr {
         let mut ref_ident = alias_ident_for(&rhs, "_ref");
         ref_ident.span = ref_ident.span.apply_mark(Mark::fresh(Mark::root()));
         let mut update_ident = alias_ident_for(&rhs, "_super");
         update_ident.span = update_ident.span.apply_mark(Mark::fresh(Mark::root()));
-
-        if op != op!("=") {
+        if computed {
             self.vars.push(ref_ident.clone());
-            if is_update {
-                self.vars.push(update_ident.clone());
-            }
+        }
+        if is_update && !prefix {
+            self.vars.push(update_ident.clone());
         }
         let mut is_computed = true;
         let mut prop_arg = match *prop {
@@ -367,19 +371,29 @@ impl<'a> SuperReplacer<'a> {
                     computed,
                 ));
                 let left = if is_update {
-                    Box::new(
-                        AssignExpr {
+                    if prefix {
+                        Box::new(Expr::Unary(UnaryExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(update_ident.clone().into()))),
-                            op: op!("="),
-                            right: Box::new(Expr::Unary(UnaryExpr {
+                            op: op!(unary, "+"),
+                            arg: left,
+                        }))
+                    } else {
+                        Box::new(
+                            AssignExpr {
                                 span: DUMMY_SP,
-                                op: op!(unary, "+"),
-                                arg: left,
-                            })),
-                        }
-                        .into(),
-                    )
+                                left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                                    update_ident.clone().into(),
+                                ))),
+                                op: op!("="),
+                                right: Box::new(Expr::Unary(UnaryExpr {
+                                    span: DUMMY_SP,
+                                    op: op!(unary, "+"),
+                                    arg: left,
+                                })),
+                            }
+                            .into(),
+                        )
+                    }
                 } else {
                     left
                 };
@@ -432,7 +446,7 @@ impl<'a> SuperReplacer<'a> {
             type_args: Default::default(),
         });
 
-        if is_update {
+        if is_update && !prefix {
             Expr::Seq(SeqExpr {
                 span: DUMMY_SP,
                 exprs: vec![Box::new(expr), Box::new(Expr::Ident(update_ident))],

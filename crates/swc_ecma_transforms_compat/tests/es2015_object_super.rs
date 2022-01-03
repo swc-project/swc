@@ -137,13 +137,65 @@ test!(
         }
       };
     Object.setPrototypeOf(obj, Base);"#,
-    r#"var _ref, _super, _obj;
+    r#"var _super, _obj;
     var Base = {
         test: "1"
     };
     var obj = _obj = {
         bar: function bar() {
             return _set(_getPrototypeOf(_obj), "test", (_super = +_get(_getPrototypeOf(_obj), "test", this)) + 1, this, true), _super;
+        }
+    };
+    Object.setPrototypeOf(obj, Base);"#
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    super_increment_postfix2,
+    r#"var Base = {
+        test: '1',
+    };
+      
+    var obj = {
+        bar() {
+            return super[test]++;
+        }
+      };
+    Object.setPrototypeOf(obj, Base);"#,
+    r#"var _ref, _super, _obj;
+    var Base = {
+        test: "1"
+    };
+    var obj = _obj = {
+        bar: function bar() {
+            return _set(_getPrototypeOf(_obj), _ref = test, (_super = +_get(_getPrototypeOf(_obj), _ref, this)) + 1, this, true), _super;
+        }
+    };
+    Object.setPrototypeOf(obj, Base);"#
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    super_increment_prefix,
+    r#"var Base = {
+        test: '1',
+    };
+      
+    var obj = {
+        bar() {
+            return ++super.test;
+        }
+    };
+    Object.setPrototypeOf(obj, Base);"#,
+    r#"var _obj;
+    var Base = {
+        test: "1"
+    };
+    var obj = _obj = {
+        bar: function bar() {
+            return _set(_getPrototypeOf(_obj), "test", +_get(_getPrototypeOf(_obj), "test", this) + 1, this, true);
         }
     };
     Object.setPrototypeOf(obj, Base);"#
