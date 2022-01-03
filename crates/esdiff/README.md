@@ -3,7 +3,7 @@
 ## `esdiff reduce-min`
 
 ```
-esdiff reduce-min --build '' --test 'npm test' --working-dir ~/src/ionic-framework/packages/react/ ~/src/ionic-framework/packages/react/src/index.ts
+esdiff reduce-min --build '' --test 'npm test.spec' --working-dir ~/src/ionic-framework/packages/react/ ~/src/ionic-framework/packages/react/src/index.ts
 ```
 
 (TODO) e.g. next.js app
