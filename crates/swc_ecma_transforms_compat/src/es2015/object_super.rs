@@ -54,10 +54,10 @@ impl VisitMut for ObjectSuper {
             for prop_or_spread in props.iter_mut() {
                 if let PropOrSpread::Prop(ref mut prop) = prop_or_spread {
                     match &mut **prop {
-                        Prop::Method(_) => {}
-                        _ => {
-                            prop.visit_mut_with(&mut replacer);
+                        Prop::KeyValue(KeyValueProp { value, .. }) => {
+                            value.visit_mut_with(&mut replacer);
                         }
+                        _ => {}
                     }
                 }
             }
@@ -255,7 +255,6 @@ impl<'a> SuperReplacer<'a> {
                     op: *op,
                     right: right.take(),
                 });
-                self.processed = true;
             }
             _ => {}
         }
@@ -534,6 +533,35 @@ mod tests {
         let obj = _obj = {
             a: function a() {
                 _set(_getPrototypeOf(_obj), "x", 1, this, true);
+            }
+        };"#
+    );
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| {
+            let top_level_mark = Mark::fresh(Mark::root());
+            chain!(
+                resolver_with_mark(top_level_mark),
+                shorthand(),
+                function_name(),
+                object_super()
+            )
+        },
+        nest,
+        "let obj = {
+            b(){
+                let o = {
+                    d(){
+                        super.d
+                    }
+                }
+            },
+        }",
+        r#"
+        var _obj;
+        let obj = _obj = {
+            a: function a() {
+                let c = _get(_getPrototypeOf(_obj), "x", this);
             }
         };"#
     );
