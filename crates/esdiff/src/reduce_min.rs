@@ -3,13 +3,16 @@ use std::{path::PathBuf, sync::Arc};
 use structopt::StructOpt;
 use swc_common::SourceMap;
 
-/// Diff the output of swc minifier and terser.
+/// This tool repeat replacing one file with a minified form at a time.
 #[derive(Debug, StructOpt)]
 pub(crate) struct ReduceMinCommand {
     entry: PathBuf,
 
-    #[structopt(long)]
-    no_mangle: bool,
+    #[structopt(long = "build")]
+    build_command: String,
+
+    #[structopt(long = "test")]
+    test_command: String,
 }
 
 impl ReduceMinCommand {
