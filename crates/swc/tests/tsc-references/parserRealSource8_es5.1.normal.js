@@ -394,5 +394,4 @@ var TypeScript;
     TypeScript1.preAssignCatchScopes = preAssignCatchScopes;
     TypeScript1.preAssignScopes = preAssignScopes;
     TypeScript1.postAssignScopes = postAssignScopes;
-})(TypeScript || (TypeScript = {
-}));
+})(TypeScript || (TypeScript = {}));

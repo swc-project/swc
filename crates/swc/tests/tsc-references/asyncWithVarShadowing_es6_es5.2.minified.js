@@ -216,8 +216,7 @@ function _fn11() {
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    x = _extends({
-                    }, y);
+                    x = _extends({}, y);
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -378,9 +377,7 @@ function _fn23() {
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    try {
-                    } catch (e) {
-                    }
+                    try {} catch (e) {}
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -393,9 +390,7 @@ function _fn24() {
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    try {
-                    } catch (e) {
-                    }
+                    try {} catch (e) {}
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -408,9 +403,7 @@ function _fn25() {
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    try {
-                    } catch (x) {
-                    }
+                    try {} catch (x) {}
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -424,8 +417,7 @@ function _fn26() {
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    try {
-                    } catch (param) {
+                    try {} catch (param) {
                         x1 = param.x;
                     }
                 case 1:
@@ -440,9 +432,7 @@ function _fn27() {
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    try {
-                    } finally{
-                    }
+                    try {} finally{}
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -708,9 +698,7 @@ function _fn40() {
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    try {
-                    } catch (e) {
-                    }
+                    try {} catch (e) {}
                 case 1:
                 case "end":
                     return _ctx.stop();

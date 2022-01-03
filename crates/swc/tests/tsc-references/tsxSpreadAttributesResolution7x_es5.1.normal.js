@@ -77,8 +77,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -125,13 +124,10 @@ var TextComponent = /*#__PURE__*/ function(_Component) {
 var textPropsFalse = {
     editable: false
 };
-var y1 = /*#__PURE__*/ React.createElement(TextComponent, _extends({
-}, textPropsFalse));
+var y1 = /*#__PURE__*/ React.createElement(TextComponent, _extends({}, textPropsFalse));
 var textPropsTrue = {
     editable: true,
-    onEdit: function() {
-    }
+    onEdit: function() {}
 };
-var y2 = /*#__PURE__*/ React.createElement(TextComponent, _extends({
-}, textPropsTrue));
+var y2 = /*#__PURE__*/ React.createElement(TextComponent, _extends({}, textPropsTrue));
 export { };

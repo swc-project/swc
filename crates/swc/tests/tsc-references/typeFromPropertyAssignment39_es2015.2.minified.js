@@ -1,4 +1,2 @@
-const foo = {
-};
-foo.baz = {
-}, foo.baz.blah = 3;
+const foo = {};
+foo.baz = {}, foo.baz.blah = 3;

@@ -14,8 +14,7 @@ var Outer = function() {
     })(Constructor = Outer, [
         {
             key: "public",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), Outer;
 }();

@@ -13,8 +13,7 @@ var E;
     E[E["A"] = 0] = "A";
     E[E["B"] = 1] = "B";
     E[E["C"] = 2] = "C";
-})(E || (E = {
-}));
+})(E || (E = {}));
 function getProperty(obj, key) {
     return obj[key];
 }
@@ -123,13 +122,11 @@ function f53(obj, k, s, n) {
     const x3 = obj[k];
 }
 function f54(obj, key) {
-    for(let s in obj[key]){
-    }
+    for(let s in obj[key]){}
     const b = "foo" in obj[key];
 }
 function f55(obj, key) {
-    for(let s in obj[key]){
-    }
+    for(let s in obj[key]){}
     const b = "foo" in obj[key];
 }
 function f60(source, target) {
@@ -333,16 +330,13 @@ function f1(thing) {
 // Repro from comment in #12114
 const assignTo2 = (object, key1, key2)=>(value)=>object[key1][key2] = value
 ;
-var empty = one(()=>{
-}) // inferred as {}, expected
+var empty = one(()=>{}) // inferred as {}, expected
 ;
 var hashOfEmpty1 = on({
-    test: ()=>{
-    }
+    test: ()=>{}
 }); // {}
 var hashOfEmpty2 = on({
-    test: (x)=>{
-    }
+    test: (x)=>{}
 }); // { test: boolean }
 let c1 = new Component1({
     data: {
@@ -411,8 +405,7 @@ class AnotherSampleClass extends SampleClass {
         super(merge(props, foo));
     }
 }
-new AnotherSampleClass({
-});
+new AnotherSampleClass({});
 // Positive repro from #17166
 function f3(t, k, tk) {
     for(let key in t){
@@ -425,8 +418,7 @@ var Flag;
 (function(Flag) {
     Flag["FLAG_1"] = "flag_1";
     Flag["FLAG_2"] = "flag_2";
-})(Flag || (Flag = {
-}));
+})(Flag || (Flag = {}));
 function getFlagsFromSimpleRecord(record, flags) {
     return record[flags[0]];
 }

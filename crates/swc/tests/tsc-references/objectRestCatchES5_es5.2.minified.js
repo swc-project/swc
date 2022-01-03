@@ -1,13 +1,9 @@
-try {
-} catch (_param) {
+try {} catch (_param) {
     !function(source, excluded) {
-        if (null == source) return {
-        };
+        if (null == source) return {};
         var key, i, target = function(source, excluded) {
-            if (null == source) return {
-            };
-            var key, i, target = {
-            }, sourceKeys = Object.keys(source);
+            if (null == source) return {};
+            var key, i, target = {}, sourceKeys = Object.keys(source);
             for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
             return target;
         }(source, excluded);

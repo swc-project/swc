@@ -28,8 +28,7 @@ var result;
 var result2;
 if (!_instanceof(result, RegExp)) {
     result = result2;
-} else if (!result.global) {
-}
+} else if (!result.global) {}
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
@@ -39,8 +38,7 @@ var C = /*#__PURE__*/ function() {
         {
             key: "validate",
             value: function validate() {
-                return {
-                };
+                return {};
             }
         }
     ]);
@@ -55,7 +53,6 @@ function foo() {
     v // Validator & Partial<OnChanges> via subtype reduction
     ;
     if (v.onChanges) {
-        v.onChanges({
-        });
+        v.onChanges({});
     }
 }

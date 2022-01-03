@@ -1,6 +1,5 @@
 module.exports = class {
-    method() {
-    }
+    method() {}
     constructor(){
         this.item = 3;
     }

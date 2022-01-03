@@ -7,12 +7,10 @@ function _defineProperty(obj, key, value) {
     }) : obj[key] = value, obj;
 }
 var _key, _key1, _obj, TopLevelSym = Symbol(), InnerSym = Symbol();
-module.exports = (_defineProperty(_obj = {
-}, TopLevelSym, function() {
+module.exports = (_defineProperty(_obj = {}, TopLevelSym, function() {
     var x = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : 12;
     return x;
-}), _defineProperty(_obj, "items", _defineProperty({
-}, InnerSym, function() {
+}), _defineProperty(_obj, "items", _defineProperty({}, InnerSym, function() {
     var arg = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
         x: 12
     };

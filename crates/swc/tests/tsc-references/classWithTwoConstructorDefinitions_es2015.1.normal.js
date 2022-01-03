@@ -1,8 +1,6 @@
 class C {
-    constructor(x){
-    }
+    constructor(x){}
 }
 class D {
-    constructor(x, y){
-    }
+    constructor(x, y){}
 }

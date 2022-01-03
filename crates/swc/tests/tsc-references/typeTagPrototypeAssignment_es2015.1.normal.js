@@ -2,6 +2,5 @@
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
-function C() {
-}
+function C() {}
 /** @type {string} */ C.prototype = 12;

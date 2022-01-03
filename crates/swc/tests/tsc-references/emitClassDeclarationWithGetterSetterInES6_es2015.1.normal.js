@@ -16,14 +16,9 @@ class C {
     get [tmp2]() {
         return "";
     }
-    set [tmp3](x) {
-    }
-    set [tmp4](y) {
-    }
-    set foo(a) {
-    }
-    static set bar(b) {
-    }
-    static set [tmp5](b) {
-    }
+    set [tmp3](x) {}
+    set [tmp4](y) {}
+    set foo(a) {}
+    static set bar(b) {}
+    static set [tmp5](b) {}
 }

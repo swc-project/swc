@@ -17,8 +17,7 @@ var ExplicitPublic;
     }
     class B3 extends A3 {
     }
-})(ExplicitPublic || (ExplicitPublic = {
-}));
+})(ExplicitPublic || (ExplicitPublic = {}));
 var ImplicitPublic;
 (function(ImplicitPublic) {
     class A {
@@ -33,5 +32,4 @@ var ImplicitPublic;
     }
     class B3 extends A3 {
     }
-})(ImplicitPublic || (ImplicitPublic = {
-}));
+})(ImplicitPublic || (ImplicitPublic = {}));

@@ -29,5 +29,4 @@ class Foo {
         this.y = y;
     }
 }
-function f8(foo1, bar = foo1) {
-}
+function f8(foo1, bar = foo1) {}

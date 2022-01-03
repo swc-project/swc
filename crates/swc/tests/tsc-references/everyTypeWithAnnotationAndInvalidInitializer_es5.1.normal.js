@@ -28,8 +28,7 @@ var M;
     };
     M1.A = A;
     M1.F2 = F2;
-})(M || (M = {
-}));
+})(M || (M = {}));
 var N;
 (function(N1) {
     var F2 = function F2(x) {
@@ -41,8 +40,7 @@ var N;
     };
     N1.A = A;
     N1.F2 = F2;
-})(N || (N = {
-}));
+})(N || (N = {}));
 var aNumber = 'this is a string';
 var aString = 9.9;
 var aDate = 9.9;

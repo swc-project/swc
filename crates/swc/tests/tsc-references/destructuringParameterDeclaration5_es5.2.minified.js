@@ -27,8 +27,7 @@ function _createSuper(Derived) {
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
         try {
-            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-            })), !0;
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
         } catch (e) {
             return !1;
         }
@@ -85,30 +84,26 @@ function d3(param) {
 new Class(), d0({
     x: 1
 }), d0({
-    x: {
-    }
+    x: {}
 }), d0({
     x: "string"
 }), d1({
     x: new Class()
 }), d1({
-    x: {
-    }
+    x: {}
 }), d1({
     x: "string"
 }), d2({
     x: new SubClass()
 }), d2({
-    x: {
-    }
+    x: {}
 }), d3({
     y: new SubD()
 }), d3({
     y: new SubClass()
 }), d3({
     y: new Class()
-}), d3({
-}), d3({
+}), d3({}), d3({
     y: 1
 }), d3({
     y: "world"

@@ -3,8 +3,7 @@ var _class;
 // @declaration: true
 function g() {
     var x = (_class = class C {
-        foo() {
-        }
+        foo() {}
         constructor(){
             this.prop1 = 1;
         }

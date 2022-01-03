@@ -1,6 +1,5 @@
 var tmp = Symbol.iterator;
-!function(s1, ...s) {
-}(...new class {
+!function(s1, ...s) {}(...new class {
     next() {
         return {
             value: Symbol(),

@@ -1,5 +1,4 @@
-var x = {
-};
+var x = {};
 Object.defineProperty(x, "name", {
     value: "Charles",
     writable: !0
@@ -12,8 +11,7 @@ Object.defineProperty(x, "name", {
     get: function() {
         return 98122;
     },
-    set: function(_) {
-    }
+    set: function(_) {}
 }), Object.defineProperty(x, "houseNumber", {
     get: function() {
         return 21.75;

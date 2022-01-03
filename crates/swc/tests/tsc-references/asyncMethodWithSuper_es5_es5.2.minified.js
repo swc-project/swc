@@ -111,13 +111,11 @@ var A = function() {
     return _createClass(A, [
         {
             key: "x",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "y",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), A;
 }(), B = function(A) {
@@ -138,8 +136,7 @@ var A = function() {
             if (Reflect.construct.sham) return !1;
             if ("function" == typeof Proxy) return !0;
             try {
-                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                })), !0;
+                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
             } catch (e) {
                 return !1;
             }
@@ -217,8 +214,7 @@ var A = function() {
                         for(;;)switch(_ctx.prev = _ctx.next){
                             case 0:
                                 var _args, _args1;
-                                f = function() {
-                                }, _super_x(), _super_method(), a = _get(_getPrototypeOf(B.prototype), "x", _this), b = _get(_getPrototypeOf(B.prototype), "x", _this), _args = f, _set(_getPrototypeOf(B.prototype), "x", _args, _this, !0), _args1 = f, _set(_getPrototypeOf(B.prototype), "x", _args1, _this, !0), ref = {
+                                f = function() {}, _super_x(), _super_method(), a = _get(_getPrototypeOf(B.prototype), "x", _this), b = _get(_getPrototypeOf(B.prototype), "x", _this), _args = f, _set(_getPrototypeOf(B.prototype), "x", _args, _this, !0), _args1 = f, _set(_getPrototypeOf(B.prototype), "x", _args1, _this, !0), ref = {
                                     f: f
                                 }, _super_x1() = ref.f, ref1 = {
                                     f: f

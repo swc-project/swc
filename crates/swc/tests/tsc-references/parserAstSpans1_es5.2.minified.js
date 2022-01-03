@@ -53,8 +53,7 @@ function _createSuper(Derived) {
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
         try {
-            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-            })), !0;
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
         } catch (e) {
             return !1;
         }
@@ -76,23 +75,19 @@ var i1_i, i2_i, i3_i, c1 = function() {
     return _createClass(c1, [
         {
             key: "i1_f1",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "i1_nc_f1",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "f1",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "nc_f1",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), c1;
 }();
@@ -107,8 +102,7 @@ var c2 = function() {
     return _createClass(c2, [
         {
             key: "c2_f1",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "c2_prop",
@@ -118,8 +112,7 @@ var c2 = function() {
         },
         {
             key: "c2_nc_f1",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "c2_nc_prop",
@@ -129,8 +122,7 @@ var c2 = function() {
         },
         {
             key: "f1",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "prop",
@@ -140,8 +132,7 @@ var c2 = function() {
         },
         {
             key: "nc_f1",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "nc_prop",
@@ -161,8 +152,7 @@ var c2 = function() {
     return _createClass(c3, [
         {
             key: "f1",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "prop",
@@ -172,8 +162,7 @@ var c2 = function() {
         },
         {
             key: "nc_f1",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "nc_prop",

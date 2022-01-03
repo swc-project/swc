@@ -1,3 +1,2 @@
-function two() {
-}
+function two() {}
 two();

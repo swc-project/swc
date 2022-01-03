@@ -21,8 +21,7 @@
         label: 'Style & Layout'
     }
 };
-/** @type {Object<string, TaskGroup>} */ const taskNameToGroup = {
-};
+/** @type {Object<string, TaskGroup>} */ const taskNameToGroup = {};
 module.exports = {
     taskGroups,
     taskNameToGroup
@@ -38,7 +37,6 @@ const { taskGroups , taskNameToGroup  } = require('./module.js');
     /**
      * @param {TaskGroup} x
      * @param {TaskNode} y
-     */ constructor(x, y){
-    }
+     */ constructor(x, y){}
 }
 module.exports = MainThreadTasks;

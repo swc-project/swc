@@ -4,8 +4,7 @@ class x87 {
             d1,
             d2
         ];
-    }){
-    }
+    }){}
 }
 class x90 {
     constructor(parm__4: {
@@ -15,6 +14,5 @@ class x90 {
             d1,
             d2
         ];
-    }){
-    }
+    }){}
 }

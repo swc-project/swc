@@ -53,9 +53,7 @@ function _unsupportedIterableToArray(o, minLen) {
     _slicedToArray(a.p2, 0);
     var _p12 = a.p1, _p12 = null !== _p12 ? _p12 : _throw(new TypeError("Cannot destructure undefined"));
     _slicedToArray(a.p2, 0);
-    var ref = {
-    }, ref = null !== ref ? ref : _throw(new TypeError("Cannot destructure undefined")), ref1 = {
-    }, ref1 = null !== ref1 ? ref1 : _throw(new TypeError("Cannot destructure undefined"));
+    var ref = {}, ref = null !== ref ? ref : _throw(new TypeError("Cannot destructure undefined")), ref1 = {}, ref1 = null !== ref1 ? ref1 : _throw(new TypeError("Cannot destructure undefined"));
 }(), (function() {
     var ns = [], _iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = void 0;
     try {

@@ -1,6 +1,5 @@
 var TypeScript, TypeScript1;
-(TypeScript1 = TypeScript || (TypeScript = {
-})).PrintContext = class {
+(TypeScript1 = TypeScript || (TypeScript = {})).PrintContext = class {
     increaseIndent() {
         this.indentAmt++;
     }

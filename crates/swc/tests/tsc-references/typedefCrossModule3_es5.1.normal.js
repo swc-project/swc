@@ -7,8 +7,7 @@ function _classCallCheck(instance, Constructor) {
 // @allowJs: true
 // @checkJs: true
 // @Filename: mod2.js
-/** @typedef {number} Foo */ var ns = {
-};
+/** @typedef {number} Foo */ var ns = {};
 ns.Foo = function _class() {
     "use strict";
     _classCallCheck(this, _class);

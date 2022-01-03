@@ -22,9 +22,7 @@ x1(0);
 x2(0);
 /**
  * @type {object}
- */ var props = {
-};
+ */ var props = {};
 /**
  * @type {Object}
- */ var props = {
-};
+ */ var props = {};

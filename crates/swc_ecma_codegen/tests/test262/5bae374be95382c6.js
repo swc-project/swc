@@ -1,6 +1,5 @@
 function a() {
     return;
-    {
-    }
+    {}
     /foo/;
 }

@@ -121,5 +121,4 @@ function _defineProperties(target, props) {
         ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), ScopeSearchFilter;
     }();
     TypeScript1.ScopeSearchFilter = ScopeSearchFilter, TypeScript1.instanceFilter = new ScopeSearchFilter(instanceCompare, instanceFilterStop), TypeScript1.preAssignModuleScopes = preAssignModuleScopes, TypeScript1.preAssignClassScopes = preAssignClassScopes, TypeScript1.preAssignInterfaceScopes = preAssignInterfaceScopes, TypeScript1.preAssignWithScopes = preAssignWithScopes, TypeScript1.preAssignFuncDeclScopes = preAssignFuncDeclScopes, TypeScript1.preAssignCatchScopes = preAssignCatchScopes, TypeScript1.preAssignScopes = preAssignScopes, TypeScript1.postAssignScopes = postAssignScopes;
-}(TypeScript || (TypeScript = {
-}));
+}(TypeScript || (TypeScript = {}));

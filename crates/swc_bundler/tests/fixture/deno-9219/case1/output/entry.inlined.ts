@@ -27,22 +27,16 @@ function isNumber(x) {
 function hasKey(obj, keys) {
     let o = obj;
     keys.slice(0, -1).forEach((key)=>{
-        o = get(o, key) ?? {
-        };
+        o = get(o, key) ?? {};
     });
     const key1 = keys[keys.length - 1];
     return key1 in o;
 }
-function parse(args1, { "--": doubleDash = false , alias: alias3 = {
-} , boolean: __boolean = false , default: defaults = {
-} , stopEarly =false , string =[] , unknown =(i)=>i
-  } = {
-}) {
+function parse(args1, { "--": doubleDash = false , alias: alias3 = {} , boolean: __boolean = false , default: defaults = {} , stopEarly =false , string =[] , unknown =(i)=>i
+  } = {}) {
     const flags = {
-        bools: {
-        },
-        strings: {
-        },
+        bools: {},
+        strings: {},
         unknownFn: unknown,
         allBools: false
     };
@@ -58,8 +52,7 @@ function parse(args1, { "--": doubleDash = false , alias: alias3 = {
             }
         }
     }
-    const aliases = {
-    };
+    const aliases = {};
     if (alias3 !== undefined) {
         for(const key in alias3){
             const val = getForce(alias3, key);
@@ -102,8 +95,7 @@ function parse(args1, { "--": doubleDash = false , alias: alias3 = {
         let o = obj;
         keys.slice(0, -1).forEach(function(key) {
             if (get(o, key) === undefined) {
-                o[key] = {
-                };
+                o[key] = {};
             }
             o = get(o, key);
         });

@@ -46,5 +46,4 @@ var A, Point = function() {
         ]), Point;
     }();
     A1.Point = Point;
-}(A || (A = {
-}));
+}(A || (A = {}));

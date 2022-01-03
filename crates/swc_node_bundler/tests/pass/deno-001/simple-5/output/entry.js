@@ -1,5 +1,3 @@
-function deferred() {
-}
-function MuxAsyncIterator() {
-}
+function deferred() {}
+function MuxAsyncIterator() {}
 console.log(deferred, MuxAsyncIterator);

@@ -58,8 +58,7 @@ var C = // @target: es2017
         {
             key: "method",
             value: function method() {
-                var other = function other() {
-                };
+                var other = function other() {};
                 var _this = this;
                 var fn = function() {
                     var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {

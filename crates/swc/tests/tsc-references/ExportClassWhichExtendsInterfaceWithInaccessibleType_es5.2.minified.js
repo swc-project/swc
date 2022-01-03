@@ -24,5 +24,4 @@ function _defineProperties(target, props) {
         ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Point2d;
     }();
     A1.Point2d = Point2d;
-}(A || (A = {
-}));
+}(A || (A = {}));

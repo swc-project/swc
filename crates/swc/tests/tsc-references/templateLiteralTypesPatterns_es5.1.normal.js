@@ -21,8 +21,7 @@ function _createClass(Constructor, protoProps, staticProps) {
 var a = "/bin";
 // not ok
 var b = "no slash";
-function download(hostSpec) {
-}
+function download(hostSpec) {}
 // ok, has protocol
 download("http://example.com/protocol");
 // issues error - no protocol

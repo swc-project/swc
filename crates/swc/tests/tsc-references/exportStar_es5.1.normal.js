@@ -7,8 +7,7 @@ export var x = 1;
 export var y = 2;
 // @filename: t2.ts
 export default "hello";
-export function foo() {
-}
+export function foo() {}
 // @filename: t3.ts
 var x = "x";
 var y = "y";

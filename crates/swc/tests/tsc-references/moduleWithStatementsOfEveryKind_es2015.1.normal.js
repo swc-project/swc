@@ -12,14 +12,12 @@ var A;
     (function(Module) {
         class A {
         }
-    })(Module || (Module = {
-    }));
+    })(Module || (Module = {}));
     let Color;
     (function(Color) {
         Color[Color["Blue"] = 0] = "Blue";
         Color[Color["Red"] = 1] = "Red";
-    })(Color || (Color = {
-    }));
+    })(Color || (Color = {}));
     var x = 12;
     function F(s) {
         return 2;
@@ -33,8 +31,7 @@ var A;
         id: 2,
         isvalid: true
     };
-})(A || (A = {
-}));
+})(A || (A = {}));
 var Y;
 (function(Y1) {
     class A2 {
@@ -53,14 +50,12 @@ var Y;
     (function(Module) {
         class A {
         }
-    })(Module = Y1.Module || (Y1.Module = {
-    }));
+    })(Module = Y1.Module || (Y1.Module = {}));
     let Color;
     (function(Color) {
         Color[Color["Blue"] = 0] = "Blue";
         Color[Color["Red"] = 1] = "Red";
-    })(Color = Y1.Color || (Y1.Color = {
-    }));
+    })(Color = Y1.Color || (Y1.Color = {}));
     var x = Y1.x = 12;
     function F(s) {
         return 2;
@@ -75,5 +70,4 @@ var Y;
         id: 2,
         isvalid: true
     };
-})(Y || (Y = {
-}));
+})(Y || (Y = {}));

@@ -31,8 +31,7 @@ var Handler = // @allowJs: true
     _createClass(Handler, [
         {
             key: "process",
-            value: function process() {
-            }
+            value: function process() {}
         }
     ], [
         {
@@ -44,8 +43,7 @@ var Handler = // @allowJs: true
     ]);
     return Handler;
 }();
-Handler.statische = function() {
-};
+Handler.statische = function() {};
 var Strings = {
     a: "A",
     b: "B"

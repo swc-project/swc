@@ -4,8 +4,7 @@
 // @Filename: bug26885.js
 // @strict: true
 function Multimap3() {
-    this._map = {
-    };
+    this._map = {};
 }
 Multimap3.prototype = {
     /**

@@ -15,8 +15,7 @@ export var M1;
         this.m1.x = 20; // Error
     };
     M11.C1 = C1;
-})(M1 || (M1 = {
-}));
+})(M1 || (M1 = {}));
 // @Filename: foo2.ts
 var foo1 = require('./foo1');
 (function(M12) {
@@ -31,5 +30,4 @@ var foo1 = require('./foo1');
         tmp.x = 20; // Error			
     };
     M12.C1 = C1;
-})(M1 || (M1 = {
-}));
+})(M1 || (M1 = {}));

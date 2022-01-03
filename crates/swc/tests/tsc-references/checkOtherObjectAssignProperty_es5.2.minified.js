@@ -7,8 +7,7 @@ Object.defineProperty(exports, "thing", {
 }), Object.defineProperty(exports, "prop", {
     value: 42,
     writable: !0
-}), Object.defineProperty(exports, "bad1", {
-}), Object.defineProperty(exports, "bad2", {
+}), Object.defineProperty(exports, "bad1", {}), Object.defineProperty(exports, "bad2", {
     get: function() {
         return 12;
     },

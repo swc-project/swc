@@ -2,8 +2,7 @@
 // @checkJs: true
 // @allowJs: true
 // @Filename: bug24703.js
-var Common = {
-};
+var Common = {};
 Common.I = class _class {
     constructor(){
         this.i = 1;

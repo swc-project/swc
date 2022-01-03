@@ -49,8 +49,7 @@ function _createSuper(Derived) {
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
         try {
-            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-            })), !0;
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
         } catch (e) {
             return !1;
         }
@@ -72,8 +71,7 @@ function Wagon(numberOxen) {
 }
 Wagon.circle = function(wagons) {
     return wagons ? wagons.length : 3.14;
-}, Wagon.prototype.load = function(supplies) {
-}, Wagon.prototype.weight = function(supplies) {
+}, Wagon.prototype.load = function(supplies) {}, Wagon.prototype.weight = function(supplies) {
     return supplies ? supplies.length : -1;
 }, Wagon.prototype.speed = function() {
     return this.numberOxen / this.weight();

@@ -6,8 +6,7 @@ class Base {
     get a() {
         return 1;
     }
-    set a(v) {
-    }
+    set a(v) {}
 }
 // error, not a subtype
 class Derived extends Base {
@@ -17,6 +16,5 @@ class Derived extends Base {
     get a() {
         return 1;
     }
-    set a(v) {
-    }
+    set a(v) {}
 }

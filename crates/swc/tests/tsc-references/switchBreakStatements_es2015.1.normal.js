@@ -35,8 +35,7 @@ SEVEN: switch(''){
                         break SEVEN;
                         EIGHT: switch(''){
                             case 'a':
-                                var fn = function() {
-                                };
+                                var fn = function() {};
                                 break EIGHT;
                         }
                 }

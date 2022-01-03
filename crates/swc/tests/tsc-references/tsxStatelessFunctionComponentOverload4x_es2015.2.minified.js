@@ -16,23 +16,17 @@ React.createElement(OneThing, {
     extraProp: !0
 }), React.createElement(OneThing, {
     yy: 10
-}), React.createElement(OneThing, _extends({
-}, obj, {
+}), React.createElement(OneThing, _extends({}, obj, {
     yy1: !0
-})), React.createElement(OneThing, _extends({
-}, obj, {
+})), React.createElement(OneThing, _extends({}, obj, {
     extra: "extra attr"
-})), React.createElement(OneThing, _extends({
-}, obj, {
+})), React.createElement(OneThing, _extends({}, obj, {
     y1: 10000
-})), React.createElement(OneThing, _extends({
-}, obj, {
+})), React.createElement(OneThing, _extends({}, obj, {
     yy: !0
-})), React.createElement(OneThing, _extends({
-}, obj2, {
+})), React.createElement(OneThing, _extends({}, obj2, {
     extra: "extra attr"
-})), React.createElement(OneThing, _extends({
-}, obj2, {
+})), React.createElement(OneThing, _extends({}, obj2, {
     yy: !0
 })), React.createElement(TestingOneThing, {
     "extra-data": !0

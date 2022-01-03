@@ -27,8 +27,7 @@ var C = // @strict: true
     _createClass(C, [
         {
             key: "method",
-            value: function method() {
-            }
+            value: function method() {}
         },
         {
             key: "other",

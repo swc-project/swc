@@ -16,11 +16,7 @@ class Opt extends React.Component {
 const obj1 = {
     x: 2
 };
-React.createElement(Opt, null), React.createElement(Opt, _extends({
-}, {
-})), React.createElement(Opt, _extends({
-}, obj1)), React.createElement(Opt, _extends({
-}, obj1, {
+React.createElement(Opt, null), React.createElement(Opt, _extends({}, {})), React.createElement(Opt, _extends({}, obj1)), React.createElement(Opt, _extends({}, obj1, {
     y: !0
 })), React.createElement(Opt, {
     x: 2

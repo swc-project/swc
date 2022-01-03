@@ -387,8 +387,7 @@ var M;
         return _f11.apply(this, arguments);
     }
     M1.f1 = f11;
-})(M || (M = {
-}));
+})(M || (M = {}));
 // @target: es2017
 // @isolatedModules: true
 export { };

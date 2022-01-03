@@ -1,2 +1,1 @@
-function a(b = new.target) {
-}
+function a(b = new.target) {}

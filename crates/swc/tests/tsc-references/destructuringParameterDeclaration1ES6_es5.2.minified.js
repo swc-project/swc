@@ -99,8 +99,7 @@ a1([
 }), b2("string", {
     x: 200,
     y: !0
-}), (Foo = Foo || (Foo = {
-}))[Foo.a = 0] = "a", c0({
+}), (Foo = Foo || (Foo = {}))[Foo.a = 0] = "a", c0({
     z: {
         x: 1,
         y: {
@@ -116,8 +115,7 @@ a1([
     }
 }), c1(), c1({
     z: 1
-}), c2({
-}), c2({
+}), c2({}), c2({
     z: 1
 }), (function() {
     (arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
@@ -152,13 +150,11 @@ var Foo, Foo, C2 = function() {
     return _createClass(C2, [
         {
             key: "d3",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "d4",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "e0",

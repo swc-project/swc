@@ -1,7 +1,5 @@
 new class {
-    constructor(){
-    }
+    constructor(){}
 }().constructor, new class {
-    constructor(x){
-    }
+    constructor(x){}
 }().constructor;

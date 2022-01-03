@@ -7,9 +7,7 @@ function foo(x) {
 function foo2(x) {
     return x;
 }
-foo(1), foo(function() {
-}, 1), foo(1, function() {
-});
+foo(1), foo(function() {}, 1), foo(1, function() {});
 var b, b2, f2, C = function() {
     "use strict";
     _classCallCheck(this, C);

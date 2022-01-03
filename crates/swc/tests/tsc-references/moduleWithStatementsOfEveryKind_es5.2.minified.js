@@ -28,8 +28,7 @@ function _createSuper(Derived) {
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
         try {
-            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-            })), !0;
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
         } catch (e) {
             return !1;
         }
@@ -70,14 +69,11 @@ function _createSuper(Derived) {
         }
         return BB;
     }(A2);
-    Module || (Module = {
-    }), A1 = function() {
+    Module || (Module = {}), A1 = function() {
         "use strict";
         _classCallCheck(this, A1);
-    }, (Color = Color || (Color = {
-    }))[Color.Blue = 0] = "Blue", Color[Color.Red = 1] = "Red";
-}(A || (A = {
-})), (function(Y1) {
+    }, (Color = Color || (Color = {}))[Color.Blue = 0] = "Blue", Color[Color.Red = 1] = "Red";
+}(A || (A = {})), (function(Y1) {
     var Color, A6 = function() {
         "use strict";
         _classCallCheck(this, A6);
@@ -107,12 +103,10 @@ function _createSuper(Derived) {
         }
         return BB;
     }(A6);
-    Y1.BB = BB, Y1.Module || (Y1.Module = {
-    }), A5 = function() {
+    Y1.BB = BB, Y1.Module || (Y1.Module = {}), A5 = function() {
         "use strict";
         _classCallCheck(this, A5);
-    }, (Color = Color = Y1.Color || (Y1.Color = {
-    }))[Color.Blue = 0] = "Blue", Color[Color.Red = 1] = "Red", Y1.x = 12, Y1.F = function(s) {
+    }, (Color = Color = Y1.Color || (Y1.Color = {}))[Color.Blue = 0] = "Blue", Color[Color.Red = 1] = "Red", Y1.x = 12, Y1.F = function(s) {
         return 2;
     }, Y1.array = null, Y1.fn = function(s) {
         return "hello " + s;
@@ -121,5 +115,4 @@ function _createSuper(Derived) {
         id: 2,
         isvalid: !0
     };
-})(Y || (Y = {
-}));
+})(Y || (Y = {}));

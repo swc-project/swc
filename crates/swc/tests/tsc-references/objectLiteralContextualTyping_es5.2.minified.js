@@ -8,5 +8,4 @@ foo({
     description: !1
 }), foo({
     a: 10
-}), bar({
-});
+}), bar({});

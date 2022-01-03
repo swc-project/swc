@@ -14,8 +14,7 @@ class Point {
     function Origin() {
         return "";
     } // not an error, since not exported
-})(Point || (Point = {
-}));
+})(Point || (Point = {}));
 var A;
 (function(A1) {
     class Point1 {
@@ -35,7 +34,5 @@ var A;
         function Origin() {
             return "";
         } // not an error since not exported
-    })(Point1 = A1.Point || (A1.Point = {
-    }));
-})(A || (A = {
-}));
+    })(Point1 = A1.Point || (A1.Point = {}));
+})(A || (A = {}));

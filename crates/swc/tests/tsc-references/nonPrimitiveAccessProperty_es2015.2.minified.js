@@ -9,5 +9,4 @@ function _extends() {
 }
 a.toString(), a.nonExist();
 var a, { destructuring  } = a;
-_extends({
-}, a);
+_extends({}, a);

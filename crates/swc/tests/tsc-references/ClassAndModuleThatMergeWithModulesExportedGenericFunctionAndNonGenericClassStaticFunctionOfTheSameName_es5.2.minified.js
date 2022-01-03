@@ -15,12 +15,10 @@ var clodule = function() {
     return Constructor = clodule, protoProps = null, staticProps = [
         {
             key: "fn",
-            value: function(id) {
-            }
+            value: function(id) {}
         }
     ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), clodule;
 }();
-(clodule || (clodule = {
-})).fn = function(x, y) {
+(clodule || (clodule = {})).fn = function(x, y) {
     return x;
 };

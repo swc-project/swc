@@ -2,13 +2,11 @@ var // enums assignable to number, any, Object, errors unless otherwise noted
 E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
-}));
+})(E || (E = {}));
 var F;
 (function(F) {
     F[F["B"] = 0] = "B";
-})(F || (F = {
-}));
+})(F || (F = {}));
 var e = E.A;
 var f = F.B;
 e = f;
@@ -49,5 +47,4 @@ var Others;
         var a = e;
         var b = e;
     }
-})(Others || (Others = {
-}));
+})(Others || (Others = {}));

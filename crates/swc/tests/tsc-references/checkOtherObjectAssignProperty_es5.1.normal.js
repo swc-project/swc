@@ -20,8 +20,7 @@ Object.defineProperty(exports, propName, {
     value: 42,
     writable: true
 });
-Object.defineProperty(exports, "bad1", {
-});
+Object.defineProperty(exports, "bad1", {});
 Object.defineProperty(exports, "bad2", {
     get: function get() {
         return 12;

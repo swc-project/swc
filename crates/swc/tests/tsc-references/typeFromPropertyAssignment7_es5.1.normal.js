@@ -3,8 +3,7 @@
 // @checkJs: true
 // @target: es6
 // @Filename: a.js
-var obj = {
-};
+var obj = {};
 obj.method = function(hunch) {
     return true;
 };

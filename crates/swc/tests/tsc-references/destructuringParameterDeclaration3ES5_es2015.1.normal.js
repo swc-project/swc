@@ -1,19 +1,11 @@
-function a1(...x) {
-}
-function a2(...a) {
-}
-function a3(...a) {
-}
-function a4(...a) {
-}
-function a5(...a) {
-}
-function a9([a, b, [[c]]]) {
-}
-function a10([a, b, [[c]], ...x]) {
-}
-function a11([a, b, c, ...x]) {
-}
+function a1(...x) {}
+function a2(...a) {}
+function a3(...a) {}
+function a4(...a) {}
+function a5(...a) {}
+function a9([a, b, [[c]]]) {}
+function a10([a, b, [[c]], ...x]) {}
+function a11([a, b, c, ...x]) {}
 var array = [
     1,
     2,
@@ -66,23 +58,19 @@ a11([
     2
 ]); // Parameter type is number[]
 // Rest parameter with generic
-function foo(...a) {
-}
+function foo(...a) {}
 foo("hello", 1, 2);
 foo("hello", "world");
 var E;
 (function(E) {
     E[E["a"] = 0] = "a";
     E[E["b"] = 1] = "b";
-})(E || (E = {
-}));
+})(E || (E = {}));
 var E1;
 (function(E1) {
     E1[E1["a"] = 0] = "a";
     E1[E1["b"] = 1] = "b";
-})(E1 || (E1 = {
-}));
-function foo1(...a) {
-}
+})(E1 || (E1 = {}));
+function foo1(...a) {}
 foo1(1, 2, 3, E.a);
 foo1(1, 2, 3, E1.a, E.b);

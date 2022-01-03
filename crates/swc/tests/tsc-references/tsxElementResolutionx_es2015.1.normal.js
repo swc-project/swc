@@ -7,8 +7,7 @@ var Dotted;
     class Name {
     }
     Dotted1.Name = Name;
-})(Dotted || (Dotted = {
-}));
+})(Dotted || (Dotted = {}));
 // Should find the intrinsic element, not the class element
 var a = /*#__PURE__*/ React.createElement("foundFirst", {
     x: "hello"

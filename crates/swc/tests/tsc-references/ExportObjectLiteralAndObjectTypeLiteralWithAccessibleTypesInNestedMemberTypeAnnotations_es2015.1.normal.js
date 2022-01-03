@@ -7,5 +7,4 @@ var A;
         }
     }
     var UnitSquare = A1.UnitSquare = null;
-})(A || (A = {
-}));
+})(A || (A = {}));

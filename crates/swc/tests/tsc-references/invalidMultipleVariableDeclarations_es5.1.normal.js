@@ -49,8 +49,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -101,8 +100,7 @@ var M;
     };
     M1.A = A;
     M1.F2 = F2;
-})(M || (M = {
-}));
+})(M || (M = {}));
 // all of these are errors
 var a;
 var a = 1;

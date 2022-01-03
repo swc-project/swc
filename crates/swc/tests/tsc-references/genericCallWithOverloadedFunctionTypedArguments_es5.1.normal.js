@@ -13,8 +13,7 @@ var NonGenericParameter;
     var r4 = foo4(function(x) {
         return x;
     });
-})(NonGenericParameter || (NonGenericParameter = {
-}));
+})(NonGenericParameter || (NonGenericParameter = {}));
 var GenericParameter;
 (function(GenericParameter) {
     var foo5 = function foo5(cb) {
@@ -48,5 +47,4 @@ var GenericParameter;
     }); // any => string (+1 overload) [inferences are made for T, but lambda not contextually typed]
     var a;
     var r14 = foo7(1, a); // any => string (+1 overload) [inferences are made for T, but lambda not contextually typed]
-})(GenericParameter || (GenericParameter = {
-}));
+})(GenericParameter || (GenericParameter = {}));

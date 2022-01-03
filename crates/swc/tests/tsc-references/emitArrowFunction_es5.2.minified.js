@@ -1,5 +1,4 @@
-function foo(func) {
-}
+function foo(func) {}
 foo(function() {
     return !0;
 }), foo(function() {

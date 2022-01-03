@@ -26,8 +26,7 @@ function _classCallCheck(instance, Constructor) {
         label: 'Style & Layout'
     }
 };
-/** @type {Object<string, TaskGroup>} */ var taskNameToGroup = {
-};
+/** @type {Object<string, TaskGroup>} */ var taskNameToGroup = {};
 module.exports = {
     taskGroups: taskGroups,
     taskNameToGroup: taskNameToGroup

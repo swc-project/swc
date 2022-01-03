@@ -1,12 +1,7 @@
-var _obj, _mutatorMap = {
-};
-_obj = {
-}, _mutatorMap[Symbol.isConcatSpreadable] = _mutatorMap[Symbol.isConcatSpreadable] || {
-}, _mutatorMap[Symbol.isConcatSpreadable].get = function() {
+var _obj, _mutatorMap = {};
+_obj = {}, _mutatorMap[Symbol.isConcatSpreadable] = _mutatorMap[Symbol.isConcatSpreadable] || {}, _mutatorMap[Symbol.isConcatSpreadable].get = function() {
     return "";
-}, _mutatorMap[Symbol.isConcatSpreadable] = _mutatorMap[Symbol.isConcatSpreadable] || {
-}, _mutatorMap[Symbol.isConcatSpreadable].set = function(x) {
-}, (function(obj, descs) {
+}, _mutatorMap[Symbol.isConcatSpreadable] = _mutatorMap[Symbol.isConcatSpreadable] || {}, _mutatorMap[Symbol.isConcatSpreadable].set = function(x) {}, (function(obj, descs) {
     for(var key in descs){
         var desc = descs[key];
         desc.configurable = desc.enumerable = !0, "value" in desc && (desc.writable = !0), Object.defineProperty(obj, key, desc);

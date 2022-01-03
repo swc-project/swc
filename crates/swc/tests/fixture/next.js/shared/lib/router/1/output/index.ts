@@ -123,8 +123,7 @@ var Router = /*#__PURE__*/ function() {
                                     _ctx.next = 18;
                                     break;
                                 }
-                                return _ctx.abrupt("return", new Promise(function() {
-                                }));
+                                return _ctx.abrupt("return", new Promise(function() {}));
                             case 18:
                                 if (!options._h) {
                                     this.isSsr = false;
@@ -242,8 +241,7 @@ var Router = /*#__PURE__*/ function() {
                                 routeRegex = getRouteRegex(route);
                                 routeMatch = getRouteMatcher(routeRegex)(asPathname);
                                 shouldInterpolate = route === asPathname;
-                                interpolatedAs = shouldInterpolate ? interpolateAs(route, asPathname, query) : {
-                                };
+                                interpolatedAs = shouldInterpolate ? interpolateAs(route, asPathname, query) : {};
                                 if (!(!routeMatch || shouldInterpolate && !interpolatedAs.result)) {
                                     _ctx.next = 79;
                                     break;
@@ -264,8 +262,7 @@ var Router = /*#__PURE__*/ function() {
                                 break;
                             case 79:
                                 if (shouldInterpolate) {
-                                    as = formatWithValidation(Object.assign({
-                                    }, parsedAs1, {
+                                    as = formatWithValidation(Object.assign({}, parsedAs1, {
                                         pathname: interpolatedAs.result,
                                         query: omitParmsFromQuery(query, interpolatedAs.params)
                                     }));
@@ -301,8 +298,7 @@ var Router = /*#__PURE__*/ function() {
                                 return _ctx.abrupt("return", this.change(method, newUrl, newAs, options));
                             case 95:
                                 window.location.href = destination;
-                                return _ctx.abrupt("return", new Promise(function() {
-                                }));
+                                return _ctx.abrupt("return", new Promise(function() {}));
                             case 97:
                                 this.isPreview = !!props.__N_PREVIEW;
                                 if (!(props.notFound === SSG_DATA_NOT_FOUND)) {

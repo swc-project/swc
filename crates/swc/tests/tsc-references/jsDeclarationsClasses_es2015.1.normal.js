@@ -17,8 +17,7 @@ export class D {
     /**
      * @param {number} a
      * @param {number} b
-     */ constructor(a, b){
-    }
+     */ constructor(a, b){}
 }
 /**
  * @template T,U
@@ -30,8 +29,7 @@ export class D {
     }
     /**
      * @param {U} _p
-     */ set f1(_p) {
-    }
+     */ set f1(_p) {}
     /**
      * @return {U}
      */ get f2() {
@@ -39,8 +37,7 @@ export class D {
     }
     /**
      * @param {U} _p
-     */ set f3(_p) {
-    }
+     */ set f3(_p) {}
     /**
      * @return {string}
      */ static get s1() {
@@ -48,8 +45,7 @@ export class D {
     }
     /**
      * @param {string} _p
-     */ static set s1(_p) {
-    }
+     */ static set s1(_p) {}
     /**
      * @return {string}
      */ static get s2() {
@@ -57,8 +53,7 @@ export class D {
     }
     /**
      * @param {string} _p
-     */ static set s3(_p) {
-    }
+     */ static set s3(_p) {}
     /**
      * @param {T} a
      * @param {U} b
@@ -80,8 +75,7 @@ E.staticInitializedField = 12;
     /**
      * @param {T} a
      * @param {U} b
-     */ constructor(a, b){
-    }
+     */ constructor(a, b){}
 }
 class G {
 }
@@ -136,10 +130,8 @@ var x = /** @type {*} */ (null);
 export class VariableBase extends x {
 }
 export class HasStatics {
-    static staticMethod() {
-    }
+    static staticMethod() {}
 }
 export class ExtendsStatics extends HasStatics {
-    static also() {
-    }
+    static also() {}
 }

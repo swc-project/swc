@@ -90,8 +90,7 @@ function _f1() {
     })(function*() {
         var _iteratorError, _iteratorAbruptCompletion = !1, _didIteratorError = !1;
         try {
-            for(var _step, _iterator = _asyncIterator({
-            }); _iteratorAbruptCompletion = !(_step = yield _iterator.next()).done; _iteratorAbruptCompletion = !1)_step.value;
+            for(var _step, _iterator = _asyncIterator({}); _iteratorAbruptCompletion = !(_step = yield _iterator.next()).done; _iteratorAbruptCompletion = !1)_step.value;
         } catch (err) {
             _didIteratorError = !0, _iteratorError = err;
         } finally{
@@ -103,8 +102,7 @@ function _f1() {
         }
         var _iteratorError1, _iteratorAbruptCompletion1 = !1, _didIteratorError1 = !1;
         try {
-            for(var _step1, _iterator1 = _asyncIterator({
-            }); _iteratorAbruptCompletion1 = !(_step1 = yield _iterator1.next()).done; _iteratorAbruptCompletion1 = !1)_step1.value;
+            for(var _step1, _iterator1 = _asyncIterator({}); _iteratorAbruptCompletion1 = !(_step1 = yield _iterator1.next()).done; _iteratorAbruptCompletion1 = !1)_step1.value;
         } catch (err1) {
             _didIteratorError1 = !0, _iteratorError1 = err1;
         } finally{
@@ -124,8 +122,7 @@ function _f2() {
     })(function*() {
         var _iteratorError, _iteratorAbruptCompletion = !1, _didIteratorError = !1;
         try {
-            for(var _step, _iterator = _asyncIterator({
-            }); _iteratorAbruptCompletion = !(_step = yield _awaitAsyncGenerator(_iterator.next())).done; _iteratorAbruptCompletion = !1)_step.value;
+            for(var _step, _iterator = _asyncIterator({}); _iteratorAbruptCompletion = !(_step = yield _awaitAsyncGenerator(_iterator.next())).done; _iteratorAbruptCompletion = !1)_step.value;
         } catch (err) {
             _didIteratorError = !0, _iteratorError = err;
         } finally{
@@ -137,8 +134,7 @@ function _f2() {
         }
         var _iteratorError2, _iteratorAbruptCompletion2 = !1, _didIteratorError2 = !1;
         try {
-            for(var _step2, _iterator2 = _asyncIterator({
-            }); _iteratorAbruptCompletion2 = !(_step2 = yield _awaitAsyncGenerator(_iterator2.next())).done; _iteratorAbruptCompletion2 = !1)_step2.value;
+            for(var _step2, _iterator2 = _asyncIterator({}); _iteratorAbruptCompletion2 = !(_step2 = yield _awaitAsyncGenerator(_iterator2.next())).done; _iteratorAbruptCompletion2 = !1)_step2.value;
         } catch (err2) {
             _didIteratorError2 = !0, _iteratorError2 = err2;
         } finally{

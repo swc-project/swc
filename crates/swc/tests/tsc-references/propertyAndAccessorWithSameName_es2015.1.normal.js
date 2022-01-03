@@ -4,13 +4,11 @@ class C {
     }
 }
 class D {
-    set x(v) {
-    }
+    set x(v) {}
 }
 class E {
     get x() {
         return 1;
     }
-    set x(v) {
-    }
+    set x(v) {}
 }

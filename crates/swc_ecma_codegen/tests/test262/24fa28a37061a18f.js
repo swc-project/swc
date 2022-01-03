@@ -1,5 +1,4 @@
 "use strict";
 ({
-    yield () {
-    }
+    yield () {}
 });

@@ -49,8 +49,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -87,7 +86,6 @@ var M;
         return B;
     }(A);
     M1.B = B;
-})(M || (M = {
-}));
+})(M || (M = {}));
 new M.A;
 new M.B;

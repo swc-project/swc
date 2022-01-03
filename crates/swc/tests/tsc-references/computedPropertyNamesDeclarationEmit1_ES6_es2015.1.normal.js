@@ -2,11 +2,9 @@ var tmp = "" + "", tmp1 = "" + "", tmp2 = "" + "";
 // @target: es6
 // @declaration: true
 class C {
-    [tmp]() {
-    }
+    [tmp]() {}
     get [tmp1]() {
         return 0;
     }
-    set [tmp2](x) {
-    }
+    set [tmp2](x) {}
 }

@@ -10,8 +10,7 @@ function _extends() {
 const React = require("react");
 class Button extends React.Component {
     render() {
-        return React.createElement(InnerButton, _extends({
-        }, this.props), React.createElement("div", null, "Hello World"));
+        return React.createElement(InnerButton, _extends({}, this.props), React.createElement("div", null, "Hello World"));
     }
 }
 class InnerButton extends React.Component {

@@ -30,20 +30,16 @@ var arr5Tuple = [
     "any"
 ]; // Tuple
 class C {
-    foo() {
-    }
+    foo() {}
 }
 class D {
-    foo2() {
-    }
+    foo2() {}
 }
 class E extends C {
-    foo3() {
-    }
+    foo3() {}
 }
 class F extends C {
-    foo4() {
-    }
+    foo4() {}
 }
 var c, d, e, f;
 var arr6 = [

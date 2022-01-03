@@ -13,14 +13,12 @@ var clodule1 = function() {
         "use strict";
         _classCallCheck(this, D);
     };
-}(clodule2 || (clodule2 = {
-}));
+}(clodule2 || (clodule2 = {}));
 var clodule3 = function() {
     "use strict";
     _classCallCheck(this, clodule3);
 };
-(clodule3 || (clodule3 = {
-})).y = {
+(clodule3 || (clodule3 = {})).y = {
     id: T
 };
 var clodule4 = function() {
@@ -32,5 +30,4 @@ var clodule4 = function() {
         "use strict";
         _classCallCheck(this, D);
     };
-}(clodule4 || (clodule4 = {
-}));
+}(clodule4 || (clodule4 = {}));

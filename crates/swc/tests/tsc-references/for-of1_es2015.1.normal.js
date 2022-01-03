@@ -1,4 +1,3 @@
 //@target: ES6
 var v;
-for (v of []){
-}
+for (v of []){}

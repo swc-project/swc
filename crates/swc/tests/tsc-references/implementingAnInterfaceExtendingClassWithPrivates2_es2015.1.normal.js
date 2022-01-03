@@ -19,8 +19,7 @@ var M;
     }
     class Bar3 extends Foo1 {
     }
-})(M || (M = {
-}));
+})(M || (M = {}));
 // two levels of privates
 var M2;
 (function(M2) {
@@ -38,5 +37,4 @@ var M2;
     }
     class Bar3 extends Foo2 {
     }
-})(M2 || (M2 = {
-}));
+})(M2 || (M2 = {}));

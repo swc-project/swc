@@ -7,8 +7,7 @@ class C {
     get z() {
         return 1;
     }
-    set z(v) {
-    }
+    set z(v) {}
 }
 var c;
 var i;

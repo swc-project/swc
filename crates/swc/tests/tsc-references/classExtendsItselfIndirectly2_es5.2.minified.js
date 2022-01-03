@@ -27,8 +27,7 @@ function _createSuper(Derived) {
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
         try {
-            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-            })), !0;
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
         } catch (e) {
             return !1;
         }
@@ -65,8 +64,7 @@ var M, N, O, C = function(_E) {
         return D;
     }(C);
     M1.D = D;
-}(M || (M = {
-})), (function(N1) {
+}(M || (M = {})), (function(N1) {
     var E = function(_D) {
         "use strict";
         _inherits(E, _D);
@@ -77,8 +75,7 @@ var M, N, O, C = function(_E) {
         return E;
     }(M.D);
     N1.E = E;
-})(N || (N = {
-})), (function(O) {
+})(N || (N = {})), (function(O) {
     var P1, Q1, C2 = function(_E2) {
         "use strict";
         _inherits(C2, _E2);
@@ -99,8 +96,7 @@ var M, N, O, C = function(_E) {
             return D2;
         }(C2);
         P.D2 = D2;
-    })(P1 || (P1 = {
-    })), (function(Q) {
+    })(P1 || (P1 = {})), (function(Q) {
         var E2 = function(_D2) {
             "use strict";
             _inherits(E2, _D2);
@@ -111,7 +107,5 @@ var M, N, O, C = function(_E) {
             return E2;
         }(P1.D2);
         Q.E2 = E2;
-    })(Q1 || (Q1 = {
-    }));
-})(O || (O = {
-}));
+    })(Q1 || (Q1 = {}));
+})(O || (O = {}));

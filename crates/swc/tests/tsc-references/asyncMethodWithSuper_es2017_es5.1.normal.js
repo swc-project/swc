@@ -192,8 +192,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -222,13 +221,11 @@ var A = // @target: es2017
     _createClass(A, [
         {
             key: "x",
-            value: function x() {
-            }
+            value: function x() {}
         },
         {
             key: "y",
-            value: function y() {
-            }
+            value: function y() {}
         }
     ]);
     return A;
@@ -337,8 +334,7 @@ var B = /*#__PURE__*/ function(A) {
                     return regeneratorRuntime.wrap(function _callee$(_ctx) {
                         while(1)switch(_ctx.prev = _ctx.next){
                             case 0:
-                                f = function() {
-                                };
+                                f = function() {};
                                 _super_x();
                                 _super_method();
                                 a = _super_x2();

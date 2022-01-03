@@ -23,29 +23,24 @@ class Poisoned extends React.Component {
         return(/*#__PURE__*/ React.createElement("div", null, "Hello"));
     }
 }
-const obj = {
-};
+const obj = {};
 // OK
-/*#__PURE__*/ React.createElement(Poisoned, _extends({
-}, {
+/*#__PURE__*/ React.createElement(Poisoned, _extends({}, {
     x: "ok",
     y: "2"
 }));
 // Error
-let p = /*#__PURE__*/ React.createElement(Poisoned, _extends({
-}, obj));
+let p = /*#__PURE__*/ React.createElement(Poisoned, _extends({}, obj));
 let y = /*#__PURE__*/ React.createElement(Poisoned, null);
 let z = /*#__PURE__*/ React.createElement(Poisoned, {
     x: true,
     y: true
 });
-let w = /*#__PURE__*/ React.createElement(Poisoned, _extends({
-}, {
+let w = /*#__PURE__*/ React.createElement(Poisoned, _extends({}, {
     x: 5,
     y: "2"
 }));
-let w1 = /*#__PURE__*/ React.createElement(Poisoned, _extends({
-}, {
+let w1 = /*#__PURE__*/ React.createElement(Poisoned, _extends({}, {
     x: 5,
     y: "2"
 }, {

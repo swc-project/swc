@@ -1,5 +1,4 @@
 function g() {
     var a, b, c;
-    if (a(c + 1)) {
-    }
+    if (a(c + 1)) {}
 }

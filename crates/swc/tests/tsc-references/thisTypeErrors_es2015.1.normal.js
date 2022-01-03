@@ -18,8 +18,7 @@ var N1;
     var x;
     var y = N11.y = this;
     N11.x = x;
-})(N1 || (N1 = {
-}));
+})(N1 || (N1 = {}));
 class C3 {
     f() {
         function g(x) {

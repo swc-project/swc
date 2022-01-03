@@ -3,8 +3,7 @@ export const func = null;
 export function useState() {
     return null;
 }
-export function readSegment([length, count]) {
-}
+export function readSegment([length, count]) {}
 export const val = null;
 r = q = r, y = x = y;
 export const argumentsOfGAsFirstArgument = f(getArgsForInjection(g));

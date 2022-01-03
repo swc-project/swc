@@ -20,8 +20,7 @@ new class _class {
     }
 };
 var o = {
-    "constructor" () {
-    }
+    "constructor" () {}
 };
 class F {
     constructor(){

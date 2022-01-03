@@ -1,6 +1,4 @@
 class a {
-    static get b() {
-    }
-    get b() {
-    }
+    static get b() {}
+    get b() {}
 }

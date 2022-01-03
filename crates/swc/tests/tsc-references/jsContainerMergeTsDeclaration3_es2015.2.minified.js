@@ -1,4 +1,2 @@
-const A = {
-};
-A.d = {
-};
+const A = {};
+A.d = {};

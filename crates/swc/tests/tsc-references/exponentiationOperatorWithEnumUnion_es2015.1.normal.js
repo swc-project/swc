@@ -3,14 +3,12 @@ E;
 (function(E) {
     E[E["a"] = 0] = "a";
     E[E["b"] = 1] = "b";
-})(E || (E = {
-}));
+})(E || (E = {}));
 var F;
 (function(F) {
     F[F["c"] = 0] = "c";
     F[F["d"] = 1] = "d";
-})(F || (F = {
-}));
+})(F || (F = {}));
 var a;
 var b;
 var c;

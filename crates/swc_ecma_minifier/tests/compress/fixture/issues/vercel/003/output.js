@@ -13,8 +13,7 @@ const manager = function() {
     }
     return {
         d: function(e) {
-            return (function(g = {
-            }) {
+            return (function(g = {}) {
                 const h = b(g);
                 for (const i of c.keys())if (a(i, h)) return i;
                 return null;

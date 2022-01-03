@@ -1,3 +1,2 @@
 //@target: ES6
-for (var { a , b  } of X){
-}
+for (var { a , b  } of X){}

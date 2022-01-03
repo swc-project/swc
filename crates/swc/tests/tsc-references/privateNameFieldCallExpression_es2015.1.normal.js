@@ -33,8 +33,7 @@ class A {
         });
         _fieldFunc2.set(this, {
             writable: true,
-            value: function(a, ...b) {
-            }
+            value: function(a, ...b) {}
         });
         this.x = 1;
     }

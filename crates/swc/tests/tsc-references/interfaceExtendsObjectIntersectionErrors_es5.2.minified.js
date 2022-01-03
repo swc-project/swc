@@ -27,8 +27,7 @@ function _createSuper(Derived) {
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
         try {
-            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-            })), !0;
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
         } catch (e) {
             return !1;
         }
@@ -86,5 +85,4 @@ var EX, EX, C1 = function(_super) {
     }
     return C5;
 }(Constructor());
-(EX = EX || (EX = {
-}))[EX.A = 0] = "A", EX[EX.B = 1] = "B", EX[EX.C = 2] = "C";
+(EX = EX || (EX = {}))[EX.A = 0] = "A", EX[EX.B = 1] = "B", EX[EX.C = 2] = "C";

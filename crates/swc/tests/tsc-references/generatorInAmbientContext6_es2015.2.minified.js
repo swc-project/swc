@@ -1,4 +1,2 @@
 var M;
-(M || (M = {
-})).generator = function*() {
-};
+(M || (M = {})).generator = function*() {};

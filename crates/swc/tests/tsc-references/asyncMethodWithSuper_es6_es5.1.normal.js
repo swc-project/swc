@@ -281,8 +281,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -312,13 +311,11 @@ var A = // @target: ES6
     _createClass(A, [
         {
             key: "x",
-            value: function x() {
-            }
+            value: function x() {}
         },
         {
             key: "y",
-            value: function y() {
-            }
+            value: function y() {}
         }
     ]);
     return A;
@@ -455,8 +452,7 @@ var B = /*#__PURE__*/ function(A) {
                     return regeneratorRuntime.wrap(function _callee$(_ctx1) {
                         while(1)switch(_ctx1.prev = _ctx1.next){
                             case 0:
-                                f = function() {
-                                };
+                                f = function() {};
                                 _super_x();
                                 _super_method();
                                 a = _super_x2();
@@ -593,8 +589,7 @@ var B = /*#__PURE__*/ function(A) {
                     return regeneratorRuntime.wrap(function _callee$(_ctx3) {
                         while(1)switch(_ctx3.prev = _ctx3.next){
                             case 0:
-                                f = function() {
-                                };
+                                f = function() {};
                                 _super_x(f);
                                 ;
                                 // destructuring assign with property access
@@ -705,8 +700,7 @@ var B = /*#__PURE__*/ function(A) {
                     return regeneratorRuntime.wrap(function _callee$(_ctx5) {
                         while(1)switch(_ctx5.prev = _ctx5.next){
                             case 0:
-                                f = function() {
-                                };
+                                f = function() {};
                                 _super_method(f);
                                 ;
                                 // destructuring assign with element access
@@ -817,8 +811,7 @@ var B = /*#__PURE__*/ function(A) {
                     return regeneratorRuntime.wrap(function _callee$(_ctx7) {
                         while(1)switch(_ctx7.prev = _ctx7.next){
                             case 0:
-                                f = function() {
-                                };
+                                f = function() {};
                                 _super_x(f);
                                 ;
                                 // destructuring assign with property access
@@ -929,8 +922,7 @@ var B = /*#__PURE__*/ function(A) {
                     return regeneratorRuntime.wrap(function _callee$(_ctx9) {
                         while(1)switch(_ctx9.prev = _ctx9.next){
                             case 0:
-                                f = function() {
-                                };
+                                f = function() {};
                                 _super_method(f);
                                 ;
                                 // destructuring assign with element access

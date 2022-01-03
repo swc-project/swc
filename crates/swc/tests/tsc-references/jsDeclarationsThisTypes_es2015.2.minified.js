@@ -4,7 +4,6 @@ export class A {
     }
 }
 class Base extends A {
-    verify() {
-    }
+    verify() {}
 }
 export { Base as default };

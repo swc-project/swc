@@ -46,8 +46,7 @@ class LoadScript extends React.PureComponent {
                 _jsx("div", {
                     ref: this.check
                 }),
-                this.state.loaded ? this.props.children : this.props.loadingElement || _jsx(DefaultLoadingElement, {
-                })
+                this.state.loaded ? this.props.children : this.props.loadingElement || _jsx(DefaultLoadingElement, {})
             ]
         });
     }

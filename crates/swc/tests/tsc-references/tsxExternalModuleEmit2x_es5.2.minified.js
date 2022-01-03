@@ -10,5 +10,4 @@ function _extends() {
 }
 React.createElement(Foo, {
     handler: Main
-}), React.createElement(Foo, _extends({
-}, Main));
+}), React.createElement(Foo, _extends({}, Main));

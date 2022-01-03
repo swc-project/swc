@@ -14,5 +14,4 @@ class FooIterator {
         return this;
     }
 }
-!function([a, ...b] = new FooIterator) {
-}(new FooIterator);
+!function([a, ...b] = new FooIterator) {}(new FooIterator);

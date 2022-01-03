@@ -13,8 +13,7 @@ class Poisoned extends React.Component {
         return React.createElement("div", null, "Hello");
     }
 }
-React.createElement(Poisoned, _extends({
-}, {
+React.createElement(Poisoned, _extends({}, {
     x: "hello world",
     y: 2
 }));
@@ -24,18 +23,13 @@ class EmptyProp extends React.Component {
     }
 }
 let j;
-React.createElement(EmptyProp, _extends({
-}, {
-})), React.createElement(EmptyProp, _extends({
-}, j)), React.createElement(EmptyProp, _extends({
-}, {
+React.createElement(EmptyProp, _extends({}, {})), React.createElement(EmptyProp, _extends({}, j)), React.createElement(EmptyProp, _extends({}, {
     ref: (input)=>{
         this.textInput = input;
     }
 })), React.createElement(EmptyProp, {
     "data-prop": !0
-}), React.createElement(EmptyProp, _extends({
-}, {
+}), React.createElement(EmptyProp, _extends({}, {
     "data-prop": !0
 }));
 export { };

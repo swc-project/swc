@@ -5,8 +5,7 @@
 // @module: esnext
 // @Filename: bug28014.js
 exports.version = 1;
-function alias() {
-}
+function alias() {}
 module.exports = alias;
 // @Filename: importer.js
 import('./bug28014');

@@ -30,8 +30,7 @@ function g() {
         _createClass(C, [
             {
                 key: "foo",
-                value: function foo() {
-                }
+                value: function foo() {}
             }
         ]);
         return C;

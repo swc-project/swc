@@ -13,8 +13,7 @@ function _classCallCheck(instance, Constructor) {
         "use strict";
         _classCallCheck(this, B3);
     };
-}(NotOptional || (NotOptional = {
-})), (function(Optional) {
+}(NotOptional || (NotOptional = {})), (function(Optional) {
     var B = function() {
         "use strict";
         _classCallCheck(this, B);
@@ -25,5 +24,4 @@ function _classCallCheck(instance, Constructor) {
         "use strict";
         _classCallCheck(this, B3);
     };
-})(Optional || (Optional = {
-}));
+})(Optional || (Optional = {}));

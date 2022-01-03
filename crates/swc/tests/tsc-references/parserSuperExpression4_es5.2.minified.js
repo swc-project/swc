@@ -58,8 +58,7 @@ var M1, C = function() {
 }();
 !function(M11) {
     var C;
-    M11.M2 || (M11.M2 = {
-    }), C = (function() {
+    M11.M2 || (M11.M2 = {}), C = (function() {
         "use strict";
         function C() {
             _classCallCheck(this, C);
@@ -73,5 +72,4 @@ var M1, C = function() {
             }
         ]), C;
     })();
-}(M1 || (M1 = {
-}));
+}(M1 || (M1 = {}));

@@ -45,8 +45,7 @@ function _createSuper(Derived) {
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
         try {
-            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-            })), !0;
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
         } catch (e) {
             return !1;
         }
@@ -92,8 +91,7 @@ export var E = function() {
             get: function() {
                 return null;
             },
-            set: function(_p) {
-            }
+            set: function(_p) {}
         },
         {
             key: "f2",
@@ -103,8 +101,7 @@ export var E = function() {
         },
         {
             key: "f3",
-            set: function(_p) {
-            }
+            set: function(_p) {}
         }
     ], [
         {
@@ -112,8 +109,7 @@ export var E = function() {
             get: function() {
                 return "";
             },
-            set: function(_p) {
-            }
+            set: function(_p) {}
         },
         {
             key: "s2",
@@ -123,8 +119,7 @@ export var E = function() {
         },
         {
             key: "s3",
-            set: function(_p) {
-            }
+            set: function(_p) {}
         }
     ]), E;
 }();
@@ -231,8 +226,7 @@ export var HasStatics = function() {
     return _createClass(HasStatics, null, [
         {
             key: "staticMethod",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), HasStatics;
 }();
@@ -246,8 +240,7 @@ export var ExtendsStatics = function(HasStatics) {
     return _createClass(ExtendsStatics, null, [
         {
             key: "also",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), ExtendsStatics;
 }(HasStatics);

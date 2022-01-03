@@ -12,8 +12,7 @@ var _marked = regeneratorRuntime.mark(function() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
-                return _ctx.t0 = _defineProperty, _ctx.t1 = {
-                }, _ctx.next = 4, 0;
+                return _ctx.t0 = _defineProperty, _ctx.t1 = {}, _ctx.next = 4, 0;
             case 4:
                 _ctx.t2 = _ctx.sent, x = (0, _ctx.t0)(_ctx.t1, _ctx.t2, 0);
             case 6:

@@ -549,10 +549,8 @@ var TypeScript;
         // we don't find the "precomment" attached to the errorneous empty stmt.
         //TODO: It would be nice to be able to get rid of this.
         "DontPruneSearchBasedOnPosition"] = 2] = "DontPruneSearchBasedOnPosition";
-    })(GetAstPathOptions = TypeScript1.GetAstPathOptions || (TypeScript1.GetAstPathOptions = {
-    }));
+    })(GetAstPathOptions = TypeScript1.GetAstPathOptions || (TypeScript1.GetAstPathOptions = {}));
     TypeScript1.getAstPathToPosition = getAstPathToPosition;
     TypeScript1.getTokenizationOffset = getTokenizationOffset;
     TypeScript1.walkAST = walkAST;
-})(TypeScript || (TypeScript = {
-}));
+})(TypeScript || (TypeScript = {}));

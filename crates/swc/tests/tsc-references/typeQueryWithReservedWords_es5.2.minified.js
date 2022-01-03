@@ -15,18 +15,15 @@ var Controller = function() {
     return protoProps = [
         {
             key: "create",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "delete",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "var",
-            value: function() {
-            }
+            value: function() {}
         }
     ], _defineProperties((Constructor = Controller).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Controller;
 }();

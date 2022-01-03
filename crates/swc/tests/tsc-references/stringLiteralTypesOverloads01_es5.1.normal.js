@@ -16,8 +16,7 @@ var Consts1;
     var EMPTY_STRING = getFalsyPrimitive("string");
     var ZERO = getFalsyPrimitive('number');
     var FALSE = getFalsyPrimitive("boolean");
-})(Consts1 || (Consts1 = {
-}));
+})(Consts1 || (Consts1 = {}));
 var string = "string";
 var number = "number";
 var boolean = "boolean";
@@ -34,5 +33,4 @@ var Consts2;
     var b = getFalsyPrimitive(stringOrBoolean);
     var c = getFalsyPrimitive(booleanOrNumber);
     var d = getFalsyPrimitive(stringOrBooleanOrNumber);
-})(Consts2 || (Consts2 = {
-}));
+})(Consts2 || (Consts2 = {}));

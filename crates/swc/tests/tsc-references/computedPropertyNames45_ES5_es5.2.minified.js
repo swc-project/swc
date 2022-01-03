@@ -57,8 +57,7 @@ var Foo = function() {
             if (Reflect.construct.sham) return !1;
             if ("function" == typeof Proxy) return !0;
             try {
-                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                })), !0;
+                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
             } catch (e) {
                 return !1;
             }
@@ -81,8 +80,7 @@ var Foo = function() {
     return _createClass(D, [
         {
             key: "set1",
-            set: function(p) {
-            }
+            set: function(p) {}
         }
     ]), D;
 }(C);

@@ -1,6 +1,5 @@
 class C {
 }
 class D {
-    f() {
-    }
+    f() {}
 }

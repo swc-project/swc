@@ -15,8 +15,7 @@ var C = function() {
     return protoProps = [
         {
             key: "hello",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "goodbye",

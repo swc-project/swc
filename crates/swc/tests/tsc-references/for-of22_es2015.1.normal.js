@@ -14,5 +14,4 @@ class FooIterator {
     }
 }
 v;
-for (var v of new FooIterator){
-}
+for (var v of new FooIterator){}

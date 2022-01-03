@@ -17,10 +17,8 @@ var M;
             _classCallCheck(this, Bar);
         };
         S.Bar = Bar;
-    })(S1 = M1.S || (M1.S = {
-    }));
-})(M || (M = {
-}));
+    })(S1 = M1.S || (M1.S = {}));
+})(M || (M = {}));
 (function(M2) {
     // Emit M.Foo
     Foo, /*#__PURE__*/ React.createElement(Foo, null);
@@ -30,18 +28,14 @@ var M;
         Foo, /*#__PURE__*/ React.createElement(Foo, null);
         // Emit S.Bar
         Bar, /*#__PURE__*/ React.createElement(Bar, null);
-    })(S = M2.S || (M2.S = {
-    }));
-})(M || (M = {
-}));
+    })(S = M2.S || (M2.S = {}));
+})(M || (M = {}));
 (function(M) {
     // Emit M.S.Bar
     S.Bar, /*#__PURE__*/ React.createElement(S.Bar, null);
-})(M || (M = {
-}));
+})(M || (M = {}));
 (function(M) {
     var M3 = 100;
     // Emit M_1.Foo
     Foo, /*#__PURE__*/ React.createElement(Foo, null);
-})(M || (M = {
-}));
+})(M || (M = {}));

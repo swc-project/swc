@@ -24,8 +24,7 @@ function _extends() {
 var attribs = {
     text: 100
 };
-/*#__PURE__*/ React.createElement("div", _extends({
-}, attribs));
+/*#__PURE__*/ React.createElement("div", _extends({}, attribs));
 // No errors here
 /*#__PURE__*/ React.createElement("span", {
     foo: "bar",

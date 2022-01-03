@@ -154,8 +154,7 @@ function f8() {
     ], d = ref7[0], e = ref7[1], f = ref7[2]; // Error, [1] is a tuple
 }
 function f9() {
-    var ref = _slicedToArray({
-    }, 2), a = ref[0], b = ref[1]; // Error, not array type
+    var ref = _slicedToArray({}, 2), a = ref[0], b = ref[1]; // Error, not array type
     var ref8 = _slicedToArray({
         0: 10,
         1: 20
@@ -163,8 +162,7 @@ function f9() {
     var e = 10, f = 20;
 }
 function f10() {
-    var ref = {
-    }, a = ref.a, b = ref.b; // Error
+    var ref = {}, a = ref.a, b = ref.b; // Error
     var ref9 = [], a = ref9.a, b = ref9.b; // Error
 }
 function f11() {
@@ -256,8 +254,7 @@ f14([
 var M;
 (function(M1) {
     M1.a = 1, M1.b = 2;
-})(M || (M = {
-}));
+})(M || (M = {}));
 function f15() {
     var a = "hello";
     var b = 1;
@@ -274,8 +271,7 @@ function f16() {
 function f17(param) {
     var _a = param.a, a = _a === void 0 ? "" : _a, _b = param.b, b = _b === void 0 ? 0 : _b, _c = param.c, c = _c === void 0 ? false : _c;
 }
-f17({
-});
+f17({});
 f17({
     a: "hello"
 });

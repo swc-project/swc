@@ -29,8 +29,7 @@ var A = function() {
 !function(M1) {
     var n;
     M1.n = n;
-}(M || (M = {
-}));
+}(M || (M = {}));
 var objA = new A();
 void 0 === BOOLEAN || _typeof(BOOLEAN), _typeof(!0), _typeof({
     x: !0,

@@ -63,8 +63,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -124,8 +123,7 @@ var RC2 = /*#__PURE__*/ function(_Component) {
         },
         {
             key: "method",
-            value: function method() {
-            }
+            value: function method() {}
         }
     ]);
     return RC2;

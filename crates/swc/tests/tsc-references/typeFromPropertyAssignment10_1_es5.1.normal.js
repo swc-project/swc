@@ -8,11 +8,9 @@ function _classCallCheck(instance, Constructor) {
 // @checkJs: true
 // @target: esnext
 // @Filename: module.js
-var Outer = Outer !== null && Outer !== void 0 ? Outer : {
-};
+var Outer = Outer !== null && Outer !== void 0 ? Outer : {};
 var _app;
-Outer.app = (_app = Outer.app) !== null && _app !== void 0 ? _app : {
-};
+Outer.app = (_app = Outer.app) !== null && _app !== void 0 ? _app : {};
 // @Filename: someview.js
 Outer.app.SomeView = (function() {
     var SomeView = function SomeView() {

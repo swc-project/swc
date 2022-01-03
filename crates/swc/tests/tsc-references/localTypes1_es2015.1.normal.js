@@ -5,8 +5,7 @@ function f1() {
         E[E["A"] = 0] = "A";
         E[E["B"] = 1] = "B";
         E[E["C"] = 2] = "C";
-    })(E || (E = {
-    }));
+    })(E || (E = {}));
     class C {
     }
     let a = [
@@ -22,8 +21,7 @@ function f2() {
             E[E["A"] = 0] = "A";
             E[E["B"] = 1] = "B";
             E[E["C"] = 2] = "C";
-        })(E || (E = {
-        }));
+        })(E || (E = {}));
         class C {
         }
         let a = [
@@ -41,8 +39,7 @@ function f3(b) {
             E[E["A"] = 0] = "A";
             E[E["B"] = 1] = "B";
             E[E["C"] = 2] = "C";
-        })(E || (E = {
-        }));
+        })(E || (E = {}));
         if (b) {
             class C {
             }
@@ -69,8 +66,7 @@ function f5() {
             E[E["A"] = 0] = "A";
             E[E["B"] = 1] = "B";
             E[E["C"] = 2] = "C";
-        })(E || (E = {
-        }));
+        })(E || (E = {}));
         class C {
         }
         return new C();
@@ -81,8 +77,7 @@ function f5() {
             E[E["A"] = 0] = "A";
             E[E["B"] = 1] = "B";
             E[E["C"] = 2] = "C";
-        })(E || (E = {
-        }));
+        })(E || (E = {}));
         class C {
         }
         return new C();
@@ -95,8 +90,7 @@ class A {
             E[E["A"] = 0] = "A";
             E[E["B"] = 1] = "B";
             E[E["C"] = 2] = "C";
-        })(E || (E = {
-        }));
+        })(E || (E = {}));
         class C {
         }
         return new C();
@@ -107,8 +101,7 @@ class A {
             E[E["A"] = 0] = "A";
             E[E["B"] = 1] = "B";
             E[E["C"] = 2] = "C";
-        })(E || (E = {
-        }));
+        })(E || (E = {}));
         class C {
         }
         return new C();
@@ -119,8 +112,7 @@ class A {
             E[E["A"] = 0] = "A";
             E[E["B"] = 1] = "B";
             E[E["C"] = 2] = "C";
-        })(E || (E = {
-        }));
+        })(E || (E = {}));
         class C {
         }
     }

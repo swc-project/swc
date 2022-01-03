@@ -37,8 +37,7 @@ function _createSuper(Derived) {
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
         try {
-            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-            })), !0;
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
         } catch (e) {
             return !1;
         }
@@ -67,8 +66,7 @@ function _createSuper(Derived) {
                 get: function() {
                     return 1;
                 },
-                set: function(v) {
-                }
+                set: function(v) {}
             },
             {
                 key: "fn",
@@ -87,8 +85,7 @@ function _createSuper(Derived) {
         return D;
     }(C), d = new D(1, 2), r = d.fn();
     r.x, r.y, r.y = 4, d.y();
-}(NonGeneric || (NonGeneric = {
-})), (function(Generic) {
+}(NonGeneric || (NonGeneric = {})), (function(Generic) {
     var C = function() {
         "use strict";
         function C(a, b) {
@@ -100,8 +97,7 @@ function _createSuper(Derived) {
                 get: function() {
                     return null;
                 },
-                set: function(v) {
-                }
+                set: function(v) {}
             },
             {
                 key: "fn",
@@ -120,5 +116,4 @@ function _createSuper(Derived) {
         return D;
     }(C), d = new D(1, ""), r = d.fn();
     r.x, r.y, r.y = "", d.y();
-})(Generic || (Generic = {
-}));
+})(Generic || (Generic = {}));

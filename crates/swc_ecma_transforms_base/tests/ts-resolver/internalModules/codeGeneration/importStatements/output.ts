@@ -1,7 +1,6 @@
 module A {
     export class Point__2 {
-        constructor(public x__3: number, public y__3: number){
-        }
+        constructor(public x__3: number, public y__3: number){}
     }
     export var Origin__2 = new Point__2(0, 0);
 }

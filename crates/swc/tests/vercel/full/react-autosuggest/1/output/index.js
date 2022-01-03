@@ -12,8 +12,7 @@ var _react = function(obj) {
     };
     var cache = _getRequireWildcardCache();
     if (cache && cache.has(obj)) return cache.get(obj);
-    var newObj = {
-    }, hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    var newObj = {}, hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
     for(var key in obj)if (Object.prototype.hasOwnProperty.call(obj, key)) {
         var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
         desc && (desc.get || desc.set) ? Object.defineProperty(newObj, key, desc) : newObj[key] = obj[key];
@@ -105,8 +104,7 @@ var ItemsList = function(_Component) {
                 if (Reflect.construct.sham) return !1;
                 if ("function" == typeof Proxy) return !0;
                 try {
-                    return Date.prototype.toString.call(Reflect.construct(Date, [], function() {
-                    })), !0;
+                    return Date.prototype.toString.call(Reflect.construct(Date, [], function() {})), !0;
                 } catch (e) {
                     return !1;
                 }
@@ -151,8 +149,7 @@ var ItemsList = function(_Component) {
                         itemIndex: itemIndex
                     }) : itemProps, allItemProps = function(target) {
                         for(var _arguments = arguments, _loop = function(i) {
-                            var source = null != _arguments[i] ? _arguments[i] : {
-                            };
+                            var source = null != _arguments[i] ? _arguments[i] : {};
                             i % 2 ? ownKeys(Object(source), !0).forEach(function(key) {
                                 _defineProperty(target, key, source[key]);
                             }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function(key) {
@@ -163,10 +160,8 @@ var ItemsList = function(_Component) {
                     }({
                         id: getItemId(sectionIndex, itemIndex),
                         "aria-selected": isHighlighted
-                    }, theme(itemKey, "item", 0 === itemIndex && "itemFirst", isHighlighted && "itemHighlighted"), {
-                    }, itemPropsObj);
-                    return isHighlighted && (allItemProps.ref = _this2.storeHighlightedItemReference), _react.default.createElement(_Item.default, _extends({
-                    }, allItemProps, {
+                    }, theme(itemKey, "item", 0 === itemIndex && "itemFirst", isHighlighted && "itemHighlighted"), {}, itemPropsObj);
+                    return isHighlighted && (allItemProps.ref = _this2.storeHighlightedItemReference), _react.default.createElement(_Item.default, _extends({}, allItemProps, {
                         sectionIndex: sectionIndex,
                         isHighlighted: isHighlighted,
                         itemIndex: itemIndex,

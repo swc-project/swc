@@ -1,4 +1,3 @@
 class a extends b {
-    constructor(c = super()){
-    }
+    constructor(c = super()){}
 }

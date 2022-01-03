@@ -1,4 +1,3 @@
 // @Filename: b.js
-C.prototype = {
-};
+C.prototype = {};
 C.bar = 2;

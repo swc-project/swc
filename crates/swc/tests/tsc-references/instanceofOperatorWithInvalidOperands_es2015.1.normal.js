@@ -1,6 +1,5 @@
 class C {
-    foo() {
-    }
+    foo() {}
 }
 var x;
 // invalid left operand
@@ -38,5 +37,4 @@ var rb8 = x instanceof o1;
 var rb9 = x instanceof o2;
 var rb10 = x instanceof o3;
 // both operands are invalid
-var rc1 = '' instanceof {
-};
+var rc1 = '' instanceof {};

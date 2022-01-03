@@ -38,6 +38,9 @@
 - **(es/ast)** Add `rkyv` support (#3166) ([bf751cb](https://github.com/swc-project/swc/commit/bf751cb6905c7520f0846b9f0a6f4f44edecbdb3))
 
 
+- **(es/codegen)** Make the output for empty objects and empty statements pretty (#3171) ([5296180](https://github.com/swc-project/swc/commit/52961804d19c413c09ff4e08c327647ffc3d0bea))
+
+
 - **(es/diff)** Add a internal CLI program for debugging minifier (#3168) ([1aa55e6](https://github.com/swc-project/swc/commit/1aa55e616a7bc2ffa791600e908ddb10a4009e7b))
 
 ### Miscellaneous Tasks

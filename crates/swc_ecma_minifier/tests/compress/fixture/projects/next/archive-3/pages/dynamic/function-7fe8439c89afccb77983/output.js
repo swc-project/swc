@@ -18,8 +18,7 @@
             }
             function _objectSpread(target) {
                 for(var i = 1; i < arguments.length; i++){
-                    var source = null != arguments[i] ? arguments[i] : {
-                    };
+                    var source = null != arguments[i] ? arguments[i] : {};
                     i % 2 ? ownKeys(Object(source), !0).forEach(function(key) {
                         _defineProperty(target, key, source[key]);
                     }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function(key) {
@@ -36,10 +35,7 @@
                 };
                 if (dynamicOptions instanceof Promise ? loadableOptions.loader = function() {
                     return dynamicOptions;
-                } : "function" == typeof dynamicOptions ? loadableOptions.loader = dynamicOptions : "object" == typeof dynamicOptions && (loadableOptions = _objectSpread(_objectSpread({
-                }, loadableOptions), dynamicOptions)), (loadableOptions = _objectSpread(_objectSpread({
-                }, loadableOptions), options)).loadableGenerated && delete (loadableOptions = _objectSpread(_objectSpread({
-                }, loadableOptions), loadableOptions.loadableGenerated)).loadableGenerated, "boolean" == typeof loadableOptions.ssr) {
+                } : "function" == typeof dynamicOptions ? loadableOptions.loader = dynamicOptions : "object" == typeof dynamicOptions && (loadableOptions = _objectSpread(_objectSpread({}, loadableOptions), dynamicOptions)), (loadableOptions = _objectSpread(_objectSpread({}, loadableOptions), options)).loadableGenerated && delete (loadableOptions = _objectSpread(_objectSpread({}, loadableOptions), loadableOptions.loadableGenerated)).loadableGenerated, "boolean" == typeof loadableOptions.ssr) {
                     if (!loadableOptions.ssr) return delete loadableOptions.ssr, noSSR(loadableFn, loadableOptions);
                     delete loadableOptions.ssr;
                 }
@@ -80,8 +76,7 @@
             }
             function _objectSpread(target) {
                 for(var i = 1; i < arguments.length; i++){
-                    var source = null != arguments[i] ? arguments[i] : {
-                    };
+                    var source = null != arguments[i] ? arguments[i] : {};
                     i % 2 ? ownKeys(Object(source), !0).forEach(function(key) {
                         _defineProperty(target, key, source[key]);
                     }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function(key) {
@@ -142,21 +137,16 @@
                                     timedOut: !0
                                 });
                             }, opts1.timeout))), this._res.promise.then(function() {
-                                _this._update({
-                                }), _this._clearTimeouts();
+                                _this._update({}), _this._clearTimeouts();
                             }).catch(function(_err) {
-                                _this._update({
-                                }), _this._clearTimeouts();
-                            }), this._update({
-                            });
+                                _this._update({}), _this._clearTimeouts();
+                            }), this._update({});
                         }
                     },
                     {
                         key: "_update",
                         value: function(partial) {
-                            this._state = _objectSpread(_objectSpread({
-                            }, this._state), {
-                            }, {
+                            this._state = _objectSpread(_objectSpread({}, this._state), {}, {
                                 error: this._res.error,
                                 loaded: this._res.loaded,
                                 loading: this._res.loading
@@ -224,8 +214,7 @@
                                         }
                                     })(o1)) || 0) {
                                         it && (o1 = it);
-                                        var i = 0, F = function() {
-                                        };
+                                        var i = 0, F = function() {};
                                         return {
                                             s: F,
                                             n: function() {

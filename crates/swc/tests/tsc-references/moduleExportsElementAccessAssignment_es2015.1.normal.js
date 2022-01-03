@@ -16,8 +16,7 @@ exports["default"] = {
 module.exports["c"] = {
     x: "x"
 };
-module["exports"]["d"] = {
-};
+module["exports"]["d"] = {};
 module["exports"]["d"].e = 0;
 // @filename: mod2.js
 const mod1 = require("./mod1");

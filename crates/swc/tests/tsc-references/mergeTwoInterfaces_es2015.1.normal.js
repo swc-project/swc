@@ -15,5 +15,4 @@ var M;
     var r3 = b1.foo;
     // BUG 856491
     var r4 = b1.bar; // any, should be string
-})(M || (M = {
-}));
+})(M || (M = {}));

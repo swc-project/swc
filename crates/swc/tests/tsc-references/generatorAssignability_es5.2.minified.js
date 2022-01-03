@@ -430,8 +430,7 @@ function _f3() {
                                     return _ctx.stop();
                             }
                         }, syncGenerator);
-                    }), o = _defineProperty({
-                    }, Symbol.asyncIterator, syncGenerator), _iteratorAbruptCompletion = !1, _didIteratorError6 = !1, _ctx1.prev = 3, _iterator = _asyncIterator(o);
+                    }), o = _defineProperty({}, Symbol.asyncIterator, syncGenerator), _iteratorAbruptCompletion = !1, _didIteratorError6 = !1, _ctx1.prev = 3, _iterator = _asyncIterator(o);
                 case 5:
                     return _ctx1.next = 7, _iterator.next();
                 case 7:

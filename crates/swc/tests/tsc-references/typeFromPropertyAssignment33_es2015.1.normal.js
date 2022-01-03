@@ -6,12 +6,10 @@
     var p7 = ExpandoMerge1.p7 = 7;
     var p8 = ExpandoMerge1.p8 = 6;
     var p9 = ExpandoMerge1.p9 = 7;
-})(ExpandoMerge || (ExpandoMerge = {
-}));
+})(ExpandoMerge || (ExpandoMerge = {}));
 (function(ExpandoMerge2) {
     var p2 = ExpandoMerge2.p2 = 222;
-})(ExpandoMerge || (ExpandoMerge = {
-}));
+})(ExpandoMerge || (ExpandoMerge = {}));
 // @Filename: expando.ts
 function ExpandoMerge(n1) {
     return n1;

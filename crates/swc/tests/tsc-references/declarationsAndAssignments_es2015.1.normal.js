@@ -120,8 +120,7 @@ function f8() {
     ]; // Error, [1] is a tuple
 }
 function f9() {
-    var [a, b] = {
-    }; // Error, not array type
+    var [a, b] = {}; // Error, not array type
     var [c, d] = {
         0: 10,
         1: 20
@@ -132,8 +131,7 @@ function f9() {
     ];
 }
 function f10() {
-    var { a , b  } = {
-    }; // Error
+    var { a , b  } = {}; // Error
     var { a , b  } = []; // Error
 }
 function f11() {
@@ -233,8 +231,7 @@ var M;
         1,
         2
     ];
-})(M || (M = {
-}));
+})(M || (M = {}));
 function f15() {
     var a = "hello";
     var b = 1;
@@ -248,10 +245,8 @@ function f15() {
 function f16() {
     var { a , b , c  } = f15();
 }
-function f17({ a ="" , b =0 , c =false  }) {
-}
-f17({
-});
+function f17({ a ="" , b =0 , c =false  }) {}
+f17({});
 f17({
     a: "hello"
 });

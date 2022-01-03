@@ -1,7 +1,6 @@
 // accessors are not contextually typed
 class C {
-    set x(v) {
-    }
+    set x(v) {}
     get x() {
         return (x)=>""
         ;

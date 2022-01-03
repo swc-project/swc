@@ -71,8 +71,7 @@ _asyncToGenerator(_regeneratorRuntime.default.mark(function _callee1() {
                 promise = new Promise(function(r) {
                     return resolve = r;
                 });
-                iterable = _defineProperty({
-                }, Symbol.asyncIterator, function() {
+                iterable = _defineProperty({}, Symbol.asyncIterator, function() {
                     return {
                         next: function next() {
                             return promise;

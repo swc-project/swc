@@ -30,8 +30,7 @@ var M;
         _classCallCheck(this, C);
     };
     M1.C = C;
-})(M || (M = {
-}));
+})(M || (M = {}));
 export var r6;
 export var r7;
 export var r8;
@@ -39,13 +38,11 @@ export var r9;
 var E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
-}));
+})(E || (E = {}));
 export var r10;
 export var r11;
 export var r12;
-function foo() {
-}
+function foo() {}
 (function(foo1) {
     var y = foo1.y = 1;
     var C = function C() {
@@ -53,6 +50,5 @@ function foo() {
         _classCallCheck(this, C);
     };
     foo1.C = C;
-})(foo || (foo = {
-}));
+})(foo || (foo = {}));
 export var r13;

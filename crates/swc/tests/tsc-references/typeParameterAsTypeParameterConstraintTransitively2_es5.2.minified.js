@@ -15,7 +15,4 @@ foo(1, 2, ""), foo({
     foo: 1,
     bar: "",
     hm: !0
-}, b), foo(function(x, y) {
-}, function(x, y) {
-}, function() {
-}), foo(b, a, c), foo(c, c, a);
+}, b), foo(function(x, y) {}, function(x, y) {}, function() {}), foo(b, a, c), foo(c, c, a);

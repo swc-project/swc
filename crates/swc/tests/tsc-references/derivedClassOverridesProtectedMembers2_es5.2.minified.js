@@ -36,8 +36,7 @@ function _createSuper(Derived1) {
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
         try {
-            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-            })), !0;
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
         } catch (e) {
             return !1;
         }
@@ -62,30 +61,26 @@ var x, y, d2, Base = function() {
     return _createClass(Base, [
         {
             key: "b",
-            value: function(a) {
-            }
+            value: function(a) {}
         },
         {
             key: "c",
             get: function() {
                 return x;
             },
-            set: function(v) {
-            }
+            set: function(v) {}
         }
     ], [
         {
             key: "s",
-            value: function(a) {
-            }
+            value: function(a) {}
         },
         {
             key: "t",
             get: function() {
                 return x;
             },
-            set: function(v) {
-            }
+            set: function(v) {}
         }
     ]), Base;
 }(), Derived = function(Base) {
@@ -98,30 +93,26 @@ var x, y, d2, Base = function() {
     return _createClass(Derived, [
         {
             key: "b",
-            value: function(a) {
-            }
+            value: function(a) {}
         },
         {
             key: "c",
             get: function() {
                 return y;
             },
-            set: function(v) {
-            }
+            set: function(v) {}
         }
     ], [
         {
             key: "s",
-            value: function(a) {
-            }
+            value: function(a) {}
         },
         {
             key: "t",
             get: function() {
                 return y;
             },
-            set: function(a) {
-            }
+            set: function(a) {}
         }
     ]), Derived;
 }(Base), d = new Derived(y);

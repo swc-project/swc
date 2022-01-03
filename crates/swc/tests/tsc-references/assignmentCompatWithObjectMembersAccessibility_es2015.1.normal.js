@@ -35,8 +35,7 @@ var TargetIsPublic;
     e = i; // errror
     e = d; // errror
     e = e;
-})(TargetIsPublic || (TargetIsPublic = {
-}));
+})(TargetIsPublic || (TargetIsPublic = {}));
 (function(TargetIsPublic) {
     // targets
     class Base {
@@ -74,5 +73,4 @@ var TargetIsPublic;
     e = i; // errror
     e = d; // errror
     e = e;
-})(TargetIsPublic || (TargetIsPublic = {
-}));
+})(TargetIsPublic || (TargetIsPublic = {}));

@@ -1,6 +1,5 @@
 import MC from "./a";
-export default function MyClass() {
-};
+export default function MyClass() {};
 MyClass.bar = function C() {
     "use strict";
     !function(instance, Constructor) {

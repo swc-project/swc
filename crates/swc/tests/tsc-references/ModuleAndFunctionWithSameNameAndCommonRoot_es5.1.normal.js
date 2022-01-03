@@ -7,10 +7,8 @@ var A;
             x: 0,
             y: 0
         };
-    })(Point1 = A1.Point || (A1.Point = {
-    }));
-})(A || (A = {
-}));
+    })(Point1 = A1.Point || (A1.Point = {}));
+})(A || (A = {}));
 (function(A2) {
     var Point = function Point() {
         return {
@@ -19,8 +17,7 @@ var A;
         };
     };
     A2.Point = Point;
-})(A || (A = {
-}));
+})(A || (A = {}));
 // @filename: simple.ts
 var B;
 (function(B1) {
@@ -35,8 +32,6 @@ var B;
             x: 0,
             y: 0
         };
-    })(Point = B1.Point || (B1.Point = {
-    }));
+    })(Point = B1.Point || (B1.Point = {}));
     B1.Point = Point;
-})(B || (B = {
-}));
+})(B || (B = {}));

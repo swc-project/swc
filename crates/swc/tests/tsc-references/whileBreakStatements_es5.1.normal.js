@@ -19,7 +19,6 @@ while(true){
 }
 SEVEN: while(true)while(true)while(true)break SEVEN;
 EIGHT: while(true){
-    var fn = function fn() {
-    };
+    var fn = function fn() {};
     break EIGHT;
 }

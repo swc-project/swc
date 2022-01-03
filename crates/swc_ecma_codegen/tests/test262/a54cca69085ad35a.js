@@ -1,4 +1,3 @@
 class a {
-    static set b(c) {
-    }
+    static set b(c) {}
 }

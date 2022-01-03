@@ -6,15 +6,12 @@ minimatch.filter = filter;
 function filter() {
     return minimatch();
 }
-function minimatch() {
-}
+function minimatch() {}
 M.defaults = function(def) {
     return def;
 };
-M.prototype.m = function() {
-};
-function M() {
-}
+M.prototype.m = function() {};
+function M() {}
 // @Filename: use.js
 /// <reference path='./types.d.ts'/>
 var mini = require('./minimatch');

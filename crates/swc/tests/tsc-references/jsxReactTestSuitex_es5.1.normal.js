@@ -39,13 +39,11 @@ var x = /*#__PURE__*/ React.createElement("div", {
 });
 /*#__PURE__*/ React.createElement(Namespace.Component, null);
 /*#__PURE__*/ React.createElement(Namespace.DeepNamespace.Component, null);
-/*#__PURE__*/ React.createElement(Component, _extends({
-}, x, {
+/*#__PURE__*/ React.createElement(Component, _extends({}, x, {
     y: 2,
     z: true
 }));
-/*#__PURE__*/ React.createElement(Component, _extends({
-}, this.props, {
+/*#__PURE__*/ React.createElement(Component, _extends({}, this.props, {
     sound: "moo"
 }));
 /*#__PURE__*/ React.createElement("font-face", null);
@@ -53,14 +51,11 @@ var x = /*#__PURE__*/ React.createElement("div", {
     x: y
 });
 /*#__PURE__*/ React.createElement("x-component", null);
-/*#__PURE__*/ React.createElement(Component, _extends({
-}, x));
-/*#__PURE__*/ React.createElement(Component, _extends({
-}, x, {
+/*#__PURE__*/ React.createElement(Component, _extends({}, x));
+/*#__PURE__*/ React.createElement(Component, _extends({}, x, {
     y: 2
 }));
-/*#__PURE__*/ React.createElement(Component, _extends({
-}, x, {
+/*#__PURE__*/ React.createElement(Component, _extends({}, x, {
     y: 2,
     z: true
 }));

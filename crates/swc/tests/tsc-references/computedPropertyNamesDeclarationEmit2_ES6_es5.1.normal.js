@@ -28,8 +28,7 @@ var C = // @target: es6
     _createClass(C, null, [
         {
             key: tmp,
-            value: function value() {
-            }
+            value: function value() {}
         },
         {
             key: tmp1,
@@ -39,8 +38,7 @@ var C = // @target: es6
         },
         {
             key: tmp2,
-            set: function set(x) {
-            }
+            set: function set(x) {}
         }
     ]);
     return C;

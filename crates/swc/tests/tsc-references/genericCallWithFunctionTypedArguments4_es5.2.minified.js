@@ -8,6 +8,5 @@ var a, b, C = function() {
     "use strict";
     _classCallCheck(this, D);
 };
-function foo4(cb) {
-}
+function foo4(cb) {}
 foo4(a), foo4(b);

@@ -21,15 +21,13 @@ function _extends() {
 const React = require('react');
 // Error
 function Bar(arg) {
-    let a1 = /*#__PURE__*/ React.createElement(ComponentSpecific1, _extends({
-    }, arg, {
+    let a1 = /*#__PURE__*/ React.createElement(ComponentSpecific1, _extends({}, arg, {
         "ignore-prop": 10
     }));
 }
 // Error
 function Baz(arg) {
-    let a0 = /*#__PURE__*/ React.createElement(ComponentSpecific1, _extends({
-    }, arg));
+    let a0 = /*#__PURE__*/ React.createElement(ComponentSpecific1, _extends({}, arg));
 }
 // Error
 function createLink(func) {
@@ -45,7 +43,6 @@ let i = /*#__PURE__*/ React.createElement(InferParamComponent, {
         3,
         4
     ],
-    selectHandler: (val)=>{
-    }
+    selectHandler: (val)=>{}
 });
 export { };

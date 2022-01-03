@@ -34,8 +34,7 @@ var C = //@target: ES6
         {
             key: tmp1,
             set: // Should take a string
-            function set(x) {
-            }
+            function set(x) {}
         }
     ]);
     return C;

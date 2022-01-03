@@ -1,17 +1,13 @@
 // @declaration: true
 class A {
-    constructor(){
-    }
+    constructor(){}
 }
 class B {
-    constructor(){
-    }
+    constructor(){}
 }
 class C {
-    constructor(){
-    }
+    constructor(){}
 }
 class D {
-    constructor(){
-    }
+    constructor(){}
 }

@@ -1,8 +1,5 @@
 class Controller {
-    create() {
-    }
-    delete() {
-    }
-    var() {
-    }
+    create() {}
+    delete() {}
+    var() {}
 }

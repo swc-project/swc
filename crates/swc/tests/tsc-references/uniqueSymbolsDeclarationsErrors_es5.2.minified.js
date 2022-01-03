@@ -54,14 +54,12 @@ export var ClassWithPrivateNamedMethods = function() {
     return _createClass(ClassWithPrivateNamedMethods, [
         {
             key: tmp,
-            value: function() {
-            }
+            value: function() {}
         }
     ], [
         {
             key: tmp1,
-            value: function() {
-            }
+            value: function() {}
         }
     ]), ClassWithPrivateNamedMethods;
 }();
@@ -74,24 +72,20 @@ export var ClassWithPrivateNamedAccessors = function() {
     return _createClass(ClassWithPrivateNamedAccessors, [
         {
             key: tmp2,
-            get: function() {
-            }
+            get: function() {}
         },
         {
             key: tmp3,
-            set: function(v) {
-            }
+            set: function(v) {}
         }
     ], [
         {
             key: tmp4,
-            get: function() {
-            }
+            get: function() {}
         },
         {
             key: tmp5,
-            set: function(v) {
-            }
+            set: function(v) {}
         }
     ]), ClassWithPrivateNamedAccessors;
 }();

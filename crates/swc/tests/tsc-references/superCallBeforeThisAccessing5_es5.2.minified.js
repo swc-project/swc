@@ -33,8 +33,7 @@ var D = function(_super) {
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
         try {
-            Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-            }));
+            Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         } catch (e) {
             return !1;
         }

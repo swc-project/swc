@@ -13,5 +13,4 @@ var M;
         }, generator);
     });
     M1.generator = generator;
-})(M || (M = {
-}));
+})(M || (M = {}));

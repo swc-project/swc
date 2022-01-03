@@ -15,7 +15,5 @@ var // @target: es6
 E;
 (function(E) {
     E[E["member"] = 0] = "member";
-})(E || (E = {
-}));
-var v = _defineProperty({
-}, E.member, 0);
+})(E || (E = {}));
+var v = _defineProperty({}, E.member, 0);

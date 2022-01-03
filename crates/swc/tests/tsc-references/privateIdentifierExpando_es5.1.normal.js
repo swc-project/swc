@@ -3,6 +3,5 @@
 // @declaration: true
 // @emitDeclarationOnly: true
 // @Filename: privateIdentifierExpando.js
-var x = {
-};
+var x = {};
 x.#bar.baz = 20;

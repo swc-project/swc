@@ -43,8 +43,7 @@ function _defineProperty(obj, key, value) {
 }
 function _objectSpread(target) {
     for(var i = 1; i < arguments.length; i++){
-        var source = arguments[i] != null ? arguments[i] : {
-        };
+        var source = arguments[i] != null ? arguments[i] : {};
         var ownKeys = Object.keys(source);
         if (typeof Object.getOwnPropertySymbols === "function") {
             ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
@@ -70,8 +69,7 @@ function rootConnection(name) {
                         };
                     case 2:
                         objects = _ctx.sent.objects;
-                        return _ctx.abrupt("return", _objectSpread({
-                        }, connectionFromArray(objects, args)));
+                        return _ctx.abrupt("return", _objectSpread({}, connectionFromArray(objects, args)));
                     case 4:
                     case "end":
                         return _ctx.stop();

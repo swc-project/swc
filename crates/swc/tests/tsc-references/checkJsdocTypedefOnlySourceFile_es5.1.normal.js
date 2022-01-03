@@ -2,8 +2,7 @@
 // @suppressOutputPathCheck: true
 // @filename: 0.js
 // @ts-check
-var exports = {
-};
+var exports = {};
 /**
  * @typedef {string}
  */ exports.SomeName;

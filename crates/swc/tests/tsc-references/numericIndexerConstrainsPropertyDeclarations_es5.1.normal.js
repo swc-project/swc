@@ -28,8 +28,7 @@ var C = /*#__PURE__*/ function() {
             get: function get() {
                 return '';
             },
-            set: function set(v) {
-            } // ok
+            set: function set(v) {} // ok
         },
         {
             key: "foo",
@@ -40,8 +39,7 @@ var C = /*#__PURE__*/ function() {
     ], [
         {
             key: "foo",
-            value: function foo() {
-            } // ok
+            value: function foo() {} // ok
         },
         {
             key: "X",
@@ -57,8 +55,7 @@ var a;
 var b = {
     a: '',
     b: 1,
-    c: function() {
-    },
+    c: function() {},
     "d": '',
     "e": 1,
     1: '',
@@ -69,8 +66,7 @@ var b = {
     get X () {
         return '';
     },
-    set X (v){
-    },
+    set X (v){},
     foo: function foo() {
         return '';
     }

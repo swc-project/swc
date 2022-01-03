@@ -1,6 +1,5 @@
 var M, x;
-switch((M || (M = {
-})).fn = function(x) {
+switch((M || (M = {})).fn = function(x) {
     return "";
 }, x){
     case "":
@@ -12,8 +11,7 @@ switch((M || (M = {
     case new Object():
     case /[a-z]/:
     case []:
-    case {
-    }:
+    case {}:
     case {
         id: 12
     }:
@@ -57,8 +55,7 @@ switch(/[a-z]/){
 }
 switch([]){
 }
-switch({
-}){
+switch({}){
 }
 switch({
     id: 12

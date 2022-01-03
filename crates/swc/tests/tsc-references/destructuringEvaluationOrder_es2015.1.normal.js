@@ -13,8 +13,7 @@ function _extends() {
     return _extends.apply(this, arguments);
 }
 function _objectWithoutProperties(source, excluded) {
-    if (source == null) return {
-    };
+    if (source == null) return {};
     var target = _objectWithoutPropertiesLoose(source, excluded);
     var key2, i;
     if (Object.getOwnPropertySymbols) {
@@ -29,10 +28,8 @@ function _objectWithoutProperties(source, excluded) {
     return target;
 }
 function _objectWithoutPropertiesLoose(source, excluded) {
-    if (source == null) return {
-    };
-    var target = {
-    };
+    if (source == null) return {};
+    var target = {};
     var sourceKeys = Object.keys(source);
     var key2, i;
     for(i = 0; i < sourceKeys.length; i++){
@@ -69,14 +66,12 @@ let order = (n)=>trace.push(n)
 let [{ [order(1)]: x  } = order(0)] = [];
 // order(0) should not evaluate because the first element is defined
 let [{ [order(1)]: y  } = order(0)] = [
-    {
-    }
+    {}
 ];
 // order(0) should evaluate first (destructuring of object literal {})
 // order(1) should evaluate next (initializer because property is undefined)
 // order(2) should evaluate last (evaluate object binding pattern from initializer)
-let _ref = {
-}, key = order(0), key1 = order(2), { [key]: { [key1]: z  } = order(1)  } = _ref, w = _objectWithoutProperties(_ref, [
+let _ref = {}, key = order(0), key1 = order(2), { [key]: { [key1]: z  } = order(1)  } = _ref, w = _objectWithoutProperties(_ref, [
     key
 ].map(_toPropertyKey));
 // https://github.com/microsoft/TypeScript/issues/39181
@@ -85,5 +80,4 @@ let _ref1 = [
     {
         x: 1
     }
-], [{}, b = a] = _ref1, a = _extends({
-}, _ref1[0]);
+], [{}, b = a] = _ref1, a = _extends({}, _ref1[0]);

@@ -97,8 +97,7 @@ function _f1() {
     _f1 = // @target: es2018
     // @lib: esnext
     // @filename: F1.ts
-    _wrapAsyncGenerator(function*() {
-    });
+    _wrapAsyncGenerator(function*() {});
     return _f1.apply(this, arguments);
 }
 function f2() {

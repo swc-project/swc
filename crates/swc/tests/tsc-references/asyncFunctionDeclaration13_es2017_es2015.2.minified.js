@@ -22,6 +22,5 @@ function _foo() {
                 _next(void 0);
             });
         };
-    })(function*() {
-    })).apply(this, arguments);
+    })(function*() {})).apply(this, arguments);
 }

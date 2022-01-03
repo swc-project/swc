@@ -35,8 +35,7 @@ Vue.component('test', {
                 return regeneratorRuntime.wrap(function _callee$(_ctx) {
                     while(1)switch(_ctx.prev = _ctx.next){
                         case 0:
-                            if (this.msg === '') {
-                            }
+                            if (this.msg === '') {}
                         case 1:
                         case "end":
                             return _ctx.stop();

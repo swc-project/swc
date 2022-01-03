@@ -4,12 +4,10 @@
 // @declaration: true
 // @filename: index.js
 Object.defineProperty(module.exports, "a", {
-    value: function a() {
-    }
+    value: function a() {}
 });
 Object.defineProperty(module.exports, "b", {
-    value: function b() {
-    }
+    value: function b() {}
 });
 Object.defineProperty(module.exports.b, "cat", {
     value: "cat"
@@ -66,8 +64,7 @@ Object.defineProperty(module.exports, "h", {
     value: hh
 });
 Object.defineProperty(module.exports, "i", {
-    value: function i() {
-    }
+    value: function i() {}
 });
 Object.defineProperty(module.exports, "ii", {
     value: module.exports.i
@@ -77,6 +74,5 @@ Object.defineProperty(module.exports, "jj", {
     value: module.exports.j
 });
 Object.defineProperty(module.exports, "j", {
-    value: function j() {
-    }
+    value: function j() {}
 });

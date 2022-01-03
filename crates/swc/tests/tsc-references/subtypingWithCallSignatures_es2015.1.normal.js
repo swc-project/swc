@@ -8,5 +8,4 @@ var CallSignature;
     ); // ok because base returns void
     var r4 = foo2((x)=>''
     ); // ok because base returns void
-})(CallSignature || (CallSignature = {
-}));
+})(CallSignature || (CallSignature = {}));

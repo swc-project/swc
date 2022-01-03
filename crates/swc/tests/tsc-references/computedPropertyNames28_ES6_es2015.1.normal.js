@@ -5,8 +5,7 @@ class C extends Base {
     constructor(){
         super();
         var obj = {
-            [(super(), "prop")] () {
-            }
+            [(super(), "prop")] () {}
         };
     }
 }

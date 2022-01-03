@@ -1,4 +1,3 @@
 class Foo {
-    banana(x) {
-    }
+    banana(x) {}
 }

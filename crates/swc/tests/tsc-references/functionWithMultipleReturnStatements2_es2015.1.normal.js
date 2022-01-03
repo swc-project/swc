@@ -65,20 +65,16 @@ function f10() {
 // returns number => void
 function f11() {
     if (true) {
-        return (x)=>{
-        };
+        return (x)=>{};
     } else {
-        return (x)=>{
-        };
+        return (x)=>{};
     }
 }
 // returns Object => void
 function f12() {
     if (true) {
-        return (x)=>{
-        };
+        return (x)=>{};
     } else {
-        return (x)=>{
-        };
+        return (x)=>{};
     }
 }

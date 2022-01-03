@@ -5,8 +5,7 @@ function test(param) {
     method;
     p;
 }
-test({
-});
+test({});
 test({
     method: 'x',
     nested: {

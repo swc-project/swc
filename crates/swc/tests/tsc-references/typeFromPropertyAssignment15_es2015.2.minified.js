@@ -1,8 +1,6 @@
-var inner, Outer = {
-};
+var inner, Outer = {};
 Outer.Inner = class {
-    m() {
-    }
+    m() {}
     constructor(){
         this.x = 1;
     }

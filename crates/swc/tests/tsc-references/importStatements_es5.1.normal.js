@@ -13,8 +13,7 @@ var A;
     };
     A1.Point = Point;
     var Origin = A1.Origin = new Point(0, 0);
-})(A || (A = {
-}));
+})(A || (A = {}));
 // no code gen expected
 var C;
 (function(C) {
@@ -24,15 +23,13 @@ var C;
         x: 0,
         y: 0
     };
-})(C || (C = {
-}));
+})(C || (C = {}));
 // code gen expected
 var D;
 (function(D) {
     var a = A;
     var p = new a.Point(1, 1);
-})(D || (D = {
-}));
+})(D || (D = {}));
 var E;
 (function(E1) {
     var xDist = function xDist(x) {
@@ -40,5 +37,4 @@ var E;
     };
     var a = A;
     E1.xDist = xDist;
-})(E || (E = {
-}));
+})(E || (E = {}));

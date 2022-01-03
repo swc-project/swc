@@ -49,8 +49,7 @@ new function _class() {
     console.log(this);
 };
 var o = {
-    "constructor": function() {
-    }
+    "constructor": function() {}
 };
 var F = function F() {
     "use strict";

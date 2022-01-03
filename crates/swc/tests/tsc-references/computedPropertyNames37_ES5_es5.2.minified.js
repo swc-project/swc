@@ -28,8 +28,7 @@ var Foo = function() {
         },
         {
             key: "set1",
-            set: function(p) {
-            }
+            set: function(p) {}
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }();

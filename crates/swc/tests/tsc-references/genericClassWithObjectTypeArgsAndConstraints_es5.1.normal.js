@@ -71,8 +71,7 @@ var Class;
     var g2;
     var r = g2.foo2(c1, d1);
     var r2 = g2.foo2(c1, c1);
-})(Class || (Class = {
-}));
+})(Class || (Class = {}));
 var Interface;
 (function(Interface) {
     var c1 = new X();
@@ -83,5 +82,4 @@ var Interface;
     var g2;
     var r = g2.foo2(c1, d1);
     var r2 = g2.foo2(c1, c1);
-})(Interface || (Interface = {
-}));
+})(Interface || (Interface = {}));

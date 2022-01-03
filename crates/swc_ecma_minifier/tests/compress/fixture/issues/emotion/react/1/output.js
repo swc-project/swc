@@ -34,8 +34,7 @@
                         }(tag1);
                         try {
                             sheet.insertRule(rule, sheet.cssRules.length);
-                        } catch (e) {
-                        }
+                        } catch (e) {}
                     } else tag1.appendChild(document.createTextNode(rule));
                     this.ctr++;
                 }, _proto.flush = function() {
@@ -627,8 +626,7 @@
                         -1 !== node.getAttribute("data-emotion").indexOf(" ") && (document.head.appendChild(node), node.setAttribute("data-s", ""));
                     });
                 }
-                var stylisPlugins = options.stylisPlugins || defaultStylisPlugins, inserted = {
-                }, nodesToHydrate = [];
+                var stylisPlugins = options.stylisPlugins || defaultStylisPlugins, inserted = {}, nodesToHydrate = [];
                 container = options.container || document.head, Array.prototype.forEach.call(document.querySelectorAll("style[data-emotion^=\"" + key + " \"]"), function(node) {
                     for(var attrib = node.getAttribute("data-emotion").split(" "), i = 1; i < attrib.length; i++)inserted[attrib[i]] = !0;
                     nodesToHydrate.push(node);
@@ -670,8 +668,7 @@
                     }),
                     nonce: options.nonce,
                     inserted: inserted,
-                    registered: {
-                    },
+                    registered: {},
                     insert: _insert
                 };
                 return cache.sheet.hydrate(nodesToHydrate), cache;
@@ -679,8 +676,7 @@
                 key: "css"
             }) : null);
             EmotionCacheContext.Provider;
-            var emotion_element_99289b21_browser_esm_ThemeContext = (0, react.createContext)({
-            });
+            var emotion_element_99289b21_browser_esm_ThemeContext = (0, react.createContext)({});
             __webpack_require__(8679);
             var emotion_utils_browser_esm_insertStyles = function(cache, serialized, isStringTag) {
                 var className = cache.key + "-" + serialized.name;
@@ -760,8 +756,7 @@
                 displayName: !0,
                 propTypes: !0,
                 type: !0
-            }, TYPE_STATICS = {
-            };
+            }, TYPE_STATICS = {};
             function getStatics(component) {
                 return reactIs.isMemo(component) ? MEMO_STATICS : TYPE_STATICS[component.$$typeof] || REACT_STATICS;
             }
@@ -787,8 +782,7 @@
                             var descriptor = getOwnPropertyDescriptor(sourceComponent, key);
                             try {
                                 defineProperty(targetComponent, key, descriptor);
-                            } catch (e) {
-                            }
+                            } catch (e) {}
                         }
                     }
                 }
@@ -822,12 +816,10 @@
             exports.default = void 0;
             var obj, _react = (obj = __webpack_require__(7294)) && obj.__esModule ? obj : {
                 default: obj
-            }, _router = __webpack_require__(6273), _router1 = __webpack_require__(387), _useIntersection = __webpack_require__(7190), prefetched = {
-            };
+            }, _router = __webpack_require__(6273), _router1 = __webpack_require__(387), _useIntersection = __webpack_require__(7190), prefetched = {};
             function prefetch(router, href, as, options) {
                 if (router && _router.isLocalURL(href)) {
-                    router.prefetch(href, as, options).catch(function(err) {
-                    });
+                    router.prefetch(href, as, options).catch(function(err) {});
                     var curLocale = options && void 0 !== options.locale ? options.locale : router && router.locale;
                     prefetched[href + "%" + as + (curLocale ? "%" + curLocale : "")] = !0;
                 }

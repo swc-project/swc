@@ -1,6 +1,5 @@
 class A {
-    baz() {
-    }
+    baz() {}
 }
 class B {
 }

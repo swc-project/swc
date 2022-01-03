@@ -2,6 +2,5 @@
 // @Filename: /a.ts
 class A {
 }
-const d = {
-};
+const d = {};
 export { };

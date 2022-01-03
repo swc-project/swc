@@ -26,8 +26,7 @@ function _templateObject1() {
     };
     return data;
 }
-function myTag(strings) {
-}
+function myTag(strings) {}
 function f1() {
     return myTag(_templateObject());
 }

@@ -3,8 +3,7 @@
     var ampersandTest, propValue, nativeURLSearchParams = function() {
         try {
             if (self.URLSearchParams && "bar" === new self.URLSearchParams("foo=bar").get("foo")) return self.URLSearchParams;
-        } catch (e) {
-        }
+        } catch (e) {}
         return null;
     }(), isSupportObjectConstructor = nativeURLSearchParams && "a=1" === new nativeURLSearchParams({
         a: 1
@@ -110,8 +109,7 @@
         }), iterator;
     }
     function parseToDict(search) {
-        var dict = {
-        };
+        var dict = {};
         if ("object" == typeof search) if (isArray(search)) for(var i = 0; i < search.length; i++){
             var item = search[i];
             if (isArray(item) && 2 === item.length) appendTo(dict, item[0], item[1]);

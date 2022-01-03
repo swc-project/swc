@@ -14,12 +14,8 @@ function _defineProperty(obj, key, value) {
 var E;
 (function(E) {
     E[E["x"] = 0] = "x";
-})(E || (E = {
-}));
+})(E || (E = {}));
 var a;
-extractIndexer(_defineProperty({
-}, a, "")); // Should return string
-extractIndexer(_defineProperty({
-}, E.x, "")); // Should return string
-extractIndexer(_defineProperty({
-}, "" || 0, "")); // Should return any (widened form of undefined)
+extractIndexer(_defineProperty({}, a, "")); // Should return string
+extractIndexer(_defineProperty({}, E.x, "")); // Should return string
+extractIndexer(_defineProperty({}, "" || 0, "")); // Should return any (widened form of undefined)

@@ -1,14 +1,10 @@
 x.f(), xUnion.f(42), xUnion.f(), xAny.f(), xUnknown.f(), xNever.f();
 class MyPromise {
-    constructor(executor){
-    }
+    constructor(executor){}
 }
-function a(x, y, z) {
-}
-function b(x, y, z, what) {
-}
-function c(x, y, z) {
-}
+function a(x, y, z) {}
+function b(x, y, z, what) {}
+function c(x, y, z) {}
 new MyPromise((resolve)=>resolve()
 ), new MyPromise((resolve)=>resolve()
 ), new MyPromise((resolve)=>resolve()

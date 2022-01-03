@@ -1594,17 +1594,27 @@ where
             };
             punct!(span, "{");
         }
-        if !self.cfg.minify {
+
+        let emit_new_line = !self.cfg.minify
+            && !(node.props.len() == 0 && is_empty_comments(&node.span(), &self.comments));
+
+        if emit_new_line {
             self.wr.write_line()?;
         }
-        self.emit_list(
-            node.span(),
-            Some(&node.props),
-            ListFormat::ObjectLiteralExpressionProperties | ListFormat::CanSkipTrailingComma,
-        )?;
-        if !self.cfg.minify {
+
+        let mut list_format =
+            ListFormat::ObjectLiteralExpressionProperties | ListFormat::CanSkipTrailingComma;
+
+        if !emit_new_line {
+            list_format -= ListFormat::MultiLine | ListFormat::Indented;
+        }
+
+        self.emit_list(node.span(), Some(&node.props), list_format)?;
+
+        if emit_new_line {
             self.wr.write_line()?;
         }
+
         {
             let span = if node.span.is_dummy() {
                 DUMMY_SP
@@ -1612,7 +1622,7 @@ where
                 Span::new(node.span.hi - BytePos(1), node.span.hi, Default::default())
             };
             punct!(span, "}");
-        }
+        };
     }
 
     #[emitter]
@@ -2273,11 +2283,17 @@ where
             };
             punct!(span, "{");
         }
-        self.emit_list(
-            node.span(),
-            Some(&node.stmts),
-            ListFormat::MultiLineBlockStatements,
-        )?;
+
+        let emit_new_line = !self.cfg.minify
+            && !(node.stmts.len() == 0 && is_empty_comments(&node.span(), &self.comments));
+
+        let mut list_format = ListFormat::MultiLineBlockStatements;
+
+        if !emit_new_line {
+            list_format -= ListFormat::MultiLine | ListFormat::Indented;
+        }
+
+        self.emit_list(node.span(), Some(&node.stmts), list_format)?;
 
         self.emit_leading_comments_of_span(node.span(), true)?;
 
@@ -3261,4 +3277,8 @@ fn is_space_require_before_rhs(rhs: &Expr) -> bool {
 
         _ => false,
     }
+}
+
+fn is_empty_comments(span: &Span, comments: &Option<&dyn Comments>) -> bool {
+    return span.is_dummy() || comments.map_or(true, |c| !c.has_leading(span.hi() - BytePos(1)));
 }

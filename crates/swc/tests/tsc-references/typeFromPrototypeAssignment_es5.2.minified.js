@@ -1,6 +1,5 @@
 var Multimap = function() {
-    this._map = {
-    }, this._map, this.set, this.get, this.addon;
+    this._map = {}, this._map, this.set, this.get, this.addon;
 };
 Multimap.prototype = {
     set: function() {

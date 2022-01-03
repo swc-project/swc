@@ -18,13 +18,11 @@ var c, C = function() {
             get: function() {
                 return null;
             },
-            set: function(x) {
-            }
+            set: function(x) {}
         },
         {
             key: "foo",
-            value: function() {
-            }
+            value: function() {}
         }
     ], staticProps = [
         {
@@ -32,13 +30,11 @@ var c, C = function() {
             get: function() {
                 return null;
             },
-            set: function(x) {
-            }
+            set: function(x) {}
         },
         {
             key: "foo",
-            value: function() {
-            }
+            value: function() {}
         }
     ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }();

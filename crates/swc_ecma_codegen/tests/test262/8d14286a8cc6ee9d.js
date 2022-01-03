@@ -1,2 +1,1 @@
-(function*(...a) {
-});
+(function*(...a) {});

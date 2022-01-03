@@ -27,12 +27,10 @@ var _key, _key1;
 var TopLevelSym = Symbol();
 var InnerSym = Symbol();
 var _obj;
-module.exports = (_obj = {
-}, _defineProperty(_obj, TopLevelSym, function() {
+module.exports = (_obj = {}, _defineProperty(_obj, TopLevelSym, function() {
     var x = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 12;
     return x;
-}), _defineProperty(_obj, "items", _defineProperty({
-}, InnerSym, function() {
+}), _defineProperty(_obj, "items", _defineProperty({}, InnerSym, function() {
     var arg = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
         x: 12
     };

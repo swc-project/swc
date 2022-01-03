@@ -12,5 +12,4 @@ var Generics;
         a1 = b; // error
         b = a1; // error
     }
-})(Generics || (Generics = {
-}));
+})(Generics || (Generics = {}));

@@ -12,9 +12,7 @@ var r1b2 = Math.pow(b, null);
 var r1b3 = Math.pow(c, null);
 var r1c1 = Math.pow(null, true);
 var r1c2 = Math.pow(null, '');
-var r1c3 = Math.pow(null, {
-});
+var r1c3 = Math.pow(null, {});
 var r1d1 = Math.pow(true, null);
 var r1d2 = Math.pow('', null);
-var r1d3 = Math.pow({
-}, null);
+var r1d3 = Math.pow({}, null);

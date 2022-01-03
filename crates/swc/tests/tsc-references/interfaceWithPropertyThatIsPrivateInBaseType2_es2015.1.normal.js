@@ -1,8 +1,6 @@
 class Base {
-    x() {
-    }
+    x() {}
 }
 class Base2 {
-    x() {
-    }
+    x() {}
 }

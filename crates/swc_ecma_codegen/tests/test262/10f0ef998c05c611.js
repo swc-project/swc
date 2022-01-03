@@ -1,3 +1,2 @@
-do {
-}while (false)
+do {}while (false)
 a();

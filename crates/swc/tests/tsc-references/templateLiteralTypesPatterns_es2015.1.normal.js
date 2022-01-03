@@ -2,8 +2,7 @@
 const a = "/bin";
 // not ok
 const b = "no slash";
-function download(hostSpec) {
-}
+function download(hostSpec) {}
 // ok, has protocol
 download("http://example.com/protocol");
 // issues error - no protocol

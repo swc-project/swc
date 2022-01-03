@@ -77,8 +77,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -121,22 +120,18 @@ var Opt = /*#__PURE__*/ function(_Component) {
     ]);
     return Opt;
 }(React.Component);
-var obj = {
-};
+var obj = {};
 var obj1 = {
     x: 2
 };
 // Error
-var y = /*#__PURE__*/ React.createElement(Opt, _extends({
-}, obj, {
+var y = /*#__PURE__*/ React.createElement(Opt, _extends({}, obj, {
     x: 3
 }));
-var y1 = /*#__PURE__*/ React.createElement(Opt, _extends({
-}, obj1, {
+var y1 = /*#__PURE__*/ React.createElement(Opt, _extends({}, obj1, {
     x: "Hi"
 }));
-var y2 = /*#__PURE__*/ React.createElement(Opt, _extends({
-}, obj1, {
+var y2 = /*#__PURE__*/ React.createElement(Opt, _extends({}, obj1, {
     x: 3
 }));
 var y3 = /*#__PURE__*/ React.createElement(Opt, {

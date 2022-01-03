@@ -8,8 +8,7 @@ import { render } from 'react-dom';
 import zhCN from 'antd/es/locale/zh_CN';
 import { Button, ConfigProvider } from 'antd';
 function App() {
-    var ref = swcHelpers.slicedToArray(useState({
-    }), 2), state = ref[0], setState = ref[1];
+    var ref = swcHelpers.slicedToArray(useState({}), 2), state = ref[0], setState = ref[1];
     useEffect(function() {
         swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
@@ -39,5 +38,4 @@ function App() {
         ]
     }));
 }
-render(/*#__PURE__*/ _jsx(App, {
-}), document.getElementById('root'));
+render(/*#__PURE__*/ _jsx(App, {}), document.getElementById('root'));

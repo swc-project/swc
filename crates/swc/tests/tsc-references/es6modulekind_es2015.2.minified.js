@@ -2,7 +2,6 @@ class A {
     B() {
         return 42;
     }
-    constructor(){
-    }
+    constructor(){}
 }
 export { A as default };

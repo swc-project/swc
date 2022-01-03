@@ -6,14 +6,12 @@ var O;
     O1[O1["A"] = 0] = "A";
     O1[O1["B"] = 1] = "B";
     O1[O1["C"] = 2] = "C";
-})(O || (O = {
-}));
+})(O || (O = {}));
 export { O as O };
 class A {
     #a;
     #c;
-    constructor(o = {
-    }){
+    constructor(o = {}){
         const { a: a2 = a , c ,  } = o;
         this.#a = a2;
         this.#c = c;

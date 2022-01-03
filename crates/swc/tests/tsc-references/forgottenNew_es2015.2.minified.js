@@ -1,4 +1,3 @@
 var Tools;
-(Tools || (Tools = {
-})).NullLogger = class {
+(Tools || (Tools = {})).NullLogger = class {
 }, Tools.NullLogger();

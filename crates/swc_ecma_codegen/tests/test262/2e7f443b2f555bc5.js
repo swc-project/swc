@@ -1,4 +1,3 @@
 /**/ function a() {
-    function b() {
-    }
+    function b() {}
 }

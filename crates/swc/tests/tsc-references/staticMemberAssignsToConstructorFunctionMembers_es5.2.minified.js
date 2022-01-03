@@ -15,15 +15,13 @@ var C = function() {
         {
             key: "foo",
             value: function() {
-                C.foo = function() {
-                };
+                C.foo = function() {};
             }
         },
         {
             key: "bar",
             value: function(x1) {
-                return C.bar = function() {
-                }, C.bar = function(x) {
+                return C.bar = function() {}, C.bar = function(x) {
                     return x;
                 }, C.bar = function(x) {
                     return 1;

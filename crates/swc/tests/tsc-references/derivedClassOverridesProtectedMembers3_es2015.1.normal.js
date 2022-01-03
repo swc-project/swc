@@ -2,22 +2,17 @@
 var x;
 var y;
 class Base {
-    b(a) {
-    }
+    b(a) {}
     get c() {
         return x;
     }
-    set c(v) {
-    }
-    static s(a) {
-    }
+    set c(v) {}
+    static s(a) {}
     static get t() {
         return x;
     }
-    static set t(v) {
-    }
-    constructor(a){
-    }
+    static set t(v) {}
+    constructor(a){}
 }
 // Errors
 // decrease visibility of all public members to protected
@@ -27,8 +22,7 @@ class Derived1 extends Base {
     }
 }
 class Derived2 extends Base {
-    b(a) {
-    }
+    b(a) {}
     constructor(a){
         super(a);
     }
@@ -42,8 +36,7 @@ class Derived3 extends Base {
     }
 }
 class Derived4 extends Base {
-    set c(v) {
-    }
+    set c(v) {}
     constructor(a){
         super(a);
     }
@@ -59,8 +52,7 @@ class Derived6 extends Base {
     }
 }
 class Derived7 extends Base {
-    static s(a) {
-    }
+    static s(a) {}
     constructor(a){
         super(a);
     }
@@ -74,8 +66,7 @@ class Derived8 extends Base {
     }
 }
 class Derived9 extends Base {
-    static set t(v) {
-    }
+    static set t(v) {}
     constructor(a){
         super(a);
     }

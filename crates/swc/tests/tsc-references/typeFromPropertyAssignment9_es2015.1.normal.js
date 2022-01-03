@@ -3,16 +3,13 @@
 // @checkJs: true
 // @target: es6
 // @Filename: a.js
-var my = my || {
-};
+var my = my || {};
 /** @param {number} n */ my.method = function(n) {
     return n + 1;
 };
 my.number = 1;
-my.object = {
-};
-my.predicate = my.predicate || {
-};
+my.object = {};
+my.predicate = my.predicate || {};
 my.predicate.query = function() {
     var me = this;
     me.property = false;
@@ -33,11 +30,8 @@ my.predicate.type = class _class {
     }
 };
 // global-ish prefixes
-var min = window.min || {
-};
-min.nest = this.min.nest || function() {
-};
+var min = window.min || {};
+min.nest = this.min.nest || function() {};
 min.nest.other = self.min.nest.other || class {
 };
-min.property = global.min.property || {
-};
+min.property = global.min.property || {};

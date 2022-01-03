@@ -27,8 +27,7 @@ function _nonIterableRest() {
     throw new TypeError("Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 function _objectWithoutProperties(source, excluded) {
-    if (source == null) return {
-    };
+    if (source == null) return {};
     var target = _objectWithoutPropertiesLoose(source, excluded);
     var key, i;
     if (Object.getOwnPropertySymbols) {
@@ -43,10 +42,8 @@ function _objectWithoutProperties(source, excluded) {
     return target;
 }
 function _objectWithoutPropertiesLoose(source, excluded) {
-    if (source == null) return {
-    };
-    var target = {
-    };
+    if (source == null) return {};
+    var target = {};
     var sourceKeys = Object.keys(source);
     var key, i;
     for(i = 0; i < sourceKeys.length; i++){
@@ -87,8 +84,7 @@ _complex = complex, nested = _objectWithoutProperties(_complex.x, [
 // should be:
 var overEmit;
 // var _g = overEmit.a, [_h, ...y] = _g, nested2 = __rest(_h, []), _j = overEmit.b, { z } = _j, c = __rest(_j, ["z"]), rest2 = __rest(overEmit, ["a", "b"]);
-var _a = _toArray(overEmit.a), ref1 = _a[0], ref1 = ref1 !== null ? ref1 : _throw(new TypeError("Cannot destructure undefined")), y = _a.slice(1), z = overEmit.b.z, nested2 = _extends({
-}, overEmit.a[0]), c = _objectWithoutProperties(overEmit.b, [
+var _a = _toArray(overEmit.a), ref1 = _a[0], ref1 = ref1 !== null ? ref1 : _throw(new TypeError("Cannot destructure undefined")), y = _a.slice(1), z = overEmit.b.z, nested2 = _extends({}, overEmit.a[0]), c = _objectWithoutProperties(overEmit.b, [
     "z"
 ]), rest2 = _objectWithoutProperties(overEmit, [
     "a",
@@ -96,8 +92,7 @@ var _a = _toArray(overEmit.a), ref1 = _a[0], ref1 = ref1 !== null ? ref1 : _thro
 ]);
 var _overEmit;
 var ref2, ref3, ref4;
-_overEmit = overEmit, nested2 = _extends({
-}, _overEmit.a[0]), c = _objectWithoutProperties(_overEmit.b, [
+_overEmit = overEmit, nested2 = _extends({}, _overEmit.a[0]), c = _objectWithoutProperties(_overEmit.b, [
     "z"
 ]), rest2 = _objectWithoutProperties(_overEmit, [
     "a",

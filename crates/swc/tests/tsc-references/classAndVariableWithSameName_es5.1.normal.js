@@ -15,5 +15,4 @@ var M;
         _classCallCheck(this, D);
     };
     var D = 1; // error
-})(M || (M = {
-}));
+})(M || (M = {}));

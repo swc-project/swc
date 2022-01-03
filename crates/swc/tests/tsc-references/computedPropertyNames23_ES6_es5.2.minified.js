@@ -4,8 +4,7 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-var obj, key, tmp = (obj = {
-}, (key = this.bar()) in obj ? Object.defineProperty(obj, key, {
+var obj, key, tmp = (obj = {}, (key = this.bar()) in obj ? Object.defineProperty(obj, key, {
     value: 1,
     enumerable: !0,
     configurable: !0,
@@ -27,8 +26,7 @@ var obj, key, tmp = (obj = {
         },
         {
             key: tmp,
-            value: function() {
-            }
+            value: function() {}
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }();

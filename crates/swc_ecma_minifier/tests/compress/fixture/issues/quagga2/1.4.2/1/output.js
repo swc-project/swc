@@ -2,15 +2,13 @@
     "object" == typeof exports && "object" == typeof module ? module.exports = factory() : "function" == typeof define && define.amd ? define([], factory) : "object" == typeof exports ? exports.Quagga = factory() : root.Quagga = factory();
 }(window, function() {
     return (function(modules) {
-        var installedModules = {
-        };
+        var installedModules = {};
         function __webpack_require__(moduleId) {
             if (installedModules[moduleId]) return installedModules[moduleId].exports;
             var module = installedModules[moduleId] = {
                 i: moduleId,
                 l: !1,
-                exports: {
-                }
+                exports: {}
             };
             return modules[moduleId].call(module.exports, module, module.exports, __webpack_require__), module.l = !0, module.exports;
         }
@@ -190,8 +188,7 @@
                             0,
                             0
                         ])
-                    }, pointMap = {
-                    };
+                    }, pointMap = {};
                     function _add(pointToAdd) {
                         pointMap[pointToAdd.id] = pointToAdd, points.push(pointToAdd);
                     }
@@ -383,8 +380,7 @@
                         unit: (value.indexOf("%") === value.length - 1, "%")
                     }, calculated = _dimensionsConverters[key](parsed, context);
                     return result[key] = calculated, result;
-                }, {
-                });
+                }, {});
                 return {
                     sx: parsedArea.left,
                     sy: parsedArea.top,
@@ -1119,8 +1115,7 @@
         },
         function(module1, exports) {
             module1.exports = function(module) {
-                return module.webpackPolyfill || (module.deprecate = function() {
-                }, module.paths = [], module.children || (module.children = []), Object.defineProperty(module, "loaded", {
+                return module.webpackPolyfill || (module.deprecate = function() {}, module.paths = [], module.children || (module.children = []), Object.defineProperty(module, "loaded", {
                     enumerable: !0,
                     get: function() {
                         return module.l;
@@ -1207,11 +1202,8 @@
             var getNative = __webpack_require__(35), defineProperty = function() {
                 try {
                     var func = getNative(Object, "defineProperty");
-                    return func({
-                    }, "", {
-                    }), func;
-                } catch (e) {
-                }
+                    return func({}, "", {}), func;
+                } catch (e) {}
             }();
             module.exports = defineProperty;
         },
@@ -1462,8 +1454,7 @@
         },
         function(module, exports, __webpack_require__) {
             var basePick = __webpack_require__(229), pick = __webpack_require__(243)(function(object, paths) {
-                return null == object ? {
-                } : basePick(object, paths);
+                return null == object ? {} : basePick(object, paths);
             });
             module.exports = pick;
         },
@@ -1726,8 +1717,7 @@
                 try {
                     value[symToStringTag] = void 0;
                     var unmasked = !0;
-                } catch (e) {
-                }
+                } catch (e) {}
                 var result = nativeObjectToString.call(value);
                 return unmasked && (isOwn ? value[symToStringTag] = tag : delete value[symToStringTag]), result;
             };
@@ -1754,12 +1744,10 @@
                 if (null != func) {
                     try {
                         return funcToString.call(func);
-                    } catch (e) {
-                    }
+                    } catch (e) {}
                     try {
                         return func + "";
-                    } catch (e1) {
-                    }
+                    } catch (e1) {}
                 }
                 return "";
             };
@@ -1793,8 +1781,7 @@
         function(module, exports, __webpack_require__) {
             var nativeCreate = __webpack_require__(28);
             module.exports = function() {
-                this.__data__ = nativeCreate ? nativeCreate(null) : {
-                }, this.size = 0;
+                this.__data__ = nativeCreate ? nativeCreate(null) : {}, this.size = 0;
             };
         },
         function(module, exports) {
@@ -1929,17 +1916,14 @@
         function(module, exports, __webpack_require__) {
             var baseCreate = __webpack_require__(130), getPrototype = __webpack_require__(50), isPrototype = __webpack_require__(51);
             module.exports = function(object) {
-                return "function" != typeof object.constructor || isPrototype(object) ? {
-                } : baseCreate(getPrototype(object));
+                return "function" != typeof object.constructor || isPrototype(object) ? {} : baseCreate(getPrototype(object));
             };
         },
         function(module, exports, __webpack_require__) {
             var isObject = __webpack_require__(14), objectCreate = Object.create, baseCreate = function() {
-                function object() {
-                }
+                function object() {}
                 return function(proto) {
-                    if (!isObject(proto)) return {
-                    };
+                    if (!isObject(proto)) return {};
                     if (objectCreate) return objectCreate(proto);
                     object.prototype = proto;
                     var result = new object();
@@ -1983,8 +1967,7 @@
             };
         },
         function(module, exports, __webpack_require__) {
-            var baseGetTag = __webpack_require__(22), isLength = __webpack_require__(40), isObjectLike = __webpack_require__(18), typedArrayTags = {
-            };
+            var baseGetTag = __webpack_require__(22), isLength = __webpack_require__(40), isObjectLike = __webpack_require__(18), typedArrayTags = {};
             typedArrayTags["[object Float32Array]"] = typedArrayTags["[object Float64Array]"] = typedArrayTags["[object Int8Array]"] = typedArrayTags["[object Int16Array]"] = typedArrayTags["[object Int32Array]"] = typedArrayTags["[object Uint8Array]"] = typedArrayTags["[object Uint8ClampedArray]"] = typedArrayTags["[object Uint16Array]"] = typedArrayTags["[object Uint32Array]"] = !0, typedArrayTags["[object Arguments]"] = typedArrayTags["[object Array]"] = typedArrayTags["[object ArrayBuffer]"] = typedArrayTags["[object Boolean]"] = typedArrayTags["[object DataView]"] = typedArrayTags["[object Date]"] = typedArrayTags["[object Error]"] = typedArrayTags["[object Function]"] = typedArrayTags["[object Map]"] = typedArrayTags["[object Number]"] = typedArrayTags["[object Object]"] = typedArrayTags["[object RegExp]"] = typedArrayTags["[object Set]"] = typedArrayTags["[object String]"] = typedArrayTags["[object WeakMap]"] = !1, module.exports = function(value) {
                 return isObjectLike(value) && isLength(value.length) && !!typedArrayTags[baseGetTag(value)];
             };
@@ -2003,8 +1986,7 @@
                         var types = freeModule && freeModule.require && freeModule.require("util").types;
                         if (types) return types;
                         return freeProcess && freeProcess.binding && freeProcess.binding("util");
-                    } catch (e) {
-                    }
+                    } catch (e) {}
                 }();
                 module.exports = nodeUtil;
             }).call(this, __webpack_require__(38)(module4));
@@ -2019,8 +2001,7 @@
             var assignValue = __webpack_require__(55), baseAssignValue = __webpack_require__(37);
             module.exports = function(source, props, object, customizer) {
                 var isNew = !object;
-                object || (object = {
-                });
+                object || (object = {});
                 for(var index = -1, length = props.length; ++index < length;){
                     var key = props[index], newValue = customizer ? customizer(object[key], source[key], key, object, source) : void 0;
                     void 0 === newValue && (newValue = source[key]), isNew ? baseAssignValue(object, key, newValue) : assignValue(object, key, newValue);
@@ -2557,8 +2538,7 @@
         function(module, exports1, __webpack_require__) {
             var runtime = function(exports) {
                 "use strict";
-                var undefined, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {
-                }, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+                var undefined, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
                 function wrap(innerFn, outerFn, self, tryLocsList) {
                     var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []);
                     return generator._invoke = makeInvokeMethod(innerFn, self, context), generator;
@@ -2577,16 +2557,11 @@
                     }
                 }
                 exports.wrap = wrap;
-                var GenStateSuspendedStart = "suspendedStart", GenStateExecuting = "executing", GenStateCompleted = "completed", ContinueSentinel = {
-                };
-                function Generator() {
-                }
-                function GeneratorFunction() {
-                }
-                function GeneratorFunctionPrototype() {
-                }
-                var IteratorPrototype = {
-                };
+                var GenStateSuspendedStart = "suspendedStart", GenStateExecuting = "executing", GenStateCompleted = "completed", ContinueSentinel = {};
+                function Generator() {}
+                function GeneratorFunction() {}
+                function GeneratorFunctionPrototype() {}
+                var IteratorPrototype = {};
                 IteratorPrototype[iteratorSymbol] = function() {
                     return this;
                 };
@@ -2687,8 +2662,7 @@
                     1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry);
                 }
                 function resetTryEntry(entry) {
-                    var record = entry.completion || {
-                    };
+                    var record = entry.completion || {};
                     record.type = "normal", delete record.arg, entry.completion = record;
                 }
                 function Context(tryLocsList) {
@@ -2794,8 +2768,7 @@
                             }
                         }
                         finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null);
-                        var record = finallyEntry ? finallyEntry.completion : {
-                        };
+                        var record = finallyEntry ? finallyEntry.completion : {};
                         return (record.type = type, record.arg = arg, finallyEntry) ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record);
                     },
                     complete: function(record, afterLoc) {
@@ -2848,8 +2821,7 @@
         function(module, exports, __webpack_require__) {
             var baseGet = __webpack_require__(231), baseSet = __webpack_require__(239), castPath = __webpack_require__(32);
             module.exports = function(object, paths, predicate) {
-                for(var index = -1, length = paths.length, result = {
-                }; ++index < length;){
+                for(var index = -1, length = paths.length, result = {}; ++index < length;){
                     var path = paths[index], value = baseGet(object, path);
                     predicate(value, path) && baseSet(result, castPath(path, object), value);
                 }
@@ -2937,8 +2909,7 @@
                     if ("__proto__" === key || "constructor" === key || "prototype" === key) return object;
                     if (index != lastIndex) {
                         var objValue = nested[key];
-                        void 0 === (newValue = customizer ? customizer(objValue, key, nested) : void 0) && (newValue = isObject(objValue) ? objValue : isIndex(path[index + 1]) ? [] : {
-                        });
+                        void 0 === (newValue = customizer ? customizer(objValue, key, nested) : void 0) && (newValue = isObject(objValue) ? objValue : isIndex(path[index + 1]) ? [] : {});
                     }
                     assignValue(nested, key, newValue), nested = nested[key];
                 }
@@ -3029,8 +3000,7 @@
                 if (Reflect.construct.sham) return !1;
                 if ("function" == typeof Proxy) return !0;
                 try {
-                    return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                    })), !0;
+                    return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                 } catch (e) {
                     return !1;
                 }
@@ -3125,8 +3095,7 @@
             }), __webpack_require__.d(__webpack_exports__, "ResultCollector", function() {
                 return result_collector;
             });
-            var BarcodeDirection, streamRef, reader_namespaceObject = {
-            };
+            var BarcodeDirection, streamRef, reader_namespaceObject = {};
             __webpack_require__.r(reader_namespaceObject), __webpack_require__.d(reader_namespaceObject, "BarcodeReader", function() {
                 return barcode_reader;
             }), __webpack_require__.d(reader_namespaceObject, "TwoOfFiveReader", function() {
@@ -3160,8 +3129,7 @@
             });
             var helpers_typeof = __webpack_require__(19), typeof_default = __webpack_require__.n(helpers_typeof), merge = __webpack_require__(16), merge_default = __webpack_require__.n(merge);
             __webpack_require__(152);
-            var image_wrapper = __webpack_require__(11), Bresenham = {
-            }, Slope = {
+            var image_wrapper = __webpack_require__(11), Bresenham = {}, Slope = {
                 DIR: {
                     UP: 1,
                     DOWN: -1
@@ -3212,14 +3180,10 @@
                 }
             };
             var BarcodeDirection1, bresenham = Bresenham, image_debug = __webpack_require__(9), classCallCheck = __webpack_require__(3), classCallCheck_default = __webpack_require__.n(classCallCheck), createClass = __webpack_require__(4), createClass_default = __webpack_require__.n(createClass), assertThisInitialized = __webpack_require__(1), assertThisInitialized_default = __webpack_require__.n(assertThisInitialized), inherits = __webpack_require__(6), inherits_default = __webpack_require__.n(inherits), possibleConstructorReturn = __webpack_require__(5), possibleConstructorReturn_default = __webpack_require__.n(possibleConstructorReturn), getPrototypeOf = __webpack_require__(2), getPrototypeOf_default = __webpack_require__.n(getPrototypeOf), defineProperty = __webpack_require__(0), defineProperty_default = __webpack_require__.n(defineProperty), array_helper = __webpack_require__(10);
-            (BarcodeDirection1 = BarcodeDirection || (BarcodeDirection = {
-            }))[BarcodeDirection1.Forward = 1] = "Forward", BarcodeDirection1[BarcodeDirection1.Reverse = -1] = "Reverse";
+            (BarcodeDirection1 = BarcodeDirection || (BarcodeDirection = {}))[BarcodeDirection1.Forward = 1] = "Forward", BarcodeDirection1[BarcodeDirection1.Reverse = -1] = "Reverse";
             var barcode_reader_BarcodeReader = function() {
                 function BarcodeReader(config, supplements) {
-                    return classCallCheck_default()(this, BarcodeReader), defineProperty_default()(this, "_row", []), defineProperty_default()(this, "config", {
-                    }), defineProperty_default()(this, "supplements", []), defineProperty_default()(this, "SINGLE_CODE_ERROR", 0), defineProperty_default()(this, "FORMAT", "unknown"), defineProperty_default()(this, "CONFIG_KEYS", {
-                    }), this._row = [], this.config = config || {
-                    }, supplements && (this.supplements = supplements), this;
+                    return classCallCheck_default()(this, BarcodeReader), defineProperty_default()(this, "_row", []), defineProperty_default()(this, "config", {}), defineProperty_default()(this, "supplements", []), defineProperty_default()(this, "SINGLE_CODE_ERROR", 0), defineProperty_default()(this, "FORMAT", "unknown"), defineProperty_default()(this, "CONFIG_KEYS", {}), this._row = [], this.config = config || {}, supplements && (this.supplements = supplements), this;
                 }
                 return createClass_default()(BarcodeReader, [
                     {
@@ -3315,8 +3279,7 @@
                         if (Reflect.construct.sham) return !1;
                         if ("function" == typeof Proxy) return !0;
                         try {
-                            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                            })), !0;
+                            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                         } catch (e) {
                             return !1;
                         }
@@ -4407,8 +4370,7 @@
             }
             function _objectSpread(target) {
                 for(var i = 1; i < arguments.length; i++){
-                    var source = null != arguments[i] ? arguments[i] : {
-                    };
+                    var source = null != arguments[i] ? arguments[i] : {};
                     i % 2 ? ownKeys(Object(source), !0).forEach(function(key) {
                         defineProperty_default()(target, key, source[key]);
                     }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function(key) {
@@ -4571,8 +4533,7 @@
                         if (Reflect.construct.sham) return !1;
                         if ("function" == typeof Proxy) return !0;
                         try {
-                            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                            })), !0;
+                            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                         } catch (e) {
                             return !1;
                         }
@@ -4675,8 +4636,7 @@
                     {
                         key: "_decodePayload",
                         value: function(inCode, result, decodedCodes) {
-                            for(var outCode = _objectSpread({
-                            }, inCode), codeFrequency = 0, i = 0; i < 6; i++){
+                            for(var outCode = _objectSpread({}, inCode), codeFrequency = 0, i = 0; i < 6; i++){
                                 if (!(outCode = this._decodeCode(outCode.end))) return null;
                                 outCode.code >= 10 ? (outCode.code -= 10, codeFrequency |= 1 << 5 - i) : codeFrequency |= 0 << 5 - i, result.push(outCode.code), decodedCodes.push(outCode);
                             }
@@ -4740,8 +4700,7 @@
                     {
                         key: "decode",
                         value: function(row, start) {
-                            var result = new Array(), decodedCodes = new Array(), resultInfo = {
-                            }, startInfo = this._findStart();
+                            var result = new Array(), decodedCodes = new Array(), resultInfo = {}, startInfo = this._findStart();
                             if (!startInfo) return null;
                             var code = {
                                 start: startInfo.start,
@@ -4770,8 +4729,7 @@
                                 end: code.end,
                                 startInfo: startInfo,
                                 decodedCodes: decodedCodes
-                            }, resultInfo), {
-                            }, {
+                            }, resultInfo), {}, {
                                 format: this.FORMAT
                             });
                         }
@@ -4832,8 +4790,7 @@
                         if (Reflect.construct.sham) return !1;
                         if ("function" == typeof Proxy) return !0;
                         try {
-                            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                            })), !0;
+                            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                         } catch (e) {
                             return !1;
                         }
@@ -4968,8 +4925,7 @@
                         if (Reflect.construct.sham) return !1;
                         if ("function" == typeof Proxy) return !0;
                         try {
-                            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                            })), !0;
+                            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                         } catch (e) {
                             return !1;
                         }
@@ -5063,8 +5019,7 @@
                         if (Reflect.construct.sham) return !1;
                         if ("function" == typeof Proxy) return !0;
                         try {
-                            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                            })), !0;
+                            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                         } catch (e) {
                             return !1;
                         }
@@ -5258,8 +5213,7 @@
                         if (Reflect.construct.sham) return !1;
                         if ("function" == typeof Proxy) return !0;
                         try {
-                            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                            })), !0;
+                            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                         } catch (e) {
                             return !1;
                         }
@@ -5298,8 +5252,7 @@
                         if (Reflect.construct.sham) return !1;
                         if ("function" == typeof Proxy) return !0;
                         try {
-                            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                            })), !0;
+                            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                         } catch (e) {
                             return !1;
                         }
@@ -5347,8 +5300,7 @@
                         if (Reflect.construct.sham) return !1;
                         if ("function" == typeof Proxy) return !0;
                         try {
-                            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                            })), !0;
+                            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                         } catch (e) {
                             return !1;
                         }
@@ -5413,8 +5365,7 @@
                         if (Reflect.construct.sham) return !1;
                         if ("function" == typeof Proxy) return !0;
                         try {
-                            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                            })), !0;
+                            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                         } catch (e) {
                             return !1;
                         }
@@ -5487,8 +5438,7 @@
                         if (Reflect.construct.sham) return !1;
                         if ("function" == typeof Proxy) return !0;
                         try {
-                            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                            })), !0;
+                            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                         } catch (e) {
                             return !1;
                         }
@@ -5548,8 +5498,7 @@
                         value: function(inCode, result, decodedCodes) {
                             for(var outCode = function(target) {
                                 for(var i = 1; i < arguments.length; i++){
-                                    var source = null != arguments[i] ? arguments[i] : {
-                                    };
+                                    var source = null != arguments[i] ? arguments[i] : {};
                                     i % 2 ? upc_e_reader_ownKeys(Object(source), !0).forEach(function(key) {
                                         defineProperty_default()(target, key, source[key]);
                                     }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : upc_e_reader_ownKeys(Object(source)).forEach(function(key) {
@@ -5557,8 +5506,7 @@
                                     });
                                 }
                                 return target;
-                            }({
-                            }, inCode), codeFrequency = 0, i2 = 0; i2 < 6; i2++){
+                            }({}, inCode), codeFrequency = 0, i2 = 0; i2 < 6; i2++){
                                 if (!(outCode = this._decodeCode(outCode.end))) return null;
                                 outCode.code >= 10 && (outCode.code = outCode.code - 10, codeFrequency |= 1 << 5 - i2), result.push(outCode.code), decodedCodes.push(outCode);
                             }
@@ -5634,8 +5582,7 @@
                         if (Reflect.construct.sham) return !1;
                         if ("function" == typeof Proxy) return !0;
                         try {
-                            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                            })), !0;
+                            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                         } catch (e) {
                             return !1;
                         }
@@ -5984,8 +5931,7 @@
                         if (Reflect.construct.sham) return !1;
                         if ("function" == typeof Proxy) return !0;
                         try {
-                            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                            })), !0;
+                            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                         } catch (e) {
                             return !1;
                         }
@@ -6185,8 +6131,7 @@
                         if (Reflect.construct.sham) return !1;
                         if ("function" == typeof Proxy) return !0;
                         try {
-                            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                            })), !0;
+                            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                         } catch (e) {
                             return !1;
                         }
@@ -6364,8 +6309,7 @@
                         if (Reflect.construct.sham) return !1;
                         if ("function" == typeof Proxy) return !0;
                         try {
-                            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                            })), !0;
+                            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                         } catch (e) {
                             return !1;
                         }
@@ -6450,8 +6394,7 @@
                     }, _barcodeReaders = [];
                     function initReaders() {
                         config.readers.forEach(function(readerConfig) {
-                            var reader, configuration = {
-                            }, supplements = [];
+                            var reader, configuration = {}, supplements = [];
                             "object" === typeof_default()(readerConfig) ? (reader = readerConfig.format, configuration = readerConfig.config) : "string" == typeof readerConfig && (reader = readerConfig), console.log("Before registering reader: ", reader), configuration.supplements && (supplements = configuration.supplements.map(function(supplement) {
                                 return new READERS[supplement]();
                             }));
@@ -6559,8 +6502,7 @@
                             var i, result, barcodes = [], multiple = config.multiple;
                             for(i = 0; i < boxes.length; i++){
                                 var box = boxes[i];
-                                if ((result = _decodeFromBoundingBox(box) || {
-                                }).box = box, multiple) barcodes.push(result);
+                                if ((result = _decodeFromBoundingBox(box) || {}).box = box, multiple) barcodes.push(result);
                                 else if (result.codeResult) return result;
                             }
                             if (multiple) return {
@@ -6583,8 +6525,7 @@
                     };
                 }
             }, events1 = function() {
-                var events = {
-                };
+                var events = {};
                 function getEvent(eventName) {
                     return events[eventName] || (events[eventName] = {
                         subscribers: []
@@ -6634,8 +6575,7 @@
                             _event && callback ? _event.subscribers = _event.subscribers.filter(function(subscriber) {
                                 return subscriber.callback !== callback;
                             }) : _event.subscribers = [];
-                        } else events = {
-                        };
+                        } else events = {};
                     }
                 };
             }(), asyncToGenerator = __webpack_require__(20), asyncToGenerator_default = __webpack_require__.n(asyncToGenerator), regenerator = __webpack_require__(12), regenerator_default = __webpack_require__.n(regenerator), pick = __webpack_require__(85), pick_default = __webpack_require__.n(pick), wrapNativeSuper = __webpack_require__(86), wrapNativeSuper_default = __webpack_require__.n(wrapNativeSuper), Exception_Exception = function(_Error) {
@@ -6646,8 +6586,7 @@
                         if (Reflect.construct.sham) return !1;
                         if ("function" == typeof Proxy) return !0;
                         try {
-                            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                            })), !0;
+                            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
                         } catch (e) {
                             return !1;
                         }
@@ -6720,8 +6659,7 @@
                 }))).apply(this, arguments);
             }
             function pickConstraints() {
-                var videoConstraints, normalized, videoConstraints1 = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
-                }, video = (videoConstraints = videoConstraints1, normalized = pick_default()(videoConstraints, [
+                var videoConstraints, normalized, videoConstraints1 = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {}, video = (videoConstraints = videoConstraints1, normalized = pick_default()(videoConstraints, [
                     "width",
                     "height",
                     "facingMode",
@@ -6795,8 +6733,7 @@
                     var _config$capacity, canvas = document.createElement("canvas"), ctx = canvas.getContext("2d"), results = [], capacity = null !== (_config$capacity = config.capacity) && void 0 !== _config$capacity ? _config$capacity : 20, capture = !0 === config.capture;
                     return {
                         addResult: function(data, imageSize, codeResult) {
-                            var codeResult1, codeResult2, list, codeResult3, filter, result = {
-                            };
+                            var codeResult1, codeResult2, list, codeResult3, filter, result = {};
                             codeResult1 = codeResult, !!capacity && codeResult1 && (codeResult2 = codeResult1, !((list = config.blacklist) && list.some(function(item) {
                                 return Object.keys(item).every(function(key) {
                                     return item[key] === codeResult2[key];
@@ -6899,8 +6836,7 @@
                 return !(firstIFDOffset < 8) && readTags(file, tiffOffset, tiffOffset + firstIFDOffset, exifTags, bigEnd);
             }
             function readTags(file, tiffStart, dirStart, strings, bigEnd) {
-                for(var entries = file.getUint16(dirStart, !bigEnd), tags = {
-                }, i = 0; i < entries; i++){
+                for(var entries = file.getUint16(dirStart, !bigEnd), tags = {}, i = 0; i < entries; i++){
                     var entryOffset = dirStart + 12 * i + 2, tag = strings[file.getUint16(entryOffset, !bigEnd)];
                     tag && (tags[tag] = readTagValue(file, entryOffset, tiffStart, dirStart, bigEnd));
                 }
@@ -6918,8 +6854,7 @@
                 for(var outstr = "", n = start; n < start + length; n++)outstr += String.fromCharCode(buffer.getUint8(n));
                 return outstr;
             }
-            var ImageLoader = {
-            };
+            var ImageLoader = {};
             function addOnloadHandler(img, htmlImagesArray) {
                 img.onload = function() {
                     htmlImagesArray.loaded(this);
@@ -6959,8 +6894,7 @@
                                         return ExifTags[tag] === selectedTag;
                                     })[0];
                                     return exifTag && (result[exifTag] = selectedTag), result;
-                                }, {
-                                }), offset = 2;
+                                }, {}), offset = 2;
                                 if (255 !== dataView.getUint8(0) || 216 !== dataView.getUint8(1)) return !1;
                                 for(; offset < length;){
                                     if (255 !== dataView.getUint8(offset)) return !1;
@@ -6984,8 +6918,7 @@
                     var _calculatedWidth, _calculatedHeight, _config = null, _eventNames = [
                         "canrecord",
                         "ended"
-                    ], _eventHandlers = {
-                    }, _topRight = {
+                    ], _eventHandlers = {}, _topRight = {
                         x: 0,
                         y: 0,
                         type: "Point"
@@ -7078,8 +7011,7 @@
                     var calculatedWidth, calculatedHeight, _config = null, width = 0, height = 0, frameIdx = 0, paused = !0, loaded = !1, imgArray = null, size = 0, baseUrl = null, _ended = !1, _eventNames = [
                         "canrecord",
                         "ended"
-                    ], _eventHandlers = {
-                    }, _topRight = {
+                    ], _eventHandlers = {}, _topRight = {
                         x: 0,
                         y: 0,
                         type: "Point"
@@ -7133,8 +7065,7 @@
                         ended: function() {
                             return _ended;
                         },
-                        setAttribute: function() {
-                        },
+                        setAttribute: function() {},
                         getConfig: function() {
                             return _config;
                         },
@@ -7176,11 +7107,9 @@
                     };
                     return inputStream;
                 }
-            }, input_stream_browser = inputStreamFactory, cv_utils = __webpack_require__(8), TO_RADIANS = Math.PI / 180, FrameGrabber = {
-            };
+            }, input_stream_browser = inputStreamFactory, cv_utils = __webpack_require__(8), TO_RADIANS = Math.PI / 180, FrameGrabber = {};
             FrameGrabber.create = function(inputStream, canvas2) {
-                var _canvas, _that = {
-                }, _streamConfig = inputStream.getConfig(), _videoSize = Object(cv_utils.h)(inputStream.getRealWidth(), inputStream.getRealHeight()), _canvasSize = inputStream.getCanvasSize(), _size = Object(cv_utils.h)(inputStream.getWidth(), inputStream.getHeight()), topRight = inputStream.getTopRight(), _sx = topRight.x, _sy = topRight.y, _ctx = null, _data = null;
+                var _canvas, _that = {}, _streamConfig = inputStream.getConfig(), _videoSize = Object(cv_utils.h)(inputStream.getRealWidth(), inputStream.getRealHeight()), _canvasSize = inputStream.getCanvasSize(), _size = Object(cv_utils.h)(inputStream.getWidth(), inputStream.getHeight()), topRight = inputStream.getTopRight(), _sx = topRight.x, _sy = topRight.y, _ctx = null, _data = null;
                 return (_canvas = canvas2 || document.createElement("canvas")).width = _canvasSize.x, _canvas.height = _canvasSize.y, _ctx = _canvas.getContext("2d"), _data = new Uint8Array(_size.x * _size.y), console.log("FrameGrabber", JSON.stringify({
                     size: _size,
                     topRight: topRight,
@@ -7221,8 +7150,7 @@
             }
             function qworker_objectSpread(target) {
                 for(var i = 1; i < arguments.length; i++){
-                    var source = null != arguments[i] ? arguments[i] : {
-                    };
+                    var source = null != arguments[i] ? arguments[i] : {};
                     i % 2 ? qworker_ownKeys(Object(source), !0).forEach(function(key) {
                         defineProperty_default()(target, key, source[key]);
                     }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : qworker_ownKeys(Object(source)).forEach(function(key) {
@@ -7289,12 +7217,8 @@
                         y: inputStream.getHeight()
                     },
                     imageData: workerThread.imageData,
-                    config: qworker_objectSpread(qworker_objectSpread({
-                    }, config1 = config), {
-                    }, {
-                        inputStream: qworker_objectSpread(qworker_objectSpread({
-                        }, config1.inputStream), {
-                        }, {
+                    config: qworker_objectSpread(qworker_objectSpread({}, config1 = config), {}, {
+                        inputStream: qworker_objectSpread(qworker_objectSpread({}, config1.inputStream), {}, {
                             target: null
                         })
                     })
@@ -7526,8 +7450,7 @@
                         value: function() {
                             var boxes = this.getBoundingBoxes();
                             if (boxes) {
-                                var decodeResult = this.context.decoder.decodeFromBoundingBoxes(boxes) || {
-                                };
+                                var decodeResult = this.context.decoder.decodeFromBoundingBoxes(boxes) || {};
                                 decodeResult.boxes = boxes, this.publishResult(decodeResult, null === (_this$context$inputIm3 = this.context.inputImageWrapper) || void 0 === _this$context$inputIm3 ? void 0 : _this$context$inputIm3.data);
                             } else {
                                 var _this$context$inputIm3, _this$context$inputIm4, imageResult = this.context.decoder.decodeFromImage(this.context.inputImageWrapper);
@@ -7612,8 +7535,7 @@
                         cb = function(err) {
                             err ? reject(err) : resolve();
                         };
-                    })), quaggaInstance.context.config = merge_default()({
-                    }, config_config, config), quaggaInstance.context.config.numOfWorkers > 0 && (quaggaInstance.context.config.numOfWorkers = 0), imageWrapper ? (quaggaInstance.context.onUIThread = !1, quaggaInstance.initializeData(imageWrapper), cb && cb()) : quaggaInstance.initInputStream(cb), promise;
+                    })), quaggaInstance.context.config = merge_default()({}, config_config, config), quaggaInstance.context.config.numOfWorkers > 0 && (quaggaInstance.context.config.numOfWorkers = 0), imageWrapper ? (quaggaInstance.context.onUIThread = !1, quaggaInstance.initializeData(imageWrapper), cb && cb()) : quaggaInstance.initInputStream(cb), promise;
                 },
                 start: function() {
                     return instance.start();

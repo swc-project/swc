@@ -76,8 +76,7 @@ var C = /*#__PURE__*/ function() {
                     ]
                 ];
             },
-            set: /** @param {Array<[string, {x?:number, y?:number}]>} value */ function set(value) {
-            }
+            set: /** @param {Array<[string, {x?:number, y?:number}]>} value */ function set(value) {}
         }
     ]);
     return C;

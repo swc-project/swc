@@ -1,6 +1,5 @@
 class Base {
-    constructor(c){
-    }
+    constructor(c){}
 }
 class D extends Base {
     constructor(){

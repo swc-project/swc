@@ -2,8 +2,7 @@ class Base {
 }
 class Derived extends Base {
 }
-function f(x) {
-}
+function f(x) {}
 function f3(x, y) {
     return y(null);
 }

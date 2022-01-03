@@ -43,8 +43,7 @@ var anyobj, React = require("react"), obj1 = {
             if (Reflect.construct.sham) return !1;
             if ("function" == typeof Proxy) return !0;
             try {
-                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                })), !0;
+                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
             } catch (e) {
                 return !1;
             }
@@ -75,9 +74,7 @@ var anyobj, React = require("react"), obj1 = {
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), OverWriteAttr;
 }(React.Component);
-React.createElement(OverWriteAttr, _extends({
-}, {
-}, {
+React.createElement(OverWriteAttr, _extends({}, {}, {
     y: !0,
     overwrite: "hi"
 }, obj1)), React.createElement(OverWriteAttr, _extends({
@@ -86,8 +83,7 @@ React.createElement(OverWriteAttr, _extends({
     x: 3
 }, {
     y: !0
-})), React.createElement(OverWriteAttr, _extends({
-}, anyobj, {
+})), React.createElement(OverWriteAttr, _extends({}, anyobj, {
     x: 3
 })), React.createElement(OverWriteAttr, _extends({
     overwrite: "hi"

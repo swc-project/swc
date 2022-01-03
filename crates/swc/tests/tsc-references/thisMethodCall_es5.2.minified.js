@@ -15,8 +15,7 @@ var C = function() {
     return Constructor = C, protoProps = [
         {
             key: "method",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "other",

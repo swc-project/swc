@@ -27,8 +27,7 @@ function _createSuper(Derived) {
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
         try {
-            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-            })), !0;
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
         } catch (e) {
             return !1;
         }
@@ -73,5 +72,4 @@ b = b, b2 = b2, (function(Generics) {
         return B2;
     }(A1);
     b21 = b21;
-})(Generics || (Generics = {
-}));
+})(Generics || (Generics = {}));

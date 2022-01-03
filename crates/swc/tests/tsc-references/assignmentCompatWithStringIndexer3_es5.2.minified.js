@@ -6,5 +6,4 @@ b1 = b1, (function(Generics) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
         }(this, A);
     };
-})(Generics || (Generics = {
-}));
+})(Generics || (Generics = {}));

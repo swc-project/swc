@@ -1,2 +1,1 @@
-C.prototype = {
-}, C.bar = 2;
+C.prototype = {}, C.bar = 2;

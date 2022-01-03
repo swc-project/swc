@@ -13,8 +13,7 @@ function _classCallCheck(instance, Constructor) {
         foo: ""
     };
     t2 = t2, b = b, b2 = b2, t = t;
-}(SimpleTypes || (SimpleTypes = {
-})), (function(ObjectTypes) {
+}(SimpleTypes || (SimpleTypes = {})), (function(ObjectTypes) {
     var t, t2, b, S = function() {
         "use strict";
         _classCallCheck(this, S);
@@ -27,5 +26,4 @@ function _classCallCheck(instance, Constructor) {
         foo: b2
     };
     t = t, t2 = t2, b = b, b2 = a2 = b2, a2 = b, a2 = t2, a2 = t;
-})(ObjectTypes || (ObjectTypes = {
-}));
+})(ObjectTypes || (ObjectTypes = {}));

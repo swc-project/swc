@@ -27,8 +27,7 @@ function _createSuper(Derived) {
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
         try {
-            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-            })), !0;
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
         } catch (e) {
             return !1;
         }
@@ -76,8 +75,7 @@ var SomeBase = function() {
     "use strict";
     _classCallCheck(this, fn1);
 };
-new fn1(void 0), new fn1({
-});
+new fn1(void 0), new fn1({});
 var fn2 = function() {
     "use strict";
     _classCallCheck(this, fn2);

@@ -15,18 +15,15 @@ var D = function() {
     return Constructor = D, protoProps = [
         {
             key: "foo",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "computedName1",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "computedName2",
-            value: function(a) {
-            }
+            value: function(a) {}
         },
         {
             key: "computedName3",
@@ -49,13 +46,11 @@ var D = function() {
     ], staticProps = [
         {
             key: "computedname4",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "computedname5",
-            value: function(a) {
-            }
+            value: function(a) {}
         },
         {
             key: "computedname6",
@@ -71,8 +66,7 @@ var D = function() {
         },
         {
             key: "foo",
-            value: function(a) {
-            }
+            value: function(a) {}
         },
         {
             key: "bar",

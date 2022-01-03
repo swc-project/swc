@@ -19,8 +19,7 @@ while(z < 10){
 for(var i = 0;;){
     throw i;
 }
-for(var idx in {
-}){
+for(var idx in {}){
     throw idx;
 }
 do {

@@ -26,8 +26,7 @@ var SomeClass = /*#__PURE__*/ function() {
         {
             key: "method",
             value: function method() {
-                while(0){
-                }
+                while(0){}
                 this.state.data;
                 if (this.state.type === "stringVariant") {
                     var s = this.state.data;
@@ -48,8 +47,7 @@ var SomeClass2 = /*#__PURE__*/ function() {
             value: function method() {
                 var ref;
                 var c = false;
-                while(c){
-                }
+                while(c){}
                 if (this.state.type === "numberVariant") {
                     this.state.data;
                 }

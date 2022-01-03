@@ -3,5 +3,4 @@ class C {
 }
 (function(C1) {
     var y = C1.y = C.bar;
-})(C || (C = {
-}));
+})(C || (C = {}));

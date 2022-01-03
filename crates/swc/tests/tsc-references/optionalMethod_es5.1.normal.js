@@ -27,8 +27,7 @@ var Base = // @target: esnext
     _createClass(Base, [
         {
             key: "method",
-            value: function method() {
-            }
+            value: function method() {}
         }
     ]);
     return Base;

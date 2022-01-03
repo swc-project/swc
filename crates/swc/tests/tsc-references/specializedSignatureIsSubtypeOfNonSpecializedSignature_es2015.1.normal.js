@@ -1,16 +1,12 @@
-function foo(x) {
-}
+function foo(x) {}
 class C {
-    foo(x) {
-    }
+    foo(x) {}
 }
 class C2 {
-    foo(x) {
-    }
+    foo(x) {}
 }
 class C3 {
-    foo(x) {
-    }
+    foo(x) {}
 }
 var a;
 var a2;

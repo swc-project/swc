@@ -1,3 +1,2 @@
 foo;
-if (foo) {
-}
+if (foo) {}

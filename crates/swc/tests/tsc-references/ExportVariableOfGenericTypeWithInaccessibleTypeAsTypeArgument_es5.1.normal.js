@@ -12,5 +12,4 @@ var A;
     var beez;
     var beez2 = A1.beez2 = new Array();
     A1.beez = beez;
-})(A || (A = {
-}));
+})(A || (A = {}));

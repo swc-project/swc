@@ -18,19 +18,14 @@ var arr, i, _typeof = function(obj) {
     return trace.push(n);
 }, tmp = void 0;
 (void 0 === tmp ? order(0) : tmp)[order(1)];
-var tmp1 = {
-};
+var tmp1 = {};
 (void 0 === tmp1 ? order(0) : tmp1)[order(1)];
-var _ref = {
-}, key = order(0), key1 = order(2), tmp2 = _ref[key];
+var _ref = {}, key = order(0), key1 = order(2), tmp2 = _ref[key];
 (void 0 === tmp2 ? order(1) : tmp2)[key1], (function(source, excluded) {
-    if (null == source) return {
-    };
+    if (null == source) return {};
     var key2, i, target = function(source, excluded) {
-        if (null == source) return {
-        };
-        var key2, i, target = {
-        }, sourceKeys = Object.keys(source);
+        if (null == source) return {};
+        var key2, i, target = {}, sourceKeys = Object.keys(source);
         for(i = 0; i < sourceKeys.length; i++)key2 = sourceKeys[i], excluded.indexOf(key2) >= 0 || (target[key2] = source[key2]);
         return target;
     }(source, excluded);
@@ -88,5 +83,4 @@ var _ref1 = [
 }()), ref = __ref[0], ref = null !== ref ? ref : function(e) {
     throw e;
 }(new TypeError("Cannot destructure undefined")), tmp3 = __ref[1];
-_extends({
-}, _ref1[0]);
+_extends({}, _ref1[0]);

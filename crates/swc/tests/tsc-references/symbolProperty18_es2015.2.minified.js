@@ -3,7 +3,6 @@ var i = {
     [Symbol.toStringTag] () {
         return "";
     },
-    set [Symbol.toPrimitive] (p){
-    }
+    set [Symbol.toPrimitive] (p){}
 };
 i[Symbol.iterator], i[Symbol.toStringTag](), i[Symbol.toPrimitive] = !1;

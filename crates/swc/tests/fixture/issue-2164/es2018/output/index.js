@@ -1,4 +1,3 @@
 async function fn() {
-    for(const key in {
-    });
+    for(const key in {});
 }

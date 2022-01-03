@@ -3,8 +3,7 @@
 // @checkJs: true
 // @Filename: npmlog.js
 class EE {
-    /** @param {string} s */ on(s) {
-    }
+    /** @param {string} s */ on(s) {}
 }
 var npmlog = module.exports = new EE();
 npmlog.on('hi') // both references should see EE.on

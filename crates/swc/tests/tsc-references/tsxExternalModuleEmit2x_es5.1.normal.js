@@ -19,5 +19,4 @@ function _extends() {
     handler: Main
 });
 // Should see mod_1['default'] in emit here
-/*#__PURE__*/ React.createElement(Foo, _extends({
-}, Main));
+/*#__PURE__*/ React.createElement(Foo, _extends({}, Main));

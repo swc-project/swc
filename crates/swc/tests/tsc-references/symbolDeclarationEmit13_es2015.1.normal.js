@@ -5,6 +5,5 @@ class C {
     get [tmp]() {
         return "";
     }
-    set [tmp1](x) {
-    }
+    set [tmp1](x) {}
 }

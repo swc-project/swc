@@ -4,5 +4,4 @@ var C = function() {
         if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
     }(this, C);
 };
-(C || (C = {
-})).y = C.bar;
+(C || (C = {})).y = C.bar;

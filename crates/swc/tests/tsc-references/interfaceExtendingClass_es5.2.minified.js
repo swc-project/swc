@@ -15,8 +15,7 @@ var i, Foo = function() {
     return protoProps = [
         {
             key: "y",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "Z",

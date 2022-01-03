@@ -15,13 +15,11 @@ class C {
     foo(a, b) {
         return "";
     }
-    overloaded(x) {
-    }
+    overloaded(x) {}
     generic(x) {
         return x;
     }
-    constructor(a, b){
-    }
+    constructor(a, b){}
 }
 c.foo.bind(c), c.foo.bind(c, 10), c.foo.bind(c, 10, "hello"), c.foo.bind(c, 10, 20), c.foo.bind(void 0), c.overloaded.bind(c), c.generic.bind(c), c.foo.call(c, 10, "hello"), c.foo.call(c, 10), c.foo.call(c, 10, 20), c.foo.call(c, 10, "hello", 30), c.foo.call(void 0, 10, "hello"), c.foo.apply(c, [
     10,

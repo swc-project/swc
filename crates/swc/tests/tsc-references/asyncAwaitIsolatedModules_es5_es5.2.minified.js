@@ -262,6 +262,5 @@ var M, C = function() {
     M1.f1 = function() {
         return _f11.apply(this, arguments);
     };
-}(M || (M = {
-}));
+}(M || (M = {}));
 export { };

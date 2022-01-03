@@ -49,8 +49,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -144,8 +143,7 @@ var EX;
     EX[EX["A"] = 0] = "A";
     EX[EX["B"] = 1] = "B";
     EX[EX["C"] = 2] = "C";
-})(EX || (EX = {
-}));
+})(EX || (EX = {}));
 var C20 = /*#__PURE__*/ function(_super) {
     "use strict";
     _inherits(C20, _super);

@@ -4,10 +4,8 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-function foo(x) {
-}
-function foo2(x, y) {
-}
+function foo(x) {}
+function foo2(x, y) {}
 foo(1), foo(), foo2(1), foo2(1, 2);
 var c, i, a, C = function() {
     "use strict";
@@ -20,13 +18,11 @@ var c, i, a, C = function() {
     return Constructor = C, protoProps = [
         {
             key: "foo",
-            value: function(x) {
-            }
+            value: function(x) {}
         },
         {
             key: "foo2",
-            value: function(x, y) {
-            }
+            value: function(x, y) {}
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }();

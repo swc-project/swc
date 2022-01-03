@@ -30,15 +30,11 @@ function _defineProperty(obj, key, value) {
     }
     return obj;
 }
-var _obj, _mutatorMap = {
-};
+var _obj, _mutatorMap = {};
 //@target: ES6
-var i = (_obj = {
-}, _defineProperty(_obj, Symbol.iterator, 0), _defineProperty(_obj, Symbol.toStringTag, function() {
+var i = (_obj = {}, _defineProperty(_obj, Symbol.iterator, 0), _defineProperty(_obj, Symbol.toStringTag, function() {
     return "";
-}), _mutatorMap[Symbol.toPrimitive] = _mutatorMap[Symbol.toPrimitive] || {
-}, _mutatorMap[Symbol.toPrimitive].set = function(p) {
-}, _defineEnumerableProperties(_obj, _mutatorMap), _obj);
+}), _mutatorMap[Symbol.toPrimitive] = _mutatorMap[Symbol.toPrimitive] || {}, _mutatorMap[Symbol.toPrimitive].set = function(p) {}, _defineEnumerableProperties(_obj, _mutatorMap), _obj);
 var it = i[Symbol.iterator];
 var str = i[Symbol.toStringTag]();
 i[Symbol.toPrimitive] = false;

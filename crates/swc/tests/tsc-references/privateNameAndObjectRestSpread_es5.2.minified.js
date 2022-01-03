@@ -42,8 +42,7 @@ var C = function() {
             value: function(other) {
                 _classPrivateFieldGet(function(target) {
                     for(var i = 1; i < arguments.length; i++){
-                        var source = null != arguments[i] ? arguments[i] : {
-                        }, ownKeys = Object.keys(source);
+                        var source = null != arguments[i] ? arguments[i] : {}, ownKeys = Object.keys(source);
                         "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
@@ -51,9 +50,7 @@ var C = function() {
                         });
                     }
                     return target;
-                }({
-                }, other), _prop), _classPrivateFieldGet(_extends({
-                }, other), _prop);
+                }({}, other), _prop), _classPrivateFieldGet(_extends({}, other), _prop);
             }
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;

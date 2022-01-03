@@ -1,12 +1,8 @@
 class c1 {
-    i1_f1() {
-    }
-    i1_nc_f1() {
-    }
-    /** c1_f1*/ f1() {
-    }
-    /** c1_nc_f1*/ nc_f1() {
-    }
+    i1_f1() {}
+    i1_nc_f1() {}
+    /** c1_f1*/ f1() {}
+    /** c1_nc_f1*/ nc_f1() {}
 }
 var i1_i;
 i1_i.i1_f1();
@@ -37,23 +33,19 @@ i1_i.i1_nc_l1();
 i1_i.l1();
 i1_i.nc_l1();
 class c2 {
-    /** c2 c2_f1*/ c2_f1() {
-    }
+    /** c2 c2_f1*/ c2_f1() {}
     /** c2 c2_prop*/ get c2_prop() {
         return 10;
     }
-    c2_nc_f1() {
-    }
+    c2_nc_f1() {}
     get c2_nc_prop() {
         return 10;
     }
-    /** c2 f1*/ f1() {
-    }
+    /** c2 f1*/ f1() {}
     /** c2 prop*/ get prop() {
         return 10;
     }
-    nc_f1() {
-    }
+    nc_f1() {}
     get nc_prop() {
         return 10;
     }
@@ -62,13 +54,11 @@ class c2 {
     }
 }
 class c3 extends c2 {
-    /** c3 f1*/ f1() {
-    }
+    /** c3 f1*/ f1() {}
     /** c3 prop*/ get prop() {
         return 10;
     }
-    nc_f1() {
-    }
+    nc_f1() {}
     get nc_prop() {
         return 10;
     }

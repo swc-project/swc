@@ -12,5 +12,4 @@ class NumberIterator {
     }
 }
 var v;
-for (v of new NumberIterator){
-} // Should succeed
+for (v of new NumberIterator){} // Should succeed

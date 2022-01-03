@@ -1,8 +1,7 @@
 // @declaration: true
 // @target: es2015
 class A {
-    quux() {
-    }
+    quux() {}
     constructor(){
         _foo.set(this, {
             writable: true,

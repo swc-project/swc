@@ -20,5 +20,4 @@ function _classCallCheck(instance, Constructor) {
         "use strict";
         _classCallCheck(this, AG2);
     };
-})(A || (A = {
-})), new A.A(), new A.AG(), new A.A2(), new A.A2();
+})(A || (A = {})), new A.A(), new A.AG(), new A.A2(), new A.A2();

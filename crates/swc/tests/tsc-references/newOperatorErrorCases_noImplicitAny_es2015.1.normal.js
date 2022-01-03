@@ -3,9 +3,7 @@ function fnNumber() {
     return 90;
 }
 new fnNumber(); // Error
-function fnVoid() {
-}
+function fnVoid() {}
 new fnVoid(); // Error
-function functionVoidNoThis() {
-}
+function functionVoidNoThis() {}
 new functionVoidNoThis(); // Error

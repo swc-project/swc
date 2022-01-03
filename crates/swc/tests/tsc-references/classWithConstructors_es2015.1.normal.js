@@ -1,14 +1,12 @@
 var NonGeneric;
 (function(NonGeneric) {
     class C {
-        constructor(x){
-        }
+        constructor(x){}
     }
     var c = new C(); // error
     var c2 = new C(''); // ok
     class C2 {
-        constructor(x){
-        }
+        constructor(x){}
     }
     var c3 = new C2(); // error
     var c4 = new C2(''); // ok
@@ -18,19 +16,16 @@ var NonGeneric;
     var d = new D(); // error
     var d2 = new D(1); // ok
     var d3 = new D(''); // ok
-})(NonGeneric || (NonGeneric = {
-}));
+})(NonGeneric || (NonGeneric = {}));
 var Generics;
 (function(Generics) {
     class C {
-        constructor(x){
-        }
+        constructor(x){}
     }
     var c = new C(); // error
     var c2 = new C(''); // ok
     class C2 {
-        constructor(x){
-        }
+        constructor(x){}
     }
     var c3 = new C2(); // error
     var c4 = new C2(''); // ok
@@ -40,5 +35,4 @@ var Generics;
     var d = new D(); // error
     var d2 = new D(1); // ok
     var d3 = new D(''); // ok
-})(Generics || (Generics = {
-}));
+})(Generics || (Generics = {}));

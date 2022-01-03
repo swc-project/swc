@@ -34,8 +34,7 @@ var E, E, _typeof = function(obj) {
             if (Reflect.construct.sham) return !1;
             if ("function" == typeof Proxy) return !0;
             try {
-                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                })), !0;
+                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
             } catch (e) {
                 return !1;
             }
@@ -63,14 +62,10 @@ var E, E, _typeof = function(obj) {
     "use strict";
     _classCallCheck(this, C2);
 };
-function f() {
-}
-(E = E || (E = {
-}))[E.A = 0] = "A", (f || (f = {
-})).bar = 1;
+function f() {}
+(E = E || (E = {}))[E.A = 0] = "A", (f || (f = {})).bar = 1;
 var c = function() {
     "use strict";
     _classCallCheck(this, c);
 };
-(c || (c = {
-})).bar = 1;
+(c || (c = {})).bar = 1;

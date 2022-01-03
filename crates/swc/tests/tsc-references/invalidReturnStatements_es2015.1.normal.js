@@ -1,17 +1,11 @@
 // all the following should be error
-function fn1() {
-}
-function fn2() {
-}
-function fn3() {
-}
-function fn4() {
-}
-function fn7() {
-} // should be valid: any includes void
+function fn1() {}
+function fn2() {}
+function fn3() {}
+function fn4() {}
+function fn7() {} // should be valid: any includes void
 class C {
-    dispose() {
-    }
+    dispose() {}
 }
 class D extends C {
 }

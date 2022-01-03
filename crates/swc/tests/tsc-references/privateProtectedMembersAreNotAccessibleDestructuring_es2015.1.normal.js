@@ -1,6 +1,5 @@
 class K {
-    privateMethod() {
-    }
+    privateMethod() {}
     m() {
         let { priv: a , prot: b  } = this; // ok
         let { priv , prot  } = new K(); // ok
@@ -17,5 +16,4 @@ let { priv  } = k; // error
 let { prot  } = k; // error
 let { privateMethod  } = k; // error
 let { priv: a , prot: b , privateMethod: pm  } = k; // error
-function f({ priv , prot , privateMethod  }) {
-}
+function f({ priv , prot , privateMethod  }) {}

@@ -1,4 +1,3 @@
 class C {
-    set Foo(a) {
-    }
+    set Foo(a) {}
 }

@@ -1,8 +1,6 @@
 var si, oi;
 (class {
-    m(x, y) {
-    }
+    m(x, y) {}
 }).Inner = class {
-    n(a, b) {
-    }
+    n(a, b) {}
 }, si.m, oi.n;

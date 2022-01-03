@@ -26,8 +26,7 @@ export var MyComponent = /*#__PURE__*/ function() {
     _createClass(MyComponent, [
         {
             key: "render",
-            value: function render() {
-            }
+            value: function render() {}
         }
     ]);
     return MyComponent;

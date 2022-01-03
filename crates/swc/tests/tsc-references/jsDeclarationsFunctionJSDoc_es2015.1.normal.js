@@ -8,16 +8,14 @@
  * Foos a bar together using an `a` and a `b`
  * @param {number} a
  * @param {string} b
- */ export function foo(a, b) {
-}
+ */ export function foo(a, b) {}
 /**
  * Legacy - DO NOT USE
  */ export class Aleph {
     /**
      * Doesn't actually do anything
      * @returns {void}
-     */ doIt() {
-    }
+     */ doIt() {}
     /**
      * Impossible to construct.
      * @param {Aleph} a

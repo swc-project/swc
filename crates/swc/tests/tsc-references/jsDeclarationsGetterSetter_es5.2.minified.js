@@ -32,8 +32,7 @@ export var B = function() {
     return _createClass(B, [
         {
             key: "x",
-            set: function(_arg) {
-            }
+            set: function(_arg) {}
         }
     ]), B;
 }();
@@ -48,8 +47,7 @@ export var C = function() {
             get: function() {
                 return 12;
             },
-            set: function(_arg) {
-            }
+            set: function(_arg) {}
         }
     ]), C;
 }();
@@ -67,8 +65,7 @@ export var E = function() {
     _classCallCheck(this, E);
 };
 Object.defineProperty(E.prototype, "x", {
-    set: function(_arg) {
-    }
+    set: function(_arg) {}
 });
 export var F = function() {
     "use strict";
@@ -78,6 +75,5 @@ Object.defineProperty(F.prototype, "x", {
     get: function() {
         return 12;
     },
-    set: function(_arg) {
-    }
+    set: function(_arg) {}
 });

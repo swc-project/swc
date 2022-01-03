@@ -26,8 +26,7 @@ var C = // classes do not permit optional parameters, these are errors
     _createClass(C, [
         {
             key: "f",
-            value: function f() {
-            }
+            value: function f() {}
         }
     ]);
     return C;
@@ -40,8 +39,7 @@ var C2 = /*#__PURE__*/ function() {
     _createClass(C2, [
         {
             key: "f",
-            value: function f(x) {
-            }
+            value: function f(x) {}
         }
     ]);
     return C2;

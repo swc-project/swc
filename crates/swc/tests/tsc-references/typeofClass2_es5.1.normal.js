@@ -63,8 +63,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -91,13 +90,11 @@ var C = /*#__PURE__*/ function() {
     _createClass(C, null, [
         {
             key: "foo",
-            value: function foo(x) {
-            }
+            value: function foo(x) {}
         },
         {
             key: "bar",
-            value: function bar(x) {
-            }
+            value: function bar(x) {}
         }
     ]);
     return C;
@@ -113,14 +110,12 @@ var D = /*#__PURE__*/ function(C) {
     _createClass(D, [
         {
             key: "foo",
-            value: function foo() {
-            }
+            value: function foo() {}
         }
     ], [
         {
             key: "baz",
-            value: function baz(x) {
-            }
+            value: function baz(x) {}
         }
     ]);
     return D;

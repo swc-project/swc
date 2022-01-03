@@ -96,8 +96,7 @@ const f44 = (value)=>value
 const f45 = (value)=>value
 ; // Error
 // Repro from #21863
-function f50() {
-}
+function f50() {}
 var a = {
     o: 1,
     b: 2,

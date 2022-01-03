@@ -12,8 +12,7 @@ var moduleA;
         this.y = y;
     };
     moduleA1.Point = Point;
-})(moduleA || (moduleA = {
-}));
+})(moduleA || (moduleA = {}));
 var p;
 var p;
 var p;
@@ -26,8 +25,7 @@ var clodule = function clodule() {
         x: 0,
         y: 0
     };
-})(clodule || (clodule = {
-}));
+})(clodule || (clodule = {}));
 var p;
 var p;
 var p;
@@ -42,8 +40,7 @@ function fundule() {
         x: 0,
         y: 0
     };
-})(fundule || (fundule = {
-}));
+})(fundule || (fundule = {}));
 var p;
 var p;
 var p;

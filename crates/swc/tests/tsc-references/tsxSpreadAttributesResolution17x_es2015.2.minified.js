@@ -12,5 +12,4 @@ export class Empty extends React.Component {
         return React.createElement("div", null, "Hello");
     }
 }
-React.createElement(Empty, _extends({
-}, obj));
+React.createElement(Empty, _extends({}, obj));

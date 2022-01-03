@@ -1,9 +1,7 @@
 // @target: es6
 class C {
-    constructor(x){
-    }
+    constructor(x){}
 }
 class D {
-    constructor(x, z = "hello"){
-    }
+    constructor(x, z = "hello"){}
 }

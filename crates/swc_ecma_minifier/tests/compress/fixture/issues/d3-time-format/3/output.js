@@ -47,8 +47,7 @@
                     }) : interval : null;
                 }), interval;
             }
-            var millisecond = newInterval(function() {
-            }, function(date, step) {
+            var millisecond = newInterval(function() {}, function(date, step) {
                 date.setTime(+date + step);
             }, function(start, end) {
                 return end - start;

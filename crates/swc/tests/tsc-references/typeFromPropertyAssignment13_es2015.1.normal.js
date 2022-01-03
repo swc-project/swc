@@ -3,13 +3,10 @@
 // @checkJs: true
 // @target: es6
 // @Filename: module.js
-var Outer = {
-};
-Outer.Inner = function() {
-};
+var Outer = {};
+Outer.Inner = function() {};
 Outer.Inner.prototype = {
-    m () {
-    },
+    m () {},
     i: 1
 };
 // incremental assignments still work

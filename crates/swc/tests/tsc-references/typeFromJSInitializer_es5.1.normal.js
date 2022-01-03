@@ -13,18 +13,15 @@ function A() {
 var a = new A();
 a.unknown = 1;
 a.unknown = true;
-a.unknown = {
-};
+a.unknown = {};
 a.unknown = 'hi';
 a.unknowable = 1;
 a.unknowable = true;
-a.unknowable = {
-};
+a.unknowable = {};
 a.unknowable = 'hi';
 a.empty.push(1);
 a.empty.push(true);
-a.empty.push({
-});
+a.empty.push({});
 a.empty.push('hi');
 /** @type {number | undefined} */ var n;
 // should get any on parameter initialisers
@@ -35,8 +32,7 @@ function f() {
     a1 = null;
     a1 = 1;
     a1 = true;
-    a1 = {
-    };
+    a1 = {};
     a1 = 'ok';
     // b should be number | undefined, not any
     b = 1;
@@ -52,7 +48,6 @@ var l = [];
 u = undefined;
 u = 1;
 u = true;
-u = {
-};
+u = {};
 u = 'ok';
 l.push('ok');

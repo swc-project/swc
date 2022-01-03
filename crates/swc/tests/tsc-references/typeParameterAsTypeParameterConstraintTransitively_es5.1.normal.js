@@ -22,10 +22,7 @@ foo(a, b, {
     bar: '',
     hm: true
 });
-foo(function(x, y) {
-}, function(x) {
-}, function() {
-});
+foo(function(x, y) {}, function(x) {}, function() {});
 function foo2(x, y, z) {
     return z;
 }

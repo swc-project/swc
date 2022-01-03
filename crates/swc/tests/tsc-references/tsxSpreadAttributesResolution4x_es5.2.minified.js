@@ -45,8 +45,7 @@ function _createSuper(Derived) {
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
         try {
-            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-            })), !0;
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
         } catch (e) {
             return !1;
         }
@@ -79,8 +78,7 @@ var j, _this = this, React = require("react"), Poisoned = function(_Component) {
         }
     ]), Poisoned;
 }(React.Component);
-React.createElement(Poisoned, _extends({
-}, {
+React.createElement(Poisoned, _extends({}, {
     x: "hello world",
     y: 2
 }));
@@ -100,18 +98,13 @@ var EmptyProp = function(_Component) {
         }
     ]), EmptyProp;
 }(React.Component);
-React.createElement(EmptyProp, _extends({
-}, {
-})), React.createElement(EmptyProp, _extends({
-}, j)), React.createElement(EmptyProp, _extends({
-}, {
+React.createElement(EmptyProp, _extends({}, {})), React.createElement(EmptyProp, _extends({}, j)), React.createElement(EmptyProp, _extends({}, {
     ref: function(input) {
         _this.textInput = input;
     }
 })), React.createElement(EmptyProp, {
     "data-prop": !0
-}), React.createElement(EmptyProp, _extends({
-}, {
+}), React.createElement(EmptyProp, _extends({}, {
     "data-prop": !0
 }));
 export { };

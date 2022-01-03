@@ -2,12 +2,10 @@ class C {
 }
 class D {
 }
-for((M = M1 || (M1 = {
-})).A = class {
+for((M = M1 || (M1 = {})).A = class {
 }, M.F2 = function(x) {
     return x.toString();
-}, (N = N1 || (N1 = {
-})).A = class {
+}, (N = N1 || (N1 = {})).A = class {
 }, N.F2 = function(x) {
     return x.toString();
 };;);
@@ -72,8 +70,7 @@ for(var i = [
 ]; i;);
 do ;
 while (i)
-for(var j = {
-}; j;);
+for(var j = {}; j;);
 do ;
 while (j)
 for(var k = {

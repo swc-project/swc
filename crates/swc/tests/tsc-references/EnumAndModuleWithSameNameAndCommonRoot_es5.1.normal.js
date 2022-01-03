@@ -7,8 +7,7 @@ var enumdule;
 (function(enumdule) {
     enumdule[enumdule["Red"] = 0] = "Red";
     enumdule[enumdule["Blue"] = 1] = "Blue";
-})(enumdule || (enumdule = {
-}));
+})(enumdule || (enumdule = {}));
 (function(enumdule) {
     var Point = function Point(x1, y1) {
         "use strict";
@@ -17,8 +16,7 @@ var enumdule;
         this.y = y1;
     };
     enumdule.Point = Point;
-})(enumdule || (enumdule = {
-}));
+})(enumdule || (enumdule = {}));
 var x;
 var x = enumdule.Red;
 var y;

@@ -1,6 +1,5 @@
 class clodule3 {
 }
-(clodule3 || (clodule3 = {
-})).y = {
+(clodule3 || (clodule3 = {})).y = {
     id: T
 };

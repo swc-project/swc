@@ -1,7 +1,6 @@
 // @strict: true
 function f(b) {
-    var d = function d() {
-    };
+    var d = function d() {};
     d.e = 12;
     d.e;
     if (b) {
@@ -28,8 +27,7 @@ function f(b) {
 }
 // OK to access possibly-unassigned properties outside the initialising scope
 var test = f(true).s;
-function d1() {
-}
+function d1() {}
 d1.e = 12;
 d1.e;
 if (!!false) {
@@ -49,8 +47,7 @@ if (!!false) {
 }
 d1.r;
 // test function expressions too
-var g = function g() {
-};
+var g = function g() {};
 if (!!false) {
     g.expando = 1;
 }

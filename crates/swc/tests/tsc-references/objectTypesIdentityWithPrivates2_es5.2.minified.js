@@ -32,8 +32,7 @@ var C = function() {
             if (Reflect.construct.sham) return !1;
             if ("function" == typeof Proxy) return !0;
             try {
-                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                })), !0;
+                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
             } catch (e) {
                 return !1;
             }
@@ -55,6 +54,5 @@ var C = function() {
     }
     return D;
 }(C);
-function foo4(x) {
-}
+function foo4(x) {}
 foo4(new C()), foo4(new D());

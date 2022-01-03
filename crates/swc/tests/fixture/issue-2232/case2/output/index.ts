@@ -29,8 +29,7 @@ function _asyncToGenerator(fn) {
     };
 }
 function _objectWithoutProperties(source, excluded) {
-    if (source == null) return {
-    };
+    if (source == null) return {};
     var target = _objectWithoutPropertiesLoose(source, excluded);
     var key, i;
     if (Object.getOwnPropertySymbols) {
@@ -45,10 +44,8 @@ function _objectWithoutProperties(source, excluded) {
     return target;
 }
 function _objectWithoutPropertiesLoose(source, excluded) {
-    if (source == null) return {
-    };
-    var target = {
-    };
+    if (source == null) return {};
+    var target = {};
     var sourceKeys = Object.keys(source);
     var key, i;
     for(i = 0; i < sourceKeys.length; i++){

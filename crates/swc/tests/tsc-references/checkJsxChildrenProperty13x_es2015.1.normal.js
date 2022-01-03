@@ -22,8 +22,7 @@ const React = require('react');
 class Button extends React.Component {
     render() {
         // Error children are specified twice
-        return(/*#__PURE__*/ React.createElement(InnerButton, _extends({
-        }, this.props, {
+        return(/*#__PURE__*/ React.createElement(InnerButton, _extends({}, this.props, {
             children: "hi"
         }), /*#__PURE__*/ React.createElement("div", null, "Hello World")));
     }

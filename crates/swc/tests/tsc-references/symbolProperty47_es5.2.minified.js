@@ -21,8 +21,7 @@ var tmp = Symbol.hasInstance, tmp1 = Symbol.hasInstance, C = function() {
         },
         {
             key: tmp1,
-            set: function(x) {
-            }
+            set: function(x) {}
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }();

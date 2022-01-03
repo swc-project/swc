@@ -29,8 +29,7 @@ var C = // @target: ES5
             get: function get() {
                 return 1;
             },
-            set: function set(v) {
-            }
+            set: function set(v) {}
         }
     ]);
     return C;
@@ -46,8 +45,7 @@ var D = /*#__PURE__*/ function() {
             get: function get() {
                 return 1;
             },
-            set: function set(v) {
-            }
+            set: function set(v) {}
         }
     ]);
     return D;
@@ -63,8 +61,7 @@ var E = /*#__PURE__*/ function() {
             get: function get() {
                 return 1;
             },
-            set: function set(v) {
-            }
+            set: function set(v) {}
         }
     ]);
     return E;
@@ -80,8 +77,7 @@ var F = /*#__PURE__*/ function() {
             get: function get() {
                 return 1;
             },
-            set: function set(v) {
-            }
+            set: function set(v) {}
         }
     ]);
     return F;

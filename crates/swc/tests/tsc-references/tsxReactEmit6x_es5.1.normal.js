@@ -17,8 +17,7 @@ var M;
 (function(M1) {
     var React;
     M1.React = React;
-})(M || (M = {
-}));
+})(M || (M = {}));
 (function(M) {
     // Should emit M.React.createElement
     //  and M.React.__spread
@@ -30,5 +29,4 @@ var M;
     }));
     // Quotes
     var x = /*#__PURE__*/ React.createElement("div", null, "This \"quote\" thing");
-})(M || (M = {
-}));
+})(M || (M = {}));

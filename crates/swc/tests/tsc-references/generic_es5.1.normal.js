@@ -14,8 +14,7 @@ var a = {
 var b = {
     a: 3
 };
-var c = {
-};
+var c = {};
 var d = {
     a: ""
 };

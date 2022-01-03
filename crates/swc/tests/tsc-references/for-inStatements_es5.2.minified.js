@@ -33,12 +33,9 @@ function _superPropBase(object, property) {
     for(; !Object.prototype.hasOwnProperty.call(object, property) && null !== (object = _getPrototypeOf(object)););
     return object;
 }
-for(aString in {
-});
-for(anAny in {
-});
-for(var x in {
-});
+for(aString in {});
+for(anAny in {});
+for(var x in {});
 for(var x in []);
 for(var x in [
     1,
@@ -47,8 +44,7 @@ for(var x in [
     4,
     5
 ]);
-function fn() {
-}
+function fn() {}
 for(var x in fn());
 for(var x in /[a-z]/);
 for(var x in new Date());
@@ -108,8 +104,7 @@ var Color, aString, anAny, c, d, e, i, M, Color, A = function() {
             if (Reflect.construct.sham) return !1;
             if ("function" == typeof Proxy) return !0;
             try {
-                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                })), !0;
+                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
             } catch (e) {
                 return !1;
             }
@@ -150,9 +145,7 @@ for(var x in !function(M1) {
         _classCallCheck(this, X);
     };
     M1.X = X;
-}(M || (M = {
-})), M);
+}(M || (M = {})), M);
 for(var x in M.X);
-for(var x in (Color = Color || (Color = {
-}))[Color.Red = 0] = "Red", Color[Color.Blue = 1] = "Blue", Color);
+for(var x in (Color = Color || (Color = {}))[Color.Red = 0] = "Red", Color[Color.Blue = 1] = "Blue", Color);
 for(var x in Color.Blue);

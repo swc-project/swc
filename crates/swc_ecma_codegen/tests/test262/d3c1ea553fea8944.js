@@ -1,5 +1,4 @@
 class a {
-    static set(b) {
-    }
+    static set(b) {}
     ;
 }

@@ -21,8 +21,7 @@ var A = function() {
     return protoProps = [
         {
             key: "quux",
-            value: function() {
-            }
+            value: function() {}
         }
     ], _defineProperties((Constructor = A).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), A;
 }(), _foo = new WeakMap(), _bar = new WeakMap();

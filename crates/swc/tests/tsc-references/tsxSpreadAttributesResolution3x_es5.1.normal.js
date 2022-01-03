@@ -77,8 +77,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -126,8 +125,7 @@ var obj = {
     y: 2
 };
 // OK
-var p = /*#__PURE__*/ React.createElement(Poisoned, _extends({
-}, obj));
+var p = /*#__PURE__*/ React.createElement(Poisoned, _extends({}, obj));
 var y = /*#__PURE__*/ React.createElement(Poisoned, {
     x: "hi",
     y: 2

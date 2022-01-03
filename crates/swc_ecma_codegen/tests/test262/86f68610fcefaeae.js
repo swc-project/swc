@@ -1,6 +1,4 @@
 class a {
-    b() {
-    }
-    static c() {
-    }
+    b() {}
+    static c() {}
 }
