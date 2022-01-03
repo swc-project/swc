@@ -1,6 +1,6 @@
 use anyhow::{bail, Context, Result};
 use std::{
-    path::PathBuf,
+    path::{Path, PathBuf},
     process::{Command, Stdio},
     sync::Arc,
 };
@@ -40,7 +40,7 @@ impl ReduceMinCommand {
             runner.expected = runner.check().context("initial check failed")?;
         }
 
-        todo!()
+        runner.run(vec![self.entry])
     }
 }
 
@@ -54,7 +54,50 @@ struct Runner {
     expected: String,
 }
 
+/// Restores original content on drop
+struct Patch {
+    path: PathBuf,
+    orig: Arc<String>,
+}
+
+impl Drop for Patch {
+    fn drop(&mut self) {
+        let _ = std::fs::write(&self.path, self.orig.as_bytes());
+    }
+}
+
 impl Runner {
+    fn patch_file(&mut self, path: PathBuf) -> Result<Patch> {
+        (|| -> Result<_> {
+            let fm = self.cm.load_file(&path).context("failed to load file")?;
+
+            let patch = Patch {
+                path: path.clone(),
+                orig: fm.src.clone(),
+            };
+
+            Ok(patch)
+        })()
+        .with_context(|| format!("failed to patch file: {}", path.display()))
+    }
+
+    fn run(mut self, files: Vec<PathBuf>) -> Result<()> {
+        // Patch one file at a time.
+        for file in files {
+            let _span = span!(Level::ERROR, "patch", file = &*file.display().to_string()).entered();
+
+            let _patch = self.patch_file(file)?;
+
+            let actual = self.check().context("failed to check")?;
+
+            if actual != self.expected {
+                bail!("expected: {}, actual: {}", self.expected, actual);
+            }
+        }
+
+        Ok(())
+    }
+
     /// Build, test, and grab the console output.
     fn check(&mut self) -> Result<String> {
         {
