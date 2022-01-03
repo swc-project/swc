@@ -3318,7 +3318,6 @@ dependencies = [
 name = "swc_plugin_runner"
 version = "0.23.0"
 dependencies = [
- "abi_stable",
  "anyhow",
  "libloading",
  "once_cell",
