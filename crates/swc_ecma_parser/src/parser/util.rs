@@ -263,7 +263,7 @@ pub(super) trait ExprExt {
                 expr.is_valid_simple_assignment_target(strict)
             }
 
-            Expr::Member(..) => true,
+            Expr::Member(..) | Expr::SuperProp(..) => true,
 
             Expr::New(..) | Expr::Call(..) => false,
             // TODO: Spec only mentions `new.target`
