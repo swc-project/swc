@@ -23,6 +23,8 @@ swc_ecma_ast = {version = "0.61.0", path = "../swc_ecma_ast"}
 swc_ecma_parser = {version = "0.83.0", path = "../swc_ecma_parser"}
 swc_ecma_plugin_ast = {version = "0.8.0", path = "../swc_ecma_plugin_ast"}
 swc_plugin_js_api = {version = "0.6.0", path = "../swc_plugin_js_api"}
+wasmer = "2.1.1"
+wasmer-cache = "2.1.1"
 
 [dev-dependencies]
 testing = {version = "0.16.0", path = "../testing"}
