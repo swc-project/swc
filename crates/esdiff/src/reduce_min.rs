@@ -88,7 +88,7 @@ impl Runner {
                 None,
                 &MinifyOptions {
                     compress: Some(Default::default()),
-                    mangle: Some(Default::default()),
+                    mangle: None,
                     ..Default::default()
                 },
                 &ExtraOptions { top_level_mark },
