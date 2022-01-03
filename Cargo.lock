@@ -2707,6 +2707,7 @@ dependencies = [
 name = "swc_ecma_dep_graph"
 version = "0.53.0"
 dependencies = [
+ "pretty_assertions 0.7.2",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
