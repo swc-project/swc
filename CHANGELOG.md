@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(es/ast)** Add `ModuleExportName` (#3048) ([07c0489](https://github.com/swc-project/swc/commit/07c0489575188846b82b1af3e4bd711466e006ca))
+
+## [1.2.125] - 2022-01-02
+
 ### Bug Fixes
 
 
