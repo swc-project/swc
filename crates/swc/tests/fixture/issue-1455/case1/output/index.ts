@@ -29,7 +29,7 @@ function _asyncToGenerator(fn) {
     };
 }
 const SampleData = typedModel("SampleVideo", VideosSchema, undefined, undefined, {
-    byPlatform: function(platform) {
+    byPlatform: function() {
         var _ref = _asyncToGenerator(function*(platform) {
             const result = yield this.find({
                 platform: {
@@ -38,7 +38,7 @@ const SampleData = typedModel("SampleVideo", VideosSchema, undefined, undefined,
             });
             return result;
         });
-        return function() {
+        return function(platform) {
             return _ref.apply(this, arguments);
         };
     }()

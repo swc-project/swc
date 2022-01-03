@@ -624,33 +624,32 @@ impl<'a> FieldAccessFolder<'a> {
                 };
             }
 
-            if is_method {
-                let h = helper!(class_private_method_get, "classPrivateMethodGet");
-
-                return (
-                    CallExpr {
-                        span: DUMMY_SP,
-                        callee: h,
-                        args: vec![obj.as_arg(), ident.as_arg(), method_name.as_arg()],
-                        type_args: Default::default(),
-                    }
-                    .into(),
-                    Some(Expr::This(ThisExpr { span: DUMMY_SP })),
-                );
-            }
-
-            let get = helper!(class_private_field_get, "classPrivateFieldGet");
+            let get = if is_method {
+                helper!(class_private_method_get, "classPrivateMethodGet")
+            } else {
+                helper!(class_private_field_get, "classPrivateFieldGet")
+            };
 
             match &*obj {
                 Expr::This(this) => (
-                    CallExpr {
-                        span: DUMMY_SP,
-                        callee: get,
-                        args: vec![this.as_arg(), ident.as_arg()],
+                    if is_method {
+                        CallExpr {
+                            span: DUMMY_SP,
+                            callee: get,
+                            args: vec![obj.clone().as_arg(), ident.as_arg(), method_name.as_arg()],
+                            type_args: Default::default(),
+                        }
+                        .into()
+                    } else {
+                        CallExpr {
+                            span: DUMMY_SP,
+                            callee: get,
+                            args: vec![this.as_arg(), ident.as_arg()],
 
-                        type_args: Default::default(),
-                    }
-                    .into(),
+                            type_args: Default::default(),
+                        }
+                        .into()
+                    },
                     Some(Expr::This(*this)),
                 ),
                 _ => {
@@ -669,31 +668,33 @@ impl<'a> FieldAccessFolder<'a> {
                         var
                     });
 
+                    let first_arg = if is_alias_initialized {
+                        var.clone().as_arg()
+                    } else {
+                        if aliased {
+                            AssignExpr {
+                                span: DUMMY_SP,
+                                left: PatOrExpr::Pat(Box::new(Pat::Ident(var.clone().into()))),
+                                op: op!("="),
+                                right: obj.take(),
+                            }
+                            .as_arg()
+                        } else {
+                            var.clone().as_arg()
+                        }
+                    };
+
+                    let args = if is_method {
+                        vec![first_arg, ident.as_arg(), method_name.as_arg()]
+                    } else {
+                        vec![first_arg, ident.as_arg()]
+                    };
+
                     (
                         CallExpr {
                             span: DUMMY_SP,
                             callee: get,
-                            args: vec![
-                                if is_alias_initialized {
-                                    var.clone().as_arg()
-                                } else {
-                                    if aliased {
-                                        AssignExpr {
-                                            span: DUMMY_SP,
-                                            left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                                                var.clone().into(),
-                                            ))),
-                                            op: op!("="),
-                                            right: obj.take(),
-                                        }
-                                        .as_arg()
-                                    } else {
-                                        var.clone().as_arg()
-                                    }
-                                },
-                                ident.as_arg(),
-                            ],
-
+                            args,
                             type_args: Default::default(),
                         }
                         .into(),

@@ -1,0 +1,72 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 44,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 0,
+        "end": 44,
+        "ctxt": 0
+      },
+      "specifiers": [],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 7,
+          "end": 19,
+          "ctxt": 0
+        },
+        "value": "./foo.json",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      },
+      "typeOnly": false,
+      "asserts": {
+        "type": "ObjectExpression",
+        "span": {
+          "start": 27,
+          "end": 43,
+          "ctxt": 0
+        },
+        "properties": [
+          {
+            "type": "KeyValueProperty",
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 29,
+                "end": 33,
+                "ctxt": 0
+              },
+              "value": "type",
+              "optional": false
+            },
+            "value": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 35,
+                "end": 41,
+                "ctxt": 0
+              },
+              "value": "json",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

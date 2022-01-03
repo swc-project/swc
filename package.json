@@ -1,6 +1,6 @@
 {
     "name": "@swc/core",
-    "version": "1.2.122",
+    "version": "1.2.124",
     "description": "Super-fast alternative for babel",
     "homepage": "https://swc.rs",
     "main": "./index.js",
@@ -57,8 +57,8 @@
         "prepare": "husky install && git config feature.manyFiles true",
         "artifacts": "napi artifacts --dist scripts/npm",
         "prepublishOnly": "tsc -d && napi prepublish -p scripts/npm --tagstyle npm",
-        "build": "napi build --platform --cargo-name node --js ./node-swc/src/binding.js --dts ./node-swc/src/binding.d.ts -p node --release && tsc -d",
-        "build:dev": "napi build --platform --cargo-name node --js ./node-swc/src/binding.js --dts ./node-swc/src/binding.d.ts -p node && tsc -d",
+        "build": "tsc -d && napi build --platform --cargo-name node --js ./node-swc/src/binding.js --dts ./node-swc/src/binding.d.ts -p node --release",
+        "build:dev": "tsc -d && napi build --platform --cargo-name node --js ./node-swc/src/binding.js --dts ./node-swc/src/binding.d.ts -p node",
         "build:ts": "tsc -d",
         "test": "cross-env NODE_OPTIONS='--experimental-vm-modules' jest node-swc/__tests__",
         "version": "napi version -p scripts/npm"

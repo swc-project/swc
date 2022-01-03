@@ -1,7 +1,7 @@
 import * as a from "@swc/helpers";
 import b from "regenerator-runtime";
-Promise.all(assignAll).then(function(c) {
-    var d = a.asyncToGenerator(b.mark(function a(c) {
+Promise.all(assignAll).then(function() {
+    var c = a.asyncToGenerator(b.mark(function a(c) {
         var d, e, f, g;
         return b.wrap(function(a) {
             for(;;)switch(a.prev = a.next){
@@ -24,19 +24,19 @@ Promise.all(assignAll).then(function(c) {
             }
         }, a);
     }));
-    return function() {
-        return d.apply(this, arguments);
+    return function(c) {
+        return c.apply(this, arguments);
     };
 }());
 export var listOfUser = function(c) {
-    return new Promise(function(d, e) {
-        var f = a.asyncToGenerator(b.mark(function a(d, e) {
+    return new Promise(function() {
+        var d = a.asyncToGenerator(b.mark(function a(d, e) {
             var f;
             return b.wrap(function(a) {
                 for(;;)switch(a.prev = a.next){
                     case 0:
                         f = "Select Distinct id from \"TABLE\" Where id = '".concat(c, "' And user_id IS not null"), postgreSQL.query(f, null, function(a, b) {
-                            a ? (void 0)(a) : (void 0)(b.rows);
+                            a ? e(a) : d(b.rows);
                         });
                     case 2:
                     case "end":
@@ -44,8 +44,8 @@ export var listOfUser = function(c) {
                 }
             }, a);
         }));
-        return function() {
-            return f.apply(this, arguments);
+        return function(d, e) {
+            return d.apply(this, arguments);
         };
     }());
 };

@@ -4,6 +4,7 @@ use swc_common::collections::{AHashMap, AHashSet};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use tracing::trace;
 
 mod scope;
 
@@ -24,10 +25,17 @@ impl Analyzer {
     }
 
     fn add_decl(&mut self, id: Id) {
+        if cfg!(feature = "debug") {
+            trace!("add_decl({:?})", id);
+        }
         self.scope.add_decl(&id);
     }
 
     fn add_usage(&mut self, id: Id) {
+        if cfg!(feature = "debug") {
+            trace!("add_usage({:?})", id);
+        }
+
         self.scope.add_usage(&id);
     }
 
@@ -92,17 +100,46 @@ impl Visit for Analyzer {
         c.class.visit_with(self);
     }
 
+    fn visit_default_decl(&mut self, d: &DefaultDecl) {
+        match d {
+            DefaultDecl::Class(c) => {
+                if let Some(id) = &c.ident {
+                    self.add_decl(id.to_id());
+                }
+
+                self.with_scope(|v| {
+                    c.class.visit_with(v);
+                })
+            }
+            DefaultDecl::Fn(f) => {
+                if let Some(id) = &f.ident {
+                    self.add_decl(id.to_id());
+                }
+
+                self.with_scope(|v| {
+                    f.function.visit_with(v);
+                })
+            }
+            DefaultDecl::TsInterfaceDecl(_) => {}
+        }
+    }
+
     fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {
         self.add_usage(n.orig.to_id());
     }
 
     fn visit_expr(&mut self, e: &Expr) {
+        let old_is_pat_decl = self.is_pat_decl;
+
+        self.is_pat_decl = false;
         e.visit_children_with(self);
 
         match e {
             Expr::Ident(i) => self.add_usage(i.to_id()),
             _ => {}
         }
+
+        self.is_pat_decl = old_is_pat_decl;
     }
 
     fn visit_fn_decl(&mut self, f: &FnDecl) {

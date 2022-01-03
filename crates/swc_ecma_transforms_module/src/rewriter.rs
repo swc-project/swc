@@ -47,6 +47,8 @@ where
                                     })
                                     .unwrap();
 
+                                // This string literal is synthesized
+                                s.kind = Default::default();
                                 s.value = src;
                             }
                             _ => {}

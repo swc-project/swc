@@ -545,14 +545,10 @@ where
     fn visit_mut_export_named_specifier(&mut self, s: &mut ExportNamedSpecifier) {
         self.add_forced_ns_for(s.orig.to_id());
 
-        match &s.exported {
+        match &mut s.exported {
             Some(exported) => {
-                debug_assert_eq!(
-                    exported.span.ctxt, self.module_ctxt,
-                    "Exported names should have same (local) context as top-level module \
-                     items\n{}\n{:?}",
-                    self.path, s
-                );
+                // PR 3139 (https://github.com/swc-project/swc/pull/3139) removes the syntax context from any named exports from other sources.
+                exported.span.ctxt = self.module_ctxt;
             }
             None => {
                 let exported =

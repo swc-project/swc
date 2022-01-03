@@ -2,7 +2,7 @@
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 description = "Easily manage values related to enum."
 documentation = "https://rustdoc.swc.rs/enum_kind/"
-edition = "2018"
+edition = "2021"
 license = "Apache-2.0"
 name = "enum_kind"
 repository = "https://github.com/swc-project/swc.git"

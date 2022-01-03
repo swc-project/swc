@@ -2,7 +2,7 @@
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 description = "Speedy web compiler"
 documentation = "https://rustdoc.swc.rs/swc_node_base/"
-edition = "2018"
+edition = "2021"
 license = "Apache-2.0"
 name = "swc_node_base"
 repository = "https://github.com/swc-project/swc.git"

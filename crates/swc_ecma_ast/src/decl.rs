@@ -52,6 +52,16 @@ pub struct FnDecl {
     pub function: Function,
 }
 
+impl Take for FnDecl {
+    fn dummy() -> Self {
+        FnDecl {
+            ident: Take::dummy(),
+            declare: Default::default(),
+            function: Take::dummy(),
+        }
+    }
+}
+
 #[ast_node("ClassDeclaration")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]

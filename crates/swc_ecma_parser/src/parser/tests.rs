@@ -276,3 +276,28 @@ fn issue_2339_1() {
     assert_eq!(leading.borrow().get(&BytePos(79)).unwrap().len(), 2);
     assert!(trailing.borrow().is_empty());
 }
+
+#[test]
+fn issue_2853_1() {
+    test_parser("const a = \"\\0a\";", Default::default(), |p| {
+        let program = p.parse_program()?;
+
+        let errors = p.take_errors();
+        assert_eq!(errors, vec![]);
+        assert_eq!(errors, vec![]);
+
+        Ok(program)
+    });
+}
+
+#[test]
+fn issue_2853_2() {
+    test_parser("const a = \"\u{0000}a\";", Default::default(), |p| {
+        let program = p.parse_program()?;
+
+        let errors = p.take_errors();
+        assert_eq!(errors, vec![]);
+
+        Ok(program)
+    });
+}
