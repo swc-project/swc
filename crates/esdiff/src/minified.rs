@@ -7,7 +7,7 @@ use std::{
     sync::Arc,
 };
 use structopt::StructOpt;
-use swc_common::{FileName, Mark, SourceMap};
+use swc_common::{util::take::Take, FileName, Mark, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_diff::Diff;
 use swc_ecma_minifier::option::{ExtraOptions, MinifyOptions};
@@ -62,6 +62,7 @@ impl DiffMinifiedCommand {
 
             m.visit_mut_with(&mut fixer(None));
             m.visit_mut_with(&mut Normalizer::default());
+            m.visit_mut_with(&mut BeforeDiffNormalizer::default());
 
             m
         };
@@ -73,6 +74,7 @@ impl DiffMinifiedCommand {
             terser_module.visit_mut_with(&mut resolver_with_mark(top_level_mark));
             terser_module.visit_mut_with(&mut fixer(None));
             terser_module.visit_mut_with(&mut Normalizer::default());
+            terser_module.visit_mut_with(&mut BeforeDiffNormalizer::default());
         }
         {
             // Diff
@@ -150,5 +152,51 @@ impl VisitMut for Normalizer {
                 e.args = None;
             }
         }
+    }
+
+    fn visit_mut_stmt(&mut self, s: &mut Stmt) {
+        s.visit_mut_children_with(self);
+
+        match s {
+            Stmt::Decl(Decl::Var(v)) => {
+                if v.decls.is_empty() {
+                    s.take();
+                    return;
+                }
+            }
+
+            _ => {}
+        }
+    }
+
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        stmts.visit_mut_children_with(self);
+
+        stmts.retain(|s| !matches!(s, Stmt::Empty(..)));
+    }
+}
+
+#[derive(Debug, Default)]
+struct BeforeDiffNormalizer {}
+
+impl VisitMut for BeforeDiffNormalizer {
+    fn visit_mut_stmt(&mut self, s: &mut Stmt) {
+        s.visit_mut_children_with(self);
+
+        match s {
+            Stmt::Block(bs) => {
+                if bs.stmts.len() == 1 {
+                    *s = bs.stmts[0].take();
+                    return;
+                }
+            }
+
+            _ => {}
+        }
+    }
+
+    fn visit_mut_str(&mut self, s: &mut Str) {
+        s.visit_mut_children_with(self);
+        s.has_escape = false;
     }
 }
