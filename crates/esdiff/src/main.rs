@@ -1,4 +1,4 @@
-use crate::minified::DiffMinifiedCommand;
+use self::{minified::DiffMinifiedCommand, reduce_min::ReduceMinCommand};
 use anyhow::Result;
 use std::{env, io::stderr, str::FromStr, sync::Arc, time::Instant};
 use structopt::StructOpt;
@@ -9,11 +9,13 @@ use swc_common::{
 use tracing_subscriber::EnvFilter;
 
 mod minified;
+mod reduce_min;
 mod util;
 
 #[derive(Debug, StructOpt)]
 enum Cmd {
     DiffMin(DiffMinifiedCommand),
+    ReduceMin(ReduceMinCommand),
 }
 
 struct Track {
