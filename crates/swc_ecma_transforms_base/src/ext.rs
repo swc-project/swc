@@ -129,18 +129,18 @@ impl AsOptExpr for PatOrExpr {
     }
 }
 
-impl AsOptExpr for ExprOrSuper {
+impl AsOptExpr for Callee {
     fn as_expr(&self) -> Option<&Expr> {
         match self {
-            ExprOrSuper::Super(_) => None,
-            ExprOrSuper::Expr(e) => Some(e),
+            Callee::Super(_) | Callee::Import(_) => None,
+            Callee::Expr(e) => Some(e),
         }
     }
 
     fn as_expr_mut(&mut self) -> Option<&mut Expr> {
         match self {
-            ExprOrSuper::Super(_) => None,
-            ExprOrSuper::Expr(e) => Some(e),
+            Callee::Super(_) | Callee::Import(_) => None,
+            Callee::Expr(e) => Some(e),
         }
     }
 }
