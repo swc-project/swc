@@ -6,7 +6,7 @@ use std::{
 };
 use structopt::StructOpt;
 use swc_common::SourceMap;
-use tracing::info;
+use tracing::{info, span, Level};
 
 /// This tool repeat replacing one file with a minified form at a time.
 #[derive(Debug, StructOpt)]
@@ -35,7 +35,10 @@ impl ReduceMinCommand {
             expected: Default::default(),
         };
 
-        runner.expected = runner.check().context("initial check failed")?;
+        {
+            let _span = span!(Level::ERROR, "initial run, without minification").entered();
+            runner.expected = runner.check().context("initial check failed")?;
+        }
 
         todo!()
     }
