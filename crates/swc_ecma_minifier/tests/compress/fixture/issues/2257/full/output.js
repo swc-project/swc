@@ -6047,7 +6047,7 @@
                     s = "" === s ? t : s + repeat.call("0", 7 - t.length) + t;
                 }
                 return s;
-            }, FORCED = !fails(function() {
+            }, FORCED = nativeToFixed && !0 || !fails(function() {
                 nativeToFixed.call({});
             });
             $({

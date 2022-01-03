@@ -1,5 +1,14 @@
 # Changelog
-## [unreleased]
+## [1.2.126] - 2022-01-03
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Fix comparison of objects, numbers and strings (#3172) ([db51ce4](https://github.com/swc-project/swc/commit/db51ce44614e3661c9c25c562d39b7581e521850))
+
+
+- **(node-swc)** Recover from ldd not found ([1dfc2ee](https://github.com/swc-project/swc/commit/1dfc2ee1054d20b0d04699ebef3ab09b2f6fc4f8))
 
 ### Features
 
