@@ -1157,11 +1157,21 @@ impl Visit for ExportCollector {
                 self.exports.insert("default".into());
             }
             ExportSpecifier::Named(named) => {
+                let exported_ident = match &named.exported {
+                    Some(ModuleExportName::Ident(ident)) => Some(ident),
+                    Some(ModuleExportName::Str(..)) => {
+                        unimplemented!("module string names unimplemented")
+                    }
+                    _ => None,
+                };
                 self.exports.insert(
-                    named
-                        .exported
-                        .as_ref()
-                        .unwrap_or(&named.orig)
+                    exported_ident
+                        .unwrap_or(match &named.orig {
+                            ModuleExportName::Ident(ident) => ident,
+                            ModuleExportName::Str(..) => {
+                                unimplemented!("module string names unimplemented")
+                            }
+                        })
                         .sym
                         .to_string(),
                 );

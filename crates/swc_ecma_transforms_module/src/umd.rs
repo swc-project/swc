@@ -356,6 +356,18 @@ where
                                 })
                                 .filter(|e| !e.is_type_only)
                             {
+                                let orig = match orig {
+                                    ModuleExportName::Ident(ident) => ident,
+                                    _ => unimplemented!("module string names unimplemented"),
+                                };
+                                let exported = match exported {
+                                    Some(ModuleExportName::Ident(ident)) => Some(ident),
+                                    Some(ModuleExportName::Str(..)) => {
+                                        unimplemented!("module string names unimplemented")
+                                    }
+                                    _ => None,
+                                };
+
                                 let is_import_default = orig.sym == js_word!("default");
 
                                 let key = (orig.sym.clone(), orig.span.ctxt());

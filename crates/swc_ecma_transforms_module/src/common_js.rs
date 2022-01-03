@@ -102,6 +102,17 @@ where
                             _ => None,
                         })
                     {
+                        let exported = match &exported {
+                            Some(ModuleExportName::Ident(ident)) => Some(ident),
+                            Some(ModuleExportName::Str(..)) => {
+                                unimplemented!("module string names unimplemented")
+                            }
+                            _ => None,
+                        };
+                        let orig = match &orig {
+                            ModuleExportName::Ident(ident) => ident,
+                            _ => unimplemented!("module string names unimplemented"),
+                        };
                         if let Some(exported) = &exported {
                             exports.push(exported.sym.clone());
                         } else {
@@ -480,6 +491,18 @@ where
                                 })
                                 .filter(|e| !e.is_type_only)
                             {
+                                let exported = match &exported {
+                                    Some(ModuleExportName::Ident(ident)) => Some(ident),
+                                    Some(ModuleExportName::Str(..)) => {
+                                        unimplemented!("module string names unimplemented")
+                                    }
+                                    _ => None,
+                                };
+                                let orig = match &orig {
+                                    ModuleExportName::Ident(ident) => ident,
+                                    _ => unimplemented!("module string names unimplemented"),
+                                };
+
                                 let mut scope = self.scope.borrow_mut();
                                 let is_import_default = orig.sym == js_word!("default");
 
@@ -566,8 +589,9 @@ where
                                         AssignExpr {
                                             span: DUMMY_SP,
                                             left: PatOrExpr::Expr(Box::new(
-                                                quote_ident!("exports")
-                                                    .make_member(exported.unwrap_or(orig)),
+                                                quote_ident!("exports").make_member(
+                                                    (exported.unwrap_or(orig)).clone(),
+                                                ),
                                             )),
                                             op: op!("="),
                                             right: value,
@@ -585,7 +609,7 @@ where
 
                                                 // export { foo as bar }
                                                 //  -> 'bar'
-                                                let i = exported.unwrap_or_else(|| orig);
+                                                let i = (exported.unwrap_or_else(|| orig)).clone();
                                                 Lit::Str(quote_str!(i.span, i.sym)).as_arg()
                                             },
                                             make_descriptor(value).as_arg(),

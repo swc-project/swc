@@ -554,7 +554,11 @@ impl Visit for RequirementCalculator {
     weak!(visit_method_prop, MethodProp);
 
     fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {
-        self.insert(n.orig.clone().into());
+        let orig = match &n.orig {
+            ModuleExportName::Ident(ident) => ident,
+            ModuleExportName::Str(..) => unimplemented!("module string names unimplemented"),
+        };
+        self.insert(orig.clone().into());
     }
 
     fn visit_assign_expr(&mut self, e: &AssignExpr) {

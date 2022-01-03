@@ -132,11 +132,15 @@ impl VisitMut for ConstPropagation<'_> {
     }
 
     fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
-        if let Some(expr) = self.scope.find_var(&n.orig.to_id()) {
+        let id = match &n.orig {
+            ModuleExportName::Ident(ident) => ident.to_id(),
+            ModuleExportName::Str(..) => return,
+        };
+        if let Some(expr) = self.scope.find_var(&id) {
             match &**expr {
                 Expr::Ident(v) => {
                     let orig = n.orig.clone();
-                    n.orig = v.clone();
+                    n.orig = ModuleExportName::Ident(v.clone());
 
                     if n.exported.is_none() {
                         n.exported = Some(orig);
@@ -147,11 +151,15 @@ impl VisitMut for ConstPropagation<'_> {
         }
 
         match &n.exported {
-            Some(exported) => {
-                if exported.sym == n.orig.sym && exported.span.ctxt == n.orig.span.ctxt {
-                    n.exported = None;
+            Some(ModuleExportName::Ident(exported)) => match &n.orig {
+                ModuleExportName::Ident(orig) => {
+                    if exported.sym == orig.sym && exported.span.ctxt == orig.span.ctxt {
+                        n.exported = None;
+                    }
                 }
-            }
+                ModuleExportName::Str(..) => {}
+            },
+            Some(ModuleExportName::Str(..)) => {}
             None => {}
         }
     }

@@ -50,7 +50,8 @@ where
                         match specifier {
                             ImportSpecifier::Named(named) => {
                                 let imported = match &named.imported {
-                                    Some(imported) => imported.sym.clone(),
+                                    Some(ModuleExportName::Ident(imported)) => imported.sym.clone(),
+                                    Some(ModuleExportName::Str(..)) => named.local.sym.clone(),
                                     None => named.local.sym.clone(),
                                 };
                                 self.imports.insert(id(&named.local), (src, imported));

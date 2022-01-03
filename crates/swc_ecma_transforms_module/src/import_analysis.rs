@@ -121,6 +121,13 @@ impl Visit for ImportAnalyzer {
                             ref imported,
                             ..
                         } = *i;
+                        let imported = match imported {
+                            Some(ModuleExportName::Ident(ident)) => Some(ident),
+                            Some(ModuleExportName::Str(..)) => {
+                                unimplemented!("module string names unimplemented")
+                            }
+                            _ => None,
+                        };
                         let name = imported
                             .as_ref()
                             .map(|i| i.sym.clone())
@@ -170,6 +177,10 @@ impl Visit for ImportAnalyzer {
                 _ => None,
             })
         {
+            let orig = match orig {
+                ModuleExportName::Ident(ident) => ident,
+                _ => unimplemented!("module string names unimplemented"),
+            };
             let is_import_default = orig.sym == js_word!("default");
 
             if let Some(ref src) = export.src {

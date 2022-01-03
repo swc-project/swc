@@ -13,3 +13,4 @@ diff_struct!(Module, [span, body, shebang]);
 diff_struct!(Invalid, [span]);
 
 diff_enum!(ModuleItem, [Stmt, ModuleDecl]);
+diff_enum!(ModuleExportName, [Ident, Str]);

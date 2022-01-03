@@ -137,11 +137,13 @@ impl<'a> VisitMut for Operator<'a> {
 
         let exported = s.orig.clone();
 
-        match self.rename_ident(&mut s.orig) {
-            Ok(..) => {
-                s.exported = Some(exported);
+        if let ModuleExportName::Ident(orig) = &mut s.orig {
+            match self.rename_ident(orig) {
+                Ok(..) => {
+                    s.exported = Some(exported);
+                }
+                Err(..) => {}
             }
-            Err(..) => {}
         }
     }
 
@@ -162,7 +164,7 @@ impl<'a> VisitMut for Operator<'a> {
 
         match local {
             Ok(..) => {
-                s.imported = Some(imported);
+                s.imported = Some(ModuleExportName::Ident(imported));
             }
             Err(..) => {}
         }
@@ -232,7 +234,10 @@ impl<'a> VisitMut for Operator<'a> {
                                 class,
                                 declare,
                             }))));
-                            export!(orig_ident, ident);
+                            export!(
+                                ModuleExportName::Ident(orig_ident),
+                                ModuleExportName::Ident(ident)
+                            );
                         }
                         Err(..) => {
                             stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
@@ -264,7 +269,10 @@ impl<'a> VisitMut for Operator<'a> {
                                 function,
                                 declare,
                             }))));
-                            export!(orig_ident, ident);
+                            export!(
+                                ModuleExportName::Ident(orig_ident),
+                                ModuleExportName::Ident(ident)
+                            );
                         }
                         Err(..) => {
                             stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
@@ -409,8 +417,8 @@ impl VisitMut for VarFolder<'_, '_> {
                 self.renamed
                     .push(ExportSpecifier::Named(ExportNamedSpecifier {
                         span: i.span,
-                        exported: Some(orig),
-                        orig: i.clone(),
+                        exported: Some(ModuleExportName::Ident(orig)),
+                        orig: ModuleExportName::Ident(i.clone()),
                         is_type_only: false,
                     }));
             }
