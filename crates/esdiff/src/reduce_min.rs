@@ -1,11 +1,15 @@
+use crate::util::{parse, print_js};
 use anyhow::{bail, Context, Result};
 use std::{
-    path::{Path, PathBuf},
+    path::PathBuf,
     process::{Command, Stdio},
     sync::Arc,
 };
 use structopt::StructOpt;
-use swc_common::SourceMap;
+use swc_common::{Mark, SourceMap};
+use swc_ecma_minifier::option::{ExtraOptions, MinifyOptions};
+use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver::resolver_with_mark};
+use swc_ecma_visit::VisitMutWith;
 use tracing::{info, span, Level};
 
 /// This tool repeat replacing one file with a minified form at a time.
@@ -70,6 +74,32 @@ impl Runner {
     fn patch_file(&mut self, path: PathBuf) -> Result<Patch> {
         (|| -> Result<_> {
             let fm = self.cm.load_file(&path).context("failed to load file")?;
+
+            let top_level_mark = Mark::fresh(Mark::root());
+
+            let mut m = parse(&fm).context("failed to parse input file using swc")?;
+
+            m.visit_mut_with(&mut resolver_with_mark(top_level_mark));
+
+            m = swc_ecma_minifier::optimize(
+                m,
+                self.cm.clone(),
+                None,
+                None,
+                &MinifyOptions {
+                    compress: Some(Default::default()),
+                    mangle: Some(Default::default()),
+                    ..Default::default()
+                },
+                &ExtraOptions { top_level_mark },
+            );
+
+            m.visit_mut_with(&mut hygiene());
+            m.visit_mut_with(&mut fixer(None));
+
+            let patched = print_js(self.cm.clone(), &m)?;
+
+            std::fs::write(&path, patched.as_bytes()).context("failed to write patched content")?;
 
             let patch = Patch {
                 path: path.clone(),

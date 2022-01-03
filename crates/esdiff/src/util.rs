@@ -2,12 +2,15 @@ use anyhow::{anyhow, Result};
 use std::sync::Arc;
 use swc_common::{input::SourceFileInput, SourceFile, SourceMap};
 use swc_ecma_ast::{EsVersion, Module};
-use swc_ecma_parser::{lexer::Lexer, Parser};
+use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, Syntax};
 use swc_ecma_utils::HANDLER;
 
 pub(crate) fn parse(fm: &SourceFile) -> Result<Module> {
     let lexer = Lexer::new(
-        Default::default(),
+        Syntax::Es(EsConfig {
+            jsx: true,
+            ..Default::default()
+        }),
         EsVersion::latest(),
         SourceFileInput::from(fm),
         None,
