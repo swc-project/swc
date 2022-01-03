@@ -31,8 +31,6 @@ pub enum DependencyKind {
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum ImportAssertion {
-    /// There was not an import assertion.
-    None,
     /// The value of this assertion could not be statically analyzed.
     Unknown,
     /// The value of this assertion is a statically analyzed string.
