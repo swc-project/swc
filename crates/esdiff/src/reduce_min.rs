@@ -8,9 +8,14 @@ use swc_common::SourceMap;
 pub(crate) struct ReduceMinCommand {
     entry: PathBuf,
 
+    #[structopt(long)]
+    working_dir: PathBuf,
+
+    /// This command is invoked using `bash`.
     #[structopt(long = "build")]
     build_command: String,
 
+    /// This command is invoked using `bash`.
     #[structopt(long = "test")]
     test_command: String,
 }
