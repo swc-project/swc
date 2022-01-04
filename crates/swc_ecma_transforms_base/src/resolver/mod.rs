@@ -1396,6 +1396,9 @@ impl VisitMut for Hoister<'_, '_> {
     fn visit_mut_function(&mut self, _: &mut Function) {}
 
     #[inline]
+    fn visit_mut_ts_module_block(&mut self, _: &mut TsModuleBlock) {}
+
+    #[inline]
     fn visit_mut_param(&mut self, _: &mut Param) {}
 
     fn visit_mut_pat(&mut self, node: &mut Pat) {
