@@ -6,7 +6,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_plugin_runner"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.25.0"
+version = "0.26.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
@@ -17,12 +17,12 @@ parking_lot = "0.11"
 serde = {version = "1.0.126", features = ["derive"]}
 serde_json = "1.0.64"
 swc_atoms = {version = "0.2.7", path = '../swc_atoms'}
-swc_common = {version = "0.15.0", path = "../swc_common", features = ["plugin-rt"]}
-swc_ecma_ast = {version = "0.61.0", path = "../swc_ecma_ast"}
-swc_ecma_parser = {version = "0.83.0", path = "../swc_ecma_parser"}
-swc_plugin_js_api = {version = "0.7.0", path = "../swc_plugin_js_api"}
+swc_common = {version = "0.16.0", path = "../swc_common", features = ["plugin-rt"]}
+swc_ecma_ast = {version = "0.62.0", path = "../swc_ecma_ast"}
+swc_ecma_parser = {version = "0.84.0", path = "../swc_ecma_parser"}
+swc_plugin_js_api = {version = "0.8.0", path = "../swc_plugin_js_api"}
 wasmer = "2.1.1"
 wasmer-cache = "2.1.1"
 
 [dev-dependencies]
-testing = {version = "0.16.0", path = "../testing"}
+testing = {version = "0.17.0", path = "../testing"}

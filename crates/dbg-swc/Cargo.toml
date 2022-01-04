@@ -7,7 +7,7 @@ include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0"
 name = "dbg-swc"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.1.0"
+version = "0.2.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -17,21 +17,21 @@ pretty_assertions = "1.0.0"
 rayon = "1"
 structopt = "0.3.25"
 swc_atoms = {version = "0.2.9", path = "../swc_atoms/"}
-swc_common = {version = "0.15.3", path = "../swc_common/", features = ["concurrent"]}
-swc_ecma_ast = {version = "0.61.0", path = "../swc_ecma_ast/"}
-swc_ecma_codegen = {version = "0.85.0", path = "../swc_ecma_codegen"}
-swc_ecma_dep_graph = {version = "0.54.0", path = "../swc_ecma_dep_graph/"}
-swc_ecma_diff = {version = "0.2.1", path = "../swc_ecma_diff/"}
-swc_ecma_loader = {version = "0.25.4", path = "../swc_ecma_loader/", features = ["lru", "node", "tsc"]}
-swc_ecma_minifier = {version = "0.62.1", path = "../swc_ecma_minifier/"}
-swc_ecma_parser = {version = "0.83.0", path = "../swc_ecma_parser/"}
-swc_ecma_transforms_base = {version = "0.51.0", path = "../swc_ecma_transforms_base/"}
-swc_ecma_transforms_react = {version = "0.69.0", path = "../swc_ecma_transforms_react/"}
-swc_ecma_transforms_typescript = {version = "0.71.0", path = "../swc_ecma_transforms_typescript/"}
-swc_ecma_utils = {version = "0.58.0", path = "../swc_ecma_utils/"}
-swc_ecma_visit = {version = "0.47.0", path = "../swc_ecma_visit/"}
-swc_node_comments = {version = "0.2.0", path = "../swc_node_comments/"}
-swc_timer = {version = "0.2.1", path = "../swc_timer/"}
+swc_common = {version = "0.16.0", path = "../swc_common/", features = ["concurrent"]}
+swc_ecma_ast = {version = "0.62.0", path = "../swc_ecma_ast/"}
+swc_ecma_codegen = {version = "0.86.0", path = "../swc_ecma_codegen"}
+swc_ecma_dep_graph = {version = "0.55.0", path = "../swc_ecma_dep_graph/"}
+swc_ecma_diff = {version = "0.3.0", path = "../swc_ecma_diff/"}
+swc_ecma_loader = {version = "0.26.0", path = "../swc_ecma_loader/", features = ["lru", "node", "tsc"]}
+swc_ecma_minifier = {version = "0.63.0", path = "../swc_ecma_minifier/"}
+swc_ecma_parser = {version = "0.84.0", path = "../swc_ecma_parser/"}
+swc_ecma_transforms_base = {version = "0.52.0", path = "../swc_ecma_transforms_base/"}
+swc_ecma_transforms_react = {version = "0.70.0", path = "../swc_ecma_transforms_react/"}
+swc_ecma_transforms_typescript = {version = "0.72.0", path = "../swc_ecma_transforms_typescript/"}
+swc_ecma_utils = {version = "0.59.0", path = "../swc_ecma_utils/"}
+swc_ecma_visit = {version = "0.48.0", path = "../swc_ecma_visit/"}
+swc_node_comments = {version = "0.3.0", path = "../swc_node_comments/"}
+swc_timer = {version = "0.3.0", path = "../swc_timer/"}
 tempfile = "3.2.0"
 tracing = "0.1.29"
 tracing-subscriber = {version = "0.3.5", features = ["env-filter"]}
