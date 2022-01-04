@@ -11,7 +11,10 @@ export function DefaultLoadingElement() {
         children: "Loading..."
     });
 }
-export const defaultLoadScriptProps;
+export const defaultLoadScriptProps = {
+    id: "script-loader",
+    version: "weekly"
+};
 class LoadScript extends React.PureComponent {
     componentDidMount() {
         if (isBrowser) {
@@ -102,8 +105,5 @@ class LoadScript extends React.PureComponent {
         };
     }
 }
-LoadScript.defaultProps = {
-    id: "script-loader",
-    version: "weekly"
-};
+LoadScript.defaultProps = defaultLoadScriptProps;
 export default LoadScript;
