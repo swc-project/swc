@@ -190,11 +190,9 @@ impl<'a, I: Tokens> Parser<I> {
     /// Parse `foo`, `foo2 as bar` in `import { foo, foo2 as bar }`
     fn parse_import_specifier(&mut self, type_only: bool) -> PResult<ImportSpecifier> {
         let start = cur_pos!(self);
-        match cur!(self, false) {
-            Ok(&Word(..)) => {
+        match self.parse_module_export_name()? {
+            ModuleExportName::Ident(mut orig_name) => {
                 let mut is_type_only = false;
-                let mut orig_name = self.parse_ident_name()?;
-
                 // Handle:
                 // `import { type xx } from 'mod'`
                 // `import { type xx as yy } from 'mod'`
@@ -302,7 +300,23 @@ impl<'a, I: Tokens> Parser<I> {
                     is_type_only,
                 }))
             }
-            _ => unexpected!(self, "an identifier"),
+            ModuleExportName::Str(orig_str) => {
+                if eat!(self, "as") {
+                    let local = self.parse_binding_ident()?.id;
+                    Ok(ImportSpecifier::Named(ImportNamedSpecifier {
+                        span: Span::new(start, local.span.hi(), Default::default()),
+                        local,
+                        imported: Some(ModuleExportName::Str(orig_str)),
+                        is_type_only: false,
+                    }))
+                } else {
+                    syntax_error!(
+                        self,
+                        orig_str.span,
+                        SyntaxError::ImportBindingIsString(orig_str.value)
+                    )
+                }
+            }
         }
     }
 

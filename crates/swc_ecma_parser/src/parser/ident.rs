@@ -73,6 +73,22 @@ impl<'a, I: Tokens> Parser<I> {
         Ok(Ident::new(w, span!(self, start)))
     }
 
+    // https://tc39.es/ecma262/#prod-ModuleExportName
+    pub(super) fn parse_module_export_name(&mut self) -> PResult<ModuleExportName> {
+        let module_export_name = match cur!(self, false) {
+            Ok(&Token::Str { .. }) => match self.parse_lit()? {
+                // TODO: add and use parse_str_lit function
+                Lit::Str(str_lit) => ModuleExportName::Str(str_lit),
+                _ => unreachable!(""),
+            },
+            Ok(&Word(..)) => ModuleExportName::Ident(self.parse_ident_name()?),
+            _ => {
+                unexpected!(self, "ident or string");
+            }
+        };
+        Ok(module_export_name)
+    }
+
     /// Identifier
     ///
     /// In strict mode, "yield" is SyntaxError if matched.
