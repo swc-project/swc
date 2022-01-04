@@ -2174,4 +2174,11 @@ export default function waitUntil(callback, options = {}) {
             p.parse_module()
         });
     }
+
+    #[test]
+    #[should_panic(expected = "A string literal cannot be used as an imported binding.\n- Did you mean `import { \"str\" as foo }`?")]
+    fn error_for_string_literal_is_import_binding() {
+        let src = "import { \"str\" } from \"mod\"";
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
+    }
 }
