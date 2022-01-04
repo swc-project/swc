@@ -1,12 +1,11 @@
 [package]
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
-description = "Diffing tools for ECMAScript"
-documentation = "https://rustdoc.swc.rs/esdiff/"
+description = "Debug tools for swc"
+documentation = "https://rustdoc.swc.rs/dbg-swc/"
 edition = "2021"
 include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0"
-name = "esdiff"
-publish = false
+name = "dbg-swc"
 repository = "https://github.com/swc-project/swc.git"
 version = "0.1.0"
 
