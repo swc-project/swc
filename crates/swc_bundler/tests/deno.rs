@@ -1154,7 +1154,7 @@ impl Visit for ExportCollector {
                 match &ns.name {
                     ModuleExportName::Ident(name) => {
                         self.exports.insert(name.sym.to_string());
-                    },
+                    }
                     ModuleExportName::Str(..) => {
                         unimplemented!("module string names unimplemented")
                     }
