@@ -1,3 +1,4 @@
+use self::{deps::collect_deps, types::add_types};
 use crate::util::{parse, print_js};
 use anyhow::{bail, Context, Result};
 use std::{
@@ -19,9 +20,8 @@ use swc_ecma_visit::{FoldWith, VisitMutWith};
 use swc_timer::timer;
 use tracing::{info, span, Level};
 
-use self::deps::collect_deps;
-
 mod deps;
+mod types;
 
 /// This tool repeat replacing one file with a minified form at a time.
 #[derive(Debug, StructOpt)]
@@ -132,6 +132,13 @@ impl Runner {
 
                 m.visit_mut_with(&mut hygiene());
                 m.visit_mut_with(&mut fixer(None));
+
+                if let Some(ext) = path.extension() {
+                    if ext == "tsx" || ext == "ts" {
+                        m.visit_mut_with(&mut add_types());
+                    }
+                }
+
                 m
             });
 
