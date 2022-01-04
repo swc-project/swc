@@ -2692,7 +2692,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.103.0"
+version = "0.104.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2976,7 +2976,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_dep_graph"
-version = "0.53.0"
+version = "0.54.0"
 dependencies = [
  "pretty_assertions 0.7.2",
  "swc_atoms",
@@ -3419,7 +3419,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.101.1"
+version = "0.102.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3455,7 +3455,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.21.0"
+version = "0.22.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3656,7 +3656,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.19.0"
+version = "0.20.0"
 dependencies = [
  "anyhow",
  "rayon",
