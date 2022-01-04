@@ -673,87 +673,104 @@ impl<'a, I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         let mut is_type_only = false;
-        let mut orig = self.parse_ident_name()?;
 
-        // Handle:
-        // `export { type xx }`
-        // `export { type xx as yy }`
-        // `export { type as }`
-        // `export { type as as }`
-        // `export { type as as as }`
-        if self.syntax().typescript() && orig.sym == js_word!("type") && is!(self, IdentName) {
-            let possibly_orig = self.parse_ident_name()?;
-            if possibly_orig.sym == js_word!("as") {
-                // `export { type as }`
-                if !is!(self, IdentName) {
-                    if type_only {
-                        self.emit_err(orig.span, SyntaxError::TS2207);
-                    }
-
-                    return Ok(ExportNamedSpecifier {
-                        span: span!(self, start),
-                        orig: ModuleExportName::Ident(possibly_orig),
-                        exported: None,
-                        is_type_only: true,
-                    });
-                }
-
-                let maybe_as = self.parse_ident_name()?;
-                if maybe_as.sym == js_word!("as") {
-                    if is!(self, IdentName) {
-                        // `export { type as as as }`
-                        // `export { type as as foo }`
-                        let exported = self.parse_ident_name()?;
-
-                        if type_only {
-                            self.emit_err(orig.span, SyntaxError::TS2207);
-                        }
-
-                        return Ok(ExportNamedSpecifier {
-                            span: Span::new(start, orig.span.hi(), Default::default()),
-                            orig: ModuleExportName::Ident(possibly_orig),
-                            exported: Some(ModuleExportName::Ident(exported)),
-                            is_type_only: true,
-                        });
-                    } else {
-                        // `export { type as as }`
-                        return Ok(ExportNamedSpecifier {
-                            span: Span::new(start, orig.span.hi(), Default::default()),
-                            orig: ModuleExportName::Ident(orig),
-                            exported: Some(ModuleExportName::Ident(maybe_as)),
-                            is_type_only: false,
-                        });
-                    }
-                } else {
-                    // `export { type as xxx }`
-                    return Ok(ExportNamedSpecifier {
-                        span: Span::new(start, orig.span.hi(), Default::default()),
-                        orig: ModuleExportName::Ident(orig),
-                        exported: Some(ModuleExportName::Ident(maybe_as)),
-                        is_type_only: false,
-                    });
-                }
-            } else {
+        let orig = match self.parse_module_export_name()? {
+            ModuleExportName::Ident(orig_ident) => {
+                // Handle:
                 // `export { type xx }`
                 // `export { type xx as yy }`
-                if type_only {
-                    self.emit_err(orig.span, SyntaxError::TS2207);
-                }
+                // `export { type as }`
+                // `export { type as as }`
+                // `export { type as as as }`
+                if self.syntax().typescript()
+                    && orig_ident.sym == js_word!("type")
+                    && is!(self, IdentName)
+                {
+                    let possibly_orig = self.parse_ident_name()?;
+                    if possibly_orig.sym == js_word!("as") {
+                        // `export { type as }`
+                        if !is!(self, IdentName) {
+                            if type_only {
+                                self.emit_err(orig_ident.span, SyntaxError::TS2207);
+                            }
 
-                orig = possibly_orig;
-                is_type_only = true;
+                            return Ok(ExportNamedSpecifier {
+                                span: span!(self, start),
+                                orig: ModuleExportName::Ident(possibly_orig),
+                                exported: None,
+                                is_type_only: true,
+                            });
+                        }
+
+                        let maybe_as = self.parse_ident_name()?;
+                        if maybe_as.sym == js_word!("as") {
+                            if is!(self, IdentName) {
+                                // `export { type as as as }`
+                                // `export { type as as foo }`
+                                let exported = self.parse_ident_name()?;
+
+                                if type_only {
+                                    self.emit_err(orig_ident.span, SyntaxError::TS2207);
+                                }
+
+                                return Ok(ExportNamedSpecifier {
+                                    span: Span::new(
+                                        start,
+                                        orig_ident.span.hi(),
+                                        Default::default(),
+                                    ),
+                                    orig: ModuleExportName::Ident(possibly_orig),
+                                    exported: Some(ModuleExportName::Ident(exported)),
+                                    is_type_only: true,
+                                });
+                            } else {
+                                // `export { type as as }`
+                                return Ok(ExportNamedSpecifier {
+                                    span: Span::new(
+                                        start,
+                                        orig_ident.span.hi(),
+                                        Default::default(),
+                                    ),
+                                    orig: ModuleExportName::Ident(orig_ident),
+                                    exported: Some(ModuleExportName::Ident(maybe_as)),
+                                    is_type_only: false,
+                                });
+                            }
+                        } else {
+                            // `export { type as xxx }`
+                            return Ok(ExportNamedSpecifier {
+                                span: Span::new(start, orig_ident.span.hi(), Default::default()),
+                                orig: ModuleExportName::Ident(orig_ident),
+                                exported: Some(ModuleExportName::Ident(maybe_as)),
+                                is_type_only: false,
+                            });
+                        }
+                    } else {
+                        // `export { type xx }`
+                        // `export { type xx as yy }`
+                        if type_only {
+                            self.emit_err(orig_ident.span, SyntaxError::TS2207);
+                        }
+
+                        is_type_only = true;
+                        ModuleExportName::Ident(possibly_orig)
+                    }
+                } else {
+                    ModuleExportName::Ident(orig_ident)
+                }
             }
-        }
+            module_export_name => module_export_name,
+        };
 
         let exported = if eat!(self, "as") {
-            Some(ModuleExportName::Ident(self.parse_ident_name()?))
+            Some(self.parse_module_export_name()?)
         } else {
             None
         };
 
         Ok(ExportNamedSpecifier {
             span: span!(self, start),
-            orig: ModuleExportName::Ident(orig),
+            orig,
             exported,
             is_type_only,
         })
