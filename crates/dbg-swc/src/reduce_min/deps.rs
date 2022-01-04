@@ -66,7 +66,7 @@ impl DependencyCollector {
             .unwrap()
             .insert(name, Arc::new(ModuleData { fm: fm.clone() }));
 
-        match &name {
+        match &*name {
             FileName::Real(name) => match name.extension() {
                 Some(ext) => {
                     if ext == "json" {
