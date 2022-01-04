@@ -51,7 +51,7 @@ impl ReduceMinCommand {
 
         {
             let _span = span!(Level::ERROR, "initial run, without minification").entered();
-            runner.expected = runner.check(true).context("initial check failed")?;
+            runner.expected = runner.check().context("initial check failed")?;
         }
 
         runner.run(all_files)
@@ -126,9 +126,11 @@ impl Runner {
         for file in files {
             let _span = span!(Level::ERROR, "patch", file = &*file.display().to_string()).entered();
 
-            let _patch = self.patch_file(file)?;
+            let _patch = self.patch_file(file.clone())?;
 
-            let actual = self.check(false).context("failed to check")?;
+            let actual = self
+                .check()
+                .with_context(|| format!("test failed for `{}`", file.display()))?;
 
             if actual != self.expected {
                 bail!("expected: {}, actual: {}", self.expected, actual);
@@ -139,7 +141,7 @@ impl Runner {
     }
 
     /// Build, test, and grab the console output.
-    fn check(&mut self, is_first_run: bool) -> Result<String> {
+    fn check(&mut self) -> Result<String> {
         {
             info!("Building app");
 
@@ -168,10 +170,8 @@ impl Runner {
             .output()
             .context("failed to get test output")?;
 
-        if is_first_run {
-            if !output.status.success() {
-                bail!("test failed on the first run");
-            }
+        if !output.status.success() {
+            bail!("test failed");
         }
 
         Ok(String::from_utf8_lossy(&output.stdout).to_string())
