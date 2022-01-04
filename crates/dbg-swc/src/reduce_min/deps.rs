@@ -66,6 +66,20 @@ impl DependencyCollector {
             .unwrap()
             .insert(name, Arc::new(ModuleData { fm: fm.clone() }));
 
+        match &name {
+            FileName::Real(name) => match name.extension() {
+                Some(ext) => {
+                    if ext == "json" {
+                        return Ok(());
+                    }
+                }
+
+                _ => {}
+            },
+
+            _ => {}
+        }
+
         let module = parse(&fm)?;
 
         let deps = swc_ecma_dep_graph::analyze_dependencies(&module, &NoopComments);
