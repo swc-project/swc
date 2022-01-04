@@ -7540,14 +7540,7 @@
         },
         1752: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var fixRegExpWellKnownSymbolLogic = __webpack_require__(29045), isRegExp = __webpack_require__(78202), anObject = __webpack_require__(83941), requireObjectCoercible = __webpack_require__(79602), speciesConstructor = __webpack_require__(94850), advanceStringIndex = __webpack_require__(88770), toLength = __webpack_require__(31998), toString = __webpack_require__(72729), getMethod = __webpack_require__(84316), callRegExpExec = __webpack_require__(21135), regexpExec = __webpack_require__(72384), stickyHelpers = __webpack_require__(44725), fails = __webpack_require__(60232), UNSUPPORTED_Y = stickyHelpers.UNSUPPORTED_Y, arrayPush = [].push, min = Math.min, SPLIT_WORKS_WITH_OVERWRITTEN_EXEC = !fails(function() {
-                var re = /(?:)/, originalExec = re.exec;
-                re.exec = function() {
-                    return originalExec.apply(this, arguments);
-                };
-                var result = "ab".split(re);
-                return 2 !== result.length || "a" !== result[0] || "b" !== result[1];
-            });
+            var fixRegExpWellKnownSymbolLogic = __webpack_require__(29045), isRegExp = __webpack_require__(78202), anObject = __webpack_require__(83941), requireObjectCoercible = __webpack_require__(79602), speciesConstructor = __webpack_require__(94850), advanceStringIndex = __webpack_require__(88770), toLength = __webpack_require__(31998), toString = __webpack_require__(72729), getMethod = __webpack_require__(84316), callRegExpExec = __webpack_require__(21135), regexpExec = __webpack_require__(72384), stickyHelpers = __webpack_require__(44725), fails = __webpack_require__(60232), UNSUPPORTED_Y = stickyHelpers.UNSUPPORTED_Y, arrayPush = [].push, min = Math.min;
             fixRegExpWellKnownSymbolLogic("split", function(SPLIT, nativeSplit, maybeCallNative) {
                 var internalSplit;
                 return internalSplit = "c" == "abbc".split(/(b)*/)[1] || 4 != "test".split(/(?:)/, -1).length || 2 != "ab".split(/(?:ab)*/).length || 4 != ".".split(/(.?)(.?)/).length || ".".split(/()()/).length > 1 || "".split(/.?/).length ? function(separator, limit) {
@@ -7590,7 +7583,14 @@
                         return A.push(S.slice(p)), A;
                     }
                 ];
-            }, !SPLIT_WORKS_WITH_OVERWRITTEN_EXEC, UNSUPPORTED_Y);
+            }, !!fails(function() {
+                var re = /(?:)/, originalExec = re.exec;
+                re.exec = function() {
+                    return originalExec.apply(this, arguments);
+                };
+                var result = "ab".split(re);
+                return 2 !== result.length || "a" !== result[0] || "b" !== result[1];
+            }), UNSUPPORTED_Y);
         },
         24467: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
