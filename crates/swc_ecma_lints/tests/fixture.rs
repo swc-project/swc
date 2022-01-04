@@ -4,6 +4,7 @@ use swc_common::input::SourceFileInput;
 use swc_ecma_ast::EsVersion;
 use swc_ecma_lints::rules::all;
 use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
+use swc_ecma_utils::HANDLER;
 
 #[testing::fixture("tests/pass/**/input.js")]
 #[testing::fixture("tests/pass/**/input.ts")]
@@ -37,9 +38,11 @@ fn pass(input: PathBuf) {
 
         let rules = all();
 
-        for mut rule in rules {
-            rule.lint_module(&m);
-        }
+        HANDLER.set(&handler, || {
+            for mut rule in rules {
+                rule.lint_module(&m);
+            }
+        });
 
         if handler.has_errors() {
             return Err(());
