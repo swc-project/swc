@@ -60,7 +60,7 @@ fn internal() -> Result<(), Error> {
         let program = parser.parse_program().unwrap();
 
         let _program =
-            swc_plugin_runner::apply_js_plugin("internal-test", &vec![], &mut None, "{}", program)
+            swc_plugin_runner::apply_js_plugin("internal-test", &path, &mut None, "{}", program)
                 .unwrap();
 
         Ok(())
