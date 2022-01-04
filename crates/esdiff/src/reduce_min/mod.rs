@@ -10,7 +10,10 @@ use swc_common::{Mark, SourceMap};
 use swc_ecma_minifier::option::{ExtraOptions, MinifyOptions};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver::resolver_with_mark};
 use swc_ecma_visit::VisitMutWith;
+use swc_timer::timer;
 use tracing::{info, span, Level};
+
+use self::deps::collect_deps;
 
 mod deps;
 
@@ -33,8 +36,13 @@ pub(crate) struct ReduceMinCommand {
 
 impl ReduceMinCommand {
     pub(crate) fn run(self, cm: Arc<SourceMap>) -> Result<()> {
+        let all_files = {
+            let _timer = timer!("collect list of files to patch");
+            collect_deps(cm.clone(), &self.working_dir, &self.entry)?
+        };
+
         let mut runner = Runner {
-            cm,
+            cm: cm.clone(),
             working_dir: self.working_dir,
             build_command: self.build_command,
             test_command: self.test_command,
@@ -46,7 +54,7 @@ impl ReduceMinCommand {
             runner.expected = runner.check(true).context("initial check failed")?;
         }
 
-        runner.run(vec![self.entry])
+        runner.run(all_files)
     }
 }
 

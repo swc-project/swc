@@ -5,10 +5,33 @@ use std::{
     path::{Path, PathBuf},
     sync::{Arc, Mutex},
 };
-use swc_common::{collections::AHashMap, comments::NoopComments, FileName, SourceMap};
-use swc_ecma_loader::resolve::Resolve;
+use swc_common::{collections::AHashMap, comments::NoopComments, FileName, SourceFile, SourceMap};
+use swc_ecma_loader::{resolve::Resolve, resolvers::node::NodeModulesResolver, TargetEnv};
 
-pub fn collect_deps(cm: Arc<SourceMap>, entry: &Path) -> Vec<PathBuf> {}
+pub fn collect_deps(cm: Arc<SourceMap>, working_dir: &Path, entry: &Path) -> Result<Vec<PathBuf>> {
+    let collector = DependencyCollector {
+        cm,
+        working_dir: working_dir.to_path_buf(),
+        cache: Default::default(),
+        resolver: Box::new(NodeModulesResolver::new(
+            TargetEnv::Node,
+            Default::default(),
+        )),
+    };
+
+    collector.load_recursively(Arc::new(FileName::Real(entry.to_path_buf())))?;
+
+    let files = collector.cache.into_inner()?;
+
+    Ok(files
+        .into_iter()
+        .map(|(_, file)| file.fm.name.clone())
+        .filter_map(|f| match f {
+            FileName::Real(v) => Some(v),
+            _ => None,
+        })
+        .collect())
+}
 
 struct DependencyCollector {
     cm: Arc<SourceMap>,
@@ -54,8 +77,15 @@ impl DependencyCollector {
             })
             .collect::<Result<_>>()?;
 
+        self.cache
+            .lock()
+            .unwrap()
+            .insert(name, Arc::new(ModuleData { fm: fm.clone() }));
+
         Ok(())
     }
 }
 
-struct ModuleData {}
+struct ModuleData {
+    fm: Arc<SourceFile>,
+}
