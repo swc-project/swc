@@ -39,6 +39,7 @@ pub fn collect_deps(cm: Arc<SourceMap>, working_dir: &Path, entry: &Path) -> Res
 struct DependencyCollector {
     cm: Arc<SourceMap>,
 
+    #[allow(unused)]
     working_dir: PathBuf,
 
     cache: Mutex<AHashMap<Arc<FileName>, Arc<ModuleData>>>,
@@ -68,7 +69,7 @@ impl DependencyCollector {
 
         let deps = swc_ecma_dep_graph::analyze_dependencies(&module, &NoopComments);
 
-        let res = GLOBALS.with(|globals| {
+        let _res = GLOBALS.with(|globals| {
             HANDLER.with(|handler| {
                 deps.into_par_iter()
                     .map(|dep| {
