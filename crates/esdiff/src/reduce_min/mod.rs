@@ -1,4 +1,4 @@
-use self::{deps::collect_deps, types::add_types};
+use self::{deps::collect_deps, types::ignore_typescript};
 use crate::util::{parse, print_js};
 use anyhow::{bail, Context, Result};
 use std::{
@@ -135,7 +135,7 @@ impl Runner {
 
                 if let Some(ext) = path.extension() {
                     if ext == "tsx" || ext == "ts" {
-                        m.visit_mut_with(&mut add_types());
+                        m.visit_mut_with(&mut ignore_typescript());
                     }
                 }
 
