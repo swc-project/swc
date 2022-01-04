@@ -28,7 +28,7 @@ if [[ "$1" == *"inputs"* && $REDUCED_SIZE -le 3 ]]; then
     git rm --force $1
     git commit -m 'Remove useless input'
 
-    ./scripts/_/notify.sh "minifier: Removed $1"
+    ./scripts/_/notify.sh "Removed $1"
 else
-    ./scripts/_/notify.sh "minifier: Found errornous input"
+    ./scripts/_/notify.sh "Found errornous input"
 fi
