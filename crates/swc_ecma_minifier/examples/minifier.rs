@@ -8,7 +8,7 @@ use swc_ecma_minifier::{
     option::{ExtraOptions, MinifyOptions},
 };
 use swc_ecma_parser::{lexer::Lexer, Parser};
-use swc_ecma_transforms::{fixer, resolver_with_mark};
+use swc_ecma_transforms::{fixer, hygiene, resolver_with_mark};
 use swc_ecma_visit::FoldWith;
 
 fn main() {
@@ -44,12 +44,13 @@ fn main() {
             None,
             &MinifyOptions {
                 compress: Some(Default::default()),
-                mangle: Some(Default::default()),
+                mangle: None,
                 ..Default::default()
             },
             &ExtraOptions { top_level_mark },
         );
 
+        let output = output.fold_with(&mut hygiene());
         let output = output.fold_with(&mut fixer(None));
 
         let code = print(cm.clone(), &[output], true);
