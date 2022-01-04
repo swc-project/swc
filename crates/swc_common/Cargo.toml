@@ -6,7 +6,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_common"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.15.3"
+version = "0.16.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -20,20 +20,18 @@ concurrent = ["parking_lot"]
 debug = []
 default = []
 diagnostic-serde = []
-plugin-base = ["abi_stable", "anyhow", "bincode", "diagnostic-serde"]
+plugin-base = [ "anyhow", "rkyv-impl", "diagnostic-serde"]
 plugin-mode = ["plugin-base"]
 plugin-rt = ["plugin-base"]
 rkyv-impl = ["rkyv"]
 tty-emitter = ["atty", "termcolor"]
 
 [dependencies]
-abi_stable = {version = "0.10.3", optional = true}
 ahash = "0.7.4"
 anyhow = {version = "1.0.45", optional = true}
 arbitrary = {version = "1", optional = true, features = ["derive"]}
 ast_node = {version = "0.7.5", path = "../ast_node"}
 atty = {version = "0.2", optional = true}
-bincode = {version = "1.3.3", optional = true}
 cfg-if = "0.1.2"
 debug_unreachable = "0.1.1"
 either = "1.5"
