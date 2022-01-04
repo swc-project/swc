@@ -1,9 +1,9 @@
 # Used to see ideal output using terser
-lab.js
+/lab.js
 
 private/
 
 # Used for reducing
-input.js
-output.js
+/input.js
+/output.js
 *.orig
