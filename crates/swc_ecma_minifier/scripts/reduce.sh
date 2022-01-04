@@ -21,8 +21,14 @@ creduce "$SCRIPT_DIR/_/reduce/compare.sh" input.js
 
 REDUCED_SIZE=$(wc -c <"input.js")
 
+echo "Reduced size is $REDUCED_SIZE bytes"
+
 if [[ "$1" == *"inputs"* && $REDUCED_SIZE -le 3 ]]; then
+    echo "Removing $1"
     git rm --force $1
     git commit -m 'Remove useless input'
-    echo "Reduced size is $REDUCED_SIZE bytes. Removing"
+
+    ./scripts/_/notify.sh "minifier: Removed $1"
+else
+    ./scripts/_/notify.sh "minifier: Found errornous input"
 fi
