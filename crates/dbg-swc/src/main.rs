@@ -45,7 +45,7 @@ fn main() -> Result<()> {
             .pretty()
             .finish();
 
-        tracing::subscriber::set_default(logger)
+        tracing::subscriber::set_global_default(logger)
     };
 
     let _track = Track {
