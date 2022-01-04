@@ -8,9 +8,9 @@ var c, C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C(x) {
-        !function(instance, Constructor) {
+        (function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, C), this.x = this, this.x, this.y, this.z, this.foo();
+        })(this, C), this.x = this, this.x, this.y, this.z, this.foo();
     }
     return protoProps = [
         {

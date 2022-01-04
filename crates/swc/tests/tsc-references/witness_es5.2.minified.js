@@ -31,7 +31,7 @@ function fnReturn2() {
     return fnReturn2;
 }
 fnReturn1(), fnReturn2();
-var co2, cnd1, or3, and3, propAcc1, M2, co2 = co2, cnd1 = cnd1 ? 0 : 1, or3 = or3 || or3, and3 = and3 && and3;
+var or3, and3, propAcc1, M2, or3 = or3 || or3, and3 = and3 && and3;
 function fnCall() {
     return fnCall();
 }
