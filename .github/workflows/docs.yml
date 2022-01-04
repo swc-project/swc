@@ -27,7 +27,7 @@ jobs:
 
       - name: Deploy
         if: github.ref == 'refs/heads/main'
-        uses: JamesIves/github-pages-deploy-action@4.1.0
+        uses: JamesIves/github-pages-deploy-action@4.1.8
         with:
           token: ${{ secrets.GH_TOKEN }}
           branch: gh-pages

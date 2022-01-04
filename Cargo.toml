@@ -1,6 +1,6 @@
 [workspace]
 members = [
-  "crates/esdiff",
+  "crates/dbg-swc",
   "crates/jsdoc",
   "crates/node",
   "crates/swc_cli",

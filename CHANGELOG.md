@@ -7,11 +7,17 @@
 
 - **(es/dep-graph)** Improve DependencyDescriptor to combine `import_assertions` with `dynamic_import_assertions` (#3183) ([e5e6e84](https://github.com/swc-project/swc/commit/e5e6e843004b7ad3ce0ffa95f583d2c2a808736a))
 
+
+- **(esdiff)** Create a command to determine problematic file (#3181) ([51c792e](https://github.com/swc-project/swc/commit/51c792eb302a4e22104912a1289d19f80610d480))
+
 ### Miscellaneous Tasks
 
 
 
 - **(*)** Update `rustc` (#3185) ([7d0a8a1](https://github.com/swc-project/swc/commit/7d0a8a12f145c42fba2ec6a80c4d9b720f29c40e))
+
+
+- **(ci)** Split cargo docs (#3187) ([46949d3](https://github.com/swc-project/swc/commit/46949d39ebdcb14347156eb00490e53d37d06707))
 
 ### Refactor
 

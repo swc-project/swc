@@ -682,6 +682,35 @@ dependencies = [
 ]
 
 [[package]]
+name = "dbg-swc"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "pretty_assertions 1.0.0",
+ "rayon",
+ "structopt",
+ "swc_atoms",
+ "swc_common",
+ "swc_ecma_ast",
+ "swc_ecma_codegen",
+ "swc_ecma_dep_graph",
+ "swc_ecma_diff",
+ "swc_ecma_loader",
+ "swc_ecma_minifier",
+ "swc_ecma_parser",
+ "swc_ecma_transforms_base",
+ "swc_ecma_transforms_react",
+ "swc_ecma_transforms_typescript",
+ "swc_ecma_utils",
+ "swc_ecma_visit",
+ "swc_node_comments",
+ "swc_timer",
+ "tempfile",
+ "tracing",
+ "tracing-subscriber",
+]
+
+[[package]]
 name = "debug_unreachable"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -766,30 +795,6 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn",
-]
-
-[[package]]
-name = "esdiff"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "pretty_assertions 1.0.0",
- "rayon",
- "structopt",
- "swc_atoms",
- "swc_common",
- "swc_ecma_ast",
- "swc_ecma_codegen",
- "swc_ecma_diff",
- "swc_ecma_minifier",
- "swc_ecma_parser",
- "swc_ecma_transforms_base",
- "swc_ecma_utils",
- "swc_ecma_visit",
- "swc_timer",
- "tempfile",
- "tracing",
- "tracing-subscriber",
 ]
 
 [[package]]
@@ -2957,7 +2962,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_diff"
-version = "0.2.0"
+version = "0.2.1"
 dependencies = [
  "ansi_term",
  "auto_impl",

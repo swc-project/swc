@@ -1,19 +1,21 @@
-use crate::minified::DiffMinifiedCommand;
+use self::{minified::DiffMinifiedCommand, reduce_min::ReduceMinCommand};
 use anyhow::Result;
-use std::{env, str::FromStr, sync::Arc, time::Instant};
+use std::{env, io::stderr, str::FromStr, sync::Arc, time::Instant};
 use structopt::StructOpt;
 use swc_common::{
-    errors::{ColorConfig, Handler, HANDLER},
+    errors::{Handler, HANDLER},
     SourceMap, GLOBALS,
 };
 use tracing_subscriber::EnvFilter;
 
 mod minified;
+mod reduce_min;
 mod util;
 
 #[derive(Debug, StructOpt)]
 enum Cmd {
     DiffMin(DiffMinifiedCommand),
+    ReduceMin(ReduceMinCommand),
 }
 
 struct Track {
@@ -29,7 +31,7 @@ impl Drop for Track {
 fn main() -> Result<()> {
     let globals = swc_common::Globals::default();
     let cm = Arc::new(SourceMap::default());
-    let handler = Handler::with_tty_emitter(ColorConfig::Always, true, false, Some(cm.clone()));
+    let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(cm.clone()));
 
     let _logger = {
         let log_env = env::var("RUST_LOG").unwrap_or_else(|_| "info".to_string());
@@ -56,6 +58,9 @@ fn main() -> Result<()> {
         HANDLER.set(&handler, || {
             match cmd {
                 Cmd::DiffMin(cmd) => {
+                    cmd.run(cm.clone())?;
+                }
+                Cmd::ReduceMin(cmd) => {
                     cmd.run(cm.clone())?;
                 }
             }
