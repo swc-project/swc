@@ -59,7 +59,7 @@ pub(crate) fn print_js(
         let mut emitter = swc_ecma_codegen::Emitter {
             cfg: swc_ecma_codegen::Config { minify: false },
             cm,
-            comments: None,
+            comments,
             wr,
         };
 
