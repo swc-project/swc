@@ -85,7 +85,7 @@ pub struct NodeModulesResolver {
     alias: AHashMap<String, String>,
 }
 
-static EXTENSIONS: &[&str] = &["ts", "tsx", "js", "jsx", "json", "node"];
+static EXTENSIONS: &[&str] = &["ts", "tsx", "js", "jsx", "json", "node", "d.ts"];
 
 impl NodeModulesResolver {
     /// Create a node modules resolver for the target runtime environment.

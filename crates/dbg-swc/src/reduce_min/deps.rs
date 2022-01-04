@@ -108,8 +108,8 @@ impl DependencyCollector {
                         GLOBALS.set(globals, || {
                             HANDLER.set(handler, || {
                                 name.map(Arc::new).and_then(|name| {
-                                    self.load_recursively(name)
-                                        .context("failed to load recursively")
+                                    self.load_recursively(name.clone())
+                                        .with_context(||format!("failed to load `{}`",name))
                                 })
                             })
                         })
