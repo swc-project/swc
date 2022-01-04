@@ -1,6 +1,9 @@
 var NUMBER, M, _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, A = function() {
+}, NUMBER1 = [
+    1,
+    2
+], A = function() {
     "use strict";
     var Constructor;
     function A() {
@@ -27,7 +30,7 @@ var NUMBER, M, _typeof = function(obj) {
     M1.n = n;
 }(M || (M = {}));
 var objA = new A();
-void 0 === NUMBER || _typeof(NUMBER), _typeof(1), _typeof({
+void 0 === NUMBER || _typeof(NUMBER), _typeof(NUMBER1), _typeof(1), _typeof({
     x: 1,
     y: 2
 }), _typeof({
@@ -35,10 +38,12 @@ void 0 === NUMBER || _typeof(NUMBER), _typeof(1), _typeof({
     y: function(n) {
         return n;
     }
-}), _typeof(objA.a), _typeof(M.n), _typeof(1), _typeof(1), _typeof(A.foo()), _typeof(NUMBER + NUMBER), _typeof(void 0 === NUMBER ? "undefined" : _typeof(NUMBER)), _typeof(_typeof(_typeof(NUMBER + NUMBER))), _typeof(1), void 0 === NUMBER || _typeof(NUMBER), _typeof(1), _typeof(objA.a), _typeof(M.n), _typeof(objA.a), M.n;
+}), _typeof(objA.a), _typeof(M.n), _typeof(NUMBER1[0]), _typeof(1), _typeof(A.foo()), _typeof(NUMBER + NUMBER), _typeof(void 0 === NUMBER ? "undefined" : _typeof(NUMBER)), _typeof(_typeof(_typeof(NUMBER + NUMBER))), _typeof(1), void 0 === NUMBER || _typeof(NUMBER), _typeof(NUMBER1), _typeof(1), _typeof(objA.a), _typeof(M.n), _typeof(objA.a), M.n;
 z: void 0 === NUMBER || _typeof(NUMBER);
-x: ;
-r: ;
+x: _typeof(NUMBER1);
+r: _typeof(function() {
+    return 1;
+});
 z: _typeof(1);
 z: _typeof(objA.a);
 z: _typeof(A.foo);

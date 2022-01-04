@@ -78,28 +78,42 @@ where
 
     ///
     /// - `1 == 1` => `true`
+    /// - `1 == 2` => `false`
     pub(super) fn optimize_lit_cmp(&mut self, n: &mut BinExpr) -> Option<Expr> {
-        match n.op {
-            op!("==") | op!("!=") => {
-                // Abort if types differ, or one of them is unknown.
-                if n.left.get_type().opt()? != n.right.get_type().opt()? {
-                    return None;
-                }
-
+        if n.op != op!("==") && n.op != op!("!=") {
+            return None;
+        }
+        let flag = n.op == op!("!=");
+        let mut make_lit_bool = |value: bool| {
+            self.changed = true;
+            Some(Expr::Lit(Lit::Bool(Bool {
+                span: n.span,
+                value: flag ^ value,
+            })))
+        };
+        match (n.left.get_type().opt()?, n.right.get_type().opt()?) {
+            // Abort if types differ, or one of them is unknown.
+            (lt, rt) if lt != rt => {}
+            (Type::Obj, Type::Obj) => {}
+            (Type::Num, Type::Num) => {
+                let l = n.left.as_number().opt()?;
+                let r = n.right.as_number().opt()?;
+                tracing::debug!("Optimizing: literal comparison => num");
+                return make_lit_bool(l == r);
+            }
+            (Type::Str, Type::Str) => {
+                let l = &n.left.as_string().opt()?;
+                let r = &n.right.as_string().opt()?;
+                tracing::debug!("Optimizing: literal comparison => str");
+                return make_lit_bool(l == r);
+            }
+            (_, _) => {
                 let l = n.left.as_pure_bool().opt()?;
                 let r = n.right.as_pure_bool().opt()?;
-
-                let value = if n.op == op!("==") { l == r } else { l != r };
-
                 tracing::debug!("Optimizing: literal comparison => bool");
-                self.changed = true;
-                return Some(Expr::Lit(Lit::Bool(Bool {
-                    span: n.span,
-                    value,
-                })));
+                return make_lit_bool(l == r);
             }
-            _ => {}
-        }
+        };
 
         None
     }

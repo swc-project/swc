@@ -60,7 +60,7 @@ ignore = [
 # * Medium - CVSS Score 4.0 - 6.9
 # * High - CVSS Score 7.0 - 8.9
 # * Critical - CVSS Score 9.0 - 10.0
-#severity-threshold = 
+#severity-threshold =
 
 # This section is considered when running `cargo deny check licenses`
 # More documentation for the licenses section can be found here:
@@ -74,6 +74,7 @@ unlicensed = "deny"
 allow = [
   "MIT",
   "Apache-2.0",
+  "Apache-2.0 WITH LLVM-exception",
   "BSD-2-Clause",
   "BSD-2-Clause-Patent",
   "BSD-3-Clause",
@@ -194,8 +195,8 @@ deny = [
 skip = [
   #{ name = "ansi_term", version = "=0.11.0" },
 ]
-# Similarly to `skip` allows you to skip certain crates during duplicate 
-# detection. Unlike skip, it also includes the entire tree of transitive 
+# Similarly to `skip` allows you to skip certain crates during duplicate
+# detection. Unlike skip, it also includes the entire tree of transitive
 # dependencies starting at the specified crate, up to a certain depth, which is
 # by default infinite
 skip-tree = [
