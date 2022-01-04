@@ -1151,7 +1151,14 @@ impl Visit for ExportCollector {
     fn visit_export_specifier(&mut self, s: &ExportSpecifier) {
         match s {
             ExportSpecifier::Namespace(ns) => {
-                self.exports.insert(ns.name.sym.to_string());
+                match &ns.name {
+                    ModuleExportName::Ident(name) => {
+                        self.exports.insert(name.sym.to_string());
+                    },
+                    ModuleExportName::Str(..) => {
+                        unimplemented!("module string names unimplemented")
+                    }
+                };
             }
             ExportSpecifier::Default(_) => {
                 self.exports.insert("default".into());
