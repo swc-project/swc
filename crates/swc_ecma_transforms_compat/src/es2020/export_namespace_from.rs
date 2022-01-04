@@ -33,7 +33,9 @@ impl VisitMut for ExportNamespaceFrom {
                         ExportSpecifier::Namespace(ns) => {
                             let name = match ns.name {
                                 ModuleExportName::Ident(name) => name,
-                                ModuleExportName::Str(..) => { unimplemented!("module string names unimplemented")}
+                                ModuleExportName::Str(..) => {
+                                    unimplemented!("module string names unimplemented")
+                                }
                             };
                             let local = name.prefix("_").private();
 
