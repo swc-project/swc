@@ -175,6 +175,16 @@ impl Runner {
     fn run(mut self, files: Vec<PathBuf>) -> Result<()> {
         // Patch one file at a time.
         for file in files {
+            match file.extension() {
+                Some(ext) => {
+                    if ext == "json" {
+                        info!("Skipping json file");
+                        continue;
+                    }
+                }
+                None => {}
+            }
+
             let _span = span!(Level::ERROR, "patch", file = &*file.display().to_string()).entered();
 
             let (_patch, patched) = self.patch_file(file.clone())?;

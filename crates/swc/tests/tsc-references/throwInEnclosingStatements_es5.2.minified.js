@@ -10,11 +10,11 @@ switch(y){
     default:
         throw y;
 }
-for(;;)throw 0;
+for(var y;;)throw 0;
 for(;;)throw 0;
 for(var idx in {})throw idx;
 for(;;)throw null;
-var y, C = function() {
+var C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C() {
