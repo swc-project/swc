@@ -31,6 +31,7 @@ swc_ecma_transforms_react = {path = "../swc_ecma_transforms_react/"}
 swc_ecma_transforms_typescript = {path = "../swc_ecma_transforms_typescript/"}
 swc_ecma_utils = {path = "../swc_ecma_utils/"}
 swc_ecma_visit = {path = "../swc_ecma_visit/"}
+swc_node_comments = {path = "../swc_node_comments/"}
 swc_timer = {path = "../swc_timer/"}
 tempfile = "3.2.0"
 tracing = "0.1.29"
