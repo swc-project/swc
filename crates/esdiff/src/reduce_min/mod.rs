@@ -10,7 +10,7 @@ use swc_common::{comments::NoopComments, Mark, SourceMap};
 use swc_ecma_minifier::option::{ExtraOptions, MinifyOptions};
 use swc_ecma_transforms_base::{
     fixer::fixer,
-    helpers::{Helpers, HELPERS},
+    helpers::{inject_helpers, Helpers, HELPERS},
     hygiene::hygiene,
     resolver::resolver_with_mark,
 };
@@ -127,6 +127,8 @@ impl Runner {
                     },
                     &ExtraOptions { top_level_mark },
                 );
+
+                m.visit_mut_with(&mut inject_helpers());
 
                 m.visit_mut_with(&mut hygiene());
                 m.visit_mut_with(&mut fixer(None));
