@@ -589,7 +589,7 @@ impl Swcify for swc_estree_ast::ExportNamespaceSpecifier {
     fn swcify(self, ctx: &Context) -> Self::Output {
         swc_ecma_ast::ExportNamespaceSpecifier {
             span: ctx.span(&self.base),
-            name: self.exported.swcify(ctx).id,
+            name: self.exported.swcify(ctx),
         }
     }
 }
