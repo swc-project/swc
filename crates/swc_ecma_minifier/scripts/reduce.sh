@@ -17,6 +17,9 @@ export MINIFY=$(cargo profile bin-path --example minifier)
 
 echo "Using $MINIFY"
 
+# Verify that we can run `creduce`
+$SCRIPT_DIR/_/reduce/compare.sh
+
 creduce "$SCRIPT_DIR/_/reduce/compare.sh" input.js
 
 REDUCED_SIZE=$(wc -c <"input.js")
