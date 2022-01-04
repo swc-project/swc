@@ -68,6 +68,9 @@ where
                     if usage.declared_as_catch_param {
                         return;
                     }
+                    if usage.inline_prevented {
+                        return;
+                    }
 
                     if should_preserve && usage.var_kind != Some(VarDeclKind::Const) {
                         if cfg!(feature = "debug") {
@@ -185,6 +188,8 @@ where
                                 _ => true,
                             }
                         {
+                            self.changed = true;
+
                             tracing::debug!(
                                 "inline: Decided to inline '{}{:?}' because it's simple",
                                 i.id.sym,
@@ -196,6 +201,8 @@ where
                             }
 
                             self.lits.insert(i.to_id(), init.take());
+
+                            var.name.take();
                         } else {
                             tracing::debug!(
                                 "inline: Decided to copy '{}{:?}' because it's simple",

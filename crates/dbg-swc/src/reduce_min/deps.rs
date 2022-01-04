@@ -10,6 +10,7 @@ use swc_common::{
     SourceMap, GLOBALS,
 };
 use swc_ecma_loader::{resolve::Resolve, resolvers::node::NodeModulesResolver, TargetEnv};
+use tracing::info;
 
 pub fn collect_deps(cm: Arc<SourceMap>, working_dir: &Path, entry: &Path) -> Result<Vec<PathBuf>> {
     let collector = DependencyCollector {
@@ -53,8 +54,11 @@ impl DependencyCollector {
             return Ok(());
         }
 
+        info!("Loading {}", name);
+
         let fm = match &*name {
             FileName::Real(path) => self.cm.load_file(&path)?,
+            FileName::Custom(..) => return Ok(()),
             _ => {
                 todo!("load({:?})", name)
             }
@@ -63,11 +67,29 @@ impl DependencyCollector {
         self.cache
             .lock()
             .unwrap()
-            .insert(name, Arc::new(ModuleData { fm: fm.clone() }));
+            .insert(name.clone(), Arc::new(ModuleData { fm: fm.clone() }));
+
+        match &*name {
+            FileName::Real(name) => match name.extension() {
+                Some(ext) => {
+                    if ext == "json" {
+                        return Ok(());
+                    }
+                }
+
+                _ => {}
+            },
+
+            _ => {}
+        }
 
         let module = parse(&fm)?;
 
         let deps = swc_ecma_dep_graph::analyze_dependencies(&module, &NoopComments);
+        let deps = deps
+            .into_iter()
+            .filter(|dep| &*dep.specifier != "next")
+            .collect::<Vec<_>>();
 
         let _res = GLOBALS.with(|globals| {
             HANDLER.with(|handler| {
@@ -75,23 +97,28 @@ impl DependencyCollector {
                     .map(|dep| {
                         GLOBALS.set(globals, || {
                             HANDLER.set(handler, || {
-                                self.resolver
+                                let res = self
+                                    .resolver
                                     .resolve(&fm.name, &dep.specifier)
                                     .with_context(|| {
                                         format!(
                                             "failed to resolve `{}` from `{}`",
                                             dep.specifier, fm.name
                                         )
-                                    })
+                                    })?;
+
+                                Ok((res, dep))
                             })
                         })
                     })
-                    .map(|name| {
+                    .map(|res| {
                         GLOBALS.set(globals, || {
                             HANDLER.set(handler, || {
-                                name.map(Arc::new).and_then(|name| {
-                                    self.load_recursively(name)
-                                        .context("failed to load recursively")
+                                res.and_then(|(name, dep)| {
+                                    let name = Arc::new(name);
+                                    self.load_recursively(name.clone()).with_context(|| {
+                                        format!("failed to load `{}` (`{}`)", name, dep.specifier)
+                                    })
                                 })
                             })
                         })

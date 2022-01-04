@@ -1,6 +1,6 @@
 extern crate swc_node_base;
 
-use std::{env::args, path::Path};
+use std::{env::args, fs, path::Path};
 use swc_common::{input::SourceFileInput, sync::Lrc, Mark, SourceMap};
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_minifier::{
@@ -8,7 +8,7 @@ use swc_ecma_minifier::{
     option::{ExtraOptions, MinifyOptions},
 };
 use swc_ecma_parser::{lexer::Lexer, Parser};
-use swc_ecma_transforms::{fixer, resolver_with_mark};
+use swc_ecma_transforms::{fixer, hygiene, resolver_with_mark};
 use swc_ecma_visit::FoldWith;
 
 fn main() {
@@ -44,15 +44,18 @@ fn main() {
             None,
             &MinifyOptions {
                 compress: Some(Default::default()),
-                mangle: Some(Default::default()),
+                mangle: None,
                 ..Default::default()
             },
             &ExtraOptions { top_level_mark },
         );
 
+        let output = output.fold_with(&mut hygiene());
         let output = output.fold_with(&mut fixer(None));
 
-        print(cm.clone(), &[output], true);
+        let code = print(cm.clone(), &[output], true);
+
+        fs::write("output.js", code.as_bytes()).expect("failed to write output");
 
         Ok(())
     })
