@@ -16,7 +16,7 @@ name = "swc"
 
 [features]
 default = ["es3"]
-# You can disable this feautre to reduce binary size.
+# You can disable this feature to reduce binary size.
 es3 = []
 # See https://github.com/swc-project/swc/issues/1108
 #
