@@ -1,4 +1,5 @@
 use crate::util::parse;
+use tracing::info;
 use anyhow::{Context, Result};
 use rayon::prelude::*;
 use std::{
@@ -52,6 +53,8 @@ impl DependencyCollector {
         if self.cache.lock().unwrap().contains_key(&name) {
             return Ok(());
         }
+
+        info!("Loading {}", name);
 
         let fm = match &*name {
             FileName::Real(path) => self.cm.load_file(&path)?,
