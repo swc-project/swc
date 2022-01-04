@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const { readFileSync } = require('fs');
-const { parse } = require('esprima');
+const { parseModule } = require('esprima');
 const { notDeepEqual } = require('assert');
 
 let [ast1, ast2] =
@@ -9,7 +9,7 @@ let [ast1, ast2] =
         .map(file => readFileSync(file, 'utf-8')) // read given files as strings
         .map(code => {
             console.log(code);
-            return parse(code)
+            return parseModule(code)
         }); // parse into ASTs
 
 notDeepEqual(ast1, ast2); // ensure they're still not equal
