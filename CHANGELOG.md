@@ -1,4 +1,18 @@
 # Changelog
+## [unreleased]
+
+### Features
+
+
+
+- **(es/dep-graph)** Improve DependencyDescriptor to combine `import_assertions` with `dynamic_import_assertions` (#3183) ([e5e6e84](https://github.com/swc-project/swc/commit/e5e6e843004b7ad3ce0ffa95f583d2c2a808736a))
+
+### Refactor
+
+
+
+- **(plugin)** Add a loader for wasm-based plugin system (#3179) ([fc4c670](https://github.com/swc-project/swc/commit/fc4c6708f24cda39640fbbfe56123f2f6eeb2474))
+
 ## [1.2.126] - 2022-01-03
 
 ### Bug Fixes
