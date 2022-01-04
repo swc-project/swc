@@ -55,6 +55,7 @@ impl DependencyCollector {
 
         let fm = match &*name {
             FileName::Real(path) => self.cm.load_file(&path)?,
+            FileName::Custom(..) => return Ok(()),
             _ => {
                 todo!("load({:?})", name)
             }
