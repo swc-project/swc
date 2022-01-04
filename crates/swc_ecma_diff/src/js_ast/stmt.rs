@@ -177,6 +177,7 @@ diff_struct!(ExportAll, [span, src, asserts]);
 diff_enum!(ImportSpecifier, [Named, Default, Namespace]);
 diff_enum!(ExportSpecifier, [Named, Default, Namespace]);
 diff_enum!(DefaultDecl, [Class, Fn, TsInterfaceDecl]);
+diff_enum!(ModuleExportName, [Ident, Str]);
 
 diff_struct!(ImportNamedSpecifier, [span, local, imported, is_type_only]);
 diff_struct!(ImportDefaultSpecifier, [span, local]);

@@ -1,17 +1,40 @@
 use anyhow::{anyhow, Result};
 use std::sync::Arc;
-use swc_common::{input::SourceFileInput, SourceFile, SourceMap};
+use swc_common::{comments::Comments, input::SourceFileInput, FileName, SourceFile, SourceMap};
 use swc_ecma_ast::{EsVersion, Module};
-use swc_ecma_parser::{lexer::Lexer, Parser};
+use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, Syntax, TsConfig};
 use swc_ecma_utils::HANDLER;
 
 pub(crate) fn parse(fm: &SourceFile) -> Result<Module> {
-    let lexer = Lexer::new(
-        Default::default(),
-        EsVersion::latest(),
-        SourceFileInput::from(fm),
-        None,
-    );
+    let syntax = Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    });
+
+    let syntax = match &fm.name {
+        FileName::Real(p) => match p.extension() {
+            Some(ext) => {
+                if ext == "tsx" {
+                    Syntax::Typescript(TsConfig {
+                        tsx: true,
+                        decorators: true,
+                        ..Default::default()
+                    })
+                } else if ext == "ts" {
+                    Syntax::Typescript(TsConfig {
+                        decorators: true,
+                        ..Default::default()
+                    })
+                } else {
+                    syntax
+                }
+            }
+            None => syntax,
+        },
+        _ => syntax,
+    };
+
+    let lexer = Lexer::new(syntax, EsVersion::latest(), SourceFileInput::from(fm), None);
 
     let mut parser = Parser::new_from(lexer);
 
@@ -24,7 +47,11 @@ pub(crate) fn parse(fm: &SourceFile) -> Result<Module> {
     })
 }
 
-pub(crate) fn print_js(cm: Arc<SourceMap>, m: &Module) -> Result<String> {
+pub(crate) fn print_js(
+    cm: Arc<SourceMap>,
+    m: &Module,
+    comments: Option<&dyn Comments>,
+) -> Result<String> {
     let mut buf = vec![];
 
     {
@@ -32,7 +59,7 @@ pub(crate) fn print_js(cm: Arc<SourceMap>, m: &Module) -> Result<String> {
         let mut emitter = swc_ecma_codegen::Emitter {
             cfg: swc_ecma_codegen::Config { minify: false },
             cm,
-            comments: None,
+            comments,
             wr,
         };
 

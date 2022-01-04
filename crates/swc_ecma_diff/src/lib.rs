@@ -163,6 +163,10 @@ where
 
             for (l_idx, l) in self.iter_mut().enumerate() {
                 for (r_idx, r) in other.iter_mut().enumerate() {
+                    if r_removed.contains(&r_idx) {
+                        continue;
+                    }
+
                     let mut ctx = ctx.clone();
                     ctx.path.push(PathComponent::VecElem { l: l_idx, r: r_idx });
 
