@@ -5,7 +5,10 @@ use std::{
     path::{Path, PathBuf},
     sync::{Arc, Mutex},
 };
-use swc_common::{collections::AHashMap, comments::NoopComments, FileName, SourceFile, SourceMap};
+use swc_common::{
+    collections::AHashMap, comments::NoopComments, errors::HANDLER, FileName, SourceFile,
+    SourceMap, GLOBALS,
+};
 use swc_ecma_loader::{resolve::Resolve, resolvers::node::NodeModulesResolver, TargetEnv};
 
 pub fn collect_deps(cm: Arc<SourceMap>, working_dir: &Path, entry: &Path) -> Result<Vec<PathBuf>> {
@@ -65,22 +68,36 @@ impl DependencyCollector {
 
         let deps = swc_ecma_dep_graph::analyze_dependencies(&module, &NoopComments);
 
-        let res = deps
-            .into_par_iter()
-            .map(|dep| {
-                self.resolver
-                    .resolve(&fm.name, &dep.specifier)
-                    .with_context(|| {
-                        format!("failed to resolve `{}` from `{}`", dep.specifier, fm.name)
+        let res = GLOBALS.with(|globals| {
+            HANDLER.with(|handler| {
+                deps.into_par_iter()
+                    .map(|dep| {
+                        GLOBALS.set(globals, || {
+                            HANDLER.set(handler, || {
+                                self.resolver
+                                    .resolve(&fm.name, &dep.specifier)
+                                    .with_context(|| {
+                                        format!(
+                                            "failed to resolve `{}` from `{}`",
+                                            dep.specifier, fm.name
+                                        )
+                                    })
+                            })
+                        })
                     })
+                    .map(|name| {
+                        GLOBALS.set(globals, || {
+                            HANDLER.set(handler, || {
+                                name.map(Arc::new).and_then(|name| {
+                                    self.load_recursively(name)
+                                        .context("failed to load recursively")
+                                })
+                            })
+                        })
+                    })
+                    .collect::<Result<_>>()
             })
-            .map(|name| {
-                name.map(Arc::new).and_then(|name| {
-                    self.load_recursively(name)
-                        .context("failed to load recursively")
-                })
-            })
-            .collect::<Result<_>>()?;
+        })?;
 
         Ok(())
     }
