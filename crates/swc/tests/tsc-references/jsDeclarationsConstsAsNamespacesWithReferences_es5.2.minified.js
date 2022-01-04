@@ -1,4 +1,6 @@
-export var colors;
+export var colors = {
+    royalBlue: "#6400e4"
+};
 export var brandColors = {
-    purple: "#6400e4"
+    purple: colors.royalBlue
 };

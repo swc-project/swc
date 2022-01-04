@@ -8,7 +8,7 @@ export default Cls;
 class C {
 }
 export { C as default };
-const x;
+const x = 12;
 export { x as default }; /**
  * @typedef {string | number} default
  */ 

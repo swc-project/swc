@@ -1,4 +1,6 @@
-export const colors;
+export const colors = {
+    royalBlue: "#6400e4"
+};
 export const brandColors = {
-    purple: "#6400e4"
+    purple: colors.royalBlue
 };

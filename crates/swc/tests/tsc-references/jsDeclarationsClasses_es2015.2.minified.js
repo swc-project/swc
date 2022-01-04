@@ -75,7 +75,8 @@ export class O extends N {
         super(param), this.another2 = param;
     }
 }
-export class VariableBase extends null {
+var x = null;
+export class VariableBase extends x {
 }
 export class HasStatics {
     static staticMethod() {}
