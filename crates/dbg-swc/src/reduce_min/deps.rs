@@ -1,5 +1,4 @@
 use crate::util::parse;
-use tracing::info;
 use anyhow::{Context, Result};
 use rayon::prelude::*;
 use std::{
@@ -11,6 +10,7 @@ use swc_common::{
     SourceMap, GLOBALS,
 };
 use swc_ecma_loader::{resolve::Resolve, resolvers::node::NodeModulesResolver, TargetEnv};
+use tracing::info;
 
 pub fn collect_deps(cm: Arc<SourceMap>, working_dir: &Path, entry: &Path) -> Result<Vec<PathBuf>> {
     let collector = DependencyCollector {
@@ -86,7 +86,10 @@ impl DependencyCollector {
         let module = parse(&fm)?;
 
         let deps = swc_ecma_dep_graph::analyze_dependencies(&module, &NoopComments);
-        let deps = deps.into_iter().filter(|dep| &*dep.specifier != "next").collect::<Vec<_>>();
+        let deps = deps
+            .into_iter()
+            .filter(|dep| &*dep.specifier != "next")
+            .collect::<Vec<_>>();
 
         let _res = GLOBALS.with(|globals| {
             HANDLER.with(|handler| {
@@ -94,7 +97,8 @@ impl DependencyCollector {
                     .map(|dep| {
                         GLOBALS.set(globals, || {
                             HANDLER.set(handler, || {
-                                let res = self.resolver
+                                let res = self
+                                    .resolver
                                     .resolve(&fm.name, &dep.specifier)
                                     .with_context(|| {
                                         format!(
@@ -112,8 +116,9 @@ impl DependencyCollector {
                             HANDLER.set(handler, || {
                                 res.and_then(|(name, dep)| {
                                     let name = Arc::new(name);
-                                    self.load_recursively(name.clone())
-                                        .with_context(|| format!("failed to load `{}` (`{}`)",name, dep.specifier))
+                                    self.load_recursively(name.clone()).with_context(|| {
+                                        format!("failed to load `{}` (`{}`)", name, dep.specifier)
+                                    })
                                 })
                             })
                         })
