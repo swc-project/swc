@@ -107,8 +107,6 @@ jobs:
           - from_variant
           - jsdoc
           - node
-          - rplugin
-          - rplugin_macros
           - string_enum
           - swc
           - swc_atoms
@@ -133,7 +131,6 @@ jobs:
           - swc_ecma_loader
           - swc_ecma_minifier
           - swc_ecma_parser
-          - swc_ecma_plugin_ast
           - swc_ecma_preset_env
           - swc_ecma_transforms
           - swc_ecma_transforms_base
