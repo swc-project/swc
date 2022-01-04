@@ -2,3 +2,8 @@
 lab.js
 
 private/
+
+# Used for reducing
+input.js
+output.js
+*.orig
