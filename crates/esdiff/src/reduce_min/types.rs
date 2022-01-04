@@ -29,7 +29,7 @@ impl VisitMut for AddTypes {
             Comment {
                 kind: CommentKind::Line,
                 span: DUMMY_SP,
-                text: "// @ts-ignore".into(),
+                text: "@ts-ignore".into(),
             },
         );
     }
