@@ -56,6 +56,11 @@ impl DependencyCollector {
             }
         };
 
+        self.cache
+            .lock()
+            .unwrap()
+            .insert(name, Arc::new(ModuleData { fm: fm.clone() }));
+
         let module = parse(&fm)?;
 
         let deps = swc_ecma_dep_graph::analyze_dependencies(&module, &NoopComments);
@@ -76,11 +81,6 @@ impl DependencyCollector {
                 })
             })
             .collect::<Result<_>>()?;
-
-        self.cache
-            .lock()
-            .unwrap()
-            .insert(name, Arc::new(ModuleData { fm: fm.clone() }));
 
         Ok(())
     }
