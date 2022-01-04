@@ -3,6 +3,7 @@ use swc_common::{
     Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
+use swc_ecma_utils::ExprFactory;
 use swc_ecma_visit::{VisitMut, VisitMutWith};
 use swc_node_comments::SwcComments;
 
@@ -21,6 +22,31 @@ struct AddTypes {
 }
 
 impl VisitMut for AddTypes {
+    ///
+    /// - `(this.foo)` => `(this as any).foo`
+    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
+        e.visit_mut_children_with(self);
+
+        match &e.obj {
+            ExprOrSuper::Expr(obj) => match &**obj {
+                Expr::This(..) => {
+                    e.obj = Expr::Paren(ParenExpr {
+                        span: DUMMY_SP,
+                        expr: Box::new(Expr::TsAs(TsAsExpr {
+                            span: DUMMY_SP,
+                            expr: obj.clone(),
+                            type_ann: any_type(),
+                        })),
+                    })
+                    .as_obj();
+                }
+                _ => {}
+            },
+
+            _ => {}
+        }
+    }
+
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         s.visit_mut_children_with(self);
 
@@ -56,10 +82,7 @@ impl VisitMut for AddTypes {
                 Pat::Ident(id) => {
                     id.type_ann = Some(TsTypeAnn {
                         span: DUMMY_SP,
-                        type_ann: Box::new(TsType::TsKeywordType(TsKeywordType {
-                            span: DUMMY_SP,
-                            kind: TsKeywordTypeKind::TsAnyKeyword,
-                        })),
+                        type_ann: any_type(),
                     });
                 }
 
@@ -67,4 +90,11 @@ impl VisitMut for AddTypes {
             }
         }
     }
+}
+
+fn any_type() -> Box<TsType> {
+    Box::new(TsType::TsKeywordType(TsKeywordType {
+        span: DUMMY_SP,
+        kind: TsKeywordTypeKind::TsAnyKeyword,
+    }))
 }
