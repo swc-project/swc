@@ -91,7 +91,7 @@ impl Drop for Patch {
 }
 
 impl Runner {
-    fn patch_file(&mut self, path: PathBuf) -> Result<Patch> {
+    fn patch_file(&mut self, path: PathBuf) -> Result<(Patch, String)> {
         (|| -> Result<_> {
             let fm = self.cm.load_file(&path).context("failed to load file")?;
 
@@ -155,7 +155,7 @@ impl Runner {
                 orig: fm.src.clone(),
             };
 
-            Ok(patch)
+            Ok((patch, patched))
         })()
         .with_context(|| format!("failed to patch file: {}", path.display()))
     }
@@ -165,11 +165,15 @@ impl Runner {
         for file in files {
             let _span = span!(Level::ERROR, "patch", file = &*file.display().to_string()).entered();
 
-            let _patch = self.patch_file(file.clone())?;
+            let (_patch, patched) = self.patch_file(file.clone())?;
 
-            let actual = self
-                .check()
-                .with_context(|| format!("test failed for `{}`", file.display()))?;
+            let actual = self.check().with_context(|| {
+                format!(
+                    "test failed for `{}`\nPatched:\n{}",
+                    file.display(),
+                    patched
+                )
+            })?;
 
             if actual != self.expected {
                 bail!("expected: {}, actual: {}", self.expected, actual);
