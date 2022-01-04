@@ -172,6 +172,7 @@ pub enum SyntaxError {
     NumericSeparatorIsAllowedOnlyBetweenTwoDigits,
 
     ImportBindingIsString(JsWord),
+    ExportBindingIsString(JsWord, JsWord),
 
     TS1003,
     TS1005,
@@ -459,6 +460,13 @@ impl SyntaxError {
                 "A string literal cannot be used as an imported binding.\n- Did you mean `import \
                  {{ \"{}\" as foo }}`?",
                 str
+            )
+            .into(),
+
+            SyntaxError::ExportBindingIsString(str1, str2) => format!(
+                "A string literal cannot be used as an exported binding without `from`.\n- Did \
+                 you mean `export {{ \"{}\" as \"{}\" }} from \"some-module\"`?",
+                str1, str2
             )
             .into(),
 
