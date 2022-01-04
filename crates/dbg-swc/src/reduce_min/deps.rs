@@ -93,23 +93,26 @@ impl DependencyCollector {
                     .map(|dep| {
                         GLOBALS.set(globals, || {
                             HANDLER.set(handler, || {
-                                self.resolver
+                                let res = self.resolver
                                     .resolve(&fm.name, &dep.specifier)
                                     .with_context(|| {
                                         format!(
                                             "failed to resolve `{}` from `{}`",
                                             dep.specifier, fm.name
                                         )
-                                    })
+                                    })?;
+
+                                Ok((res, dep))
                             })
                         })
                     })
-                    .map(|name| {
+                    .map(|res| {
                         GLOBALS.set(globals, || {
                             HANDLER.set(handler, || {
-                                name.map(Arc::new).and_then(|name| {
+                                res.and_then(|(name, dep)| {
+                                    let name = Arc::new(name);
                                     self.load_recursively(name.clone())
-                                        .with_context(|| format!("failed to load `{}`",name))
+                                        .with_context(|| format!("failed to load `{}` (`{}`)",name, dep.specifier))
                                 })
                             })
                         })
