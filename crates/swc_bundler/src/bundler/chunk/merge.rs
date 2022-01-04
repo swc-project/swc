@@ -964,14 +964,23 @@ where
                                     for s in specifiers {
                                         match s {
                                             ExportSpecifier::Namespace(s) => {
-                                                vars.push(VarDeclarator {
-                                                    span: s.span,
-                                                    name: Pat::Ident(s.name.clone().into()),
-                                                    init: Some(Box::new(Expr::Ident(
-                                                        mod_var.clone(),
-                                                    ))),
-                                                    definite: Default::default(),
-                                                });
+                                                match &s.name {
+                                                    ModuleExportName::Ident(name) => {
+                                                        vars.push(VarDeclarator {
+                                                            span: s.span,
+                                                            name: Pat::Ident(name.clone().into()),
+                                                            init: Some(Box::new(Expr::Ident(
+                                                                mod_var.clone(),
+                                                            ))),
+                                                            definite: Default::default(),
+                                                        });
+                                                    }
+                                                    ModuleExportName::Str(..) => {
+                                                        unimplemented!(
+                                                            "module string names unimplemented"
+                                                        )
+                                                    }
+                                                };
                                             }
                                             ExportSpecifier::Default(s) => {
                                                 vars.push(VarDeclarator {
@@ -1086,56 +1095,69 @@ where
                                         .iter()
                                         .find(|s| s.0.src.value == src.as_ref().unwrap().value)
                                     {
-                                        if !self.scope.get_module(src.module_id).unwrap().is_es6 {
-                                            continue;
-                                        }
+                                        match &ns.name {
+                                            ModuleExportName::Ident(name) => {
+                                                if !self
+                                                    .scope
+                                                    .get_module(src.module_id)
+                                                    .unwrap()
+                                                    .is_es6
+                                                {
+                                                    continue;
+                                                }
 
-                                        let wrapped_esm_id =
-                                            self.scope.wrapped_esm_id(src.module_id);
-                                        match wrapped_esm_id {
-                                            Some(module_var) => {
-                                                // Create variable for the namespaced export.
-                                                extra.push(
-                                                    module_var
-                                                        .clone()
-                                                        .assign_to(ns.name.clone())
-                                                        .into_module_item(
-                                                            injected_ctxt,
-                                                            "prepare -> namespaced reexport",
-                                                        ),
-                                                );
-                                                let specifier =
-                                                    ExportSpecifier::Named(ExportNamedSpecifier {
-                                                        span: ns.span,
-                                                        orig: ModuleExportName::Ident(
-                                                            module_var.into(),
-                                                        ),
-                                                        exported: Some(ModuleExportName::Ident(
-                                                            ns.name.clone(),
-                                                        )),
-                                                        is_type_only: false,
-                                                    });
-                                                extra.push(ModuleItem::ModuleDecl(
-                                                    ModuleDecl::ExportNamed(NamedExport {
-                                                        span: ns.span,
-                                                        specifiers: vec![specifier],
-                                                        src: None,
-                                                        asserts: None,
-                                                        type_only: false,
-                                                    }),
-                                                ));
+                                                let wrapped_esm_id =
+                                                    self.scope.wrapped_esm_id(src.module_id);
+                                                match wrapped_esm_id {
+                                                    Some(module_var) => {
+                                                        // Create variable for the namespaced
+                                                        // export.
+                                                        extra.push(
+                                                            module_var
+                                                                .clone()
+                                                                .assign_to(name.clone())
+                                                                .into_module_item(
+                                                                    injected_ctxt,
+                                                                    "prepare -> namespaced \
+                                                                     reexport",
+                                                                ),
+                                                        );
+                                                        let specifier = ExportSpecifier::Named(
+                                                            ExportNamedSpecifier {
+                                                                span: ns.span,
+                                                                orig: ModuleExportName::Ident(
+                                                                    module_var.into(),
+                                                                ),
+                                                                exported: Some(ns.name.clone()),
+                                                                is_type_only: false,
+                                                            },
+                                                        );
+                                                        extra.push(ModuleItem::ModuleDecl(
+                                                            ModuleDecl::ExportNamed(NamedExport {
+                                                                span: ns.span,
+                                                                specifiers: vec![specifier],
+                                                                src: None,
+                                                                asserts: None,
+                                                                type_only: false,
+                                                            }),
+                                                        ));
+                                                    }
+                                                    None => {
+                                                        unreachable!(
+                                                            "Modules reexported with `export * as \
+                                                             foo from './foo'` should be marked \
+                                                             as a wrapped esm"
+                                                        )
+                                                    }
+                                                }
+
+                                                // Remove `export * as foo from ''`
+                                                continue;
                                             }
-                                            None => {
-                                                unreachable!(
-                                                    "Modules reexported with `export * as foo \
-                                                     from './foo'` should be marked as a wrapped \
-                                                     esm"
-                                                )
+                                            ModuleExportName::Str(..) => {
+                                                unimplemented!("module string names unimplemented")
                                             }
                                         }
-
-                                        // Remove `export * as foo from ''`
-                                        continue;
                                     }
                                 }
                                 _ => {}
