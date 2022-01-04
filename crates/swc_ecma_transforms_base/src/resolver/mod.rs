@@ -1396,9 +1396,6 @@ impl VisitMut for Hoister<'_, '_> {
     fn visit_mut_function(&mut self, _: &mut Function) {}
 
     #[inline]
-    fn visit_mut_ts_namespace_decl(&mut self, _: &mut TsNamespaceDecl) {}
-
-    #[inline]
     fn visit_mut_ts_module_block(&mut self, _: &mut TsModuleBlock) {}
 
     #[inline]
