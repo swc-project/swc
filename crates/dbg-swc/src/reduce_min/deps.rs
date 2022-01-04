@@ -64,7 +64,7 @@ impl DependencyCollector {
         self.cache
             .lock()
             .unwrap()
-            .insert(name, Arc::new(ModuleData { fm: fm.clone() }));
+            .insert(name.clone(), Arc::new(ModuleData { fm: fm.clone() }));
 
         match &*name {
             FileName::Real(name) => match name.extension() {
