@@ -68,6 +68,9 @@ where
                     if usage.declared_as_catch_param {
                         return;
                     }
+                    if usage.inline_prevented {
+                        return;
+                    }
 
                     if should_preserve && usage.var_kind != Some(VarDeclKind::Const) {
                         if cfg!(feature = "debug") {
