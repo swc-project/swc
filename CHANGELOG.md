@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Refactor
+
+
+
+- **(plugin)** Add a loader for wasm-based plugin system (#3179) ([fc4c670](https://github.com/swc-project/swc/commit/fc4c6708f24cda39640fbbfe56123f2f6eeb2474))
+
 ## [1.2.126] - 2022-01-03
 
 ### Bug Fixes
