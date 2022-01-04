@@ -17,6 +17,7 @@ use swc_ecma_transforms_base::{
 };
 use swc_ecma_transforms_typescript::strip_with_jsx;
 use swc_ecma_visit::{FoldWith, VisitMutWith};
+use swc_node_comments::SwcComments;
 use swc_timer::timer;
 use tracing::{info, span, Level};
 
@@ -49,6 +50,7 @@ impl ReduceMinCommand {
 
         let mut runner = Runner {
             cm: cm.clone(),
+            comments: Default::default(),
             working_dir: self.working_dir,
             build_command: self.build_command,
             test_command: self.test_command,
@@ -66,6 +68,8 @@ impl ReduceMinCommand {
 
 struct Runner {
     cm: Arc<SourceMap>,
+
+    comments: SwcComments,
 
     working_dir: PathBuf,
     build_command: String,
@@ -135,14 +139,14 @@ impl Runner {
 
                 if let Some(ext) = path.extension() {
                     if ext == "tsx" || ext == "ts" {
-                        m.visit_mut_with(&mut ignore_typescript());
+                        m.visit_mut_with(&mut ignore_typescript(self.comments.clone()));
                     }
                 }
 
                 m
             });
 
-            let patched = print_js(self.cm.clone(), &m)?;
+            let patched = print_js(self.cm.clone(), &m, Some(&self.comments))?;
 
             std::fs::write(&path, patched.as_bytes()).context("failed to write patched content")?;
 

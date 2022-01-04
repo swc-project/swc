@@ -1,6 +1,6 @@
 use anyhow::{anyhow, Result};
 use std::sync::Arc;
-use swc_common::{input::SourceFileInput, FileName, SourceFile, SourceMap};
+use swc_common::{comments::Comments, input::SourceFileInput, FileName, SourceFile, SourceMap};
 use swc_ecma_ast::{EsVersion, Module};
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, Syntax, TsConfig};
 use swc_ecma_utils::HANDLER;
@@ -47,7 +47,11 @@ pub(crate) fn parse(fm: &SourceFile) -> Result<Module> {
     })
 }
 
-pub(crate) fn print_js(cm: Arc<SourceMap>, m: &Module) -> Result<String> {
+pub(crate) fn print_js(
+    cm: Arc<SourceMap>,
+    m: &Module,
+    comments: Option<&dyn Comments>,
+) -> Result<String> {
     let mut buf = vec![];
 
     {

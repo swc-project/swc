@@ -89,8 +89,9 @@ impl DiffMinifiedCommand {
         swc_module.visit_mut_with(&mut Normalizer::default());
         terser_module.visit_mut_with(&mut Normalizer::default());
 
-        let swc_output = print_js(cm.clone(), &swc_module).context("failed to print js")?;
-        let terser_output = print_js(cm.clone(), &terser_module).context("failed to print js")?;
+        let swc_output = print_js(cm.clone(), &swc_module, None).context("failed to print js")?;
+        let terser_output =
+            print_js(cm.clone(), &terser_module, None).context("failed to print js")?;
 
         if swc_output == terser_output {
             return Ok(());
