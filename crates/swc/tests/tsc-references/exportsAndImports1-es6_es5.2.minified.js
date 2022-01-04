@@ -1,6 +1,7 @@
 import { I, N, T } from "./t1";
+var D, E, D, M, v = 1;
 function f() {}
-var D, E, D, M, v, E, C = function() {
+var E, C = function() {
     "use strict";
     !function(instance, Constructor) {
         if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
