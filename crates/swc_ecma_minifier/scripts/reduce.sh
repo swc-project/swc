@@ -18,3 +18,10 @@ export MINIFY=$(cargo profile bin-path --example minifier)
 echo "Using $MINIFY"
 
 creduce "$SCRIPT_DIR/_/reduce/compare.sh" input.js
+
+REDUCED_SIZE=$(wc -c <"input.js")
+
+if [ $REDUCED_SIZE -le 3 ]; then
+    rm $1
+    echo "Reduced size is $REDUCED_SIZE bytes. Removing"
+fi
