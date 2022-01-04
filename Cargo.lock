@@ -2692,7 +2692,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.104.0"
+version = "0.105.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3455,7 +3455,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.22.0"
+version = "0.23.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3588,7 +3588,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.24.0"
+version = "0.25.0"
 dependencies = [
  "anyhow",
  "libloading",
@@ -3656,7 +3656,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.20.0"
+version = "0.21.0"
 dependencies = [
  "anyhow",
  "rayon",
