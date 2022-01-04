@@ -147,6 +147,8 @@ impl Runner {
             });
 
             let patched = print_js(self.cm.clone(), &m, Some(&self.comments))?;
+            // Ignore helpers injected by swc
+            let patched = patched.replace("function _", "//@ts-ignore\nfunction _");
 
             std::fs::write(&path, patched.as_bytes()).context("failed to write patched content")?;
 
