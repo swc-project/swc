@@ -86,6 +86,7 @@ impl DependencyCollector {
         let module = parse(&fm)?;
 
         let deps = swc_ecma_dep_graph::analyze_dependencies(&module, &NoopComments);
+        let deps = deps.into_iter().filter(|dep| &*dep.specifier != "next").collect::<Vec<_>>();
 
         let _res = GLOBALS.with(|globals| {
             HANDLER.with(|handler| {
