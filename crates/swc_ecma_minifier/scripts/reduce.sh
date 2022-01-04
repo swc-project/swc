@@ -21,7 +21,7 @@ creduce "$SCRIPT_DIR/_/reduce/compare.sh" input.js
 
 REDUCED_SIZE=$(wc -c <"input.js")
 
-if [ $REDUCED_SIZE -le 3 ]; then
+if [[ "$1" == *"inputs"* && $REDUCED_SIZE -le 3 ]]; then
     git rm --force $1
     git commit -m 'Remove useless input'
     echo "Reduced size is $REDUCED_SIZE bytes. Removing"
