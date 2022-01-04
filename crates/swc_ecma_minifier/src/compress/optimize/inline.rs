@@ -185,6 +185,8 @@ where
                                 _ => true,
                             }
                         {
+                            self.changed = true;
+
                             tracing::debug!(
                                 "inline: Decided to inline '{}{:?}' because it's simple",
                                 i.id.sym,
@@ -196,6 +198,8 @@ where
                             }
 
                             self.lits.insert(i.to_id(), init.take());
+
+                            var.name.take();
                         } else {
                             tracing::debug!(
                                 "inline: Decided to copy '{}{:?}' because it's simple",
