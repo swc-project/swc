@@ -12,6 +12,8 @@ use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver::resolve
 use swc_ecma_visit::VisitMutWith;
 use tracing::{info, span, Level};
 
+mod deps;
+
 /// This tool repeat replacing one file with a minified form at a time.
 #[derive(Debug, StructOpt)]
 pub(crate) struct ReduceMinCommand {
@@ -46,12 +48,6 @@ impl ReduceMinCommand {
 
         runner.run(vec![self.entry])
     }
-}
-
-struct DependencyCollector {
-    cm: Arc<SourceMap>,
-
-    working_dir: PathBuf,
 }
 
 struct Runner {
