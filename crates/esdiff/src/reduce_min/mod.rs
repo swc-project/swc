@@ -8,7 +8,12 @@ use std::{
 use structopt::StructOpt;
 use swc_common::{comments::NoopComments, Mark, SourceMap};
 use swc_ecma_minifier::option::{ExtraOptions, MinifyOptions};
-use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver::resolver_with_mark};
+use swc_ecma_transforms_base::{
+    fixer::fixer,
+    helpers::{Helpers, HELPERS},
+    hygiene::hygiene,
+    resolver::resolver_with_mark,
+};
 use swc_ecma_transforms_typescript::strip_with_jsx;
 use swc_ecma_visit::{FoldWith, VisitMutWith};
 use swc_timer::timer;
@@ -90,37 +95,43 @@ impl Runner {
 
             let mut m = parse(&fm).context("failed to parse input file using swc")?;
 
-            m.visit_mut_with(&mut resolver_with_mark(top_level_mark));
-            m.visit_mut_with(&mut strip_with_jsx(
-                self.cm.clone(),
-                swc_ecma_transforms_typescript::Config {
-                    ..Default::default()
-                },
-                NoopComments,
-                top_level_mark,
-            ));
-            m = m.fold_with(&mut swc_ecma_transforms_react::react(
-                self.cm.clone(),
-                None::<NoopComments>,
-                Default::default(),
-                top_level_mark,
-            ));
+            let helpers = Helpers::new(false);
 
-            m = swc_ecma_minifier::optimize(
-                m,
-                self.cm.clone(),
-                None,
-                None,
-                &MinifyOptions {
-                    compress: Some(Default::default()),
-                    mangle: None,
-                    ..Default::default()
-                },
-                &ExtraOptions { top_level_mark },
-            );
+            m = HELPERS.set(&helpers, || {
+                let mut m = m;
+                m.visit_mut_with(&mut resolver_with_mark(top_level_mark));
+                m.visit_mut_with(&mut strip_with_jsx(
+                    self.cm.clone(),
+                    swc_ecma_transforms_typescript::Config {
+                        ..Default::default()
+                    },
+                    NoopComments,
+                    top_level_mark,
+                ));
+                m = m.fold_with(&mut swc_ecma_transforms_react::react(
+                    self.cm.clone(),
+                    None::<NoopComments>,
+                    Default::default(),
+                    top_level_mark,
+                ));
 
-            m.visit_mut_with(&mut hygiene());
-            m.visit_mut_with(&mut fixer(None));
+                m = swc_ecma_minifier::optimize(
+                    m,
+                    self.cm.clone(),
+                    None,
+                    None,
+                    &MinifyOptions {
+                        compress: Some(Default::default()),
+                        mangle: None,
+                        ..Default::default()
+                    },
+                    &ExtraOptions { top_level_mark },
+                );
+
+                m.visit_mut_with(&mut hygiene());
+                m.visit_mut_with(&mut fixer(None));
+                m
+            });
 
             let patched = print_js(self.cm.clone(), &m)?;
 
