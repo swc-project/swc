@@ -619,6 +619,12 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        let _span = if LOG {
+            Some(span!(Level::ERROR, "visit_mut_expr").entered())
+        } else {
+            None
+        };
+
         self.in_type = false;
         let old = self.ident_type;
         self.ident_type = IdentType::Ref;
@@ -1406,6 +1412,11 @@ impl VisitMut for Hoister<'_, '_> {
         if self.catch_param_decls.contains(&node.ident.sym) {
             return;
         }
+        let _span = if LOG {
+            Some(span!(Level::ERROR, "Hoister.visit_mut_fn_decl").entered())
+        } else {
+            None
+        };
 
         if self.in_block {
             // If we are in nested block, and variable named `foo` is declared, we should
