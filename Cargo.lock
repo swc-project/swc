@@ -2990,7 +2990,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.4.0"
+version = "0.4.1"
 dependencies = [
  "auto_impl",
  "parking_lot",
@@ -3137,7 +3137,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.52.0"
+version = "0.52.1"
 dependencies = [
  "once_cell",
  "phf",
