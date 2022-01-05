@@ -124,8 +124,8 @@ jobs:
               docker pull ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
               docker tag ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine builder
             build: |
-              docker run --rm -v ~/.cargo/git:/root/.cargo/git -v ~/.cargo/registry:/root/.cargo/registry -v $(pwd):/build -w /build builder sh -c "rustup toolchain install $(cat ./rust-toolchain) && rustup target add aarch64-unknown-linux-musl && cargo build -p swc_cli --release --target=aarch64-unknown-linux-musl && rm -rf target/release/.cargo-lock" && cp target/aarch64-unknown-linux-musl/release/swc .
-              docker run --rm -v ~/.cargo/git:/root/.cargo/git -v ~/.cargo/registry:/root/.cargo/registry -v $(pwd):/build -w /build builder sh -c "rustup toolchain install $(cat ./rust-toolchain) && rustup target add aarch64-unknown-linux-musl && yarn build --target=aarch64-unknown-linux-musl && /aarch64-linux-musl-cross/bin/aarch64-linux-musl-strip swc.linux-arm64-musl.node"
+              docker run --rm -v ~/.cargo/git:/root/.cargo/git -v ~/.cargo/registry:/root/.cargo/registry -v $(pwd):/build -w /build builder sh -c "rustup toolchain install $(cat ./rust-toolchain) && rustup target add aarch64-unknown-linux-musl && env RUSTFLAGS='-C target-feature=+sse2 -Z new-llvm-pass-manager=no' cargo build -p swc_cli --release --target=aarch64-unknown-linux-musl && rm -rf target/release/.cargo-lock" && cp target/aarch64-unknown-linux-musl/release/swc .
+              docker run --rm -v ~/.cargo/git:/root/.cargo/git -v ~/.cargo/registry:/root/.cargo/registry -v $(pwd):/build -w /build builder sh -c "rustup toolchain install $(cat ./rust-toolchain) && rustup target add aarch64-unknown-linux-musl && env RUSTFLAGS='-C target-feature=+sse2 -Z new-llvm-pass-manager=no' yarn build --target=aarch64-unknown-linux-musl && /aarch64-linux-musl-cross/bin/aarch64-linux-musl-strip swc.linux-arm64-musl.node"
           - host: windows-latest
             target: aarch64-pc-windows-msvc
             build: |
