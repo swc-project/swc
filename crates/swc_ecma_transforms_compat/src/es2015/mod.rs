@@ -8,7 +8,7 @@ pub use self::{
     typeof_symbol::typeof_symbol,
 };
 use serde::Deserialize;
-use swc_common::{chain, comments::Comments, Mark};
+use swc_common::{chain, comments::Comments, pass::Optional, Mark};
 use swc_ecma_visit::Fold;
 
 mod arrow;
@@ -56,7 +56,8 @@ where
         function_name(),
         exprs(),
         for_of(c.for_of),
-        object_super(),
+        // https://github.com/Microsoft/TypeScript/issues/5441
+        Optional::new(object_super(), !c.typescript),
         // Should come before parameters
         // See: https://github.com/swc-project/swc/issues/1036
         parameters(c.parameters),
@@ -90,6 +91,8 @@ pub struct Config {
 
     #[serde(default)]
     pub parameters: parameters::Config,
+
+    pub typescript: bool,
 }
 
 #[cfg(test)]

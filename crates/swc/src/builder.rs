@@ -240,7 +240,8 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                             },
                             parameters: compat::es2015::parameters::Config {
                                 ignore_function_length: self.loose,
-                            }
+                            },
+                            typescript: syntax.typescript()
                         }
                     ),
                     should_enable(self.target, EsVersion::Es2015)
