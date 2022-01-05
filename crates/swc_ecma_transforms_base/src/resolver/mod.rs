@@ -8,11 +8,12 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, Id};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use tracing::debug;
 
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = false;
+const LOG: bool = true;
 
 /// See [resolver_with_mark] for docs.
 pub fn resolver() -> impl 'static + Fold + VisitMut {
@@ -214,7 +215,7 @@ impl<'a> Resolver<'a> {
     /// Modifies a binding identifier.
     fn modify(&mut self, ident: &mut Ident, kind: Option<VarDeclKind>) {
         if cfg!(debug_assertions) && LOG {
-            eprintln!(
+            debug!(
                 "resolver: Binding (type = {}) {}{:?} {:?}",
                 self.in_type,
                 ident.sym,
@@ -236,7 +237,7 @@ impl<'a> Resolver<'a> {
             } else {
                 let span = ident.span.apply_mark(mark);
                 if cfg!(debug_assertions) && LOG {
-                    eprintln!("\t-> {:?}", span.ctxt());
+                    debug!("\t-> {:?}", span.ctxt());
                 }
                 span
             };
@@ -320,7 +321,7 @@ impl<'a> Resolver<'a> {
         } else {
             let span = ident.span.apply_mark(mark);
             if cfg!(debug_assertions) && LOG {
-                eprintln!("\t-> {:?}", span.ctxt());
+                debug!("\t-> {:?}", span.ctxt());
             }
             span
         };
@@ -729,8 +730,8 @@ impl<'a> VisitMut for Resolver<'a> {
                 let Ident { span, sym, .. } = i;
 
                 if cfg!(debug_assertions) && LOG {
-                    eprintln!(
-                        "resolver: IdentRef (type = {}) {}{:?}",
+                    debug!(
+                        "IdentRef (type = {}) {}{:?}",
                         self.in_type,
                         sym,
                         span.ctxt()
@@ -745,12 +746,12 @@ impl<'a> VisitMut for Resolver<'a> {
                     let span = span.apply_mark(mark);
 
                     if cfg!(debug_assertions) && LOG {
-                        eprintln!("\t -> {:?}", span.ctxt());
+                        debug!("\t -> {:?}", span.ctxt());
                     }
                     i.span = span;
                 } else {
                     if cfg!(debug_assertions) && LOG {
-                        eprintln!("\t -> Unresolved");
+                        debug!("\t -> Unresolved");
                     }
 
                     let mark = {
@@ -774,7 +775,7 @@ impl<'a> VisitMut for Resolver<'a> {
                     let span = span.apply_mark(mark);
 
                     if cfg!(debug_assertions) && LOG {
-                        eprintln!("\t -> {:?}", span.ctxt());
+                        debug!("\t -> {:?}", span.ctxt());
                     }
 
                     i.span = span;
