@@ -13,7 +13,7 @@ use tracing::{debug, span, Level};
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = true && cfg!(debug_assertions);
+const LOG: bool = false && cfg!(debug_assertions);
 
 /// See [resolver_with_mark] for docs.
 pub fn resolver() -> impl 'static + Fold + VisitMut {
