@@ -8,7 +8,7 @@ use swc_ecma_ast::*;
 // use swc_ecma_transforms_base::perf::Parallel;
 // use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{
-    function::{init_this, FunctionWrapper, WrapperState},
+    function::{init_this, FunctionEnvironmentState, FunctionEnvironmentUnwraper},
     member_expr, prepend, prepend_stmts, private_ident, quote_ident, undefined, ExprFactory,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
@@ -25,7 +25,7 @@ pub fn parameters(c: Config) -> impl 'static + Fold {
 struct Params {
     /// Used to store `this, in case if `arguments` is used and we should
     /// transform an arrow expression to a function expression.
-    state: WrapperState,
+    state: FunctionEnvironmentState,
     in_subclass: bool,
     c: Config,
 }
@@ -499,7 +499,9 @@ impl VisitMut for Params {
 
                 // this needs to happen before rest parameter transform
                 if need_arrow_to_function {
-                    f.visit_mut_children_with(&mut FunctionWrapper::new(&mut self.state));
+                    f.visit_mut_children_with(&mut FunctionEnvironmentUnwraper::new(
+                        &mut self.state,
+                    ));
                 }
 
                 let body_span = f.body.span();

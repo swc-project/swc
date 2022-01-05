@@ -3,7 +3,7 @@ use std::mem;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    function::{init_this, FunctionWrapper, WrapperState},
+    function::{init_this, FunctionEnvironmentState, FunctionEnvironmentUnwraper},
     prepend,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, InjectVars, VisitMut, VisitMutWith};
@@ -63,7 +63,7 @@ pub fn arrow() -> impl Fold + VisitMut + InjectVars {
 #[derive(Default)]
 struct Arrow {
     in_subclass: bool,
-    state: WrapperState,
+    state: FunctionEnvironmentState,
 }
 
 impl VisitMut for Arrow {
@@ -115,7 +115,7 @@ impl VisitMut for Arrow {
                 ..
             }) => {
                 params.visit_mut_with(self);
-                params.visit_mut_with(&mut FunctionWrapper::new(&mut self.state));
+                params.visit_mut_with(&mut FunctionEnvironmentUnwraper::new(&mut self.state));
 
                 let params: Vec<Param> = params
                     .take()
@@ -129,7 +129,7 @@ impl VisitMut for Arrow {
 
                 body.visit_mut_with(self);
 
-                body.visit_mut_with(&mut FunctionWrapper::new(&mut self.state));
+                body.visit_mut_with(&mut FunctionEnvironmentUnwraper::new(&mut self.state));
 
                 let fn_expr = Expr::Fn(FnExpr {
                     ident: None,

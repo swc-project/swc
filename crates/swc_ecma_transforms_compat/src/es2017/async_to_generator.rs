@@ -1,11 +1,11 @@
 use std::{iter, mem::replace};
 use swc_common::{util::take::Take, Mark, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{helper, perf::Check};
+use swc_ecma_transforms_base::{ext::ExprRefExt, helper, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
     contains_ident_ref, contains_this_expr,
-    function::{FunctionWrapper, WrapperState},
+    function::{FunctionEnvironmentState, FunctionEnvironmentUnwraper},
     private_ident, quote_ident, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
@@ -124,7 +124,7 @@ impl VisitMut for Actual {
 
         let mut folder = MethodFolder {
             vars: vec![],
-            scope_ident: WrapperState::default(),
+            scope_ident: FunctionEnvironmentState::default(),
         };
         m.function.params.clear();
 
@@ -337,7 +337,7 @@ impl VisitMut for Actual {
 /// ```
 struct MethodFolder {
     vars: Vec<VarDeclarator>,
-    scope_ident: WrapperState,
+    scope_ident: FunctionEnvironmentState,
 }
 
 impl MethodFolder {
@@ -416,7 +416,7 @@ impl VisitMut for MethodFolder {
         match expr {
             // TODO: handle arrow with this in constructor once we remove all this bind
             Expr::Arrow(ArrowExpr { body, .. }) => {
-                body.visit_mut_with(&mut FunctionWrapper::new(&mut self.scope_ident));
+                body.visit_mut_with(&mut FunctionEnvironmentUnwraper::new(&mut self.scope_ident));
             }
             Expr::Fn(FnExpr {
                 function: Function {
@@ -424,7 +424,7 @@ impl VisitMut for MethodFolder {
                 },
                 ..
             }) => {
-                body.visit_mut_with(&mut FunctionWrapper::new(&mut self.scope_ident));
+                body.visit_mut_with(&mut FunctionEnvironmentUnwraper::new(&mut self.scope_ident));
             }
             _ => {}
         };
