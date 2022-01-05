@@ -1,3 +1,2 @@
-let as;
+let as = 100;
 export { as as return, as };
-100..as, 100..return;
