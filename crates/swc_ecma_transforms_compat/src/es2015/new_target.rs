@@ -20,6 +20,7 @@ struct NewTarget {
     in_constructor: bool,
     in_method: bool,
     in_arrow_expr: bool,
+    in_class_prop: bool,
 
     var: Option<VarDeclarator>,
 }
@@ -81,6 +82,16 @@ impl VisitMut for NewTarget {
         self.in_method = old;
     }
 
+    fn visit_mut_class_prop(&mut self, c: &mut ClassProp) {
+        let old = self.in_method;
+
+        self.in_class_prop = true;
+
+        c.visit_mut_children_with(self);
+
+        self.in_method = old;
+    }
+
     fn visit_mut_constructor(&mut self, c: &mut Constructor) {
         let old = self.in_constructor;
 
@@ -111,7 +122,7 @@ impl VisitMut for NewTarget {
             }) => {
                 if self.in_arrow_expr {
                     *e = Expr::Ident(self.var.as_ref().unwrap().name.clone().ident().unwrap().id);
-                } else if self.in_method {
+                } else if self.in_method || self.in_class_prop {
                     *e = *undefined(DUMMY_SP)
                 } else {
                     if let Some(cur) = self.cur.clone() {

@@ -37,5 +37,4 @@ var Generic;
     var c = new C1(1);
     var d = new D1(1); // error
     var e = new E1(1); // error
-})(Generic || (Generic = {
-}));
+})(Generic || (Generic = {}));

@@ -4,6 +4,5 @@ var Bar;
         console.log("foo");
     }
     Bar1.foo = foo;
-})(Bar || (Bar = {
-}));
+})(Bar || (Bar = {}));
 export { Bar as Bar };

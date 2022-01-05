@@ -7,8 +7,7 @@
 // currently unsupported
 var _sym = Symbol();
 var _str = "my-fake-sym";
-function F() {
-}
+function F() {}
 F.prototype[_sym] = "ok";
 F.prototype[_str] = "ok";
 var inst = new F();

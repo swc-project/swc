@@ -1,16 +1,15 @@
 var TypeScript, TypeScript1;
 (function(CompilerDiagnostics) {
+    var debug = CompilerDiagnostics.debug = !1, diagnosticWriter = CompilerDiagnostics.diagnosticWriter = null;
     function Alert(output) {
         diagnosticWriter && diagnosticWriter.Alert(output);
     }
-    CompilerDiagnostics.debug = !1, CompilerDiagnostics.diagnosticWriter = null, CompilerDiagnostics.analysisPass = 0, CompilerDiagnostics.Alert = Alert, CompilerDiagnostics.debugPrint = function(s) {
+    CompilerDiagnostics.analysisPass = 0, CompilerDiagnostics.Alert = Alert, CompilerDiagnostics.debugPrint = function(s) {
         debug && Alert(s);
     }, CompilerDiagnostics.assert = function(condition, s) {
         debug && (condition || Alert(s));
     };
-})((TypeScript1 = TypeScript || (TypeScript = {
-})).CompilerDiagnostics || (TypeScript1.CompilerDiagnostics = {
-})), TypeScript1.NullLogger = class {
+})((TypeScript1 = TypeScript || (TypeScript = {})).CompilerDiagnostics || (TypeScript1.CompilerDiagnostics = {})), TypeScript1.NullLogger = class {
     information() {
         return !1;
     }
@@ -26,8 +25,7 @@ var TypeScript, TypeScript1;
     fatal() {
         return !1;
     }
-    log(s) {
-    }
+    log(s) {}
 }, TypeScript1.LoggerAdapter = class {
     information() {
         return this._information;

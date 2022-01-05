@@ -5,15 +5,11 @@ export var y = {
 };
 export class C {
 }
-(M = M1 || (M1 = {
-})).foo = "", M.C = class {
+(M = M1 || (M1 = {})).foo = "", M.C = class {
 };
 export var Z = M1;
-(E = E || (E = {
-}))[E.A = 0] = "A";
-function foo1() {
-}
+(E = E || (E = {}))[E.A = 0] = "A";
+function foo1() {}
 export { foo1 as foo };
-(foo = foo1 || (foo1 = {
-})).y = 1, foo.C = class {
+(foo = foo1 || (foo1 = {})).y = 1, foo.C = class {
 };

@@ -14,11 +14,8 @@ var A;
                     y: 0
                 }, p);
             }
-            constructor(start, end){
-            }
+            constructor(start, end){}
         }
         B.Line = Line;
-    })(A1.B || (A1.B = {
-    }));
-}(A || (A = {
-}));
+    })(A1.B || (A1.B = {}));
+}(A || (A = {}));

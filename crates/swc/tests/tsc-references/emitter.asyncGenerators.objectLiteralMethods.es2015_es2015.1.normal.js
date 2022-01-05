@@ -95,8 +95,7 @@ function _wrapAsyncGenerator(fn) {
 // @filename: O1.ts
 const o1 = {
     f () {
-        return _wrapAsyncGenerator(function*() {
-        })();
+        return _wrapAsyncGenerator(function*() {})();
     }
 };
 // @filename: O2.ts

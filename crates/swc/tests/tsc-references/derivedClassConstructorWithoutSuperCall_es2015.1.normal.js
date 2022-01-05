@@ -2,8 +2,7 @@
 class Base {
 }
 class Derived extends Base {
-    constructor(){
-    }
+    constructor(){}
 }
 class Base2 {
 }

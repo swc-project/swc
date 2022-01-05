@@ -12,5 +12,4 @@ var C2 = function C2() {
     "use strict";
     _classCallCheck(this, C2);
 };
-function foo() {
-}
+function foo() {}

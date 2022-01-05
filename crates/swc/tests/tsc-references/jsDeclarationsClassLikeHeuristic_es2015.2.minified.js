@@ -1,3 +1,1 @@
-({
-}).prototype.b = {
-};
+({}).prototype.b = {};

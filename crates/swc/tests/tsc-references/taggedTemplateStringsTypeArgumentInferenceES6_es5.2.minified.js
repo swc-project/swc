@@ -286,29 +286,21 @@ function _templateObject27() {
         return data;
     }, data;
 }
-function someGenerics3(strs, producer) {
-}
-function someGenerics4(strs, n, f) {
-}
-function someGenerics5(strs, n, f) {
-}
-function someGenerics6(strs, a, b, c) {
-}
-function someGenerics7(strs, a, b, c) {
-}
+function someGenerics3(strs, producer) {}
+function someGenerics4(strs, n, f) {}
+function someGenerics5(strs, n, f) {}
+function someGenerics6(strs, a, b, c) {}
+function someGenerics7(strs, a, b, c) {}
 function someGenerics9(strs, a, b, c) {
     return null;
 }
-!function(strs, n) {
-}(_templateObject4(), function(n) {
+!function(strs, n) {}(_templateObject4(), function(n) {
     return n;
-}), (function(strs, n) {
-})(_templateObject5(), function(n, x) {
+}), (function(strs, n) {})(_templateObject5(), function(n, x) {
     return n;
 }), someGenerics3(_templateObject6(), function() {
     return "";
-}), someGenerics3(_templateObject7(), function() {
-}), someGenerics3(_templateObject8(), function() {
+}), someGenerics3(_templateObject7(), function() {}), someGenerics3(_templateObject8(), function() {
     return 3;
 }), someGenerics4(_templateObject9(), 4, function() {
     return null;

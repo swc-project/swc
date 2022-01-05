@@ -11,19 +11,15 @@ export default function Home() {
             /*#__PURE__*/ _jsxs("g", {
                 className: "group",
                 children: [
-                    /*#__PURE__*/ _jsx("path", {
-                    }),
-                    /*#__PURE__*/ _jsx("path", {
-                    })
+                    /*#__PURE__*/ _jsx("path", {}),
+                    /*#__PURE__*/ _jsx("path", {})
                 ]
             }),
             /*#__PURE__*/ _jsxs("g", {
                 className: "group",
                 children: [
-                    /*#__PURE__*/ _jsx("path", {
-                    }),
-                    /*#__PURE__*/ _jsx("path", {
-                    })
+                    /*#__PURE__*/ _jsx("path", {}),
+                    /*#__PURE__*/ _jsx("path", {})
                 ]
             })
         ]

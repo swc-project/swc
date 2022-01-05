@@ -1,6 +1,5 @@
 //@module: commonjs
 //@filename: foo.ts
-export function foo() {
-}
+export function foo() {}
 foo;
 foo;

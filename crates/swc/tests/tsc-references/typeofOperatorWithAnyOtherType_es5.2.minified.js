@@ -1,9 +1,14 @@
-var ANY, ANY1, obj, M, _typeof = function(obj1) {
-    return obj1 && "undefined" != typeof Symbol && obj1.constructor === Symbol ? "symbol" : typeof obj1;
+var ANY, ANY1, obj, M, _typeof = function(obj2) {
+    return obj2 && "undefined" != typeof Symbol && obj2.constructor === Symbol ? "symbol" : typeof obj2;
 }, ANY2 = [
     "",
     ""
-], A = function() {
+], obj1 = {
+    x: "a",
+    y: function() {}
+};
+function foo() {}
+var A = function() {
     "use strict";
     var Constructor;
     function A() {
@@ -19,23 +24,20 @@ var ANY, ANY1, obj, M, _typeof = function(obj1) {
     })(Constructor = A, [
         {
             key: "foo",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), A;
 }();
 !function(M1) {
     var n;
     M1.n = n;
-}(M || (M = {
-}));
+}(M || (M = {}));
 var objA = new A();
-void 0 === ANY1 || _typeof(ANY1), void 0 === M || _typeof(M), void 0 === obj || _typeof(obj), _typeof(null), _typeof({
-}), _typeof(ANY2[0]), _typeof(objA.a), _typeof("a"), _typeof(M.n), _typeof(void 0), _typeof(A.foo()), _typeof(ANY + ANY1), _typeof(NaN), _typeof(0), _typeof(NaN), _typeof(void 0 === ANY ? "undefined" : _typeof(ANY)), _typeof(_typeof(_typeof(ANY + ANY1))), void 0 === ANY || _typeof(ANY), void 0 === ANY1 || _typeof(ANY1), _typeof(ANY2[0]), void 0 === ANY || _typeof(ANY), _typeof("a"), _typeof(objA.a), _typeof(M.n);
+void 0 === ANY1 || _typeof(ANY1), _typeof(ANY2), _typeof(A), void 0 === M || _typeof(M), void 0 === obj || _typeof(obj), _typeof(obj1), _typeof(null), _typeof({}), _typeof(ANY2[0]), _typeof(objA.a), _typeof(obj1.x), _typeof(M.n), _typeof(foo()), _typeof(A.foo()), _typeof(ANY + ANY1), _typeof(NaN), _typeof(0), _typeof(NaN), _typeof(void 0 === ANY ? "undefined" : _typeof(ANY)), _typeof(_typeof(_typeof(ANY + ANY1))), void 0 === ANY || _typeof(ANY), void 0 === ANY1 || _typeof(ANY1), _typeof(ANY2[0]), void 0 === ANY || _typeof(ANY), _typeof(obj1), _typeof(obj1.x), _typeof(objA.a), _typeof(M.n);
 z: void 0 === ANY || _typeof(ANY);
-x: ;
-r: ;
+x: _typeof(ANY2);
+r: _typeof(foo);
 z: _typeof(objA.a);
 z: _typeof(A.foo);
 z: _typeof(M.n);
-z: _typeof("a");
+z: _typeof(obj1.x);

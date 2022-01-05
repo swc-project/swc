@@ -8,7 +8,6 @@ function _extends() {
         return target;
     }).apply(this, arguments);
 }
-React.createElement("div", null, blah), React.createElement("div", _extends({
-}, p, {
+React.createElement("div", null, blah), React.createElement("div", _extends({}, p, {
     x: 0
 }));

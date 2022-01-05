@@ -3,13 +3,11 @@ function __swcpack_require__(mod) {
         if (obj && obj.__esModule) {
             return obj;
         } else {
-            var newObj = {
-            };
+            var newObj = {};
             if (obj != null) {
                 for(var key in obj){
                     if (Object.prototype.hasOwnProperty.call(obj, key)) {
-                        var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {
-                        };
+                        var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {};
                         if (desc.get || desc.set) {
                             Object.defineProperty(newObj, key, desc);
                         } else {
@@ -27,8 +25,7 @@ function __swcpack_require__(mod) {
         return cache;
     }
     var module = {
-        exports: {
-        }
+        exports: {}
     };
     mod(module, module.exports);
     cache = interop(module.exports);
@@ -73,8 +70,7 @@ var load = __swcpack_require__.bind(void 0, function(module, exports1) {
         var Op = Object.prototype;
         var hasOwn = Op.hasOwnProperty;
         var undefined; // More compressible than void 0.
-        var $Symbol = typeof Symbol === "function" ? Symbol : {
-        };
+        var $Symbol = typeof Symbol === "function" ? Symbol : {};
         var iteratorSymbol = $Symbol.iterator || "@@iterator";
         var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
         var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
@@ -89,8 +85,7 @@ var load = __swcpack_require__.bind(void 0, function(module, exports1) {
         }
         try {
             // IE 8 has a broken Object.defineProperty that only works on DOM objects.
-            define({
-            }, "");
+            define({}, "");
         } catch (err1) {
             define = function(obj, key, value) {
                 return obj[key] = value;
@@ -136,22 +131,17 @@ var load = __swcpack_require__.bind(void 0, function(module, exports1) {
         var GenStateCompleted = "completed";
         // Returning this object from the innerFn has the same effect as
         // breaking out of the dispatch switch statement.
-        var ContinueSentinel = {
-        };
+        var ContinueSentinel = {};
         // Dummy constructor functions that we use as the .constructor and
         // .constructor.prototype properties for functions that return Generator
         // objects. For full spec compliance, you may wish to configure your
         // minifier not to mangle the names of these two functions.
-        function Generator() {
-        }
-        function GeneratorFunction() {
-        }
-        function GeneratorFunctionPrototype() {
-        }
+        function Generator() {}
+        function GeneratorFunction() {}
+        function GeneratorFunctionPrototype() {}
         // This is a polyfill for %IteratorPrototype% for environments that
         // don't natively support it.
-        var IteratorPrototype = {
-        };
+        var IteratorPrototype = {};
         define(IteratorPrototype, iteratorSymbol, function() {
             return this;
         });
@@ -413,8 +403,7 @@ var load = __swcpack_require__.bind(void 0, function(module, exports1) {
             this.tryEntries.push(entry);
         }
         function resetTryEntry(entry) {
-            var record = entry.completion || {
-            };
+            var record = entry.completion || {};
             record.type = "normal";
             delete record.arg;
             entry.completion = record;
@@ -556,8 +545,7 @@ var load = __swcpack_require__.bind(void 0, function(module, exports1) {
                 if (finallyEntry && (type === "break" || type === "continue") && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc) // Ignore the finally entry if control is not jumping to a
                 // location outside the try/catch block.
                 finallyEntry = null;
-                var record = finallyEntry ? finallyEntry.completion : {
-                };
+                var record = finallyEntry ? finallyEntry.completion : {};
                 record.type = type;
                 record.arg = arg;
                 if (finallyEntry) {
@@ -624,8 +612,7 @@ var load = __swcpack_require__.bind(void 0, function(module, exports1) {
     // as the regeneratorRuntime namespace. Otherwise create a new empty
     // object. Either way, the resulting object will be used to initialize
     // the regeneratorRuntime variable at the top of this file.
-    typeof module === "object" ? module.exports : {
-    });
+    typeof module === "object" ? module.exports : {});
     try {
         regeneratorRuntime = runtime;
     } catch (accidentalStrictMode) {

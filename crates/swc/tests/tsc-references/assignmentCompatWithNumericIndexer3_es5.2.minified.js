@@ -34,8 +34,7 @@ var B2 = function(A1) {
             if (Reflect.construct.sham) return !1;
             if ("function" == typeof Proxy) return !0;
             try {
-                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                })), !0;
+                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
             } catch (e) {
                 return !1;
             }
@@ -62,5 +61,4 @@ b2 = b2, (function(Generics) {
         "use strict";
         _classCallCheck(this, A2);
     };
-})(Generics || (Generics = {
-}));
+})(Generics || (Generics = {}));

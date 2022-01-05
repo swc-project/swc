@@ -1,7 +1,6 @@
 export function HeaderCTA() {
     const varB = function() {
-        const [a1, a1_set] = useState({
-        });
+        const [a1, a1_set] = useState({});
         return useEffect(()=>{
             a1_set(JSON.parse(GLOBALS.get(CONST1) || "{}"));
         }, []), a1;

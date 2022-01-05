@@ -1,8 +1,7 @@
 // @Filename: mod1.js
 /// <reference path='./requires.d.ts' />
 module.exports = 1;
-module.exports.f = function() {
-};
+module.exports.f = function() {};
 // @Filename: a.js
 /// <reference path='./requires.d.ts' />
 var mod1 = require('./mod1');

@@ -3,14 +3,12 @@ var A;
     class Point {
     }
     A1.Point = Point;
-})(A || (A = {
-}));
+})(A || (A = {}));
 (function(A2) {
     class Point {
     }
     A2.Point = Point;
-})(A || (A = {
-}));
+})(A || (A = {}));
 var X;
 (function(X1) {
     let Y1;
@@ -20,12 +18,9 @@ var X;
             class Line {
             }
             Z.Line = Line;
-        })(Z1 = Y.Z || (Y.Z = {
-        }));
-    })(Y1 = X1.Y || (X1.Y = {
-    }));
-})(X || (X = {
-}));
+        })(Z1 = Y.Z || (Y.Z = {}));
+    })(Y1 = X1.Y || (X1.Y = {}));
+})(X || (X = {}));
 (function(X2) {
     let Y2;
     (function(Y) {
@@ -34,9 +29,6 @@ var X;
             class Line {
             }
             Z.Line = Line;
-        })(Z2 = Y.Z || (Y.Z = {
-        }));
-    })(Y2 = X2.Y || (X2.Y = {
-    }));
-})(X || (X = {
-}));
+        })(Z2 = Y.Z || (Y.Z = {}));
+    })(Y2 = X2.Y || (X2.Y = {}));
+})(X || (X = {}));

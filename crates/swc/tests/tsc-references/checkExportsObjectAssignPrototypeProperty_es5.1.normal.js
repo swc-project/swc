@@ -26,8 +26,7 @@ Object.defineProperty(Person.prototype, "rwAccessors", {
     get: function get() {
         return 98122;
     },
-    set: function set(_) {
-    }
+    set: function set(_) {}
 });
 Object.defineProperty(Person.prototype, "readonlyAccessor", {
     get: function get() {

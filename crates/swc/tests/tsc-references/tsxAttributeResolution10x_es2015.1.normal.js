@@ -1,7 +1,6 @@
 //@filename: file.tsx
 export class MyComponent {
-    render() {
-    }
+    render() {}
 }
 // Should be an error
 /*#__PURE__*/ React.createElement(MyComponent, {

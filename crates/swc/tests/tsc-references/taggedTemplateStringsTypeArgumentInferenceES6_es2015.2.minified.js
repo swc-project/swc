@@ -1,25 +1,14 @@
 var anyVar;
-function someGenerics3(strs, producer) {
-}
-function someGenerics4(strs, n, f) {
-}
-function someGenerics5(strs, n, f) {
-}
-function someGenerics6(strs, a, b, c) {
-}
-function someGenerics7(strs, a, b, c) {
-}
+function someGenerics3(strs, producer) {}
+function someGenerics4(strs, n, f) {}
+function someGenerics5(strs, n, f) {}
+function someGenerics6(strs, a, b, c) {}
+function someGenerics7(strs, a, b, c) {}
 function someGenerics9(strs, a, b, c) {
     return null;
 }
-(function(n) {
-})``, (function(n) {
-})``, (function(n, m) {
-})`${3}`, (function(n, m) {
-})`${3}`, (function(strs, n) {
-})`${(n)=>n
-}`, (function(strs, n) {
-})`${(n, x)=>n
+(function(n) {})``, (function(n) {})``, (function(n, m) {})`${3}`, (function(n, m) {})`${3}`, (function(strs, n) {})`${(n)=>n
+}`, (function(strs, n) {})`${(n, x)=>n
 }`, someGenerics3`${()=>''
 }`, someGenerics3`${()=>undefined
 }`, someGenerics3`${()=>3

@@ -29,15 +29,14 @@ var A = function() {
 !function(M1) {
     var n;
     M1.n = n;
-}(M || (M = {
-}));
+}(M || (M = {}));
 var objA = new A();
 void 0 === BOOLEAN || _typeof(BOOLEAN), _typeof(!0), _typeof({
     x: !0,
     y: !1
 }), _typeof(objA.a), _typeof(M.n), _typeof(foo()), _typeof(A.foo()), _typeof(void 0 === BOOLEAN ? "undefined" : _typeof(BOOLEAN)), _typeof(!0), void 0 === BOOLEAN || _typeof(BOOLEAN), _typeof(foo()), _typeof(!0), _typeof(objA.a), _typeof(M.n);
 z: void 0 === BOOLEAN || _typeof(BOOLEAN);
-r: ;
+r: _typeof(foo);
 z: _typeof(!0);
 z: _typeof(objA.a);
 z: _typeof(A.foo);

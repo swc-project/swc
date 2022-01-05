@@ -7,5 +7,4 @@ function _defineProperty(obj, key, value) {
         writable: !0
     }) : obj[key] = value, obj;
 }
-foo((_defineProperty(_obj = {
-}, Symbol.isConcatSpreadable, ""), _defineProperty(_obj, Symbol.toPrimitive, 0), _defineProperty(_obj, Symbol.unscopables, !0), _obj));
+foo((_defineProperty(_obj = {}, Symbol.isConcatSpreadable, ""), _defineProperty(_obj, Symbol.toPrimitive, 0), _defineProperty(_obj, Symbol.unscopables, !0), _obj));

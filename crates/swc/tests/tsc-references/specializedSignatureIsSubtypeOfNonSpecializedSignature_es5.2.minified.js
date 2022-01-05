@@ -18,8 +18,7 @@ var C = function() {
     return _createClass(C, [
         {
             key: "foo",
-            value: function(x) {
-            }
+            value: function(x) {}
         }
     ]), C;
 }(), C2 = function() {
@@ -30,8 +29,7 @@ var C = function() {
     return _createClass(C2, [
         {
             key: "foo",
-            value: function(x) {
-            }
+            value: function(x) {}
         }
     ]), C2;
 }(), C3 = function() {
@@ -42,8 +40,7 @@ var C = function() {
     return _createClass(C3, [
         {
             key: "foo",
-            value: function(x) {
-            }
+            value: function(x) {}
         }
     ]), C3;
 }();

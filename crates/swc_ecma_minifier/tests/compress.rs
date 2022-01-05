@@ -261,34 +261,6 @@ fn find_config(dir: &Path) -> String {
     panic!("failed to find config file for {}", dir.display())
 }
 
-#[testing::fixture("tests/diff/**/input.js")]
-fn for_diff(input: PathBuf) {
-    let dir = input.parent().unwrap();
-    let config = find_config(&dir);
-    eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
-
-    testing::run_test2(false, |cm, handler| {
-        let output = run(cm.clone(), &handler, &input, &config, None, true);
-        let output_module = match output {
-            Some(v) => v,
-            None => return Ok(()),
-        };
-
-        let output = print(cm.clone(), &[output_module.clone()], true, true);
-
-        eprintln!("---- {} -----\n{}", Color::Green.paint("Ourput"), output);
-
-        println!("{}", input.display());
-
-        NormalizedOutput::from(output)
-            .compare_to_file(dir.join("output.js"))
-            .unwrap();
-
-        Ok(())
-    })
-    .unwrap()
-}
-
 #[testing::fixture("tests/compress/fixture/**/input.js")]
 fn base_fixture(input: PathBuf) {
     let dir = input.parent().unwrap();

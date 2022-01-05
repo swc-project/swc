@@ -1,4 +1,3 @@
 a = {
-    get false () {
-    }
+    get false () {}
 };

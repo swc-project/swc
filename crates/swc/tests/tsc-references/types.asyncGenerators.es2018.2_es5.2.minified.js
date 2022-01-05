@@ -63,8 +63,7 @@ function _inferReturnType1() {
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    return _ctx.delegateYield({
-                    }, "t0", 1);
+                    return _ctx.delegateYield({}, "t0", 1);
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -304,8 +303,7 @@ function _yieldStar() {
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    return _ctx.delegateYield({
-                    }, "t0", 1);
+                    return _ctx.delegateYield({}, "t0", 1);
                 case 1:
                 case "end":
                     return _ctx.stop();

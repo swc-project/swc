@@ -5,8 +5,7 @@ export const E = {
             urls
         ]), (options = Y.merge(this.options, options)).attributes = Y.merge(this.options.attributes, options.attributes), i = 0, len = urls.length; i < len; ++i){
             if (req = {
-                attributes: {
-                }
+                attributes: {}
             }, "string" == typeof (url = urls[i])) req.url = url;
             else {
                 if (!url.url) continue;

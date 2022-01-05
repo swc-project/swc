@@ -49,8 +49,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -117,8 +116,7 @@ var TargetHasOptional;
     b = f;
     b = a;
     b = c;
-})(TargetHasOptional || (TargetHasOptional = {
-}));
+})(TargetHasOptional || (TargetHasOptional = {}));
 var SourceHasOptional;
 (function(SourceHasOptional) {
     var c;
@@ -142,5 +140,4 @@ var SourceHasOptional;
     b = f; // ok
     b = a; // ok
     b = c; // ok
-})(SourceHasOptional || (SourceHasOptional = {
-}));
+})(SourceHasOptional || (SourceHasOptional = {}));

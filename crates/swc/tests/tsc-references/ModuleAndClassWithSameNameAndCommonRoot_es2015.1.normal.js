@@ -5,13 +5,10 @@ var X;
     (function(Y) {
         let Point1;
         (function(Point) {
-            Point.Origin = new Point1(0, 0);
-        })(Point1 = Y.Point || (Y.Point = {
-        }));
-    })(Y1 = X1.Y || (X1.Y = {
-    }));
-})(X || (X = {
-}));
+            var Origin = Point.Origin = new Point1(0, 0);
+        })(Point1 = Y.Point || (Y.Point = {}));
+    })(Y1 = X1.Y || (X1.Y = {}));
+})(X || (X = {}));
 (function(X2) {
     let Y2;
     (function(Y) {
@@ -22,14 +19,11 @@ var X;
             }
         }
         Y.Point = Point;
-    })(Y2 = X2.Y || (X2.Y = {
-    }));
-})(X || (X = {
-}));
+    })(Y2 = X2.Y || (X2.Y = {}));
+})(X || (X = {}));
 (function(A1) {
-    A1.Instance = new A();
-})(A || (A = {
-}));
+    var Instance = A1.Instance = new A();
+})(A || (A = {}));
 // duplicate identifier
 class A {
 }

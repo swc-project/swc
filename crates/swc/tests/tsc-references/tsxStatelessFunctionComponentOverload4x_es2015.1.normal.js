@@ -31,28 +31,22 @@ const c0 = /*#__PURE__*/ React.createElement(OneThing, {
 const c1 = /*#__PURE__*/ React.createElement(OneThing, {
     yy: 10
 }); // missing property;
-const c2 = /*#__PURE__*/ React.createElement(OneThing, _extends({
-}, obj, {
+const c2 = /*#__PURE__*/ React.createElement(OneThing, _extends({}, obj, {
     yy1: true
 })); // type incompatible;
-const c3 = /*#__PURE__*/ React.createElement(OneThing, _extends({
-}, obj, {
+const c3 = /*#__PURE__*/ React.createElement(OneThing, _extends({}, obj, {
     extra: "extra attr"
 })); //  This is OK because all attribute are spread
-const c4 = /*#__PURE__*/ React.createElement(OneThing, _extends({
-}, obj, {
+const c4 = /*#__PURE__*/ React.createElement(OneThing, _extends({}, obj, {
     y1: 10000
 })); // extra property;
-const c5 = /*#__PURE__*/ React.createElement(OneThing, _extends({
-}, obj, {
+const c5 = /*#__PURE__*/ React.createElement(OneThing, _extends({}, obj, {
     yy: true
 })); // type incompatible;
-const c6 = /*#__PURE__*/ React.createElement(OneThing, _extends({
-}, obj2, {
+const c6 = /*#__PURE__*/ React.createElement(OneThing, _extends({}, obj2, {
     extra: "extra attr"
 })); // Should error as there is extra attribute that doesn't match any. Current it is not
-const c7 = /*#__PURE__*/ React.createElement(OneThing, _extends({
-}, obj2, {
+const c7 = /*#__PURE__*/ React.createElement(OneThing, _extends({}, obj2, {
     yy: true
 })); // Should error as there is extra attribute that doesn't match any. Current it is not
 // Error

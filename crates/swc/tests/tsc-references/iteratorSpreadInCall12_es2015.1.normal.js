@@ -1,7 +1,6 @@
 //@target: ES6
 class Foo {
-    constructor(...s){
-    }
+    constructor(...s){}
 }
 var tmp = Symbol.iterator;
 class SymbolIterator {

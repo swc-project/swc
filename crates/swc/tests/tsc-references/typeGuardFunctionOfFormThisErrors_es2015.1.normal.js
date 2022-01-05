@@ -8,12 +8,10 @@ class RoyalGuard {
     }
 }
 class LeadGuard extends RoyalGuard {
-    lead() {
-    }
+    lead() {}
 }
 class FollowerGuard extends RoyalGuard {
-    follow() {
-    }
+    follow() {}
 }
 let a = new FollowerGuard();
 let b = new LeadGuard();

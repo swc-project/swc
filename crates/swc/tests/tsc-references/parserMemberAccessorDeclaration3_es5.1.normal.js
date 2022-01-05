@@ -26,8 +26,7 @@ var C = // @target: es5
     _createClass(C, [
         {
             key: 0,
-            get: function get() {
-            }
+            get: function get() {}
         }
     ]);
     return C;

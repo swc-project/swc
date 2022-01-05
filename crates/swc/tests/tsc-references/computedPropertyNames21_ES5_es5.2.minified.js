@@ -21,8 +21,7 @@ var tmp = this.bar(), C = function() {
         },
         {
             key: tmp,
-            value: function() {
-            }
+            value: function() {}
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }();

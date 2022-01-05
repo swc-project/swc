@@ -31,10 +31,8 @@ function _asyncToGenerator(fn) {
 // @lib: es5,es2015.promise
 // @noEmitHelpers: true
 class A {
-    x() {
-    }
-    y() {
-    }
+    x() {}
+    y() {}
 }
 class B extends A {
     // async method with only call/get on 'super' does not require a binding
@@ -72,8 +70,7 @@ class B extends A {
         , _super_method4 = ()=>super["x"]
         ;
         return _asyncToGenerator(function*() {
-            const f = ()=>{
-            };
+            const f = ()=>{};
             // call with property access
             _super_x();
             // call with element access

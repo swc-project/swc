@@ -25,8 +25,7 @@ var clodule = /*#__PURE__*/ function() {
     _createClass(clodule, null, [
         {
             key: "fn",
-            value: function fn(id) {
-            }
+            value: function fn(id) {}
         }
     ]);
     return clodule;
@@ -36,5 +35,4 @@ var clodule = /*#__PURE__*/ function() {
         return x;
     };
     clodule.fn = fn;
-})(clodule || (clodule = {
-}));
+})(clodule || (clodule = {}));

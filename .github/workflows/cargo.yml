@@ -107,8 +107,6 @@ jobs:
           - from_variant
           - jsdoc
           - node
-          - rplugin
-          - rplugin_macros
           - string_enum
           - swc
           - swc_atoms
@@ -133,7 +131,6 @@ jobs:
           - swc_ecma_loader
           - swc_ecma_minifier
           - swc_ecma_parser
-          - swc_ecma_plugin_ast
           - swc_ecma_preset_env
           - swc_ecma_transforms
           - swc_ecma_transforms_base
@@ -280,37 +277,3 @@ jobs:
         if: matrix.crate == 'swc' && runner.os != 'Windows'
         run: |
           cargo test --color always -p swc --features concurrent
-
-  deploy-docs:
-    name: Docs
-    runs-on: ubuntu-latest
-    # if: github.ref == 'refs/heads/main'
-    # needs:
-    #   - test
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-
-      - name: Create rustdoc
-        run: cargo doc --all
-
-      - name: Create CNAME
-        run: |
-          echo 'rustdoc.swc.rs' > target/doc/CNAME
-
-      - name: Deploy
-        if: github.ref == 'refs/heads/main'
-        uses: JamesIves/github-pages-deploy-action@4.1.0
-        with:
-          token: ${{ secrets.GH_TOKEN }}
-          branch: gh-pages
-          folder: target/doc
-          clean: true
-          git-config-email: github-bot@swc.rs
-          repository-name: swc-project/rustdoc
-          commit-message: "Update"
-          single-commit: true

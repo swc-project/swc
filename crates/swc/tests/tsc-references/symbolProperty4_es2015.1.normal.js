@@ -1,8 +1,7 @@
 //@target: ES6
 var x = {
     [Symbol()]: 0,
-    [Symbol()] () {
-    },
+    [Symbol()] () {},
     get [Symbol()] () {
         return 0;
     }

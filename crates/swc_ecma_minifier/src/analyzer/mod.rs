@@ -13,7 +13,7 @@ use swc_common::{
     SyntaxContext,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, Id};
+use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 mod ctx;
@@ -392,6 +392,24 @@ where
         }
     }
 
+    fn visit_default_decl(&mut self, d: &DefaultDecl) {
+        d.visit_children_with(self);
+
+        match d {
+            DefaultDecl::Class(c) => {
+                if let Some(i) = &c.ident {
+                    self.data.var_or_default(i.to_id()).prevent_inline();
+                }
+            }
+            DefaultDecl::Fn(f) => {
+                if let Some(i) = &f.ident {
+                    self.data.var_or_default(i.to_id()).prevent_inline();
+                }
+            }
+            _ => {}
+        }
+    }
+
     fn visit_do_while_stmt(&mut self, n: &DoWhileStmt) {
         let ctx = Ctx {
             in_loop: true,
@@ -401,8 +419,35 @@ where
         n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
+    fn visit_export_decl(&mut self, n: &ExportDecl) {
+        n.visit_children_with(self);
+
+        match &n.decl {
+            Decl::Class(c) => {
+                self.data.var_or_default(c.ident.to_id()).prevent_inline();
+            }
+            Decl::Fn(f) => {
+                self.data.var_or_default(f.ident.to_id()).prevent_inline();
+            }
+            Decl::Var(v) => {
+                let ids = find_ids(v);
+
+                for id in ids {
+                    self.data.var_or_default(id).prevent_inline();
+                }
+            }
+            _ => {}
+        }
+    }
+
     fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {
-        self.report_usage(&n.orig, false)
+        match &n.orig {
+            ModuleExportName::Ident(orig) => {
+                self.report_usage(orig, false);
+                self.data.var_or_default(orig.to_id()).prevent_inline();
+            }
+            ModuleExportName::Str(..) => {}
+        };
     }
 
     fn visit_expr(&mut self, e: &Expr) {

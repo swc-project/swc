@@ -1,2 +1,1 @@
-(function yield() {
-});
+(function yield() {});

@@ -11,7 +11,6 @@ function _defineProperty(obj, key, value) {
     }
     return obj;
 }
-foo("", _defineProperty({
-}, Symbol.unscopables, function(s) {
+foo("", _defineProperty({}, Symbol.unscopables, function(s) {
     return s.length;
 }));

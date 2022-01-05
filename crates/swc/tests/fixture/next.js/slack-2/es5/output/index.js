@@ -25,8 +25,7 @@ var Foo = /*#__PURE__*/ function() {
     _createClass(Foo, [
         {
             key: "true",
-            value: function _true() {
-            }
+            value: function _true() {}
         }
     ]);
     return Foo;

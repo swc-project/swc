@@ -7,9 +7,8 @@ var A;
         }
     }
     A1.Point = Point;
-    A1.Origin = new Point(0, 0);
-})(A || (A = {
-}));
+    var Origin = A1.Origin = new Point(0, 0);
+})(A || (A = {}));
 // no code gen expected
 var C;
 (function(C) {
@@ -19,15 +18,13 @@ var C;
         x: 0,
         y: 0
     };
-})(C || (C = {
-}));
+})(C || (C = {}));
 // code gen expected
 var D;
 (function(D) {
     var a = A;
     var p = new a.Point(1, 1);
-})(D || (D = {
-}));
+})(D || (D = {}));
 var E;
 (function(E1) {
     var a = A;
@@ -35,5 +32,4 @@ var E;
         return a.Origin.x - x.x;
     }
     E1.xDist = xDist;
-})(E || (E = {
-}));
+})(E || (E = {}));

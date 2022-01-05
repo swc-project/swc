@@ -27,24 +27,20 @@ var r3 = foo3(a); // any
 var E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
-}));
+})(E || (E = {}));
 var r3 = foo3(a); // any
-function f() {
-}
+function f() {}
 (function(f1) {
-    f1.bar = 1;
-})(f || (f = {
-}));
+    var bar = f1.bar = 1;
+})(f || (f = {}));
 var r3 = foo3(a); // any
 var CC = function CC() {
     "use strict";
     _classCallCheck(this, CC);
 };
 (function(CC) {
-    CC.bar = 1;
-})(CC || (CC = {
-}));
+    var bar = CC.bar = 1;
+})(CC || (CC = {}));
 var r3 = foo3(a); // any
 var r3 = foo3(a); // any
 var r3 = foo3(a); // any

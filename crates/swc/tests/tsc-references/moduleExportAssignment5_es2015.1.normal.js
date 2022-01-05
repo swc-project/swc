@@ -3,10 +3,8 @@
 // @checkJs: true
 // @Filename: axios.js
 class Axios {
-    m() {
-    }
-    constructor(){
-    }
+    m() {}
+    constructor(){}
 }
 var axios = new Axios();
 // none of the 3 references should have a use-before-def error

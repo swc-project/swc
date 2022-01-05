@@ -5,9 +5,7 @@ function foo(x) {
 function foo2(x) {
     return x;
 }
-foo(1), foo(()=>{
-}, 1), foo(1, ()=>{
-}), foo2(new Function()), foo2((x)=>x
+foo(1), foo(()=>{}, 1), foo(1, ()=>{}), foo2(new Function()), foo2((x)=>x
 ), foo2(class {
 }), foo2(b), foo2((x)=>x
 ), foo2((x, y)=>x

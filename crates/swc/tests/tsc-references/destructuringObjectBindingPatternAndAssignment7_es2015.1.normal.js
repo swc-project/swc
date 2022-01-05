@@ -3,8 +3,7 @@ K;
 (function(K) {
     K["a"] = "a";
     K["b"] = "b";
-})(K || (K = {
-}));
+})(K || (K = {}));
 const { [K.a]: aVal , [K.b]: bVal  } = (()=>{
     return {
         [K.a]: 1,

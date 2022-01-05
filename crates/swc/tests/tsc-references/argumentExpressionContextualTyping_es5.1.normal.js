@@ -65,8 +65,7 @@ function bar(param) {
         f: 1
     } : _e;
 }
-function baz(x) {
-}
+function baz(x) {}
 var o = {
     x: [
         "string",

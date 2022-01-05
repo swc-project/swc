@@ -14,7 +14,6 @@ require("react").createElement(InferParamComponent, {
         3,
         4
     ],
-    selectHandler: function(val) {
-    }
+    selectHandler: function(val) {}
 });
 export { };

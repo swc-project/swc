@@ -14,8 +14,7 @@ Person.prototype.describe = function() {
     get () {
         return 98122;
     },
-    set (_) {
-    }
+    set (_) {}
 }), Object.defineProperty(Person.prototype, "readonlyAccessor", {
     get () {
         return 21.75;

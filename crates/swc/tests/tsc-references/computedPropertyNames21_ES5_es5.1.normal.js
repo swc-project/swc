@@ -33,8 +33,7 @@ var C = // @target: es5
         },
         {
             key: tmp,
-            value: function value() {
-            }
+            value: function value() {}
         }
     ]);
     return C;

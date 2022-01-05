@@ -385,7 +385,7 @@ var TypeScript;
         return ScopeSearchFilter;
     }();
     TypeScript1.ScopeSearchFilter = ScopeSearchFilter;
-    TypeScript1.instanceFilter = new ScopeSearchFilter(instanceCompare, instanceFilterStop);
+    var instanceFilter = TypeScript1.instanceFilter = new ScopeSearchFilter(instanceCompare, instanceFilterStop);
     TypeScript1.preAssignModuleScopes = preAssignModuleScopes;
     TypeScript1.preAssignClassScopes = preAssignClassScopes;
     TypeScript1.preAssignInterfaceScopes = preAssignInterfaceScopes;
@@ -394,5 +394,4 @@ var TypeScript;
     TypeScript1.preAssignCatchScopes = preAssignCatchScopes;
     TypeScript1.preAssignScopes = preAssignScopes;
     TypeScript1.postAssignScopes = postAssignScopes;
-})(TypeScript || (TypeScript = {
-}));
+})(TypeScript || (TypeScript = {}));

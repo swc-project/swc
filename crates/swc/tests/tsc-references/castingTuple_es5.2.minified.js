@@ -27,8 +27,7 @@ function _createSuper(Derived) {
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
         try {
-            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-            })), !0;
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
         } catch (e) {
             return !1;
         }
@@ -71,9 +70,7 @@ var E1, E2, E1, A = function() {
     }
     return F;
 }(A);
-(E1 = E1 || (E1 = {
-}))[E1.one = 0] = "one", (E2 = E2 || (E2 = {
-}))[E2.one = 0] = "one";
+(E1 = E1 || (E1 = {}))[E1.one = 0] = "one", (E2 = E2 || (E2 = {}))[E2.one = 0] = "one";
 var E2, classCDATuple = [
     new C(),
     new D()

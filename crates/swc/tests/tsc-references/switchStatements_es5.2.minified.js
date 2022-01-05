@@ -14,8 +14,7 @@ function _setPrototypeOf(o, p) {
 var M, x, _typeof = function(obj) {
     return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
-switch((M || (M = {
-})).fn = function(x) {
+switch((M || (M = {})).fn = function(x) {
     return "";
 }, x){
     case "":
@@ -27,8 +26,7 @@ switch((M || (M = {
     case new Object():
     case /[a-z]/:
     case []:
-    case {
-    }:
+    case {}:
     case {
         id: 12
     }:
@@ -65,8 +63,7 @@ var C = function() {
             if (Reflect.construct.sham) return !1;
             if ("function" == typeof Proxy) return !0;
             try {
-                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                })), !0;
+                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
             } catch (e) {
                 return !1;
             }
@@ -114,8 +111,7 @@ switch(/[a-z]/){
 }
 switch([]){
 }
-switch({
-}){
+switch({}){
 }
 switch({
     id: 12

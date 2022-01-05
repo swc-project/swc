@@ -18,8 +18,7 @@ function _defineProperty(obj, key, value) {
 }
 function _objectSpread(target) {
     for(var i = 1; i < arguments.length; i++){
-        var source = arguments[i] != null ? arguments[i] : {
-        };
+        var source = arguments[i] != null ? arguments[i] : {};
         var ownKeys = Object.keys(source);
         if (typeof Object.getOwnPropertySymbols === "function") {
             ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
@@ -40,24 +39,20 @@ function _objectSpread(target) {
 /* @jsxImportSource preact */ const props = {
     answer: 42
 };
-const a = /*#__PURE__*/ _jsx("div", _objectSpread({
-}, props, {
+const a = /*#__PURE__*/ _jsx("div", _objectSpread({}, props, {
     children: "text"
 }), "foo");
-const b = /*#__PURE__*/ _createElement("div", _objectSpread({
-}, props, {
+const b = /*#__PURE__*/ _createElement("div", _objectSpread({}, props, {
     key: "bar",
     children: "text"
 }));
 const props2 = {
     answer: 42
 };
-const a2 = /*#__PURE__*/ _jsx("div", _objectSpread({
-}, props2, {
+const a2 = /*#__PURE__*/ _jsx("div", _objectSpread({}, props2, {
     children: "text"
 }), "foo");
-const b2 = /*#__PURE__*/ _createElement("div", _objectSpread({
-}, props2, {
+const b2 = /*#__PURE__*/ _createElement("div", _objectSpread({}, props2, {
     key: "bar",
     children: "text"
 }));

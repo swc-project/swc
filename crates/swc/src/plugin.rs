@@ -14,10 +14,16 @@ use swc_ecma_visit::{noop_fold_type, Fold};
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct PluginConfig(String, serde_json::Value);
 
-pub fn plugins(names: Option<Vec<PluginConfig>>) -> impl Fold {
+pub fn plugins(config: crate::config::JscExperimental) -> impl Fold {
     #[cfg(feature = "plugin")]
     {
-        RustPlugins { plugins: names }
+        let cache_root =
+            swc_plugin_runner::resolve::resolve_plugin_cache_root(config.cache_root).ok();
+
+        RustPlugins {
+            plugins: config.plugins,
+            plugin_cache: cache_root,
+        }
     }
 
     #[cfg(not(feature = "plugin"))]
@@ -28,11 +34,15 @@ pub fn plugins(names: Option<Vec<PluginConfig>>) -> impl Fold {
 
 struct RustPlugins {
     plugins: Option<Vec<PluginConfig>>,
+    /// TODO: it is unclear how we'll support plugin itself in wasm target of
+    /// swc, as well as cache.
+    #[cfg(feature = "plugin")]
+    plugin_cache: Option<swc_plugin_runner::resolve::PluginCache>,
 }
 
 impl RustPlugins {
     #[cfg(feature = "plugin")]
-    fn apply(&self, mut n: Program) -> Result<Program, anyhow::Error> {
+    fn apply(&mut self, mut n: Program) -> Result<Program, anyhow::Error> {
         use anyhow::Context;
 
         if let Some(plugins) = &self.plugins {
@@ -42,7 +52,13 @@ impl RustPlugins {
 
                 let path = swc_plugin_runner::resolve::resolve(&p.0)?;
 
-                n = swc_plugin_runner::apply_js_plugin(&p.0, &path, &config_json, n)?;
+                n = swc_plugin_runner::apply_js_plugin(
+                    &p.0,
+                    &path,
+                    &mut self.plugin_cache,
+                    &config_json,
+                    n,
+                )?;
             }
         }
 

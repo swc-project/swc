@@ -76,8 +76,7 @@ function _createSuper(Derived) {
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
         try {
-            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-            })), !0;
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
         } catch (e) {
             return !1;
         }
@@ -128,24 +127,20 @@ var NoBase = function() {
     return _createClass(SomeBase, [
         {
             key: "privateFunc",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "publicFunc",
-            value: function() {
-            }
+            value: function() {}
         }
     ], [
         {
             key: "privateStaticFunc",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "publicStaticFunc",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), SomeBase;
 }();
@@ -177,8 +172,7 @@ var SomeDerived1 = function(SomeBase) {
         },
         {
             key: "fn2",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), SomeDerived1;
 }(SomeBase), SomeDerived2 = function(SomeBase) {

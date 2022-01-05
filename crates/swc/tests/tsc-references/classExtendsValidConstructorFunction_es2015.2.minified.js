@@ -1,2 +1,1 @@
-new function() {
-}();
+new function() {}();

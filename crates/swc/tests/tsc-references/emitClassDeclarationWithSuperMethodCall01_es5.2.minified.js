@@ -41,8 +41,7 @@ var Parent = function() {
     return _createClass(Parent, [
         {
             key: "foo",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), Parent;
 }(), Foo = function(Parent) {
@@ -63,8 +62,7 @@ var Parent = function() {
             if (Reflect.construct.sham) return !1;
             if ("function" == typeof Proxy) return !0;
             try {
-                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                })), !0;
+                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
             } catch (e) {
                 return !1;
             }
@@ -87,8 +85,7 @@ var Parent = function() {
     return _createClass(Foo, [
         {
             key: "foo",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), Foo;
 }(Parent);

@@ -1,3 +1,2 @@
 //@target: ES6
-function* g1() {
-}
+function* g1() {}

@@ -15,5 +15,4 @@ const catNames = categories.reduce((a__2, item__2)=>{
         ...a__2,
         [item__2.key.toString()]: item__2
     };
-}, {
-});
+}, {});

@@ -7,12 +7,10 @@ class RoyalGuard {
     }
 }
 class LeadGuard extends RoyalGuard {
-    lead() {
-    }
+    lead() {}
 }
 class FollowerGuard extends RoyalGuard {
-    follow() {
-    }
+    follow() {}
 }
 let a = new FollowerGuard();
 a.isLeader() ? a.lead() : a.isFollower() && a.follow();
@@ -30,12 +28,10 @@ class ArrowGuard {
     }
 }
 class ArrowElite extends ArrowGuard {
-    defend() {
-    }
+    defend() {}
 }
 class ArrowMedic extends ArrowGuard {
-    heal() {
-    }
+    heal() {}
 }
 let guard = new ArrowGuard();
 guard.isElite() ? guard.defend() : guard.isMedic() && guard.heal();
@@ -50,12 +46,10 @@ class MimicGuard {
     }
 }
 class MimicLeader extends MimicGuard {
-    lead() {
-    }
+    lead() {}
 }
 class MimicFollower extends MimicGuard {
-    follow() {
-    }
+    follow() {}
 }
 let mimic = new MimicGuard();
 a.isLeader = mimic.isLeader, a.isFollower = mimic.isFollower, mimic.isFollower() && (mimic.follow(), mimic.isFollower = a.isFollower);

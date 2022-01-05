@@ -1,4 +1,3 @@
 class a {
-    get() {
-    }
+    get() {}
 }

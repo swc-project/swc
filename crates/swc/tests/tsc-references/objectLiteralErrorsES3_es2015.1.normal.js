@@ -5,13 +5,11 @@ var e1 = {
     }
 };
 var e2 = {
-    set a (n){
-    }
+    set a (n){}
 };
 var e3 = {
     get a () {
         return '';
     },
-    set a (n){
-    }
+    set a (n){}
 };

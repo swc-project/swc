@@ -14,6 +14,4 @@ function _defineProperty(obj, key, value) {
 // @target: es5
 var b;
 var _obj;
-var v = (_obj = {
-}, _defineProperty(_obj, b, 0), _defineProperty(_obj, true, 1), _defineProperty(_obj, [], 0), _defineProperty(_obj, {
-}, 0), _defineProperty(_obj, undefined, undefined), _defineProperty(_obj, null, null), _obj);
+var v = (_obj = {}, _defineProperty(_obj, b, 0), _defineProperty(_obj, true, 1), _defineProperty(_obj, [], 0), _defineProperty(_obj, {}, 0), _defineProperty(_obj, undefined, undefined), _defineProperty(_obj, null, null), _obj);

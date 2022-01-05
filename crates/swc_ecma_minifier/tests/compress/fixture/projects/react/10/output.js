@@ -22,8 +22,7 @@ function describeUnknownElementTypeFrameInDEV(type, source, ownerFn) {
             var lazyComponent = type, payload = lazyComponent._payload, init = lazyComponent._init;
             try {
                 return describeUnknownElementTypeFrameInDEV(init(payload), source, ownerFn);
-            } catch (x) {
-            }
+            } catch (x) {}
     }
     return "";
 }

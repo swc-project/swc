@@ -14,5 +14,4 @@ var Generics;
     }
     class B5 {
     }
-})(Generics || (Generics = {
-}));
+})(Generics || (Generics = {}));

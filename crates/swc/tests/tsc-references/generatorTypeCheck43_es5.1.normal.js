@@ -20,8 +20,7 @@ function g() {
         while(1)switch(_ctx1.prev = _ctx1.next){
             case 0:
                 _ctx1.t0 = _defineProperty;
-                _ctx1.t1 = {
-                };
+                _ctx1.t1 = {};
                 _ctx1.next = 4;
                 return 0;
             case 4:

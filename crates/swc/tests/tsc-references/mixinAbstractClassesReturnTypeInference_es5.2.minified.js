@@ -36,8 +36,7 @@ function _createSuper(Derived) {
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
         try {
-            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-            })), !0;
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
         } catch (e) {
             return !1;
         }
@@ -67,8 +66,7 @@ var AbstractBase = function() {
     return _createClass(DerivedFromAbstract2, [
         {
             key: "abstractBaseMethod",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), DerivedFromAbstract2;
 }(function(baseClass1) {
@@ -82,14 +80,12 @@ var AbstractBase = function() {
         return _createClass(MixinClass, [
             {
                 key: "mixinMethod",
-                value: function() {
-                }
+                value: function() {}
             }
         ], [
             {
                 key: "staticMixinMethod",
-                value: function() {
-                }
+                value: function() {}
             }
         ]), MixinClass;
     }(baseClass1);

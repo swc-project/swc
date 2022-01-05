@@ -17,8 +17,7 @@ C2(), new C2(), C3(), new C3();
 var C4 = function() {
     if (!_instanceof(this, C4)) return new C4();
 };
-C4(), new C4(), new function() {
-}(), new function _class() {
+C4(), new C4(), new function() {}(), new function _class() {
     "use strict";
     !function(instance, Constructor) {
         if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
@@ -35,5 +34,4 @@ C4(), new C4(), new function() {
             return x - 1;
         }
     ];
-}(), new function(num) {
-}();
+}(), new function(num) {}();

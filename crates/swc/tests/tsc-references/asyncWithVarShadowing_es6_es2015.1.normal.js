@@ -136,8 +136,7 @@ function fn11(x) {
 }
 function _fn11() {
     _fn11 = _asyncToGenerator(function*(x) {
-        var x = _extends({
-        }, y);
+        var x = _extends({}, y);
     });
     return _fn11.apply(this, arguments);
 }
@@ -240,8 +239,7 @@ function fn22(x) {
 }
 function _fn22() {
     _fn22 = _asyncToGenerator(function*(x) {
-        if (y) {
-        } else {
+        if (y) {} else {
             var x;
         }
     });
@@ -254,8 +252,7 @@ function _fn23() {
     _fn23 = _asyncToGenerator(function*(x) {
         try {
             var x;
-        } catch (e) {
-        }
+        } catch (e) {}
     });
     return _fn23.apply(this, arguments);
 }
@@ -264,8 +261,7 @@ function fn24(x) {
 }
 function _fn24() {
     _fn24 = _asyncToGenerator(function*(x) {
-        try {
-        } catch (e) {
+        try {} catch (e) {
             var x;
         }
     });
@@ -276,8 +272,7 @@ function fn25(x) {
 }
 function _fn25() {
     _fn25 = _asyncToGenerator(function*(x) {
-        try {
-        } catch (x1) {
+        try {} catch (x1) {
             var x1;
         }
     });
@@ -288,8 +283,7 @@ function fn26(x) {
 }
 function _fn26() {
     _fn26 = _asyncToGenerator(function*(x) {
-        try {
-        } catch ({ x: x2  }) {
+        try {} catch ({ x: x2  }) {
             var x2;
         }
     });
@@ -300,8 +294,7 @@ function fn27(x) {
 }
 function _fn27() {
     _fn27 = _asyncToGenerator(function*(x) {
-        try {
-        } finally{
+        try {} finally{
             var x;
         }
     });
@@ -334,8 +327,7 @@ function fn30(x) {
 }
 function _fn30() {
     _fn30 = _asyncToGenerator(function*(x) {
-        for(var x = y;;){
-        }
+        for(var x = y;;){}
     });
     return _fn30.apply(this, arguments);
 }
@@ -344,8 +336,7 @@ function fn31(x) {
 }
 function _fn31() {
     _fn31 = _asyncToGenerator(function*(x) {
-        for(var { x  } = y;;){
-        }
+        for(var { x  } = y;;){}
     });
     return _fn31.apply(this, arguments);
 }
@@ -365,8 +356,7 @@ function fn33(x) {
 }
 function _fn33() {
     _fn33 = _asyncToGenerator(function*(x) {
-        for(var x in y){
-        }
+        for(var x in y){}
     });
     return _fn33.apply(this, arguments);
 }
@@ -386,8 +376,7 @@ function fn35(x) {
 }
 function _fn35() {
     _fn35 = _asyncToGenerator(function*(x) {
-        for (var x of y){
-        }
+        for (var x of y){}
     });
     return _fn35.apply(this, arguments);
 }
@@ -396,8 +385,7 @@ function fn36(x) {
 }
 function _fn36() {
     _fn36 = _asyncToGenerator(function*(x) {
-        for (var { x  } of y){
-        }
+        for (var { x  } of y){}
     });
     return _fn36.apply(this, arguments);
 }
@@ -441,8 +429,7 @@ function fn40(x) {
 }
 function _fn40() {
     _fn40 = _asyncToGenerator(function*(x) {
-        try {
-        } catch (e) {
+        try {} catch (e) {
             var x;
         }
     });

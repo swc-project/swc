@@ -23,5 +23,4 @@ new C(1), new D(1), new E(1), (function(Generic) {
         _classCallCheck(this, E1), this.x = x;
     };
     new C1(1), new D1(1), new E1(1);
-})(Generic || (Generic = {
-}));
+})(Generic || (Generic = {}));

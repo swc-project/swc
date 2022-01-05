@@ -45,25 +45,21 @@ function ExpandoMerge(n8) {
 }
 ExpandoMerge.p1 = 111;
 (function(ExpandoMerge1) {
-    ExpandoMerge1.p2 = 222;
-})(ExpandoMerge || (ExpandoMerge = {
-}));
+    var p2 = ExpandoMerge1.p2 = 222;
+})(ExpandoMerge || (ExpandoMerge = {}));
 (function(ExpandoMerge2) {
-    ExpandoMerge2.p3 = 333;
-})(ExpandoMerge || (ExpandoMerge = {
-}));
+    var p3 = ExpandoMerge2.p3 = 333;
+})(ExpandoMerge || (ExpandoMerge = {}));
 var n = ExpandoMerge.p1 + ExpandoMerge.p2 + ExpandoMerge.p3 + ExpandoMerge(1);
 var Ns;
 (function(Ns1) {
-    var ExpandoNamespace = function ExpandoNamespace() {
-    };
+    var ExpandoNamespace = function ExpandoNamespace() {};
     var foo = function foo() {
         return ExpandoNamespace;
     };
     ExpandoNamespace.p6 = 42;
     Ns1.foo = foo;
-})(Ns || (Ns = {
-}));
+})(Ns || (Ns = {}));
 // Should not work in Typescript -- must be const
 var ExpandoExpr2 = function ExpandoExpr2(n9) {
     return n9.toString();

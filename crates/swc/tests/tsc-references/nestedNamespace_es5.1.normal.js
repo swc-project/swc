@@ -11,5 +11,4 @@ export var types;
         _classCallCheck(this, A);
     };
     types1.A = A;
-})(types || (types = {
-}));
+})(types || (types = {}));

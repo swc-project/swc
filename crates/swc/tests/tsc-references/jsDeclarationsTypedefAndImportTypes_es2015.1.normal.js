@@ -6,8 +6,7 @@
 /**
  * @typedef {string | number} Whatever
  */ class Conn {
-    method() {
-    }
+    method() {}
     constructor(){
         this.item = 3;
     }

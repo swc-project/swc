@@ -1,8 +1,4 @@
-function foo({}, { foo , bar  }) {
-}
-function baz([], { foo , bar  }) {
-}
-function one([], {}) {
-}
-function two([], [a, b, c]) {
-}
+function foo({}, { foo , bar  }) {}
+function baz([], { foo , bar  }) {}
+function one([], {}) {}
+function two([], [a, b, c]) {}

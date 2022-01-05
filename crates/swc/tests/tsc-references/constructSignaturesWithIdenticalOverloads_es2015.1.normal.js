@@ -1,12 +1,10 @@
 // Duplicate overloads of construct signatures should generate errors
 class C {
-    constructor(x){
-    }
+    constructor(x){}
 }
 var r1 = new C(1, '');
 class C2 {
-    constructor(x){
-    }
+    constructor(x){}
 }
 var r2 = new C2(1, '');
 var i;

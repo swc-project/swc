@@ -33,18 +33,15 @@ var C = function() {
         },
         {
             key: "computedname3",
-            set: function(x) {
-            }
+            set: function(x) {}
         },
         {
             key: "computedname4",
-            set: function(y) {
-            }
+            set: function(y) {}
         },
         {
             key: "foo",
-            set: function(a) {
-            }
+            set: function(a) {}
         }
     ], staticProps = [
         {
@@ -61,13 +58,11 @@ var C = function() {
         },
         {
             key: "bar",
-            set: function(b) {
-            }
+            set: function(b) {}
         },
         {
             key: "computedname",
-            set: function(b) {
-            }
+            set: function(b) {}
         }
     ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }();

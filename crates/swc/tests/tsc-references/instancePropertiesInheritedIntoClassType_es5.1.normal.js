@@ -63,8 +63,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -98,8 +97,7 @@ var NonGeneric;
                 get: function get() {
                     return 1;
                 },
-                set: function set(v) {
-                }
+                set: function set(v) {}
             },
             {
                 key: "fn",
@@ -126,8 +124,7 @@ var NonGeneric;
     var r3 = r.y;
     r.y = 4;
     var r6 = d.y(); // error
-})(NonGeneric || (NonGeneric = {
-}));
+})(NonGeneric || (NonGeneric = {}));
 var Generic;
 (function(Generic) {
     var C = /*#__PURE__*/ function() {
@@ -143,8 +140,7 @@ var Generic;
                 get: function get() {
                     return null;
                 },
-                set: function set(v) {
-                }
+                set: function set(v) {}
             },
             {
                 key: "fn",
@@ -171,5 +167,4 @@ var Generic;
     var r3 = r.y;
     r.y = '';
     var r6 = d.y(); // error
-})(Generic || (Generic = {
-}));
+})(Generic || (Generic = {}));

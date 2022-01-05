@@ -23,8 +23,7 @@ var props = {
 var a = /*#__PURE__*/ React.createElement("div", _extends({
     key: "foo"
 }, props), "text");
-var b = /*#__PURE__*/ React.createElement("div", _extends({
-}, props, {
+var b = /*#__PURE__*/ React.createElement("div", _extends({}, props, {
     key: "bar"
 }), "text");
 export { };

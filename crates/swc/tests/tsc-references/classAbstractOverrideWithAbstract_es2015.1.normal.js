@@ -1,20 +1,16 @@
 class A {
-    foo() {
-    }
+    foo() {}
 }
 class B extends A {
 }
 class AA {
-    foo() {
-    }
+    foo() {}
 }
 class BB extends AA {
-    bar() {
-    }
+    bar() {}
 }
 class CC extends BB {
 } // error
 class DD extends BB {
-    foo() {
-    }
+    foo() {}
 }

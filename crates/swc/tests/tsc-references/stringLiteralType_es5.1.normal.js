@@ -1,3 +1,2 @@
 var x;
-function f(x) {
-}
+function f(x) {}

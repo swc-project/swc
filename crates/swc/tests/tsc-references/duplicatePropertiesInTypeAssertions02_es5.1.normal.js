@@ -1,3 +1,2 @@
 // @declaration: true
-var x = {
-};
+var x = {};

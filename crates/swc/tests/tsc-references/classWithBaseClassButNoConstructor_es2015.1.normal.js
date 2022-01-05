@@ -1,6 +1,5 @@
 class Base {
-    constructor(x){
-    }
+    constructor(x){}
 }
 class C extends Base {
 }
@@ -8,8 +7,7 @@ var r = C;
 var c = new C(); // error
 var c2 = new C(1); // ok
 class Base2 {
-    constructor(x){
-    }
+    constructor(x){}
 }
 class D extends Base2 {
 }

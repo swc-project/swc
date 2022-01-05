@@ -24,5 +24,4 @@ var A;
     };
     A1.Line = Line;
     A1.fromOrigin = fromOrigin;
-})(A || (A = {
-}));
+})(A || (A = {}));

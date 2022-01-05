@@ -5,6 +5,5 @@ if (a) {
     }());
     try {
         b("d");
-    } catch (e) {
-    }
+    } catch (e) {}
 }

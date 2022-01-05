@@ -49,8 +49,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -74,8 +73,7 @@ var Base = function Base(n) {
     _classCallCheck(this, Base);
     this.x = 43;
 };
-function v() {
-}
+function v() {}
 var Derived = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(Derived, Base);

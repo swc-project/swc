@@ -16,13 +16,11 @@ function f2(x, y) {
     obj = y;
 }
 function f3(x) {
-    x = {
-    };
+    x = {};
 }
 var Form = function Form() {
     "use strict";
     _classCallCheck(this, Form);
     // Repro from #13747
-    this.values = {
-    };
+    this.values = {};
 };

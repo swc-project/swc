@@ -22,8 +22,7 @@ while(true){
 }
 SEVEN: while(true)while(true)while(true)continue SEVEN;
 EIGHT: while(true){
-    var fn = function fn() {
-    };
+    var fn = function fn() {};
     continue EIGHT;
 }
 NINE: while(true){

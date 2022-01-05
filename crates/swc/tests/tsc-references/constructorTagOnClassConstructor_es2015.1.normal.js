@@ -7,8 +7,7 @@ export class Alpha {
 export class Beta {
     /**
    * @constructor
-   */ constructor(){
-    }
+   */ constructor(){}
 }
 const arr = [
     Alpha,

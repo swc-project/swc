@@ -1,9 +1,7 @@
 var c = new class {
-    foo() {
-    }
+    foo() {}
     constructor(){
-        this.x = (a)=>{
-        };
+        this.x = (a)=>{};
     }
 }();
 c.data = c.x(null), c.data = c.foo();

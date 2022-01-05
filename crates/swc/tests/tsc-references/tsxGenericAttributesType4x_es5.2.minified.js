@@ -45,8 +45,7 @@ function _createSuper(Derived) {
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
         try {
-            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-            })), !0;
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
         } catch (e) {
             return !1;
         }
@@ -89,8 +88,7 @@ var React = require("react"), B1 = function(_Component) {
         {
             key: "render",
             value: function() {
-                return React.createElement(B1, _extends({
-                }, this.props, {
+                return React.createElement(B1, _extends({}, this.props, {
                     x: "hi"
                 }));
             }

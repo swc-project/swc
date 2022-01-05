@@ -2,8 +2,7 @@ class Base {
     get x() {
         return 1;
     }
-    set x(v) {
-    }
+    set x(v) {}
 }
 // error
 class Derived extends Base {

@@ -63,8 +63,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -101,14 +100,12 @@ function Mixin2(baseClass1) {
         _createClass(MixinClass, [
             {
                 key: "mixinMethod",
-                value: function mixinMethod() {
-                }
+                value: function mixinMethod() {}
             }
         ], [
             {
                 key: "staticMixinMethod",
-                value: function staticMixinMethod() {
-                }
+                value: function staticMixinMethod() {}
             }
         ]);
         return MixinClass;
@@ -126,8 +123,7 @@ var DerivedFromAbstract2 = /*#__PURE__*/ function(_super) {
     _createClass(DerivedFromAbstract2, [
         {
             key: "abstractBaseMethod",
-            value: function abstractBaseMethod() {
-            }
+            value: function abstractBaseMethod() {}
         }
     ]);
     return DerivedFromAbstract2;

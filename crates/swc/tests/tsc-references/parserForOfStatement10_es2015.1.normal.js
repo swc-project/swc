@@ -1,3 +1,2 @@
 //@target: ES6
-for (const v of X){
-}
+for (const v of X){}

@@ -56,8 +56,8 @@ impl VisitMut for ExportDefaultFrom {
                                     specifiers: vec![ExportSpecifier::Named(
                                         ExportNamedSpecifier {
                                             span: DUMMY_SP,
-                                            orig: local,
-                                            exported: Some(default),
+                                            orig: ModuleExportName::Ident(local),
+                                            exported: Some(ModuleExportName::Ident(default)),
                                             is_type_only: false,
                                         },
                                     )],

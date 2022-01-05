@@ -10,7 +10,6 @@ x.grey;
 x.x.grey;
 // @filename: ch.js
 var x = {
-    grey: {
-    }
+    grey: {}
 };
 export { x };

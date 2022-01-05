@@ -7,8 +7,7 @@ var x;
 var E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
-}));
+})(E || (E = {}));
 E = x;
 E.A = x;
 var C = function C() {
@@ -22,11 +21,9 @@ g = x;
 I = x;
 var M;
 (function(M1) {
-    M1.x = 1;
-})(M || (M = {
-}));
+    var x = M1.x = 1;
+})(M || (M = {}));
 M = x;
-function i(a) {
-}
+function i(a) {}
 // BUG 767030
 i = x;

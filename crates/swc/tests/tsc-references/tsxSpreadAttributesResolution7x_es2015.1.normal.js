@@ -27,13 +27,10 @@ class TextComponent extends React.Component {
 const textPropsFalse = {
     editable: false
 };
-let y1 = /*#__PURE__*/ React.createElement(TextComponent, _extends({
-}, textPropsFalse));
+let y1 = /*#__PURE__*/ React.createElement(TextComponent, _extends({}, textPropsFalse));
 const textPropsTrue = {
     editable: true,
-    onEdit: ()=>{
-    }
+    onEdit: ()=>{}
 };
-let y2 = /*#__PURE__*/ React.createElement(TextComponent, _extends({
-}, textPropsTrue));
+let y2 = /*#__PURE__*/ React.createElement(TextComponent, _extends({}, textPropsTrue));
 export { };

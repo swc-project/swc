@@ -63,8 +63,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -94,30 +93,26 @@ var Base = /*#__PURE__*/ function() {
     _createClass(Base, [
         {
             key: "b",
-            value: function b(a) {
-            }
+            value: function b(a) {}
         },
         {
             key: "c",
             get: function get() {
                 return x;
             },
-            set: function set(v) {
-            }
+            set: function set(v) {}
         }
     ], [
         {
             key: "s",
-            value: function s(a) {
-            }
+            value: function s(a) {}
         },
         {
             key: "t",
             get: function get() {
                 return x;
             },
-            set: function set(v) {
-            }
+            set: function set(v) {}
         }
     ]);
     return Base;
@@ -145,8 +140,7 @@ var Derived2 = /*#__PURE__*/ function(Base) {
     _createClass(Derived2, [
         {
             key: "b",
-            value: function b(a) {
-            }
+            value: function b(a) {}
         }
     ]);
     return Derived2;
@@ -180,8 +174,7 @@ var Derived4 = /*#__PURE__*/ function(Base) {
     _createClass(Derived4, [
         {
             key: "c",
-            set: function set(v) {
-            }
+            set: function set(v) {}
         }
     ]);
     return Derived4;
@@ -217,8 +210,7 @@ var Derived7 = /*#__PURE__*/ function(Base) {
     _createClass(Derived7, null, [
         {
             key: "s",
-            value: function s(a) {
-            }
+            value: function s(a) {}
         }
     ]);
     return Derived7;
@@ -252,8 +244,7 @@ var Derived9 = /*#__PURE__*/ function(Base) {
     _createClass(Derived9, null, [
         {
             key: "t",
-            set: function set(v) {
-            }
+            set: function set(v) {}
         }
     ]);
     return Derived9;

@@ -48,8 +48,7 @@ export var B = /*#__PURE__*/ function() {
             key: "x",
             set: /**
      * @param {number} _arg
-     */ function set(_arg) {
-            }
+     */ function set(_arg) {}
         }
     ]);
     return B;
@@ -65,8 +64,7 @@ export var C = /*#__PURE__*/ function() {
             get: function get() {
                 return 12;
             },
-            set: function set(_arg) {
-            }
+            set: function set(_arg) {}
         }
     ]);
     return C;
@@ -87,8 +85,7 @@ export var E = function E() {
 Object.defineProperty(E.prototype, "x", {
     /**
      * @param {number} _arg
-     */ set: function set(_arg) {
-    }
+     */ set: function set(_arg) {}
 });
 export var F = function F() {
     "use strict";
@@ -100,6 +97,5 @@ Object.defineProperty(F.prototype, "x", {
     },
     /**
      * @param {number} _arg
-     */ set: function set(_arg) {
-    }
+     */ set: function set(_arg) {}
 });

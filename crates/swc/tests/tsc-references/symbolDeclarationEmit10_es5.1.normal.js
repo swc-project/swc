@@ -17,14 +17,9 @@ function _defineEnumerableProperties(obj1, descs) {
     }
     return obj1;
 }
-var _obj, _mutatorMap = {
-};
+var _obj, _mutatorMap = {};
 //@target: ES6
 //@declaration: true
-var obj = (_obj = {
-}, _mutatorMap[Symbol.isConcatSpreadable] = _mutatorMap[Symbol.isConcatSpreadable] || {
-}, _mutatorMap[Symbol.isConcatSpreadable].get = function() {
+var obj = (_obj = {}, _mutatorMap[Symbol.isConcatSpreadable] = _mutatorMap[Symbol.isConcatSpreadable] || {}, _mutatorMap[Symbol.isConcatSpreadable].get = function() {
     return '';
-}, _mutatorMap[Symbol.isConcatSpreadable] = _mutatorMap[Symbol.isConcatSpreadable] || {
-}, _mutatorMap[Symbol.isConcatSpreadable].set = function(x) {
-}, _defineEnumerableProperties(_obj, _mutatorMap), _obj);
+}, _mutatorMap[Symbol.isConcatSpreadable] = _mutatorMap[Symbol.isConcatSpreadable] || {}, _mutatorMap[Symbol.isConcatSpreadable].set = function(x) {}, _defineEnumerableProperties(_obj, _mutatorMap), _obj);

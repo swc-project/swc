@@ -15,8 +15,7 @@ var EE = function() {
     return Constructor = EE, protoProps = [
         {
             key: "on",
-            value: function(s) {
-            }
+            value: function(s) {}
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), EE;
 }(), npmlog = module.exports = new EE();

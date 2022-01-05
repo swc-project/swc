@@ -54,7 +54,7 @@ var TypeScript;
         }
     }
     TypeScript1.ScopeSearchFilter = ScopeSearchFilter;
-    TypeScript1.instanceFilter = new ScopeSearchFilter(instanceCompare, instanceFilterStop);
+    var instanceFilter = TypeScript1.instanceFilter = new ScopeSearchFilter(instanceCompare, instanceFilterStop);
     function preAssignModuleScopes(ast, context) {
         var moduleDecl = ast;
         var memberScope = null;
@@ -364,5 +364,4 @@ var TypeScript;
         return ast;
     }
     TypeScript1.postAssignScopes = postAssignScopes;
-})(TypeScript || (TypeScript = {
-}));
+})(TypeScript || (TypeScript = {}));

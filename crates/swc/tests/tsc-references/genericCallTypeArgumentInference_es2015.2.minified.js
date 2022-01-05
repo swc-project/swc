@@ -15,12 +15,9 @@ var i, c = new class {
     foo5(t, u) {
         return t;
     }
-    foo6() {
-    }
-    foo7(u) {
-    }
-    foo8() {
-    }
+    foo6() {}
+    foo7(u) {}
+    foo8() {}
     constructor(t, u){
         this.t = t, this.u = u;
     }

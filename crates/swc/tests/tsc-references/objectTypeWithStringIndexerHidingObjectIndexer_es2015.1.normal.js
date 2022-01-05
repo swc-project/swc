@@ -1,5 +1,4 @@
-var o = {
-};
+var o = {};
 var r = o['']; // should be Object
 class C {
 }

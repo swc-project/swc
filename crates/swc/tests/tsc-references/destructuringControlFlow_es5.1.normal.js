@@ -47,8 +47,7 @@ function _unsupportedIterableToArray(o, minLen) {
 // @strict: true
 function f1(obj) {
     if (obj.a) {
-        obj = {
-        };
+        obj = {};
         var a1 = obj["a"]; // string | undefined
         var a2 = obj.a; // string | undefined
     }

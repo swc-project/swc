@@ -12,5 +12,4 @@ var _class = function _class() {
 // @filename: a.ts
 export { _class as default };
 // @filename: b.ts
-export default function() {
-};
+export default function() {};

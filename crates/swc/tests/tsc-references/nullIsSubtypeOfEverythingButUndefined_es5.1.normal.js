@@ -25,10 +25,8 @@ var r6 = true ? {
 var r6 = true ? null : {
     foo: 1
 };
-var r7 = true ? function() {
-} : null;
-var r7 = true ? null : function() {
-};
+var r7 = true ? function() {} : null;
+var r7 = true ? null : function() {};
 var r8 = true ? function(x) {
     return x;
 } : null;
@@ -55,18 +53,15 @@ var r12 = true ? null : c2;
 var E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
-}));
+})(E || (E = {}));
 var r13 = true ? E : null;
 var r13 = true ? null : E;
 var r14 = true ? E.A : null;
 var r14 = true ? null : E.A;
-function f() {
-}
+function f() {}
 (function(f1) {
-    f1.bar = 1;
-})(f || (f = {
-}));
+    var bar = f1.bar = 1;
+})(f || (f = {}));
 var af;
 var r15 = true ? af : null;
 var r15 = true ? null : af;
@@ -75,9 +70,8 @@ var c = function c() {
     _classCallCheck(this, c);
 };
 (function(c) {
-    c.bar = 1;
-})(c || (c = {
-}));
+    var bar = c.bar = 1;
+})(c || (c = {}));
 var ac;
 var r16 = true ? ac : null;
 var r16 = true ? null : ac;
@@ -95,7 +89,5 @@ function f18(x) {
 //}
 var r19 = true ? new Object() : null;
 var r19 = true ? null : new Object();
-var r20 = true ? {
-} : null;
-var r20 = true ? null : {
-};
+var r20 = true ? {} : null;
+var r20 = true ? null : {};

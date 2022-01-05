@@ -1,8 +1,7 @@
 // @filename: input.js
 // @out: output.js
 // @allowJs: true
-function Class() {
-}
+function Class() {}
 // error: 'Class' doesn't have property 'notPresent'
 Class.prototype.containsError = function() {
     return this.notPresent;

@@ -4,8 +4,7 @@ class A {
 class B extends A {
 }
 class C {
-    valueOf() {
-    }
+    valueOf() {}
 }
 var c;
 var r1 = c.valueOf();
@@ -18,8 +17,7 @@ var r2b = i.data;
 var r2c = r2b['hm']; // should be 'Object'
 var r2d = i['hm']; // should be 'any'
 var a = {
-    valueOf: ()=>{
-    },
+    valueOf: ()=>{},
     data: new B()
 };
 var r3 = a.valueOf();

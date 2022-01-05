@@ -6,8 +6,7 @@ function _defineProperty(obj, key, value) {
         writable: !0
     }) : obj[key] = value, obj;
 }
-var _obj, i = (_defineProperty(_obj = {
-}, Symbol.iterator, {
+var _obj, i = (_defineProperty(_obj = {}, Symbol.iterator, {
     p: null
 }), _defineProperty(_obj, Symbol.toStringTag, function() {
     return {

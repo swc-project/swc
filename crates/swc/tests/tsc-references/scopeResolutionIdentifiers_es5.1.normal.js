@@ -25,15 +25,13 @@ var M1;
     var n = s1;
     var n;
     M11.s = s1;
-})(M1 || (M1 = {
-}));
+})(M1 || (M1 = {}));
 var M2;
 (function(M2) {
     var s2;
     var n = s2;
     var n;
-})(M2 || (M2 = {
-}));
+})(M2 || (M2 = {}));
 function fn() {
     var s3;
     var n = s3;
@@ -63,7 +61,5 @@ var M3;
     (function(M4) {
         var n = s4;
         var n;
-    })(M4 || (M4 = {
-    }));
-})(M3 || (M3 = {
-}));
+    })(M4 || (M4 = {}));
+})(M3 || (M3 = {}));

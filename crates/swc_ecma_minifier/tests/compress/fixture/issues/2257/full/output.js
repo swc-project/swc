@@ -36,10 +36,8 @@
         21617: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
             "use strict";
             function _objectWithoutPropertiesLoose(source, excluded) {
-                if (null == source) return {
-                };
-                var key, i, target = {
-                }, sourceKeys = Object.keys(source);
+                if (null == source) return {};
+                var key, i, target = {}, sourceKeys = Object.keys(source);
                 for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
                 return target;
             }
@@ -49,8 +47,7 @@
                 }
             });
         },
-        53721: function() {
-        },
+        53721: function() {},
         89704: function(module) {
             module.exports = {
                 container: "Guide--container--ZhpDRAI",
@@ -127,8 +124,7 @@
                             var onError = this.props.onError;
                             if ("function" == typeof onError) try {
                                 onError.call(this, error, info.componentStack);
-                            } catch (ignoredError) {
-                            }
+                            } catch (ignoredError) {}
                             this.setState({
                                 error: error,
                                 info: info
@@ -238,22 +234,18 @@
             exports.useAuth = useAuth, exports.withAuth = function(Component) {
                 return function(props) {
                     var ref = useAuth(), auth = ref[0], setAuth = ref[1];
-                    return _jsxRuntime.jsx(Component, swcHelpers.objectSpread({
-                    }, props, {
+                    return _jsxRuntime.jsx(Component, swcHelpers.objectSpread({}, props, {
                         auth: auth,
                         setAuth: setAuth
                     }));
                 };
             }, exports.Provider = function(param1) {
-                var _value = param1.value, children = param1.children, ref = _react.useState(void 0 === _value ? {
-                } : _value), state = ref[0], setState = ref[1];
+                var _value = param1.value, children = param1.children, ref = _react.useState(void 0 === _value ? {} : _value), state = ref[0], setState = ref[1];
                 return _jsxRuntime.jsx(Context.Provider, {
                     value: [
                         state,
                         function(param) {
-                            setState(swcHelpers.objectSpread({
-                            }, state, void 0 === param ? {
-                            } : param));
+                            setState(swcHelpers.objectSpread({}, state, void 0 === param ? {} : param));
                         }
                     ],
                     children: children
@@ -267,10 +259,7 @@
             }), exports.default = void 0;
             var swcHelpers = __webpack_require__(547), _jsxRuntime = __webpack_require__(37712), _auth = __webpack_require__(45440);
             exports.default = function(param2) {
-                var authConfig, context = param2.context, appConfig = param2.appConfig, addProvider = param2.addProvider, wrapperPageComponent = param2.wrapperPageComponent, initialData = context && context.initialData ? context.initialData : {
-                }, initialAuth = initialData.auth || {
-                }, authConfig1 = appConfig.auth || {
-                };
+                var authConfig, context = param2.context, appConfig = param2.appConfig, addProvider = param2.addProvider, wrapperPageComponent = param2.wrapperPageComponent, initialData = context && context.initialData ? context.initialData : {}, initialAuth = initialData.auth || {}, authConfig1 = appConfig.auth || {};
                 addProvider(function(param) {
                     var children = param.children;
                     return _jsxRuntime.jsx(_auth.Provider, {
@@ -278,8 +267,7 @@
                         children: children
                     });
                 }), wrapperPageComponent((authConfig = authConfig1, function(PageComponent) {
-                    var _pageConfig = PageComponent.pageConfig, pageConfig = void 0 === _pageConfig ? {
-                    } : _pageConfig;
+                    var _pageConfig = PageComponent.pageConfig, pageConfig = void 0 === _pageConfig ? {} : _pageConfig;
                     return _auth.withAuth(function(props) {
                         var auth = props.auth, setAuth = props.setAuth, rest = swcHelpers.objectWithoutProperties(props, [
                             "auth",
@@ -288,9 +276,7 @@
                         if (pageConfigAuth && !Array.isArray(pageConfigAuth)) throw new Error("pageConfig.auth must be an array");
                         return Array.isArray(pageConfigAuth) && pageConfigAuth.length && !Object.keys(auth).filter(function(item) {
                             return !!pageConfigAuth.includes(item) && auth[item];
-                        }).length ? authConfig.NoAuthFallback ? "function" == typeof authConfig.NoAuthFallback ? _jsxRuntime.jsx(authConfig.NoAuthFallback, {
-                        }) : authConfig.NoAuthFallback : null : _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({
-                        }, rest));
+                        }).length ? authConfig.NoAuthFallback ? "function" == typeof authConfig.NoAuthFallback ? _jsxRuntime.jsx(authConfig.NoAuthFallback, {}) : authConfig.NoAuthFallback : null : _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({}, rest));
                     });
                 }));
             };
@@ -300,8 +286,7 @@
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.default = void 0;
-            var _runtime = __webpack_require__(56128), DEFAULE_CONFIG = {
-            }, axiosInstance = {
+            var _runtime = __webpack_require__(56128), DEFAULE_CONFIG = {}, axiosInstance = {
                 default: _runtime.axios.create(DEFAULE_CONFIG)
             };
             exports.default = function(instanceName) {
@@ -319,8 +304,7 @@
             }), exports.default = void 0;
             var swcHelpers = __webpack_require__(547), _createAxiosInstance = swcHelpers.interopRequireDefault(__webpack_require__(1481));
             function setAxiosInstance(requestConfig, axiosInstance) {
-                var _interceptors = requestConfig.interceptors, interceptors = void 0 === _interceptors ? {
-                } : _interceptors, requestOptions = swcHelpers.objectWithoutProperties(requestConfig, [
+                var _interceptors = requestConfig.interceptors, interceptors = void 0 === _interceptors ? {} : _interceptors, requestOptions = swcHelpers.objectWithoutProperties(requestConfig, [
                     "interceptors"
                 ]);
                 Object.keys(requestOptions).forEach(function(key) {
@@ -338,8 +322,7 @@
             exports.default = function(param) {
                 var appConfig = param.appConfig;
                 if (appConfig.request) {
-                    var tmp = appConfig.request, requestConfig = void 0 === tmp ? {
-                    } : tmp;
+                    var tmp = appConfig.request, requestConfig = void 0 === tmp ? {} : tmp;
                     "[object Array]" === Object.prototype.toString.call(requestConfig) ? requestConfig.forEach(function(requestItem) {
                         var instanceName = requestItem.instanceName ? requestItem.instanceName : "default";
                         instanceName && setAxiosInstance(requestItem, _createAxiosInstance.default(instanceName)[instanceName]);
@@ -355,15 +338,11 @@
             }), exports.default = void 0;
             var swcHelpers = __webpack_require__(547), _jsxRuntime = __webpack_require__(37712), _errorBoundary = swcHelpers.interopRequireDefault(__webpack_require__(11179)), _routes = swcHelpers.interopRequireDefault(__webpack_require__(72791)), _router = __webpack_require__(37447), _formatRoutes = swcHelpers.interopRequireWildcard(__webpack_require__(14710));
             exports.default = function(param3) {
-                var setRenderApp = param3.setRenderApp, appConfig = param3.appConfig, modifyRoutes = param3.modifyRoutes, wrapperPageComponent = param3.wrapperPageComponent, modifyRoutesComponent = param3.modifyRoutesComponent, buildConfig = param3.buildConfig, context = param3.context, applyRuntimeAPI = param3.applyRuntimeAPI, tmp = appConfig.router, appConfigRouter = void 0 === tmp ? {
-                } : tmp, _app = appConfig.app, app = void 0 === _app ? {
-                } : _app, ErrorBoundaryFallback = app.ErrorBoundaryFallback, onErrorBoundaryHandler = app.onErrorBoundaryHandler, _parseSearchParams = app.parseSearchParams, parseSearchParams = void 0 === _parseSearchParams || _parseSearchParams;
+                var setRenderApp = param3.setRenderApp, appConfig = param3.appConfig, modifyRoutes = param3.modifyRoutes, wrapperPageComponent = param3.wrapperPageComponent, modifyRoutesComponent = param3.modifyRoutesComponent, buildConfig = param3.buildConfig, context = param3.context, applyRuntimeAPI = param3.applyRuntimeAPI, tmp = appConfig.router, appConfigRouter = void 0 === tmp ? {} : tmp, _app = appConfig.app, app = void 0 === _app ? {} : _app, ErrorBoundaryFallback = app.ErrorBoundaryFallback, onErrorBoundaryHandler = app.onErrorBoundaryHandler, _parseSearchParams = app.parseSearchParams, parseSearchParams = void 0 === _parseSearchParams || _parseSearchParams;
                 wrapperPageComponent(function(PageComponent) {
                     return function(props) {
                         var searchParams = parseSearchParams && applyRuntimeAPI("getSearchParams");
-                        return _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({
-                        }, Object.assign({
-                        }, props, {
+                        return _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({}, Object.assign({}, props, {
                             searchParams: searchParams
                         })));
                     };
@@ -374,35 +353,28 @@
                 });
                 var wrapperPageFn = process.env.__IS_SERVER__ ? _formatRoutes.wrapperPageWithSSR(context) : _formatRoutes.wrapperPageWithCSR();
                 wrapperPageComponent(wrapperPageFn), wrapperPageComponent(function(PageComponent) {
-                    var _pageConfig = PageComponent.pageConfig, pageConfig = void 0 === _pageConfig ? {
-                    } : _pageConfig;
+                    var _pageConfig = PageComponent.pageConfig, pageConfig = void 0 === _pageConfig ? {} : _pageConfig;
                     return function(props) {
                         return pageConfig.errorBoundary ? _jsxRuntime.jsx(_errorBoundary.default, {
                             Fallback: ErrorBoundaryFallback,
                             onError: onErrorBoundaryHandler,
-                            children: _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({
-                            }, props))
-                        }) : _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({
-                        }, props));
+                            children: _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({}, props))
+                        }) : _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({}, props));
                     };
                 }), appConfigRouter.modifyRoutes && modifyRoutes(appConfigRouter.modifyRoutes);
                 var lazy = buildConfig && buildConfig.router && buildConfig.router.lazy;
                 setRenderApp(function(routes, RoutesComponent, param) {
-                    var customRouterProps = void 0 === param ? {
-                    } : param;
+                    var customRouterProps = void 0 === param ? {} : param;
                     return function() {
-                        var routerProps = swcHelpers.objectSpread({
-                        }, appConfigRouter, {
+                        var routerProps = swcHelpers.objectSpread({}, appConfigRouter, {
                             lazy: lazy
                         }, customRouterProps);
                         if (routerProps.history || (routerProps.history = applyRuntimeAPI("createHistory", {
                             type: appConfigRouter.type,
                             basename: appConfigRouter.basename
                         })), process.env.__IS_SERVER__) {
-                            var _initialContext = context.initialContext, initialContext = void 0 === _initialContext ? {
-                            } : _initialContext;
-                            routerProps = Object.assign({
-                            }, routerProps, {
+                            var _initialContext = context.initialContext, initialContext = void 0 === _initialContext ? {} : _initialContext;
+                            routerProps = Object.assign({}, routerProps, {
                                 location: initialContext.location,
                                 context: initialContext
                             });
@@ -410,8 +382,7 @@
                         var fallback = routerProps.fallback, restRouterProps = swcHelpers.objectWithoutProperties(routerProps, [
                             "fallback"
                         ]);
-                        return _jsxRuntime.jsx(_router.IceRouter, swcHelpers.objectSpread({
-                        }, restRouterProps, {
+                        return _jsxRuntime.jsx(_router.IceRouter, swcHelpers.objectSpread({}, restRouterProps, {
                             children: RoutesComponent ? _jsxRuntime.jsx(RoutesComponent, {
                                 routes: _router.parseRoutes(routes, fallback),
                                 fallback: fallback
@@ -438,11 +409,9 @@
                         fallback: props.fallback
                     });
                 }
-                return "static" === type ? _jsxRuntime.jsx(_reactRouterDom.StaticRouter, swcHelpers.objectSpread({
-                }, others, {
+                return "static" === type ? _jsxRuntime.jsx(_reactRouterDom.StaticRouter, swcHelpers.objectSpread({}, others, {
                     children: renderChildren
-                })) : _jsxRuntime.jsx(_reactRouterDom.Router, swcHelpers.objectSpread({
-                }, others, {
+                })) : _jsxRuntime.jsx(_reactRouterDom.Router, swcHelpers.objectSpread({}, others, {
                     children: renderChildren
                 }));
             }, exports.Routes = Routes;
@@ -470,10 +439,8 @@
                         "wrappers"
                     ]), mergedRouteWrappers = children ? [] : routeWrappers;
                     wrappers && wrappers.length && (mergedRouteWrappers = mergedRouteWrappers.concat(wrappers));
-                    var parsedRoute = swcHelpers.objectSpread({
-                    }, others);
-                    return component1 && (parsedRoute.component = (component = component1, routerWrappers = mergedRouteWrappers, route1 = route, fallback = fallback1, __LAZY__ = (ref = component || {
-                    }).__LAZY__, dynamicImport = ref.dynamicImport, __LOADABLE__ = ref.__LOADABLE__, __LOADABLE__ ? _component.default(dynamicImport, {
+                    var parsedRoute = swcHelpers.objectSpread({}, others);
+                    return component1 && (parsedRoute.component = (component = component1, routerWrappers = mergedRouteWrappers, route1 = route, fallback = fallback1, __LAZY__ = (ref = component || {}).__LAZY__, dynamicImport = ref.dynamicImport, __LOADABLE__ = ref.__LOADABLE__, __LOADABLE__ ? _component.default(dynamicImport, {
                         resolveComponent: function(mod) {
                             var comp = mod.default;
                             return setComponentAttr(comp, route1), wrapperRoute(comp, routerWrappers);
@@ -483,8 +450,7 @@
                         return dynamicImport().then(function(mod) {
                             if (routerWrappers && routerWrappers.length) {
                                 var comp = mod.default;
-                                return setComponentAttr(comp, route1), swcHelpers.objectSpread({
-                                }, mod, {
+                                return setComponentAttr(comp, route1), swcHelpers.objectSpread({}, mod, {
                                     default: wrapperRoute(comp, routerWrappers)
                                 });
                             }
@@ -506,13 +472,11 @@
                                 routes: children,
                                 fallback: fallback
                             }), RenderComponent = function(props) {
-                                return LayoutComponent ? _jsxRuntime.jsx(LayoutComponent, swcHelpers.objectSpread({
-                                }, props, {
+                                return LayoutComponent ? _jsxRuntime.jsx(LayoutComponent, swcHelpers.objectSpread({}, props, {
                                     children: routesComponent
                                 })) : routesComponent;
                             };
-                            return _jsxRuntime.jsx(_reactRouterDom.Route, swcHelpers.objectSpread({
-                            }, others, {
+                            return _jsxRuntime.jsx(_reactRouterDom.Route, swcHelpers.objectSpread({}, others, {
                                 render: RenderComponent
                             }), id);
                         }
@@ -530,19 +494,16 @@
                         ]);
                         if (!RouteComponent) return console.error("[Router] component is required when config routes"), null;
                         var RenderComponent = process.env.__IS_SERVER__ || window.__ICE_SSR_ENABLED__ ? function(props) {
-                            return _jsxRuntime.jsx(RouteComponent, swcHelpers.objectSpread({
-                            }, props));
+                            return _jsxRuntime.jsx(RouteComponent, swcHelpers.objectSpread({}, props));
                         } : function(props) {
                             return _jsxRuntime.jsx(_react.Suspense, {
                                 fallback: fallback || _jsxRuntime.jsx("div", {
                                     children: "loading"
                                 }),
-                                children: _jsxRuntime.jsx(RouteComponent, swcHelpers.objectSpread({
-                                }, props))
+                                children: _jsxRuntime.jsx(RouteComponent, swcHelpers.objectSpread({}, props))
                             });
                         };
-                        return _jsxRuntime.jsx(_reactRouterDom.Route, swcHelpers.objectSpread({
-                        }, others, {
+                        return _jsxRuntime.jsx(_reactRouterDom.Route, swcHelpers.objectSpread({}, others, {
                             render: RenderComponent
                         }), id);
                     })
@@ -554,19 +515,15 @@
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.default = formatRoutes, exports.wrapperPageWithSSR = function(context) {
-                var pageInitialProps = swcHelpers.objectSpread({
-                }, context.pageInitialProps);
+                var pageInitialProps = swcHelpers.objectSpread({}, context.pageInitialProps);
                 return function(PageComponent) {
                     return function(props) {
-                        return _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({
-                        }, Object.assign({
-                        }, props, pageInitialProps)));
+                        return _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({}, Object.assign({}, props, pageInitialProps)));
                     };
                 };
             }, exports.wrapperPageWithCSR = function() {
                 return function(PageComponent) {
-                    var ref1 = PageComponent.pageConfig || {
-                    }, title = ref1.title, scrollToTop = ref1.scrollToTop;
+                    var ref1 = PageComponent.pageConfig || {}, title = ref1.title, scrollToTop = ref1.scrollToTop;
                     return function(props) {
                         var ref = _react.useState(window.__ICE_PAGE_PROPS__), data = ref[0], setData = ref[1];
                         return _react.useEffect(function() {
@@ -589,9 +546,7 @@
                                     }
                                 }, _callee);
                             }))();
-                        }, []), _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({
-                        }, Object.assign({
-                        }, props, data)));
+                        }, []), _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({}, Object.assign({}, props, data)));
                     };
                 };
             };
@@ -605,8 +560,7 @@
                     if (item.children) item.children = formatRoutes(item.children, item.path);
                     else if (item.component) {
                         var itemComponent = item.component;
-                        itemComponent.pageConfig = Object.assign({
-                        }, itemComponent.pageConfig, {
+                        itemComponent.pageConfig = Object.assign({}, itemComponent.pageConfig, {
                             componentName: itemComponent.name
                         });
                     }
@@ -680,8 +634,7 @@
             }), exports.default = void 0;
             var swcHelpers = __webpack_require__(547), _jsxRuntime = __webpack_require__(37712), _guide = swcHelpers.interopRequireDefault(__webpack_require__(56905));
             exports.default = function() {
-                return console.log(1), _jsxRuntime.jsx(_guide.default, {
-                });
+                return console.log(1), _jsxRuntime.jsx(_guide.default, {});
             };
         },
         72791: function(__unused_webpack_module, exports, __webpack_require__) {
@@ -724,11 +677,9 @@
             }
             function merge() {
                 for(var args = [], _i = 0; _i < arguments.length; _i++)args[_i] = arguments[_i];
-                var result = {
-                };
+                var result = {};
                 function assignValue(val, key) {
-                    isPlainObject(result[key]) && isPlainObject(val) ? result[key] = merge(result[key], val) : isPlainObject(val) ? result[key] = merge({
-                    }, val) : isArray(val) ? result[key] = val.slice() : result[key] = val;
+                    isPlainObject(result[key]) && isPlainObject(val) ? result[key] = merge(result[key], val) : isPlainObject(val) ? result[key] = merge({}, val) : isArray(val) ? result[key] = val.slice() : result[key] = val;
                 }
                 for(var i = 0, l = args.length; i < l; i++)forEach(args[i], assignValue);
                 return result;
@@ -775,8 +726,7 @@
                 invariant: invariant,
                 Context: Context
             }), LOADABLE_SHARED = {
-                initialChunks: {
-                }
+                initialChunks: {}
             }, STATUS_PENDING = "PENDING", STATUS_REJECTED = "REJECTED", withChunkExtractor = function(Component) {
                 var LoadableWithChunkExtractor = function(props) {
                     return _react_17_0_2_react.createElement(Context.Consumer, null, function(extractor) {
@@ -792,16 +742,12 @@
                     return v;
                 } : _ref$defaultResolveCo, _render = _ref.render, onLoad = _ref.onLoad;
                 function loadable(loadableConstructor, options) {
-                    void 0 === options && (options = {
-                    });
+                    void 0 === options && (options = {});
                     var ctor, ctor1 = "function" == typeof (ctor = loadableConstructor) ? {
                         requireAsync: ctor,
-                        resolve: function() {
-                        },
-                        chunkName: function() {
-                        }
-                    } : ctor, cache = {
-                    };
+                        resolve: function() {},
+                        chunkName: function() {}
+                    } : ctor, cache = {};
                     function _getCacheKey(props) {
                         return options.cacheKey ? options.cacheKey(props) : ctor1.resolve ? ctor1.resolve(props) : "static";
                     }
@@ -829,8 +775,7 @@
                         }
                         (0, inheritsLoose.Z)(InnerLoadable, _React$Component), InnerLoadable.getDerivedStateFromProps = function(props, state) {
                             var cacheKey = _getCacheKey(props);
-                            return (0, esm_extends.Z)({
-                            }, state, {
+                            return (0, esm_extends.Z)({}, state, {
                                 cacheKey: cacheKey,
                                 loading: state.loading || state.cacheKey !== cacheKey
                             });
@@ -913,8 +858,7 @@
                                 fallback: fallback,
                                 result: result,
                                 options: options,
-                                props: (0, esm_extends.Z)({
-                                }, props, {
+                                props: (0, esm_extends.Z)({}, props, {
                                     ref: forwardedRef
                                 })
                             });
@@ -933,8 +877,7 @@
                 return {
                     loadable: loadable,
                     lazy: function(ctor, options) {
-                        return loadable(ctor, (0, esm_extends.Z)({
-                        }, options, {
+                        return loadable(ctor, (0, esm_extends.Z)({}, options, {
                             suspense: !0
                         }));
                     }
@@ -958,10 +901,8 @@
                 }
             }), loadable$1 = _createLoadable$1.loadable, lazy$1 = _createLoadable$1.lazy, BROWSER = "undefined" != typeof window;
             function loadableReady(done, _temp) {
-                void 0 === done && (done = function() {
-                });
-                var _ref = void 0 === _temp ? {
-                } : _temp, _ref$namespace = _ref.namespace, _ref$chunkLoadingGlob = _ref.chunkLoadingGlobal, chunkLoadingGlobal = void 0 === _ref$chunkLoadingGlob ? "__LOADABLE_LOADED_CHUNKS__" : _ref$chunkLoadingGlob;
+                void 0 === done && (done = function() {});
+                var _ref = void 0 === _temp ? {} : _temp, _ref$namespace = _ref.namespace, _ref$chunkLoadingGlob = _ref.chunkLoadingGlobal, chunkLoadingGlobal = void 0 === _ref$chunkLoadingGlob ? "__LOADABLE_LOADED_CHUNKS__" : _ref$chunkLoadingGlob;
                 if (!BROWSER) return warn("`loadableReady()` must be called in browser only"), done(), Promise.resolve();
                 var requiredChunks = null;
                 if (BROWSER) {
@@ -1002,8 +943,7 @@
             "use strict";
             var REACT_ELEMENT_TYPE;
             function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-                var desc1 = {
-                };
+                var desc1 = {};
                 return Object.keys(descriptor).forEach(function(key) {
                     desc1[key] = descriptor[key];
                 }), desc1.enumerable = !!desc1.enumerable, desc1.configurable = !!desc1.configurable, ("value" in desc1 || desc1.initializer) && (desc1.writable = !0), desc1 = decorators.slice().reverse().reduce(function(desc, decorator) {
@@ -1078,8 +1018,7 @@
                 }, "function" != typeof gen.return && (this.return = void 0);
             }
             function _asyncGeneratorDelegate(inner, awaitWrap) {
-                var iter = {
-                }, waiting = !1;
+                var iter = {}, waiting = !1;
                 function pump(key, value) {
                     return waiting = !0, {
                         done: !1,
@@ -1176,8 +1115,7 @@
                     if (Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
-                        return Date.prototype.toString.call(Reflect.construct(Date, [], function() {
-                        })), !0;
+                        return Date.prototype.toString.call(Reflect.construct(Date, [], function() {})), !0;
                     } catch (e) {
                         return !1;
                     }
@@ -1412,8 +1350,7 @@
                     kind: kind,
                     key: key,
                     placement: placement,
-                    descriptor: Object.assign({
-                    }, descriptor)
+                    descriptor: Object.assign({}, descriptor)
                 };
                 return "field" !== kind ? _disallowProperty(elementObject, "initializer", "A method descriptor") : (_disallowProperty(descriptor, "get", "The property descriptor of a field descriptor"), _disallowProperty(descriptor, "set", "The property descriptor of a field descriptor"), _disallowProperty(descriptor, "value", "The property descriptor of a field descriptor"), element.initializer = elementObject.initializer), element;
             }
@@ -1567,12 +1504,10 @@
             }
             function _interopRequireWildcard(obj) {
                 if (obj && obj.__esModule) return obj;
-                var newObj = {
-                };
+                var newObj = {};
                 if (null != obj) {
                     for(var key in obj)if (Object.prototype.hasOwnProperty.call(obj, key)) {
-                        var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {
-                        };
+                        var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {};
                         desc.get || desc.set ? Object.defineProperty(newObj, key, desc) : newObj[key] = obj[key];
                     }
                 }
@@ -1606,8 +1541,7 @@
                 if (props || 0 === childrenLength || (props = {
                     children: void 0
                 }), props && defaultProps) for(var propName in defaultProps)void 0 === props[propName] && (props[propName] = defaultProps[propName]);
-                else props || (props = defaultProps || {
-                });
+                else props || (props = defaultProps || {});
                 if (1 === childrenLength) props.children = children;
                 else if (childrenLength > 1) {
                     for(var childArray = new Array(childrenLength), i = 0; i < childrenLength; i++)childArray[i] = arguments[i + 3];
@@ -1630,8 +1564,7 @@
             }
             function _objectSpread(target) {
                 for(var i = 1; i < arguments.length; i++){
-                    var source = null != arguments[i] ? arguments[i] : {
-                    }, ownKeys = Object.keys(source);
+                    var source = null != arguments[i] ? arguments[i] : {}, ownKeys = Object.keys(source);
                     "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
@@ -1641,16 +1574,13 @@
                 return target;
             }
             function _objectWithoutPropertiesLoose(source, excluded) {
-                if (null == source) return {
-                };
-                var key, i, target = {
-                }, sourceKeys = Object.keys(source);
+                if (null == source) return {};
+                var key, i, target = {}, sourceKeys = Object.keys(source);
                 for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
                 return target;
             }
             function _objectWithoutProperties(source, excluded) {
-                if (null == source) return {
-                };
+                if (null == source) return {};
                 var key, i, target = _objectWithoutPropertiesLoose(source, excluded);
                 if (Object.getOwnPropertySymbols) {
                     var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
@@ -2105,9 +2035,7 @@
                 };
             }
             Axios.prototype.request = function(config) {
-                "string" == typeof config ? (config = arguments[1] || {
-                }, config.url = arguments[0]) : config = config || {
-                }, (config = mergeConfig(this.defaults, config)).method ? config.method = config.method.toLowerCase() : this.defaults.method ? config.method = this.defaults.method.toLowerCase() : config.method = "get";
+                "string" == typeof config ? (config = arguments[1] || {}, config.url = arguments[0]) : config = config || {}, (config = mergeConfig(this.defaults, config)).method ? config.method = config.method.toLowerCase() : this.defaults.method ? config.method = this.defaults.method.toLowerCase() : config.method = "get";
                 var promise, transitional = config.transitional;
                 void 0 !== transitional && validator.assertOptions(transitional, {
                     silentJSONParsing: validators.transitional(validators.boolean, "1.0.0"),
@@ -2154,12 +2082,10 @@
                 "options"
             ], function(method) {
                 Axios.prototype[method] = function(url, config) {
-                    return this.request(mergeConfig(config || {
-                    }, {
+                    return this.request(mergeConfig(config || {}, {
                         method: method,
                         url: url,
-                        data: (config || {
-                        }).data
+                        data: (config || {}).data
                     }));
                 };
             }), utils.forEach([
@@ -2168,8 +2094,7 @@
                 "patch"
             ], function(method) {
                 Axios.prototype[method] = function(url, data, config) {
-                    return this.request(mergeConfig(config || {
-                    }, {
+                    return this.request(mergeConfig(config || {}, {
                         method: method,
                         url: url,
                         data: data
@@ -2219,10 +2144,7 @@
                 config.cancelToken && config.cancelToken.throwIfRequested();
             }
             module.exports = function(config) {
-                return throwIfCancellationRequested(config), config.headers = config.headers || {
-                }, config.data = transformData.call(config, config.data, config.headers, config.transformRequest), config.headers = utils.merge(config.headers.common || {
-                }, config.headers[config.method] || {
-                }, config.headers), utils.forEach([
+                return throwIfCancellationRequested(config), config.headers = config.headers || {}, config.data = transformData.call(config, config.data, config.headers, config.transformRequest), config.headers = utils.merge(config.headers.common || {}, config.headers[config.method] || {}, config.headers), utils.forEach([
                     "delete",
                     "get",
                     "head",
@@ -2262,10 +2184,8 @@
             "use strict";
             var utils = __webpack_require__(99677);
             module.exports = function(config1, config2) {
-                config2 = config2 || {
-                };
-                var config = {
-                }, valueFromConfig2Keys = [
+                config2 = config2 || {};
+                var config = {}, valueFromConfig2Keys = [
                     "url",
                     "method",
                     "data"
@@ -2302,8 +2222,7 @@
                     "validateStatus"
                 ];
                 function getMergedValue(target, source) {
-                    return utils.isPlainObject(target) && utils.isPlainObject(source) ? utils.merge(target, source) : utils.isPlainObject(source) ? utils.merge({
-                    }, source) : utils.isArray(source) ? source.slice() : source;
+                    return utils.isPlainObject(target) && utils.isPlainObject(source) ? utils.merge(target, source) : utils.isPlainObject(source) ? utils.merge({}, source) : utils.isArray(source) ? source.slice() : source;
                 }
                 function mergeDeepProperties(prop) {
                     utils.isUndefined(config2[prop]) ? utils.isUndefined(config1[prop]) || (config[prop] = getMergedValue(void 0, config1[prop])) : config[prop] = getMergedValue(config1[prop], config2[prop]);
@@ -2398,8 +2317,7 @@
                 "get",
                 "head"
             ], function(method) {
-                defaults.headers[method] = {
-                };
+                defaults.headers[method] = {};
             }), utils.forEach([
                 "post",
                 "put",
@@ -2466,13 +2384,11 @@
                     this.write(name, "", Date.now() - 86400000);
                 }
             } : {
-                write: function() {
-                },
+                write: function() {},
                 read: function() {
                     return null;
                 },
-                remove: function() {
-                }
+                remove: function() {}
             };
         },
         11511: function(module) {
@@ -2544,8 +2460,7 @@
                 "user-agent"
             ];
             module.exports = function(headers) {
-                var key, val, i, parsed = {
-                };
+                var key, val, i, parsed = {};
                 return headers && utils.forEach(headers.split("\n"), function(line) {
                     i = line.indexOf(":"), key = utils.trim(line.substr(0, i)).toLowerCase(), val = utils.trim(line.substr(i + 1)), key && (parsed[key] && ignoreDuplicateOf.indexOf(key) >= 0 || ("set-cookie" === key ? parsed[key] = (parsed[key] ? parsed[key] : []).concat([
                         val
@@ -2563,8 +2478,7 @@
         },
         69847: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var pkg = __webpack_require__(84228), validators = {
-            };
+            var pkg = __webpack_require__(84228), validators = {};
             [
                 "object",
                 "boolean",
@@ -2577,8 +2491,7 @@
                     return typeof thing === type || "a" + (i < 1 ? "n " : " ") + type;
                 };
             });
-            var deprecatedWarnings = {
-            }, currentVerArr = pkg.version.split(".");
+            var deprecatedWarnings = {}, currentVerArr = pkg.version.split(".");
             function isOlderVersion(version, thanVersion) {
                 for(var pkgVersionArr = thanVersion ? thanVersion.split(".") : currentVerArr, destVer = version.split("."), i = 0; i < 3; i++){
                     if (pkgVersionArr[i] > destVer[i]) return !0;
@@ -2639,11 +2552,9 @@
                 else for(var key in obj)Object.prototype.hasOwnProperty.call(obj, key) && fn.call(null, obj[key], key, obj);
             }
             function merge() {
-                var result = {
-                };
+                var result = {};
                 function assignValue(val, key) {
-                    isPlainObject(result[key]) && isPlainObject(val) ? result[key] = merge(result[key], val) : isPlainObject(val) ? result[key] = merge({
-                    }, val) : isArray(val) ? result[key] = val.slice() : result[key] = val;
+                    isPlainObject(result[key]) && isPlainObject(val) ? result[key] = merge(result[key], val) : isPlainObject(val) ? result[key] = merge({}, val) : isArray(val) ? result[key] = val.slice() : result[key] = val;
                 }
                 for(var i = 0, l = arguments.length; i < l; i++)forEach(arguments[i], assignValue);
                 return result;
@@ -2811,8 +2722,7 @@
                             var TypedArrayConstructor = global[ARRAY];
                             if (TypedArrayConstructor && has(TypedArrayConstructor.prototype, KEY)) try {
                                 delete TypedArrayConstructor.prototype[KEY];
-                            } catch (error) {
-                            }
+                            } catch (error) {}
                         }
                         (!TypedArrayPrototype[KEY] || forced) && redefine(TypedArrayPrototype, KEY, forced ? property : NATIVE_ARRAY_BUFFER_VIEWS && Int8ArrayPrototype[KEY] || property);
                     }
@@ -2824,14 +2734,12 @@
                             if (forced) {
                                 for(ARRAY in TypedArrayConstructorsList)if ((TypedArrayConstructor = global[ARRAY]) && has(TypedArrayConstructor, KEY)) try {
                                     delete TypedArrayConstructor[KEY];
-                                } catch (error) {
-                                }
+                                } catch (error) {}
                             }
                             if (TypedArray[KEY] && !forced) return;
                             try {
                                 return redefine(TypedArray, KEY, forced ? property : NATIVE_ARRAY_BUFFER_VIEWS && TypedArray[KEY] || property);
-                            } catch (error2) {
-                            }
+                            } catch (error2) {}
                         }
                         for(ARRAY in TypedArrayConstructorsList)(TypedArrayConstructor = global[ARRAY]) && (!TypedArrayConstructor[KEY] || forced) && redefine(TypedArrayConstructor, KEY, property);
                     }
@@ -3098,8 +3006,7 @@
             module.exports = function(METHOD_NAME) {
                 return V8_VERSION >= 51 || !fails(function() {
                     var array = [];
-                    return (array.constructor = {
-                    })[SPECIES] = function() {
+                    return (array.constructor = {})[SPECIES] = function() {
                         return {
                             foo: 1
                         };
@@ -3197,14 +3104,12 @@
                 }, Array.from(iteratorWithReturn, function() {
                     throw 2;
                 });
-            } catch (error) {
-            }
+            } catch (error) {}
             module.exports = function(exec, SKIP_CLOSING) {
                 if (!SKIP_CLOSING && !SAFE_CLOSING) return !1;
                 var ITERATION_SUPPORT = !1;
                 try {
-                    var object = {
-                    };
+                    var object = {};
                     object[ITERATOR] = function() {
                         return {
                             next: function() {
@@ -3214,14 +3119,12 @@
                             }
                         };
                     }, exec(object);
-                } catch (error) {
-                }
+                } catch (error) {}
                 return ITERATION_SUPPORT;
             };
         },
         82020: function(module) {
-            var toString = {
-            }.toString;
+            var toString = {}.toString;
             module.exports = function(it) {
                 return toString.call(it).slice(8, -1);
             };
@@ -3232,8 +3135,7 @@
             }()), tryGet = function(it, key) {
                 try {
                     return it[key];
-                } catch (error) {
-                }
+                } catch (error) {}
             };
             module.exports = TO_STRING_TAG_SUPPORT ? classofRaw : function(it) {
                 var O, tag, result;
@@ -3423,8 +3325,7 @@
             "use strict";
             var $ = __webpack_require__(35437), global = __webpack_require__(19514), isForced = __webpack_require__(23736), redefine = __webpack_require__(78109), InternalMetadataModule = __webpack_require__(19322), iterate = __webpack_require__(7261), anInstance = __webpack_require__(51819), isCallable = __webpack_require__(67106), isObject = __webpack_require__(39817), fails = __webpack_require__(60232), checkCorrectnessOfIteration = __webpack_require__(34124), setToStringTag = __webpack_require__(77875), inheritIfRequired = __webpack_require__(45564);
             module.exports = function(CONSTRUCTOR_NAME, wrapper, common) {
-                var IS_MAP = -1 !== CONSTRUCTOR_NAME.indexOf("Map"), IS_WEAK = -1 !== CONSTRUCTOR_NAME.indexOf("Weak"), ADDER = IS_MAP ? "set" : "add", NativeConstructor = global[CONSTRUCTOR_NAME], NativePrototype = NativeConstructor && NativeConstructor.prototype, Constructor = NativeConstructor, exported = {
-                }, fixMethod = function(KEY) {
+                var IS_MAP = -1 !== CONSTRUCTOR_NAME.indexOf("Map"), IS_WEAK = -1 !== CONSTRUCTOR_NAME.indexOf("Weak"), ADDER = IS_MAP ? "set" : "add", NativeConstructor = global[CONSTRUCTOR_NAME], NativePrototype = NativeConstructor && NativeConstructor.prototype, Constructor = NativeConstructor, exported = {}, fixMethod = function(KEY) {
                     var nativeMethod = NativePrototype[KEY];
                     redefine(NativePrototype, KEY, "add" == KEY ? function(value) {
                         return nativeMethod.call(this, 0 === value ? 0 : value), this;
@@ -3442,8 +3343,7 @@
                     new NativeConstructor().entries().next();
                 })))) Constructor = common.getConstructor(wrapper, CONSTRUCTOR_NAME, IS_MAP, ADDER), InternalMetadataModule.enable();
                 else if (isForced(CONSTRUCTOR_NAME, !0)) {
-                    var instance = new Constructor(), HASNT_CHAINING = instance[ADDER](IS_WEAK ? {
-                    } : -0, 1) != instance, THROWS_ON_PRIMITIVES = fails(function() {
+                    var instance = new Constructor(), HASNT_CHAINING = instance[ADDER](IS_WEAK ? {} : -0, 1) != instance, THROWS_ON_PRIMITIVES = fails(function() {
                         instance.has(1);
                     }), ACCEPT_ITERABLES = checkCorrectnessOfIteration(function(iterable) {
                         new NativeConstructor(iterable);
@@ -3484,8 +3384,7 @@
                 } catch (error1) {
                     try {
                         return regexp[MATCH] = !1, "/./"[METHOD_NAME](regexp);
-                    } catch (error2) {
-                    }
+                    } catch (error2) {}
                 }
                 return !1;
             };
@@ -3493,8 +3392,7 @@
         81577: function(module, __unused_webpack_exports, __webpack_require__) {
             var fails = __webpack_require__(60232);
             module.exports = !fails(function() {
-                function F() {
-                }
+                function F() {}
                 return F.prototype.constructor = null, Object.getPrototypeOf(new F()) !== F.prototype;
             });
         },
@@ -3613,8 +3511,7 @@
         71309: function(module, __unused_webpack_exports, __webpack_require__) {
             var path = __webpack_require__(79574), has = __webpack_require__(1521), wrappedWellKnownSymbolModule = __webpack_require__(52301), defineProperty = __webpack_require__(94770).f;
             module.exports = function(NAME) {
-                var Symbol = path.Symbol || (path.Symbol = {
-                });
+                var Symbol = path.Symbol || (path.Symbol = {});
                 has(Symbol, NAME) || defineProperty(Symbol, NAME, {
                     value: wrappedWellKnownSymbolModule.f(NAME)
                 });
@@ -3623,8 +3520,7 @@
         87122: function(module, __unused_webpack_exports, __webpack_require__) {
             var fails = __webpack_require__(60232);
             module.exports = !fails(function() {
-                return 7 != Object.defineProperty({
-                }, 1, {
+                return 7 != Object.defineProperty({}, 1, {
                     get: function() {
                         return 7;
                     }
@@ -3634,8 +3530,7 @@
         28554: function(module, __unused_webpack_exports, __webpack_require__) {
             var global = __webpack_require__(19514), isObject = __webpack_require__(39817), document = global.document, EXISTS = isObject(document) && isObject(document.createElement);
             module.exports = function(it) {
-                return EXISTS ? document.createElement(it) : {
-                };
+                return EXISTS ? document.createElement(it) : {};
             };
         },
         69379: function(module) {
@@ -3731,9 +3626,7 @@
             var global = __webpack_require__(19514), getOwnPropertyDescriptor = __webpack_require__(24722).f, createNonEnumerableProperty = __webpack_require__(48181), redefine = __webpack_require__(78109), setGlobal = __webpack_require__(65933), copyConstructorProperties = __webpack_require__(18295), isForced = __webpack_require__(23736);
             module.exports = function(options, source) {
                 var FORCED, target, key, targetProperty, sourceProperty, descriptor, TARGET = options.target, GLOBAL = options.global, STATIC = options.stat;
-                if (target = GLOBAL ? global : STATIC ? global[TARGET] || setGlobal(TARGET, {
-                }) : (global[TARGET] || {
-                }).prototype) for(key in source){
+                if (target = GLOBAL ? global : STATIC ? global[TARGET] || setGlobal(TARGET, {}) : (global[TARGET] || {}).prototype) for(key in source){
                     if (sourceProperty = source[key], targetProperty = options.noTargetGet ? (descriptor = getOwnPropertyDescriptor(target, key)) && descriptor.value : target[key], FORCED = isForced(GLOBAL ? key : TARGET + (STATIC ? "." : "#") + key, options.forced), !FORCED && void 0 !== targetProperty) {
                         if (typeof sourceProperty == typeof targetProperty) continue;
                         copyConstructorProperties(sourceProperty, targetProperty);
@@ -3757,16 +3650,13 @@
             var redefine = __webpack_require__(78109), regexpExec = __webpack_require__(72384), fails = __webpack_require__(60232), wellKnownSymbol = __webpack_require__(81019), createNonEnumerableProperty = __webpack_require__(48181), SPECIES = wellKnownSymbol("species"), RegExpPrototype = RegExp.prototype;
             module.exports = function(KEY, exec, FORCED, SHAM) {
                 var SYMBOL = wellKnownSymbol(KEY), DELEGATES_TO_SYMBOL = !fails(function() {
-                    var O = {
-                    };
+                    var O = {};
                     return O[SYMBOL] = function() {
                         return 7;
                     }, 7 != ""[KEY](O);
                 }), DELEGATES_TO_EXEC = DELEGATES_TO_SYMBOL && !fails(function() {
                     var execCalled = !1, re = /a/;
-                    return "split" === KEY && ((re = {
-                    }).constructor = {
-                    }, re.constructor[SPECIES] = function() {
+                    return "split" === KEY && ((re = {}).constructor = {}, re.constructor[SPECIES] = function() {
                         return re;
                     }, re.flags = "", re[SYMBOL] = /./[SYMBOL]), re.exec = function() {
                         return execCalled = !0, null;
@@ -3811,8 +3701,7 @@
         85469: function(module, __unused_webpack_exports, __webpack_require__) {
             var fails = __webpack_require__(60232);
             module.exports = !fails(function() {
-                return Object.isExtensible(Object.preventExtensions({
-                }));
+                return Object.isExtensible(Object.preventExtensions({}));
             });
         },
         59561: function(module, __unused_webpack_exports, __webpack_require__) {
@@ -3844,8 +3733,7 @@
         },
         48644: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var aCallable = __webpack_require__(74618), isObject = __webpack_require__(39817), slice = [].slice, factories = {
-            }, construct = function(C, argsLength, args) {
+            var aCallable = __webpack_require__(74618), isObject = __webpack_require__(39817), slice = [].slice, factories = {}, construct = function(C, argsLength, args) {
                 if (!(argsLength in factories)) {
                     for(var list = [], i = 0; i < argsLength; i++)list[i] = "a[" + i + "]";
                     factories[argsLength] = Function("C,a", "return new C(" + list.join(",") + ")");
@@ -3861,8 +3749,7 @@
             };
         },
         25160: function(module, __unused_webpack_exports, __webpack_require__) {
-            var DESCRIPTORS = __webpack_require__(87122), has = __webpack_require__(1521), FunctionPrototype = Function.prototype, getDescriptor = DESCRIPTORS && Object.getOwnPropertyDescriptor, EXISTS = has(FunctionPrototype, "name"), PROPER = EXISTS && "something" === (function() {
-            }).name, CONFIGURABLE = EXISTS && (!DESCRIPTORS || DESCRIPTORS && getDescriptor(FunctionPrototype, "name").configurable);
+            var DESCRIPTORS = __webpack_require__(87122), has = __webpack_require__(1521), FunctionPrototype = Function.prototype, getDescriptor = DESCRIPTORS && Object.getOwnPropertyDescriptor, EXISTS = has(FunctionPrototype, "name"), PROPER = EXISTS && "something" === (function() {}).name, CONFIGURABLE = EXISTS && (!DESCRIPTORS || DESCRIPTORS && getDescriptor(FunctionPrototype, "name").configurable);
             module.exports = {
                 EXISTS: EXISTS,
                 PROPER: PROPER,
@@ -3937,15 +3824,13 @@
             module.exports = check("object" == typeof globalThis && globalThis) || check("object" == typeof window && window) || check("object" == typeof self && self) || check("object" == typeof __webpack_require__.g && __webpack_require__.g) || this || Function("return this")();
         },
         1521: function(module, __unused_webpack_exports, __webpack_require__) {
-            var toObject = __webpack_require__(89343), hasOwnProperty = {
-            }.hasOwnProperty;
+            var toObject = __webpack_require__(89343), hasOwnProperty = {}.hasOwnProperty;
             module.exports = Object.hasOwn || function(it, key) {
                 return hasOwnProperty.call(toObject(it), key);
             };
         },
         38276: function(module) {
-            module.exports = {
-            };
+            module.exports = {};
         },
         85033: function(module, __unused_webpack_exports, __webpack_require__) {
             var global = __webpack_require__(19514);
@@ -4018,16 +3903,13 @@
                 defineProperty(it, METADATA, {
                     value: {
                         objectID: "O" + id++,
-                        weakData: {
-                        }
+                        weakData: {}
                     }
                 });
             }, meta = module.exports = {
                 enable: function() {
-                    meta.enable = function() {
-                    }, REQUIRED = !0;
-                    var getOwnPropertyNames = getOwnPropertyNamesModule.f, splice = [].splice, test = {
-                    };
+                    meta.enable = function() {}, REQUIRED = !0;
+                    var getOwnPropertyNames = getOwnPropertyNamesModule.f, splice = [].splice, test = {};
                     test[METADATA] = 1, getOwnPropertyNames(test).length && (getOwnPropertyNamesModule.f = function(it) {
                         for(var result = getOwnPropertyNames(it), i = 0, length = result.length; i < length; i++)if (result[i] === METADATA) {
                             splice.call(result, i, 1);
@@ -4073,8 +3955,7 @@
                     if (wmhas.call(store, it)) throw new TypeError(OBJECT_ALREADY_INITIALIZED);
                     return metadata.facade = it, wmset.call(store, it, metadata), metadata;
                 }, get = function(it) {
-                    return wmget.call(store, it) || {
-                    };
+                    return wmget.call(store, it) || {};
                 }, has = function(it) {
                     return wmhas.call(store, it);
                 };
@@ -4084,8 +3965,7 @@
                     if (objectHas(it, STATE)) throw new TypeError(OBJECT_ALREADY_INITIALIZED);
                     return metadata.facade = it, createNonEnumerableProperty(it, STATE, metadata), metadata;
                 }, get = function(it) {
-                    return objectHas(it, STATE) ? it[STATE] : {
-                    };
+                    return objectHas(it, STATE) ? it[STATE] : {};
                 }, has = function(it) {
                     return objectHas(it, STATE);
                 };
@@ -4095,8 +3975,7 @@
                 get: get,
                 has: has,
                 enforce: function(it) {
-                    return has(it) ? get(it) : set(it, {
-                    });
+                    return has(it) ? get(it) : set(it, {});
                 },
                 getterFor: function(TYPE) {
                     return function(it) {
@@ -4125,8 +4004,7 @@
             };
         },
         17026: function(module, __unused_webpack_exports, __webpack_require__) {
-            var fails = __webpack_require__(60232), isCallable = __webpack_require__(67106), classof = __webpack_require__(85983), getBuiltIn = __webpack_require__(44990), inspectSource = __webpack_require__(71975), empty = [], construct = getBuiltIn("Reflect", "construct"), constructorRegExp = /^\s*(?:class|function)\b/, exec = constructorRegExp.exec, INCORRECT_TO_STRING = !constructorRegExp.exec(function() {
-            }), isConstructorModern = function(argument) {
+            var fails = __webpack_require__(60232), isCallable = __webpack_require__(67106), classof = __webpack_require__(85983), getBuiltIn = __webpack_require__(44990), inspectSource = __webpack_require__(71975), empty = [], construct = getBuiltIn("Reflect", "construct"), constructorRegExp = /^\s*(?:class|function)\b/, exec = constructorRegExp.exec, INCORRECT_TO_STRING = !constructorRegExp.exec(function() {}), isConstructorModern = function(argument) {
                 if (!isCallable(argument)) return !1;
                 try {
                     return construct(Object, empty, argument), !0;
@@ -4162,8 +4040,7 @@
                 return value == POLYFILL || value != NATIVE && (isCallable(detection) ? fails(detection) : !!detection);
             }, normalize = isForced.normalize = function(string) {
                 return String(string).replace(replacement, ".").toLowerCase();
-            }, data = isForced.data = {
-            }, NATIVE = isForced.NATIVE = "N", POLYFILL = isForced.POLYFILL = "P";
+            }, data = isForced.data = {}, NATIVE = isForced.NATIVE = "N", POLYFILL = isForced.POLYFILL = "P";
             module.exports = isForced;
         },
         73156: function(module, __unused_webpack_exports, __webpack_require__) {
@@ -4251,12 +4128,10 @@
             var IteratorPrototype, PrototypeOfArrayIteratorPrototype, arrayIterator, fails = __webpack_require__(60232), isCallable = __webpack_require__(67106), create = __webpack_require__(18255), getPrototypeOf = __webpack_require__(39311), redefine = __webpack_require__(78109), wellKnownSymbol = __webpack_require__(81019), IS_PURE = __webpack_require__(80627), ITERATOR = wellKnownSymbol("iterator"), BUGGY_SAFARI_ITERATORS = !1;
             [].keys && ("next" in (arrayIterator = [].keys()) ? (PrototypeOfArrayIteratorPrototype = getPrototypeOf(getPrototypeOf(arrayIterator))) !== Object.prototype && (IteratorPrototype = PrototypeOfArrayIteratorPrototype) : BUGGY_SAFARI_ITERATORS = !0);
             var NEW_ITERATOR_PROTOTYPE = void 0 == IteratorPrototype || fails(function() {
-                var test = {
-                };
+                var test = {};
                 return IteratorPrototype[ITERATOR].call(test) !== test;
             });
-            NEW_ITERATOR_PROTOTYPE ? IteratorPrototype = {
-            } : IS_PURE && (IteratorPrototype = create(IteratorPrototype)), isCallable(IteratorPrototype[ITERATOR]) || redefine(IteratorPrototype, ITERATOR, function() {
+            NEW_ITERATOR_PROTOTYPE ? IteratorPrototype = {} : IS_PURE && (IteratorPrototype = create(IteratorPrototype)), isCallable(IteratorPrototype[ITERATOR]) || redefine(IteratorPrototype, ITERATOR, function() {
                 return this;
             }), module.exports = {
                 IteratorPrototype: IteratorPrototype,
@@ -4264,8 +4139,7 @@
             };
         },
         25463: function(module) {
-            module.exports = {
-            };
+            module.exports = {};
         },
         87482: function(module) {
             var $expm1 = Math.expm1, exp = Math.exp;
@@ -4396,8 +4270,7 @@
             module.exports = !$assign || fails(function() {
                 if (DESCRIPTORS && 1 !== $assign({
                     b: 1
-                }, $assign(defineProperty({
-                }, "a", {
+                }, $assign(defineProperty({}, "a", {
                     enumerable: !0,
                     get: function() {
                         defineProperty(this, "b", {
@@ -4408,22 +4281,17 @@
                 }), {
                     b: 2
                 })).b) return !0;
-                var A = {
-                }, B = {
-                }, symbol = Symbol(), alphabet = "abcdefghijklmnopqrst";
+                var A = {}, B = {}, symbol = Symbol(), alphabet = "abcdefghijklmnopqrst";
                 return A[symbol] = 7, alphabet.split("").forEach(function(chr) {
                     B[chr] = chr;
-                }), 7 != $assign({
-                }, A)[symbol] || objectKeys($assign({
-                }, B)).join("") != alphabet;
+                }), 7 != $assign({}, A)[symbol] || objectKeys($assign({}, B)).join("") != alphabet;
             }) ? function(target, source) {
                 for(var T = toObject(target), argumentsLength = arguments.length, index = 1, getOwnPropertySymbols = getOwnPropertySymbolsModule.f, propertyIsEnumerable = propertyIsEnumerableModule.f; argumentsLength > index;)for(var key, S = IndexedObject(arguments[index++]), keys = getOwnPropertySymbols ? objectKeys(S).concat(getOwnPropertySymbols(S)) : objectKeys(S), length = keys.length, j = 0; length > j;)key = keys[j++], (!DESCRIPTORS || propertyIsEnumerable.call(S, key)) && (T[key] = S[key]);
                 return T;
             } : $assign;
         },
         18255: function(module, __unused_webpack_exports, __webpack_require__) {
-            var activeXDocument, anObject = __webpack_require__(83941), defineProperties = __webpack_require__(68381), enumBugKeys = __webpack_require__(91080), hiddenKeys = __webpack_require__(38276), html = __webpack_require__(40969), documentCreateElement = __webpack_require__(28554), sharedKey = __webpack_require__(16735), PROTOTYPE = "prototype", SCRIPT = "script", IE_PROTO = sharedKey("IE_PROTO"), EmptyConstructor = function() {
-            }, scriptTag = function(content) {
+            var activeXDocument, anObject = __webpack_require__(83941), defineProperties = __webpack_require__(68381), enumBugKeys = __webpack_require__(91080), hiddenKeys = __webpack_require__(38276), html = __webpack_require__(40969), documentCreateElement = __webpack_require__(28554), sharedKey = __webpack_require__(16735), PROTOTYPE = "prototype", SCRIPT = "script", IE_PROTO = sharedKey("IE_PROTO"), EmptyConstructor = function() {}, scriptTag = function(content) {
                 return "<" + SCRIPT + ">" + content + "</" + SCRIPT + ">";
             }, NullProtoObjectViaActiveX = function(activeXDocument) {
                 return null.write(scriptTag("")), null.close(), null.parentWindow.Object;
@@ -4433,8 +4301,7 @@
             }, NullProtoObject = function() {
                 try {
                     activeXDocument = new ActiveXObject("htmlfile");
-                } catch (error) {
-                }
+                } catch (error) {}
                 NullProtoObject = "undefined" != typeof document ? document.domain && activeXDocument ? NullProtoObjectViaActiveX(activeXDocument) : NullProtoObjectViaIFrame() : NullProtoObjectViaActiveX(activeXDocument);
                 for(var length = enumBugKeys.length; length--;)delete NullProtoObject[PROTOTYPE][enumBugKeys[length]];
                 return NullProtoObject();
@@ -4457,8 +4324,7 @@
             exports.f = DESCRIPTORS ? $defineProperty : function(O, P, Attributes) {
                 if (anObject(O), P = toPropertyKey(P), anObject(Attributes), IE8_DOM_DEFINE) try {
                     return $defineProperty(O, P, Attributes);
-                } catch (error) {
-                }
+                } catch (error) {}
                 if ("get" in Attributes || "set" in Attributes) throw TypeError("Accessors not supported");
                 return "value" in Attributes && (O[P] = Attributes.value), O;
             };
@@ -4468,14 +4334,12 @@
             exports.f = DESCRIPTORS ? $getOwnPropertyDescriptor : function(O, P) {
                 if (O = toIndexedObject(O), P = toPropertyKey(P), IE8_DOM_DEFINE) try {
                     return $getOwnPropertyDescriptor(O, P);
-                } catch (error) {
-                }
+                } catch (error) {}
                 if (has(O, P)) return createPropertyDescriptor(!propertyIsEnumerableModule.f.call(O, P), O[P]);
             };
         },
         33954: function(module, __unused_webpack_exports, __webpack_require__) {
-            var toIndexedObject = __webpack_require__(74981), $getOwnPropertyNames = __webpack_require__(13463).f, toString = {
-            }.toString, windowNames = "object" == typeof window && window && Object.getOwnPropertyNames ? Object.getOwnPropertyNames(window) : [], getWindowNames = function(it) {
+            var toIndexedObject = __webpack_require__(74981), $getOwnPropertyNames = __webpack_require__(13463).f, toString = {}.toString, windowNames = "object" == typeof window && window && Object.getOwnPropertyNames ? Object.getOwnPropertyNames(window) : [], getWindowNames = function(it) {
                 try {
                     return $getOwnPropertyNames(it);
                 } catch (error) {
@@ -4521,8 +4385,7 @@
         },
         44096: function(__unused_webpack_module, exports) {
             "use strict";
-            var $propertyIsEnumerable = {
-            }.propertyIsEnumerable, getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor, NASHORN_BUG = getOwnPropertyDescriptor && !$propertyIsEnumerable.call({
+            var $propertyIsEnumerable = {}.propertyIsEnumerable, getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor, NASHORN_BUG = getOwnPropertyDescriptor && !$propertyIsEnumerable.call({
                 1: 2
             }, 1);
             exports.f = NASHORN_BUG ? function(V) {
@@ -4536,21 +4399,17 @@
             module.exports = IS_PURE || !fails(function() {
                 if (!WEBKIT || !(WEBKIT < 535)) {
                     var key = Math.random();
-                    __defineSetter__.call(null, key, function() {
-                    }), delete global[key];
+                    __defineSetter__.call(null, key, function() {}), delete global[key];
                 }
             });
         },
         59057: function(module, __unused_webpack_exports, __webpack_require__) {
             var anObject = __webpack_require__(83941), aPossiblePrototype = __webpack_require__(47111);
-            module.exports = Object.setPrototypeOf || ("__proto__" in {
-            } ? (function() {
-                var setter, CORRECT_SETTER = !1, test = {
-                };
+            module.exports = Object.setPrototypeOf || ("__proto__" in {} ? (function() {
+                var setter, CORRECT_SETTER = !1, test = {};
                 try {
                     (setter = Object.getOwnPropertyDescriptor(Object.prototype, "__proto__").set).call(test, []), CORRECT_SETTER = test instanceof Array;
-                } catch (error) {
-                }
+                } catch (error) {}
                 return function(O, proto) {
                     return anObject(O), aPossiblePrototype(proto), CORRECT_SETTER ? setter.call(O, proto) : O.__proto__ = proto, O;
                 };
@@ -4574,8 +4433,7 @@
         35253: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
             var TO_STRING_TAG_SUPPORT = __webpack_require__(42716), classof = __webpack_require__(85983);
-            module.exports = TO_STRING_TAG_SUPPORT ? ({
-            }).toString : function() {
+            module.exports = TO_STRING_TAG_SUPPORT ? ({}).toString : function() {
                 return "[object " + classof(this) + "]";
             };
         },
@@ -4755,15 +4613,13 @@
             };
         },
         88986: function(module, __unused_webpack_exports, __webpack_require__) {
-            var global = __webpack_require__(19514), setGlobal = __webpack_require__(65933), SHARED = "__core-js_shared__", store = global[SHARED] || setGlobal(SHARED, {
-            });
+            var global = __webpack_require__(19514), setGlobal = __webpack_require__(65933), SHARED = "__core-js_shared__", store = global[SHARED] || setGlobal(SHARED, {});
             module.exports = store;
         },
         61011: function(module, __unused_webpack_exports, __webpack_require__) {
             var IS_PURE = __webpack_require__(80627), store = __webpack_require__(88986);
             (module.exports = function(key, value) {
-                return store[key] || (store[key] = void 0 !== value ? value : {
-                });
+                return store[key] || (store[key] = void 0 !== value ? value : {});
             })("versions", []).push({
                 version: "3.18.0",
                 mode: IS_PURE ? "pure" : "global",
@@ -4894,12 +4750,10 @@
             };
         },
         46660: function(module, __unused_webpack_exports, __webpack_require__) {
-            var location, defer, channel, port, global = __webpack_require__(19514), isCallable = __webpack_require__(67106), fails = __webpack_require__(60232), bind = __webpack_require__(59561), html = __webpack_require__(40969), createElement = __webpack_require__(28554), IS_IOS = __webpack_require__(80125), IS_NODE = __webpack_require__(96590), set = global.setImmediate, clear = global.clearImmediate, process = global.process, MessageChannel = global.MessageChannel, Dispatch = global.Dispatch, counter = 0, queue = {
-            }, ONREADYSTATECHANGE = "onreadystatechange";
+            var location, defer, channel, port, global = __webpack_require__(19514), isCallable = __webpack_require__(67106), fails = __webpack_require__(60232), bind = __webpack_require__(59561), html = __webpack_require__(40969), createElement = __webpack_require__(28554), IS_IOS = __webpack_require__(80125), IS_NODE = __webpack_require__(96590), set = global.setImmediate, clear = global.clearImmediate, process = global.process, MessageChannel = global.MessageChannel, Dispatch = global.Dispatch, counter = 0, queue = {}, ONREADYSTATECHANGE = "onreadystatechange";
             try {
                 location = global.location;
-            } catch (error) {
-            }
+            } catch (error) {}
             var run = function(id) {
                 if (queue.hasOwnProperty(id)) {
                     var fn = queue[id];
@@ -5018,8 +4872,7 @@
             };
         },
         42716: function(module, __unused_webpack_exports, __webpack_require__) {
-            var TO_STRING_TAG = __webpack_require__(81019)("toStringTag"), test = {
-            };
+            var TO_STRING_TAG = __webpack_require__(81019)("toStringTag"), test = {};
             test[TO_STRING_TAG] = "z", module.exports = "[object z]" === String(test);
         },
         72729: function(module, __unused_webpack_exports, __webpack_require__) {
@@ -5067,8 +4920,7 @@
                 getOwnPropertyDescriptor: wrappedGetOwnPropertyDescriptor,
                 defineProperty: wrappedDefineProperty
             }), module.exports = function(TYPE, wrapper, CLAMPED) {
-                var BYTES = TYPE.match(/\d+$/)[0] / 8, CONSTRUCTOR_NAME = TYPE + (CLAMPED ? "Clamped" : "") + "Array", GETTER = "get" + TYPE, SETTER = "set" + TYPE, NativeTypedArrayConstructor = global[CONSTRUCTOR_NAME], TypedArrayConstructor = NativeTypedArrayConstructor, TypedArrayConstructorPrototype = TypedArrayConstructor && TypedArrayConstructor.prototype, exported = {
-                }, getter = function(that, index) {
+                var BYTES = TYPE.match(/\d+$/)[0] / 8, CONSTRUCTOR_NAME = TYPE + (CLAMPED ? "Clamped" : "") + "Array", GETTER = "get" + TYPE, SETTER = "set" + TYPE, NativeTypedArrayConstructor = global[CONSTRUCTOR_NAME], TypedArrayConstructor = NativeTypedArrayConstructor, TypedArrayConstructorPrototype = TypedArrayConstructor && TypedArrayConstructor.prototype, exported = {}, getter = function(that, index) {
                     var data = getInternalState(that);
                     return data.view[GETTER](index * BYTES + data.byteOffset, !0);
                 }, setter = function(that, index, value) {
@@ -5115,8 +4967,7 @@
                     forced: TypedArrayConstructor != NativeTypedArrayConstructor,
                     sham: !NATIVE_ARRAY_BUFFER_VIEWS
                 }, exported), BYTES_PER_ELEMENT in TypedArrayConstructor || createNonEnumerableProperty(TypedArrayConstructor, BYTES_PER_ELEMENT, BYTES), BYTES_PER_ELEMENT in TypedArrayConstructorPrototype || createNonEnumerableProperty(TypedArrayConstructorPrototype, BYTES_PER_ELEMENT, BYTES), setSpecies(CONSTRUCTOR_NAME);
-            }) : module.exports = function() {
-            };
+            }) : module.exports = function() {};
         },
         10158: function(module, __unused_webpack_exports, __webpack_require__) {
             var global = __webpack_require__(19514), fails = __webpack_require__(60232), checkCorrectnessOfIteration = __webpack_require__(34124), NATIVE_ARRAY_BUFFER_VIEWS = __webpack_require__(4351).NATIVE_ARRAY_BUFFER_VIEWS, ArrayBuffer = global.ArrayBuffer, Int8Array = global.Int8Array;
@@ -5502,8 +5353,7 @@
         84279: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
             var $ = __webpack_require__(35437), fails = __webpack_require__(60232), isConstructor = __webpack_require__(17026), createProperty = __webpack_require__(47267), ISNT_GENERIC = fails(function() {
-                function F() {
-                }
+                function F() {}
                 return !(Array.of.call(F) instanceof F);
             });
             $({
@@ -6197,9 +6047,8 @@
                     s = "" === s ? t : s + repeat.call("0", 7 - t.length) + t;
                 }
                 return s;
-            }, FORCED = !fails(function() {
-                nativeToFixed.call({
-                });
+            }, FORCED = nativeToFixed && !0 || !fails(function() {
+                nativeToFixed.call({});
             });
             $({
                 target: "Number",
@@ -6232,8 +6081,7 @@
             var $ = __webpack_require__(35437), fails = __webpack_require__(60232), thisNumberValue = __webpack_require__(44378), nativeToPrecision = 1..toPrecision, FORCED = fails(function() {
                 return "1" !== nativeToPrecision.call(1, void 0);
             }) || !fails(function() {
-                nativeToPrecision.call({
-                });
+                nativeToPrecision.call({});
             });
             $({
                 target: "Number",
@@ -6354,8 +6202,7 @@
                 stat: !0
             }, {
                 fromEntries: function(iterable) {
-                    var obj = {
-                    };
+                    var obj = {};
                     return iterate(iterable, function(k, v) {
                         createProperty(obj, k, v);
                     }, {
@@ -6387,8 +6234,7 @@
                 sham: !DESCRIPTORS
             }, {
                 getOwnPropertyDescriptors: function(object) {
-                    for(var key, descriptor, O = toIndexedObject(object), getOwnPropertyDescriptor = getOwnPropertyDescriptorModule.f, keys = ownKeys(O), result = {
-                    }, index = 0; keys.length > index;)void 0 !== (descriptor = getOwnPropertyDescriptor(O, key = keys[index++])) && createProperty(result, key, descriptor);
+                    for(var key, descriptor, O = toIndexedObject(object), getOwnPropertyDescriptor = getOwnPropertyDescriptorModule.f, keys = ownKeys(O), result = {}, index = 0; keys.length > index;)void 0 !== (descriptor = getOwnPropertyDescriptor(O, key = keys[index++])) && createProperty(result, key, descriptor);
                     return result;
                 }
             });
@@ -6654,10 +6500,8 @@
             "use strict";
             var $ = __webpack_require__(35437), IS_PURE = __webpack_require__(80627), NativePromise = __webpack_require__(91591), fails = __webpack_require__(60232), getBuiltIn = __webpack_require__(44990), isCallable = __webpack_require__(67106), speciesConstructor = __webpack_require__(94850), promiseResolve = __webpack_require__(56540), redefine = __webpack_require__(78109), NON_GENERIC = !!NativePromise && fails(function() {
                 NativePromise.prototype.finally.call({
-                    then: function() {
-                    }
-                }, function() {
-                });
+                    then: function() {}
+                }, function() {});
             });
             if ($({
                 target: "Promise",
@@ -6694,16 +6538,11 @@
                 var promise = new PromiseConstructor(function(resolve) {
                     resolve(1);
                 }), FakePromise = function(exec) {
-                    exec(function() {
-                    }, function() {
-                    });
+                    exec(function() {}, function() {});
                 };
-                return (promise.constructor = {
-                })[SPECIES] = FakePromise, !(SUBCLASSING = promise.then(function() {
-                }) instanceof FakePromise) || !GLOBAL_CORE_JS_PROMISE && IS_BROWSER && !NATIVE_REJECTION_EVENT;
+                return (promise.constructor = {})[SPECIES] = FakePromise, !(SUBCLASSING = promise.then(function() {}) instanceof FakePromise) || !GLOBAL_CORE_JS_PROMISE && IS_BROWSER && !NATIVE_REJECTION_EVENT;
             }), INCORRECT_ITERATION = FORCED || !checkCorrectnessOfIteration(function(iterable) {
-                PromiseConstructor.all(iterable).catch(function() {
-                });
+                PromiseConstructor.all(iterable).catch(function() {});
             }), isThenable = function(it) {
                 var then;
                 return !!(isObject(it) && isCallable(then = it.then)) && then;
@@ -6817,8 +6656,7 @@
                 }));
                 try {
                     delete NativePromisePrototype.constructor;
-                } catch (error) {
-                }
+                } catch (error) {}
                 setPrototypeOf && setPrototypeOf(NativePromisePrototype, PromiseConstructorPrototype);
             }
             $({
@@ -6874,8 +6712,7 @@
         },
         40394: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             var $ = __webpack_require__(35437), getBuiltIn = __webpack_require__(44990), aCallable = __webpack_require__(74618), anObject = __webpack_require__(83941), fails = __webpack_require__(60232), nativeApply = getBuiltIn("Reflect", "apply"), functionApply = Function.apply, OPTIONAL_ARGUMENTS_LIST = !fails(function() {
-                nativeApply(function() {
-                });
+                nativeApply(function() {});
             });
             $({
                 target: "Reflect",
@@ -6889,13 +6726,10 @@
         },
         51908: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             var $ = __webpack_require__(35437), getBuiltIn = __webpack_require__(44990), aConstructor = __webpack_require__(36381), anObject = __webpack_require__(83941), isObject = __webpack_require__(39817), create = __webpack_require__(18255), bind = __webpack_require__(48644), fails = __webpack_require__(60232), nativeConstruct = getBuiltIn("Reflect", "construct"), NEW_TARGET_BUG = fails(function() {
-                function F() {
-                }
-                return !(nativeConstruct(function() {
-                }, [], F) instanceof F);
+                function F() {}
+                return !(nativeConstruct(function() {}, [], F) instanceof F);
             }), ARGS_BUG = !fails(function() {
-                nativeConstruct(function() {
-                });
+                nativeConstruct(function() {});
             }), FORCED = NEW_TARGET_BUG || ARGS_BUG;
             $({
                 target: "Reflect",
@@ -6932,8 +6766,7 @@
         },
         60211: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             var $ = __webpack_require__(35437), DESCRIPTORS = __webpack_require__(87122), anObject = __webpack_require__(83941), toPropertyKey = __webpack_require__(10482), definePropertyModule = __webpack_require__(94770), fails = __webpack_require__(60232), ERROR_INSTEAD_OF_FALSE = fails(function() {
-                Reflect.defineProperty(definePropertyModule.f({
-                }, 1, {
+                Reflect.defineProperty(definePropertyModule.f({}, 1, {
                     value: 1
                 }), 1, {
                     value: 2
@@ -7094,8 +6927,7 @@
                 target: "Reflect",
                 stat: !0,
                 forced: fails(function() {
-                    var Constructor = function() {
-                    }, object = definePropertyModule.f(new Constructor(), "a", {
+                    var Constructor = function() {}, object = definePropertyModule.f(new Constructor(), "a", {
                         configurable: !0
                     });
                     return !1 !== Reflect.set(Constructor.prototype, "a", 1, object);
@@ -7109,8 +6941,7 @@
             $({
                 global: !0
             }, {
-                Reflect: {
-                }
+                Reflect: {}
             }), setToStringTag(global.Reflect, "Reflect", !0);
         },
         24329: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
@@ -7126,8 +6957,7 @@
                 }
                 return result;
             }, handleNCG = function(string) {
-                for(var chr, length = string.length, index = 0, result = "", named = [], names = {
-                }, brackets = !1, ncg = !1, groupid = 0, groupname = ""; index <= length; index++){
+                for(var chr, length = string.length, index = 0, result = "", named = [], names = {}, brackets = !1, ncg = !1, groupid = 0, groupname = ""; index <= length; index++){
                     if ("\\" === (chr = string.charAt(index))) chr += string.charAt(++index);
                     else if ("]" === chr) brackets = !1;
                     else if (!brackets) switch(!0){
@@ -7158,8 +6988,7 @@
                     if (!thisIsRegExp && patternIsRegExp && flagsAreUndefined && pattern.constructor === RegExpWrapper) return pattern;
                     if ((patternIsRegExp || pattern instanceof RegExpWrapper) && (pattern = pattern.source, flagsAreUndefined && (flags = ("flags" in rawPattern) ? rawPattern.flags : getFlags.call(rawPattern))), pattern = void 0 === pattern ? "" : toString(pattern), flags = void 0 === flags ? "" : toString(flags), rawPattern = pattern, UNSUPPORTED_DOT_ALL && ("dotAll" in re1) && (dotAll = !!flags && flags.indexOf("s") > -1) && (flags = flags.replace(/s/g, "")), rawFlags = flags, UNSUPPORTED_Y && ("sticky" in re1) && (sticky = !!flags && flags.indexOf("y") > -1) && (flags = flags.replace(/y/g, "")), UNSUPPORTED_NCG && (pattern = (handled = handleNCG(pattern))[0], groups = handled[1]), result = inheritIfRequired(NativeRegExp(pattern, flags), thisIsRegExp ? this : RegExpPrototype, RegExpWrapper), (dotAll || sticky || groups.length) && (state = enforceInternalState(result), dotAll && (state.dotAll = !0, state.raw = RegExpWrapper(handleDotAll(pattern), rawFlags)), sticky && (state.sticky = !0), groups.length && (state.groups = groups)), pattern !== rawPattern) try {
                         createNonEnumerableProperty(result, "source", "" === rawPattern ? "(?:)" : rawPattern);
-                    } catch (error) {
-                    }
+                    } catch (error) {}
                     return result;
                 }, proxy = function(key) {
                     (key in RegExpWrapper) || defineProperty(RegExpWrapper, key, {
@@ -7711,14 +7540,7 @@
         },
         1752: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var fixRegExpWellKnownSymbolLogic = __webpack_require__(29045), isRegExp = __webpack_require__(78202), anObject = __webpack_require__(83941), requireObjectCoercible = __webpack_require__(79602), speciesConstructor = __webpack_require__(94850), advanceStringIndex = __webpack_require__(88770), toLength = __webpack_require__(31998), toString = __webpack_require__(72729), getMethod = __webpack_require__(84316), callRegExpExec = __webpack_require__(21135), regexpExec = __webpack_require__(72384), stickyHelpers = __webpack_require__(44725), fails = __webpack_require__(60232), UNSUPPORTED_Y = stickyHelpers.UNSUPPORTED_Y, arrayPush = [].push, min = Math.min, SPLIT_WORKS_WITH_OVERWRITTEN_EXEC = !fails(function() {
-                var re = /(?:)/, originalExec = re.exec;
-                re.exec = function() {
-                    return originalExec.apply(this, arguments);
-                };
-                var result = "ab".split(re);
-                return 2 !== result.length || "a" !== result[0] || "b" !== result[1];
-            });
+            var fixRegExpWellKnownSymbolLogic = __webpack_require__(29045), isRegExp = __webpack_require__(78202), anObject = __webpack_require__(83941), requireObjectCoercible = __webpack_require__(79602), speciesConstructor = __webpack_require__(94850), advanceStringIndex = __webpack_require__(88770), toLength = __webpack_require__(31998), toString = __webpack_require__(72729), getMethod = __webpack_require__(84316), callRegExpExec = __webpack_require__(21135), regexpExec = __webpack_require__(72384), stickyHelpers = __webpack_require__(44725), fails = __webpack_require__(60232), UNSUPPORTED_Y = stickyHelpers.UNSUPPORTED_Y, arrayPush = [].push, min = Math.min;
             fixRegExpWellKnownSymbolLogic("split", function(SPLIT, nativeSplit, maybeCallNative) {
                 var internalSplit;
                 return internalSplit = "c" == "abbc".split(/(b)*/)[1] || 4 != "test".split(/(?:)/, -1).length || 2 != "ab".split(/(?:ab)*/).length || 4 != ".".split(/(.?)(.?)/).length || ".".split(/()()/).length > 1 || "".split(/.?/).length ? function(separator, limit) {
@@ -7761,7 +7583,14 @@
                         return A.push(S.slice(p)), A;
                     }
                 ];
-            }, !SPLIT_WORKS_WITH_OVERWRITTEN_EXEC, UNSUPPORTED_Y);
+            }, !!fails(function() {
+                var re = /(?:)/, originalExec = re.exec;
+                re.exec = function() {
+                    return originalExec.apply(this, arguments);
+                };
+                var result = "ab".split(re);
+                return 2 !== result.length || "a" !== result[0] || "b" !== result[1];
+            }), UNSUPPORTED_Y);
         },
         24467: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
@@ -7881,8 +7710,7 @@
             "use strict";
             var $ = __webpack_require__(35437), DESCRIPTORS = __webpack_require__(87122), global = __webpack_require__(19514), has = __webpack_require__(1521), isCallable = __webpack_require__(67106), isObject = __webpack_require__(39817), defineProperty = __webpack_require__(94770).f, copyConstructorProperties = __webpack_require__(18295), NativeSymbol = global.Symbol;
             if (DESCRIPTORS && isCallable(NativeSymbol) && (!("description" in NativeSymbol.prototype) || void 0 !== NativeSymbol().description)) {
-                var EmptyStringDescriptionStore = {
-                }, SymbolWrapper = function() {
+                var EmptyStringDescriptionStore = {}, SymbolWrapper = function() {
                     var description = arguments.length < 1 || void 0 === arguments[0] ? void 0 : String(arguments[0]), result = this instanceof SymbolWrapper ? new NativeSymbol(description) : void 0 === description ? NativeSymbol() : NativeSymbol(description);
                     return "" === description && (EmptyStringDescriptionStore[result] = !0), result;
                 };
@@ -7918,8 +7746,7 @@
         83823: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
             var $ = __webpack_require__(35437), global = __webpack_require__(19514), getBuiltIn = __webpack_require__(44990), IS_PURE = __webpack_require__(80627), DESCRIPTORS = __webpack_require__(87122), NATIVE_SYMBOL = __webpack_require__(11382), fails = __webpack_require__(60232), has = __webpack_require__(1521), isArray = __webpack_require__(63079), isCallable = __webpack_require__(67106), isObject = __webpack_require__(39817), isSymbol = __webpack_require__(17679), anObject = __webpack_require__(83941), toObject = __webpack_require__(89343), toIndexedObject = __webpack_require__(74981), toPropertyKey = __webpack_require__(10482), $toString = __webpack_require__(72729), createPropertyDescriptor = __webpack_require__(93608), nativeObjectCreate = __webpack_require__(18255), objectKeys = __webpack_require__(25732), getOwnPropertyNamesModule = __webpack_require__(13463), getOwnPropertyNamesExternal = __webpack_require__(33954), getOwnPropertySymbolsModule = __webpack_require__(19724), getOwnPropertyDescriptorModule = __webpack_require__(24722), definePropertyModule = __webpack_require__(94770), propertyIsEnumerableModule = __webpack_require__(44096), redefine = __webpack_require__(78109), shared = __webpack_require__(61011), sharedKey = __webpack_require__(16735), hiddenKeys = __webpack_require__(38276), uid = __webpack_require__(67045), wellKnownSymbol = __webpack_require__(81019), wrappedWellKnownSymbolModule = __webpack_require__(52301), defineWellKnownSymbol = __webpack_require__(71309), setToStringTag = __webpack_require__(77875), InternalStateModule = __webpack_require__(44670), $forEach = __webpack_require__(48499).forEach, HIDDEN = sharedKey("hidden"), SYMBOL = "Symbol", PROTOTYPE = "prototype", TO_PRIMITIVE = wellKnownSymbol("toPrimitive"), setInternalState = InternalStateModule.set, getInternalState = InternalStateModule.getterFor(SYMBOL), ObjectPrototype = Object[PROTOTYPE], $Symbol = global.Symbol, $stringify = getBuiltIn("JSON", "stringify"), nativeGetOwnPropertyDescriptor = getOwnPropertyDescriptorModule.f, nativeDefineProperty = definePropertyModule.f, nativeGetOwnPropertyNames = getOwnPropertyNamesExternal.f, nativePropertyIsEnumerable = propertyIsEnumerableModule.f, AllSymbols = shared("symbols"), ObjectPrototypeSymbols = shared("op-symbols"), StringToSymbolRegistry = shared("string-to-symbol-registry"), SymbolToStringRegistry = shared("symbol-to-string-registry"), WellKnownSymbolsStore = shared("wks"), QObject = global.QObject, USE_SETTER = !QObject || !QObject[PROTOTYPE] || !QObject[PROTOTYPE].findChild, setSymbolDescriptor = DESCRIPTORS && fails(function() {
-                return 7 != nativeObjectCreate(nativeDefineProperty({
-                }, "a", {
+                return 7 != nativeObjectCreate(nativeDefineProperty({}, "a", {
                     get: function() {
                         return nativeDefineProperty(this, "a", {
                             value: 7
@@ -7941,8 +7768,7 @@
                 var key = toPropertyKey(P);
                 return (anObject(Attributes), has(AllSymbols, key)) ? (Attributes.enumerable ? (has(O, HIDDEN) && O[HIDDEN][key] && (O[HIDDEN][key] = !1), Attributes = nativeObjectCreate(Attributes, {
                     enumerable: createPropertyDescriptor(0, !1)
-                })) : (has(O, HIDDEN) || nativeDefineProperty(O, HIDDEN, createPropertyDescriptor(1, {
-                })), O[HIDDEN][key] = !0), setSymbolDescriptor(O, key, Attributes)) : nativeDefineProperty(O, key, Attributes);
+                })) : (has(O, HIDDEN) || nativeDefineProperty(O, HIDDEN, createPropertyDescriptor(1, {})), O[HIDDEN][key] = !0), setSymbolDescriptor(O, key, Attributes)) : nativeDefineProperty(O, key, Attributes);
             }, $defineProperties = function(O, Properties) {
                 anObject(O);
                 var properties = toIndexedObject(Properties);
@@ -8290,8 +8116,7 @@
                 if (len + offset > length) throw RangeError("Wrong length");
                 for(; index < len;)this[offset + index] = src[index++];
             }, fails(function() {
-                new Int8Array(1).set({
-                });
+                new Int8Array(1).set({});
             }));
         },
         1987: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
@@ -8315,8 +8140,7 @@
             "use strict";
             var ArrayBufferViewCore = __webpack_require__(4351), global = __webpack_require__(19514), fails = __webpack_require__(60232), aCallable = __webpack_require__(74618), toLength = __webpack_require__(31998), internalSort = __webpack_require__(1978), FF = __webpack_require__(15546), IE_OR_EDGE = __webpack_require__(13497), V8 = __webpack_require__(50661), WEBKIT = __webpack_require__(34884), aTypedArray = ArrayBufferViewCore.aTypedArray, exportTypedArrayMethod = ArrayBufferViewCore.exportTypedArrayMethod, Uint16Array = global.Uint16Array, nativeSort = Uint16Array && Uint16Array.prototype.sort, ACCEPT_INCORRECT_ARGUMENTS = !!nativeSort && !fails(function() {
                 var array = new Uint16Array(2);
-                array.sort(null), array.sort({
-                });
+                array.sort(null), array.sort({});
             }), STABLE_SORT = !!nativeSort && !fails(function() {
                 if (V8) return V8 < 74;
                 if (FF) return FF < 67;
@@ -8372,11 +8196,9 @@
         },
         37797: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var exportTypedArrayMethod = __webpack_require__(4351).exportTypedArrayMethod, fails = __webpack_require__(60232), global = __webpack_require__(19514), Uint8Array = global.Uint8Array, Uint8ArrayPrototype = Uint8Array && Uint8Array.prototype || {
-            }, arrayToString = [].toString, arrayJoin = [].join;
+            var exportTypedArrayMethod = __webpack_require__(4351).exportTypedArrayMethod, fails = __webpack_require__(60232), global = __webpack_require__(19514), Uint8Array = global.Uint8Array, Uint8ArrayPrototype = Uint8Array && Uint8Array.prototype || {}, arrayToString = [].toString, arrayJoin = [].join;
             fails(function() {
-                arrayToString.call({
-                });
+                arrayToString.call({});
             }) && (arrayToString = function() {
                 return arrayJoin.call(this);
             });
@@ -8616,8 +8438,7 @@
                 if (setInternalState(this, {
                     type: URL_SEARCH_PARAMS,
                     entries: entries,
-                    updateURL: function() {
-                    },
+                    updateURL: function() {},
                     updateSearchParams: updateSearchParams
                 }), void 0 !== init) if (isObject(init)) if (iteratorMethod = getIteratorMethod(init)) for(next = (iterator = getIterator(init, iteratorMethod)).next; !(step = next.call(iterator)).done;){
                     if ((first = (entryNext = (entryIterator = getIterator(anObject(step.value))).next).call(entryIterator)).done || (second = entryNext.call(entryIterator)).done || !entryNext.call(entryIterator).done) throw TypeError("Expected sequence with length 2");
@@ -8723,13 +8544,11 @@
                     forced: !0
                 }, {
                     fetch: function(input) {
-                        return nativeFetch(input, arguments.length > 1 ? wrapRequestOptions(arguments[1]) : {
-                        });
+                        return nativeFetch(input, arguments.length > 1 ? wrapRequestOptions(arguments[1]) : {});
                     }
                 }), isCallable(NativeRequest)) {
                     var RequestConstructor = function(input) {
-                        return anInstance(this, RequestConstructor, "Request"), new NativeRequest(input, arguments.length > 1 ? wrapRequestOptions(arguments[1]) : {
-                        });
+                        return anInstance(this, RequestConstructor, "Request"), new NativeRequest(input, arguments.length > 1 ? wrapRequestOptions(arguments[1]) : {});
                     };
                     RequestPrototype.constructor = RequestConstructor, RequestConstructor.prototype = RequestPrototype, $({
                         global: !0,
@@ -8849,22 +8668,18 @@
                     return "[" + result + "]";
                 }
                 return host;
-            }, C0ControlPercentEncodeSet = {
-            }, fragmentPercentEncodeSet = assign({
-            }, C0ControlPercentEncodeSet, {
+            }, C0ControlPercentEncodeSet = {}, fragmentPercentEncodeSet = assign({}, C0ControlPercentEncodeSet, {
                 " ": 1,
                 "\"": 1,
                 "<": 1,
                 ">": 1,
                 "`": 1
-            }), pathPercentEncodeSet = assign({
-            }, fragmentPercentEncodeSet, {
+            }), pathPercentEncodeSet = assign({}, fragmentPercentEncodeSet, {
                 "#": 1,
                 "?": 1,
                 "{": 1,
                 "}": 1
-            }), userinfoPercentEncodeSet = assign({
-            }, pathPercentEncodeSet, {
+            }), userinfoPercentEncodeSet = assign({}, pathPercentEncodeSet, {
                 "/": 1,
                 ":": 1,
                 ";": 1,
@@ -8900,28 +8715,7 @@
             }, shortenURLsPath = function(url) {
                 var path = url.path, pathSize = path.length;
                 pathSize && ("file" != url.scheme || 1 != pathSize || !isWindowsDriveLetter(path[0], !0)) && path.pop();
-            }, SCHEME_START = {
-            }, SCHEME = {
-            }, NO_SCHEME = {
-            }, SPECIAL_RELATIVE_OR_AUTHORITY = {
-            }, PATH_OR_AUTHORITY = {
-            }, RELATIVE = {
-            }, RELATIVE_SLASH = {
-            }, SPECIAL_AUTHORITY_SLASHES = {
-            }, SPECIAL_AUTHORITY_IGNORE_SLASHES = {
-            }, AUTHORITY = {
-            }, HOST = {
-            }, HOSTNAME = {
-            }, PORT = {
-            }, FILE = {
-            }, FILE_SLASH = {
-            }, FILE_HOST = {
-            }, PATH_START = {
-            }, PATH = {
-            }, CANNOT_BE_A_BASE_URL_PATH = {
-            }, QUERY = {
-            }, FRAGMENT = {
-            }, parseURL = function(url, input, stateOverride, base) {
+            }, SCHEME_START = {}, SCHEME = {}, NO_SCHEME = {}, SPECIAL_RELATIVE_OR_AUTHORITY = {}, PATH_OR_AUTHORITY = {}, RELATIVE = {}, RELATIVE_SLASH = {}, SPECIAL_AUTHORITY_SLASHES = {}, SPECIAL_AUTHORITY_IGNORE_SLASHES = {}, AUTHORITY = {}, HOST = {}, HOSTNAME = {}, PORT = {}, FILE = {}, FILE_SLASH = {}, FILE_HOST = {}, PATH_START = {}, PATH = {}, CANNOT_BE_A_BASE_URL_PATH = {}, QUERY = {}, FRAGMENT = {}, parseURL = function(url, input, stateOverride, base) {
                 var codePoints, chr, bufferCodePoints, failure, state = stateOverride || SCHEME_START, pointer = 0, buffer = "", seenAt = !1, seenBracket = !1, seenPasswordToken = !1;
                 for(stateOverride || (url.scheme = "", url.username = "", url.password = "", url.host = null, url.port = null, url.path = [], url.query = null, url.fragment = null, url.cannotBeABaseURL = !1, input = input.replace(LEADING_AND_TRAILING_C0_CONTROL_OR_SPACE, "")), codePoints = arrayFrom(input = input.replace(TAB_AND_NEW_LINE, "")); pointer <= codePoints.length;){
                     switch(chr = codePoints[pointer], state){
@@ -9117,8 +8911,7 @@
                 });
                 if (void 0 !== base) {
                     if (base instanceof URLConstructor) baseState = getInternalURLState(base);
-                    else if (failure = parseURL(baseState = {
-                    }, $toString(base))) throw TypeError(failure);
+                    else if (failure = parseURL(baseState = {}, $toString(base))) throw TypeError(failure);
                 }
                 if (failure = parseURL(state, urlString, null, baseState)) throw TypeError(failure);
                 var searchParams = state.searchParams = new URLSearchParams(), searchParamsState = getInternalSearchParamsState(searchParams);
@@ -9321,8 +9114,7 @@
                 }
             });
             var _a1, SHOW = "show", HIDE = "hide", LAUNCH = "launch", ERROR = "error";
-            (_a1 = {
-            })[SHOW] = "miniapp_pageshow", _a1[HIDE] = "miniapp_pagehide";
+            (_a1 = {})[SHOW] = "miniapp_pageshow", _a1[HIDE] = "miniapp_pagehide";
             var DEFAULT_APP_CONFIG = {
                 app: {
                     rootId: "root"
@@ -9330,8 +9122,7 @@
                 router: {
                     type: "hash"
                 }
-            }, appCycles = {
-            };
+            }, appCycles = {};
             function emit(cycle, context) {
                 for(var args = [], _i = 2; _i < arguments.length; _i++)args[_i - 2] = arguments[_i];
                 if (Object.prototype.hasOwnProperty.call(appCycles, cycle)) {
@@ -9373,12 +9164,10 @@
                     this.constructor = d;
                 }
                 extendStatics(d, b), d.prototype = null === b ? Object.create(b) : (__.prototype = b.prototype, new __());
-            }), visibleListeners = {
-            };
+            }), visibleListeners = {};
             function addPageLifeCycle(cycle, callback) {
                 var _a, pathname = lib_router.current.pathname;
-                visibleListeners[pathname] || (visibleListeners[pathname] = ((_a = {
-                })[SHOW] = [], _a[HIDE] = [], _a)), visibleListeners[pathname][cycle].push(callback);
+                visibleListeners[pathname] || (visibleListeners[pathname] = ((_a = {})[SHOW] = [], _a[HIDE] = [], _a)), visibleListeners[pathname][cycle].push(callback);
             }
             function pageLifeCycles_emit(cycle, pathname) {
                 for(var _a, args = [], _i = 2; _i < arguments.length; _i++)args[_i - 2] = arguments[_i];
@@ -9442,8 +9231,7 @@
                     pathname: pathname,
                     visibilityState: !0
                 }, emit(LAUNCH), emit(SHOW), history && history.listen && history.listen(function(location) {
-                    location.pathname !== lib_router.current.pathname && (lib_router.prev = __assign({
-                    }, lib_router.current), lib_router.current = {
+                    location.pathname !== lib_router.current.pathname && (lib_router.prev = __assign({}, lib_router.current), lib_router.current = {
                         pathname: location.pathname,
                         visibilityState: !0
                     }, lib_router.prev.visibiltyState = !1, pageLifeCycles_emit(HIDE, lib_router.prev.pathname), pageLifeCycles_emit(SHOW, lib_router.current.pathname));
@@ -9486,8 +9274,7 @@
             }
             var _query_string_6_14_1_query_string = __webpack_require__(20386);
             function getSearchParams(history) {
-                return (void 0 === history && (history = getHistory()), !history && "undefined" != typeof window && window.history && (history = window.history), history && history.location && history.location.search) ? _query_string_6_14_1_query_string.parse(history.location.search) : {
-                };
+                return (void 0 === history && (history = getHistory()), !history && "undefined" != typeof window && window.history && (history = window.history), history && history.location && history.location.search) ? _query_string_6_14_1_query_string.parse(history.location.search) : {};
             }
             function collectAppLifeCycle(appConfig) {
                 var _a = appConfig.app, onLaunch = _a.onLaunch, onShow = _a.onShow, onError = _a.onError, onHide = _a.onHide, onTabItemClick = _a.onTabItemClick;
@@ -9499,8 +9286,7 @@
                     return t;
                 }).apply(this, arguments);
             }, __rest = function(s, e) {
-                var t = {
-                };
+                var t = {};
                 for(var p in s)Object.prototype.hasOwnProperty.call(s, p) && 0 > e.indexOf(p) && (t[p] = s[p]);
                 if (null != s && "function" == typeof Object.getOwnPropertySymbols) for(var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++)0 > e.indexOf(p[i]) && Object.prototype.propertyIsEnumerable.call(s, p[i]) && (t[p[i]] = s[p[i]]);
                 return t;
@@ -9541,8 +9327,7 @@
                         return _this.renderApp(_this.wrapperPageRegistration.reduce(function(acc, curr) {
                             return curr(acc);
                         }, _this.appConfig.renderComponent));
-                    }, this.AppProvider = [], this.appConfig = appConfig, this.buildConfig = buildConfig, this.context = context, this.staticConfig = staticConfig, this.modifyDOMRender = null, this.apiRegistration = {
-                    }, this.renderApp = function(AppComponent) {
+                    }, this.AppProvider = [], this.appConfig = appConfig, this.buildConfig = buildConfig, this.context = context, this.staticConfig = staticConfig, this.modifyDOMRender = null, this.apiRegistration = {}, this.renderApp = function(AppComponent) {
                         return AppComponent;
                     }, this.routesComponent = !1, this.modifyRoutesRegistration = [], this.wrapperPageRegistration = [];
                 }
@@ -9558,8 +9343,7 @@
                         setRenderApp: this.setRenderApp,
                         staticConfig: this.staticConfig
                     };
-                    enabledRouter && (runtimeAPI = runtimeModule_assign(runtimeModule_assign({
-                    }, runtimeAPI), {
+                    enabledRouter && (runtimeAPI = runtimeModule_assign(runtimeModule_assign({}, runtimeAPI), {
                         modifyRoutes: this.modifyRoutes,
                         wrapperRouterRender: this.wrapperRouterRender,
                         modifyRoutesComponent: this.modifyRoutesComponent
@@ -9572,10 +9356,8 @@
                         return function(_a) {
                             var children = _a.children, rest = __rest(_a, [
                                 "children"
-                            ]), element = CurrentProvider ? _this.context.createElement(CurrentProvider, runtimeModule_assign({
-                            }, rest), children) : children;
-                            return _this.context.createElement(ProviderComponent, runtimeModule_assign({
-                            }, rest), element);
+                            ]), element = CurrentProvider ? _this.context.createElement(CurrentProvider, runtimeModule_assign({}, rest), children) : children;
+                            return _this.context.createElement(ProviderComponent, runtimeModule_assign({}, rest), element);
                         };
                     }) : null;
                 }, RuntimeModule;
@@ -9586,8 +9368,7 @@
                 }), config;
             }
             var createBaseApp = function(_a) {
-                var loadRuntimeModules = _a.loadRuntimeModules, createElement = _a.createElement, _b = _a.runtimeAPI, runtimeAPI = void 0 === _b ? {
-                } : _b;
+                var loadRuntimeModules = _a.loadRuntimeModules, createElement = _a.createElement, _b = _a.runtimeAPI, runtimeAPI = void 0 === _b ? {} : _b;
                 return function(appConfig, buildConfig, context, staticConfig) {
                     appConfig = mergeDefaultConfig(DEFAULT_APP_CONFIG, appConfig), context.createElement = createElement;
                     var runtime = new runtimeModule1(appConfig, buildConfig, context, staticConfig);
@@ -9599,8 +9380,7 @@
                     };
                 };
             };
-            function registerNativeEventListeners(Klass, events) {
-            }
+            function registerNativeEventListeners(Klass, events) {}
             function addNativeEventListener(eventName, callback) {
                 document.addEventListener(eventName, callback);
             }
@@ -9614,8 +9394,7 @@
             function decodeComponents(components, split) {
                 try {
                     return decodeURIComponent(components.join(""));
-                } catch (err) {
-                }
+                } catch (err) {}
                 if (1 === components.length) return components;
                 split = split || 1;
                 var left = components.slice(0, split), right = components.slice(split);
@@ -9660,8 +9439,7 @@
         47560: function(module) {
             "use strict";
             module.exports = function(obj, predicate) {
-                for(var ret = {
-                }, keys = Object.keys(obj), isArr = Array.isArray(predicate), i = 0; i < keys.length; i++){
+                for(var ret = {}, keys = Object.keys(obj), isArr = Array.isArray(predicate), i = 0; i < keys.length; i++){
                     var key = keys[i], val = obj[key];
                     (isArr ? -1 !== predicate.indexOf(key) : predicate(key, val, obj)) && (ret[key] = val);
                 }
@@ -9729,8 +9507,7 @@
                 });
                 if ("object" == typeof a || "object" == typeof b) {
                     var aValue = value_equal_valueOf(a), bValue = value_equal_valueOf(b);
-                    return aValue !== a || bValue !== b ? valueEqual(aValue, bValue) : Object.keys(Object.assign({
-                    }, a, b)).every(function(key) {
+                    return aValue !== a || bValue !== b ? valueEqual(aValue, bValue) : Object.keys(Object.assign({}, a, b)).every(function(key) {
                         return valueEqual(a[key], b[key]);
                     });
                 }
@@ -9766,8 +9543,7 @@
             }
             function createLocation(path, state, key, currentLocation) {
                 var location;
-                "string" == typeof path ? (location = parsePath(path)).state = state : (void 0 === (location = (0, esm_extends.Z)({
-                }, path)).pathname && (location.pathname = ""), location.search ? "?" !== location.search.charAt(0) && (location.search = "?" + location.search) : location.search = "", location.hash ? "#" !== location.hash.charAt(0) && (location.hash = "#" + location.hash) : location.hash = "", void 0 !== state && void 0 === location.state && (location.state = state));
+                "string" == typeof path ? (location = parsePath(path)).state = state : (void 0 === (location = (0, esm_extends.Z)({}, path)).pathname && (location.pathname = ""), location.search ? "?" !== location.search.charAt(0) && (location.search = "?" + location.search) : location.search = "", location.hash ? "#" !== location.hash.charAt(0) && (location.hash = "#" + location.hash) : location.hash = "", void 0 !== state && void 0 === location.state && (location.state = state));
                 try {
                     location.pathname = decodeURI(location.pathname);
                 } catch (e) {
@@ -9819,20 +9595,16 @@
             var PopStateEvent = "popstate", HashChangeEvent = "hashchange";
             function getHistoryState() {
                 try {
-                    return window.history.state || {
-                    };
+                    return window.history.state || {};
                 } catch (e) {
-                    return {
-                    };
+                    return {};
                 }
             }
             function createBrowserHistory(props) {
-                void 0 === props && (props = {
-                }), canUseDOM || (0, tiny_invariant_esm.default)(!1);
+                void 0 === props && (props = {}), canUseDOM || (0, tiny_invariant_esm.default)(!1);
                 var ua, globalHistory = window.history, canUseHistory = (-1 === (ua = window.navigator.userAgent).indexOf("Android 2.") && -1 === ua.indexOf("Android 4.0") || -1 === ua.indexOf("Mobile Safari") || -1 !== ua.indexOf("Chrome") || -1 !== ua.indexOf("Windows Phone")) && window.history && "pushState" in window.history, needsHashChangeListener = -1 !== window.navigator.userAgent.indexOf("Trident"), _props = props, _props$forceRefresh = _props.forceRefresh, forceRefresh = void 0 !== _props$forceRefresh && _props$forceRefresh, _props$getUserConfirm = _props.getUserConfirmation, getUserConfirmation = void 0 === _props$getUserConfirm ? getConfirmation : _props$getUserConfirm, _props$keyLength = _props.keyLength, keyLength = void 0 === _props$keyLength ? 6 : _props$keyLength, basename = props.basename ? stripTrailingSlash(addLeadingSlash(props.basename)) : "";
                 function getDOMLocation(historyState) {
-                    var _ref = historyState || {
-                    }, key = _ref.key, state = _ref.state, _window$location = window.location, pathname = _window$location.pathname, search = _window$location.search, hash = _window$location.hash, path = pathname + search + hash;
+                    var _ref = historyState || {}, key = _ref.key, state = _ref.state, _window$location = window.location, pathname = _window$location.pathname, search = _window$location.search, hash = _window$location.hash, path = pathname + search + hash;
                     return basename && (path = stripBasename(path, basename)), createLocation(path, state, key);
                 }
                 function createKey() {
@@ -9980,8 +9752,7 @@
                 window.location.replace(stripHash(window.location.href) + "#" + path);
             }
             function createHashHistory(props) {
-                void 0 === props && (props = {
-                }), canUseDOM || (0, tiny_invariant_esm.default)(!1);
+                void 0 === props && (props = {}), canUseDOM || (0, tiny_invariant_esm.default)(!1);
                 var globalHistory = window.history;
                 -1 === window.navigator.userAgent.indexOf("Firefox");
                 var _props = props, _props$getUserConfirm = _props.getUserConfirmation, getUserConfirmation = void 0 === _props$getUserConfirm ? getConfirmation : _props$getUserConfirm, _props$hashType = _props.hashType, basename = props.basename ? stripTrailingSlash(addLeadingSlash(props.basename)) : "", _HashPathCoders$hashT = HashPathCoders[void 0 === _props$hashType ? "slash" : _props$hashType], encodePath = _HashPathCoders$hashT.encodePath, decodePath = _HashPathCoders$hashT.decodePath;
@@ -10101,8 +9872,7 @@
                 return Math.min(Math.max(n, lowerBound), upperBound);
             }
             function createMemoryHistory(props) {
-                void 0 === props && (props = {
-                });
+                void 0 === props && (props = {});
                 var _props = props, getUserConfirmation = _props.getUserConfirmation, _props$initialEntries = _props.initialEntries, initialEntries = void 0 === _props$initialEntries ? [
                     "/"
                 ] : _props$initialEntries, _props$initialIndex = _props.initialIndex, _props$keyLength = _props.keyLength, keyLength = void 0 === _props$keyLength ? 6 : _props$keyLength, transitionManager = createTransitionManager();
@@ -10205,8 +9975,7 @@
                 displayName: !0,
                 propTypes: !0,
                 type: !0
-            }, TYPE_STATICS = {
-            };
+            }, TYPE_STATICS = {};
             function getStatics(component) {
                 return reactIs.isMemo(component) ? MEMO_STATICS : TYPE_STATICS[component.$$typeof] || REACT_STATICS;
             }
@@ -10232,8 +10001,7 @@
                             var descriptor = getOwnPropertyDescriptor(sourceComponent, key);
                             try {
                                 defineProperty(targetComponent, key, descriptor);
-                            } catch (e) {
-                            }
+                            } catch (e) {}
                         }
                     }
                 }
@@ -10254,18 +10022,15 @@
                     if (!Object.assign) return !1;
                     var test1 = new String("abc");
                     if (test1[5] = "de", "5" === Object.getOwnPropertyNames(test1)[0]) return !1;
-                    for(var test2 = {
-                    }, i = 0; i < 10; i++)test2["_" + String.fromCharCode(i)] = i;
+                    for(var test2 = {}, i = 0; i < 10; i++)test2["_" + String.fromCharCode(i)] = i;
                     var order2 = Object.getOwnPropertyNames(test2).map(function(n) {
                         return test2[n];
                     });
                     if ("0123456789" !== order2.join("")) return !1;
-                    var test3 = {
-                    };
+                    var test3 = {};
                     if ("abcdefghijklmnopqrst".split("").forEach(function(letter) {
                         test3[letter] = letter;
-                    }), "abcdefghijklmnopqrst" !== Object.keys(Object.assign({
-                    }, test3)).join("")) return !1;
+                    }), "abcdefghijklmnopqrst" !== Object.keys(Object.assign({}, test3)).join("")) return !1;
                     return !0;
                 } catch (err) {
                     return !1;
@@ -10326,9 +10091,7 @@
             function tokensToFunction(tokens, options) {
                 for(var matches = new Array(tokens.length), i1 = 0; i1 < tokens.length; i1++)"object" == typeof tokens[i1] && (matches[i1] = new RegExp("^(?:" + tokens[i1].pattern + ")$", flags(options)));
                 return function(obj, opts) {
-                    for(var path = "", data = obj || {
-                    }, encode = (opts || {
-                    }).pretty ? encodeURIComponentPretty : encodeURIComponent, i = 0; i < tokens.length; i++){
+                    for(var path = "", data = obj || {}, encode = (opts || {}).pretty ? encodeURIComponentPretty : encodeURIComponent, i = 0; i < tokens.length; i++){
                         var segment, token = tokens[i];
                         if ("string" == typeof token) {
                             path += token;
@@ -10374,8 +10137,7 @@
             }
             function tokensToRegExp(tokens, keys, options) {
                 isarray(keys) || (options = keys || options, keys = []);
-                for(var strict = (options = options || {
-                }).strict, end = !1 !== options.end, route = "", i = 0; i < tokens.length; i++){
+                for(var strict = (options = options || {}).strict, end = !1 !== options.end, route = "", i = 0; i < tokens.length; i++){
                     var token = tokens[i];
                     if ("string" == typeof token) route += escapeString(token);
                     else {
@@ -10388,8 +10150,7 @@
             }
             function pathToRegexp(path7, keys2, options2) {
                 var path6, keys1, options1;
-                return (isarray(keys2) || (options2 = keys2 || options2, keys2 = []), options2 = options2 || {
-                }, path7 instanceof RegExp) ? (function(path, keys) {
+                return (isarray(keys2) || (options2 = keys2 || options2, keys2 = []), options2 = options2 || {}, path7 instanceof RegExp) ? (function(path, keys) {
                     var groups = path.source.match(/\((?!\?)/g);
                     if (groups) for(var i = 0; i < groups.length; i++)keys.push({
                         name: i,
@@ -10409,8 +10170,7 @@
             }
         },
         97671: function(module) {
-            var cachedSetTimeout, cachedClearTimeout, currentQueue, process = module.exports = {
-            };
+            var cachedSetTimeout, cachedClearTimeout, currentQueue, process = module.exports = {};
             function defaultSetTimout() {
                 throw new Error("setTimeout has not been defined");
             }
@@ -10472,17 +10232,14 @@
             function Item(fun, array) {
                 this.fun = fun, this.array = array;
             }
-            function noop() {
-            }
+            function noop() {}
             process.nextTick = function(fun) {
                 var args = new Array(arguments.length - 1);
                 if (arguments.length > 1) for(var i = 1; i < arguments.length; i++)args[i - 1] = arguments[i];
                 queue.push(new Item(fun, args)), 1 !== queue.length || draining || runTimeout(drainQueue);
             }, Item.prototype.run = function() {
                 this.fun.apply(null, this.array);
-            }, process.title = "browser", process.browser = !0, process.env = {
-            }, process.argv = [], process.version = "", process.versions = {
-            }, process.on = noop, process.addListener = noop, process.once = noop, process.off = noop, process.removeListener = noop, process.removeAllListeners = noop, process.emit = noop, process.prependListener = noop, process.prependOnceListener = noop, process.listeners = function(name) {
+            }, process.title = "browser", process.browser = !0, process.env = {}, process.argv = [], process.version = "", process.versions = {}, process.on = noop, process.addListener = noop, process.once = noop, process.off = noop, process.removeListener = noop, process.removeAllListeners = noop, process.emit = noop, process.prependListener = noop, process.prependOnceListener = noop, process.listeners = function(name) {
                 return [];
             }, process.binding = function(name) {
                 throw new Error("process.binding is not supported");
@@ -10497,10 +10254,8 @@
         46985: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
             var ReactPropTypesSecret = __webpack_require__(16514);
-            function emptyFunction() {
-            }
-            function emptyFunctionWithReset() {
-            }
+            function emptyFunction() {}
+            function emptyFunctionWithReset() {}
             emptyFunctionWithReset.resetWarningCache = emptyFunction, module.exports = function() {
                 function shim(props, propName, componentName, location, propFullName, secret) {
                     if (secret !== ReactPropTypesSecret) {
@@ -10592,8 +10347,7 @@
                                     accumulator[key] = value;
                                     return;
                                 }
-                                void 0 === accumulator[key] && (accumulator[key] = {
-                                }), accumulator[key][result[1]] = value;
+                                void 0 === accumulator[key] && (accumulator[key] = {}), accumulator[key][result[1]] = value;
                             };
                         case "bracket":
                             return (key, value, accumulator)=>{
@@ -10726,8 +10480,7 @@
                                     ]
                             ;
                     }
-                }(options4), objectCopy = {
-                };
+                }(options4), objectCopy = {};
                 for (const key3 of Object.keys(object))shouldFilter(key3) || (objectCopy[key3] = object[key3]);
                 const keys = Object.keys(objectCopy);
                 return !1 !== options4.sort && keys.sort(options4.sort), keys.map((key)=>{
@@ -10745,8 +10498,7 @@
                     query: parse(extract(url), options)
                 }, options && options.parseFragmentIdentifier && hash ? {
                     fragmentIdentifier: decode(hash, options)
-                } : {
-                });
+                } : {});
             }, exports.stringifyUrl = (object, options)=>{
                 options = Object.assign({
                     encode: !0,
@@ -10926,8 +10678,7 @@
                 var _a, _b, ErrorBoundary = options.ErrorBoundary, _c = options.appConfig, AppProvider = null === (_a = null == runtime ? void 0 : runtime.composeAppProvider) || void 0 === _a ? void 0 : _a.call(runtime), AppComponent = null === (_b = null == runtime ? void 0 : runtime.getAppComponent) || void 0 === _b ? void 0 : _b.call(runtime), rootApp = React.createElement(AppComponent, null);
                 AppProvider && (rootApp = React.createElement(AppProvider, null, rootApp));
                 var _d = (void 0 === _c ? {
-                    app: {
-                    }
+                    app: {}
                 } : _c).app, ErrorBoundaryFallback = _d.ErrorBoundaryFallback, onErrorBoundaryHandler = _d.onErrorBoundaryHandler, errorBoundary = _d.errorBoundary, _e = _d.strict, strict = void 0 !== _e && _e;
                 return function() {
                     return errorBoundary && (rootApp = React.createElement(ErrorBoundary, {
@@ -10945,9 +10696,7 @@
                     return __generator(this, function(_f) {
                         switch(_f.label){
                             case 0:
-                                if (appConfig = options5.appConfig, _b1 = options5.buildConfig, buildConfig = void 0 === _b1 ? {
-                                } : _b1, createBaseApp = (appLifecycle = options5.appLifecycle).createBaseApp, emitLifeCycles = appLifecycle.emitLifeCycles, initAppLifeCycles = appLifecycle.initAppLifeCycles, context = {
-                                }, !window.__ICE_APP_DATA__) return [
+                                if (appConfig = options5.appConfig, _b1 = options5.buildConfig, buildConfig = void 0 === _b1 ? {} : _b1, createBaseApp = (appLifecycle = options5.appLifecycle).createBaseApp, emitLifeCycles = appLifecycle.emitLifeCycles, initAppLifeCycles = appLifecycle.initAppLifeCycles, context = {}, !window.__ICE_APP_DATA__) return [
                                     3,
                                     1
                                 ];
@@ -10975,8 +10724,7 @@
                                 return runtime1 = (_e = createBaseApp(appConfig, buildConfig, context)).runtime, modifiedAppConfig = _e.appConfig, initAppLifeCycles(), setInitialData(context.initialData), emitLifeCycles(), [
                                     2,
                                     function(runtime, options) {
-                                        var mountNode, rootId, _a, _b = options.appConfig, _c = (void 0 === _b ? {
-                                        } : _b).app, rootId1 = _c.rootId, mountNode1 = _c.mountNode, App = getRenderApp(runtime, options), appMountNode = (mountNode = mountNode1, rootId = rootId1, mountNode || document.getElementById(rootId) || document.getElementById("ice-container"));
+                                        var mountNode, rootId, _a, _b = options.appConfig, _c = (void 0 === _b ? {} : _b).app, rootId1 = _c.rootId, mountNode1 = _c.mountNode, App = getRenderApp(runtime, options), appMountNode = (mountNode = mountNode1, rootId = rootId1, mountNode || document.getElementById(rootId) || document.getElementById("ice-container"));
                                         if (null == runtime ? void 0 : runtime.modifyDOMRender) return null === (_a = null == runtime ? void 0 : runtime.modifyDOMRender) || void 0 === _a ? void 0 : _a.call(runtime, {
                                             App: App,
                                             appMountNode: appMountNode
@@ -10984,8 +10732,7 @@
                                         window.__ICE_SSR_ENABLED__ && process.env.SSR ? (0, component_1.loadableReady)(function() {
                                             ReactDOM.hydrate(React.createElement(App, null), appMountNode);
                                         }) : ReactDOM.render(React.createElement(App, null), appMountNode);
-                                    }(runtime1, __assign(__assign({
-                                    }, options5), {
+                                    }(runtime1, __assign(__assign({}, options5), {
                                         appConfig: modifiedAppConfig
                                     }))
                                 ];
@@ -11002,22 +10749,18 @@
                 return "Minified React error #" + a + "; visit " + b + " for the full message or use the non-minified dev environment for full errors and additional helpful warnings.";
             }
             if (!aa) throw Error(y(227));
-            var ba = new Set, ca = {
-            };
+            var ba = new Set, ca = {};
             function da(a, b) {
                 ea(a, b), ea(a + "Capture", b);
             }
             function ea(a, b) {
                 for(ca[a] = b, a = 0; a < b.length; a++)ba.add(b[a]);
             }
-            var fa = !("undefined" == typeof window || void 0 === window.document || void 0 === window.document.createElement), ha = /^[:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD][:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\-.0-9\u00B7\u0300-\u036F\u203F-\u2040]*$/, ia = Object.prototype.hasOwnProperty, ja = {
-            }, ka = {
-            };
+            var fa = !("undefined" == typeof window || void 0 === window.document || void 0 === window.document.createElement), ha = /^[:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD][:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\-.0-9\u00B7\u0300-\u036F\u203F-\u2040]*$/, ia = Object.prototype.hasOwnProperty, ja = {}, ka = {};
             function B(a, b, c, d, e, f, g) {
                 this.acceptsBooleans = 2 === b || 3 === b || 4 === b, this.attributeName = d, this.attributeNamespace = e, this.mustUseProperty = c, this.propertyName = a, this.type = b, this.sanitizeURL = f, this.removeEmptyString = g;
             }
-            var D = {
-            };
+            var D = {};
             "children dangerouslySetInnerHTML defaultValue defaultChecked innerHTML suppressContentEditableWarning suppressHydrationWarning style".split(" ").forEach(function(a) {
                 D[a] = new B(a, 0, !1, a, null, !1, !1);
             }), [
@@ -11268,8 +11011,7 @@
                         b = a._payload, a = a._init;
                         try {
                             return Ra(a(b));
-                        } catch (c) {
-                        }
+                        } catch (c) {}
                 }
                 return null;
             }
@@ -11335,8 +11077,7 @@
             }
             function Ya(a, b) {
                 var c = b.checked;
-                return m({
-                }, b, {
+                return m({}, b, {
                     defaultChecked: void 0,
                     defaultValue: void 0,
                     value: void 0,
@@ -11385,8 +11126,7 @@
             }
             function fb(a, b, c, d) {
                 if (a = a.options, b) {
-                    b = {
-                    };
+                    b = {};
                     for(var e = 0; e < c.length; e++)b["$" + c[e]] = !0;
                     for(c = 0; c < a.length; c++)e = b.hasOwnProperty("$" + a[c].value), a[c].selected !== e && (a[c].selected = e), e && d && (a[c].defaultSelected = !0);
                 } else {
@@ -11402,8 +11142,7 @@
             }
             function gb(a, b) {
                 if (null != b.dangerouslySetInnerHTML) throw Error(y(91));
-                return m({
-                }, b, {
+                return m({}, b, {
                     value: void 0,
                     defaultValue: void 0,
                     children: "" + a._wrapperState.initialValue
@@ -11611,8 +11350,7 @@
             function Hb(a, b, c, d, e) {
                 return a(b, c, d, e);
             }
-            function Ib() {
-            }
+            function Ib() {}
             var Jb = Gb, Kb = !1, Lb = !1;
             function Mb() {
                 (null !== zb || null !== Ab) && (Ib(), Fb());
@@ -11646,8 +11384,7 @@
             }
             var Pb = !1;
             if (fa) try {
-                var Qb = {
-                };
+                var Qb = {};
                 Object.defineProperty(Qb, "passive", {
                     get: function() {
                         Pb = !0;
@@ -11881,8 +11618,7 @@
                 for(; 0 < pc.length && null === (c = pc[0]).blockedOn;)vc(c), null === c.blockedOn && pc.shift();
             }
             function Dc(a, b) {
-                var c = {
-                };
+                var c = {};
                 return c[a.toLowerCase()] = b.toLowerCase(), c["Webkit" + a] = "webkit" + b, c["Moz" + a] = "moz" + b, c;
             }
             var Ec = {
@@ -11890,9 +11626,7 @@
                 animationiteration: Dc("Animation", "AnimationIteration"),
                 animationstart: Dc("Animation", "AnimationStart"),
                 transitionend: Dc("Transition", "TransitionEnd")
-            }, Fc = {
-            }, Gc = {
-            };
+            }, Fc = {}, Gc = {};
             function Hc(a) {
                 if (Fc[a]) return Fc[a];
                 if (!Ec[a]) return a;
@@ -12072,8 +11806,7 @@
                         var a = this.nativeEvent;
                         a && (a.stopPropagation ? a.stopPropagation() : "unknown" != typeof a.cancelBubble && (a.cancelBubble = !0), this.isPropagationStopped = pd);
                     },
-                    persist: function() {
-                    },
+                    persist: function() {},
                     isPersistent: pd
                 }), b8;
             }
@@ -12086,12 +11819,10 @@
                 },
                 defaultPrevented: 0,
                 isTrusted: 0
-            }, td = rd(sd), ud = m({
-            }, sd, {
+            }, td = rd(sd), ud = m({}, sd, {
                 view: 0,
                 detail: 0
-            }), vd = rd(ud), Ad = m({
-            }, ud, {
+            }), vd = rd(ud), Ad = m({}, ud, {
                 screenX: 0,
                 screenY: 0,
                 clientX: 0,
@@ -12114,24 +11845,19 @@
                 movementY: function(a) {
                     return "movementY" in a ? a.movementY : xd;
                 }
-            }), Bd = rd(Ad), Dd = rd(m({
-            }, Ad, {
+            }), Bd = rd(Ad), Dd = rd(m({}, Ad, {
                 dataTransfer: 0
-            })), Fd = rd(m({
-            }, ud, {
+            })), Fd = rd(m({}, ud, {
                 relatedTarget: 0
-            })), Hd = rd(m({
-            }, sd, {
+            })), Hd = rd(m({}, sd, {
                 animationName: 0,
                 elapsedTime: 0,
                 pseudoElement: 0
-            })), Jd = rd(m({
-            }, sd, {
+            })), Jd = rd(m({}, sd, {
                 clipboardData: function(a) {
                     return "clipboardData" in a ? a.clipboardData : window.clipboardData;
                 }
-            })), Ld = rd(m({
-            }, sd, {
+            })), Ld = rd(m({}, sd, {
                 data: 0
             })), Md = {
                 Esc: "Escape",
@@ -12196,8 +11922,7 @@
             function zd() {
                 return Pd;
             }
-            var Rd = rd(m({
-            }, ud, {
+            var Rd = rd(m({}, ud, {
                 key: function(a) {
                     if (a.key) {
                         var b = Md[a.key] || a.key;
@@ -12223,8 +11948,7 @@
                 which: function(a) {
                     return "keypress" === a.type ? od(a) : "keydown" === a.type || "keyup" === a.type ? a.keyCode : 0;
                 }
-            })), Td = rd(m({
-            }, Ad, {
+            })), Td = rd(m({}, Ad, {
                 pointerId: 0,
                 width: 0,
                 height: 0,
@@ -12235,8 +11959,7 @@
                 twist: 0,
                 pointerType: 0,
                 isPrimary: 0
-            })), Vd = rd(m({
-            }, ud, {
+            })), Vd = rd(m({}, ud, {
                 touches: 0,
                 targetTouches: 0,
                 changedTouches: 0,
@@ -12245,13 +11968,11 @@
                 ctrlKey: 0,
                 shiftKey: 0,
                 getModifierState: zd
-            })), Xd = rd(m({
-            }, sd, {
+            })), Xd = rd(m({}, sd, {
                 propertyName: 0,
                 elapsedTime: 0,
                 pseudoElement: 0
-            })), Zd = rd(m({
-            }, Ad, {
+            })), Zd = rd(m({}, Ad, {
                 deltaX: function(a) {
                     return "deltaX" in a ? a.deltaX : "wheelDeltaX" in a ? -a.wheelDeltaX : 0;
                 },
@@ -12843,8 +12564,7 @@
                     listeners: g
                 });
             }
-            function jf() {
-            }
+            function jf() {}
             var kf = null, lf = null;
             function mf(a, b) {
                 switch(a){
@@ -12926,15 +12646,13 @@
             function I(a, b) {
                 Af++, zf[Af] = a.current, a.current = b;
             }
-            var Cf = {
-            }, M = Bf(Cf), N = Bf(!1), Df = Cf;
+            var Cf = {}, M = Bf(Cf), N = Bf(!1), Df = Cf;
             function Ef(a, b) {
                 var c = a.type.contextTypes;
                 if (!c) return Cf;
                 var d = a.stateNode;
                 if (d && d.__reactInternalMemoizedUnmaskedChildContext === b) return d.__reactInternalMemoizedMaskedChildContext;
-                var f, e = {
-                };
+                var f, e = {};
                 for(f in c)e[f] = b[f];
                 return d && ((a = a.stateNode).__reactInternalMemoizedUnmaskedChildContext = b, a.__reactInternalMemoizedMaskedChildContext = e), e;
             }
@@ -12952,8 +12670,7 @@
                 var d = a.stateNode;
                 if (a = b.childContextTypes, "function" != typeof d.getChildContext) return c;
                 for(var e in d = d.getChildContext())if (!(e in a)) throw Error(y(108, Ra(b) || "Unknown", e));
-                return m({
-                }, c, d);
+                return m({}, c, d);
             }
             function Jf(a) {
                 return a = (a = a.stateNode) && a.__reactInternalMemoizedMergedChildContext || Cf, Df = M.current, I(M, a), I(N, N.current), !0;
@@ -12963,9 +12680,7 @@
                 if (!d) throw Error(y(169));
                 c ? (a = If(a, b, Df), d.__reactInternalMemoizedMergedChildContext = a, H(N), H(M), I(M, a)) : H(N), I(N, c);
             }
-            var Lf = null, Mf = null, Nf = r.unstable_runWithPriority, Of = r.unstable_scheduleCallback, Pf = r.unstable_cancelCallback, Qf = r.unstable_shouldYield, Rf = r.unstable_requestPaint, Sf = r.unstable_now, Tf = r.unstable_getCurrentPriorityLevel, Uf = r.unstable_ImmediatePriority, Vf = r.unstable_UserBlockingPriority, Wf = r.unstable_NormalPriority, Xf = r.unstable_LowPriority, Yf = r.unstable_IdlePriority, Zf = {
-            }, $f = void 0 !== Rf ? Rf : function() {
-            }, ag = null, bg = null, cg = !1, dg = Sf(), O = 10000 > dg ? Sf : function() {
+            var Lf = null, Mf = null, Nf = r.unstable_runWithPriority, Of = r.unstable_scheduleCallback, Pf = r.unstable_cancelCallback, Qf = r.unstable_shouldYield, Rf = r.unstable_requestPaint, Sf = r.unstable_now, Tf = r.unstable_getCurrentPriorityLevel, Uf = r.unstable_ImmediatePriority, Vf = r.unstable_UserBlockingPriority, Wf = r.unstable_NormalPriority, Xf = r.unstable_LowPriority, Yf = r.unstable_IdlePriority, Zf = {}, $f = void 0 !== Rf ? Rf : function() {}, ag = null, bg = null, cg = !1, dg = Sf(), O = 10000 > dg ? Sf : function() {
                 return Sf() - dg;
             };
             function eg() {
@@ -13036,8 +12751,7 @@
             var kg = ra.ReactCurrentBatchConfig;
             function lg(a, b) {
                 if (a && a.defaultProps) {
-                    for(var c in b = m({
-                    }, b), a = a.defaultProps)void 0 === b[c] && (b[c] = a[c]);
+                    for(var c in b = m({}, b), a = a.defaultProps)void 0 === b[c] && (b[c] = a[c]);
                     return b;
                 }
                 return b;
@@ -13184,8 +12898,7 @@
                                         C.flags = -4097 & C.flags | 64;
                                     case 0:
                                         if (null == (h = "function" == typeof (C = x.payload) ? C.call(p, A, h) : C)) break a;
-                                        A = m({
-                                        }, A, h);
+                                        A = m({}, A, h);
                                         break a;
                                     case 2:
                                         wg = !0;
@@ -13219,8 +12932,7 @@
             }
             var Fg = (new aa.Component).refs;
             function Gg(a, b, c, d) {
-                c = null == (c = c(d, b = a.memoizedState)) ? b : m({
-                }, b, c), a.memoizedState = c, 0 === a.lanes && (a.updateQueue.baseState = c);
+                c = null == (c = c(d, b = a.memoizedState)) ? b : m({}, b, c), a.memoizedState = c, 0 === a.lanes && (a.updateQueue.baseState = c);
             }
             var Kg = {
                 isMounted: function(a) {
@@ -13270,8 +12982,7 @@
                         var e = "" + a13;
                         return null !== b10 && null !== b10.ref && "function" == typeof b10.ref && b10.ref._stringRef === e ? b10.ref : ((b10 = function(a) {
                             var b = d.refs;
-                            b === Fg && (b = d.refs = {
-                            }), null === a ? delete b[e] : b[e] = a;
+                            b === Fg && (b = d.refs = {}), null === a ? delete b[e] : b[e] = a;
                         })._stringRef = e, b10);
                     }
                     if ("string" != typeof a13) throw Error(y(284));
@@ -13463,8 +13174,7 @@
                     return c5(a15, d);
                 };
             }
-            var Yg = Sg(!0), Zg = Sg(!1), $g = {
-            }, ah = Bf($g), bh = Bf($g), ch = Bf($g);
+            var Yg = Sg(!0), Zg = Sg(!1), $g = {}, ah = Bf($g), bh = Bf($g), ch = Bf($g);
             function dh(a) {
                 if (a === $g) throw Error(y(174));
                 return a;
@@ -13826,8 +13536,7 @@
                     a
                 ]) : null, Vh(4, 2, Zh.bind(null, b, a), c);
             }
-            function ai() {
-            }
+            function ai() {}
             function bi(a, b) {
                 var c = Ih();
                 b = void 0 === b ? null : b;
@@ -13873,9 +13582,7 @@
                     if (0 === a.lanes && (null === g || 0 === g.lanes) && null !== (g = b.lastRenderedReducer)) try {
                         var h = b.lastRenderedState, k = g(h, c);
                         if (f.eagerReducer = g, f.eagerState = k, He(k, h)) return;
-                    } catch (l) {
-                    } finally{
-                    }
+                    } catch (l) {} finally{}
                     Jg(a, e, d);
                 }
             }
@@ -14397,8 +14104,7 @@
                                     case "select":
                                         a._wrapperState = {
                                             wasMultiple: !!d.multiple
-                                        }, e = m({
-                                        }, d, {
+                                        }, e = m({}, d, {
                                             value: void 0
                                         }), G("invalid", a);
                                         break;
@@ -14544,8 +14250,7 @@
                     }
                     c.sibling.return = c.return, c = c.sibling;
                 }
-            }, Ci = function() {
-            }, Di = function(a, b, c, d) {
+            }, Ci = function() {}, Di = function(a, b, c, d) {
                 var e = a.memoizedProps;
                 if (e !== d) {
                     a = b.stateNode, dh(ah.current);
@@ -14558,11 +14263,9 @@
                             e = eb(a, e), d = eb(a, d), f = [];
                             break;
                         case "select":
-                            e = m({
-                            }, e, {
+                            e = m({}, e, {
                                 value: void 0
-                            }), d = m({
-                            }, d, {
+                            }), d = m({}, d, {
                                 value: void 0
                             }), f = [];
                             break;
@@ -14574,16 +14277,13 @@
                     }
                     for(l in vb(c, d), c = null, e)if (!d.hasOwnProperty(l) && e.hasOwnProperty(l) && null != e[l]) if ("style" === l) {
                         var h = e[l];
-                        for(g in h)h.hasOwnProperty(g) && (c || (c = {
-                        }), c[g] = "");
+                        for(g in h)h.hasOwnProperty(g) && (c || (c = {}), c[g] = "");
                     } else "dangerouslySetInnerHTML" !== l && "children" !== l && "suppressContentEditableWarning" !== l && "suppressHydrationWarning" !== l && "autoFocus" !== l && (ca.hasOwnProperty(l) ? f || (f = []) : (f = f || []).push(l, null));
                     for(l in d){
                         var k = d[l];
                         if (h = null != e ? e[l] : void 0, d.hasOwnProperty(l) && k !== h && (null != k || null != h)) if ("style" === l) if (h) {
-                            for(g in h)!h.hasOwnProperty(g) || k && k.hasOwnProperty(g) || (c || (c = {
-                            }), c[g] = "");
-                            for(g in k)k.hasOwnProperty(g) && h[g] !== k[g] && (c || (c = {
-                            }), c[g] = k[g]);
+                            for(g in h)!h.hasOwnProperty(g) || k && k.hasOwnProperty(g) || (c || (c = {}), c[g] = "");
+                            for(g in k)k.hasOwnProperty(g) && h[g] !== k[g] && (c || (c = {}), c[g] = k[g]);
                         } else c || (f || (f = []), f.push(l, c)), c = k;
                         else "dangerouslySetInnerHTML" === l ? (k = k ? k.__html : void 0, h = h ? h.__html : void 0, null != k && h !== k && (f = f || []).push(l, k)) : "children" === l ? "string" != typeof k && "number" != typeof k || (f = f || []).push(l, "" + k) : "suppressContentEditableWarning" !== l && "suppressHydrationWarning" !== l && (ca.hasOwnProperty(l) ? (null != k && "onScroll" === l && G("scroll", a), f || h === k || (f = [])) : "object" == typeof k && null !== k && k.$$typeof === Ga ? k.toString() : (f = f || []).push(l, k));
                     }
@@ -14745,8 +14445,7 @@
             function bj(a, b) {
                 if (Mf && "function" == typeof Mf.onCommitFiberUnmount) try {
                     Mf.onCommitFiberUnmount(Lf, b);
-                } catch (f) {
-                }
+                } catch (f) {}
                 switch(b.tag){
                     case 0:
                     case 11:
@@ -15490,8 +15189,7 @@
                 else for(Z = d; null !== Z;)b = Z.nextEffect, Z.nextEffect = null, 8 & Z.flags && ((K = Z).sibling = null, K.stateNode = null), Z = b;
                 if (0 === (d = a.pendingLanes) && (Ti = null), 1 === d ? a === Ej ? Dj++ : (Dj = 0, Ej = a) : Dj = 0, c = c.stateNode, Mf && "function" == typeof Mf.onCommitFiberRoot) try {
                     Mf.onCommitFiberRoot(Lf, c, void 0, 64 == (64 & c.current.flags));
-                } catch (va) {
-                }
+                } catch (va) {}
                 if (Mj(a, O()), Qi) throw Qi = !1, a = Ri, Ri = null, a;
                 return 0 != (8 & X) || ig(), null;
             }
@@ -15569,8 +15267,7 @@
                             if (Ag(c, e), e = Hg(), null !== (c = Kj(c, 1))) $c(c, 1, e), Mj(c, e);
                             else if ("function" == typeof d.componentDidCatch && (null === Ti || !Ti.has(d))) try {
                                 d.componentDidCatch(b, a);
-                            } catch (f) {
-                            }
+                            } catch (f) {}
                             break;
                         }
                     }
@@ -16049,8 +15746,7 @@
                 var yk = __REACT_DEVTOOLS_GLOBAL_HOOK__;
                 if (!yk.isDisabled && yk.supportsFiber) try {
                     Lf = yk.inject(xk), Mf = yk;
-                } catch (a) {
-                }
+                } catch (a) {}
             }
             exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = {
                 Events: [
@@ -16211,10 +15907,8 @@
                 })(e6, t1);
             }
             function _objectWithoutPropertiesLoose(e, t) {
-                if (null == e) return {
-                };
-                var r, o, n = {
-                }, a = Object.keys(e);
+                if (null == e) return {};
+                var r, o, n = {}, a = Object.keys(e);
                 for(o = 0; o < a.length; o++)r = a[o], 0 <= t.indexOf(r) || (n[r] = e[r]);
                 return n;
             }
@@ -16257,8 +15951,7 @@
                     "innerRef",
                     "navigate",
                     "onClick"
-                ]), i = a.target, c = _extends({
-                }, a, {
+                ]), i = a.target, c = _extends({}, a, {
                     onClick: function(t) {
                         var e;
                         try {
@@ -16279,8 +15972,7 @@
                 ]);
                 return React.createElement(reactRouter.__RouterContext.Consumer, null, function(r) {
                     r || invariant(!1);
-                    var o = r.history, e12 = normalizeToLocation(resolveToLocation(u, r.location), r.location), n = _extends({
-                    }, s, {
+                    var o = r.history, e12 = normalizeToLocation(resolveToLocation(u, r.location), r.location), n = _extends({}, s, {
                         href: e12 ? o.createHref(e12) : "",
                         navigate: function() {
                             var e = resolveToLocation(u, r.location), t = history.createPath(r.location) === history.createPath(normalizeToLocation(e));
@@ -16321,8 +16013,7 @@
                         return t.filter(function(e) {
                             return e;
                         }).join(" ");
-                    })(c, p), u = _extends({
-                    }, u, R));
+                    })(c, p), u = _extends({}, u, R));
                     var f = _extends({
                         "aria-current": i && l || null,
                         className: c,
@@ -16460,8 +16151,7 @@
                     return withRouter;
                 }
             });
-            var inheritsLoose = __webpack_require__(48861), _react_17_0_2_react = __webpack_require__(59301), _prop_types_15_7_2_prop_types = __webpack_require__(68712), _prop_types_15_7_2_prop_types_default = __webpack_require__.n(_prop_types_15_7_2_prop_types), esm_history = __webpack_require__(91520), commonjsGlobal = "undefined" != typeof globalThis ? globalThis : "undefined" != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : {
-            }, esm = _react_17_0_2_react.createContext || function(defaultValue, calculateChangedBits) {
+            var inheritsLoose = __webpack_require__(48861), _react_17_0_2_react = __webpack_require__(59301), _prop_types_15_7_2_prop_types = __webpack_require__(68712), _prop_types_15_7_2_prop_types_default = __webpack_require__.n(_prop_types_15_7_2_prop_types), esm_history = __webpack_require__(91520), commonjsGlobal = "undefined" != typeof globalThis ? globalThis : "undefined" != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : {}, esm = _react_17_0_2_react.createContext || function(defaultValue, calculateChangedBits) {
                 var _Provider$childContex, _Consumer$contextType, key, contextProp = "__create-react-context-" + (commonjsGlobal[key = "__global_unique_id__"] = (commonjsGlobal[key] || 0) + 1) + "__", Provider1 = function(_Component) {
                     function Provider() {
                         var _this, value, handlers;
@@ -16488,8 +16178,7 @@
                     var _proto = Provider.prototype;
                     return _proto.getChildContext = function() {
                         var _ref;
-                        return (_ref = {
-                        })[contextProp] = this.emitter, _ref;
+                        return (_ref = {})[contextProp] = this.emitter, _ref;
                     }, _proto.componentWillReceiveProps = function(nextProps) {
                         if (this.props.value !== nextProps.value) {
                             var changedBits, x, y, oldValue = this.props.value, newValue = nextProps.value;
@@ -16499,8 +16188,7 @@
                         return this.props.children;
                     }, Provider;
                 }(_react_17_0_2_react.Component);
-                (_Provider$childContex = {
-                })[contextProp] = _prop_types_15_7_2_prop_types_default().object.isRequired, Provider1.childContextTypes = _Provider$childContex;
+                (_Provider$childContex = {})[contextProp] = _prop_types_15_7_2_prop_types_default().object.isRequired, Provider1.childContextTypes = _Provider$childContex;
                 var Consumer1 = function(_Component2) {
                     function Consumer() {
                         var _this2;
@@ -16530,8 +16218,7 @@
                         return (children = this.props.children, Array.isArray(children) ? children[0] : children)(this.state.value);
                     }, Consumer;
                 }(_react_17_0_2_react.Component);
-                return (_Consumer$contextType = {
-                })[contextProp] = _prop_types_15_7_2_prop_types_default().object, Consumer1.contextTypes = _Consumer$contextType, {
+                return (_Consumer$contextType = {})[contextProp] = _prop_types_15_7_2_prop_types_default().object, Consumer1.contextTypes = _Consumer$contextType, {
                     Provider: Provider1,
                     Consumer: Consumer1
                 };
@@ -16555,8 +16242,7 @@
                     return {
                         path: "/",
                         url: "/",
-                        params: {
-                        },
+                        params: {},
                         isExact: "/" === pathname
                     };
                 };
@@ -16628,11 +16314,9 @@
                     });
                 });
             }
-            var cache = {
-            }, cacheCount = 0;
+            var cache = {}, cacheCount = 0;
             function generatePath(path8, params) {
-                return void 0 === path8 && (path8 = "/"), void 0 === params && (params = {
-                }), "/" === path8 ? path8 : (function(path) {
+                return void 0 === path8 && (path8 = "/"), void 0 === params && (params = {}), "/" === path8 ? path8 : (function(path) {
                     if (cache[path]) return cache[path];
                     var generator = _path_to_regexp_1_8_0_path_to_regexp_default().compile(path);
                     return cacheCount < 10000 && (cache[path] = generator, cacheCount++), generator;
@@ -16644,8 +16328,7 @@
                 var computedMatch = _ref.computedMatch, to = _ref.to, _ref$push = _ref.push, push = void 0 !== _ref$push && _ref$push;
                 return _react_17_0_2_react.createElement(context1.Consumer, null, function(context) {
                     context || (0, tiny_invariant_esm.default)(!1);
-                    var history = context.history, staticContext = context.staticContext, method = push ? history.push : history.replace, location = (0, esm_history.createLocation)(computedMatch ? "string" == typeof to ? generatePath(to, computedMatch.params) : (0, esm_extends.Z)({
-                    }, to, {
+                    var history = context.history, staticContext = context.staticContext, method = push ? history.push : history.replace, location = (0, esm_history.createLocation)(computedMatch ? "string" == typeof to ? generatePath(to, computedMatch.params) : (0, esm_extends.Z)({}, to, {
                         pathname: generatePath(to.pathname, computedMatch.params)
                     }) : to);
                     return staticContext ? (method(location), null) : _react_17_0_2_react.createElement(Lifecycle1, {
@@ -16654,8 +16337,7 @@
                         },
                         onUpdate: function(self, prevProps) {
                             var prevLocation = (0, esm_history.createLocation)(prevProps.to);
-                            (0, esm_history.locationsAreEqual)(prevLocation, (0, esm_extends.Z)({
-                            }, location, {
+                            (0, esm_history.locationsAreEqual)(prevLocation, (0, esm_extends.Z)({}, location, {
                                 key: prevLocation.key
                             })) || method(location);
                         },
@@ -16663,11 +16345,9 @@
                     });
                 });
             }
-            var cache$1 = {
-            }, cacheCount$1 = 0;
+            var cache$1 = {}, cacheCount$1 = 0;
             function matchPath(pathname, options6) {
-                void 0 === options6 && (options6 = {
-                }), ("string" == typeof options6 || Array.isArray(options6)) && (options6 = {
+                void 0 === options6 && (options6 = {}), ("string" == typeof options6 || Array.isArray(options6)) && (options6 = {
                     path: options6
                 });
                 var _options = options6, path9 = _options.path, _options$exact = _options.exact, exact = void 0 !== _options$exact && _options$exact, _options$strict = _options.strict, strict = void 0 !== _options$strict && _options$strict, _options$sensitive = _options.sensitive, sensitive = void 0 !== _options$sensitive && _options$sensitive, paths = [].concat(path9);
@@ -16675,8 +16355,7 @@
                     if (!path10 && "" !== path10) return null;
                     if (matched) return matched;
                     var _compilePath = function(path, options) {
-                        var cacheKey = "" + options.end + options.strict + options.sensitive, pathCache = cache$1[cacheKey] || (cache$1[cacheKey] = {
-                        });
+                        var cacheKey = "" + options.end + options.strict + options.sensitive, pathCache = cache$1[cacheKey] || (cache$1[cacheKey] = {});
                         if (pathCache[path]) return pathCache[path];
                         var keys = [], result = {
                             regexp: _path_to_regexp_1_8_0_path_to_regexp_default()(path, keys, options),
@@ -16696,8 +16375,7 @@
                         isExact: isExact,
                         params: keys3.reduce(function(memo, key, index) {
                             return memo[key.name] = values[index], memo;
-                        }, {
-                        })
+                        }, {})
                     };
                 }, null);
             }
@@ -16709,8 +16387,7 @@
                     var _this = this;
                     return _react_17_0_2_react.createElement(context1.Consumer, null, function(context$1) {
                         context$1 || (0, tiny_invariant_esm.default)(!1);
-                        var children, location = _this.props.location || context$1.location, match = _this.props.computedMatch ? _this.props.computedMatch : _this.props.path ? matchPath(location.pathname, _this.props) : context$1.match, props = (0, esm_extends.Z)({
-                        }, context$1, {
+                        var children, location = _this.props.location || context$1.location, match = _this.props.computedMatch ? _this.props.computedMatch : _this.props.path ? matchPath(location.pathname, _this.props) : context$1.match, props = (0, esm_extends.Z)({}, context$1, {
                             location: location,
                             match: match
                         }), _this$props = _this.props, children1 = _this$props.children, component = _this$props.component, render = _this$props.render;
@@ -16731,8 +16408,7 @@
                     (0, tiny_invariant_esm.default)(!1);
                 };
             }
-            function noop() {
-            }
+            function noop() {}
             var StaticRouter1 = function(_React$Component) {
                 function StaticRouter() {
                     for(var _this, _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
@@ -16751,10 +16427,8 @@
                 (0, inheritsLoose.Z)(StaticRouter, _React$Component);
                 var _proto = StaticRouter.prototype;
                 return _proto.navigateTo = function(location, action) {
-                    var basename, location1, _this$props = this.props, _this$props$basename = _this$props.basename, _this$props$context = _this$props.context, context = void 0 === _this$props$context ? {
-                    } : _this$props$context;
-                    context.action = action, basename = void 0 === _this$props$basename ? "" : _this$props$basename, location1 = (0, esm_history.createLocation)(location), context.location = basename ? (0, esm_extends.Z)({
-                    }, location1, {
+                    var basename, location1, _this$props = this.props, _this$props$basename = _this$props.basename, _this$props$context = _this$props.context, context = void 0 === _this$props$context ? {} : _this$props$context;
+                    context.action = action, basename = void 0 === _this$props$basename ? "" : _this$props$basename, location1 = (0, esm_history.createLocation)(location), context.location = basename ? (0, esm_extends.Z)({}, location1, {
                         pathname: addLeadingSlash(basename) + location1.pathname
                     }) : location1, context.url = createURL(context.location);
                 }, _proto.render = function() {
@@ -16770,8 +16444,7 @@
                         location: function(basename, location) {
                             if (!basename) return location;
                             var base = addLeadingSlash(basename);
-                            return 0 !== location.pathname.indexOf(base) ? location : (0, esm_extends.Z)({
-                            }, location, {
+                            return 0 !== location.pathname.indexOf(base) ? location : (0, esm_extends.Z)({}, location, {
                                 pathname: location.pathname.substr(base.length)
                             });
                         }(basename1, (0, esm_history.createLocation)(void 0 === _this$props2$location ? "/" : _this$props2$location)),
@@ -16783,11 +16456,9 @@
                         listen: this.handleListen,
                         block: this.handleBlock
                     };
-                    return _react_17_0_2_react.createElement(Router1, (0, esm_extends.Z)({
-                    }, rest, {
+                    return _react_17_0_2_react.createElement(Router1, (0, esm_extends.Z)({}, rest, {
                         history: history,
-                        staticContext: void 0 === _this$props2$context ? {
-                        } : _this$props2$context
+                        staticContext: void 0 === _this$props2$context ? {} : _this$props2$context
                     }));
                 }, StaticRouter;
             }(_react_17_0_2_react.Component), Switch1 = function(_React$Component) {
@@ -16803,8 +16474,7 @@
                             if (null == match && _react_17_0_2_react.isValidElement(child)) {
                                 element = child;
                                 var path = child.props.path || child.props.from;
-                                match = path ? matchPath(location.pathname, (0, esm_extends.Z)({
-                                }, child.props, {
+                                match = path ? matchPath(location.pathname, (0, esm_extends.Z)({}, child.props, {
                                     path: path
                                 })) : context.match;
                             }
@@ -16821,8 +16491,7 @@
                         "wrappedComponentRef"
                     ]);
                     return _react_17_0_2_react.createElement(context1.Consumer, null, function(context) {
-                        return context || (0, tiny_invariant_esm.default)(!1), _react_17_0_2_react.createElement(Component, (0, esm_extends.Z)({
-                        }, remainingProps, context, {
+                        return context || (0, tiny_invariant_esm.default)(!1), _react_17_0_2_react.createElement(Component, (0, esm_extends.Z)({}, remainingProps, context, {
                             ref: wrappedComponentRef
                         }));
                     });
@@ -16838,8 +16507,7 @@
             }
             function useParams() {
                 var match = useContext(context1).match;
-                return match ? match.params : {
-                };
+                return match ? match.params : {};
             }
             function useRouteMatch(path) {
                 var location = useLocation(), match = useContext(context1).match;
@@ -16861,8 +16529,7 @@
                 __source: !0
             };
             function q(c, a, k) {
-                var b, d = {
-                }, e = null, l = null;
+                var b, d = {}, e = null, l = null;
                 for(b in void 0 !== k && (e = "" + k), void 0 !== a.key && (e = "" + a.key), void 0 !== a.ref && (l = a.ref), a)n.call(a, b) && !p.hasOwnProperty(b) && (d[b] = a[b]);
                 if (c && c.defaultProps) for(b in a = c.defaultProps)void 0 === d[b] && (d[b] = a[b]);
                 return {
@@ -16896,24 +16563,18 @@
                 isMounted: function() {
                     return !1;
                 },
-                enqueueForceUpdate: function() {
-                },
-                enqueueReplaceState: function() {
-                },
-                enqueueSetState: function() {
-                }
-            }, B = {
-            };
+                enqueueForceUpdate: function() {},
+                enqueueReplaceState: function() {},
+                enqueueSetState: function() {}
+            }, B = {};
             function C(a, b, c) {
                 this.props = a, this.context = b, this.refs = B, this.updater = c || A;
             }
-            function D() {
-            }
+            function D() {}
             function E(a, b, c) {
                 this.props = a, this.context = b, this.refs = B, this.updater = c || A;
             }
-            C.prototype.isReactComponent = {
-            }, C.prototype.setState = function(a, b) {
+            C.prototype.isReactComponent = {}, C.prototype.setState = function(a, b) {
                 if ("object" != typeof a && "function" != typeof a && null != a) throw Error(z(85));
                 this.updater.enqueueSetState(this, a, b, "setState");
             }, C.prototype.forceUpdate = function(a) {
@@ -16930,8 +16591,7 @@
                 __source: !0
             };
             function J(a, b, c) {
-                var e, d = {
-                }, k = null, h = null;
+                var e, d = {}, k = null, h = null;
                 if (null != b) for(e in void 0 !== b.ref && (h = b.ref), void 0 !== b.key && (k = "" + b.key), b)H.call(b, e) && !I.hasOwnProperty(e) && (d[e] = b[e]);
                 var g = arguments.length - 2;
                 if (1 === g) d.children = c;
@@ -17058,8 +16718,7 @@
                 assign: l
             }, exports.cloneElement = function(a, b, c) {
                 if (null == a) throw Error(z(267, a));
-                var e = l({
-                }, a.props), d = a.key, k = a.ref, h = a._owner;
+                var e = l({}, a.props), d = a.key, k = a.ref, h = a._owner;
                 if (null != b) {
                     if (void 0 !== b.ref && (k = b.ref, h = G.current), void 0 !== b.key && (d = "" + b.key), a.type && a.type.defaultProps) var g = a.type.defaultProps;
                     for(f in b)H.call(b, f) && !I.hasOwnProperty(f) && (e[f] = void 0 === b[f] && void 0 !== g ? g[f] : b[f]);
@@ -17123,8 +16782,7 @@
                 return S().useCallback(a, b);
             }, exports.useContext = function(a, b) {
                 return S().useContext(a, b);
-            }, exports.useDebugValue = function() {
-            }, exports.useEffect = function(a, b) {
+            }, exports.useDebugValue = function() {}, exports.useEffect = function(a, b) {
                 return S().useEffect(a, b);
             }, exports.useImperativeHandle = function(a, b, c) {
                 return S().useImperativeHandle(a, b, c);
@@ -17151,8 +16809,7 @@
         10405: function(module) {
             var runtime = function(exports) {
                 "use strict";
-                var undefined, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {
-                }, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+                var undefined, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
                 function define(obj, key, value) {
                     return Object.defineProperty(obj, key, {
                         value: value,
@@ -17162,8 +16819,7 @@
                     }), obj[key];
                 }
                 try {
-                    define({
-                    }, "");
+                    define({}, "");
                 } catch (err1) {
                     define = function(obj, key, value) {
                         return obj[key] = value;
@@ -17187,16 +16843,11 @@
                     }
                 }
                 exports.wrap = wrap;
-                var GenStateSuspendedStart = "suspendedStart", GenStateExecuting = "executing", GenStateCompleted = "completed", ContinueSentinel = {
-                };
-                function Generator() {
-                }
-                function GeneratorFunction() {
-                }
-                function GeneratorFunctionPrototype() {
-                }
-                var IteratorPrototype = {
-                };
+                var GenStateSuspendedStart = "suspendedStart", GenStateExecuting = "executing", GenStateCompleted = "completed", ContinueSentinel = {};
+                function Generator() {}
+                function GeneratorFunction() {}
+                function GeneratorFunctionPrototype() {}
+                var IteratorPrototype = {};
                 define(IteratorPrototype, iteratorSymbol, function() {
                     return this;
                 });
@@ -17297,8 +16948,7 @@
                     1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry);
                 }
                 function resetTryEntry(entry) {
-                    var record = entry.completion || {
-                    };
+                    var record = entry.completion || {};
                     record.type = "normal", delete record.arg, entry.completion = record;
                 }
                 function Context(tryLocsList) {
@@ -17404,8 +17054,7 @@
                             }
                         }
                         finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null);
-                        var record = finallyEntry ? finallyEntry.completion : {
-                        };
+                        var record = finallyEntry ? finallyEntry.completion : {};
                         return (record.type = type, record.arg = arg, finallyEntry) ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record);
                     },
                     complete: function(record, afterLoc) {
@@ -17477,8 +17126,7 @@
                     clearTimeout(u);
                 }, exports.unstable_shouldYield = function() {
                     return !1;
-                }, k = exports.unstable_forceFrameRate = function() {
-                };
+                }, k = exports.unstable_forceFrameRate = function() {};
             } else {
                 var x = window.setTimeout, y = window.clearTimeout;
                 if ("undefined" != typeof console) {
@@ -17488,8 +17136,7 @@
                 var A = !1, B = null, C = -1, D = 5, E = 0;
                 exports.unstable_shouldYield = function() {
                     return exports.unstable_now() >= E;
-                }, k = function() {
-                }, exports.unstable_forceFrameRate = function(a) {
+                }, k = function() {}, exports.unstable_forceFrameRate = function(a) {
                     0 > a || 125 < a ? console.error("forceFrameRate takes a positive int between 0 and 125, forcing frame rates higher than 125 fps is not supported") : D = 0 < a ? Math.floor(1000 / a) : 5;
                 };
                 var F = new MessageChannel, G = F.port2;
@@ -17609,8 +17256,7 @@
                 } finally{
                     P = c;
                 }
-            }, exports.unstable_pauseExecution = function() {
-            }, exports.unstable_requestPaint = k, exports.unstable_runWithPriority = function(a, b) {
+            }, exports.unstable_pauseExecution = function() {}, exports.unstable_requestPaint = k, exports.unstable_runWithPriority = function(a, b) {
                 switch(3){
                     case 1:
                     case 2:
@@ -17705,8 +17351,7 @@
         },
         98009: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
-            __webpack_require__.r(__webpack_exports__), __webpack_exports__.default = function(condition, message) {
-            };
+            __webpack_require__.r(__webpack_exports__), __webpack_exports__.default = function(condition, message) {};
         },
         6470: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
@@ -17716,14 +17361,12 @@
                 "default" !== key && "__esModule" !== key && (key in exports && exports[key] === _env[key] || (exports[key] = _env[key]));
             });
         }
-    }, __webpack_module_cache__ = {
-    };
+    }, __webpack_module_cache__ = {};
     function __webpack_require__1(moduleId) {
         var cachedModule = __webpack_module_cache__[moduleId];
         if (void 0 !== cachedModule) return cachedModule.exports;
         var module = __webpack_module_cache__[moduleId] = {
-            exports: {
-            }
+            exports: {}
         };
         return __webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__1), module.exports;
     }

@@ -14,8 +14,7 @@ var C = function() {
     })(Constructor = C, [
         {
             key: "m",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), C;
 }();

@@ -5,7 +5,6 @@
 // @declaration: true
 // @filename: source.js
 export class Clazz {
-    static method() {
-    }
+    static method() {}
 }
 Clazz.method.prop = 5;

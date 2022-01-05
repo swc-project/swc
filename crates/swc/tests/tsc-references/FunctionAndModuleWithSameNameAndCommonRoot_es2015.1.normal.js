@@ -8,19 +8,16 @@ var A;
         };
     }
     A1.Point = Point;
-})(A || (A = {
-}));
+})(A || (A = {}));
 (function(A2) {
     let Point1;
     (function(Point) {
-        Point.Origin = {
+        var Origin = Point.Origin = {
             x: 0,
             y: 0
         };
-    })(Point1 = A2.Point || (A2.Point = {
-    }));
-})(A || (A = {
-}));
+    })(Point1 = A2.Point || (A2.Point = {}));
+})(A || (A = {}));
 // @filename: test.ts
 var fn;
 var fn = A.Point;
@@ -38,14 +35,12 @@ var B;
     }
     B1.Point = Point2;
     (function(Point) {
-        Point.Origin = {
+        var Origin = Point.Origin = {
             x: 0,
             y: 0
         };
-    })(Point2 = B1.Point || (B1.Point = {
-    }));
-})(B || (B = {
-}));
+    })(Point2 = B1.Point || (B1.Point = {}));
+})(B || (B = {}));
 var fn;
 var fn = B.Point; // not expected to be an error. bug 840000: [corelang] Function of fundule not assignalbe as expected
 var cl;

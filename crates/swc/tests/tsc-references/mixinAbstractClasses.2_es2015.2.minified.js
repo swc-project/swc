@@ -1,6 +1,5 @@
 const MixedBase = class extends class {
 } {
-    mixinMethod() {
-    }
+    mixinMethod() {}
 };
 new MixedBase();

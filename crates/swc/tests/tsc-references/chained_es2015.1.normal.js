@@ -5,5 +5,4 @@ class A {
 }
 export { B as C } from './a';
 new D();
-const d = {
-};
+const d = {};

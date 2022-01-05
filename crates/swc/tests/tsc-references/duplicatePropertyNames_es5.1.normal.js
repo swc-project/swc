@@ -34,16 +34,13 @@ var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
         _classCallCheck(this, C);
-        this.baz = function() {
-        };
-        this.baz = function() {
-        };
+        this.baz = function() {};
+        this.baz = function() {};
     }
     _createClass(C, [
         {
             key: "bar",
-            value: function bar(x) {
-            }
+            value: function bar(x) {}
         }
     ]);
     return C;
@@ -52,6 +49,4 @@ var a;
 var _obj;
 var b = (_obj = {
     foo: ''
-}, _defineProperty(_obj, "foo", ''), _defineProperty(_obj, "bar", function() {
-}), _defineProperty(_obj, "bar", function() {
-}), _obj);
+}, _defineProperty(_obj, "foo", ''), _defineProperty(_obj, "bar", function() {}), _defineProperty(_obj, "bar", function() {}), _obj);

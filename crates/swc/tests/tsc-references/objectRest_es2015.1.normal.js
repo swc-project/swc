@@ -13,8 +13,7 @@ function _extends() {
     return _extends.apply(this, arguments);
 }
 function _objectWithoutProperties(source, excluded) {
-    if (source == null) return {
-    };
+    if (source == null) return {};
     var target = _objectWithoutPropertiesLoose(source, excluded);
     var key, i1;
     if (Object.getOwnPropertySymbols) {
@@ -29,10 +28,8 @@ function _objectWithoutProperties(source, excluded) {
     return target;
 }
 function _objectWithoutPropertiesLoose(source, excluded) {
-    if (source == null) return {
-    };
-    var target = {
-    };
+    if (source == null) return {};
+    var target = {};
     var sourceKeys = Object.keys(source);
     var key, i1;
     for(i1 = 0; i1 < sourceKeys.length; i1++){
@@ -64,8 +61,7 @@ var o = {
     a: 1,
     b: 'no'
 };
-var clone = _extends({
-}, o);
+var clone = _extends({}, o);
 var { a  } = o, justB = _objectWithoutProperties(o, [
     "a"
 ]);
@@ -90,8 +86,7 @@ var { d: renamed  } = o2, d = _objectWithoutProperties(o2, [
     "d"
 ]);
 let nestedrest;
-var { x , n1: { y , n2: { z  }  }  } = nestedrest, nr = _extends({
-}, nestedrest.n1.n2.n3), restrest = _objectWithoutProperties(nestedrest, [
+var { x , n1: { y , n2: { z  }  }  } = nestedrest, nr = _extends({}, nestedrest.n1.n2.n3), restrest = _objectWithoutProperties(nestedrest, [
     "x",
     "n1"
 ]);
@@ -123,15 +118,12 @@ _tmp = {
     "x"
 ]), ({ x  } = _tmp), _tmp;
 class Removable {
-    set z(value) {
-    }
+    set z(value) {}
     get both() {
         return 12;
     }
-    set both(value) {
-    }
-    m() {
-    }
+    set both(value) {}
+    m() {}
 }
 var removable = new Removable();
 var { removed  } = removable, removableRest = _objectWithoutProperties(removable, [

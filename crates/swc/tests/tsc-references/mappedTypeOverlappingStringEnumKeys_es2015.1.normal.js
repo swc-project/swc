@@ -3,13 +3,11 @@ TerrestrialAnimalTypes;
 (function(TerrestrialAnimalTypes) {
     TerrestrialAnimalTypes["CAT"] = "cat";
     TerrestrialAnimalTypes["DOG"] = "dog";
-})(TerrestrialAnimalTypes || (TerrestrialAnimalTypes = {
-}));
+})(TerrestrialAnimalTypes || (TerrestrialAnimalTypes = {}));
 var AlienAnimalTypes;
 (function(AlienAnimalTypes) {
     AlienAnimalTypes["CAT"] = "cat";
-})(AlienAnimalTypes || (AlienAnimalTypes = {
-}));
+})(AlienAnimalTypes || (AlienAnimalTypes = {}));
 const catMap = {
     cat: [
         {

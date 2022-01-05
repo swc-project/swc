@@ -2,8 +2,7 @@ var my;
 (function(my1) {
     var div;
     my1.div = div;
-})(my || (my = {
-}));
+})(my || (my = {}));
 // OK
 /*#__PURE__*/ React.createElement(my.div, {
     n: "x"
@@ -19,5 +18,4 @@ var q;
     });
     // Error
     /*#__PURE__*/ React.createElement(mine.non, null);
-})(q || (q = {
-}));
+})(q || (q = {}));

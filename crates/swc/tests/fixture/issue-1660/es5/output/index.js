@@ -25,8 +25,7 @@ console.log(/*#__PURE__*/ function() {
     _createClass(_class, [
         {
             key: "run",
-            value: function run() {
-            }
+            value: function run() {}
         }
     ]);
     return _class;

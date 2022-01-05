@@ -3,8 +3,7 @@ E;
 (function(E) {
     E[E["a"] = 0] = "a";
     E[E["b"] = 1] = "b";
-})(E || (E = {
-}));
+})(E || (E = {}));
 function foo(t, u) {
     var a;
     var b;
@@ -34,7 +33,6 @@ function foo(t, u) {
     var r16 = t + undefined;
     var r17 = t + t;
     var r18 = t + u;
-    var r19 = t + function() {
-    };
+    var r19 = t + function() {};
     var r20 = t + [];
 }

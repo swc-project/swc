@@ -21,13 +21,11 @@ var s, n, a, tmp = s, tmp1 = n, tmp2 = s + s, tmp3 = s + n, tmp4 = +s, tmp5 = a,
         },
         {
             key: tmp1,
-            set: function(v) {
-            }
+            set: function(v) {}
         },
         {
             key: tmp3,
-            set: function(v) {
-            }
+            set: function(v) {}
         },
         {
             key: tmp4,
@@ -43,13 +41,11 @@ var s, n, a, tmp = s, tmp1 = n, tmp2 = s + s, tmp3 = s + n, tmp4 = +s, tmp5 = a,
         },
         {
             key: tmp5,
-            set: function(v) {
-            }
+            set: function(v) {}
         },
         {
             key: "hello bye",
-            set: function(v) {
-            }
+            set: function(v) {}
         },
         {
             key: tmp6,
@@ -66,8 +62,7 @@ var s, n, a, tmp = s, tmp1 = n, tmp2 = s + s, tmp3 = s + n, tmp4 = +s, tmp5 = a,
         },
         {
             key: "",
-            set: function(v) {
-            }
+            set: function(v) {}
         },
         {
             key: !0,

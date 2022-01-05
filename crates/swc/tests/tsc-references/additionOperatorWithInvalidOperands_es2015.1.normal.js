@@ -1,22 +1,18 @@
-function foo() {
-}
+function foo() {}
 class C {
-    static foo() {
-    }
+    static foo() {}
 }
 var E;
 (function(E) {
     E[E["a"] = 0] = "a";
     E[E["b"] = 1] = "b";
     E[E["c"] = 2] = "c";
-})(E || (E = {
-}));
+})(E || (E = {}));
 var M;
 (function(M1) {
     var a1;
     M1.a = a1;
-})(M || (M = {
-}));
+})(M || (M = {}));
 var a;
 var b;
 var c;
@@ -37,9 +33,7 @@ var r9 = c + c;
 var r10 = a + true;
 var r11 = true + false;
 var r12 = true + 123;
-var r13 = {
-} + {
-};
+var r13 = {} + {};
 var r14 = b + d;
 var r15 = b + foo;
 var r16 = b + foo();

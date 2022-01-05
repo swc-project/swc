@@ -36,8 +36,7 @@ var A = // @declaration: true
     _createClass(A, [
         {
             key: "quux",
-            value: function quux() {
-            }
+            value: function quux() {}
         }
     ]);
     return A;

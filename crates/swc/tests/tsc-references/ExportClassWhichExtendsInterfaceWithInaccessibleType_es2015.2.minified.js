@@ -1,6 +1,5 @@
 var A;
-(A || (A = {
-})).Point2d = class {
+(A || (A = {})).Point2d = class {
     fromOrigin(p) {
         return 1;
     }

@@ -4,8 +4,7 @@ new class {
             return x;
         };
     }
-    constructor(x){
-    }
+    constructor(x){}
 }({
     length: 2
 }).foo({

@@ -4,7 +4,6 @@
 var R;
 export default R = {
     "__esmodule": true,
-    "__proto__": {
-    }
+    "__proto__": {}
 };
 const { __esmodule , __proto__  } = R;

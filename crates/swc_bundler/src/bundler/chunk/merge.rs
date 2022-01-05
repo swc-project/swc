@@ -253,22 +253,34 @@ where
                                 ExportSpecifier::Default(_) => {}
                                 ExportSpecifier::Named(named) => match &named.exported {
                                     Some(exported) => {
+                                        let exported = match exported {
+                                            ModuleExportName::Ident(ident) => ident,
+                                            ModuleExportName::Str(..) => {
+                                                unimplemented!("module string names unimplemented")
+                                            }
+                                        };
+
                                         let id: Id = exported.into();
                                         if declared_ids.contains(&id) {
                                             continue;
                                         }
 
-                                        vars.push((
-                                            module_id,
-                                            named
-                                                .orig
-                                                .clone()
-                                                .assign_to(exported.clone())
-                                                .into_module_item(
-                                                    injected_ctxt,
-                                                    "finalize -> export to var",
-                                                ),
-                                        ));
+                                        match &named.orig {
+                                            ModuleExportName::Ident(orig) => {
+                                                vars.push((
+                                                    module_id,
+                                                    orig.clone()
+                                                        .assign_to(exported.clone())
+                                                        .into_module_item(
+                                                            injected_ctxt,
+                                                            "finalize -> export to var",
+                                                        ),
+                                                ));
+                                            }
+                                            ModuleExportName::Str(..) => {
+                                                unimplemented!("module string names unimplemented")
+                                            }
+                                        }
                                     }
                                     None => {}
                                 },
@@ -491,6 +503,12 @@ where
                             exported: Some(exported),
                             ..
                         }) => {
+                            let exported = match exported {
+                                ModuleExportName::Ident(ident) => ident,
+                                ModuleExportName::Str(..) => {
+                                    unimplemented!("module string names unimplemented")
+                                }
+                            };
                             // Default is not exported via `export *`
                             if exported.sym == js_word!("default") {
                                 exported.span.ctxt == info.export_ctxt()
@@ -583,6 +601,12 @@ where
                             match s {
                                 ImportSpecifier::Named(s) => match &s.imported {
                                     Some(imported) => {
+                                        let imported = match imported {
+                                            ModuleExportName::Ident(ident) => ident,
+                                            ModuleExportName::Str(..) => {
+                                                unimplemented!("module string names unimplemented")
+                                            }
+                                        };
                                         new.push(
                                             imported
                                                 .clone()
@@ -732,8 +756,8 @@ where
 
                         let specifier = ExportSpecifier::Named(ExportNamedSpecifier {
                             span: DUMMY_SP,
-                            orig: local,
-                            exported: Some(exported),
+                            orig: ModuleExportName::Ident(local),
+                            exported: Some(ModuleExportName::Ident(exported)),
                             is_type_only: false,
                         });
                         extra.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
@@ -779,8 +803,8 @@ where
                         // Create `export { local_default as default }`
                         let specifier = ExportSpecifier::Named(ExportNamedSpecifier {
                             span: DUMMY_SP,
-                            orig: local,
-                            exported: Some(exported),
+                            orig: ModuleExportName::Ident(local),
+                            exported: Some(ModuleExportName::Ident(exported)),
                             is_type_only: false,
                         });
                         tracing::trace!("Exporting `default` with `export default expr`");
@@ -846,8 +870,10 @@ where
 
                                                 ExportNamedSpecifier {
                                                     span: DUMMY_SP,
-                                                    orig: id,
-                                                    exported: Some(exported),
+                                                    orig: ModuleExportName::Ident(id),
+                                                    exported: Some(ModuleExportName::Ident(
+                                                        exported,
+                                                    )),
                                                     is_type_only: false,
                                                 }
                                             })
@@ -885,8 +911,8 @@ where
 
                         let specifier = ExportSpecifier::Named(ExportNamedSpecifier {
                             span: DUMMY_SP,
-                            orig: local,
-                            exported: Some(exported),
+                            orig: ModuleExportName::Ident(local),
+                            exported: Some(ModuleExportName::Ident(exported)),
                             is_type_only: false,
                         });
 
@@ -960,13 +986,31 @@ where
                                                 });
                                             }
                                             ExportSpecifier::Named(s) => {
+                                                let exp = s.exported.clone();
+                                                let exported = match exp {
+                                                    Some(ModuleExportName::Ident(ident)) => {
+                                                        Some(ident)
+                                                    }
+                                                    Some(ModuleExportName::Str(..)) => {
+                                                        unimplemented!(
+                                                            "module string names unimplemented"
+                                                        )
+                                                    }
+                                                    _ => None,
+                                                };
+                                                let orig = match &s.orig {
+                                                    ModuleExportName::Ident(ident) => ident,
+                                                    _ => unimplemented!(
+                                                        "module string names unimplemented"
+                                                    ),
+                                                };
                                                 vars.push(VarDeclarator {
                                                     span: s.span,
                                                     name: Pat::Ident(
-                                                        s.exported.clone().unwrap().into(),
+                                                        exported.clone().unwrap().into(),
                                                     ),
                                                     init: Some(Box::new(
-                                                        mod_var.clone().make_member(s.orig.clone()),
+                                                        mod_var.clone().make_member(orig.clone()),
                                                     )),
                                                     definite: Default::default(),
                                                 });
@@ -996,11 +1040,24 @@ where
                                     exported: Some(exported),
                                     ..
                                 }) => {
+                                    let exported_ident = match exported {
+                                        ModuleExportName::Ident(ident) => ident,
+                                        ModuleExportName::Str(..) => {
+                                            unimplemented!("module string names unimplemented")
+                                        }
+                                    };
+                                    let orig_ident = match orig {
+                                        ModuleExportName::Ident(ident) => ident,
+                                        _ => unimplemented!("module string names unimplemented"),
+                                    };
                                     new.push(
-                                        orig.clone().assign_to(exported.clone()).into_module_item(
-                                            injected_ctxt,
-                                            "prepare -> export named -> aliased",
-                                        ),
+                                        orig_ident
+                                            .clone()
+                                            .assign_to(exported_ident.clone())
+                                            .into_module_item(
+                                                injected_ctxt,
+                                                "prepare -> export named -> aliased",
+                                            ),
                                     );
                                 }
 
@@ -1050,8 +1107,12 @@ where
                                                 let specifier =
                                                     ExportSpecifier::Named(ExportNamedSpecifier {
                                                         span: ns.span,
-                                                        orig: module_var.into(),
-                                                        exported: Some(ns.name.clone()),
+                                                        orig: ModuleExportName::Ident(
+                                                            module_var.into(),
+                                                        ),
+                                                        exported: Some(ModuleExportName::Ident(
+                                                            ns.name.clone(),
+                                                        )),
                                                         is_type_only: false,
                                                     });
                                                 extra.push(ModuleItem::ModuleDecl(
@@ -1127,9 +1188,15 @@ where
                             match specifier {
                                 ImportSpecifier::Named(named) => match &named.imported {
                                     Some(imported) => {
+                                        let imporeted_ident = match imported {
+                                            ModuleExportName::Ident(ident) => ident,
+                                            ModuleExportName::Str(..) => {
+                                                unimplemented!("module string names unimplemented")
+                                            }
+                                        };
                                         vars.push((
                                             module_id,
-                                            imported
+                                            imporeted_ident
                                                 .clone()
                                                 .assign_to(named.local.clone())
                                                 .into_module_item(

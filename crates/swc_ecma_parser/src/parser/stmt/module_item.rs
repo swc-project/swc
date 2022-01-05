@@ -243,7 +243,7 @@ impl<'a, I: Tokens> Parser<I> {
                                 return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
                                     span: Span::new(start, orig_name.span.hi(), Default::default()),
                                     local,
-                                    imported: Some(possibly_orig_name),
+                                    imported: Some(ModuleExportName::Ident(possibly_orig_name)),
                                     is_type_only: true,
                                 }));
                             } else {
@@ -251,7 +251,7 @@ impl<'a, I: Tokens> Parser<I> {
                                 return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
                                     span: Span::new(start, maybe_as.span.hi(), Default::default()),
                                     local: maybe_as,
-                                    imported: Some(orig_name),
+                                    imported: Some(ModuleExportName::Ident(orig_name)),
                                     is_type_only: false,
                                 }));
                             }
@@ -260,7 +260,7 @@ impl<'a, I: Tokens> Parser<I> {
                             return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
                                 span: Span::new(start, orig_name.span.hi(), Default::default()),
                                 local: maybe_as,
-                                imported: Some(orig_name),
+                                imported: Some(ModuleExportName::Ident(orig_name)),
                                 is_type_only: false,
                             }));
                         }
@@ -281,7 +281,7 @@ impl<'a, I: Tokens> Parser<I> {
                     return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
                         span: Span::new(start, local.span.hi(), Default::default()),
                         local,
-                        imported: Some(orig_name),
+                        imported: Some(ModuleExportName::Ident(orig_name)),
                         is_type_only,
                     }));
                 }
@@ -678,7 +678,7 @@ impl<'a, I: Tokens> Parser<I> {
 
                     return Ok(ExportNamedSpecifier {
                         span: span!(self, start),
-                        orig: possibly_orig,
+                        orig: ModuleExportName::Ident(possibly_orig),
                         exported: None,
                         is_type_only: true,
                     });
@@ -697,16 +697,16 @@ impl<'a, I: Tokens> Parser<I> {
 
                         return Ok(ExportNamedSpecifier {
                             span: Span::new(start, orig.span.hi(), Default::default()),
-                            orig: possibly_orig,
-                            exported: Some(exported),
+                            orig: ModuleExportName::Ident(possibly_orig),
+                            exported: Some(ModuleExportName::Ident(exported)),
                             is_type_only: true,
                         });
                     } else {
                         // `export { type as as }`
                         return Ok(ExportNamedSpecifier {
                             span: Span::new(start, orig.span.hi(), Default::default()),
-                            orig,
-                            exported: Some(maybe_as),
+                            orig: ModuleExportName::Ident(orig),
+                            exported: Some(ModuleExportName::Ident(maybe_as)),
                             is_type_only: false,
                         });
                     }
@@ -714,8 +714,8 @@ impl<'a, I: Tokens> Parser<I> {
                     // `export { type as xxx }`
                     return Ok(ExportNamedSpecifier {
                         span: Span::new(start, orig.span.hi(), Default::default()),
-                        orig,
-                        exported: Some(maybe_as),
+                        orig: ModuleExportName::Ident(orig),
+                        exported: Some(ModuleExportName::Ident(maybe_as)),
                         is_type_only: false,
                     });
                 }
@@ -732,14 +732,14 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         let exported = if eat!(self, "as") {
-            Some(self.parse_ident_name()?)
+            Some(ModuleExportName::Ident(self.parse_ident_name()?))
         } else {
             None
         };
 
         Ok(ExportNamedSpecifier {
             span: span!(self, start),
-            orig,
+            orig: ModuleExportName::Ident(orig),
             exported,
             is_type_only,
         })

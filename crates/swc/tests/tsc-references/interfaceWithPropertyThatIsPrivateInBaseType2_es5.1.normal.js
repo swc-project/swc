@@ -25,8 +25,7 @@ var Base = /*#__PURE__*/ function() {
     _createClass(Base, [
         {
             key: "x",
-            value: function x() {
-            }
+            value: function x() {}
         }
     ]);
     return Base;
@@ -39,8 +38,7 @@ var Base2 = /*#__PURE__*/ function() {
     _createClass(Base2, [
         {
             key: "x",
-            value: function x() {
-            }
+            value: function x() {}
         }
     ]);
     return Base2;

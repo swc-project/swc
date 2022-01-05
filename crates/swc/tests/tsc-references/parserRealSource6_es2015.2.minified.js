@@ -95,5 +95,4 @@ var TypeScript;
         var context = new EnclosingScopeContext(logger, script, text, pos, isMemberCompletion);
         return (TypeScript.getAstWalkerFactory().walk(script, preFindEnclosingScope, null, null, context), null === context.scopeStartAST) ? null : context;
     };
-}(TypeScript || (TypeScript = {
-}));
+}(TypeScript || (TypeScript = {}));

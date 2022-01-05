@@ -3,8 +3,7 @@ class Base {
         this.x = 43;
     }
 }
-function v() {
-}
+function v() {}
 class Derived extends Base {
     //super call in class constructor of derived type
     constructor(q){

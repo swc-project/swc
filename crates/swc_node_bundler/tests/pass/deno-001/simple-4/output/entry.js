@@ -1,5 +1,4 @@
-function deferred() {
-}
+function deferred() {}
 class MuxAsyncIterator {
     constructor(){
         this.signal = deferred();

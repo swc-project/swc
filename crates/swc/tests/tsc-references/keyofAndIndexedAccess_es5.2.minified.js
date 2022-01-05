@@ -36,8 +36,7 @@ function _createSuper(Derived) {
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
         try {
-            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-            })), !0;
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
         } catch (e) {
             return !1;
         }
@@ -78,8 +77,7 @@ function getProperty(obj, key) {
 function setProperty(obj, key, value) {
     obj[key] = value;
 }
-(E = E || (E = {
-}))[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C";
+(E = E || (E = {}))[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C";
 var Component = function() {
     "use strict";
     function Component() {
@@ -176,13 +174,10 @@ var Component = function() {
         }
     ]), OtherPerson;
 }();
-one(function() {
+one(function() {}), on({
+    test: function() {}
 }), on({
-    test: function() {
-    }
-}), on({
-    test: function(x) {
-    }
+    test: function(x) {}
 }), new Component1({
     data: {
         hello: ""
@@ -243,9 +238,7 @@ var A = function() {
         }
     ]), AnotherSampleClass;
 }(SampleClass);
-new AnotherSampleClass({
-}), (Flag = Flag || (Flag = {
-})).FLAG_1 = "flag_1", Flag.FLAG_2 = "flag_2";
+new AnotherSampleClass({}), (Flag = Flag || (Flag = {})).FLAG_1 = "flag_1", Flag.FLAG_2 = "flag_2";
 var Unbounded = function() {
     "use strict";
     function Unbounded() {
@@ -254,8 +247,7 @@ var Unbounded = function() {
     return _createClass(Unbounded, [
         {
             key: "foo",
-            value: function(x) {
-            }
+            value: function(x) {}
         }
     ]), Unbounded;
 }();

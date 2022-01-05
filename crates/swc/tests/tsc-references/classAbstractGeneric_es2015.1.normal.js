@@ -12,13 +12,11 @@ class E extends A {
     }
 }
 class F extends A {
-    bar(t) {
-    }
+    bar(t) {}
 }
 class G extends A {
     foo() {
         return this.t;
     }
-    bar(t) {
-    }
+    bar(t) {}
 }

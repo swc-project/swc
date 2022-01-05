@@ -4,6 +4,4 @@ var M, E, E, C = function() {
         if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
     }(this, C);
 };
-(M || (M = {
-})).x = 1, M = "", (E = E || (E = {
-}))[E.A = 0] = "A";
+(M || (M = {})).x = 1, M = "", (E = E || (E = {}))[E.A = 0] = "A";

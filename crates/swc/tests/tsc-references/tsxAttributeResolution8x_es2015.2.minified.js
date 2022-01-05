@@ -8,5 +8,4 @@ function _extends() {
         return target;
     }).apply(this, arguments);
 }
-React.createElement("test1", _extends({
-}, x));
+React.createElement("test1", _extends({}, x));

@@ -13,8 +13,7 @@ function _defineProperty(obj, key, value) {
 }
 function _objectSpread(target) {
     for(var i = 1; i < arguments.length; i++){
-        var source = arguments[i] != null ? arguments[i] : {
-        };
+        var source = arguments[i] != null ? arguments[i] : {};
         var ownKeys = Object.keys(source);
         if (typeof Object.getOwnPropertySymbols === "function") {
             ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
@@ -32,5 +31,4 @@ const extra1 = {
     b: "b",
     extra: "extra"
 };
-const a1 = _objectSpread({
-}, extra1); // spread should not give excess property errors
+const a1 = _objectSpread({}, extra1); // spread should not give excess property errors

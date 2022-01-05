@@ -1,2 +1,1 @@
-export function foo() {
-}
+export function foo() {}

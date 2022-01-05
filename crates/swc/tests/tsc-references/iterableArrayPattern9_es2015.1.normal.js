@@ -1,6 +1,5 @@
 //@target: ES6
-function fun([a, b] = new FooIterator) {
-}
+function fun([a, b] = new FooIterator) {}
 class Bar {
 }
 class Foo extends Bar {

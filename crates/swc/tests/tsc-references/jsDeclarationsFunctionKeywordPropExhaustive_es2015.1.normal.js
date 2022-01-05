@@ -4,8 +4,7 @@
 // @outDir: ./out
 // @declaration: true
 // @filename: source.js
-function foo() {
-}
+function foo() {}
 // properties
 foo.x = 1;
 foo.y = 1;

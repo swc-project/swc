@@ -5,8 +5,7 @@ x = true;
 var E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
-}));
+})(E || (E = {}));
 x = E;
 x = E.A;
 class C {
@@ -16,14 +15,12 @@ x = a;
 var b;
 x = b;
 x = {
-    f () {
-    }
+    f () {}
 };
 var M;
 (function(M1) {
-    M1.x = 1;
-})(M || (M = {
-}));
+    var x = M1.x = 1;
+})(M || (M = {}));
 x = M;
 function f(a1) {
     x = a1;

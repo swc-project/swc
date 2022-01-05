@@ -1,8 +1,5 @@
-const intersectDictionaries = (d11, d21)=>Object.assign({
-    }, d11, d21)
-, testDictionary = (_value)=>{
-}, d1 = {
-};
+const intersectDictionaries = (d11, d21)=>Object.assign({}, d11, d21)
+, testDictionary = (_value)=>{}, d1 = {};
 testDictionary(d1);
 const d2 = intersectDictionaries(d1, d1);
 testDictionary(d2);

@@ -1,6 +1,5 @@
 const _sym = Symbol(), _str = "my-fake-sym";
-function F() {
-}
+function F() {}
 F.prototype = {
     [_sym]: "ok",
     [_str]: "ok"

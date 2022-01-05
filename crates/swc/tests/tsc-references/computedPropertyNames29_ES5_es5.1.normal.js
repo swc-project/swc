@@ -42,9 +42,7 @@ var C = // @target: es5
             value: function bar() {
                 var _this = this;
                 (function() {
-                    var obj = _defineProperty({
-                    }, _this.bar(), function() {
-                    } // needs capture
+                    var obj = _defineProperty({}, _this.bar(), function() {} // needs capture
                     );
                 });
                 return 0;

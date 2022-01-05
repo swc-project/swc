@@ -13,16 +13,16 @@ function _createClass(Constructor, protoProps, staticProps) {
 }
 !function(TypeScript1) {
     !function(CompilerDiagnostics) {
+        var debug = CompilerDiagnostics.debug = !1, diagnosticWriter = CompilerDiagnostics.diagnosticWriter = null;
         function Alert(output) {
             diagnosticWriter && diagnosticWriter.Alert(output);
         }
-        CompilerDiagnostics.debug = !1, CompilerDiagnostics.diagnosticWriter = null, CompilerDiagnostics.analysisPass = 0, CompilerDiagnostics.Alert = Alert, CompilerDiagnostics.debugPrint = function(s) {
+        CompilerDiagnostics.analysisPass = 0, CompilerDiagnostics.Alert = Alert, CompilerDiagnostics.debugPrint = function(s) {
             debug && Alert(s);
         }, CompilerDiagnostics.assert = function(condition, s) {
             debug && (condition || Alert(s));
         };
-    }(TypeScript1.CompilerDiagnostics || (TypeScript1.CompilerDiagnostics = {
-    }));
+    }(TypeScript1.CompilerDiagnostics || (TypeScript1.CompilerDiagnostics = {}));
     var NullLogger = function() {
         "use strict";
         function NullLogger() {
@@ -61,8 +61,7 @@ function _createClass(Constructor, protoProps, staticProps) {
             },
             {
                 key: "log",
-                value: function(s) {
-                }
+                value: function(s) {}
             }
         ]), NullLogger;
     }();
@@ -201,5 +200,4 @@ function _createClass(Constructor, protoProps, staticProps) {
         }
         return result;
     };
-}(TypeScript || (TypeScript = {
-}));
+}(TypeScript || (TypeScript = {}));

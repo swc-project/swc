@@ -1,2 +1,1 @@
-export const AA = {
-};
+export const AA = {};

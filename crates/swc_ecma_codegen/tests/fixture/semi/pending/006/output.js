@@ -1,8 +1,6 @@
 "use strict";
-const a = {
-};
+const a = {};
 for(let b in a)a[b] = a[b].trim();
 [
     "foo", 
-].forEach(()=>{
-});
+].forEach(()=>{});

@@ -25,24 +25,20 @@ var C = /*#__PURE__*/ function() {
     _createClass(C, [
         {
             key: "public",
-            value: function _public() {
-            }
+            value: function _public() {}
         },
         {
             key: "static",
-            value: function _static() {
-            }
+            value: function _static() {}
         }
     ], [
         {
             key: "public",
-            value: function _public() {
-            }
+            value: function _public() {}
         },
         {
             key: "static",
-            value: function _static() {
-            }
+            value: function _static() {}
         }
     ]);
     return C;

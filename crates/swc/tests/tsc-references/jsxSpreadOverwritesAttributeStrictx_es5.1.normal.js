@@ -27,8 +27,7 @@ var Foo = function(props1) {
     /*#__PURE__*/ return React.createElement("div", null, props1.a);
 };
 // ok
-var a1 = /*#__PURE__*/ React.createElement(Foo, _extends({
-}, props));
+var a1 = /*#__PURE__*/ React.createElement(Foo, _extends({}, props));
 var a2 = /*#__PURE__*/ React.createElement(Foo, _extends({
     d: 1
 }, props));

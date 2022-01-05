@@ -88,8 +88,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -135,8 +134,7 @@ var E;
     E[E["A"] = 0] = "A";
     E[E["B"] = 1] = "B";
     E[E["C"] = 2] = "C";
-})(E || (E = {
-}));
+})(E || (E = {}));
 function getProperty(obj, key) {
     return obj[key];
 }
@@ -261,13 +259,11 @@ function f53(obj, k, s, n) {
     var x3 = obj[k];
 }
 function f54(obj, key) {
-    for(var s in obj[key]){
-    }
+    for(var s in obj[key]){}
     var b = "foo" in obj[key];
 }
 function f55(obj, key) {
-    for(var s in obj[key]){
-    }
+    for(var s in obj[key]){}
     var b = "foo" in obj[key];
 }
 function f60(source, target) {
@@ -545,16 +541,13 @@ var assignTo2 = function(object, key1, key2) {
         return object[key1][key2] = value;
     };
 };
-var empty = one(function() {
-}) // inferred as {}, expected
+var empty = one(function() {}) // inferred as {}, expected
 ;
 var hashOfEmpty1 = on({
-    test: function() {
-    }
+    test: function() {}
 }); // {}
 var hashOfEmpty2 = on({
-    test: function(x) {
-    }
+    test: function(x) {}
 }); // { test: boolean }
 var c1 = new Component1({
     data: {
@@ -673,8 +666,7 @@ var AnotherSampleClass = /*#__PURE__*/ function(SampleClass) {
     ]);
     return AnotherSampleClass;
 }(SampleClass);
-new AnotherSampleClass({
-});
+new AnotherSampleClass({});
 // Positive repro from #17166
 function f3(t, k, tk) {
     for(var key in t){
@@ -687,8 +679,7 @@ var Flag;
 (function(Flag) {
     Flag["FLAG_1"] = "flag_1";
     Flag["FLAG_2"] = "flag_2";
-})(Flag || (Flag = {
-}));
+})(Flag || (Flag = {}));
 function getFlagsFromSimpleRecord(record, flags) {
     return record[flags[0]];
 }

@@ -1,7 +1,5 @@
 class a {
-    get b() {
-    }
-    set c(d) {
-    }
+    get b() {}
+    set c(d) {}
     ;
 }

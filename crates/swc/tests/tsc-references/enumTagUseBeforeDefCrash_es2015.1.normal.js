@@ -4,8 +4,7 @@
 // @Filename: bug27134.js
 /**
  * @enum {number}
- */ var foo = {
-};
+ */ var foo = {};
 /**
  * @type {foo}
  */ var s;

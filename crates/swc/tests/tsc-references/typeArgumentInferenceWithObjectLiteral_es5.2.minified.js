@@ -1,6 +1,5 @@
 var E1, E2, s, E1, E2;
-function foo(x) {
-}
+function foo(x) {}
 foo({
     read: function() {
         return s;
@@ -15,9 +14,7 @@ foo({
     read: function() {
         return s;
     }
-}), (E1 = E1 || (E1 = {
-}))[E1.X = 0] = "X", (E2 = E2 || (E2 = {
-}))[E2.X = 0] = "X", f1({
+}), (E1 = E1 || (E1 = {}))[E1.X = 0] = "X", (E2 = E2 || (E2 = {}))[E2.X = 0] = "X", f1({
     w: function(x) {
         return x;
     },

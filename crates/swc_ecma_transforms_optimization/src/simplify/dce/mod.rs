@@ -124,7 +124,9 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {
-        self.add(n.orig.to_id(), false);
+        if let ModuleExportName::Ident(orig) = &n.orig {
+            self.add(orig.to_id(), false);
+        }
     }
 
     fn visit_expr(&mut self, e: &Expr) {

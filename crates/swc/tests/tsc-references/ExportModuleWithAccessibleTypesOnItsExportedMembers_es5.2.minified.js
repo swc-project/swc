@@ -7,8 +7,7 @@ function _classCallCheck(instance, Constructor) {
         "use strict";
         _classCallCheck(this, Point), this.x = x, this.y = y;
     };
-    A1.Point = Point, (B = A1.B || (A1.B = {
-    })).Origin = new Point(0, 0), Line = (function() {
+    A1.Point = Point, (B = A1.B || (A1.B = {})).Origin = new Point(0, 0), Line = (function() {
         "use strict";
         var Constructor;
         function Line(start, end) {
@@ -31,5 +30,4 @@ function _classCallCheck(instance, Constructor) {
             }
         ]), Line;
     })(), B.Line = Line;
-}(A || (A = {
-}));
+}(A || (A = {}));

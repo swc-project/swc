@@ -204,8 +204,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -446,8 +445,7 @@ var C8 = // @filename: C8.ts
     _createClass(C8, [
         {
             key: "g",
-            value: function g() {
-            }
+            value: function g() {}
         },
         {
             key: "f",
@@ -477,8 +475,7 @@ var B9 = // @filename: C9.ts
     _createClass(B9, [
         {
             key: "g",
-            value: function g() {
-            }
+            value: function g() {}
         }
     ]);
     return B9;

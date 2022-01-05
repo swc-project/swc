@@ -9,8 +9,7 @@ function _defineProperty(obj, key, value) {
 }
 foo((_defineProperty(_obj = {
     p: "",
-    0: function() {
-    }
+    0: function() {}
 }, "hibye", !0), _defineProperty(_obj, 1, 0), _defineProperty(_obj, NaN, [
     0
 ]), _obj));

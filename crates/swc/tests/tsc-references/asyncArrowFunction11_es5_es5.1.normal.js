@@ -65,8 +65,7 @@ var A = function A() {
                     _ctx.next = 4;
                     return Promise.resolve();
                 case 4:
-                    obj = _defineProperty({
-                    }, "a", function() {
+                    obj = _defineProperty({}, "a", function() {
                         return _this;
                     }); // computed property name after `await` triggers case
                 case 5:

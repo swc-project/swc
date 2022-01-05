@@ -34,7 +34,7 @@ pub(crate) struct Ctx {
     /// `true` for `foo.bar` and `false` for `foo` in `foo.bar++`
     pub(super) is_exact_reassignment: bool,
 
-    /// `true` for arugments of [swc_ecma_ast::Expr::Call] or
+    /// `true` for arguments of [swc_ecma_ast::Expr::Call] or
     /// [swc_ecma_ast::Expr::New]
     pub(super) in_call_arg: bool,
 
@@ -46,7 +46,7 @@ pub(crate) struct Ctx {
     pub(super) in_left_of_for_loop: bool,
 
     pub(super) in_loop: bool,
-    /// Are we handling argument of an update exprssion.
+    /// Are we handling argument of an update expression.
     pub(super) in_update_arg: bool,
     pub(super) in_assign_lhs: bool,
     pub(super) in_cond: bool,

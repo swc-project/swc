@@ -21,8 +21,7 @@ function _createClass(Constructor, protoProps, staticProps) {
 // @allowJs: true
 // @checkJs: true
 // @Filename: a.js
-var Outer = {
-};
+var Outer = {};
 Outer.Inner = /*#__PURE__*/ (function() {
     "use strict";
     function _class() {
@@ -32,8 +31,7 @@ Outer.Inner = /*#__PURE__*/ (function() {
     _createClass(_class, [
         {
             key: "m",
-            value: function m() {
-            }
+            value: function m() {}
         }
     ]);
     return _class;

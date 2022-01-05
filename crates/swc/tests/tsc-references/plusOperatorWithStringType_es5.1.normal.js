@@ -45,8 +45,7 @@ var M;
 (function(M1) {
     var n;
     M1.n = n;
-})(M || (M = {
-}));
+})(M || (M = {}));
 var objA = new A();
 // string type var
 var ResultIsNumber1 = +STRING;

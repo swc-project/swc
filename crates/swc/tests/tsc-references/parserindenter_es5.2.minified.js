@@ -344,5 +344,4 @@ function _defineProperties(target, props) {
         ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Indenter;
     }();
     Formatting1.Indenter = Indenter;
-}(Formatting || (Formatting = {
-}));
+}(Formatting || (Formatting = {}));

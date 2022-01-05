@@ -179,8 +179,7 @@ function normalizeString(path2, allowAboveRoot, separator, isPathSeparator1) {
         else if (isPathSeparator1(code)) break;
         else code = CHAR_FORWARD_SLASH;
         if (isPathSeparator1(code)) {
-            if (lastSlash === i - 1 || dots === 1) {
-            } else if (lastSlash !== i - 1 && dots === 2) {
+            if (lastSlash === i - 1 || dots === 1) {} else if (lastSlash !== i - 1 && dots === 2) {
                 if (res.length < 2 || lastSegmentLength !== 2 || res.charCodeAt(res.length - 1) !== 46 || res.charCodeAt(res.length - 2) !== 46) {
                     if (res.length > 2) {
                         const lastSlashIndex = res.lastIndexOf(separator);
@@ -1604,8 +1603,7 @@ class TextProtoReader {
             const value = str(kv.subarray(i)).replace(invalidHeaderCharRegex, encodeURI);
             try {
                 m.append(key, value);
-            } catch  {
-            }
+            } catch  {}
         }
     }
     async readLineSlice() {
@@ -1719,13 +1717,11 @@ class PartReader {
         this.total += nread;
         return nread;
     }
-    close() {
-    }
+    close() {}
     getContentDispositionParams() {
         if (this.contentDispositionParams) return this.contentDispositionParams;
         const cd = this.headers.get("content-disposition");
-        const params = {
-        };
+        const params = {};
         assert(cd != null, "content-disposition must be set");
         const comps = decodeURI(cd).split(";");
         this.contentDisposition = comps[0];

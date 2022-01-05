@@ -1,5 +1,4 @@
-const x = {
-};
+const x = {};
 Object.defineProperty(x, "name", {
     value: "Charles",
     writable: !0
@@ -12,8 +11,7 @@ Object.defineProperty(x, "name", {
     get () {
         return 98122;
     },
-    set (_) {
-    }
+    set (_) {}
 }), Object.defineProperty(x, "houseNumber", {
     get () {
         return 21.75;

@@ -30,18 +30,15 @@ var C = /*#__PURE__*/ function() {
     _createClass(C, [
         {
             key: tmp,
-            value: function value() {
-            }
+            value: function value() {}
         },
         {
             key: tmp1,
-            value: function value() {
-            }
+            value: function value() {}
         },
         {
             key: tmp2,
-            value: function value() {
-            }
+            value: function value() {}
         }
     ]);
     return C;

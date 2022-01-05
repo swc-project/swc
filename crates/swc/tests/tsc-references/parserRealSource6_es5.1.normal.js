@@ -228,5 +228,4 @@ var TypeScript;
     TypeScript1.popTypeCollectionScope = popTypeCollectionScope;
     TypeScript1.preFindEnclosingScope = preFindEnclosingScope;
     TypeScript1.findEnclosingScopeAt = findEnclosingScopeAt;
-})(TypeScript || (TypeScript = {
-}));
+})(TypeScript || (TypeScript = {}));

@@ -198,7 +198,7 @@ pub struct ImportNamedSpecifier {
     pub local: Ident,
 
     #[serde(default)]
-    pub imported: Option<Ident>,
+    pub imported: Option<ModuleExportName>,
 
     #[serde(default)]
     pub is_type_only: bool,
@@ -243,11 +243,23 @@ pub struct ExportDefaultSpecifier {
 pub struct ExportNamedSpecifier {
     pub span: Span,
     /// `foo` in `export { foo as bar }`
-    pub orig: Ident,
+    pub orig: ModuleExportName,
     /// `Some(bar)` in `export { foo as bar }`
     #[serde(default)]
-    pub exported: Option<Ident>,
+    pub exported: Option<ModuleExportName>,
     /// `type` in `export { type foo as bar }`
     #[serde(default)]
     pub is_type_only: bool,
+}
+
+#[ast_node]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+// https://tc39.es/ecma262/#prod-ModuleExportName
+pub enum ModuleExportName {
+    #[tag("Identifier")]
+    Ident(Ident),
+
+    #[tag("StringLiteral")]
+    Str(Str),
 }

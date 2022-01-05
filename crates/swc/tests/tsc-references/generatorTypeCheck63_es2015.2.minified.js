@@ -6,8 +6,7 @@ export function strategy(stratName, gen) {
 export const Nothing = strategy("Nothing", function*(state) {
     return yield 1, state;
 });
-export const Nothing1 = strategy("Nothing", function*(state) {
-});
+export const Nothing1 = strategy("Nothing", function*(state) {});
 export const Nothing2 = strategy("Nothing", function*(state) {
     return 1;
 });

@@ -63,8 +63,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -92,8 +91,7 @@ var C = // subclassing is not transitive when you can remove required parameters
     _createClass(C, [
         {
             key: "foo",
-            value: function foo(x, y) {
-            }
+            value: function foo(x, y) {}
         }
     ]);
     return C;
@@ -109,8 +107,7 @@ var D = /*#__PURE__*/ function(C) {
     _createClass(D, [
         {
             key: "foo",
-            value: function foo(x) {
-            } // ok to drop parameters
+            value: function foo(x) {} // ok to drop parameters
         }
     ]);
     return D;
@@ -126,8 +123,7 @@ var E = /*#__PURE__*/ function(D) {
     _createClass(E, [
         {
             key: "foo",
-            value: function foo(x, y) {
-            } // ok to add optional parameters
+            value: function foo(x, y) {} // ok to add optional parameters
         }
     ]);
     return E;

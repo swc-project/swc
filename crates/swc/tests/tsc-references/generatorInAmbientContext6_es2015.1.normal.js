@@ -2,8 +2,6 @@
 //@declaration: true
 var M;
 (function(M1) {
-    function* generator() {
-    }
+    function* generator() {}
     M1.generator = generator;
-})(M || (M = {
-}));
+})(M || (M = {}));

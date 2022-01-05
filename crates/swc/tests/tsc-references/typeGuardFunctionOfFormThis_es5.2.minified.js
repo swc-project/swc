@@ -39,8 +39,7 @@ function _createSuper(Derived) {
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
         try {
-            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-            })), !0;
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
         } catch (e) {
             return !1;
         }
@@ -86,8 +85,7 @@ var b, crate, RoyalGuard = function() {
     return _createClass(LeadGuard, [
         {
             key: "lead",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), LeadGuard;
 }(RoyalGuard), FollowerGuard = function(RoyalGuard) {
@@ -100,8 +98,7 @@ var b, crate, RoyalGuard = function() {
     return _createClass(FollowerGuard, [
         {
             key: "follow",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), FollowerGuard;
 }(RoyalGuard), a = new FollowerGuard();
@@ -128,8 +125,7 @@ var ArrowGuard = function() {
     return _createClass(ArrowElite, [
         {
             key: "defend",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), ArrowElite;
 }(ArrowGuard), ArrowMedic = function(ArrowGuard2) {
@@ -142,8 +138,7 @@ var ArrowGuard = function() {
     return _createClass(ArrowMedic, [
         {
             key: "heal",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), ArrowMedic;
 }(ArrowGuard), guard = new ArrowGuard();
@@ -177,8 +172,7 @@ var MimicGuard = function() {
     return _createClass(MimicLeader, [
         {
             key: "lead",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), MimicLeader;
 }(MimicGuard), MimicFollower = function(MimicGuard) {
@@ -191,8 +185,7 @@ var MimicGuard = function() {
     return _createClass(MimicFollower, [
         {
             key: "follow",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), MimicFollower;
 }(MimicGuard), mimic = new MimicGuard();

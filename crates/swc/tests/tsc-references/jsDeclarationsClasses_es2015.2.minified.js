@@ -8,30 +8,25 @@ export class C {
 C.Cls = class {
 };
 export class D {
-    constructor(a, b){
-    }
+    constructor(a, b){}
 }
 export class E {
     get f1() {
         return null;
     }
-    set f1(_p) {
-    }
+    set f1(_p) {}
     get f2() {
         return null;
     }
-    set f3(_p) {
-    }
+    set f3(_p) {}
     static get s1() {
         return "";
     }
-    static set s1(_p) {
-    }
+    static set s1(_p) {}
     static get s2() {
         return "";
     }
-    static set s3(_p) {
-    }
+    static set s3(_p) {}
     constructor(a, b){
         this.initializedField = 12;
     }
@@ -41,10 +36,13 @@ export class F {
     static create(a, b) {
         return new F(a, b);
     }
-    constructor(a, b){
-    }
+    constructor(a, b){}
+}
+class G {
 }
 export { G };
+class HH {
+}
 export { HH as H };
 export class I {
 }
@@ -77,13 +75,12 @@ export class O extends N {
         super(param), this.another2 = param;
     }
 }
-export class VariableBase extends null {
+var x = null;
+export class VariableBase extends x {
 }
 export class HasStatics {
-    static staticMethod() {
-    }
+    static staticMethod() {}
 }
 export class ExtendsStatics extends HasStatics {
-    static also() {
-    }
+    static also() {}
 }

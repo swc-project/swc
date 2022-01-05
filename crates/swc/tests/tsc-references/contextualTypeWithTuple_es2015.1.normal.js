@@ -54,8 +54,7 @@ numStrTuple = numStrTuple2;
 numStrTuple = numStrBoolTuple;
 // error
 objNumTuple = [
-    {
-    },
+    {},
     5
 ];
 numStrBoolTuple = numStrTuple;

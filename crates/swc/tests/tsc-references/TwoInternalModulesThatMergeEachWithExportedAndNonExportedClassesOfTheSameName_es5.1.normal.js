@@ -24,8 +24,7 @@ var A;
         _classCallCheck(this, Point);
     };
     A1.Point = Point;
-})(A || (A = {
-}));
+})(A || (A = {}));
 (function(A) {
     var Point = /*#__PURE__*/ function() {
         "use strict";
@@ -45,8 +44,7 @@ var A;
         ]);
         return Point;
     }();
-})(A || (A = {
-}));
+})(A || (A = {}));
 // ensure merges as expected
 var p;
 var p;
@@ -61,12 +59,9 @@ var X;
                 _classCallCheck(this, Line);
             };
             Z.Line = Line;
-        })(Z1 = Y.Z || (Y.Z = {
-        }));
-    })(Y1 = X1.Y || (X1.Y = {
-    }));
-})(X || (X = {
-}));
+        })(Z1 = Y.Z || (Y.Z = {}));
+    })(Y1 = X1.Y || (X1.Y = {}));
+})(X || (X = {}));
 (function(X2) {
     var Y2;
     (function(Y) {
@@ -76,12 +71,9 @@ var X;
                 "use strict";
                 _classCallCheck(this, Line);
             };
-        })(Z = Y.Z || (Y.Z = {
-        }));
-    })(Y2 = X2.Y || (X2.Y = {
-    }));
-})(X || (X = {
-}));
+        })(Z = Y.Z || (Y.Z = {}));
+    })(Y2 = X2.Y || (X2.Y = {}));
+})(X || (X = {}));
 // ensure merges as expected
 var l;
 var l;

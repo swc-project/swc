@@ -19,5 +19,4 @@
     T[K] extends string ? string
       : XMLObject<T[K]>
   )
-}} XMLObject<T> */ /** @type {XMLObject<{foo:string}>} */ var p = {
-};
+}} XMLObject<T> */ /** @type {XMLObject<{foo:string}>} */ var p = {};

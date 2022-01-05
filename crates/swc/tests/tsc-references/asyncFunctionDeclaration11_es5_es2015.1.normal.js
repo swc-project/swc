@@ -34,7 +34,6 @@ function _await1() {
     _await1 = // @target: ES5
     // @lib: es5,es2015.promise
     // @noEmitHelpers: true
-    _asyncToGenerator(function*() {
-    });
+    _asyncToGenerator(function*() {});
     return _await1.apply(this, arguments);
 }

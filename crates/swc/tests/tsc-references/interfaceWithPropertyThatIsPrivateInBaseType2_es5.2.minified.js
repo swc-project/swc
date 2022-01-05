@@ -18,8 +18,7 @@ var Base = function() {
     return _createClass(Base, [
         {
             key: "x",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), Base;
 }(), Base2 = function() {
@@ -30,8 +29,7 @@ var Base = function() {
     return _createClass(Base2, [
         {
             key: "x",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), Base2;
 }();

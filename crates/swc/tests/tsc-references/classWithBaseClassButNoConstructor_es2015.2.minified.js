@@ -1,13 +1,11 @@
 class Base {
-    constructor(x){
-    }
+    constructor(x){}
 }
 class C extends Base {
 }
 new C(), new C(1);
 class Base2 {
-    constructor(x){
-    }
+    constructor(x){}
 }
 class D extends Base2 {
 }

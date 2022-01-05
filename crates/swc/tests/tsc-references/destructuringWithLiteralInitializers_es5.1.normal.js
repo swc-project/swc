@@ -67,8 +67,7 @@ f2({
 function f3(param) {
     var _x = param.x, x = _x === void 0 ? 0 : _x, _y = param.y, y = _y === void 0 ? 0 : _y;
 }
-f3({
-});
+f3({});
 f3({
     x: 1
 });
@@ -107,12 +106,10 @@ f5({
 });
 // (arg?: { x?: number, y?: number }) => void
 function f6() {
-    var ref = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
-    }, _x = ref.x, x = _x === void 0 ? 0 : _x, _y = ref.y, y = _y === void 0 ? 0 : _y;
+    var ref = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {}, _x = ref.x, x = _x === void 0 ? 0 : _x, _y = ref.y, y = _y === void 0 ? 0 : _y;
 }
 f6();
-f6({
-});
+f6({});
 f6({
     x: 1
 });
@@ -126,14 +123,12 @@ f6({
 // (arg?: { a: { x?: number, y?: number } }) => void
 function f7() {
     var ref = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
-        a: {
-        }
+        a: {}
     }, _a = ref.a, _x = _a.x, x = _x === void 0 ? 0 : _x, _y = _a.y, y = _y === void 0 ? 0 : _y;
 }
 f7();
 f7({
-    a: {
-    }
+    a: {}
 });
 f7({
     a: {

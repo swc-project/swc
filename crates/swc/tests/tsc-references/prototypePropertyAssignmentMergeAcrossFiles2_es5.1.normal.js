@@ -2,18 +2,13 @@
 // @allowJs: true
 // @checkJs: true
 // @noEmit: true
-var Ns = {
-};
-Ns.One = function() {
-};
-Ns.Two = function() {
-};
+var Ns = {};
+Ns.One = function() {};
+Ns.Two = function() {};
 Ns.One.prototype = {
-    ok: function ok() {
-    }
+    ok: function ok() {}
 };
-Ns.Two.prototype = {
-};
+Ns.Two.prototype = {};
 // @Filename: other.js
 /**
  * @type {Ns.One}

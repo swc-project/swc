@@ -5,5 +5,4 @@ var Foo = function() {
     }(this, Foo);
 };
 export { Foo as default };
-export default function foo() {
-};
+export default function foo() {};

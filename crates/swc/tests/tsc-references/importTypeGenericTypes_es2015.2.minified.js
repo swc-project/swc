@@ -1,4 +1,7 @@
 module.exports = Point;
+class Bar {
+    constructor(input){}
+}
 export { Bar };
 export const x = {
     x: 0,
@@ -15,8 +18,7 @@ export let y = {
     }
 };
 export class Bar2 {
-    constructor(input){
-    }
+    constructor(input){}
 }
 export let shim = {
     Bar: Bar2

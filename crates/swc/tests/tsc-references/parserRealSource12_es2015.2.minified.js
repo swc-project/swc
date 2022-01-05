@@ -53,8 +53,7 @@ var TypeScript;
         function walkNamedTypeChildren(preAst, parent, walker) {
             walkRecordChildren(preAst, parent, walker);
         }
-        ChildrenWalkers.walkNone = function(preAst, parent, walker) {
-        }, ChildrenWalkers.walkListChildren = function(preAst, parent, walker) {
+        ChildrenWalkers.walkNone = function(preAst, parent, walker) {}, ChildrenWalkers.walkListChildren = function(preAst, parent, walker) {
             var len = preAst.members.length;
             if (walker.options.reverseSiblings) for(var i = len - 1; i >= 0; i--)walker.options.goNextSibling && (preAst.members[i] = walker.walk(preAst.members[i], preAst));
             else for(var i = 0; i < len; i++)walker.options.goNextSibling && (preAst.members[i] = walker.walk(preAst.members[i], preAst));
@@ -112,11 +111,8 @@ var TypeScript;
             preAst.id && (preAst.id = walker.walk(preAst.id, preAst)), preAst.alias && (preAst.alias = walker.walk(preAst.alias, preAst));
         }, ChildrenWalkers.walkWithStatementChildren = function(preAst, parent, walker) {
             preAst.expr && (preAst.expr = walker.walk(preAst.expr, preAst)), preAst.body && walker.options.goNextSibling && (preAst.body = walker.walk(preAst.body, preAst));
-        }, ChildrenWalkers.walkLabelChildren = function(preAst, parent, walker) {
-        }, ChildrenWalkers.walkLabeledStatementChildren = function(preAst, parent, walker) {
+        }, ChildrenWalkers.walkLabelChildren = function(preAst, parent, walker) {}, ChildrenWalkers.walkLabeledStatementChildren = function(preAst, parent, walker) {
             preAst.labels = walker.walk(preAst.labels, preAst), walker.options.goNextSibling && (preAst.stmt = walker.walk(preAst.stmt, preAst));
         };
-    }(ChildrenWalkers1 || (ChildrenWalkers1 = {
-    }));
-}(TypeScript || (TypeScript = {
-}));
+    }(ChildrenWalkers1 || (ChildrenWalkers1 = {}));
+}(TypeScript || (TypeScript = {}));

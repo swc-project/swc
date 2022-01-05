@@ -4,8 +4,7 @@ E;
 (function(E) {
     E[E["red"] = 0] = "red";
     E[E["blue"] = 1] = "blue";
-})(E || (E = {
-}));
+})(E || (E = {}));
 // A contextual signature S is extracted from a function type T as follows:
 //      If T is a function type with exactly one call signature, and if that call signature is non- generic, S is that signature.
 var a0 = (num, str)=>{
@@ -13,8 +12,7 @@ var a0 = (num, str)=>{
     return 0;
 };
 class Class {
-    foo() {
-    }
+    foo() {}
 }
 var a1 = (a11)=>{
     a11.foo();
@@ -26,8 +24,7 @@ var a1 = (a11)=>{
 //        and if all of the signatures are identical ignoring return types,
 //        then S is a signature with the same parameters and a union of the return types.
 var b1;
-b1 = (k, h)=>{
-};
+b1 = (k, h)=>{};
 var b2;
 b2 = (foo, bar)=>{
     return foo + 1;
@@ -36,8 +33,7 @@ b2 = (foo, bar)=>{
     return "hello";
 };
 var b3;
-b3 = (name, number)=>{
-};
+b3 = (name, number)=>{};
 var b4 = (number = 1)=>{
     return "hello";
 };
@@ -55,8 +51,7 @@ b6 = (i)=>{
     i.toExponential();
     return i;
 }; // Per spec, no contextual signature can be extracted in this case. (Otherwise clause)
-b7 = (j, m)=>{
-}; // Per spec, no contextual signature can be extracted in this case. (Otherwise clause)
+b7 = (j, m)=>{}; // Per spec, no contextual signature can be extracted in this case. (Otherwise clause)
 class C {
     constructor(){
         var k1 = (j, k)=>{

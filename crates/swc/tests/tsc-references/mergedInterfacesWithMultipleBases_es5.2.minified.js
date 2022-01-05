@@ -22,5 +22,4 @@ a.a, (function(M) {
         "use strict";
         _classCallCheck(this, D1);
     };
-})(M || (M = {
-}));
+})(M || (M = {}));

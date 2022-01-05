@@ -6,8 +6,7 @@ var ai;
 var E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
-}));
+})(E || (E = {}));
 var ae;
 var b = a;
 var c = a;

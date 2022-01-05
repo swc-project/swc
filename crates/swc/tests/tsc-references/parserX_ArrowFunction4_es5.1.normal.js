@@ -1,2 +1,1 @@
-var v = function(a, b) {
-};
+var v = function(a, b) {};

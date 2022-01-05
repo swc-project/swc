@@ -8,12 +8,9 @@ function _extends() {
         return target;
     }).apply(this, arguments);
 }
-React.createElement("div", _extends({
-}, p1), p2), React.createElement("div", _extends({
-}, p1), p2), React.createElement("div", _extends({
+React.createElement("div", _extends({}, p1), p2), React.createElement("div", _extends({}, p1), p2), React.createElement("div", _extends({
     x: p3
-}, p1), p2), React.createElement("div", _extends({
-}, p1, {
+}, p1), p2), React.createElement("div", _extends({}, p1, {
     x: p3
 }), p2), React.createElement("div", _extends({
     x: p2

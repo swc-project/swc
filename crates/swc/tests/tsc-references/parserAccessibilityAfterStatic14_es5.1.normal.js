@@ -25,8 +25,7 @@ var Outer = /*#__PURE__*/ function() {
     _createClass(Outer, null, [
         {
             key: "public",
-            value: function _public() {
-            }
+            value: function _public() {}
         }
     ]);
     return Outer;

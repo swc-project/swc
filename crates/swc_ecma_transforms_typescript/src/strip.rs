@@ -9,16 +9,19 @@ use swc_common::{
     Mark, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::ext::ExprRefExt;
 use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
 use swc_ecma_utils::{
     constructor::inject_after_super, default_constructor, ident::IdentLike, member_expr, prepend,
     private_ident, prop_name_to_expr, quote_ident, replace_ident, var::VarCollector, ExprFactory,
     Id, ModuleItemLike, StmtLike,
 };
-use swc_ecma_visit::{as_folder, Fold, Visit, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{
+    as_folder, noop_visit_mut_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
+};
 
 /// Value does not contain TsLit::Bool
-type EnumValues = AHashMap<JsWord, TsLit>;
+type EnumValues = AHashMap<JsWord, Option<TsLit>>;
 
 #[derive(Debug, Serialize, Deserialize)]
 #[non_exhaustive]
@@ -601,78 +604,78 @@ where
                     }
                     _ => stmts.push(T::from_stmt(stmt)),
                 },
-                Err(node) => match node.try_into_module_decl() {
-                    Ok(decl) => match decl {
-                        ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
-                            span,
-                            decl: DefaultDecl::Class(ClassExpr { ident, class }),
-                            ..
-                        }) => {
-                            let orig_ident = ident.clone();
-                            let ident = ident.unwrap_or_else(|| private_ident!("_class"));
-                            let (decl, extra_exprs) =
-                                self.fold_class_as_decl(ident.clone(), orig_ident, class);
-                            stmts.push(T::from_stmt(Stmt::Decl(decl)));
-                            stmts.extend(
-                                extra_exprs.into_iter().map(|e| T::from_stmt(e.into_stmt())),
-                            );
-                            stmts.push(
-                                match T::try_from_module_decl(ModuleDecl::ExportNamed(
-                                    NamedExport {
-                                        span,
-                                        specifiers: vec![ExportNamedSpecifier {
-                                            span: DUMMY_SP,
-                                            orig: ident,
-                                            exported: Some(Ident::new(
-                                                js_word!("default"),
-                                                DUMMY_SP,
-                                            )),
-                                            is_type_only: false,
-                                        }
-                                        .into()],
-                                        src: None,
-                                        type_only: false,
-                                        asserts: None,
+                Err(node) => {
+                    match node.try_into_module_decl() {
+                        Ok(decl) => match decl {
+                            ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                                span,
+                                decl: DefaultDecl::Class(ClassExpr { ident, class }),
+                                ..
+                            }) => {
+                                let orig_ident = ident.clone();
+                                let ident = ident.unwrap_or_else(|| private_ident!("_class"));
+                                let (decl, extra_exprs) =
+                                    self.fold_class_as_decl(ident.clone(), orig_ident, class);
+                                stmts.push(T::from_stmt(Stmt::Decl(decl)));
+                                stmts.extend(
+                                    extra_exprs.into_iter().map(|e| T::from_stmt(e.into_stmt())),
+                                );
+                                stmts.push(
+                                    match T::try_from_module_decl(ModuleDecl::ExportNamed(
+                                        NamedExport {
+                                            span,
+                                            specifiers: vec![ExportNamedSpecifier {
+                                                span: DUMMY_SP,
+                                                orig: ModuleExportName::Ident(ident),
+                                                exported: Some(ModuleExportName::Ident(
+                                                    Ident::new(js_word!("default"), DUMMY_SP),
+                                                )),
+                                                is_type_only: false,
+                                            }
+                                            .into()],
+                                            src: None,
+                                            type_only: false,
+                                            asserts: None,
+                                        },
+                                    )) {
+                                        Ok(t) => t,
+                                        Err(..) => unreachable!(),
                                     },
-                                )) {
-                                    Ok(t) => t,
-                                    Err(..) => unreachable!(),
-                                },
-                            );
-                        }
-                        ModuleDecl::ExportDecl(ExportDecl {
-                            span,
-                            decl:
-                                Decl::Class(ClassDecl {
-                                    ident,
-                                    declare: false,
-                                    class,
-                                }),
-                            ..
-                        }) => {
-                            let orig_ident = ident.clone();
-                            let (decl, extra_exprs) =
-                                self.fold_class_as_decl(ident, Some(orig_ident), class);
-                            stmts.push(
-                                match T::try_from_module_decl(ModuleDecl::ExportDecl(ExportDecl {
-                                    span,
-                                    decl,
-                                })) {
-                                    Ok(t) => t,
-                                    Err(..) => unreachable!(),
-                                },
-                            );
-                            stmts.extend(
-                                extra_exprs.into_iter().map(|e| T::from_stmt(e.into_stmt())),
-                            );
-                        }
-                        _ => stmts.push(match T::try_from_module_decl(decl) {
-                            Ok(t) => t,
-                            Err(..) => unreachable!(),
-                        }),
-                    },
-                    Err(_) => unreachable!(),
-                },
+                                );
+                            }
+                            ModuleDecl::ExportDecl(ExportDecl {
+                                span,
+                                decl:
+                                    Decl::Class(ClassDecl {
+                                        ident,
+                                        declare: false,
+                                        class,
+                                    }),
+                                ..
+                            }) => {
+                                let orig_ident = ident.clone();
+                                let (decl, extra_exprs) =
+                                    self.fold_class_as_decl(ident, Some(orig_ident), class);
+                                stmts.push(
+                                    match T::try_from_module_decl(ModuleDecl::ExportDecl(
+                                        ExportDecl { span, decl },
+                                    )) {
+                                        Ok(t) => t,
+                                        Err(..) => unreachable!(),
+                                    },
+                                );
+                                stmts.extend(
+                                    extra_exprs.into_iter().map(|e| T::from_stmt(e.into_stmt())),
+                                );
+                            }
+                            _ => stmts.push(match T::try_from_module_decl(decl) {
+                                Ok(t) => t,
+                                Err(..) => unreachable!(),
+                            }),
+                        },
+                        Err(_) => unreachable!(),
+                    }
+                }
             }
         }
     }
@@ -846,7 +849,7 @@ where
                     }
 
                     Expr::Ident(ref id) => {
-                        if let Some(v) = values.get(&id.sym) {
+                        if let Some(Some(v)) = values.get(&id.sym) {
                             return Ok(v.clone());
                         }
                         //
@@ -963,7 +966,7 @@ where
                             TsEnumMemberId::Ident(i) => i.sym.clone(),
                             TsEnumMemberId::Str(s) => s.value.clone(),
                         },
-                        val.clone(),
+                        Some(val.clone()),
                     );
 
                     match val {
@@ -978,7 +981,24 @@ where
                 })
                 .or_else(|err| match &m.init {
                     None => Err(err),
-                    Some(v) => Ok(*v.clone()),
+                    Some(v) => {
+                        let mut v = *v.clone();
+                        let mut visitor = EnumValuesVisitor {
+                            previous: &values,
+                            ident: &id,
+                        };
+                        visitor.visit_mut_expr(&mut v);
+
+                        values.insert(
+                            match &m.id {
+                                TsEnumMemberId::Ident(i) => i.sym.clone(),
+                                TsEnumMemberId::Str(s) => s.value.clone(),
+                            },
+                            None,
+                        );
+
+                        Ok(v)
+                    }
                 })?;
 
                 Ok((m, val))
@@ -1517,9 +1537,13 @@ where
                             ref is_type_only,
                             ..
                         }) => {
+                            let orig_ident = match orig {
+                                ModuleExportName::Ident(ident) => ident,
+                                ModuleExportName::Str(..) => return true,
+                            };
                             if *is_type_only {
                                 false
-                            } else if let Some(e) = self.scope.decls.get(&orig.to_id()) {
+                            } else if let Some(e) = self.scope.decls.get(&orig_ident.to_id()) {
                                 e.has_concrete
                             } else {
                                 true
@@ -1593,19 +1617,38 @@ where
                         match decl.name {
                             Pat::Ident(name) => {
                                 //
-                                let left = PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
+                                let left = Box::new(Expr::Member(MemberExpr {
                                     span: DUMMY_SP,
                                     obj: parent_module_name.clone().as_obj(),
                                     prop: Box::new(Expr::Ident(name.id.clone())),
                                     computed: false,
-                                })));
+                                }))
+                                .into();
 
-                                exprs.push(Box::new(Expr::Assign(AssignExpr {
+                                let expr = AssignExpr {
                                     span: DUMMY_SP,
                                     op: op!("="),
                                     left,
                                     right: init,
-                                })))
+                                }
+                                .into();
+
+                                let decl = VarDeclarator {
+                                    span: name.id.span,
+                                    name: name.clone().into(),
+                                    init: Some(Box::new(expr)),
+                                    definite: false,
+                                };
+
+                                let stmt: Stmt = Decl::Var(VarDecl {
+                                    span: DUMMY_SP,
+                                    kind: VarDeclKind::Var,
+                                    declare: false,
+                                    decls: vec![decl],
+                                })
+                                .into();
+
+                                stmts.push(stmt.into());
                             }
                             _ => {
                                 let pat = Box::new(create_prop_pat(&parent_module_name, decl.name));
@@ -2581,9 +2624,13 @@ where
                             ref is_type_only,
                             ..
                         }) => {
+                            let orig_ident = match orig {
+                                ModuleExportName::Ident(ident) => ident,
+                                ModuleExportName::Str(..) => return true,
+                            };
                             if *is_type_only {
                                 false
-                            } else if let Some(e) = self.scope.decls.get(&orig.to_id()) {
+                            } else if let Some(e) = self.scope.decls.get(&orig_ident.to_id()) {
                                 e.has_concrete
                             } else {
                                 true
@@ -2721,5 +2768,36 @@ fn create_prop_pat(obj: &Ident, pat: Pat) -> Pat {
         }),
         // TODO
         Pat::Expr(..) => pat,
+    }
+}
+
+struct EnumValuesVisitor<'a> {
+    ident: &'a Ident,
+    previous: &'a EnumValues,
+}
+impl VisitMut for EnumValuesVisitor<'_> {
+    noop_visit_mut_type!();
+
+    fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        match expr {
+            Expr::Ident(ident) if self.previous.contains_key(&ident.sym) => {
+                *expr = self.ident.clone().make_member(ident.clone());
+            }
+            Expr::Member(MemberExpr {
+                obj: ExprOrSuper::Expr(ref obj),
+                // prop,
+                ..
+            }) if obj
+                .as_ident()
+                .and_then(|obj| self.previous.get(&obj.sym))
+                .is_some() =>
+            {
+                *expr = self.ident.clone().make_member(expr.clone());
+            }
+            Expr::Member(..) => {
+                // skip
+            }
+            _ => expr.visit_mut_children_with(self),
+        }
     }
 }

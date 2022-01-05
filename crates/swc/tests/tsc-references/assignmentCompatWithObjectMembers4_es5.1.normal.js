@@ -49,8 +49,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -135,8 +134,7 @@ var OnlyDerived;
     a2 = b; // error
     a2 = t2; // error
     a2 = t; // error
-})(OnlyDerived || (OnlyDerived = {
-}));
+})(OnlyDerived || (OnlyDerived = {}));
 var WithBase;
 (function(WithBase) {
     var Base = function Base() {
@@ -202,5 +200,4 @@ var WithBase;
     a2 = b; // ok
     a2 = t2; // ok
     a2 = t; // ok
-})(WithBase || (WithBase = {
-}));
+})(WithBase || (WithBase = {}));

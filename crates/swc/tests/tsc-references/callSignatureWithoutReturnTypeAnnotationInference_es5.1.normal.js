@@ -34,8 +34,7 @@ function foo5(x) {
 }
 var r5 = foo5(1);
 function foo6(x) {
-    try {
-    } catch (e) {
+    try {} catch (e) {
         return [];
     } finally{
         return [];
@@ -69,14 +68,13 @@ function foo10(x) {
 var r10 = foo10(1);
 var M;
 (function(M1) {
-    M1.x = 1;
+    var x = M1.x = 1;
     var C = function C() {
         "use strict";
         _classCallCheck(this, C);
     };
     M1.C = C;
-})(M || (M = {
-}));
+})(M || (M = {}));
 function foo11() {
     return M;
 }
@@ -90,9 +88,8 @@ function m1() {
     return 1;
 }
 (function(m11) {
-    m11.y = 2;
-})(m1 || (m1 = {
-}));
+    var y = m11.y = 2;
+})(m1 || (m1 = {}));
 function foo13() {
     return m1;
 }
@@ -102,9 +99,8 @@ var c1 = function c1(x) {
     _classCallCheck(this, c1);
 };
 (function(c1) {
-    c1.x = 1;
-})(c1 || (c1 = {
-}));
+    var x = c1.x = 1;
+})(c1 || (c1 = {}));
 function foo14() {
     return c1;
 }
@@ -112,12 +108,10 @@ var r14 = foo14();
 var e1;
 (function(e1) {
     e1[e1["A"] = 0] = "A";
-})(e1 || (e1 = {
-}));
+})(e1 || (e1 = {}));
 (function(e1) {
-    e1.y = 1;
-})(e1 || (e1 = {
-}));
+    var y = e1.y = 1;
+})(e1 || (e1 = {}));
 function foo15() {
     return e1;
 }

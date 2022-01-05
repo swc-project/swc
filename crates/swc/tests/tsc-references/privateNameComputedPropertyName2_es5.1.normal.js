@@ -34,8 +34,7 @@ var A = /*#__PURE__*/ function() {
     _createClass(A, [
         {
             key: tmp,
-            value: function value() {
-            }
+            value: function value() {}
         }
     ]);
     return A;

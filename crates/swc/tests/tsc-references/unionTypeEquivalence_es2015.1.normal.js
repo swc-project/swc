@@ -2,8 +2,7 @@
 class C {
 }
 class D extends C {
-    foo() {
-    }
+    foo() {}
 }
 var x;
 var x;

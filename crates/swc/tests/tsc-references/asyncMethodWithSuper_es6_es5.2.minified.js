@@ -179,13 +179,11 @@ var A = function() {
     return _createClass(A, [
         {
             key: "x",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "y",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), A;
 }(), B = function(A) {
@@ -206,8 +204,7 @@ var A = function() {
             if (Reflect.construct.sham) return !1;
             if ("function" == typeof Proxy) return !0;
             try {
-                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-                })), !0;
+                return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
             } catch (e) {
                 return !1;
             }
@@ -295,8 +292,7 @@ var A = function() {
                         for(;;)switch(_ctx1.prev = _ctx1.next){
                             case 0:
                                 var _args, _args1;
-                                f = function() {
-                                }, _super_x(), _super_method(), a = _get(_getPrototypeOf(B.prototype), "x", _this), b = _get(_getPrototypeOf(B.prototype), "x", _this), _args = f, _set(_getPrototypeOf(B.prototype), "x", _args, _this, !0), _args1 = f, _set(_getPrototypeOf(B.prototype), "x", _args1, _this, !0), ref = {
+                                f = function() {}, _super_x(), _super_method(), a = _get(_getPrototypeOf(B.prototype), "x", _this), b = _get(_getPrototypeOf(B.prototype), "x", _this), _args = f, _set(_getPrototypeOf(B.prototype), "x", _args, _this, !0), _args1 = f, _set(_getPrototypeOf(B.prototype), "x", _args1, _this, !0), ref = {
                                     f: f
                                 }, _super_x1() = ref.f, ref1 = {
                                     f: f
@@ -379,8 +375,7 @@ var A = function() {
                         for(;;)switch(_ctx3.prev = _ctx3.next){
                             case 0:
                                 var _args2;
-                                _args2 = f = function() {
-                                }, _set(_getPrototypeOf(B.prototype), "x", _args2, _this, !0), ref = {
+                                _args2 = f = function() {}, _set(_getPrototypeOf(B.prototype), "x", _args2, _this, !0), ref = {
                                     f: f
                                 }, _super_x() = ref.f, _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                                     return regeneratorRuntime.wrap(function(_ctx) {
@@ -452,8 +447,7 @@ var A = function() {
                         for(;;)switch(_ctx5.prev = _ctx5.next){
                             case 0:
                                 var _args3;
-                                _args3 = f = function() {
-                                }, _set(_getPrototypeOf(B.prototype), "x", _args3, _this, !0), ref = {
+                                _args3 = f = function() {}, _set(_getPrototypeOf(B.prototype), "x", _args3, _this, !0), ref = {
                                     f: f
                                 }, _super_method() = ref.f, _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                                     return regeneratorRuntime.wrap(function(_ctx) {
@@ -525,8 +519,7 @@ var A = function() {
                         for(;;)switch(_ctx7.prev = _ctx7.next){
                             case 0:
                                 var _args4;
-                                _args4 = f = function() {
-                                }, _set(_getPrototypeOf(B.prototype), "x", _args4, _this, !0), ref = {
+                                _args4 = f = function() {}, _set(_getPrototypeOf(B.prototype), "x", _args4, _this, !0), ref = {
                                     f: f
                                 }, _super_x() = ref.f, _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                                     return regeneratorRuntime.wrap(function(_ctx) {
@@ -598,8 +591,7 @@ var A = function() {
                         for(;;)switch(_ctx9.prev = _ctx9.next){
                             case 0:
                                 var _args5;
-                                _args5 = f = function() {
-                                }, _set(_getPrototypeOf(B.prototype), "x", _args5, _this, !0), ref = {
+                                _args5 = f = function() {}, _set(_getPrototypeOf(B.prototype), "x", _args5, _this, !0), ref = {
                                     f: f
                                 }, _super_method() = ref.f, _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                                     return regeneratorRuntime.wrap(function(_ctx) {

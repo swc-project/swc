@@ -1,6 +1,5 @@
 export class Super {
-    constructor(firstArg, secondArg){
-    }
+    constructor(firstArg, secondArg){}
 }
 export class Sub extends Super {
     constructor(){

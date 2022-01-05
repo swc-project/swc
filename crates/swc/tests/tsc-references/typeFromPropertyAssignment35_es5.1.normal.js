@@ -18,6 +18,5 @@ Emu.D = function _class() {
     this._model = 1;
 };
 // @Filename: second.js
-var Emu = {
-};
+var Emu = {};
 /** @type {string} */ Emu.D._wrapperInstance;

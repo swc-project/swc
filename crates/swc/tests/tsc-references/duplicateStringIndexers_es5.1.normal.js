@@ -11,5 +11,4 @@ var test;
         _classCallCheck(this, C);
     };
     var a;
-})(test || (test = {
-}));
+})(test || (test = {}));

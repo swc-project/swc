@@ -19,8 +19,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     return _createClass(O, [
         {
             key: "m",
-            value: function(x, y) {
-            }
+            value: function(x, y) {}
         }
     ]), O;
 })().Inner = (function() {
@@ -31,8 +30,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     return _createClass(I, [
         {
             key: "n",
-            value: function(a, b) {
-            }
+            value: function(a, b) {}
         }
     ]), I;
 })(), si.m, oi.n;

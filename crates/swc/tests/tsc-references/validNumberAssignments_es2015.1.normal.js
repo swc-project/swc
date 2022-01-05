@@ -5,8 +5,7 @@ var c = x;
 var E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
-}));
+})(E || (E = {}));
 var d = x;
 var e = E.A;
 e = x;

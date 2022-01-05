@@ -18,8 +18,7 @@ import "./bar2";
 export class Foo {
 }
 // @filename: func.js
-export function func() {
-}
+export function func() {}
 // @filename: bar.js
 export * from "./cls";
 // @filename: bar2.js

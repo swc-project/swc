@@ -4,5 +4,4 @@ export var types;
     class A {
     }
     types1.A = A;
-})(types || (types = {
-}));
+})(types || (types = {}));

@@ -15,8 +15,7 @@ var C = function() {
     return Constructor = C, staticProps = [
         {
             key: "foo",
-            value: function() {
-            }
+            value: function() {}
         },
         {
             key: "X",
@@ -30,8 +29,7 @@ var C = function() {
             get: function() {
                 return "";
             },
-            set: function(v) {
-            }
+            set: function(v) {}
         },
         {
             key: "foo",

@@ -36,8 +36,7 @@ exports.K = /*#__PURE__*/ (function() {
     _createClass(K1, [
         {
             key: "values",
-            value: function values() {
-            }
+            value: function values() {}
         }
     ]);
     return K1;

@@ -1,9 +1,6 @@
-(M || (M = {
-})).a = 1;
+(M || (M = {})).a = 1;
 var M, m, M2, M3, M21, m = M;
-m.a, ((M21 = M2 || (M2 = {
-})).Point || (M21.Point = {
-})).Origin = function() {
+m.a, ((M21 = M2 || (M2 = {})).Point || (M21.Point = {})).Origin = function() {
     return {
         x: 0,
         y: 0
@@ -16,5 +13,4 @@ m.a, ((M21 = M2 || (M2 = {
         }(this, Utils);
     };
     M31.Utils = Utils;
-})(M3 || (M3 = {
-}));
+})(M3 || (M3 = {}));

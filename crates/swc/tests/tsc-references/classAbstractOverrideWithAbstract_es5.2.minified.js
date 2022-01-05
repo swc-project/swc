@@ -36,8 +36,7 @@ function _createSuper(Derived) {
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
         try {
-            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-            })), !0;
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
         } catch (e) {
             return !1;
         }
@@ -62,8 +61,7 @@ var A = function() {
     return _createClass(A, [
         {
             key: "foo",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), A;
 }(), B = function(A) {
@@ -82,8 +80,7 @@ var A = function() {
     return _createClass(AA, [
         {
             key: "foo",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), AA;
 }(), BB = function(AA) {
@@ -96,8 +93,7 @@ var A = function() {
     return _createClass(BB, [
         {
             key: "bar",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), BB;
 }(AA), CC = function(BB) {
@@ -118,8 +114,7 @@ var A = function() {
     return _createClass(DD, [
         {
             key: "foo",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), DD;
 }(BB);

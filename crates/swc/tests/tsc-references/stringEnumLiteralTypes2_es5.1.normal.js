@@ -4,8 +4,7 @@ Choice;
     Choice["Unknown"] = "";
     Choice["Yes"] = "yes";
     Choice["No"] = "no";
-})(Choice || (Choice = {
-}));
+})(Choice || (Choice = {}));
 function f1() {
     var a;
     var a;

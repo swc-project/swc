@@ -379,8 +379,7 @@ function callApi(method) {
             args[_key] = arguments[_key];
         }
         return method.apply(void 0, _toConsumableArray(args).concat([
-            {
-            }
+            {}
         ]));
     };
 }

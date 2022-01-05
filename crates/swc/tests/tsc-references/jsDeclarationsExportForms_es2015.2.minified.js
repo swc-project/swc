@@ -10,8 +10,7 @@ import "./bar";
 import "./bar2";
 export class Foo {
 }
-export function func() {
-}
+export function func() {}
 export * from "./cls";
 export * from "./func";
 export * from "./cls";

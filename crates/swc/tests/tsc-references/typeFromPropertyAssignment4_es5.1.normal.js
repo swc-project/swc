@@ -7,8 +7,7 @@ function _classCallCheck(instance, Constructor) {
 // @allowJs: true
 // @checkJs: true
 // @Filename: def.js
-var Outer = {
-};
+var Outer = {};
 // @Filename: a.js
 Outer.Inner = function _class() {
     "use strict";

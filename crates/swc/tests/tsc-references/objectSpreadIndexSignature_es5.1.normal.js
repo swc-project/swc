@@ -13,8 +13,7 @@ function _defineProperty(obj, key, value) {
 }
 function _objectSpread(target) {
     for(var i1 = 1; i1 < arguments.length; i1++){
-        var source = arguments[i1] != null ? arguments[i1] : {
-        };
+        var source = arguments[i1] != null ? arguments[i1] : {};
         var ownKeys = Object.keys(source);
         if (typeof Object.getOwnPropertySymbols === "function") {
             ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
@@ -27,18 +26,14 @@ function _objectSpread(target) {
     }
     return target;
 }
-var i = _objectSpread({
-}, indexed1, {
+var i = _objectSpread({}, indexed1, {
     b: 11
 });
 // only indexed has indexer, so i[101]: any
 i[101];
-var ii = _objectSpread({
-}, indexed1, indexed2);
+var ii = _objectSpread({}, indexed1, indexed2);
 // both have indexer, so i[1001]: number | boolean
 ii[1001];
-indexed3 = _objectSpread({
-}, b ? indexed3 : undefined);
-var writable = _objectSpread({
-}, roindex);
+indexed3 = _objectSpread({}, b ? indexed3 : undefined);
+var writable = _objectSpread({}, roindex);
 writable.a = 0; // should be ok.

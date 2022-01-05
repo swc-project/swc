@@ -49,8 +49,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -108,14 +107,12 @@ var A;
             "use strict";
             _classCallCheck(this, A4);
         };
-    })(Module || (Module = {
-    }));
+    })(Module || (Module = {}));
     var Color;
     (function(Color) {
         Color[Color["Blue"] = 0] = "Blue";
         Color[Color["Red"] = 1] = "Red";
-    })(Color || (Color = {
-    }));
+    })(Color || (Color = {}));
     var x = 12;
     var array = null;
     var fn = function(s) {
@@ -126,8 +123,7 @@ var A;
         id: 2,
         isvalid: true
     };
-})(A || (A = {
-}));
+})(A || (A = {}));
 var Y;
 (function(Y1) {
     var F = function F(s) {
@@ -171,24 +167,21 @@ var Y;
             "use strict";
             _classCallCheck(this, A7);
         };
-    })(Module = Y1.Module || (Y1.Module = {
-    }));
+    })(Module = Y1.Module || (Y1.Module = {}));
     var Color;
     (function(Color) {
         Color[Color["Blue"] = 0] = "Blue";
         Color[Color["Red"] = 1] = "Red";
-    })(Color = Y1.Color || (Y1.Color = {
-    }));
-    Y1.x = 12;
+    })(Color = Y1.Color || (Y1.Color = {}));
+    var x = Y1.x = 12;
     Y1.F = F;
-    Y1.array = null;
-    Y1.fn = function(s) {
+    var array = Y1.array = null;
+    var fn = Y1.fn = function(s) {
         return 'hello ' + s;
     };
-    Y1.ol = {
+    var ol = Y1.ol = {
         s: 'hello',
         id: 2,
         isvalid: true
     };
-})(Y || (Y = {
-}));
+})(Y || (Y = {}));

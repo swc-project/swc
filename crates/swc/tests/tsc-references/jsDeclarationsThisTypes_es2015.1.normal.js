@@ -11,7 +11,6 @@ export class A {
 }
 class Base extends A {
     // This method is required to reproduce #35932
-    verify() {
-    }
+    verify() {}
 }
 export { Base as default };

@@ -9,8 +9,7 @@ Object.defineProperty(exports, "thing", {
     get () {
         return 98122;
     },
-    set (_) {
-    }
+    set (_) {}
 }), Object.defineProperty(exports, "readonlyAccessor", {
     get () {
         return 21.75;
@@ -29,8 +28,7 @@ Object.defineProperty(exports, "thing", {
     get () {
         return 98122;
     },
-    set (_) {
-    }
+    set (_) {}
 }), Object.defineProperty(module.exports, "readonlyAccessor", {
     get () {
         return 21.75;

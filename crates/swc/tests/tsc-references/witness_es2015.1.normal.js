@@ -98,11 +98,10 @@ var propAcc1;
 // Property access of module member
 var M2;
 (function(M21) {
-    M21.x = M2.x;
+    var x = M21.x = M2.x;
     var y = x;
     var y;
-})(M2 || (M2 = {
-}));
+})(M2 || (M2 = {}));
 // Property access of class instance type
 class C2 {
     constructor(){

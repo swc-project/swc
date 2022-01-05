@@ -1,8 +1,8 @@
 export var CompilerDiagnostics;
 (function(CompilerDiagnostics1) {
-    CompilerDiagnostics1.debug = false;
-    CompilerDiagnostics1.diagnosticWriter = null;
-    CompilerDiagnostics1.analysisPass = 0;
+    var debug = CompilerDiagnostics1.debug = false;
+    var diagnosticWriter = CompilerDiagnostics1.diagnosticWriter = null;
+    var analysisPass = CompilerDiagnostics1.analysisPass = 0;
     function Alert(output) {
         if (diagnosticWriter) {
             diagnosticWriter.Alert(output);
@@ -23,5 +23,4 @@ export var CompilerDiagnostics;
         }
     }
     CompilerDiagnostics1.assert = assert;
-})(CompilerDiagnostics || (CompilerDiagnostics = {
-}));
+})(CompilerDiagnostics || (CompilerDiagnostics = {}));

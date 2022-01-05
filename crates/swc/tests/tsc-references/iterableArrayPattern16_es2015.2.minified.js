@@ -1,5 +1,4 @@
-!function(...[a, b]) {
-}(...new FooIteratorIterator);
+!function(...[a, b]) {}(...new FooIteratorIterator);
 class Bar {
 }
 class Foo extends Bar {

@@ -58,8 +58,7 @@ function _wrapAsyncGenerator(fn) {
     };
 }
 function _f1() {
-    return (_f1 = _wrapAsyncGenerator(function*() {
-    })).apply(this, arguments);
+    return (_f1 = _wrapAsyncGenerator(function*() {})).apply(this, arguments);
 }
 function _f2() {
     return (_f2 = _wrapAsyncGenerator(function*() {

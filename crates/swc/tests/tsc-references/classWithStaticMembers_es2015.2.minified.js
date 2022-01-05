@@ -5,8 +5,7 @@ class C {
     static get x() {
         return 1;
     }
-    static set x(v) {
-    }
+    static set x(v) {}
     constructor(a, b){
         this.a = a, this.b = b;
     }

@@ -49,8 +49,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -127,8 +126,7 @@ var ExplicitPublic;
         }
         return B3;
     }(A3);
-})(ExplicitPublic || (ExplicitPublic = {
-}));
+})(ExplicitPublic || (ExplicitPublic = {}));
 var ImplicitPublic;
 (function(ImplicitPublic) {
     var A = function A() {
@@ -173,5 +171,4 @@ var ImplicitPublic;
         }
         return B3;
     }(A3);
-})(ImplicitPublic || (ImplicitPublic = {
-}));
+})(ImplicitPublic || (ImplicitPublic = {}));

@@ -14,8 +14,7 @@ function _defineProperty(obj, key, value) {
 }
 function _objectSpread(target) {
     for(var i = 1; i < arguments.length; i++){
-        var source = null != arguments[i] ? arguments[i] : {
-        }, ownKeys = Object.keys(source);
+        var source = null != arguments[i] ? arguments[i] : {}, ownKeys = Object.keys(source);
         "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
         }))), ownKeys.forEach(function(key) {
@@ -31,46 +30,35 @@ var anything, o = {
     b: "yes",
     c: !0
 };
-_objectSpread({
-}, o, {
+_objectSpread({}, o, {
     c: !1
 }), _objectSpread({
     c: !1
-}, o), _objectSpread({
-}, o, {
+}, o), _objectSpread({}, o, {
     b: "override"
-}), _objectSpread({
-}, _objectSpread({
+}), _objectSpread({}, _objectSpread({
     a: 3
 }, {
     b: !1,
     c: "overriden"
 }), {
     c: "whatever"
-}), _objectSpread({
-}, o, o2), _objectSpread({
-}, o, o2, {
+}), _objectSpread({}, o, o2), _objectSpread({}, o, o2, {
     b: "ok"
-}), _objectSpread({
-}, _objectSpread({
+}), _objectSpread({}, _objectSpread({
     a: 1
 }, {
     b: !1,
     c: "overriden"
 }), {
     c: -1
-}), _objectSpread({
-}, o), _objectSpread({
-}, {
+}), _objectSpread({}, o), _objectSpread({}, {
     get a () {
         return 6;
     }
 }, {
     c: 7
-}).a = 12, _objectSpread({
-}, function() {
-}), _objectSpread({
-}, anything);
+}).a = 12, _objectSpread({}, function() {}), _objectSpread({}, anything);
 var C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
@@ -82,36 +70,27 @@ var C = function() {
     return protoProps = [
         {
             key: "m",
-            value: function() {
-            }
+            value: function() {}
         }
     ], _defineProperties((Constructor = C).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }(), c = new C();
 function f(t, u) {
-    return _objectSpread({
-    }, t, u, {
+    return _objectSpread({}, t, u, {
         id: "id"
     });
 }
-_objectSpread({
-}, c), _objectSpread({
-}, c, {
+_objectSpread({}, c), _objectSpread({}, c, {
     plus: function() {
         return this.p + 1;
     }
-}).plus(), _objectSpread({
-}, o, {
+}).plus(), _objectSpread({}, o, {
     a: "wrong type?"
-}), _objectSpread({
-}, o, {
+}), _objectSpread({}, o, {
     a: "yes",
     b: -1
-}), _objectSpread({
-}, o, {
+}), _objectSpread({}, o, {
     a: 12
-}), _objectSpread({
-}, {
-}), f({
+}), _objectSpread({}, {}), f({
     a: 1,
     b: "yes"
 }, {

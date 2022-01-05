@@ -15,10 +15,7 @@ foo(1, 2, 3), foo({
     foo: 1,
     bar: "",
     hm: !0
-}), foo(function(x, y) {
-}, function(x) {
-}, function() {
-}), foo(a, a, a), foo(a, b, c), foo(b, b, {
+}), foo(function(x, y) {}, function(x) {}, function() {}), foo(a, a, a), foo(a, b, c), foo(b, b, {
     foo: 1,
     bar: "",
     hm: ""

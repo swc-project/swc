@@ -28,8 +28,7 @@ function _createSuper(Derived) {
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
         try {
-            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-            })), !0;
+            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
         } catch (e) {
             return !1;
         }
@@ -60,8 +59,7 @@ function _createSuper(Derived) {
         return D;
     }(C1);
     C1.prototype.foo, D.prototype.bar;
-}(NonGeneric || (NonGeneric = {
-})), (function(Generic) {
+}(NonGeneric || (NonGeneric = {})), (function(Generic) {
     var C2 = function() {
         "use strict";
         _classCallCheck(this, C2);
@@ -75,5 +73,4 @@ function _createSuper(Derived) {
         return D;
     }(C2);
     C2.prototype.foo, D.prototype.baz;
-})(Generic || (Generic = {
-}));
+})(Generic || (Generic = {}));

@@ -49,8 +49,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -93,8 +92,7 @@ var M;
         return D;
     }(C);
     M1.D = D;
-})(M || (M = {
-}));
+})(M || (M = {}));
 var N;
 (function(N1) {
     var E = /*#__PURE__*/ function(_D) {
@@ -108,8 +106,7 @@ var N;
         return E;
     }(M.D);
     N1.E = E;
-})(N || (N = {
-}));
+})(N || (N = {}));
 var O;
 (function(O) {
     var C2 = /*#__PURE__*/ function(_E2) {
@@ -136,8 +133,7 @@ var O;
             return D2;
         }(C2);
         P.D2 = D2;
-    })(P1 || (P1 = {
-    }));
+    })(P1 || (P1 = {}));
     var Q1;
     (function(Q) {
         var E2 = /*#__PURE__*/ function(_D2) {
@@ -151,7 +147,5 @@ var O;
             return E2;
         }(P1.D2);
         Q.E2 = E2;
-    })(Q1 || (Q1 = {
-    }));
-})(O || (O = {
-}));
+    })(Q1 || (Q1 = {}));
+})(O || (O = {}));

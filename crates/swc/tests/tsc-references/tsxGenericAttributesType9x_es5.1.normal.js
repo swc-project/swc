@@ -77,8 +77,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -116,8 +115,7 @@ export function makeP(Ctor) {
             {
                 key: "render",
                 value: function render() {
-                    return(/*#__PURE__*/ React.createElement(Ctor, _extends({
-                    }, this.props)));
+                    return(/*#__PURE__*/ React.createElement(Ctor, _extends({}, this.props)));
                 }
             }
         ]);

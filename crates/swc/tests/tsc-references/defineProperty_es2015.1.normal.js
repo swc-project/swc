@@ -3,8 +3,7 @@ var _key, _key1;
 // @useDefineForClassFields: true
 var x = "p";
 class A {
-    m() {
-    }
+    m() {}
     constructor(y){
         this.y = y;
         this.a = this.y;

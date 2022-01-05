@@ -17,11 +17,10 @@ export var CompilerDiagnostics;
             }
         }
     };
-    CompilerDiagnostics1.debug = false;
-    CompilerDiagnostics1.diagnosticWriter = null;
-    CompilerDiagnostics1.analysisPass = 0;
+    var debug = CompilerDiagnostics1.debug = false;
+    var diagnosticWriter = CompilerDiagnostics1.diagnosticWriter = null;
+    var analysisPass = CompilerDiagnostics1.analysisPass = 0;
     CompilerDiagnostics1.Alert = Alert;
     CompilerDiagnostics1.debugPrint = debugPrint;
     CompilerDiagnostics1.assert = assert;
-})(CompilerDiagnostics || (CompilerDiagnostics = {
-}));
+})(CompilerDiagnostics || (CompilerDiagnostics = {}));

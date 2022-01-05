@@ -31,8 +31,7 @@ var C = function() {
     return _createClass(D, [
         {
             key: "x",
-            value: function(v) {
-            }
+            value: function(v) {}
         }
     ]), D;
 }();

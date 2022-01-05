@@ -10,8 +10,7 @@ var Foo = function Foo() {
 var E;
 (function(E) {
     E[E["a"] = 0] = "a";
-})(E || (E = {
-}));
+})(E || (E = {}));
 var x;
 // invalid left operands
 // the left operand is required to be of type Any, the String primitive type, or the Number primitive type
@@ -29,8 +28,7 @@ var ra5 = null in x;
 var ra6 = undefined in x;
 var ra7 = E.a in x;
 var ra8 = false in x;
-var ra9 = {
-} in x;
+var ra9 = {} in x;
 var ra10 = a5 in x;
 var ra11 = a6 in x;
 // invalid right operands
@@ -51,5 +49,4 @@ var rb8 = x in '';
 var rb9 = x in null;
 var rb10 = x in undefined;
 // both operands are invalid
-var rc1 = {
-} in '';
+var rc1 = {} in '';

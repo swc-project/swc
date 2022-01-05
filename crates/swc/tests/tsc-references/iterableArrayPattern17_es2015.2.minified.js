@@ -2,8 +2,7 @@ class Bar {
 }
 class Foo extends Bar {
 }
-!function(...[a, b]) {
-}(new class {
+!function(...[a, b]) {}(new class {
     next() {
         return {
             value: new Foo,

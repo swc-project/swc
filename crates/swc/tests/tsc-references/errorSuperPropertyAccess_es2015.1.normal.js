@@ -26,14 +26,10 @@ class NoBase {
     }
 }
 class SomeBase {
-    privateFunc() {
-    }
-    publicFunc() {
-    }
-    static privateStaticFunc() {
-    }
-    static publicStaticFunc() {
-    }
+    privateFunc() {}
+    publicFunc() {}
+    static privateStaticFunc() {}
+    static publicStaticFunc() {}
     constructor(){
         this.privateMember = 0;
         this.publicMember = 0;

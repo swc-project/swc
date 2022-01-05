@@ -28,6 +28,4 @@ try {
     y + z;
 }
 // Test of comment ranges. A fix to GH#11755 should update this.
-try {
-} catch (/*Test comment ranges*/ [/*a*/ a2]) {
-}
+try {} catch (/*Test comment ranges*/ [/*a*/ a2]) {}

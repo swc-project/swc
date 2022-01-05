@@ -7,10 +7,8 @@ function _extends() {
         return target;
     }).apply(this, arguments);
 }
-React.createElement("test1", _extends({
-}, {
+React.createElement("test1", _extends({}, {
     x: (n)=>0
-})), React.createElement("test1", _extends({
-}, {
+})), React.createElement("test1", _extends({}, {
     x: (n)=>n.len
 }));

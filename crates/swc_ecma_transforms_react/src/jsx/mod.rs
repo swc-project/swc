@@ -1051,7 +1051,10 @@ where
                 let specifier = ImportSpecifier::Named(ImportNamedSpecifier {
                     span: DUMMY_SP,
                     local,
-                    imported: Some(Ident::new("createElement".into(), DUMMY_SP)),
+                    imported: Some(ModuleExportName::Ident(Ident::new(
+                        "createElement".into(),
+                        DUMMY_SP,
+                    ))),
                     is_type_only: false,
                 });
                 prepend(
@@ -1077,7 +1080,7 @@ where
                     .map(|local| ImportNamedSpecifier {
                         span: DUMMY_SP,
                         local,
-                        imported: Some(quote_ident!("jsxDEV")),
+                        imported: Some(ModuleExportName::Ident(quote_ident!("jsxDEV"))),
                         is_type_only: false,
                     })
                     .into_iter()
@@ -1087,7 +1090,7 @@ where
                             .map(|local| ImportNamedSpecifier {
                                 span: DUMMY_SP,
                                 local,
-                                imported: Some(quote_ident!("Fragment")),
+                                imported: Some(ModuleExportName::Ident(quote_ident!("Fragment"))),
                                 is_type_only: false,
                             }),
                     )
@@ -1098,14 +1101,14 @@ where
                     .map(|local| ImportNamedSpecifier {
                         span: DUMMY_SP,
                         local,
-                        imported: Some(quote_ident!("jsx")),
+                        imported: Some(ModuleExportName::Ident(quote_ident!("jsx"))),
                         is_type_only: false,
                     })
                     .into_iter()
                     .chain(self.import_jsxs.take().map(|local| ImportNamedSpecifier {
                         span: DUMMY_SP,
                         local,
-                        imported: Some(quote_ident!("jsxs")),
+                        imported: Some(ModuleExportName::Ident(quote_ident!("jsxs"))),
                         is_type_only: false,
                     }))
                     .chain(
@@ -1114,7 +1117,7 @@ where
                             .map(|local| ImportNamedSpecifier {
                                 span: DUMMY_SP,
                                 local,
-                                imported: Some(quote_ident!("Fragment")),
+                                imported: Some(ModuleExportName::Ident(quote_ident!("Fragment"))),
                                 is_type_only: false,
                             }),
                     )

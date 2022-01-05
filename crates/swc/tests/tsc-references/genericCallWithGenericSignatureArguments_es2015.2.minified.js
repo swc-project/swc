@@ -1,6 +1,5 @@
 var a, b;
-function foo(a, b) {
-}
+function foo(a, b) {}
 foo((x)=>1
 , (x)=>""
 ), foo((x)=>null

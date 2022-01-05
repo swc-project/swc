@@ -9,8 +9,7 @@ export var AppType;
     AppType["Composite"] = "Composite";
     AppType["ListOnly"] = "ListOnly";
     AppType["ModuleSettings"] = "ModuleSettings";
-})(AppType || (AppType = {
-}));
+})(AppType || (AppType = {}));
 export var AppStyle;
 (function(AppStyle) {
     AppStyle[AppStyle["Tree"] = 0] = "Tree";
@@ -18,8 +17,7 @@ export var AppStyle;
     AppStyle[AppStyle["Standard"] = 2] = "Standard";
     AppStyle[AppStyle["MiniApp"] = 3] = "MiniApp";
     AppStyle[AppStyle["PivotTable"] = 4] = "PivotTable";
-})(AppStyle || (AppStyle = {
-}));
+})(AppStyle || (AppStyle = {}));
 const appTypeStylesWithError = new Map([
     [
         AppType.Standard,

@@ -33,5 +33,4 @@ import 'regenerator-runtime/runtime';
 async function a() {
     await 1;
 }
-(function() {
-});
+(function() {});

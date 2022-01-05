@@ -1,8 +1,7 @@
 // @target: esnext
 // @useDefineForClassFields: true
 class A {
-    m() {
-    }
+    m() {}
 }
 class B extends A {
     constructor(...args){

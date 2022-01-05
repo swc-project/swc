@@ -66,11 +66,17 @@ where
                                 exported: Some(exported),
                                 ..
                             }) => {
+                                let exported = match exported {
+                                    ModuleExportName::Ident(ident) => ident,
+                                    ModuleExportName::Str(..) => {
+                                        unimplemented!("module string names unimplemented")
+                                    }
+                                };
                                 if let Some(..) = ctx.transitive_remap.get(&exported.span.ctxt) {
                                     let specifier = ExportSpecifier::Named(ExportNamedSpecifier {
                                         span: DUMMY_SP,
                                         orig: orig.clone(),
-                                        exported: Some(exported.clone()),
+                                        exported: Some(ModuleExportName::Ident(exported.clone())),
                                         is_type_only: false,
                                     });
                                     additional_items.push((
@@ -291,13 +297,24 @@ impl Fold for ExportToReturn {
                         ExportSpecifier::Namespace(_) => {}
                         ExportSpecifier::Default(_) => {}
                         ExportSpecifier::Named(named) => match &named.exported {
-                            Some(exported) => {
+                            Some(ModuleExportName::Ident(exported)) => {
                                 // As injected named exports are converted to variables by other
                                 // passes, we should not create a variable for it.
-                                self.export_key_value(exported.clone(), named.orig.clone());
+                                if let ModuleExportName::Ident(orig) = &named.orig {
+                                    self.export_key_value(exported.clone(), orig.clone());
+                                } else {
+                                    unimplemented!("module string names unimplemented")
+                                }
+                            }
+                            Some(ModuleExportName::Str(..)) => {
+                                unimplemented!("module string names unimplemented")
                             }
                             None => {
-                                self.export_id(named.orig.clone());
+                                if let ModuleExportName::Ident(orig) = &named.orig {
+                                    self.export_id(orig.clone());
+                                } else {
+                                    unimplemented!("module string names unimplemented")
+                                }
                             }
                         },
                     }

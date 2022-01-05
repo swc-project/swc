@@ -33,8 +33,7 @@ function _extends() {
 }
 function _objectSpread(target) {
     for(var i = 1; i < arguments.length; i++){
-        var source = arguments[i] != null ? arguments[i] : {
-        };
+        var source = arguments[i] != null ? arguments[i] : {};
         var ownKeys = Object.keys(source);
         if (typeof Object.getOwnPropertySymbols === "function") {
             ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
@@ -51,11 +50,9 @@ function _objectSpread(target) {
 // @target: es6
 class C {
     method(other) {
-        const obj = _objectSpread({
-        }, other);
+        const obj = _objectSpread({}, other);
         _classPrivateFieldGet(obj, _prop);
-        const rest = _extends({
-        }, other);
+        const rest = _extends({}, other);
         _classPrivateFieldGet(rest, _prop);
     }
     constructor(){

@@ -19,13 +19,11 @@ function _extends() {
 // @libFiles: react.d.ts,lib.d.ts
 const React = require('react');
 const decorator = function(Component) {
-    return (props)=>/*#__PURE__*/ React.createElement(Component, _extends({
-        }, props))
+    return (props)=>/*#__PURE__*/ React.createElement(Component, _extends({}, props))
     ;
 };
 const decorator2 = function(Component) {
-    return (props)=>/*#__PURE__*/ React.createElement(Component, _extends({
-        }, props, {
+    return (props)=>/*#__PURE__*/ React.createElement(Component, _extends({}, props, {
             x: 2
         }))
     ;

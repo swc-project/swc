@@ -18,22 +18,18 @@ var r3 = foo3(a); // any
 var E;
 (function(E) {
     E[E["A"] = 0] = "A";
-})(E || (E = {
-}));
+})(E || (E = {}));
 var r3 = foo3(a); // any
-function f() {
-}
+function f() {}
 (function(f1) {
-    f1.bar = 1;
-})(f || (f = {
-}));
+    var bar = f1.bar = 1;
+})(f || (f = {}));
 var r3 = foo3(a); // any
 class CC {
 }
 (function(CC1) {
-    CC1.bar = 1;
-})(CC || (CC = {
-}));
+    var bar = CC1.bar = 1;
+})(CC || (CC = {}));
 var r3 = foo3(a); // any
 var r3 = foo3(a); // any
 var r3 = foo3(a); // any

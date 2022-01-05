@@ -1,5 +1,4 @@
-function tempTag2(...rest) {
-}
+function tempTag2(...rest) {}
 tempTag2`${(x)=>{
     x(undefined);
     return x;

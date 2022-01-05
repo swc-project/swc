@@ -17,8 +17,7 @@ Object.defineProperty(exports, "rwAccessors", {
     get () {
         return 98122;
     },
-    set (_) {
-    }
+    set (_) {}
 });
 Object.defineProperty(exports, "readonlyAccessor", {
     get () {
@@ -43,8 +42,7 @@ Object.defineProperty(module.exports, "rwAccessors", {
     get () {
         return 98122;
     },
-    set (_) {
-    }
+    set (_) {}
 });
 Object.defineProperty(module.exports, "readonlyAccessor", {
     get () {

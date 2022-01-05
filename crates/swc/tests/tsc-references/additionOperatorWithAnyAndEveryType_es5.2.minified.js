@@ -14,14 +14,11 @@ var E, M, a, E, C = function() {
     })(Constructor = C, [
         {
             key: "foo",
-            value: function() {
-            }
+            value: function() {}
         }
     ]), C;
 }();
-(E = E || (E = {
-}))[E.a = 0] = "a", E[E.b = 1] = "b", E[E.c = 2] = "c", (function(M1) {
+(E = E || (E = {}))[E.a = 0] = "a", E[E.b = 1] = "b", E[E.c = 2] = "c", (function(M1) {
     var a1;
     M1.a = a1;
-})(M || (M = {
-})), a + a, a + new C(), a + E.a;
+})(M || (M = {})), a + a, a + new C(), a + E.a;

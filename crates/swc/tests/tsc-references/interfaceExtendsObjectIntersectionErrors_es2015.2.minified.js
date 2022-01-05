@@ -9,5 +9,4 @@ class C4 extends Constructor() {
 }
 class C5 extends Constructor() {
 }
-(EX = EX || (EX = {
-}))[EX.A = 0] = "A", EX[EX.B = 1] = "B", EX[EX.C = 2] = "C";
+(EX = EX || (EX = {}))[EX.A = 0] = "A", EX[EX.B = 1] = "B", EX[EX.C = 2] = "C";

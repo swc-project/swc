@@ -34,8 +34,7 @@ var C = function() {
         },
         {
             key: "overloaded",
-            value: function(x) {
-            }
+            value: function(x) {}
         },
         {
             key: "generic",

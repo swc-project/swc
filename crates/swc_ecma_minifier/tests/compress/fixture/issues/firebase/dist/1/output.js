@@ -68,16 +68,13 @@ var _a, util = require("@firebase/util"), tslib = require("tslib"), component = 
             options: this.options
         };
     }, FirebaseAppImpl1;
-}(), ERRORS = ((_a = {
-})["no-app"] = "No Firebase App '{$appName}' has been created - call Firebase App.initializeApp()", _a["invalid-app-argument"] = "firebase.{$appName}() takes either no argument or a Firebase App instance.", _a), ERROR_FACTORY = new util.ErrorFactory("app-compat", "Firebase", ERRORS);
+}(), ERRORS = ((_a = {})["no-app"] = "No Firebase App '{$appName}' has been created - call Firebase App.initializeApp()", _a["invalid-app-argument"] = "firebase.{$appName}() takes either no argument or a Firebase App instance.", _a), ERROR_FACTORY = new util.ErrorFactory("app-compat", "Firebase", ERRORS);
 function createFirebaseNamespace() {
     var namespace1 = function(firebaseAppImpl) {
-        var apps = {
-        }, namespace = {
+        var apps = {}, namespace = {
             __esModule: !0,
             initializeApp: function(options, rawConfig) {
-                void 0 === rawConfig && (rawConfig = {
-                });
+                void 0 === rawConfig && (rawConfig = {});
                 var app = modularAPIs__namespace.initializeApp(options, rawConfig);
                 if (util.contains(apps, app.name)) return apps[app.name];
                 var appCompat = new firebaseAppImpl(app, namespace);
@@ -129,8 +126,7 @@ function createFirebaseNamespace() {
             }
         }), app1.App = firebaseAppImpl, namespace;
     }(FirebaseAppImpl);
-    return namespace1.INTERNAL = tslib.__assign(tslib.__assign({
-    }, namespace1.INTERNAL), {
+    return namespace1.INTERNAL = tslib.__assign(tslib.__assign({}, namespace1.INTERNAL), {
         createFirebaseNamespace: createFirebaseNamespace,
         extendNamespace: function(props) {
             util.deepExtend(namespace1, props);

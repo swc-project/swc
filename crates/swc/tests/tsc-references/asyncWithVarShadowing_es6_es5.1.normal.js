@@ -283,8 +283,7 @@ function _fn11() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    x = _extends({
-                    }, y);
+                    x = _extends({}, y);
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -488,8 +487,7 @@ function _fn22() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    if (y) {
-                    } else {
+                    if (y) {} else {
                         ;
                     }
                 case 1:
@@ -511,8 +509,7 @@ function _fn23() {
                 case 0:
                     try {
                         ;
-                    } catch (e) {
-                    }
+                    } catch (e) {}
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -530,8 +527,7 @@ function _fn24() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    try {
-                    } catch (e) {
+                    try {} catch (e) {
                         ;
                     }
                 case 1:
@@ -551,8 +547,7 @@ function _fn25() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    try {
-                    } catch (x1) {
+                    try {} catch (x1) {
                         ;
                     }
                 case 1:
@@ -572,8 +567,7 @@ function _fn26() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    try {
-                    } catch (param) {
+                    try {} catch (param) {
                         x2 = param.x;
                         ;
                     }
@@ -594,8 +588,7 @@ function _fn27() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    try {
-                    } finally{
+                    try {} finally{
                         ;
                     }
                 case 1:
@@ -655,8 +648,7 @@ function _fn30() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    for(x = y;;){
-                    }
+                    for(x = y;;){}
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -674,8 +666,7 @@ function _fn31() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    for(x = y.x;;){
-                    }
+                    for(x = y.x;;){}
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -713,8 +704,7 @@ function _fn33() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    for(x in y){
-                    }
+                    for(x in y){}
                 case 1:
                 case "end":
                     return _ctx.stop();
@@ -970,8 +960,7 @@ function _fn40() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    try {
-                    } catch (e) {
+                    try {} catch (e) {
                         ;
                     }
                 case 1:

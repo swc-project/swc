@@ -7,8 +7,7 @@
 // currently unsupported
 const _sym = Symbol();
 const _str = "my-fake-sym";
-function F() {
-}
+function F() {}
 F.prototype[_sym] = "ok";
 F.prototype[_str] = "ok";
 const inst = new F();

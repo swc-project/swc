@@ -1,13 +1,11 @@
 function Mixin(baseClass) {
     class MixinClass extends baseClass {
-        mixinMethod() {
-        }
+        mixinMethod() {}
     }
     return MixinClass;
 }
 class ConcreteBase {
-    baseMethod() {
-    }
+    baseMethod() {}
 }
 class AbstractBase {
 }
@@ -17,8 +15,7 @@ const wasConcrete = new DerivedFromConcrete();
 wasConcrete.baseMethod();
 wasConcrete.mixinMethod();
 class DerivedFromAbstract extends Mixin(AbstractBase) {
-    abstractBaseMethod() {
-    }
+    abstractBaseMethod() {}
 }
 const wasAbstract = new DerivedFromAbstract();
 wasAbstract.abstractBaseMethod();

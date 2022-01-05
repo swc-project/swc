@@ -1,8 +1,7 @@
 var M, M1;
 class C {
 }
-for((M = M1 || (M1 = {
-})).A = class {
+for((M = M1 || (M1 = {})).A = class {
 }, M.F2 = function(x) {
     return x.toString();
 };;);

@@ -8,8 +8,7 @@ export class Base {
         };
         return json;
     }
-    constructor(){
-    }
+    constructor(){}
 }
 export class Argument extends Base {
     /**
@@ -22,6 +21,5 @@ export class Argument extends Base {
     }
     /**
      * @param {*} defs
-     */ *validate(defs) {
-    }
+     */ *validate(defs) {}
 }

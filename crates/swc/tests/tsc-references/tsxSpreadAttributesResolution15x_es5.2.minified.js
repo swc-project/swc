@@ -9,8 +9,7 @@ function _extends() {
 }
 var React = require("react");
 export default function Component(props) {
-    return React.createElement(AnotherComponent, _extends({
-    }, props, {
+    return React.createElement(AnotherComponent, _extends({}, props, {
         property2: !0,
         AnotherProperty1: "hi"
     }));

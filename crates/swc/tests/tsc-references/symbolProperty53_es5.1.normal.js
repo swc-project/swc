@@ -12,6 +12,5 @@ function _defineProperty(obj1, key, value) {
     return obj1;
 }
 //@target: ES6
-var obj = _defineProperty({
-}, Symbol.for, 0);
+var obj = _defineProperty({}, Symbol.for, 0);
 obj[Symbol.for];

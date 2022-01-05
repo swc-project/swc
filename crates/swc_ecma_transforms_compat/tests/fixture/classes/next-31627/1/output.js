@@ -4,8 +4,7 @@ export default function Home() {
     useEffect(()=>{
         new MyClass();
     }, []);
-    return {
-    };
+    return {};
 };
 let MyClass = function MyClass() {
     "use strict";

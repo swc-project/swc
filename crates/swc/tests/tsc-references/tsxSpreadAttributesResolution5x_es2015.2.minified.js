@@ -13,8 +13,7 @@ class Poisoned extends React.Component {
         return React.createElement("div", null, "Hello");
     }
 }
-React.createElement(Poisoned, _extends({
-}, {
+React.createElement(Poisoned, _extends({}, {
     x: "hello world",
     y: 2
 }));
@@ -23,8 +22,7 @@ class EmptyProp extends React.Component {
         return React.createElement("div", null, "Default hi");
     }
 }
-React.createElement(EmptyProp, _extends({
-}, {
+React.createElement(EmptyProp, _extends({}, {
     prop1: !1
 }));
 export { };

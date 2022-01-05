@@ -21,8 +21,7 @@ var C = function() {
             get: function() {
                 return 1;
             },
-            set: function(v) {
-            }
+            set: function(v) {}
         }
     ]), C;
 }(), D = function() {
@@ -36,8 +35,7 @@ var C = function() {
             get: function() {
                 return 1;
             },
-            set: function(v) {
-            }
+            set: function(v) {}
         }
     ]), D;
 }(), E = function() {
@@ -51,8 +49,7 @@ var C = function() {
             get: function() {
                 return 1;
             },
-            set: function(v) {
-            }
+            set: function(v) {}
         }
     ]), E;
 }(), F = function() {
@@ -66,8 +63,7 @@ var C = function() {
             get: function() {
                 return 1;
             },
-            set: function(v) {
-            }
+            set: function(v) {}
         }
     ]), F;
 }();

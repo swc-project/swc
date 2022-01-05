@@ -136,8 +136,7 @@ var SelfAssert = // added for completeness
             value: function inThis() {
                 if ("a" in this) {
                     var y = this.a;
-                } else {
-                }
+                } else {}
             }
         }
     ]);

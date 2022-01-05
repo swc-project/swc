@@ -7,8 +7,7 @@ var _common = require("@nestjs/common");
 var _appService = require("./app.service");
 var _createUserDto = require("./dtos/CreateUserDto");
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-    var desc = {
-    };
+    var desc = {};
     Object.keys(descriptor).forEach(function(key) {
         desc[key] = descriptor[key];
     });

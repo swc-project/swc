@@ -1,2 +1,1 @@
-function a(b, c = 1) {
-}
+function a(b, c = 1) {}

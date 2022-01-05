@@ -1,7 +1,5 @@
 // @target: es5
 class C {
-    get foo() {
-    }
-    set foo(a) {
-    }
+    get foo() {}
+    set foo(a) {}
 }

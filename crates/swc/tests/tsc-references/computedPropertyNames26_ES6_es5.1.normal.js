@@ -76,8 +76,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -112,8 +111,7 @@ var Base = // @target: es6
     ]);
     return Base;
 }();
-var tmp = _defineProperty({
-}, super.bar(), 1)[0];
+var tmp = _defineProperty({}, super.bar(), 1)[0];
 var C = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(C, Base);
@@ -127,8 +125,7 @@ var C = /*#__PURE__*/ function(Base) {
             // Gets emitted as super, not _super, which is consistent with
             // use of super in static properties initializers.
             key: tmp,
-            value: function value() {
-            }
+            value: function value() {}
         }
     ]);
     return C;

@@ -11,18 +11,15 @@ function _extends() {
 React.createElement(ZeroThingOrTwoThing, null), React.createElement(ZeroThingOrTwoThing, {
     yy: 100,
     yy1: "hello"
-}), React.createElement(ZeroThingOrTwoThing, _extends({
-}, obj2)), React.createElement(ZeroThingOrTwoThing, _extends({
+}), React.createElement(ZeroThingOrTwoThing, _extends({}, obj2)), React.createElement(ZeroThingOrTwoThing, _extends({
     yy: 1000
-}, obj2)), React.createElement(ZeroThingOrTwoThing, _extends({
-}, obj2, {
+}, obj2)), React.createElement(ZeroThingOrTwoThing, _extends({}, obj2, {
     yy: 1000
 })), React.createElement(ThreeThing, {
     yy: 99,
     yy1: "hello world"
 }), React.createElement(ThreeThing, {
     y2: "Bye"
-}), React.createElement(ThreeThing, _extends({
-}, obj2, {
+}), React.createElement(ThreeThing, _extends({}, obj2, {
     y2: 10
 }));

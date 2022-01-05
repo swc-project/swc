@@ -55,8 +55,7 @@ export var NullLogger = /*#__PURE__*/ function() {
         },
         {
             key: "log",
-            value: function log(s) {
-            }
+            value: function log(s) {}
         }
     ]);
     return NullLogger;

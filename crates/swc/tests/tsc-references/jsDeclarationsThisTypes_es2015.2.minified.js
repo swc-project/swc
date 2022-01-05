@@ -3,4 +3,7 @@ export class A {
         return this;
     }
 }
+class Base extends A {
+    verify() {}
+}
 export { Base as default };

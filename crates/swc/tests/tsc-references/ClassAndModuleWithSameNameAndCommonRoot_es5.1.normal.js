@@ -15,22 +15,17 @@ var X;
             this.y = y;
         };
         Y.Point = Point;
-    })(Y1 = X1.Y || (X1.Y = {
-    }));
-})(X || (X = {
-}));
+    })(Y1 = X1.Y || (X1.Y = {}));
+})(X || (X = {}));
 (function(X2) {
     var Y2;
     (function(Y) {
         var Point1;
         (function(Point) {
-            Point.Origin = new Point1(0, 0);
-        })(Point1 = Y.Point || (Y.Point = {
-        }));
-    })(Y2 = X2.Y || (X2.Y = {
-    }));
-})(X || (X = {
-}));
+            var Origin = Point.Origin = new Point1(0, 0);
+        })(Point1 = Y.Point || (Y.Point = {}));
+    })(Y2 = X2.Y || (X2.Y = {}));
+})(X || (X = {}));
 // @filename: test.ts
 //var cl: { x: number; y: number; }
 var cl = new X.Y.Point(1, 1);
@@ -40,9 +35,8 @@ var A = function A() {
     _classCallCheck(this, A);
 };
 (function(A1) {
-    A1.Instance = new A();
-})(A || (A = {
-}));
+    var Instance = A1.Instance = new A();
+})(A || (A = {}));
 // ensure merging works as expected
 var a = A.Instance;
 var a = new A();

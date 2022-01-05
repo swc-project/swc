@@ -91,8 +91,7 @@ setState(foo, {
 setState(foo, {
     b: undefined
 });
-setState(foo, {
-});
+setState(foo, {});
 setState(foo, foo);
 setState(foo, {
     a: undefined
@@ -118,8 +117,7 @@ c.setState({
 c.setState({
     b: undefined
 });
-c.setState({
-});
+c.setState({});
 c.setState(foo);
 c.setState({
     a: undefined

@@ -22,16 +22,13 @@ function _createClass(Constructor, protoProps, staticProps) {
 // @checkJs: true
 // @target: es6
 // @Filename: a.js
-var my = my || {
-};
+var my = my || {};
 /** @param {number} n */ my.method = function(n) {
     return n + 1;
 };
 my.number = 1;
-my.object = {
-};
-my.predicate = my.predicate || {
-};
+my.object = {};
+my.predicate = my.predicate || {};
 my.predicate.query = function() {
     var me = this;
     me.property = false;
@@ -62,13 +59,10 @@ my.predicate.type = /*#__PURE__*/ (function() {
     return _class;
 })();
 // global-ish prefixes
-var min = window.min || {
-};
-min.nest = this.min.nest || function() {
-};
+var min = window.min || {};
+min.nest = this.min.nest || function() {};
 min.nest.other = self.min.nest.other || function _class() {
     "use strict";
     _classCallCheck(this, _class);
 };
-min.property = global.min.property || {
-};
+min.property = global.min.property || {};

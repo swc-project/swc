@@ -1,7 +1,6 @@
 module.exports = Point;
 class Bar {
-    constructor(input){
-    }
+    constructor(input){}
 }
 export { Bar };
 // @filename: usage.ts
@@ -14,8 +13,7 @@ export let y = {
     b: 0
 };
 export class Bar2 {
-    constructor(input){
-    }
+    constructor(input){}
 }
 export let shim = {
     Bar: Bar2

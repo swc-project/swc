@@ -27,22 +27,16 @@ function isNumber(x) {
 function hasKey(obj, keys) {
     let o = obj;
     keys.slice(0, -1).forEach((key)=>{
-        o = get(o, key) ?? {
-        };
+        o = get(o, key) ?? {};
     });
     const key1 = keys[keys.length - 1];
     return key1 in o;
 }
-function parse(args, { "--": doubleDash = false , alias: alias3 = {
-} , boolean: __boolean = false , default: defaults = {
-} , stopEarly =false , string =[] , unknown =(i1)=>i1
-  } = {
-}) {
+function parse(args, { "--": doubleDash = false , alias: alias3 = {} , boolean: __boolean = false , default: defaults = {} , stopEarly =false , string =[] , unknown =(i1)=>i1
+  } = {}) {
     const flags = {
-        bools: {
-        },
-        strings: {
-        },
+        bools: {},
+        strings: {},
         unknownFn: unknown,
         allBools: false
     };
@@ -58,8 +52,7 @@ function parse(args, { "--": doubleDash = false , alias: alias3 = {
             }
         }
     }
-    const aliases = {
-    };
+    const aliases = {};
     if (alias3 !== undefined) {
         for(const key in alias3){
             const val = getForce(alias3, key);
@@ -102,8 +95,7 @@ function parse(args, { "--": doubleDash = false , alias: alias3 = {
         let o = obj;
         keys.slice(0, -1).forEach(function(key) {
             if (get(o, key) === undefined) {
-                o[key] = {
-                };
+                o[key] = {};
             }
             o = get(o, key);
         });
@@ -284,8 +276,7 @@ function normalizeString(path2, allowAboveRoot, separator, isPathSeparator1) {
         else if (isPathSeparator1(code4)) break;
         else code4 = CHAR_FORWARD_SLASH;
         if (isPathSeparator1(code4)) {
-            if (lastSlash === i3 - 1 || dots === 1) {
-            } else if (lastSlash !== i3 - 1 && dots === 2) {
+            if (lastSlash === i3 - 1 || dots === 1) {} else if (lastSlash !== i3 - 1 && dots === 2) {
                 if (res.length < 2 || lastSegmentLength !== 2 || res.charCodeAt(res.length - 1) !== 46 || res.charCodeAt(res.length - 2) !== 46) {
                     if (res.length > 2) {
                         const lastSlashIndex = res.lastIndexOf(separator);
@@ -1344,8 +1335,7 @@ const rangeEscapeChars = [
     "\\",
     "]"
 ];
-function globToRegExp(glob, { extended =true , globstar: globstarOption = true , os =NATIVE_OS  } = {
-}) {
+function globToRegExp(glob, { extended =true , globstar: globstarOption = true , os =NATIVE_OS  } = {}) {
     if (glob == "") {
         return /(?!)/;
     }
@@ -1568,8 +1558,7 @@ function isGlob(str) {
     }
     return false;
 }
-function normalizeGlob(glob, { globstar =false  } = {
-}) {
+function normalizeGlob(glob, { globstar =false  } = {}) {
     if (glob.match(/\0/g)) {
         throw new Error(`Glob contains invalid characters: "${glob}"`);
     }
@@ -1580,8 +1569,7 @@ function normalizeGlob(glob, { globstar =false  } = {
     const badParentPattern = new RegExp(`(?<=(${s}|^)\\*\\*${s})\\.\\.(?=${s}|$)`, "g");
     return normalize2(glob.replace(badParentPattern, "\0")).replace(/\0/g, "..");
 }
-function joinGlobs(globs, { extended =false , globstar =false  } = {
-}) {
+function joinGlobs(globs, { extended =false , globstar =false  } = {}) {
     if (!globstar || globs.length == 0) {
         return join2(...globs);
     }
@@ -1634,8 +1622,7 @@ var LogLevels;
     LogLevels1[LogLevels1["WARNING"] = 30] = "WARNING";
     LogLevels1[LogLevels1["ERROR"] = 40] = "ERROR";
     LogLevels1[LogLevels1["CRITICAL"] = 50] = "CRITICAL";
-})(LogLevels || (LogLevels = {
-}));
+})(LogLevels || (LogLevels = {}));
 Object.keys(LogLevels).filter((key)=>isNaN(Number(key))
 );
 const byLevel = {
@@ -1697,8 +1684,7 @@ class Logger {
     #level;
     #handlers;
     #loggerName;
-    constructor(loggerName, levelName, options = {
-    }){
+    constructor(loggerName, levelName, options = {}){
         this.#loggerName = loggerName;
         this.#level = getLevelByName(levelName);
         this.#handlers = options.handlers || [];
@@ -2195,8 +2181,7 @@ class BufWriterSync extends AbstractBufBase {
 }
 const DEFAULT_FORMATTER = "{levelName} {msg}";
 class BaseHandler {
-    constructor(levelName, options = {
-    }){
+    constructor(levelName, options = {}){
         this.level = getLevelByName(levelName);
         this.levelName = levelName;
         this.formatter = options.formatter || DEFAULT_FORMATTER;
@@ -2218,12 +2203,9 @@ class BaseHandler {
             return String(value);
         });
     }
-    log(_msg) {
-    }
-    async setup() {
-    }
-    async destroy() {
-    }
+    log(_msg) {}
+    async setup() {}
+    async destroy() {}
 }
 class ConsoleHandler extends BaseHandler {
     format(logRecord) {
@@ -2446,16 +2428,14 @@ async function setup(config) {
         handler.destroy();
     });
     state.handlers.clear();
-    const handlers1 = state.config.handlers || {
-    };
+    const handlers1 = state.config.handlers || {};
     for(const handlerName1 in handlers1){
         const handler = handlers1[handlerName1];
         await handler.setup();
         state.handlers.set(handlerName1, handler);
     }
     state.loggers.clear();
-    const loggers = state.config.loggers || {
-    };
+    const loggers = state.config.loggers || {};
     for(const loggerName in loggers){
         const loggerConfig = loggers[loggerName];
         const handlerNames = loggerConfig.handlers || [];
@@ -2714,8 +2694,7 @@ function include(path28, exts, match, skip) {
     }
     return true;
 }
-async function* walk(root, { maxDepth =Infinity , includeFiles =true , includeDirs =true , followSymlinks =false , exts =undefined , match =undefined , skip =undefined  } = {
-}) {
+async function* walk(root, { maxDepth =Infinity , includeFiles =true , includeDirs =true , followSymlinks =false , exts =undefined , match =undefined , skip =undefined  } = {}) {
     if (maxDepth < 0) {
         return;
     }
@@ -2755,8 +2734,7 @@ async function* walk(root, { maxDepth =Infinity , includeFiles =true , includeDi
         }
     }
 }
-function* walkSync(root, { maxDepth =Infinity , includeFiles =true , includeDirs =true , followSymlinks =false , exts =undefined , match =undefined , skip =undefined  } = {
-}) {
+function* walkSync(root, { maxDepth =Infinity , includeFiles =true , includeDirs =true , followSymlinks =false , exts =undefined , match =undefined , skip =undefined  } = {}) {
     if (maxDepth < 0) {
         return;
     }
@@ -2818,8 +2796,7 @@ function comparePath(a, b) {
     if (a.path > b.path) return 1;
     return 0;
 }
-async function* expandGlob(glob, { root =Deno.cwd() , exclude =[] , includeDirs =true , extended =false , globstar =false  } = {
-}) {
+async function* expandGlob(glob, { root =Deno.cwd() , exclude =[] , includeDirs =true , extended =false , globstar =false  } = {}) {
     const globOptions = {
         extended,
         globstar
@@ -2911,8 +2888,7 @@ async function* expandGlob(glob, { root =Deno.cwd() , exclude =[] , includeDirs 
     }
     yield* currentMatches;
 }
-function* expandGlobSync(glob, { root =Deno.cwd() , exclude =[] , includeDirs =true , extended =false , globstar =false  } = {
-}) {
+function* expandGlobSync(glob, { root =Deno.cwd() , exclude =[] , includeDirs =true , extended =false , globstar =false  } = {}) {
     const globOptions = {
         extended,
         globstar
@@ -3004,8 +2980,7 @@ function* expandGlobSync(glob, { root =Deno.cwd() , exclude =[] , includeDirs =t
     }
     yield* currentMatches;
 }
-async function move(src7, dest, { overwrite =false  } = {
-}) {
+async function move(src7, dest, { overwrite =false  } = {}) {
     const srcStat = await Deno.stat(src7);
     if (srcStat.isDirectory && isSubdir(src7, dest)) {
         throw new Error(`Cannot move '${src7}' to a subdirectory of itself, '${dest}'.`);
@@ -3025,8 +3000,7 @@ async function move(src7, dest, { overwrite =false  } = {
     }
     return;
 }
-function moveSync(src8, dest, { overwrite =false  } = {
-}) {
+function moveSync(src8, dest, { overwrite =false  } = {}) {
     const srcStat = Deno.statSync(src8);
     if (srcStat.isDirectory && isSubdir(src8, dest)) {
         throw new Error(`Cannot move '${src8}' to a subdirectory of itself, '${dest}'.`);
@@ -3185,8 +3159,7 @@ function copyDirSync(src16, dest, options) {
         }
     }
 }
-async function copy(src17, dest, options = {
-}) {
+async function copy(src17, dest, options = {}) {
     src17 = resolve2(src17);
     dest = resolve2(dest);
     if (src17 === dest) {
@@ -3204,8 +3177,7 @@ async function copy(src17, dest, options = {
         await copyFile(src17, dest, options);
     }
 }
-function copySync(src18, dest, options = {
-}) {
+function copySync(src18, dest, options = {}) {
     src18 = resolve2(src18);
     dest = resolve2(dest);
     if (src18 === dest) {
@@ -3227,8 +3199,7 @@ var EOL;
 (function(EOL1) {
     EOL1["LF"] = "\n";
     EOL1["CRLF"] = "\r\n";
-})(EOL || (EOL = {
-}));
+})(EOL || (EOL = {}));
 const regDetect = /(?:\r?\n)/g;
 function detect(content) {
     const d = content.match(regDetect);
@@ -3548,10 +3519,8 @@ async function init(input) {
     if (typeof input === 'undefined') {
         input = importMeta.url.replace(/\.js$/, '_bg.wasm');
     }
-    const imports = {
-    };
-    imports.wbg = {
-    };
+    const imports = {};
+    imports.wbg = {};
     imports.wbg.__wbindgen_string_new = function(arg0, arg1) {
         var ret = getStringFromWasm0(arg0, arg1);
         return addHeapObject(ret);
@@ -4106,8 +4075,7 @@ function cmp(v1, operator, v2, optionsOrLoose) {
             throw new TypeError("Invalid operator: " + operator);
     }
 }
-const ANY = {
-};
+const ANY = {};
 class Comparator {
     constructor(comp, optionsOrLoose){
         if (!optionsOrLoose || typeof optionsOrLoose !== "object") {
@@ -5209,8 +5177,7 @@ function stringMapJsonBinding(dresolver, texpr, boundTypeParams) {
     const elementBinding = once(()=>buildJsonBinding(dresolver, texpr, boundTypeParams)
     );
     function toJson(v) {
-        const result = {
-        };
+        const result = {};
         for(let k in v){
             result[k] = elementBinding().toJson(v[k]);
         }
@@ -5221,8 +5188,7 @@ function stringMapJsonBinding(dresolver, texpr, boundTypeParams) {
         if (!jobj) {
             throw jsonParseException('expected an object');
         }
-        let result = {
-        };
+        let result = {};
         for(let k in jobj){
             try {
                 result[k] = elementBinding().fromJson(jobj[k]);
@@ -5282,8 +5248,7 @@ function structJsonBinding(dresolver, struct, params, boundTypeParams) {
     });
     function toJson(v0) {
         const v = v0;
-        const json = {
-        };
+        const json = {};
         fieldDetails.forEach((fd)=>{
             json[fd.field.serializedName] = fd.jsonBinding().toJson(v && v[fd.field.name]);
         });
@@ -5294,8 +5259,7 @@ function structJsonBinding(dresolver, struct, params, boundTypeParams) {
         if (!jobj) {
             throw jsonParseException("expected an object");
         }
-        const v = {
-        };
+        const v = {};
         fieldDetails.forEach((fd)=>{
             if (jobj[fd.field.serializedName] === undefined) {
                 const defaultv = fd.buildDefault();
@@ -5324,8 +5288,7 @@ function structJsonBinding(dresolver, struct, params, boundTypeParams) {
 }
 function enumJsonBinding(_dresolver, union, _params, _boundTypeParams) {
     const fieldSerializedNames = [];
-    const fieldNumbers = {
-    };
+    const fieldNumbers = {};
     union.fields.forEach((field, i37)=>{
         fieldSerializedNames.push(field.serializedName);
         fieldNumbers[field.serializedName] = i37;
@@ -5350,10 +5313,8 @@ function enumJsonBinding(_dresolver, union, _params, _boundTypeParams) {
 }
 function unionJsonBinding(dresolver, union, params, boundTypeParams) {
     const newBoundTypeParams = createBoundTypeParams(dresolver, union.typeParams, params, boundTypeParams);
-    const detailsByName = {
-    };
-    const detailsBySerializedName = {
-    };
+    const detailsByName = {};
+    const detailsBySerializedName = {};
     union.fields.forEach((field)=>{
         const details = {
             field: field,
@@ -5370,8 +5331,7 @@ function unionJsonBinding(dresolver, union, params, boundTypeParams) {
         if (details.isVoid) {
             return details.field.serializedName;
         } else {
-            const result = {
-            };
+            const result = {};
             result[details.field.serializedName] = details.jsonBinding().toJson(v.value);
             return result;
         }
@@ -5428,8 +5388,7 @@ function typedefJsonBinding(dresolver, typedef, params, boundTypeParams) {
     return buildJsonBinding(dresolver, typedef.typeExpr, newBoundTypeParams);
 }
 function createBoundTypeParams(dresolver, paramNames, paramTypes, boundTypeParams) {
-    let result = {
-    };
+    let result = {};
     paramNames.forEach((paramName, i)=>{
         result[paramName] = buildJsonBinding(dresolver, paramTypes[i], boundTypeParams);
     });
@@ -5445,8 +5404,7 @@ function once(run1) {
     };
 }
 function declResolver(...astMaps) {
-    const astMap = {
-    };
+    const astMap = {};
     for (let map of astMaps){
         for(let scopedName in map){
             astMap[scopedName] = map[scopedName];

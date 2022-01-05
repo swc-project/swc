@@ -8,8 +8,7 @@ function _defineProperty(obj, key, value) {
     }) : obj[key] = value, obj;
 }
 foo((_defineProperty(_obj = {
-    0: function() {
-    }
+    0: function() {}
 }, "hibye", !0), _defineProperty(_obj, 1, 0), _defineProperty(_obj, NaN, [
     0
 ]), _obj)), g({

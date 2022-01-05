@@ -32,20 +32,16 @@ function _extends() {
     }).apply(this, arguments);
 }
 function _fn1() {
-    return (_fn1 = _asyncToGenerator(function*(x) {
-    })).apply(this, arguments);
+    return (_fn1 = _asyncToGenerator(function*(x) {})).apply(this, arguments);
 }
 function _fn2() {
-    return (_fn2 = _asyncToGenerator(function*(x) {
-    })).apply(this, arguments);
+    return (_fn2 = _asyncToGenerator(function*(x) {})).apply(this, arguments);
 }
 function _fn3() {
-    return (_fn3 = _asyncToGenerator(function*(x) {
-    })).apply(this, arguments);
+    return (_fn3 = _asyncToGenerator(function*(x) {})).apply(this, arguments);
 }
 function _fn4() {
-    return (_fn4 = _asyncToGenerator(function*(x) {
-    })).apply(this, arguments);
+    return (_fn4 = _asyncToGenerator(function*(x) {})).apply(this, arguments);
 }
 function _fn5() {
     return (_fn5 = _asyncToGenerator(function*(x) {
@@ -79,8 +75,7 @@ function _fn10() {
 }
 function _fn11() {
     return (_fn11 = _asyncToGenerator(function*(x) {
-        _extends({
-        }, y);
+        _extends({}, y);
     })).apply(this, arguments);
 }
 function _fn12() {
@@ -114,58 +109,43 @@ function _fn17() {
     })).apply(this, arguments);
 }
 function _fn18() {
-    return (_fn18 = _asyncToGenerator(function*({ x  }) {
-    })).apply(this, arguments);
+    return (_fn18 = _asyncToGenerator(function*({ x  }) {})).apply(this, arguments);
 }
 function _fn19() {
-    return (_fn19 = _asyncToGenerator(function*([x]) {
-    })).apply(this, arguments);
+    return (_fn19 = _asyncToGenerator(function*([x]) {})).apply(this, arguments);
 }
 function _fn20() {
-    return (_fn20 = _asyncToGenerator(function*(x) {
-    })).apply(this, arguments);
+    return (_fn20 = _asyncToGenerator(function*(x) {})).apply(this, arguments);
 }
 function _fn21() {
-    return (_fn21 = _asyncToGenerator(function*(x) {
-    })).apply(this, arguments);
+    return (_fn21 = _asyncToGenerator(function*(x) {})).apply(this, arguments);
 }
 function _fn22() {
-    return (_fn22 = _asyncToGenerator(function*(x) {
-    })).apply(this, arguments);
+    return (_fn22 = _asyncToGenerator(function*(x) {})).apply(this, arguments);
 }
 function _fn23() {
     return (_fn23 = _asyncToGenerator(function*(x) {
-        try {
-        } catch (e) {
-        }
+        try {} catch (e) {}
     })).apply(this, arguments);
 }
 function _fn24() {
     return (_fn24 = _asyncToGenerator(function*(x) {
-        try {
-        } catch (e) {
-        }
+        try {} catch (e) {}
     })).apply(this, arguments);
 }
 function _fn25() {
     return (_fn25 = _asyncToGenerator(function*(x) {
-        try {
-        } catch (x1) {
-        }
+        try {} catch (x1) {}
     })).apply(this, arguments);
 }
 function _fn26() {
     return (_fn26 = _asyncToGenerator(function*(x) {
-        try {
-        } catch ({ x: x2  }) {
-        }
+        try {} catch ({ x: x2  }) {}
     })).apply(this, arguments);
 }
 function _fn27() {
     return (_fn27 = _asyncToGenerator(function*(x) {
-        try {
-        } finally{
-        }
+        try {} finally{}
     })).apply(this, arguments);
 }
 function _fn28() {
@@ -233,8 +213,6 @@ function _fn39() {
 }
 function _fn40() {
     return (_fn40 = _asyncToGenerator(function*(x) {
-        try {
-        } catch (e) {
-        }
+        try {} catch (e) {}
     })).apply(this, arguments);
 }

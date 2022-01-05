@@ -49,8 +49,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -122,5 +121,4 @@ var Generics;
     var b21;
     a1 = b21; // ok
     b21 = a1; // error
-})(Generics || (Generics = {
-}));
+})(Generics || (Generics = {}));

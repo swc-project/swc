@@ -6,30 +6,24 @@ function _classCallCheck(instance, Constructor) {
 // @out: output.js
 // @allowJs: true
 // @filename: a.js
-var variable = {
-};
+var variable = {};
 variable.a = 0;
 var C = function C() {
     "use strict";
     _classCallCheck(this, C);
-    this.initializedMember = {
-    };
-    this.member = {
-    };
+    this.initializedMember = {};
+    this.member = {};
     this.member.a = 0;
 };
 var obj = {
-    property: {
-    }
+    property: {}
 };
 obj.property.a = 0;
 var arr = [
-    {
-    }
+    {}
 ];
 function getObj() {
-    return {
-    };
+    return {};
 }
 // @filename: b.ts
 variable.a = 1;

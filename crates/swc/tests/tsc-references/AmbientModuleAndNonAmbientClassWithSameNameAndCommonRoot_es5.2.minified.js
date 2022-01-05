@@ -7,5 +7,4 @@ var A;
         })(this, Point), this.x = x, this.y = y;
     };
     A1.Point = Point;
-}(A || (A = {
-})), A.Point.Origin, new A.Point(0, 0);
+}(A || (A = {})), A.Point.Origin, new A.Point(0, 0);

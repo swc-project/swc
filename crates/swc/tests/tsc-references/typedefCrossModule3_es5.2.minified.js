@@ -1,5 +1,4 @@
-var ns = {
-};
+var ns = {};
 ns.Foo = function _class() {
     "use strict";
     !function(instance, Constructor) {

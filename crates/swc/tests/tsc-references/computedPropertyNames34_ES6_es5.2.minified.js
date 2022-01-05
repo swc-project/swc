@@ -22,9 +22,7 @@ var C = function() {
                         configurable: !0,
                         writable: !0
                     }) : obj[key] = value;
-                })({
-                }, "", function() {
-                }), 0;
+                })({}, "", function() {}), 0;
             }
         }
     ]), C;

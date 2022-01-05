@@ -2,14 +2,11 @@
 // @allowJs: true
 // @checkJs: true
 // @Filename: a.js
-var Outer = {
-};
-Outer.Inner = function() {
-};
+var Outer = {};
+Outer.Inner = function() {};
 Outer.Inner.prototype = {
     x: 1,
-    m: function m() {
-    }
+    m: function m() {}
 };
 /** @type {Outer.Inner} */ var inner;
 inner.x;

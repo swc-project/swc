@@ -8,9 +8,7 @@ var C = function C() {
     _classCallCheck(this, C);
 };
 var E;
-(function(E) {
-})(E || (E = {
-}));
+(function(E) {})(E || (E = {}));
 var v1;
 var v2;
 var v3;
@@ -21,9 +19,7 @@ function f() {
         _classCallCheck(this, C);
     };
     var E;
-    (function(E) {
-    })(E || (E = {
-    }));
+    (function(E) {})(E || (E = {}));
     var v1;
     var v2;
     var v3;

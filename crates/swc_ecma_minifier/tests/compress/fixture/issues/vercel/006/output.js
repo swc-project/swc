@@ -11,7 +11,10 @@ export function DefaultLoadingElement() {
         children: "Loading..."
     });
 }
-export const defaultLoadScriptProps;
+export const defaultLoadScriptProps = {
+    id: "script-loader",
+    version: "weekly"
+};
 class LoadScript extends React.PureComponent {
     componentDidMount() {
         if (isBrowser) {
@@ -46,8 +49,7 @@ class LoadScript extends React.PureComponent {
                 _jsx("div", {
                     ref: this.check
                 }),
-                this.state.loaded ? this.props.children : this.props.loadingElement || _jsx(DefaultLoadingElement, {
-                })
+                this.state.loaded ? this.props.children : this.props.loadingElement || _jsx(DefaultLoadingElement, {})
             ]
         });
     }
@@ -103,8 +105,5 @@ class LoadScript extends React.PureComponent {
         };
     }
 }
-LoadScript.defaultProps = {
-    id: "script-loader",
-    version: "weekly"
-};
+LoadScript.defaultProps = defaultLoadScriptProps;
 export default LoadScript;

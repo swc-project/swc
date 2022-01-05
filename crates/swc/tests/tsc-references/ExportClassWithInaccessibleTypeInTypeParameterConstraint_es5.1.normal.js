@@ -63,8 +63,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -89,7 +88,7 @@ var A;
         "use strict";
         _classCallCheck(this, Point);
     };
-    A1.Origin = {
+    var Origin = A1.Origin = {
         x: 0,
         y: 0
     };
@@ -104,7 +103,7 @@ var A;
         return Point3d;
     }(Point);
     A1.Point3d = Point3d;
-    A1.Origin3d = {
+    var Origin3d = A1.Origin3d = {
         x: 0,
         y: 0,
         z: 0
@@ -127,5 +126,4 @@ var A;
         return Line;
     }();
     A1.Line = Line;
-})(A || (A = {
-}));
+})(A || (A = {}));

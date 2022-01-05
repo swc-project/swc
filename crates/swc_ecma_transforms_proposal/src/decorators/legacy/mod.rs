@@ -180,8 +180,8 @@ impl Fold for Legacy {
                 self.exports
                     .push(ExportSpecifier::Named(ExportNamedSpecifier {
                         span: DUMMY_SP,
-                        orig: export_ident.clone(),
-                        exported: Some(quote_ident!("default")),
+                        orig: ModuleExportName::Ident(export_ident.clone()),
+                        exported: Some(ModuleExportName::Ident(quote_ident!("default"))),
                         is_type_only: false,
                     }));
 

@@ -1,36 +1,36 @@
-function _classCallCheck(a, b) {
+function a(a, b) {
     if (!(a instanceof b)) throw new TypeError("Cannot call a class as a function");
 }
-function _defineProperties(a, b) {
+function b(a, b) {
     for(var c = 0; c < b.length; c++){
         var d = b[c];
         d.enumerable = d.enumerable || !1, d.configurable = !0, "value" in d && (d.writable = !0), Object.defineProperty(a, d.key, d);
     }
 }
-var ClassA = function() {
+var c = function() {
     "use strict";
-    _classCallCheck(this, ClassA);
+    a(this, c);
 };
 module.exports = (function() {
-    var a, c, d = function() {
+    var d, e, f = function() {
         "use strict";
-        var b, c, e;
-        function d() {
-            _classCallCheck(this, d);
+        var b, d, e;
+        function f() {
+            a(this, f);
         }
-        return b = d, c = [
+        return b = f, d = [
             {
                 key: "it",
                 value: function() {
-                    this.bb = new d.MyA();
+                    this.bb = new f.MyA();
                 }
             }
-        ], _defineProperties(b.prototype, c), e && _defineProperties(b, e), d;
+        ], b(b.prototype, d), e && b(b, e), f;
     }();
-    return a = d, c = ClassA, "MyA" in a ? Object.defineProperty(a, "MyA", {
-        value: c,
+    return d = f, e = c, "MyA" in d ? Object.defineProperty(d, "MyA", {
+        value: e,
         enumerable: !0,
         configurable: !0,
         writable: !0
-    }) : a.MyA = c, d;
+    }) : d.MyA = e, f;
 })();

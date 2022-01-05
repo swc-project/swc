@@ -9,8 +9,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     info.done ? resolve(value) : Promise.resolve(value).then(_next, _throw);
 }
 var x = new Promise(function(resolve, reject) {
-    resolve({
-    });
+    resolve({});
 });
 export default x;
 (function(fn) {

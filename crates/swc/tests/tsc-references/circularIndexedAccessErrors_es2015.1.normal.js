@@ -3,5 +3,4 @@ class C1 {
 }
 class C2 {
 }
-function foo() {
-}
+function foo() {}

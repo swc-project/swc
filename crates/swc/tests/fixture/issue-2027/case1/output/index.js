@@ -10,6 +10,5 @@ var keys = {
     a: 1,
     b: 2
 };
-var controller = {
-};
+var controller = {};
 for(var key in keys)_loop(key);

@@ -30,7 +30,5 @@ var TypeScript;
             }
             return true;
         }
-    })(AstWalkerWithDetailCallback1 = TypeScript1.AstWalkerWithDetailCallback || (TypeScript1.AstWalkerWithDetailCallback = {
-    }));
-})(TypeScript || (TypeScript = {
-}));
+    })(AstWalkerWithDetailCallback1 = TypeScript1.AstWalkerWithDetailCallback || (TypeScript1.AstWalkerWithDetailCallback = {}));
+})(TypeScript || (TypeScript = {}));

@@ -8,5 +8,4 @@ function _extends() {
         return target;
     }).apply(this, arguments);
 }
-a.toString(), a.nonExist(), a.destructuring, _extends({
-}, a);
+a.toString(), a.nonExist(), a.destructuring, _extends({}, a);

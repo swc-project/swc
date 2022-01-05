@@ -1,6 +1,5 @@
 class C {
-    constructor(y){
-    }
+    constructor(y){}
 }
 var c;
 var r = c.y;

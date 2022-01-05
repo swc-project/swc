@@ -1,10 +1,7 @@
 var aString, anAny, c, d, e, i, M, Color, Color;
-for(aString in {
-});
-for(anAny in {
-});
-for(var x in {
-});
+for(aString in {});
+for(anAny in {});
+for(var x in {});
 for(var x in []);
 for(var x in [
     1,
@@ -13,8 +10,7 @@ for(var x in [
     4,
     5
 ]);
-function fn() {
-}
+function fn() {}
 for(var x in fn());
 for(var x in /[a-z]/);
 for(var x in new Date());
@@ -30,10 +26,8 @@ for(var x in function(x2, y) {
     return x2 + y;
 });
 for(var x in i[42]);
-for(var x in (M || (M = {
-})).X = class {
+for(var x in (M || (M = {})).X = class {
 }, M);
 for(var x in M.X);
-for(var x in (Color = Color || (Color = {
-}))[Color.Red = 0] = "Red", Color[Color.Blue = 1] = "Blue", Color);
+for(var x in (Color = Color || (Color = {}))[Color.Red = 0] = "Red", Color[Color.Blue = 1] = "Blue", Color);
 for(var x in Color.Blue);

@@ -5,8 +5,7 @@
 // @declaration: true
 // @filename: base.js
 class Base {
-    constructor(){
-    }
+    constructor(){}
 }
 const BaseFactory = ()=>{
     return new Base();

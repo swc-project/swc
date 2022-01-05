@@ -1,4 +1,3 @@
 class a {
-    static get() {
-    }
+    static get() {}
 }

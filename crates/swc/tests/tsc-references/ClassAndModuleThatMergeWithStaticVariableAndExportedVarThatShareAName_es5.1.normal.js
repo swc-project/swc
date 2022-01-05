@@ -14,9 +14,8 @@ Point.Origin = {
     y: 0
 };
 (function(Point) {
-    Point.Origin = "";
-})(Point || (Point = {
-}));
+    var Origin = Point.Origin = "";
+})(Point || (Point = {}));
 var A;
 (function(A1) {
     var Point = function Point(x, y) {
@@ -31,8 +30,6 @@ var A;
         y: 0
     };
     (function(Point) {
-        Point.Origin = "";
-    })(Point = A1.Point || (A1.Point = {
-    }));
-})(A || (A = {
-}));
+        var Origin = Point.Origin = "";
+    })(Point = A1.Point || (A1.Point = {}));
+})(A || (A = {}));

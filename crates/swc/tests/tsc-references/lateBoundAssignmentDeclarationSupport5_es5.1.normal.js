@@ -20,11 +20,9 @@ function _defineProperty(obj, key, value) {
 // currently unsupported
 var _sym = Symbol();
 var _str = "my-fake-sym";
-function F() {
-}
+function F() {}
 var _obj;
-F.prototype = (_obj = {
-}, _defineProperty(_obj, _sym, "ok"), _defineProperty(_obj, _str, "ok"), _obj);
+F.prototype = (_obj = {}, _defineProperty(_obj, _sym, "ok"), _defineProperty(_obj, _str, "ok"), _obj);
 var inst = new F();
 var _y = inst[_str];
 var _z = inst[_sym];

@@ -20,5 +20,4 @@ var r9 = undefined + {
     a: ''
 };
 var r10 = undefined + foo();
-var r11 = undefined + function() {
-};
+var r11 = undefined + function() {};

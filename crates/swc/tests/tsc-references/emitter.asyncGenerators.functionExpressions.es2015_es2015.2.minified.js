@@ -65,8 +65,7 @@ function _wrapAsyncGenerator(fn) {
     return this._invoke("throw", arg);
 }, AsyncGenerator.prototype.return = function(arg) {
     return this._invoke("return", arg);
-}, _wrapAsyncGenerator(function*() {
-}), _wrapAsyncGenerator(function*() {
+}, _wrapAsyncGenerator(function*() {}), _wrapAsyncGenerator(function*() {
     yield;
 }), _wrapAsyncGenerator(function*() {
     yield 1;

@@ -12,8 +12,7 @@ const React = require("react"), props = {
     b: 1
 }, Foo = (props1)=>React.createElement("div", null, props1.a)
 ;
-React.createElement(Foo, _extends({
-}, props)), React.createElement(Foo, _extends({
+React.createElement(Foo, _extends({}, props)), React.createElement(Foo, _extends({
     d: 1
 }, props)), React.createElement(Foo, _extends({
     a: 1

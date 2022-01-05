@@ -18,5 +18,4 @@ export class Empty extends React.Component {
     }
 }
 // OK
-let unionedSpread = /*#__PURE__*/ React.createElement(Empty, _extends({
-}, obj));
+let unionedSpread = /*#__PURE__*/ React.createElement(Empty, _extends({}, obj));

@@ -112,5 +112,4 @@ var TypeScript;
         } else ast.nodeType == NodeType.Catch ? ast.param && popAssignScope(context) : go = !1;
         return walker.options.goChildren = go, ast;
     };
-}(TypeScript || (TypeScript = {
-}));
+}(TypeScript || (TypeScript = {}));

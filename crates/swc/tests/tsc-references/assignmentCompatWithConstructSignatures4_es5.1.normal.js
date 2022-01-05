@@ -49,8 +49,7 @@ function _isNativeReflectConstruct() {
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
-        }));
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
         return true;
     } catch (e) {
         return false;
@@ -149,8 +148,7 @@ var Errors;
         var b17;
         a17 = b17; // error
         b17 = a17; // error
-    })(WithNonGenericSignaturesInBaseType || (WithNonGenericSignaturesInBaseType = {
-    }));
+    })(WithNonGenericSignaturesInBaseType || (WithNonGenericSignaturesInBaseType = {}));
     var WithGenericSignaturesInBaseType;
     (function(WithGenericSignaturesInBaseType) {
         // target type has generic call signature
@@ -163,7 +161,5 @@ var Errors;
         var b3;
         a3 = b3; // ok
         b3 = a3; // ok
-    })(WithGenericSignaturesInBaseType || (WithGenericSignaturesInBaseType = {
-    }));
-})(Errors || (Errors = {
-}));
+    })(WithGenericSignaturesInBaseType || (WithGenericSignaturesInBaseType = {}));
+})(Errors || (Errors = {}));

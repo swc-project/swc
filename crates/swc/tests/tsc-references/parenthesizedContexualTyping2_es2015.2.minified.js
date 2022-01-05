@@ -1,5 +1,4 @@
-function fun(...rest) {
-}
+function fun(...rest) {}
 fun((x)=>(x(void 0), x)
 , 10), fun((x)=>(x(void 0), x)
 , 10), fun((x)=>(x(void 0), x)

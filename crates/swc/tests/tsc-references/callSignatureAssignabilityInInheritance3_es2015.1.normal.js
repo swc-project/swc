@@ -10,5 +10,4 @@ var Errors;
     }
     class OtherDerived extends Base {
     }
-})(Errors || (Errors = {
-}));
+})(Errors || (Errors = {}));

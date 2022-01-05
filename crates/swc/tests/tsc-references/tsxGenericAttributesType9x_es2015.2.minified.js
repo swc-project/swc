@@ -11,8 +11,7 @@ const React = require("react");
 export function makeP(Ctor) {
     return class extends React.PureComponent {
         render() {
-            return React.createElement(Ctor, _extends({
-            }, this.props));
+            return React.createElement(Ctor, _extends({}, this.props));
         }
     };
 }

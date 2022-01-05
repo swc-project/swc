@@ -36,8 +36,7 @@ function foo(param) {
     }()), a = _x[0], b = _x[1], _y = param.y;
     _y.c, _y.d, _y.e;
 }
-function baz(x) {
-}
+function baz(x) {}
 foo({
     x: [
         "string",

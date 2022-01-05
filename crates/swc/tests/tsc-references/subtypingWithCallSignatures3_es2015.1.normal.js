@@ -121,8 +121,7 @@ var Errors;
     var r9arg = (x)=>null
     ;
     var r9 = foo17(r9arg); // (x: { <T extends Derived >(a: T): T; <T extends Base >(a: T): T; }): any[]; (x: { <T extends Derived2>(a: T): T; <T extends Base>(a: T): T; }): any[];
-})(Errors || (Errors = {
-}));
+})(Errors || (Errors = {}));
 var WithGenericSignaturesInBaseType;
 (function(WithGenericSignaturesInBaseType) {
     var r2arg2 = (x)=>[
@@ -133,5 +132,4 @@ var WithGenericSignaturesInBaseType;
     var r3arg2 = (x)=>null
     ;
     var r3 = foo3(r3arg2); // any
-})(WithGenericSignaturesInBaseType || (WithGenericSignaturesInBaseType = {
-}));
+})(WithGenericSignaturesInBaseType || (WithGenericSignaturesInBaseType = {}));
