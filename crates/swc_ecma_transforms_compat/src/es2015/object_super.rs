@@ -112,12 +112,10 @@ impl SuperReplacer {
     fn normalize_computed_expr(&mut self, expr: Box<Expr>, computed: bool) -> Box<Expr> {
         match *expr {
             Expr::Ident(Ident {
-                sym: ref value,
-                span,
-                ..
+                sym: value, span, ..
             }) if !computed => Box::new(Expr::Lit(Lit::Str(Str {
                 span,
-                value: value.clone(),
+                value,
                 has_escape: false,
                 kind: Default::default(),
             }))),
@@ -135,11 +133,11 @@ impl SuperReplacer {
     fn visit_mut_super_member_call(&mut self, n: &mut Expr) {
         match n {
             Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(ref callee_expr),
-                ref args,
-                ref type_args,
+                callee: ExprOrSuper::Expr(callee_expr),
+                args,
+                type_args,
                 ..
-            }) => match &**callee_expr {
+            }) => match &mut **callee_expr {
                 Expr::Member(MemberExpr {
                     obj:
                         ExprOrSuper::Super(Super {
@@ -149,13 +147,13 @@ impl SuperReplacer {
                     computed,
                     ..
                 }) => {
-                    let prop = self.normalize_computed_expr(prop.clone(), *computed);
+                    let prop = self.normalize_computed_expr(prop.take(), *computed);
                     let callee = SuperReplacer::super_to_get_call(
                         self.get_proto(),
                         *super_token,
                         prop.as_arg(),
                     );
-                    let mut args = args.clone();
+                    // let mut args = args.clone();
                     let this = ThisExpr { span: DUMMY_SP }.as_arg();
                     if args.len() == 1 && is_rest_arguments(&args[0]) {
                         *n = Expr::Call(CallExpr {
@@ -174,7 +172,7 @@ impl SuperReplacer {
                                     arg
                                 }))
                                 .collect(),
-                            type_args: type_args.clone(),
+                            type_args: type_args.take(),
                         });
                         return;
                     }
@@ -188,8 +186,8 @@ impl SuperReplacer {
                             computed: false,
                         }
                         .as_callee(),
-                        args: iter::once(this).chain(args).collect(),
-                        type_args: type_args.clone(),
+                        args: iter::once(this).chain(args.take()).collect(),
+                        type_args: type_args.take(),
                     });
                 }
 
@@ -260,7 +258,7 @@ impl SuperReplacer {
                             computed,
                             ..
                         }) => {
-                            let prop = self.normalize_computed_expr(prop.clone(), *computed);
+                            let prop = self.normalize_computed_expr(prop.take(), *computed);
                             *n = self.super_to_set_call(
                                 *super_token,
                                 false,
@@ -303,7 +301,7 @@ impl SuperReplacer {
                 computed,
                 ..
             }) => {
-                let prop = self.normalize_computed_expr(prop.clone(), *computed);
+                let prop = self.normalize_computed_expr(prop.take(), *computed);
                 *n =
                     SuperReplacer::super_to_get_call(self.get_proto(), *super_token, prop.as_arg());
             }
@@ -394,7 +392,7 @@ impl SuperReplacer {
                             span: DUMMY_SP,
                             left: PatOrExpr::Pat(Box::new(Pat::Ident(ref_ident.clone().into()))),
                             op: op!("="),
-                            right: prop.clone(),
+                            right: prop.take(),
                         });
                         Box::new(Expr::Ident(ref_ident)).as_arg()
                     } else {
