@@ -45,11 +45,9 @@ impl VisitMut for ObjectSuper {
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);
         if let Expr::Object(ObjectLit { span: _, props }) = expr {
-            // let obj_ref = private_ident!("_obj");
             let mut replacer = SuperReplacer {
                 obj: None,
                 vars: Vec::new(),
-                // processed: false,
             };
             for prop_or_spread in props.iter_mut() {
                 if let PropOrSpread::Prop(ref mut prop) = prop_or_spread {
@@ -78,7 +76,6 @@ impl VisitMut for ObjectSuper {
 struct SuperReplacer {
     obj: Option<Ident>,
     vars: Vec<Ident>,
-    // processed: bool,
 }
 impl VisitMut for SuperReplacer {
     noop_visit_mut_type!();
@@ -152,7 +149,6 @@ impl SuperReplacer {
                     computed,
                     ..
                 }) => {
-                    // let (mut prop, computed) =
                     let prop = self.normalize_computed_expr(prop.clone(), *computed);
                     let callee = SuperReplacer::super_to_get_call(
                         self.get_proto(),
