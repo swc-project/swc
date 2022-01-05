@@ -1,7 +1,10 @@
 use crate::scope::{IdentType, ScopeKind};
 use std::cell::RefCell;
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashSet, Mark, SyntaxContext};
+use swc_common::{
+    collections::{AHashMap, AHashSet},
+    Mark, SyntaxContext,
+};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, Id};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
@@ -841,6 +844,7 @@ impl<'a> VisitMut for Resolver<'a> {
                 kind: None,
                 in_block: false,
                 catch_param_decls: Default::default(),
+                block_local_overrides: Default::default(),
             };
             stmts.visit_mut_children_with(&mut hoister)
         }
@@ -924,6 +928,7 @@ impl<'a> VisitMut for Resolver<'a> {
                 kind: None,
                 in_block: false,
                 catch_param_decls: Default::default(),
+                block_local_overrides: Default::default(),
             };
             stmts.visit_mut_children_with(&mut hoister)
         }
@@ -1281,6 +1286,8 @@ struct Hoister<'a, 'b> {
     /// Hoister should not touch let / const in the block.
     in_block: bool,
     catch_param_decls: AHashSet<JsWord>,
+
+    block_local_overrides: AHashSet<JsWord>,
 }
 
 impl VisitMut for Hoister<'_, '_> {
