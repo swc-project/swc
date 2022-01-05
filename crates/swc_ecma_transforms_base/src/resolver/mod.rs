@@ -123,6 +123,14 @@ impl<'a> Scope<'a> {
             declared_types: Default::default(),
         }
     }
+
+    fn is_declared(&self, symbol: &JsWord) -> bool {
+        if self.declared_symbols.contains(symbol) {
+            return true;
+        }
+
+        self.parent.map_or(false, |p| p.is_declared(symbol))
+    }
 }
 
 /// # Phases
@@ -1421,9 +1429,9 @@ impl VisitMut for Hoister<'_, '_> {
         if self.in_block {
             // If we are in nested block, and variable named `foo` is declared, we should
             // ignore function foo while handling upper scopes.
-            let mut i = node.ident.clone();
-            self.resolver.modify(&mut i, Some(VarDeclKind::Var));
-            if i.span.ctxt != SyntaxContext::empty() {
+            let i = node.ident.clone();
+
+            if self.resolver.current.is_declared(&i.sym) {
                 return;
             }
         }
