@@ -4,7 +4,9 @@ use swc_common::input::SourceFileInput;
 use swc_ecma_ast::EsVersion;
 use swc_ecma_lints::rules::all;
 use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
+use swc_ecma_transforms_base::resolver::resolver;
 use swc_ecma_utils::HANDLER;
+use swc_ecma_visit::VisitMutWith;
 
 #[testing::fixture("tests/pass/**/input.js")]
 #[testing::fixture("tests/pass/**/input.ts")]
@@ -34,7 +36,8 @@ fn pass(input: PathBuf) {
 
         let mut parser = Parser::new_from(lexer);
 
-        let m = parser.parse_module().unwrap();
+        let mut m = parser.parse_module().unwrap();
+        m.visit_mut_with(&mut resolver());
 
         let rules = all();
 
