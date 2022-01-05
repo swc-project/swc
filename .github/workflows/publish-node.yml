@@ -129,9 +129,9 @@ jobs:
           - host: windows-latest
             target: aarch64-pc-windows-msvc
             build: |
-              cargo build -p swc_cli --release --target aarch64-pc-windows-msvc --cargo-flags='--no-default-features --features swc_v1'
+              cargo build -p swc_cli --release --target aarch64-pc-windows-msvc
               cp target/aarch64-pc-windows-msvc/release/swc.exe .
-              yarn build --target aarch64-pc-windows-msvc
+              yarn build --target aarch64-pc-windows-msvc --cargo-flags='--no-default-features --features swc_v1'
     name: stable - ${{ matrix.settings.target }} - node@14
     runs-on: ${{ matrix.settings.host }}
     steps:
