@@ -8,12 +8,12 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, Id};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
-use tracing::debug;
+use tracing::{debug, span, Level};
 
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = true;
+const LOG: bool = true && cfg!(debug_assertions);
 
 /// See [resolver_with_mark] for docs.
 pub fn resolver() -> impl 'static + Fold + VisitMut {
@@ -922,8 +922,20 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        let _span = if LOG {
+            Some(span!(Level::ERROR, "visit_mut_stmts").entered())
+        } else {
+            None
+        };
+
         // Phase 1: Handle hoisting
         {
+            let _span = if LOG {
+                Some(span!(Level::ERROR, "hoist").entered())
+            } else {
+                None
+            };
+
             let mut hoister = Hoister {
                 resolver: self,
                 kind: None,
