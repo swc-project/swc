@@ -9,12 +9,13 @@ use std::{
     sync::Arc,
 };
 use swc_common::collections::AHashMap;
+use wasmer_cache::FileSystemCache;
 
 /// Type of cache to store compiled bytecodes of plugins.
 /// Currently only supports filesystem, but _may_ supports
 /// other type (in-memory, etcs) for the long-running processes like devserver.
 pub enum PluginCache {
-    File,
+    File(FileSystemCache),
 }
 
 /// TODO: Cache
@@ -59,7 +60,7 @@ pub fn resolve(name: &str) -> Result<Arc<PathBuf>, Error> {
 /// Note SWC's plugin should not fail to load when cache location is not
 /// available. It'll make each invocation to cold start.
 pub fn resolve_plugin_cache_root(root: Option<String>) -> Result<PluginCache, Error> {
-    let _root_path = match root {
+    let root_path = match root {
         Some(root) => {
             let mut root = PathBuf::from(root);
             root.push("plugins");
@@ -73,7 +74,9 @@ pub fn resolve_plugin_cache_root(root: Option<String>) -> Result<PluginCache, Er
         }
     };
 
-    Ok(PluginCache::File)
+    FileSystemCache::new(root_path)
+        .map(|cache| PluginCache::File(cache))
+        .context("Failed to create cache location for the plugins")
 }
 
 #[derive(Deserialize)]

@@ -21,10 +21,8 @@ swc_common = {version = "0.16.0", path = "../swc_common", features = ["plugin-rt
 swc_ecma_ast = {version = "0.62.0", path = "../swc_ecma_ast"}
 swc_ecma_parser = {version = "0.84.0", path = "../swc_ecma_parser"}
 swc_plugin_js_api = {version = "0.8.0", path = "../swc_plugin_js_api"}
-wasmtime = "0.32.1"
-wasmtime-wasi = "0.32.1"
+wasmer = "2.1.1"
+wasmer-cache = "2.1.1"
 
 [dev-dependencies]
 testing = {version = "0.17.0", path = "../testing"}
-
-[features]
