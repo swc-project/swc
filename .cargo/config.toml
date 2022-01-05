@@ -50,7 +50,10 @@ rustflags = [
 ]
 
 [target.aarch64-pc-windows-msvc]
-rustflags = []
+rustflags = [
+  "-Z",
+  "new-llvm-pass-manager=no",
+]
 
 [target.wasm32-unknown-unknown]
 rustflags = [
