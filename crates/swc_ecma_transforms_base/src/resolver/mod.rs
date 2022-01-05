@@ -216,7 +216,7 @@ impl<'a> Resolver<'a> {
     fn modify(&mut self, ident: &mut Ident, kind: Option<VarDeclKind>) {
         if cfg!(debug_assertions) && LOG {
             debug!(
-                "resolver: Binding (type = {}) {}{:?} {:?}",
+                "Binding (type = {}) {}{:?} {:?}",
                 self.in_type,
                 ident.sym,
                 ident.span.ctxt(),
