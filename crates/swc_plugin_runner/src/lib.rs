@@ -9,8 +9,10 @@ use parking_lot::Mutex;
 use resolve::PluginCache;
 use swc_common::collections::AHashMap;
 use swc_ecma_ast::Program;
-use wasmer::{imports, Instance, Module, Store};
-use wasmer_cache::{Cache, Hash};
+// we have few targets wasmer does not supports yet
+// https://github.com/wasmerio/wasmer/issues/2324
+use wasmtime::{Engine, Linker, Store};
+use wasmtime_wasi::WasiCtxBuilder;
 
 pub mod resolve;
 
@@ -27,7 +29,7 @@ pub mod resolve;
 /// [This code](https://github.com/swc-project/swc/blob/fc4c6708f24cda39640fbbfe56123f2f6eeb2474/crates/swc/src/plugin.rs#L19-L44)
 /// includes previous incorrect attempt to workaround file read issues.
 /// In actual transform, `plugins` is also being called per each transform.
-fn load_plugin(plugin_path: &Path, cache: &mut Option<PluginCache>) -> Result<Instance, Error> {
+fn load_plugin(plugin_path: &Path, _cache: &mut Option<PluginCache>) -> Result<(), Error> {
     static BYTE_CACHE: Lazy<Mutex<AHashMap<PathBuf, Arc<Vec<u8>>>>> =
         Lazy::new(|| Default::default());
 
@@ -36,72 +38,33 @@ fn load_plugin(plugin_path: &Path, cache: &mut Option<PluginCache>) -> Result<In
     // process won't be reflected.
     // 2. If reading binary fails somehow it won't bail out but keep retry.
     let module_bytes_key = plugin_path.to_path_buf();
-    let module_bytes = if let Some(cached_bytes) = BYTE_CACHE.lock().get(&module_bytes_key).cloned()
-    {
-        cached_bytes
-    } else {
-        let fresh_module_bytes = std::fs::read(plugin_path)
-            .map(Arc::new)
-            .context("Cannot read plugin from specified path")?;
-        BYTE_CACHE
-            .lock()
-            .insert(module_bytes_key, fresh_module_bytes.clone());
+    let _module_bytes =
+        if let Some(cached_bytes) = BYTE_CACHE.lock().get(&module_bytes_key).cloned() {
+            cached_bytes
+        } else {
+            let fresh_module_bytes = std::fs::read(plugin_path)
+                .map(Arc::new)
+                .context("Cannot read plugin from specified path")?;
+            BYTE_CACHE
+                .lock()
+                .insert(module_bytes_key, fresh_module_bytes.clone());
 
-        fresh_module_bytes
-    };
+            fresh_module_bytes
+        };
 
     // TODO: can we share store instances across each plugin binaries?
-    let wasmer_store = Store::default();
+    let engine = Engine::default();
 
-    let load_from_cache = |c: &mut PluginCache, hash: Hash| match c {
-        PluginCache::File(filesystem_cache) => unsafe {
-            filesystem_cache.load(&wasmer_store, hash)
-        },
-    };
+    let mut linker = Linker::new(&engine);
+    wasmtime_wasi::add_to_linker(&mut linker, |s| s)?;
 
-    let store_into_cache = |c: &mut PluginCache, hash: Hash, module: &Module| match c {
-        PluginCache::File(filesystem_cache) => filesystem_cache.store(hash, module),
-    };
+    let wasi = WasiCtxBuilder::new()
+        .inherit_stdio()
+        .inherit_args()?
+        .build();
+    let mut _store = Store::new(&engine, wasi);
 
-    let hash = Hash::generate(&module_bytes);
-
-    let load_cold_wasm_bytes =
-        || Module::new(&wasmer_store, module_bytes.as_ref()).context("Cannot compile plugin");
-
-    let module = if let Some(cache) = cache {
-        let cached_module =
-            load_from_cache(cache, hash).context("Failed to load plugin from cache");
-
-        match cached_module {
-            Ok(module) => Ok(module),
-            Err(err) => {
-                let loaded_module = load_cold_wasm_bytes().map_err(|_| err);
-                match &loaded_module {
-                    Ok(module) => {
-                        if let Err(err) = store_into_cache(cache, hash, &module) {
-                            loaded_module
-                                .map_err(|_| err)
-                                .context("Failed to store compiled plugin into cache")
-                        } else {
-                            loaded_module
-                        }
-                    }
-                    Err(..) => loaded_module,
-                }
-            }
-        }
-    } else {
-        load_cold_wasm_bytes()
-    };
-
-    return match module {
-        Ok(module) => {
-            let import_object = imports! {};
-
-            Instance::new(&module, &import_object).context("Failed to create plugin instance")
-        }
-        Err(err) => Err(err.into()),
-    };
+    Ok(())
 }
 
 pub fn apply_js_plugin(
@@ -112,7 +75,7 @@ pub fn apply_js_plugin(
     program: Program,
 ) -> Result<Program, Error> {
     (|| -> Result<_, Error> {
-        let _instance = load_plugin(path, cache)?;
+        load_plugin(path, cache)?;
         // TODO: actually apply transform from plugin
         Ok(program)
     })()
