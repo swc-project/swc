@@ -4451,4 +4451,4 @@ dependencies = [
 [[patch.unused]]
 name = "cranelift-codegen"
 version = "0.79.0"
-source = "git+https://github.com/kdy1/wasmtime?branch=tls#ddbbda19911b62f7b121bca69b8e81d828e458e8"
+source = "git+https://github.com/kdy1/wasmtime#be24edf9d8cbaafaa1ba28307097557c9fe977c2"
