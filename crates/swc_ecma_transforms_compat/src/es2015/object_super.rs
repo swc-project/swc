@@ -45,11 +45,11 @@ impl VisitMut for ObjectSuper {
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);
         if let Expr::Object(ObjectLit { span: _, props }) = expr {
-            let obj_ref = private_ident!("_obj");
+            // let obj_ref = private_ident!("_obj");
             let mut replacer = SuperReplacer {
-                obj: &obj_ref,
+                obj: None,
                 vars: Vec::new(),
-                processed: false,
+                // processed: false,
             };
             for prop_or_spread in props.iter_mut() {
                 if let PropOrSpread::Prop(ref mut prop) = prop_or_spread {
@@ -61,26 +61,26 @@ impl VisitMut for ObjectSuper {
                     }
                 }
             }
-            if replacer.processed {
+            if let Some(obj) = replacer.obj {
                 *expr = Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: AssignOp::Assign,
-                    left: PatOrExpr::Expr(Box::new(Expr::Ident(obj_ref.clone()))),
+                    left: PatOrExpr::Expr(Box::new(Expr::Ident(obj.clone()))),
                     right: Box::new(expr.take()),
                 });
                 self.extra_var.append(&mut replacer.vars);
-                self.extra_var.push(obj_ref);
+                self.extra_var.push(obj);
             }
         }
     }
 }
 
-struct SuperReplacer<'a> {
-    obj: &'a Ident,
+struct SuperReplacer {
+    obj: Option<Ident>,
     vars: Vec<Ident>,
-    processed: bool,
+    // processed: bool,
 }
-impl<'a> VisitMut for SuperReplacer<'a> {
+impl VisitMut for SuperReplacer {
     noop_visit_mut_type!();
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         self.visit_mut_super_member_call(expr);
@@ -91,15 +91,41 @@ impl<'a> VisitMut for SuperReplacer<'a> {
     }
 }
 
-impl<'a> SuperReplacer<'a> {
-    fn get_proto(&self) -> ExprOrSpread {
+impl SuperReplacer {
+    fn get_obj_ref(&mut self) -> Ident {
+        if let Some(obj) = &self.obj {
+            obj.clone()
+        } else {
+            let ident = private_ident!("_obj");
+            self.obj = Some(ident.clone());
+            ident
+        }
+    }
+    fn get_proto(&mut self) -> ExprOrSpread {
         Expr::Call(CallExpr {
             span: DUMMY_SP,
             callee: helper!(get_prototype_of, "getPrototypeOf"),
-            args: vec![self.obj.clone().as_arg()],
+            args: vec![self.get_obj_ref().as_arg()],
             type_args: Default::default(),
         })
         .as_arg()
+    }
+
+    // .a -> "a"
+    fn normalize_computed_expr(&mut self, expr: Box<Expr>, computed: bool) -> Box<Expr> {
+        match *expr {
+            Expr::Ident(Ident {
+                sym: ref value,
+                span,
+                ..
+            }) if !computed => Box::new(Expr::Lit(Lit::Str(Str {
+                span,
+                value: value.clone(),
+                has_escape: false,
+                kind: Default::default(),
+            }))),
+            _ => expr,
+        }
     }
     /// # In
     /// ```js
@@ -126,7 +152,13 @@ impl<'a> SuperReplacer<'a> {
                     computed,
                     ..
                 }) => {
-                    let callee = self.super_to_get_call(*super_token, prop.clone(), *computed);
+                    // let (mut prop, computed) =
+                    let prop = self.normalize_computed_expr(prop.clone(), *computed);
+                    let callee = SuperReplacer::super_to_get_call(
+                        self.get_proto(),
+                        *super_token,
+                        prop.as_arg(),
+                    );
                     let mut args = args.clone();
                     let this = ThisExpr { span: DUMMY_SP }.as_arg();
                     if args.len() == 1 && is_rest_arguments(&args[0]) {
@@ -163,7 +195,6 @@ impl<'a> SuperReplacer<'a> {
                         args: iter::once(this).chain(args).collect(),
                         type_args: type_args.clone(),
                     });
-                    self.processed = true;
                 }
 
                 _ => {}
@@ -197,11 +228,11 @@ impl<'a> SuperReplacer<'a> {
                         op!("++") => op!("+="),
                         op!("--") => op!("-="),
                     };
-
+                    let prop = self.normalize_computed_expr(prop.take(), *computed);
                     *n = self.super_to_set_call(
                         *super_token,
                         true,
-                        prop.take(),
+                        prop,
                         op,
                         Box::new(Expr::Lit(Lit::Num(Number {
                             span: DUMMY_SP,
@@ -210,7 +241,6 @@ impl<'a> SuperReplacer<'a> {
                         *computed,
                         *prefix,
                     );
-                    self.processed = true;
                 }
                 _ => {}
             },
@@ -222,6 +252,7 @@ impl<'a> SuperReplacer<'a> {
                 right,
             }) => {
                 let mut left = left.take().normalize_expr();
+
                 if let PatOrExpr::Expr(expr) = &mut left {
                     match &mut **expr {
                         Expr::Member(MemberExpr {
@@ -233,16 +264,16 @@ impl<'a> SuperReplacer<'a> {
                             computed,
                             ..
                         }) => {
+                            let prop = self.normalize_computed_expr(prop.clone(), *computed);
                             *n = self.super_to_set_call(
                                 *super_token,
                                 false,
-                                prop.take(),
+                                prop,
                                 *op,
                                 right.take(),
                                 *computed,
                                 false,
                             );
-                            self.processed = true;
                             return;
                         }
                         _ => {}
@@ -276,165 +307,63 @@ impl<'a> SuperReplacer<'a> {
                 computed,
                 ..
             }) => {
-                *n = self.super_to_get_call(*super_token, (*prop).take(), *computed);
-                self.processed = true;
+                let prop = self.normalize_computed_expr(prop.clone(), *computed);
+                *n =
+                    SuperReplacer::super_to_get_call(self.get_proto(), *super_token, prop.as_arg());
             }
 
             _ => {}
         }
     }
 
-    fn super_to_get_call(&mut self, super_token: Span, prop: Box<Expr>, computed: bool) -> Expr {
-        let prop_arg = match *prop {
-            Expr::Ident(Ident {
-                sym: ref value,
-                span,
-                ..
-            }) if !computed => Expr::Lit(Lit::Str(Str {
-                span,
-                value: value.clone(),
-                has_escape: false,
-                kind: Default::default(),
-            })),
-            ref expr => expr.clone(),
-        }
-        .as_arg();
-
+    fn super_to_get_call(proto: ExprOrSpread, super_token: Span, prop: ExprOrSpread) -> Expr {
         Expr::Call(CallExpr {
             span: super_token,
             callee: helper!(get, "get"),
-            args: vec![
-                self.get_proto(),
-                prop_arg,
-                ThisExpr { span: super_token }.as_arg(),
-            ],
+            args: vec![proto, prop, ThisExpr { span: super_token }.as_arg()],
             type_args: Default::default(),
         })
     }
-    fn super_to_set_call(
+    fn to_bin_expr(left: Box<Expr>, op: AssignOp, rhs: Box<Expr>) -> BinExpr {
+        BinExpr {
+            span: DUMMY_SP,
+            left,
+            op: match op {
+                op!("=") => unreachable!(),
+
+                op!("+=") => op!(bin, "+"),
+                op!("-=") => op!(bin, "-"),
+                op!("*=") => op!("*"),
+                op!("/=") => op!("/"),
+                op!("%=") => op!("%"),
+                op!("<<=") => op!("<<"),
+                op!(">>=") => op!(">>"),
+                op!(">>>=") => op!(">>>"),
+                op!("|=") => op!("|"),
+                op!("&=") => op!("&"),
+                op!("^=") => op!("^"),
+                op!("**=") => op!("**"),
+                op!("&&=") => op!("&&"),
+                op!("||=") => op!("||"),
+                op!("??=") => op!("??"),
+            },
+            right: rhs,
+        }
+    }
+    fn call_set_helper(
         &mut self,
         super_token: Span,
-        is_update: bool,
-        prop: Box<Expr>,
-        op: AssignOp,
-        rhs: Box<Expr>,
-        computed: bool,
-        prefix: bool,
+        prop: ExprOrSpread,
+        rhs: ExprOrSpread,
     ) -> Expr {
-        let mut ref_ident = alias_ident_for(&rhs, "_ref");
-        ref_ident.span = ref_ident.span.apply_mark(Mark::fresh(Mark::root()));
-        let mut update_ident = alias_ident_for(&rhs, "_super");
-        update_ident.span = update_ident.span.apply_mark(Mark::fresh(Mark::root()));
-        if computed {
-            self.vars.push(ref_ident.clone());
-        }
-        if is_update && !prefix {
-            self.vars.push(update_ident.clone());
-        }
-        let mut is_computed = true;
-        let mut prop_arg = match *prop {
-            Expr::Ident(Ident {
-                sym: ref value,
-                span,
-                ..
-            }) if !computed => {
-                is_computed = false;
-                Expr::Lit(Lit::Str(Str {
-                    span,
-                    value: value.clone(),
-                    has_escape: false,
-                    kind: Default::default(),
-                }))
-            }
-            ref e => e.clone(),
-        };
-        if computed {
-            prop_arg = Expr::Assign(AssignExpr {
-                span: DUMMY_SP,
-                left: PatOrExpr::Pat(Box::new(Pat::Ident(ref_ident.clone().into()))),
-                op: op!("="),
-                right: prop.clone(),
-            })
-        }
-
-        let rhs_arg = match op {
-            op!("=") => rhs.as_arg(),
-            _ => {
-                let left = Box::new(self.super_to_get_call(
-                    super_token,
-                    if is_computed {
-                        Box::new(Expr::Ident(ref_ident))
-                    } else {
-                        Box::new(prop_arg.clone())
-                    },
-                    computed,
-                ));
-                let left = if is_update {
-                    if prefix {
-                        Box::new(Expr::Unary(UnaryExpr {
-                            span: DUMMY_SP,
-                            op: op!(unary, "+"),
-                            arg: left,
-                        }))
-                    } else {
-                        Box::new(
-                            AssignExpr {
-                                span: DUMMY_SP,
-                                left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                                    update_ident.clone().into(),
-                                ))),
-                                op: op!("="),
-                                right: Box::new(Expr::Unary(UnaryExpr {
-                                    span: DUMMY_SP,
-                                    op: op!(unary, "+"),
-                                    arg: left,
-                                })),
-                            }
-                            .into(),
-                        )
-                    }
-                } else {
-                    left
-                };
-
-                BinExpr {
-                    span: DUMMY_SP,
-                    left,
-                    op: match op {
-                        op!("=") => unreachable!(),
-
-                        op!("+=") => op!(bin, "+"),
-                        op!("-=") => op!(bin, "-"),
-                        op!("*=") => op!("*"),
-                        op!("/=") => op!("/"),
-                        op!("%=") => op!("%"),
-                        op!("<<=") => op!("<<"),
-                        op!(">>=") => op!(">>"),
-                        op!(">>>=") => op!(">>>"),
-                        op!("|=") => op!("|"),
-                        op!("&=") => op!("&"),
-                        op!("^=") => op!("^"),
-                        op!("**=") => op!("**"),
-                        op!("&&=") => op!("&&"),
-                        op!("||=") => op!("||"),
-                        op!("??=") => op!("??"),
-                    },
-                    right: rhs,
-                }
-                .as_arg()
-            }
-        };
-
-        let this_arg = ThisExpr { span: super_token }.as_arg();
-
-        let expr = Expr::Call(CallExpr {
+        Expr::Call(CallExpr {
             span: super_token,
             callee: helper!(set, "set"),
             args: vec![
                 self.get_proto(),
-                prop_arg.as_arg(),
-                rhs_arg,
-                this_arg,
+                prop,
+                rhs,
+                ThisExpr { span: super_token }.as_arg(),
                 // strict
                 Lit::Bool(Bool {
                     span: DUMMY_SP,
@@ -443,15 +372,100 @@ impl<'a> SuperReplacer<'a> {
                 .as_arg(),
             ],
             type_args: Default::default(),
-        });
-
-        if is_update && !prefix {
-            Expr::Seq(SeqExpr {
-                span: DUMMY_SP,
-                exprs: vec![Box::new(expr), Box::new(Expr::Ident(update_ident))],
-            })
-        } else {
-            expr
+        })
+    }
+    fn super_to_set_call(
+        &mut self,
+        super_token: Span,
+        is_update: bool,
+        mut prop: Box<Expr>,
+        op: AssignOp,
+        rhs: Box<Expr>,
+        computed: bool,
+        prefix: bool,
+    ) -> Expr {
+        match op {
+            op!("=") => self.call_set_helper(super_token, prop.as_arg(), rhs.as_arg()),
+            _ => {
+                let left = Box::new(SuperReplacer::super_to_get_call(
+                    self.get_proto(),
+                    super_token,
+                    if computed {
+                        let mut ref_ident = alias_ident_for(&rhs, "_ref");
+                        ref_ident.span = ref_ident.span.apply_mark(Mark::fresh(Mark::root()));
+                        self.vars.push(ref_ident.clone());
+                        *prop = Expr::Assign(AssignExpr {
+                            span: DUMMY_SP,
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(ref_ident.clone().into()))),
+                            op: op!("="),
+                            right: prop.clone(),
+                        });
+                        Box::new(Expr::Ident(ref_ident)).as_arg()
+                    } else {
+                        prop.clone().as_arg()
+                    },
+                ));
+                if is_update {
+                    if prefix {
+                        self.call_set_helper(
+                            super_token,
+                            prop.as_arg(),
+                            SuperReplacer::to_bin_expr(
+                                Box::new(Expr::Unary(UnaryExpr {
+                                    span: DUMMY_SP,
+                                    op: op!(unary, "+"),
+                                    arg: left,
+                                })),
+                                op,
+                                rhs,
+                            )
+                            .as_arg(),
+                        )
+                    } else {
+                        let mut update_ident = alias_ident_for(&rhs, "_super");
+                        update_ident.span = update_ident.span.apply_mark(Mark::fresh(Mark::root()));
+                        self.vars.push(update_ident.clone());
+                        Expr::Seq(SeqExpr {
+                            span: DUMMY_SP,
+                            exprs: vec![
+                                Box::new(
+                                    self.call_set_helper(
+                                        super_token,
+                                        prop.as_arg(),
+                                        SuperReplacer::to_bin_expr(
+                                            Box::new(
+                                                AssignExpr {
+                                                    span: DUMMY_SP,
+                                                    left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                                                        update_ident.clone().into(),
+                                                    ))),
+                                                    op: op!("="),
+                                                    right: Box::new(Expr::Unary(UnaryExpr {
+                                                        span: DUMMY_SP,
+                                                        op: op!(unary, "+"),
+                                                        arg: left,
+                                                    })),
+                                                }
+                                                .into(),
+                                            ),
+                                            op,
+                                            rhs,
+                                        )
+                                        .as_arg(),
+                                    ),
+                                ),
+                                Box::new(Expr::Ident(update_ident)),
+                            ],
+                        })
+                    }
+                } else {
+                    self.call_set_helper(
+                        super_token,
+                        prop.as_arg(),
+                        SuperReplacer::to_bin_expr(left, op, rhs).as_arg(),
+                    )
+                }
+            }
         }
     }
 }
@@ -557,12 +571,15 @@ mod tests {
                 }
             },
         }",
-        r#"
-        var _obj;
-        let obj = _obj = {
-            a: function a() {
-                let c = _get(_getPrototypeOf(_obj), "x", this);
-            }
-        };"#
+        r#"var _obj;
+        let obj = {
+        b: function b() {
+            let o = _obj = {
+                d: function d() {
+                    _get(_getPrototypeOf(_obj), "d", this);
+                }
+            };
+        }
+    };"#
     );
 }
