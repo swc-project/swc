@@ -92,7 +92,7 @@ jobs:
             build: |
               cargo build -p swc_cli --release --target=armv7-unknown-linux-gnueabihf
               cp ./target/armv7-unknown-linux-gnueabihf/release/swc .
-              yarn build --target=armv7-unknown-linux-gnueabihf
+              yarn build --target=armv7-unknown-linux-gnueabihf --no-default-features --features swc_v1
               arm-linux-gnueabihf-strip swc.linux-arm-gnueabihf.node
           - host: ubuntu-latest
             target: aarch64-linux-android
@@ -114,7 +114,7 @@ jobs:
               export PATH="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin:${PATH}"
               cargo build -p swc_cli --release --target armv7-linux-androideabi
               cp ./target/armv7-linux-androideabi/release/swc .
-              yarn build --target armv7-linux-androideabi
+              yarn build --target armv7-linux-androideabi --no-default-features --features swc_v1
               ${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/arm-linux-androideabi-strip *.node
           - host: ubuntu-latest
             target: aarch64-unknown-linux-musl
@@ -129,7 +129,7 @@ jobs:
           - host: windows-latest
             target: aarch64-pc-windows-msvc
             build: |
-              cargo build -p swc_cli --release --target aarch64-pc-windows-msvc
+              cargo build -p swc_cli --release --target aarch64-pc-windows-msvc --no-default-features --features swc_v1
               cp target/aarch64-pc-windows-msvc/release/swc.exe .
               yarn build --target aarch64-pc-windows-msvc
     name: stable - ${{ matrix.settings.target }} - node@14
