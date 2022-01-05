@@ -1394,6 +1394,16 @@ impl VisitMut for Hoister<'_, '_> {
             return;
         }
 
+        if self.in_block {
+            // If we are in nested block, and variable named `foo` is declared, we should
+            // ignore function foo while handling upper scopes.
+            let mut i = node.ident.clone();
+            self.resolver.modify(&mut i, Some(VarDeclKind::Var));
+            if i.span.ctxt != SyntaxContext::empty() {
+                return;
+            }
+        }
+
         self.resolver.in_type = false;
         self.resolver
             .modify(&mut node.ident, Some(VarDeclKind::Var));
