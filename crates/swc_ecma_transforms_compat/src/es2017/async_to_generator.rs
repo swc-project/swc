@@ -1,11 +1,11 @@
 use std::{iter, mem::replace};
 use swc_common::{util::take::Take, Mark, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{ext::ExprRefExt, helper, perf::Check};
+use swc_ecma_transforms_base::{helper, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
     contains_ident_ref, contains_this_expr,
-    function::{FunctionEnvironmentState, FunctionEnvironmentUnwraper},
+    function::{FunctionEnvironmentState, FunctionEnvironmentUnwraper, FunctionWrapper},
     private_ident, quote_ident, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
@@ -678,17 +678,9 @@ impl Actual {
         expr.visit_mut_children_with(self);
 
         match expr {
-            Expr::Arrow(ArrowExpr {
-                is_async: true,
-                span,
-                params,
-                body,
-                is_generator,
-                type_params,
-                return_type,
-            }) => {
+            Expr::Arrow(arrow_expr) if arrow_expr.is_async => {
                 // Apply arrow
-                let this: Option<ExprOrSpread> = if contains_this_expr(body) {
+                let this: Option<ExprOrSpread> = if contains_this_expr(&arrow_expr.body) {
                     if binding_ident.is_none() {
                         Some(ThisExpr { span: DUMMY_SP }.as_arg())
                     } else {
@@ -710,42 +702,13 @@ impl Actual {
                     None
                 };
 
-                let fn_expr = FnExpr {
-                    ident: None,
-                    function: Function {
-                        decorators: vec![],
-                        span: *span,
-                        params: params
-                            .iter()
-                            .map(|pat| Param {
-                                span: DUMMY_SP,
-                                decorators: Default::default(),
-                                pat: pat.clone(),
-                            })
-                            .collect(),
-                        is_async: true,
-                        is_generator: *is_generator,
-                        body: Some(match body.take() {
-                            BlockStmtOrExpr::BlockStmt(block) => block,
-                            BlockStmtOrExpr::Expr(expr) => BlockStmt {
-                                span: DUMMY_SP,
-                                stmts: vec![Stmt::Return(ReturnStmt {
-                                    span: expr.span(),
-                                    arg: Some(expr),
-                                })],
-                            },
-                        }),
-                        type_params: type_params.take(),
-                        return_type: return_type.take(),
-                    },
-                };
+                let mut wrapper = FunctionWrapper::from(arrow_expr.take());
 
-                let ref_ident = quote_ident!("ref");
-                let real_fn_ident = private_ident!(ref_ident.span, format!("_{}", ref_ident.sym));
+                let fn_expr = wrapper.function.fn_expr().unwrap();
 
-                let right = if let Some(this) = this {
+                wrapper.function = if let Some(this) = this {
                     Expr::Call(CallExpr {
-                        span: *span,
+                        span: DUMMY_SP,
                         callee: make_fn_ref(fn_expr, Some(this.clone()), false)
                             .make_member(quote_ident!("bind"))
                             .as_callee(),
@@ -756,145 +719,17 @@ impl Actual {
                     make_fn_ref(fn_expr, None, false)
                 };
 
-                if binding_ident.is_none() {
-                    *expr = right;
-                    return;
-                }
-
-                let ref_stmt: Stmt = Stmt::Decl(
-                    VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        decls: vec![VarDeclarator {
-                            span: DUMMY_SP,
-                            name: Pat::Ident(real_fn_ident.clone().into()),
-                            init: Some(Box::new(right)),
-                            definite: false,
-                        }],
-                        declare: false,
-                    }
-                    .into(),
-                );
-
-                let apply = Stmt::Return(ReturnStmt {
-                    span: DUMMY_SP,
-                    arg: Some(Box::new(real_fn_ident.apply(
-                        DUMMY_SP,
-                        Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
-                        vec![quote_ident!("arguments").as_arg()],
-                    ))),
-                });
-
-                let function = Function {
-                    span: DUMMY_SP,
-                    is_async: false,
-                    is_generator: false,
-                    params: params
-                        .into_iter()
-                        .map_while(|pat| match pat {
-                            Pat::Ident(..) => Some(Param {
-                                span: DUMMY_SP,
-                                decorators: Default::default(),
-                                pat: pat.clone(),
-                            }),
-                            Pat::Array(..) | Pat::Object(..) => Some(Param {
-                                span: DUMMY_SP,
-                                decorators: Default::default(),
-                                pat: Pat::Ident(private_ident!("_").into()),
-                            }),
-                            _ => None,
-                        })
-                        .collect(),
-                    body: Some(BlockStmt {
-                        span: DUMMY_SP,
-                        stmts: vec![apply],
-                    }),
-                    decorators: Default::default(),
-                    type_params: Default::default(),
-                    return_type: Default::default(),
-                };
-
-                let return_function = Stmt::Return(ReturnStmt {
-                    span: DUMMY_SP,
-                    arg: Some(Box::new(
-                        FnExpr {
-                            function,
-                            ident: binding_ident,
-                        }
-                        .into(),
-                    )),
-                });
-
-                let block_stmt = BlockStmt {
-                    span: DUMMY_SP,
-                    stmts: vec![ref_stmt, return_function],
-                };
-
-                let function = Function {
-                    span: *span,
-                    body: Some(block_stmt),
-                    params: Default::default(),
-                    is_generator: false,
-                    is_async: false,
-                    decorators: Default::default(),
-                    return_type: Default::default(),
-                    type_params: Default::default(),
-                };
-
-                *expr = Expr::Call(CallExpr {
-                    span: DUMMY_SP,
-                    callee: Expr::Fn(FnExpr {
-                        ident: None,
-                        function,
-                    })
-                    .as_callee(),
-                    args: vec![],
-                    type_args: Default::default(),
-                });
+                *expr = wrapper.into();
             }
 
-            Expr::Fn(
-                fn_expr @ FnExpr {
-                    function:
-                        Function {
-                            is_async: true,
-                            body: Some(..),
-                            ..
-                        },
-                    ..
-                },
-            ) => {
-                self.visit_fn(
-                    fn_expr.ident.clone(),
-                    binding_ident,
-                    &mut fn_expr.function,
-                    false,
-                );
+            Expr::Fn(fn_expr) if fn_expr.function.is_async => {
+                let mut wrapper = FunctionWrapper::from(fn_expr.take());
 
-                let function = fn_expr.function.take();
-                let body = Some(BlockStmt {
-                    span: DUMMY_SP,
-                    stmts: self
-                        .extra_stmts
-                        .drain(..)
-                        .chain(function.body.unwrap().stmts)
-                        .collect(),
-                });
+                let fn_expr = wrapper.function.fn_expr().unwrap();
 
-                *expr = Expr::Call(CallExpr {
-                    span: DUMMY_SP,
-                    callee: Expr::Fn(FnExpr {
-                        ident: None,
-                        function: Function {
-                            body,
-                            params: Default::default(),
-                            ..function
-                        },
-                    })
-                    .as_callee(),
-                    args: vec![],
-                    type_args: Default::default(),
-                });
+                wrapper.function = make_fn_ref(fn_expr, None, true);
+
+                *expr = wrapper.into();
             }
 
             _ => {}

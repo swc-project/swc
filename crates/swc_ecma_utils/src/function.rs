@@ -1,7 +1,9 @@
 use swc_atoms::js_word;
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+
+use crate::ExprFactory;
 
 #[derive(Clone, Default)]
 pub struct FunctionEnvironmentState {
@@ -270,5 +272,389 @@ impl<'a> VisitMut for InitThis<'a> {
             }
             _ => (),
         }
+    }
+}
+
+pub struct FunctionWrapper {
+    binding_ident: Option<Ident>,
+    function_ident: Option<Ident>,
+
+    params: Vec<Param>,
+    pub function: Expr,
+    pub extra_fn_decl: Option<Decl>,
+}
+
+impl VisitMut for FunctionWrapper {}
+
+impl From<FnExpr> for FunctionWrapper {
+    fn from(mut fn_expr: FnExpr) -> Self {
+        let function_ident = fn_expr.ident.take();
+        Self {
+            binding_ident: None,
+            function_ident,
+            params: Self::get_params(fn_expr.function.params.iter()),
+            function: fn_expr.into(),
+            extra_fn_decl: None,
+        }
+    }
+}
+
+impl From<ArrowExpr> for FunctionWrapper {
+    fn from(
+        ArrowExpr {
+            span,
+            params,
+            body,
+            is_async,
+            is_generator,
+            ..
+        }: ArrowExpr,
+    ) -> Self {
+        let body = Some(match body {
+            BlockStmtOrExpr::BlockStmt(block) => block,
+            BlockStmtOrExpr::Expr(expr) => BlockStmt {
+                span: DUMMY_SP,
+                stmts: vec![Stmt::Return(ReturnStmt {
+                    span: expr.span(),
+                    arg: Some(expr),
+                })],
+            },
+        });
+
+        let function = Function {
+            span,
+            params: params.into_iter().map(Into::into).collect(),
+            decorators: Default::default(),
+            body,
+            type_params: None,
+            return_type: None,
+            is_generator,
+            is_async,
+        };
+
+        let fn_expr = FnExpr {
+            ident: None,
+            function,
+        };
+
+        Self {
+            binding_ident: None,
+            function_ident: None,
+            params: Self::get_params(fn_expr.function.params.iter()),
+            function: fn_expr.into(),
+            extra_fn_decl: None,
+        }
+    }
+}
+
+impl TryFrom<VarDeclarator> for FunctionWrapper {
+    type Error = ();
+
+    fn try_from(var: VarDeclarator) -> Result<Self, Self::Error> {
+        if let VarDeclarator {
+            name: Pat::Ident(BindingIdent {
+                id: binding_ident, ..
+            }),
+            init: Some(init),
+            ..
+        } = var
+        {
+            match *init {
+                Expr::Fn(fn_expr) => {
+                    let mut wrapper = Self::from(fn_expr);
+                    wrapper.binding_ident = Some(binding_ident);
+
+                    Ok(wrapper)
+                }
+
+                Expr::Arrow(arrow_expr) => {
+                    let mut wrapper = Self::from(arrow_expr);
+                    wrapper.binding_ident = Some(binding_ident);
+
+                    Ok(wrapper)
+                }
+
+                _ => Err(()),
+            }
+        } else {
+            Err(())
+        }
+    }
+}
+
+// TODO: handle class/object method
+impl FunctionWrapper {
+    fn get_params<'a, T, P>(params_iter: T) -> Vec<Param>
+    where
+        P: Into<&'a Param>,
+        T: IntoIterator<Item = P>,
+    {
+        params_iter
+            .into_iter()
+            .map(Into::into)
+            .map_while(|param| match param.pat {
+                Pat::Ident(..) => Some(param.clone()),
+                Pat::Array(..) | Pat::Object(..) => Some(Param {
+                    span: DUMMY_SP,
+                    decorators: Default::default(),
+                    pat: Pat::Ident(private_ident!("_").into()),
+                }),
+                _ => None,
+            })
+            .collect()
+    }
+
+    ///
+    /// ```javascript
+    /// (function () {
+    ///     var REF = FUNCTION;
+    ///     return function NAME(PARAMS) {
+    ///         return REF.apply(this, arguments);
+    ///     };
+    /// })()
+    /// ```
+    fn build_anonymous_expression_wrapper(&mut self) -> Expr {
+        let name_ident = self.binding_ident.take();
+        let ref_ident = quote_ident!("ref");
+
+        let ref_stmt: Stmt = Stmt::Decl(
+            VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                decls: vec![VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(ref_ident.clone().into()),
+                    init: Some(Box::new(self.function.take())),
+                    definite: false,
+                }],
+                declare: false,
+            }
+            .into(),
+        );
+
+        let fn_expr = self.build_function_forward(ref_ident, name_ident);
+
+        let return_fn_stmt = Stmt::Return(ReturnStmt {
+            span: DUMMY_SP,
+            arg: Some(Box::new(fn_expr.into())),
+        });
+
+        let block_stmt = BlockStmt {
+            span: DUMMY_SP,
+            stmts: vec![ref_stmt, return_fn_stmt],
+        };
+
+        let function = Function {
+            span: DUMMY_SP,
+            body: Some(block_stmt),
+            params: Default::default(),
+            is_generator: false,
+            is_async: false,
+            decorators: Default::default(),
+            return_type: Default::default(),
+            type_params: Default::default(),
+        };
+
+        FnExpr {
+            ident: None,
+            function,
+        }
+        .as_iife()
+        .into()
+    }
+
+    ///
+    /// ```javascript
+    /// (function () {
+    ///     var REF = FUNCTION;
+    ///     function NAME(PARAMS) {
+    ///         return REF.apply(this, arguments);
+    ///     }
+    ///     return NAME;
+    /// })()
+    /// ```
+    fn build_named_expression_wrapper(&mut self, name_ident: Ident) -> Expr {
+        let ref_ident = self.function_ident.clone().unwrap_or(quote_ident!("ref"));
+
+        let ref_stmt: Stmt = Stmt::Decl(
+            VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                decls: vec![VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(ref_ident.clone().into()),
+                    init: Some(Box::new(self.function.take())),
+                    definite: false,
+                }],
+                declare: false,
+            }
+            .into(),
+        );
+
+        let fn_expr = self.build_function_forward(ref_ident, Some(name_ident.clone()));
+
+        let fn_stmt = fn_expr.into_stmt();
+
+        let return_fn_indent = Stmt::Return(ReturnStmt {
+            span: DUMMY_SP,
+            arg: Some(Box::new(name_ident.into())),
+        });
+
+        let block_stmt = BlockStmt {
+            span: DUMMY_SP,
+            stmts: vec![ref_stmt, fn_stmt, return_fn_indent],
+        };
+
+        let function = Function {
+            span: DUMMY_SP,
+            body: Some(block_stmt),
+            params: Default::default(),
+            is_generator: false,
+            is_async: false,
+            decorators: Default::default(),
+            return_type: Default::default(),
+            type_params: Default::default(),
+        };
+
+        FnExpr {
+            ident: None,
+            function,
+        }
+        .as_iife()
+        .into()
+    }
+
+    ///
+    /// ```javascript
+    /// function NAME(PARAMS) {
+    ///     return REF.apply(this, arguments);
+    /// }
+    /// function REF() {
+    ///     REF = FUNCTION;
+    ///     return REF.apply(this, arguments);
+    /// }
+    /// ```
+    fn build_declaration_wrapper(&mut self, name_ident: Ident) -> Decl {
+        let ref_ident = self.function_ident.clone().unwrap_or(quote_ident!("ref"));
+
+        let FnExpr { function, .. } =
+            self.build_function_forward(ref_ident.clone(), Some(name_ident.clone()));
+
+        let assign_stmt = AssignExpr {
+            span: DUMMY_SP,
+            op: AssignOp::Assign,
+            left: PatOrExpr::Expr(Box::new(Expr::Ident(ref_ident.clone()))),
+            right: Box::new(self.function.take()),
+        }
+        .into_stmt();
+
+        // clone `return REF.apply(this, arguments);`
+        let return_ref_apply_stmt = function
+            .body
+            .as_ref()
+            .unwrap()
+            .stmts
+            .iter()
+            .next()
+            .unwrap()
+            .clone();
+
+        let ref_fn_block_stmt = BlockStmt {
+            span: DUMMY_SP,
+            stmts: vec![assign_stmt, return_ref_apply_stmt],
+        };
+
+        let ref_decl = FnDecl {
+            ident: ref_ident,
+            declare: false,
+            function: Function {
+                span: DUMMY_SP,
+                is_async: false,
+                is_generator: false,
+                params: self.params.take(),
+                body: Some(ref_fn_block_stmt),
+                decorators: Default::default(),
+                type_params: Default::default(),
+                return_type: Default::default(),
+            },
+        }
+        .into();
+
+        self.extra_fn_decl = Some(ref_decl);
+
+        FnDecl {
+            ident: name_ident,
+            function,
+            declare: false,
+        }
+        .into()
+    }
+
+    ///
+    /// ```javascript
+    /// function NAME(PARAMS) {
+    ///     return REF.apply(this, arguments);
+    /// }
+    /// ```
+    fn build_function_forward(&mut self, ref_ident: Ident, name_ident: Option<Ident>) -> FnExpr {
+        let apply = Stmt::Return(ReturnStmt {
+            span: DUMMY_SP,
+            arg: Some(Box::new(ref_ident.apply(
+                DUMMY_SP,
+                Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
+                vec![quote_ident!("arguments").as_arg()],
+            ))),
+        });
+
+        FnExpr {
+            ident: name_ident,
+            function: Function {
+                span: DUMMY_SP,
+                is_async: false,
+                is_generator: false,
+                params: self.params.take(),
+                body: Some(BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![apply],
+                }),
+                decorators: Default::default(),
+                type_params: Default::default(),
+                return_type: Default::default(),
+            },
+        }
+    }
+}
+
+impl Into<Expr> for FunctionWrapper {
+    fn into(mut self) -> Expr {
+        if let Some(name_ident) = self
+            .function_ident
+            .as_ref()
+            .or(self.binding_ident.as_ref())
+            .map(Clone::clone)
+        {
+            self.build_named_expression_wrapper(name_ident)
+        } else if self.params.len() > 0 {
+            self.build_anonymous_expression_wrapper()
+        } else {
+            // Optimization: no name, no params
+            self.function
+        }
+    }
+}
+
+impl Into<Vec<Stmt>> for FunctionWrapper {
+    fn into(mut self) -> Vec<Stmt> {
+        let name_ident = self.function_ident.as_ref().or(self.binding_ident.as_ref());
+        assert!(name_ident.is_some());
+        let name_ident = name_ident.unwrap().clone();
+
+        let name_decl = self.build_declaration_wrapper(name_ident);
+
+        assert!(self.extra_fn_decl.is_some());
+
+        let ref_decl = self.extra_fn_decl.unwrap();
+
+        vec![name_decl.into(), ref_decl.into()]
     }
 }

@@ -39,6 +39,16 @@ pub trait ExprFactory: Into<Expr> {
     }
 
     #[inline]
+    fn as_iife(self) -> CallExpr {
+        CallExpr {
+            span: DUMMY_SP,
+            callee: self.as_callee(),
+            args: Default::default(),
+            type_args: Default::default(),
+        }
+    }
+
+    #[inline]
     fn as_obj(self) -> ExprOrSuper {
         ExprOrSuper::Expr(Box::new(self.into()))
     }
