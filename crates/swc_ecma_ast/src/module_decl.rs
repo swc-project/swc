@@ -225,7 +225,7 @@ pub enum ExportSpecifier {
 pub struct ExportNamespaceSpecifier {
     pub span: Span,
 
-    pub name: Ident,
+    pub name: ModuleExportName,
 }
 
 // export v from 'mod';

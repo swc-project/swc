@@ -1053,7 +1053,7 @@ define!({
     }
     pub struct ExportNamespaceSpecifier {
         pub span: Span,
-        pub name: Ident,
+        pub name: ModuleExportName,
     }
     pub struct ExportDefaultSpecifier {
         pub exported: Ident,
