@@ -4,7 +4,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
-    contains_ident_ref, contains_this_expr,
+    contains_this_expr,
     function::{FunctionEnvironmentState, FunctionEnvironmentUnwraper, FunctionWrapper},
     private_ident, quote_ident, ExprFactory, StmtLike,
 };
@@ -40,7 +40,6 @@ pub fn async_to_generator() -> impl Fold + VisitMut {
 struct AsyncToGenerator;
 
 struct Actual {
-    in_prototype_assignment: bool,
     extra_stmts: Vec<Stmt>,
     hoist_stmts: Vec<Stmt>,
 }
@@ -68,7 +67,6 @@ impl AsyncToGenerator {
 
         for mut stmt in stmts.drain(..) {
             let mut actual = Actual {
-                in_prototype_assignment: false,
                 extra_stmts: vec![],
                 hoist_stmts: vec![],
             };
@@ -625,87 +623,6 @@ impl VisitMut for MethodFolder {
 
 impl Actual {
     fn visit_mut_expr_with_binding(&mut self, expr: &mut Expr, binding_ident: Option<Ident>) {
-        match expr {
-            Expr::Paren(ParenExpr { expr, .. }) => {
-                expr.visit_mut_with(self);
-                return;
-            }
-
-            // Optimization for iife.
-            Expr::Call(CallExpr {
-                span,
-                callee: ExprOrSuper::Expr(callee),
-                args,
-                type_args,
-            }) if callee.is_fn_expr() => {
-                *expr = self.handle_iife(
-                    *span,
-                    &mut (*callee).take().expect_fn_expr(),
-                    args,
-                    type_args.take(),
-                );
-                return;
-            }
-
-            Expr::Call(CallExpr {
-                span,
-                callee: ExprOrSuper::Expr(callee),
-                args,
-                type_args,
-            }) if match &**callee {
-                Expr::Paren(ParenExpr { expr, .. }) => match &**expr {
-                    Expr::Fn(..) => true,
-                    _ => false,
-                },
-                _ => false,
-            } =>
-            {
-                *expr = self.handle_iife(
-                    *span,
-                    &mut (*callee).take().expect_paren().expr.expect_fn_expr(),
-                    args,
-                    type_args.take(),
-                );
-                return;
-            }
-
-            Expr::Assign(assign_expr) => {
-                // flag if expression is assignment to prototype chain should not try to bind
-                // this context
-                match &assign_expr.left {
-                    PatOrExpr::Pat(pat) => match &**pat {
-                        Pat::Expr(pat_expr) => match &**pat_expr {
-                            Expr::Member(MemberExpr {
-                                obj: ExprOrSuper::Expr(ex),
-                                computed: false,
-                                ..
-                            }) => match &**ex {
-                                Expr::Member(MemberExpr {
-                                    prop,
-                                    computed: false,
-                                    ..
-                                }) => match &**prop {
-                                    Expr::Ident(ident) => {
-                                        self.in_prototype_assignment = *ident.sym == *"prototype";
-                                    }
-                                    _ => {}
-                                },
-                                _ => {}
-                            },
-                            _ => {}
-                        },
-                        _ => {}
-                    },
-                    _ => {}
-                }
-
-                assign_expr.visit_mut_children_with(self);
-                self.in_prototype_assignment = false;
-                return;
-            }
-            _ => {}
-        }
-
         expr.visit_mut_children_with(self);
 
         match expr {
@@ -767,52 +684,6 @@ impl Actual {
 
             _ => {}
         }
-    }
-
-    fn handle_iife(
-        &mut self,
-        span: Span,
-        callee: &mut FnExpr,
-        args: &mut Vec<ExprOrSpread>,
-        type_args: Option<TsTypeParamInstantiation>,
-    ) -> Expr {
-        if !callee.function.is_async || callee.ident.is_some() {
-            let mut callee = Expr::Fn(callee.take());
-            callee.visit_mut_with(self);
-
-            args.visit_mut_with(self);
-            return Expr::Call(CallExpr {
-                span,
-                callee: ExprOrSuper::Expr(Box::new(callee.into())),
-                args: args.take(),
-                type_args,
-            });
-        }
-
-        // https://github.com/babel/babel/issues/8783
-        if callee.ident.is_some()
-            && contains_ident_ref(&callee.function.body, callee.ident.as_ref().unwrap())
-        {
-            let mut callee = Expr::Fn(callee.take());
-            callee.visit_mut_with(self);
-
-            args.visit_mut_with(self);
-            return Expr::Call(CallExpr {
-                span,
-                callee: ExprOrSuper::Expr(Box::new(callee.into())),
-                args: args.take(),
-                type_args,
-            });
-        }
-
-        let callee = make_fn_ref(callee.take(), None, self.in_prototype_assignment);
-
-        Expr::Call(CallExpr {
-            span,
-            callee: ExprOrSuper::Expr(Box::new(callee.into())),
-            args: args.take(),
-            type_args,
-        })
     }
 }
 
