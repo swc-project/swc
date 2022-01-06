@@ -81,6 +81,6 @@ export var b = g(_templateObject1(), function(stuff) {
 export var c = obj.prop(_templateObject2(), function(input) {
     return _objectSpread({}, input);
 });
-c.returnedObjProp.x, c.returnedObjProp.y, c.returnedObjProp.z, (c = obj.prop(_templateObject3(), function(input) {
+c.returnedObjProp.x, c.returnedObjProp.y, c.returnedObjProp.z, c = obj.prop(_templateObject3(), function(input) {
     return _objectSpread({}, input);
-})).returnedObjProp.x, c.returnedObjProp.y, c.returnedObjProp.z;
+}), c.returnedObjProp.x, c.returnedObjProp.y, c.returnedObjProp.z;
