@@ -6,13 +6,13 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use crate::ExprFactory;
 
 #[derive(Clone, Default)]
-pub struct FunctionEnvironmentState {
+pub struct FnEnvState {
     this: Option<Ident>,
     args: Option<Ident>,
     new_target: Option<Ident>,
 }
 
-impl FunctionEnvironmentState {
+impl FnEnvState {
     pub fn new(this: Option<Ident>, args: Option<Ident>, new_target: Option<Ident>) -> Self {
         Self {
             this,
@@ -130,23 +130,23 @@ impl FunctionEnvironmentState {
     }
 }
 
-impl Take for FunctionEnvironmentState {
+impl Take for FnEnvState {
     fn dummy() -> Self {
         Self::default()
     }
 }
 
-pub struct FunctionEnvironmentUnwraper<'a> {
-    state: &'a mut FunctionEnvironmentState,
+pub struct FnEnvHoister<'a> {
+    state: &'a mut FnEnvState,
 }
 
-impl<'a> FunctionEnvironmentUnwraper<'a> {
-    pub fn new(state: &'a mut FunctionEnvironmentState) -> Self {
-        FunctionEnvironmentUnwraper { state }
+impl<'a> FnEnvHoister<'a> {
+    pub fn new(state: &'a mut FnEnvState) -> Self {
+        FnEnvHoister { state }
     }
 }
 
-impl<'a> VisitMut for FunctionEnvironmentUnwraper<'a> {
+impl<'a> VisitMut for FnEnvHoister<'a> {
     noop_visit_mut_type!();
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
@@ -641,12 +641,14 @@ impl FunctionWrapper {
 }
 
 impl Into<Expr> for FunctionWrapper {
-    // Can't figure out why not use named templates when got binding_name.
-    // But this is Babel's behavior. Let's follow it.
     fn into(mut self) -> Expr {
+        // A function may be called internally recursively if it has a name
         if let Some(name_ident) = self.function_ident.as_ref().cloned() {
             self.build_named_expression_wrapper(name_ident)
-        } else if self.params.len() > 0 || self.binding_ident.is_some() {
+        }
+        // An internal recursive call has to refer to the external binding_name,
+        // It is safe to using expression wrapper.
+        else if self.params.len() > 0 || self.binding_ident.is_some() {
             self.build_anonymous_expression_wrapper()
         } else {
             // Optimization: no name, no params
