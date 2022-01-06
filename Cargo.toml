@@ -35,3 +35,6 @@ opt-level = 3
 
 [profile.test.package.pretty_assertions]
 opt-level = 3
+
+[patch.crates-io]
+cranelift-codegen = {git = "https://github.com/kdy1/wasmtime", ref = "d59e6148e6b1d01430c217569c7bddb5838f11ed"}
