@@ -131,7 +131,7 @@ pub struct ExportDefaultSpecifier {
 pub struct ExportNamespaceSpecifier {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub exported: Identifier,
+    pub exported: ModuleExportNameType,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
