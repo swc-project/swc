@@ -77,7 +77,9 @@ impl Visit for DuplicateBindings {
     }
 
     fn visit_fn_decl(&mut self, d: &FnDecl) {
-        self.add(&d.ident, false);
+        if d.function.body.is_some() {
+            self.add(&d.ident, false);
+        }
 
         d.visit_children_with(self);
     }
