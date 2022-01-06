@@ -58,10 +58,7 @@ where
 
                 let value = match &*assign.right {
                     Expr::Lit(Lit::Str(s)) if s.value.len() > 3 => return,
-                    Expr::Lit(..)
-                    | Expr::Member(MemberExpr {
-                        computed: false, ..
-                    }) => assign.right.clone(),
+                    Expr::Lit(..) => assign.right.clone(),
                     _ => return,
                 };
 

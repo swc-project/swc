@@ -41,5 +41,5 @@ export const b = g`
 `;
 export let c = obj.prop`${(input)=>_objectSpread({}, input)
 }`;
-c.returnedObjProp.x, c.returnedObjProp.y, c.returnedObjProp.z, (c = obj.prop`${(input)=>_objectSpread({}, input)
-}`).returnedObjProp.x, c.returnedObjProp.y, c.returnedObjProp.z;
+c.returnedObjProp.x, c.returnedObjProp.y, c.returnedObjProp.z, c = obj.prop`${(input)=>_objectSpread({}, input)
+}`, c.returnedObjProp.x, c.returnedObjProp.y, c.returnedObjProp.z;

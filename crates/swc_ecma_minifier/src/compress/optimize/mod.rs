@@ -51,7 +51,7 @@ mod util;
 pub(super) fn optimizer<'a, M>(
     marks: Marks,
     options: &'a CompressOptions,
-    data: &'a ProgramData,
+    data: &'a mut ProgramData,
     mode: &'a M,
     debug_infinite_loop: bool,
 ) -> impl 'a + VisitMut + Repeated
@@ -209,7 +209,7 @@ struct Optimizer<'a, M> {
     ///
     /// This is calculated multiple time, but only once per one
     /// `visit_mut_module`.
-    data: Option<&'a ProgramData>,
+    data: Option<&'a mut ProgramData>,
     ctx: Ctx,
     /// In future: This will be used to `mark` node as done.
     done: Mark,
