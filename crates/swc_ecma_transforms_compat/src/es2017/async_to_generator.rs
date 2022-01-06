@@ -205,13 +205,35 @@ impl VisitMut for Actual {
             ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export_default)) => {
                 if let DefaultDecl::Fn(expr) = &mut export_default.decl {
                     if expr.function.is_async {
-                        self.visit_fn(expr.ident.clone(), None, &mut expr.function, true);
-                        *item = ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(
+                        let export_ident = expr.ident.clone();
+                        let binding_ident = expr
+                            .ident
+                            .clone()
+                            .or_else(|| Some(private_ident!("_default")));
+
+                        let mut wrapper = FunctionWrapper::from(expr.take());
+
+                        let fn_expr = wrapper.function.fn_expr().unwrap();
+
+                        wrapper.function = make_fn_ref(fn_expr, None, true);
+                        wrapper.binding_ident = binding_ident;
+
+                        let (mut export_decl, ref_decl) = wrapper.into();
+
+                        let export_expr = FnExpr {
+                            ident: export_ident,
+                            function: export_decl.function.take(),
+                        };
+
+                        self.extra_stmts.push(Decl::Fn(ref_decl).into());
+
+                        *item = ModuleItem::ModuleDecl(
                             ExportDefaultDecl {
-                                decl: DefaultDecl::Fn(expr.take()),
-                                ..*export_default
-                            },
-                        ));
+                                span: export_default.span,
+                                decl: export_expr.into(),
+                            }
+                            .into(),
+                        );
                     };
                 } else {
                     export_default.visit_mut_children_with(self);
@@ -791,167 +813,6 @@ impl Actual {
             args: args.take(),
             type_args,
         })
-    }
-
-    fn visit_fn(
-        &mut self,
-        function_ident: Option<Ident>,
-        binding_ident: Option<Ident>,
-        f: &mut Function,
-        is_decl: bool,
-    ) {
-        if f.body.is_none() {
-            return;
-        }
-        let params = {
-            let mut done = false;
-            f.params
-                .iter()
-                .filter_map(|p| {
-                    if done {
-                        None
-                    } else {
-                        match p.pat {
-                            Pat::Ident(..) => Some(p.clone()),
-                            Pat::Array(..) | Pat::Object(..) => Some(Param {
-                                pat: Pat::Ident(private_ident!("_").into()),
-                                ..p.clone()
-                            }),
-                            _ => {
-                                done = true;
-                                None
-                            }
-                        }
-                    }
-                })
-                .collect::<Vec<_>>()
-        };
-        let ident = function_ident
-            .clone()
-            .unwrap_or_else(|| quote_ident!("ref"));
-
-        let real_fn_ident = private_ident!(ident.span, format!("_{}", ident.sym));
-        let right = make_fn_ref(
-            FnExpr {
-                ident: None,
-                function: f.take(),
-            },
-            None,
-            true,
-        );
-
-        if is_decl {
-            let real_fn = FnDecl {
-                ident: real_fn_ident.clone(),
-                declare: false,
-                function: Function {
-                    span: DUMMY_SP,
-                    body: Some(BlockStmt {
-                        span: DUMMY_SP,
-                        stmts: vec![
-                            AssignExpr {
-                                span: DUMMY_SP,
-                                left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                                    real_fn_ident.clone().into(),
-                                ))),
-                                op: op!("="),
-                                right: Box::new(right),
-                            }
-                            .into_stmt(),
-                            Stmt::Return(ReturnStmt {
-                                span: DUMMY_SP,
-                                arg: Some(Box::new(real_fn_ident.clone().apply(
-                                    DUMMY_SP,
-                                    Box::new(ThisExpr { span: DUMMY_SP }.into()),
-                                    vec![quote_ident!("arguments").as_arg()],
-                                ))),
-                            }),
-                        ],
-                    }),
-                    params: vec![],
-                    is_async: false,
-                    is_generator: false,
-                    decorators: Default::default(),
-                    type_params: Default::default(),
-                    return_type: Default::default(),
-                },
-            };
-            self.extra_stmts.push(Stmt::Decl(Decl::Fn(real_fn)));
-        } else {
-            self.extra_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                decls: vec![VarDeclarator {
-                    span: DUMMY_SP,
-                    name: Pat::Ident(real_fn_ident.clone().into()),
-                    init: Some(Box::new(right)),
-                    definite: false,
-                }],
-                declare: false,
-            })));
-        }
-
-        let apply = Stmt::Return(ReturnStmt {
-            span: DUMMY_SP,
-            arg: Some(Box::new(real_fn_ident.apply(
-                DUMMY_SP,
-                Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
-                vec![quote_ident!("arguments").as_arg()],
-            ))),
-        });
-
-        *f = Function {
-            span: (*f).span,
-            body: Some(BlockStmt {
-                span: DUMMY_SP,
-                stmts: if is_decl {
-                    vec![apply]
-                } else {
-                    // function foo() {
-                    //      return _foo.apply(this, arguments);
-                    // }
-                    let f = Function {
-                        span: DUMMY_SP,
-                        is_async: false,
-                        is_generator: false,
-                        params: params.clone(),
-                        body: Some(BlockStmt {
-                            span: DUMMY_SP,
-                            stmts: vec![apply],
-                        }),
-                        decorators: Default::default(),
-                        type_params: Default::default(),
-                        return_type: Default::default(),
-                    };
-
-                    if function_ident.is_some() {
-                        vec![
-                            Stmt::Decl(Decl::Fn(FnDecl {
-                                ident: function_ident.clone().unwrap(),
-                                declare: false,
-                                function: f,
-                            })),
-                            Stmt::Return(ReturnStmt {
-                                span: DUMMY_SP,
-                                arg: Some(Box::new(Expr::Ident(function_ident.clone().unwrap()))),
-                            }),
-                        ]
-                    } else {
-                        let ident = function_ident.or(binding_ident);
-                        vec![Stmt::Return(ReturnStmt {
-                            span: DUMMY_SP,
-                            arg: Some(Box::new(Expr::Fn(FnExpr { ident, function: f }))),
-                        })]
-                    }
-                },
-            }),
-            params,
-            is_generator: false,
-            is_async: false,
-            decorators: Default::default(),
-            return_type: Default::default(),
-            type_params: Default::default(),
-        };
     }
 }
 

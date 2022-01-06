@@ -395,7 +395,6 @@ impl TryFrom<VarDeclarator> for FunctionWrapper {
     }
 }
 
-// TODO: handle class/object method
 impl FunctionWrapper {
     fn get_params<'a, T, P>(params_iter: T) -> Vec<Param>
     where
@@ -645,7 +644,7 @@ impl Into<Expr> for FunctionWrapper {
     // Can't figure out why not use named templates when got binding_name.
     // But this is Babel's behavior. Let's follow it.
     fn into(mut self) -> Expr {
-        if let Some(name_ident) = self.function_ident.as_ref().map(Clone::clone) {
+        if let Some(name_ident) = self.function_ident.as_ref().cloned() {
             self.build_named_expression_wrapper(name_ident)
         } else if self.params.len() > 0 || self.binding_ident.is_some() {
             self.build_anonymous_expression_wrapper()
