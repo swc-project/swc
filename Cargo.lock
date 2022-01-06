@@ -462,7 +462,7 @@ name = "cranelift-bforest"
 version = "0.76.0"
 source = "git+https://github.com/kdy1/wasmtime?branch=tls#d59e6148e6b1d01430c217569c7bddb5838f11ed"
 dependencies = [
- "cranelift-entity 0.76.0 (git+https://github.com/kdy1/wasmtime?branch=tls)",
+ "cranelift-entity",
 ]
 
 [[package]]
@@ -473,7 +473,7 @@ dependencies = [
  "cranelift-bforest",
  "cranelift-codegen-meta",
  "cranelift-codegen-shared",
- "cranelift-entity 0.76.0 (git+https://github.com/kdy1/wasmtime?branch=tls)",
+ "cranelift-entity",
  "gimli 0.25.0",
  "log",
  "regalloc",
@@ -487,19 +487,13 @@ version = "0.76.0"
 source = "git+https://github.com/kdy1/wasmtime?branch=tls#d59e6148e6b1d01430c217569c7bddb5838f11ed"
 dependencies = [
  "cranelift-codegen-shared",
- "cranelift-entity 0.76.0 (git+https://github.com/kdy1/wasmtime?branch=tls)",
+ "cranelift-entity",
 ]
 
 [[package]]
 name = "cranelift-codegen-shared"
 version = "0.76.0"
 source = "git+https://github.com/kdy1/wasmtime?branch=tls#d59e6148e6b1d01430c217569c7bddb5838f11ed"
-
-[[package]]
-name = "cranelift-entity"
-version = "0.76.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3329733e4d4b8e91c809efcaa4faee80bf66f20164e3dd16d707346bd3494799"
 
 [[package]]
 name = "cranelift-entity"
@@ -4184,7 +4178,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "09691e3e323b4e1128d2127f60f9cd988b66ce49afc8184b071c2b5ab16793f2"
 dependencies = [
  "cranelift-codegen",
- "cranelift-entity 0.76.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "cranelift-entity",
  "cranelift-frontend",
  "gimli 0.25.0",
  "loupe",
