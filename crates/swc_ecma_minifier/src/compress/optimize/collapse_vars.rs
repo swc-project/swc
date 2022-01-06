@@ -58,10 +58,7 @@ where
 
                 let value = match &*assign.right {
                     Expr::Lit(Lit::Str(s)) if s.value.len() > 3 => return,
-                    Expr::Lit(..)
-                    | Expr::Member(MemberExpr {
-                        computed: false, ..
-                    }) => assign.right.clone(),
+                    Expr::Lit(..) => assign.right.clone(),
                     _ => return,
                 };
 
@@ -70,16 +67,6 @@ where
                     left.id.sym,
                     left.id.span.ctxt
                 );
-
-                // Preventing inlining into rhs for the current pass.
-                if let Some(data) = &mut self.data {
-                    let ids = idents_used_by_ignoring_nested(&assign.right);
-                    for id in ids {
-                        if let Some(usage) = data.vars.get_mut(&id) {
-                            usage.inline_prevented = true;
-                        }
-                    }
-                }
 
                 self.lits.insert(left.to_id(), value);
             }
