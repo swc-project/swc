@@ -460,8 +460,7 @@ dependencies = [
 [[package]]
 name = "cranelift-bforest"
 version = "0.76.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7e6bea67967505247f54fa2c85cf4f6e0e31c4e5692c9b70e4ae58e339067333"
+source = "git+https://github.com/kdy1/wasmtime?branch=tls#d59e6148e6b1d01430c217569c7bddb5838f11ed"
 dependencies = [
  "cranelift-entity",
 ]
@@ -469,8 +468,7 @@ dependencies = [
 [[package]]
 name = "cranelift-codegen"
 version = "0.76.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "48194035d2752bdd5bdae429e3ab88676e95f52a2b1355a5d4e809f9e39b1d74"
+source = "git+https://github.com/kdy1/wasmtime?branch=tls#d59e6148e6b1d01430c217569c7bddb5838f11ed"
 dependencies = [
  "cranelift-bforest",
  "cranelift-codegen-meta",
@@ -486,8 +484,7 @@ dependencies = [
 [[package]]
 name = "cranelift-codegen-meta"
 version = "0.76.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "976efb22fcab4f2cd6bd4e9913764616a54d895c1a23530128d04e03633c555f"
+source = "git+https://github.com/kdy1/wasmtime?branch=tls#d59e6148e6b1d01430c217569c7bddb5838f11ed"
 dependencies = [
  "cranelift-codegen-shared",
  "cranelift-entity",
@@ -496,14 +493,12 @@ dependencies = [
 [[package]]
 name = "cranelift-codegen-shared"
 version = "0.76.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9dabb5fe66e04d4652e434195b45ae65b5c8172d520247b8f66d8df42b2b45dc"
+source = "git+https://github.com/kdy1/wasmtime?branch=tls#d59e6148e6b1d01430c217569c7bddb5838f11ed"
 
 [[package]]
 name = "cranelift-entity"
 version = "0.76.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3329733e4d4b8e91c809efcaa4faee80bf66f20164e3dd16d707346bd3494799"
+source = "git+https://github.com/kdy1/wasmtime?branch=tls#d59e6148e6b1d01430c217569c7bddb5838f11ed"
 
 [[package]]
 name = "cranelift-frontend"
@@ -2667,7 +2662,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.106.1"
+version = "0.106.2"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2990,7 +2985,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.4.0"
+version = "0.4.1"
 dependencies = [
  "auto_impl",
  "parking_lot",
@@ -2998,8 +2993,12 @@ dependencies = [
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
+ "swc_ecma_codegen",
+ "swc_ecma_parser",
+ "swc_ecma_transforms_base",
  "swc_ecma_utils",
  "swc_ecma_visit",
+ "testing",
 ]
 
 [[package]]
@@ -3107,7 +3106,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.106.0"
+version = "0.106.1"
 dependencies = [
  "pretty_assertions 0.7.2",
  "sourcemap",
@@ -3133,7 +3132,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.52.0"
+version = "0.52.1"
 dependencies = [
  "once_cell",
  "phf",
@@ -3362,7 +3361,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.48.0"
+version = "0.48.1"
 dependencies = [
  "num-bigint",
  "swc_atoms",
@@ -3374,7 +3373,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.103.1"
+version = "0.103.2"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -4031,7 +4030,7 @@ checksum = "fd6fbd9a79829dd1ad0cc20627bf1ed606756a7f77edff7b66b7064f9cb327c6"
 
 [[package]]
 name = "wasm"
-version = "1.2.126"
+version = "1.2.127"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",

@@ -5,7 +5,13 @@
 
 
 
+- **(es/lints)** Fix incorrect duplicate binding error (#3194) ([913c82a](https://github.com/swc-project/swc/commit/913c82a2ab94e14eb350e1573af736aa87c7f2bb))
+
+
 - **(es/minifier)** Fix bugs (#2955) ([1c1c9f0](https://github.com/swc-project/swc/commit/1c1c9f0eaee4993d2a8e7c9714e3bab00123f14b))
+
+
+- **(es/visit)** Make `noop_visit_type` visit typescript nodes that executes at runtime (#3192) ([517662c](https://github.com/swc-project/swc/commit/517662c9c243aa56451025563a7b7e57fd24d9d0))
 
 ### Features
 

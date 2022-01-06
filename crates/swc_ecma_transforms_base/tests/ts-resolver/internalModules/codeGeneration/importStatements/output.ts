@@ -23,6 +23,6 @@ module D {
 module E {
     import a__7 = A
     export function xDist__7(x__8: a__7.Point) {
-        return (a__7.Origin.x - x__8.x);
+        return a__7.Origin.x - x__8.x;
     }
 }
