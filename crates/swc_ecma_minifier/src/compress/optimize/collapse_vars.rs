@@ -1,5 +1,5 @@
 use super::Optimizer;
-use crate::mode::Mode;
+use crate::{mode::Mode, util::idents_used_by_ignoring_nested};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
 
@@ -70,6 +70,16 @@ where
                     left.id.sym,
                     left.id.span.ctxt
                 );
+
+                // Preventing inlining into rhs for the current pass.
+                if let Some(data) = &mut self.data {
+                    let ids = idents_used_by_ignoring_nested(&assign.right);
+                    for id in ids {
+                        if let Some(usage) = data.vars.get_mut(&id) {
+                            usage.inline_prevented = true;
+                        }
+                    }
+                }
 
                 self.lits.insert(left.to_id(), value);
             }
