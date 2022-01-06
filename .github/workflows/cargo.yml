@@ -156,7 +156,6 @@ jobs:
           - swc_node_bundler
           - swc_node_comments
           - swc_plugin
-          - swc_plugin_js_api
           - swc_plugin_runner
           - swc_plugin_testing
           - swc_stylis
