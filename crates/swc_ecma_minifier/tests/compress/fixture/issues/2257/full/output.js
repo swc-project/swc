@@ -12962,7 +12962,7 @@
                 return "object" == typeof f && null !== f ? f = vg(f) : (e = Ff(b) ? Df : M.current, d = b.contextTypes, f = (d = null != d) ? Ef(a, e) : Cf), b = new b(c, f), a.memoizedState = null !== b.state && void 0 !== b.state ? b.state : null, b.updater = Kg, a.stateNode = b, b._reactInternals = a, d && ((a = a.stateNode).__reactInternalMemoizedUnmaskedChildContext = e, a.__reactInternalMemoizedMaskedChildContext = f), b;
             }
             function Ng(a, b, c, d) {
-                b.state, "function" == typeof b.componentWillReceiveProps && b.componentWillReceiveProps(c, d), "function" == typeof b.UNSAFE_componentWillReceiveProps && b.UNSAFE_componentWillReceiveProps(c, d), b.state != b.state && Kg.enqueueReplaceState(b, b.state, null);
+                a = b.state, "function" == typeof b.componentWillReceiveProps && b.componentWillReceiveProps(c, d), "function" == typeof b.UNSAFE_componentWillReceiveProps && b.UNSAFE_componentWillReceiveProps(c, d), b.state !== a && Kg.enqueueReplaceState(b, b.state, null);
             }
             function Og(a, b, c, d) {
                 var e = a.stateNode;

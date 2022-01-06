@@ -5,7 +5,7 @@
     ], factory) : factory((global = global || self).ReactDOM = {}, global.React);
 }(this, function(exports, React) {
     "use strict";
-    var devToolsConfig, prevLog, prevInfo, prevWarn, prevError, prevGroup, prevGroupCollapsed, prevGroupEnd, prefix1, componentFrameCache, didWarnValueDefaultValue$1, reusableSVGContainer, attemptUserBlockingHydration, attemptContinuousHydration, attemptHydrationAtCurrentPriority, attemptHydrationAtPriority, lastMovementX, lastMovementY, lastMouseEvent, warnedUnknownTags, suppressHydrationWarning, validatePropertiesInDevelopment, warnForTextDifference, warnForPropDifference, warnForExtraAttributes, warnForInvalidEventListener, canDiffStyleForHydrationWarning, normalizeMarkupForTextOrAttribute, normalizeHTML, SUPPRESS_HYDRATION_WARNING$1, fiberStack, warnedAboutMissingGetChildContext, rendererSigil, didWarnUpdateInsideUpdate, currentlyProcessingQueue, didWarnAboutStateAssignmentForComponent, didWarnAboutUninitializedState, didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate, didWarnAboutLegacyLifecyclesAndDerivedState, didWarnAboutUndefinedDerivedState, warnOnUndefinedDerivedState, warnOnInvalidCallback, didWarnAboutDirectlyAssigningPropsToState, didWarnAboutContextTypeAndContextTypes, didWarnAboutInvalidateContextType, didWarnAboutMaps, didWarnAboutGenerators, didWarnAboutStringRefs, ownerHasKeyUseWarning, ownerHasFunctionTypeWarning, rendererSigil$1, didWarnAboutMismatchedHooksForComponent, didWarnAboutUseOpaqueIdentifier, didWarnAboutBadClass, didWarnAboutModulePatternComponent, didWarnAboutContextTypeOnFunctionComponent, didWarnAboutGetDerivedStateOnFunctionComponent, didWarnAboutFunctionRefs, didWarnAboutReassigningProps, didWarnAboutRevealOrder, didWarnAboutTailOptions, appendAllChildren, updateHostContainer, updateHostComponent$1, updateHostText$1, beginWork$1, didWarnAboutUpdateInRenderForAnotherComponent, hasBadMapPolyfill, didWarnAboutNestedUpdates, didWarnAboutFindNodeInStrictMode, topLevelUpdateWarnings, ReactSharedInternals = React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+    var devToolsConfig, findFiberByHostInstance, ReactCurrentDispatcher, prevLog, prevInfo, prevWarn, prevError, prevGroup, prevGroupCollapsed, prevGroupEnd, prefix1, componentFrameCache, didWarnValueDefaultValue$1, reusableSVGContainer, attemptUserBlockingHydration, attemptContinuousHydration, attemptHydrationAtCurrentPriority, attemptHydrationAtPriority, lastMovementX, lastMovementY, lastMouseEvent, warnedUnknownTags, suppressHydrationWarning, validatePropertiesInDevelopment, warnForTextDifference, warnForPropDifference, warnForExtraAttributes, warnForInvalidEventListener, canDiffStyleForHydrationWarning, normalizeMarkupForTextOrAttribute, normalizeHTML, SUPPRESS_HYDRATION_WARNING$1, fiberStack, warnedAboutMissingGetChildContext, rendererSigil, didWarnUpdateInsideUpdate, currentlyProcessingQueue, didWarnAboutStateAssignmentForComponent, didWarnAboutUninitializedState, didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate, didWarnAboutLegacyLifecyclesAndDerivedState, didWarnAboutUndefinedDerivedState, warnOnUndefinedDerivedState, warnOnInvalidCallback, didWarnAboutDirectlyAssigningPropsToState, didWarnAboutContextTypeAndContextTypes, didWarnAboutInvalidateContextType, didWarnAboutMaps, didWarnAboutGenerators, didWarnAboutStringRefs, ownerHasKeyUseWarning, ownerHasFunctionTypeWarning, rendererSigil$1, didWarnAboutMismatchedHooksForComponent, didWarnAboutUseOpaqueIdentifier, didWarnAboutBadClass, didWarnAboutModulePatternComponent, didWarnAboutContextTypeOnFunctionComponent, didWarnAboutGetDerivedStateOnFunctionComponent, didWarnAboutFunctionRefs, didWarnAboutReassigningProps, didWarnAboutRevealOrder, didWarnAboutTailOptions, appendAllChildren, updateHostContainer, updateHostComponent$1, updateHostText$1, beginWork$1, didWarnAboutUpdateInRenderForAnotherComponent, hasBadMapPolyfill, didWarnAboutNestedUpdates, didWarnAboutFindNodeInStrictMode, topLevelUpdateWarnings, ReactSharedInternals = React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
     function warn(format) {
         for(var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)args[_key - 1] = arguments[_key];
         printWarning("warn", format, args);
@@ -406,7 +406,7 @@
         disabledDepth < 0 && error1("disabledDepth fell below zero. This is a bug in React. Please file an issue.");
     }
     disabledLog.__reactDisabledLog = !0;
-    var ReactCurrentDispatcher = ReactSharedInternals.ReactCurrentDispatcher;
+    var ReactCurrentDispatcher1 = ReactSharedInternals.ReactCurrentDispatcher;
     function describeBuiltInComponentFrame(name, source, ownerFn) {
         if (void 0 === prefix1) try {
             throw Error();
@@ -423,7 +423,7 @@
         if (void 0 !== frame) return frame;
         reentry = !0;
         var previousPrepareStackTrace = Error.prepareStackTrace;
-        Error.prepareStackTrace = void 0, previousDispatcher = ReactCurrentDispatcher.current, ReactCurrentDispatcher.current = null, disableLogs();
+        Error.prepareStackTrace = void 0, previousDispatcher = ReactCurrentDispatcher1.current, ReactCurrentDispatcher1.current = null, disableLogs();
         try {
             if (construct) {
                 var Fake = function() {
@@ -469,7 +469,7 @@
                 }
             }
         } finally{
-            reentry = !1, ReactCurrentDispatcher.current = previousDispatcher, reenableLogs(), Error.prepareStackTrace = previousPrepareStackTrace;
+            reentry = !1, ReactCurrentDispatcher1.current = previousDispatcher, reenableLogs(), Error.prepareStackTrace = previousPrepareStackTrace;
         }
         var name = fn ? fn.displayName || fn.name : "", syntheticFrame = name ? describeBuiltInComponentFrame(name) : "";
         return "function" == typeof fn && componentFrameCache.set(fn, syntheticFrame), syntheticFrame;
@@ -736,9 +736,9 @@
         }), null == props.selected || didWarnSelectedSetOnOption || (error1("Use the `defaultValue` or `value` props on <select> instead of setting `selected` on <option>."), didWarnSelectedSetOnOption = !0);
     }
     function getHostProps$1(element, props) {
-        var content, hostProps = _assign({
+        var children, content, hostProps = _assign({
             children: void 0
-        }, props), content1 = (props.children, content = "", React.Children.forEach(props.children, function(child) {
+        }, props), content1 = (children = props.children, content = "", React.Children.forEach(children, function(child) {
             null != child && (content += child);
         }), content);
         return content1 && (hostProps.children = content1), hostProps;
@@ -7122,7 +7122,7 @@
                         return updatePayload;
                     })(instance, type9, props7, hostContext2.namespace), fiber.updateQueue = updatePayload1, null !== updatePayload1 && markUpdate(workInProgress);
                     else {
-                        var type8, props9, rootContainerInstance1, hostContext, internalInstanceHandle, hostContextDev, domElement1, fiber, hostContext1, instance, type9, props7, hostContext2, internalInstanceHandle1, updatePayload1, type10, props8, instance7 = (type8 = type11, props9 = newProps, rootContainerInstance1 = rootContainerInstance, hostContext = currentHostContext, internalInstanceHandle = workInProgress, validateDOMNesting(type8, null, (hostContextDev = hostContext).ancestorInfo), ("string" == typeof props9.children || "number" == typeof props9.children) && validateDOMNesting(null, "" + props9.children, updatedAncestorInfo(hostContextDev.ancestorInfo, type8)), hostContextDev.namespace, precacheFiberNode(internalInstanceHandle, domElement1 = function(type, props, rootContainerElement, parentNamespace) {
+                        var type8, props9, rootContainerInstance1, hostContext, internalInstanceHandle, hostContextDev, domElement1, fiber, hostContext1, instance, type9, props7, hostContext2, internalInstanceHandle1, updatePayload1, type10, props8, instance7 = (type8 = type11, props9 = newProps, rootContainerInstance1 = rootContainerInstance, hostContext = currentHostContext, internalInstanceHandle = workInProgress, validateDOMNesting(type8, null, (hostContextDev = hostContext).ancestorInfo), ("string" == typeof props9.children || "number" == typeof props9.children) && validateDOMNesting(null, "" + props9.children, updatedAncestorInfo(hostContextDev.ancestorInfo, type8)), precacheFiberNode(internalInstanceHandle, domElement1 = function(type, props, rootContainerElement, parentNamespace) {
                             var isCustomComponentTag, domElement, ownerDocument = getOwnerDocumentFromRootContainer(rootContainerElement), namespaceURI = parentNamespace;
                             if (namespaceURI === HTML_NAMESPACE$1 && (namespaceURI = getIntrinsicNamespace(type)), namespaceURI === HTML_NAMESPACE$1) {
                                 if ((isCustomComponentTag = isCustomComponent(type, props)) || type === type.toLowerCase() || error1("<%s /> is using incorrect casing. Use PascalCase for React components, or lowercase for HTML elements.", type), "script" === type) {
@@ -9129,8 +9129,9 @@
         return fiber.elementType = type, fiber.type = resolvedType, fiber.lanes = lanes, fiber._debugOwner = owner, fiber;
     }
     function createFiberFromElement(element, mode, lanes) {
-        element._owner;
-        var type = element.type, key = element.key, pendingProps = element.props, fiber = createFiberFromTypeAndProps(type, key, pendingProps, element._owner, mode, lanes);
+        var owner = null;
+        owner = element._owner;
+        var type = element.type, key = element.key, pendingProps = element.props, fiber = createFiberFromTypeAndProps(type, key, pendingProps, owner, mode, lanes);
         return fiber._debugSource = element._source, fiber._debugOwner = element._owner, fiber;
     }
     function createFiberFromFragment(elements, mode, lanes, key) {
@@ -9323,8 +9324,8 @@
     function createRootImpl(container, tag, options) {
         var hydrate = null != options && !0 === options.hydrate;
         null != options && options.hydrationOptions;
-        var containerInfo, tag2, hydrate1, containerInfo1, tag3, hydrate2, root, tag4, mode, uninitializedFiber, mutableSources = null != options && null != options.hydrationOptions && options.hydrationOptions.mutableSources || null, root7 = (containerInfo = container, tag2 = tag, hydrate1 = hydrate, containerInfo1 = containerInfo, tag3 = tag2, hydrate2 = hydrate1, root = new FiberRootNode(containerInfo1, tag3, hydrate2), mode = 2 === (tag4 = tag3) ? 7 : 1 === tag4 ? 3 : 0, isDevToolsPresent && (mode |= 8), uninitializedFiber = createFiber(3, null, null, mode), root.current = uninitializedFiber, uninitializedFiber.stateNode = root, initializeUpdateQueue(uninitializedFiber), root);
-        if (root7.current, container[internalContainerInstanceKey] = root7.current, container.nodeType, listenToAllSupportedEvents(8 === container.nodeType ? container.parentNode : container), mutableSources) for(var i = 0; i < mutableSources.length; i++)registerMutableSourceForHydration(root7, mutableSources[i]);
+        var containerInfo, tag2, hydrate1, containerInfo1, tag3, hydrate2, root, tag4, mode, uninitializedFiber, hostRoot, mutableSources = null != options && null != options.hydrationOptions && options.hydrationOptions.mutableSources || null, root7 = (containerInfo = container, tag2 = tag, hydrate1 = hydrate, containerInfo1 = containerInfo, tag3 = tag2, hydrate2 = hydrate1, root = new FiberRootNode(containerInfo1, tag3, hydrate2), mode = 2 === (tag4 = tag3) ? 7 : 1 === tag4 ? 3 : 0, isDevToolsPresent && (mode |= 8), uninitializedFiber = createFiber(3, null, null, mode), root.current = uninitializedFiber, uninitializedFiber.stateNode = root, initializeUpdateQueue(uninitializedFiber), root);
+        if (hostRoot = root7.current, container[internalContainerInstanceKey] = hostRoot, container.nodeType, listenToAllSupportedEvents(8 === container.nodeType ? container.parentNode : container), mutableSources) for(var i = 0; i < mutableSources.length; i++)registerMutableSourceForHydration(root7, mutableSources[i]);
         return root7;
     }
     function isValidContainer(node) {
@@ -9516,12 +9517,12 @@
         } finally{
             0 === (executionContext = prevExecutionContext) && (resetRenderTimer(), flushSyncCallbackQueue());
         }
-    }), (devToolsConfig = {
+    }), findFiberByHostInstance = (devToolsConfig = {
         findFiberByHostInstance: getClosestInstanceFromNode,
         bundleType: 1,
         version: ReactVersion,
         rendererPackageName: "react-dom"
-    }).findFiberByHostInstance, ReactSharedInternals.ReactCurrentDispatcher, !function(internals) {
+    }).findFiberByHostInstance, ReactCurrentDispatcher = ReactSharedInternals.ReactCurrentDispatcher, !function(internals) {
         if ("undefined" == typeof __REACT_DEVTOOLS_GLOBAL_HOOK__) return !1;
         var hook = __REACT_DEVTOOLS_GLOBAL_HOOK__;
         if (hook.isDisabled) return !0;
@@ -9545,12 +9546,12 @@
         overridePropsRenamePath: overridePropsRenamePath,
         setSuspenseHandler: setSuspenseHandler,
         scheduleUpdate: scheduleUpdate,
-        currentDispatcherRef: ReactSharedInternals.ReactCurrentDispatcher,
+        currentDispatcherRef: ReactCurrentDispatcher,
         findHostInstanceByFiber: function(fiber) {
             var hostFiber = findCurrentHostFiber(fiber);
             return null === hostFiber ? null : hostFiber.stateNode;
         },
-        findFiberByHostInstance: devToolsConfig.findFiberByHostInstance || function(instance) {
+        findFiberByHostInstance: findFiberByHostInstance || function(instance) {
             return null;
         },
         findHostInstancesForRefresh: function(root, families) {
