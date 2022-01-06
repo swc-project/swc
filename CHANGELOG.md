@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(es/ast)** Use `ModuleExportName` for `ExportNamespaceSpecifier` (#3195) ([432f877](https://github.com/swc-project/swc/commit/432f87779003e50f17bcaedc35edb8583644c548))
+
+## [1.2.127] - 2022-01-06
+
 ### Bug Fixes
 
 
@@ -31,6 +39,39 @@
 
 - **(ci)** Split cargo docs (#3187) ([46949d3](https://github.com/swc-project/swc/commit/46949d39ebdcb14347156eb00490e53d37d06707))
 
+
+- **(ci)** Fix publish scripts ([3458e9f](https://github.com/swc-project/swc/commit/3458e9f1d3eac7c47ba00a5768d3f8f41c8037ef))
+
+
+- **(ci)** Fix publish scripts again ([b292126](https://github.com/swc-project/swc/commit/b292126b387c4efff0576517c7d706b16c08bca3))
+
+
+- **(ci)** Fix `--cargo-flags` ([a20f5d9](https://github.com/swc-project/swc/commit/a20f5d9a7cd007d3c5fb671710d1344cd1577119))
+
+
+- **(ci)** Use `--cargo-flags` in correct place ([ef4ea2f](https://github.com/swc-project/swc/commit/ef4ea2fc7b10ec50d317118680f58c70cf64c89b))
+
+
+- **(ci)** Use `RUSTFLAGS` for linux ([4cbe8d1](https://github.com/swc-project/swc/commit/4cbe8d18bb10dfa8a333931767ebf958dab3bbae))
+
+
+- **(ci)** Use more `RUSTFLAGS` ([bf0acd1](https://github.com/swc-project/swc/commit/bf0acd13da50a500414edbaf686a0632736f66fd))
+
+
+- **(ci)** Fix musl ([fef8449](https://github.com/swc-project/swc/commit/fef844954b6aecd610c87ccb5ec30a2b08bd328a))
+
+
+- **(ci)** Fix `aarch64-pc-windows-msvc` ([1ebbe62](https://github.com/swc-project/swc/commit/1ebbe622909a974abd0ea96929adee1c33f8f256))
+
+
+- **(ci)** Change version of `rustc` ([d901b62](https://github.com/swc-project/swc/commit/d901b6222f8a77beed64968fcb4764bbacf8c755))
+
+
+- **(ci)** Fix publish script (#3197) ([c34f1a9](https://github.com/swc-project/swc/commit/c34f1a977fac44813ebda5beb77b6444469e36e4))
+
+
+- **(ci)** Remove redudant plugin test ([e19fe7d](https://github.com/swc-project/swc/commit/e19fe7d33b2a18c1b068c2f808f3ea72f1ccff15))
+
 ### Refactor
 
 
@@ -45,6 +86,12 @@
 
 
 - **(plugin/runner)** Avoid redundant filesystem reads (#3186) ([b61c49f](https://github.com/swc-project/swc/commit/b61c49fe39acf28e09888e7b2163c7be5cceff4b))
+
+
+- **(plugin/runner)** Replace wasm runtime (#3196) ([c3895ca](https://github.com/swc-project/swc/commit/c3895ca9aaf4c8b76f1eb1bf2c8655d8acb20b94))
+
+
+- **(plugin/runner)** Reuse wasmer ([28ff059](https://github.com/swc-project/swc/commit/28ff0592a4005e89561500f915929ffa25da9160))
 
 ## [1.2.126] - 2022-01-03
 

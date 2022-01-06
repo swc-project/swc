@@ -1,3 +1,4 @@
 function f() {
-    (0, f.g)();
+    var a;
+    a = f.g, a();
 }

@@ -31,7 +31,13 @@ impl VisitMut for ExportNamespaceFrom {
 
                     match export.specifiers.remove(0) {
                         ExportSpecifier::Namespace(ns) => {
-                            let local = ns.name.prefix("_").private();
+                            let name = match ns.name {
+                                ModuleExportName::Ident(name) => name,
+                                ModuleExportName::Str(..) => {
+                                    unimplemented!("module string names unimplemented")
+                                }
+                            };
+                            let local = name.prefix("_").private();
 
                             items_updated.push(ModuleItem::ModuleDecl(ModuleDecl::Import(
                                 ImportDecl {
@@ -57,7 +63,7 @@ impl VisitMut for ExportNamespaceFrom {
                                         ExportNamedSpecifier {
                                             span: DUMMY_SP,
                                             orig: ModuleExportName::Ident(local),
-                                            exported: Some(ModuleExportName::Ident(ns.name)),
+                                            exported: Some(ModuleExportName::Ident(name)),
                                             is_type_only: false,
                                         },
                                     )],

@@ -213,13 +213,20 @@ where
                 for s in &mut named.specifiers {
                     match s {
                         ExportSpecifier::Namespace(n) => {
-                            n.name.span.ctxt = self.export_ctxt;
+                            match &mut n.name {
+                                ModuleExportName::Ident(name) => {
+                                    name.span.ctxt = self.export_ctxt;
 
-                            need_wrapping = true;
-                            v.push(Specifier::Namespace {
-                                local: n.name.clone().into(),
-                                all: true,
-                            })
+                                    need_wrapping = true;
+                                    v.push(Specifier::Namespace {
+                                        local: name.clone().into(),
+                                        all: true,
+                                    })
+                                }
+                                ModuleExportName::Str(..) => {
+                                    unimplemented!("module string names unimplemented")
+                                }
+                            };
                         }
                         ExportSpecifier::Default(d) => {
                             v.push(Specifier::Specific {

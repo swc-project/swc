@@ -1331,6 +1331,10 @@ where
                             .as_ref()
                             .and_then(|data| data.vars.get(&left_id.to_id()))
                         {
+                            if usage.inline_prevented {
+                                return Ok(false);
+                            }
+
                             if usage.declared_as_fn_expr {
                                 tracing::trace!(
                                     "sequences: [X] Declared as fn expr ({}, {:?})",
@@ -1364,6 +1368,10 @@ where
                     if usage.reassigned || !usage.is_fn_local {
                         return Ok(false);
                     }
+                    if usage.inline_prevented {
+                        return Ok(false);
+                    }
+
                     match &mut a.init {
                         Some(v) => (left, v),
                         None => {
