@@ -1,5 +1,5 @@
 use super::Optimizer;
-use crate::{mode::Mode, util::idents_used_by_ignoring_nested};
+use crate::mode::Mode;
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
 
