@@ -88,19 +88,19 @@ let TestClass = {
 "#,
     r#"
 let TestClass = {
-     name: 'John Doe',
-     testMethodFailure () {
-        var _this = this;
-        return new Promise(function() {
+  name: 'John Doe',
+  testMethodFailure () {
+      var _this = this;
+      return new Promise(function() {
           var _ref = _asyncToGenerator(function*(resolve) {
-            console.log(_this);
-            setTimeout(resolve, 1000);
+              console.log(_this);
+              setTimeout(resolve, 1000);
           });
           return function(resolve) {
-            return _ref.apply(this, arguments);
+              return _ref.apply(this, arguments);
           };
-        }());
-      }
+      }());
+  }
 };
 "#
 );
@@ -164,14 +164,9 @@ _asyncToGenerator(function*() {
     return notIIFE;
 })();
 
-(function() {
-    var _ref = _asyncToGenerator(function*() {
-        yield 'not iife';
-    });
-    return function() {
-        return _ref.apply(this, arguments);
-    };
-})();
+_asyncToGenerator(function*() {
+    yield 'not iife';
+})
 "#
 );
 
@@ -339,15 +334,7 @@ test!(
     r#"
 foo(async function () {
 });"#,
-    r#"
-foo(function() {
-  var _ref = _asyncToGenerator(function*() {
-  });
-  return function() {
-    return _ref.apply(this, arguments);
-  };
-}());
-"#
+    r#"foo(_asyncToGenerator(function*() {}));"#
 );
 
 test!(
@@ -397,14 +384,9 @@ class Class {
                       (function() {
                           _this;
                       });
-                      (function() {
-                          var _ref = _asyncToGenerator(function*() {
-                              _this;
-                          });
-                          return function() {
-                              return _ref.apply(this, arguments);
-                          };
-                      })();
+                      _asyncToGenerator(function*() {
+                          _this;
+                    });
                   }
               });
               function x() {
@@ -413,14 +395,9 @@ class Class {
                   (function() {
                       _this;
                   });
-                  (function() {
-                      var _ref = _asyncToGenerator(function*() {
-                          _this;
-                      });
-                      return function() {
-                          return _ref.apply(this, arguments);
-                      };
-                  })();
+                  _asyncToGenerator(function*() {
+                      _this;
+                });
               }
           }).bind(this))();
       }
@@ -1392,10 +1369,15 @@ let TestClass = {
 let TestClass = {
     name: 'John Doe',
     testMethodFailure () {
-      return new Promise(_asyncToGenerator((function*(resolve) {
-        console.log(this);
-        setTimeout(resolve, 1000);
-      }).bind(this)).bind(this));
+        return new Promise(function() {
+            var _ref = _asyncToGenerator((function*(resolve) {
+                console.log(this);
+                setTimeout(resolve, 1000);
+            }).bind(this)).bind(this);
+            return function(resolve) {
+                return _ref.apply(this, arguments);
+            };
+        }());
     }
 };
 
@@ -2139,27 +2121,32 @@ test!(
     ",
     "
     const x = function() {
-      var _ref = _asyncToGenerator(function*() {
-          console.log((yield Promise.all([
-              [
-                  1
-              ],
-              [
-                  2
-              ],
-              [
-                  3
-              ]
-          ].map(_asyncToGenerator(function*([a]) {
-              return Promise.resolve().then(()=>a * 2
-              );
-          })))));
-      });
-      return function x() {
-          return _ref.apply(this, arguments);
-      };
+        var _ref1 = _asyncToGenerator(function*() {
+            console.log((yield Promise.all([
+                [
+                    1
+                ],
+                [
+                    2
+                ],
+                [
+                    3
+                ]
+            ].map(function() {
+                var _ref = _asyncToGenerator(function*([a]) {
+                    return Promise.resolve().then(()=>a * 2
+                    );
+                });
+                return function(_) {
+                    return _ref.apply(this, arguments);
+                };
+            }()))));
+        });
+        return function x() {
+            return _ref1.apply(this, arguments);
+        };
     }();
-    "
+"
 );
 
 test_exec!(
@@ -2276,21 +2263,26 @@ test!(
     ",
     "
     class A {
-      val = '1';
-      foo() {
-        var _this = this;
-        return _asyncToGenerator(function*() {
-            try {
-                return yield _asyncToGenerator(function*(x) {
-                    return x + _this.val;
-                })('a');
-            } catch (e) {
-                throw e;
-            }
-        })();
-      }
+        val = '1';
+        foo() {
+            var _this = this;
+            return _asyncToGenerator(function*() {
+                try {
+                    return yield (function() {
+                        var _ref = _asyncToGenerator(function*(x) {
+                            return x + _this.val;
+                        });
+                        return function(x) {
+                            return _ref.apply(this, arguments);
+                        };
+                    })()('a');
+                } catch (e) {
+                    throw e;
+                }
+            })();
+          }
     }
-    "
+"
 );
 
 test_exec!(
@@ -2330,18 +2322,23 @@ test!(
   }
   ",
     "
-  class A {
-    val = '1';
-    foo() {
-        var _this = this;
-        return _asyncToGenerator(function*() {
-            return yield _asyncToGenerator(function*(x) {
-                return x + _this.val;
-            })('a');
-        })();
+    class A {
+        val = '1';
+        foo() {
+            var _this = this;
+            return _asyncToGenerator(function*() {
+                return yield (function() {
+                    var _ref = _asyncToGenerator(function*(x) {
+                        return x + _this.val;
+                    });
+                    return function(x) {
+                        return _ref.apply(this, arguments);
+                    };
+                })()('a');
+            })();
+        }
     }
-  }
-  "
+"
 );
 
 test_exec!(
@@ -3318,6 +3315,77 @@ class Foo {
     }
 }
 "#
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    export_default_async_nested_1,
+    "
+export default async function foo(x) {
+    async function bar(y){
+        y(x);
+    }
+}
+",
+    "
+export default function foo(x) {
+  return _foo.apply(this, arguments);
+}
+function _foo() {
+  _foo = _asyncToGenerator(function*(x) {
+      function bar(y) {
+          return _bar.apply(this, arguments);
+      }
+      function _bar() {
+          _bar = _asyncToGenerator(function*(y) {
+              y(x);
+          });
+          return _bar.apply(this, arguments);
+      }
+  });
+  return _foo.apply(this, arguments);
+}
+"
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    export_default_async_nested_2,
+    "
+export default async function (x) {
+    async function bar(y) {
+        (async (z) => x(y)(z))();
+    }
+}
+",
+    "
+export default function(x) {
+    return _ref.apply(this, arguments);
+}
+function _ref() {
+    _ref = _asyncToGenerator(function*(x) {
+        function bar(y) {
+            return _bar.apply(this, arguments);
+        }
+        function _bar() {
+            _bar = _asyncToGenerator(function*(y) {
+                (function() {
+                    var _ref1 = _asyncToGenerator(function*(z) {
+                        return x(y)(z);
+                    });
+                    return function(z) {
+                        return _ref1.apply(this, arguments);
+                    };
+                })()();
+            });
+            return _bar.apply(this, arguments);
+        }
+    });
+    return _ref.apply(this, arguments);
+}
+"
 );
 
 #[testing::fixture("tests/fixture/async-to-generator/**/exec.js")]
