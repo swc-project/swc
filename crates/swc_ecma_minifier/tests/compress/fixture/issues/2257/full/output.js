@@ -17340,13 +17340,8 @@
         },
         87832: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
-            __webpack_require__.r(__webpack_exports__);
-            var prefix = "Invariant failed";
-            __webpack_exports__.default = function(condition, message) {
-                if (!condition) {
-                    throw new Error(prefix);
-                    throw new Error(prefix + ": " + (message || ""));
-                }
+            __webpack_require__.r(__webpack_exports__), __webpack_exports__.default = function(condition, message) {
+                if (!condition) throw new Error("Invariant failed");
             };
         },
         98009: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
