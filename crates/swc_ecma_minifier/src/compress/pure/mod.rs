@@ -95,6 +95,8 @@ where
     }
 
     fn optimize_fn_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        self.drop_unreachable_stmts(stmts);
+
         self.remove_useless_return(stmts);
 
         self.negate_if_terminate(stmts, true, false);
