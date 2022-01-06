@@ -1,5 +1,5 @@
 use rkyv::{AlignedVec, Deserialize};
-use swc_plugin::{swc_plugin, ModuleItem, Program, VisitMut};
+use swc_plugin::{ ModuleItem, Program, VisitMut};
 
 struct Dummy;
 

@@ -1,12 +1,9 @@
-/// **Don't use this**
-#[doc(hidden)]
-pub extern crate swc_common;
-
 // Reexports
 pub use swc_common::chain;
 pub use swc_ecma_ast::*;
 pub use swc_ecma_visit::*;
 
+#[cfg(target_arch = "wasm32")]
 pub mod memory {
     /// Allocate memory into the module's linear memory
     /// and return the offset to the start of the block.

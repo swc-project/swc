@@ -16,7 +16,4 @@ parking_lot_core = "=0.8.0"
 [dependencies]
 rkyv = "0.7.28"
 serde = "1"
-#swc_atoms = {path = "../../../crates/swc_atoms/"}
-#swc_common = {path = "../../../crates/swc_common/"}
-#swc_ecmascript = {path = "../../../crates/swc_ecmascript/", features = ["visit"]}
 swc_plugin = {path = "../../../crates/swc_plugin"}
