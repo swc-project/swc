@@ -276,12 +276,11 @@ impl<'a> VisitMut for InitThis<'a> {
 }
 
 pub struct FunctionWrapper {
-    binding_ident: Option<Ident>,
+    pub binding_ident: Option<Ident>,
     function_ident: Option<Ident>,
 
     params: Vec<Param>,
     pub function: Expr,
-    pub extra_fn_decl: Option<Decl>,
 }
 
 impl VisitMut for FunctionWrapper {}
@@ -294,7 +293,22 @@ impl From<FnExpr> for FunctionWrapper {
             function_ident,
             params: Self::get_params(fn_expr.function.params.iter()),
             function: fn_expr.into(),
-            extra_fn_decl: None,
+        }
+    }
+}
+
+impl From<FnDecl> for FunctionWrapper {
+    fn from(mut fn_decl: FnDecl) -> Self {
+        let function_ident = Some(fn_decl.ident.take());
+        Self {
+            binding_ident: None,
+            function_ident,
+            params: Self::get_params(fn_decl.function.params.iter()),
+            function: FnExpr {
+                ident: None,
+                function: fn_decl.function,
+            }
+            .into(),
         }
     }
 }
@@ -342,7 +356,6 @@ impl From<ArrowExpr> for FunctionWrapper {
             function_ident: None,
             params: Self::get_params(fn_expr.function.params.iter()),
             function: fn_expr.into(),
-            extra_fn_decl: None,
         }
     }
 }
@@ -415,33 +428,32 @@ impl FunctionWrapper {
     /// ```
     fn build_anonymous_expression_wrapper(&mut self) -> Expr {
         let name_ident = self.binding_ident.take();
-        let ref_ident = quote_ident!("ref");
+        let ref_ident = private_ident!("_ref");
 
-        let ref_stmt: Stmt = Stmt::Decl(
-            VarDecl {
+        let ref_decl: Decl = VarDecl {
+            span: DUMMY_SP,
+            kind: VarDeclKind::Var,
+            decls: vec![VarDeclarator {
                 span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                decls: vec![VarDeclarator {
-                    span: DUMMY_SP,
-                    name: Pat::Ident(ref_ident.clone().into()),
-                    init: Some(Box::new(self.function.take())),
-                    definite: false,
-                }],
-                declare: false,
-            }
-            .into(),
-        );
+                name: Pat::Ident(ref_ident.clone().into()),
+                init: Some(Box::new(self.function.take())),
+                definite: false,
+            }],
+            declare: false,
+        }
+        .into();
 
         let fn_expr = self.build_function_forward(ref_ident, name_ident);
 
-        let return_fn_stmt = Stmt::Return(ReturnStmt {
+        let return_fn_stmt = ReturnStmt {
             span: DUMMY_SP,
             arg: Some(Box::new(fn_expr.into())),
-        });
+        }
+        .into();
 
         let block_stmt = BlockStmt {
             span: DUMMY_SP,
-            stmts: vec![ref_stmt, return_fn_stmt],
+            stmts: vec![ref_decl.into(), return_fn_stmt],
         };
 
         let function = Function {
@@ -474,7 +486,10 @@ impl FunctionWrapper {
     /// })()
     /// ```
     fn build_named_expression_wrapper(&mut self, name_ident: Ident) -> Expr {
-        let ref_ident = self.function_ident.clone().unwrap_or(quote_ident!("ref"));
+        let ref_ident = self.function_ident.as_ref().map_or_else(
+            || private_ident!("_ref"),
+            |ident| private_ident!(ident.span, format!("_{}", ident.sym)),
+        );
 
         let ref_stmt: Stmt = Stmt::Decl(
             VarDecl {
@@ -491,9 +506,17 @@ impl FunctionWrapper {
             .into(),
         );
 
-        let fn_expr = self.build_function_forward(ref_ident, Some(name_ident.clone()));
+        let FnExpr { function, .. } =
+            self.build_function_forward(ref_ident, Some(name_ident.clone()));
 
-        let fn_stmt = fn_expr.into_stmt();
+        let fn_stmt = Stmt::Decl(
+            FnDecl {
+                ident: name_ident.clone(),
+                declare: false,
+                function,
+            }
+            .into(),
+        );
 
         let return_fn_indent = Stmt::Return(ReturnStmt {
             span: DUMMY_SP,
@@ -534,8 +557,11 @@ impl FunctionWrapper {
     ///     return REF.apply(this, arguments);
     /// }
     /// ```
-    fn build_declaration_wrapper(&mut self, name_ident: Ident) -> Decl {
-        let ref_ident = self.function_ident.clone().unwrap_or(quote_ident!("ref"));
+    fn build_declaration_wrapper(&mut self, name_ident: Ident) -> (FnDecl, FnDecl) {
+        let ref_ident = self.function_ident.as_ref().map_or_else(
+            || private_ident!("_ref"),
+            |ident| private_ident!(ident.span, format!("_{}", ident.sym)),
+        );
 
         let FnExpr { function, .. } =
             self.build_function_forward(ref_ident.clone(), Some(name_ident.clone()));
@@ -549,15 +575,7 @@ impl FunctionWrapper {
         .into_stmt();
 
         // clone `return REF.apply(this, arguments);`
-        let return_ref_apply_stmt = function
-            .body
-            .as_ref()
-            .unwrap()
-            .stmts
-            .iter()
-            .next()
-            .unwrap()
-            .clone();
+        let return_ref_apply_stmt = function.body.as_ref().unwrap().stmts[0].clone();
 
         let ref_fn_block_stmt = BlockStmt {
             span: DUMMY_SP,
@@ -577,17 +595,15 @@ impl FunctionWrapper {
                 type_params: Default::default(),
                 return_type: Default::default(),
             },
-        }
-        .into();
+        };
 
-        self.extra_fn_decl = Some(ref_decl);
-
-        FnDecl {
+        let name_decl = FnDecl {
             ident: name_ident,
             function,
             declare: false,
-        }
-        .into()
+        };
+
+        (name_decl, ref_decl)
     }
 
     ///
@@ -626,15 +642,12 @@ impl FunctionWrapper {
 }
 
 impl Into<Expr> for FunctionWrapper {
+    // Can't figure out why not use named templates when got binding_name.
+    // But this is Babel's behavior. Let's follow it.
     fn into(mut self) -> Expr {
-        if let Some(name_ident) = self
-            .function_ident
-            .as_ref()
-            .or(self.binding_ident.as_ref())
-            .map(Clone::clone)
-        {
+        if let Some(name_ident) = self.function_ident.as_ref().map(Clone::clone) {
             self.build_named_expression_wrapper(name_ident)
-        } else if self.params.len() > 0 {
+        } else if self.params.len() > 0 || self.binding_ident.is_some() {
             self.build_anonymous_expression_wrapper()
         } else {
             // Optimization: no name, no params
@@ -643,18 +656,12 @@ impl Into<Expr> for FunctionWrapper {
     }
 }
 
-impl Into<Vec<Stmt>> for FunctionWrapper {
-    fn into(mut self) -> Vec<Stmt> {
+impl Into<(FnDecl, FnDecl)> for FunctionWrapper {
+    fn into(mut self) -> (FnDecl, FnDecl) {
         let name_ident = self.function_ident.as_ref().or(self.binding_ident.as_ref());
         assert!(name_ident.is_some());
         let name_ident = name_ident.unwrap().clone();
 
-        let name_decl = self.build_declaration_wrapper(name_ident);
-
-        assert!(self.extra_fn_decl.is_some());
-
-        let ref_decl = self.extra_fn_decl.unwrap();
-
-        vec![name_decl.into(), ref_decl.into()]
+        self.build_declaration_wrapper(name_ident)
     }
 }

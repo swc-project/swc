@@ -187,7 +187,16 @@ impl VisitMut for Actual {
             return;
         }
 
-        self.visit_fn(Some(f.ident.clone()), None, &mut f.function, true);
+        let mut wrapper = FunctionWrapper::from(f.take());
+
+        let fn_expr = wrapper.function.fn_expr().unwrap();
+
+        wrapper.function = make_fn_ref(fn_expr, None, true);
+
+        let (name_decl, ref_decl) = wrapper.into();
+
+        *f = name_decl;
+        self.extra_stmts.push(Stmt::Decl(ref_decl.into()));
     }
 
     fn visit_mut_module_item(&mut self, item: &mut ModuleItem) {
@@ -703,6 +712,7 @@ impl Actual {
                 };
 
                 let mut wrapper = FunctionWrapper::from(arrow_expr.take());
+                wrapper.binding_ident = binding_ident;
 
                 let fn_expr = wrapper.function.fn_expr().unwrap();
 
@@ -724,6 +734,7 @@ impl Actual {
 
             Expr::Fn(fn_expr) if fn_expr.function.is_async => {
                 let mut wrapper = FunctionWrapper::from(fn_expr.take());
+                wrapper.binding_ident = binding_ident;
 
                 let fn_expr = wrapper.function.fn_expr().unwrap();
 
