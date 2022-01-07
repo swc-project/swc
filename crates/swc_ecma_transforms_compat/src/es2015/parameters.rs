@@ -364,7 +364,7 @@ impl Params {
             }
         }
 
-        let mut iter: ArrayVec<[_; 3]> = Default::default();
+        let mut iter: ArrayVec<_, 3> = Default::default();
 
         if !decls.is_empty() {
             iter.push(Stmt::Decl(Decl::Var(VarDecl {
