@@ -436,10 +436,10 @@ impl<'a, I: Tokens> Parser<I> {
             if eat!(self, "as") {
                 let _ = cur!(self, false);
 
-                let name = self.parse_ident_name()?;
+                let name = self.parse_module_export_name()?;
                 export_ns = Some(ExportSpecifier::Namespace(ExportNamespaceSpecifier {
                     span: span!(self, ns_export_specifier_start),
-                    name: ModuleExportName::Ident(name),
+                    name,
                 }));
             }
         }
