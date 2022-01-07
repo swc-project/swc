@@ -121,6 +121,22 @@ impl VisitMut for TypeOfSymbol {
         f.visit_mut_children_with(self);
     }
 
+    fn visit_mut_function(&mut self, f: &mut Function) {
+        if let Some(body) = &f.body {
+            if let Some(Stmt::Expr(first)) = body.stmts.get(0) {
+                match &*first.expr {
+                    Expr::Lit(Lit::Str(s)) => match &*s.value {
+                        "@swc/helpers - typeof" | "@babel/helpers - typeof" => return,
+                        _ => {}
+                    },
+                    _ => {}
+                }
+            }
+        }
+
+        f.visit_mut_children_with(self);
+    }
+
     fn visit_mut_var_declarator(&mut self, v: &mut VarDeclarator) {
         v.visit_mut_children_with(self);
 
