@@ -126,7 +126,7 @@ impl VisitMut for TypeOfSymbol {
 
         match &v.name {
             Pat::Ident(i) => {
-                if &i.sym == "_typeof" {
+                if &i.id.sym == "_typeof" {
                     return;
                 }
             }
