@@ -498,6 +498,7 @@ where
             Stmt::Expr(es) => {
                 if es.expr.is_invalid() {
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                    return;
                 }
             }
             _ => {}

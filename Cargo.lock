@@ -279,9 +279,9 @@ checksum = "b4ae4235e6dac0694637c763029ecea1a2ec9e4e06ec2729bd21ba4d9c863eb7"
 
 [[package]]
 name = "bumpalo"
-version = "3.9.0"
+version = "3.9.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fe438c9d2f2b0fb88a112154ed81e30b0a491c29322afe1db3b6eec5811f5ba0"
+checksum = "a4a45a46ab1f2412e53d3a0ade76ffad2025804294569aae387231a0cd6e0899"
 
 [[package]]
 name = "bytecheck"
@@ -959,9 +959,9 @@ checksum = "9b919933a397b79c37e33b77bb2aa3dc8eb6e165ad809e58ff75bc7db2e34574"
 
 [[package]]
 name = "h2"
-version = "0.3.9"
+version = "0.3.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8f072413d126e57991455e0a922b31e4c8ba7c2ffbebf6b78b4f8521397d65cd"
+checksum = "0c9de88456263e249e241fcd211d3954e2c9b0ef7ccfc235a444eb367cae3689"
 dependencies = [
  "bytes",
  "fnv",
@@ -2662,7 +2662,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.107.0"
+version = "0.107.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3021,7 +3021,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.64.2"
+version = "0.64.3"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3106,7 +3106,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.107.0"
+version = "0.107.1"
 dependencies = [
  "pretty_assertions 0.7.2",
  "sourcemap",
@@ -3132,7 +3132,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.53.0"
+version = "0.53.1"
 dependencies = [
  "once_cell",
  "phf",
@@ -3165,7 +3165,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.63.0"
+version = "0.63.1"
 dependencies = [
  "ahash",
  "arrayvec 0.5.2",
@@ -3373,7 +3373,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.104.0"
+version = "0.104.1"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
