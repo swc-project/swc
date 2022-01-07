@@ -25,6 +25,39 @@ impl Parallel for TypeOfSymbol {
 impl VisitMut for TypeOfSymbol {
     noop_visit_mut_type!();
 
+    fn visit_mut_bin_expr(&mut self, expr: &mut BinExpr) {
+        match expr.op {
+            op!("==") | op!("!=") | op!("===") | op!("!==") => {}
+            _ => {
+                expr.visit_mut_children_with(self);
+                return;
+            }
+        }
+
+        match *expr.left {
+            Expr::Unary(UnaryExpr {
+                op: op!("typeof"), ..
+            }) => {
+                if is_non_symbol_literal(&expr.right) {
+                    return;
+                }
+            }
+            _ => {}
+        }
+        match *expr.right {
+            Expr::Unary(UnaryExpr {
+                op: op!("typeof"), ..
+            }) => {
+                if is_non_symbol_literal(&expr.left) {
+                    return;
+                }
+            }
+            _ => {}
+        }
+
+        expr.visit_mut_children_with(self)
+    }
+
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);
 
@@ -80,37 +113,25 @@ impl VisitMut for TypeOfSymbol {
         }
     }
 
-    fn visit_mut_bin_expr(&mut self, expr: &mut BinExpr) {
-        match expr.op {
-            op!("==") | op!("!=") | op!("===") | op!("!==") => {}
-            _ => {
-                expr.visit_mut_children_with(self);
-                return;
-            }
+    fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
+        if &f.ident.sym == "_typeof" {
+            return;
         }
 
-        match *expr.left {
-            Expr::Unary(UnaryExpr {
-                op: op!("typeof"), ..
-            }) => {
-                if is_non_symbol_literal(&expr.right) {
+        f.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_var_declarator(&mut self, v: &mut VarDeclarator) {
+        v.visit_mut_children_with(self);
+
+        match &v.name {
+            Pat::Ident(i) => {
+                if &i.sym == "_typeof" {
                     return;
                 }
             }
             _ => {}
         }
-        match *expr.right {
-            Expr::Unary(UnaryExpr {
-                op: op!("typeof"), ..
-            }) => {
-                if is_non_symbol_literal(&expr.left) {
-                    return;
-                }
-            }
-            _ => {}
-        }
-
-        expr.visit_mut_children_with(self)
     }
 }
 
