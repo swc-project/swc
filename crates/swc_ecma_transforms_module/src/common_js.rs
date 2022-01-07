@@ -71,6 +71,12 @@ impl LazyIdentifierVisitor {
     }
 }
 
+/*
+An import can be performed lazily if it isn't used at the module's top-level.
+This visitor scans only the identifiers at the top level by not traversing nodes
+that introduce nesting. It then looks up identifiers to see if they match an
+imported specifier name.
+ */
 impl Visit for LazyIdentifierVisitor {
     noop_visit_type!();
 
@@ -143,7 +149,7 @@ where
         // Used only if export * exists
         let mut exported_names: Option<Ident> = None;
 
-        // make a preliminary pass through to collect exported names ahead of time
+        // Make a preliminary pass through to collect exported names ahead of time
         for item in &items {
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
@@ -179,6 +185,7 @@ where
             }
         }
 
+        // Make another preliminary pass to collect all import sources and their specifiers.
         for item in &items {
             self.in_top_level = true;
             match item {
@@ -189,6 +196,8 @@ where
             }
         }
 
+        // Map all top-level identifiers that match imported specifiers, and blacklist them
+        // from lazy imports.
         let mut visitor = LazyIdentifierVisitor::new(self.scope.clone());
         for item in &items {
             item.visit_with(&mut visitor);
