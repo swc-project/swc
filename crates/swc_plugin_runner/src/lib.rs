@@ -7,9 +7,9 @@ use anyhow::{Context, Error};
 use once_cell::sync::Lazy;
 use parking_lot::Mutex;
 use resolve::PluginCache;
-use swc_common::collections::AHashMap;
+use swc_common::{collections::AHashMap, plugin::serialize_for_plugin};
 use swc_ecma_ast::Program;
-use wasmer::{imports, Instance, Module, Store};
+use wasmer::{imports, Instance, Memory, MemoryType, Module, Store};
 use wasmer_cache::{Cache, Hash};
 
 pub mod resolve;
@@ -36,13 +36,14 @@ fn load_plugin(plugin_path: &Path, cache: &mut Option<PluginCache>) -> Result<In
     // process won't be reflected.
     // 2. If reading binary fails somehow it won't bail out but keep retry.
     let module_bytes_key = plugin_path.to_path_buf();
-    let module_bytes = if let Some(cached_bytes) = BYTE_CACHE.lock().get(&module_bytes_key).cloned()
-    {
+    let cached_bytes = BYTE_CACHE.lock().get(&module_bytes_key).cloned();
+    let module_bytes = if let Some(cached_bytes) = cached_bytes {
         cached_bytes
     } else {
         let fresh_module_bytes = std::fs::read(plugin_path)
             .map(Arc::new)
             .context("Cannot read plugin from specified path")?;
+
         BYTE_CACHE
             .lock()
             .insert(module_bytes_key, fresh_module_bytes.clone());
@@ -96,12 +97,40 @@ fn load_plugin(plugin_path: &Path, cache: &mut Option<PluginCache>) -> Result<In
 
     return match module {
         Ok(module) => {
-            let import_object = imports! {};
+            let memory = Memory::new(&wasmer_store, MemoryType::new(1, None, false))?;
+            let import_object = imports! {
+                "env" => {
+                    "memory" => memory
+                }
+            };
 
             Instance::new(&module, &import_object).context("Failed to create plugin instance")
         }
         Err(err) => Err(err.into()),
     };
+}
+
+fn copy_memory_to_instance(instance: &Instance, program: &Program) -> Result<(i32, u32), Error> {
+    let alloc = instance.exports.get_native_function::<u32, i32>("alloc")?;
+
+    let serialized = serialize_for_plugin(program)?;
+    let serialized_len = serialized.len();
+
+    let alloc_ptr = alloc.call(serialized_len.try_into()?)?;
+    let memory = instance.exports.get_memory("memory")?;
+    let view = memory.view::<u8>();
+
+    // loop over the Wasm memory view's bytes, assign bytes value of alignedvec from
+    // serialized
+    let ptr_start: usize = alloc_ptr.try_into()?;
+    for (cell, byte) in view[ptr_start..ptr_start + serialized_len + 1]
+        .iter()
+        .zip(serialized.iter())
+    {
+        cell.set(*byte)
+    }
+
+    Ok((alloc_ptr, serialized_len.try_into().unwrap()))
 }
 
 pub fn apply_js_plugin(
@@ -112,8 +141,15 @@ pub fn apply_js_plugin(
     program: Program,
 ) -> Result<Program, Error> {
     (|| -> Result<_, Error> {
-        let _instance = load_plugin(path, cache)?;
-        // TODO: actually apply transform from plugin
+        let instance = load_plugin(path, cache)?;
+
+        let plugin_process = instance
+            .exports
+            .get_native_function::<(i32, u32), i32>("process")?;
+
+        let (alloc_ptr, len) = copy_memory_to_instance(&instance, &program)?;
+        plugin_process.call(alloc_ptr, len)?;
+
         Ok(program)
     })()
     .with_context(|| {

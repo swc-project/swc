@@ -8,8 +8,9 @@ use crate::{syntax_pos::Mark, SyntaxContext};
 use anyhow::Error;
 use std::any::type_name;
 
+/// Serialize ast to pass into plugins. This is being called from host side.
 /// TODO: https://github.com/swc-project/swc/issues/3167
-#[cfg(feature = "plugin-mode")]
+#[cfg(feature = "plugin-base")]
 pub fn serialize_for_plugin<T>(t: &T) -> Result<rkyv::AlignedVec, Error>
 where
     T: rkyv::Serialize<rkyv::ser::serializers::AllocSerializer<512>>,
