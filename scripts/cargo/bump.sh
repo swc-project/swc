@@ -7,6 +7,10 @@ yarn changelog
 cargo mono bump -i
 # Ensure that Cargo.lock is up-to-date
 cargo metadata --offline --format-version 1 > /dev/null
+
+# Ensure that dependencies are all verified
+./scripts/crev/verify.sh
+
 git add -A
 git commit -m 'chore: Publish crates'
 git push
