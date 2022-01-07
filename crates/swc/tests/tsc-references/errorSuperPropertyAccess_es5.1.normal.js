@@ -130,6 +130,7 @@ function _superPropBase(object, property) {
     return object;
 }
 var _typeof = function(obj1) {
+    "@swc/helpers - typeof";
     return obj1 && typeof Symbol !== "undefined" && obj1.constructor === Symbol ? "symbol" : typeof obj1;
 };
 function _isNativeReflectConstruct() {
