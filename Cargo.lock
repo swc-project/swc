@@ -1344,9 +1344,9 @@ checksum = "ebd4419172727423cf30351406c54f6cc1b354a2cfb4f1dba3e6cd07f6d5522b"
 
 [[package]]
 name = "napi-derive"
-version = "2.0.6"
+version = "2.0.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7bd0acf3b3823ea2d0fa1ab09f6223cf47b5193f5be6bc9259b3c3bdf1f42969"
+checksum = "c6978824526532976fe146f71fef50395840d64a6c1af9085a358bdfdd300c7d"
 dependencies = [
  "convert_case",
  "napi-derive-backend",
@@ -1357,9 +1357,9 @@ dependencies = [
 
 [[package]]
 name = "napi-derive-backend"
-version = "1.0.22"
+version = "1.0.23"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b0fa3ee2659e33b201403dcf4d74515ef8f76b6f11bdf081a21280a44c7ad508"
+checksum = "30623da375dd5a5cae5609b0f0b9915177c03b3dc23a8450cc7dcc14027eee25"
 dependencies = [
  "convert_case",
  "once_cell",
@@ -2555,7 +2555,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.107.1"
+version = "0.108.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2661,7 +2661,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.16.0"
+version = "0.16.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3302,7 +3302,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.25.0"
+version = "0.26.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3404,7 +3404,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.22.0"
+version = "0.23.0"
 dependencies = [
  "anyhow",
  "serde",
@@ -3416,7 +3416,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.27.0"
+version = "0.28.0"
 dependencies = [
  "anyhow",
  "libloading",
@@ -3481,7 +3481,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.23.0"
+version = "0.24.0"
 dependencies = [
  "anyhow",
  "rayon",
