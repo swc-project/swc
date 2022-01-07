@@ -1,4 +1,5 @@
 var _typeof = function(obj) {
+    "@swc/helpers - typeof";
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 //Cond ? Expr1 : Expr2,  Cond is of string type, Expr1 and Expr2 have the same type

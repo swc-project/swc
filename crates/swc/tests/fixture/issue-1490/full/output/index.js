@@ -111,6 +111,7 @@ function _superPropBase(object, property) {
     return object;
 }
 var _typeof = function(obj) {
+    "@swc/helpers - typeof";
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 function _wrapNativeSuper(Class) {

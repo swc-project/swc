@@ -70,6 +70,7 @@ function _setPrototypeOf(o, p) {
     return _setPrototypeOf(o, p);
 }
 var _typeof = function(obj2) {
+    "@swc/helpers - typeof";
     return obj2 && typeof Symbol !== "undefined" && obj2.constructor === Symbol ? "symbol" : typeof obj2;
 };
 function _isNativeReflectConstruct() {
