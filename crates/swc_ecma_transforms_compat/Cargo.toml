@@ -18,7 +18,7 @@ concurrent = [
 
 [dependencies]
 ahash = "0.7.4"
-arrayvec = "0.5.2"
+arrayvec = "0.7.2"
 indexmap = "1.6.1"
 is-macro = "0.1.8"
 num-bigint = "0.2"
