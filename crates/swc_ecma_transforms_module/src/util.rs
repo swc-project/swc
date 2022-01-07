@@ -440,15 +440,11 @@ impl Scope {
         }
     }
 
-    fn fold_ident(folder: &mut impl ModulePass, top_level: bool, i: Ident) -> Result<Expr, Ident> {
+    fn fold_ident(folder: &mut impl ModulePass, _top_level: bool, i: Ident) -> Result<Expr, Ident> {
         let v = folder.scope().idents.get(&i.to_id()).cloned();
         match v {
             None => Err(i),
             Some((src, prop)) => {
-                if top_level {
-                    folder.scope_mut().lazy_blacklist.insert(src.clone());
-                }
-
                 let lazy = if folder.scope().lazy_blacklist.contains(&src) {
                     false
                 } else {

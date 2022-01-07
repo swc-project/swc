@@ -10,14 +10,17 @@ use std::{
     rc::Rc,
 };
 use swc_atoms::{js_word, JsWord};
-use swc_common::{collections::AHashMap, FileName, Mark, Span, DUMMY_SP};
+use swc_common::{
+    collections::{AHashMap, AHashSet},
+    FileName, Mark, Span, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
     ident::IdentLike, member_expr, private_ident, quote_ident, quote_str, var::VarCollector,
     DestructuringFinder, ExprFactory, IsDirective,
 };
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
+use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Visit, VisitWith};
 
 pub fn common_js(
     top_level_mark: Mark,
@@ -52,6 +55,57 @@ where
         scope,
         in_top_level: Default::default(),
         resolver: Some((resolver, base)),
+    }
+}
+
+struct LazyIdentifierVisitor {
+    scope: Rc<RefCell<Scope>>,
+    top_level_idents: AHashSet<JsWord>,
+}
+impl LazyIdentifierVisitor {
+    fn new(scope: Rc<RefCell<Scope>>) -> Self {
+        LazyIdentifierVisitor {
+            scope,
+            top_level_idents: Default::default(),
+        }
+    }
+}
+
+impl Visit for LazyIdentifierVisitor {
+    noop_visit_type!();
+
+    fn visit_import_decl(&mut self, _: &ImportDecl) {}
+    fn visit_export_decl(&mut self, _: &ExportDecl) {}
+    fn visit_named_export(&mut self, _: &NamedExport) {}
+    fn visit_export_default_decl(&mut self, _: &ExportDefaultDecl) {}
+    fn visit_export_default_expr(&mut self, _: &ExportDefaultExpr) {}
+
+    fn visit_export_all(&mut self, export: &ExportAll) {
+        self.top_level_idents.insert(export.src.value.clone());
+    }
+
+    fn visit_function(&mut self, _: &Function) {}
+    fn visit_constructor(&mut self, _: &Constructor) {}
+    fn visit_setter_prop(&mut self, _: &SetterProp) {}
+    fn visit_getter_prop(&mut self, _: &GetterProp) {}
+    fn visit_class_prop(&mut self, _: &ClassProp) {}
+
+    fn visit_decl(&mut self, decl: &Decl) {
+        match decl {
+            Decl::Class(ref c) => {
+                if let Some(super_class) = &c.class.super_class {
+                    super_class.visit_with(self);
+                }
+            }
+            _ => {}
+        }
+    }
+
+    fn visit_ident(&mut self, ident: &Ident) {
+        let v = self.scope.borrow().idents.get(&ident.to_id()).cloned();
+        if let Some((src, _)) = v {
+            self.top_level_idents.insert(src.clone());
+        }
     }
 }
 
@@ -123,6 +177,24 @@ where
 
                 _ => {}
             }
+        }
+
+        for item in &items {
+            self.in_top_level = true;
+            match item {
+                ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
+                    self.scope.borrow_mut().insert_import(import.clone())
+                }
+                _ => {}
+            }
+        }
+
+        let mut visitor = LazyIdentifierVisitor::new(self.scope.clone());
+        for item in &items {
+            item.visit_with(&mut visitor);
+        }
+        for ident in &visitor.top_level_idents {
+            self.scope.borrow_mut().lazy_blacklist.insert(ident.clone());
         }
 
         for item in items {
@@ -204,11 +276,6 @@ where
 
                     match item {
                         ModuleItem::ModuleDecl(ModuleDecl::ExportAll(export)) => {
-                            self.scope
-                                .borrow_mut()
-                                .lazy_blacklist
-                                .insert(export.src.value.clone());
-
                             let mut scope_ref_mut = self.scope.borrow_mut();
                             let scope = &mut *scope_ref_mut;
 
