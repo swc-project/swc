@@ -20,7 +20,7 @@ const items = module.body
 console.log(items);
 
 const helperMacroCode = `
-
+    #[macro_export]
     macro_rules! gen_ext_helper_name {
         ${items.map((item => `(${item.src}) => { Some("${item.export}") }`)).join('\n\n')}
 

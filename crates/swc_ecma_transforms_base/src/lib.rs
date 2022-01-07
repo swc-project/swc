@@ -1,4 +1,6 @@
 #[macro_use]
+mod helpers_gen;
+#[macro_use]
 pub mod quote;
 #[doc(hidden)]
 pub mod ext;

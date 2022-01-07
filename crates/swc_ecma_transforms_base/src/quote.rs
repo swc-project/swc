@@ -2,36 +2,8 @@
 #[doc(hidden)]
 #[macro_export]
 macro_rules! external_name {
-    (apply_decorated_descriptor) => {
-        Some("applyDecoratedDescriptor")
-    };
-
-    (array_like_to_array) => {
-        Some("arrayLikeToArray")
-    };
-
-    (array_with_holes) => {
-        Some("arrayWithHoles")
-    };
-
-    (array_without_holes) => {
-        Some("arrayWithoutHoles")
-    };
-
-    (assert_this_initialized) => {
-        Some("assertThisInitialized")
-    };
-
-    (async_generator) => {
-        None
-    };
-
-    (async_generator_delegate) => {
-        Some("asyncGeneratorDelegate")
-    };
-
-    (async_iterator) => {
-        Some("asyncIterator")
+    ($name:ident) => {
+        $crate::gen_ext_helper_name!($name)
     };
 
     ("typeof") => {

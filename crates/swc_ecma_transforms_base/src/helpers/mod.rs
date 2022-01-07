@@ -4,7 +4,7 @@ use std::sync::atomic::{AtomicBool, Ordering};
 use swc_common::{FileName, FilePathMapping, Mark, SourceMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
-use swc_ecma_utils::{prepend_stmts, quote_ident, quote_str, DropSpan};
+use swc_ecma_utils::{prepend_stmts, quote_str, DropSpan};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 #[macro_export]
@@ -169,12 +169,15 @@ macro_rules! define_helpers {
                     debug_assert!(helpers.external);
                     $(
                         if helpers.inner.$name.load(Ordering::Relaxed) {
-                            buf.push(ImportSpecifier::Named(ImportNamedSpecifier {
-                                span: DUMMY_SP,
-                                local: Ident::new(stringify!($name).into(), DUMMY_SP.with_ctxt(ctxt)),
-                                imported: Some(ModuleExportName::Ident(quote_ident!($crate::external_name!($name)))),
-                                is_type_only: false,
-                            }));
+                            if let Some(name) = $crate::external_name!($name) {
+                                let _: &str = name;
+                                buf.push(ImportSpecifier::Named(ImportNamedSpecifier {
+                                    span: DUMMY_SP,
+                                    local: Ident::new(stringify!($name).into(), DUMMY_SP.with_ctxt(ctxt)),
+                                    imported: Some(ModuleExportName::Ident(Ident::new(name.into(), DUMMY_SP.with_ctxt(ctxt)))),
+                                    is_type_only: false,
+                                }));
+                            }
                         }
                     )*
                 });
