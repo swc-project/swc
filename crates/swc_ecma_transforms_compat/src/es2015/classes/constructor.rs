@@ -24,7 +24,7 @@ impl SuperCallFinder {
         match node.last() {
             Some(Stmt::Expr(ExprStmt { ref expr, .. })) => match &**expr {
                 Expr::Call(CallExpr {
-                    callee: ExprOrSuper::Super(..),
+                    callee: Callee::Super(..),
                     ..
                 }) => {
                     return None;
@@ -87,7 +87,7 @@ impl Visit for SuperCallFinder {
 
     fn visit_call_expr(&mut self, e: &CallExpr) {
         match e.callee {
-            ExprOrSuper::Super(..) => match self.mode {
+            Callee::Super(..) => match self.mode {
                 None if !self.in_complex => self.mode = Some(SuperFoldingMode::Var),
 
                 // Complex `super()`
@@ -111,18 +111,13 @@ impl Visit for SuperCallFinder {
     fn visit_member_expr(&mut self, e: &MemberExpr) {
         e.visit_children_with(self);
 
-        match e.obj {
-            ExprOrSuper::Expr(ref expr) => {
-                match &**expr {
-                    Expr::Call(CallExpr {
-                        callee: ExprOrSuper::Super(..),
-                        ..
-                    }) => {
-                        // super().foo
-                        self.mode = Some(SuperFoldingMode::Assign)
-                    }
-                    _ => {}
-                }
+        match &*e.obj {
+            Expr::Call(CallExpr {
+                callee: Callee::Super(..),
+                ..
+            }) => {
+                // super().foo
+                self.mode = Some(SuperFoldingMode::Assign)
             }
             _ => {}
         }
@@ -191,10 +186,7 @@ impl ConstructorFolder<'_> {
             let left = left.take().normalize_expr();
             match left {
                 PatOrExpr::Expr(mut left_expr) => match *left_expr {
-                    Expr::Member(MemberExpr {
-                        obj: ExprOrSuper::Super(..),
-                        ..
-                    }) => {
+                    Expr::SuperProp(_) => {
                         right.visit_mut_children_with(self);
                         self.handle_super_access(&mut left_expr, Some(right.take()));
                         *e = *left_expr;
@@ -227,12 +219,7 @@ impl ConstructorFolder<'_> {
 
     fn handle_super_access(&mut self, e: &mut Expr, set_to: Option<Box<Expr>>) {
         match e {
-            Expr::Member(MemberExpr {
-                span,
-                obj: ExprOrSuper::Super(..),
-                prop,
-                computed,
-            }) => {
+            Expr::SuperProp(SuperPropExpr { span, prop, .. }) => {
                 let this_var = quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this");
                 let this_super = private_ident!("_thisSuper");
                 self.cur_this_super = Some(this_super.clone());
@@ -282,18 +269,17 @@ impl ConstructorFolder<'_> {
                                 exprs: vec![init_this_super, get_proto],
                             })
                             .as_arg(),
-                            if *computed {
-                                prop.take().as_arg()
-                            } else {
-                                let prop = prop.take().expect_ident();
-
-                                Str {
-                                    span: prop.span,
-                                    value: prop.sym,
+                            match prop {
+                                SuperProp::Computed(ComputedPropName { expr, .. }) => {
+                                    expr.take().as_arg()
+                                }
+                                SuperProp::Ident(ident) => Str {
+                                    span: ident.span,
+                                    value: ident.take().sym,
                                     has_escape: false,
                                     kind: Default::default(),
                                 }
-                                .as_arg()
+                                .as_arg(),
                             },
                         ];
 
@@ -336,11 +322,8 @@ impl VisitMut for ConstructorFolder<'_> {
 
     fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
         match &e.callee {
-            ExprOrSuper::Expr(callee) => match &**callee {
-                Expr::Member(MemberExpr {
-                    obj: ExprOrSuper::Super(..),
-                    ..
-                }) => {
+            Callee::Expr(callee) => match &**callee {
+                Expr::SuperProp(_) => {
                     let old = self.cur_this_super.take();
 
                     e.visit_mut_children_with(self);
@@ -380,7 +363,7 @@ impl VisitMut for ConstructorFolder<'_> {
         // calls.
         match expr {
             Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(ref callee),
+                callee: Callee::Expr(callee),
                 ..
             }) => match &**callee {
                 Expr::Ident(Ident {
@@ -406,7 +389,7 @@ impl VisitMut for ConstructorFolder<'_> {
                 *expr = Expr::Ident(Ident::new("_this".into(), e.span.apply_mark(self.mark)))
             }
             Expr::Call(CallExpr {
-                callee: ExprOrSuper::Super(..),
+                callee: Callee::Super(..),
                 args,
                 ..
             }) => {
@@ -474,7 +457,7 @@ impl VisitMut for ConstructorFolder<'_> {
         match stmt {
             Stmt::Expr(ExprStmt { span: _, expr }) => match &mut **expr {
                 Expr::Call(CallExpr {
-                    callee: ExprOrSuper::Super(..),
+                    callee: Callee::Super(..),
                     args,
                     ..
                 }) => {
@@ -670,7 +653,7 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: &mut Constructor) -> bo
             // calls.
             match expr {
                 Expr::Call(CallExpr {
-                    callee: ExprOrSuper::Expr(ref callee),
+                    callee: Callee::Expr(callee),
                     ..
                 }) => match &**callee {
                     Expr::Ident(Ident {
@@ -720,7 +703,8 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: &mut Constructor) -> bo
             if self.mark != Mark::root() {
                 let old = self.wrap_with_assertion;
                 self.wrap_with_assertion = false;
-                expr.obj.visit_mut_children_with(self);
+                // it's not ExprOrSuper no more, so visit children will ignore this.aaa
+                expr.obj.visit_mut_with(self);
                 self.wrap_with_assertion = old;
             }
             expr.prop.visit_mut_with(self);

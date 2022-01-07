@@ -188,15 +188,13 @@ impl VisitMut for TemplateLiteral {
                             } else {
                                 Box::new(Expr::Call(CallExpr {
                                     span: span.with_hi(expr_span.hi() + BytePos(1)),
-                                    callee: ExprOrSuper::Expr(Box::new(Expr::Member(MemberExpr {
+                                    callee: Callee::Expr(Box::new(Expr::Member(MemberExpr {
                                         span: DUMMY_SP,
-                                        obj: ExprOrSuper::Expr(obj),
-                                        prop: Box::new(Expr::Ident(Ident::new(
+                                        obj,
+                                        prop: MemberProp::Ident(Ident::new(
                                             js_word!("concat"),
                                             expr_span,
-                                        ))),
-
-                                        computed: false,
+                                        )),
                                     }))),
                                     args: mem::take(&mut args)
                                         .into_iter()
@@ -230,15 +228,13 @@ impl VisitMut for TemplateLiteral {
                             } else {
                                 Box::new(Expr::Call(CallExpr {
                                     span: span.with_hi(expr_span.hi() + BytePos(1)),
-                                    callee: ExprOrSuper::Expr(Box::new(Expr::Member(MemberExpr {
+                                    callee: Callee::Expr(Box::new(Expr::Member(MemberExpr {
                                         span: DUMMY_SP,
-                                        obj: ExprOrSuper::Expr(obj),
-                                        prop: Box::new(Expr::Ident(Ident::new(
+                                        obj,
+                                        prop: MemberProp::Ident(Ident::new(
                                             js_word!("concat"),
                                             expr_span,
-                                        ))),
-
-                                        computed: false,
+                                        )),
                                     }))),
                                     args: mem::take(&mut args)
                                         .into_iter()

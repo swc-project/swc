@@ -344,11 +344,11 @@ impl Params {
                                     right: Box::new(
                                         MemberExpr {
                                             span: DUMMY_SP,
-                                            obj: ExprOrSuper::Expr(Box::new(
-                                                quote_ident!(span, "arguments").into(),
-                                            )),
-                                            computed: true,
-                                            prop,
+                                            obj: Box::new(quote_ident!(span, "arguments").into()),
+                                            prop: MemberProp::Computed(ComputedPropName {
+                                                span,
+                                                expr: prop,
+                                            }),
                                         }
                                         .into(),
                                     ),

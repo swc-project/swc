@@ -1176,9 +1176,15 @@ fn make_ref_prop_expr(ref_ident: &Ident, prop: Box<Expr>, mut computed: bool) ->
 
     Expr::Member(MemberExpr {
         span: DUMMY_SP,
-        obj: ExprOrSuper::Expr(Box::new(ref_ident.clone().into())),
-        computed,
-        prop,
+        obj: Box::new(ref_ident.clone().into()),
+        prop: if computed {
+            MemberProp::Computed(ComputedPropName {
+                span: DUMMY_SP,
+                expr: prop,
+            })
+        } else {
+            MemberProp::Ident(prop.ident().unwrap())
+        },
     })
 }
 
@@ -1211,6 +1217,7 @@ fn can_be_null(e: &Expr) -> bool {
         | Expr::Ident(..)
         | Expr::PrivateName(..)
         | Expr::Member(..)
+        | Expr::SuperProp(..)
         | Expr::Call(..)
         | Expr::New(..)
         | Expr::Yield(..)
