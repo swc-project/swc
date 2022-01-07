@@ -2,10 +2,6 @@
 #[doc(hidden)]
 #[macro_export]
 macro_rules! external_name {
-    ($name:ident) => {
-        $crate::gen_ext_helper_name!($name)
-    };
-
     ("typeof") => {
         "typeOf"
     };

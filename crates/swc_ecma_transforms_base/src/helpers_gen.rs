@@ -1,4 +1,3 @@
-#[macro_export]
 macro_rules! gen_ext_helper_name {
     (apply_decorated_descriptor) => {
         Some("applyDecoratedDescriptor")

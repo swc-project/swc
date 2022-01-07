@@ -172,9 +172,15 @@ macro_rules! define_helpers {
                             if let Some(name) = gen_ext_helper_name!($name) {
                                 let _: &str =name;
                                 let local = Ident::new(name.into(), DUMMY_SP.with_ctxt(ctxt));
+
+                                let spec = ImportSpecifier::Default(ImportDefaultSpecifier {
+                                    span: DUMMY_SP,
+                                    local,
+                                });
+
                                 buf.push(ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                                     span: DUMMY_SP,
-                                    specifiers: vec![],
+                                    specifiers: vec![spec],
                                     src: quote_str!(format!("@swc/helpers/lib/{}", name)),
                                     type_only: false,
                                     asserts: Default::default(),
