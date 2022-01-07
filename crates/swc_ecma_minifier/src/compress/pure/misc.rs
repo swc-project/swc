@@ -146,11 +146,6 @@ where
                 }
             }
 
-            Expr::Lit(..) => {
-                e.take();
-                return;
-            }
-
             Expr::Seq(e) => {
                 self.drop_useless_ident_ref_in_seq(e);
 
