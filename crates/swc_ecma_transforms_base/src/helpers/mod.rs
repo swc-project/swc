@@ -1,7 +1,7 @@
 use once_cell::sync::Lazy;
 use scoped_tls::scoped_thread_local;
 use std::sync::atomic::{AtomicBool, Ordering};
-use swc_common::{FileName, FilePathMapping, Mark, SourceMap, DUMMY_SP};
+use swc_common::{FileName, FilePathMapping, Mark, SourceMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
 use swc_ecma_utils::{prepend_stmts, quote_ident, quote_str, DropSpan};
@@ -158,6 +158,29 @@ macro_rules! define_helpers {
 
                 buf
             }
+
+            fn build_imports(&self) -> Vec<ImportSpecifier> {
+                let mut buf = vec![];
+
+
+                HELPERS.with(|helpers|{
+                    let ctxt = SyntaxContext::empty().apply_mark(helpers.mark.0);
+
+                    debug_assert!(helpers.external);
+                    $(
+                        if helpers.inner.$name.load(Ordering::Relaxed) {
+                            buf.push(ImportSpecifier::Named(ImportNamedSpecifier {
+                                span: DUMMY_SP,
+                                local: Ident::new(stringify!($name).into(), DUMMY_SP.with_ctxt(ctxt)),
+                                imported: Some(ModuleExportName::Ident(quote_ident!($crate::external_name!($name)))),
+                                is_type_only: false,
+                            }));
+                        }
+                    )*
+                });
+
+                buf
+            }
         }
     };
 }
@@ -283,12 +306,11 @@ impl InjectHelpers {
         let (mark, external) = HELPERS.with(|helper| (helper.mark(), helper.external()));
         if external {
             if self.is_helper_used() {
+                let specifiers = self.build_imports();
+
                 vec![ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                     span: DUMMY_SP,
-                    specifiers: vec![ImportSpecifier::Namespace(ImportStarAsSpecifier {
-                        span: DUMMY_SP,
-                        local: quote_ident!(DUMMY_SP.apply_mark(mark), "swcHelpers"),
-                    })],
+                    specifiers,
                     src: quote_str!("@swc/helpers"),
                     type_only: false,
                     asserts: None,

@@ -2,6 +2,38 @@
 #[doc(hidden)]
 #[macro_export]
 macro_rules! external_name {
+    (apply_decorated_descriptor) => {
+        Some("applyDecoratedDescriptor")
+    };
+
+    (array_like_to_array) => {
+        Some("arrayLikeToArray")
+    };
+
+    (array_with_holes) => {
+        Some("arrayWithHoles")
+    };
+
+    (array_without_holes) => {
+        Some("arrayWithoutHoles")
+    };
+
+    (assert_this_initialized) => {
+        Some("assertThisInitialized")
+    };
+
+    (async_generator) => {
+        None
+    };
+
+    (async_generator_delegate) => {
+        Some("asyncGeneratorDelegate")
+    };
+
+    (async_iterator) => {
+        Some("asyncIterator")
+    };
+
     ("typeof") => {
         "typeOf"
     };
@@ -36,11 +68,12 @@ macro_rules! helper_expr {
         let external = $crate::helpers::HELPERS.with(|helper| helper.external());
 
         if external {
-            swc_ecma_utils::quote_ident!(span, "swcHelpers").make_member(
-                swc_ecma_utils::quote_ident!($span, $crate::external_name!($s)),
-            )
+            Expr::Ident(swc_ecma_utils::quote_ident!(
+                span,
+                $crate::external_name!($s)
+            ))
         } else {
-            Expr::from(swc_ecma_utils::quote_ident!(span, concat!('_', $s)))
+            Expr::Ident(swc_ecma_utils::quote_ident!(span, concat!('_', $s)))
         }
     }};
 }

@@ -1,3 +1,5 @@
+#[macro_use]
+pub mod quote;
 #[doc(hidden)]
 pub mod ext;
 pub mod fixer;
@@ -8,7 +10,6 @@ pub mod helpers;
 pub mod native;
 pub mod pass;
 pub mod perf;
-pub mod quote;
 pub mod resolver;
 pub mod scope;
 #[cfg(test)]
