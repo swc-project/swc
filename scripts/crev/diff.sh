@@ -9,5 +9,5 @@ set -eu
 
 echo "Opening the crate $1"
 
-cargo crev crate diff $@ | less
+cargo crev crate diff $@ | code - --wait
 cargo crev review $@ --diff
