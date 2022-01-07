@@ -134,7 +134,7 @@ impl FunctionWrapper {
                 Pat::Ident(..) => Some(param.clone()),
                 Pat::Array(..) | Pat::Object(..) => Some(Param {
                     span: param.span,
-                    decorators: Default::default(),
+                    decorators: param.decorators.clone(),
                     pat: Pat::Ident(private_ident!("_").into()),
                 }),
                 _ => None,
