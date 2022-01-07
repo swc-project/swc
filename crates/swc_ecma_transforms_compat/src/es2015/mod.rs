@@ -92,6 +92,7 @@ pub struct Config {
     #[serde(default)]
     pub parameters: parameters::Config,
 
+    #[serde(default)]
     pub typescript: bool,
 }
 

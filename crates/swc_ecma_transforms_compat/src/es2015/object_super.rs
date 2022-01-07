@@ -1,9 +1,11 @@
 use std::iter;
 
-use swc_common::{util::take::Take, Mark, Span, DUMMY_SP};
+use swc_common::{util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{alias_ident_for, is_rest_arguments, private_ident, quote_ident, ExprFactory};
+use swc_ecma_utils::{
+    alias_ident_for, is_rest_arguments, private_ident, quote_ident, ExprFactory, IdentExt,
+};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 struct ObjectSuper {
@@ -62,7 +64,7 @@ impl VisitMut for ObjectSuper {
             if let Some(obj) = replacer.obj {
                 *expr = Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
-                    op: AssignOp::Assign,
+                    op: op!("="),
                     left: PatOrExpr::Expr(Box::new(Expr::Ident(obj.clone()))),
                     right: Box::new(expr.take()),
                 });
@@ -385,8 +387,7 @@ impl SuperReplacer {
                     self.get_proto(),
                     super_token,
                     if computed {
-                        let mut ref_ident = alias_ident_for(&rhs, "_ref");
-                        ref_ident.span = ref_ident.span.apply_mark(Mark::fresh(Mark::root()));
+                        let ref_ident = alias_ident_for(&rhs, "_ref").private();
                         self.vars.push(ref_ident.clone());
                         *prop = Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
@@ -416,8 +417,7 @@ impl SuperReplacer {
                             .as_arg(),
                         )
                     } else {
-                        let mut update_ident = alias_ident_for(&rhs, "_super");
-                        update_ident.span = update_ident.span.apply_mark(Mark::fresh(Mark::root()));
+                        let update_ident = alias_ident_for(&rhs, "_super").private();
                         self.vars.push(update_ident.clone());
                         Expr::Seq(SeqExpr {
                             span: DUMMY_SP,
