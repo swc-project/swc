@@ -133,7 +133,7 @@ impl FunctionWrapper {
             .map_while(|param| match param.pat {
                 Pat::Ident(..) => Some(param.clone()),
                 Pat::Array(..) | Pat::Object(..) => Some(Param {
-                    span: DUMMY_SP,
+                    span: param.span,
                     decorators: Default::default(),
                     pat: Pat::Ident(private_ident!("_").into()),
                 }),
