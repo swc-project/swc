@@ -119,20 +119,24 @@ impl Fold for ConstModules {
 
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         let expr = match expr {
-            Expr::Member(expr) => {
-                if expr.computed {
-                    Expr::Member(MemberExpr {
-                        obj: expr.obj.fold_with(self),
-                        prop: expr.prop.fold_with(self),
-                        ..expr
-                    })
+            Expr::Member(expr) => Expr::Member(MemberExpr {
+                obj: expr.obj.fold_with(self),
+                prop: if let MemberProp::Computed(c) = expr.prop {
+                    MemberProp::Computed(c.fold_with(self))
                 } else {
-                    Expr::Member(MemberExpr {
-                        obj: expr.obj.fold_with(self),
-                        ..expr
-                    })
-                }
-            }
+                    expr.prop
+                },
+                ..expr
+            }),
+
+            Expr::SuperProp(expr) => Expr::SuperProp(SuperPropExpr {
+                prop: if let SuperProp::Computed(c) = expr.prop {
+                    SuperProp::Computed(c.fold_with(self))
+                } else {
+                    expr.prop
+                },
+                ..expr
+            }),
             _ => expr.fold_children_with(self),
         };
         match expr {

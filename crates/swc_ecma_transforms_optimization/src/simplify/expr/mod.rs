@@ -90,22 +90,27 @@ impl SimplifyExpr {
             /// ({}).foo
             IndexStr(JsWord),
         }
-        let op = match *e.prop {
-            Expr::Ident(Ident {
+        let op = match &e.prop {
+            MemberProp::Ident(Ident {
                 sym: js_word!("length"),
                 ..
             }) => KnownOp::Len,
-            Expr::Ident(Ident { ref sym, .. }) => KnownOp::IndexStr(sym.clone()),
-            Expr::Lit(Lit::Num(Number { value, .. })) if value.fract() == 0.0 => {
-                KnownOp::Index(value as _)
+            MemberProp::Ident(Ident { sym, .. }) => KnownOp::IndexStr(sym.clone()),
+            MemberProp::Computed(ComputedPropName { expr, .. }) => {
+                if let Expr::Lit(Lit::Num(Number { value, .. })) = &**expr {
+                    if value.fract() == 0.0 {
+                        KnownOp::Index(*value as _)
+                    } else {
+                        return Expr::Member(e);
+                    }
+                } else {
+                    return Expr::Member(e);
+                }
             }
             _ => return Expr::Member(e),
         };
 
-        let obj = match e.obj {
-            ExprOrSuper::Super(_) => return Expr::Member(e),
-            ExprOrSuper::Expr(o) => *o,
-        };
+        let obj = *e.obj;
 
         match obj {
             Expr::Lit(Lit::Str(Str {
@@ -137,7 +142,7 @@ impl SimplifyExpr {
                     };
                 }
                 _ => Expr::Member(MemberExpr {
-                    obj: ExprOrSuper::Expr(Box::new(obj)),
+                    obj: Box::new(obj),
                     ..e
                 }),
             },
@@ -155,7 +160,7 @@ impl SimplifyExpr {
 
                 if has_spread {
                     return Expr::Member(MemberExpr {
-                        obj: ExprOrSuper::Expr(Box::new(obj)),
+                        obj: Box::new(obj),
                         ..e
                     });
                 }
@@ -183,7 +188,7 @@ impl SimplifyExpr {
 
                 if has_spread {
                     return Expr::Member(MemberExpr {
-                        obj: ExprOrSuper::Expr(Box::new(Expr::Array(ArrayLit { span, elems }))),
+                        obj: Box::new(Expr::Array(ArrayLit { span, elems })),
                         ..e
                     });
                 }
@@ -280,10 +285,7 @@ impl SimplifyExpr {
 
                     if has_spread {
                         return Expr::Member(MemberExpr {
-                            obj: ExprOrSuper::Expr(Box::new(Expr::Object(ObjectLit {
-                                props,
-                                span,
-                            }))),
+                            obj: Box::new(Expr::Object(ObjectLit { props, span })),
                             ..e
                         });
                     }
@@ -326,22 +328,19 @@ impl SimplifyExpr {
                             )
                         }
                         None => Expr::Member(MemberExpr {
-                            obj: ExprOrSuper::Expr(Box::new(Expr::Object(ObjectLit {
-                                props,
-                                span,
-                            }))),
+                            obj: Box::new(Expr::Object(ObjectLit { props, span })),
                             ..e
                         }),
                     }
                 }
                 _ => Expr::Member(MemberExpr {
-                    obj: ExprOrSuper::Expr(Box::new(Expr::Object(ObjectLit { props, span }))),
+                    obj: Box::new(Expr::Object(ObjectLit { props, span })),
                     ..e
                 }),
             },
 
             _ => Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(Box::new(obj)),
+                obj: Box::new(obj),
                 ..e
             }),
         }
@@ -766,7 +765,7 @@ impl SimplifyExpr {
 
                     // Don't remove ! from negated iifes.
                     Expr::Call(call) => match &call.callee {
-                        ExprOrSuper::Expr(callee) => match &**callee {
+                        Callee::Expr(callee) => match &**callee {
                             Expr::Fn(..) => {
                                 return Expr::Unary(UnaryExpr { op, arg, span });
                             }
@@ -1183,8 +1182,8 @@ impl VisitMut for SimplifyExpr {
 
         self.in_callee = true;
         match &mut n.callee {
-            ExprOrSuper::Super(..) => {}
-            ExprOrSuper::Expr(e) => match &mut **e {
+            Callee::Super(..) | Callee::Import(..) => {}
+            Callee::Expr(e) => match &mut **e {
                 Expr::Seq(seq) => {
                     if seq.exprs.len() == 1 {
                         let mut expr = seq.exprs.take().into_iter().next().unwrap();
