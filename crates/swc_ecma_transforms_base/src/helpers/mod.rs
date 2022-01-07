@@ -159,7 +159,7 @@ macro_rules! define_helpers {
                 buf
             }
 
-            fn build_imports(&self) -> Vec<ImportSpecifier> {
+            fn build_imports(&self) -> Vec<ModuleItem> {
                 let mut buf = vec![];
 
 
@@ -169,16 +169,16 @@ macro_rules! define_helpers {
                     debug_assert!(helpers.external);
                     $(
                         if helpers.inner.$name.load(Ordering::Relaxed) {
-                            if let Some(name) = $crate::external_name!($name) {
+                            if let Some(name) = gen_ext_helper_name!($name) {
                                 let _: &str =name;
-                                let remote = Ident::new(stringify!($name).into(), DUMMY_SP.with_ctxt(ctxt));
                                 let local = Ident::new(name.into(), DUMMY_SP.with_ctxt(ctxt));
-                                buf.push(ImportSpecifier::Named(ImportNamedSpecifier {
+                                buf.push(ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                                     span: DUMMY_SP,
-                                    local: local,
-                                    imported: Some(ModuleExportName::Ident(remote)),
-                                    is_type_only: false,
-                                }));
+                                    specifiers: vec![],
+                                    src: quote_str!(format!("@swc/helpers/lib/{}", name)),
+                                    type_only: false,
+                                    asserts: Default::default(),
+                                })));
                             }
                         }
                     )*
@@ -311,15 +311,9 @@ impl InjectHelpers {
         let external = HELPERS.with(|helper| helper.external());
         if external {
             if self.is_helper_used() {
-                let specifiers = self.build_imports();
+                let imports = self.build_imports();
 
-                vec![ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
-                    span: DUMMY_SP,
-                    specifiers,
-                    src: quote_str!("@swc/helpers"),
-                    type_only: false,
-                    asserts: None,
-                }))]
+                imports
             } else {
                 vec![]
             }
