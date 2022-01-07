@@ -14,6 +14,11 @@ jobs:
         with:
           profile: minimal
 
+      - name: Remove unrelated
+        run: |
+          rm -rf packages
+          rm -rf tests
+
       - name: Configure cargo-crev
         run: |
           cargo install cargo-crev
