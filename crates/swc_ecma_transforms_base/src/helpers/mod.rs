@@ -170,7 +170,7 @@ macro_rules! define_helpers {
                     $(
                         if helpers.inner.$name.load(Ordering::Relaxed) {
                             if let Some(name) = $crate::external_name!($name) {
-                                let _: &str = name;
+                                let _: &str =name;
                                 buf.push(ImportSpecifier::Named(ImportNamedSpecifier {
                                     span: DUMMY_SP,
                                     local: Ident::new(stringify!($name).into(), DUMMY_SP.with_ctxt(ctxt)),
@@ -306,7 +306,7 @@ struct InjectHelpers;
 
 impl InjectHelpers {
     fn mk_helpers(&self) -> Vec<ModuleItem> {
-        let (mark, external) = HELPERS.with(|helper| (helper.mark(), helper.external()));
+        let external = HELPERS.with(|helper| helper.external());
         if external {
             if self.is_helper_used() {
                 let specifiers = self.build_imports();
