@@ -171,10 +171,12 @@ macro_rules! define_helpers {
                         if helpers.inner.$name.load(Ordering::Relaxed) {
                             if let Some(name) = $crate::external_name!($name) {
                                 let _: &str =name;
+                                let remote = Ident::new(stringify!($name).into(), DUMMY_SP.with_ctxt(ctxt));
+                                let local = Ident::new(name.into(), DUMMY_SP.with_ctxt(ctxt));
                                 buf.push(ImportSpecifier::Named(ImportNamedSpecifier {
                                     span: DUMMY_SP,
-                                    local: Ident::new(stringify!($name).into(), DUMMY_SP.with_ctxt(ctxt)),
-                                    imported: Some(ModuleExportName::Ident(Ident::new(name.into(), DUMMY_SP.with_ctxt(ctxt)))),
+                                    local: local,
+                                    imported: Some(ModuleExportName::Ident(remote)),
                                     is_type_only: false,
                                 }));
                             }
