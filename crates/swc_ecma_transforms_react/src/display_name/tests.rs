@@ -83,3 +83,19 @@ var bar = React.createClass({
 });
 "#
 );
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| tr(),
+    assignment_expression_with_member,
+    r#"
+foo.x = createReactClass({});
+class A extends B { render() { super.x = React.createClass({}) } };
+"#,
+    r#"
+foo.x = createReactClass({
+    displayName: "x"
+});
+class A extends B { render() { super.x = React.createClass({  displayName: "x" }) } };
+"#
+);
