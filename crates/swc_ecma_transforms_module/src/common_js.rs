@@ -843,10 +843,7 @@ where
 
     fn fold_prop(&mut self, p: Prop) -> Prop {
         match p {
-            Prop::Shorthand(ident) => {
-                let top_level = self.in_top_level;
-                Scope::fold_shorthand_prop(self, top_level, ident)
-            }
+            Prop::Shorthand(ident) => Scope::fold_shorthand_prop(self, ident),
 
             _ => p.fold_children_with(self),
         }

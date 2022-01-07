@@ -424,13 +424,9 @@ impl Scope {
         }
     }
 
-    pub(super) fn fold_shorthand_prop(
-        folder: &mut impl ModulePass,
-        top_level: bool,
-        prop: Ident,
-    ) -> Prop {
+    pub(super) fn fold_shorthand_prop(folder: &mut impl ModulePass, prop: Ident) -> Prop {
         let key = prop.clone();
-        let value = Scope::fold_ident(folder, top_level, prop);
+        let value = Scope::fold_ident(folder, prop);
         match value {
             Ok(value) => Prop::KeyValue(KeyValueProp {
                 key: PropName::Ident(key),
@@ -440,7 +436,7 @@ impl Scope {
         }
     }
 
-    fn fold_ident(folder: &mut impl ModulePass, _top_level: bool, i: Ident) -> Result<Expr, Ident> {
+    fn fold_ident(folder: &mut impl ModulePass, i: Ident) -> Result<Expr, Ident> {
         let v = folder.scope().idents.get(&i.to_id()).cloned();
         match v {
             None => Err(i),
@@ -507,7 +503,7 @@ impl Scope {
         match expr {
             // In a JavaScript module, this is undefined at the top level (i.e., outside functions).
             Expr::This(ThisExpr { span }) if top_level => *undefined(span),
-            Expr::Ident(i) => match Self::fold_ident(folder, top_level, i) {
+            Expr::Ident(i) => match Self::fold_ident(folder, i) {
                 Ok(expr) => expr,
                 Err(ident) => Expr::Ident(ident),
             },
@@ -540,7 +536,7 @@ impl Scope {
             }) => {
                 let callee = if let ExprOrSuper::Expr(expr) = callee {
                     let callee = if let Expr::Ident(ident) = *expr {
-                        match Self::fold_ident(folder, top_level, ident) {
+                        match Self::fold_ident(folder, ident) {
                             Ok(mut expr) => {
                                 if let Expr::Member(member) = &mut expr {
                                     if let ExprOrSuper::Expr(expr) = &mut member.obj {
@@ -714,7 +710,7 @@ impl Scope {
 
                         let left = if let PatOrExpr::Pat(ref left_pat) = expr.left {
                             if let Pat::Ident(BindingIdent { ref id, .. }) = **left_pat {
-                                let expr = match Self::fold_ident(folder, top_level, id.clone()) {
+                                let expr = match Self::fold_ident(folder, id.clone()) {
                                     Ok(expr) => expr,
                                     Err(ident) => Expr::Ident(ident),
                                 };
