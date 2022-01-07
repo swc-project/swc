@@ -25,9 +25,9 @@ jobs:
           cargo install cargo-crev
           git config --global user.name 'SWC bot'
           git config --global user.email 'bot@swc.rs'
-          cargo crev repo fetch all
 
           cargo crev trust --level high https://github.com/kdy1/crev-proofs
+          cargo crev repo fetch all
 
       - name: Check dependencies
         run: |
