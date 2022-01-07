@@ -3388,6 +3388,20 @@ function _ref() {
 "
 );
 
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    async_with_optional_params,
+    "
+(async function (a = 10, ...rest) {})();
+(async (a = 10, ...rest) => {})()
+",
+    "
+_asyncToGenerator(function*(a = 10, ...rest) {})();
+_asyncToGenerator(function*(a = 10, ...rest) {})();
+"
+);
+
 #[testing::fixture("tests/fixture/async-to-generator/**/exec.js")]
 fn exec(input: PathBuf) {
     let input = read_to_string(&input).unwrap();
