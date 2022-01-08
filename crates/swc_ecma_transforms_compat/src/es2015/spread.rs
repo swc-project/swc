@@ -292,7 +292,7 @@ impl Spread {
                             }
                             _ => {
                                 if args_len == 1 && !need_array {
-                                    return if self.c.loose {
+                                    return if self.c.assumptions.iterable_is_array {
                                         *expr
                                     } else {
                                         Expr::Call(CallExpr {
@@ -308,7 +308,7 @@ impl Spread {
                                 }
                                 // [].concat(arr) is shorter than _toConsumableArray(arr)
                                 if args_len == 1 {
-                                    return if self.c.loose {
+                                    return if self.c.assumptions.iterable_is_array {
                                         Expr::Call(CallExpr {
                                             span: DUMMY_SP,
                                             callee: ArrayLit {
