@@ -139,6 +139,13 @@ where
 
     pub(super) fn ignore_return_value(&mut self, e: &mut Expr) {
         match e {
+            Expr::Lit(Lit::Str(s)) => {
+                if s.value.starts_with("@swc/helpers") || s.value.starts_with("@babel/helpers") {
+                    e.take();
+                    return;
+                }
+            }
+
             Expr::Seq(e) => {
                 self.drop_useless_ident_ref_in_seq(e);
 

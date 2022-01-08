@@ -72,7 +72,7 @@ impl VisitMut for DropConsole {
                             }
                         }
 
-                        // Sioplifier will remove side-effect-free items.
+                        // Simplifier will remove side-effect-free items.
                         *n = Expr::Seq(SeqExpr {
                             span: *span,
                             exprs: take(args).into_iter().map(|arg| arg.expr).collect(),

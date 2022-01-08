@@ -62,6 +62,16 @@ pub struct Param {
     pub pat: Pat,
 }
 
+impl From<Pat> for Param {
+    fn from(pat: Pat) -> Self {
+        Self {
+            span: DUMMY_SP,
+            decorators: Default::default(),
+            pat,
+        }
+    }
+}
+
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]

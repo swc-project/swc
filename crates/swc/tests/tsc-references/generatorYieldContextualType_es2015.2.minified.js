@@ -62,15 +62,10 @@ function _AwaitValue(value) {
     return this._invoke("return", arg);
 }, f1(function*() {
     return yield 0, 0;
-}), f2(function() {
-    var _ref = function(fn) {
-        return function() {
-            return new AsyncGenerator(fn.apply(this, arguments));
-        };
-    }(function*() {
-        return yield 0, 0;
-    });
+}), f2(function(fn) {
     return function() {
-        return _ref.apply(this, arguments);
+        return new AsyncGenerator(fn.apply(this, arguments));
     };
-}());
+}(function*() {
+    return yield 0, 0;
+}));

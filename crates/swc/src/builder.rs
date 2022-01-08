@@ -16,7 +16,7 @@ use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
     compat, compat::es2022::private_in_object, fixer, helpers, hygiene,
     hygiene::hygiene_with_config, modules, modules::util::Scope, optimization::const_modules,
-    pass::Optional,
+    pass::Optional, Assumptions,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut};
 
@@ -30,6 +30,7 @@ pub struct PassBuilder<'a, 'b, P: swc_ecma_visit::Fold> {
     top_level_mark: Mark,
     target: EsVersion,
     loose: bool,
+    assumptions: Assumptions,
     hygiene: Option<hygiene::Config>,
     fixer: bool,
     inject_helpers: bool,
@@ -42,6 +43,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         cm: &'a Arc<SourceMap>,
         handler: &'b Handler,
         loose: bool,
+        assumptions: Assumptions,
         top_level_mark: Mark,
         pass: P,
     ) -> Self {
@@ -53,6 +55,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             top_level_mark,
             target: EsVersion::Es5,
             loose,
+            assumptions,
             hygiene: Some(Default::default()),
             fixer: true,
             inject_helpers: true,
@@ -74,6 +77,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             top_level_mark: self.top_level_mark,
             target: self.target,
             loose: self.loose,
+            assumptions: self.assumptions,
             hygiene: self.hygiene,
             fixer: self.fixer,
             inject_helpers: self.inject_helpers,

@@ -74,26 +74,21 @@ function _AwaitValue(value) {
                 return _ctx.stop();
         }
     }, _callee);
-})), f2(function() {
-    var _ref = function(fn) {
-        return function() {
-            return new AsyncGenerator(fn.apply(this, arguments));
-        };
-    }(regeneratorRuntime.mark(function _callee() {
-        var a;
-        return regeneratorRuntime.wrap(function(_ctx) {
-            for(;;)switch(_ctx.prev = _ctx.next){
-                case 0:
-                    return _ctx.next = 2, 0;
-                case 2:
-                    return a = _ctx.sent, _ctx.abrupt("return", 0);
-                case 4:
-                case "end":
-                    return _ctx.stop();
-            }
-        }, _callee);
-    }));
+})), f2(function(fn) {
     return function() {
-        return _ref.apply(this, arguments);
+        return new AsyncGenerator(fn.apply(this, arguments));
     };
-}());
+}(regeneratorRuntime.mark(function _callee() {
+    var a;
+    return regeneratorRuntime.wrap(function(_ctx) {
+        for(;;)switch(_ctx.prev = _ctx.next){
+            case 0:
+                return _ctx.next = 2, 0;
+            case 2:
+                return a = _ctx.sent, _ctx.abrupt("return", 0);
+            case 4:
+            case "end":
+                return _ctx.stop();
+        }
+    }, _callee);
+})));

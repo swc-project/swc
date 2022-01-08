@@ -464,7 +464,7 @@
                     return new _t(e5);
                 }
                 toBase64() {
-                    return this.binaryString, btoa(this.binaryString);
+                    return btoa(this.binaryString);
                 }
                 toUint8Array() {
                     return (function(t) {
@@ -5377,8 +5377,8 @@
                     return null;
                 }
                 Xo(t) {
-                    var e;
-                    return this.persistence, e = new cr, t.initialUser, this.N, new ar(this.persistence, e, t.initialUser, this.N);
+                    var t220, e, n, s;
+                    return t220 = this.persistence, e = new cr, n = t.initialUser, s = this.N, new ar(t220, e, n, s);
                 }
                 Jo(t) {
                     return new Cr(xr.Ns, this.N);
@@ -5391,28 +5391,28 @@
                 }
             }
             class Fc {
-                async initialize(t220, e) {
-                    this.localStore || (this.localStore = t220.localStore, this.sharedClientState = t220.sharedClientState, this.datastore = this.createDatastore(e), this.remoteStore = this.createRemoteStore(e), this.eventManager = this.createEventManager(e), this.syncEngine = this.createSyncEngine(e, !t220.synchronizeTabs), this.sharedClientState.onlineStateHandler = (t)=>cc(this.syncEngine, t, 1)
+                async initialize(t221, e) {
+                    this.localStore || (this.localStore = t221.localStore, this.sharedClientState = t221.sharedClientState, this.datastore = this.createDatastore(e), this.remoteStore = this.createRemoteStore(e), this.eventManager = this.createEventManager(e), this.syncEngine = this.createSyncEngine(e, !t221.synchronizeTabs), this.sharedClientState.onlineStateHandler = (t)=>cc(this.syncEngine, t, 1)
                     , this.remoteStore.remoteSyncer.handleCredentialChange = Tc.bind(null, this.syncEngine), await Do(this.remoteStore, this.syncEngine.isPrimaryClient));
                 }
                 createEventManager(t) {
                     return new Lo;
                 }
                 createDatastore(t) {
-                    var e, n;
-                    const e125 = Yr(t.databaseInfo.databaseId), n47 = (t.databaseInfo, new zr(t.databaseInfo));
-                    return t.credentials, e = n47, n = e125, new no(t.credentials, e, n);
+                    var s, t222, e, n;
+                    const e125 = Yr(t.databaseInfo.databaseId), n47 = (s = t.databaseInfo, new zr(s));
+                    return t222 = t.credentials, e = n47, n = e125, new no(t222, e, n);
                 }
-                createRemoteStore(t221) {
-                    var i, r;
-                    return this.localStore, this.datastore, t221.asyncQueue, i = (t)=>cc(this.syncEngine, t, 0)
-                    , r = Qr.bt() ? new Qr : new jr, new io(this.localStore, this.datastore, t221.asyncQueue, i, r);
+                createRemoteStore(t223) {
+                    var e, n, s, i, r;
+                    return e = this.localStore, n = this.datastore, s = t223.asyncQueue, i = (t)=>cc(this.syncEngine, t, 0)
+                    , r = Qr.bt() ? new Qr : new jr, new io(e, n, s, i, r);
                 }
-                createSyncEngine(t222, e126) {
+                createSyncEngine(t224, e126) {
                     return (function(t, e, n, s, i, r, o) {
                         const c = new ec(t, e, n, s, i, r);
                         return o && (c.Qo = !0), c;
-                    })(this.localStore, this.remoteStore, this.eventManager, this.sharedClientState, t222.initialUser, t222.maxConcurrentLimboResolutions, e126);
+                    })(this.localStore, this.remoteStore, this.eventManager, this.sharedClientState, t224.initialUser, t224.maxConcurrentLimboResolutions, e126);
                 }
                 terminate() {
                     return (async function(t) {
@@ -5441,8 +5441,8 @@
                 }
             }
             class Kc {
-                constructor(t223, e127, n48){
-                    this.credentials = t223, this.asyncQueue = e127, this.databaseInfo = n48, this.user = D.UNAUTHENTICATED, this.clientId = (class {
+                constructor(t225, e127, n48){
+                    this.credentials = t225, this.asyncQueue = e127, this.databaseInfo = n48, this.user = D.UNAUTHENTICATED, this.clientId = (class {
                         static I() {
                             const t = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", e = Math.floor(256 / t.length) * t.length;
                             let n = "";
@@ -5486,28 +5486,28 @@
                     }), t.promise;
                 }
             }
-            async function jc(t224, e) {
-                t224.asyncQueue.verifyOperationInProgress(), $("FirestoreClient", "Initializing OfflineComponentProvider");
-                const n = await t224.getConfiguration();
+            async function jc(t226, e) {
+                t226.asyncQueue.verifyOperationInProgress(), $("FirestoreClient", "Initializing OfflineComponentProvider");
+                const n = await t226.getConfiguration();
                 await e.initialize(n);
                 let s = n.initialUser;
-                t224.setCredentialChangeListener(async (t)=>{
+                t226.setCredentialChangeListener(async (t)=>{
                     s.isEqual(t) || (await hr(e.localStore, t), s = t);
-                }), e.persistence.setDatabaseDeletedListener(()=>t224.terminate()
-                ), t224.offlineComponents = e;
+                }), e.persistence.setDatabaseDeletedListener(()=>t226.terminate()
+                ), t226.offlineComponents = e;
             }
-            async function Qc(t225, e128) {
-                t225.asyncQueue.verifyOperationInProgress();
-                const n49 = await Wc(t225);
+            async function Qc(t227, e128) {
+                t227.asyncQueue.verifyOperationInProgress();
+                const n49 = await Wc(t227);
                 $("FirestoreClient", "Initializing OnlineComponentProvider");
-                const s22 = await t225.getConfiguration();
-                await e128.initialize(n49, s22), t225.setCredentialChangeListener((t226)=>(async function(t, e) {
+                const s22 = await t227.getConfiguration();
+                await e128.initialize(n49, s22), t227.setCredentialChangeListener((t228)=>(async function(t, e) {
                         const n = q(t);
                         n.asyncQueue.verifyOperationInProgress(), $("RemoteStore", "RemoteStore received new credentials");
                         const s = wo(n);
                         n.Wr.add(3), await oo(n), s && n.Hr.set("Unknown"), await n.remoteSyncer.handleCredentialChange(e), n.Wr.delete(3), await ro(n);
-                    })(e128.remoteStore, t226)
-                ), t225.onlineComponents = e128;
+                    })(e128.remoteStore, t228)
+                ), t227.onlineComponents = e128;
             }
             async function Wc(t) {
                 return t.offlineComponents || ($("FirestoreClient", "Using default OfflineComponentProvider"), await jc(t, new kc)), t.offlineComponents;
@@ -5547,8 +5547,8 @@
                 if ("object" == typeof t) {
                     if (t instanceof Array) return "an array";
                     {
-                        var t227;
-                        const e = (t227 = t).constructor ? t227.constructor.name : null;
+                        var t229;
+                        const e = (t229 = t).constructor ? t229.constructor.name : null;
                         return e ? `a custom ${e} object` : "an object";
                     }
                 }
@@ -5565,33 +5565,33 @@
                 return t;
             }
             class pa {
-                constructor(t228){
+                constructor(t230){
                     var e129;
-                    if (void 0 === t228.host) {
-                        if (void 0 !== t228.ssl) throw new j(K.INVALID_ARGUMENT, "Can't provide ssl option if host option is not set");
+                    if (void 0 === t230.host) {
+                        if (void 0 !== t230.ssl) throw new j(K.INVALID_ARGUMENT, "Can't provide ssl option if host option is not set");
                         this.host = "firestore.googleapis.com", this.ssl = !0;
-                    } else this.host = t228.host, this.ssl = null === (e129 = t228.ssl) || void 0 === e129 || e129;
-                    if (this.credentials = t228.credentials, this.ignoreUndefinedProperties = !!t228.ignoreUndefinedProperties, void 0 === t228.cacheSizeBytes) this.cacheSizeBytes = 41943040;
+                    } else this.host = t230.host, this.ssl = null === (e129 = t230.ssl) || void 0 === e129 || e129;
+                    if (this.credentials = t230.credentials, this.ignoreUndefinedProperties = !!t230.ignoreUndefinedProperties, void 0 === t230.cacheSizeBytes) this.cacheSizeBytes = 41943040;
                     else {
-                        if (-1 !== t228.cacheSizeBytes && t228.cacheSizeBytes < 1048576) throw new j(K.INVALID_ARGUMENT, "cacheSizeBytes must be at least 1048576");
-                        this.cacheSizeBytes = t228.cacheSizeBytes;
+                        if (-1 !== t230.cacheSizeBytes && t230.cacheSizeBytes < 1048576) throw new j(K.INVALID_ARGUMENT, "cacheSizeBytes must be at least 1048576");
+                        this.cacheSizeBytes = t230.cacheSizeBytes;
                     }
-                    this.experimentalForceLongPolling = !!t228.experimentalForceLongPolling, this.experimentalAutoDetectLongPolling = !!t228.experimentalAutoDetectLongPolling, this.useFetchStreams = !!t228.useFetchStreams, (function(t, e, n, s) {
+                    this.experimentalForceLongPolling = !!t230.experimentalForceLongPolling, this.experimentalAutoDetectLongPolling = !!t230.experimentalAutoDetectLongPolling, this.useFetchStreams = !!t230.useFetchStreams, (function(t, e, n, s) {
                         if (!0 === e && !0 === s) throw new j(K.INVALID_ARGUMENT, `${t} and ${n} cannot be used together.`);
-                    })("experimentalForceLongPolling", t228.experimentalForceLongPolling, "experimentalAutoDetectLongPolling", t228.experimentalAutoDetectLongPolling);
+                    })("experimentalForceLongPolling", t230.experimentalForceLongPolling, "experimentalAutoDetectLongPolling", t230.experimentalAutoDetectLongPolling);
                 }
                 isEqual(t) {
                     return this.host === t.host && this.ssl === t.ssl && this.credentials === t.credentials && this.cacheSizeBytes === t.cacheSizeBytes && this.experimentalForceLongPolling === t.experimentalForceLongPolling && this.experimentalAutoDetectLongPolling === t.experimentalAutoDetectLongPolling && this.ignoreUndefinedProperties === t.ignoreUndefinedProperties && this.useFetchStreams === t.useFetchStreams;
                 }
             }
             class Ta {
-                constructor(t229, e){
-                    this._credentials = e, this.type = "firestore-lite", this._persistenceKey = "(lite)", this._settings = new pa({}), this._settingsFrozen = !1, t229 instanceof ha ? this._databaseId = t229 : (this._app = t229, this._databaseId = (function(t) {
+                constructor(t231, e){
+                    this._credentials = e, this.type = "firestore-lite", this._persistenceKey = "(lite)", this._settings = new pa({}), this._settingsFrozen = !1, t231 instanceof ha ? this._databaseId = t231 : (this._app = t231, this._databaseId = (function(t) {
                         if (!Object.prototype.hasOwnProperty.apply(t.options, [
                             "projectId"
                         ])) throw new j(K.INVALID_ARGUMENT, "\"projectId\" not provided in firebase.initializeApp.");
                         return new ha(t.options.projectId);
-                    })(t229));
+                    })(t231));
                 }
                 get app() {
                     if (!this._app) throw new j(K.FAILED_PRECONDITION, "Firestore was not initialized using the Firebase SDK. 'app' is not available");
@@ -5603,9 +5603,9 @@
                 get _terminated() {
                     return void 0 !== this._terminateTask;
                 }
-                _setSettings(t230) {
+                _setSettings(t232) {
                     if (this._settingsFrozen) throw new j(K.FAILED_PRECONDITION, "Firestore has already been started and its settings can no longer be changed. You can only modify settings before calling any other methods on a Firestore object.");
-                    this._settings = new pa(t230), void 0 !== t230.credentials && (this._credentials = (function(t) {
+                    this._settings = new pa(t232), void 0 !== t232.credentials && (this._credentials = (function(t) {
                         if (!t) return new G;
                         switch(t.type){
                             case "gapi":
@@ -5616,7 +5616,7 @@
                             default:
                                 throw new j(K.INVALID_ARGUMENT, "makeCredentialsProvider failed due to invalid credential type");
                         }
-                    })(t230.credentials));
+                    })(t232.credentials));
                 }
                 _getSettings() {
                     return this._settings;
@@ -5687,29 +5687,29 @@
                     return new Ra(this.firestore, t, this._path);
                 }
             }
-            function ba(t231, e130, ...n50) {
-                if (t231 = (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__.m9)(t231), (function(t, e, n) {
+            function ba(t233, e130, ...n50) {
+                if (t233 = (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__.m9)(t233), (function(t, e, n) {
                     if (!n) throw new j(K.INVALID_ARGUMENT, `Function ${t}() cannot be called with an empty ${e}.`);
-                })("collection", "path", e130), t231 instanceof Ta) {
+                })("collection", "path", e130), t233 instanceof Ta) {
                     const s = ht.fromString(e130, ...n50);
-                    return _a(s), new Ra(t231, null, s);
+                    return _a(s), new Ra(t233, null, s);
                 }
                 {
-                    if (!(t231 instanceof Ia || t231 instanceof Ra)) throw new j(K.INVALID_ARGUMENT, "Expected first argument to collection() to be a CollectionReference, a DocumentReference or FirebaseFirestore");
-                    const s = t231._path.child(ht.fromString(e130, ...n50));
-                    return _a(s), new Ra(t231.firestore, null, s);
+                    if (!(t233 instanceof Ia || t233 instanceof Ra)) throw new j(K.INVALID_ARGUMENT, "Expected first argument to collection() to be a CollectionReference, a DocumentReference or FirebaseFirestore");
+                    const s = t233._path.child(ht.fromString(e130, ...n50));
+                    return _a(s), new Ra(t233.firestore, null, s);
                 }
             }
             class ka extends Ta {
-                constructor(t232, e131){
-                    super(t232, e131), this.type = "firestore", this._queue = new class {
+                constructor(t234, e131){
+                    super(t234, e131), this.type = "firestore", this._queue = new class {
                         constructor(){
                             this._c = Promise.resolve(), this.mc = [], this.gc = !1, this.yc = [], this.Tc = null, this.Ec = !1, this.Ic = !1, this.Ac = [], this.ar = new Xr(this, "async_queue_retry"), this.Rc = ()=>{
                                 const t = Jr();
                                 t && $("AsyncQueue", "Visibility state changed to " + t.visibilityState), this.ar.tr();
                             };
-                            const t233 = Jr();
-                            t233 && "function" == typeof t233.addEventListener && t233.addEventListener("visibilitychange", this.Rc);
+                            const t235 = Jr();
+                            t235 && "function" == typeof t235.addEventListener && t235.addEventListener("visibilitychange", this.Rc);
                         }
                         get isShuttingDown() {
                             return this.gc;
@@ -5750,21 +5750,21 @@
                                 );
                             }
                         }
-                        Pc(t235) {
-                            const e133 = this._c.then(()=>(this.Ec = !0, t235().catch((t)=>{
-                                    var t234;
+                        Pc(t237) {
+                            const e133 = this._c.then(()=>(this.Ec = !0, t237().catch((t)=>{
+                                    var t236;
                                     this.Tc = t, this.Ec = !1;
                                     let e;
-                                    const e132 = (e = (t234 = t).message || "", t234.stack && (e = t234.stack.includes(t234.message) ? t234.stack : t234.message + "\n" + t234.stack), e);
+                                    const e132 = (e = (t236 = t).message || "", t236.stack && (e = t236.stack.includes(t236.message) ? t236.stack : t236.message + "\n" + t236.stack), e);
                                     throw O("INTERNAL UNHANDLED ERROR: ", e132), t;
                                 }).then((t)=>(this.Ec = !1, t)
                                 ))
                             );
                             return this._c = e133, e133;
                         }
-                        enqueueAfterDelay(t236, e, n) {
-                            this.bc(), this.Ac.indexOf(t236) > -1 && (e = 0);
-                            const s = xo.createAndSchedule(this, t236, e, n, (t)=>this.Vc(t)
+                        enqueueAfterDelay(t238, e, n) {
+                            this.bc(), this.Ac.indexOf(t238) > -1 && (e = 0);
+                            const s = xo.createAndSchedule(this, t238, e, n, (t)=>this.Vc(t)
                             );
                             return this.yc.push(s), s;
                         }
@@ -5781,10 +5781,10 @@
                             for (const e of this.yc)if (e.timerId === t) return !0;
                             return !1;
                         }
-                        Cc(t237) {
+                        Cc(t239) {
                             return this.Sc().then(()=>{
                                 for (const e134 of (this.yc.sort((t, e)=>t.targetTimeMs - e.targetTimeMs
-                                ), this.yc))if (e134.skipDelay(), "all" !== t237 && e134.timerId === t237) break;
+                                ), this.yc))if (e134.skipDelay(), "all" !== t239 && e134.timerId === t239) break;
                                 return this.Sc();
                             });
                         }
@@ -5795,15 +5795,15 @@
                             const e = this.yc.indexOf(t);
                             this.yc.splice(e, 1);
                         }
-                    }, this._persistenceKey = "name" in t232 ? t232.name : "[DEFAULT]";
+                    }, this._persistenceKey = "name" in t234 ? t234.name : "[DEFAULT]";
                 }
                 _terminate() {
                     return this._firestoreClient || Ma(this), this._firestoreClient.terminate();
                 }
             }
             function Ma(t) {
-                var e, e135, s;
-                const n = t._freezeSettings(), s23 = (t._databaseId, e135 = (null === (e = t._app) || void 0 === e ? void 0 : e.options.appId) || "", t._persistenceKey, s = n, new ua(t._databaseId, e135, t._persistenceKey, s.host, s.ssl, s.experimentalForceLongPolling, s.experimentalAutoDetectLongPolling, s.useFetchStreams));
+                var e, t240, e135, n, s;
+                const n51 = t._freezeSettings(), s23 = (t240 = t._databaseId, e135 = (null === (e = t._app) || void 0 === e ? void 0 : e.options.appId) || "", n = t._persistenceKey, s = n51, new ua(t240, e135, n, s.host, s.ssl, s.experimentalForceLongPolling, s.experimentalAutoDetectLongPolling, s.useFetchStreams));
                 t._firestoreClient = new Kc(t._credentials, t._queue, s23);
             }
             class Ja {
@@ -5822,8 +5822,8 @@
                 static fromBase64String(t) {
                     try {
                         return new Xa(_t.fromBase64String(t));
-                    } catch (t238) {
-                        throw new j(K.INVALID_ARGUMENT, "Failed to construct data from Base64 string: " + t238);
+                    } catch (t241) {
+                        throw new j(K.INVALID_ARGUMENT, "Failed to construct data from Base64 string: " + t241);
                     }
                 }
                 static fromUint8Array(t) {
@@ -5954,16 +5954,16 @@
                     return t instanceof lu;
                 }
             }
-            function yu(t239, e136) {
-                if (Tu(t239 = getModularInstance(t239))) return Eu("Unsupported field value:", e136, t239), pu(t239, e136);
-                if (t239 instanceof Za) return (function(t, e) {
+            function yu(t242, e136) {
+                if (Tu(t242 = getModularInstance(t242))) return Eu("Unsupported field value:", e136, t242), pu(t242, e136);
+                if (t242 instanceof Za) return (function(t, e) {
                     if (!iu(e.kc)) throw e.Uc(`${t._methodName}() can only be used with update() and set()`);
                     if (!e.path) throw e.Uc(`${t._methodName}() is not currently supported inside arrays`);
                     const n = t._toFieldTransform(e);
                     n && e.fieldTransforms.push(n);
-                })(t239, e136), null;
-                if (void 0 === t239 && e136.ignoreUndefinedProperties) return null;
-                if (e136.path && e136.fieldMask.push(e136.path), t239 instanceof Array) {
+                })(t242, e136), null;
+                if (void 0 === t242 && e136.ignoreUndefinedProperties) return null;
+                if (e136.path && e136.fieldMask.push(e136.path), t242 instanceof Array) {
                     if (e136.settings.Fc && 4 !== e136.kc) throw e136.Uc("Nested arrays are not supported");
                     return (function(t, e) {
                         const n = [];
@@ -5979,14 +5979,14 @@
                                 values: n
                             }
                         };
-                    })(t239, e136);
+                    })(t242, e136);
                 }
                 return (function(t, e) {
-                    var t240, e137;
+                    var t243, e137;
                     if (null === (t = getModularInstance(t))) return {
                         nullValue: "NULL_VALUE"
                     };
-                    if ("number" == typeof t) return t240 = e.N, bt(e137 = t) ? De(e137) : Se(t240, e137);
+                    if ("number" == typeof t) return t243 = e.N, bt(e137 = t) ? De(e137) : Se(t243, e137);
                     if ("boolean" == typeof t) return {
                         booleanValue: t
                     };
@@ -6022,11 +6022,11 @@
                         };
                     }
                     throw e.Uc(`Unsupported field value: ${ma(t)}`);
-                })(t239, e136);
+                })(t242, e136);
             }
-            function pu(t241, e) {
+            function pu(t244, e) {
                 const n = {};
-                return at(t241) ? e.path && e.path.length > 0 && e.fieldMask.push(e.path) : ct(t241, (t, s)=>{
+                return at(t244) ? e.path && e.path.length > 0 && e.fieldMask.push(e.path) : ct(t244, (t, s)=>{
                     const i = yu(s, e.Oc(t));
                     null != i && (n[t] = i);
                 }), {
@@ -6039,8 +6039,8 @@
                 return !("object" != typeof t || null === t || t instanceof Array || t instanceof Date || t instanceof it || t instanceof tu || t instanceof Xa || t instanceof Ia || t instanceof Za);
             }
             function Eu(t, e, n) {
-                var t242;
-                if (!Tu(n) || "object" != typeof (t242 = n) || null === t242 || Object.getPrototypeOf(t242) !== Object.prototype && null !== Object.getPrototypeOf(t242)) {
+                var t245;
+                if (!Tu(n) || "object" != typeof (t245 = n) || null === t245 || Object.getPrototypeOf(t245) !== Object.prototype && null !== Object.getPrototypeOf(t245)) {
                     const s = ma(n);
                     throw "an object" === s ? e.Uc(t + " a custom object") : e.Uc(t + " " + s);
                 }
@@ -6087,7 +6087,7 @@
                     return super.data();
                 }
             }
-            function Su(t243, e138) {
+            function Su(t246, e138) {
                 return "string" == typeof e138 ? (function(t, e, n) {
                     if (e.search(Au) >= 0) throw bu(`Invalid field path (${e}). Paths must not contain '~', '*', '/', '[', or ']'`, t, !1, void 0, n);
                     try {
@@ -6095,7 +6095,7 @@
                     } catch (s) {
                         throw bu(`Invalid field path (${e}). Paths must not be empty, begin with '.', end with '.', or contain '..'`, t, !1, void 0, n);
                     }
-                })(t243, e138) : e138 instanceof Ja ? e138._internalPath : e138._delegate._internalPath;
+                })(t246, e138) : e138 instanceof Ja ? e138._internalPath : e138._delegate._internalPath;
             }
             class Du {
                 constructor(t, e){
@@ -6153,25 +6153,25 @@
                         t.call(e, new Nu(this._firestore, this._userDataWriter, n.key, n, new Du(this._snapshot.mutatedKeys.has(n.key), this._snapshot.fromCache), this.query.converter));
                     });
                 }
-                docChanges(t244 = {}) {
-                    const e139 = !!t244.includeMetadataChanges;
+                docChanges(t247 = {}) {
+                    const e139 = !!t247.includeMetadataChanges;
                     if (e139 && this._snapshot.excludesMetadataChanges) throw new j(K.INVALID_ARGUMENT, "To include metadata changes with your document changes, you must also pass { includeMetadataChanges:true } to onSnapshot().");
-                    return this._cachedChanges && this._cachedChangesIncludeMetadataChanges === e139 || (this._cachedChanges = (function(t245, e140) {
-                        if (t245._snapshot.oldDocs.isEmpty()) {
+                    return this._cachedChanges && this._cachedChangesIncludeMetadataChanges === e139 || (this._cachedChanges = (function(t248, e140) {
+                        if (t248._snapshot.oldDocs.isEmpty()) {
                             let e = 0;
-                            return t245._snapshot.docChanges.map((n)=>({
+                            return t248._snapshot.docChanges.map((n)=>({
                                     type: "added",
-                                    doc: new Nu(t245._firestore, t245._userDataWriter, n.doc.key, n.doc, new Du(t245._snapshot.mutatedKeys.has(n.doc.key), t245._snapshot.fromCache), t245.query.converter),
+                                    doc: new Nu(t248._firestore, t248._userDataWriter, n.doc.key, n.doc, new Du(t248._snapshot.mutatedKeys.has(n.doc.key), t248._snapshot.fromCache), t248.query.converter),
                                     oldIndex: -1,
                                     newIndex: e++
                                 })
                             );
                         }
                         {
-                            let n = t245._snapshot.oldDocs;
-                            return t245._snapshot.docChanges.filter((t)=>e140 || 3 !== t.type
+                            let n = t248._snapshot.oldDocs;
+                            return t248._snapshot.docChanges.filter((t)=>e140 || 3 !== t.type
                             ).map((e)=>{
-                                const s = new Nu(t245._firestore, t245._userDataWriter, e.doc.key, e.doc, new Du(t245._snapshot.mutatedKeys.has(e.doc.key), t245._snapshot.fromCache), t245.query.converter);
+                                const s = new Nu(t248._firestore, t248._userDataWriter, e.doc.key, e.doc, new Du(t248._snapshot.mutatedKeys.has(e.doc.key), t248._snapshot.fromCache), t248.query.converter);
                                 let i = -1, r = -1;
                                 return 0 !== e.type && (i = n.indexOf(e.doc.key), n = n.delete(e.doc.key)), 1 !== e.type && (r = (n = n.add(e.doc)).indexOf(e.doc.key)), {
                                     type: ku(e.type),
@@ -6235,8 +6235,8 @@
                 convertGeoPoint(t) {
                     return new tu(yt(t.latitude), yt(t.longitude));
                 }
-                convertArray(t246, e) {
-                    return (t246.values || []).map((t)=>this.convertValue(t, e)
+                convertArray(t249, e) {
+                    return (t249.values || []).map((t)=>this.convertValue(t, e)
                     );
                 }
                 convertServerTimestamp(t, e) {
@@ -6273,32 +6273,32 @@
                     return new Ia(this.firestore, null, e);
                 }
             }
-            function lh(t248) {
-                var t247;
-                t248 = ga(t248, Aa);
-                const e141 = ga(t248.firestore, ka), n51 = ((t247 = e141)._firestoreClient || Ma(t247), t247._firestoreClient.verifyNotTerminated(), t247._firestoreClient), s24 = new ah(e141);
+            function lh(t251) {
+                var t250;
+                t251 = ga(t251, Aa);
+                const e141 = ga(t251.firestore, ka), n52 = ((t250 = e141)._firestoreClient || Ma(t250), t250._firestoreClient.verifyNotTerminated(), t250._firestoreClient), s24 = new ah(e141);
                 return (function(t) {
                     if (me(t) && 0 === t.explicitOrderBy.length) throw new j(K.UNIMPLEMENTED, "limitToLast() queries require specifying at least one orderBy() clause");
-                })(t248._query), (function(t249, e142, n52 = {}) {
+                })(t251._query), (function(t252, e142, n53 = {}) {
                     const s25 = new Q;
-                    return t249.asyncQueue.enqueueAndForget(async ()=>(function(t250, e, n53, s, i) {
+                    return t252.asyncQueue.enqueueAndForget(async ()=>(function(t253, e, n54, s, i) {
                             const r = new Lc({
                                 next: (n)=>{
-                                    e.enqueueAndForget(()=>Uo(t250, o)
+                                    e.enqueueAndForget(()=>Uo(t253, o)
                                     ), n.fromCache && "server" === s.source ? i.reject(new j(K.UNAVAILABLE, "Failed to get documents from server. (However, these documents may exist in the local cache. Run again without setting source to \"server\" to retrieve the cached documents.)")) : i.resolve(n);
                                 },
                                 error: (t)=>i.reject(t)
-                            }), o = new Qo(n53, r, {
+                            }), o = new Qo(n54, r, {
                                 includeMetadataChanges: !0,
                                 fo: !0
                             });
-                            return Bo(t250, o);
-                        })(await Xc(t249), t249.asyncQueue, e142, n52, s25)
+                            return Bo(t253, o);
+                        })(await Xc(t252), t252.asyncQueue, e142, n53, s25)
                     ), s25.promise;
-                })(n51, t248._query).then((n)=>new xu(e141, s24, t248, n)
+                })(n52, t251._query).then((n)=>new xu(e141, s24, t251, n)
                 );
             }
-            !function(t251, e = !0) {
+            !function(t254, e = !0) {
                 C = _firebase_app__WEBPACK_IMPORTED_MODULE_0__.Jn, (0, _firebase_app__WEBPACK_IMPORTED_MODULE_0__.Xd)(new _firebase_component__WEBPACK_IMPORTED_MODULE_1__.wA("firestore", (t, { options: n  })=>{
                     const s = t.getProvider("app").getImmediate(), i = new ka(s, new H(t.getProvider("auth-internal")));
                     return n = Object.assign({

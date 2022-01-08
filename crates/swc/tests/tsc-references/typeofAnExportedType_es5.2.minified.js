@@ -18,7 +18,7 @@ export var C = function() {
     M1.C = C1;
 }(M || (M = {}));
 export var Z = M;
-(E = E || (E = {}))[E.A = 0] = "A";
+E = E || (E = {}), E[E.A = 0] = "A";
 export function foo() {}
 !function(foo1) {
     foo1.y = 1;

@@ -13,17 +13,20 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
     {
         let mut cmd = Command::new("cargo");
         cmd.current_dir(dir);
-        cmd.arg("build").stderr(Stdio::inherit());
+        cmd.args(["build", "--target=wasm32-unknown-unknown"])
+            .stderr(Stdio::inherit());
         cmd.output()?;
     }
 
-    for entry in fs::read_dir(&dir.join("target").join("debug"))? {
+    for entry in fs::read_dir(
+        &dir.join("target")
+            .join("wasm32-unknown-unknown")
+            .join("debug"),
+    )? {
         let entry = entry?;
 
         let s = entry.file_name().to_string_lossy().into_owned();
-        if (s.starts_with("libswc_internal") && (s.ends_with(".so") || s.ends_with(".dylib")))
-            || (s.starts_with("swc_internal") && s.ends_with(".dll"))
-        {
+        if s.eq_ignore_ascii_case("swc_internal_plugin.wasm") {
             return Ok(entry.path());
         }
     }
@@ -31,8 +34,6 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
     Err(anyhow!("Could not find built plugin"))
 }
 
-//TODO: https://github.com/swc-project/swc/issues/3167
-#[ignore]
 #[test]
 fn internal() -> Result<(), Error> {
     let path = build_plugin(

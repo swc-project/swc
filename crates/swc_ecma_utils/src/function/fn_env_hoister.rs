@@ -4,13 +4,13 @@ use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 #[derive(Clone, Default)]
-pub struct WrapperState {
+pub struct FnEnvState {
     this: Option<Ident>,
     args: Option<Ident>,
     new_target: Option<Ident>,
 }
 
-impl WrapperState {
+impl FnEnvState {
     pub fn new(this: Option<Ident>, args: Option<Ident>, new_target: Option<Ident>) -> Self {
         Self {
             this,
@@ -128,23 +128,23 @@ impl WrapperState {
     }
 }
 
-impl Take for WrapperState {
+impl Take for FnEnvState {
     fn dummy() -> Self {
         Self::default()
     }
 }
 
-pub struct FunctionWrapper<'a> {
-    state: &'a mut WrapperState,
+pub struct FnEnvHoister<'a> {
+    state: &'a mut FnEnvState,
 }
 
-impl<'a> FunctionWrapper<'a> {
-    pub fn new(state: &'a mut WrapperState) -> Self {
-        FunctionWrapper { state }
+impl<'a> FnEnvHoister<'a> {
+    pub fn new(state: &'a mut FnEnvState) -> Self {
+        FnEnvHoister { state }
     }
 }
 
-impl<'a> VisitMut for FunctionWrapper<'a> {
+impl<'a> VisitMut for FnEnvHoister<'a> {
     noop_visit_mut_type!();
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {

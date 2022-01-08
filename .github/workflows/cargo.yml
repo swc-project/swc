@@ -156,7 +156,6 @@ jobs:
           - swc_node_bundler
           - swc_node_comments
           - swc_plugin
-          - swc_plugin_js_api
           - swc_plugin_runner
           - swc_plugin_testing
           - swc_stylis
@@ -213,6 +212,7 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
+          target: wasm32-unknown-unknown
 
       - uses: denoland/setup-deno@v1
         if: matrix.crate == 'swc_bundler'

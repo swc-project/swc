@@ -70,6 +70,9 @@ impl Visit for DuplicateExports {
     }
 
     fn visit_export_namespace_specifier(&mut self, s: &ExportNamespaceSpecifier) {
-        self.add(&s.name);
+        match &s.name {
+            ModuleExportName::Ident(name) => self.add(name),
+            ModuleExportName::Str(..) => {}
+        };
     }
 }
