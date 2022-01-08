@@ -77,9 +77,8 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_module_export_name(&mut self) -> PResult<ModuleExportName> {
         let module_export_name = match cur!(self, false) {
             Ok(&Token::Str { .. }) => match self.parse_lit()? {
-                // TODO: add and use parse_str_lit function
                 Lit::Str(str_lit) => ModuleExportName::Str(str_lit),
-                _ => unreachable!(""),
+                _ => unreachable!(),
             },
             Ok(&Word(..)) => ModuleExportName::Ident(self.parse_ident_name()?),
             _ => {
