@@ -39,14 +39,14 @@ impl<T> FunctionWrapper<T> {
 
     ///
     /// ```javascript
-    /// function () {
+    /// (function () {
     ///     var REF = FUNCTION;
     ///     return function NAME(PARAMS) {
     ///         return REF.apply(this, arguments);
     ///     };
-    /// }
+    /// })()
     /// ```
-    fn build_anonymous_expression(&mut self) -> FnExpr {
+    fn build_anonymous_expression_wrapper(&mut self) -> Expr {
         let name_ident = self.binding_ident.take();
         let ref_ident = private_ident!("_ref");
 
@@ -91,32 +91,21 @@ impl<T> FunctionWrapper<T> {
             ident: None,
             function,
         }
+        .as_iife()
+        .into()
     }
 
     ///
     /// ```javascript
     /// (function () {
     ///     var REF = FUNCTION;
-    ///     return function NAME(PARAMS) {
-    ///         return REF.apply(this, arguments);
-    ///     };
-    /// })()
-    /// ```
-    fn build_anonymous_expression_iife(&mut self) -> Expr {
-        self.build_anonymous_expression().as_iife().into()
-    }
-
-    ///
-    /// ```javascript
-    /// function () {
-    ///     var REF = FUNCTION;
     ///     function NAME(PARAMS) {
     ///         return REF.apply(this, arguments);
     ///     }
     ///     return NAME;
-    /// }
+    /// })()
     /// ```
-    fn build_named_expression(&mut self, name_ident: Ident) -> FnExpr {
+    fn build_named_expression_wrapper(&mut self, name_ident: Ident) -> Expr {
         let ref_ident = self.function_ident.as_ref().map_or_else(
             || private_ident!("_ref"),
             |ident| private_ident!(ident.span, format!("_{}", ident.sym)),
@@ -173,21 +162,10 @@ impl<T> FunctionWrapper<T> {
             ident: None,
             function,
         }
+        .as_iife()
+        .into()
     }
 
-    ///
-    /// ```javascript
-    /// (function () {
-    ///     var REF = FUNCTION;
-    ///     function NAME(PARAMS) {
-    ///         return REF.apply(this, arguments);
-    ///     }
-    ///     return NAME;
-    /// })()
-    /// ```
-    fn build_named_expression_iife(&mut self, name_ident: Ident) -> Expr {
-        self.build_named_expression(name_ident).as_iife().into()
-    }
     ///
     /// ```javascript
     /// function NAME(PARAMS) {
@@ -358,9 +336,9 @@ impl Into<Expr> for FunctionWrapper<Expr> {
     /// It's safe to return the expr without wrapper if the params.len is 0.
     fn into(mut self) -> Expr {
         if let Some(name_ident) = self.function_ident.as_ref().cloned() {
-            self.build_named_expression_iife(name_ident)
+            self.build_named_expression_wrapper(name_ident)
         } else if self.binding_ident.is_some() || self.params.len() > 0 {
-            self.build_anonymous_expression_iife()
+            self.build_anonymous_expression_wrapper()
         } else {
             self.function
         }
