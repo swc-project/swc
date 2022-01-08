@@ -172,7 +172,7 @@ pub enum SyntaxError {
     NumericSeparatorIsAllowedOnlyBetweenTwoDigits,
 
     ImportBindingIsString(JsWord),
-    ExportBindingIsString(JsWord, JsWord),
+    ExportBindingIsString,
     ModuleExportNameHasLoneSurrogate(JsWord),
 
     TS1003,
@@ -464,12 +464,9 @@ impl SyntaxError {
             )
             .into(),
 
-            SyntaxError::ExportBindingIsString(str1, str2) => format!(
-                "A string literal cannot be used as an exported binding without `from`.\n- Did \
-                 you mean `export {{ \"{}\" as \"{}\" }} from \"some-module\"`?",
-                str1, str2
-            )
-            .into(),
+            SyntaxError::ExportBindingIsString => {
+                "A string literal cannot be used as an exported binding without `from`.".into()
+            }
 
             SyntaxError::ModuleExportNameHasLoneSurrogate(str) => format!(
                 "An export name cannot include a lone surrogate, found '{}'.",

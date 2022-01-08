@@ -623,11 +623,13 @@ impl<'a, I: Tokens> Parser<I> {
                     exported: default,
                 }))
             }
+            let mut string_export_binding_span = None;
             while !eof!(self) && !is!(self, '}') {
-                specifiers.push(
-                    self.parse_named_export_specifier(type_only)
-                        .map(ExportSpecifier::Named)?,
-                );
+                let specifier = self.parse_named_export_specifier(type_only)?;
+                if let ModuleExportName::Str(str_export) = &specifier.orig {
+                    string_export_binding_span = Some(str_export.span);
+                }
+                specifiers.push(ExportSpecifier::Named(specifier));
 
                 if is!(self, '}') {
                     break;
@@ -646,6 +648,13 @@ impl<'a, I: Tokens> Parser<I> {
                         self,
                         span!(self, start),
                         SyntaxError::ExportDefaultWithOutFrom
+                    );
+                }
+                if let Some(span) = string_export_binding_span {
+                    syntax_error!(
+                        self,
+                        span,
+                        SyntaxError::ExportBindingIsString
                     );
                 }
                 None
