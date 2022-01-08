@@ -3,6 +3,7 @@ pub use self::{
     static_blocks::static_blocks,
 };
 use swc_common::chain;
+use swc_ecma_transforms_base::assumptions::Assumptions;
 use swc_ecma_visit::Fold;
 
 pub mod class_properties;
