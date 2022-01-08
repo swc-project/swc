@@ -2555,7 +2555,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.108.0"
+version = "0.109.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2999,7 +2999,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.107.1"
+version = "0.107.2"
 dependencies = [
  "pretty_assertions 0.7.2",
  "sourcemap",
@@ -3025,12 +3025,13 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.53.1"
+version = "0.53.2"
 dependencies = [
  "once_cell",
  "phf",
  "rayon",
  "scoped-tls",
+ "serde",
  "smallvec",
  "swc_atoms",
  "swc_common",
@@ -3266,7 +3267,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.104.1"
+version = "0.104.2"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3302,7 +3303,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.26.0"
+version = "0.27.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3481,7 +3482,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.24.0"
+version = "0.25.0"
 dependencies = [
  "anyhow",
  "rayon",
