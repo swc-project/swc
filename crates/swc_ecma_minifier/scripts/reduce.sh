@@ -26,7 +26,7 @@ REDUCED_SIZE=$(wc -c <"input.js")
 
 echo "Reduced size is $REDUCED_SIZE bytes"
 
-if [[ "$1" == *"inputs"* && $REDUCED_SIZE -le 10 ]]; then
+if [[ "$1" == *"inputs"* && $REDUCED_SIZE -le 3 ]]; then
     echo "Removing $1"
     git rm --force $1 || true
     rm -rf $1
