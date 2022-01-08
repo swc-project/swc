@@ -13,9 +13,9 @@ fn tr() -> impl Fold {
     let top_level_mark = Mark::fresh(Mark::root());
     chain!(
         resolver_with_mark(top_level_mark),
+        object_super(),
         shorthand(),
         function_name(),
-        object_super()
     )
 }
 
@@ -137,12 +137,13 @@ test!(
         }
       };
     Object.setPrototypeOf(obj, Base);"#,
-    r#"var _super, _obj;
+    r#"var _obj;
     var Base = {
         test: "1"
     };
     var obj = _obj = {
         bar: function bar() {
+            var _super;
             return _set(_getPrototypeOf(_obj), "test", (_super = +_get(_getPrototypeOf(_obj), "test", this)) + 1, this, true), _super;
         }
     };
@@ -163,12 +164,13 @@ test!(
         }
       };
     Object.setPrototypeOf(obj, Base);"#,
-    r#"var _ref, _super, _obj;
+    r#"var _obj;
     var Base = {
         test: "1"
     };
     var obj = _obj = {
         bar: function bar() {
+            var  _ref, _super;
             return _set(_getPrototypeOf(_obj), _ref = test, (_super = +_get(_getPrototypeOf(_obj), _ref, this)) + 1, this, true), _super;
         }
     };

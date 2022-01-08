@@ -4,7 +4,7 @@ use swc_common::{util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
-    alias_ident_for, is_rest_arguments, private_ident, quote_ident, ExprFactory, IdentExt,
+    alias_ident_for, is_rest_arguments, prepend, private_ident, quote_ident, ExprFactory, IdentExt,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -22,8 +22,8 @@ impl VisitMut for ObjectSuper {
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         n.visit_mut_children_with(self);
         if self.extra_var.len() != 0 {
-            n.insert(
-                0,
+            prepend(
+                n,
                 ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
@@ -43,6 +43,30 @@ impl VisitMut for ObjectSuper {
             );
         }
     }
+    fn visit_mut_block_stmt(&mut self, stmts: &mut BlockStmt) {
+        stmts.visit_mut_children_with(self);
+        if self.extra_var.len() != 0 {
+            prepend(
+                &mut stmts.stmts,
+                Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: self
+                        .extra_var
+                        .drain(..)
+                        .into_iter()
+                        .map(|v| VarDeclarator {
+                            span: DUMMY_SP,
+                            name: Pat::Ident(v.into()),
+                            init: None,
+                            definite: false,
+                        })
+                        .collect(),
+                })),
+            );
+        }
+    }
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);
@@ -54,8 +78,30 @@ impl VisitMut for ObjectSuper {
             for prop_or_spread in props.iter_mut() {
                 if let PropOrSpread::Prop(ref mut prop) = prop_or_spread {
                     match &mut **prop {
-                        Prop::KeyValue(KeyValueProp { value, .. }) => {
-                            value.visit_mut_with(&mut replacer);
+                        Prop::Method(MethodProp { key: _, function }) => {
+                            function.visit_mut_with(&mut replacer);
+                            if replacer.vars.len() != 0 {
+                                if let Some(BlockStmt { span: _, stmts }) = &mut function.body {
+                                    stmts.insert(
+                                        0,
+                                        Stmt::Decl(Decl::Var(VarDecl {
+                                            span: DUMMY_SP,
+                                            kind: VarDeclKind::Var,
+                                            declare: false,
+                                            decls: replacer
+                                                .vars
+                                                .drain(..)
+                                                .map(|v| VarDeclarator {
+                                                    span: DUMMY_SP,
+                                                    name: Pat::Ident(v.into()),
+                                                    init: None,
+                                                    definite: false,
+                                                })
+                                                .collect(),
+                                        })),
+                                    )
+                                }
+                            }
                         }
                         _ => {}
                     }
@@ -68,7 +114,6 @@ impl VisitMut for ObjectSuper {
                     left: PatOrExpr::Expr(Box::new(Expr::Ident(obj.clone()))),
                     right: Box::new(expr.take()),
                 });
-                self.extra_var.append(&mut replacer.vars);
                 self.extra_var.push(obj);
             }
         }
@@ -476,9 +521,9 @@ mod tests {
             let top_level_mark = Mark::fresh(Mark::root());
             chain!(
                 resolver_with_mark(top_level_mark),
+                object_super(),
                 shorthand(),
                 function_name(),
-                object_super()
             )
         },
         get,
@@ -487,8 +532,7 @@ mod tests {
                 let c = super.x;
             }
         }",
-        r#"
-        var _obj;
+        r#"var _obj;
         let obj = _obj = {
             a: function a() {
                 let c = _get(_getPrototypeOf(_obj), "x", this);
@@ -501,9 +545,9 @@ mod tests {
             let top_level_mark = Mark::fresh(Mark::root());
             chain!(
                 resolver_with_mark(top_level_mark),
+                object_super(),
                 shorthand(),
                 function_name(),
-                object_super()
             )
         },
         call,
@@ -525,9 +569,9 @@ mod tests {
             let top_level_mark = Mark::fresh(Mark::root());
             chain!(
                 resolver_with_mark(top_level_mark),
+                object_super(),
                 shorthand(),
                 function_name(),
-                object_super()
             )
         },
         set,
@@ -550,9 +594,9 @@ mod tests {
             let top_level_mark = Mark::fresh(Mark::root());
             chain!(
                 resolver_with_mark(top_level_mark),
+                object_super(),
                 shorthand(),
                 function_name(),
-                object_super()
             )
         },
         nest,
@@ -565,9 +609,9 @@ mod tests {
                 }
             },
         }",
-        r#"var _obj;
-        let obj = {
+        r#"let obj = {
         b: function b() {
+            var _obj;
             let o = _obj = {
                 d: function d() {
                     _get(_getPrototypeOf(_obj), "d", this);

@@ -52,12 +52,12 @@ where
         new_target(),
         classes(comments),
         spread(c.spread),
+        // https://github.com/Microsoft/TypeScript/issues/5441
+        Optional::new(object_super(), !c.typescript),
         shorthand(),
         function_name(),
         exprs(),
         for_of(c.for_of),
-        // https://github.com/Microsoft/TypeScript/issues/5441
-        Optional::new(object_super(), !c.typescript),
         // Should come before parameters
         // See: https://github.com/swc-project/swc/issues/1036
         parameters(c.parameters),
