@@ -3,7 +3,7 @@ use std::iter;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{helper, perf::Check};
+use swc_ecma_transforms_base::{helper, perf::Check, assumptions::Assumptions};
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
     alias_ident_for, alias_if_required, has_rest_pat, is_literal, member_expr, private_ident,
@@ -45,7 +45,7 @@ struct Destructuring {
 #[derive(Debug, Default, Clone, Copy, Deserialize)]
 pub struct Config {
     #[serde(default)]
-    pub loose: bool,
+    pub assumptions: Assumptions,
 }
 
 macro_rules! impl_for_for_stmt {

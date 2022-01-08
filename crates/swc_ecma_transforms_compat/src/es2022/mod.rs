@@ -12,7 +12,7 @@ pub mod static_blocks;
 pub fn es2022(config: Config) -> impl Fold {
     chain!(
         class_properties(class_properties::Config {
-            loose: config.loose,
+            assumptions: config.assumptions,
         }),
         static_blocks(),
         private_in_object(),
@@ -21,5 +21,5 @@ pub fn es2022(config: Config) -> impl Fold {
 
 #[derive(Debug, Clone, Default)]
 pub struct Config {
-    pub loose: bool,
+    pub assumptions: Assumptions,
 }

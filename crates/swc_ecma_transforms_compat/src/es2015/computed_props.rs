@@ -1,7 +1,7 @@
 use serde::Deserialize;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::helper;
+use swc_ecma_transforms_base::{assumptions::Assumptions, helper};
 use swc_ecma_utils::{quote_ident, ExprFactory, StmtLike};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -49,7 +49,7 @@ pub fn computed_properties(c: Config) -> impl Fold {
 #[serde(rename_all = "camelCase")]
 pub struct Config {
     #[serde(default)]
-    pub loose: bool,
+    pub assumptions: Assumptions,
 }
 
 #[derive(Default)]
@@ -383,7 +383,7 @@ impl ComputedProps {
     }
 }
 
-fn prop_name_to_expr(p: PropName, loose: bool) -> (Expr, bool) {
+fn prop_name_to_expr(p: PropName, assumptions: Assumptions) -> (Expr, bool) {
     match p {
         PropName::Ident(i) => (
             if loose {
