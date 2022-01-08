@@ -30,11 +30,10 @@ if [[ "$1" == *"inputs"* && $REDUCED_SIZE -le 3 ]]; then
     echo "Removing $1"
     git rm --force $1 || true
     rm -rf $1
+    ./scripts/_/notify.sh "Removed $1"
     git commit -m 'Remove useless input'
 
     find ./inputs -type d -empty -delete
-
-    ./scripts/_/notify.sh "Removed $1"
 else
     ./scripts/_/notify.sh "Found errornous input"
 fi
