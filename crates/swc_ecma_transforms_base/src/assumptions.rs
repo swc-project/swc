@@ -1,6 +1,8 @@
 use serde::{Deserialize, Serialize};
 
 /// Alternative for https://babeljs.io/docs/en/assumptions
+///
+/// All fields default to `false`.
 #[derive(
     Debug, Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize,
 )]

@@ -48,7 +48,7 @@ use swc_ecma_transforms::{
     optimization::{const_modules, json_parse, simplifier},
     pass::{noop, Optional},
     proposals::{decorators, export_default_from, import_assertions},
-    react, resolver_with_mark, typescript,
+    react, resolver_with_mark, typescript, Assumptions,
 };
 use swc_ecma_transforms_compat::es2015::regenerator;
 use swc_ecma_transforms_optimization::{inline_globals2, GlobalExprMap};
@@ -266,6 +266,7 @@ impl Options {
         source_maps.merge(&config.source_maps);
 
         let JscConfig {
+            assumptions,
             transform,
             syntax,
             external_helpers,
@@ -278,6 +279,14 @@ impl Options {
             experimental,
             ..
         } = config.jsc;
+
+        let assumptions = assumptions.unwrap_or_else(|| {
+            if loose {
+                Assumptions::all()
+            } else {
+                Assumptions::default()
+            }
+        });
 
         let target = target.unwrap_or_default();
 
@@ -369,7 +378,7 @@ impl Options {
             json_parse_pass
         );
 
-        let pass = PassBuilder::new(&cm, &handler, loose, top_level_mark, pass)
+        let pass = PassBuilder::new(&cm, &handler, loose, assumptions, top_level_mark, pass)
             .target(target)
             .skip_helper_injection(self.skip_helper_injection)
             .minify(js_minify)
