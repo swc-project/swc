@@ -651,11 +651,7 @@ impl<'a, I: Tokens> Parser<I> {
                     );
                 }
                 if let Some(span) = string_export_binding_span {
-                    syntax_error!(
-                        self,
-                        span,
-                        SyntaxError::ExportBindingIsString
-                    );
+                    syntax_error!(self, span, SyntaxError::ExportBindingIsString);
                 }
                 None
             };

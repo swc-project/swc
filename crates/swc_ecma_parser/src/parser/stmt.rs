@@ -2186,7 +2186,9 @@ export default function waitUntil(callback, options = {}) {
     }
 
     #[test]
-    #[should_panic(expected="A string literal cannot be used as an exported binding without `from`.")]
+    #[should_panic(
+        expected = "A string literal cannot be used as an exported binding without `from`."
+    )]
     fn error_for_string_literal_is_export_binding() {
         let src = "export { 'foo' };";
         test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
