@@ -8,8 +8,6 @@ then
     exit
 fi
 
-cp $1 input.js
-
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 echo "Reducing $1"
@@ -18,14 +16,17 @@ ls -al $1
 # Build swc minifier
 export MINIFY=$(cargo profile bin-path --release --example minifier)
 
-echo "Using $MINIFY"
+wd="$(mktemp -d)"
+echo "Using $MINIFY; dir = $wd"
+
+cp $1 "$wd/input.js"
 
 # Verify that we can run `creduce`
 $SCRIPT_DIR/_/reduce/compare.sh
 
-time creduce --n 8 "$SCRIPT_DIR/_/reduce/compare.sh" input.js
+(cd $wd && creduce "$SCRIPT_DIR/_/reduce/compare.sh" "$wd/input.js")
 
-REDUCED_SIZE=$(wc -c <"input.js")
+REDUCED_SIZE=$(wc -c <"$wd/input.js")
 
 echo "Reduced size is $REDUCED_SIZE bytes"
 
