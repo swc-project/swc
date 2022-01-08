@@ -83,7 +83,7 @@ impl<'a, I: Tokens> Parser<I> {
             },
             Ok(&Word(..)) => ModuleExportName::Ident(self.parse_ident_name()?),
             _ => {
-                unexpected!(self, "ident or string");
+                unexpected!(self, "identifier or string");
             }
         };
         Ok(module_export_name)
