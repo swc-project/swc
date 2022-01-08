@@ -173,6 +173,7 @@ pub enum SyntaxError {
 
     ImportBindingIsString(JsWord),
     ExportBindingIsString(JsWord, JsWord),
+    ModuleExportNameHasLoneSurrogate(JsWord),
 
     TS1003,
     TS1005,
@@ -467,6 +468,12 @@ impl SyntaxError {
                 "A string literal cannot be used as an exported binding without `from`.\n- Did \
                  you mean `export {{ \"{}\" as \"{}\" }} from \"some-module\"`?",
                 str1, str2
+            )
+            .into(),
+
+            SyntaxError::ModuleExportNameHasLoneSurrogate(str) => format!(
+                "An export name cannot include a lone surrogate, found '{}'.",
+                str
             )
             .into(),
 
