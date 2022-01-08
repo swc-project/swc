@@ -1,6 +1,5 @@
 use serde::{Deserialize, Serialize};
 
-
 /// Alternative for https://babeljs.io/docs/en/assumptions
 #[derive(
     Debug, Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize,
@@ -33,47 +32,45 @@ pub struct Assumptions {
     pub mutable_template_object: bool,
 
     /// https://babeljs.io/docs/en/assumptions#noclasscalls
-    pub no_class_calls:bool
+    pub no_class_calls: bool,
 
     /// https://babeljs.io/docs/en/assumptions#nodocumentall
-    pub no_document_all:bool
+    pub no_document_all: bool,
 
     /// https://babeljs.io/docs/en/assumptions#noincompletensimportdetection
-    pub no_incomplete_ns_import_detection:bool
+    pub no_incomplete_ns_import_detection: bool,
 
     /// https://babeljs.io/docs/en/assumptions#nonewarrows
-    pub no_new_arrows:bool
-
+    pub no_new_arrows: bool,
     /// https://babeljs.io/docs/en/assumptions#objectrestnosymbols
-    pub object_rest_no_symbols:bool
-
+    pub object_rest_no_symbols: bool,
 
     /// https://babeljs.io/docs/en/assumptions#privatefieldsasproperties
-    pub private_fields_as_properties:  bool,
-    
+    pub private_fields_as_properties: bool,
+
     /// https://babeljs.io/docs/en/assumptions#puregetters
-    pub pure_getters:bool
+    pub pure_getters: bool,
 
     /// https://babeljs.io/docs/en/assumptions#setclassmethods
-    pub set_class_methods:bool
+    pub set_class_methods: bool,
 
     /// https://babeljs.io/docs/en/assumptions#setcomputedproperties
-    pub set_computed_properties:bool
+    pub set_computed_properties: bool,
 
     /// https://babeljs.io/docs/en/assumptions#setpublicclassfields
-    pub set_public_class_fields:bool
+    pub set_public_class_fields: bool,
 
     /// https://babeljs.io/docs/en/assumptions#setspreadproperties
-    pub set_spread_properties:bool
+    pub set_spread_properties: bool,
 
     /// https://babeljs.io/docs/en/assumptions#skipforofiteratorclosing
-    pub skip_for_of_iterator_closing:bool
+    pub skip_for_of_iterator_closing: bool,
 
     /// https://babeljs.io/docs/en/assumptions#superiscallableconstructor
-    pub super_is_callable_constructor:bool
+    pub super_is_callable_constructor: bool,
 }
 
-impl Assumptions{
+impl Assumptions {
     pub fn all() -> Self {
         Self {
             array_like_is_iterable: true,
@@ -99,3 +96,4 @@ impl Assumptions{
             super_is_callable_constructor: true,
         }
     }
+}
