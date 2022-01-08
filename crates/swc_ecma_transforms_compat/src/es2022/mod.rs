@@ -3,7 +3,6 @@ pub use self::{
     static_blocks::static_blocks,
 };
 use swc_common::chain;
-use swc_ecma_transforms_base::assumptions::Assumptions;
 use swc_ecma_visit::Fold;
 
 pub mod class_properties;
@@ -13,7 +12,7 @@ pub mod static_blocks;
 pub fn es2022(config: Config) -> impl Fold {
     chain!(
         class_properties(class_properties::Config {
-            assumptions: config.assumptions,
+            loose: config.loose,
         }),
         static_blocks(),
         private_in_object(),
@@ -22,5 +21,5 @@ pub fn es2022(config: Config) -> impl Fold {
 
 #[derive(Debug, Clone, Default)]
 pub struct Config {
-    pub assumptions: Assumptions,
+    pub loose: bool,
 }

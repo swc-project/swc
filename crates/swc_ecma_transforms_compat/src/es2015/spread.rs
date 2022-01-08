@@ -3,7 +3,7 @@ use std::mem;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{assumptions::Assumptions, ext::ExprRefExt, helper, perf::Check};
+use swc_ecma_transforms_base::{ext::ExprRefExt, helper, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
     alias_ident_for, is_literal, member_expr, prepend, quote_ident, undefined, ExprFactory,
@@ -23,7 +23,7 @@ pub fn spread(c: Config) -> impl Fold + VisitMut {
 #[derive(Debug, Clone, Copy, Default, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Config {
-    pub assumptions: Assumptions,
+    pub loose: bool,
 }
 
 /// es2015 - `SpreadElement`
@@ -292,7 +292,7 @@ impl Spread {
                             }
                             _ => {
                                 if args_len == 1 && !need_array {
-                                    return if self.c.assumptions.iterable_is_array {
+                                    return if self.c.loose {
                                         *expr
                                     } else {
                                         Expr::Call(CallExpr {
@@ -308,7 +308,7 @@ impl Spread {
                                 }
                                 // [].concat(arr) is shorter than _toConsumableArray(arr)
                                 if args_len == 1 {
-                                    return if self.c.assumptions.iterable_is_array {
+                                    return if self.c.loose {
                                         Expr::Call(CallExpr {
                                             span: DUMMY_SP,
                                             callee: ArrayLit {

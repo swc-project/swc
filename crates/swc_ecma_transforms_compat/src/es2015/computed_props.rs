@@ -1,7 +1,7 @@
 use serde::Deserialize;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{assumptions::Assumptions, helper};
+use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{quote_ident, ExprFactory, StmtLike};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -49,7 +49,7 @@ pub fn computed_properties(c: Config) -> impl Fold {
 #[serde(rename_all = "camelCase")]
 pub struct Config {
     #[serde(default)]
-    pub assumptions: Assumptions,
+    pub loose: bool,
 }
 
 #[derive(Default)]
@@ -100,10 +100,7 @@ impl VisitMut for ComputedProps {
                 });
 
                 exprs.push(
-                    if !self.c.assumptions.set_computed_properties
-                        && props_cnt == 1
-                        && !self.used_define_enum_props
-                    {
+                    if !self.c.loose && props_cnt == 1 && !self.used_define_enum_props {
                         Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
                             props: obj_props,
@@ -130,7 +127,7 @@ impl VisitMut for ComputedProps {
                         PropOrSpread::Prop(prop) => match *prop {
                             Prop::Shorthand(ident) => (
                                 (
-                                    if self.c.assumptions.set_computed_properties {
+                                    if self.c.loose {
                                         Expr::Ident(ident.clone())
                                     } else {
                                         Expr::Lit(Lit::Str(Str {
@@ -144,10 +141,9 @@ impl VisitMut for ComputedProps {
                                 ),
                                 Expr::Ident(ident),
                             ),
-                            Prop::KeyValue(KeyValueProp { key, value }) => (
-                                prop_name_to_expr(key, self.c.assumptions.set_computed_properties),
-                                *value,
-                            ),
+                            Prop::KeyValue(KeyValueProp { key, value }) => {
+                                (prop_name_to_expr(key, self.c.loose), *value)
+                            }
                             Prop::Assign(..) => {
                                 unreachable!("assign property in object literal is invalid")
                             }
@@ -244,7 +240,7 @@ impl VisitMut for ComputedProps {
                                 // unimplemented!("getter /setter property")
                             }
                             Prop::Method(MethodProp { key, function }) => (
-                                prop_name_to_expr(key, self.c.assumptions.set_computed_properties),
+                                prop_name_to_expr(key, self.c.loose),
                                 Expr::Fn(FnExpr {
                                     ident: None,
                                     function,
@@ -254,7 +250,7 @@ impl VisitMut for ComputedProps {
                         PropOrSpread::Spread(..) => unimplemented!("computed spread property"),
                     };
 
-                    if !self.c.assumptions.set_computed_properties && props_cnt == 1 {
+                    if !self.c.loose && props_cnt == 1 {
                         single_cnt_prop = Some(Expr::Call(CallExpr {
                             span,
                             callee: helper!(define_property, "defineProperty"),
@@ -263,7 +259,7 @@ impl VisitMut for ComputedProps {
                         }));
                         break;
                     }
-                    exprs.push(if self.c.assumptions.set_computed_properties {
+                    exprs.push(if self.c.loose {
                         let left = if is_compute {
                             obj_ident.clone().computed_member(key)
                         } else {
