@@ -63,11 +63,13 @@ impl<T> FunctionWrapper<T> {
         }
         .into();
 
-        let fn_expr = self.build_function_forward(ref_ident, name_ident);
+        let return_fn_stmt = {
+            let fn_expr = self.build_function_forward(ref_ident, name_ident);
 
-        let return_fn_stmt = ReturnStmt {
-            span: DUMMY_SP,
-            arg: Some(Box::new(fn_expr.into())),
+            ReturnStmt {
+                span: DUMMY_SP,
+                arg: Some(Box::new(fn_expr.into())),
+            }
         }
         .into();
 
@@ -126,25 +128,27 @@ impl<T> FunctionWrapper<T> {
             .into(),
         );
 
-        let FnExpr { function, .. } = self.build_function_forward(ref_ident, None);
+        let fn_decl_stmt = {
+            let FnExpr { function, .. } = self.build_function_forward(ref_ident, None);
 
-        let fn_stmt = Stmt::Decl(
-            FnDecl {
-                ident: name_ident.clone(),
-                declare: false,
-                function,
-            }
-            .into(),
-        );
+            Stmt::Decl(
+                FnDecl {
+                    ident: name_ident.clone(),
+                    declare: false,
+                    function,
+                }
+                .into(),
+            )
+        };
 
-        let return_fn_indent = Stmt::Return(ReturnStmt {
+        let return_stmt = Stmt::Return(ReturnStmt {
             span: DUMMY_SP,
             arg: Some(Box::new(name_ident.into())),
         });
 
         let block_stmt = BlockStmt {
             span: DUMMY_SP,
-            stmts: vec![ref_stmt, fn_stmt, return_fn_indent],
+            stmts: vec![ref_stmt, fn_decl_stmt, return_stmt],
         };
 
         let function = Function {
@@ -182,6 +186,7 @@ impl<T> FunctionWrapper<T> {
             |ident| private_ident!(ident.span, format!("_{}", ident.sym)),
         );
 
+        // function NAME
         let fn_expr = self.build_function_forward(ref_ident.clone(), name_ident);
 
         let assign_stmt = AssignExpr {
@@ -206,6 +211,7 @@ impl<T> FunctionWrapper<T> {
             stmts: vec![assign_stmt, return_ref_apply_stmt],
         };
 
+        // function REF
         let ref_decl = FnDecl {
             declare: false,
             ident: ref_ident,
