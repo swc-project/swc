@@ -173,7 +173,6 @@ pub enum SyntaxError {
 
     ImportBindingIsString(JsWord),
     ExportBindingIsString,
-    ModuleExportNameHasLoneSurrogate(JsWord),
 
     TS1003,
     TS1005,
@@ -467,12 +466,6 @@ impl SyntaxError {
             SyntaxError::ExportBindingIsString => {
                 "A string literal cannot be used as an exported binding without `from`.".into()
             }
-
-            SyntaxError::ModuleExportNameHasLoneSurrogate(str) => format!(
-                "An export name cannot include a lone surrogate, found '{}'.",
-                str
-            )
-            .into(),
 
             SyntaxError::TS1003 => "Expected an identifier".into(),
             SyntaxError::TS1005 => "Expected a semicolon".into(),
