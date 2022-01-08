@@ -612,7 +612,7 @@ impl Actual {
         expr.visit_mut_children_with(self);
 
         match expr {
-            Expr::Arrow(arrow_expr) if arrow_expr.is_async => {
+            Expr::Arrow(arrow_expr @ ArrowExpr { is_async: true, .. }) => {
                 // Apply arrow
                 let this: Option<ExprOrSpread> = if contains_this_expr(&arrow_expr.body) {
                     if binding_ident.is_none() {
@@ -657,7 +657,12 @@ impl Actual {
                 *expr = wrapper.into();
             }
 
-            Expr::Fn(fn_expr) if fn_expr.function.is_async => {
+            Expr::Fn(
+                fn_expr @ FnExpr {
+                    function: Function { is_async: true, .. },
+                    ..
+                },
+            ) => {
                 let mut wrapper = FunctionWrapper::from(fn_expr.take());
                 wrapper.binding_ident = binding_ident;
 
