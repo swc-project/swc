@@ -930,6 +930,9 @@ pub struct BuiltInput<P: swc_ecma_visit::Fold> {
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct JscConfig {
+    #[serde(default)]
+    pub assumptions: Option<Assumptions>,
+
     #[serde(rename = "parser", default)]
     pub syntax: Option<Syntax>,
 
