@@ -182,7 +182,7 @@ impl<T> FunctionWrapper<T> {
             |ident| private_ident!(ident.span, format!("_{}", ident.sym)),
         );
 
-        let fn_expr = self.build_function_forward(ref_ident.clone(), name_ident.clone());
+        let fn_expr = self.build_function_forward(ref_ident.clone(), name_ident);
 
         let assign_stmt = AssignExpr {
             span: DUMMY_SP,
@@ -208,7 +208,7 @@ impl<T> FunctionWrapper<T> {
 
         let ref_decl = FnDecl {
             declare: false,
-            ident: ref_ident.clone(),
+            ident: ref_ident,
             function: Function {
                 span: DUMMY_SP,
                 is_async: false,
