@@ -73,3 +73,29 @@ pub struct Assumptions {
     pub super_is_callable_constructor:bool
 }
 
+impl Assumptions{
+    pub fn all() -> Self {
+        Self {
+            array_like_is_iterable: true,
+            constant_reexports: true,
+            constant_super: true,
+            enumerable_module_meta: true,
+            ignore_function_length: true,
+            ignore_to_primitive_hint: true,
+            iterable_is_array: true,
+            mutable_template_object: true,
+            no_class_calls: true,
+            no_document_all: true,
+            no_incomplete_ns_import_detection: true,
+            no_new_arrows: true,
+            object_rest_no_symbols: true,
+            private_fields_as_properties: true,
+            pure_getters: true,
+            set_class_methods: true,
+            set_computed_properties: true,
+            set_public_class_fields: true,
+            set_spread_properties: true,
+            skip_for_of_iterator_closing: true,
+            super_is_callable_constructor: true,
+        }
+    }
