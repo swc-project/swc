@@ -1,131 +1,26 @@
+use std::marker::PhantomData;
+
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 
 use crate::ExprFactory;
 
-pub struct FunctionWrapper {
+pub struct FunctionWrapper<T> {
     pub binding_ident: Option<Ident>,
-    function_ident: Option<Ident>,
-
-    params: Vec<Param>,
     pub function: Expr,
+
+    function_ident: Option<Ident>,
+    params: Vec<Param>,
+
+    _type: PhantomData<T>,
 }
 
-impl From<FnExpr> for FunctionWrapper {
-    fn from(mut fn_expr: FnExpr) -> Self {
-        let function_ident = fn_expr.ident.take();
-        Self {
-            binding_ident: None,
-            function_ident,
-            params: Self::get_params(fn_expr.function.params.iter()),
-            function: fn_expr.into(),
-        }
-    }
-}
-
-impl From<FnDecl> for FunctionWrapper {
-    fn from(mut fn_decl: FnDecl) -> Self {
-        let function_ident = Some(fn_decl.ident.take());
-        Self {
-            binding_ident: None,
-            function_ident,
-            params: Self::get_params(fn_decl.function.params.iter()),
-            function: FnExpr {
-                ident: None,
-                function: fn_decl.function,
-            }
-            .into(),
-        }
-    }
-}
-
-impl From<ArrowExpr> for FunctionWrapper {
-    fn from(
-        ArrowExpr {
-            span,
-            params,
-            body,
-            is_async,
-            is_generator,
-            ..
-        }: ArrowExpr,
-    ) -> Self {
-        let body = Some(match body {
-            BlockStmtOrExpr::BlockStmt(block) => block,
-            BlockStmtOrExpr::Expr(expr) => BlockStmt {
-                span: DUMMY_SP,
-                stmts: vec![Stmt::Return(ReturnStmt {
-                    span: expr.span(),
-                    arg: Some(expr),
-                })],
-            },
-        });
-
-        let function = Function {
-            span,
-            params: params.into_iter().map(Into::into).collect(),
-            decorators: Default::default(),
-            body,
-            type_params: None,
-            return_type: None,
-            is_generator,
-            is_async,
-        };
-
-        let fn_expr = FnExpr {
-            ident: None,
-            function,
-        };
-
-        Self {
-            binding_ident: None,
-            function_ident: None,
-            params: Self::get_params(fn_expr.function.params.iter()),
-            function: fn_expr.into(),
-        }
-    }
-}
-
-impl TryFrom<VarDeclarator> for FunctionWrapper {
-    type Error = ();
-
-    fn try_from(var: VarDeclarator) -> Result<Self, Self::Error> {
-        if let VarDeclarator {
-            name: Pat::Ident(BindingIdent {
-                id: binding_ident, ..
-            }),
-            init: Some(init),
-            ..
-        } = var
-        {
-            match *init {
-                Expr::Fn(fn_expr) => {
-                    let mut wrapper = Self::from(fn_expr);
-                    wrapper.binding_ident = Some(binding_ident);
-
-                    Ok(wrapper)
-                }
-
-                Expr::Arrow(arrow_expr) => {
-                    let mut wrapper = Self::from(arrow_expr);
-                    wrapper.binding_ident = Some(binding_ident);
-
-                    Ok(wrapper)
-                }
-
-                _ => Err(()),
-            }
-        } else {
-            Err(())
-        }
-    }
-}
-
-impl FunctionWrapper {
-    fn get_params<'a, T, P>(params_iter: T) -> Vec<Param>
+impl<T> FunctionWrapper<T> {
+    /// `get_params` clone only the parameters that count in function length.
+    fn get_params<'a, ParamsIter, Item>(params_iter: ParamsIter) -> Vec<Param>
     where
-        P: Into<&'a Param>,
-        T: IntoIterator<Item = P>,
+        Item: Into<&'a Param>,
+        ParamsIter: IntoIterator<Item = Item>,
     {
         params_iter
             .into_iter()
@@ -231,8 +126,7 @@ impl FunctionWrapper {
             .into(),
         );
 
-        let FnExpr { function, .. } =
-            self.build_function_forward(ref_ident, Some(name_ident.clone()));
+        let FnExpr { function, .. } = self.build_function_forward(ref_ident, None);
 
         let fn_stmt = Stmt::Decl(
             FnDecl {
@@ -282,25 +176,30 @@ impl FunctionWrapper {
     ///     return REF.apply(this, arguments);
     /// }
     /// ```
-    fn build_declaration_wrapper(&mut self, name_ident: Ident) -> (FnDecl, FnDecl) {
+    fn build_declaration_wrapper(&mut self, name_ident: Option<Ident>) -> (FnExpr, FnDecl) {
         let ref_ident = self.function_ident.as_ref().map_or_else(
             || private_ident!("_ref"),
             |ident| private_ident!(ident.span, format!("_{}", ident.sym)),
         );
 
-        let FnExpr { function, .. } =
-            self.build_function_forward(ref_ident.clone(), Some(name_ident.clone()));
+        let fn_expr = self.build_function_forward(ref_ident.clone(), name_ident.clone());
 
         let assign_stmt = AssignExpr {
             span: DUMMY_SP,
-            op: AssignOp::Assign,
+            op: op!("="),
             left: PatOrExpr::Expr(Box::new(Expr::Ident(ref_ident.clone()))),
             right: Box::new(self.function.take()),
         }
         .into_stmt();
 
         // clone `return REF.apply(this, arguments);`
-        let return_ref_apply_stmt = function.body.as_ref().unwrap().stmts[0].clone();
+        let return_ref_apply_stmt = fn_expr
+            .function
+            .body
+            .as_ref()
+            .expect("The `fn_expr` we construct cannot be None")
+            .stmts[0]
+            .clone();
 
         let ref_fn_block_stmt = BlockStmt {
             span: DUMMY_SP,
@@ -308,8 +207,8 @@ impl FunctionWrapper {
         };
 
         let ref_decl = FnDecl {
-            ident: ref_ident,
             declare: false,
+            ident: ref_ident.clone(),
             function: Function {
                 span: DUMMY_SP,
                 is_async: false,
@@ -322,13 +221,7 @@ impl FunctionWrapper {
             },
         };
 
-        let name_decl = FnDecl {
-            ident: name_ident,
-            function,
-            declare: false,
-        };
-
-        (name_decl, ref_decl)
+        (fn_expr, ref_decl)
     }
 
     ///
@@ -366,29 +259,158 @@ impl FunctionWrapper {
     }
 }
 
-impl Into<Expr> for FunctionWrapper {
+impl From<FnExpr> for FunctionWrapper<Expr> {
+    fn from(mut fn_expr: FnExpr) -> Self {
+        let function_ident = fn_expr.ident.take();
+        let params = Self::get_params(fn_expr.function.params.iter());
+        Self {
+            binding_ident: None,
+            function_ident,
+            params,
+            function: fn_expr.into(),
+            _type: Default::default(),
+        }
+    }
+}
+
+impl From<ArrowExpr> for FunctionWrapper<Expr> {
+    fn from(
+        ArrowExpr {
+            span,
+            params,
+            body,
+            is_async,
+            is_generator,
+            ..
+        }: ArrowExpr,
+    ) -> Self {
+        let body = Some(match body {
+            BlockStmtOrExpr::BlockStmt(block) => block,
+            BlockStmtOrExpr::Expr(expr) => BlockStmt {
+                span: DUMMY_SP,
+                stmts: vec![Stmt::Return(ReturnStmt {
+                    span: expr.span(),
+                    arg: Some(expr),
+                })],
+            },
+        });
+
+        let function = Function {
+            span,
+            params: params.into_iter().map(Into::into).collect(),
+            decorators: Default::default(),
+            body,
+            type_params: None,
+            return_type: None,
+            is_generator,
+            is_async,
+        };
+
+        let fn_expr = FnExpr {
+            ident: None,
+            function,
+        };
+
+        Self {
+            binding_ident: None,
+            function_ident: None,
+            params: Self::get_params(fn_expr.function.params.iter()),
+            function: fn_expr.into(),
+            _type: Default::default(),
+        }
+    }
+}
+
+impl Into<Expr> for FunctionWrapper<Expr> {
+    /// If a function has a function name, it may be called recursively.
+    /// We use the named expression to hoist the function name internally
+    /// Therefore, its recursive calls refer to the correct identity.
+    ///
+    /// Else
+    /// if a function has a binding name, it may be called recursively as well.
+    /// But it refer the binding name which exist the outer scope.
+    /// It is safe to using anonymous expression wrapper.
+    ///
+    /// Optimization:
+    /// A function without a name cannot be recursively referenced by Ident.
+    /// It's safe to return the expr without wrapper if the params.len is 0.
     fn into(mut self) -> Expr {
-        // A function may be called internally recursively if it has a name
         if let Some(name_ident) = self.function_ident.as_ref().cloned() {
             self.build_named_expression_wrapper(name_ident)
-        }
-        // An internal recursive call has to refer to the external binding_name,
-        // It is safe to using expression wrapper.
-        else if self.params.len() > 0 || self.binding_ident.is_some() {
+        } else if self.binding_ident.is_some() || self.params.len() > 0 {
             self.build_anonymous_expression_wrapper()
         } else {
-            // Optimization: no name, no params
             self.function
         }
     }
 }
 
-impl Into<(FnDecl, FnDecl)> for FunctionWrapper {
-    fn into(mut self) -> (FnDecl, FnDecl) {
-        let name_ident = self.function_ident.as_ref().or(self.binding_ident.as_ref());
-        assert!(name_ident.is_some());
-        let name_ident = name_ident.unwrap().clone();
+impl From<FnDecl> for FunctionWrapper<FnDecl> {
+    fn from(mut fn_decl: FnDecl) -> Self {
+        let function_ident = Some(fn_decl.ident.take());
+        let params = Self::get_params(fn_decl.function.params.iter());
+        Self {
+            binding_ident: None,
+            function_ident,
+            params,
+            function: FnExpr {
+                ident: None,
+                function: fn_decl.function,
+            }
+            .into(),
+            _type: Default::default(),
+        }
+    }
+}
 
-        self.build_declaration_wrapper(name_ident)
+///
+/// The result of declaration wrapper includes two parts.
+/// `name_fn` is used to replace the original function.
+/// `ref_fn` is an extra function called internally by `name_fn`.
+///
+/// ```javascript
+/// function NAME(PARAMS) {
+///     return REF.apply(this, arguments);
+/// }
+/// function REF() {
+///     REF = FUNCTION;
+///     return REF.apply(this, arguments);
+/// }
+/// ```
+pub struct FnWrapperResult<N, R> {
+    pub name_fn: N,
+    pub ref_fn: R,
+}
+
+impl From<FunctionWrapper<FnDecl>> for FnWrapperResult<FnDecl, FnDecl> {
+    fn from(mut value: FunctionWrapper<FnDecl>) -> Self {
+        let name_ident = value
+            .function_ident
+            .clone()
+            .expect("`FunctionWrapper` converted from `FnDecl` definitely has `Ident`");
+
+        let (FnExpr { function, .. }, ref_fn) = value.build_declaration_wrapper(None);
+
+        FnWrapperResult {
+            name_fn: FnDecl {
+                ident: name_ident,
+                declare: false,
+                function,
+            },
+            ref_fn,
+        }
+    }
+}
+
+impl From<FunctionWrapper<Expr>> for FnWrapperResult<FnExpr, FnDecl> {
+    fn from(mut value: FunctionWrapper<Expr>) -> Self {
+        let name_ident = value
+            .function_ident
+            .clone()
+            .or_else(|| value.binding_ident.clone());
+
+        let (name_fn, ref_fn) = value.build_declaration_wrapper(name_ident);
+
+        FnWrapperResult { name_fn, ref_fn }
     }
 }

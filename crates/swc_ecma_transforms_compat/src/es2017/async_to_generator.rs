@@ -5,7 +5,7 @@ use swc_ecma_transforms_base::{helper, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
     contains_this_expr,
-    function::{FnEnvHoister, FnEnvState, FunctionWrapper},
+    function::{FnEnvHoister, FnEnvState, FnWrapperResult, FunctionWrapper},
     private_ident, quote_ident, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
@@ -191,10 +191,9 @@ impl VisitMut for Actual {
 
         wrapper.function = make_fn_ref(fn_expr, None, true);
 
-        let (name_decl, ref_decl) = wrapper.into();
-
-        *f = name_decl;
-        self.extra_stmts.push(Stmt::Decl(ref_decl.into()));
+        let FnWrapperResult { name_fn, ref_fn } = wrapper.into();
+        *f = name_fn;
+        self.extra_stmts.push(Stmt::Decl(ref_fn.into()));
     }
 
     fn visit_mut_module_item(&mut self, item: &mut ModuleItem) {
@@ -203,35 +202,22 @@ impl VisitMut for Actual {
             ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export_default)) => {
                 if let DefaultDecl::Fn(expr) = &mut export_default.decl {
                     if expr.function.is_async {
-                        let export_ident = expr.ident.clone();
-                        let binding_ident = expr
-                            .ident
-                            .clone()
-                            .or_else(|| Some(private_ident!("_default")));
-
                         let mut wrapper = FunctionWrapper::from(expr.take());
 
                         let fn_expr = wrapper.function.fn_expr().unwrap();
 
                         wrapper.function = make_fn_ref(fn_expr, None, true);
-                        wrapper.binding_ident = binding_ident;
 
-                        let (mut export_decl, ref_decl) = wrapper.into();
-
-                        let export_expr = FnExpr {
-                            ident: export_ident,
-                            function: export_decl.function.take(),
-                        };
-
-                        self.extra_stmts.push(Decl::Fn(ref_decl).into());
+                        let FnWrapperResult { name_fn, ref_fn } = wrapper.into();
 
                         *item = ModuleItem::ModuleDecl(
                             ExportDefaultDecl {
                                 span: export_default.span,
-                                decl: export_expr.into(),
+                                decl: name_fn.into(),
                             }
                             .into(),
                         );
+                        self.extra_stmts.push(Stmt::Decl(ref_fn.into()));
                     };
                 } else {
                     export_default.visit_mut_children_with(self);

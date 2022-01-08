@@ -3402,6 +3402,29 @@ _asyncToGenerator(function*(a = 10, ...rest) {})();
 "
 );
 
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    async_with_optional_params_2,
+    "
+const Z = (f) => ((x) => f((y) => x(x)(y)))((x) => f((y) => x(x)(y)));
+
+const p = Z(
+    (f) =>
+        async (n = 0) =>
+            n <= 1 ? 1 : n * (await f(n - 1))
+)(5);
+",
+    "
+const Z = (f) => ((x) => f((y) => x(x)(y)))((x) => f((y) => x(x)(y)));
+
+const p = Z((f)=>_asyncToGenerator(function*(n = 0) {
+        return n <= 1 ? 1 : n * (yield f(n - 1));
+    })
+)(5);
+"
+);
+
 #[testing::fixture("tests/fixture/async-to-generator/**/exec.js")]
 fn exec(input: PathBuf) {
     let input = read_to_string(&input).unwrap();
