@@ -12,6 +12,8 @@ cp $1 input.js
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
+echo "Processing $1"
+
 # Build swc minifier
 export MINIFY=$(cargo profile bin-path --release --example minifier)
 
