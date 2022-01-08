@@ -3031,6 +3031,7 @@ dependencies = [
  "phf",
  "rayon",
  "scoped-tls",
+ "serde",
  "smallvec",
  "swc_atoms",
  "swc_common",
