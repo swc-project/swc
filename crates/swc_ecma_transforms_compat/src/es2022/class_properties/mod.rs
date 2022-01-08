@@ -9,7 +9,7 @@ use self::{
 use std::collections::HashSet;
 use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{helper, perf::Check, assumptions::Assumptions};
+use swc_ecma_transforms_base::{assumptions::Assumptions, helper, perf::Check};
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
