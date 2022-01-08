@@ -100,7 +100,10 @@ impl VisitMut for ComputedProps {
                 });
 
                 exprs.push(
-                    if !self.c.loose && props_cnt == 1 && !self.used_define_enum_props {
+                    if !self.c.assumptions.set_computed_properties
+                        && props_cnt == 1
+                        && !self.used_define_enum_props
+                    {
                         Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
                             props: obj_props,
@@ -127,7 +130,7 @@ impl VisitMut for ComputedProps {
                         PropOrSpread::Prop(prop) => match *prop {
                             Prop::Shorthand(ident) => (
                                 (
-                                    if self.c.loose {
+                                    if self.c.assumptions.set_computed_properties {
                                         Expr::Ident(ident.clone())
                                     } else {
                                         Expr::Lit(Lit::Str(Str {
@@ -141,9 +144,10 @@ impl VisitMut for ComputedProps {
                                 ),
                                 Expr::Ident(ident),
                             ),
-                            Prop::KeyValue(KeyValueProp { key, value }) => {
-                                (prop_name_to_expr(key, self.c.loose), *value)
-                            }
+                            Prop::KeyValue(KeyValueProp { key, value }) => (
+                                prop_name_to_expr(key, self.c.assumptions.set_computed_properties),
+                                *value,
+                            ),
                             Prop::Assign(..) => {
                                 unreachable!("assign property in object literal is invalid")
                             }
@@ -240,7 +244,7 @@ impl VisitMut for ComputedProps {
                                 // unimplemented!("getter /setter property")
                             }
                             Prop::Method(MethodProp { key, function }) => (
-                                prop_name_to_expr(key, self.c.loose),
+                                prop_name_to_expr(key, self.c.assumptions.set_computed_properties),
                                 Expr::Fn(FnExpr {
                                     ident: None,
                                     function,
@@ -250,7 +254,7 @@ impl VisitMut for ComputedProps {
                         PropOrSpread::Spread(..) => unimplemented!("computed spread property"),
                     };
 
-                    if !self.c.loose && props_cnt == 1 {
+                    if !self.c.assumptions.set_computed_properties && props_cnt == 1 {
                         single_cnt_prop = Some(Expr::Call(CallExpr {
                             span,
                             callee: helper!(define_property, "defineProperty"),
@@ -259,7 +263,7 @@ impl VisitMut for ComputedProps {
                         }));
                         break;
                     }
-                    exprs.push(if self.c.loose {
+                    exprs.push(if self.c.assumptions.set_computed_properties {
                         let left = if is_compute {
                             obj_ident.clone().computed_member(key)
                         } else {
@@ -383,7 +387,7 @@ impl ComputedProps {
     }
 }
 
-fn prop_name_to_expr(p: PropName, assumptions: Assumptions) -> (Expr, bool) {
+fn prop_name_to_expr(p: PropName, loose: bool) -> (Expr, bool) {
     match p {
         PropName::Ident(i) => (
             if loose {
