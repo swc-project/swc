@@ -3,7 +3,7 @@ use std::iter;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{helper, perf::Check, assumptions::Assumptions};
+use swc_ecma_transforms_base::{assumptions::Assumptions, helper, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
     alias_ident_for, alias_if_required, has_rest_pat, is_literal, member_expr, private_ident,
@@ -696,7 +696,7 @@ impl VisitMut for AssignFolder {
                             span: DUMMY_SP,
                             op: op!("="),
                             left: PatOrExpr::Pat(Box::new(Pat::Ident(ref_ident.clone().into()))),
-                            right: if self.c.loose {
+                            right: if self.c.assumptions.iterable_is_array {
                                 right.take()
                             } else {
                                 match &mut **right {
@@ -1104,7 +1104,7 @@ fn make_ref_ident_for_array(
 
     let span = init.span();
 
-    let (ref_ident, aliased) = if c.loose {
+    let (ref_ident, aliased) = if c.assumptions.iterable_is_array {
         if let Some(ref init) = init {
             alias_if_required(&init, "ref")
         } else {
@@ -1123,7 +1123,7 @@ fn make_ref_ident_for_array(
             span,
             name: Pat::Ident(ref_ident.clone().into()),
             init: init.map(|v| {
-                if c.loose
+                if c.assumptions.iterable_is_array
                     || match *v {
                         Expr::Array(..) => true,
                         _ => false,
