@@ -126,7 +126,17 @@ struct SuperReplacer {
 }
 impl VisitMut for SuperReplacer {
     noop_visit_mut_type!();
-    noop_visit_mut_type!(visit_mut_object_lit, ObjectLit);
+
+    fn visit_mut_object_lit(&mut self, obj: &mut ObjectLit) {
+        for prop_or_spread in obj.props.iter_mut() {
+            if let PropOrSpread::Prop(prop) = prop_or_spread {
+                if let Prop::Method(MethodProp { key, function: _ }) = &mut **prop {
+                    key.visit_mut_with(self);
+                }
+            }
+        }
+    }
+
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         self.visit_mut_super_member_call(expr);
         self.visit_mut_super_member_set(expr);
@@ -623,5 +633,36 @@ mod tests {
             };
         }
     };"#
+    );
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| {
+            let top_level_mark = Mark::fresh(Mark::root());
+            chain!(
+                resolver_with_mark(top_level_mark),
+                object_super(),
+                shorthand(),
+                function_name(),
+            )
+        },
+        do_not_transform,
+        "let outer = {
+            b(){
+                let inner = {
+                    d:function d(){
+                        super.d() // should not transform 
+                    }
+                }
+            },
+        }",
+        r#"let outer = {
+            b: function b() {
+                let inner = {
+                    d: function d() {
+                        super.d();
+                    }
+                };
+            }
+        };"#
     );
 }
