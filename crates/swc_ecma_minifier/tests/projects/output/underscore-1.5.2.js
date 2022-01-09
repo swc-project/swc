@@ -514,10 +514,10 @@
             (settings.interpolate || noMatch).source,
             (settings.evaluate || noMatch).source
         ].join("|") + "|$", "g"), index = 0, source = "__p+='";
-        text.replace(matcher, function(match, escape, interpolate, evaluate, offset) {
+        text.replace(matcher, function(match1, escape, interpolate, evaluate, offset) {
             return source += text.slice(index, offset).replace(escaper, function(match) {
                 return "\\" + escapes[match];
-            }), escape && (source += "'+\n((__t=(" + escape + "))==null?'':_.escape(__t))+\n'"), interpolate && (source += "'+\n((__t=(" + interpolate + "))==null?'':__t)+\n'"), evaluate && (source += "';\n" + evaluate + "\n__p+='"), index = offset + match.length, match;
+            }), escape && (source += "'+\n((__t=(" + escape + "))==null?'':_.escape(__t))+\n'"), interpolate && (source += "'+\n((__t=(" + interpolate + "))==null?'':__t)+\n'"), evaluate && (source += "';\n" + evaluate + "\n__p+='"), index = offset + match1.length, match1;
         }), source += "';\n", settings.variable || (source = "with(obj||{}){\n" + source + "}\n"), source = "var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};\n" + source + "return __p;\n";
         try {
             render = new Function(settings.variable || "obj", "_", source);

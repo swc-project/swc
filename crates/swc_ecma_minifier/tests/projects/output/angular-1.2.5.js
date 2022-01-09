@@ -138,9 +138,9 @@
                 for(var i = 0; i < source.length; i++)destination.push(copy(source[i]));
             } else {
                 var h = destination.$$hashKey;
-                for(var key in forEach(destination, function(value, key) {
+                for(var key1 in forEach(destination, function(value, key) {
                     delete destination[key];
-                }), source)destination[key] = copy(source[key]);
+                }), source)destination[key1] = copy(source[key1]);
                 setHashKey(destination, h);
             }
         } else destination = source, source && (isArray(source) ? destination = copy(source, []) : isDate(source) ? destination = new Date(source.getTime()) : isRegExp(source) ? destination = new RegExp(source.source) : isObject(source) && (destination = copy(source, {})));
