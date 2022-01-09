@@ -90,18 +90,28 @@ impl Visit for LazyIdentifierVisitor {
         self.top_level_idents.insert(export.src.value.clone());
     }
 
+    fn visit_labeled_stmt(&mut self, _: &LabeledStmt) {}
+    fn visit_continue_stmt(&mut self, _: &ContinueStmt) {}
+
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
     fn visit_function(&mut self, _: &Function) {}
     fn visit_constructor(&mut self, _: &Constructor) {}
     fn visit_setter_prop(&mut self, _: &SetterProp) {}
     fn visit_getter_prop(&mut self, _: &GetterProp) {}
     fn visit_class_prop(&mut self, _: &ClassProp) {}
 
+    fn visit_prop_name(&mut self, prop_name: &PropName) {
+        match prop_name {
+            PropName::Computed(n) => n.visit_with(self),
+            _ => {}
+        }
+    }
+
     fn visit_decl(&mut self, decl: &Decl) {
         match decl {
             Decl::Class(ref c) => {
-                if let Some(super_class) = &c.class.super_class {
-                    super_class.visit_with(self);
-                }
+                c.class.super_class.visit_with(self);
+                c.class.body.visit_with(self);
             }
             _ => {}
         }
@@ -185,7 +195,8 @@ where
             }
         }
 
-        // Make another preliminary pass to collect all import sources and their specifiers.
+        // Make another preliminary pass to collect all import sources and their
+        // specifiers.
         for item in &items {
             self.in_top_level = true;
             match item {
@@ -196,14 +207,12 @@ where
             }
         }
 
-        // Map all top-level identifiers that match imported specifiers, and blacklist them
-        // from lazy imports.
+        // Map all top-level identifiers that match imported specifiers, and blacklist
+        // them from lazy imports.
         let mut visitor = LazyIdentifierVisitor::new(self.scope.clone());
-        for item in &items {
-            item.visit_with(&mut visitor);
-        }
-        for ident in &visitor.top_level_idents {
-            self.scope.borrow_mut().lazy_blacklist.insert(ident.clone());
+        items.visit_with(&mut visitor);
+        for ident in visitor.top_level_idents {
+            self.scope.borrow_mut().lazy_blacklist.insert(ident);
         }
 
         for item in items {

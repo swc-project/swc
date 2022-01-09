@@ -2614,6 +2614,82 @@ class MyClass extends _lib.Klass {
 "#
 );
 
+// lazy_computed_prop_name
+test!(
+    syntax(),
+    |_| tr(Config {
+        lazy: Lazy::Bool(true),
+        ..Default::default()
+    }),
+    lazy_computed_prop_name,
+    r#"
+import { x } from "libx";
+import { y } from "liby";
+
+class F {
+  get[x]() { }
+  get y() { y() }
+}
+"#,
+    r#"
+"use strict";
+var _libx = require("libx");
+function _liby() {
+    const data = require("liby");
+    _liby = function() {
+        return data;
+    };
+    return data;
+}
+
+class F {
+  get[_libx.x]() { }
+  get y() { _liby().y(); }
+}
+"#
+);
+
+// lazy_not_shadowed_by_labels
+test!(
+    syntax(),
+    |_| tr(Config {
+        lazy: Lazy::Bool(true),
+        ..Default::default()
+    }),
+    lazy_not_shadowed_by_labels,
+    r#"
+import { x } from "lib";
+
+function fn() {
+    x()
+}
+
+x:
+console.log(1);
+
+continue x;
+
+"#,
+    r#"
+"use strict";
+function _lib() {
+    const data = require("lib");
+    _lib = function() {
+        return data;
+    };
+    return data;
+}
+
+function fn() {
+    _lib().x();
+}
+x:
+console.log(1);
+
+continue x;
+"#
+);
+
 // lazy_dep_reexport_namespace
 test!(
     syntax(),
