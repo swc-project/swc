@@ -2523,7 +2523,7 @@ function isSubdir(src2, dest, sep6 = sep2) {
     }
     const srcArray = src2.split(sep6);
     const destArray = dest.split(sep6);
-    return srcArray.every((current, i)=>destArray[i] === current
+    return srcArray.every((current, i25)=>destArray[i25] === current
     );
 }
 function getFileInfoType(fileInfo) {
@@ -3312,23 +3312,23 @@ const base64abc = [
 ];
 function encode(data) {
     const uint8 = typeof data === "string" ? new TextEncoder().encode(data) : data instanceof Uint8Array ? data : new Uint8Array(data);
-    let result = "", i25;
+    let result = "", i26;
     const l = uint8.length;
-    for(i25 = 2; i25 < l; i25 += 3){
-        result += base64abc[uint8[i25 - 2] >> 2];
-        result += base64abc[(uint8[i25 - 2] & 3) << 4 | uint8[i25 - 1] >> 4];
-        result += base64abc[(uint8[i25 - 1] & 15) << 2 | uint8[i25] >> 6];
-        result += base64abc[uint8[i25] & 63];
+    for(i26 = 2; i26 < l; i26 += 3){
+        result += base64abc[uint8[i26 - 2] >> 2];
+        result += base64abc[(uint8[i26 - 2] & 3) << 4 | uint8[i26 - 1] >> 4];
+        result += base64abc[(uint8[i26 - 1] & 15) << 2 | uint8[i26] >> 6];
+        result += base64abc[uint8[i26] & 63];
     }
-    if (i25 === l + 1) {
-        result += base64abc[uint8[i25 - 2] >> 2];
-        result += base64abc[(uint8[i25 - 2] & 3) << 4];
+    if (i26 === l + 1) {
+        result += base64abc[uint8[i26 - 2] >> 2];
+        result += base64abc[(uint8[i26 - 2] & 3) << 4];
         result += "==";
     }
-    if (i25 === l) {
-        result += base64abc[uint8[i25 - 2] >> 2];
-        result += base64abc[(uint8[i25 - 2] & 3) << 4 | uint8[i25 - 1] >> 4];
-        result += base64abc[(uint8[i25 - 1] & 15) << 2];
+    if (i26 === l) {
+        result += base64abc[uint8[i26 - 2] >> 2];
+        result += base64abc[(uint8[i26 - 2] & 3) << 4 | uint8[i26 - 1] >> 4];
+        result += base64abc[(uint8[i26 - 1] & 15) << 2];
         result += "=";
     }
     return result;
@@ -3337,8 +3337,8 @@ function decode(b64) {
     const binString = atob(b64);
     const size = binString.length;
     const bytes = new Uint8Array(size);
-    for(let i26 = 0; i26 < size; i26++){
-        bytes[i26] = binString.charCodeAt(i26);
+    for(let i27 = 0; i27 < size; i27++){
+        bytes[i27] = binString.charCodeAt(i27);
     }
     return bytes;
 }
@@ -3545,10 +3545,10 @@ function encodedLen(n) {
 }
 function encode1(src19) {
     const dst = new Uint8Array(encodedLen(src19.length));
-    for(let i27 = 0; i27 < dst.length; i27++){
-        const v = src19[i27];
-        dst[i27 * 2] = hextable[v >> 4];
-        dst[i27 * 2 + 1] = hextable[v & 15];
+    for(let i28 = 0; i28 < dst.length; i28++){
+        const v = src19[i28];
+        dst[i28 * 2] = hextable[v >> 4];
+        dst[i28 * 2 + 1] = hextable[v & 15];
     }
     return dst;
 }
@@ -3816,32 +3816,10 @@ class SemVer {
         } else if (!this.prerelease.length && !other.prerelease.length) {
             return 0;
         }
-        let i28 = 0;
-        do {
-            const a = this.prerelease[i28];
-            const b = other.prerelease[i28];
-            if (a === undefined && b === undefined) {
-                return 0;
-            } else if (b === undefined) {
-                return 1;
-            } else if (a === undefined) {
-                return -1;
-            } else if (a === b) {
-                continue;
-            } else {
-                return compareIdentifiers(a, b);
-            }
-        }while (++i28)
-        return 1;
-    }
-    compareBuild(other) {
-        if (!(other instanceof SemVer)) {
-            other = new SemVer(other, this.options);
-        }
         let i29 = 0;
         do {
-            const a = this.build[i29];
-            const b = other.build[i29];
+            const a = this.prerelease[i29];
+            const b = other.prerelease[i29];
             if (a === undefined && b === undefined) {
                 return 0;
             } else if (b === undefined) {
@@ -3854,6 +3832,28 @@ class SemVer {
                 return compareIdentifiers(a, b);
             }
         }while (++i29)
+        return 1;
+    }
+    compareBuild(other) {
+        if (!(other instanceof SemVer)) {
+            other = new SemVer(other, this.options);
+        }
+        let i30 = 0;
+        do {
+            const a = this.build[i30];
+            const b = other.build[i30];
+            if (a === undefined && b === undefined) {
+                return 0;
+            } else if (b === undefined) {
+                return 1;
+            } else if (a === undefined) {
+                return -1;
+            } else if (a === b) {
+                continue;
+            } else {
+                return compareIdentifiers(a, b);
+            }
+        }while (++i30)
         return 1;
     }
     inc(release, identifier) {
@@ -3909,14 +3909,14 @@ class SemVer {
                         0
                     ];
                 } else {
-                    let i30 = this.prerelease.length;
-                    while(--i30 >= 0){
-                        if (typeof this.prerelease[i30] === "number") {
-                            this.prerelease[i30]++;
-                            i30 = -2;
+                    let i31 = this.prerelease.length;
+                    while(--i31 >= 0){
+                        if (typeof this.prerelease[i31] === "number") {
+                            this.prerelease[i31]++;
+                            i31 = -2;
                         }
                     }
-                    if (i30 === -1) {
+                    if (i31 === -1) {
                         this.prerelease.push(0);
                     }
                 }
@@ -4228,8 +4228,8 @@ class Range {
         if (typeof version7 === "string") {
             version7 = new SemVer(version7, this.options);
         }
-        for(var i31 = 0; i31 < this.set.length; i31++){
-            if (testSet(this.set[i31], version7, this.options)) {
+        for(var i32 = 0; i32 < this.set.length; i32++){
+            if (testSet(this.set[i32], version7, this.options)) {
                 return true;
             }
         }
@@ -4254,18 +4254,18 @@ class Range {
     }
 }
 function testSet(set, version8, options) {
-    for(let i32 = 0; i32 < set.length; i32++){
-        if (!set[i32].test(version8)) {
+    for(let i33 = 0; i33 < set.length; i33++){
+        if (!set[i33].test(version8)) {
             return false;
         }
     }
     if (version8.prerelease.length && !options.includePrerelease) {
-        for(let i33 = 0; i33 < set.length; i33++){
-            if (set[i33].semver === ANY) {
+        for(let i34 = 0; i34 < set.length; i34++){
+            if (set[i34].semver === ANY) {
                 continue;
             }
-            if (set[i33].semver.prerelease.length > 0) {
-                const allowed = set[i33].semver;
+            if (set[i34].semver.prerelease.length > 0) {
+                const allowed = set[i34].semver;
                 if (allowed.major === version8.major && allowed.minor === version8.minor && allowed.patch === version8.patch) {
                     return true;
                 }
@@ -4501,8 +4501,8 @@ function minVersion(range, optionsOrLoose) {
         return minver;
     }
     minver = null;
-    for(var i34 = 0; i34 < range.set.length; ++i34){
-        var comparators = range.set[i34];
+    for(var i35 = 0; i35 < range.set.length; ++i35){
+        var comparators = range.set[i35];
         comparators.forEach((comparator)=>{
             var compver = new SemVer(comparator.semver.version);
             switch(comparator.operator){
@@ -4575,8 +4575,8 @@ function outside(version12, range, hilo, optionsOrLoose) {
     if (satisfies(version12, range, optionsOrLoose)) {
         return false;
     }
-    for(let i35 = 0; i35 < range.set.length; ++i35){
-        const comparators = range.set[i35];
+    for(let i36 = 0; i36 < range.set.length; ++i36){
+        const comparators = range.set[i36];
         let high = null;
         let low = null;
         comparators.forEach((comparator)=>{
@@ -5156,12 +5156,12 @@ function vectorJsonBinding(dresolver, texpr, boundTypeParams) {
             throw jsonParseException('expected an array');
         }
         let result = [];
-        jarr.forEach((eljson, i36)=>{
+        jarr.forEach((eljson, i37)=>{
             try {
                 result.push(elementBinding().fromJson(eljson));
             } catch (e) {
                 if (isJsonParseException(e)) {
-                    e.pushIndex(i36);
+                    e.pushIndex(i37);
                 }
                 throw e;
             }
@@ -5289,9 +5289,9 @@ function structJsonBinding(dresolver, struct, params, boundTypeParams) {
 function enumJsonBinding(_dresolver, union, _params, _boundTypeParams) {
     const fieldSerializedNames = [];
     const fieldNumbers = {};
-    union.fields.forEach((field, i37)=>{
+    union.fields.forEach((field, i38)=>{
         fieldSerializedNames.push(field.serializedName);
-        fieldNumbers[field.serializedName] = i37;
+        fieldNumbers[field.serializedName] = i38;
     });
     function toJson(v) {
         return fieldSerializedNames[v];
@@ -5389,8 +5389,8 @@ function typedefJsonBinding(dresolver, typedef, params, boundTypeParams) {
 }
 function createBoundTypeParams(dresolver, paramNames, paramTypes, boundTypeParams) {
     let result = {};
-    paramNames.forEach((paramName, i)=>{
-        result[paramName] = buildJsonBinding(dresolver, paramTypes[i], boundTypeParams);
+    paramNames.forEach((paramName, i39)=>{
+        result[paramName] = buildJsonBinding(dresolver, paramTypes[i39], boundTypeParams);
     });
     return result;
 }

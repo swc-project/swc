@@ -581,7 +581,7 @@ impl Visit for UsageAnalyzer<'_> {
         e.obj.visit_with(self);
 
         if e.computed {
-            e.obj.visit_with(self);
+            e.prop.visit_with(self);
         }
     }
 
