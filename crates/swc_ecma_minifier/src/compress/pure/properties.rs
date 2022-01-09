@@ -9,42 +9,36 @@ impl<M> Pure<'_, M>
 where
     M: Mode,
 {
-    pub(super) fn optimize_property_of_member_expr(&mut self, e: &mut MemberExpr) {
-        if !e.computed {
-            return;
-        }
+    pub(super) fn optimize_property_of_member_expr(
+        &mut self,
+        obj: Option<&Expr>,
+        c: &mut ComputedPropName,
+    ) -> Option<Ident> {
         if !self.options.props {
-            return;
+            return None;
         }
-
-        match &e.obj {
-            ExprOrSuper::Expr(obj) => match &**obj {
-                Expr::Array(..) | Expr::Await(..) | Expr::Yield(..) | Expr::Lit(..) => return,
+        if let Some(obj) = obj {
+            match obj {
+                Expr::Array(..) | Expr::Await(..) | Expr::Yield(..) | Expr::Lit(..) => return None,
                 _ => {}
-            },
-            _ => {}
+            }
         }
 
-        match &*e.prop {
-            Expr::Lit(Lit::Str(s)) => {
-                if is_valid_identifier(&s.value, true) {
-                    self.changed = true;
-                    tracing::debug!(
-                        "properties: Computed member => member expr with identifier as a prop"
-                    );
+        match &*c.expr {
+            Expr::Lit(Lit::Str(s)) if is_valid_identifier(&s.value, true) => {
+                self.changed = true;
+                tracing::debug!(
+                    "properties: Computed member => member expr with identifier as a prop"
+                );
 
-                    e.computed = false;
-                    e.prop = Box::new(Expr::Ident(Ident {
-                        span: s.span.with_ctxt(SyntaxContext::empty()),
-                        sym: s.value.clone(),
-                        optional: false,
-                    }));
-
-                    return;
-                }
+                Some(Ident {
+                    span: s.span.with_ctxt(SyntaxContext::empty()),
+                    sym: s.value.clone(),
+                    optional: false,
+                })
             }
 
-            _ => {}
+            _ => None,
         }
     }
 
@@ -123,21 +117,13 @@ where
             Expr::Member(m) => m,
             _ => return,
         };
-        if me.computed {
-            return;
-        }
 
-        let key = match &*me.prop {
-            Expr::Ident(prop) => prop,
+        let key = match &me.prop {
+            MemberProp::Ident(prop) => prop,
             _ => return,
         };
 
-        let obj = match &mut me.obj {
-            ExprOrSuper::Expr(e) => &mut **e,
-            _ => return,
-        };
-
-        let obj = match obj {
+        let obj = match &mut *me.obj {
             Expr::Object(o) => o,
             _ => return,
         };
@@ -207,16 +193,15 @@ where
         }
     }
 
-    pub(super) fn handle_known_computed_member_expr(&mut self, e: &mut MemberExpr) {
+    pub(super) fn handle_known_computed_member_expr(
+        &mut self,
+        c: &mut ComputedPropName,
+    ) -> Option<Ident> {
         if !self.options.props || !self.options.evaluate {
-            return;
+            return None;
         }
 
-        if !e.computed {
-            return;
-        }
-
-        match &*e.prop {
+        match &*c.expr {
             Expr::Lit(Lit::Str(s)) => {
                 if s.value == js_word!("")
                     || s.value.starts_with(|c: char| c.is_digit(10))
@@ -228,18 +213,17 @@ where
                         _ => true,
                     })
                 {
-                    return;
+                    return None;
                 }
 
                 self.changed = true;
 
-                e.computed = false;
-                e.prop = Box::new(Expr::Ident(Ident::new(
+                Some(Ident::new(
                     s.value.clone(),
                     s.span.with_ctxt(SyntaxContext::empty()),
-                )));
+                ))
             }
-            _ => {}
+            _ => None,
         }
     }
 }

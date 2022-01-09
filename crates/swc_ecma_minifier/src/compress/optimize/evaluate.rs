@@ -99,7 +99,7 @@ where
         let (span, callee, args) = match e {
             Expr::Call(CallExpr {
                 span,
-                callee: ExprOrSuper::Expr(callee),
+                callee: Callee::Expr(callee),
                 args,
                 ..
             }) => (span, callee, args),
@@ -171,133 +171,123 @@ where
             }
 
             Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(obj),
-                prop,
-                computed: false,
+                obj,
+                prop: MemberProp::Ident(prop),
                 ..
-            }) => {
-                let prop = match &**prop {
-                    Expr::Ident(i) => i,
-                    _ => return,
-                };
+            }) => match &**obj {
+                Expr::Ident(Ident {
+                    sym: js_word!("String"),
+                    ..
+                }) => match &*prop.sym {
+                    "fromCharCode" => {
+                        if args.len() != 1 {
+                            return;
+                        }
 
-                match &**obj {
-                    Expr::Ident(Ident {
-                        sym: js_word!("String"),
-                        ..
-                    }) => match &*prop.sym {
-                        "fromCharCode" => {
-                            if args.len() != 1 {
-                                return;
-                            }
+                        if let Known(char_code) = args[0].expr.as_number() {
+                            let v = char_code.floor() as u32;
 
-                            if let Known(char_code) = args[0].expr.as_number() {
-                                let v = char_code.floor() as u32;
-
-                                match char::from_u32(v) {
-                                    Some(v) => {
-                                        self.changed = true;
-                                        tracing::debug!(
-                                            "evanluate: Evaluated `String.charCodeAt({})` as `{}`",
-                                            char_code,
-                                            v
-                                        );
-                                        *e = Expr::Lit(Lit::Str(Str {
-                                            span: e.span(),
-                                            value: v.to_string().into(),
-                                            has_escape: false,
-                                            kind: Default::default(),
-                                        }));
-                                        return;
-                                    }
-                                    None => {}
+                            match char::from_u32(v) {
+                                Some(v) => {
+                                    self.changed = true;
+                                    tracing::debug!(
+                                        "evanluate: Evaluated `String.charCodeAt({})` as `{}`",
+                                        char_code,
+                                        v
+                                    );
+                                    *e = Expr::Lit(Lit::Str(Str {
+                                        span: e.span(),
+                                        value: v.to_string().into(),
+                                        has_escape: false,
+                                        kind: Default::default(),
+                                    }));
+                                    return;
                                 }
+                                None => {}
                             }
                         }
-                        _ => {}
-                    },
+                    }
+                    _ => {}
+                },
 
-                    Expr::Ident(Ident {
-                        sym: js_word!("Object"),
-                        ..
-                    }) => match &*prop.sym {
-                        "keys" => {
-                            if args.len() != 1 {
-                                return;
-                            }
+                Expr::Ident(Ident {
+                    sym: js_word!("Object"),
+                    ..
+                }) => match &*prop.sym {
+                    "keys" => {
+                        if args.len() != 1 {
+                            return;
+                        }
 
-                            let obj = match &*args[0].expr {
-                                Expr::Object(obj) => obj,
-                                _ => return,
-                            };
+                        let obj = match &*args[0].expr {
+                            Expr::Object(obj) => obj,
+                            _ => return,
+                        };
 
-                            let mut keys = vec![];
+                        let mut keys = vec![];
 
-                            for prop in &obj.props {
-                                match prop {
-                                    PropOrSpread::Spread(_) => return,
-                                    PropOrSpread::Prop(p) => match &**p {
-                                        Prop::Shorthand(p) => {
+                        for prop in &obj.props {
+                            match prop {
+                                PropOrSpread::Spread(_) => return,
+                                PropOrSpread::Prop(p) => match &**p {
+                                    Prop::Shorthand(p) => {
+                                        keys.push(Some(ExprOrSpread {
+                                            spread: None,
+                                            expr: Box::new(Expr::Lit(Lit::Str(Str {
+                                                span: p.span,
+                                                value: p.sym.clone(),
+                                                has_escape: false,
+                                                kind: Default::default(),
+                                            }))),
+                                        }));
+                                    }
+                                    Prop::KeyValue(p) => match &p.key {
+                                        PropName::Ident(key) => {
                                             keys.push(Some(ExprOrSpread {
                                                 spread: None,
                                                 expr: Box::new(Expr::Lit(Lit::Str(Str {
-                                                    span: p.span,
-                                                    value: p.sym.clone(),
+                                                    span: key.span,
+                                                    value: key.sym.clone(),
                                                     has_escape: false,
                                                     kind: Default::default(),
                                                 }))),
                                             }));
                                         }
-                                        Prop::KeyValue(p) => match &p.key {
-                                            PropName::Ident(key) => {
-                                                keys.push(Some(ExprOrSpread {
-                                                    spread: None,
-                                                    expr: Box::new(Expr::Lit(Lit::Str(Str {
-                                                        span: key.span,
-                                                        value: key.sym.clone(),
-                                                        has_escape: false,
-                                                        kind: Default::default(),
-                                                    }))),
-                                                }));
-                                            }
-                                            PropName::Str(key) => {
-                                                keys.push(Some(ExprOrSpread {
-                                                    spread: None,
-                                                    expr: Box::new(Expr::Lit(Lit::Str(
-                                                        key.clone(),
-                                                    ))),
-                                                }));
-                                            }
-                                            _ => return,
-                                        },
+                                        PropName::Str(key) => {
+                                            keys.push(Some(ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(Expr::Lit(Lit::Str(key.clone()))),
+                                            }));
+                                        }
                                         _ => return,
                                     },
-                                }
+                                    _ => return,
+                                },
                             }
+                        }
 
-                            *e = Expr::Array(ArrayLit { span, elems: keys })
+                        *e = Expr::Array(ArrayLit { span, elems: keys })
+                    }
+
+                    _ => {}
+                },
+
+                Expr::Ident(Ident { sym, .. }) => match &**sym {
+                    "console" => match &*prop.sym {
+                        "log" => {
+                            for arg in args {
+                                self.optimize_expr_in_str_ctx_unsafely(&mut arg.expr);
+                            }
                         }
 
                         _ => {}
                     },
 
-                    Expr::Ident(Ident { sym, .. }) => match &**sym {
-                        "console" => match &*prop.sym {
-                            "log" => {
-                                for arg in args {
-                                    self.optimize_expr_in_str_ctx_unsafely(&mut arg.expr);
-                                }
-                            }
-
-                            _ => {}
-                        },
-
-                        _ => {}
-                    },
-
                     _ => {}
-                }
-            }
+                },
+
+                _ => {}
+            },
             _ => {}
         }
     }
