@@ -373,8 +373,8 @@ where
                     let callee = match &mut var_decl.init {
                         Some(init) => match &mut **init {
                             Expr::Call(CallExpr { callee, .. }) => match callee {
-                                ExprOrSuper::Super(_) => continue,
-                                ExprOrSuper::Expr(v) => v,
+                                Callee::Super(_) | Callee::Import(_) => continue,
+                                Callee::Expr(v) => v,
                             },
                             _ => continue,
                         },
@@ -1432,16 +1432,7 @@ impl VisitMut for ImportMetaHandler<'_, '_> {
 
         match e {
             Expr::MetaProp(MetaPropExpr {
-                meta:
-                    Ident {
-                        sym: js_word!("import"),
-                        ..
-                    },
-                prop:
-                    Ident {
-                        sym: js_word!("meta"),
-                        ..
-                    },
+                kind: MetaPropKind::ImportMeta,
                 ..
             }) => {
                 *e = Expr::Ident(self.inline_ident.clone());
