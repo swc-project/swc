@@ -35,7 +35,7 @@ if [[ "$1" == *"minifier-tasklist"* && $REDUCED_SIZE -le 3 ]]; then
     echo "Removing $1"
     rm -rf $1
     ./scripts/_/notify.sh "Removed $1"
-    (cd $dir && git commit -a -m "Remove a file as it didn't break anything")
+    (cd $dir && git commit -m "Remove a file as it didn't break anything" $1)
 else
     ./scripts/_/notify.sh "Found errornous input"
 fi
