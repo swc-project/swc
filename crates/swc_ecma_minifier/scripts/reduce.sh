@@ -20,6 +20,7 @@ wd="$(mktemp -d)"
 echo "Using $MINIFY; dir = $wd"
 
 cp $1 "$wd/input.js"
+dir="$(dirname $1)"
 
 # Verify that we can run `creduce`
 $SCRIPT_DIR/_/reduce/compare.sh
@@ -30,14 +31,11 @@ REDUCED_SIZE=$(wc -c <"$wd/input.js")
 
 echo "Reduced size is $REDUCED_SIZE bytes"
 
-if [[ "$1" == *"inputs"* && $REDUCED_SIZE -le 3 ]]; then
+if [[ "$1" == *"minifier-tasklist"* && $REDUCED_SIZE -le 3 ]]; then
     echo "Removing $1"
-    git rm --force $1 || true
     rm -rf $1
     ./scripts/_/notify.sh "Removed $1"
-    git commit -m 'Remove useless input'
-
-    find ./inputs -type d -empty -delete
+    (cd $dir && git commit -a -m "Remove a file as it didn't break anything")
 else
     ./scripts/_/notify.sh "Found errornous input"
 fi
