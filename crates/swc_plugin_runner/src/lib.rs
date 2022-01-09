@@ -145,10 +145,10 @@ pub fn apply_js_plugin(
 
         let plugin_process = instance
             .exports
-            .get_native_function::<(i32, u32), i32>("process")?;
+            .get_native_function::<(i32, u32), (i32, i32)>("process")?;
 
         let (alloc_ptr, len) = copy_memory_to_instance(&instance, &program)?;
-        plugin_process.call(alloc_ptr, len)?;
+        let (_returned_ptr, _returned_len) = plugin_process.call(alloc_ptr, len)?;
 
         Ok(program)
     })()

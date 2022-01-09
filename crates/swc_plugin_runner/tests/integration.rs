@@ -11,11 +11,18 @@ use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
 /// Returns the path to the built plugin
 fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
     {
-        let mut cmd = Command::new("cargo");
+        let mut cmd = if cfg!(windows) {
+            let mut c = Command::new("cmd");
+            c.args(&["/C", "build.cmd"]);
+            c
+        } else {
+            let mut c = Command::new("sh");
+            c.args(&["-c", "./build.sh"]);
+            c
+        };
+
         cmd.current_dir(dir);
-        cmd.args(["build", "--target=wasm32-unknown-unknown"])
-            .stderr(Stdio::inherit());
-        cmd.output()?;
+        cmd.stderr(Stdio::inherit()).output()?;
     }
 
     for entry in fs::read_dir(
