@@ -3,7 +3,6 @@ use swc_common::{
     Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::ExprFactory;
 use swc_ecma_visit::{VisitMut, VisitMutWith};
 use swc_node_comments::SwcComments;
 
@@ -27,22 +26,18 @@ impl VisitMut for AddTypes {
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
         e.visit_mut_children_with(self);
 
-        match &e.obj {
-            ExprOrSuper::Expr(obj) => match &**obj {
-                Expr::This(..) => {
-                    e.obj = Expr::Paren(ParenExpr {
+        match &*e.obj {
+            Expr::This(..) => {
+                e.obj = Expr::Paren(ParenExpr {
+                    span: DUMMY_SP,
+                    expr: Box::new(Expr::TsAs(TsAsExpr {
                         span: DUMMY_SP,
-                        expr: Box::new(Expr::TsAs(TsAsExpr {
-                            span: DUMMY_SP,
-                            expr: obj.clone(),
-                            type_ann: any_type(),
-                        })),
-                    })
-                    .as_obj();
-                }
-                _ => {}
-            },
-
+                        expr: e.obj.clone(),
+                        type_ann: any_type(),
+                    })),
+                })
+                .into();
+            }
             _ => {}
         }
     }
