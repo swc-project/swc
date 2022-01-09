@@ -31,7 +31,7 @@ REDUCED_SIZE=$(wc -c <"$wd/input.js")
 
 echo "Reduced size is $REDUCED_SIZE bytes"
 
-if [[ "$1" == *"minifier-tasklist"* && $REDUCED_SIZE -le 3 ]]; then
+if [[ $REDUCED_SIZE -le 3 ]]; then
     echo "Removing $1"
     rm -rf $1
     ./scripts/_/notify.sh "Removed $1"
