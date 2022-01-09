@@ -9,11 +9,11 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 struct ObjectSuper {
-    extra_var: Vec<Ident>,
+    extra_vars: Vec<Ident>,
 }
 pub fn object_super() -> impl Fold + VisitMut {
     as_folder(ObjectSuper {
-        extra_var: Vec::new(),
+        extra_vars: Vec::new(),
     })
 }
 
@@ -21,7 +21,7 @@ impl VisitMut for ObjectSuper {
     noop_visit_mut_type!();
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         n.visit_mut_children_with(self);
-        if self.extra_var.len() != 0 {
+        if !self.extra_vars.is_empty() {
             prepend(
                 n,
                 ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
@@ -29,7 +29,7 @@ impl VisitMut for ObjectSuper {
                     kind: VarDeclKind::Var,
                     declare: false,
                     decls: self
-                        .extra_var
+                        .extra_vars
                         .take()
                         .into_iter()
                         .map(|v| VarDeclarator {
@@ -43,17 +43,17 @@ impl VisitMut for ObjectSuper {
             );
         }
     }
-    fn visit_mut_block_stmt(&mut self, stmts: &mut BlockStmt) {
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
         stmts.visit_mut_children_with(self);
-        if self.extra_var.len() != 0 {
+        if !self.extra_vars.is_empty() {
             prepend(
-                &mut stmts.stmts,
+                stmts,
                 Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     declare: false,
                     decls: self
-                        .extra_var
+                        .extra_vars
                         .drain(..)
                         .into_iter()
                         .map(|v| VarDeclarator {
@@ -80,10 +80,10 @@ impl VisitMut for ObjectSuper {
                     match &mut **prop {
                         Prop::Method(MethodProp { key: _, function }) => {
                             function.visit_mut_with(&mut replacer);
-                            if replacer.vars.len() != 0 {
+                            if !replacer.vars.is_empty() {
                                 if let Some(BlockStmt { span: _, stmts }) = &mut function.body {
-                                    stmts.insert(
-                                        0,
+                                    prepend(
+                                        stmts,
                                         Stmt::Decl(Decl::Var(VarDecl {
                                             span: DUMMY_SP,
                                             kind: VarDeclKind::Var,
@@ -99,7 +99,7 @@ impl VisitMut for ObjectSuper {
                                                 })
                                                 .collect(),
                                         })),
-                                    )
+                                    );
                                 }
                             }
                         }
@@ -114,7 +114,7 @@ impl VisitMut for ObjectSuper {
                     left: PatOrExpr::Expr(Box::new(Expr::Ident(obj.clone()))),
                     right: Box::new(expr.take()),
                 });
-                self.extra_var.push(obj);
+                self.extra_vars.push(obj);
             }
         }
     }
@@ -126,6 +126,7 @@ struct SuperReplacer {
 }
 impl VisitMut for SuperReplacer {
     noop_visit_mut_type!();
+    noop_visit_mut_type!(visit_mut_object_lit, ObjectLit);
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         self.visit_mut_super_member_call(expr);
         self.visit_mut_super_member_set(expr);
@@ -602,19 +603,22 @@ mod tests {
         nest,
         "let obj = {
             b(){
+                super.bar()
                 let o = {
                     d(){
-                        super.d
+                        super.d()
                     }
                 }
             },
         }",
-        r#"let obj = {
+        r#"var _obj;
+        let obj = _obj = {
         b: function b() {
-            var _obj;
-            let o = _obj = {
+            var _obj1;
+            _get(_getPrototypeOf(_obj), "bar", this).call(this);
+            let o = _obj1 = {
                 d: function d() {
-                    _get(_getPrototypeOf(_obj), "d", this);
+                    _get(_getPrototypeOf(_obj1), "d", this).call(this);
                 }
             };
         }
