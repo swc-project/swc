@@ -28,7 +28,9 @@ $SCRIPT_DIR/_/reduce/compare.sh
 (cd $wd && creduce "$SCRIPT_DIR/_/reduce/compare.sh" "$wd/input.js")
 
 REDUCED_SIZE=$(wc -c <"$wd/input.js")
-
+hash=$(sha1sum < "$wd/input.js")
+echo "Hash is $hash"
+    
 echo "Reduced size is $REDUCED_SIZE bytes"
 
 if [[ $REDUCED_SIZE -le 3 ]]; then
@@ -37,5 +39,6 @@ if [[ $REDUCED_SIZE -le 3 ]]; then
     ./scripts/_/notify.sh "Removed $1"
     (cd $dir && git commit -m "Remove a file as it didn't break anything" $1)
 else
+    cp "$wd/input.js" "$SCRIPT_DIR/../tests/compress/fixture/reduced/$hash.js"
     ./scripts/_/notify.sh "Found errornous input"
 fi
