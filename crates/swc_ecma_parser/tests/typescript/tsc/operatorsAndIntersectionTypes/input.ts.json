@@ -516,16 +516,23 @@
             "optional": false
           },
           "property": {
-            "type": "Identifier",
+            "type": "Computed",
             "span": {
-              "start": 344,
-              "end": 348,
+              "start": 339,
+              "end": 349,
               "ctxt": 0
             },
-            "value": "guid",
-            "optional": false
-          },
-          "computed": true
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 344,
+                "end": 348,
+                "ctxt": 0
+              },
+              "value": "guid",
+              "optional": false
+            }
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -737,16 +744,23 @@
             "optional": false
           },
           "property": {
-            "type": "Identifier",
+            "type": "Computed",
             "span": {
-              "start": 463,
-              "end": 471,
+              "start": 458,
+              "end": 472,
               "ctxt": 0
             },
-            "value": "serialNo",
-            "optional": false
-          },
-          "computed": true
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 463,
+                "end": 471,
+                "ctxt": 0
+              },
+              "value": "serialNo",
+              "optional": false
+            }
+          }
         },
         "right": {
           "type": "StringLiteral",
@@ -913,8 +927,7 @@
                 },
                 "value": "toLowerCase",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -1106,8 +1119,7 @@
                 },
                 "value": "toPrecision",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {

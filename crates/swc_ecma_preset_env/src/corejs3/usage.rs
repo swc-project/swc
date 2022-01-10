@@ -86,13 +86,7 @@ impl UsageVisitor {
             self.add(features)
         }
     }
-    fn add_property_deps(&mut self, obj: &Expr, prop: &Expr) {
-        let prop = match prop {
-            Expr::Ident(i) => &i.sym,
-            Expr::Lit(Lit::Str(s)) => &s.value,
-            _ => return,
-        };
-
+    fn add_property_deps(&mut self, obj: &Expr, prop: &JsWord) {
         let obj = match obj {
             Expr::Ident(i) => &i.sym,
             _ => {
@@ -174,7 +168,9 @@ impl Visit for UsageVisitor {
             op!("in") => {
                 // 'entries' in Object
                 // 'entries' in [1, 2, 3]
-                self.add_property_deps(&e.right, &e.left);
+                if let Expr::Lit(Lit::Str(str)) = &*e.left {
+                    self.add_property_deps(&e.right, &str.value);
+                }
             }
             _ => {}
         }
@@ -184,14 +180,8 @@ impl Visit for UsageVisitor {
     fn visit_call_expr(&mut self, e: &CallExpr) {
         e.visit_children_with(self);
 
-        if let ExprOrSuper::Expr(expr) = &e.callee {
-            match &**expr {
-                Expr::Ident(Ident {
-                    sym: js_word!("import"),
-                    ..
-                }) => self.add(PROMISE_DEPENDENCIES),
-                _ => {}
-            }
+        if let Callee::Import(_) = &e.callee {
+            self.add(PROMISE_DEPENDENCIES)
         }
     }
 
@@ -229,16 +219,23 @@ impl Visit for UsageVisitor {
 
     fn visit_member_expr(&mut self, e: &MemberExpr) {
         e.obj.visit_with(self);
-        if e.computed {
-            e.prop.visit_with(self);
+        if let MemberProp::Computed(c) = &e.prop {
+            if let Expr::Lit(Lit::Str(str)) = &*c.expr {
+                self.add_property_deps(&e.obj, &str.value);
+            }
+            c.visit_with(self);
         }
 
         // Object.entries
         // [1, 2, 3].entries
+        if let MemberProp::Ident(i) = &e.prop {
+            self.add_property_deps(&e.obj, &i.sym)
+        }
+    }
 
-        match e.obj {
-            ExprOrSuper::Expr(ref obj) => self.add_property_deps(&obj, &e.prop),
-            _ => {}
+    fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
+        if let SuperProp::Computed(c) = &e.prop {
+            c.visit_with(self);
         }
     }
 

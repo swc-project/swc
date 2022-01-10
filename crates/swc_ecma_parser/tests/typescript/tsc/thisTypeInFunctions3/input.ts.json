@@ -261,8 +261,7 @@
                         },
                         "value": "check",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [
                       {

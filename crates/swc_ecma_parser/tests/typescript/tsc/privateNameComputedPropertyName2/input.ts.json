@@ -304,8 +304,7 @@
                             "value": "x",
                             "optional": false
                           }
-                        },
-                        "computed": false
+                        }
                       },
                       "async": false,
                       "generator": false,
@@ -407,8 +406,7 @@
             },
             "value": "log",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {

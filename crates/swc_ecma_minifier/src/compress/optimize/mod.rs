@@ -431,8 +431,8 @@ where
         };
 
         let callee = match &mut call.callee {
-            ExprOrSuper::Super(_) => return,
-            ExprOrSuper::Expr(callee) => &mut **callee,
+            Callee::Super(_) | Callee::Import(_) => return,
+            Callee::Expr(callee) => &mut **callee,
         };
 
         let separator = if call.args.is_empty() {
@@ -458,19 +458,15 @@ where
         let arr = match callee {
             Expr::Member(MemberExpr {
                 obj,
-                prop,
-                computed: false,
+                prop: MemberProp::Ident(Ident { sym, .. }),
                 ..
-            }) => match obj {
-                ExprOrSuper::Super(_) => return,
-                ExprOrSuper::Expr(obj) => match &mut **obj {
-                    Expr::Array(arr) => match &**prop {
-                        Expr::Ident(i) if i.sym == *"join" => arr,
-                        _ => return,
-                    },
-                    _ => return,
-                },
-            },
+            }) if *sym == *"join" => {
+                if let Expr::Array(arr) = &mut **obj {
+                    arr
+                } else {
+                    return;
+                }
+            }
             _ => return,
         };
 
@@ -825,7 +821,7 @@ where
 
             // Pure calls can be removed
             Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(callee),
+                callee: Callee::Expr(callee),
                 args,
                 ..
             }) if match &**callee {
@@ -848,7 +844,7 @@ where
             }
 
             Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(callee),
+                callee: Callee::Expr(callee),
                 args,
                 ..
             }) => {
@@ -898,28 +894,29 @@ where
             // function f() {
             //      return f.g, 1
             // }
-            Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(obj),
-                computed: false,
-                ..
-            }) if self.options.top_level() || !self.ctx.in_top_level() => match &**obj {
-                Expr::Ident(obj) => {
-                    if let Some(usage) = self
-                        .data
-                        .as_ref()
-                        .and_then(|data| data.vars.get(&obj.to_id()))
-                    {
-                        if !usage.declared_as_fn_param && usage.var_kind.is_none() {
-                            return None;
-                        }
+            Expr::Member(MemberExpr { obj, prop, .. })
+                if !prop.is_computed()
+                    && (self.options.top_level() || !self.ctx.in_top_level()) =>
+            {
+                match &**obj {
+                    Expr::Ident(obj) => {
+                        if let Some(usage) = self
+                            .data
+                            .as_ref()
+                            .and_then(|data| data.vars.get(&obj.to_id()))
+                        {
+                            if !usage.declared_as_fn_param && usage.var_kind.is_none() {
+                                return None;
+                            }
 
-                        if !usage.reassigned && usage.no_side_effect_for_member_access {
-                            return None;
+                            if !usage.reassigned && usage.no_side_effect_for_member_access {
+                                return None;
+                            }
                         }
                     }
+                    _ => {}
                 }
-                _ => {}
-            },
+            }
 
             // TODO: Check if it is a pure property access.
             Expr::Member(_) => return Some(e.take()),
@@ -1021,7 +1018,7 @@ where
                 && !self.ctx.dont_use_negated_iife
                 && match &**arg {
                     Expr::Call(arg) => match &arg.callee {
-                        ExprOrSuper::Expr(callee) => match &**callee {
+                        Callee::Expr(callee) => match &**callee {
                             Expr::Fn(..) => true,
                             _ => false,
                         },
@@ -1656,16 +1653,16 @@ where
 
     fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
         let is_this_undefined = match &e.callee {
-            ExprOrSuper::Super(_) => false,
-            ExprOrSuper::Expr(e) => e.is_ident(),
+            Callee::Super(_) | Callee::Import(_) => false,
+            Callee::Expr(e) => e.is_ident(),
         };
         {
             let ctx = Ctx {
                 is_callee: true,
                 is_this_aware_callee: is_this_undefined
                     || match &e.callee {
-                        ExprOrSuper::Super(_) => false,
-                        ExprOrSuper::Expr(callee) => is_callee_this_aware(&callee),
+                        Callee::Super(_) | Callee::Import(_) => false,
+                        Callee::Expr(callee) => is_callee_this_aware(&callee),
                     },
                 ..self.ctx
             };
@@ -1674,7 +1671,7 @@ where
 
         if is_this_undefined {
             match &mut e.callee {
-                ExprOrSuper::Expr(callee) => match &mut **callee {
+                Callee::Expr(callee) => match &mut **callee {
                     Expr::Member(..) => {
                         let zero = Box::new(Expr::Lit(Lit::Num(Number {
                             span: DUMMY_SP,
@@ -1902,7 +1899,7 @@ where
             match &*n.expr {
                 Expr::Unary(unary @ UnaryExpr { op: op!("!"), .. }) => match &*unary.arg {
                     Expr::Call(CallExpr {
-                        callee: ExprOrSuper::Expr(callee),
+                        callee: Callee::Expr(callee),
                         ..
                     }) => match &**callee {
                         Expr::Fn(..) => return,
@@ -2086,19 +2083,30 @@ where
     fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
         {
             let ctx = Ctx {
-                in_obj_of_non_computed_member: !n.computed,
+                in_obj_of_non_computed_member: !n.prop.is_computed(),
                 is_exact_lhs_of_assign: false,
                 ..self.ctx
             };
             n.obj.visit_mut_with(&mut *self.with_ctx(ctx));
         }
-        if n.computed {
+        if let MemberProp::Computed(c) = &mut n.prop {
             let ctx = Ctx {
                 is_exact_lhs_of_assign: false,
                 is_lhs_of_assign: false,
                 ..self.ctx
             };
-            n.prop.visit_mut_with(&mut *self.with_ctx(ctx));
+            c.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
+    }
+
+    fn visit_mut_super_prop_expr(&mut self, n: &mut SuperPropExpr) {
+        if let SuperProp::Computed(c) = &mut n.prop {
+            let ctx = Ctx {
+                is_exact_lhs_of_assign: false,
+                is_lhs_of_assign: false,
+                ..self.ctx
+            };
+            c.visit_mut_with(&mut *self.with_ctx(ctx));
         }
     }
 
@@ -2670,10 +2678,7 @@ fn is_callee_this_aware(callee: &Expr) -> bool {
     match &*callee {
         Expr::Arrow(..) => return false,
         Expr::Seq(..) => return true,
-        Expr::Member(MemberExpr {
-            obj: ExprOrSuper::Expr(obj),
-            ..
-        }) => match &**obj {
+        Expr::Member(MemberExpr { obj, .. }) => match &**obj {
             Expr::Ident(obj) => {
                 if &*obj.sym == "console" {
                     return false;
@@ -2690,10 +2695,7 @@ fn is_callee_this_aware(callee: &Expr) -> bool {
 
 fn is_expr_access_to_arguments(l: &Expr) -> bool {
     match l {
-        Expr::Member(MemberExpr {
-            obj: ExprOrSuper::Expr(obj),
-            ..
-        }) => match &**obj {
+        Expr::Member(MemberExpr { obj, .. }) => match &**obj {
             Expr::Ident(Ident {
                 sym: js_word!("arguments"),
                 ..

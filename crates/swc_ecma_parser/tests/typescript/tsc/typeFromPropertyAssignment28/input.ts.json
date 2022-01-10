@@ -91,8 +91,7 @@
                       },
                       "value": "p",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -158,8 +157,7 @@
             },
             "value": "prototype",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -280,8 +278,7 @@
           },
           "value": "p",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -317,8 +314,7 @@
           },
           "value": "q",
           "optional": false
-        },
-        "computed": false
+        }
       }
     }
   ],

@@ -403,8 +403,7 @@
             },
             "value": "C1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ClassExpression",
@@ -948,8 +947,7 @@
             },
             "value": "C5",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "BinaryExpression",

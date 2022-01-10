@@ -11,8 +11,8 @@ use swc_atoms::js_word;
 use swc_bundler::{BundleKind, Bundler, Config, ModuleRecord};
 use swc_common::{FileName, Span, GLOBALS};
 use swc_ecma_ast::{
-    Bool, EsVersion, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, MetaPropExpr,
-    PropName, Str,
+    Bool, EsVersion, Expr, Ident, KeyValueProp, Lit, MemberExpr, MemberProp, MetaPropExpr,
+    MetaPropKind, PropName, Str,
 };
 use swc_ecma_loader::{TargetEnv, NODE_BUILTINS};
 use swc_ecma_transforms::fixer;
@@ -169,12 +169,11 @@ impl swc_bundler::Hook for Hook {
                 value: Box::new(if module_record.is_entry {
                     Expr::Member(MemberExpr {
                         span,
-                        obj: ExprOrSuper::Expr(Box::new(Expr::MetaProp(MetaPropExpr {
-                            meta: Ident::new(js_word!("import"), span),
-                            prop: Ident::new(js_word!("meta"), span),
-                        }))),
-                        prop: Box::new(Expr::Ident(Ident::new(js_word!("main"), span))),
-                        computed: false,
+                        obj: Box::new(Expr::MetaProp(MetaPropExpr {
+                            span,
+                            kind: MetaPropKind::ImportMeta,
+                        })),
+                        prop: MemberProp::Ident(Ident::new(js_word!("main"), span)),
                     })
                 } else {
                     Expr::Lit(Lit::Bool(Bool { span, value: false }))

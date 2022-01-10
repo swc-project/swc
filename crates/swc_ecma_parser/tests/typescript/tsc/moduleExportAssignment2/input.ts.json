@@ -68,8 +68,7 @@
                 },
                 "value": "exports",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "right": {
               "type": "FunctionExpression",
@@ -169,8 +168,7 @@
               },
               "value": "exports",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -181,8 +179,7 @@
             },
             "value": "asReadInstalled",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -305,8 +302,7 @@
                       },
                       "value": "exports",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {

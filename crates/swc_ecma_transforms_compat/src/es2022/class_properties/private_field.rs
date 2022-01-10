@@ -124,6 +124,7 @@ macro_rules! take_vars {
     };
 }
 
+// super.#sdsa is invalid
 impl<'a> VisitMut for FieldAccessFolder<'a> {
     noop_visit_mut_type!();
 
@@ -141,8 +142,8 @@ impl<'a> VisitMut for FieldAccessFolder<'a> {
                 let mut arg = arg.take().member().unwrap();
                 arg.visit_mut_with(self);
 
-                let n = match &*arg.prop {
-                    Expr::PrivateName(n) => n,
+                let n = match &arg.prop {
+                    MemberProp::PrivateName(n) => n,
                     _ => {
                         *e = Expr::Update(UpdateExpr {
                             span: *span,
@@ -155,19 +156,7 @@ impl<'a> VisitMut for FieldAccessFolder<'a> {
                     }
                 };
 
-                let obj = match &arg.obj {
-                    ExprOrSuper::Super(..) => {
-                        *e = Expr::Update(UpdateExpr {
-                            span: *span,
-                            prefix: *prefix,
-                            op: *op,
-                            arg: Box::new(Expr::Member(arg)),
-                        });
-                        e.visit_mut_children_with(self);
-                        return;
-                    }
-                    ExprOrSuper::Expr(obj) => obj.clone(),
-                };
+                let obj = arg.obj.clone();
 
                 let is_static = self.statics.contains(&n.id.sym);
                 let ident = Ident::new(
@@ -200,7 +189,12 @@ impl<'a> VisitMut for FieldAccessFolder<'a> {
                     .as_arg()
                 };
                 // Used iff !prefix
-                let old_var = alias_ident_for(&arg.prop, "old");
+                let old_var = Ident {
+                    // be more like babel
+                    sym: (String::from("_this") + &ident.sym).into(),
+                    span: ident.span.apply_mark(Mark::fresh(Mark::root())),
+                    optional: false,
+                };
                 if !*prefix {
                     self.vars.push(VarDeclarator {
                         span: DUMMY_SP,
@@ -289,8 +283,8 @@ impl<'a> VisitMut for FieldAccessFolder<'a> {
                 left.visit_mut_with(self);
                 right.visit_mut_with(self);
 
-                let n = match *left.prop {
-                    Expr::PrivateName(ref n) => n.clone(),
+                let n = match &left.prop {
+                    MemberProp::PrivateName(n) => n.clone(),
                     _ => {
                         *e = Expr::Assign(AssignExpr {
                             span: *span,
@@ -304,24 +298,7 @@ impl<'a> VisitMut for FieldAccessFolder<'a> {
                     }
                 };
 
-                let obj = match &left.obj {
-                    ExprOrSuper::Super(..) => {
-                        let mut expr = Expr::Assign(AssignExpr {
-                            span: *span,
-                            left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
-                                prop: Box::new(Expr::PrivateName(n)),
-                                ..left
-                            }))),
-                            op: *op,
-                            right: right.take(),
-                        });
-
-                        expr.visit_mut_children_with(self);
-                        *e = expr;
-                        return;
-                    }
-                    ExprOrSuper::Expr(ref obj) => obj.clone(),
-                };
+                let obj = left.obj.clone();
 
                 let is_static = self.statics.contains(&n.id.sym);
                 let ident = Ident::new(
@@ -464,7 +441,7 @@ impl<'a> VisitMut for FieldAccessFolder<'a> {
 
             Expr::Call(CallExpr {
                 span,
-                callee: ExprOrSuper::Expr(callee),
+                callee: Callee::Expr(callee),
                 args,
                 type_args,
             }) if callee.is_member() => {
@@ -483,7 +460,7 @@ impl<'a> VisitMut for FieldAccessFolder<'a> {
                 } else {
                     *e = Expr::Call(CallExpr {
                         span: *span,
-                        callee: ExprOrSuper::Expr(Box::new(expr)),
+                        callee: Callee::Expr(Box::new(expr)),
                         args: args.take(),
                         type_args: type_args.take(),
                     });
@@ -500,15 +477,21 @@ impl<'a> VisitMut for FieldAccessFolder<'a> {
 
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
         e.obj.visit_mut_with(self);
-        if e.computed {
-            e.prop.visit_mut_with(self);
+        if let MemberProp::Computed(c) = &mut e.prop {
+            c.visit_mut_with(self);
+        }
+    }
+
+    fn visit_mut_super_prop_expr(&mut self, e: &mut SuperPropExpr) {
+        if let SuperProp::Computed(c) = &mut e.prop {
+            c.visit_mut_with(self);
         }
     }
 
     fn visit_mut_pat(&mut self, p: &mut Pat) {
         if let Pat::Expr(expr) = &p {
             if let Expr::Member(me) = &**expr {
-                if let Expr::PrivateName(..) = &*me.prop {
+                if let MemberProp::PrivateName(..) = &me.prop {
                     self.in_assign_pat = true;
                     p.visit_mut_children_with(self);
                     self.in_assign_pat = false;
@@ -535,17 +518,12 @@ impl<'a> FieldAccessFolder<'a> {
     ) -> (Expr, Option<Expr>) {
         let is_alias_initialized = obj_alias.is_some();
 
-        let n = match &*e.prop {
-            Expr::PrivateName(n) => n,
+        let n = match &e.prop {
+            MemberProp::PrivateName(n) => n,
             _ => return (e.take().into(), None),
         };
 
-        let mut obj = match &mut e.obj {
-            ExprOrSuper::Super(..) => {
-                return (e.take().into(), None);
-            }
-            ExprOrSuper::Expr(obj) => obj.take(),
-        };
+        let mut obj = e.obj.take();
 
         let is_method = self.private_methods.contains(&n.id.sym);
         let is_static = self.statics.contains(&n.id.sym);

@@ -155,8 +155,7 @@
                           },
                           "value": "method",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [],
                       "typeArguments": null

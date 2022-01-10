@@ -287,8 +287,7 @@
                         },
                         "value": "n",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "Identifier",
@@ -487,8 +486,7 @@
                         },
                         "value": "n",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "Identifier",
@@ -719,8 +717,7 @@
                         },
                         "value": "n",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "Identifier",
@@ -1633,8 +1630,7 @@
                   },
                   "value": "y",
                   "optional": false
-                },
-                "computed": false
+                }
               }
             }
           }
@@ -1799,8 +1795,7 @@
                 },
                 "value": "y",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]
@@ -1938,8 +1933,7 @@
                     },
                     "value": "m",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "right": {
                   "type": "Identifier",
@@ -2114,8 +2108,7 @@
                       },
                       "value": "a",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "async": false,
                   "generator": false,
@@ -2232,8 +2225,7 @@
                           },
                           "value": "a",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   ]
@@ -2301,8 +2293,7 @@
                           },
                           "value": "a",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   ]
@@ -2370,8 +2361,7 @@
                           },
                           "value": "a",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   ]
@@ -2428,8 +2418,7 @@
             },
             "value": "explicitVoid1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -2516,8 +2505,7 @@
             },
             "value": "explicitVoid2",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ArrowFunctionExpression",
@@ -2584,8 +2572,7 @@
             },
             "value": "explicitStructural",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -2636,8 +2623,7 @@
                     },
                     "value": "a",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               }
             ]
@@ -2690,8 +2676,7 @@
             },
             "value": "explicitInterface",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -2742,8 +2727,7 @@
                     },
                     "value": "a",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               }
             ]
@@ -2796,8 +2780,7 @@
             },
             "value": "explicitStructural",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ArrowFunctionExpression",
@@ -2864,8 +2847,7 @@
             },
             "value": "explicitInterface",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ArrowFunctionExpression",
@@ -2932,8 +2914,7 @@
             },
             "value": "explicitThis",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -2984,8 +2965,7 @@
                     },
                     "value": "a",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               }
             ]
@@ -3570,8 +3550,7 @@
             },
             "value": "f",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -3671,8 +3650,7 @@
             },
             "value": "f",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -3849,8 +3827,7 @@
               },
               "value": "explicitC",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -3896,8 +3873,7 @@
             },
             "value": "explicitC",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -3956,8 +3932,7 @@
             },
             "value": "explicitProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -4016,8 +3991,7 @@
             },
             "value": "explicitThis",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -4076,8 +4050,7 @@
             },
             "value": "explicitC",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -4136,8 +4109,7 @@
             },
             "value": "explicitProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -4196,8 +4168,7 @@
             },
             "value": "explicitThis",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -4831,8 +4802,7 @@
                     },
                     "value": "explicitThis",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               },
               {
@@ -4873,8 +4843,7 @@
                     },
                     "value": "explicitC",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               },
               {
@@ -4915,8 +4884,7 @@
                     },
                     "value": "explicitProperty",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               },
               {
@@ -4957,8 +4925,7 @@
                     },
                     "value": "explicitVoid",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               }
             ]
@@ -5007,8 +4974,7 @@
             },
             "value": "explicitThis",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -5067,8 +5033,7 @@
             },
             "value": "explicitProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -5141,8 +5106,7 @@
               },
               "value": "explicitVoid",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -5410,8 +5374,7 @@
                   },
                   "value": "y",
                   "optional": false
-                },
-                "computed": false
+                }
               }
             },
             "async": false,
@@ -6877,8 +6840,7 @@
             },
             "value": "explicitC",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",
@@ -6933,8 +6895,7 @@
             },
             "value": "explicitC",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -7076,8 +7037,7 @@
                       },
                       "value": "n",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "Identifier",
@@ -7141,8 +7101,7 @@
             },
             "value": "explicitProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",
@@ -7197,8 +7156,7 @@
             },
             "value": "explicitProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -7372,8 +7330,7 @@
                       },
                       "value": "n",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "Identifier",
@@ -7437,8 +7394,7 @@
             },
             "value": "explicitProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -7466,8 +7422,7 @@
             },
             "value": "explicitProperty",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -7512,8 +7467,7 @@
             },
             "value": "explicitC",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ArrowFunctionExpression",
@@ -7593,8 +7547,7 @@
             },
             "value": "explicitThis",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ArrowFunctionExpression",
@@ -7674,8 +7627,7 @@
             },
             "value": "explicitProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ArrowFunctionExpression",
@@ -7755,8 +7707,7 @@
             },
             "value": "explicitC",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ArrowFunctionExpression",
@@ -7820,8 +7771,7 @@
                 },
                 "value": "n",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "async": false,
@@ -7872,8 +7822,7 @@
             },
             "value": "explicitThis",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ArrowFunctionExpression",
@@ -7937,8 +7886,7 @@
                 },
                 "value": "n",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "async": false,
@@ -7989,8 +7937,7 @@
             },
             "value": "explicitProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ArrowFunctionExpression",
@@ -8054,8 +8001,7 @@
                 },
                 "value": "n",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "async": false,
@@ -8106,8 +8052,7 @@
             },
             "value": "explicitThis",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",
@@ -8162,8 +8107,7 @@
             },
             "value": "explicitThis",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -8305,8 +8249,7 @@
                       },
                       "value": "n",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "Identifier",
@@ -8370,8 +8313,7 @@
             },
             "value": "explicitC",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -8451,8 +8393,7 @@
                       },
                       "value": "n",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "Identifier",
@@ -8516,8 +8457,7 @@
             },
             "value": "explicitProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -8597,8 +8537,7 @@
                       },
                       "value": "n",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "Identifier",
@@ -8662,8 +8601,7 @@
             },
             "value": "explicitThis",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -8743,8 +8681,7 @@
                       },
                       "value": "n",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "Identifier",
@@ -8808,8 +8745,7 @@
             },
             "value": "explicitThis",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -8909,8 +8845,7 @@
                       },
                       "value": "n",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "Identifier",
@@ -8974,8 +8909,7 @@
             },
             "value": "explicitC",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -9117,8 +9051,7 @@
                       },
                       "value": "n",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "Identifier",
@@ -9182,8 +9115,7 @@
             },
             "value": "explicitVoid",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ArrowFunctionExpression",
@@ -9387,8 +9319,7 @@
                       },
                       "value": "x",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]
@@ -9532,8 +9463,7 @@
                       },
                       "value": "x",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]
@@ -9676,8 +9606,7 @@
                       },
                       "value": "y",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]
@@ -10008,8 +9937,7 @@
                       },
                       "value": "y",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]
@@ -10153,8 +10081,7 @@
                       },
                       "value": "x",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]
@@ -10524,8 +10451,7 @@
             },
             "value": "polymorphic",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -10553,8 +10479,7 @@
             },
             "value": "polymorphic",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -10599,8 +10524,7 @@
             },
             "value": "polymorphic",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -10628,8 +10552,7 @@
             },
             "value": "polymorphic",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -10674,8 +10597,7 @@
             },
             "value": "polymorphic",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -10703,8 +10625,7 @@
             },
             "value": "polymorphic",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -10749,8 +10670,7 @@
             },
             "value": "polymorphic",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -10778,8 +10698,7 @@
             },
             "value": "explicit",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -10824,8 +10743,7 @@
             },
             "value": "polymorphic",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -10853,8 +10771,7 @@
             },
             "value": "polymorphic",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -10899,8 +10816,7 @@
             },
             "value": "explicit",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -10928,8 +10844,7 @@
             },
             "value": "polymorphic",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -11047,8 +10962,7 @@
                   },
                   "value": "a",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "NumericLiteral",
@@ -11214,8 +11128,7 @@
                   },
                   "value": "x",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "StringLiteral",
@@ -11344,8 +11257,7 @@
                   },
                   "value": "x",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "StringLiteral",
@@ -11969,8 +11881,7 @@
                 },
                 "value": "call",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -12116,8 +12027,7 @@
                   },
                   "value": "anything",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "Identifier",

@@ -96,8 +96,7 @@
                 },
                 "value": "length",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "async": false,
             "generator": false,
@@ -213,8 +212,7 @@
                       },
                       "value": "length",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]
@@ -2707,8 +2705,7 @@
                   },
                   "value": "toExponential",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null
@@ -2918,8 +2915,7 @@
                   },
                   "value": "charAt",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {
@@ -3714,8 +3710,7 @@
                                     },
                                     "value": "length",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "async": false,
                                 "generator": false,
@@ -3924,8 +3919,7 @@
             },
             "value": "toExponential",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null

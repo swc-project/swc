@@ -2243,8 +2243,7 @@
               },
               "value": "a",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -2311,8 +2310,7 @@
                 },
                 "value": "b",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -2389,8 +2387,7 @@
               },
               "value": "c",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -2450,8 +2447,7 @@
               },
               "value": "d",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -2498,8 +2494,7 @@
             },
             "value": "c",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",
@@ -2567,8 +2562,7 @@
               },
               "value": "r",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -2635,8 +2629,7 @@
                 },
                 "value": "s",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -2713,8 +2706,7 @@
               },
               "value": "t",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -2774,8 +2766,7 @@
               },
               "value": "u",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -2822,8 +2813,7 @@
             },
             "value": "t",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",
@@ -3266,20 +3256,27 @@
               "optional": false
             },
             "property": {
-              "type": "StringLiteral",
+              "type": "Computed",
               "span": {
-                "start": 1313,
-                "end": 1315,
+                "start": 1310,
+                "end": 1316,
                 "ctxt": 0
               },
-              "value": "",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 1313,
+                  "end": 1315,
+                  "ctxt": 0
+                },
+                "value": "",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
               }
-            },
-            "computed": true
+            }
           },
           "definite": false
         }
@@ -3331,15 +3328,22 @@
               "optional": false
             },
             "property": {
-              "type": "NumericLiteral",
+              "type": "Computed",
               "span": {
-                "start": 1330,
-                "end": 1331,
+                "start": 1327,
+                "end": 1332,
                 "ctxt": 0
               },
-              "value": 1.0
-            },
-            "computed": true
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 1330,
+                  "end": 1331,
+                  "ctxt": 0
+                },
+                "value": 1.0
+              }
+            }
           },
           "definite": false
         }

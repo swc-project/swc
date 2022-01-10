@@ -2,7 +2,7 @@ use super::Optimizer;
 use crate::{compress::optimize::is_left_access_to_arguments, mode::Mode};
 use std::iter::repeat_with;
 use swc_atoms::js_word;
-use swc_common::DUMMY_SP;
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, private_ident, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -19,32 +19,45 @@ where
             return;
         }
 
-        let member = match e {
-            Expr::Member(member) => member,
-            _ => return,
-        };
+        match e {
+            Expr::Member(MemberExpr { prop, .. }) => {
+                if let MemberProp::Computed(c) = prop {
+                    if let Expr::Lit(Lit::Str(str)) = &mut *c.expr {
+                        if !str.value.starts_with(|c: char| c.is_ascii_alphabetic()) {
+                            return;
+                        }
 
-        if !member.computed {
-            return;
-        }
-
-        match &*member.prop {
-            Expr::Lit(Lit::Str(prop)) => {
-                if !prop.value.starts_with(|c: char| c.is_ascii_alphabetic()) {
-                    return;
+                        self.changed = true;
+                        tracing::debug!("arguments: Optimizing computed access to arguments");
+                        *prop = MemberProp::Ident(Ident {
+                            span: str.span,
+                            sym: str.take().value,
+                            optional: false,
+                        })
+                    }
                 }
-
-                self.changed = true;
-                tracing::debug!("arguments: Optimizing computed access to arguments");
-                member.computed = false;
-                member.prop = Box::new(Expr::Ident(Ident {
-                    span: prop.span,
-                    sym: prop.value.clone(),
-                    optional: false,
-                }))
             }
-            _ => {}
-        }
+
+            Expr::SuperProp(SuperPropExpr { prop, .. }) => {
+                if let SuperProp::Computed(c) = prop {
+                    if let Expr::Lit(Lit::Str(str)) = &mut *c.expr {
+                        if !str.value.starts_with(|c: char| c.is_ascii_alphabetic()) {
+                            return;
+                        }
+
+                        self.changed = true;
+                        tracing::debug!("arguments: Optimizing computed access to arguments");
+                        *prop = SuperProp::Ident(Ident {
+                            span: str.span,
+                            sym: str.take().value,
+                            optional: false,
+                        })
+                    }
+                }
+            }
+
+            _ => (),
+        };
     }
 
     pub(super) fn optimize_usage_of_arguments(&mut self, f: &mut Function) {
@@ -148,68 +161,66 @@ impl VisitMut for ArgReplacer<'_> {
         n.visit_mut_children_with(self);
 
         match n {
-            Expr::Member(member) => {
-                if member.computed {
-                    match &member.obj {
-                        ExprOrSuper::Expr(obj) => match &**obj {
-                            Expr::Ident(Ident {
-                                sym: js_word!("arguments"),
-                                ..
-                            }) => match &*member.prop {
-                                Expr::Lit(Lit::Str(Str { value, .. })) => {
-                                    let idx = value.parse::<usize>();
-                                    let idx = match idx {
-                                        Ok(v) => v,
-                                        _ => return,
-                                    };
+            Expr::Member(MemberExpr {
+                obj,
+                prop: MemberProp::Computed(c),
+                ..
+            }) => match &**obj {
+                Expr::Ident(Ident {
+                    sym: js_word!("arguments"),
+                    ..
+                }) => match &*c.expr {
+                    Expr::Lit(Lit::Str(Str { value, .. })) => {
+                        let idx = value.parse::<usize>();
+                        let idx = match idx {
+                            Ok(v) => v,
+                            _ => return,
+                        };
 
-                                    self.inject_params_if_required(idx);
+                        self.inject_params_if_required(idx);
 
-                                    if let Some(param) = self.params.get(idx) {
-                                        match &param.pat {
-                                            Pat::Ident(i) => {
-                                                self.changed = true;
-                                                *n = Expr::Ident(i.id.clone());
-                                                return;
-                                            }
-                                            _ => {}
-                                        }
-                                    }
-                                }
-                                Expr::Lit(Lit::Num(Number { value, .. })) => {
-                                    if value.fract() != 0.0 {
-                                        // We ignores non-integer values.
-                                        return;
-                                    }
-
-                                    let idx = value.round() as i64 as usize;
-
-                                    self.inject_params_if_required(idx);
-
-                                    //
-                                    if let Some(param) = self.params.get(idx) {
-                                        match &param.pat {
-                                            Pat::Ident(i) => {
-                                                tracing::debug!(
-                                                    "arguments: Replacing access to arguments to \
-                                                     normal reference",
-                                                );
-                                                self.changed = true;
-                                                *n = Expr::Ident(i.id.clone());
-                                                return;
-                                            }
-                                            _ => {}
-                                        }
-                                    }
+                        if let Some(param) = self.params.get(idx) {
+                            match &param.pat {
+                                Pat::Ident(i) => {
+                                    self.changed = true;
+                                    *n = Expr::Ident(i.id.clone());
+                                    return;
                                 }
                                 _ => {}
-                            },
-                            _ => {}
-                        },
-                        _ => {}
+                            }
+                        }
                     }
-                }
-            }
+                    Expr::Lit(Lit::Num(Number { value, .. })) => {
+                        if value.fract() != 0.0 {
+                            // We ignores non-integer values.
+                            return;
+                        }
+
+                        let idx = value.round() as i64 as usize;
+
+                        self.inject_params_if_required(idx);
+
+                        //
+                        if let Some(param) = self.params.get(idx) {
+                            match &param.pat {
+                                Pat::Ident(i) => {
+                                    tracing::debug!(
+                                        "arguments: Replacing access to arguments to normal \
+                                         reference",
+                                    );
+                                    self.changed = true;
+                                    *n = Expr::Ident(i.id.clone());
+                                    return;
+                                }
+                                _ => {}
+                            }
+                        }
+                    }
+                    _ => {}
+                },
+                _ => {}
+            },
+
             _ => {}
         }
     }
@@ -221,8 +232,18 @@ impl VisitMut for ArgReplacer<'_> {
 
         n.obj.visit_mut_with(self);
 
-        if n.computed {
-            n.prop.visit_mut_with(self);
+        if let MemberProp::Computed(c) = &mut n.prop {
+            c.visit_mut_with(self);
+        }
+    }
+
+    fn visit_mut_super_prop_expr(&mut self, n: &mut SuperPropExpr) {
+        if self.prevent {
+            return;
+        }
+
+        if let SuperProp::Computed(c) = &mut n.prop {
+            c.visit_mut_with(self);
         }
     }
 

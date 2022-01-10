@@ -112,8 +112,7 @@
                       },
                       "value": "x",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "Identifier",
@@ -166,8 +165,7 @@
                       },
                       "value": "exports",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "ArrayExpression",
@@ -292,8 +290,7 @@
                         },
                         "value": "x",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "Identifier",
@@ -454,8 +451,7 @@
                 },
                 "value": "exports",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]
@@ -614,8 +610,7 @@
                         },
                         "value": "exports",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 ]

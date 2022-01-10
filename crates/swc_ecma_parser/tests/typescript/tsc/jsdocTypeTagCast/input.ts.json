@@ -456,8 +456,7 @@
                       },
                       "value": "p",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -593,8 +592,7 @@
                       },
                       "value": "x",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -713,8 +711,7 @@
                       },
                       "value": "q",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -806,8 +803,7 @@
                   },
                   "value": "p",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "StringLiteral",

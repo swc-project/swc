@@ -417,8 +417,7 @@
               },
               "value": "x",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -485,8 +484,7 @@
                 },
                 "value": "y",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -549,8 +547,7 @@
               },
               "value": "Z",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }

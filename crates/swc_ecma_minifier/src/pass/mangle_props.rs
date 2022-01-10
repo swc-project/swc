@@ -5,11 +5,11 @@ use crate::{
 };
 use once_cell::sync::Lazy;
 use std::collections::HashSet;
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 use swc_common::collections::{AHashMap, AHashSet};
 use swc_ecma_ast::{
-    CallExpr, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, Module, Prop, PropName, Str,
-    StrKind,
+    CallExpr, Callee, Expr, Ident, KeyValueProp, Lit, MemberExpr, MemberProp, Module, Prop,
+    PropName, Str, StrKind, SuperProp, SuperPropExpr,
 };
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -143,8 +143,8 @@ impl VisitMut for PropertyCollector<'_> {
 
         let is_root_declared = is_root_of_member_expr_declared(member_expr, &self.data);
 
-        if is_root_declared && !member_expr.computed {
-            if let Expr::Ident(ident) = &mut *member_expr.prop {
+        if is_root_declared {
+            if let MemberProp::Ident(ident) = &mut member_expr.prop {
                 self.state.add(&ident.sym);
             }
         }
@@ -174,40 +174,38 @@ impl VisitMut for PropertyCollector<'_> {
 }
 
 fn is_root_of_member_expr_declared(member_expr: &MemberExpr, data: &ProgramData) -> bool {
-    match &member_expr.obj {
-        ExprOrSuper::Expr(boxed_exp) => match &**boxed_exp {
-            Expr::Member(member_expr) => is_root_of_member_expr_declared(member_expr, data),
-            Expr::Ident(expr) => data
-                .vars
-                .get(&expr.to_id())
-                .and_then(|var| Some(var.declared))
-                .unwrap_or(false),
+    match &*member_expr.obj {
+        Expr::Member(member_expr) => is_root_of_member_expr_declared(member_expr, data),
+        Expr::Ident(expr) => data
+            .vars
+            .get(&expr.to_id())
+            .and_then(|var| Some(var.declared))
+            .unwrap_or(false),
 
-            _ => false,
-        },
-        ExprOrSuper::Super(_) => true,
+        _ => false,
     }
 }
 
 fn is_object_property_call(call: &CallExpr) -> bool {
     // Find Object.defineProperty
-    if let ExprOrSuper::Expr(callee) = &call.callee {
-        if let Expr::Member(MemberExpr {
-            obj: ExprOrSuper::Expr(obj),
-            prop,
-            ..
-        }) = &**callee
-        {
-            match (&**obj, &**prop) {
-                (Expr::Ident(Ident { sym: ident, .. }), Expr::Ident(Ident { sym: prop, .. })) => {
-                    if ident.as_ref() == "Object" && prop.as_ref() == "defineProperty" {
-                        return true;
-                    }
-                }
+    if let Callee::Expr(callee) = &call.callee {
+        match &**callee {
+            Expr::Member(MemberExpr {
+                obj,
+                prop: MemberProp::Ident(Ident { sym, .. }),
+                ..
+            }) if *sym == *"defineProperty" => match &**obj {
+                Expr::Ident(Ident {
+                    sym: js_word!("Object"),
+                    ..
+                }) => return true,
+
                 _ => {}
-            }
+            },
+
+            _ => {}
         }
-    }
+    };
 
     return false;
 }
@@ -290,10 +288,16 @@ impl VisitMut for Mangler<'_> {
     fn visit_mut_member_expr(&mut self, member_expr: &mut MemberExpr) {
         member_expr.visit_mut_children_with(self);
 
-        if !member_expr.computed {
-            if let Expr::Ident(ident) = &mut *member_expr.prop {
-                self.mangle_ident(ident);
-            }
+        if let MemberProp::Ident(ident) = &mut member_expr.prop {
+            self.mangle_ident(ident);
+        }
+    }
+
+    fn visit_mut_super_prop_expr(&mut self, super_expr: &mut SuperPropExpr) {
+        super_expr.visit_mut_children_with(self);
+
+        if let SuperProp::Ident(ident) = &mut super_expr.prop {
+            self.mangle_ident(ident);
         }
     }
 }

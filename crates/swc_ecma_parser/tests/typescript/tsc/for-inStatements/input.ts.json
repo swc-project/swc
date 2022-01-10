@@ -1209,16 +1209,23 @@
             "optional": false
           },
           "property": {
-            "type": "Identifier",
+            "type": "Computed",
             "span": {
-              "start": 436,
-              "end": 437,
+              "start": 434,
+              "end": 438,
               "ctxt": 0
             },
-            "value": "x",
-            "optional": false
-          },
-          "computed": true
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 436,
+                "end": 437,
+                "ctxt": 0
+              },
+              "value": "x",
+              "optional": false
+            }
+          }
         },
         "alternate": {
           "type": "MemberExpression",
@@ -1238,16 +1245,23 @@
             "optional": false
           },
           "property": {
-            "type": "Identifier",
+            "type": "Computed",
             "span": {
-              "start": 443,
-              "end": 444,
+              "start": 441,
+              "end": 445,
               "ctxt": 0
             },
-            "value": "x",
-            "optional": false
-          },
-          "computed": true
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 443,
+                "end": 444,
+                "ctxt": 0
+              },
+              "value": "x",
+              "optional": false
+            }
+          }
         }
       },
       "body": {
@@ -1318,16 +1332,23 @@
           "optional": false
         },
         "property": {
-          "type": "Identifier",
+          "type": "Computed",
           "span": {
-            "start": 467,
-            "end": 468,
+            "start": 465,
+            "end": 469,
             "ctxt": 0
           },
-          "value": "d",
-          "optional": false
-        },
-        "computed": true
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 467,
+              "end": 468,
+              "ctxt": 0
+            },
+            "value": "d",
+            "optional": false
+          }
+        }
       },
       "body": {
         "type": "BlockStatement",
@@ -1796,8 +1817,7 @@
                         },
                         "value": "biz",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -1876,8 +1896,7 @@
                       },
                       "value": "biz",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "body": {
                     "type": "BlockStatement",
@@ -2132,8 +2151,7 @@
                       },
                       "value": "baz",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "body": {
                     "type": "BlockStatement",
@@ -2216,8 +2234,7 @@
                         },
                         "value": "baz",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -2393,8 +2410,7 @@
                         },
                         "value": "biz",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -2473,8 +2489,7 @@
                       },
                       "value": "biz",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "body": {
                     "type": "BlockStatement",
@@ -2585,13 +2600,13 @@
                     ]
                   },
                   "right": {
-                    "type": "MemberExpression",
+                    "type": "SuperPropExpression",
                     "span": {
                       "start": 1054,
                       "end": 1063,
                       "ctxt": 0
                     },
-                    "object": {
+                    "obj": {
                       "type": "Super",
                       "span": {
                         "start": 1054,
@@ -2608,8 +2623,7 @@
                       },
                       "value": "biz",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "body": {
                     "type": "BlockStatement",
@@ -2669,13 +2683,13 @@
                       "ctxt": 0
                     },
                     "callee": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 1091,
                         "end": 1100,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 1091,
@@ -2692,8 +2706,7 @@
                         },
                         "value": "biz",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -3009,15 +3022,22 @@
           "optional": false
         },
         "property": {
-          "type": "NumericLiteral",
+          "type": "Computed",
           "span": {
-            "start": 1219,
-            "end": 1221,
+            "start": 1217,
+            "end": 1222,
             "ctxt": 0
           },
-          "value": 42.0
-        },
-        "computed": true
+          "expression": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 1219,
+              "end": 1221,
+              "ctxt": 0
+            },
+            "value": 42.0
+          }
+        }
       },
       "body": {
         "type": "BlockStatement",
@@ -3294,8 +3314,7 @@
           },
           "value": "X",
           "optional": false
-        },
-        "computed": false
+        }
       },
       "body": {
         "type": "BlockStatement",
@@ -3493,8 +3512,7 @@
           },
           "value": "Blue",
           "optional": false
-        },
-        "computed": false
+        }
       },
       "body": {
         "type": "BlockStatement",

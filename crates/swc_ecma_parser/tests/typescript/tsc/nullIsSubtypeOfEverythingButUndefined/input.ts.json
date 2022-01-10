@@ -2785,8 +2785,7 @@
                 },
                 "value": "A",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "alternate": {
               "type": "NullLiteral",
@@ -2879,8 +2878,7 @@
                 },
                 "value": "A",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "definite": false

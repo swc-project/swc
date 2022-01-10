@@ -65,8 +65,7 @@
                 },
                 "value": "b",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         },
@@ -79,8 +78,7 @@
           },
           "value": "c",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -149,8 +147,7 @@
                   },
                   "value": "b",
                   "optional": false
-                },
-                "computed": false
+                }
               }
             }
           },
@@ -163,8 +160,7 @@
             },
             "value": "c",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -267,8 +263,7 @@
                         },
                         "value": "b",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 },
@@ -281,8 +276,7 @@
                   },
                   "value": "c",
                   "optional": false
-                },
-                "computed": false
+                }
               }
             },
             "property": {
@@ -294,8 +288,7 @@
               },
               "value": "d",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -306,8 +299,7 @@
             },
             "value": "e",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     }

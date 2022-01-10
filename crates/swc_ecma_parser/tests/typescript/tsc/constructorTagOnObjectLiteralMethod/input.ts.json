@@ -108,8 +108,7 @@
                             },
                             "value": "bar",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "StringLiteral",
@@ -194,8 +193,7 @@
                 },
                 "value": "Foo",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -210,8 +208,7 @@
           },
           "value": "bar",
           "optional": false
-        },
-        "computed": false
+        }
       }
     }
   ],

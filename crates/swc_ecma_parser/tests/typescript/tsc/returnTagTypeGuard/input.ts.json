@@ -91,8 +91,7 @@
                       },
                       "value": "c",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -287,8 +286,7 @@
                       },
                       "value": "d",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "StringLiteral",
@@ -520,8 +518,7 @@
                         },
                         "value": "isInit",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [
                       {
@@ -566,8 +563,7 @@
                       },
                       "value": "c",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "alternate": {
                     "type": "MemberExpression",
@@ -595,8 +591,7 @@
                       },
                       "value": "d",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 },
                 "definite": false

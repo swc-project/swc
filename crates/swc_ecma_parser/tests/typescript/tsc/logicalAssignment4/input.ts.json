@@ -165,8 +165,7 @@
                   },
                   "value": "push",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {
@@ -351,8 +350,7 @@
                   },
                   "value": "push",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {
@@ -547,8 +545,7 @@
                   },
                   "value": "push",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {
@@ -743,8 +740,7 @@
                   },
                   "value": "push",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {
@@ -1196,8 +1192,7 @@
                         },
                         "value": "original",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   },
                   "consequent": {
@@ -1241,8 +1236,7 @@
                             },
                             "value": "name",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       }
                     ]
@@ -1372,8 +1366,7 @@
                               },
                               "value": "name",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         },
                         {
@@ -1409,8 +1402,7 @@
                               },
                               "value": "name",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         }
                       ]
@@ -1540,8 +1532,7 @@
                                 },
                                 "value": "name",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           },
                           {
@@ -1577,8 +1568,7 @@
                                 },
                                 "value": "name",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           }
                         ]
@@ -1673,8 +1663,7 @@
                                 },
                                 "value": "name",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           },
                           {
@@ -1710,8 +1699,7 @@
                                 },
                                 "value": "name",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           }
                         ]

@@ -58,7 +58,7 @@ impl<'a> Fold for Injector<'a> {
             if let Stmt::Expr(ExprStmt { ref expr, .. }) = stmt {
                 match &**expr {
                     Expr::Call(CallExpr {
-                        callee: ExprOrSuper::Super(..),
+                        callee: Callee::Super(..),
                         ..
                     }) => {
                         self.injected = true;
@@ -130,7 +130,7 @@ impl VisitMut for ExprInjector<'_> {
 
         match expr {
             Expr::Call(CallExpr {
-                callee: ExprOrSuper::Super(..),
+                callee: Callee::Super(..),
                 ..
             }) => {
                 self.injected_tmp = Some(

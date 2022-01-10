@@ -165,16 +165,23 @@
                 "optional": false
               },
               "property": {
-                "type": "Identifier",
+                "type": "Computed",
                 "span": {
-                  "start": 38,
-                  "end": 39,
+                  "start": 36,
+                  "end": 40,
                   "ctxt": 0
                 },
-                "value": "c",
-                "optional": false
-              },
-              "computed": true
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 38,
+                    "end": 39,
+                    "ctxt": 0
+                  },
+                  "value": "c",
+                  "optional": false
+                }
+              }
             },
             "right": {
               "type": "BinaryExpression",
@@ -202,16 +209,23 @@
                   "optional": false
                 },
                 "property": {
-                  "type": "Identifier",
+                  "type": "Computed",
                   "span": {
-                    "start": 45,
-                    "end": 46,
+                    "start": 43,
+                    "end": 47,
                     "ctxt": 0
                   },
-                  "value": "c",
-                  "optional": false
-                },
-                "computed": true
+                  "expression": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 45,
+                      "end": 46,
+                      "ctxt": 0
+                    },
+                    "value": "c",
+                    "optional": false
+                  }
+                }
               },
               "right": {
                 "type": "ArrayExpression",

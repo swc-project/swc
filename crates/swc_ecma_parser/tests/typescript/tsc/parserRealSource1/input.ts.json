@@ -499,8 +499,7 @@
                                         },
                                         "value": "Alert",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "arguments": [
                                       {
@@ -2140,8 +2139,7 @@
                               },
                               "value": "_information",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "CallExpression",
@@ -2181,8 +2179,7 @@
                                   },
                                   "value": "logger",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -2193,8 +2190,7 @@
                                 },
                                 "value": "information",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "arguments": [],
                             "typeArguments": null
@@ -2240,8 +2236,7 @@
                               },
                               "value": "_debug",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "CallExpression",
@@ -2281,8 +2276,7 @@
                                   },
                                   "value": "logger",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -2293,8 +2287,7 @@
                                 },
                                 "value": "debug",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "arguments": [],
                             "typeArguments": null
@@ -2340,8 +2333,7 @@
                               },
                               "value": "_warning",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "CallExpression",
@@ -2381,8 +2373,7 @@
                                   },
                                   "value": "logger",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -2393,8 +2384,7 @@
                                 },
                                 "value": "warning",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "arguments": [],
                             "typeArguments": null
@@ -2440,8 +2430,7 @@
                               },
                               "value": "_error",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "CallExpression",
@@ -2481,8 +2470,7 @@
                                   },
                                   "value": "logger",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -2493,8 +2481,7 @@
                                 },
                                 "value": "error",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "arguments": [],
                             "typeArguments": null
@@ -2540,8 +2527,7 @@
                               },
                               "value": "_fatal",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "CallExpression",
@@ -2581,8 +2567,7 @@
                                   },
                                   "value": "logger",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -2593,8 +2578,7 @@
                                 },
                                 "value": "fatal",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "arguments": [],
                             "typeArguments": null
@@ -2670,8 +2654,7 @@
                               },
                               "value": "_information",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         }
                       ]
@@ -2768,8 +2751,7 @@
                               },
                               "value": "_debug",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         }
                       ]
@@ -2866,8 +2848,7 @@
                               },
                               "value": "_warning",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         }
                       ]
@@ -2964,8 +2945,7 @@
                               },
                               "value": "_error",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         }
                       ]
@@ -3062,8 +3042,7 @@
                               },
                               "value": "_fatal",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         }
                       ]
@@ -3211,8 +3190,7 @@
                                   },
                                   "value": "logger",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -3223,8 +3201,7 @@
                                 },
                                 "value": "log",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "arguments": [
                               {
@@ -3881,8 +3858,7 @@
                                   },
                                   "value": "logContents",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -3893,8 +3869,7 @@
                                 },
                                 "value": "push",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "arguments": [
                               {
@@ -4358,8 +4333,7 @@
                           },
                           "value": "log",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [
                         {
@@ -4800,8 +4774,7 @@
                                           },
                                           "value": "charCodeAt",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "arguments": [
                                         {
@@ -5470,8 +5443,7 @@
                                                 },
                                                 "value": "charAt",
                                                 "optional": false
-                                              },
-                                              "computed": false
+                                              }
                                             },
                                             "arguments": [
                                               {
@@ -5576,8 +5548,7 @@
                                 },
                                 "value": "length",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "Identifier",
@@ -5931,8 +5902,7 @@
                                       },
                                       "value": "length",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "right": {
                                     "type": "Identifier",
@@ -5993,8 +5963,7 @@
                                 },
                                 "value": "length",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           },
                           "update": {
@@ -6122,8 +6091,7 @@
                                 },
                                 "value": "length",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           }
                         },

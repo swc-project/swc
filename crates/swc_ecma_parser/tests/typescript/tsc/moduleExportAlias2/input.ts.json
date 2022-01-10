@@ -285,8 +285,7 @@
               },
               "value": "exports",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "right": {
             "type": "Identifier",
@@ -342,8 +341,7 @@
             },
             "value": "f",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ArrowFunctionExpression",
@@ -467,8 +465,7 @@
                   },
                   "value": "p",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "NumericLiteral",
@@ -619,8 +616,7 @@
                 },
                 "value": "f",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {

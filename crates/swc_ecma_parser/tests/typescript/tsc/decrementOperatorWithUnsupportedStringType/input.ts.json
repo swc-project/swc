@@ -1425,8 +1425,7 @@
                 },
                 "value": "a",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "definite": false
@@ -1496,8 +1495,7 @@
                 },
                 "value": "n",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "definite": false
@@ -1559,15 +1557,22 @@
                 "optional": false
               },
               "property": {
-                "type": "NumericLiteral",
+                "type": "Computed",
                 "span": {
-                  "start": 827,
-                  "end": 828,
+                  "start": 819,
+                  "end": 829,
                   "ctxt": 0
                 },
-                "value": 0.0
-              },
-              "computed": true
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 827,
+                    "end": 828,
+                    "ctxt": 0
+                  },
+                  "value": 0.0
+                }
+              }
             }
           },
           "definite": false
@@ -1706,8 +1711,7 @@
                   },
                   "value": "foo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null
@@ -1859,8 +1863,7 @@
                 },
                 "value": "a",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "definite": false
@@ -1930,8 +1933,7 @@
                 },
                 "value": "n",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "definite": false
@@ -1993,15 +1995,22 @@
                 "optional": false
               },
               "property": {
-                "type": "NumericLiteral",
+                "type": "Computed",
                 "span": {
-                  "start": 1036,
-                  "end": 1037,
+                  "start": 1028,
+                  "end": 1038,
                   "ctxt": 0
                 },
-                "value": 0.0
-              },
-              "computed": true
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 1036,
+                    "end": 1037,
+                    "ctxt": 0
+                  },
+                  "value": 0.0
+                }
+              }
             }
           },
           "definite": false
@@ -2140,8 +2149,7 @@
                   },
                   "value": "foo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null
@@ -2352,15 +2360,22 @@
             "optional": false
           },
           "property": {
-            "type": "NumericLiteral",
+            "type": "Computed",
             "span": {
-              "start": 1219,
-              "end": 1220,
+              "start": 1211,
+              "end": 1221,
               "ctxt": 0
             },
-            "value": 0.0
-          },
-          "computed": true
+            "expression": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 1219,
+                "end": 1220,
+                "ctxt": 0
+              },
+              "value": 0.0
+            }
+          }
         }
       }
     },
@@ -2444,8 +2459,7 @@
             },
             "value": "a",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -2491,8 +2505,7 @@
             },
             "value": "n",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -2546,8 +2559,7 @@
                 },
                 "value": "a",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -2576,8 +2588,7 @@
               },
               "value": "n",
               "optional": false
-            },
-            "computed": false
+            }
           }
         ]
       }
@@ -2704,15 +2715,22 @@
             "optional": false
           },
           "property": {
-            "type": "NumericLiteral",
+            "type": "Computed",
             "span": {
-              "start": 1300,
-              "end": 1301,
+              "start": 1292,
+              "end": 1302,
               "ctxt": 0
             },
-            "value": 0.0
-          },
-          "computed": true
+            "expression": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 1300,
+                "end": 1301,
+                "ctxt": 0
+              },
+              "value": 0.0
+            }
+          }
         }
       }
     },
@@ -2796,8 +2814,7 @@
             },
             "value": "a",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -2843,8 +2860,7 @@
             },
             "value": "n",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -2898,8 +2914,7 @@
                 },
                 "value": "a",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -2937,8 +2952,7 @@
                 },
                 "value": "n",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]

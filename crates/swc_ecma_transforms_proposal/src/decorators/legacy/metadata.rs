@@ -340,10 +340,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
         fn check_object_existed(expr: Box<Expr>) -> Box<Expr> {
             match *expr {
                 Expr::Member(ref member_expr) => {
-                    let obj_expr = match member_expr.obj {
-                        ExprOrSuper::Expr(ref exp) => exp.clone(),
-                        ExprOrSuper::Super(_) => panic!("Unreachable code path"),
-                    };
+                    let obj_expr = member_expr.obj.clone();
                     Box::new(Expr::Bin(BinExpr {
                         span: DUMMY_SP,
                         left: check_object_existed(obj_expr),
@@ -586,9 +583,8 @@ fn ts_entity_to_member_expr(type_name: &TsEntityName) -> Expr {
 
             Expr::Member(MemberExpr {
                 span: DUMMY_SP,
-                obj: obj.as_obj(),
-                prop: Box::new(Expr::Ident(q.right.clone())),
-                computed: false,
+                obj: obj.into(),
+                prop: MemberProp::Ident(q.right.clone()),
             })
         }
         TsEntityName::Ident(i) => Expr::Ident(i.clone()),

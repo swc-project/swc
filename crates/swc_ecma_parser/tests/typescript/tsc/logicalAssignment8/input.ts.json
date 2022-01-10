@@ -309,8 +309,7 @@
                             },
                             "value": "value",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       },
                       "right": {
@@ -334,8 +333,7 @@
                   },
                   "value": "push",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {
@@ -546,8 +544,7 @@
                             },
                             "value": "value",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       },
                       "right": {
@@ -571,8 +568,7 @@
                   },
                   "value": "push",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {
@@ -783,8 +779,7 @@
                             },
                             "value": "value",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       },
                       "right": {
@@ -808,8 +803,7 @@
                   },
                   "value": "push",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {

@@ -113,8 +113,7 @@
                 },
                 "value": "match",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {

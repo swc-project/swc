@@ -989,19 +989,14 @@ where
                 return self.merge_sequential_expr(a, &mut **right);
             }
 
-            Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(obj),
-                computed: false,
-                ..
-            }) => {
+            Expr::Member(MemberExpr { obj, prop, .. }) if !prop.is_computed() => {
                 tracing::trace!("seq: Try object of member");
                 return self.merge_sequential_expr(a, &mut **obj);
             }
 
             Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(obj),
-                prop,
-                computed: true,
+                obj,
+                prop: MemberProp::Computed(c),
                 ..
             }) => {
                 tracing::trace!("seq: Try object of member (computed)");
@@ -1014,7 +1009,15 @@ where
                 }
 
                 tracing::trace!("seq: Try prop of member (computed)");
-                return self.merge_sequential_expr(a, &mut **prop);
+                return self.merge_sequential_expr(a, &mut c.expr);
+            }
+
+            Expr::SuperProp(SuperPropExpr {
+                prop: SuperProp::Computed(c),
+                ..
+            }) => {
+                tracing::trace!("seq: Try prop of member (computed)");
+                return self.merge_sequential_expr(a, &mut c.expr);
             }
 
             Expr::Assign(b @ AssignExpr { op: op!("="), .. }) => {
@@ -1096,7 +1099,7 @@ where
             }
 
             Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(b_callee),
+                callee: Callee::Expr(b_callee),
                 args: b_args,
                 ..
             }) => {
@@ -1494,10 +1497,19 @@ impl Visit for UsageCounter<'_> {
     fn visit_member_expr(&mut self, e: &MemberExpr) {
         e.obj.visit_with(self);
 
-        if e.computed {
+        if let MemberProp::Computed(c) = &e.prop {
             let old = self.in_lhs;
             self.in_lhs = false;
-            e.prop.visit_with(self);
+            c.expr.visit_with(self);
+            self.in_lhs = old;
+        }
+    }
+
+    fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
+        if let SuperProp::Computed(c) = &e.prop {
+            let old = self.in_lhs;
+            self.in_lhs = false;
+            c.expr.visit_with(self);
             self.in_lhs = old;
         }
     }

@@ -220,8 +220,7 @@
                   },
                   "value": "cb",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {
@@ -1300,8 +1299,7 @@
                   },
                   "value": "cb",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {

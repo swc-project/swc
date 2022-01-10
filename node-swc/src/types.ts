@@ -1009,6 +1009,7 @@ export type Expression =
   | BinaryExpression
   | AssignmentExpression
   | MemberExpression
+  | SuperPropExpression
   | ConditionalExpression
   | CallExpression
   | NewExpression
@@ -1135,11 +1136,17 @@ export interface AssignmentExpression extends ExpressionBase {
 export interface MemberExpression extends ExpressionBase {
   type: "MemberExpression";
 
-  object: Expression | Super;
+  object: Expression;
 
-  property: Expression;
+  property: Identifier | PrivateName | ComputedPropName;
+}
 
-  computed: boolean;
+export interface SuperPropExpression extends ExpressionBase {
+  type: "SuperPropExpression";
+
+  object: Super;
+
+  property: Identifier | ComputedPropName;
 }
 
 export interface ConditionalExpression extends ExpressionBase {
@@ -1156,10 +1163,14 @@ export interface Super extends Node, HasSpan {
   type: "Super";
 }
 
+export interface Import extends Node, HasSpan {
+  type: "Import";
+}
+
 export interface CallExpression extends ExpressionBase {
   type: "CallExpression";
 
-  callee: Expression | Super;
+  callee: Expression | Super | Import;
 
   arguments: Argument[];
 
@@ -1209,9 +1220,7 @@ export interface YieldExpression extends ExpressionBase {
 export interface MetaProperty extends Node {
   type: "MetaProperty";
 
-  meta: Identifier;
-
-  property: Identifier;
+  kind: 'ImportMeta' | 'NewTarget'
 }
 
 export interface AwaitExpression extends ExpressionBase {

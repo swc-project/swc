@@ -353,20 +353,13 @@ impl FieldInitFinter {
     }
     fn check_lhs_expr_of_assign(&mut self, lhs: &Expr) {
         match lhs {
-            Expr::Member(m) => {
-                let obj = match &m.obj {
-                    ExprOrSuper::Super(_) => return,
-                    ExprOrSuper::Expr(obj) => &**obj,
-                };
-
-                match obj {
-                    Expr::Ident(i) => {
-                        self.accessed.insert(i.into());
-                    }
-                    Expr::Member(..) => self.check_lhs_expr_of_assign(&obj),
-                    _ => {}
+            Expr::Member(m) => match &*m.obj {
+                Expr::Ident(i) => {
+                    self.accessed.insert(i.into());
                 }
-            }
+                Expr::Member(..) => self.check_lhs_expr_of_assign(&*m.obj),
+                _ => {}
+            },
             _ => {}
         }
     }
@@ -394,32 +387,28 @@ impl Visit for FieldInitFinter {
 
     fn visit_call_expr(&mut self, e: &CallExpr) {
         match &e.callee {
-            ExprOrSuper::Super(_) => {}
-            ExprOrSuper::Expr(callee) => match &**callee {
-                Expr::Member(callee) => match &callee.obj {
-                    ExprOrSuper::Expr(callee_obj) => match &**callee_obj {
-                        Expr::Ident(Ident {
-                            sym: js_word!("Object"),
-                            ..
-                        }) => match &*callee.prop {
-                            Expr::Ident(Ident { sym: prop_sym, .. })
-                                if !callee.computed && *prop_sym == *"assign" =>
-                            {
-                                let old = self.in_object_assign;
-                                self.in_object_assign = true;
+            Callee::Super(_) | Callee::Import(_) => {}
+            Callee::Expr(callee) => match &**callee {
+                Expr::Member(callee) => match &*callee.obj {
+                    Expr::Ident(Ident {
+                        sym: js_word!("Object"),
+                        ..
+                    }) => match &callee.prop {
+                        MemberProp::Ident(Ident { sym: prop_sym, .. })
+                            if *prop_sym == *"assign" =>
+                        {
+                            let old = self.in_object_assign;
+                            self.in_object_assign = true;
 
-                                e.args.visit_with(self);
-                                self.in_object_assign = old;
+                            e.args.visit_with(self);
+                            self.in_object_assign = old;
 
-                                return;
-                            }
-                            _ => {}
-                        },
+                            return;
+                        }
                         _ => {}
                     },
-                    ExprOrSuper::Super(_) => {}
+                    _ => {}
                 },
-
                 _ => {}
             },
         }
@@ -430,26 +419,26 @@ impl Visit for FieldInitFinter {
     fn visit_member_expr(&mut self, e: &MemberExpr) {
         e.obj.visit_with(self);
 
-        if e.computed {
-            e.prop.visit_with(self);
+        if let MemberProp::Computed(c) = &e.prop {
+            c.visit_with(self);
         }
 
         if !self.in_rhs || self.in_object_assign {
-            match &e.obj {
-                ExprOrSuper::Expr(obj) => match &**obj {
-                    Expr::Ident(obj) => match &*e.prop {
-                        Expr::Ident(Ident { sym: prop_sym, .. })
-                            if !e.computed && *prop_sym == *"prototype" =>
-                        {
-                            self.accessed.insert(obj.into());
-                        }
-                        _ => {}
-                    },
+            match &*e.obj {
+                Expr::Ident(obj) => match &e.prop {
+                    MemberProp::Ident(Ident { sym: prop_sym, .. }) if *prop_sym == *"prototype" => {
+                        self.accessed.insert(obj.into());
+                    }
                     _ => {}
                 },
-
                 _ => {}
             }
+        }
+    }
+
+    fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
+        if let SuperProp::Computed(c) = &e.prop {
+            c.visit_with(self);
         }
     }
 }
@@ -497,8 +486,14 @@ impl Visit for InitializerFinder {
             self.in_complex = in_complex;
         }
 
-        if e.computed {
-            e.prop.visit_with(self);
+        if let MemberProp::Computed(c) = &e.prop {
+            c.visit_with(self);
+        }
+    }
+
+    fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
+        if let SuperProp::Computed(c) = &e.prop {
+            c.visit_with(self);
         }
     }
 }
@@ -628,8 +623,14 @@ impl Visit for RequirementCalculator {
     fn visit_member_expr(&mut self, e: &MemberExpr) {
         e.obj.visit_with(self);
 
-        if e.computed {
-            e.prop.visit_with(self);
+        if let MemberProp::Computed(c) = &e.prop {
+            c.visit_with(self);
+        }
+    }
+
+    fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
+        if let SuperProp::Computed(c) = &e.prop {
+            c.visit_with(self);
         }
     }
 }

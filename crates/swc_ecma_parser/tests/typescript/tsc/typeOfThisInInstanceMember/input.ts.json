@@ -261,8 +261,7 @@
                     },
                     "value": "x",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               },
               {
@@ -298,8 +297,7 @@
                     },
                     "value": "y",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               },
               {
@@ -335,8 +333,7 @@
                     },
                     "value": "z",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               },
               {
@@ -400,8 +397,7 @@
                           },
                           "value": "foo",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [],
                       "typeArguments": null
@@ -598,8 +594,7 @@
               },
               "value": "x",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -673,8 +668,7 @@
                   },
                   "value": "x",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -685,8 +679,7 @@
                 },
                 "value": "x",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
               "type": "Identifier",
@@ -697,8 +690,7 @@
               },
               "value": "x",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -758,8 +750,7 @@
               },
               "value": "y",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -826,8 +817,7 @@
                 },
                 "value": "foo",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -957,8 +947,7 @@
             },
             "value": "forEach",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -1024,8 +1013,7 @@
                         },
                         "value": "foo",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   },
                   {
@@ -1061,8 +1049,7 @@
                         },
                         "value": "x",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   },
                   {
@@ -1098,8 +1085,7 @@
                         },
                         "value": "y",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 ]

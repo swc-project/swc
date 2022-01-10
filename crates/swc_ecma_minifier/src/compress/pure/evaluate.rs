@@ -35,16 +35,15 @@ where
         }
 
         let callee = match &mut call.callee {
-            ExprOrSuper::Super(_) => return,
-            ExprOrSuper::Expr(e) => &mut **e,
+            Callee::Super(_) | Callee::Import(_) => return,
+            Callee::Expr(e) => &mut **e,
         };
 
         match callee {
             Expr::Member(MemberExpr {
                 span,
-                obj: ExprOrSuper::Expr(obj),
-                prop,
-                computed: false,
+                obj,
+                prop: MemberProp::Ident(method_name),
             }) => {
                 if obj.may_have_side_effects() {
                     return;
@@ -63,11 +62,6 @@ where
                 });
 
                 // Ignore array
-
-                let method_name = match &**prop {
-                    Expr::Ident(i) => i,
-                    _ => return,
-                };
 
                 match &*method_name.sym {
                     "slice" => {
@@ -169,15 +163,14 @@ where
         }
 
         let callee = match &mut call.callee {
-            ExprOrSuper::Super(_) => return,
-            ExprOrSuper::Expr(e) => &mut **e,
+            Callee::Super(_) | Callee::Import(_) => return,
+            Callee::Expr(e) => &mut **e,
         };
 
         match callee {
             Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(obj),
-                prop,
-                computed: false,
+                obj,
+                prop: MemberProp::Ident(method_name),
                 ..
             }) => {
                 if obj.may_have_side_effects() {
@@ -186,11 +179,6 @@ where
 
                 let _f = match &mut **obj {
                     Expr::Fn(v) => v,
-                    _ => return,
-                };
-
-                let method_name = match &**prop {
-                    Expr::Ident(i) => i,
                     _ => return,
                 };
 
@@ -221,7 +209,7 @@ where
             match e {
                 Expr::Call(CallExpr {
                     span,
-                    callee: ExprOrSuper::Expr(callee),
+                    callee: Callee::Expr(callee),
                     args,
                     ..
                 }) => {
@@ -260,20 +248,16 @@ where
 
         let (num, method, args) = match e {
             Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(callee),
+                callee: Callee::Expr(callee),
                 args,
                 ..
             }) => match &mut **callee {
                 Expr::Member(MemberExpr {
-                    obj: ExprOrSuper::Expr(obj),
-                    prop,
-                    computed: false,
+                    obj,
+                    prop: MemberProp::Ident(prop),
                     ..
                 }) => match &mut **obj {
-                    Expr::Lit(Lit::Num(obj)) => match &mut **prop {
-                        Expr::Ident(prop) => (obj, prop, args),
-                        _ => return,
-                    },
+                    Expr::Lit(Lit::Num(obj)) => (obj, prop, args),
                     _ => return,
                 },
                 _ => return,
@@ -318,11 +302,7 @@ where
         };
 
         match &mut *opt.expr {
-            Expr::Member(MemberExpr {
-                span,
-                obj: ExprOrSuper::Expr(obj),
-                ..
-            }) => {
+            Expr::Member(MemberExpr { span, obj, .. }) => {
                 //
                 if is_pure_undefined_or_null(&obj) {
                     self.changed = true;
@@ -338,7 +318,7 @@ where
 
             Expr::Call(CallExpr {
                 span,
-                callee: ExprOrSuper::Expr(callee),
+                callee: Callee::Expr(callee),
                 ..
             }) => {
                 if is_pure_undefined_or_null(&callee) {
@@ -379,15 +359,14 @@ where
         };
 
         let (s, method) = match &call.callee {
-            ExprOrSuper::Super(_) => return,
-            ExprOrSuper::Expr(callee) => match &**callee {
+            Callee::Super(_) | Callee::Import(_) => return,
+            Callee::Expr(callee) => match &**callee {
                 Expr::Member(MemberExpr {
-                    obj: ExprOrSuper::Expr(obj),
-                    prop,
-                    computed: false,
+                    obj,
+                    prop: MemberProp::Ident(prop),
                     ..
-                }) => match (&**obj, &**prop) {
-                    (Expr::Lit(Lit::Str(s)), Expr::Ident(prop)) => (s.clone(), prop.sym.clone()),
+                }) => match &**obj {
+                    Expr::Lit(Lit::Str(s)) => (s.clone(), prop.sym.clone()),
                     _ => return,
                 },
                 _ => return,

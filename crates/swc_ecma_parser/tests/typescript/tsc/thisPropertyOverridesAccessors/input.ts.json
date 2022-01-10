@@ -275,8 +275,7 @@
                       },
                       "value": "p",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",

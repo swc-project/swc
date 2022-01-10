@@ -136,8 +136,7 @@
             },
             "value": "values",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null

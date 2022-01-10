@@ -628,8 +628,7 @@
                   },
                   "value": "kind",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "StringLiteral",
@@ -695,8 +694,7 @@
                         },
                         "value": "size",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "MemberExpression",
@@ -724,8 +722,7 @@
                         },
                         "value": "size",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 }
@@ -772,8 +769,7 @@
                     },
                     "value": "kind",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "right": {
                   "type": "StringLiteral",
@@ -847,8 +843,7 @@
                             },
                             "value": "PI",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "MemberExpression",
@@ -876,8 +871,7 @@
                             },
                             "value": "radius",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       },
                       "right": {
@@ -906,8 +900,7 @@
                           },
                           "value": "radius",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   }
@@ -954,8 +947,7 @@
                       },
                       "value": "kind",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "StringLiteral",
@@ -1021,8 +1013,7 @@
                             },
                             "value": "width",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "MemberExpression",
@@ -1050,8 +1041,7 @@
                             },
                             "value": "height",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       }
                     }
@@ -1202,8 +1192,7 @@
                 },
                 "value": "kind",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "cases": [
               {
@@ -1269,8 +1258,7 @@
                           },
                           "value": "size",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "MemberExpression",
@@ -1298,8 +1286,7 @@
                           },
                           "value": "size",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   }
@@ -1368,8 +1355,7 @@
                           },
                           "value": "width",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "MemberExpression",
@@ -1397,8 +1383,7 @@
                           },
                           "value": "height",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   }
@@ -1475,8 +1460,7 @@
                             },
                             "value": "PI",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "MemberExpression",
@@ -1504,8 +1488,7 @@
                             },
                             "value": "radius",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       },
                       "right": {
@@ -1534,8 +1517,7 @@
                           },
                           "value": "radius",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   }
@@ -1811,8 +1793,7 @@
                 },
                 "value": "kind",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "cases": [
               {
@@ -1878,8 +1859,7 @@
                           },
                           "value": "size",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "MemberExpression",
@@ -1907,8 +1887,7 @@
                           },
                           "value": "size",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   }
@@ -1977,8 +1956,7 @@
                           },
                           "value": "width",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "MemberExpression",
@@ -2006,8 +1984,7 @@
                           },
                           "value": "height",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   }
@@ -2084,8 +2061,7 @@
                             },
                             "value": "PI",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "MemberExpression",
@@ -2113,8 +2089,7 @@
                             },
                             "value": "radius",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       },
                       "right": {
@@ -2143,8 +2118,7 @@
                           },
                           "value": "radius",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   }
@@ -2320,8 +2294,7 @@
                 },
                 "value": "kind",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "cases": [
               {
@@ -2387,8 +2360,7 @@
                           },
                           "value": "size",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "MemberExpression",
@@ -2416,8 +2388,7 @@
                           },
                           "value": "size",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   }
@@ -2486,8 +2457,7 @@
                           },
                           "value": "width",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "MemberExpression",
@@ -2515,8 +2485,7 @@
                           },
                           "value": "height",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   }
@@ -2593,8 +2562,7 @@
                             },
                             "value": "PI",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "MemberExpression",
@@ -2622,8 +2590,7 @@
                             },
                             "value": "radius",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       },
                       "right": {
@@ -2652,8 +2619,7 @@
                           },
                           "value": "radius",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   }
@@ -3162,8 +3128,7 @@
                   },
                   "value": "kind",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "StringLiteral",
@@ -3249,8 +3214,7 @@
                     },
                     "value": "kind",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "right": {
                   "type": "StringLiteral",
@@ -3448,8 +3412,7 @@
                   },
                   "value": "kind",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "StringLiteral",
@@ -3628,8 +3591,7 @@
                   },
                   "value": "kind",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "StringLiteral",
@@ -3880,8 +3842,7 @@
                   },
                   "value": "kind",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -4039,8 +4000,7 @@
                 },
                 "value": "kind",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "cases": [
               {
@@ -4291,8 +4251,7 @@
                 },
                 "value": "kind",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "cases": [
               {
@@ -4534,8 +4493,7 @@
                 },
                 "value": "kind",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "cases": [
               {
@@ -4729,8 +4687,7 @@
                 },
                 "value": "kind",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "cases": [
               {

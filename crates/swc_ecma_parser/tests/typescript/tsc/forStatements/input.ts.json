@@ -799,8 +799,7 @@
                           },
                           "value": "toString",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [],
                       "typeArguments": null
@@ -2503,8 +2502,7 @@
                   },
                   "value": "A",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null

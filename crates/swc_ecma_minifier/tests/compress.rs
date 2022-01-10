@@ -33,11 +33,7 @@ use swc_ecma_parser::{
     lexer::{input::SourceFileInput, Lexer},
     EsConfig, Parser, Syntax,
 };
-use swc_ecma_transforms::{
-    fixer,
-    hygiene::{self, hygiene_with_config},
-    resolver_with_mark,
-};
+use swc_ecma_transforms::{fixer, hygiene::hygiene, resolver_with_mark};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::{FoldWith, Visit, VisitMutWith, VisitWith};
 use testing::{assert_eq, DebugUsingDisplay, NormalizedOutput};
@@ -210,9 +206,7 @@ fn run(
     );
 
     if !disable_hygiene {
-        output.visit_mut_with(&mut hygiene_with_config(hygiene::Config {
-            ..Default::default()
-        }))
+        output.visit_mut_with(&mut hygiene())
     }
 
     let output = output.fold_with(&mut fixer(None));
@@ -728,8 +722,8 @@ impl Visit for Shower<'_> {
         self.show("ExprOrSpread", n);
         n.visit_children_with(self)
     }
-    fn visit_expr_or_super(&mut self, n: &ExprOrSuper) {
-        self.show("ExprOrSuper", n);
+    fn visit_callee(&mut self, n: &Callee) {
+        self.show("Callee", n);
         n.visit_children_with(self)
     }
     fn visit_fn_decl(&mut self, n: &FnDecl) {
@@ -890,6 +884,10 @@ impl Visit for Shower<'_> {
     }
     fn visit_member_expr(&mut self, n: &MemberExpr) {
         self.show("MemberExpr", n);
+        n.visit_children_with(self)
+    }
+    fn visit_super_prop_expr(&mut self, n: &SuperPropExpr) {
+        self.show("SuperPropExpr", n);
         n.visit_children_with(self)
     }
     fn visit_meta_prop_expr(&mut self, n: &MetaPropExpr) {

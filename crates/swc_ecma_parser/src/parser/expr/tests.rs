@@ -93,7 +93,7 @@ fn async_call() {
         expr("async()"),
         Box::new(Expr::Call(CallExpr {
             span,
-            callee: ExprOrSuper::Expr(expr("async")),
+            callee: Callee::Expr(expr("async")),
             args: vec![],
             type_args: None,
         }))
@@ -174,9 +174,8 @@ fn new_expr_should_not_eat_too_much() {
         new_expr("new Date().toString()"),
         Box::new(Expr::Member(MemberExpr {
             span,
-            obj: ExprOrSuper::Expr(member_expr("new Date()")),
-            prop: Box::new(Ident::new("toString".into(), span).into()),
-            computed: false,
+            obj: member_expr("new Date()"),
+            prop: MemberProp::Ident(Ident::new("toString".into(), span).into()),
         }))
     );
 }
@@ -199,7 +198,7 @@ fn lhs_expr_as_call() {
         lhs("new Date.toString()()"),
         Box::new(Expr::Call(CallExpr {
             span,
-            callee: ExprOrSuper::Expr(lhs("new Date.toString()")),
+            callee: Callee::Expr(lhs("new Date.toString()")),
             args: vec![],
             type_args: None,
         }))
@@ -344,7 +343,7 @@ fn iife() {
         expr("(function(){})()"),
         Box::new(Expr::Call(CallExpr {
             span,
-            callee: ExprOrSuper::Expr(expr("(function(){})")),
+            callee: Callee::Expr(expr("(function(){})")),
             args: vec![],
             type_args: Default::default(),
         }))
@@ -357,7 +356,7 @@ fn issue_319_1() {
         expr("obj(({ async f() { await g(); } }));"),
         Box::new(Expr::Call(CallExpr {
             span,
-            callee: ExprOrSuper::Expr(expr("obj")),
+            callee: Callee::Expr(expr("obj")),
             args: vec![ExprOrSpread {
                 spread: None,
                 expr: expr("({ async f() { await g(); } })"),
@@ -381,7 +380,7 @@ fn issue_328() {
             span,
             expr: Box::new(Expr::Call(CallExpr {
                 span,
-                callee: ExprOrSuper::Expr(Box::new(Expr::Ident(Ident::new("import".into(), span)))),
+                callee: Callee::Import(Import { span }),
                 args: vec![ExprOrSpread {
                     spread: None,
                     expr: Box::new(Expr::Lit(Lit::Str(Str {
@@ -442,6 +441,54 @@ fn issue_380() {
 #[test]
 fn issue_675() {
     expr("Object.setPrototypeOf(this, new.target.prototype)");
+}
+
+#[test]
+fn super_expr() {
+    assert_eq_ignore_span!(
+        expr("super.foo();"),
+        Box::new(Expr::Call(CallExpr {
+            span,
+            callee: Callee::Expr(Box::new(Expr::SuperProp(SuperPropExpr {
+                span,
+                obj: Super { span },
+                prop: SuperProp::Ident(Ident {
+                    span,
+                    sym: "foo".into(),
+                    optional: false
+                })
+            }))),
+            args: Vec::new(),
+            type_args: Default::default(),
+        }))
+    );
+}
+
+#[test]
+fn super_expr_computed() {
+    assert_eq_ignore_span!(
+        expr("super[a] ??= 123;"),
+        Box::new(Expr::Assign(AssignExpr {
+            span,
+            op: AssignOp::NullishAssign,
+            left: PatOrExpr::Expr(Box::new(Expr::SuperProp(SuperPropExpr {
+                span,
+                obj: Super { span },
+                prop: SuperProp::Computed(ComputedPropName {
+                    span,
+                    expr: Box::new(Expr::Ident(Ident {
+                        span,
+                        sym: "a".into(),
+                        optional: false
+                    })),
+                })
+            }))),
+            right: Box::new(Expr::Lit(Lit::Num(Number {
+                span,
+                value: 123f64
+            })))
+        }))
+    );
 }
 
 #[bench]

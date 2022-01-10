@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use swc_atoms::JsWord;
 use swc_common::{errors::HANDLER, sync::Lrc, FileName, SourceMap};
-use swc_ecma_ast::Expr;
+use swc_ecma_ast::{Expr, Ident};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_utils::quote_ident;
 
@@ -66,7 +66,7 @@ impl BuiltConfig {
 
         src.split('/').last().unwrap().to_camel_case().into()
     }
-    pub fn determine_export_name(&self, filename: FileName) -> Expr {
+    pub fn determine_export_name(&self, filename: FileName) -> Ident {
         match filename {
             FileName::Real(ref path) => {
                 let s = match path.file_stem() {
@@ -74,7 +74,7 @@ impl BuiltConfig {
                     None => self.global_name(&path.display().to_string().into()),
                 };
 
-                Expr::Ident(quote_ident!(s))
+                quote_ident!(s)
             }
             _ => unimplemented!("determine_export_name({:?})", filename),
         }

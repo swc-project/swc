@@ -778,8 +778,7 @@
             },
             "value": "anon",
             "optional": false
-          },
-          "computed": false
+          }
         }
       },
       "isAbstract": false,
@@ -1153,8 +1152,7 @@
             },
             "value": "genericVar",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -1208,8 +1206,7 @@
             },
             "value": "genericVar",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -1263,8 +1260,7 @@
             },
             "value": "genericVar",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",

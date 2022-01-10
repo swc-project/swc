@@ -991,8 +991,7 @@
                         },
                         "value": "g",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -1160,13 +1159,13 @@
                       "ctxt": 0
                     },
                     "callee": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 802,
                         "end": 809,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 802,
@@ -1183,8 +1182,7 @@
                         },
                         "value": "g",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null

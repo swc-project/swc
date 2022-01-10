@@ -1517,11 +1517,11 @@ function () {
   _createClass(Foo, [{
     key: "test",
     value: function test(other) {
-      var old, _obj, old1, _obj1;
+      var _this_foo, _obj, _this_foo1, _obj1;
 
-      _classPrivateFieldSet(this, _foo, (old = +_classPrivateFieldGet(this, _foo)) + 1), old;
+      _classPrivateFieldSet(this, _foo, (_this_foo = +_classPrivateFieldGet(this, _foo)) + 1), _this_foo;
       _classPrivateFieldSet(this, _foo, +_classPrivateFieldGet(this, _foo) + 1);
-      _classPrivateFieldSet(_obj = other.obj, _foo, (old1 = +_classPrivateFieldGet(_obj, _foo)) + 1), old1;
+      _classPrivateFieldSet(_obj = other.obj, _foo, (_this_foo1 = +_classPrivateFieldGet(_obj, _foo)) + 1), _this_foo1;
       _classPrivateFieldSet(_obj1 = other.obj, _foo, +_classPrivateFieldGet(_obj1, _foo) + 1);
     }
   }]);
@@ -2781,9 +2781,9 @@ var Foo = function () {
   _createClass(Foo, [{
     key: 'test',
     value: function test() {
-      var old;
+      var _this_x;
 
-      _classPrivateFieldSet(this, _x, (old = +_classPrivateFieldGet(this, _x)) + 1), old;
+      _classPrivateFieldSet(this, _x, (_this_x = +_classPrivateFieldGet(this, _x)) + 1), _this_x;
 
       _classPrivateFieldSet(this, _x, +_classPrivateFieldGet(this, _x) + 1);
     }
@@ -2820,10 +2820,10 @@ var Foo = function () {
   _createClass(Foo, [{
     key: 'test',
     value: function test() {
-      var old;
+      var _this_x;
 
-      _classStaticPrivateFieldSpecSet(Foo, Foo, _x, (old = +_classStaticPrivateFieldSpecGet(Foo, \
-     Foo, _x)) + 1), old;
+      _classStaticPrivateFieldSpecSet(Foo, Foo, _x, (_this_x = \
+     +_classStaticPrivateFieldSpecGet(Foo, Foo, _x)) + 1), _this_x;
 
       _classStaticPrivateFieldSpecSet(Foo, Foo, _x, +_classStaticPrivateFieldSpecGet(Foo, Foo, _x) \
      + 1);

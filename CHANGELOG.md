@@ -8,6 +8,9 @@
 - **(es/helpers)** Don't transpile `_typeof` helper (#3208) ([54353a6](https://github.com/swc-project/swc/commit/54353a6fb5ab53ed4762161ecdda1a3ec0d77c62))
 
 
+- **(es/hygiene)** Visit computed properties in usage analyzer (#3217) ([cdb46cf](https://github.com/swc-project/swc/commit/cdb46cfb9180e67915c88eabdfd48317870e330d))
+
+
 - **(es/minifier)** Disable inlining of expressions from `collapse_vars` (#3200) ([69b5f79](https://github.com/swc-project/swc/commit/69b5f799f3d40947ce3b5bc851ee44d3caad5328))
 
 
@@ -25,8 +28,23 @@
 
 - **(plugin)** Pass serialized ast to a wasm file (#3199) ([92de2c7](https://github.com/swc-project/swc/commit/92de2c78841ee1dc8b372268690637a19c3f4307))
 
+
+- **(plugin)** Allow multi-value for the plugin signature (#3216) ([c9ded9b](https://github.com/swc-project/swc/commit/c9ded9b72080b013466f450d9b3917055e40fa23))
+
+
+- **(plugin)** Perform actual transforms in plugins (#3220) ([7e7421e](https://github.com/swc-project/swc/commit/7e7421ea527f499c6488de19fb8171f2b65787b4))
+
+### Miscellaneous Tasks
+
+
+
+- **(es/minifier)** Add scripts to extract tests automatically (#3212) ([057fca4](https://github.com/swc-project/swc/commit/057fca4196263dcfc05e6161cb727ec4888d7e10))
+
 ### Refactor
 
+
+
+- **(es/ast)** Change types of member-like expressions (#3178) ([f58b50b](https://github.com/swc-project/swc/commit/f58b50bea7507def95b94b498ba9c5faf55df802))
 
 
 - **(es/compat)** Preserve length of functions in `async_generator` (#3202) ([5bee4e4](https://github.com/swc-project/swc/commit/5bee4e490229a3a045d4008b156034c4233ec89e))

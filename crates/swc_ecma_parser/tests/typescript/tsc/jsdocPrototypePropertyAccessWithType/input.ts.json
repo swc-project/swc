@@ -73,8 +73,7 @@
                   },
                   "value": "x",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "BooleanLiteral",
@@ -142,8 +141,7 @@
             },
             "value": "prototype",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "property": {
           "type": "Identifier",
@@ -154,8 +152,7 @@
           },
           "value": "x",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -201,8 +198,7 @@
           },
           "value": "x",
           "optional": false
-        },
-        "computed": false
+        }
       }
     }
   ],

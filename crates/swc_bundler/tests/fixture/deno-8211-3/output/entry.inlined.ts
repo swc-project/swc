@@ -554,17 +554,17 @@ function eras(length) {
             return null;
     }
 }
-function meridiemForDateTime(dt) {
-    return meridiems[dt.hour < 12 ? 0 : 1];
+function meridiemForDateTime(dt1) {
+    return meridiems[dt1.hour < 12 ? 0 : 1];
 }
-function weekdayForDateTime(dt, length) {
-    return weekdays(length)[dt.weekday - 1];
+function weekdayForDateTime(dt2, length) {
+    return weekdays(length)[dt2.weekday - 1];
 }
-function monthForDateTime(dt, length) {
-    return months(length)[dt.month - 1];
+function monthForDateTime(dt3, length) {
+    return months(length)[dt3.month - 1];
 }
-function eraForDateTime(dt, length) {
-    return eras(length)[dt.year < 0 ? 0 : 1];
+function eraForDateTime(dt4, length) {
+    return eras(length)[dt4.year < 0 ? 0 : 1];
 }
 function formatRelativeTime(unit, count, numeric = "always", narrow = false) {
     const units = {
@@ -767,23 +767,23 @@ class Formatter {
         this.loc = locale;
         this.systemLoc = null;
     }
-    formatWithSystemDefault(dt1, opts) {
+    formatWithSystemDefault(dt5, opts) {
         if (this.systemLoc === null) {
             this.systemLoc = this.loc.redefaultToSystem();
         }
-        const df = this.systemLoc.dtFormatter(dt1, Object.assign({}, this.opts, opts));
+        const df = this.systemLoc.dtFormatter(dt5, Object.assign({}, this.opts, opts));
         return df.format();
     }
-    formatDateTime(dt2, opts = {}) {
-        const df = this.loc.dtFormatter(dt2, Object.assign({}, this.opts, opts));
+    formatDateTime(dt6, opts = {}) {
+        const df = this.loc.dtFormatter(dt6, Object.assign({}, this.opts, opts));
         return df.format();
     }
-    formatDateTimeParts(dt3, opts = {}) {
-        const df = this.loc.dtFormatter(dt3, Object.assign({}, this.opts, opts));
+    formatDateTimeParts(dt7, opts = {}) {
+        const df = this.loc.dtFormatter(dt7, Object.assign({}, this.opts, opts));
         return df.formatToParts();
     }
-    resolvedOptions(dt4, opts = {}) {
-        const df = this.loc.dtFormatter(dt4, Object.assign({}, this.opts, opts));
+    resolvedOptions(dt8, opts = {}) {
+        const df = this.loc.dtFormatter(dt8, Object.assign({}, this.opts, opts));
         return df.resolvedOptions();
     }
     num(n3, p = 0) {
@@ -796,24 +796,24 @@ class Formatter {
         }
         return this.loc.numberFormatter(opts).format(n3);
     }
-    formatDateTimeFromString(dt5, fmt) {
-        const knownEnglish = this.loc.listingMode() === "en", useDateTimeFormatter = this.loc.outputCalendar && this.loc.outputCalendar !== "gregory" && hasFormatToParts(), string = (opts, extract)=>this.loc.extract(dt5, opts, extract)
+    formatDateTimeFromString(dt9, fmt) {
+        const knownEnglish = this.loc.listingMode() === "en", useDateTimeFormatter = this.loc.outputCalendar && this.loc.outputCalendar !== "gregory" && hasFormatToParts(), string = (opts, extract)=>this.loc.extract(dt9, opts, extract)
         , formatOffset1 = (opts)=>{
-            if (dt5.isOffsetFixed && dt5.offset === 0 && opts.allowZ) {
+            if (dt9.isOffsetFixed && dt9.offset === 0 && opts.allowZ) {
                 return "Z";
             }
-            return dt5.isValid ? dt5.zone.formatOffset(dt5.ts, opts.format) : "";
-        }, meridiem = ()=>knownEnglish ? meridiemForDateTime(dt5) : string({
+            return dt9.isValid ? dt9.zone.formatOffset(dt9.ts, opts.format) : "";
+        }, meridiem = ()=>knownEnglish ? meridiemForDateTime(dt9) : string({
                 hour: "numeric",
                 hour12: true
             }, "dayperiod")
-        , month = (length, standalone)=>knownEnglish ? monthForDateTime(dt5, length) : string(standalone ? {
+        , month = (length, standalone)=>knownEnglish ? monthForDateTime(dt9, length) : string(standalone ? {
                 month: length
             } : {
                 month: length,
                 day: "numeric"
             }, "month")
-        , weekday = (length, standalone)=>knownEnglish ? weekdayForDateTime(dt5, length) : string(standalone ? {
+        , weekday = (length, standalone)=>knownEnglish ? weekdayForDateTime(dt9, length) : string(standalone ? {
                 weekday: length
             } : {
                 weekday: length,
@@ -823,36 +823,36 @@ class Formatter {
         , maybeMacro = (token)=>{
             const formatOpts = Formatter.macroTokenToFormatOpts(token);
             if (formatOpts) {
-                return this.formatWithSystemDefault(dt5, formatOpts);
+                return this.formatWithSystemDefault(dt9, formatOpts);
             } else {
                 return token;
             }
-        }, era = (length)=>knownEnglish ? eraForDateTime(dt5, length) : string({
+        }, era = (length)=>knownEnglish ? eraForDateTime(dt9, length) : string({
                 era: length
             }, "era")
         , tokenToString = (token)=>{
             switch(token){
                 case "S":
-                    return this.num(dt5.millisecond);
+                    return this.num(dt9.millisecond);
                 case "u":
                 case "SSS":
-                    return this.num(dt5.millisecond, 3);
+                    return this.num(dt9.millisecond, 3);
                 case "s":
-                    return this.num(dt5.second);
+                    return this.num(dt9.second);
                 case "ss":
-                    return this.num(dt5.second, 2);
+                    return this.num(dt9.second, 2);
                 case "m":
-                    return this.num(dt5.minute);
+                    return this.num(dt9.minute);
                 case "mm":
-                    return this.num(dt5.minute, 2);
+                    return this.num(dt9.minute, 2);
                 case "h":
-                    return this.num(dt5.hour % 12 === 0 ? 12 : dt5.hour % 12);
+                    return this.num(dt9.hour % 12 === 0 ? 12 : dt9.hour % 12);
                 case "hh":
-                    return this.num(dt5.hour % 12 === 0 ? 12 : dt5.hour % 12, 2);
+                    return this.num(dt9.hour % 12 === 0 ? 12 : dt9.hour % 12, 2);
                 case "H":
-                    return this.num(dt5.hour);
+                    return this.num(dt9.hour);
                 case "HH":
-                    return this.num(dt5.hour, 2);
+                    return this.num(dt9.hour, 2);
                 case "Z":
                     return formatOffset1({
                         format: "narrow",
@@ -869,29 +869,29 @@ class Formatter {
                         allowZ: this.opts.allowZ
                     });
                 case "ZZZZ":
-                    return dt5.zone.offsetName(dt5.ts, {
+                    return dt9.zone.offsetName(dt9.ts, {
                         format: "short",
                         locale: this.loc.locale
                     });
                 case "ZZZZZ":
-                    return dt5.zone.offsetName(dt5.ts, {
+                    return dt9.zone.offsetName(dt9.ts, {
                         format: "long",
                         locale: this.loc.locale
                     });
                 case "z":
-                    return dt5.zoneName;
+                    return dt9.zoneName;
                 case "a":
                     return meridiem();
                 case "d":
                     return useDateTimeFormatter ? string({
                         day: "numeric"
-                    }, "day") : this.num(dt5.day);
+                    }, "day") : this.num(dt9.day);
                 case "dd":
                     return useDateTimeFormatter ? string({
                         day: "2-digit"
-                    }, "day") : this.num(dt5.day, 2);
+                    }, "day") : this.num(dt9.day, 2);
                 case "c":
-                    return this.num(dt5.weekday);
+                    return this.num(dt9.weekday);
                 case "ccc":
                     return weekday("short", true);
                 case "cccc":
@@ -899,7 +899,7 @@ class Formatter {
                 case "ccccc":
                     return weekday("narrow", true);
                 case "E":
-                    return this.num(dt5.weekday);
+                    return this.num(dt9.weekday);
                 case "EEE":
                     return weekday("short", false);
                 case "EEEE":
@@ -910,12 +910,12 @@ class Formatter {
                     return useDateTimeFormatter ? string({
                         month: "numeric",
                         day: "numeric"
-                    }, "month") : this.num(dt5.month);
+                    }, "month") : this.num(dt9.month);
                 case "LL":
                     return useDateTimeFormatter ? string({
                         month: "2-digit",
                         day: "numeric"
-                    }, "month") : this.num(dt5.month, 2);
+                    }, "month") : this.num(dt9.month, 2);
                 case "LLL":
                     return month("short", true);
                 case "LLLL":
@@ -925,11 +925,11 @@ class Formatter {
                 case "M":
                     return useDateTimeFormatter ? string({
                         month: "numeric"
-                    }, "month") : this.num(dt5.month);
+                    }, "month") : this.num(dt9.month);
                 case "MM":
                     return useDateTimeFormatter ? string({
                         month: "2-digit"
-                    }, "month") : this.num(dt5.month, 2);
+                    }, "month") : this.num(dt9.month, 2);
                 case "MMM":
                     return month("short", false);
                 case "MMMM":
@@ -939,19 +939,19 @@ class Formatter {
                 case "y":
                     return useDateTimeFormatter ? string({
                         year: "numeric"
-                    }, "year") : this.num(dt5.year);
+                    }, "year") : this.num(dt9.year);
                 case "yy":
                     return useDateTimeFormatter ? string({
                         year: "2-digit"
-                    }, "year") : this.num(dt5.year.toString().slice(-2), 2);
+                    }, "year") : this.num(dt9.year.toString().slice(-2), 2);
                 case "yyyy":
                     return useDateTimeFormatter ? string({
                         year: "numeric"
-                    }, "year") : this.num(dt5.year, 4);
+                    }, "year") : this.num(dt9.year, 4);
                 case "yyyyyy":
                     return useDateTimeFormatter ? string({
                         year: "numeric"
-                    }, "year") : this.num(dt5.year, 6);
+                    }, "year") : this.num(dt9.year, 6);
                 case "G":
                     return era("short");
                 case "GG":
@@ -959,25 +959,25 @@ class Formatter {
                 case "GGGGG":
                     return era("narrow");
                 case "kk":
-                    return this.num(dt5.weekYear.toString().slice(-2), 2);
+                    return this.num(dt9.weekYear.toString().slice(-2), 2);
                 case "kkkk":
-                    return this.num(dt5.weekYear, 4);
+                    return this.num(dt9.weekYear, 4);
                 case "W":
-                    return this.num(dt5.weekNumber);
+                    return this.num(dt9.weekNumber);
                 case "WW":
-                    return this.num(dt5.weekNumber, 2);
+                    return this.num(dt9.weekNumber, 2);
                 case "o":
-                    return this.num(dt5.ordinal);
+                    return this.num(dt9.ordinal);
                 case "ooo":
-                    return this.num(dt5.ordinal, 3);
+                    return this.num(dt9.ordinal, 3);
                 case "q":
-                    return this.num(dt5.quarter);
+                    return this.num(dt9.quarter);
                 case "qq":
-                    return this.num(dt5.quarter, 2);
+                    return this.num(dt9.quarter, 2);
                 case "X":
-                    return this.num(Math.floor(dt5.ts / 1000));
+                    return this.num(Math.floor(dt9.ts / 1000));
                 case "x":
-                    return this.num(dt5.ts);
+                    return this.num(dt9.ts);
                 default:
                     return maybeMacro(token);
             }
@@ -2288,7 +2288,7 @@ class Duration {
     }
 }
 function dayDiff(earlier, later) {
-    const utcDayStart = (dt6)=>dt6.toUTC(0, {
+    const utcDayStart = (dt10)=>dt10.toUTC(0, {
             keepLocalTime: true
         }).startOf("day").valueOf()
     , ms = utcDayStart(later) - utcDayStart(earlier);
@@ -2298,11 +2298,11 @@ const MISSING_FTP = "missing Intl.DateTimeFormat.formatToParts support";
 function unsupportedZone(zone) {
     return new Invalid("unsupported zone", `the zone "${zone.name}" is not supported`);
 }
-function possiblyCachedWeekData(dt7) {
-    if (dt7.weekData === null) {
-        dt7.weekData = gregorianToWeek(dt7.c);
+function possiblyCachedWeekData(dt11) {
+    if (dt11.weekData === null) {
+        dt11.weekData = gregorianToWeek(dt11.c);
     }
-    return dt7.weekData;
+    return dt11.weekData;
 }
 function clone1(inst, alts) {
     const current = {
@@ -2393,17 +2393,17 @@ function parseDataToDateTime(parsed, parsedZone, opts, format, text) {
         return DateTime.invalid(new Invalid("unparsable", `the input "${text}" can't be parsed as ${format}`));
     }
 }
-function toTechFormat(dt8, format, allowZ = true) {
-    return dt8.isValid ? Formatter.create(Locale.create("en-US"), {
+function toTechFormat(dt12, format, allowZ = true) {
+    return dt12.isValid ? Formatter.create(Locale.create("en-US"), {
         allowZ,
         forceSimple: true
-    }).formatDateTimeFromString(dt8, format) : null;
+    }).formatDateTimeFromString(dt12, format) : null;
 }
-function toTechTimeFormat(dt9, { suppressSeconds =false , suppressMilliseconds =false , includeOffset , includeZone =false , spaceZone =false , format ="extended"  }) {
+function toTechTimeFormat(dt13, { suppressSeconds =false , suppressMilliseconds =false , includeOffset , includeZone =false , spaceZone =false , format ="extended"  }) {
     let fmt = format === "basic" ? "HHmm" : "HH:mm";
-    if (!suppressSeconds || dt9.second !== 0 || dt9.millisecond !== 0) {
+    if (!suppressSeconds || dt13.second !== 0 || dt13.millisecond !== 0) {
         fmt += format === "basic" ? "ss" : ":ss";
-        if (!suppressMilliseconds || dt9.millisecond !== 0) {
+        if (!suppressMilliseconds || dt13.millisecond !== 0) {
             fmt += ".SSS";
         }
     }
@@ -2415,7 +2415,7 @@ function toTechTimeFormat(dt9, { suppressSeconds =false , suppressMilliseconds =
     } else if (includeOffset) {
         fmt += format === "basic" ? "ZZZ" : "ZZ";
     }
-    return toTechFormat(dt9, fmt);
+    return toTechFormat(dt13, fmt);
 }
 const defaultUnitValues = {
     month: 1,
@@ -3345,16 +3345,16 @@ function intlConfigString(localeStr, numberingSystem, outputCalendar) {
 function mapMonths(f) {
     const ms = [];
     for(let i = 1; i <= 12; i++){
-        const dt10 = DateTime.utc(2016, i, 1);
-        ms.push(f(dt10));
+        const dt14 = DateTime.utc(2016, i, 1);
+        ms.push(f(dt14));
     }
     return ms;
 }
 function mapWeekdays(f) {
     const ms = [];
     for(let i = 1; i <= 7; i++){
-        const dt11 = DateTime.utc(2016, 11, 13 + i);
-        ms.push(f(dt11));
+        const dt15 = DateTime.utc(2016, 11, 13 + i);
+        ms.push(f(dt15));
     }
     return ms;
 }
@@ -3398,22 +3398,22 @@ class PolyNumberFormatter {
     }
 }
 class PolyDateFormatter {
-    constructor(dt12, intl, opts){
+    constructor(dt16, intl, opts){
         this.opts = opts;
         this.hasIntl = hasIntl();
         let z;
-        if (dt12.zone.universal && this.hasIntl) {
+        if (dt16.zone.universal && this.hasIntl) {
             z = "UTC";
             if (opts.timeZoneName) {
-                this.dt = dt12;
+                this.dt = dt16;
             } else {
-                this.dt = dt12.offset === 0 ? dt12 : DateTime.fromMillis(dt12.ts + dt12.offset * 60 * 1000);
+                this.dt = dt16.offset === 0 ? dt16 : DateTime.fromMillis(dt16.ts + dt16.offset * 60 * 1000);
             }
-        } else if (dt12.zone.type === "local") {
-            this.dt = dt12;
+        } else if (dt16.zone.type === "local") {
+            this.dt = dt16;
         } else {
-            this.dt = dt12;
-            z = dt12.zone.name;
+            this.dt = dt16;
+            z = dt16.zone.name;
         }
         if (this.hasIntl) {
             const intlOpts = Object.assign({}, this.opts);
@@ -3552,7 +3552,7 @@ class Locale {
                 month: length
             }, formatStr = format ? "format" : "standalone";
             if (!this.monthsCache[formatStr][length]) {
-                this.monthsCache[formatStr][length] = mapMonths((dt13)=>this.extract(dt13, intl, "month")
+                this.monthsCache[formatStr][length] = mapMonths((dt17)=>this.extract(dt17, intl, "month")
                 );
             }
             return this.monthsCache[formatStr][length];
@@ -3569,7 +3569,7 @@ class Locale {
                 weekday: length
             }, formatStr = format ? "format" : "standalone";
             if (!this.weekdaysCache[formatStr][length]) {
-                this.weekdaysCache[formatStr][length] = mapWeekdays((dt14)=>this.extract(dt14, intl, "weekday")
+                this.weekdaysCache[formatStr][length] = mapWeekdays((dt18)=>this.extract(dt18, intl, "weekday")
                 );
             }
             return this.weekdaysCache[formatStr][length];
@@ -3586,7 +3586,7 @@ class Locale {
                 this.meridiemCache = [
                     DateTime.utc(2016, 11, 13, 9),
                     DateTime.utc(2016, 11, 13, 19)
-                ].map((dt15)=>this.extract(dt15, intl, "dayperiod")
+                ].map((dt19)=>this.extract(dt19, intl, "dayperiod")
                 );
             }
             return this.meridiemCache;
@@ -3601,22 +3601,22 @@ class Locale {
                 this.eraCache[length] = [
                     DateTime.utc(-40, 1, 1),
                     DateTime.utc(2017, 1, 1)
-                ].map((dt16)=>this.extract(dt16, intl, "era")
+                ].map((dt20)=>this.extract(dt20, intl, "era")
                 );
             }
             return this.eraCache[length];
         });
     }
-    extract(dt17, intlOpts, field) {
-        const df = this.dtFormatter(dt17, intlOpts), results = df.formatToParts(), matching = results.find((m)=>m.type.toLowerCase() === field
+    extract(dt21, intlOpts, field) {
+        const df = this.dtFormatter(dt21, intlOpts), results = df.formatToParts(), matching = results.find((m)=>m.type.toLowerCase() === field
         );
         return matching ? matching.value : null;
     }
     numberFormatter(opts = {}) {
         return new PolyNumberFormatter(this.intl, opts.forceSimple || this.fastNumbers, opts);
     }
-    dtFormatter(dt18, intlOpts = {}) {
-        return new PolyDateFormatter(dt18, this.intl, intlOpts);
+    dtFormatter(dt22, intlOpts = {}) {
+        return new PolyDateFormatter(dt22, this.intl, intlOpts);
     }
     relFormatter(opts = {}) {
         return new PolyRelFormatter(this.intl, this.isEnglish(), opts);
@@ -3721,12 +3721,12 @@ class Interval {
         }
     }
     static after(start, duration) {
-        const dur = friendlyDuration(duration), dt19 = friendlyDateTime(start);
-        return Interval.fromDateTimes(dt19, dt19.plus(dur));
+        const dur = friendlyDuration(duration), dt23 = friendlyDateTime(start);
+        return Interval.fromDateTimes(dt23, dt23.plus(dur));
     }
     static before(end, duration) {
-        const dur = friendlyDuration(duration), dt20 = friendlyDateTime(end);
-        return Interval.fromDateTimes(dt20.minus(dur), dt20);
+        const dur = friendlyDuration(duration), dt24 = friendlyDateTime(end);
+        return Interval.fromDateTimes(dt24.minus(dur), dt24);
     }
     static fromISO(text, opts) {
         const [s13, e] = (text || "").split("/", 2);

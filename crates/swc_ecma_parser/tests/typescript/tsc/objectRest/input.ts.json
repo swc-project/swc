@@ -3773,8 +3773,7 @@
                   },
                   "value": "anythingGoes",
                   "optional": false
-                },
-                "computed": false
+                }
               }
             },
             "async": false,

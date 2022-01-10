@@ -155,8 +155,7 @@
                           },
                           "value": "_0",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     },
                     "right": {
@@ -203,8 +202,7 @@
                           },
                           "value": "_9",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   }
@@ -425,8 +423,7 @@
                                 },
                                 "value": "A",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           },
                           "right": {
@@ -473,8 +470,7 @@
                                 },
                                 "value": "F",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           }
                         }
@@ -539,8 +535,7 @@
                               },
                               "value": "a",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         },
                         "right": {
@@ -587,8 +582,7 @@
                               },
                               "value": "f",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         }
                       }
@@ -735,8 +729,7 @@
                         },
                         "value": "assert",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [
                       {
@@ -879,8 +872,7 @@
                             },
                             "value": "_0",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       }
                     },
@@ -950,8 +942,7 @@
                                 },
                                 "value": "A",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           },
                           "right": {
@@ -998,8 +989,7 @@
                                 },
                                 "value": "F",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           }
                         }
@@ -1056,8 +1046,7 @@
                               },
                               "value": "A",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         },
                         "right": {
@@ -1122,8 +1111,7 @@
                               },
                               "value": "a",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         },
                         "right": {

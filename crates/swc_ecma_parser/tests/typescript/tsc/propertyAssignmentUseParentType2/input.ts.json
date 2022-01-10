@@ -109,8 +109,7 @@
             },
             "value": "nuo",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -226,8 +225,7 @@
             },
             "value": "nuo",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -343,8 +341,7 @@
             },
             "value": "nuo",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",

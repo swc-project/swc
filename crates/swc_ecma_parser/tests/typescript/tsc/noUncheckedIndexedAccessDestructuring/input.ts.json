@@ -243,8 +243,7 @@
             },
             "value": "toString",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -358,8 +357,7 @@
             },
             "value": "push",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -489,8 +487,7 @@
             },
             "value": "push",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -718,8 +715,7 @@
             },
             "value": "toString",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -840,8 +836,7 @@
               },
               "value": "z",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -852,8 +847,7 @@
             },
             "value": "toString",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -1215,8 +1209,7 @@
                 },
                 "value": "toFixed",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -1262,8 +1255,7 @@
                 },
                 "value": "toFixed",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -1309,8 +1301,7 @@
                 },
                 "value": "toFixed",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -1453,8 +1444,7 @@
                 },
                 "value": "toFixed",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -1507,8 +1497,7 @@
                   },
                   "value": "y",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -1519,8 +1508,7 @@
                 },
                 "value": "toFixed",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -1573,8 +1561,7 @@
                   },
                   "value": "z",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -1585,8 +1572,7 @@
                 },
                 "value": "toFixed",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null

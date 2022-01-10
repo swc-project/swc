@@ -64,7 +64,7 @@ impl VisitMut for Spread {
 
             // super(...spread) should be removed by es2015::classes pass
             Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(callee),
+                callee: Callee::Expr(callee),
                 args,
                 span,
                 ..
@@ -77,33 +77,24 @@ impl VisitMut for Spread {
                 }
 
                 let (this, callee_updated) = match &**callee {
-                    Expr::Member(MemberExpr {
-                        obj: ExprOrSuper::Super(Super { span, .. }),
+                    Expr::SuperProp(SuperPropExpr {
+                        obj: Super { span, .. },
                         ..
                     }) => (Box::new(Expr::This(ThisExpr { span: *span })), None),
 
-                    Expr::Member(MemberExpr {
-                        obj: ExprOrSuper::Expr(ref expr),
-                        ..
-                    }) if expr.is_this() => (expr.clone(), None),
+                    Expr::Member(MemberExpr { obj, .. }) if obj.is_this() => (obj.clone(), None),
 
                     // Injected variables can be accessed without any side effect
-                    Expr::Member(MemberExpr {
-                        obj: ExprOrSuper::Expr(ref e),
-                        ..
-                    }) if e.as_ident().is_some() && e.as_ident().unwrap().span.is_dummy() => {
-                        (Box::new(Expr::Ident(e.as_ident().unwrap().clone())), None)
+                    Expr::Member(MemberExpr { obj, .. })
+                        if obj.as_ident().is_some() && obj.as_ident().unwrap().span.is_dummy() =>
+                    {
+                        (Box::new(Expr::Ident(obj.as_ident().unwrap().clone())), None)
                     }
 
                     Expr::Ident(Ident { span, .. }) => (undefined(*span), None),
 
-                    Expr::Member(MemberExpr {
-                        span,
-                        obj: ExprOrSuper::Expr(expr),
-                        prop,
-                        computed,
-                    }) => {
-                        let ident = alias_ident_for(&expr, "_instance");
+                    Expr::Member(MemberExpr { span, obj, prop }) => {
+                        let ident = alias_ident_for(&obj, "_instance");
                         self.vars.push(VarDeclarator {
                             span: DUMMY_SP,
                             definite: false,
@@ -118,15 +109,14 @@ impl VisitMut for Spread {
                             span: DUMMY_SP,
                             left: PatOrExpr::Pat(Box::new(Pat::Ident(ident.into()))),
                             op: op!("="),
-                            right: expr.clone(),
+                            right: obj.clone(),
                         });
                         (
                             this,
                             Some(Box::new(Expr::Member(MemberExpr {
                                 span: *span,
-                                obj: callee.as_obj(),
+                                obj: callee.into(),
                                 prop: prop.clone(),
-                                computed: *computed,
                             }))),
                         )
                     }
@@ -152,9 +142,8 @@ impl VisitMut for Spread {
 
                 let apply = MemberExpr {
                     span: DUMMY_SP,
-                    obj: callee_updated.unwrap_or(callee.take()).as_callee(),
-                    prop: Box::new(Ident::new(js_word!("apply"), *span).into()),
-                    computed: false,
+                    obj: callee_updated.unwrap_or(callee.take()),
+                    prop: MemberProp::Ident(Ident::new(js_word!("apply"), *span)),
                 };
 
                 *e = Expr::Call(CallExpr {

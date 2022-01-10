@@ -946,8 +946,7 @@
                             },
                             "value": "name",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       }
                     ],

@@ -930,18 +930,22 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
     impl Visit for SuperFinder {
         noop_visit_type!();
 
-        fn visit_expr_or_super(&mut self, node: &ExprOrSuper) {
+        fn visit_callee(&mut self, node: &Callee) {
             match *node {
-                ExprOrSuper::Super(..) => self.found = true,
+                Callee::Super(..) => self.found = true,
                 _ => node.visit_children_with(self),
             }
+        }
+
+        fn visit_super_prop_expr(&mut self, _: &SuperPropExpr) {
+            self.found = true
         }
     }
 
     let pos = match body.iter().position(|s| match s {
         Stmt::Expr(ExprStmt { expr, .. }) => match &**expr {
             Expr::Call(CallExpr {
-                callee: ExprOrSuper::Super(..),
+                callee: Callee::Super(..),
                 ..
             }) => true,
 
@@ -955,14 +959,9 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
 
     let mut v = SuperFinder { found: false };
     let body = &body[..pos];
-
     v.visit_stmts(body);
 
-    if v.found {
-        return false;
-    }
-
-    true
+    !v.found
 }
 
 fn escape_keywords(mut e: Box<Expr>) -> Box<Expr> {

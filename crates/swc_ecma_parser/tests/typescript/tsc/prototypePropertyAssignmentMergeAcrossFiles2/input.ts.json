@@ -88,8 +88,7 @@
             },
             "value": "One",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -158,8 +157,7 @@
             },
             "value": "Two",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -235,8 +233,7 @@
               },
               "value": "One",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -247,8 +244,7 @@
             },
             "value": "prototype",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -343,8 +339,7 @@
               },
               "value": "Two",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -355,8 +350,7 @@
             },
             "value": "prototype",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -435,8 +429,7 @@
           },
           "value": "wat",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -505,8 +498,7 @@
           },
           "value": "wat",
           "optional": false
-        },
-        "computed": false
+        }
       }
     }
   ],

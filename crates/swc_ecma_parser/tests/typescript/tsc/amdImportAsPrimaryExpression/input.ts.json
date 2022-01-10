@@ -184,8 +184,7 @@
               },
               "value": "E1",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -196,8 +195,7 @@
             },
             "value": "A",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",

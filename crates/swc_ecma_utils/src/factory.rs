@@ -34,8 +34,8 @@ pub trait ExprFactory: Into<Expr> {
     }
 
     #[inline]
-    fn as_callee(self) -> ExprOrSuper {
-        ExprOrSuper::Expr(Box::new(self.into()))
+    fn as_callee(self) -> Callee {
+        Callee::Expr(Box::new(self.into()))
     }
 
     #[inline]
@@ -46,11 +46,6 @@ pub trait ExprFactory: Into<Expr> {
             args: Default::default(),
             type_args: Default::default(),
         }
-    }
-
-    #[inline]
-    fn as_obj(self) -> ExprOrSuper {
-        ExprOrSuper::Expr(Box::new(self.into()))
     }
 
     fn apply(self, span: Span, this: Box<Expr>, args: Vec<ExprOrSpread>) -> Expr {
@@ -99,13 +94,12 @@ pub trait ExprFactory: Into<Expr> {
     #[inline]
     fn make_member<T>(self, prop: T) -> Expr
     where
-        T: Into<Expr>,
+        T: Into<Ident>,
     {
         Expr::Member(MemberExpr {
-            obj: ExprOrSuper::Expr(Box::new(self.into())),
+            obj: Box::new(self.into()),
             span: DUMMY_SP,
-            computed: false,
-            prop: Box::new(prop.into()),
+            prop: MemberProp::Ident(prop.into()),
         })
     }
 
@@ -115,10 +109,12 @@ pub trait ExprFactory: Into<Expr> {
         T: Into<Expr>,
     {
         Expr::Member(MemberExpr {
-            obj: ExprOrSuper::Expr(Box::new(self.into())),
+            obj: Box::new(self.into()),
             span: DUMMY_SP,
-            computed: true,
-            prop: Box::new(prop.into()),
+            prop: MemberProp::Computed(ComputedPropName {
+                span: DUMMY_SP,
+                expr: Box::new(prop.into()),
+            }),
         })
     }
 }
@@ -129,7 +125,7 @@ pub trait IntoIndirectCall: Into<CallExpr> {
     fn into_indirect(self) -> CallExpr {
         let s = self.into();
 
-        let callee = ExprOrSuper::Expr(Box::new(Expr::Seq(SeqExpr {
+        let callee = Callee::Expr(Box::new(Expr::Seq(SeqExpr {
             span: DUMMY_SP,
             exprs: vec![Box::new(0_f64.into()), s.callee.expect_expr()],
         })));

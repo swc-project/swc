@@ -793,8 +793,7 @@
                     },
                     "value": "random",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [],
                 "typeArguments": null
@@ -2295,8 +2294,7 @@
             },
             "value": "toUpperCase",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -2849,8 +2847,7 @@
           },
           "value": "oinks",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -2910,8 +2907,7 @@
           },
           "value": "walks",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -3082,8 +3078,7 @@
                       },
                       "value": "resolve",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [],
                   "typeArguments": null
@@ -3097,8 +3092,7 @@
                   },
                   "value": "then",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {
@@ -4199,8 +4193,7 @@
                   },
                   "value": "assign",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {

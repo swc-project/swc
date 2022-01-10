@@ -9,12 +9,11 @@ use swc_common::{
     Mark, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::ext::ExprRefExt;
 use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
 use swc_ecma_utils::{
     constructor::inject_after_super, default_constructor, ident::IdentLike, member_expr, prepend,
-    private_ident, prop_name_to_expr, quote_ident, replace_ident, var::VarCollector, ExprFactory,
-    Id, ModuleItemLike, StmtLike,
+    private_ident, quote_ident, replace_ident, var::VarCollector, ExprFactory, Id, ModuleItemLike,
+    StmtLike,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -166,10 +165,7 @@ where
 fn id_for_jsx(e: &Expr) -> Id {
     match e {
         Expr::Ident(i) => i.to_id(),
-        Expr::Member(MemberExpr {
-            obj: ExprOrSuper::Expr(obj),
-            ..
-        }) => id_for_jsx(&obj),
+        Expr::Member(MemberExpr { obj, .. }) => id_for_jsx(&obj),
         _ => {
             panic!("failed to determine top-level Id for jsx expression")
         }
@@ -438,7 +434,7 @@ where
                         if !class_field.is_static && class_field.decorators.is_empty() =>
                     {
                         if let Some(value) = class_field.value.take() {
-                            let computed = match &mut class_field.key {
+                            let prop = match class_field.key.take() {
                                 PropName::Computed(key) => {
                                     let ident = private_ident!("_key");
                                     self.uninitialized_vars.push(VarDeclarator {
@@ -453,24 +449,34 @@ where
                                         span: class_field.span,
                                         op: op!("="),
                                         left: assign_lhs,
-                                        right: key.expr.take(),
+                                        right: key.expr,
                                     }));
                                     key_computations.push(assign_expr);
-                                    class_field.key = PropName::Ident(ident);
-                                    true
+                                    MemberProp::Computed(ComputedPropName {
+                                        expr: Box::new(Expr::Ident(ident)),
+                                        span: DUMMY_SP,
+                                    })
                                 }
-                                PropName::Ident(..) => false,
-                                PropName::Str(..) | PropName::Num(..) | PropName::BigInt(..) => {
-                                    true
+                                PropName::Ident(id) => MemberProp::Ident(id),
+                                PropName::Str(str) => MemberProp::Computed(ComputedPropName {
+                                    expr: Box::new(Expr::Lit(Lit::Str(str))),
+                                    span: DUMMY_SP,
+                                }),
+                                PropName::Num(num) => MemberProp::Computed(ComputedPropName {
+                                    expr: Box::new(Expr::Lit(Lit::Num(num))),
+                                    span: DUMMY_SP,
+                                }),
+                                PropName::BigInt(big_int) => {
+                                    MemberProp::Computed(ComputedPropName {
+                                        expr: Box::new(Expr::Lit(Lit::BigInt(big_int))),
+                                        span: DUMMY_SP,
+                                    })
                                 }
                             };
                             let assign_lhs = PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
                                 span: class_field.span,
-                                obj: ExprOrSuper::Expr(Box::new(Expr::This(ThisExpr {
-                                    span: class.span,
-                                }))),
-                                prop: prop_name_to_expr(class_field.key).into(),
-                                computed,
+                                obj: Box::new(Expr::This(ThisExpr { span: class.span })),
+                                prop,
                             })));
                             let assign_expr = Box::new(Expr::Assign(AssignExpr {
                                 span: class_field.span,
@@ -485,7 +491,8 @@ where
                         if class_field.is_static && class_field.decorators.is_empty() =>
                     {
                         if let Some(value) = class_field.value.take() {
-                            let computed = match &mut class_field.key {
+                            let prop = match class_field.key.take() {
+                                // make an prop_name_to_member
                                 PropName::Computed(key) => {
                                     let ident = private_ident!("_key");
                                     self.uninitialized_vars.push(VarDeclarator {
@@ -500,22 +507,34 @@ where
                                         span: class_field.span,
                                         op: op!("="),
                                         left: assign_lhs,
-                                        right: key.expr.take(),
+                                        right: key.expr,
                                     }));
                                     key_computations.push(assign_expr);
-                                    class_field.key = PropName::Ident(ident);
-                                    true
+                                    MemberProp::Computed(ComputedPropName {
+                                        expr: Box::new(Expr::Ident(ident)),
+                                        span: DUMMY_SP,
+                                    })
                                 }
-                                PropName::Ident(..) => false,
-                                PropName::Str(..) | PropName::Num(..) | PropName::BigInt(..) => {
-                                    true
+                                PropName::Ident(id) => MemberProp::Ident(id),
+                                PropName::Str(str) => MemberProp::Computed(ComputedPropName {
+                                    expr: Box::new(Expr::Lit(Lit::Str(str))),
+                                    span: DUMMY_SP,
+                                }),
+                                PropName::Num(num) => MemberProp::Computed(ComputedPropName {
+                                    expr: Box::new(Expr::Lit(Lit::Num(num))),
+                                    span: DUMMY_SP,
+                                }),
+                                PropName::BigInt(big_int) => {
+                                    MemberProp::Computed(ComputedPropName {
+                                        expr: Box::new(Expr::Lit(Lit::BigInt(big_int))),
+                                        span: DUMMY_SP,
+                                    })
                                 }
                             };
                             let assign_lhs = PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
                                 span: DUMMY_SP,
-                                obj: ident.clone().as_obj(),
-                                prop: prop_name_to_expr(class_field.key).into(),
-                                computed,
+                                obj: Box::new(Expr::Ident(ident.clone())),
+                                prop,
                             })));
                             extra_exprs.push(Box::new(Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
@@ -737,25 +756,20 @@ where
                 *n = expr;
             }
 
-            Expr::Member(MemberExpr {
-                obj,
-                prop,
-                computed,
-                ..
-            }) => {
+            Expr::Member(MemberExpr { obj, prop, .. }) => {
                 obj.visit_mut_with(self);
 
-                if *computed {
-                    prop.visit_mut_with(self);
-                } else {
-                    match &mut **prop {
-                        Expr::Ident(i) => {
-                            i.optional = false;
-                        }
-                        _ => {}
-                    }
+                match prop {
+                    MemberProp::Ident(i) => i.optional = false,
+                    MemberProp::Computed(c) => c.visit_mut_with(self),
+                    _ => (),
                 }
             }
+
+            Expr::SuperProp(SuperPropExpr { prop, .. }) => match prop {
+                SuperProp::Ident(i) => i.optional = false,
+                SuperProp::Computed(c) => c.visit_mut_with(self),
+            },
 
             _ => {
                 n.visit_mut_children_with(self);
@@ -1058,9 +1072,11 @@ where
                                         span: DUMMY_SP,
                                         left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
                                             span: DUMMY_SP,
-                                            obj: id.clone().as_obj(),
-                                            prop: Box::new(Expr::Lit(Lit::Str(value.clone()))),
-                                            computed: true,
+                                            obj: Box::new(Expr::Ident(id.clone())),
+                                            prop: MemberProp::Computed(ComputedPropName {
+                                                span: DUMMY_SP,
+                                                expr: Box::new(Expr::Lit(Lit::Str(value.clone()))),
+                                            }),
                                         }))),
                                         op: op!("="),
                                         right: Box::new(val.clone()),
@@ -1071,12 +1087,14 @@ where
                                 AssignExpr {
                                     span: DUMMY_SP,
                                     left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
-                                        obj: id.clone().as_obj(),
+                                        obj: Box::new(Expr::Ident(id.clone())),
                                         span: DUMMY_SP,
-                                        computed: true,
 
                                         // Foo["a"] = 0
-                                        prop,
+                                        prop: MemberProp::Computed(ComputedPropName {
+                                            span: DUMMY_SP,
+                                            expr: prop,
+                                        }),
                                     }))),
                                     op: op!("="),
                                     right: if rhs_should_be_name {
@@ -1619,9 +1637,8 @@ where
                                 //
                                 let left = Box::new(Expr::Member(MemberExpr {
                                     span: DUMMY_SP,
-                                    obj: parent_module_name.clone().as_obj(),
-                                    prop: Box::new(Expr::Ident(name.id.clone())),
-                                    computed: false,
+                                    obj: Box::new(Expr::Ident(parent_module_name.clone())),
+                                    prop: MemberProp::Ident(name.id.clone()),
                                 }))
                                 .into();
 
@@ -1700,9 +1717,8 @@ where
                                 op: op!("="),
                                 left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
                                     span: DUMMY_SP,
-                                    obj: parent_module_name.unwrap().clone().as_obj(),
-                                    prop: Box::new(Expr::Ident(prop)),
-                                    computed: false,
+                                    obj: Box::new(Expr::Ident(parent_module_name.unwrap().clone())),
+                                    prop: MemberProp::Ident(prop),
                                 }))),
                                 right: Box::new(Expr::Ident(id)),
                             })
@@ -1730,12 +1746,11 @@ where
         if let Some(module_name) = module_name {
             let namespace_ref = Box::new(Expr::Member(MemberExpr {
                 span: DUMMY_SP,
-                computed: false,
-                obj: ExprOrSuper::Expr(Box::new(Expr::Ident(module_name.clone()))),
-                prop: Box::new(Expr::Ident(Ident::new(
+                obj: Box::new(Expr::Ident(module_name.clone())),
+                prop: MemberProp::Ident(Ident::new(
                     id.sym.clone(),
                     DUMMY_SP.with_ctxt(decl_span.ctxt),
-                ))),
+                )),
             }));
             AssignExpr {
                 span: DUMMY_SP,
@@ -1784,9 +1799,8 @@ where
     fn get_namespace_child_decl_assignment(&self, module_name: &Ident, decl_name: Ident) -> Stmt {
         let left = PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
             span: DUMMY_SP,
-            obj: module_name.clone().as_obj(),
-            prop: Box::new(Expr::Ident(decl_name.clone())),
-            computed: false,
+            obj: Box::new(Expr::Ident(module_name.clone())),
+            prop: MemberProp::Ident(decl_name.clone()),
         })));
 
         let right = Box::new(Expr::Ident(decl_name));
@@ -1910,8 +1924,14 @@ where
 
     fn visit_member_expr(&mut self, n: &MemberExpr) {
         n.obj.visit_with(self);
-        if n.computed {
-            n.prop.visit_with(self);
+        if let MemberProp::Computed(c) = &n.prop {
+            c.visit_with(self);
+        }
+    }
+
+    fn visit_super_prop_expr(&mut self, n: &SuperPropExpr) {
+        if let SuperProp::Computed(c) = &n.prop {
+            c.visit_with(self);
         }
     }
 
@@ -2707,9 +2727,8 @@ fn ts_entity_name_to_expr(n: TsEntityName) -> Expr {
 
             MemberExpr {
                 span: DUMMY_SP,
-                obj: ExprOrSuper::Expr(Box::new(ts_entity_name_to_expr(left))),
-                prop: Box::new(right.into()),
-                computed: false,
+                obj: Box::new(ts_entity_name_to_expr(left)),
+                prop: MemberProp::Ident(right),
             }
             .into()
         }
@@ -2722,9 +2741,8 @@ fn create_prop_pat(obj: &Ident, pat: Pat) -> Pat {
 
         Pat::Ident(i) => Pat::Expr(Box::new(Expr::Member(MemberExpr {
             span: i.id.span,
-            obj: obj.clone().as_obj(),
-            prop: Box::new(Expr::Ident(i.id)),
-            computed: false,
+            obj: Box::new(Expr::Ident(obj.clone())),
+            prop: MemberProp::Ident(i.id),
         }))),
         Pat::Array(p) => Pat::Array(ArrayPat {
             elems: p
@@ -2750,9 +2768,8 @@ fn create_prop_pat(obj: &Ident, pat: Pat) -> Pat {
                         key: PropName::Ident(assign.key.clone()),
                         value: Box::new(Pat::Expr(Box::new(Expr::Member(MemberExpr {
                             span: DUMMY_SP,
-                            obj: ExprOrSuper::Expr(Box::new(Expr::Ident(obj.clone()))),
-                            prop: Box::new(Expr::Ident(assign.key.into())),
-                            computed: false,
+                            obj: Box::new(Expr::Ident(obj.clone())),
+                            prop: MemberProp::Ident(assign.key.into()),
                         })))),
                     }),
                     ObjectPatProp::Rest(_) => {
@@ -2779,23 +2796,21 @@ impl VisitMut for EnumValuesVisitor<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        println!("{:#?}", expr);
         match expr {
             Expr::Ident(ident) if self.previous.contains_key(&ident.sym) => {
                 *expr = self.ident.clone().make_member(ident.clone());
             }
             Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(ref obj),
+                obj,
                 // prop,
                 ..
-            }) if obj
-                .as_ident()
-                .and_then(|obj| self.previous.get(&obj.sym))
-                .is_some() =>
-            {
-                *expr = self.ident.clone().make_member(expr.clone());
-            }
-            Expr::Member(..) => {
-                // skip
+            }) => {
+                if let Expr::Ident(ident) = &**obj {
+                    if self.previous.get(&ident.sym).is_some() {
+                        **obj = self.ident.clone().make_member(ident.clone());
+                    }
+                }
             }
             _ => expr.visit_mut_children_with(self),
         }

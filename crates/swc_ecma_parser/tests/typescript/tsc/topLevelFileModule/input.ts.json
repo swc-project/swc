@@ -268,8 +268,7 @@
                 },
                 "value": "x",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "right": {
               "type": "MemberExpression",
@@ -297,8 +296,7 @@
                 },
                 "value": "y",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "definite": false

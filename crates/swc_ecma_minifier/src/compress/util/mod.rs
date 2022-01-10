@@ -222,7 +222,7 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
                     // TODO: Check if this argument is actually start of line.
                     match &**arg {
                         Expr::Call(CallExpr {
-                            callee: ExprOrSuper::Expr(callee),
+                            callee: Callee::Expr(callee),
                             ..
                         }) => match &**callee {
                             Expr::Fn(..) => return 0,
@@ -414,7 +414,7 @@ pub(crate) fn eval_as_number(e: &Expr) -> Option<f64> {
         }
 
         Expr::Call(CallExpr {
-            callee: ExprOrSuper::Expr(callee),
+            callee: Callee::Expr(callee),
             args,
             ..
         }) => {
@@ -426,105 +426,89 @@ pub(crate) fn eval_as_number(e: &Expr) -> Option<f64> {
 
             match &**callee {
                 Expr::Member(MemberExpr {
-                    obj: ExprOrSuper::Expr(obj),
-                    prop,
-                    computed: false,
+                    obj,
+                    prop: MemberProp::Ident(prop),
                     ..
-                }) => {
-                    let prop = match &**prop {
-                        Expr::Ident(i) => i,
-                        _ => return None,
-                    };
+                }) => match &**obj {
+                    Expr::Ident(obj) if &*obj.sym == "Math" => match &*prop.sym {
+                        "cos" => {
+                            let v = eval_as_number(&args.first()?.expr)?;
 
-                    match &**obj {
-                        Expr::Ident(obj) if &*obj.sym == "Math" => match &*prop.sym {
-                            "cos" => {
-                                let v = eval_as_number(&args.first()?.expr)?;
+                            return Some(v.cos());
+                        }
+                        "sin" => {
+                            let v = eval_as_number(&args.first()?.expr)?;
 
-                                return Some(v.cos());
-                            }
-                            "sin" => {
-                                let v = eval_as_number(&args.first()?.expr)?;
+                            return Some(v.sin());
+                        }
 
-                                return Some(v.sin());
-                            }
-
-                            "max" => {
-                                let mut numbers = vec![];
-                                for arg in args {
-                                    let v = eval_as_number(&arg.expr)?;
-                                    if v.is_infinite() || v.is_nan() {
-                                        return None;
-                                    }
-                                    numbers.push(v);
-                                }
-
-                                return Some(
-                                    numbers
-                                        .into_iter()
-                                        .max_by(|a, b| a.partial_cmp(b).unwrap())
-                                        .unwrap_or(f64::NEG_INFINITY),
-                                );
-                            }
-
-                            "min" => {
-                                let mut numbers = vec![];
-                                for arg in args {
-                                    let v = eval_as_number(&arg.expr)?;
-                                    if v.is_infinite() || v.is_nan() {
-                                        return None;
-                                    }
-                                    numbers.push(v);
-                                }
-
-                                return Some(
-                                    numbers
-                                        .into_iter()
-                                        .min_by(|a, b| a.partial_cmp(b).unwrap())
-                                        .unwrap_or(f64::INFINITY),
-                                );
-                            }
-
-                            "pow" => {
-                                if args.len() != 2 {
+                        "max" => {
+                            let mut numbers = vec![];
+                            for arg in args {
+                                let v = eval_as_number(&arg.expr)?;
+                                if v.is_infinite() || v.is_nan() {
                                     return None;
                                 }
-                                let first = eval_as_number(&args[0].expr)?;
-                                let second = eval_as_number(&args[1].expr)?;
-
-                                return Some(first.powf(second));
+                                numbers.push(v);
                             }
 
-                            _ => {}
-                        },
+                            return Some(
+                                numbers
+                                    .into_iter()
+                                    .max_by(|a, b| a.partial_cmp(b).unwrap())
+                                    .unwrap_or(f64::NEG_INFINITY),
+                            );
+                        }
+
+                        "min" => {
+                            let mut numbers = vec![];
+                            for arg in args {
+                                let v = eval_as_number(&arg.expr)?;
+                                if v.is_infinite() || v.is_nan() {
+                                    return None;
+                                }
+                                numbers.push(v);
+                            }
+
+                            return Some(
+                                numbers
+                                    .into_iter()
+                                    .min_by(|a, b| a.partial_cmp(b).unwrap())
+                                    .unwrap_or(f64::INFINITY),
+                            );
+                        }
+
+                        "pow" => {
+                            if args.len() != 2 {
+                                return None;
+                            }
+                            let first = eval_as_number(&args[0].expr)?;
+                            let second = eval_as_number(&args[1].expr)?;
+
+                            return Some(first.powf(second));
+                        }
+
                         _ => {}
-                    }
-                }
-                _ => {}
-            }
-        }
-
-        Expr::Member(MemberExpr {
-            obj: ExprOrSuper::Expr(obj),
-            prop,
-            computed: false,
-            ..
-        }) => {
-            let prop = match &**prop {
-                Expr::Ident(i) => i,
-                _ => return None,
-            };
-
-            match &**obj {
-                Expr::Ident(obj) if &*obj.sym == "Math" => match &*prop.sym {
-                    "PI" => return Some(f64::consts::PI),
-                    "E" => return Some(f64::consts::E),
-                    "LN10" => return Some(f64::consts::LN_10),
+                    },
                     _ => {}
                 },
                 _ => {}
             }
         }
+
+        Expr::Member(MemberExpr {
+            obj,
+            prop: MemberProp::Ident(prop),
+            ..
+        }) => match &**obj {
+            Expr::Ident(obj) if &*obj.sym == "Math" => match &*prop.sym {
+                "PI" => return Some(f64::consts::PI),
+                "E" => return Some(f64::consts::E),
+                "LN10" => return Some(f64::consts::LN_10),
+                _ => {}
+            },
+            _ => {}
+        },
 
         _ => {
             if let Value::Known(v) = e.as_number() {
@@ -577,8 +561,14 @@ where
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
         e.obj.visit_mut_with(self);
 
-        if e.computed {
-            e.prop.visit_mut_with(self);
+        if let MemberProp::Computed(c) = &mut e.prop {
+            c.visit_mut_with(self);
+        }
+    }
+
+    fn visit_mut_super_prop_expr(&mut self, e: &mut SuperPropExpr) {
+        if let SuperProp::Computed(c) = &mut e.prop {
+            c.visit_mut_with(self);
         }
     }
 }

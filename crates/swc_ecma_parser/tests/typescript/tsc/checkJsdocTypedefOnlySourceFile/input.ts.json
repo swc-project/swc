@@ -80,8 +80,7 @@
           },
           "value": "SomeName",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {

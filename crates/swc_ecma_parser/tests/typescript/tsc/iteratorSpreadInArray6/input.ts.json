@@ -186,8 +186,7 @@
                 },
                 "value": "iterator",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "function": {
@@ -373,8 +372,7 @@
             },
             "value": "concat",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {

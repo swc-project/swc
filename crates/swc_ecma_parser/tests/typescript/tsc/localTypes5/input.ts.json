@@ -458,8 +458,7 @@
                   },
                   "value": "m",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": {

@@ -165,10 +165,7 @@ fn apply_mark(e: &mut Expr, mark: Mark) {
         Expr::Ident(i) => {
             i.span = i.span.apply_mark(mark);
         }
-        Expr::Member(MemberExpr {
-            obj: ExprOrSuper::Expr(obj),
-            ..
-        }) => {
+        Expr::Member(MemberExpr { obj, .. }) => {
             apply_mark(&mut **obj, mark);
         }
         _ => {}
@@ -1029,8 +1026,14 @@ where
 
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
         e.obj.visit_mut_with(self);
-        if e.computed {
-            e.prop.visit_mut_with(self);
+        if let MemberProp::Computed(c) = &mut e.prop {
+            c.visit_mut_with(self);
+        }
+    }
+
+    fn visit_mut_super_prop_expr(&mut self, e: &mut SuperPropExpr) {
+        if let SuperProp::Computed(c) = &mut e.prop {
+            c.visit_mut_with(self);
         }
     }
 
@@ -1199,33 +1202,29 @@ where
                 })))
             }
             JSXElementName::JSXMemberExpr(JSXMemberExpr { obj, prop }) => {
-                fn convert_obj(obj: JSXObject) -> ExprOrSuper {
+                fn convert_obj(obj: JSXObject) -> Box<Expr> {
                     let span = obj.span();
 
-                    match obj {
+                    (match obj {
                         JSXObject::Ident(i) => {
                             if i.sym == js_word!("this") {
-                                return ExprOrSuper::Expr(Box::new(Expr::This(ThisExpr { span })));
+                                Expr::This(ThisExpr { span })
+                            } else {
+                                Expr::Ident(i)
                             }
-                            i.as_obj()
                         }
-                        JSXObject::JSXMemberExpr(e) => {
-                            let e = *e;
-                            MemberExpr {
-                                span,
-                                obj: convert_obj(e.obj),
-                                prop: Box::new(Expr::Ident(e.prop)),
-                                computed: false,
-                            }
-                            .as_obj()
-                        }
-                    }
+                        JSXObject::JSXMemberExpr(e) => Expr::Member(MemberExpr {
+                            span,
+                            obj: convert_obj(e.obj),
+                            prop: MemberProp::Ident(e.prop),
+                        }),
+                    })
+                    .into()
                 }
                 Box::new(Expr::Member(MemberExpr {
                     span,
                     obj: convert_obj(obj),
-                    prop: Box::new(Expr::Ident(prop)),
-                    computed: false,
+                    prop: MemberProp::Ident(prop),
                 }))
             }
         }

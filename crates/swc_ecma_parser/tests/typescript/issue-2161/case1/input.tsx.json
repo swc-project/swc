@@ -154,8 +154,7 @@
                   },
                   "value": "memo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null

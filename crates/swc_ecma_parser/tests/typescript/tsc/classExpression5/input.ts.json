@@ -132,8 +132,7 @@
             },
             "value": "hi",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null

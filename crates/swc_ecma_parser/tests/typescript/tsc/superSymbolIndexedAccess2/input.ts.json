@@ -66,8 +66,7 @@
                 },
                 "value": "isConcatSpreadable",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "function": {
@@ -184,8 +183,7 @@
                 },
                 "value": "isConcatSpreadable",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "function": {
@@ -219,13 +217,13 @@
                       "ctxt": 0
                     },
                     "callee": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 166,
                         "end": 198,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 166,
@@ -234,35 +232,41 @@
                         }
                       },
                       "property": {
-                        "type": "MemberExpression",
+                        "type": "Computed",
                         "span": {
-                          "start": 172,
-                          "end": 197,
+                          "start": 166,
+                          "end": 198,
                           "ctxt": 0
                         },
-                        "object": {
-                          "type": "Identifier",
+                        "expression": {
+                          "type": "MemberExpression",
                           "span": {
                             "start": 172,
-                            "end": 178,
-                            "ctxt": 0
-                          },
-                          "value": "Symbol",
-                          "optional": false
-                        },
-                        "property": {
-                          "type": "Identifier",
-                          "span": {
-                            "start": 179,
                             "end": 197,
                             "ctxt": 0
                           },
-                          "value": "isConcatSpreadable",
-                          "optional": false
-                        },
-                        "computed": false
-                      },
-                      "computed": true
+                          "object": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 172,
+                              "end": 178,
+                              "ctxt": 0
+                            },
+                            "value": "Symbol",
+                            "optional": false
+                          },
+                          "property": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 179,
+                              "end": 197,
+                              "ctxt": 0
+                            },
+                            "value": "isConcatSpreadable",
+                            "optional": false
+                          }
+                        }
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null

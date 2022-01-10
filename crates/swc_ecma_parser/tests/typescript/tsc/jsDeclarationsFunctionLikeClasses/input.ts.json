@@ -239,8 +239,7 @@
                     },
                     "value": "x",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "right": {
                   "type": "Identifier",
@@ -293,8 +292,7 @@
                     },
                     "value": "y",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "right": {
                   "type": "Identifier",
@@ -458,8 +456,7 @@
                     },
                     "value": "sqrt",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [
                   {
@@ -506,8 +503,7 @@
                             },
                             "value": "x",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "NumericLiteral",
@@ -553,8 +549,7 @@
                             },
                             "value": "y",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "NumericLiteral",

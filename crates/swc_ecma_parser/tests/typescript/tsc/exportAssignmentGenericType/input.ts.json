@@ -318,8 +318,7 @@
               },
               "value": "test",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }

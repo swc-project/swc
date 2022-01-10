@@ -31,8 +31,8 @@ where
         };
 
         let callee = match &mut expr.callee {
-            ExprOrSuper::Super(_) => return,
-            ExprOrSuper::Expr(e) => &mut **e,
+            Callee::Super(_) | Callee::Import(_) => return,
+            Callee::Expr(e) => &mut **e,
         };
 
         match callee {
@@ -65,8 +65,8 @@ where
         };
 
         let callee = match &mut test_call.callee {
-            ExprOrSuper::Super(_) => return false,
-            ExprOrSuper::Expr(e) => &mut **e,
+            Callee::Super(_) | Callee::Import(_) => return false,
+            Callee::Expr(e) => &mut **e,
         };
 
         match callee {
@@ -95,7 +95,7 @@ where
             }) => match &mut **arg {
                 Expr::Call(CallExpr {
                     span: call_span,
-                    callee: ExprOrSuper::Expr(callee),
+                    callee: Callee::Expr(callee),
                     args,
                     ..
                 }) => match &**callee {
@@ -155,8 +155,8 @@ where
         }
 
         let callee = match &mut e.callee {
-            ExprOrSuper::Super(_) => return,
-            ExprOrSuper::Expr(e) => &mut **e,
+            Callee::Super(_) | Callee::Import(_) => return,
+            Callee::Expr(e) => &mut **e,
         };
 
         fn find_params(callee: &Expr) -> Option<Vec<&Pat>> {
@@ -310,8 +310,8 @@ where
         }
 
         let callee = match &mut call.callee {
-            ExprOrSuper::Super(_) => return,
-            ExprOrSuper::Expr(e) => &mut **e,
+            Callee::Super(_) | Callee::Import(_) => return,
+            Callee::Expr(e) => &mut **e,
         };
 
         if self.ctx.dont_invoke_iife {
@@ -733,11 +733,9 @@ where
 
             Expr::Ident(..) => true,
 
-            Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(obj),
-                computed: false,
-                ..
-            }) => self.can_be_inlined_for_iife(&obj),
+            Expr::Member(MemberExpr { obj, prop, .. }) if !prop.is_computed() => {
+                self.can_be_inlined_for_iife(&obj)
+            }
 
             Expr::Bin(BinExpr {
                 op, left, right, ..

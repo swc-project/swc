@@ -1,5 +1,5 @@
 use std::collections::HashMap;
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{
     comments::{Comment, Comments},
     Span,
@@ -182,25 +182,27 @@ impl<'a> Visit for DependencyCollector<'a> {
     }
 
     fn visit_call_expr(&mut self, node: &ast::CallExpr) {
-        use ast::{Expr::*, ExprOrSuper::*};
+        use ast::{Callee, Expr, Ident};
 
         swc_ecma_visit::visit_call_expr(self, node);
-        let call_expr = match node.callee.clone() {
-            Super(_) => return,
-            Expr(boxed) => boxed,
-        };
-
-        let kind = match &*call_expr {
-            Ident(ident) => match ident.sym.to_string().as_str() {
-                "import" => DependencyKind::Import,
-                "require" => DependencyKind::Require,
-                _ => return,
-            },
-            _ => return,
+        let kind = match &node.callee {
+            Callee::Super(_) => return,
+            Callee::Import(_) => DependencyKind::Import,
+            Callee::Expr(expr) => {
+                if let Expr::Ident(Ident {
+                    sym: js_word!("require"),
+                    ..
+                }) = &**expr
+                {
+                    DependencyKind::Require
+                } else {
+                    return;
+                }
+            }
         };
 
         if let Some(arg) = node.args.get(0) {
-            if let Lit(ast::Lit::Str(str_)) = &*arg.expr {
+            if let Expr::Lit(ast::Lit::Str(str_)) = &*arg.expr {
                 // import() are always dynamic, even if at top level
                 let is_dynamic = !self.is_top_level || kind == DependencyKind::Import;
                 let dynamic_import_assertions = if kind == DependencyKind::Import {

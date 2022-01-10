@@ -1,11 +1,26 @@
 use rkyv::{AlignedVec, Deserialize};
-use swc_plugin::{ ModuleItem, Program, VisitMut};
+use swc_plugin::{ast::*, DUMMY_SP};
 
-struct Dummy;
+struct ConsoleOutputReplacer;
 
-impl VisitMut for Dummy {
-    fn visit_mut_module_item(&mut self, _module: &mut ModuleItem) {
-        // noop
+/// An example plugin replaces any `console.log(${text})` into
+/// `console.log('changed_via_plugin')`.
+impl VisitMut for ConsoleOutputReplacer {
+    fn visit_mut_call_expr(&mut self, call: &mut CallExpr) {
+        if let Callee::Expr(expr) = &call.callee {
+            if let Expr::Member(MemberExpr { obj, .. }) = &**expr {
+                if let Expr::Ident(ident) = &**obj {
+                    if ident.sym == *"console" {
+                        call.args[0].expr = Box::new(Expr::Lit(Lit::Str(Str {
+                            span: DUMMY_SP,
+                            has_escape: false,
+                            kind: StrKind::default(),
+                            value: JsWord::from("changed_via_plugin"),
+                        })));
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -15,14 +30,29 @@ impl VisitMut for Dummy {
 // - swc_plugin macro to support ergonomic interfaces
 // - better developer experience: println / dbg!() doesn't emit anything
 // - typed json config instead of str, which requires additional deserialization
-pub fn process(ast_ptr: *mut u8, len: u32) -> i32 {
-    let mut vec = AlignedVec::with_capacity(len.try_into().unwrap());
-    let v = unsafe { std::slice::from_raw_parts(ast_ptr, len.try_into().unwrap()) };
-    vec.extend_from_slice(v);
+pub fn process(ast_ptr: *mut u8, len: u32) -> (i32, i32) {
+    // Read raw serialized bytes from wasm's memory space. Host (SWC) should
+    // allocated memory, copy bytes and pass ptr to it.
+    let raw_serialized_bytes =
+        unsafe { std::slice::from_raw_parts(ast_ptr, len.try_into().unwrap()) };
+
+    // Reconstruct AlignedVec from raw bytes
+    let mut serialized_program = AlignedVec::with_capacity(len.try_into().unwrap());
+    serialized_program.extend_from_slice(raw_serialized_bytes);
 
     // TODO: trait bound complaining in deserialize_for_plugin<T>
-    let archived = unsafe { rkyv::archived_root::<Program>(&vec[..]) };
-    let _v: Program = archived.deserialize(&mut rkyv::Infallible).unwrap();
+    // Actual deserialization
+    let archived = unsafe { rkyv::archived_root::<Program>(&serialized_program[..]) };
+    let program: Program = archived.deserialize(&mut rkyv::Infallible).unwrap();
 
-    0
+    // Actual plugin transformation
+    let transformed_program = program.fold_with(&mut as_folder(ConsoleOutputReplacer));
+
+    // Serialize transformed result, return back to the host.
+    let serialized_result =
+        rkyv::to_bytes::<_, 512>(&transformed_program).expect("Should serializable");
+    (
+        serialized_result.as_ptr() as _,
+        serialized_result.len().try_into().unwrap(),
+    )
 }

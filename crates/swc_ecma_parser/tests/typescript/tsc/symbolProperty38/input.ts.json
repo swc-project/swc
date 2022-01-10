@@ -68,8 +68,7 @@
                 },
                 "value": "isConcatSpreadable",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "computed": true,
             "optional": false,
@@ -159,8 +158,7 @@
                 },
                 "value": "isConcatSpreadable",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "computed": true,
             "optional": false,

@@ -352,21 +352,30 @@ impl CaseHandler<'_> {
             }
 
             Expr::Member(me) => {
-                let obj = match me.obj {
-                    ExprOrSuper::Expr(obj) => {
-                        ExprOrSuper::Expr(obj.map(|e| self.explode_expr(e, false)))
-                    }
-                    _ => me.obj,
-                };
-                let prop = if me.computed {
-                    me.prop.map(|prop| {
-                        self.explode_expr_via_temp_var(None, has_leaping_children, prop, false)
-                    })
+                let obj = Box::new(self.explode_expr(*me.obj, false));
+                let prop = if let MemberProp::Computed(mut c) = me.prop {
+                    c.expr = self
+                        .explode_expr_via_temp_var(None, has_leaping_children, *c.expr, false)
+                        .into();
+                    MemberProp::Computed(c)
                 } else {
                     me.prop
                 };
 
                 finish!(Expr::Member(MemberExpr { obj, prop, ..me }));
+            }
+
+            Expr::SuperProp(me) => {
+                let prop = if let SuperProp::Computed(mut c) = me.prop {
+                    c.expr = self
+                        .explode_expr_via_temp_var(None, has_leaping_children, *c.expr, false)
+                        .into();
+                    SuperProp::Computed(c)
+                } else {
+                    me.prop
+                };
+
+                finish!(Expr::SuperProp(SuperPropExpr { prop, ..me }));
             }
 
             Expr::Call(CallExpr {
@@ -379,7 +388,7 @@ impl CaseHandler<'_> {
                 let mut new_args = vec![];
 
                 let new_callee = match callee {
-                    ExprOrSuper::Expr(e) if e.is_member() => {
+                    Callee::Expr(e) if e.is_member() => {
                         let me = match *e {
                             Expr::Member(me) => me,
                             _ => unreachable!(),
@@ -392,49 +401,43 @@ impl CaseHandler<'_> {
                             // expression, then we must be careful that the object of the
                             // member expression still gets bound to `this` for the call.
 
-                            let obj = match me.obj {
-                                ExprOrSuper::Expr(e) => ExprOrSuper::Expr(e.map(|e| {
-                                    let var = self.make_var();
-                                    self.explode_expr_via_temp_var(
-                                        Some(var),
-                                        has_leaping_children,
-                                        e,
-                                        false,
-                                    )
-                                })),
-                                _ => me.obj,
-                            };
+                            let obj = Box::new({
+                                let var = self.make_var();
+                                self.explode_expr_via_temp_var(
+                                    Some(var),
+                                    has_leaping_children,
+                                    *me.obj,
+                                    false,
+                                )
+                            });
 
-                            let prop = if me.computed {
-                                me.prop
-                                    .map(|e| self.explode_expr_via_temp_var(None, false, e, false))
+                            new_args.insert(0, obj.clone().as_arg());
+
+                            let prop = if let MemberProp::Computed(c) = me.prop {
+                                MemberProp::Computed(ComputedPropName {
+                                    expr: self
+                                        .explode_expr_via_temp_var(None, false, *c.expr, false)
+                                        .into(),
+                                    span,
+                                })
                             } else {
                                 me.prop
                             };
 
-                            new_args.insert(
-                                0,
-                                match obj {
-                                    ExprOrSuper::Expr(ref e) => e.clone().as_arg(),
-                                    _ => unreachable!("super as callee in a generator function"),
-                                },
-                            );
-
-                            ExprOrSuper::Expr(Box::new(
+                            Callee::Expr(Box::new(
                                 MemberExpr {
                                     span: me.span,
                                     obj,
                                     prop,
-                                    computed: me.computed,
                                 }
                                 .make_member(quote_ident!("call")),
                             ))
                         } else {
-                            ExprOrSuper::Expr(Box::new(self.explode_expr(Expr::Member(me), false)))
+                            Callee::Expr(Box::new(self.explode_expr(Expr::Member(me), false)))
                         }
                     }
 
-                    ExprOrSuper::Expr(callee) => {
+                    Callee::Expr(callee) => {
                         let callee = *callee;
                         let callee = self.explode_expr_via_temp_var(
                             None,
@@ -453,7 +456,7 @@ impl CaseHandler<'_> {
                                 // by using the (0, object.property)(...) trick; otherwise, it
                                 // will receive the object of the MemberExpression as its `this`
                                 // object.
-                                ExprOrSuper::Expr(Box::new(Expr::Seq(SeqExpr {
+                                Callee::Expr(Box::new(Expr::Seq(SeqExpr {
                                     span: DUMMY_SP,
                                     exprs: vec![
                                         Box::new(
@@ -467,12 +470,13 @@ impl CaseHandler<'_> {
                                     ],
                                 })))
                             }
-                            _ => ExprOrSuper::Expr(Box::new(callee)),
+                            _ => Callee::Expr(Box::new(callee)),
                         };
 
                         callee
                     }
-                    ExprOrSuper::Super(..) => {
+                    Callee::Import(..) => callee,
+                    Callee::Super(..) => {
                         unreachable!("super as callee in a generator function")
                     }
                 };
@@ -779,8 +783,8 @@ impl CaseHandler<'_> {
                 if arg.is_some() && e.delegate {
                     let result = self.make_var();
                     let name = match &result {
-                        Expr::Member(m) => match &*m.prop {
-                            Expr::Ident(id) if !m.computed => id.sym.clone(),
+                        Expr::Member(m) => match &m.prop {
+                            MemberProp::Ident(id) => id.sym.clone(),
                             _ => unreachable!(),
                         },
                         _ => unreachable!(),

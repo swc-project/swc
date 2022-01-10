@@ -486,16 +486,23 @@
               "optional": false
             },
             "property": {
-              "type": "Identifier",
+              "type": "Computed",
               "span": {
-                "start": 231,
-                "end": 232,
+                "start": 226,
+                "end": 233,
                 "ctxt": 0
               },
-              "value": "e",
-              "optional": false
-            },
-            "computed": true
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 231,
+                  "end": 232,
+                  "ctxt": 0
+                },
+                "value": "e",
+                "optional": false
+              }
+            }
           },
           "definite": false
         }

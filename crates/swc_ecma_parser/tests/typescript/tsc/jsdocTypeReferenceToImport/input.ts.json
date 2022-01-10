@@ -88,8 +88,7 @@
               },
               "value": "C",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -189,8 +188,7 @@
                 },
                 "value": "C",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "definite": false
@@ -282,8 +280,7 @@
           },
           "value": "start",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -319,8 +316,7 @@
           },
           "value": "end",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -408,8 +404,7 @@
           },
           "value": "start",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -445,8 +440,7 @@
           },
           "value": "end",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {

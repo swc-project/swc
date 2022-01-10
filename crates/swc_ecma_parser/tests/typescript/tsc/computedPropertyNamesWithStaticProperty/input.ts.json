@@ -103,8 +103,7 @@
                 },
                 "value": "staticProp",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "function": {
@@ -199,8 +198,7 @@
                 },
                 "value": "staticProp",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "function": {
@@ -352,8 +350,7 @@
                 },
                 "value": "staticProp",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "function": {

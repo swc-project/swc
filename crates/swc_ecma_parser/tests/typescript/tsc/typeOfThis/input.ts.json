@@ -194,8 +194,7 @@
                         },
                         "value": "canary",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "definite": false
                   }
@@ -289,8 +288,7 @@
                       },
                       "value": "canary",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -1310,8 +1308,7 @@
                       },
                       "value": "staticCanary",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 },
                 {
@@ -1487,8 +1484,7 @@
                       },
                       "value": "staticCanary",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]
@@ -1711,8 +1707,7 @@
                       },
                       "value": "staticCanary",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 },
                 {
@@ -1997,8 +1992,7 @@
                       },
                       "value": "staticCanary",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]
@@ -2210,8 +2204,7 @@
                         },
                         "value": "canary",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "definite": false
                   }
@@ -2305,8 +2298,7 @@
                       },
                       "value": "canary",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -3561,8 +3553,7 @@
                       },
                       "value": "staticCanary",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 },
                 {
@@ -3738,8 +3729,7 @@
                       },
                       "value": "staticCanary",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]
@@ -3962,8 +3952,7 @@
                       },
                       "value": "staticCanary",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 },
                 {
@@ -4248,8 +4237,7 @@
                       },
                       "value": "staticCanary",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]
@@ -4478,8 +4466,7 @@
                   },
                   "value": "spaaaaaaace",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "NumericLiteral",
@@ -4620,8 +4607,7 @@
                   },
                   "value": "spaaaaace",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "NumericLiteral",
@@ -4815,8 +4801,7 @@
                         },
                         "value": "spaaaaaaace",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "NumericLiteral",
@@ -4957,8 +4942,7 @@
                         },
                         "value": "spaaaaace",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "NumericLiteral",
@@ -5154,8 +5138,7 @@
                         },
                         "value": "spaaaaaaace",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "NumericLiteral",
@@ -5305,8 +5288,7 @@
                         },
                         "value": "spaaaaace",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "NumericLiteral",
@@ -5467,8 +5449,7 @@
             },
             "value": "spaaaaace",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",

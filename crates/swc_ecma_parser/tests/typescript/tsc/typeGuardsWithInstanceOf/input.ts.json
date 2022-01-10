@@ -338,8 +338,7 @@
               },
               "value": "global",
               "optional": false
-            },
-            "computed": false
+            }
           }
         },
         "consequent": {
@@ -993,8 +992,7 @@
                 },
                 "value": "onChanges",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "consequent": {
               "type": "BlockStatement",
@@ -1044,8 +1042,7 @@
                         },
                         "value": "onChanges",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [
                       {

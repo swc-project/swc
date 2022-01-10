@@ -7,3 +7,6 @@ private/
 /input.js
 /output.js
 *.orig
+
+
+creduce_bug_*
