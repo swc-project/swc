@@ -107,8 +107,7 @@
             },
             "value": "method",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -235,8 +234,7 @@
             },
             "value": "number",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -290,8 +288,7 @@
             },
             "value": "object",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -345,8 +342,7 @@
             },
             "value": "predicate",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "BinaryExpression",
@@ -382,8 +378,7 @@
               },
               "value": "predicate",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "right": {
             "type": "ObjectExpression",
@@ -445,8 +440,7 @@
               },
               "value": "predicate",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -457,8 +451,7 @@
             },
             "value": "query",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -559,8 +552,7 @@
                       },
                       "value": "property",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "BooleanLiteral",
@@ -650,8 +642,7 @@
                   },
                   "value": "predicate",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -662,8 +653,7 @@
                 },
                 "value": "query",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -727,8 +717,7 @@
                 },
                 "value": "predicate",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
               "type": "Identifier",
@@ -739,8 +728,7 @@
               },
               "value": "query",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -751,8 +739,7 @@
             },
             "value": "another",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -853,8 +840,7 @@
                 },
                 "value": "predicate",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
               "type": "Identifier",
@@ -865,8 +851,7 @@
               },
               "value": "query",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -877,8 +862,7 @@
             },
             "value": "result",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "StringLiteral",
@@ -944,8 +928,7 @@
               },
               "value": "predicate",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -956,8 +939,7 @@
             },
             "value": "sort",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "BinaryExpression",
@@ -1000,8 +982,7 @@
                 },
                 "value": "predicate",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
               "type": "Identifier",
@@ -1012,8 +993,7 @@
               },
               "value": "sort",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "right": {
             "type": "FunctionExpression",
@@ -1197,8 +1177,7 @@
               },
               "value": "predicate",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -1209,8 +1188,7 @@
             },
             "value": "type",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ClassExpression",
@@ -1357,8 +1335,7 @@
                 },
                 "value": "min",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "right": {
               "type": "ObjectExpression",
@@ -1415,8 +1392,7 @@
             },
             "value": "nest",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "BinaryExpression",
@@ -1457,8 +1433,7 @@
                 },
                 "value": "min",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
               "type": "Identifier",
@@ -1469,8 +1444,7 @@
               },
               "value": "nest",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "right": {
             "type": "FunctionExpression",
@@ -1547,8 +1521,7 @@
               },
               "value": "nest",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -1559,8 +1532,7 @@
             },
             "value": "other",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "BinaryExpression",
@@ -1610,8 +1582,7 @@
                   },
                   "value": "min",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -1622,8 +1593,7 @@
                 },
                 "value": "nest",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
               "type": "Identifier",
@@ -1634,8 +1604,7 @@
               },
               "value": "other",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "right": {
             "type": "ClassExpression",
@@ -1697,8 +1666,7 @@
             },
             "value": "property",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "BinaryExpression",
@@ -1741,8 +1709,7 @@
                 },
                 "value": "min",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
               "type": "Identifier",
@@ -1753,8 +1720,7 @@
               },
               "value": "property",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "right": {
             "type": "ObjectExpression",

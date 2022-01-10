@@ -129,7 +129,7 @@ impl Fold for TemplateLiteralCaching {
                 //   tag(_t || (_t = Object`a${0}`), 'hello')
                 Expr::Call(CallExpr {
                     span: DUMMY_SP,
-                    callee: ExprOrSuper::Expr(n.tag),
+                    callee: Callee::Expr(n.tag),
                     args: vec![ExprOrSpread {
                         expr: Box::new(inline_cache),
                         spread: None,

@@ -457,8 +457,7 @@
                           },
                           "value": "len",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "async": false,
                       "generator": false,

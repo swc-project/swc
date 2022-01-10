@@ -362,8 +362,7 @@
                                     },
                                     "value": "toExponential",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "arguments": [],
                                 "typeArguments": null

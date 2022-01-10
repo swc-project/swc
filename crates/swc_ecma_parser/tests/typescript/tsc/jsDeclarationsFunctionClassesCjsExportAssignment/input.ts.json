@@ -94,8 +94,7 @@
                   },
                   "value": "timeout",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -157,8 +156,7 @@
             },
             "value": "exports",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",
@@ -260,8 +258,7 @@
                   },
                   "value": "handle",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -323,8 +320,7 @@
             },
             "value": "exports",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",
@@ -531,8 +527,7 @@
                   },
                   "value": "state",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "CallExpression",
@@ -565,8 +560,7 @@
                     },
                     "value": "construct",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [
                   {
@@ -635,8 +629,7 @@
             },
             "value": "prototype",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -824,8 +817,7 @@
             },
             "value": "exports",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",

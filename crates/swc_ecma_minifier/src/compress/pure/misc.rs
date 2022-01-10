@@ -156,7 +156,7 @@ where
             }
 
             Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(callee),
+                callee: Callee::Expr(callee),
                 ..
             }) if callee.is_fn_expr() => match &mut **callee {
                 Expr::Fn(callee) => {

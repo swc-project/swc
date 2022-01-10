@@ -73,8 +73,7 @@
                   },
                   "value": "args",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "NumericLiteral",
@@ -142,8 +141,7 @@
               },
               "value": "prototype",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -154,8 +152,7 @@
             },
             "value": "loadArgMetadata",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -270,8 +267,7 @@
                               },
                               "value": "args",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "StringLiteral",
@@ -328,8 +324,7 @@
                               },
                               "value": "newProperty",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "NumericLiteral",
@@ -452,8 +447,7 @@
             },
             "value": "newProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -481,8 +475,7 @@
             },
             "value": "args",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     }

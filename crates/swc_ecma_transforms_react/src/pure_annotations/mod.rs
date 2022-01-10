@@ -80,7 +80,7 @@ where
 
     fn visit_mut_call_expr(&mut self, call: &mut CallExpr) {
         let is_react_call = match &call.callee {
-            ExprOrSuper::Expr(expr) => match &**expr {
+            Callee::Expr(expr) => match &**expr {
                 Expr::Ident(ident) => {
                     if let Some((src, specifier)) = self.imports.get(&id(&ident)) {
                         is_pure(src, specifier)
@@ -88,24 +88,21 @@ where
                         false
                     }
                 }
-                Expr::Member(member) => match &member.obj {
-                    ExprOrSuper::Expr(expr) => match &**expr {
-                        Expr::Ident(ident) => {
-                            if let Some((src, specifier)) = self.imports.get(&id(&ident)) {
-                                if &**specifier == "default" || &**specifier == "*" {
-                                    match &*member.prop {
-                                        Expr::Ident(ident) => is_pure(src, &ident.sym),
-                                        _ => false,
-                                    }
-                                } else {
-                                    false
+                Expr::Member(member) => match &*member.obj {
+                    Expr::Ident(ident) => {
+                        if let Some((src, specifier)) = self.imports.get(&id(&ident)) {
+                            if &**specifier == "default" || &**specifier == "*" {
+                                match &member.prop {
+                                    MemberProp::Ident(ident) => is_pure(src, &ident.sym),
+                                    _ => false,
                                 }
                             } else {
                                 false
                             }
+                        } else {
+                            false
                         }
-                        _ => false,
-                    },
+                    }
                     _ => false,
                 },
                 _ => false,

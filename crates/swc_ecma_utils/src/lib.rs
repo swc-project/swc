@@ -40,6 +40,7 @@ pub mod ident;
 mod value;
 pub mod var;
 
+// TODO: remove
 pub struct ThisVisitor {
     found: bool,
 }
@@ -130,6 +131,7 @@ impl Visit for IdentFinder<'_> {
     }
 }
 
+// TODO: remove
 pub fn contains_arguments<N>(body: &N) -> bool
 where
     N: VisitWith<ArgumentsFinder>,
@@ -169,9 +171,15 @@ impl Visit for ArgumentsFinder {
     /// Don't recurse into member expression prop if not computed
     fn visit_member_expr(&mut self, m: &MemberExpr) {
         m.obj.visit_with(self);
-        match &*m.prop {
-            Expr::Ident(_) if !m.computed => {}
-            _ => m.prop.visit_with(self),
+        if let MemberProp::Computed(expr) = &m.prop {
+            expr.visit_with(self)
+        }
+    }
+
+    /// Don't recurse into super expression prop if not computed
+    fn visit_super_prop_expr(&mut self, m: &SuperPropExpr) {
+        if let SuperProp::Computed(expr) = &m.prop {
+            expr.visit_with(self)
         }
     }
 
@@ -1121,10 +1129,9 @@ pub trait ExprExt {
         }
 
         match *self.as_expr() {
-            Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(ref obj),
-                ..
-            }) if obj.is_ident_ref_to(js_word!("Math")) => true,
+            Expr::Member(MemberExpr { ref obj, .. }) if obj.is_ident_ref_to(js_word!("Math")) => {
+                true
+            }
 
             Expr::Fn(FnExpr {
                 function:
@@ -1177,6 +1184,7 @@ pub trait ExprExt {
             Expr::Await(_)
             | Expr::Yield(_)
             | Expr::Member(_)
+            | Expr::SuperProp(_)
             | Expr::Update(_)
             | Expr::Assign(_) => true,
 
@@ -1184,7 +1192,7 @@ pub trait ExprExt {
             Expr::New(_) => true,
 
             Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(ref callee),
+                callee: Callee::Expr(ref callee),
                 ref args,
                 ..
             }) if callee.is_pure_callee() => {
@@ -1608,9 +1616,17 @@ impl Visit for LiteralVisitor {
 /// Used to determine super_class_ident
 pub fn alias_ident_for(expr: &Expr, default: &str) -> Ident {
     fn sym(expr: &Expr, default: &str) -> JsWord {
-        match *expr {
-            Expr::Ident(ref ident) => format!("_{}", ident.sym).into(),
-            Expr::Member(ref member) => sym(&member.prop, default),
+        match expr {
+            Expr::Ident(ident)
+            | Expr::Member(MemberExpr {
+                prop: MemberProp::Ident(ident),
+                ..
+            }) => format!("_{}", ident.sym).into(),
+            Expr::Member(MemberExpr {
+                prop: MemberProp::Computed(computed),
+                ..
+            }) => sym(&computed.expr, default),
+
             _ => default.into(),
         }
     }
@@ -1685,7 +1701,7 @@ pub fn default_constructor(has_super: bool) -> Constructor {
             stmts: if has_super {
                 vec![CallExpr {
                     span: DUMMY_SP,
-                    callee: ExprOrSuper::Super(Super { span: DUMMY_SP }),
+                    callee: Callee::Super(Super { span: DUMMY_SP }),
                     args: vec![ExprOrSpread {
                         spread: Some(DUMMY_SP),
                         expr: Box::new(Expr::Ident(quote_ident!(span, "args"))),
@@ -1758,8 +1774,8 @@ pub fn prepend_stmts<T: StmtLike>(
                 Some(&Stmt::Expr(ExprStmt { ref expr, .. })) => match &**expr {
                     Expr::Lit(Lit::Str(..)) => return false,
                     Expr::Call(expr) => match expr.callee {
-                        ExprOrSuper::Super(_) => return false,
-                        ExprOrSuper::Expr(_) => {}
+                        Callee::Super(_) | Callee::Import(_) => return false,
+                        Callee::Expr(_) => {}
                     },
                     _ => {}
                 },
@@ -1905,8 +1921,14 @@ impl<'a> Visit for UsageFinder<'a> {
     fn visit_member_expr(&mut self, e: &MemberExpr) {
         e.obj.visit_with(self);
 
-        if e.computed {
-            e.prop.visit_with(self);
+        if let MemberProp::Computed(expr) = &e.prop {
+            expr.visit_with(self);
+        }
+    }
+
+    fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
+        if let SuperProp::Computed(expr) = &e.prop {
+            expr.visit_with(self);
         }
     }
 }
@@ -1946,7 +1968,7 @@ where
 
 /// Add side effects of `expr` to `to`.
 //
-/// Thie function preserves order and conditions. (think a() ? yield b() : c())
+/// This function preserves order and conditions. (think a() ? yield b() : c())
 #[allow(clippy::vec_box)]
 pub fn extract_side_effects_to(to: &mut Vec<Box<Expr>>, expr: Box<Expr>) {
     let expr = *expr;
@@ -1980,7 +2002,7 @@ pub fn extract_side_effects_to(to: &mut Vec<Box<Expr>>, expr: Box<Expr>) {
 
             to.push(Box::new(Expr::New(e)))
         }
-        Expr::Member(_) => to.push(Box::new(expr)),
+        Expr::Member(_) | Expr::SuperProp(_) => to.push(Box::new(expr)),
 
         // We are at here because we could not determine value of test.
         //TODO: Drop values if it does not have side effects.
@@ -2138,8 +2160,14 @@ impl VisitMut for IdentReplacer<'_> {
     fn visit_mut_member_expr(&mut self, node: &mut MemberExpr) {
         node.obj.visit_mut_with(self);
 
-        if node.computed {
-            node.prop.visit_mut_with(self);
+        if let MemberProp::Computed(expr) = &mut node.prop {
+            expr.visit_mut_with(self);
+        }
+    }
+
+    fn visit_mut_super_prop_expr(&mut self, node: &mut SuperPropExpr) {
+        if let SuperProp::Computed(expr) = &mut node.prop {
+            expr.visit_mut_with(self);
         }
     }
 }
@@ -2215,8 +2243,14 @@ where
 
     fn visit_member_expr(&mut self, n: &MemberExpr) {
         n.obj.visit_with(self);
-        if n.computed {
-            n.prop.visit_with(self);
+        if let MemberProp::Computed(expr) = &n.prop {
+            expr.visit_with(self);
+        }
+    }
+
+    fn visit_super_prop_expr(&mut self, n: &SuperPropExpr) {
+        if let SuperProp::Computed(expr) = &n.prop {
+            expr.visit_with(self);
         }
     }
 

@@ -281,8 +281,7 @@
                 },
                 "value": "b",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null

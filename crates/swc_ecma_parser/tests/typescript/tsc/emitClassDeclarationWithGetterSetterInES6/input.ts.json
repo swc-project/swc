@@ -135,8 +135,7 @@
                       },
                       "value": "_name",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]

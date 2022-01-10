@@ -507,8 +507,7 @@
                         },
                         "value": "a",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "StringLiteral",
@@ -577,8 +576,7 @@
                         },
                         "value": "b",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "NumericLiteral",
@@ -890,8 +888,7 @@
                           },
                           "value": "a",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "definite": false
                     }
@@ -1006,8 +1003,7 @@
                           },
                           "value": "b",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "definite": false
                     }
@@ -1309,8 +1305,7 @@
                           },
                           "value": "a",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "definite": false
                     }
@@ -1396,8 +1391,7 @@
                           },
                           "value": "b",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "definite": false
                     }
@@ -1750,8 +1744,7 @@
                         },
                         "value": "a",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "StringLiteral",
@@ -1885,8 +1878,7 @@
                             },
                             "value": "a",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "alternate": {
                           "type": "MemberExpression",
@@ -1914,8 +1906,7 @@
                             },
                             "value": "b",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       },
                       "definite": false
@@ -2162,8 +2153,7 @@
                           },
                           "value": "a",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "definite": false
                     }
@@ -2249,8 +2239,7 @@
                           },
                           "value": "b",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "definite": false
                     }
@@ -2507,8 +2496,7 @@
                   },
                   "value": "prop",
                   "optional": false
-                },
-                "computed": false
+                }
               }
             },
             "consequent": {
@@ -2596,8 +2584,7 @@
                             },
                             "value": "prop",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "property": {
                           "type": "Identifier",
@@ -2608,8 +2595,7 @@
                           },
                           "value": "a",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "definite": false
                     }
@@ -2702,8 +2688,7 @@
                             },
                             "value": "prop",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "property": {
                           "type": "Identifier",
@@ -2714,8 +2699,7 @@
                           },
                           "value": "b",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "definite": false
                     }
@@ -2950,8 +2934,7 @@
                     },
                     "value": "outer",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "property": {
                   "type": "Identifier",
@@ -2962,8 +2945,7 @@
                   },
                   "value": "prop",
                   "optional": false
-                },
-                "computed": false
+                }
               }
             },
             "consequent": {
@@ -3058,8 +3040,7 @@
                               },
                               "value": "outer",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "property": {
                             "type": "Identifier",
@@ -3070,8 +3051,7 @@
                             },
                             "value": "prop",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "property": {
                           "type": "Identifier",
@@ -3082,8 +3062,7 @@
                           },
                           "value": "a",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "definite": false
                     }
@@ -3183,8 +3162,7 @@
                               },
                               "value": "outer",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "property": {
                             "type": "Identifier",
@@ -3195,8 +3173,7 @@
                             },
                             "value": "prop",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "property": {
                           "type": "Identifier",
@@ -3207,8 +3184,7 @@
                           },
                           "value": "b",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "definite": false
                     }
@@ -3414,8 +3390,7 @@
                         },
                         "value": "prop",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   },
                   "consequent": {
@@ -3501,8 +3476,7 @@
                                   },
                                   "value": "prop",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -3513,8 +3487,7 @@
                                 },
                                 "value": "a",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "definite": false
                           }
@@ -3605,8 +3578,7 @@
                                   },
                                   "value": "prop",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -3617,8 +3589,7 @@
                                 },
                                 "value": "b",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "definite": false
                           }
@@ -3860,8 +3831,7 @@
                                 },
                                 "value": "a",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "definite": false
                           }
@@ -4143,8 +4113,7 @@
                       },
                       "value": "a",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]
@@ -4230,8 +4199,7 @@
                         },
                         "value": "b",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 ]
@@ -4313,8 +4281,7 @@
                   },
                   "value": "c",
                   "optional": false
-                },
-                "computed": false
+                }
               }
             }
           }

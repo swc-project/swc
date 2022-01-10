@@ -56,14 +56,12 @@
                   "ctxt": 0
                 },
                 "callee": {
-                  "type": "Identifier",
+                  "type": "Import",
                   "span": {
                     "start": 13,
                     "end": 19,
                     "ctxt": 0
-                  },
-                  "value": "import",
-                  "optional": false
+                  }
                 },
                 "arguments": [
                   {
@@ -95,8 +93,7 @@
                 },
                 "value": "from",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -162,14 +159,12 @@
                     "ctxt": 0
                   },
                   "callee": {
-                    "type": "Identifier",
+                    "type": "Import",
                     "span": {
                       "start": 58,
                       "end": 64,
                       "ctxt": 0
-                    },
-                    "value": "import",
-                    "optional": false
+                    }
                   },
                   "arguments": [
                     {
@@ -201,8 +196,7 @@
                   },
                   "value": "from",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null

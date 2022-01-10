@@ -207,8 +207,7 @@
               },
               "value": "as",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -268,8 +267,7 @@
               },
               "value": "return",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }

@@ -626,11 +626,7 @@ fn is_arrow_simple_enough(e: &ArrowExpr) -> bool {
     fn is_arrow_body_simple_enough(e: &Expr) -> bool {
         match e {
             Expr::Ident(..) | Expr::Lit(..) => return true,
-            Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(..),
-                computed: false,
-                ..
-            }) => return true,
+            Expr::Member(MemberExpr { prop, .. }) if !prop.is_computed() => return true,
             Expr::Unary(u) => return is_arrow_body_simple_enough(&u.arg),
 
             Expr::Bin(b) => {

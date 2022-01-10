@@ -4868,8 +4868,7 @@
                             },
                             "value": "length",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "async": false,
                         "generator": false,
@@ -5100,8 +5099,7 @@
                         },
                         "value": "name",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "property": {
                       "type": "Identifier",
@@ -5112,8 +5110,7 @@
                       },
                       "value": "get",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [],
                   "typeArguments": null
@@ -5169,8 +5166,7 @@
                     },
                     "value": "width",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "property": {
                   "type": "Identifier",
@@ -5181,8 +5177,7 @@
                   },
                   "value": "set",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {
@@ -5365,8 +5360,7 @@
                     },
                     "value": "name",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "definite": false
               }
@@ -5426,8 +5420,7 @@
                     },
                     "value": "location",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "definite": false
               }
@@ -5487,8 +5480,7 @@
                     },
                     "value": "x",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "definite": false
               }

@@ -1,5 +1,4 @@
 use std::borrow::Cow;
-use swc_atoms::js_word;
 use swc_common::{pass::CompilerPass, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{should_work, Check};
@@ -37,8 +36,8 @@ impl VisitMut for NewTarget {
         let old = self.in_arrow_expr;
         if self.var.is_none() {
             let mut v = Expr::MetaProp(MetaPropExpr {
-                meta: Ident::new("new".into(), DUMMY_SP),
-                prop: Ident::new("target".into(), DUMMY_SP),
+                span: DUMMY_SP,
+                kind: MetaPropKind::NewTarget,
             });
             v.visit_mut_with(self);
             self.var.get_or_insert_with(|| VarDeclarator {
@@ -109,16 +108,8 @@ impl VisitMut for NewTarget {
 
         match e {
             Expr::MetaProp(MetaPropExpr {
-                meta:
-                    Ident {
-                        sym: js_word!("new"),
-                        ..
-                    },
-                prop:
-                    Ident {
-                        sym: js_word!("target"),
-                        ..
-                    },
+                kind: MetaPropKind::NewTarget,
+                ..
             }) => {
                 if self.in_arrow_expr {
                     *e = Expr::Ident(self.var.as_ref().unwrap().name.clone().ident().unwrap().id);
@@ -251,16 +242,8 @@ impl Visit for ShouldWork {
     fn visit_meta_prop_expr(&mut self, n: &MetaPropExpr) {
         match n {
             MetaPropExpr {
-                meta:
-                    Ident {
-                        sym: js_word!("new"),
-                        ..
-                    },
-                prop:
-                    Ident {
-                        sym: js_word!("target"),
-                        ..
-                    },
+                kind: MetaPropKind::NewTarget,
+                ..
             } => {
                 self.found = true;
             }

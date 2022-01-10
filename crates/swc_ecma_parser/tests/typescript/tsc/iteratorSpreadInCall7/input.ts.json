@@ -128,15 +128,22 @@
                 "optional": false
               },
               "property": {
-                "type": "NumericLiteral",
+                "type": "Computed",
                 "span": {
-                  "start": 53,
-                  "end": 54,
+                  "start": 51,
+                  "end": 55,
                   "ctxt": 0
                 },
-                "value": 0.0
-              },
-              "computed": true
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 53,
+                    "end": 54,
+                    "ctxt": 0
+                  },
+                  "value": 0.0
+                }
+              }
             }
           }
         ]
@@ -355,8 +362,7 @@
                 },
                 "value": "iterator",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "function": {
@@ -586,8 +592,7 @@
                 },
                 "value": "iterator",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "function": {

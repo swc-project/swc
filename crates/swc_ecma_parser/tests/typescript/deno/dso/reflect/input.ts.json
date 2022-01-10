@@ -9229,8 +9229,7 @@
                                 },
                                 "value": "Reflect",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           },
                           "right": {
@@ -9297,8 +9296,7 @@
                                     },
                                     "value": "Reflect",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "right": {
                                   "type": "Identifier",
@@ -9394,8 +9392,7 @@
                                           },
                                           "value": "Reflect",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       }
                                     },
                                     {
@@ -9912,16 +9909,23 @@
                                               "optional": false
                                             },
                                             "property": {
-                                              "type": "Identifier",
+                                              "type": "Computed",
                                               "span": {
-                                                "start": 25669,
-                                                "end": 25672,
+                                                "start": 25662,
+                                                "end": 25673,
                                                 "ctxt": 0
                                               },
-                                              "value": "key",
-                                              "optional": false
-                                            },
-                                            "computed": true
+                                              "expression": {
+                                                "type": "Identifier",
+                                                "span": {
+                                                  "start": 25669,
+                                                  "end": 25672,
+                                                  "ctxt": 0
+                                                },
+                                                "value": "key",
+                                                "optional": false
+                                              }
+                                            }
                                           }
                                         },
                                         "right": {
@@ -9987,8 +9991,7 @@
                                                   },
                                                   "value": "defineProperty",
                                                   "optional": false
-                                                },
-                                                "computed": false
+                                                }
                                               },
                                               "arguments": [
                                                 {
@@ -10347,8 +10350,7 @@
                                     },
                                     "value": "prototype",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "property": {
                                   "type": "Identifier",
@@ -10359,8 +10361,7 @@
                                   },
                                   "value": "hasOwnProperty",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "definite": false
                             }
@@ -10535,8 +10536,7 @@
                                           },
                                           "value": "toPrimitive",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       }
                                     },
                                     "right": {
@@ -10581,8 +10581,7 @@
                                     },
                                     "value": "toPrimitive",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "alternate": {
                                   "type": "StringLiteral",
@@ -10698,8 +10697,7 @@
                                           },
                                           "value": "iterator",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       }
                                     },
                                     "right": {
@@ -10744,8 +10742,7 @@
                                     },
                                     "value": "iterator",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "alternate": {
                                   "type": "StringLiteral",
@@ -10836,8 +10833,7 @@
                                       },
                                       "value": "create",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   }
                                 },
                                 "right": {
@@ -11154,8 +11150,7 @@
                                                       },
                                                       "value": "create",
                                                       "optional": false
-                                                    },
-                                                    "computed": false
+                                                    }
                                                   },
                                                   "arguments": [
                                                     {
@@ -11768,8 +11763,7 @@
                                               },
                                               "value": "call",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           },
                                           "arguments": [
                                             {
@@ -12227,8 +12221,7 @@
                                                 },
                                                 "value": "call",
                                                 "optional": false
-                                              },
-                                              "computed": false
+                                              }
                                             },
                                             "arguments": [
                                               {
@@ -12278,52 +12271,59 @@
                                               "optional": false
                                             },
                                             "property": {
-                                              "type": "TsAsExpression",
+                                              "type": "Computed",
                                               "span": {
-                                                "start": 27586,
-                                                "end": 27608,
+                                                "start": 27582,
+                                                "end": 27609,
                                                 "ctxt": 0
                                               },
                                               "expression": {
-                                                "type": "Identifier",
+                                                "type": "TsAsExpression",
                                                 "span": {
                                                   "start": 27586,
-                                                  "end": 27589,
-                                                  "ctxt": 0
-                                                },
-                                                "value": "key",
-                                                "optional": false
-                                              },
-                                              "typeAnnotation": {
-                                                "type": "TsUnionType",
-                                                "span": {
-                                                  "start": 27593,
                                                   "end": 27608,
                                                   "ctxt": 0
                                                 },
-                                                "types": [
-                                                  {
-                                                    "type": "TsKeywordType",
-                                                    "span": {
-                                                      "start": 27593,
-                                                      "end": 27599,
-                                                      "ctxt": 0
-                                                    },
-                                                    "kind": "string"
+                                                "expression": {
+                                                  "type": "Identifier",
+                                                  "span": {
+                                                    "start": 27586,
+                                                    "end": 27589,
+                                                    "ctxt": 0
                                                   },
-                                                  {
-                                                    "type": "TsKeywordType",
-                                                    "span": {
-                                                      "start": 27602,
-                                                      "end": 27608,
-                                                      "ctxt": 0
+                                                  "value": "key",
+                                                  "optional": false
+                                                },
+                                                "typeAnnotation": {
+                                                  "type": "TsUnionType",
+                                                  "span": {
+                                                    "start": 27593,
+                                                    "end": 27608,
+                                                    "ctxt": 0
+                                                  },
+                                                  "types": [
+                                                    {
+                                                      "type": "TsKeywordType",
+                                                      "span": {
+                                                        "start": 27593,
+                                                        "end": 27599,
+                                                        "ctxt": 0
+                                                      },
+                                                      "kind": "string"
                                                     },
-                                                    "kind": "number"
-                                                  }
-                                                ]
+                                                    {
+                                                      "type": "TsKeywordType",
+                                                      "span": {
+                                                        "start": 27602,
+                                                        "end": 27608,
+                                                        "ctxt": 0
+                                                      },
+                                                      "kind": "number"
+                                                    }
+                                                  ]
+                                                }
                                               }
-                                            },
-                                            "computed": true
+                                            }
                                           },
                                           "alternate": {
                                             "type": "Identifier",
@@ -12562,52 +12562,59 @@
                                             "optional": false
                                           },
                                           "property": {
-                                            "type": "TsAsExpression",
+                                            "type": "Computed",
                                             "span": {
-                                              "start": 27734,
-                                              "end": 27756,
+                                              "start": 27730,
+                                              "end": 27757,
                                               "ctxt": 0
                                             },
                                             "expression": {
-                                              "type": "Identifier",
+                                              "type": "TsAsExpression",
                                               "span": {
                                                 "start": 27734,
-                                                "end": 27737,
-                                                "ctxt": 0
-                                              },
-                                              "value": "key",
-                                              "optional": false
-                                            },
-                                            "typeAnnotation": {
-                                              "type": "TsUnionType",
-                                              "span": {
-                                                "start": 27741,
                                                 "end": 27756,
                                                 "ctxt": 0
                                               },
-                                              "types": [
-                                                {
-                                                  "type": "TsKeywordType",
-                                                  "span": {
-                                                    "start": 27741,
-                                                    "end": 27747,
-                                                    "ctxt": 0
-                                                  },
-                                                  "kind": "string"
+                                              "expression": {
+                                                "type": "Identifier",
+                                                "span": {
+                                                  "start": 27734,
+                                                  "end": 27737,
+                                                  "ctxt": 0
                                                 },
-                                                {
-                                                  "type": "TsKeywordType",
-                                                  "span": {
-                                                    "start": 27750,
-                                                    "end": 27756,
-                                                    "ctxt": 0
+                                                "value": "key",
+                                                "optional": false
+                                              },
+                                              "typeAnnotation": {
+                                                "type": "TsUnionType",
+                                                "span": {
+                                                  "start": 27741,
+                                                  "end": 27756,
+                                                  "ctxt": 0
+                                                },
+                                                "types": [
+                                                  {
+                                                    "type": "TsKeywordType",
+                                                    "span": {
+                                                      "start": 27741,
+                                                      "end": 27747,
+                                                      "ctxt": 0
+                                                    },
+                                                    "kind": "string"
                                                   },
-                                                  "kind": "number"
-                                                }
-                                              ]
+                                                  {
+                                                    "type": "TsKeywordType",
+                                                    "span": {
+                                                      "start": 27750,
+                                                      "end": 27756,
+                                                      "ctxt": 0
+                                                    },
+                                                    "kind": "number"
+                                                  }
+                                                ]
+                                              }
                                             }
-                                          },
-                                          "computed": true
+                                          }
                                         },
                                         "async": false,
                                         "generator": false,
@@ -12757,8 +12764,7 @@
                                     },
                                     "value": "getPrototypeOf",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "arguments": [
                                   {
@@ -12893,8 +12899,7 @@
                                       },
                                       "value": "env",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   }
                                 },
                                 "right": {
@@ -12938,24 +12943,30 @@
                                         },
                                         "value": "env",
                                         "optional": false
-                                      },
-                                      "computed": false
-                                    },
-                                    "property": {
-                                      "type": "StringLiteral",
-                                      "span": {
-                                        "start": 28013,
-                                        "end": 28048,
-                                        "ctxt": 0
-                                      },
-                                      "value": "REFLECT_METADATA_USE_MAP_POLYFILL",
-                                      "hasEscape": false,
-                                      "kind": {
-                                        "type": "normal",
-                                        "containsQuote": true
                                       }
                                     },
-                                    "computed": true
+                                    "property": {
+                                      "type": "Computed",
+                                      "span": {
+                                        "start": 28001,
+                                        "end": 28049,
+                                        "ctxt": 0
+                                      },
+                                      "expression": {
+                                        "type": "StringLiteral",
+                                        "span": {
+                                          "start": 28013,
+                                          "end": 28048,
+                                          "ctxt": 0
+                                        },
+                                        "value": "REFLECT_METADATA_USE_MAP_POLYFILL",
+                                        "hasEscape": false,
+                                        "kind": {
+                                          "type": "normal",
+                                          "containsQuote": true
+                                        }
+                                      }
+                                    }
                                   },
                                   "right": {
                                     "type": "StringLiteral",
@@ -13164,8 +13175,7 @@
                                             },
                                             "value": "prototype",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         },
                                         "property": {
                                           "type": "Identifier",
@@ -13176,8 +13186,7 @@
                                           },
                                           "value": "entries",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       }
                                     },
                                     "right": {
@@ -13418,8 +13427,7 @@
                                             },
                                             "value": "prototype",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         },
                                         "property": {
                                           "type": "Identifier",
@@ -13430,8 +13438,7 @@
                                           },
                                           "value": "entries",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       }
                                     },
                                     "right": {
@@ -23061,8 +23068,7 @@
                                         },
                                         "value": "delete",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "arguments": [
                                       {
@@ -23142,8 +23148,7 @@
                                       },
                                       "value": "size",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "right": {
                                     "type": "NumericLiteral",
@@ -23235,8 +23240,7 @@
                                           },
                                           "value": "get",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "arguments": [
                                         {
@@ -23299,8 +23303,7 @@
                                       },
                                       "value": "delete",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "arguments": [
                                     {
@@ -23361,8 +23364,7 @@
                                       },
                                       "value": "size",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "right": {
                                     "type": "NumericLiteral",
@@ -23433,8 +23435,7 @@
                                       },
                                       "value": "delete",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "arguments": [
                                     {
@@ -23751,8 +23752,7 @@
                                             },
                                             "value": "length",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         },
                                         "right": {
                                           "type": "NumericLiteral",
@@ -23870,16 +23870,23 @@
                                               "optional": false
                                             },
                                             "property": {
-                                              "type": "Identifier",
+                                              "type": "Computed",
                                               "span": {
-                                                "start": 54308,
-                                                "end": 54309,
+                                                "start": 54297,
+                                                "end": 54310,
                                                 "ctxt": 0
                                               },
-                                              "value": "i",
-                                              "optional": false
-                                            },
-                                            "computed": true
+                                              "expression": {
+                                                "type": "Identifier",
+                                                "span": {
+                                                  "start": 54308,
+                                                  "end": 54309,
+                                                  "ctxt": 0
+                                                },
+                                                "value": "i",
+                                                "optional": false
+                                              }
+                                            }
                                           },
                                           "definite": false
                                         }
@@ -24572,8 +24579,7 @@
                                             },
                                             "value": "length",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         },
                                         "right": {
                                           "type": "NumericLiteral",
@@ -24691,16 +24697,23 @@
                                               "optional": false
                                             },
                                             "property": {
-                                              "type": "Identifier",
+                                              "type": "Computed",
                                               "span": {
-                                                "start": 54981,
-                                                "end": 54982,
+                                                "start": 54970,
+                                                "end": 54983,
                                                 "ctxt": 0
                                               },
-                                              "value": "i",
-                                              "optional": false
-                                            },
-                                            "computed": true
+                                              "expression": {
+                                                "type": "Identifier",
+                                                "span": {
+                                                  "start": 54981,
+                                                  "end": 54982,
+                                                  "ctxt": 0
+                                                },
+                                                "value": "i",
+                                                "optional": false
+                                              }
+                                            }
                                           },
                                           "definite": false
                                         }
@@ -25823,8 +25836,7 @@
                                           },
                                           "value": "get",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "arguments": [
                                         {
@@ -26122,8 +26134,7 @@
                                             },
                                             "value": "set",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         },
                                         "arguments": [
                                           {
@@ -26221,8 +26232,7 @@
                                           },
                                           "value": "get",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "arguments": [
                                         {
@@ -26455,8 +26465,7 @@
                                             },
                                             "value": "set",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         },
                                         "arguments": [
                                           {
@@ -27485,8 +27494,7 @@
                                             },
                                             "value": "has",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         },
                                         "arguments": [
                                           {
@@ -28461,8 +28469,7 @@
                                       },
                                       "value": "get",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "arguments": [
                                     {
@@ -28837,8 +28844,7 @@
                                       },
                                       "value": "set",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "arguments": [
                                     {
@@ -29342,8 +29348,7 @@
                                       },
                                       "value": "length",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "right": {
                                     "type": "NumericLiteral",
@@ -29416,8 +29421,7 @@
                                       },
                                       "value": "length",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "right": {
                                     "type": "NumericLiteral",
@@ -29704,8 +29708,7 @@
                                                 },
                                                 "value": "has",
                                                 "optional": false
-                                              },
-                                              "computed": false
+                                              }
                                             },
                                             "arguments": [
                                               {
@@ -29802,8 +29805,7 @@
                                                   },
                                                   "value": "add",
                                                   "optional": false
-                                                },
-                                                "computed": false
+                                                }
                                               },
                                               "arguments": [
                                                 {
@@ -29863,8 +29865,7 @@
                                                   },
                                                   "value": "push",
                                                   "optional": false
-                                                },
-                                                "computed": false
+                                                }
                                               },
                                               "arguments": [
                                                 {
@@ -30011,8 +30012,7 @@
                                                 },
                                                 "value": "has",
                                                 "optional": false
-                                              },
-                                              "computed": false
+                                              }
                                             },
                                             "arguments": [
                                               {
@@ -30109,8 +30109,7 @@
                                                   },
                                                   "value": "add",
                                                   "optional": false
-                                                },
-                                                "computed": false
+                                                }
                                               },
                                               "arguments": [
                                                 {
@@ -30170,8 +30169,7 @@
                                                   },
                                                   "value": "push",
                                                   "optional": false
-                                                },
-                                                "computed": false
+                                                }
                                               },
                                               "arguments": [
                                                 {
@@ -30654,8 +30652,7 @@
                                           },
                                           "value": "keys",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "arguments": [],
                                       "typeArguments": null
@@ -30936,8 +30933,7 @@
                                                   },
                                                   "value": "length",
                                                   "optional": false
-                                                },
-                                                "computed": false
+                                                }
                                               },
                                               "right": {
                                                 "type": "Identifier",
@@ -31087,16 +31083,23 @@
                                                   "optional": false
                                                 },
                                                 "property": {
-                                                  "type": "Identifier",
+                                                  "type": "Computed",
                                                   "span": {
-                                                    "start": 61224,
-                                                    "end": 61225,
+                                                    "start": 61219,
+                                                    "end": 61226,
                                                     "ctxt": 0
                                                   },
-                                                  "value": "k",
-                                                  "optional": false
-                                                },
-                                                "computed": true
+                                                  "expression": {
+                                                    "type": "Identifier",
+                                                    "span": {
+                                                      "start": 61224,
+                                                      "end": 61225,
+                                                      "ctxt": 0
+                                                    },
+                                                    "value": "k",
+                                                    "optional": false
+                                                  }
+                                                }
                                               },
                                               "right": {
                                                 "type": "Identifier",
@@ -31426,8 +31429,7 @@
                                       },
                                       "value": "Null",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   }
                                 },
                                 "alternate": null
@@ -31514,8 +31516,7 @@
                                             },
                                             "value": "Undefined",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         }
                                       }
                                     ]
@@ -31575,8 +31576,7 @@
                                             },
                                             "value": "Boolean",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         }
                                       }
                                     ]
@@ -31636,8 +31636,7 @@
                                             },
                                             "value": "String",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         }
                                       }
                                     ]
@@ -31697,8 +31696,7 @@
                                             },
                                             "value": "Symbol",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         }
                                       }
                                     ]
@@ -31758,8 +31756,7 @@
                                             },
                                             "value": "Number",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         }
                                       }
                                     ]
@@ -31853,8 +31850,7 @@
                                               },
                                               "value": "Null",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           },
                                           "alternate": {
                                             "type": "MemberExpression",
@@ -31882,8 +31878,7 @@
                                               },
                                               "value": "Object",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           }
                                         }
                                       }
@@ -31931,8 +31926,7 @@
                                             },
                                             "value": "Object",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         }
                                       }
                                     ]
@@ -33135,8 +33129,7 @@
                                         },
                                         "value": "Undefined",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "consequent": [
                                       {
@@ -33192,8 +33185,7 @@
                                         },
                                         "value": "Null",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "consequent": [
                                       {
@@ -33249,8 +33241,7 @@
                                         },
                                         "value": "Boolean",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "consequent": [
                                       {
@@ -33306,8 +33297,7 @@
                                         },
                                         "value": "String",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "consequent": [
                                       {
@@ -33363,8 +33353,7 @@
                                         },
                                         "value": "Symbol",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "consequent": [
                                       {
@@ -33420,8 +33409,7 @@
                                         },
                                         "value": "Number",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "consequent": [
                                       {
@@ -33608,8 +33596,7 @@
                                             },
                                             "value": "String",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         }
                                       },
                                       "consequent": {
@@ -33677,8 +33664,7 @@
                                               },
                                               "value": "Number",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           }
                                         },
                                         "consequent": {
@@ -33899,8 +33885,7 @@
                                                 },
                                                 "value": "call",
                                                 "optional": false
-                                              },
-                                              "computed": false
+                                              }
                                             },
                                             "arguments": [
                                               {
@@ -34465,8 +34450,7 @@
                                               },
                                               "value": "toString",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           },
                                           "definite": false
                                         }
@@ -34582,8 +34566,7 @@
                                                       },
                                                       "value": "call",
                                                       "optional": false
-                                                    },
-                                                    "computed": false
+                                                    }
                                                   },
                                                   "arguments": [
                                                     {
@@ -34734,8 +34717,7 @@
                                               },
                                               "value": "valueOf",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           },
                                           "definite": false
                                         }
@@ -34851,8 +34833,7 @@
                                                       },
                                                       "value": "call",
                                                       "optional": false
-                                                    },
-                                                    "computed": false
+                                                    }
                                                   },
                                                   "arguments": [
                                                     {
@@ -35013,8 +34994,7 @@
                                               },
                                               "value": "valueOf",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           },
                                           "definite": false
                                         }
@@ -35130,8 +35110,7 @@
                                                       },
                                                       "value": "call",
                                                       "optional": false
-                                                    },
-                                                    "computed": false
+                                                    }
                                                   },
                                                   "arguments": [
                                                     {
@@ -35282,8 +35261,7 @@
                                               },
                                               "value": "toString",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           },
                                           "definite": false
                                         }
@@ -35399,8 +35377,7 @@
                                                       },
                                                       "value": "call",
                                                       "optional": false
-                                                    },
-                                                    "computed": false
+                                                    }
                                                   },
                                                   "arguments": [
                                                     {
@@ -36011,8 +35988,7 @@
                                               },
                                               "value": "String",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           }
                                         }
                                       ],
@@ -36272,8 +36248,7 @@
                                       },
                                       "value": "isArray",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "consequent": {
                                     "type": "CallExpression",
@@ -36308,8 +36283,7 @@
                                         },
                                         "value": "isArray",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "arguments": [
                                       {
@@ -36448,8 +36422,7 @@
                                                 },
                                                 "value": "prototype",
                                                 "optional": false
-                                              },
-                                              "computed": false
+                                              }
                                             },
                                             "property": {
                                               "type": "Identifier",
@@ -36460,8 +36433,7 @@
                                               },
                                               "value": "toString",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           },
                                           "property": {
                                             "type": "Identifier",
@@ -36472,8 +36444,7 @@
                                             },
                                             "value": "call",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         },
                                         "arguments": [
                                           {
@@ -37058,8 +37029,7 @@
                                         },
                                         "value": "String",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "consequent": [
                                       {
@@ -37114,8 +37084,7 @@
                                         },
                                         "value": "Symbol",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "consequent": [
                                       {
@@ -37383,16 +37352,23 @@
                                         "optional": false
                                       },
                                       "property": {
-                                        "type": "Identifier",
+                                        "type": "Computed",
                                         "span": {
-                                          "start": 68833,
-                                          "end": 68834,
+                                          "start": 68831,
+                                          "end": 68835,
                                           "ctxt": 0
                                         },
-                                        "value": "P",
-                                        "optional": false
-                                      },
-                                      "computed": true
+                                        "expression": {
+                                          "type": "Identifier",
+                                          "span": {
+                                            "start": 68833,
+                                            "end": 68834,
+                                            "ctxt": 0
+                                          },
+                                          "value": "P",
+                                          "optional": false
+                                        }
+                                      }
                                     },
                                     "definite": false
                                   }
@@ -37963,8 +37939,7 @@
                                           },
                                           "value": "call",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "arguments": [
                                         {
@@ -38311,8 +38286,7 @@
                                     },
                                     "value": "value",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 }
                               }
                             ]
@@ -38541,8 +38515,7 @@
                                           },
                                           "value": "next",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "arguments": [],
                                       "typeArguments": null
@@ -38591,8 +38564,7 @@
                                       },
                                       "value": "done",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "consequent": {
                                     "type": "BooleanLiteral",
@@ -38881,20 +38853,27 @@
                                         "optional": false
                                       },
                                       "property": {
-                                        "type": "StringLiteral",
+                                        "type": "Computed",
                                         "span": {
-                                          "start": 70191,
-                                          "end": 70199,
+                                          "start": 70182,
+                                          "end": 70200,
                                           "ctxt": 0
                                         },
-                                        "value": "return",
-                                        "hasEscape": false,
-                                        "kind": {
-                                          "type": "normal",
-                                          "containsQuote": true
+                                        "expression": {
+                                          "type": "StringLiteral",
+                                          "span": {
+                                            "start": 70191,
+                                            "end": 70199,
+                                            "ctxt": 0
+                                          },
+                                          "value": "return",
+                                          "hasEscape": false,
+                                          "kind": {
+                                            "type": "normal",
+                                            "containsQuote": true
+                                          }
                                         }
-                                      },
-                                      "computed": true
+                                      }
                                     },
                                     "definite": false
                                   }
@@ -38957,8 +38936,7 @@
                                         },
                                         "value": "call",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "arguments": [
                                       {
@@ -39142,8 +39120,7 @@
                                           },
                                           "value": "getPrototypeOf",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "arguments": [
                                         {
@@ -39383,8 +39360,7 @@
                                         },
                                         "value": "prototype",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "definite": false
                                   }
@@ -39469,8 +39445,7 @@
                                             },
                                             "value": "getPrototypeOf",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         },
                                         "arguments": [
                                           {
@@ -39580,8 +39555,7 @@
                                         },
                                         "value": "prototype",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     }
                                   }
                                 },
@@ -39669,8 +39643,7 @@
                                         },
                                         "value": "constructor",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "definite": false
                                   }
@@ -40620,8 +40593,7 @@
                                                 },
                                                 "value": "_keys",
                                                 "optional": false
-                                              },
-                                              "computed": false
+                                              }
                                             },
                                             "right": {
                                               "type": "Identifier",
@@ -40674,8 +40646,7 @@
                                                 },
                                                 "value": "_values",
                                                 "optional": false
-                                              },
-                                              "computed": false
+                                              }
                                             },
                                             "right": {
                                               "type": "Identifier",
@@ -40728,8 +40699,7 @@
                                                 },
                                                 "value": "_selector",
                                                 "optional": false
-                                              },
-                                              "computed": false
+                                              }
                                             },
                                             "right": {
                                               "type": "Identifier",
@@ -40971,8 +40941,7 @@
                                                     },
                                                     "value": "_index",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 },
                                                 "definite": false
                                               }
@@ -41070,8 +41039,7 @@
                                                       },
                                                       "value": "_keys",
                                                       "optional": false
-                                                    },
-                                                    "computed": false
+                                                    }
                                                   },
                                                   "property": {
                                                     "type": "Identifier",
@@ -41082,8 +41050,7 @@
                                                     },
                                                     "value": "length",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 }
                                               }
                                             },
@@ -41154,8 +41121,7 @@
                                                             },
                                                             "value": "_selector",
                                                             "optional": false
-                                                          },
-                                                          "computed": false
+                                                          }
                                                         },
                                                         "arguments": [
                                                           {
@@ -41191,20 +41157,26 @@
                                                                   },
                                                                   "value": "_keys",
                                                                   "optional": false
-                                                                },
-                                                                "computed": false
+                                                                }
                                                               },
                                                               "property": {
-                                                                "type": "Identifier",
+                                                                "type": "Computed",
                                                                 "span": {
-                                                                  "start": 73372,
-                                                                  "end": 73377,
+                                                                  "start": 73361,
+                                                                  "end": 73378,
                                                                   "ctxt": 0
                                                                 },
-                                                                "value": "index",
-                                                                "optional": false
-                                                              },
-                                                              "computed": true
+                                                                "expression": {
+                                                                  "type": "Identifier",
+                                                                  "span": {
+                                                                    "start": 73372,
+                                                                    "end": 73377,
+                                                                    "ctxt": 0
+                                                                  },
+                                                                  "value": "index",
+                                                                  "optional": false
+                                                                }
+                                                              }
                                                             }
                                                           },
                                                           {
@@ -41240,20 +41212,26 @@
                                                                   },
                                                                   "value": "_values",
                                                                   "optional": false
-                                                                },
-                                                                "computed": false
+                                                                }
                                                               },
                                                               "property": {
-                                                                "type": "Identifier",
+                                                                "type": "Computed",
                                                                 "span": {
-                                                                  "start": 73421,
-                                                                  "end": 73426,
+                                                                  "start": 73408,
+                                                                  "end": 73427,
                                                                   "ctxt": 0
                                                                 },
-                                                                "value": "index",
-                                                                "optional": false
-                                                              },
-                                                              "computed": true
+                                                                "expression": {
+                                                                  "type": "Identifier",
+                                                                  "span": {
+                                                                    "start": 73421,
+                                                                    "end": 73426,
+                                                                    "ctxt": 0
+                                                                  },
+                                                                  "value": "index",
+                                                                  "optional": false
+                                                                }
+                                                              }
                                                             }
                                                           }
                                                         ],
@@ -41337,8 +41315,7 @@
                                                           },
                                                           "value": "_keys",
                                                           "optional": false
-                                                        },
-                                                        "computed": false
+                                                        }
                                                       },
                                                       "property": {
                                                         "type": "Identifier",
@@ -41349,8 +41326,7 @@
                                                         },
                                                         "value": "length",
                                                         "optional": false
-                                                      },
-                                                      "computed": false
+                                                      }
                                                     }
                                                   },
                                                   "consequent": {
@@ -41400,8 +41376,7 @@
                                                               },
                                                               "value": "_index",
                                                               "optional": false
-                                                            },
-                                                            "computed": false
+                                                            }
                                                           },
                                                           "right": {
                                                             "type": "UnaryExpression",
@@ -41462,8 +41437,7 @@
                                                               },
                                                               "value": "_keys",
                                                               "optional": false
-                                                            },
-                                                            "computed": false
+                                                            }
                                                           },
                                                           "right": {
                                                             "type": "Identifier",
@@ -41516,8 +41490,7 @@
                                                               },
                                                               "value": "_values",
                                                               "optional": false
-                                                            },
-                                                            "computed": false
+                                                            }
                                                           },
                                                           "right": {
                                                             "type": "Identifier",
@@ -41581,8 +41554,7 @@
                                                               },
                                                               "value": "_index",
                                                               "optional": false
-                                                            },
-                                                            "computed": false
+                                                            }
                                                           }
                                                         }
                                                       }
@@ -41913,8 +41885,7 @@
                                                   },
                                                   "value": "_index",
                                                   "optional": false
-                                                },
-                                                "computed": false
+                                                }
                                               },
                                               "right": {
                                                 "type": "NumericLiteral",
@@ -41973,8 +41944,7 @@
                                                         },
                                                         "value": "_index",
                                                         "optional": false
-                                                      },
-                                                      "computed": false
+                                                      }
                                                     },
                                                     "right": {
                                                       "type": "UnaryExpression",
@@ -42035,8 +42005,7 @@
                                                         },
                                                         "value": "_keys",
                                                         "optional": false
-                                                      },
-                                                      "computed": false
+                                                      }
                                                     },
                                                     "right": {
                                                       "type": "Identifier",
@@ -42089,8 +42058,7 @@
                                                         },
                                                         "value": "_values",
                                                         "optional": false
-                                                      },
-                                                      "computed": false
+                                                      }
                                                     },
                                                     "right": {
                                                       "type": "Identifier",
@@ -42313,8 +42281,7 @@
                                                   },
                                                   "value": "_index",
                                                   "optional": false
-                                                },
-                                                "computed": false
+                                                }
                                               },
                                               "right": {
                                                 "type": "NumericLiteral",
@@ -42373,8 +42340,7 @@
                                                         },
                                                         "value": "_index",
                                                         "optional": false
-                                                      },
-                                                      "computed": false
+                                                      }
                                                     },
                                                     "right": {
                                                       "type": "UnaryExpression",
@@ -42435,8 +42401,7 @@
                                                         },
                                                         "value": "_keys",
                                                         "optional": false
-                                                      },
-                                                      "computed": false
+                                                      }
                                                     },
                                                     "right": {
                                                       "type": "Identifier",
@@ -42489,8 +42454,7 @@
                                                         },
                                                         "value": "_values",
                                                         "optional": false
-                                                      },
-                                                      "computed": false
+                                                      }
                                                     },
                                                     "right": {
                                                       "type": "Identifier",
@@ -43243,8 +43207,7 @@
                                                     },
                                                     "value": "_keys",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 },
                                                 "property": {
                                                   "type": "Identifier",
@@ -43255,8 +43218,7 @@
                                                   },
                                                   "value": "length",
                                                   "optional": false
-                                                },
-                                                "computed": false
+                                                }
                                               }
                                             }
                                           ]
@@ -43399,8 +43361,7 @@
                                                       },
                                                       "value": "_find",
                                                       "optional": false
-                                                    },
-                                                    "computed": false
+                                                    }
                                                   },
                                                   "arguments": [
                                                     {
@@ -43611,8 +43572,7 @@
                                                         },
                                                         "value": "_find",
                                                         "optional": false
-                                                      },
-                                                      "computed": false
+                                                      }
                                                     },
                                                     "arguments": [
                                                       {
@@ -43720,20 +43680,26 @@
                                                       },
                                                       "value": "_values",
                                                       "optional": false
-                                                    },
-                                                    "computed": false
+                                                    }
                                                   },
                                                   "property": {
-                                                    "type": "Identifier",
+                                                    "type": "Computed",
                                                     "span": {
-                                                      "start": 75249,
-                                                      "end": 75254,
+                                                      "start": 75236,
+                                                      "end": 75255,
                                                       "ctxt": 0
                                                     },
-                                                    "value": "index",
-                                                    "optional": false
-                                                  },
-                                                  "computed": true
+                                                    "expression": {
+                                                      "type": "Identifier",
+                                                      "span": {
+                                                        "start": 75249,
+                                                        "end": 75254,
+                                                        "ctxt": 0
+                                                      },
+                                                      "value": "index",
+                                                      "optional": false
+                                                    }
+                                                  }
                                                 },
                                                 "alternate": {
                                                   "type": "Identifier",
@@ -43991,8 +43957,7 @@
                                                         },
                                                         "value": "_find",
                                                         "optional": false
-                                                      },
-                                                      "computed": false
+                                                      }
                                                     },
                                                     "arguments": [
                                                       {
@@ -44073,20 +44038,26 @@
                                                       },
                                                       "value": "_values",
                                                       "optional": false
-                                                    },
-                                                    "computed": false
+                                                    }
                                                   },
                                                   "property": {
-                                                    "type": "Identifier",
+                                                    "type": "Computed",
                                                     "span": {
-                                                      "start": 75434,
-                                                      "end": 75439,
+                                                      "start": 75421,
+                                                      "end": 75440,
                                                       "ctxt": 0
                                                     },
-                                                    "value": "index",
-                                                    "optional": false
-                                                  },
-                                                  "computed": true
+                                                    "expression": {
+                                                      "type": "Identifier",
+                                                      "span": {
+                                                        "start": 75434,
+                                                        "end": 75439,
+                                                        "ctxt": 0
+                                                      },
+                                                      "value": "index",
+                                                      "optional": false
+                                                    }
+                                                  }
                                                 },
                                                 "right": {
                                                   "type": "Identifier",
@@ -44284,8 +44255,7 @@
                                                         },
                                                         "value": "_find",
                                                         "optional": false
-                                                      },
-                                                      "computed": false
+                                                      }
                                                     },
                                                     "arguments": [
                                                       {
@@ -44422,8 +44392,7 @@
                                                               },
                                                               "value": "_keys",
                                                               "optional": false
-                                                            },
-                                                            "computed": false
+                                                            }
                                                           },
                                                           "property": {
                                                             "type": "Identifier",
@@ -44434,8 +44403,7 @@
                                                             },
                                                             "value": "length",
                                                             "optional": false
-                                                          },
-                                                          "computed": false
+                                                          }
                                                         },
                                                         "definite": false
                                                       }
@@ -44611,38 +44579,44 @@
                                                                   },
                                                                   "value": "_keys",
                                                                   "optional": false
-                                                                },
-                                                                "computed": false
+                                                                }
                                                               },
                                                               "property": {
-                                                                "type": "BinaryExpression",
+                                                                "type": "Computed",
                                                                 "span": {
-                                                                  "start": 75810,
-                                                                  "end": 75815,
+                                                                  "start": 75799,
+                                                                  "end": 75816,
                                                                   "ctxt": 0
                                                                 },
-                                                                "operator": "-",
-                                                                "left": {
-                                                                  "type": "Identifier",
+                                                                "expression": {
+                                                                  "type": "BinaryExpression",
                                                                   "span": {
                                                                     "start": 75810,
-                                                                    "end": 75811,
-                                                                    "ctxt": 0
-                                                                  },
-                                                                  "value": "i",
-                                                                  "optional": false
-                                                                },
-                                                                "right": {
-                                                                  "type": "NumericLiteral",
-                                                                  "span": {
-                                                                    "start": 75814,
                                                                     "end": 75815,
                                                                     "ctxt": 0
                                                                   },
-                                                                  "value": 1.0
+                                                                  "operator": "-",
+                                                                  "left": {
+                                                                    "type": "Identifier",
+                                                                    "span": {
+                                                                      "start": 75810,
+                                                                      "end": 75811,
+                                                                      "ctxt": 0
+                                                                    },
+                                                                    "value": "i",
+                                                                    "optional": false
+                                                                  },
+                                                                  "right": {
+                                                                    "type": "NumericLiteral",
+                                                                    "span": {
+                                                                      "start": 75814,
+                                                                      "end": 75815,
+                                                                      "ctxt": 0
+                                                                    },
+                                                                    "value": 1.0
+                                                                  }
                                                                 }
-                                                              },
-                                                              "computed": true
+                                                              }
                                                             },
                                                             "right": {
                                                               "type": "MemberExpression",
@@ -44675,20 +44649,26 @@
                                                                   },
                                                                   "value": "_keys",
                                                                   "optional": false
-                                                                },
-                                                                "computed": false
+                                                                }
                                                               },
                                                               "property": {
-                                                                "type": "Identifier",
+                                                                "type": "Computed",
                                                                 "span": {
-                                                                  "start": 75830,
-                                                                  "end": 75831,
+                                                                  "start": 75819,
+                                                                  "end": 75832,
                                                                   "ctxt": 0
                                                                 },
-                                                                "value": "i",
-                                                                "optional": false
-                                                              },
-                                                              "computed": true
+                                                                "expression": {
+                                                                  "type": "Identifier",
+                                                                  "span": {
+                                                                    "start": 75830,
+                                                                    "end": 75831,
+                                                                    "ctxt": 0
+                                                                  },
+                                                                  "value": "i",
+                                                                  "optional": false
+                                                                }
+                                                              }
                                                             }
                                                           }
                                                         },
@@ -44738,38 +44718,44 @@
                                                                   },
                                                                   "value": "_values",
                                                                   "optional": false
-                                                                },
-                                                                "computed": false
+                                                                }
                                                               },
                                                               "property": {
-                                                                "type": "BinaryExpression",
+                                                                "type": "Computed",
                                                                 "span": {
-                                                                  "start": 75875,
-                                                                  "end": 75880,
+                                                                  "start": 75862,
+                                                                  "end": 75881,
                                                                   "ctxt": 0
                                                                 },
-                                                                "operator": "-",
-                                                                "left": {
-                                                                  "type": "Identifier",
+                                                                "expression": {
+                                                                  "type": "BinaryExpression",
                                                                   "span": {
                                                                     "start": 75875,
-                                                                    "end": 75876,
-                                                                    "ctxt": 0
-                                                                  },
-                                                                  "value": "i",
-                                                                  "optional": false
-                                                                },
-                                                                "right": {
-                                                                  "type": "NumericLiteral",
-                                                                  "span": {
-                                                                    "start": 75879,
                                                                     "end": 75880,
                                                                     "ctxt": 0
                                                                   },
-                                                                  "value": 1.0
+                                                                  "operator": "-",
+                                                                  "left": {
+                                                                    "type": "Identifier",
+                                                                    "span": {
+                                                                      "start": 75875,
+                                                                      "end": 75876,
+                                                                      "ctxt": 0
+                                                                    },
+                                                                    "value": "i",
+                                                                    "optional": false
+                                                                  },
+                                                                  "right": {
+                                                                    "type": "NumericLiteral",
+                                                                    "span": {
+                                                                      "start": 75879,
+                                                                      "end": 75880,
+                                                                      "ctxt": 0
+                                                                    },
+                                                                    "value": 1.0
+                                                                  }
                                                                 }
-                                                              },
-                                                              "computed": true
+                                                              }
                                                             },
                                                             "right": {
                                                               "type": "MemberExpression",
@@ -44802,20 +44788,26 @@
                                                                   },
                                                                   "value": "_values",
                                                                   "optional": false
-                                                                },
-                                                                "computed": false
+                                                                }
                                                               },
                                                               "property": {
-                                                                "type": "Identifier",
+                                                                "type": "Computed",
                                                                 "span": {
-                                                                  "start": 75897,
-                                                                  "end": 75898,
+                                                                  "start": 75884,
+                                                                  "end": 75899,
                                                                   "ctxt": 0
                                                                 },
-                                                                "value": "i",
-                                                                "optional": false
-                                                              },
-                                                              "computed": true
+                                                                "expression": {
+                                                                  "type": "Identifier",
+                                                                  "span": {
+                                                                    "start": 75897,
+                                                                    "end": 75898,
+                                                                    "ctxt": 0
+                                                                  },
+                                                                  "value": "i",
+                                                                  "optional": false
+                                                                }
+                                                              }
                                                             }
                                                           }
                                                         }
@@ -44869,8 +44861,7 @@
                                                             },
                                                             "value": "_keys",
                                                             "optional": false
-                                                          },
-                                                          "computed": false
+                                                          }
                                                         },
                                                         "property": {
                                                           "type": "Identifier",
@@ -44881,8 +44872,7 @@
                                                           },
                                                           "value": "length",
                                                           "optional": false
-                                                        },
-                                                        "computed": false
+                                                        }
                                                       }
                                                     }
                                                   },
@@ -44933,8 +44923,7 @@
                                                             },
                                                             "value": "_values",
                                                             "optional": false
-                                                          },
-                                                          "computed": false
+                                                          }
                                                         },
                                                         "property": {
                                                           "type": "Identifier",
@@ -44945,8 +44934,7 @@
                                                           },
                                                           "value": "length",
                                                           "optional": false
-                                                        },
-                                                        "computed": false
+                                                        }
                                                       }
                                                     }
                                                   },
@@ -44999,8 +44987,7 @@
                                                           },
                                                           "value": "_cacheKey",
                                                           "optional": false
-                                                        },
-                                                        "computed": false
+                                                        }
                                                       }
                                                     },
                                                     "consequent": {
@@ -45050,8 +45037,7 @@
                                                                 },
                                                                 "value": "_cacheKey",
                                                                 "optional": false
-                                                              },
-                                                              "computed": false
+                                                              }
                                                             },
                                                             "right": {
                                                               "type": "Identifier",
@@ -45104,8 +45090,7 @@
                                                                 },
                                                                 "value": "_cacheIndex",
                                                                 "optional": false
-                                                              },
-                                                              "computed": false
+                                                              }
                                                             },
                                                             "right": {
                                                               "type": "UnaryExpression",
@@ -45278,8 +45263,7 @@
                                                       },
                                                       "value": "_keys",
                                                       "optional": false
-                                                    },
-                                                    "computed": false
+                                                    }
                                                   },
                                                   "property": {
                                                     "type": "Identifier",
@@ -45290,8 +45274,7 @@
                                                     },
                                                     "value": "length",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 },
                                                 "right": {
                                                   "type": "NumericLiteral",
@@ -45350,8 +45333,7 @@
                                                       },
                                                       "value": "_values",
                                                       "optional": false
-                                                    },
-                                                    "computed": false
+                                                    }
                                                   },
                                                   "property": {
                                                     "type": "Identifier",
@@ -45362,8 +45344,7 @@
                                                     },
                                                     "value": "length",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 },
                                                 "right": {
                                                   "type": "NumericLiteral",
@@ -45415,8 +45396,7 @@
                                                     },
                                                     "value": "_cacheKey",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 },
                                                 "right": {
                                                   "type": "Identifier",
@@ -45469,8 +45449,7 @@
                                                     },
                                                     "value": "_cacheIndex",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 },
                                                 "right": {
                                                   "type": "UnaryExpression",
@@ -45606,8 +45585,7 @@
                                                         },
                                                         "value": "_keys",
                                                         "optional": false
-                                                      },
-                                                      "computed": false
+                                                      }
                                                     }
                                                   },
                                                   {
@@ -45636,8 +45614,7 @@
                                                         },
                                                         "value": "_values",
                                                         "optional": false
-                                                      },
-                                                      "computed": false
+                                                      }
                                                     }
                                                   },
                                                   {
@@ -45755,8 +45732,7 @@
                                                         },
                                                         "value": "_keys",
                                                         "optional": false
-                                                      },
-                                                      "computed": false
+                                                      }
                                                     }
                                                   },
                                                   {
@@ -45785,8 +45761,7 @@
                                                         },
                                                         "value": "_values",
                                                         "optional": false
-                                                      },
-                                                      "computed": false
+                                                      }
                                                     }
                                                   },
                                                   {
@@ -45904,8 +45879,7 @@
                                                         },
                                                         "value": "_keys",
                                                         "optional": false
-                                                      },
-                                                      "computed": false
+                                                      }
                                                     }
                                                   },
                                                   {
@@ -45934,8 +45908,7 @@
                                                         },
                                                         "value": "_values",
                                                         "optional": false
-                                                      },
-                                                      "computed": false
+                                                      }
                                                     }
                                                   },
                                                   {
@@ -46044,8 +46017,7 @@
                                                     },
                                                     "value": "entries",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 },
                                                 "arguments": [],
                                                 "typeArguments": null
@@ -46144,8 +46116,7 @@
                                                     },
                                                     "value": "entries",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 },
                                                 "arguments": [],
                                                 "typeArguments": null
@@ -46320,8 +46291,7 @@
                                                     },
                                                     "value": "_cacheKey",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 },
                                                 "right": {
                                                   "type": "Identifier",
@@ -46381,8 +46351,7 @@
                                                           },
                                                           "value": "_cacheIndex",
                                                           "optional": false
-                                                        },
-                                                        "computed": false
+                                                        }
                                                       },
                                                       "right": {
                                                         "type": "CallExpression",
@@ -46422,8 +46391,7 @@
                                                               },
                                                               "value": "_keys",
                                                               "optional": false
-                                                            },
-                                                            "computed": false
+                                                            }
                                                           },
                                                           "property": {
                                                             "type": "Identifier",
@@ -46434,8 +46402,7 @@
                                                             },
                                                             "value": "indexOf",
                                                             "optional": false
-                                                          },
-                                                          "computed": false
+                                                          }
                                                         },
                                                         "arguments": [
                                                           {
@@ -46479,8 +46446,7 @@
                                                                     },
                                                                     "value": "_cacheKey",
                                                                     "optional": false
-                                                                  },
-                                                                  "computed": false
+                                                                  }
                                                                 },
                                                                 "right": {
                                                                   "type": "Identifier",
@@ -46551,8 +46517,7 @@
                                                       },
                                                       "value": "_cacheIndex",
                                                       "optional": false
-                                                    },
-                                                    "computed": false
+                                                    }
                                                   },
                                                   "right": {
                                                     "type": "NumericLiteral",
@@ -46622,8 +46587,7 @@
                                                           },
                                                           "value": "_cacheIndex",
                                                           "optional": false
-                                                        },
-                                                        "computed": false
+                                                        }
                                                       },
                                                       "right": {
                                                         "type": "MemberExpression",
@@ -46656,8 +46620,7 @@
                                                             },
                                                             "value": "_keys",
                                                             "optional": false
-                                                          },
-                                                          "computed": false
+                                                          }
                                                         },
                                                         "property": {
                                                           "type": "Identifier",
@@ -46668,8 +46631,7 @@
                                                           },
                                                           "value": "length",
                                                           "optional": false
-                                                        },
-                                                        "computed": false
+                                                        }
                                                       }
                                                     }
                                                   },
@@ -46718,8 +46680,7 @@
                                                             },
                                                             "value": "_keys",
                                                             "optional": false
-                                                          },
-                                                          "computed": false
+                                                          }
                                                         },
                                                         "property": {
                                                           "type": "Identifier",
@@ -46730,8 +46691,7 @@
                                                           },
                                                           "value": "push",
                                                           "optional": false
-                                                        },
-                                                        "computed": false
+                                                        }
                                                       },
                                                       "arguments": [
                                                         {
@@ -46796,8 +46756,7 @@
                                                             },
                                                             "value": "_values",
                                                             "optional": false
-                                                          },
-                                                          "computed": false
+                                                          }
                                                         },
                                                         "property": {
                                                           "type": "Identifier",
@@ -46808,8 +46767,7 @@
                                                           },
                                                           "value": "push",
                                                           "optional": false
-                                                        },
-                                                        "computed": false
+                                                        }
                                                       },
                                                       "arguments": [
                                                         {
@@ -46864,8 +46822,7 @@
                                                   },
                                                   "value": "_cacheIndex",
                                                   "optional": false
-                                                },
-                                                "computed": false
+                                                }
                                               }
                                             }
                                           ]
@@ -47873,8 +47830,7 @@
                                                     },
                                                     "value": "_map",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 },
                                                 "property": {
                                                   "type": "Identifier",
@@ -47885,8 +47841,7 @@
                                                   },
                                                   "value": "size",
                                                   "optional": false
-                                                },
-                                                "computed": false
+                                                }
                                               }
                                             }
                                           ]
@@ -48028,8 +47983,7 @@
                                                       },
                                                       "value": "_map",
                                                       "optional": false
-                                                    },
-                                                    "computed": false
+                                                    }
                                                   },
                                                   "property": {
                                                     "type": "Identifier",
@@ -48040,8 +47994,7 @@
                                                     },
                                                     "value": "has",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 },
                                                 "arguments": [
                                                   {
@@ -48224,8 +48177,7 @@
                                                           },
                                                           "value": "_map",
                                                           "optional": false
-                                                        },
-                                                        "computed": false
+                                                        }
                                                       },
                                                       "property": {
                                                         "type": "Identifier",
@@ -48236,8 +48188,7 @@
                                                         },
                                                         "value": "set",
                                                         "optional": false
-                                                      },
-                                                      "computed": false
+                                                      }
                                                     },
                                                     "arguments": [
                                                       {
@@ -48473,8 +48424,7 @@
                                                       },
                                                       "value": "_map",
                                                       "optional": false
-                                                    },
-                                                    "computed": false
+                                                    }
                                                   },
                                                   "property": {
                                                     "type": "Identifier",
@@ -48485,8 +48435,7 @@
                                                     },
                                                     "value": "delete",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 },
                                                 "arguments": [
                                                   {
@@ -48614,8 +48563,7 @@
                                                       },
                                                       "value": "_map",
                                                       "optional": false
-                                                    },
-                                                    "computed": false
+                                                    }
                                                   },
                                                   "property": {
                                                     "type": "Identifier",
@@ -48626,8 +48574,7 @@
                                                     },
                                                     "value": "clear",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 },
                                                 "arguments": [],
                                                 "typeArguments": null
@@ -48741,8 +48688,7 @@
                                                       },
                                                       "value": "_map",
                                                       "optional": false
-                                                    },
-                                                    "computed": false
+                                                    }
                                                   },
                                                   "property": {
                                                     "type": "Identifier",
@@ -48753,8 +48699,7 @@
                                                     },
                                                     "value": "keys",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 },
                                                 "arguments": [],
                                                 "typeArguments": null
@@ -48852,8 +48797,7 @@
                                                       },
                                                       "value": "_map",
                                                       "optional": false
-                                                    },
-                                                    "computed": false
+                                                    }
                                                   },
                                                   "property": {
                                                     "type": "Identifier",
@@ -48864,8 +48808,7 @@
                                                     },
                                                     "value": "values",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 },
                                                 "arguments": [],
                                                 "typeArguments": null
@@ -48963,8 +48906,7 @@
                                                       },
                                                       "value": "_map",
                                                       "optional": false
-                                                    },
-                                                    "computed": false
+                                                    }
                                                   },
                                                   "property": {
                                                     "type": "Identifier",
@@ -48975,8 +48917,7 @@
                                                     },
                                                     "value": "entries",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 },
                                                 "arguments": [],
                                                 "typeArguments": null
@@ -49071,8 +49012,7 @@
                                                     },
                                                     "value": "keys",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 },
                                                 "arguments": [],
                                                 "typeArguments": null
@@ -49171,8 +49111,7 @@
                                                     },
                                                     "value": "keys",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 },
                                                 "arguments": [],
                                                 "typeArguments": null
@@ -49392,8 +49331,7 @@
                                           },
                                           "value": "create",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "arguments": [],
                                       "typeArguments": {
@@ -49808,8 +49746,7 @@
                                                       },
                                                       "value": "has",
                                                       "optional": false
-                                                    },
-                                                    "computed": false
+                                                    }
                                                   },
                                                   "arguments": [
                                                     {
@@ -49851,8 +49788,7 @@
                                                           },
                                                           "value": "_key",
                                                           "optional": false
-                                                        },
-                                                        "computed": false
+                                                        }
                                                       }
                                                     }
                                                   ],
@@ -50161,8 +50097,7 @@
                                                       },
                                                       "value": "get",
                                                       "optional": false
-                                                    },
-                                                    "computed": false
+                                                    }
                                                   },
                                                   "arguments": [
                                                     {
@@ -50204,8 +50139,7 @@
                                                           },
                                                           "value": "_key",
                                                           "optional": false
-                                                        },
-                                                        "computed": false
+                                                        }
                                                       }
                                                     }
                                                   ],
@@ -50528,33 +50462,39 @@
                                                     "optional": false
                                                   },
                                                   "property": {
-                                                    "type": "MemberExpression",
+                                                    "type": "Computed",
                                                     "span": {
-                                                      "start": 80165,
-                                                      "end": 80174,
+                                                      "start": 80159,
+                                                      "end": 80175,
                                                       "ctxt": 0
                                                     },
-                                                    "object": {
-                                                      "type": "ThisExpression",
+                                                    "expression": {
+                                                      "type": "MemberExpression",
                                                       "span": {
                                                         "start": 80165,
-                                                        "end": 80169,
-                                                        "ctxt": 0
-                                                      }
-                                                    },
-                                                    "property": {
-                                                      "type": "Identifier",
-                                                      "span": {
-                                                        "start": 80170,
                                                         "end": 80174,
                                                         "ctxt": 0
                                                       },
-                                                      "value": "_key",
-                                                      "optional": false
-                                                    },
-                                                    "computed": false
-                                                  },
-                                                  "computed": true
+                                                      "object": {
+                                                        "type": "ThisExpression",
+                                                        "span": {
+                                                          "start": 80165,
+                                                          "end": 80169,
+                                                          "ctxt": 0
+                                                        }
+                                                      },
+                                                      "property": {
+                                                        "type": "Identifier",
+                                                        "span": {
+                                                          "start": 80170,
+                                                          "end": 80174,
+                                                          "ctxt": 0
+                                                        },
+                                                        "value": "_key",
+                                                        "optional": false
+                                                      }
+                                                    }
+                                                  }
                                                 },
                                                 "right": {
                                                   "type": "Identifier",
@@ -50926,33 +50866,39 @@
                                                       "optional": false
                                                     },
                                                     "property": {
-                                                      "type": "MemberExpression",
+                                                      "type": "Computed",
                                                       "span": {
-                                                        "start": 80431,
-                                                        "end": 80440,
+                                                        "start": 80425,
+                                                        "end": 80441,
                                                         "ctxt": 0
                                                       },
-                                                      "object": {
-                                                        "type": "ThisExpression",
+                                                      "expression": {
+                                                        "type": "MemberExpression",
                                                         "span": {
                                                           "start": 80431,
-                                                          "end": 80435,
-                                                          "ctxt": 0
-                                                        }
-                                                      },
-                                                      "property": {
-                                                        "type": "Identifier",
-                                                        "span": {
-                                                          "start": 80436,
                                                           "end": 80440,
                                                           "ctxt": 0
                                                         },
-                                                        "value": "_key",
-                                                        "optional": false
-                                                      },
-                                                      "computed": false
-                                                    },
-                                                    "computed": true
+                                                        "object": {
+                                                          "type": "ThisExpression",
+                                                          "span": {
+                                                            "start": 80431,
+                                                            "end": 80435,
+                                                            "ctxt": 0
+                                                          }
+                                                        },
+                                                        "property": {
+                                                          "type": "Identifier",
+                                                          "span": {
+                                                            "start": 80436,
+                                                            "end": 80440,
+                                                            "ctxt": 0
+                                                          },
+                                                          "value": "_key",
+                                                          "optional": false
+                                                        }
+                                                      }
+                                                    }
                                                   }
                                                 },
                                                 "alternate": {
@@ -51068,8 +51014,7 @@
                                                     },
                                                     "value": "_key",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 },
                                                 "right": {
                                                   "type": "CallExpression",
@@ -51297,8 +51242,7 @@
                                             },
                                             "value": "has",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         },
                                         "arguments": [
                                           {
@@ -51435,16 +51379,23 @@
                                             "optional": false
                                           },
                                           "property": {
-                                            "type": "Identifier",
+                                            "type": "Computed",
                                             "span": {
-                                              "start": 80864,
-                                              "end": 80867,
+                                              "start": 80859,
+                                              "end": 80868,
                                               "ctxt": 0
                                             },
-                                            "value": "key",
-                                            "optional": false
-                                          },
-                                          "computed": true
+                                            "expression": {
+                                              "type": "Identifier",
+                                              "span": {
+                                                "start": 80864,
+                                                "end": 80867,
+                                                "ctxt": 0
+                                              },
+                                              "value": "key",
+                                              "optional": false
+                                            }
+                                          }
                                         },
                                         "right": {
                                           "type": "BooleanLiteral",
@@ -52056,8 +52007,7 @@
                                               },
                                               "value": "call",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           },
                                           "arguments": [
                                             {
@@ -52184,8 +52134,7 @@
                                                   },
                                                   "value": "defineProperty",
                                                   "optional": false
-                                                },
-                                                "computed": false
+                                                }
                                               },
                                               "arguments": [
                                                 {
@@ -52269,8 +52218,7 @@
                                                               },
                                                               "value": "create",
                                                               "optional": false
-                                                            },
-                                                            "computed": false
+                                                            }
                                                           },
                                                           "arguments": [],
                                                           "typeArguments": {
@@ -52355,16 +52303,23 @@
                                           }
                                         },
                                         "property": {
-                                          "type": "Identifier",
+                                          "type": "Computed",
                                           "span": {
-                                            "start": 81616,
-                                            "end": 81623,
+                                            "start": 81602,
+                                            "end": 81624,
                                             "ctxt": 0
                                           },
-                                          "value": "rootKey",
-                                          "optional": false
-                                        },
-                                        "computed": true
+                                          "expression": {
+                                            "type": "Identifier",
+                                            "span": {
+                                              "start": 81616,
+                                              "end": 81623,
+                                              "ctxt": 0
+                                            },
+                                            "value": "rootKey",
+                                            "optional": false
+                                          }
+                                        }
                                       }
                                     }
                                   ]
@@ -52707,16 +52662,23 @@
                                               "optional": false
                                             },
                                             "property": {
-                                              "type": "Identifier",
+                                              "type": "Computed",
                                               "span": {
-                                                "start": 81780,
-                                                "end": 81781,
+                                                "start": 81773,
+                                                "end": 81782,
                                                 "ctxt": 0
                                               },
-                                              "value": "i",
-                                              "optional": false
-                                            },
-                                            "computed": true
+                                              "expression": {
+                                                "type": "Identifier",
+                                                "span": {
+                                                  "start": 81780,
+                                                  "end": 81781,
+                                                  "ctxt": 0
+                                                },
+                                                "value": "i",
+                                                "optional": false
+                                              }
+                                            }
                                           },
                                           "right": {
                                             "type": "BinaryExpression",
@@ -52774,8 +52736,7 @@
                                                       },
                                                       "value": "random",
                                                       "optional": false
-                                                    },
-                                                    "computed": false
+                                                    }
                                                   },
                                                   "arguments": [],
                                                   "typeArguments": null
@@ -53081,8 +53042,7 @@
                                                           },
                                                           "value": "getRandomValues",
                                                           "optional": false
-                                                        },
-                                                        "computed": false
+                                                        }
                                                       },
                                                       "arguments": [
                                                         {
@@ -53254,8 +53214,7 @@
                                                           },
                                                           "value": "getRandomValues",
                                                           "optional": false
-                                                        },
-                                                        "computed": false
+                                                        }
                                                       },
                                                       "arguments": [
                                                         {
@@ -53645,15 +53604,22 @@
                                             "optional": false
                                           },
                                           "property": {
-                                            "type": "NumericLiteral",
+                                            "type": "Computed",
                                             "span": {
-                                              "start": 82656,
-                                              "end": 82657,
+                                              "start": 82651,
+                                              "end": 82658,
                                               "ctxt": 0
                                             },
-                                            "value": 6.0
-                                          },
-                                          "computed": true
+                                            "expression": {
+                                              "type": "NumericLiteral",
+                                              "span": {
+                                                "start": 82656,
+                                                "end": 82657,
+                                                "ctxt": 0
+                                              },
+                                              "value": 6.0
+                                            }
+                                          }
                                         },
                                         "right": {
                                           "type": "BinaryExpression",
@@ -53696,15 +53662,22 @@
                                                   "optional": false
                                                 },
                                                 "property": {
-                                                  "type": "NumericLiteral",
+                                                  "type": "Computed",
                                                   "span": {
-                                                    "start": 82667,
-                                                    "end": 82668,
+                                                    "start": 82662,
+                                                    "end": 82669,
                                                     "ctxt": 0
                                                   },
-                                                  "value": 6.0
-                                                },
-                                                "computed": true
+                                                  "expression": {
+                                                    "type": "NumericLiteral",
+                                                    "span": {
+                                                      "start": 82667,
+                                                      "end": 82668,
+                                                      "ctxt": 0
+                                                    },
+                                                    "value": 6.0
+                                                  }
+                                                }
                                               },
                                               "right": {
                                                 "type": "NumericLiteral",
@@ -53762,15 +53735,22 @@
                                             "optional": false
                                           },
                                           "property": {
-                                            "type": "NumericLiteral",
+                                            "type": "Computed",
                                             "span": {
-                                              "start": 82707,
-                                              "end": 82708,
+                                              "start": 82702,
+                                              "end": 82709,
                                               "ctxt": 0
                                             },
-                                            "value": 8.0
-                                          },
-                                          "computed": true
+                                            "expression": {
+                                              "type": "NumericLiteral",
+                                              "span": {
+                                                "start": 82707,
+                                                "end": 82708,
+                                                "ctxt": 0
+                                              },
+                                              "value": 8.0
+                                            }
+                                          }
                                         },
                                         "right": {
                                           "type": "BinaryExpression",
@@ -53813,15 +53793,22 @@
                                                   "optional": false
                                                 },
                                                 "property": {
-                                                  "type": "NumericLiteral",
+                                                  "type": "Computed",
                                                   "span": {
-                                                    "start": 82718,
-                                                    "end": 82719,
+                                                    "start": 82713,
+                                                    "end": 82720,
                                                     "ctxt": 0
                                                   },
-                                                  "value": 8.0
-                                                },
-                                                "computed": true
+                                                  "expression": {
+                                                    "type": "NumericLiteral",
+                                                    "span": {
+                                                      "start": 82718,
+                                                      "end": 82719,
+                                                      "ctxt": 0
+                                                    },
+                                                    "value": 8.0
+                                                  }
+                                                }
                                               },
                                               "right": {
                                                 "type": "NumericLiteral",
@@ -54043,16 +54030,23 @@
                                                     "optional": false
                                                   },
                                                   "property": {
-                                                    "type": "Identifier",
+                                                    "type": "Computed",
                                                     "span": {
-                                                      "start": 82877,
-                                                      "end": 82883,
+                                                      "start": 82872,
+                                                      "end": 82884,
                                                       "ctxt": 0
                                                     },
-                                                    "value": "offset",
-                                                    "optional": false
-                                                  },
-                                                  "computed": true
+                                                    "expression": {
+                                                      "type": "Identifier",
+                                                      "span": {
+                                                        "start": 82877,
+                                                        "end": 82883,
+                                                        "ctxt": 0
+                                                      },
+                                                      "value": "offset",
+                                                      "optional": false
+                                                    }
+                                                  }
                                                 },
                                                 "definite": false
                                               }
@@ -54363,8 +54357,7 @@
                                                         },
                                                         "value": "toString",
                                                         "optional": false
-                                                      },
-                                                      "computed": false
+                                                      }
                                                     },
                                                     "arguments": [
                                                       {
@@ -54391,8 +54384,7 @@
                                                     },
                                                     "value": "toLowerCase",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 },
                                                 "arguments": [],
                                                 "typeArguments": null
@@ -54601,8 +54593,7 @@
                                       },
                                       "value": "__",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "right": {
                                     "type": "Identifier",
@@ -54682,8 +54673,7 @@
                                       },
                                       "value": "__",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   }
                                 }
                               },

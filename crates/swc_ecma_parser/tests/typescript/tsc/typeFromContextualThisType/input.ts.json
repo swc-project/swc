@@ -108,8 +108,7 @@
                             },
                             "value": "b",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "ArrowFunctionExpression",
@@ -263,8 +262,7 @@
                             },
                             "value": "e",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "AssignmentExpression",
@@ -298,8 +296,7 @@
                               },
                               "value": "f",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "ArrowFunctionExpression",
@@ -353,8 +350,7 @@
                                   },
                                   "value": "g",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "right": {
                                 "type": "Identifier",

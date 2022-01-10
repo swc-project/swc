@@ -88,8 +88,7 @@
             },
             "value": "method",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -217,8 +216,7 @@
                 },
                 "value": "method",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null

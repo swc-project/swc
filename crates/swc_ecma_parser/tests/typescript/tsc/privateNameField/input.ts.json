@@ -189,8 +189,7 @@
                         "value": "name",
                         "optional": false
                       }
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "Identifier",

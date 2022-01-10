@@ -68,8 +68,7 @@
                 },
                 "value": "toStringTag",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "computed": true,
             "optional": false,
@@ -215,8 +214,7 @@
                 },
                 "value": "toStringTag",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "computed": true,
             "optional": false,

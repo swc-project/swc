@@ -58,8 +58,7 @@
               },
               "value": "class",
               "optional": false
-            },
-            "computed": false
+            }
           }
         },
         "property": {
@@ -71,8 +70,7 @@
           },
           "value": "bar",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -127,8 +125,7 @@
               },
               "value": "function",
               "optional": false
-            },
-            "computed": false
+            }
           }
         },
         "property": {
@@ -140,8 +137,7 @@
           },
           "value": "bar",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -215,8 +211,7 @@
                   },
                   "value": "bar",
                   "optional": false
-                },
-                "computed": false
+                }
               }
             },
             "property": {
@@ -228,8 +223,7 @@
               },
               "value": "class",
               "optional": false
-            },
-            "computed": false
+            }
           }
         },
         "property": {
@@ -241,8 +235,7 @@
           },
           "value": "bar",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -309,8 +302,7 @@
                 },
                 "value": "function",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "property": {
@@ -322,8 +314,7 @@
             },
             "value": "bar",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     }

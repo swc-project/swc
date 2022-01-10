@@ -309,8 +309,7 @@
                 },
                 "value": "bar",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -381,8 +380,7 @@
                 },
                 "value": "foo",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "right": {
               "type": "NumericLiteral",
@@ -459,8 +457,7 @@
                 },
                 "value": "bar",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -911,8 +908,7 @@
                 },
                 "value": "bar",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -983,8 +979,7 @@
                 },
                 "value": "foo",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "right": {
               "type": "NumericLiteral",
@@ -1061,8 +1056,7 @@
                 },
                 "value": "bar",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null

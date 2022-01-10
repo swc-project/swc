@@ -163,8 +163,7 @@
                   },
                   "value": "C",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "isAbstract": false,
               "typeParams": null,
@@ -475,8 +474,7 @@
                   },
                   "value": "a",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -487,8 +485,7 @@
                 },
                 "value": "C",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null

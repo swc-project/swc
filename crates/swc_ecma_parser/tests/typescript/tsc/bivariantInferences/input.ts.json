@@ -617,8 +617,7 @@
                 },
                 "value": "equalsShallow",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {

@@ -1320,7 +1320,7 @@ fn ignore_result(e: Expr) -> Option<Expr> {
             op!("!")
                 if match &*arg {
                     Expr::Call(call) => match &call.callee {
-                        ExprOrSuper::Expr(callee) => match &**callee {
+                        Callee::Expr(callee) => match &**callee {
                             Expr::Fn(..) => true,
                             _ => false,
                         },
@@ -1411,7 +1411,7 @@ fn ignore_result(e: Expr) -> Option<Expr> {
 
         Expr::Call(CallExpr {
             span,
-            callee: ExprOrSuper::Expr(ref callee),
+            callee: Callee::Expr(ref callee),
             args,
             ..
         }) if callee.is_pure_callee() => ignore_result(Expr::Array(ArrayLit {

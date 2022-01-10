@@ -5879,8 +5879,7 @@
                       },
                       "value": "pop",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [],
                   "typeArguments": null
@@ -6002,8 +6001,7 @@
                       },
                       "value": "concat",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {

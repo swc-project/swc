@@ -1,6 +1,5 @@
 use crate::path::ImportResolver;
 use anyhow::Context;
-use swc_atoms::js_word;
 use swc_common::FileName;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
@@ -31,32 +30,24 @@ where
         e.visit_mut_children_with(self);
 
         match &e.callee {
-            ExprOrSuper::Expr(callee) => match &**callee {
-                Expr::Ident(Ident {
-                    sym: js_word!("import"),
-                    ..
-                }) => {
-                    if let Some(ExprOrSpread { spread: None, expr }) = &mut e.args.get_mut(0) {
-                        match &mut **expr {
-                            Expr::Lit(Lit::Str(s)) => {
-                                let src = self
-                                    .resolver
-                                    .resolve_import(&self.base, &s.value)
-                                    .with_context(|| {
-                                        format!("failed to resolve import `{}`", s.value)
-                                    })
-                                    .unwrap();
+            Callee::Import(_) => {
+                if let Some(ExprOrSpread { spread: None, expr }) = &mut e.args.get_mut(0) {
+                    match &mut **expr {
+                        Expr::Lit(Lit::Str(s)) => {
+                            let src = self
+                                .resolver
+                                .resolve_import(&self.base, &s.value)
+                                .with_context(|| format!("failed to resolve import `{}`", s.value))
+                                .unwrap();
 
-                                // This string literal is synthesized
-                                s.kind = Default::default();
-                                s.value = src;
-                            }
-                            _ => {}
+                            // This string literal is synthesized
+                            s.kind = Default::default();
+                            s.value = src;
                         }
+                        _ => {}
                     }
                 }
-                _ => {}
-            },
+            }
             _ => {}
         }
     }

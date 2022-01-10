@@ -793,8 +793,7 @@
           },
           "value": "required",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -830,8 +829,7 @@
           },
           "value": "optional",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -867,8 +865,7 @@
           },
           "value": "additional",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -904,8 +901,7 @@
           },
           "value": "baseNumber",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -941,8 +937,7 @@
           },
           "value": "classNumber",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -985,8 +980,7 @@
             },
             "value": "baseMethod",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -1032,8 +1026,7 @@
             },
             "value": "method",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -1131,8 +1124,7 @@
           },
           "value": "required",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1168,8 +1160,7 @@
           },
           "value": "optional",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1205,8 +1196,7 @@
           },
           "value": "additional2",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1242,8 +1232,7 @@
           },
           "value": "classString",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1286,8 +1275,7 @@
             },
             "value": "method2",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null

@@ -67,8 +67,7 @@
                 },
                 "value": "for",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {

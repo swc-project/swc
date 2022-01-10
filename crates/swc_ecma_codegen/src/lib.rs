@@ -579,15 +579,21 @@ where
     // }
 
     #[emitter]
-    fn emit_expr_or_super(&mut self, node: &ExprOrSuper) -> Result {
+    fn emit_callee(&mut self, node: &Callee) -> Result {
         match *node {
-            ExprOrSuper::Expr(ref e) => emit!(e),
-            ExprOrSuper::Super(ref n) => emit!(n),
+            Callee::Expr(ref e) => emit!(e),
+            Callee::Super(ref n) => emit!(n),
+            Callee::Import(ref n) => emit!(n),
         }
     }
     #[emitter]
     fn emit_super(&mut self, node: &Super) -> Result {
         keyword!(node.span, "super");
+    }
+
+    #[emitter]
+    fn emit_import_callee(&mut self, node: &Import) -> Result {
+        keyword!(node.span, "import");
     }
 
     #[emitter]
@@ -605,6 +611,7 @@ where
             Expr::Ident(ref n) => emit!(n),
             Expr::Lit(ref n) => emit!(n),
             Expr::Member(ref n) => emit!(n),
+            Expr::SuperProp(ref n) => emit!(n),
             Expr::MetaProp(ref n) => emit!(n),
             Expr::New(ref n) => emit!(n),
             Expr::Object(ref n) => emit!(n),
@@ -646,12 +653,10 @@ where
                 emit!(e.obj);
                 punct!("?.");
 
-                if e.computed {
-                    punct!("[");
-                    emit!(e.prop);
-                    punct!("]");
-                } else {
-                    emit!(e.prop);
+                match &e.prop {
+                    MemberProp::Computed(computed) => emit!(computed),
+                    MemberProp::Ident(i) => emit!(i),
+                    MemberProp::PrivateName(p) => emit!(p),
                 }
             }
             Expr::Call(ref e) => {
@@ -719,53 +724,77 @@ where
 
         emit!(node.obj);
 
-        if node.computed {
-            punct!("[");
-            emit!(node.prop);
-            punct!("]");
-        } else {
-            if self.needs_2dots_for_property_access(&node.obj) {
-                if node.prop.span().lo() >= BytePos(2) {
-                    self.emit_leading_comments(node.prop.span().lo() - BytePos(2), false)?;
+        match &node.prop {
+            MemberProp::Computed(computed) => emit!(computed),
+            MemberProp::Ident(ident) => {
+                if self.needs_2dots_for_property_access(&node.obj) {
+                    if node.prop.span().lo() >= BytePos(2) {
+                        self.emit_leading_comments(node.prop.span().lo() - BytePos(2), false)?;
+                    }
+                    punct!(".");
+                }
+                if node.prop.span().lo() >= BytePos(1) {
+                    self.emit_leading_comments(node.prop.span().lo() - BytePos(1), false)?;
                 }
                 punct!(".");
+                emit!(ident);
             }
-            if node.prop.span().lo() >= BytePos(1) {
-                self.emit_leading_comments(node.prop.span().lo() - BytePos(1), false)?;
+            MemberProp::PrivateName(private) => {
+                if self.needs_2dots_for_property_access(&node.obj) {
+                    if node.prop.span().lo() >= BytePos(2) {
+                        self.emit_leading_comments(node.prop.span().lo() - BytePos(2), false)?;
+                    }
+                    punct!(".");
+                }
+                if node.prop.span().lo() >= BytePos(1) {
+                    self.emit_leading_comments(node.prop.span().lo() - BytePos(1), false)?;
+                }
+                punct!(".");
+                emit!(private);
             }
-            punct!(".");
-            emit!(node.prop);
         }
     }
 
     /// `1..toString` is a valid property access, emit a dot after the literal
-    pub fn needs_2dots_for_property_access(&self, expr: &ExprOrSuper) -> bool {
-        match *expr {
-            ExprOrSuper::Expr(ref expr) => {
-                match **expr {
-                    Expr::Lit(Lit::Num(Number { span, value })) => {
-                        if value.fract() == 0.0 {
-                            return true;
-                        }
-                        if span.is_dummy() {
-                            return false;
-                        }
-
-                        // check if numeric literal is a decimal literal that was originally written
-                        // with a dot
-                        if let Ok(text) = self.cm.span_to_snippet(span) {
-                            if text.contains('.') {
-                                return false;
-                            }
-                            text.starts_with('0') || text.ends_with(' ')
-                        } else {
-                            true
-                        }
-                    }
-                    _ => false,
-                }
+    pub fn needs_2dots_for_property_access(&self, expr: &Expr) -> bool {
+        if let Expr::Lit(Lit::Num(Number { span, value })) = expr {
+            if value.fract() == 0.0 {
+                return true;
             }
-            _ => false,
+            if span.is_dummy() {
+                return false;
+            }
+
+            // check if numeric literal is a decimal literal that was originally written
+            // with a dot
+            if let Ok(text) = self.cm.span_to_snippet(*span) {
+                if text.contains('.') {
+                    return false;
+                }
+                text.starts_with('0') || text.ends_with(' ')
+            } else {
+                true
+            }
+        } else {
+            false
+        }
+    }
+
+    #[emitter]
+    fn emit_super_expr(&mut self, node: &SuperPropExpr) -> Result {
+        self.emit_leading_comments_of_span(node.span(), false)?;
+
+        emit!(node.obj);
+
+        match &node.prop {
+            SuperProp::Computed(computed) => emit!(computed),
+            SuperProp::Ident(i) => {
+                if node.prop.span().lo() >= BytePos(1) {
+                    self.emit_leading_comments(node.prop.span().lo() - BytePos(1), false)?;
+                }
+                punct!(".");
+                emit!(i);
+            }
         }
     }
 
@@ -818,9 +847,11 @@ where
             self.emit_leading_comments_of_span(node.span(), false)?;
         }
 
-        emit!(node.meta);
-        punct!(".");
-        emit!(node.prop);
+        match node.kind {
+            MetaPropKind::ImportMeta => keyword!(node.span, "import.meta"),
+
+            MetaPropKind::NewTarget => keyword!(node.span, "new.target"),
+        }
     }
 
     #[emitter]
@@ -2346,7 +2377,7 @@ where
 
         match arg {
             Expr::Call(c) => match &c.callee {
-                ExprOrSuper::Super(callee) => {
+                Callee::Super(callee) => {
                     if let Some(cmt) = self.comments {
                         let lo = callee.span.lo;
 
@@ -2355,29 +2386,37 @@ where
                         }
                     }
                 }
-                ExprOrSuper::Expr(callee) => {
-                    if self.has_leading_comment(&callee) {
-                        return true;
-                    }
-                }
-            },
-
-            Expr::Member(m) => match &m.obj {
-                ExprOrSuper::Super(obj) => {
+                Callee::Import(callee) => {
                     if let Some(cmt) = self.comments {
-                        let lo = obj.span.lo;
+                        let lo = callee.span.lo;
 
                         if cmt.has_leading(lo) {
                             return true;
                         }
                     }
                 }
-                ExprOrSuper::Expr(obj) => {
-                    if self.has_leading_comment(&obj) {
+                Callee::Expr(callee) => {
+                    if self.has_leading_comment(&callee) {
                         return true;
                     }
                 }
             },
+
+            Expr::Member(m) => {
+                if self.has_leading_comment(&m.obj) {
+                    return true;
+                }
+            }
+
+            Expr::SuperProp(m) => {
+                if let Some(cmt) = self.comments {
+                    let lo = m.span.lo;
+
+                    if cmt.has_leading(lo) {
+                        return true;
+                    }
+                }
+            }
 
             _ => {}
         }

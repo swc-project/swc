@@ -404,20 +404,27 @@
                     "optional": false
                   },
                   "property": {
-                    "type": "StringLiteral",
+                    "type": "Computed",
                     "span": {
-                      "start": 266,
-                      "end": 269,
+                      "start": 261,
+                      "end": 270,
                       "ctxt": 0
                     },
-                    "value": "A",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
+                    "expression": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 266,
+                        "end": 269,
+                        "ctxt": 0
+                      },
+                      "value": "A",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
                     }
-                  },
-                  "computed": true
+                  }
                 },
                 "right": {
                   "type": "MemberExpression",
@@ -445,8 +452,7 @@
                     },
                     "value": "B",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               }
             }
@@ -533,8 +539,7 @@
                     },
                     "value": "A",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "right": {
                   "type": "MemberExpression",
@@ -554,20 +559,27 @@
                     "optional": false
                   },
                   "property": {
-                    "type": "StringLiteral",
+                    "type": "Computed",
                     "span": {
-                      "start": 319,
-                      "end": 322,
+                      "start": 314,
+                      "end": 323,
                       "ctxt": 0
                     },
-                    "value": "B",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
+                    "expression": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 319,
+                        "end": 322,
+                        "ctxt": 0
+                      },
+                      "value": "B",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
                     }
-                  },
-                  "computed": true
+                  }
                 }
               }
             }

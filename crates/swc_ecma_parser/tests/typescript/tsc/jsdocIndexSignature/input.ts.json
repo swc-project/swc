@@ -195,8 +195,7 @@
                   },
                   "value": "foo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "NumericLiteral",
@@ -250,8 +249,7 @@
                   },
                   "value": "bar",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "BooleanLiteral",

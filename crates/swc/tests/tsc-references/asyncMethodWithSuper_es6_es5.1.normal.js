@@ -412,8 +412,8 @@ var B = /*#__PURE__*/ function(A) {
                 }, _super_x3 = function(_args) {
                     // property access (assign)
                     return _set(_getPrototypeOf(B.prototype), "x", _args, _this, true);
-                }, _super_method3 = function(_args) {
-                    // element access (assign)
+                }, // element access (assign)
+                _super_method3 = function(_args) {
                     return _set(_getPrototypeOf(B.prototype), "x", _args, _this, true);
                 }, _super_x4 = function() {
                     return _get(_getPrototypeOf(B.prototype), "x", _this);
@@ -686,8 +686,8 @@ var B = /*#__PURE__*/ function(A) {
             key: "element_access_only_write_only",
             value: function element_access_only_write_only() {
                 var _this = this;
-                var _super_method = function(_args) {
-                    // element access (assign)
+                var // element access (assign)
+                _super_method = function(_args) {
                     return _set(_getPrototypeOf(B.prototype), "x", _args, _this, true);
                 }, _super_method10 = function() {
                     return _get(_getPrototypeOf(B.prototype), "x", _this);
@@ -908,8 +908,8 @@ var B = /*#__PURE__*/ function(A) {
             key: "element_access_only_write_only_in_generator",
             value: function element_access_only_write_only_in_generator() {
                 var _this = this;
-                var _super_method = function(_args) {
-                    // element access (assign)
+                var // element access (assign)
+                _super_method = function(_args) {
                     return _set(_getPrototypeOf(B.prototype), "x", _args, _this, true);
                 }, _super_method16 = function() {
                     return _get(_getPrototypeOf(B.prototype), "x", _this);

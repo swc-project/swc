@@ -1052,8 +1052,7 @@
                 },
                 "value": "charAt",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -1239,8 +1238,7 @@
                 },
                 "value": "doSomeThing",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -1549,8 +1547,7 @@
                       },
                       "value": "charAt",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {
@@ -1777,8 +1774,7 @@
                       },
                       "value": "doSomeThing",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [],
                   "typeArguments": null

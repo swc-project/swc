@@ -248,8 +248,7 @@
                   },
                   "value": "push",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {
@@ -517,8 +516,7 @@
                   },
                   "value": "push",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {
@@ -786,8 +784,7 @@
                   },
                   "value": "push",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {

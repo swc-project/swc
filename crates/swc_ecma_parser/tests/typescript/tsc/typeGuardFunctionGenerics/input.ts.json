@@ -1803,8 +1803,7 @@
                 },
                 "value": "propC",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]
@@ -1998,8 +1997,7 @@
                 },
                 "value": "propC",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]

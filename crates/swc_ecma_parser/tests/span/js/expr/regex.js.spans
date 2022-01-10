@@ -35,7 +35,7 @@ warning: CallExpr
 1 | use(/a/g)
   | ^^^^^^^^^
 
-warning: ExprOrSuper
+warning: Callee
  --> $DIR/tests/span/js/expr/regex.js:1:1
   |
 1 | use(/a/g)
@@ -107,7 +107,7 @@ warning: CallExpr
 2 | use(/[a-zA-Z0-9]+/g)
   | ^^^^^^^^^^^^^^^^^^^^
 
-warning: ExprOrSuper
+warning: Callee
  --> $DIR/tests/span/js/expr/regex.js:2:1
   |
 2 | use(/[a-zA-Z0-9]+/g)

@@ -158,8 +158,7 @@
                         },
                         "value": "toFixed",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -358,8 +357,7 @@
                         },
                         "value": "getDate",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -585,8 +583,7 @@
                         },
                         "value": "toFixed",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -823,8 +820,7 @@
                         },
                         "value": "getDate",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null

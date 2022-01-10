@@ -428,8 +428,7 @@
             },
             "value": "method",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     }

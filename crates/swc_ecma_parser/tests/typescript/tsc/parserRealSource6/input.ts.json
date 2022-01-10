@@ -1617,8 +1617,7 @@
                                 },
                                 "value": "scopeGetter",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "arguments": [],
                             "typeArguments": null
@@ -1735,8 +1734,7 @@
                                 },
                                 "value": "objectLiteralScopeGetter",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "arguments": [],
                             "typeArguments": null
@@ -1846,8 +1844,7 @@
                               },
                               "value": "scopeStartAST",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         }
                       ]
@@ -1935,8 +1932,7 @@
                                 },
                                 "value": "scopeStartAST",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "property": {
                               "type": "Identifier",
@@ -1947,8 +1943,7 @@
                               },
                               "value": "minChar",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         }
                       ]
@@ -2029,8 +2024,7 @@
                               },
                               "value": "scopeStartAST",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         }
                       ]
@@ -2151,8 +2145,7 @@
                                   },
                                   "value": "getScriptFragmentStartAST",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "arguments": [],
                               "typeArguments": null
@@ -2166,8 +2159,7 @@
                               },
                               "value": "minChar",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         }
                       ]
@@ -2272,8 +2264,7 @@
                                 },
                                 "value": "scriptFragment",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "NullLiteral",
@@ -2351,8 +2342,7 @@
                                           },
                                           "value": "getScriptFragmentStartAST",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "arguments": [],
                                       "typeArguments": null
@@ -2415,8 +2405,7 @@
                                         },
                                         "value": "minChar",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "definite": false
                                   }
@@ -2488,8 +2477,7 @@
                                             },
                                             "value": "isMemberCompletion",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         },
                                         "consequent": {
                                           "type": "MemberExpression",
@@ -2515,8 +2503,7 @@
                                             },
                                             "value": "pos",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         },
                                         "alternate": {
                                           "type": "BinaryExpression",
@@ -2550,8 +2537,7 @@
                                               },
                                               "value": "pos",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           },
                                           "right": {
                                             "type": "NumericLiteral",
@@ -2608,8 +2594,7 @@
                                       },
                                       "value": "scriptFragment",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "right": {
                                     "type": "MemberExpression",
@@ -2651,8 +2636,7 @@
                                           },
                                           "value": "quickParse",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "arguments": [
                                         {
@@ -2681,8 +2665,7 @@
                                               },
                                               "value": "logger",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           }
                                         },
                                         {
@@ -2724,8 +2707,7 @@
                                               },
                                               "value": "text",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           }
                                         },
                                         {
@@ -2777,8 +2759,7 @@
                                       },
                                       "value": "Script",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   }
                                 }
                               }
@@ -2817,8 +2798,7 @@
                               },
                               "value": "scriptFragment",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         }
                       ]
@@ -3123,8 +3103,7 @@
                             },
                             "value": "state",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "definite": false
                       }
@@ -3191,8 +3170,7 @@
                                 },
                                 "value": "flags",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           },
                           {
@@ -3223,8 +3201,7 @@
                                 },
                                 "value": "matchFlag",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           }
                         ],
@@ -3286,8 +3263,7 @@
                                   },
                                   "value": "pos",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "right": {
                                 "type": "NumericLiteral",
@@ -3341,8 +3317,7 @@
                                   },
                                   "value": "pos",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "right": {
                                 "type": "MemberExpression",
@@ -3370,8 +3345,7 @@
                                   },
                                   "value": "limChar",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               }
                             }
                           }
@@ -3427,8 +3401,7 @@
                                 },
                                 "value": "ast",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "Identifier",
@@ -3498,8 +3471,7 @@
                                     },
                                     "value": "type",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "right": {
                                   "type": "NullLiteral",
@@ -3552,8 +3524,7 @@
                                     },
                                     "value": "pos",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "right": {
                                   "type": "NumericLiteral",
@@ -3622,8 +3593,7 @@
                                         },
                                         "value": "flow",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "property": {
                                       "type": "Identifier",
@@ -3634,8 +3604,7 @@
                                       },
                                       "value": "inScopeTypeCheck",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "arguments": [
                                     {
@@ -3679,8 +3648,7 @@
                                           },
                                           "value": "scope",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       }
                                     }
                                   ],
@@ -3732,8 +3700,7 @@
                                 },
                                 "value": "type",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "MemberExpression",
@@ -3761,8 +3728,7 @@
                                 },
                                 "value": "type",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           }
                         },
@@ -3813,8 +3779,7 @@
                                   },
                                   "value": "options",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -3825,8 +3790,7 @@
                                 },
                                 "value": "stopWalk",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "arguments": [],
                             "typeArguments": null
@@ -4554,8 +4518,7 @@
                                   },
                                   "value": "scopeChain",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               }
                             },
                             {
@@ -4619,8 +4582,7 @@
                           },
                           "value": "thisType",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "Identifier",
@@ -4675,8 +4637,7 @@
                           },
                           "value": "classType",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "Identifier",
@@ -4731,8 +4692,7 @@
                           },
                           "value": "moduleDecl",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "Identifier",
@@ -4787,8 +4747,7 @@
                           },
                           "value": "scopeChain",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "Identifier",
@@ -4933,8 +4892,7 @@
                           },
                           "value": "scopeChain",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "MemberExpression",
@@ -4969,8 +4927,7 @@
                             },
                             "value": "scopeChain",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "property": {
                           "type": "Identifier",
@@ -4981,8 +4938,7 @@
                           },
                           "value": "previous",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   }
@@ -5248,8 +5204,7 @@
                             },
                             "value": "state",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "definite": false
                       }
@@ -5309,8 +5264,7 @@
                             },
                             "value": "minChar",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "definite": false
                       }
@@ -5370,8 +5324,7 @@
                             },
                             "value": "limChar",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "definite": false
                       }
@@ -5426,8 +5379,7 @@
                             },
                             "value": "nodeType",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "MemberExpression",
@@ -5455,8 +5407,7 @@
                             },
                             "value": "Script",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       },
                       "right": {
@@ -5493,8 +5444,7 @@
                             },
                             "value": "pos",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "Identifier",
@@ -5560,8 +5510,7 @@
                             },
                             "value": "pos",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       }
                     },
@@ -5633,8 +5582,7 @@
                               },
                               "value": "pos",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         }
                       },
@@ -5689,8 +5637,7 @@
                               },
                               "value": "pos",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         }
                       }
@@ -5736,8 +5683,7 @@
                               },
                               "value": "nodeType",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "cases": [
                             {
@@ -5773,8 +5719,7 @@
                                   },
                                   "value": "Script",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "consequent": [
                                 {
@@ -5887,8 +5832,7 @@
                                         },
                                         "value": "scopeGetter",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "right": {
                                       "type": "FunctionExpression",
@@ -5956,8 +5900,7 @@
                                                     },
                                                     "value": "bod",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 },
                                                 "right": {
                                                   "type": "NullLiteral",
@@ -6009,8 +5952,7 @@
                                                     },
                                                     "value": "bod",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 },
                                                 "property": {
                                                   "type": "Identifier",
@@ -6021,8 +5963,7 @@
                                                   },
                                                   "value": "enclosingScope",
                                                   "optional": false
-                                                },
-                                                "computed": false
+                                                }
                                               }
                                             }
                                           }
@@ -6076,8 +6017,7 @@
                                         },
                                         "value": "scopeStartAST",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "right": {
                                       "type": "Identifier",
@@ -6135,8 +6075,7 @@
                                   },
                                   "value": "ClassDeclaration",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "consequent": [
                                 {
@@ -6180,8 +6119,7 @@
                                         },
                                         "value": "scopeGetter",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "right": {
                                       "type": "FunctionExpression",
@@ -6264,8 +6202,7 @@
                                                         },
                                                         "value": "type",
                                                         "optional": false
-                                                      },
-                                                      "computed": false
+                                                      }
                                                     },
                                                     "right": {
                                                       "type": "NullLiteral",
@@ -6324,8 +6261,7 @@
                                                             },
                                                             "value": "type",
                                                             "optional": false
-                                                          },
-                                                          "computed": false
+                                                          }
                                                         },
                                                         "property": {
                                                           "type": "Identifier",
@@ -6336,8 +6272,7 @@
                                                           },
                                                           "value": "instanceType",
                                                           "optional": false
-                                                        },
-                                                        "computed": false
+                                                        }
                                                       },
                                                       "property": {
                                                         "type": "Identifier",
@@ -6348,8 +6283,7 @@
                                                         },
                                                         "value": "containedScope",
                                                         "optional": false
-                                                      },
-                                                      "computed": false
+                                                      }
                                                     },
                                                     "right": {
                                                       "type": "NullLiteral",
@@ -6410,8 +6344,7 @@
                                                       },
                                                       "value": "type",
                                                       "optional": false
-                                                    },
-                                                    "computed": false
+                                                    }
                                                   },
                                                   "property": {
                                                     "type": "Identifier",
@@ -6422,8 +6355,7 @@
                                                     },
                                                     "value": "instanceType",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 },
                                                 "property": {
                                                   "type": "Identifier",
@@ -6434,8 +6366,7 @@
                                                   },
                                                   "value": "containedScope",
                                                   "optional": false
-                                                },
-                                                "computed": false
+                                                }
                                               }
                                             }
                                           }
@@ -6489,8 +6420,7 @@
                                         },
                                         "value": "scopeStartAST",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "right": {
                                       "type": "Identifier",
@@ -6545,8 +6475,7 @@
                                         },
                                         "value": "enclosingClassDecl",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "right": {
                                       "type": "TsTypeAssertion",
@@ -6631,8 +6560,7 @@
                                   },
                                   "value": "ObjectLit",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "consequent": [
                                 {
@@ -6737,8 +6665,7 @@
                                       },
                                       "value": "targetType",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "consequent": {
                                     "type": "BlockStatement",
@@ -6789,8 +6716,7 @@
                                               },
                                               "value": "scopeGetter",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           },
                                           "right": {
                                             "type": "FunctionExpression",
@@ -6850,8 +6776,7 @@
                                                         },
                                                         "value": "targetType",
                                                         "optional": false
-                                                      },
-                                                      "computed": false
+                                                      }
                                                     },
                                                     "property": {
                                                       "type": "Identifier",
@@ -6862,8 +6787,7 @@
                                                       },
                                                       "value": "containedScope",
                                                       "optional": false
-                                                    },
-                                                    "computed": false
+                                                    }
                                                   }
                                                 }
                                               ]
@@ -6916,8 +6840,7 @@
                                               },
                                               "value": "objectLiteralScopeGetter",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           },
                                           "right": {
                                             "type": "FunctionExpression",
@@ -6977,8 +6900,7 @@
                                                         },
                                                         "value": "targetType",
                                                         "optional": false
-                                                      },
-                                                      "computed": false
+                                                      }
                                                     },
                                                     "property": {
                                                       "type": "Identifier",
@@ -6989,8 +6911,7 @@
                                                       },
                                                       "value": "memberScope",
                                                       "optional": false
-                                                    },
-                                                    "computed": false
+                                                    }
                                                   }
                                                 }
                                               ]
@@ -7043,8 +6964,7 @@
                                               },
                                               "value": "enclosingObjectLit",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           },
                                           "right": {
                                             "type": "Identifier",
@@ -7106,8 +7026,7 @@
                                   },
                                   "value": "ModuleDeclaration",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "consequent": [
                                 {
@@ -7151,8 +7070,7 @@
                                         },
                                         "value": "deepestModuleDecl",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "right": {
                                       "type": "TsTypeAssertion",
@@ -7234,8 +7152,7 @@
                                         },
                                         "value": "scopeGetter",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "right": {
                                       "type": "FunctionExpression",
@@ -7303,8 +7220,7 @@
                                                     },
                                                     "value": "type",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 },
                                                 "right": {
                                                   "type": "NullLiteral",
@@ -7356,8 +7272,7 @@
                                                     },
                                                     "value": "type",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 },
                                                 "property": {
                                                   "type": "Identifier",
@@ -7368,8 +7283,7 @@
                                                   },
                                                   "value": "containedScope",
                                                   "optional": false
-                                                },
-                                                "computed": false
+                                                }
                                               }
                                             }
                                           }
@@ -7423,8 +7337,7 @@
                                         },
                                         "value": "scopeStartAST",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "right": {
                                       "type": "Identifier",
@@ -7482,8 +7395,7 @@
                                   },
                                   "value": "InterfaceDeclaration",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "consequent": [
                                 {
@@ -7527,8 +7439,7 @@
                                         },
                                         "value": "scopeGetter",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "right": {
                                       "type": "FunctionExpression",
@@ -7603,8 +7514,7 @@
                                                       },
                                                       "value": "type",
                                                       "optional": false
-                                                    },
-                                                    "computed": false
+                                                    }
                                                   },
                                                   "right": {
                                                     "type": "NullLiteral",
@@ -7657,8 +7567,7 @@
                                                     },
                                                     "value": "type",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 },
                                                 "property": {
                                                   "type": "Identifier",
@@ -7669,8 +7578,7 @@
                                                   },
                                                   "value": "containedScope",
                                                   "optional": false
-                                                },
-                                                "computed": false
+                                                }
                                               }
                                             }
                                           }
@@ -7724,8 +7632,7 @@
                                         },
                                         "value": "scopeStartAST",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "right": {
                                       "type": "Identifier",
@@ -7783,8 +7690,7 @@
                                   },
                                   "value": "FuncDecl",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "consequent": [
                                 {
@@ -7897,8 +7803,7 @@
                                           },
                                           "value": "skipNextFuncDeclForClass",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "consequent": {
                                         "type": "BlockStatement",
@@ -7949,8 +7854,7 @@
                                                   },
                                                   "value": "skipNextFuncDeclForClass",
                                                   "optional": false
-                                                },
-                                                "computed": false
+                                                }
                                               },
                                               "right": {
                                                 "type": "BooleanLiteral",
@@ -8014,8 +7918,7 @@
                                                   },
                                                   "value": "scopeGetter",
                                                   "optional": false
-                                                },
-                                                "computed": false
+                                                }
                                               },
                                               "right": {
                                                 "type": "FunctionExpression",
@@ -8076,8 +7979,7 @@
                                                             },
                                                             "value": "isConstructor",
                                                             "optional": false
-                                                          },
-                                                          "computed": false
+                                                          }
                                                         },
                                                         "right": {
                                                           "type": "CallExpression",
@@ -8125,8 +8027,7 @@
                                                                   },
                                                                   "value": "fncFlags",
                                                                   "optional": false
-                                                                },
-                                                                "computed": false
+                                                                }
                                                               }
                                                             },
                                                             {
@@ -8157,8 +8058,7 @@
                                                                   },
                                                                   "value": "ClassMethod",
                                                                   "optional": false
-                                                                },
-                                                                "computed": false
+                                                                }
                                                               }
                                                             }
                                                           ],
@@ -8214,8 +8114,7 @@
                                                                   },
                                                                   "value": "type",
                                                                   "optional": false
-                                                                },
-                                                                "computed": false
+                                                                }
                                                               },
                                                               "right": {
                                                                 "type": "MemberExpression",
@@ -8250,8 +8149,7 @@
                                                                     },
                                                                     "value": "type",
                                                                     "optional": false
-                                                                  },
-                                                                  "computed": false
+                                                                  }
                                                                 },
                                                                 "property": {
                                                                   "type": "Identifier",
@@ -8262,8 +8160,7 @@
                                                                   },
                                                                   "value": "enclosingType",
                                                                   "optional": false
-                                                                },
-                                                                "computed": false
+                                                                }
                                                               }
                                                             },
                                                             "consequent": {
@@ -8321,8 +8218,7 @@
                                                                           },
                                                                           "value": "type",
                                                                           "optional": false
-                                                                        },
-                                                                        "computed": false
+                                                                        }
                                                                       },
                                                                       "property": {
                                                                         "type": "Identifier",
@@ -8333,8 +8229,7 @@
                                                                         },
                                                                         "value": "enclosingType",
                                                                         "optional": false
-                                                                      },
-                                                                      "computed": false
+                                                                      }
                                                                     },
                                                                     "property": {
                                                                       "type": "Identifier",
@@ -8345,8 +8240,7 @@
                                                                       },
                                                                       "value": "constructorScope",
                                                                       "optional": false
-                                                                    },
-                                                                    "computed": false
+                                                                    }
                                                                   }
                                                                 }
                                                               ]
@@ -8390,8 +8284,7 @@
                                                           },
                                                           "value": "scopeType",
                                                           "optional": false
-                                                        },
-                                                        "computed": false
+                                                        }
                                                       },
                                                       "consequent": {
                                                         "type": "BlockStatement",
@@ -8441,8 +8334,7 @@
                                                                   },
                                                                   "value": "scopeType",
                                                                   "optional": false
-                                                                },
-                                                                "computed": false
+                                                                }
                                                               },
                                                               "property": {
                                                                 "type": "Identifier",
@@ -8453,8 +8345,7 @@
                                                                 },
                                                                 "value": "containedScope",
                                                                 "optional": false
-                                                              },
-                                                              "computed": false
+                                                              }
                                                             }
                                                           }
                                                         ]
@@ -8494,8 +8385,7 @@
                                                           },
                                                           "value": "type",
                                                           "optional": false
-                                                        },
-                                                        "computed": false
+                                                        }
                                                       },
                                                       "consequent": {
                                                         "type": "BlockStatement",
@@ -8545,8 +8435,7 @@
                                                                   },
                                                                   "value": "type",
                                                                   "optional": false
-                                                                },
-                                                                "computed": false
+                                                                }
                                                               },
                                                               "property": {
                                                                 "type": "Identifier",
@@ -8557,8 +8446,7 @@
                                                                 },
                                                                 "value": "containedScope",
                                                                 "optional": false
-                                                              },
-                                                              "computed": false
+                                                              }
                                                             }
                                                           }
                                                         ]
@@ -8631,8 +8519,7 @@
                                                   },
                                                   "value": "scopeStartAST",
                                                   "optional": false
-                                                },
-                                                "computed": false
+                                                }
                                               },
                                               "right": {
                                                 "type": "Identifier",
@@ -8712,8 +8599,7 @@
                                   },
                                   "value": "options",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -8724,8 +8610,7 @@
                                 },
                                 "value": "goChildren",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "BooleanLiteral",
@@ -8796,8 +8681,7 @@
                                   },
                                   "value": "options",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -8808,8 +8692,7 @@
                                 },
                                 "value": "goChildren",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "BooleanLiteral",
@@ -9269,8 +9152,7 @@
                               },
                               "value": "getAstWalkerFactory",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "arguments": [],
                           "typeArguments": null
@@ -9284,8 +9166,7 @@
                           },
                           "value": "walk",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [
                         {
@@ -9394,8 +9275,7 @@
                           },
                           "value": "scopeStartAST",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "NullLiteral",

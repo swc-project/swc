@@ -102,8 +102,7 @@
                         },
                         "value": "Compiler",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "property": {
                       "type": "Identifier",
@@ -114,8 +113,7 @@
                       },
                       "value": "WriterAggregator",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [],
                   "typeArguments": null
@@ -180,8 +178,7 @@
                         },
                         "value": "Compiler",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "property": {
                       "type": "Identifier",
@@ -192,8 +189,7 @@
                       },
                       "value": "WriterAggregator",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [],
                   "typeArguments": null
@@ -258,8 +254,7 @@
                         },
                         "value": "TypeScriptCompiler",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [
                       {

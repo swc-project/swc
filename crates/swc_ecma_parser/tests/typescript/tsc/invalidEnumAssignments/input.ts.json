@@ -296,8 +296,7 @@
             },
             "value": "A",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -353,8 +352,7 @@
             },
             "value": "A",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },

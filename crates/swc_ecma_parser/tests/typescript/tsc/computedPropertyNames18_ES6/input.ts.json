@@ -103,8 +103,7 @@
                             },
                             "value": "bar",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       },
                       "value": {

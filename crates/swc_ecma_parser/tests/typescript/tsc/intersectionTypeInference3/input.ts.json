@@ -151,8 +151,7 @@
                     },
                     "value": "species",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "computed": true,
                 "optional": false,
@@ -520,8 +519,7 @@
                     },
                     "value": "from",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [
                   {
@@ -549,8 +547,7 @@
                 },
                 "value": "concat",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -588,8 +585,7 @@
                       },
                       "value": "from",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {

@@ -724,8 +724,7 @@
                                       },
                                       "value": "bar",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "definite": false
                                 }

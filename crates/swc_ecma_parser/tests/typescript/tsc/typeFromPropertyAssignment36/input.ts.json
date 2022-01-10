@@ -146,8 +146,7 @@
                   },
                   "value": "e",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "NumericLiteral",
@@ -193,8 +192,7 @@
                 },
                 "value": "e",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -263,8 +261,7 @@
                         },
                         "value": "q",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "BooleanLiteral",
@@ -314,8 +311,7 @@
                 },
                 "value": "q",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -384,8 +380,7 @@
                         },
                         "value": "q",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "BooleanLiteral",
@@ -449,8 +444,7 @@
                         },
                         "value": "q",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "BooleanLiteral",
@@ -499,8 +493,7 @@
                 },
                 "value": "q",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -569,8 +562,7 @@
                         },
                         "value": "r",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "NumericLiteral",
@@ -634,8 +626,7 @@
                         },
                         "value": "r",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "NumericLiteral",
@@ -684,8 +675,7 @@
                 },
                 "value": "r",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -754,8 +744,7 @@
                         },
                         "value": "s",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "StringLiteral",
@@ -879,8 +868,7 @@
               },
               "value": "s",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -961,8 +949,7 @@
             },
             "value": "e",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -1008,8 +995,7 @@
           },
           "value": "e",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1095,8 +1081,7 @@
                   },
                   "value": "q",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "BooleanLiteral",
@@ -1146,8 +1131,7 @@
           },
           "value": "q",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1233,8 +1217,7 @@
                   },
                   "value": "q",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "BooleanLiteral",
@@ -1298,8 +1281,7 @@
                   },
                   "value": "q",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "BooleanLiteral",
@@ -1348,8 +1330,7 @@
           },
           "value": "q",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1435,8 +1416,7 @@
                   },
                   "value": "r",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "NumericLiteral",
@@ -1500,8 +1480,7 @@
                   },
                   "value": "r",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "NumericLiteral",
@@ -1550,8 +1529,7 @@
           },
           "value": "r",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1693,8 +1671,7 @@
                   },
                   "value": "expando",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "NumericLiteral",
@@ -1744,8 +1721,7 @@
           },
           "value": "expando",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1831,8 +1807,7 @@
                   },
                   "value": "both",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "StringLiteral",
@@ -1901,8 +1876,7 @@
                   },
                   "value": "both",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "NumericLiteral",
@@ -1951,8 +1925,7 @@
           },
           "value": "both",
           "optional": false
-        },
-        "computed": false
+        }
       }
     }
   ],

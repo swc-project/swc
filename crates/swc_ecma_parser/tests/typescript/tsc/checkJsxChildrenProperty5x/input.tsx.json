@@ -382,8 +382,7 @@
           },
           "value": "Component",
           "optional": false
-        },
-        "computed": false
+        }
       },
       "isAbstract": false,
       "typeParams": null,
@@ -561,8 +560,7 @@
                       },
                       "value": "b",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ],

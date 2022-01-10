@@ -447,8 +447,7 @@
             },
             "value": "defineProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -479,8 +478,7 @@
                 },
                 "value": "prototype",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -642,8 +640,7 @@
             },
             "value": "defineProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -674,8 +671,7 @@
                 },
                 "value": "prototype",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -840,8 +836,7 @@
             },
             "value": "defineProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -872,8 +867,7 @@
                 },
                 "value": "prototype",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {

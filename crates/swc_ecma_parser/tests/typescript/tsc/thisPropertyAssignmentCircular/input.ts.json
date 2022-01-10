@@ -98,8 +98,7 @@
                         },
                         "value": "foo",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "StringLiteral",
@@ -194,8 +193,7 @@
                           },
                           "value": "foo",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "CallExpression",
@@ -235,8 +233,7 @@
                               },
                               "value": "foo",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "property": {
                             "type": "Identifier",
@@ -247,8 +244,7 @@
                             },
                             "value": "slice",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "arguments": [],
                         "typeArguments": null
@@ -333,8 +329,7 @@
                         },
                         "value": "foo",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 ]
@@ -426,8 +421,7 @@
                   },
                   "value": "x",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "NumericLiteral",
@@ -479,8 +473,7 @@
                   },
                   "value": "x",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "FunctionExpression",
@@ -545,8 +538,7 @@
                               },
                               "value": "x",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "property": {
                             "type": "Identifier",
@@ -557,8 +549,7 @@
                             },
                             "value": "toString",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "arguments": [],
                         "typeArguments": null

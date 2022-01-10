@@ -158,8 +158,7 @@
                       },
                       "value": "log",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {
@@ -480,8 +479,7 @@
                       },
                       "value": "prop",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",

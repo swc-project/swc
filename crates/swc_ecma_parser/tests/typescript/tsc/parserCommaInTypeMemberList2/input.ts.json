@@ -67,8 +67,7 @@
                 },
                 "value": "extend",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -117,8 +116,7 @@
                           },
                           "value": "_workItem",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   ]

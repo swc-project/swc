@@ -199,8 +199,7 @@
                         },
                         "value": "log",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [
                       {
@@ -237,8 +236,7 @@
                               "value": "used",
                               "optional": false
                             }
-                          },
-                          "computed": false
+                          }
                         }
                       }
                     ],

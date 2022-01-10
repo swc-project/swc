@@ -661,8 +661,7 @@
               },
               "value": "b",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -717,8 +716,7 @@
               },
               "value": "c",
               "optional": false
-            },
-            "computed": false
+            }
           }
         }
       },
@@ -871,8 +869,7 @@
             },
             "value": "d",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     }

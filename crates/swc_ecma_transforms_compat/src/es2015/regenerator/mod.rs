@@ -338,8 +338,8 @@ impl Regenerator {
         let ctx = private_ident!("_ctx");
         let mut handler = CaseHandler::new(&ctx);
 
-        f.body
-            .visit_mut_with(&mut FnSentVisitor { ctx: ctx.clone() });
+        // f.body
+        //     .visit_mut_with(&mut FnSentVisitor { ctx: ctx.clone() });
         let uses_this = contains_this_expr(&f.body);
         let (body, hoister) = hoist(f.body.take().unwrap());
         let mut outer_fn_vars = vec![];
@@ -517,23 +517,24 @@ impl Regenerator {
     }
 }
 
-struct FnSentVisitor {
-    ctx: Ident,
-}
+// function sent is still stage 2, we good
+// struct FnSentVisitor {
+//     ctx: Ident,
+// }
 
-impl VisitMut for FnSentVisitor {
-    noop_visit_mut_type!();
+// impl VisitMut for FnSentVisitor {
+//     noop_visit_mut_type!();
 
-    fn visit_mut_expr(&mut self, e: &mut Expr) {
-        e.visit_mut_children_with(self);
+//     fn visit_mut_expr(&mut self, e: &mut Expr) {
+//         e.visit_mut_children_with(self);
 
-        if let Expr::MetaProp(MetaPropExpr { meta, prop }) = e {
-            if meta.sym == *"function" && prop.sym == *"sent" {
-                *e = self.ctx.clone().make_member(quote_ident!("_sent"));
-            }
-        }
-    }
-}
+//         if let Expr::MetaProp(MetaPropExpr { meta, prop }) = e {
+//             if meta.sym == *"function" && prop.sym == *"sent" {
+//                 *e = self.ctx.clone().make_member(quote_ident!("_sent"));
+//             }
+//         }
+//     }
+// }
 
 /// Finds a generator function
 struct Finder {

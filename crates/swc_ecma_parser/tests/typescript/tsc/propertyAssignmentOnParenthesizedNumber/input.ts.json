@@ -80,23 +80,30 @@
             "optional": false
           },
           "property": {
-            "type": "ParenthesisExpression",
+            "type": "Computed",
             "span": {
-              "start": 165,
-              "end": 168,
+              "start": 163,
+              "end": 169,
               "ctxt": 0
             },
             "expression": {
-              "type": "NumericLiteral",
+              "type": "ParenthesisExpression",
               "span": {
-                "start": 166,
-                "end": 167,
+                "start": 165,
+                "end": 168,
                 "ctxt": 0
               },
-              "value": 0.0
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 166,
+                  "end": 167,
+                  "ctxt": 0
+                },
+                "value": 0.0
+              }
             }
-          },
-          "computed": true
+          }
         },
         "right": {
           "type": "NumericLiteral",

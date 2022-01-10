@@ -68,8 +68,7 @@
                 },
                 "value": "keyFor",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "computed": true,
             "optional": false,

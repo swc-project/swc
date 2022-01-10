@@ -214,8 +214,7 @@
                     },
                     "value": "resolve",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [
                   {

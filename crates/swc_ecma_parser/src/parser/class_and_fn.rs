@@ -241,9 +241,8 @@ impl<'a, I: Tokens> Parser<I> {
 
                 expr = Box::new(Expr::Member(MemberExpr {
                     span,
-                    obj: ExprOrSuper::Expr(expr),
-                    computed: false,
-                    prop: Box::new(Expr::Ident(ident)),
+                    obj: expr,
+                    prop: MemberProp::Ident(ident),
                 }));
             }
 
@@ -272,7 +271,7 @@ impl<'a, I: Tokens> Parser<I> {
         let args = self.parse_args(false)?;
         Ok(Box::new(Expr::Call(CallExpr {
             span: span!(self, expr.span().lo()),
-            callee: ExprOrSuper::Expr(expr),
+            callee: Callee::Expr(expr),
             args,
             type_args: None,
         })))

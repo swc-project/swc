@@ -198,8 +198,7 @@
             },
             "value": "C1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "property": {
           "type": "Identifier",
@@ -210,8 +209,7 @@
           },
           "value": "s1",
           "optional": false
-        },
-        "computed": false
+        }
       },
       "consequent": {
         "type": "BlockStatement",

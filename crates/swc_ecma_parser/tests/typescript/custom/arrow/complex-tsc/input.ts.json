@@ -94,8 +94,7 @@
                         },
                         "value": "Normal",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 ],

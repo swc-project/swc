@@ -439,8 +439,7 @@
                       },
                       "value": "foo",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {
@@ -608,8 +607,7 @@
                       },
                       "value": "foo",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {
@@ -795,8 +793,7 @@
                       },
                       "value": "foo",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {
@@ -1225,8 +1222,7 @@
                       },
                       "value": "foo",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {
@@ -1389,8 +1385,7 @@
                       },
                       "value": "foo",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {
@@ -1948,8 +1943,7 @@
                       },
                       "value": "foo2",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {
@@ -2158,8 +2152,7 @@
                       },
                       "value": "foo2",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {
@@ -2284,8 +2277,7 @@
                       },
                       "value": "foo2",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {
@@ -2938,8 +2930,7 @@
                       },
                       "value": "foo3",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {
@@ -3136,8 +3127,7 @@
                       },
                       "value": "foo3",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {
@@ -3924,8 +3914,7 @@
                             },
                             "value": "foo2",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "arguments": [
                           {
@@ -4076,8 +4065,7 @@
                             },
                             "value": "foo2",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "arguments": [
                           {
@@ -4202,8 +4190,7 @@
                             },
                             "value": "foo3",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "arguments": [
                           {
@@ -4371,8 +4358,7 @@
                             },
                             "value": "foo3",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "arguments": [
                           {
@@ -4535,8 +4521,7 @@
                             },
                             "value": "foo3",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "arguments": [
                           {

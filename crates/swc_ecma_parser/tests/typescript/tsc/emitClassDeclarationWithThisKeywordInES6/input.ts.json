@@ -128,8 +128,7 @@
                       },
                       "value": "x",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -303,8 +302,7 @@
                         },
                         "value": "log",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [
                       {
@@ -333,8 +331,7 @@
                             },
                             "value": "x",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       }
                     ],
@@ -419,8 +416,7 @@
                       },
                       "value": "x",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]
@@ -546,8 +542,7 @@
                         },
                         "value": "x",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "Identifier",

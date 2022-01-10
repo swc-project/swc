@@ -145,8 +145,7 @@
                 },
                 "value": "config",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]

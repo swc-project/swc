@@ -442,8 +442,7 @@
                         },
                         "value": "foo",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -457,8 +456,7 @@
                     },
                     "value": "bar",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [],
                 "typeArguments": null
@@ -472,8 +470,7 @@
                 },
                 "value": "baz",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null

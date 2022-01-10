@@ -73,8 +73,7 @@
                   },
                   "value": "i",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "StringLiteral",
@@ -254,8 +253,7 @@
                   },
                   "value": "i",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "StringLiteral",
@@ -321,8 +319,7 @@
             },
             "value": "property",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "StringLiteral",
@@ -495,8 +492,7 @@
                   },
                   "value": "x",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "NumericLiteral",
@@ -548,8 +544,7 @@
                   },
                   "value": "second",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "NumericLiteral",
@@ -617,8 +612,7 @@
               },
               "value": "prototype",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -629,8 +623,7 @@
             },
             "value": "z",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -729,8 +722,7 @@
                       },
                       "value": "x",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               }
@@ -784,8 +776,7 @@
             },
             "value": "t",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -972,8 +963,7 @@
             },
             "value": "z",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -1032,8 +1022,7 @@
             },
             "value": "t",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -1093,8 +1082,7 @@
             },
             "value": "second",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",

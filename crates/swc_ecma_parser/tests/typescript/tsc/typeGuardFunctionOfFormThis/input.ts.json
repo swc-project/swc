@@ -629,8 +629,7 @@
             },
             "value": "isLeader",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -683,8 +682,7 @@
                   },
                   "value": "lead",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null
@@ -732,8 +730,7 @@
               },
               "value": "isFollower",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "arguments": [],
           "typeArguments": null
@@ -786,8 +783,7 @@
                     },
                     "value": "follow",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [],
                 "typeArguments": null
@@ -947,8 +943,7 @@
             },
             "value": "isLeader",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -1001,8 +996,7 @@
                   },
                   "value": "lead",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null
@@ -1050,8 +1044,7 @@
               },
               "value": "isFollower",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "arguments": [],
           "typeArguments": null
@@ -1104,8 +1097,7 @@
                     },
                     "value": "follow",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [],
                 "typeArguments": null
@@ -1215,8 +1207,7 @@
               },
               "value": "a",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -1227,8 +1218,7 @@
             },
             "value": "isLeader",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -1274,8 +1264,7 @@
                 },
                 "value": "a",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]
@@ -1321,8 +1310,7 @@
                 },
                 "value": "a",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]
@@ -1917,8 +1905,7 @@
             },
             "value": "isElite",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -1971,8 +1958,7 @@
                   },
                   "value": "defend",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null
@@ -2020,8 +2006,7 @@
               },
               "value": "isMedic",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "arguments": [],
           "typeArguments": null
@@ -2074,8 +2059,7 @@
                     },
                     "value": "heal",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [],
                 "typeArguments": null
@@ -2705,8 +2689,7 @@
             },
             "value": "isSundries",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -2767,8 +2750,7 @@
                     },
                     "value": "contents",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "property": {
                   "type": "Identifier",
@@ -2779,8 +2761,7 @@
                   },
                   "value": "broken",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "BooleanLiteral",
@@ -2835,8 +2816,7 @@
               },
               "value": "isSupplies",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "arguments": [],
           "typeArguments": null
@@ -2897,8 +2877,7 @@
                       },
                       "value": "contents",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "property": {
                     "type": "Identifier",
@@ -2909,8 +2888,7 @@
                     },
                     "value": "spoiled",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "right": {
                   "type": "BooleanLiteral",
@@ -2969,8 +2947,7 @@
             },
             "value": "isFollower",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -2998,8 +2975,7 @@
             },
             "value": "isFollower",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -3044,8 +3020,7 @@
             },
             "value": "isLeader",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -3073,8 +3048,7 @@
             },
             "value": "isLeader",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -3676,8 +3650,7 @@
             },
             "value": "isLeader",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -3705,8 +3678,7 @@
             },
             "value": "isLeader",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -3751,8 +3723,7 @@
             },
             "value": "isFollower",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -3780,8 +3751,7 @@
             },
             "value": "isFollower",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -3825,8 +3795,7 @@
             },
             "value": "isFollower",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -3879,8 +3848,7 @@
                   },
                   "value": "follow",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null
@@ -3927,8 +3895,7 @@
                   },
                   "value": "isFollower",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "MemberExpression",
@@ -3956,8 +3923,7 @@
                   },
                   "value": "isFollower",
                   "optional": false
-                },
-                "computed": false
+                }
               }
             }
           }

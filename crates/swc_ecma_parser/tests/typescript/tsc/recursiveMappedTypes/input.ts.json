@@ -2019,8 +2019,7 @@
           },
           "value": "users",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -3455,8 +3454,7 @@
           },
           "value": "type",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {

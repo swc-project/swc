@@ -374,8 +374,7 @@
           },
           "value": "Class",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -411,8 +410,7 @@
           },
           "value": "Value",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {

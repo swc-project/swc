@@ -132,8 +132,7 @@
             },
             "value": "defineProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -277,8 +276,7 @@
             },
             "value": "defineProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -454,8 +452,7 @@
             },
             "value": "defineProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -585,8 +582,7 @@
             },
             "value": "defineProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -675,8 +671,7 @@
             },
             "value": "defineProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -844,8 +839,7 @@
             },
             "value": "defineProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -1020,8 +1014,7 @@
           },
           "value": "thing",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1057,8 +1050,7 @@
           },
           "value": "other",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1094,8 +1086,7 @@
           },
           "value": "prop",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1131,8 +1122,7 @@
           },
           "value": "bad1",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1168,8 +1158,7 @@
           },
           "value": "bad2",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1205,8 +1194,7 @@
           },
           "value": "bad3",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1250,8 +1238,7 @@
             },
             "value": "thing",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -1305,8 +1292,7 @@
             },
             "value": "other",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -1360,8 +1346,7 @@
             },
             "value": "prop",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -1415,8 +1400,7 @@
             },
             "value": "bad1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -1470,8 +1454,7 @@
             },
             "value": "bad2",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -1525,8 +1508,7 @@
             },
             "value": "bad3",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",

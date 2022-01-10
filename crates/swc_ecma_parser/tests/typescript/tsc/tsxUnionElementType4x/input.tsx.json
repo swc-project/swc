@@ -159,8 +159,7 @@
           },
           "value": "Component",
           "optional": false
-        },
-        "computed": false
+        }
       },
       "isAbstract": false,
       "typeParams": null,
@@ -392,8 +391,7 @@
           },
           "value": "Component",
           "optional": false
-        },
-        "computed": false
+        }
       },
       "isAbstract": false,
       "typeParams": null,
@@ -579,8 +577,7 @@
           },
           "value": "Component",
           "optional": false
-        },
-        "computed": false
+        }
       },
       "isAbstract": false,
       "typeParams": null,
@@ -724,8 +721,7 @@
           },
           "value": "Component",
           "optional": false
-        },
-        "computed": false
+        }
       },
       "isAbstract": false,
       "typeParams": null,

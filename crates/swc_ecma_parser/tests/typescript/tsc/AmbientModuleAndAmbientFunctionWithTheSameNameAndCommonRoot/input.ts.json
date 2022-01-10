@@ -539,8 +539,7 @@
               },
               "value": "Origin",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }

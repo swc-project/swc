@@ -1013,8 +1013,7 @@
                 },
                 "value": "charAt",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -1227,8 +1226,7 @@
                       },
                       "value": "charAt",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {

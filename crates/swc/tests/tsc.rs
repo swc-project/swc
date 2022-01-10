@@ -62,7 +62,7 @@ fn matrix() -> Vec<(String, Options)> {
     let mut res = vec![];
 
     for target in targets {
-        for minify in vec![true, false] {
+        for minify in [true, false] {
             let opts = Options {
                 config: Config {
                     jsc: JscConfig {

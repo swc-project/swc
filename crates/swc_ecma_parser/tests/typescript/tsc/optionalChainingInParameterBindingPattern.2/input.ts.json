@@ -232,8 +232,7 @@
                             },
                             "value": "d",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       }
                     },
@@ -470,8 +469,7 @@
                             },
                             "value": "d",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       }
                     },

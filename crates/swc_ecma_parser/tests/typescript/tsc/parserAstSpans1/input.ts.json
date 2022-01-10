@@ -1359,8 +1359,7 @@
             },
             "value": "i1_f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -1406,8 +1405,7 @@
             },
             "value": "i1_nc_f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -1453,8 +1451,7 @@
             },
             "value": "f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -1500,8 +1497,7 @@
             },
             "value": "nc_f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -1547,8 +1543,7 @@
             },
             "value": "i1_l1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -1594,8 +1589,7 @@
             },
             "value": "i1_nc_l1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -1641,8 +1635,7 @@
             },
             "value": "l1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -1688,8 +1681,7 @@
             },
             "value": "nc_l1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -1787,8 +1779,7 @@
             },
             "value": "i1_f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -1834,8 +1825,7 @@
             },
             "value": "i1_nc_f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -1881,8 +1871,7 @@
             },
             "value": "f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -1928,8 +1917,7 @@
             },
             "value": "nc_f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -1975,8 +1963,7 @@
             },
             "value": "i1_l1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -2022,8 +2009,7 @@
             },
             "value": "i1_nc_l1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -2069,8 +2055,7 @@
             },
             "value": "l1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -2116,8 +2101,7 @@
             },
             "value": "nc_l1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -2201,8 +2185,7 @@
             },
             "value": "i1_f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -2248,8 +2231,7 @@
             },
             "value": "i1_nc_f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -2295,8 +2277,7 @@
             },
             "value": "f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -2342,8 +2323,7 @@
             },
             "value": "nc_f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -2389,8 +2369,7 @@
             },
             "value": "i1_l1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -2436,8 +2415,7 @@
             },
             "value": "i1_nc_l1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -2483,8 +2461,7 @@
             },
             "value": "l1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -2530,8 +2507,7 @@
             },
             "value": "nc_l1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -3279,8 +3255,7 @@
                       },
                       "value": "c2_p1",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "Identifier",
@@ -3430,17 +3405,16 @@
                       },
                       "value": "p1",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
-                    "type": "MemberExpression",
+                    "type": "SuperPropExpression",
                     "span": {
                       "start": 1924,
                       "end": 1935,
                       "ctxt": 0
                     },
-                    "object": {
+                    "obj": {
                       "type": "Super",
                       "span": {
                         "start": 1924,
@@ -3457,8 +3431,7 @@
                       },
                       "value": "c2_p1",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               }
@@ -3950,8 +3923,7 @@
             },
             "value": "c2_f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -3997,8 +3969,7 @@
             },
             "value": "c2_nc_f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -4044,8 +4015,7 @@
             },
             "value": "f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -4091,8 +4061,7 @@
             },
             "value": "nc_f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -4138,8 +4107,7 @@
             },
             "value": "c2_f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -4185,8 +4153,7 @@
             },
             "value": "c2_nc_f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -4232,8 +4199,7 @@
             },
             "value": "f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -4279,8 +4245,7 @@
             },
             "value": "nc_f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -4364,8 +4329,7 @@
             },
             "value": "c2_f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -4411,8 +4375,7 @@
             },
             "value": "c2_nc_f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -4458,8 +4421,7 @@
             },
             "value": "f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -4505,8 +4467,7 @@
             },
             "value": "nc_f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -5692,8 +5653,7 @@
             },
             "value": "i2_f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -5739,8 +5699,7 @@
             },
             "value": "i2_nc_f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -5786,8 +5745,7 @@
             },
             "value": "f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -5833,8 +5791,7 @@
             },
             "value": "nc_f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -5880,8 +5837,7 @@
             },
             "value": "i2_l1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -5927,8 +5883,7 @@
             },
             "value": "i2_nc_l1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -5974,8 +5929,7 @@
             },
             "value": "l1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -6021,8 +5975,7 @@
             },
             "value": "nc_l1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -6068,8 +6021,7 @@
             },
             "value": "i2_f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -6115,8 +6067,7 @@
             },
             "value": "i2_nc_f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -6162,8 +6113,7 @@
             },
             "value": "f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -6209,8 +6159,7 @@
             },
             "value": "nc_f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -6256,8 +6205,7 @@
             },
             "value": "i2_l1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -6303,8 +6251,7 @@
             },
             "value": "i2_nc_l1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -6350,8 +6297,7 @@
             },
             "value": "l1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -6397,8 +6343,7 @@
             },
             "value": "nc_l1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -6482,8 +6427,7 @@
             },
             "value": "i2_f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -6529,8 +6473,7 @@
             },
             "value": "i2_nc_f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -6576,8 +6519,7 @@
             },
             "value": "f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -6623,8 +6565,7 @@
             },
             "value": "nc_f1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -6670,8 +6611,7 @@
             },
             "value": "i2_l1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -6717,8 +6657,7 @@
             },
             "value": "i2_nc_l1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -6764,8 +6703,7 @@
             },
             "value": "l1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -6811,8 +6749,7 @@
             },
             "value": "nc_l1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -7030,17 +6967,16 @@
                       },
                       "value": "d",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
-                    "type": "MemberExpression",
+                    "type": "SuperPropExpression",
                     "span": {
                       "start": 3565,
                       "end": 3572,
                       "ctxt": 0
                     },
-                    "object": {
+                    "obj": {
                       "type": "Super",
                       "span": {
                         "start": 3565,
@@ -7057,8 +6993,7 @@
                       },
                       "value": "b",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               }

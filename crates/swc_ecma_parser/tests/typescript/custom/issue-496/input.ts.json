@@ -180,8 +180,7 @@
                         },
                         "value": "variant",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "Identifier",
@@ -271,8 +270,7 @@
                           },
                           "value": "variant",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "property": {
                         "type": "Identifier",
@@ -283,8 +281,7 @@
                         },
                         "value": "id",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 ]

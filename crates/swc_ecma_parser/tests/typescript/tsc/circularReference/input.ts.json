@@ -301,8 +301,7 @@
                                 },
                                 "value": "m1",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "NewExpression",
@@ -344,8 +343,7 @@
                                     },
                                     "value": "M1",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "property": {
                                   "type": "Identifier",
@@ -356,8 +354,7 @@
                                   },
                                   "value": "C1",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "arguments": [],
                               "typeArguments": null
@@ -410,8 +407,7 @@
                                   },
                                   "value": "m1",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -422,8 +418,7 @@
                                 },
                                 "value": "y",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "NumericLiteral",
@@ -482,8 +477,7 @@
                                   },
                                   "value": "m1",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -494,8 +488,7 @@
                                 },
                                 "value": "x",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "NumericLiteral",
@@ -820,8 +813,7 @@
                                 },
                                 "value": "m1",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "NewExpression",
@@ -863,8 +855,7 @@
                                     },
                                     "value": "M1",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "property": {
                                   "type": "Identifier",
@@ -875,8 +866,7 @@
                                   },
                                   "value": "C1",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "arguments": [],
                               "typeArguments": null
@@ -929,8 +919,7 @@
                                   },
                                   "value": "m1",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -941,8 +930,7 @@
                                 },
                                 "value": "y",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "NumericLiteral",
@@ -1001,8 +989,7 @@
                                   },
                                   "value": "m1",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -1013,8 +1000,7 @@
                                 },
                                 "value": "x",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "NumericLiteral",
@@ -1088,8 +1074,7 @@
                                     },
                                     "value": "C1",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "arguments": [],
                                 "typeArguments": null
@@ -1139,8 +1124,7 @@
                                 },
                                 "value": "y",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "NumericLiteral",
@@ -1194,8 +1178,7 @@
                                 },
                                 "value": "x",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "NumericLiteral",

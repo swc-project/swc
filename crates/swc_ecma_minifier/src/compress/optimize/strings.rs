@@ -16,7 +16,7 @@ where
 
         match e {
             Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(callee),
+                callee: Callee::Expr(callee),
                 args,
                 ..
             }) => {

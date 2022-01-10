@@ -174,8 +174,8 @@ impl Visit for UsageVisitor {
     ///  - `Array.from`
     fn visit_member_expr(&mut self, node: &MemberExpr) {
         node.obj.visit_with(self);
-        if node.computed {
-            node.prop.visit_with(self);
+        if let MemberProp::Computed(c) = &node.prop {
+            c.visit_with(self);
         }
         //enter(path: NodePath) {
         //    const { node } = path;
@@ -240,8 +240,8 @@ impl Visit for UsageVisitor {
         //    this.addUnsupported(BuiltInDependencies);
         //},
 
-        match *node.prop {
-            Expr::Ident(ref i) if !node.computed => {
+        match &node.prop {
+            MemberProp::Ident(i) => {
                 //
                 for (name, imports) in INSTANCE_PROPERTIES {
                     if i.sym == **name {
@@ -249,46 +249,53 @@ impl Visit for UsageVisitor {
                     }
                 }
             }
-            Expr::Lit(Lit::Str(Str { ref value, .. })) if node.computed => {
-                for (name, imports) in INSTANCE_PROPERTIES {
-                    if *value == **name {
-                        self.add(imports);
+            MemberProp::Computed(ComputedPropName { expr, .. }) => {
+                if let Expr::Lit(Lit::Str(Str { value, .. })) = &**expr {
+                    for (name, imports) in INSTANCE_PROPERTIES {
+                        if *value == **name {
+                            self.add(imports);
+                        }
                     }
                 }
             }
             _ => {}
         }
-
-        match node.obj {
-            ExprOrSuper::Expr(ref e) => match &**e {
-                Expr::Ident(obj) => {
-                    for (ty, props) in STATIC_PROPERTIES {
-                        if obj.sym == **ty {
-                            match *node.prop {
-                                Expr::Lit(Lit::Str(Str { ref value, .. })) if node.computed => {
+        match &*node.obj {
+            Expr::Ident(obj) => {
+                for (ty, props) in STATIC_PROPERTIES {
+                    if obj.sym == **ty {
+                        match &node.prop {
+                            MemberProp::Computed(ComputedPropName { expr, .. }) => {
+                                if let Expr::Lit(Lit::Str(Str { value, .. })) = &**expr {
                                     for (name, imports) in INSTANCE_PROPERTIES {
                                         if *value == **name {
                                             self.add(imports);
                                         }
                                     }
                                 }
+                            }
 
-                                Expr::Ident(ref p) if !node.computed => {
-                                    for (prop, imports) in *props {
-                                        if p.sym == **prop {
-                                            self.add(imports);
-                                        }
+                            MemberProp::Ident(ref p) => {
+                                for (prop, imports) in *props {
+                                    if p.sym == **prop {
+                                        self.add(imports);
                                     }
                                 }
-
-                                _ => {}
                             }
+
+                            _ => {}
                         }
                     }
                 }
-                _ => {}
-            },
+            }
             _ => {}
+        }
+    }
+
+    // maybe not needed?
+    fn visit_super_prop_expr(&mut self, node: &SuperPropExpr) {
+        if let SuperProp::Computed(c) = &node.prop {
+            c.visit_with(self);
         }
     }
 
@@ -298,12 +305,11 @@ impl Visit for UsageVisitor {
         e.visit_children_with(self);
 
         if match &e.callee {
-            ExprOrSuper::Expr(callee) => match &**callee {
+            Callee::Expr(callee) => match &**callee {
                 Expr::Member(MemberExpr {
-                    computed: true,
-                    prop,
+                    prop: MemberProp::Computed(ComputedPropName { expr, .. }),
                     ..
-                }) if is_symbol_iterator(&prop) => true,
+                }) if is_symbol_iterator(&expr) => true,
                 _ => false,
             },
             _ => false,
@@ -339,21 +345,18 @@ impl Visit for UsageVisitor {
 fn is_symbol_iterator(e: &Expr) -> bool {
     match e {
         Expr::Member(MemberExpr {
-            obj: ExprOrSuper::Expr(obj),
-            prop,
-            computed: false,
+            obj,
+            prop:
+                MemberProp::Ident(Ident {
+                    sym: js_word!("iterator"),
+                    ..
+                }),
             ..
         }) => match &**obj {
             Expr::Ident(Ident {
                 sym: js_word!("Symbol"),
                 ..
-            }) => match &**prop {
-                Expr::Ident(Ident {
-                    sym: js_word!("iterator"),
-                    ..
-                }) => true,
-                _ => false,
-            },
+            }) => true,
             _ => false,
         },
         _ => false,

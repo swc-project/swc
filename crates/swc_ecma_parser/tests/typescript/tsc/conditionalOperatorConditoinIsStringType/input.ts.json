@@ -1394,8 +1394,7 @@
             },
             "value": "toUpperCase",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "consequent": {
           "type": "Identifier",
@@ -1576,15 +1575,22 @@
             "optional": false
           },
           "property": {
-            "type": "NumericLiteral",
+            "type": "Computed",
             "span": {
-              "start": 1185,
-              "end": 1186,
+              "start": 1179,
+              "end": 1187,
               "ctxt": 0
             },
-            "value": 1.0
-          },
-          "computed": true
+            "expression": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 1185,
+                "end": 1186,
+                "ctxt": 0
+              },
+              "value": 1.0
+            }
+          }
         },
         "consequent": {
           "type": "Identifier",
@@ -2668,8 +2674,7 @@
                 },
                 "value": "toUpperCase",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "consequent": {
               "type": "Identifier",
@@ -2922,15 +2927,22 @@
                 "optional": false
               },
               "property": {
-                "type": "NumericLiteral",
+                "type": "Computed",
                 "span": {
-                  "start": 2357,
-                  "end": 2358,
+                  "start": 2351,
+                  "end": 2359,
                   "ctxt": 0
                 },
-                "value": 1.0
-              },
-              "computed": true
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 2357,
+                    "end": 2358,
+                    "ctxt": 0
+                  },
+                  "value": 1.0
+                }
+              }
             },
             "consequent": {
               "type": "Identifier",
@@ -3097,8 +3109,7 @@
                 },
                 "value": "toUpperCase",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "consequent": {
               "type": "Identifier",

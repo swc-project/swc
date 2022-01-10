@@ -213,8 +213,7 @@
                     },
                     "value": "Utilities",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "property": {
                   "type": "Identifier",
@@ -225,8 +224,7 @@
                   },
                   "value": "markSupportedForProcessing",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {
@@ -324,8 +322,7 @@
                             },
                             "value": "prototype",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       },
                       {
@@ -717,8 +714,7 @@
                           },
                           "value": "prototype",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "definite": false
                     }
@@ -765,8 +761,7 @@
                         },
                         "value": "prototype",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "CallExpression",
@@ -801,8 +796,7 @@
                           },
                           "value": "create",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [
                         {
@@ -870,8 +864,7 @@
                           },
                           "value": "Utilities",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "property": {
                         "type": "Identifier",
@@ -882,8 +875,7 @@
                         },
                         "value": "markSupportedForProcessing",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [
                       {
@@ -943,8 +935,7 @@
                         },
                         "value": "defineProperty",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [
                       {
@@ -975,8 +966,7 @@
                             },
                             "value": "prototype",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       },
                       {
@@ -1180,8 +1170,7 @@
                                   },
                                   "value": "prototype",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               }
                             },
                             {
@@ -1658,8 +1647,7 @@
                       },
                       "value": "length",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]
@@ -1774,8 +1762,7 @@
                             },
                             "value": "prototype",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       },
                       {
@@ -1798,16 +1785,23 @@
                             "optional": false
                           },
                           "property": {
-                            "type": "Identifier",
+                            "type": "Computed",
                             "span": {
-                              "start": 1703,
-                              "end": 1704,
+                              "start": 1693,
+                              "end": 1705,
                               "ctxt": 0
                             },
-                            "value": "i",
-                            "optional": false
-                          },
-                          "computed": true
+                            "expression": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 1703,
+                                "end": 1704,
+                                "ctxt": 0
+                              },
+                              "value": "i",
+                              "optional": false
+                            }
+                          }
                         }
                       }
                     ],

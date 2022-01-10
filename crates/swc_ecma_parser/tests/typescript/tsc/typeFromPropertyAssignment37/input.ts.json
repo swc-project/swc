@@ -87,8 +87,7 @@
                   },
                   "value": "exports",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "ObjectExpression",
@@ -188,8 +187,7 @@
                   },
                   "value": "existy",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "FunctionExpression",
@@ -352,8 +350,7 @@
                 },
                 "value": "existy",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]
@@ -396,8 +393,7 @@
           },
           "value": "existy",
           "optional": false
-        },
-        "computed": false
+        }
       }
     }
   ],

@@ -402,8 +402,7 @@
               },
               "value": "A",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
