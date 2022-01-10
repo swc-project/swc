@@ -1,7 +1,10 @@
 // Reexports
-pub use swc_common::chain;
-pub use swc_ecma_ast::*;
-pub use swc_ecma_visit::*;
+pub use swc_common::{chain, DUMMY_SP};
+pub mod ast {
+    pub use swc_atoms::*;
+    pub use swc_ecma_ast::*;
+    pub use swc_ecma_visit::*;
+}
 
 #[doc(hidden)]
 #[cfg(target_arch = "wasm32")]
