@@ -167,17 +167,18 @@ impl SuperReplacer {
     }
 
     // .a -> "a"
-    fn normalize_computed_expr(&mut self, expr: Box<Expr>, computed: bool) -> Box<Expr> {
-        match *expr {
-            Expr::Ident(Ident {
+    fn normalize_computed_expr(&mut self, prop: &mut SuperProp) -> Box<Expr> {
+        match prop.take() {
+            SuperProp::Ident(Ident {
                 sym: value, span, ..
-            }) if !computed => Box::new(Expr::Lit(Lit::Str(Str {
+            }) => Box::new(Expr::Lit(Lit::Str(Str {
                 span,
                 value,
                 has_escape: false,
                 kind: Default::default(),
             }))),
-            _ => expr,
+
+            SuperProp::Computed(ComputedPropName { expr, .. }) => expr,
         }
     }
     /// # In
@@ -191,36 +192,30 @@ impl SuperReplacer {
     fn visit_mut_super_member_call(&mut self, n: &mut Expr) {
         match n {
             Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(callee_expr),
+                callee: Callee::Expr(callee_expr),
                 args,
                 type_args,
                 ..
             }) => match &mut **callee_expr {
-                Expr::Member(MemberExpr {
-                    obj:
-                        ExprOrSuper::Super(Super {
-                            span: super_token, ..
-                        }),
+                Expr::SuperProp(SuperPropExpr {
+                    obj: Super { span: super_token },
                     prop,
-                    computed,
                     ..
                 }) => {
-                    let prop = self.normalize_computed_expr(prop.take(), *computed);
+                    let prop = self.normalize_computed_expr(prop);
                     let callee = SuperReplacer::super_to_get_call(
                         self.get_proto(),
                         *super_token,
                         prop.as_arg(),
                     );
-                    // let mut args = args.clone();
                     let this = ThisExpr { span: DUMMY_SP }.as_arg();
                     if args.len() == 1 && is_rest_arguments(&args[0]) {
                         *n = Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee: MemberExpr {
                                 span: DUMMY_SP,
-                                obj: ExprOrSuper::Expr(Box::new(callee)),
-                                prop: Box::new(Expr::Ident(quote_ident!("apply"))),
-                                computed: false,
+                                obj: Box::new(callee),
+                                prop: MemberProp::Ident(quote_ident!("apply")),
                             }
                             .as_callee(),
                             args: iter::once(this)
@@ -239,9 +234,8 @@ impl SuperReplacer {
                         span: DUMMY_SP,
                         callee: MemberExpr {
                             span: DUMMY_SP,
-                            obj: ExprOrSuper::Expr(Box::new(callee)),
-                            prop: Box::new(Expr::Ident(quote_ident!("call"))),
-                            computed: false,
+                            obj: Box::new(callee),
+                            prop: MemberProp::Ident(quote_ident!("call")),
                         }
                         .as_callee(),
                         args: iter::once(this).chain(args.take()).collect(),
@@ -267,20 +261,15 @@ impl SuperReplacer {
             Expr::Update(UpdateExpr {
                 arg, op, prefix, ..
             }) => match &mut **arg {
-                Expr::Member(MemberExpr {
-                    obj:
-                        ExprOrSuper::Super(Super {
-                            span: super_token, ..
-                        }),
+                Expr::SuperProp(SuperPropExpr {
+                    obj: Super { span: super_token },
                     prop,
-                    computed,
                     ..
                 }) => {
                     let op = match op {
                         op!("++") => op!("+="),
                         op!("--") => op!("-="),
                     };
-                    let prop = self.normalize_computed_expr(prop.take(), *computed);
                     *n = self.super_to_set_call(
                         *super_token,
                         true,
@@ -290,7 +279,6 @@ impl SuperReplacer {
                             span: DUMMY_SP,
                             value: 1.0,
                         }))),
-                        *computed,
                         *prefix,
                     );
                 }
@@ -307,23 +295,17 @@ impl SuperReplacer {
 
                 if let PatOrExpr::Expr(expr) = &mut left {
                     match &mut **expr {
-                        Expr::Member(MemberExpr {
-                            obj:
-                                ExprOrSuper::Super(Super {
-                                    span: super_token, ..
-                                }),
+                        Expr::SuperProp(SuperPropExpr {
+                            obj: Super { span: super_token },
                             prop,
-                            computed,
                             ..
                         }) => {
-                            let prop = self.normalize_computed_expr(prop.take(), *computed);
                             *n = self.super_to_set_call(
                                 *super_token,
                                 false,
                                 prop,
                                 *op,
                                 right.take(),
-                                *computed,
                                 false,
                             );
                             return;
@@ -353,13 +335,14 @@ impl SuperReplacer {
     /// ```
     fn visit_mut_super_member_get(&mut self, n: &mut Expr) {
         match n {
-            Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Super(Super { span: super_token }),
+            Expr::SuperProp(SuperPropExpr {
+                obj: Super {
+                    span: super_token, ..
+                },
                 prop,
-                computed,
                 ..
             }) => {
-                let prop = self.normalize_computed_expr(prop.take(), *computed);
+                let prop = self.normalize_computed_expr(prop);
                 *n =
                     SuperReplacer::super_to_get_call(self.get_proto(), *super_token, prop.as_arg());
             }
@@ -430,12 +413,16 @@ impl SuperReplacer {
         &mut self,
         super_token: Span,
         is_update: bool,
-        mut prop: Box<Expr>,
+        prop: &mut SuperProp,
         op: AssignOp,
         rhs: Box<Expr>,
-        computed: bool,
         prefix: bool,
     ) -> Expr {
+        let computed = match prop {
+            SuperProp::Ident(_) => false,
+            SuperProp::Computed(_) => true,
+        };
+        let mut prop = self.normalize_computed_expr(prop);
         match op {
             op!("=") => self.call_set_helper(super_token, prop.as_arg(), rhs.as_arg()),
             _ => {
