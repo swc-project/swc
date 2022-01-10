@@ -34,6 +34,12 @@ impl VisitMut for Operators {
         match e {
             Expr::Assign(AssignExpr {
                 span,
+                op: op @ op!("&&="),
+                left: PatOrExpr::Expr(left),
+                right,
+            })
+            | Expr::Assign(AssignExpr {
+                span,
                 op: op @ op!("||="),
                 left: PatOrExpr::Expr(left),
                 right,
@@ -89,13 +95,16 @@ impl VisitMut for Operators {
                     right: right.take(),
                 }));
 
+                let op = match *op {
+                    op!("??=") => op!("??"),
+                    op!("&&=") => op!("&&"),
+                    op!("||=") => op!("||"),
+                    _ => unreachable!(),
+                };
+
                 *e = Expr::Bin(BinExpr {
                     span: *span,
-                    op: if *op == op!("??=") {
-                        op!("??")
-                    } else {
-                        op!("||")
-                    },
+                    op,
                     left: left_expr,
                     right,
                 });
