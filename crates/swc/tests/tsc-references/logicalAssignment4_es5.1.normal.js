@@ -17,11 +17,11 @@ function foo4(results) {
 }
 function doSomethingWithAlias(thing, defaultValue) {
     if (v === 1) {
-        if (thing &&= thing.original) {
+        if (thing && (thing = thing.original)) {
             thing.name;
         }
     } else if (v === 2) {
-        if (thing &&= defaultValue) {
+        if (thing && (thing = defaultValue)) {
             thing.name;
             defaultValue.name;
         }

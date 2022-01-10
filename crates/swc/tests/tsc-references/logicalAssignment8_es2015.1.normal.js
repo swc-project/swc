@@ -8,5 +8,5 @@ function foo2(results) {
 }
 function foo3(results) {
     var ref;
-    (results &&= (ref = bar === null || bar === void 0 ? void 0 : bar.value) !== null && ref !== void 0 ? ref : []).push(100);
+    (results && (results = (ref = bar === null || bar === void 0 ? void 0 : bar.value) !== null && ref !== void 0 ? ref : [])).push(100);
 }
