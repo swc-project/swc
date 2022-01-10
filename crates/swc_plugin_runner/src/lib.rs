@@ -7,9 +7,10 @@ use anyhow::{Context, Error};
 use once_cell::sync::Lazy;
 use parking_lot::Mutex;
 use resolve::PluginCache;
+use rkyv::{AlignedVec, Deserialize};
 use swc_common::{collections::AHashMap, plugin::serialize_for_plugin};
 use swc_ecma_ast::Program;
-use wasmer::{imports, Instance, Memory, MemoryType, Module, Store};
+use wasmer::{imports, Array, Instance, Memory, MemoryType, Module, Store, WasmPtr};
 use wasmer_cache::{Cache, Hash};
 
 pub mod resolve;
@@ -133,6 +134,10 @@ fn copy_memory_to_instance(instance: &Instance, program: &Program) -> Result<(i3
     Ok((alloc_ptr, serialized_len.try_into().unwrap()))
 }
 
+// TODO
+// - alloc / free memories
+// - resolve trait bounds compilation errors for swc_plugin::{se,dese}rialize fn
+// - ergonomic wrappers for the transform logics with error handlings
 pub fn apply_js_plugin(
     _plugin_name: &str,
     path: &Path,
@@ -143,14 +148,39 @@ pub fn apply_js_plugin(
     (|| -> Result<_, Error> {
         let instance = load_plugin(path, cache)?;
 
-        let plugin_process = instance
+        let plugin_process_wasm_exported_fn = instance
             .exports
             .get_native_function::<(i32, u32), (i32, i32)>("process")?;
 
         let (alloc_ptr, len) = copy_memory_to_instance(&instance, &program)?;
-        let (_returned_ptr, _returned_len) = plugin_process.call(alloc_ptr, len)?;
+        let (returned_ptr, returned_len) = plugin_process_wasm_exported_fn.call(alloc_ptr, len)?;
+        let returned_len = returned_len.try_into().unwrap();
 
-        Ok(program)
+        // Reconstruct AlignedVec from ptr returned by plugin
+        let memory = instance.exports.get_memory("memory")?;
+        let ptr: WasmPtr<u8, Array> = WasmPtr::new(returned_ptr as _);
+
+        let mut transformed_serialized = AlignedVec::with_capacity(returned_len);
+
+        // Deref & read through plguin's wasm memory space via returned ptr
+        let derefed_ptr = ptr
+            .deref(memory, 0, returned_len.try_into().unwrap())
+            .unwrap();
+
+        let transformed_raw_bytes = derefed_ptr
+            .iter()
+            .enumerate()
+            .take(returned_len)
+            .map(|(_size, cell)| cell.get())
+            .collect::<Vec<u8>>();
+
+        transformed_serialized.extend_from_slice(&transformed_raw_bytes);
+
+        // Deserialize into Program from reconstructed raw bytes
+        let archived = unsafe { rkyv::archived_root::<Program>(&transformed_serialized[..]) };
+        let transformed_program: Program = archived.deserialize(&mut rkyv::Infallible).unwrap();
+
+        Ok(transformed_program)
     })()
     .with_context(|| {
         format!(
