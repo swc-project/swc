@@ -2555,7 +2555,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.110.0"
+version = "0.110.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2791,7 +2791,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.63.0"
+version = "0.63.1"
 dependencies = [
  "arbitrary",
  "is-macro",
@@ -3241,7 +3241,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.61.0"
+version = "0.61.1"
 dependencies = [
  "once_cell",
  "rayon",
@@ -3267,7 +3267,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.105.0"
+version = "0.105.1"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
