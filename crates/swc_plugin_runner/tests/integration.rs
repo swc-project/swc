@@ -5,7 +5,7 @@ use std::{
     process::{Command, Stdio},
 };
 use swc_common::FileName;
-use swc_ecma_ast::{CallExpr, EsVersion, Expr, Callee, Lit, MemberExpr, Str};
+use swc_ecma_ast::{CallExpr, Callee, EsVersion, Expr, Lit, MemberExpr, Str};
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
 use swc_ecma_visit::{Visit, VisitWith};
 
