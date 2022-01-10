@@ -9,16 +9,14 @@ impl VisitMut for ConsoleOutputReplacer {
     fn visit_mut_call_expr(&mut self, call: &mut CallExpr) {
         if let Callee::Expr(expr) = &call.callee {
             if let Expr::Member(MemberExpr { obj, .. }) = &**expr {
-                if let Callee::Expr(expr) = obj {
-                    if let Expr::Ident(ident) = &**expr {
-                        if ident.sym == *"console" {
-                            call.args[0].expr = Box::new(Expr::Lit(Lit::Str(Str {
-                                span: DUMMY_SP,
-                                has_escape: false,
-                                kind: StrKind::default(),
-                                value: JsWord::from("changed_via_plugin"),
-                            })));
-                        }
+                if let Expr::Ident(ident) = &**obj {
+                    if ident.sym == *"console" {
+                        call.args[0].expr = Box::new(Expr::Lit(Lit::Str(Str {
+                            span: DUMMY_SP,
+                            has_escape: false,
+                            kind: StrKind::default(),
+                            value: JsWord::from("changed_via_plugin"),
+                        })));
                     }
                 }
             }
