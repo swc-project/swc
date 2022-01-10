@@ -402,8 +402,7 @@
               },
               "value": "apply",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -765,8 +764,7 @@
               },
               "value": "apply",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }

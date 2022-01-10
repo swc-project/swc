@@ -310,8 +310,7 @@
                       },
                       "value": "chunk",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -377,8 +376,7 @@
             },
             "value": "exports",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",
@@ -458,8 +456,7 @@
           },
           "value": "chunk",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -598,8 +595,7 @@
           },
           "value": "chunk",
           "optional": false
-        },
-        "computed": false
+        }
       }
     }
   ],

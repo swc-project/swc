@@ -2756,16 +2756,23 @@
                 "optional": false
               },
               "property": {
-                "type": "Identifier",
+                "type": "Computed",
                 "span": {
-                  "start": 1470,
-                  "end": 1473,
+                  "start": 1466,
+                  "end": 1474,
                   "ctxt": 0
                 },
-                "value": "key",
-                "optional": false
-              },
-              "computed": true
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1470,
+                    "end": 1473,
+                    "ctxt": 0
+                  },
+                  "value": "key",
+                  "optional": false
+                }
+              }
             }
           }
         ]
@@ -3079,16 +3086,23 @@
                   "optional": false
                 },
                 "property": {
-                  "type": "Identifier",
+                  "type": "Computed",
                   "span": {
-                    "start": 1561,
-                    "end": 1564,
+                    "start": 1557,
+                    "end": 1565,
                     "ctxt": 0
                   },
-                  "value": "key",
-                  "optional": false
-                },
-                "computed": true
+                  "expression": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1561,
+                      "end": 1564,
+                      "ctxt": 0
+                    },
+                    "value": "key",
+                    "optional": false
+                  }
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -4372,16 +4386,23 @@
                 "optional": false
               },
               "property": {
-                "type": "Identifier",
+                "type": "Computed",
                 "span": {
-                  "start": 2053,
-                  "end": 2055,
+                  "start": 2051,
+                  "end": 2056,
                   "ctxt": 0
                 },
-                "value": "k1",
-                "optional": false
-              },
-              "computed": true
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2053,
+                    "end": 2055,
+                    "ctxt": 0
+                  },
+                  "value": "k1",
+                  "optional": false
+                }
+              }
             }
           },
           {
@@ -4409,16 +4430,23 @@
                 "optional": false
               },
               "property": {
-                "type": "Identifier",
+                "type": "Computed",
                 "span": {
-                  "start": 2064,
-                  "end": 2066,
+                  "start": 2062,
+                  "end": 2067,
                   "ctxt": 0
                 },
-                "value": "k2",
-                "optional": false
-              },
-              "computed": true
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2064,
+                    "end": 2066,
+                    "ctxt": 0
+                  },
+                  "value": "k2",
+                  "optional": false
+                }
+              }
             }
           },
           {
@@ -4446,16 +4474,23 @@
                 "optional": false
               },
               "property": {
-                "type": "Identifier",
+                "type": "Computed",
                 "span": {
-                  "start": 2075,
-                  "end": 2077,
+                  "start": 2073,
+                  "end": 2078,
                   "ctxt": 0
                 },
-                "value": "k3",
-                "optional": false
-              },
-              "computed": true
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2075,
+                    "end": 2077,
+                    "ctxt": 0
+                  },
+                  "value": "k3",
+                  "optional": false
+                }
+              }
             }
           },
           {
@@ -4483,16 +4518,23 @@
                 "optional": false
               },
               "property": {
-                "type": "Identifier",
+                "type": "Computed",
                 "span": {
-                  "start": 2096,
-                  "end": 2098,
+                  "start": 2094,
+                  "end": 2099,
                   "ctxt": 0
                 },
-                "value": "k4",
-                "optional": false
-              },
-              "computed": true
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2096,
+                    "end": 2098,
+                    "ctxt": 0
+                  },
+                  "value": "k4",
+                  "optional": false
+                }
+              }
             }
           },
           {
@@ -4520,16 +4562,23 @@
                 "optional": false
               },
               "property": {
-                "type": "Identifier",
+                "type": "Computed",
                 "span": {
-                  "start": 2118,
-                  "end": 2120,
+                  "start": 2116,
+                  "end": 2121,
                   "ctxt": 0
                 },
-                "value": "k1",
-                "optional": false
-              },
-              "computed": true
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2118,
+                    "end": 2120,
+                    "ctxt": 0
+                  },
+                  "value": "k1",
+                  "optional": false
+                }
+              }
             }
           },
           {
@@ -4557,16 +4606,23 @@
                 "optional": false
               },
               "property": {
-                "type": "Identifier",
+                "type": "Computed",
                 "span": {
-                  "start": 2129,
-                  "end": 2131,
+                  "start": 2127,
+                  "end": 2132,
                   "ctxt": 0
                 },
-                "value": "k2",
-                "optional": false
-              },
-              "computed": true
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2129,
+                    "end": 2131,
+                    "ctxt": 0
+                  },
+                  "value": "k2",
+                  "optional": false
+                }
+              }
             }
           },
           {
@@ -4594,16 +4650,23 @@
                 "optional": false
               },
               "property": {
-                "type": "Identifier",
+                "type": "Computed",
                 "span": {
-                  "start": 2140,
-                  "end": 2142,
+                  "start": 2138,
+                  "end": 2143,
                   "ctxt": 0
                 },
-                "value": "k3",
-                "optional": false
-              },
-              "computed": true
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2140,
+                    "end": 2142,
+                    "ctxt": 0
+                  },
+                  "value": "k3",
+                  "optional": false
+                }
+              }
             }
           },
           {
@@ -4631,16 +4694,23 @@
                 "optional": false
               },
               "property": {
-                "type": "Identifier",
+                "type": "Computed",
                 "span": {
-                  "start": 2151,
-                  "end": 2153,
+                  "start": 2149,
+                  "end": 2154,
                   "ctxt": 0
                 },
-                "value": "k4",
-                "optional": false
-              },
-              "computed": true
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2151,
+                    "end": 2153,
+                    "ctxt": 0
+                  },
+                  "value": "k4",
+                  "optional": false
+                }
+              }
             }
           },
           {
@@ -5831,16 +5901,23 @@
                         "optional": false
                       },
                       "property": {
-                        "type": "Identifier",
+                        "type": "Computed",
                         "span": {
-                          "start": 2647,
-                          "end": 2650,
+                          "start": 2645,
+                          "end": 2651,
                           "ctxt": 0
                         },
-                        "value": "key",
-                        "optional": false
-                      },
-                      "computed": true
+                        "expression": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 2647,
+                            "end": 2650,
+                            "ctxt": 0
+                          },
+                          "value": "key",
+                          "optional": false
+                        }
+                      }
                     },
                     "right": {
                       "type": "Identifier",
@@ -5898,16 +5975,23 @@
                         "optional": false
                       },
                       "property": {
-                        "type": "Identifier",
+                        "type": "Computed",
                         "span": {
-                          "start": 2700,
-                          "end": 2703,
+                          "start": 2698,
+                          "end": 2704,
                           "ctxt": 0
                         },
-                        "value": "key",
-                        "optional": false
-                      },
-                      "computed": true
+                        "expression": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 2700,
+                            "end": 2703,
+                            "ctxt": 0
+                          },
+                          "value": "key",
+                          "optional": false
+                        }
+                      }
                     }
                   }
                 }
@@ -7497,16 +7581,23 @@
                   "optional": false
                 },
                 "property": {
-                  "type": "Identifier",
+                  "type": "Computed",
                   "span": {
-                    "start": 3425,
-                    "end": 3426,
+                    "start": 3423,
+                    "end": 3427,
                     "ctxt": 0
                   },
-                  "value": "k",
-                  "optional": false
-                },
-                "computed": true
+                  "expression": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 3425,
+                      "end": 3426,
+                      "ctxt": 0
+                    },
+                    "value": "k",
+                    "optional": false
+                  }
+                }
               },
               "right": {
                 "type": "NumericLiteral",
@@ -7552,16 +7643,23 @@
                   "optional": false
                 },
                 "property": {
-                  "type": "Identifier",
+                  "type": "Computed",
                   "span": {
-                    "start": 3450,
-                    "end": 3451,
+                    "start": 3448,
+                    "end": 3452,
                     "ctxt": 0
                   },
-                  "value": "k",
-                  "optional": false
-                },
-                "computed": true
+                  "expression": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 3450,
+                      "end": 3451,
+                      "ctxt": 0
+                    },
+                    "value": "k",
+                    "optional": false
+                  }
+                }
               },
               "right": {
                 "type": "StringLiteral",
@@ -7612,16 +7710,23 @@
                   "optional": false
                 },
                 "property": {
-                  "type": "Identifier",
+                  "type": "Computed",
                   "span": {
-                    "start": 3480,
-                    "end": 3481,
+                    "start": 3478,
+                    "end": 3482,
                     "ctxt": 0
                   },
-                  "value": "k",
-                  "optional": false
-                },
-                "computed": true
+                  "expression": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 3480,
+                      "end": 3481,
+                      "ctxt": 0
+                    },
+                    "value": "k",
+                    "optional": false
+                  }
+                }
               },
               "right": {
                 "type": "ArrayExpression",

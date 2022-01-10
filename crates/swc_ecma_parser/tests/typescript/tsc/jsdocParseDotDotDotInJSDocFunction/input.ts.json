@@ -220,8 +220,7 @@
               },
               "value": "fromCharCode",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }

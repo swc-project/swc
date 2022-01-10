@@ -38,7 +38,8 @@ class B extends A {
     simple() {
         var _super_x = (..._args)=>super.x(..._args)
         , _super_y = (..._args)=>super.y(..._args)
-        , _super_method = (..._args)=>super["x"](..._args)
+        , // call with element access
+        _super_method = (..._args)=>super["x"](..._args)
         , _super_x1 = ()=>super.x
         , _super_method1 = ()=>super["x"]
         ;
@@ -47,7 +48,6 @@ class B extends A {
             _super_x();
             // call additional property.
             _super_y();
-            // call with element access
             _super_method();
             // property access (read)
             const a = _super_x1();
@@ -58,13 +58,14 @@ class B extends A {
     // async method with assignment/destructuring on 'super' requires a binding
     advanced() {
         var _super_x = (..._args)=>super.x(..._args)
-        , _super_method = (..._args)=>super["x"](..._args)
+        , // call with element access
+        _super_method = (..._args)=>super["x"](..._args)
         , _super_x2 = ()=>super.x
         , _super_method2 = ()=>super["x"]
         , _super_x3 = (_args)=>// property access (assign)
             super.x = _args
-        , _super_method3 = (_args)=>// element access (assign)
-            super["x"] = _args
+        , // element access (assign)
+        _super_method3 = (_args)=>super["x"] = _args
         , _super_x4 = ()=>super.x
         , _super_method4 = ()=>super["x"]
         ;
@@ -72,7 +73,6 @@ class B extends A {
             const f = ()=>{};
             // call with property access
             _super_x();
-            // call with element access
             _super_method();
             // property access (read)
             const a = _super_x2();

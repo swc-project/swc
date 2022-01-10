@@ -224,8 +224,7 @@
               },
               "value": "exports",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -236,8 +235,7 @@
             },
             "value": "bothBefore",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "StringLiteral",
@@ -296,8 +294,7 @@
             },
             "value": "exports",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -425,8 +422,7 @@
               },
               "value": "exports",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -437,8 +433,7 @@
             },
             "value": "bothAfter",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "StringLiteral",
@@ -504,8 +499,7 @@
               },
               "value": "exports",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -516,8 +510,7 @@
             },
             "value": "justProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "StringLiteral",
@@ -652,8 +645,7 @@
               },
               "value": "justExport",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -664,8 +656,7 @@
             },
             "value": "toFixed",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -718,8 +709,7 @@
               },
               "value": "bothBefore",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -730,8 +720,7 @@
             },
             "value": "toFixed",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -784,8 +773,7 @@
               },
               "value": "bothAfter",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -796,8 +784,7 @@
             },
             "value": "toFixed",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -843,8 +830,7 @@
             },
             "value": "justProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "property": {
           "type": "Identifier",
@@ -855,8 +841,7 @@
           },
           "value": "length",
           "optional": false
-        },
-        "computed": false
+        }
       }
     }
   ],

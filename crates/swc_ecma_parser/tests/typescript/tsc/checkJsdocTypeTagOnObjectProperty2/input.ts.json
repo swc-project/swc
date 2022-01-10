@@ -434,8 +434,7 @@
                 },
                 "value": "method1",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -518,8 +517,7 @@
                 },
                 "value": "method2",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {

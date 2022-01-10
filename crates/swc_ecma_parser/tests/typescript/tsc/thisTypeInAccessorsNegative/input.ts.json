@@ -395,8 +395,7 @@
                           },
                           "value": "n",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   ]
@@ -503,8 +502,7 @@
                             },
                             "value": "wrong",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "StringLiteral",
@@ -672,8 +670,7 @@
                           },
                           "value": "n",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   ]

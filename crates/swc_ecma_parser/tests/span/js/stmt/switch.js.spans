@@ -58,7 +58,7 @@ warning: CallExpr
 1 | switch (foo()) {
   |         ^^^^^
 
-warning: ExprOrSuper
+warning: Callee
  --> $DIR/tests/span/js/stmt/switch.js:1:9
   |
 1 | switch (foo()) {
@@ -248,7 +248,7 @@ warning: CallExpr
 10 |         foo()
    |         ^^^^^
 
-warning: ExprOrSuper
+warning: Callee
   --> $DIR/tests/span/js/stmt/switch.js:10:9
    |
 10 |         foo()

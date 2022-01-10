@@ -108,8 +108,7 @@
                         },
                         "value": "x",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "NumericLiteral",
@@ -371,8 +370,7 @@
                           "value": "fieldFunc",
                           "optional": false
                         }
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -438,8 +436,7 @@
                             "value": "fieldFunc",
                             "optional": false
                           }
-                        },
-                        "computed": false
+                        }
                       },
                       "definite": false
                     }
@@ -519,8 +516,7 @@
                           "value": "fieldFunc",
                           "optional": false
                         }
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -638,8 +634,7 @@
                           "value": "fieldFunc2",
                           "optional": false
                         }
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [
                       {
@@ -754,8 +749,7 @@
                               "value": "fieldFunc2",
                               "optional": false
                             }
-                          },
-                          "computed": false
+                          }
                         },
                         "arguments": [
                           {
@@ -873,8 +867,7 @@
                               "value": "fieldFunc2",
                               "optional": false
                             }
-                          },
-                          "computed": false
+                          }
                         },
                         "typeParameters": null,
                         "template": {
@@ -1075,8 +1068,7 @@
                             },
                             "value": "getInstance",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "arguments": [],
                         "typeArguments": null
@@ -1098,8 +1090,7 @@
                           "value": "fieldFunc2",
                           "optional": false
                         }
-                      },
-                      "computed": false
+                      }
                     },
                     "typeParameters": null,
                     "template": {

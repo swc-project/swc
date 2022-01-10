@@ -159,8 +159,7 @@
               },
               "value": "z",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -489,8 +488,7 @@
               },
               "value": "z",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "typeAnnotation": null,
           "isStatic": false,

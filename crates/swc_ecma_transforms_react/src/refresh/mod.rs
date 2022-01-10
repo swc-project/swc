@@ -29,7 +29,7 @@ struct Hoc {
     hook: Option<HocHook>,
 }
 struct HocHook {
-    callee: ExprOrSuper,
+    callee: Callee,
     rest_arg: Vec<ExprOrSpread>,
 }
 enum Persist {
@@ -154,7 +154,7 @@ impl<C: Comments> Refresh<C> {
             [first, ..] => &mut first.expr,
             _ => return Persist::None,
         };
-        let callee = if let ExprOrSuper::Expr(expr) = &call_expr.callee {
+        let callee = if let Callee::Expr(expr) = &call_expr.callee {
             expr
         } else {
             return Persist::None;
@@ -473,7 +473,7 @@ impl<C: Comments> VisitMut for Refresh<C> {
                 span: DUMMY_SP,
                 expr: Box::new(Expr::Call(CallExpr {
                     span: DUMMY_SP,
-                    callee: ExprOrSuper::Expr(Box::new(Expr::Ident(quote_ident!(refresh_reg)))),
+                    callee: Callee::Expr(Box::new(Expr::Ident(quote_ident!(refresh_reg)))),
                     args: vec![
                         ExprOrSpread {
                             spread: None,

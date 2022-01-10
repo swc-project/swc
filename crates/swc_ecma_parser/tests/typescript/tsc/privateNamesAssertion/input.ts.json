@@ -391,8 +391,7 @@
                           "value": "p1",
                           "optional": false
                         }
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [
                       {

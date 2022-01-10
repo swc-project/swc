@@ -27,24 +27,28 @@ impl VisitMut for DisplayName {
             return;
         }
 
-        if let Some(Expr::Member(MemberExpr {
-            prop,
-            computed: false,
-            ..
-        })) = expr.left.as_expr()
-        {
-            if let Expr::Ident(ref prop) = &**prop {
-                expr.right.visit_mut_with(&mut Folder {
+        match expr.left.as_expr() {
+            Some(
+                Expr::Member(MemberExpr {
+                    prop: MemberProp::Ident(prop),
+                    ..
+                })
+                | Expr::SuperProp(SuperPropExpr {
+                    prop: SuperProp::Ident(prop),
+                    ..
+                }),
+            ) => {
+                return expr.right.visit_mut_with(&mut Folder {
                     name: Some(Box::new(Expr::Lit(Lit::Str(Str {
                         span: prop.span,
                         value: prop.sym.clone(),
                         has_escape: false,
                         kind: Default::default(),
                     })))),
-                });
-                return;
+                })
             }
-        }
+            _ => (),
+        };
 
         if let Some(ident) = expr.left.as_ident() {
             expr.right.visit_mut_with(&mut Folder {
@@ -148,29 +152,27 @@ impl VisitMut for Folder {
 
 fn is_create_class_call(call: &CallExpr) -> bool {
     let callee = match &call.callee {
-        ExprOrSuper::Super(_) => return false,
-        ExprOrSuper::Expr(callee) => &**callee,
+        Callee::Super(_) | Callee::Import(_) => return false,
+        Callee::Expr(callee) => &**callee,
     };
 
     match callee {
         Expr::Member(MemberExpr {
-            obj: ExprOrSuper::Expr(obj),
-            prop,
-            computed: false,
+            obj,
+            prop:
+                MemberProp::Ident(Ident {
+                    sym: js_word!("createClass"),
+                    ..
+                }),
             ..
         }) => match &**obj {
             Expr::Ident(Ident {
                 sym: js_word!("React"),
                 ..
-            }) => match &**prop {
-                Expr::Ident(Ident {
-                    sym: js_word!("createClass"),
-                    ..
-                }) => return true,
-                _ => {}
-            },
+            }) => return true,
             _ => {}
         },
+
         Expr::Ident(Ident {
             sym: js_word!("createReactClass"),
             ..

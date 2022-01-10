@@ -108,8 +108,7 @@
                 },
                 "value": "toString",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -171,20 +170,27 @@
                 "optional": false
               },
               "property": {
-                "type": "StringLiteral",
+                "type": "Computed",
                 "span": {
-                  "start": 47,
-                  "end": 57,
+                  "start": 45,
+                  "end": 58,
                   "ctxt": 0
                 },
-                "value": "toString",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 47,
+                    "end": 57,
+                    "ctxt": 0
+                  },
+                  "value": "toString",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
                 }
-              },
-              "computed": true
+              }
             },
             "arguments": [],
             "typeArguments": null

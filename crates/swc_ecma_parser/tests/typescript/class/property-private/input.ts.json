@@ -197,8 +197,7 @@
                         "value": "b",
                         "optional": false
                       }
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "StringLiteral",

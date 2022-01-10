@@ -53,8 +53,7 @@
               },
               "value": "match",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "arguments": [
             {
@@ -74,15 +73,22 @@
           "typeArguments": null
         },
         "property": {
-          "type": "NumericLiteral",
+          "type": "Computed",
           "span": {
-            "start": 28,
-            "end": 29,
+            "start": 0,
+            "end": 30,
             "ctxt": 0
           },
-          "value": 1.0
-        },
-        "computed": true
+          "expression": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 28,
+              "end": 29,
+              "ctxt": 0
+            },
+            "value": 1.0
+          }
+        }
       }
     }
   ],

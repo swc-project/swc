@@ -389,8 +389,7 @@
                       },
                       "value": "b",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ],

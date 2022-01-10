@@ -248,8 +248,7 @@
                         },
                         "value": "log",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [
                       {
@@ -477,8 +476,7 @@
             },
             "value": "log",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -509,8 +507,7 @@
                 },
                 "value": "x",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ],

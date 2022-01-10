@@ -263,8 +263,7 @@
               },
               "value": "foo",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -324,8 +323,7 @@
               },
               "value": "bar",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -725,8 +723,7 @@
               },
               "value": "foo",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -786,8 +783,7 @@
               },
               "value": "bar",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -1077,8 +1073,7 @@
                     },
                     "value": "foo",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "definite": false
               }
@@ -1138,8 +1133,7 @@
                     },
                     "value": "bar",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "definite": false
               }
@@ -1498,8 +1492,7 @@
                     },
                     "value": "foo",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "definite": false
               }
@@ -1559,8 +1552,7 @@
                     },
                     "value": "bar",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "definite": false
               }

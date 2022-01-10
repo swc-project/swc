@@ -610,8 +610,7 @@
           },
           "value": "x1",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -647,8 +646,7 @@
           },
           "value": "x2",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -684,8 +682,7 @@
           },
           "value": "x3",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -721,8 +718,7 @@
           },
           "value": "x4",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {

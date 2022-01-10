@@ -759,48 +759,47 @@ impl ObjectRest {
                     })
                 }
                 ObjectPatProp::KeyValue(KeyValuePatProp { key, value }) => {
-                    let computed = match key {
-                        PropName::Computed(..) => true,
-                        PropName::Num(..) => true,
-                        PropName::BigInt(..) => true,
-                        _ => false,
-                    };
-
                     let (key, prop) = match key {
                         PropName::Ident(ref ident) => {
                             let ident = ident.clone();
-                            (key, Box::new(Expr::Ident(ident)))
+                            (key, MemberProp::Ident(ident))
                         }
                         PropName::Str(Str {
                             ref value, span, ..
                         }) => {
                             let value = value.clone();
-                            (key, Box::new(Expr::Ident(quote_ident!(span, value))))
+                            (key, MemberProp::Ident(quote_ident!(span, value)))
                         }
                         PropName::Num(Number { span, value }) => (
                             key,
-                            Box::new(Expr::Lit(Lit::Str(Str {
+                            MemberProp::Computed(ComputedPropName {
                                 span,
-                                value: format!("{}", value).into(),
-                                has_escape: false,
-                                kind: Default::default(),
-                            }))),
-                        ),
-                        PropName::BigInt(BigInt { span, ref value }) => {
-                            let value = value.clone();
-                            (
-                                key,
-                                Box::new(Expr::Lit(Lit::Str(Str {
+                                expr: Box::new(Expr::Lit(Lit::Str(Str {
                                     span,
                                     value: format!("{}", value).into(),
                                     has_escape: false,
                                     kind: Default::default(),
                                 }))),
+                            }),
+                        ),
+                        PropName::BigInt(BigInt { span, ref value }) => {
+                            let value = value.clone();
+                            (
+                                key,
+                                MemberProp::Computed(ComputedPropName {
+                                    span,
+                                    expr: Box::new(Expr::Lit(Lit::Str(Str {
+                                        span,
+                                        value: format!("{}", value).into(),
+                                        has_escape: false,
+                                        kind: Default::default(),
+                                    }))),
+                                }),
                             )
                         }
                         PropName::Computed(ref c) if is_literal(&c.expr) => {
-                            let expr = c.expr.clone();
-                            (key, expr)
+                            let c = c.clone();
+                            (key, MemberProp::Computed(c))
                         }
                         PropName::Computed(c) => {
                             let (ident, aliased) = alias_if_required(&c.expr, "key");
@@ -819,7 +818,10 @@ impl ObjectRest {
                                     span: c.span,
                                     expr: Box::new(Expr::Ident(ident.clone())),
                                 }),
-                                Box::new(Expr::Ident(ident)),
+                                MemberProp::Computed(ComputedPropName {
+                                    span: c.span,
+                                    expr: Expr::Ident(ident).into(),
+                                }),
                             )
                         }
                     };
@@ -831,8 +833,7 @@ impl ObjectRest {
                             Box::new(
                                 MemberExpr {
                                     span: DUMMY_SP,
-                                    obj: obj.clone().as_obj(),
-                                    computed,
+                                    obj: obj.clone(),
                                     prop,
                                 }
                                 .into(),

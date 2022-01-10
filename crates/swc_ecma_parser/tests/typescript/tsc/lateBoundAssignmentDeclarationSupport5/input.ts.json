@@ -179,8 +179,7 @@
             },
             "value": "prototype",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -362,16 +361,23 @@
               "optional": false
             },
             "property": {
-              "type": "Identifier",
+              "type": "Computed",
               "span": {
-                "start": 328,
-                "end": 332,
+                "start": 323,
+                "end": 333,
                 "ctxt": 0
               },
-              "value": "_str",
-              "optional": false
-            },
-            "computed": true
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 328,
+                  "end": 332,
+                  "ctxt": 0
+                },
+                "value": "_str",
+                "optional": false
+              }
+            }
           },
           "definite": false
         }
@@ -423,16 +429,23 @@
               "optional": false
             },
             "property": {
-              "type": "Identifier",
+              "type": "Computed",
               "span": {
-                "start": 351,
-                "end": 355,
+                "start": 346,
+                "end": 356,
                 "ctxt": 0
               },
-              "value": "_sym",
-              "optional": false
-            },
-            "computed": true
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 351,
+                  "end": 355,
+                  "ctxt": 0
+                },
+                "value": "_sym",
+                "optional": false
+              }
+            }
           },
           "definite": false
         }
@@ -486,8 +499,7 @@
               },
               "value": "exports",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -498,8 +510,7 @@
             },
             "value": "F",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",
@@ -561,8 +572,7 @@
               },
               "value": "exports",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -573,8 +583,7 @@
             },
             "value": "S",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",
@@ -719,8 +728,7 @@
                 },
                 "value": "F",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -775,20 +783,27 @@
               "optional": false
             },
             "property": {
-              "type": "StringLiteral",
+              "type": "Computed",
               "span": {
-                "start": 534,
-                "end": 547,
+                "start": 529,
+                "end": 548,
                 "ctxt": 0
               },
-              "value": "my-fake-sym",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 534,
+                  "end": 547,
+                  "ctxt": 0
+                },
+                "value": "my-fake-sym",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
               }
-            },
-            "computed": true
+            }
           },
           "definite": false
         }
@@ -840,35 +855,41 @@
               "optional": false
             },
             "property": {
-              "type": "MemberExpression",
+              "type": "Computed",
               "span": {
-                "start": 565,
-                "end": 568,
+                "start": 560,
+                "end": 569,
                 "ctxt": 0
               },
-              "object": {
-                "type": "Identifier",
+              "expression": {
+                "type": "MemberExpression",
                 "span": {
                   "start": 565,
-                  "end": 566,
-                  "ctxt": 0
-                },
-                "value": "x",
-                "optional": false
-              },
-              "property": {
-                "type": "Identifier",
-                "span": {
-                  "start": 567,
                   "end": 568,
                   "ctxt": 0
                 },
-                "value": "S",
-                "optional": false
-              },
-              "computed": false
-            },
-            "computed": true
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 565,
+                    "end": 566,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 567,
+                    "end": 568,
+                    "ctxt": 0
+                  },
+                  "value": "S",
+                  "optional": false
+                }
+              }
+            }
           },
           "definite": false
         }

@@ -119,8 +119,7 @@
                         },
                         "value": "n",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "Identifier",
@@ -203,8 +202,7 @@
                         },
                         "value": "n",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 ]
@@ -360,8 +358,7 @@
                 },
                 "value": "Crunch",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -416,8 +413,7 @@
           },
           "value": "n",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -502,8 +498,7 @@
                 },
                 "value": "n",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]

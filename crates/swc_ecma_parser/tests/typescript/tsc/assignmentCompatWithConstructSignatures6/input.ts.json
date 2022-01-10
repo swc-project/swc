@@ -2423,8 +2423,7 @@
             },
             "value": "a",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",
@@ -2490,8 +2489,7 @@
             },
             "value": "a",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -2679,8 +2677,7 @@
             },
             "value": "a2",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",
@@ -2746,8 +2743,7 @@
             },
             "value": "a2",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -2937,8 +2933,7 @@
             },
             "value": "a3",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",
@@ -3004,8 +2999,7 @@
             },
             "value": "a3",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -3242,8 +3236,7 @@
             },
             "value": "a4",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",
@@ -3309,8 +3302,7 @@
             },
             "value": "a4",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -3576,8 +3568,7 @@
             },
             "value": "a5",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",
@@ -3643,8 +3634,7 @@
             },
             "value": "a5",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -4026,8 +4016,7 @@
             },
             "value": "a11",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",
@@ -4093,8 +4082,7 @@
             },
             "value": "a11",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -4385,8 +4373,7 @@
             },
             "value": "a16",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",
@@ -4452,8 +4439,7 @@
             },
             "value": "a16",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     }

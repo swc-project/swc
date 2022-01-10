@@ -223,8 +223,7 @@
               },
               "value": "arr",
               "optional": false
-            },
-            "computed": false
+            }
           }
         },
         "right": {

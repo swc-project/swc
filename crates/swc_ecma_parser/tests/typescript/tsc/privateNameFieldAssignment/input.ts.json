@@ -144,8 +144,7 @@
                         "value": "field",
                         "optional": false
                       }
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -205,8 +204,7 @@
                         "value": "field",
                         "optional": false
                       }
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -266,8 +264,7 @@
                         "value": "field",
                         "optional": false
                       }
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -327,8 +324,7 @@
                         "value": "field",
                         "optional": false
                       }
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -388,8 +384,7 @@
                         "value": "field",
                         "optional": false
                       }
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -449,8 +444,7 @@
                         "value": "field",
                         "optional": false
                       }
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -510,8 +504,7 @@
                         "value": "field",
                         "optional": false
                       }
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -571,8 +564,7 @@
                         "value": "field",
                         "optional": false
                       }
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -632,8 +624,7 @@
                         "value": "field",
                         "optional": false
                       }
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -693,8 +684,7 @@
                         "value": "field",
                         "optional": false
                       }
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -754,8 +744,7 @@
                         "value": "field",
                         "optional": false
                       }
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -815,8 +804,7 @@
                         "value": "field",
                         "optional": false
                       }
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -876,8 +864,7 @@
                         "value": "field",
                         "optional": false
                       }
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -945,8 +932,7 @@
                           },
                           "value": "getInstance",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [],
                       "typeArguments": null
@@ -968,8 +954,7 @@
                         "value": "field",
                         "optional": false
                       }
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -1037,8 +1022,7 @@
                           },
                           "value": "getInstance",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [],
                       "typeArguments": null
@@ -1060,8 +1044,7 @@
                         "value": "field",
                         "optional": false
                       }
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -1129,8 +1112,7 @@
                           },
                           "value": "getInstance",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [],
                       "typeArguments": null
@@ -1152,8 +1134,7 @@
                         "value": "field",
                         "optional": false
                       }
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -1221,8 +1202,7 @@
                           },
                           "value": "getInstance",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [],
                       "typeArguments": null
@@ -1244,8 +1224,7 @@
                         "value": "field",
                         "optional": false
                       }
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -1313,8 +1292,7 @@
                           },
                           "value": "getInstance",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [],
                       "typeArguments": null
@@ -1336,8 +1314,7 @@
                         "value": "field",
                         "optional": false
                       }
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -1405,8 +1382,7 @@
                           },
                           "value": "getInstance",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [],
                       "typeArguments": null
@@ -1428,8 +1404,7 @@
                         "value": "field",
                         "optional": false
                       }
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -1497,8 +1472,7 @@
                           },
                           "value": "getInstance",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [],
                       "typeArguments": null
@@ -1520,8 +1494,7 @@
                         "value": "field",
                         "optional": false
                       }
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -1589,8 +1562,7 @@
                           },
                           "value": "getInstance",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [],
                       "typeArguments": null
@@ -1612,8 +1584,7 @@
                         "value": "field",
                         "optional": false
                       }
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -1681,8 +1652,7 @@
                           },
                           "value": "getInstance",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [],
                       "typeArguments": null
@@ -1704,8 +1674,7 @@
                         "value": "field",
                         "optional": false
                       }
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -1773,8 +1742,7 @@
                           },
                           "value": "getInstance",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [],
                       "typeArguments": null
@@ -1796,8 +1764,7 @@
                         "value": "field",
                         "optional": false
                       }
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -1865,8 +1832,7 @@
                           },
                           "value": "getInstance",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [],
                       "typeArguments": null
@@ -1888,8 +1854,7 @@
                         "value": "field",
                         "optional": false
                       }
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -1957,8 +1922,7 @@
                           },
                           "value": "getInstance",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [],
                       "typeArguments": null
@@ -1980,8 +1944,7 @@
                         "value": "field",
                         "optional": false
                       }
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -2049,8 +2012,7 @@
                           },
                           "value": "getInstance",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [],
                       "typeArguments": null
@@ -2072,8 +2034,7 @@
                         "value": "field",
                         "optional": false
                       }
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",

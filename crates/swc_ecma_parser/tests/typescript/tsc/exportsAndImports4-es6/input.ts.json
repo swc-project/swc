@@ -104,8 +104,7 @@
           },
           "value": "default",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -247,8 +246,7 @@
           },
           "value": "default",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -437,8 +435,7 @@
           },
           "value": "default",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -651,8 +648,7 @@
           },
           "value": "default",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -794,8 +790,7 @@
           },
           "value": "default",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -984,8 +979,7 @@
           },
           "value": "default",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {

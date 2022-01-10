@@ -235,8 +235,7 @@
                     },
                     "value": "$scope",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "right": {
                   "type": "Identifier",
@@ -289,8 +288,7 @@
                     },
                     "value": "$attrs",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "right": {
                   "type": "Identifier",

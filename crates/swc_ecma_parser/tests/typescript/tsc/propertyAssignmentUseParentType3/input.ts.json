@@ -115,8 +115,7 @@
             },
             "value": "toFixed",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "StringLiteral",
@@ -251,8 +250,7 @@
             },
             "value": "join",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "StringLiteral",
@@ -384,8 +382,7 @@
             },
             "value": "trim",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "StringLiteral",
@@ -585,8 +582,7 @@
             },
             "value": "x",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "StringLiteral",

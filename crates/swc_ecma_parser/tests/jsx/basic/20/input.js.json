@@ -95,8 +95,7 @@
                       },
                       "value": "bb",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "property": {
                     "type": "Identifier",
@@ -107,8 +106,7 @@
                     },
                     "value": "cc",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               }
             },
@@ -169,8 +167,7 @@
                       },
                       "value": "cc",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "property": {
                     "type": "Identifier",
@@ -181,8 +178,7 @@
                     },
                     "value": "dd",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               }
             }
@@ -253,8 +249,7 @@
                     },
                     "value": "b",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               }
             ],

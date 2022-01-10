@@ -132,8 +132,7 @@
                                   },
                                   "value": "_map",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "right": {
                                 "type": "ObjectExpression",
@@ -177,8 +176,7 @@
                                 },
                                 "value": "_map",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           },
                           {
@@ -212,8 +210,7 @@
                                 },
                                 "value": "set",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           },
                           {
@@ -247,8 +244,7 @@
                                 },
                                 "value": "get",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           },
                           {
@@ -282,8 +278,7 @@
                                 },
                                 "value": "addon",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           }
                         ]
@@ -338,8 +333,7 @@
                       },
                       "value": "prototype",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "ObjectExpression",
@@ -410,8 +404,7 @@
                                     },
                                     "value": "_map",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 }
                               },
                               {
@@ -445,8 +438,7 @@
                                     },
                                     "value": "set",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 }
                               },
                               {
@@ -480,8 +472,7 @@
                                     },
                                     "value": "get",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 }
                               },
                               {
@@ -515,8 +506,7 @@
                                     },
                                     "value": "addon",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 }
                               }
                             ]
@@ -585,8 +575,7 @@
                                   },
                                   "value": "_map",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               }
                             },
                             {
@@ -620,8 +609,7 @@
                                   },
                                   "value": "set",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               }
                             },
                             {
@@ -655,8 +643,7 @@
                                   },
                                   "value": "get",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               }
                             },
                             {
@@ -690,8 +677,7 @@
                                   },
                                   "value": "addon",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               }
                             }
                           ]
@@ -753,8 +739,7 @@
                         },
                         "value": "prototype",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "property": {
                       "type": "Identifier",
@@ -765,8 +750,7 @@
                       },
                       "value": "addon",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "FunctionExpression",
@@ -817,8 +801,7 @@
                               },
                               "value": "_map",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         },
                         {
@@ -852,8 +835,7 @@
                               },
                               "value": "set",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         },
                         {
@@ -887,8 +869,7 @@
                               },
                               "value": "get",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         },
                         {
@@ -922,8 +903,7 @@
                               },
                               "value": "addon",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         }
                       ]
@@ -1020,8 +1000,7 @@
                     },
                     "value": "_map",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               },
               {
@@ -1057,8 +1036,7 @@
                     },
                     "value": "set",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               },
               {
@@ -1094,8 +1072,7 @@
                     },
                     "value": "get",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               },
               {
@@ -1131,8 +1108,7 @@
                     },
                     "value": "addon",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               }
             ]

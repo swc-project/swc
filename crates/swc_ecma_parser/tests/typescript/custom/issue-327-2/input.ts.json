@@ -94,8 +94,7 @@
                     },
                     "value": "bar",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "consequent": {
                   "type": "ParenthesisExpression",
@@ -144,8 +143,7 @@
                           },
                           "value": "bar",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "property": {
                         "type": "Identifier",
@@ -156,8 +154,7 @@
                         },
                         "value": "bas",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "consequent": {
                       "type": "StringLiteral",

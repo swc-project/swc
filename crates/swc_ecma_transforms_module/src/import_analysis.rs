@@ -54,24 +54,18 @@ impl Visit for ImportAnalyzer {
         n.visit_children_with(self);
         let mut scope = self.scope.borrow_mut();
         match &n.callee {
-            ExprOrSuper::Expr(callee) => match &**callee {
-                Expr::Ident(callee) => {
-                    if callee.sym == js_word!("import") {
-                        if let Some(ExprOrSpread { spread: None, expr }) = n.args.first() {
-                            match &**expr {
-                                Expr::Lit(Lit::Str(src)) => {
-                                    *scope.import_types.entry(src.value.clone()).or_default() =
-                                        true;
-                                }
-                                _ => {
-                                    scope.unknown_imports.0 = true;
-                                }
-                            }
+            Callee::Import(..) => {
+                if let Some(ExprOrSpread { spread: None, expr }) = n.args.first() {
+                    match &**expr {
+                        Expr::Lit(Lit::Str(src)) => {
+                            *scope.import_types.entry(src.value.clone()).or_default() = true;
+                        }
+                        _ => {
+                            scope.unknown_imports.0 = true;
                         }
                     }
                 }
-                _ => {}
-            },
+            }
             _ => {}
         }
     }

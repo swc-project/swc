@@ -47,8 +47,7 @@
             },
             "value": "f",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "AssignmentExpression",
@@ -84,8 +83,7 @@
               },
               "value": "g",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "right": {
             "type": "FunctionExpression",
@@ -229,8 +227,7 @@
               },
               "value": "exports",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -241,8 +238,7 @@
             },
             "value": "h",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "AssignmentExpression",
@@ -285,8 +281,7 @@
                 },
                 "value": "exports",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
               "type": "Identifier",
@@ -297,8 +292,7 @@
               },
               "value": "i",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "right": {
             "type": "FunctionExpression",
@@ -572,8 +566,7 @@
             },
             "value": "f",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -637,8 +630,7 @@
             },
             "value": "g",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -702,8 +694,7 @@
             },
             "value": "h",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -762,8 +753,7 @@
             },
             "value": "i",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {

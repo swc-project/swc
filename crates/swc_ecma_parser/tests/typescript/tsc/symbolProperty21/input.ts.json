@@ -117,8 +117,7 @@
                 },
                 "value": "unscopables",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "computed": true,
             "optional": false,
@@ -187,8 +186,7 @@
                 },
                 "value": "isConcatSpreadable",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "computed": true,
             "optional": false,
@@ -584,8 +582,7 @@
                         },
                         "value": "isConcatSpreadable",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   },
                   "value": {
@@ -638,8 +635,7 @@
                         },
                         "value": "toPrimitive",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   },
                   "value": {
@@ -687,8 +683,7 @@
                         },
                         "value": "unscopables",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   },
                   "value": {

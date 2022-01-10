@@ -68,8 +68,7 @@
                 },
                 "value": "GLOBSTAR",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "right": {
               "type": "ObjectExpression",
@@ -160,8 +159,7 @@
             },
             "value": "p",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -222,8 +220,7 @@
               },
               "value": "GLOBSTAR",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -234,8 +231,7 @@
             },
             "value": "q",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -281,8 +277,7 @@
           },
           "value": "p",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -318,8 +313,7 @@
           },
           "value": "q",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -362,8 +356,7 @@
             },
             "value": "GLOBSTAR",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "property": {
           "type": "Identifier",
@@ -374,8 +367,7 @@
           },
           "value": "p",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -418,8 +410,7 @@
             },
             "value": "GLOBSTAR",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "property": {
           "type": "Identifier",
@@ -430,8 +421,7 @@
           },
           "value": "q",
           "optional": false
-        },
-        "computed": false
+        }
       }
     }
   ],

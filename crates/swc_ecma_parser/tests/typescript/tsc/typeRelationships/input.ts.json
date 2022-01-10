@@ -245,8 +245,7 @@
                         },
                         "value": "c",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "MemberExpression",
@@ -272,8 +271,7 @@
                         },
                         "value": "self",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 },
@@ -316,8 +314,7 @@
                         },
                         "value": "self",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "MemberExpression",
@@ -343,8 +340,7 @@
                         },
                         "value": "c",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 }
@@ -535,8 +531,7 @@
                                 },
                                 "value": "c",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           }
                         ]
@@ -674,8 +669,7 @@
                                 },
                                 "value": "self",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           },
                           {
@@ -840,8 +834,7 @@
                         },
                         "value": "c",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "alternate": {
                       "type": "MemberExpression",
@@ -867,8 +860,7 @@
                         },
                         "value": "self",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 }
@@ -990,8 +982,7 @@
               },
               "value": "self",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -1052,8 +1043,7 @@
                 },
                 "value": "foo",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -1189,8 +1179,7 @@
                         },
                         "value": "self",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "MemberExpression",
@@ -1216,8 +1205,7 @@
                         },
                         "value": "self1",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 },
@@ -1260,8 +1248,7 @@
                         },
                         "value": "self",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "MemberExpression",
@@ -1287,8 +1274,7 @@
                         },
                         "value": "self2",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 },
@@ -1331,8 +1317,7 @@
                         },
                         "value": "self",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "MemberExpression",
@@ -1358,8 +1343,7 @@
                         },
                         "value": "self3",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 },
@@ -1402,8 +1386,7 @@
                         },
                         "value": "self1",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "MemberExpression",
@@ -1429,8 +1412,7 @@
                         },
                         "value": "self",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 },
@@ -1473,8 +1455,7 @@
                         },
                         "value": "self2",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "MemberExpression",
@@ -1500,8 +1481,7 @@
                         },
                         "value": "self",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 },
@@ -1544,8 +1524,7 @@
                         },
                         "value": "self3",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "MemberExpression",
@@ -1571,8 +1550,7 @@
                         },
                         "value": "self",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 },
@@ -1615,8 +1593,7 @@
                         },
                         "value": "d",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "MemberExpression",
@@ -1642,8 +1619,7 @@
                         },
                         "value": "self",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 },
@@ -1686,8 +1662,7 @@
                         },
                         "value": "d",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "MemberExpression",
@@ -1713,8 +1688,7 @@
                         },
                         "value": "c",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 },
@@ -1757,8 +1731,7 @@
                         },
                         "value": "self",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "MemberExpression",
@@ -1784,8 +1757,7 @@
                         },
                         "value": "d",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 },
@@ -1828,8 +1800,7 @@
                         },
                         "value": "c",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "MemberExpression",
@@ -1855,8 +1826,7 @@
                         },
                         "value": "d",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 }

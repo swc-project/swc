@@ -133,8 +133,7 @@
                       },
                       "value": "x",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -188,8 +187,7 @@
                       },
                       "value": "m",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "FunctionExpression",
@@ -249,8 +247,7 @@
                                 },
                                 "value": "log",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "arguments": [
                               {
@@ -281,8 +278,7 @@
                                     },
                                     "value": "x",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 }
                               }
                             ],
@@ -417,8 +413,7 @@
                         },
                         "value": "y",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "NumericLiteral",
@@ -537,8 +532,7 @@
           },
           "value": "x",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -574,8 +568,7 @@
           },
           "value": "y",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -618,8 +611,7 @@
             },
             "value": "m",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null

@@ -194,7 +194,10 @@ impl EndsWithAlphaNum for Expr {
             | Expr::Object(..)
             | Expr::Lit(Lit::Str(..))
             | Expr::Paren(..)
-            | Expr::Member(MemberExpr { computed: true, .. }) => false,
+            | Expr::Member(MemberExpr {
+                prop: MemberProp::Computed(..),
+                ..
+            }) => false,
             _ => true,
         }
     }
@@ -216,7 +219,7 @@ impl StartsWithAlphaNum for PropName {
 
 impl StartsWithAlphaNum for Expr {
     fn starts_with_alpha_num(&self) -> bool {
-        match *self {
+        match self {
             Expr::Ident(_)
             | Expr::Lit(Lit::Bool(_))
             | Expr::Lit(Lit::Num(_))
@@ -227,7 +230,8 @@ impl StartsWithAlphaNum for Expr {
             | Expr::This(_)
             | Expr::Yield(_)
             | Expr::New(_)
-            | Expr::MetaProp(_) => true,
+            | Expr::MetaProp(_)
+            | Expr::SuperProp(_) => true,
 
             Expr::PrivateName(_) => false,
 
@@ -245,10 +249,8 @@ impl StartsWithAlphaNum for Expr {
             Expr::Bin(BinExpr { ref left, .. }) | Expr::Cond(CondExpr { test: ref left, .. }) => {
                 left.starts_with_alpha_num()
             }
-            Expr::Call(CallExpr {
-                callee: ref left, ..
-            })
-            | Expr::Member(MemberExpr { obj: ref left, .. }) => left.starts_with_alpha_num(),
+            Expr::Call(CallExpr { callee: left, .. }) => left.starts_with_alpha_num(),
+            Expr::Member(MemberExpr { obj: ref left, .. }) => left.starts_with_alpha_num(),
 
             Expr::Unary(UnaryExpr { op, .. }) => match op {
                 op!("void") | op!("delete") | op!("typeof") => true,
@@ -333,11 +335,11 @@ impl StartsWithAlphaNum for ExprOrSpread {
         }
     }
 }
-impl StartsWithAlphaNum for ExprOrSuper {
+impl StartsWithAlphaNum for Callee {
     fn starts_with_alpha_num(&self) -> bool {
         match *self {
-            ExprOrSuper::Super(_) => true,
-            ExprOrSuper::Expr(ref e) => e.starts_with_alpha_num(),
+            Callee::Super(_) | Callee::Import(_) => true,
+            Callee::Expr(ref e) => e.starts_with_alpha_num(),
         }
     }
 }

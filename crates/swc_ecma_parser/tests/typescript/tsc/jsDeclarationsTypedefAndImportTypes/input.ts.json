@@ -187,8 +187,7 @@
             },
             "value": "exports",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",
@@ -308,8 +307,7 @@
                       },
                       "value": "connItem",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "MemberExpression",
@@ -337,8 +335,7 @@
                       },
                       "value": "item",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               },
@@ -381,8 +378,7 @@
                       },
                       "value": "another",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "StringLiteral",
@@ -453,8 +449,7 @@
             },
             "value": "exports",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",

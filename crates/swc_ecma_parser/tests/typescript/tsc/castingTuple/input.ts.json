@@ -1507,15 +1507,22 @@
               "optional": false
             },
             "property": {
-              "type": "NumericLiteral",
+              "type": "Computed",
               "span": {
-                "start": 613,
-                "end": 614,
+                "start": 599,
+                "end": 615,
                 "ctxt": 0
               },
-              "value": 2.0
-            },
-            "computed": true
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 613,
+                  "end": 614,
+                  "ctxt": 0
+                },
+                "value": 2.0
+              }
+            }
           },
           "definite": false
         }
@@ -1567,15 +1574,22 @@
               "optional": false
             },
             "property": {
-              "type": "NumericLiteral",
+              "type": "Computed",
               "span": {
-                "start": 654,
-                "end": 655,
+                "start": 640,
+                "end": 656,
                 "ctxt": 0
               },
-              "value": 5.0
-            },
-            "computed": true
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 654,
+                  "end": 655,
+                  "ctxt": 0
+                },
+                "value": 5.0
+              }
+            }
           },
           "definite": false
         }
@@ -1718,8 +1732,7 @@
                     },
                     "value": "one",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               },
               {
@@ -1750,8 +1763,7 @@
                     },
                     "value": "one",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               }
             ]
@@ -2853,15 +2865,22 @@
             "optional": false
           },
           "property": {
-            "type": "NumericLiteral",
+            "type": "Computed",
             "span": {
-              "start": 1131,
-              "end": 1132,
+              "start": 1128,
+              "end": 1133,
               "ctxt": 0
             },
-            "value": 2.0
-          },
-          "computed": true
+            "expression": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 1131,
+                "end": 1132,
+                "ctxt": 0
+              },
+              "value": 2.0
+            }
+          }
         },
         "right": {
           "type": "NumericLiteral",

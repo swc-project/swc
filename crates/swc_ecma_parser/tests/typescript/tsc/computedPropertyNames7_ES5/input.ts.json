@@ -118,8 +118,7 @@
                       },
                       "value": "member",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 },
                 "value": {

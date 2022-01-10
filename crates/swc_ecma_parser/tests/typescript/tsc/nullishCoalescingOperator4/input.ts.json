@@ -175,8 +175,7 @@
                   },
                   "value": "toLowerCase",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null
@@ -265,8 +264,7 @@
                   },
                   "value": "toLocaleUpperCase",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null

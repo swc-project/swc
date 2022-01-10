@@ -226,8 +226,8 @@ impl Visit for Shower<'_> {
         self.show("ExprOrSpread", n);
         n.visit_children_with(self)
     }
-    fn visit_expr_or_super(&mut self, n: &ExprOrSuper) {
-        self.show("ExprOrSuper", n);
+    fn visit_callee(&mut self, n: &Callee) {
+        self.show("Callee", n);
         n.visit_children_with(self)
     }
     fn visit_expr_stmt(&mut self, n: &ExprStmt) {

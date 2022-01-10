@@ -81,8 +81,7 @@
             },
             "value": "null",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "BooleanLiteral",
@@ -170,8 +169,7 @@
             },
             "value": "async",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "BooleanLiteral",
@@ -225,8 +223,7 @@
             },
             "value": "normal",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "BooleanLiteral",
@@ -314,8 +311,7 @@
             },
             "value": "class",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "BooleanLiteral",
@@ -369,8 +365,7 @@
             },
             "value": "normal",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "BooleanLiteral",

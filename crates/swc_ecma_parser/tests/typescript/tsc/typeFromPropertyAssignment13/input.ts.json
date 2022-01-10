@@ -88,8 +88,7 @@
             },
             "value": "Inner",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -165,8 +164,7 @@
               },
               "value": "Inner",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -177,8 +175,7 @@
             },
             "value": "prototype",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -302,8 +299,7 @@
                 },
                 "value": "Inner",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
               "type": "Identifier",
@@ -314,8 +310,7 @@
               },
               "value": "prototype",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -326,8 +321,7 @@
             },
             "value": "j",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -387,8 +381,7 @@
               },
               "value": "Inner",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -399,8 +392,7 @@
             },
             "value": "prototype",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "property": {
           "type": "Identifier",
@@ -411,8 +403,7 @@
           },
           "value": "k",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -476,8 +467,7 @@
                 },
                 "value": "Inner",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -526,8 +516,7 @@
             },
             "value": "m",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -566,8 +555,7 @@
           },
           "value": "i",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -603,8 +591,7 @@
           },
           "value": "j",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -640,8 +627,7 @@
           },
           "value": "k",
           "optional": false
-        },
-        "computed": false
+        }
       }
     }
   ],

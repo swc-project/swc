@@ -745,8 +745,7 @@
                   },
                   "value": "props",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -757,8 +756,7 @@
                 },
                 "value": "children",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -1200,8 +1198,7 @@
                   },
                   "value": "props",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -1212,8 +1209,7 @@
                 },
                 "value": "children",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -2848,8 +2844,7 @@
                   },
                   "value": "props",
                   "optional": false
-                },
-                "computed": false
+                }
               }
             },
             {

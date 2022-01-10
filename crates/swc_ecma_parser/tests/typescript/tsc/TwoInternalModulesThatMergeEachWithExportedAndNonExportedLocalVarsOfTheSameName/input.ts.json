@@ -323,8 +323,7 @@
                                       },
                                       "value": "y",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   }
                                 },
                                 {
@@ -365,8 +364,7 @@
                                       },
                                       "value": "x",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   }
                                 }
                               ]
@@ -1106,8 +1104,7 @@
               },
               "value": "Origin",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -1181,8 +1178,7 @@
                   },
                   "value": "Utils",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -1193,8 +1189,7 @@
                 },
                 "value": "mirror",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -1548,8 +1543,7 @@
                   },
                   "value": "Utils",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -1560,8 +1554,7 @@
                 },
                 "value": "Plane",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {

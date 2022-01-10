@@ -300,9 +300,8 @@ impl Legacy {
 
         let prototype = MemberExpr {
             span: DUMMY_SP,
-            obj: ExprOrSuper::Expr(Box::new(Expr::Ident(cls_ident.clone()))),
-            prop: Box::new(quote_ident!("prototype").into()),
-            computed: false,
+            obj: Box::new(Expr::Ident(cls_ident.clone())),
+            prop: MemberProp::Ident(quote_ident!("prototype").into()),
         };
 
         c.class.body = c.class.body.move_flat_map(|m| match m {
@@ -769,7 +768,7 @@ impl Legacy {
                     if let Stmt::Expr(expr) = stmt {
                         let expr = expr.expr.as_ref();
                         if let Expr::Call(call) = expr {
-                            if let ExprOrSuper::Super(_) = call.callee {
+                            if let Callee::Super(_) = call.callee {
                                 return true;
                             }
                         }

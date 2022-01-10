@@ -73,20 +73,27 @@
             "optional": false
           },
           "property": {
-            "type": "StringLiteral",
+            "type": "Computed",
             "span": {
-              "start": 141,
-              "end": 144,
+              "start": 133,
+              "end": 145,
               "ctxt": 0
             },
-            "value": "D",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 141,
+                "end": 144,
+                "ctxt": 0
+              },
+              "value": "D",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
             }
-          },
-          "computed": true
+          }
         },
         "right": {
           "type": "Identifier",
@@ -133,20 +140,27 @@
             "optional": false
           },
           "property": {
-            "type": "StringLiteral",
+            "type": "Computed",
             "span": {
-              "start": 249,
-              "end": 268,
+              "start": 241,
+              "end": 269,
               "ctxt": 0
             },
-            "value": "Does not work yet",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 249,
+                "end": 268,
+                "ctxt": 0
+              },
+              "value": "Does not work yet",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
             }
-          },
-          "computed": true
+          }
         },
         "right": {
           "type": "Identifier",

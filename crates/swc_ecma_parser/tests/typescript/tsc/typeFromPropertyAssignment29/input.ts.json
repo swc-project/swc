@@ -111,8 +111,7 @@
                   },
                   "value": "toString",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null
@@ -166,8 +165,7 @@
             },
             "value": "prop",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -221,8 +219,7 @@
             },
             "value": "m",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -394,8 +391,7 @@
                   },
                   "value": "prop",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "CallExpression",
@@ -430,8 +426,7 @@
                     },
                     "value": "m",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [
                   {
@@ -499,8 +494,7 @@
                 },
                 "value": "length",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "definite": false
@@ -630,8 +624,7 @@
                         },
                         "value": "toString",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -689,8 +682,7 @@
             },
             "value": "prop",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -767,8 +759,7 @@
             },
             "value": "prop",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -850,8 +841,7 @@
             },
             "value": "m",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -1045,8 +1035,7 @@
                         },
                         "value": "prop",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "property": {
                       "type": "Identifier",
@@ -1057,8 +1046,7 @@
                       },
                       "value": "x",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -1104,8 +1092,7 @@
                     },
                     "value": "m",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [
                   {
@@ -1173,8 +1160,7 @@
                 },
                 "value": "length",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "definite": false
@@ -1278,8 +1264,7 @@
                   },
                   "value": "toString",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null
@@ -1334,8 +1319,7 @@
             },
             "value": "prop",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -1389,8 +1373,7 @@
             },
             "value": "m",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -1729,8 +1712,7 @@
                   },
                   "value": "total",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "BinaryExpression",
@@ -1828,8 +1810,7 @@
             },
             "value": "also",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "UnaryExpression",
@@ -2000,8 +1981,7 @@
             },
             "value": "p1",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -2250,8 +2230,7 @@
                     },
                     "value": "p1",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "right": {
                   "type": "MemberExpression",
@@ -2279,8 +2258,7 @@
                     },
                     "value": "p2",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               },
               "right": {
@@ -2309,8 +2287,7 @@
                   },
                   "value": "p3",
                   "optional": false
-                },
-                "computed": false
+                }
               }
             },
             "right": {
@@ -2469,8 +2446,7 @@
                   },
                   "value": "p6",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "NumericLiteral",
@@ -2670,8 +2646,7 @@
                         },
                         "value": "toString",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -2729,8 +2704,7 @@
             },
             "value": "prop",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -2784,8 +2758,7 @@
             },
             "value": "m",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -2957,8 +2930,7 @@
                   },
                   "value": "prop",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "CallExpression",
@@ -2993,8 +2965,7 @@
                     },
                     "value": "m",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [
                   {
@@ -3062,8 +3033,7 @@
                 },
                 "value": "length",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "definite": false
@@ -3175,8 +3145,7 @@
             },
             "value": "prop",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -3230,8 +3199,7 @@
             },
             "value": "m",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -3403,8 +3371,7 @@
                   },
                   "value": "prop",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "CallExpression",
@@ -3439,8 +3406,7 @@
                     },
                     "value": "m",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [
                   {
@@ -3495,8 +3461,7 @@
                 },
                 "value": "n",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "definite": false
@@ -3630,8 +3595,7 @@
             },
             "value": "prop",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -3685,8 +3649,7 @@
             },
             "value": "m",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -3858,8 +3821,7 @@
                   },
                   "value": "prop",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "CallExpression",
@@ -3894,8 +3856,7 @@
                     },
                     "value": "m",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [
                   {
@@ -3950,8 +3911,7 @@
                 },
                 "value": "n",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "definite": false

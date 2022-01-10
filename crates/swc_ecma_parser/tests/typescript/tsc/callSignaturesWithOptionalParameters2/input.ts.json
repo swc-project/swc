@@ -1161,8 +1161,7 @@
             },
             "value": "foo",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -1208,8 +1207,7 @@
             },
             "value": "foo",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -1268,8 +1266,7 @@
             },
             "value": "foo2",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -1328,8 +1325,7 @@
             },
             "value": "foo2",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -1902,8 +1898,7 @@
             },
             "value": "foo",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -1962,8 +1957,7 @@
             },
             "value": "foo",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -2034,8 +2028,7 @@
             },
             "value": "foo",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -2580,8 +2573,7 @@
             },
             "value": "foo",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -2640,8 +2632,7 @@
             },
             "value": "foo",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -2712,8 +2703,7 @@
             },
             "value": "foo",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {

@@ -266,8 +266,7 @@
             },
             "value": "exports",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ClassExpression",
@@ -353,8 +352,7 @@
                           },
                           "value": "chunk",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "NumericLiteral",
@@ -447,8 +445,7 @@
           },
           "value": "chunk",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -587,8 +584,7 @@
           },
           "value": "chunk",
           "optional": false
-        },
-        "computed": false
+        }
       }
     }
   ],

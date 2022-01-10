@@ -89,8 +89,7 @@
                         },
                         "value": "age",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "NumericLiteral",
@@ -225,8 +224,7 @@
                         },
                         "value": "name",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "Identifier",
@@ -422,8 +420,7 @@
                           },
                           "value": "age",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "NumericLiteral",

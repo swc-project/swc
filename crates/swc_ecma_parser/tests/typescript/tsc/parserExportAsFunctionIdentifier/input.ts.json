@@ -197,8 +197,7 @@
                 },
                 "value": "export",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null

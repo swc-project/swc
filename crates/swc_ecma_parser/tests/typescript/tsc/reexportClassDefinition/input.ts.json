@@ -223,8 +223,7 @@
           },
           "value": "x",
           "optional": false
-        },
-        "computed": false
+        }
       },
       "isAbstract": false,
       "typeParams": null,

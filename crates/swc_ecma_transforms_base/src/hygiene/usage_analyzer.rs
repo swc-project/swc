@@ -580,8 +580,14 @@ impl Visit for UsageAnalyzer<'_> {
     fn visit_member_expr(&mut self, e: &MemberExpr) {
         e.obj.visit_with(self);
 
-        if e.computed {
-            e.prop.visit_with(self);
+        if let MemberProp::Computed(c) = &e.prop {
+            c.visit_with(self)
+        }
+    }
+
+    fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
+        if let SuperProp::Computed(c) = &e.prop {
+            c.visit_with(self);
         }
     }
 

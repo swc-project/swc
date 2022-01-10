@@ -640,8 +640,7 @@
                           },
                           "value": "indexOf",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [
                         {
@@ -745,8 +744,7 @@
                           },
                           "value": "indexOf",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [
                         {
@@ -816,8 +814,7 @@
                         },
                         "value": "indexOf",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [
                       {
@@ -896,8 +893,7 @@
                       },
                       "value": "indexOf",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {

@@ -217,8 +217,7 @@
             },
             "value": "exports",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -279,8 +278,7 @@
               },
               "value": "exports",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -291,8 +289,7 @@
             },
             "value": "f",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -430,8 +427,7 @@
             },
             "value": "toFixed",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -490,8 +486,7 @@
             },
             "value": "f",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null

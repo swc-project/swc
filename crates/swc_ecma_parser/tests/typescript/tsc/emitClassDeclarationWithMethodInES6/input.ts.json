@@ -463,8 +463,7 @@
                       },
                       "value": "_bar",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]

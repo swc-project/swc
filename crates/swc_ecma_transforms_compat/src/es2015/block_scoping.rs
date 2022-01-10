@@ -692,8 +692,18 @@ impl Visit for InfectionFinder<'_> {
 
         e.obj.visit_with(self);
 
-        if e.computed {
-            e.prop.visit_with(self);
+        if let MemberProp::Computed(c) = &e.prop {
+            c.visit_with(self);
+        }
+    }
+
+    fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
+        if self.found {
+            return;
+        }
+
+        if let SuperProp::Computed(c) = &e.prop {
+            c.visit_with(self);
         }
     }
 
@@ -986,9 +996,14 @@ impl VisitMut for MutationHandler<'_> {
     /// Don't recurse into member expression prop if not computed
     fn visit_mut_member_expr(&mut self, m: &mut MemberExpr) {
         m.obj.visit_mut_with(self);
-        match &*m.prop {
-            Expr::Ident(_) if !m.computed => {}
-            _ => m.prop.visit_mut_with(self),
+        if let MemberProp::Computed(c) = &mut m.prop {
+            c.visit_mut_with(self)
+        }
+    }
+
+    fn visit_mut_super_prop_expr(&mut self, m: &mut SuperPropExpr) {
+        if let SuperProp::Computed(c) = &mut m.prop {
+            c.visit_mut_with(self)
         }
     }
 }

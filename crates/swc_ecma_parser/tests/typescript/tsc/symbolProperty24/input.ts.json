@@ -68,8 +68,7 @@
                 },
                 "value": "toPrimitive",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "computed": true,
             "optional": false,
@@ -175,8 +174,7 @@
                 },
                 "value": "toPrimitive",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "function": {

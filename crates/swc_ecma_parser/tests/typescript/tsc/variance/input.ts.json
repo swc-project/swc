@@ -861,8 +861,7 @@
                           },
                           "value": "instance",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "property": {
                         "type": "Identifier",
@@ -873,8 +872,7 @@
                         },
                         "value": "push",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [
                       {

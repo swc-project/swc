@@ -523,8 +523,7 @@
                                   },
                                   "value": "iterator",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               }
                             },
                             "params": [],
@@ -602,8 +601,7 @@
                                           },
                                           "value": "length",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "async": false,
                                       "generator": false,

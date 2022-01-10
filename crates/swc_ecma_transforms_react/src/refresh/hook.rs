@@ -162,9 +162,8 @@ impl<'a> HookRegister<'a> {
                             HookCall::Ident(ident) => Expr::Ident(ident),
                             HookCall::Member(obj, prop) => Expr::Member(MemberExpr {
                                 span: DUMMY_SP,
-                                obj: ExprOrSuper::Expr(Box::new(obj)),
-                                prop: Box::new(Expr::Ident(prop)),
-                                computed: false,
+                                obj: Box::new(obj),
+                                prop: MemberProp::Ident(prop),
                             }),
                         }),
                     })
@@ -199,7 +198,7 @@ impl<'a> HookRegister<'a> {
 
         Expr::Call(CallExpr {
             span: DUMMY_SP,
-            callee: ExprOrSuper::Expr(Box::new(Expr::Ident(handle))),
+            callee: Callee::Expr(Box::new(Expr::Ident(handle))),
             args,
             type_args: None,
         })
@@ -402,7 +401,7 @@ struct HookCollector<'a> {
 static IS_HOOK_LIKE: Lazy<Regex> = Lazy::new(|| Regex::new("^use[A-Z]").unwrap());
 impl<'a> HookCollector<'a> {
     fn get_hook_from_call_expr(&self, expr: &CallExpr, lhs: Option<&Pat>) -> Option<Hook> {
-        let callee = if let ExprOrSuper::Expr(callee) = &expr.callee {
+        let callee = if let Callee::Expr(callee) = &expr.callee {
             Some(callee.as_ref())
         } else {
             None
@@ -413,17 +412,14 @@ impl<'a> HookCollector<'a> {
                 hook_call = Some(HookCall::Ident(ident.clone()));
                 Some(ident)
             }
+            // hook cannot be used in class, so we're fine without SuperProp
             Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(obj),
-                prop,
+                obj,
+                prop: MemberProp::Ident(ident),
                 ..
             }) => {
-                if let Expr::Ident(ident) = prop.as_ref() {
-                    hook_call = Some(HookCall::Member(*obj.clone(), ident.clone()));
-                    Some(ident)
-                } else {
-                    None
-                }
+                hook_call = Some(HookCall::Member(*obj.clone(), ident.clone()));
+                Some(ident)
             }
             _ => None,
         }?;

@@ -169,8 +169,7 @@
                                 },
                                 "value": "apply",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "arguments": [
                               {

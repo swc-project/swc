@@ -227,8 +227,7 @@
                           "value": "x",
                           "optional": false
                         }
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "NumericLiteral",
@@ -386,8 +385,7 @@
                         },
                         "value": "x",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "NumericLiteral",

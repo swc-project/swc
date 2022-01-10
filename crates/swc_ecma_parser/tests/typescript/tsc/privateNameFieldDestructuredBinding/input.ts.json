@@ -466,8 +466,7 @@
                                 "value": "field",
                                 "optional": false
                               }
-                            },
-                            "computed": false
+                            }
                           }
                         },
                         {
@@ -524,8 +523,7 @@
                           },
                           "value": "testObject",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [],
                       "typeArguments": null
@@ -595,8 +593,7 @@
                               "value": "field",
                               "optional": false
                             }
-                          },
-                          "computed": false
+                          }
                         },
                         {
                           "type": "Identifier",
@@ -644,8 +641,7 @@
                           },
                           "value": "testArray",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [],
                       "typeArguments": null
@@ -727,8 +723,7 @@
                                 "value": "field",
                                 "optional": false
                               }
-                            },
-                            "computed": false
+                            }
                           }
                         },
                         {
@@ -783,8 +778,7 @@
                                     "value": "field",
                                     "optional": false
                                   }
-                                },
-                                "computed": false
+                                }
                               }
                             ],
                             "optional": false,
@@ -920,8 +914,7 @@
                             "value": "field",
                             "optional": false
                           }
-                        },
-                        "computed": false
+                        }
                       },
                       {
                         "type": "ArrayPattern",
@@ -963,8 +956,7 @@
                                 "value": "field",
                                 "optional": false
                               }
-                            },
-                            "computed": false
+                            }
                           }
                         ],
                         "optional": false,
@@ -1104,8 +1096,7 @@
                                   "value": "field",
                                   "optional": false
                                 }
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "NumericLiteral",
@@ -1178,8 +1169,7 @@
                                       "value": "field",
                                       "optional": false
                                     }
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "right": {
                                   "type": "NumericLiteral",
@@ -1298,8 +1288,7 @@
                               "value": "field",
                               "optional": false
                             }
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "NumericLiteral",
@@ -1388,8 +1377,7 @@
                               },
                               "value": "otherObject",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "property": {
                             "type": "PrivateName",
@@ -1408,8 +1396,7 @@
                               "value": "field",
                               "optional": false
                             }
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "NumericLiteral",
@@ -1579,8 +1566,7 @@
                               "value": "field",
                               "optional": false
                             }
-                          },
-                          "computed": false
+                          }
                         }
                       ],
                       "optional": false,

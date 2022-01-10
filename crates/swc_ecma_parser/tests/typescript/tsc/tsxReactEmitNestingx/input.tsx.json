@@ -615,8 +615,7 @@
                                   },
                                   "value": "newTodo",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               }
                             }
                           },
@@ -684,8 +683,7 @@
                                       },
                                       "value": "addTodo",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "property": {
                                     "type": "Identifier",
@@ -696,8 +694,7 @@
                                     },
                                     "value": "bind",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "arguments": [
                                   {
@@ -927,8 +924,7 @@
                                           },
                                           "value": "todos",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "right": {
                                         "type": "MemberExpression",
@@ -963,8 +959,7 @@
                                             },
                                             "value": "todos",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         },
                                         "property": {
                                           "type": "Identifier",
@@ -975,8 +970,7 @@
                                           },
                                           "value": "length",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       }
                                     }
                                   },
@@ -1182,8 +1176,7 @@
                                       },
                                       "value": "toggleAll",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "property": {
                                     "type": "Identifier",
@@ -1194,8 +1187,7 @@
                                     },
                                     "value": "bind",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "arguments": [
                                   {
@@ -1352,8 +1344,7 @@
                                   },
                                   "value": "filteredTodos",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -1364,8 +1355,7 @@
                                 },
                                 "value": "map",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "arguments": [
                               {
@@ -1507,8 +1497,7 @@
                                                       },
                                                       "value": "completed",
                                                       "optional": false
-                                                    },
-                                                    "computed": false
+                                                    }
                                                   }
                                                 },
                                                 {
@@ -1567,8 +1556,7 @@
                                                         },
                                                         "value": "editedTodo",
                                                         "optional": false
-                                                      },
-                                                      "computed": false
+                                                      }
                                                     }
                                                   }
                                                 }
@@ -1718,8 +1706,7 @@
                                                       },
                                                       "value": "editable",
                                                       "optional": false
-                                                    },
-                                                    "computed": false
+                                                    }
                                                   }
                                                 }
                                               },
@@ -1961,8 +1948,7 @@
                                                                   },
                                                                   "value": "editTodo",
                                                                   "optional": false
-                                                                },
-                                                                "computed": false
+                                                                }
                                                               },
                                                               "arguments": [
                                                                 {
@@ -2029,8 +2015,7 @@
                                                     },
                                                     "value": "title",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 }
                                               }
                                             ],
@@ -2184,8 +2169,7 @@
                                                             },
                                                             "value": "removeTodo",
                                                             "optional": false
-                                                          },
-                                                          "computed": false
+                                                          }
                                                         },
                                                         "property": {
                                                           "type": "Identifier",
@@ -2196,8 +2180,7 @@
                                                           },
                                                           "value": "bind",
                                                           "optional": false
-                                                        },
-                                                        "computed": false
+                                                        }
                                                       },
                                                       "arguments": [
                                                         {

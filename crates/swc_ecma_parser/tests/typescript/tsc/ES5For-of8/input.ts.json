@@ -125,8 +125,7 @@
           },
           "value": "x",
           "optional": false
-        },
-        "computed": false
+        }
       },
       "right": {
         "type": "ArrayExpression",
@@ -261,8 +260,7 @@
                     },
                     "value": "x",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "definite": false
               }

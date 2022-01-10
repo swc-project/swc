@@ -406,8 +406,7 @@
                       },
                       "value": "n",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",

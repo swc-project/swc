@@ -47,8 +47,7 @@
             },
             "value": "exports",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -179,8 +178,7 @@
               },
               "value": "assignment",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -191,8 +189,7 @@
             },
             "value": "nested",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "BooleanLiteral",
@@ -245,8 +242,7 @@
             },
             "value": "noError",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null

@@ -1484,8 +1484,7 @@
                 },
                 "value": "a",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "definite": false
