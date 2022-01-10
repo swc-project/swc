@@ -1,11 +1,15 @@
 use anyhow::{anyhow, Error};
+use rkyv::Deserialize;
 use std::{
     env, fs,
     path::{Path, PathBuf},
     process::{Command, Stdio},
 };
-use swc_common::FileName;
-use swc_ecma_ast::{CallExpr, Callee, EsVersion, Expr, Lit, MemberExpr, Str};
+use swc_common::{
+    plugin::{serialize_for_plugin, SerializedProgram},
+    FileName,
+};
+use swc_ecma_ast::{CallExpr, Callee, EsVersion, Expr, Lit, MemberExpr, Program, Str};
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
 use swc_ecma_visit::{Visit, VisitWith};
 
@@ -90,8 +94,14 @@ fn internal() -> Result<(), Error> {
         let program = parser.parse_program().unwrap();
 
         let program =
+            SerializedProgram(serialize_for_plugin(&program).expect("Should serializable"));
+
+        let program_byte =
             swc_plugin_runner::apply_js_plugin("internal-test", &path, &mut None, "{}", program)
                 .expect("Plugin should apply transform");
+
+        let archived = unsafe { rkyv::archived_root::<Program>(&program_byte.0[..]) };
+        let program: Program = archived.deserialize(&mut rkyv::Infallible).unwrap();
 
         let mut visitor = TestVisitor {
             plugin_transform_found: false,

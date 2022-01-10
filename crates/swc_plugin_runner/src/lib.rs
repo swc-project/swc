@@ -7,9 +7,8 @@ use anyhow::{Context, Error};
 use once_cell::sync::Lazy;
 use parking_lot::Mutex;
 use resolve::PluginCache;
-use rkyv::{AlignedVec, Deserialize};
-use swc_common::{collections::AHashMap, plugin::serialize_for_plugin};
-use swc_ecma_ast::Program;
+use rkyv::AlignedVec;
+use swc_common::{collections::AHashMap, plugin::SerializedProgram};
 use wasmer::{imports, Array, Instance, Memory, MemoryType, Module, Store, WasmPtr};
 use wasmer_cache::{Cache, Hash};
 
@@ -111,10 +110,13 @@ fn load_plugin(plugin_path: &Path, cache: &mut Option<PluginCache>) -> Result<In
     };
 }
 
-fn copy_memory_to_instance(instance: &Instance, program: &Program) -> Result<(i32, u32), Error> {
+fn copy_memory_to_instance(
+    instance: &Instance,
+    program: &SerializedProgram,
+) -> Result<(i32, u32), Error> {
     let alloc = instance.exports.get_native_function::<u32, i32>("alloc")?;
 
-    let serialized = serialize_for_plugin(program)?;
+    let serialized = &program.0;
     let serialized_len = serialized.len();
 
     let alloc_ptr = alloc.call(serialized_len.try_into()?)?;
@@ -143,8 +145,8 @@ pub fn apply_js_plugin(
     path: &Path,
     cache: &mut Option<PluginCache>,
     _config_json: &str,
-    program: Program,
-) -> Result<Program, Error> {
+    program: SerializedProgram,
+) -> Result<SerializedProgram, Error> {
     (|| -> Result<_, Error> {
         let instance = load_plugin(path, cache)?;
 
@@ -176,11 +178,7 @@ pub fn apply_js_plugin(
 
         transformed_serialized.extend_from_slice(&transformed_raw_bytes);
 
-        // Deserialize into Program from reconstructed raw bytes
-        let archived = unsafe { rkyv::archived_root::<Program>(&transformed_serialized[..]) };
-        let transformed_program: Program = archived.deserialize(&mut rkyv::Infallible).unwrap();
-
-        Ok(transformed_program)
+        Ok(SerializedProgram(transformed_serialized))
     })()
     .with_context(|| {
         format!(

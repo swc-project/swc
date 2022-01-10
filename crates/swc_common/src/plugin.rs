@@ -8,6 +8,13 @@ use crate::{syntax_pos::Mark, SyntaxContext};
 use anyhow::Error;
 use std::any::type_name;
 
+/// A struct wraps internal representation of serialized Program to be passed
+/// across plugin's host to guest. Plugin author should not rely on specific
+/// details serialized byte format struct contains: it is strictly
+/// implementation detail which can change anytime.
+#[cfg(any(feature = "plugin-mode", feature = "plugin-rt"))]
+pub struct SerializedProgram(pub rkyv::AlignedVec);
+
 /// Serialize ast to pass into plugins. This is being called from host side.
 /// TODO: https://github.com/swc-project/swc/issues/3167
 #[cfg(feature = "plugin-base")]
