@@ -529,21 +529,19 @@ impl OptChaining {
                             });
 
                             match &mut **obj {
-                                Expr::Member(obj @ MemberExpr { .. }) => {
-                                    Box::new(Expr::Member(MemberExpr {
-                                        span: obj.span,
-                                        obj: Expr::Assign(AssignExpr {
-                                            span: DUMMY_SP,
-                                            op: op!("="),
-                                            left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                                                this_obj.clone().into(),
-                                            ))),
-                                            right: obj.obj.take(),
-                                        })
-                                        .into(),
-                                        prop: obj.prop.take(),
-                                    }))
-                                }
+                                Expr::Member(obj) => Box::new(Expr::Member(MemberExpr {
+                                    span: obj.span,
+                                    obj: Expr::Assign(AssignExpr {
+                                        span: DUMMY_SP,
+                                        op: op!("="),
+                                        left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                                            this_obj.clone().into(),
+                                        ))),
+                                        right: obj.obj.take(),
+                                    })
+                                    .into(),
+                                    prop: obj.prop.take(),
+                                })),
                                 _ => Box::new(Expr::Assign(AssignExpr {
                                     span: DUMMY_SP,
                                     op: op!("="),
