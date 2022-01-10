@@ -59,8 +59,7 @@
               },
               "value": "myProp",
               "optional": false
-            },
-            "computed": false
+            }
           }
         }
       }

@@ -159,16 +159,23 @@
                     "optional": false
                   },
                   "property": {
-                    "type": "Identifier",
+                    "type": "Computed",
                     "span": {
-                      "start": 120,
-                      "end": 123,
+                      "start": 118,
+                      "end": 124,
                       "ctxt": 0
                     },
-                    "value": "key",
-                    "optional": false
-                  },
-                  "computed": true
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 120,
+                        "end": 123,
+                        "ctxt": 0
+                      },
+                      "value": "key",
+                      "optional": false
+                    }
+                  }
                 },
                 "definite": false
               }

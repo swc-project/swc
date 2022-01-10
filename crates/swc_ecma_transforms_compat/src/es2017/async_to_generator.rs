@@ -99,7 +99,7 @@ impl VisitMut for Actual {
                             callee_of_callee,
                             CallExpr {
                                 span: DUMMY_SP,
-                                callee: ExprOrSuper::Super(Super { span: DUMMY_SP }),
+                                callee: Callee::Super(Super { span: DUMMY_SP }),
                                 args: Default::default(),
                                 type_args: Default::default(),
                             },
@@ -359,20 +359,15 @@ impl MethodFolder {
     fn handle_assign_to_super_prop(
         &mut self,
         span: Span,
-        left: MemberExpr,
+        left: SuperPropExpr,
         op: AssignOp,
         right: Box<Expr>,
     ) -> Expr {
-        let MemberExpr {
+        let SuperPropExpr {
             span: m_span,
             obj,
-            computed,
             prop,
         } = left;
-        let super_token = match obj {
-            ExprOrSuper::Super(super_token) => super_token,
-            _ => unreachable!("handle_assign_to_super_prop does not accept non-super object"),
-        };
 
         let (mark, ident) = self.ident_for_super(&prop);
         let args_ident = quote_ident!(DUMMY_SP.apply_mark(mark), "_args");
@@ -388,10 +383,9 @@ impl MethodFolder {
                 body: BlockStmtOrExpr::Expr(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     left: PatOrExpr::Expr(Box::new(
-                        MemberExpr {
+                        SuperPropExpr {
                             span: m_span,
-                            obj: ExprOrSuper::Super(super_token),
-                            computed,
+                            obj,
                             prop,
                         }
                         .into(),
@@ -412,11 +406,11 @@ impl MethodFolder {
             type_args: Default::default(),
         })
     }
-    fn ident_for_super(&mut self, prop: &Expr) -> (Mark, Ident) {
+    fn ident_for_super(&mut self, prop: &SuperProp) -> (Mark, Ident) {
         let mark = Mark::fresh(Mark::root());
         let prop_span = prop.span();
         let mut ident = match *prop {
-            Expr::Ident(ref ident) => quote_ident!(prop_span, format!("_super_{}", ident.sym)),
+            SuperProp::Ident(ref ident) => quote_ident!(prop_span, format!("_super_{}", ident.sym)),
             _ => quote_ident!(prop_span, "_super_method"),
         };
         ident.span = ident.span.apply_mark(mark);
@@ -453,17 +447,10 @@ impl VisitMut for MethodFolder {
                 left: PatOrExpr::Expr(left),
                 op,
                 right,
-            }) if match **left {
-                Expr::Member(MemberExpr {
-                    obj: ExprOrSuper::Super(..),
-                    ..
-                }) => true,
-                _ => false,
-            } =>
-            {
+            }) if left.is_super_prop() => {
                 *expr = self.handle_assign_to_super_prop(
                     *span,
-                    left.take().expect_member(),
+                    left.take().expect_super_prop(),
                     *op,
                     right.take(),
                 );
@@ -476,19 +463,13 @@ impl VisitMut for MethodFolder {
                 op,
                 right,
             }) if match &**left {
-                Pat::Expr(left) => match &**left {
-                    Expr::Member(MemberExpr {
-                        obj: ExprOrSuper::Super(..),
-                        ..
-                    }) => true,
-                    _ => false,
-                },
+                Pat::Expr(left) => left.is_super_prop(),
                 _ => false,
             } =>
             {
                 *expr = self.handle_assign_to_super_prop(
                     *span,
-                    left.take().expect_expr().expect_member(),
+                    left.take().expect_expr().expect_super_prop(),
                     *op,
                     right.take(),
                 );
@@ -498,27 +479,11 @@ impl VisitMut for MethodFolder {
             // super.method()
             Expr::Call(CallExpr {
                 span,
-                callee: ExprOrSuper::Expr(callee),
+                callee: Callee::Expr(callee),
                 args,
                 type_args,
-            }) if match **callee {
-                Expr::Member(MemberExpr {
-                    obj: ExprOrSuper::Super(..),
-                    ..
-                }) => true,
-                _ => false,
-            } =>
-            {
-                let MemberExpr {
-                    obj,
-                    prop,
-                    computed,
-                    ..
-                } = callee.take().member().unwrap();
-                let super_token = match obj {
-                    ExprOrSuper::Super(super_token) => super_token,
-                    _ => unreachable!(),
-                };
+            }) if callee.is_super_prop() => {
+                let SuperPropExpr { obj, prop, .. } = callee.take().expect_super_prop();
 
                 let (mark, ident) = self.ident_for_super(&prop);
                 let args_ident = quote_ident!(DUMMY_SP.apply_mark(mark), "_args");
@@ -538,10 +503,9 @@ impl VisitMut for MethodFolder {
                         })],
                         body: BlockStmtOrExpr::Expr(Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
-                            callee: MemberExpr {
+                            callee: SuperPropExpr {
                                 span: DUMMY_SP,
-                                obj: ExprOrSuper::Super(super_token),
-                                computed,
+                                obj,
                                 prop,
                             }
                             .as_callee(),
@@ -565,12 +529,7 @@ impl VisitMut for MethodFolder {
                 });
             }
             // super.getter
-            Expr::Member(MemberExpr {
-                span,
-                obj: ExprOrSuper::Super(super_token),
-                prop,
-                computed,
-            }) => {
+            Expr::SuperProp(SuperPropExpr { span, obj, prop }) => {
                 let (_, ident) = self.ident_for_super(&prop);
                 self.vars.push(VarDeclarator {
                     span: DUMMY_SP,
@@ -581,10 +540,9 @@ impl VisitMut for MethodFolder {
                         is_generator: false,
                         params: vec![],
                         body: BlockStmtOrExpr::Expr(Box::new(
-                            MemberExpr {
+                            SuperPropExpr {
                                 span: DUMMY_SP,
-                                obj: ExprOrSuper::Super(*super_token),
-                                computed: *computed,
+                                obj: obj.take(),
                                 prop: prop.take(),
                             }
                             .into(),
@@ -821,24 +779,12 @@ fn extract_callee_of_bind_this(n: &mut CallExpr) -> Option<&mut Expr> {
     }
 
     match &mut n.callee {
-        ExprOrSuper::Super(_) => None,
-        ExprOrSuper::Expr(callee) => match &mut **callee {
+        Callee::Super(_) | Callee::Import(_) => None,
+        Callee::Expr(callee) => match &mut **callee {
             Expr::Member(MemberExpr {
-                obj,
-                prop,
-                computed: false,
+                prop: MemberProp::Ident(Ident { sym, .. }),
                 ..
-            }) => {
-                match &**prop {
-                    Expr::Ident(Ident { sym, .. }) if *sym == *"bind" => {}
-                    _ => return None,
-                }
-
-                match obj {
-                    ExprOrSuper::Expr(callee) => Some(&mut **callee),
-                    _ => None,
-                }
-            }
+            }) if *sym == *"bind" => Some(&mut **callee),
             _ => None,
         },
     }

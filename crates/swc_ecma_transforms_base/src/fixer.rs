@@ -1,4 +1,3 @@
-use crate::ext::AsOptExpr;
 use swc_common::{collections::AHashMap, comments::Comments, util::take::Take, Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
@@ -298,7 +297,7 @@ impl VisitMut for Fixer<'_> {
         self.ctx = Context::Callee { is_new: false };
         node.callee.visit_mut_with(self);
         match &mut node.callee {
-            ExprOrSuper::Expr(e) if e.is_cond() || e.is_bin() || e.is_lit() || e.is_unary() => {
+            Callee::Expr(e) if e.is_cond() || e.is_bin() || e.is_lit() || e.is_unary() => {
                 self.wrap(&mut **e);
             }
             _ => {}
@@ -420,36 +419,34 @@ impl VisitMut for Fixer<'_> {
 
         match n {
             MemberExpr { obj, .. }
-                if obj.as_expr().map(|e| e.is_object()).unwrap_or(false)
+                if obj.is_object()
                     && match self.ctx {
                         Context::ForcedExpr { .. } => true,
                         _ => false,
                     } => {}
 
-            MemberExpr {
-                obj: ExprOrSuper::Expr(ref mut obj),
-                ..
-            } if obj.is_fn_expr()
-                || obj.is_cond()
-                || obj.is_unary()
-                || obj.is_seq()
-                || obj.is_update()
-                || obj.is_bin()
-                || obj.is_object()
-                || obj.is_assign()
-                || obj.is_arrow()
-                || obj.is_class()
-                || obj.is_yield_expr()
-                || obj.is_await_expr()
-                || (obj.is_call()
-                    && match self.ctx {
-                        Context::Callee { is_new: true } => true,
+            MemberExpr { obj, .. }
+                if obj.is_fn_expr()
+                    || obj.is_cond()
+                    || obj.is_unary()
+                    || obj.is_seq()
+                    || obj.is_update()
+                    || obj.is_bin()
+                    || obj.is_object()
+                    || obj.is_assign()
+                    || obj.is_arrow()
+                    || obj.is_class()
+                    || obj.is_yield_expr()
+                    || obj.is_await_expr()
+                    || (obj.is_call()
+                        && match self.ctx {
+                            Context::Callee { is_new: true } => true,
+                            _ => false,
+                        })
+                    || match **obj {
+                        Expr::New(NewExpr { args: None, .. }) => true,
                         _ => false,
-                    })
-                || match **obj {
-                    Expr::New(NewExpr { args: None, .. }) => true,
-                    _ => false,
-                } =>
+                    } =>
             {
                 self.wrap(&mut **obj);
                 return;
@@ -732,7 +729,7 @@ impl Fixer<'_> {
             }
 
             Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(ref mut callee),
+                callee: Callee::Expr(ref mut callee),
                 ..
             }) if callee.is_seq() => {
                 *callee = Box::new(Expr::Paren(ParenExpr {
@@ -742,7 +739,7 @@ impl Fixer<'_> {
             }
 
             Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(ref mut callee),
+                callee: Callee::Expr(ref mut callee),
                 ..
             }) if callee.is_arrow() || callee.is_await_expr() => {
                 self.wrap(&mut **callee);
@@ -750,7 +747,7 @@ impl Fixer<'_> {
 
             // Function expression cannot start with `function`
             Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(ref mut callee),
+                callee: Callee::Expr(ref mut callee),
                 ..
             }) if callee.is_fn_expr() => match self.ctx {
                 Context::ForcedExpr { .. } | Context::FreeExpr => {}
@@ -760,7 +757,7 @@ impl Fixer<'_> {
                 _ => self.wrap(&mut **callee),
             },
             Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(ref mut callee),
+                callee: Callee::Expr(ref mut callee),
                 ..
             }) if callee.is_assign() => self.wrap(&mut **callee),
             _ => {}

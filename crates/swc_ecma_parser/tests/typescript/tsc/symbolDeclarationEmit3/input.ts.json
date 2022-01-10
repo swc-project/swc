@@ -66,8 +66,7 @@
                 },
                 "value": "toPrimitive",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "function": {
@@ -168,8 +167,7 @@
                 },
                 "value": "toPrimitive",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "function": {
@@ -270,8 +268,7 @@
                 },
                 "value": "toPrimitive",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "function": {

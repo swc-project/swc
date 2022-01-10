@@ -112,8 +112,7 @@
                       },
                       "value": "c",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "Identifier",
@@ -196,8 +195,7 @@
                       },
                       "value": "c",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]
@@ -278,8 +276,7 @@
                       },
                       "value": "c",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]
@@ -389,8 +386,7 @@
                         },
                         "value": "c",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "Identifier",
@@ -531,8 +527,7 @@
                       },
                       "value": "c",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "Identifier",
@@ -615,8 +610,7 @@
                       },
                       "value": "c",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]
@@ -697,8 +691,7 @@
                       },
                       "value": "c",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]
@@ -808,8 +801,7 @@
                         },
                         "value": "c",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "Identifier",

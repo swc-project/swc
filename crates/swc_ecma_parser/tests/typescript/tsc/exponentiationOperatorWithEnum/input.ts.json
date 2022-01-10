@@ -590,8 +590,7 @@
                 },
                 "value": "a",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "right": {
               "type": "Identifier",
@@ -670,8 +669,7 @@
                 },
                 "value": "a",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "right": {
               "type": "Identifier",
@@ -750,8 +748,7 @@
                 },
                 "value": "a",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "right": {
               "type": "MemberExpression",
@@ -779,8 +776,7 @@
                 },
                 "value": "b",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "definite": false
@@ -849,8 +845,7 @@
                 },
                 "value": "a",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "right": {
               "type": "NumericLiteral",
@@ -938,8 +933,7 @@
                 },
                 "value": "b",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "definite": false
@@ -1018,8 +1012,7 @@
                 },
                 "value": "b",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "definite": false
@@ -1097,8 +1090,7 @@
                 },
                 "value": "b",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "definite": false

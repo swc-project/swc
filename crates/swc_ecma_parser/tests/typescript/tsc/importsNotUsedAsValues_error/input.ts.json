@@ -393,8 +393,7 @@
             },
             "value": "log",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -660,8 +659,7 @@
             },
             "value": "log",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -899,8 +897,7 @@
             },
             "value": "log",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -1133,8 +1130,7 @@
           },
           "value": "One",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1217,8 +1213,7 @@
               },
               "value": "Two",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -1317,8 +1312,7 @@
               },
               "value": "Two",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -1364,8 +1358,7 @@
             },
             "value": "log",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -1615,8 +1608,7 @@
             },
             "value": "log",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -1843,8 +1835,7 @@
             },
             "value": "log",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -2061,8 +2052,7 @@
           },
           "value": "One",
           "optional": false
-        },
-        "computed": false
+        }
       }
     }
   ],

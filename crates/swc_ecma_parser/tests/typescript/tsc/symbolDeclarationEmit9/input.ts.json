@@ -77,8 +77,7 @@
                       },
                       "value": "isConcatSpreadable",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 },
                 "params": [],

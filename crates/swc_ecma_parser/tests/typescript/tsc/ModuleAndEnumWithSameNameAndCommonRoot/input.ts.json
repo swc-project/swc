@@ -353,8 +353,7 @@
               },
               "value": "Red",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -553,8 +552,7 @@
                 },
                 "value": "Point",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {

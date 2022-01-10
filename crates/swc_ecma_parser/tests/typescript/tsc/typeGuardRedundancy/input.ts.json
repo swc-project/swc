@@ -228,8 +228,7 @@
                 },
                 "value": "substr",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "alternate": {
               "type": "MemberExpression",
@@ -257,8 +256,7 @@
                 },
                 "value": "toFixed",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "definite": false
@@ -436,8 +434,7 @@
                 },
                 "value": "toFixed",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "alternate": {
               "type": "MemberExpression",
@@ -465,8 +462,7 @@
                 },
                 "value": "substr",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "definite": false
@@ -627,8 +623,7 @@
                 },
                 "value": "substr",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "alternate": {
               "type": "MemberExpression",
@@ -656,8 +651,7 @@
                 },
                 "value": "toFixed",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "definite": false
@@ -835,8 +829,7 @@
                 },
                 "value": "toFixed",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "alternate": {
               "type": "MemberExpression",
@@ -864,8 +857,7 @@
                 },
                 "value": "substr",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "definite": false

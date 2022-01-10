@@ -67,8 +67,7 @@
                 },
                 "value": "for",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -270,13 +269,13 @@
                       "ctxt": 0
                     },
                     "callee": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 164,
                         "end": 174,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 164,
@@ -285,16 +284,23 @@
                         }
                       },
                       "property": {
-                        "type": "Identifier",
+                        "type": "Computed",
                         "span": {
-                          "start": 170,
-                          "end": 173,
+                          "start": 164,
+                          "end": 174,
                           "ctxt": 0
                         },
-                        "value": "Bar",
-                        "optional": false
-                      },
-                      "computed": true
+                        "expression": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 170,
+                            "end": 173,
+                            "ctxt": 0
+                          },
+                          "value": "Bar",
+                          "optional": false
+                        }
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null

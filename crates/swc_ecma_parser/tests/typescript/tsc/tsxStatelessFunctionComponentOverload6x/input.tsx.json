@@ -1329,8 +1329,7 @@
                   },
                   "value": "to",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "consequent": {
                 "type": "BlockStatement",
@@ -1378,8 +1377,7 @@
                           },
                           "value": "_buildMainLink",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [
                         {
@@ -1441,8 +1439,7 @@
                     },
                     "value": "_buildMainButton",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [
                   {
@@ -2403,8 +2400,7 @@
                                       },
                                       "value": "log",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "arguments": [
                                     {

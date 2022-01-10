@@ -99,8 +99,7 @@
             },
             "value": "iterator",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -145,8 +144,7 @@
             },
             "value": "toPrimitive",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -191,8 +189,7 @@
             },
             "value": "toStringTag",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },

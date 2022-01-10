@@ -752,15 +752,22 @@
                     "optional": false
                   },
                   "property": {
-                    "type": "NumericLiteral",
+                    "type": "Computed",
                     "span": {
-                      "start": 342,
-                      "end": 343,
+                      "start": 339,
+                      "end": 344,
                       "ctxt": 0
                     },
-                    "value": 1.0
-                  },
-                  "computed": true
+                    "expression": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 342,
+                        "end": 343,
+                        "ctxt": 0
+                      },
+                      "value": 1.0
+                    }
+                  }
                 },
                 "definite": false
               }
@@ -812,20 +819,27 @@
                     "optional": false
                   },
                   "property": {
-                    "type": "StringLiteral",
+                    "type": "Computed",
                     "span": {
-                      "start": 362,
-                      "end": 365,
+                      "start": 359,
+                      "end": 366,
                       "ctxt": 0
                     },
-                    "value": "1",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
+                    "expression": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 362,
+                        "end": 365,
+                        "ctxt": 0
+                      },
+                      "value": "1",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
                     }
-                  },
-                  "computed": true
+                  }
                 },
                 "definite": false
               }

@@ -118,7 +118,7 @@ warning: CallExpr
 1 | let [a, b, c, ...rest] = foo()
   |                          ^^^^^
 
-warning: ExprOrSuper
+warning: Callee
  --> $DIR/tests/span/js/pat/array.js:1:26
   |
 1 | let [a, b, c, ...rest] = foo()

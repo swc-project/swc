@@ -210,8 +210,7 @@
           },
           "value": "Component",
           "optional": false
-        },
-        "computed": false
+        }
       },
       "isAbstract": false,
       "typeParams": {
@@ -500,8 +499,7 @@
                               },
                               "value": "props",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         },
                         {
@@ -585,8 +583,7 @@
           },
           "value": "Component",
           "optional": false
-        },
-        "computed": false
+        }
       },
       "isAbstract": false,
       "typeParams": {

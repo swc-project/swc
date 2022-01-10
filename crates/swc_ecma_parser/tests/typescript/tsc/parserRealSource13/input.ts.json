@@ -9909,8 +9909,7 @@
                                           },
                                           "value": "options",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "property": {
                                         "type": "Identifier",
@@ -9921,8 +9920,7 @@
                                         },
                                         "value": "goChildren",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "right": {
                                       "type": "CallExpression",
@@ -10304,8 +10302,7 @@
                                     },
                                     "value": "getAstWalkerFactory",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "arguments": [],
                                 "typeArguments": null
@@ -10319,8 +10316,7 @@
                                 },
                                 "value": "getWalker",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "arguments": [
                               {
@@ -10396,8 +10392,7 @@
                             },
                             "value": "walk",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "arguments": [
                           {
@@ -10663,8 +10658,7 @@
                             },
                             "value": "nodeType",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "definite": false
                       }
@@ -10764,20 +10758,26 @@
                                 },
                                 "value": "_map",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "property": {
-                              "type": "Identifier",
+                              "type": "Computed",
                               "span": {
-                                "start": 6503,
-                                "end": 6511,
+                                "start": 6482,
+                                "end": 6512,
                                 "ctxt": 0
                               },
-                              "value": "nodeType",
-                              "optional": false
-                            },
-                            "computed": true
+                              "expression": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 6503,
+                                  "end": 6511,
+                                  "ctxt": 0
+                                },
+                                "value": "nodeType",
+                                "optional": false
+                              }
+                            }
                           },
                           "right": {
                             "type": "StringLiteral",
@@ -10823,16 +10823,23 @@
                         "optional": false
                       },
                       "property": {
-                        "type": "Identifier",
+                        "type": "Computed",
                         "span": {
-                          "start": 6548,
-                          "end": 6562,
+                          "start": 6539,
+                          "end": 6563,
                           "ctxt": 0
                         },
-                        "value": "callbackString",
-                        "optional": false
-                      },
-                      "computed": true
+                        "expression": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 6548,
+                            "end": 6562,
+                            "ctxt": 0
+                          },
+                          "value": "callbackString",
+                          "optional": false
+                        }
+                      }
                     },
                     "consequent": {
                       "type": "BlockStatement",
@@ -10874,16 +10881,23 @@
                                 "optional": false
                               },
                               "property": {
-                                "type": "Identifier",
+                                "type": "Computed",
                                 "span": {
-                                  "start": 6595,
-                                  "end": 6609,
+                                  "start": 6586,
+                                  "end": 6610,
                                   "ctxt": 0
                                 },
-                                "value": "callbackString",
-                                "optional": false
-                              },
-                              "computed": true
+                                "expression": {
+                                  "type": "Identifier",
+                                  "span": {
+                                    "start": 6595,
+                                    "end": 6609,
+                                    "ctxt": 0
+                                  },
+                                  "value": "callbackString",
+                                  "optional": false
+                                }
+                              }
                             },
                             "arguments": [
                               {
@@ -10953,8 +10967,7 @@
                         },
                         "value": "DefaultCallback",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "consequent": {
                       "type": "BlockStatement",
@@ -11004,8 +11017,7 @@
                                 },
                                 "value": "DefaultCallback",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "arguments": [
                               {

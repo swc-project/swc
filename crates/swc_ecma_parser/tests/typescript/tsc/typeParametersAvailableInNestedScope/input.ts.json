@@ -725,8 +725,7 @@
             },
             "value": "data",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "CallExpression",
@@ -761,8 +760,7 @@
               },
               "value": "x",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "arguments": [
             {
@@ -822,8 +820,7 @@
             },
             "value": "data",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "CallExpression",
@@ -858,8 +855,7 @@
               },
               "value": "foo",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "arguments": [],
           "typeArguments": null

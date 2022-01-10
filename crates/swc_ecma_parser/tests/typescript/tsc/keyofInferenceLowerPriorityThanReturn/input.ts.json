@@ -2189,8 +2189,7 @@
                         },
                         "value": "tableColumns",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [
                       {

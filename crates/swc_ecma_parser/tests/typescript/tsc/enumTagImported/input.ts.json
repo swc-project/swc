@@ -198,8 +198,7 @@
               },
               "value": "ADD",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }

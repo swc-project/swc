@@ -603,8 +603,7 @@
                 },
                 "value": "test",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
               "type": "Identifier",
@@ -615,8 +614,7 @@
               },
               "value": "b",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }

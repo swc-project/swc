@@ -5,8 +5,9 @@ use std::{
     process::{Command, Stdio},
 };
 use swc_common::FileName;
-use swc_ecma_ast::EsVersion;
+use swc_ecma_ast::{CallExpr, Callee, EsVersion, Expr, Lit, MemberExpr, Str};
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
+use swc_ecma_visit::{Visit, VisitWith};
 
 /// Returns the path to the built plugin
 fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
@@ -41,6 +42,27 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
     Err(anyhow!("Could not find built plugin"))
 }
 
+struct TestVisitor {
+    pub plugin_transform_found: bool,
+}
+
+impl Visit for TestVisitor {
+    fn visit_call_expr(&mut self, call: &CallExpr) {
+        if let Callee::Expr(expr) = &call.callee {
+            if let Expr::Member(MemberExpr { obj, .. }) = &**expr {
+                if let Expr::Ident(ident) = &**obj {
+                    if ident.sym == *"console" {
+                        let args = &*(call.args[0].expr);
+                        if let Expr::Lit(Lit::Str(Str { value, .. })) = args {
+                            self.plugin_transform_found = value == "changed_via_plugin";
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 #[test]
 fn internal() -> Result<(), Error> {
     let path = build_plugin(
@@ -67,11 +89,19 @@ fn internal() -> Result<(), Error> {
 
         let program = parser.parse_program().unwrap();
 
-        let _program =
+        let program =
             swc_plugin_runner::apply_js_plugin("internal-test", &path, &mut None, "{}", program)
-                .unwrap();
+                .expect("Plugin should apply transform");
 
-        Ok(())
+        let mut visitor = TestVisitor {
+            plugin_transform_found: false,
+        };
+        program.visit_with(&mut visitor);
+
+        visitor
+            .plugin_transform_found
+            .then(|| visitor.plugin_transform_found)
+            .ok_or(())
     })
     .unwrap();
 

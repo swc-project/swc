@@ -181,8 +181,7 @@
                     },
                     "value": "length",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "right": {
                   "type": "NumericLiteral",
@@ -1960,8 +1959,7 @@
                                 },
                                 "value": "toString",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "arguments": [],
                             "typeArguments": null
@@ -2054,8 +2052,7 @@
                                 },
                                 "value": "toString",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "arguments": [],
                             "typeArguments": null

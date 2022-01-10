@@ -54,8 +54,7 @@
               },
               "value": "test",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "arguments": [
             {
@@ -86,8 +85,7 @@
                   },
                   "value": "href",
                   "optional": false
-                },
-                "computed": false
+                }
               }
             }
           ],
@@ -142,8 +140,7 @@
                   },
                   "value": "test",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {
@@ -174,8 +171,7 @@
                       },
                       "value": "href",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ],
@@ -214,8 +210,7 @@
                   },
                   "value": "test",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {
@@ -246,8 +241,7 @@
                       },
                       "value": "href",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ],
@@ -295,8 +289,7 @@
                   },
                   "value": "test",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {
@@ -327,8 +320,7 @@
                       },
                       "value": "href",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ],
@@ -393,8 +385,7 @@
                     },
                     "value": "test",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [
                   {
@@ -425,8 +416,7 @@
                         },
                         "value": "href",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 ],
@@ -516,8 +506,7 @@
                     },
                     "value": "test",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [
                   {
@@ -548,8 +537,7 @@
                         },
                         "value": "href",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 ],
@@ -793,8 +781,7 @@
                             },
                             "value": "substring",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "arguments": [
                           {
@@ -861,8 +848,7 @@
                                     },
                                     "value": "href",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "property": {
                                   "type": "Identifier",
@@ -873,8 +859,7 @@
                                   },
                                   "value": "length",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               }
                             }
                           }

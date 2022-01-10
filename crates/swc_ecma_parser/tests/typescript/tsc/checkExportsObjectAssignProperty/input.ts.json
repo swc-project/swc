@@ -46,8 +46,7 @@
             },
             "value": "defineProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -181,8 +180,7 @@
             },
             "value": "defineProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -321,8 +319,7 @@
             },
             "value": "defineProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -517,8 +514,7 @@
             },
             "value": "defineProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -659,8 +655,7 @@
             },
             "value": "defineProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -790,8 +785,7 @@
                               },
                               "value": "rwAccessors",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "CallExpression",
@@ -883,8 +877,7 @@
             },
             "value": "defineProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -915,8 +908,7 @@
                 },
                 "value": "exports",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -1042,8 +1034,7 @@
             },
             "value": "defineProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -1074,8 +1065,7 @@
                 },
                 "value": "exports",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -1201,8 +1191,7 @@
             },
             "value": "defineProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -1233,8 +1222,7 @@
                 },
                 "value": "exports",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -1416,8 +1404,7 @@
             },
             "value": "defineProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -1448,8 +1435,7 @@
                 },
                 "value": "exports",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -1577,8 +1563,7 @@
             },
             "value": "defineProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -1609,8 +1594,7 @@
                 },
                 "value": "exports",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -1727,8 +1711,7 @@
                               },
                               "value": "rwAccessors",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "CallExpression",
@@ -1862,8 +1845,7 @@
               },
               "value": "thing",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -1951,8 +1933,7 @@
               },
               "value": "thing",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -2059,8 +2040,7 @@
           },
           "value": "thing",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -2096,8 +2076,7 @@
           },
           "value": "readonlyProp",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -2133,8 +2112,7 @@
           },
           "value": "rwAccessors",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -2170,8 +2148,7 @@
           },
           "value": "readonlyAccessor",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -2207,8 +2184,7 @@
           },
           "value": "setonlyAccessor",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -2252,8 +2228,7 @@
             },
             "value": "thing",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -2307,8 +2282,7 @@
             },
             "value": "rwAccessors",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -2362,8 +2336,7 @@
             },
             "value": "setonlyAccessor",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "StringLiteral",
@@ -2422,8 +2395,7 @@
             },
             "value": "readonlyProp",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "StringLiteral",
@@ -2482,8 +2454,7 @@
             },
             "value": "readonlyAccessor",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -2537,8 +2508,7 @@
             },
             "value": "thing",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "StringLiteral",
@@ -2597,8 +2567,7 @@
             },
             "value": "rwAccessors",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "StringLiteral",
@@ -2657,8 +2626,7 @@
             },
             "value": "setonlyAccessor",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -2747,8 +2715,7 @@
           },
           "value": "thing",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -2784,8 +2751,7 @@
           },
           "value": "readonlyProp",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -2821,8 +2787,7 @@
           },
           "value": "rwAccessors",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -2858,8 +2823,7 @@
           },
           "value": "readonlyAccessor",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -2895,8 +2859,7 @@
           },
           "value": "setonlyAccessor",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -2940,8 +2903,7 @@
             },
             "value": "thing",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "StringLiteral",
@@ -3000,8 +2962,7 @@
             },
             "value": "rwAccessors",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -3055,8 +3016,7 @@
             },
             "value": "setonlyAccessor",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "StringLiteral",
@@ -3115,8 +3075,7 @@
             },
             "value": "readonlyProp",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "StringLiteral",
@@ -3175,8 +3134,7 @@
             },
             "value": "readonlyAccessor",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -3230,8 +3188,7 @@
             },
             "value": "thing",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -3285,8 +3242,7 @@
             },
             "value": "rwAccessors",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "StringLiteral",
@@ -3345,8 +3301,7 @@
             },
             "value": "setonlyAccessor",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",

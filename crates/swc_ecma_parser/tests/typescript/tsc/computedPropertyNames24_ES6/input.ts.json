@@ -139,13 +139,13 @@
                 "ctxt": 0
               },
               "callee": {
-                "type": "MemberExpression",
+                "type": "SuperPropExpression",
                 "span": {
                   "start": 217,
                   "end": 226,
                   "ctxt": 0
                 },
-                "object": {
+                "obj": {
                   "type": "Super",
                   "span": {
                     "start": 217,
@@ -162,8 +162,7 @@
                   },
                   "value": "bar",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null

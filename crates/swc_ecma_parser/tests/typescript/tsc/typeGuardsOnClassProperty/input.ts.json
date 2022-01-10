@@ -183,8 +183,7 @@
                           },
                           "value": "data",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "definite": false
                     }
@@ -289,8 +288,7 @@
                           },
                           "value": "join",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [
                         {
@@ -416,8 +414,7 @@
                             },
                             "value": "data",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       },
                       "right": {
@@ -459,8 +456,7 @@
                         },
                         "value": "data",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "alternate": {
                       "type": "CallExpression",
@@ -500,8 +496,7 @@
                             },
                             "value": "data",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "property": {
                           "type": "Identifier",
@@ -512,8 +507,7 @@
                           },
                           "value": "join",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [
                         {
@@ -844,8 +838,7 @@
                 },
                 "value": "prop1",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "right": {
@@ -903,8 +896,7 @@
                 },
                 "value": "prop1",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
               "type": "Identifier",
@@ -915,8 +907,7 @@
               },
               "value": "toLowerCase",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "arguments": [],
           "typeArguments": null
@@ -987,8 +978,7 @@
               },
               "value": "prop1",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -1084,8 +1074,7 @@
               },
               "value": "toLocaleLowerCase",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "arguments": [],
           "typeArguments": null

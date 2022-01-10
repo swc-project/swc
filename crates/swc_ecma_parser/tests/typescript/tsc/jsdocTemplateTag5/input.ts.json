@@ -73,8 +73,7 @@
                   },
                   "value": "_map",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "ObjectExpression",
@@ -143,8 +142,7 @@
             },
             "value": "prototype",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -240,43 +238,49 @@
                           },
                           "value": "_map",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "property": {
-                        "type": "BinaryExpression",
+                        "type": "Computed",
                         "span": {
-                          "start": 471,
-                          "end": 479,
+                          "start": 461,
+                          "end": 480,
                           "ctxt": 0
                         },
-                        "operator": "+",
-                        "left": {
-                          "type": "Identifier",
+                        "expression": {
+                          "type": "BinaryExpression",
                           "span": {
                             "start": 471,
-                            "end": 474,
-                            "ctxt": 0
-                          },
-                          "value": "key",
-                          "optional": false
-                        },
-                        "right": {
-                          "type": "StringLiteral",
-                          "span": {
-                            "start": 477,
                             "end": 479,
                             "ctxt": 0
                           },
-                          "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
+                          "operator": "+",
+                          "left": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 471,
+                              "end": 474,
+                              "ctxt": 0
+                            },
+                            "value": "key",
+                            "optional": false
+                          },
+                          "right": {
+                            "type": "StringLiteral",
+                            "span": {
+                              "start": 477,
+                              "end": 479,
+                              "ctxt": 0
+                            },
+                            "value": "",
+                            "hasEscape": false,
+                            "kind": {
+                              "type": "normal",
+                              "containsQuote": true
+                            }
                           }
                         }
-                      },
-                      "computed": true
+                      }
                     }
                   }
                 ]
@@ -375,8 +379,7 @@
                         },
                         "value": "_map",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "ObjectExpression",
@@ -441,8 +444,7 @@
             },
             "value": "prototype",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -541,43 +543,49 @@
                             },
                             "value": "_map",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "property": {
-                          "type": "BinaryExpression",
+                          "type": "Computed",
                           "span": {
-                            "start": 885,
-                            "end": 893,
+                            "start": 875,
+                            "end": 894,
                             "ctxt": 0
                           },
-                          "operator": "+",
-                          "left": {
-                            "type": "Identifier",
+                          "expression": {
+                            "type": "BinaryExpression",
                             "span": {
                               "start": 885,
-                              "end": 888,
-                              "ctxt": 0
-                            },
-                            "value": "key",
-                            "optional": false
-                          },
-                          "right": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 891,
                               "end": 893,
                               "ctxt": 0
                             },
-                            "value": "",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": true
+                            "operator": "+",
+                            "left": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 885,
+                                "end": 888,
+                                "ctxt": 0
+                              },
+                              "value": "key",
+                              "optional": false
+                            },
+                            "right": {
+                              "type": "StringLiteral",
+                              "span": {
+                                "start": 891,
+                                "end": 893,
+                                "ctxt": 0
+                              },
+                              "value": "",
+                              "hasEscape": false,
+                              "kind": {
+                                "type": "normal",
+                                "containsQuote": true
+                              }
                             }
                           }
-                        },
-                        "computed": true
+                        }
                       }
                     }
                   ]
@@ -674,8 +682,7 @@
             },
             "value": "Multimap3",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -734,8 +741,7 @@
                       },
                       "value": "_map",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "ObjectExpression",
@@ -805,8 +811,7 @@
               },
               "value": "Multimap3",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -817,8 +822,7 @@
             },
             "value": "prototype",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -914,43 +918,49 @@
                           },
                           "value": "_map",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "property": {
-                        "type": "BinaryExpression",
+                        "type": "Computed",
                         "span": {
-                          "start": 1323,
-                          "end": 1331,
+                          "start": 1313,
+                          "end": 1332,
                           "ctxt": 0
                         },
-                        "operator": "+",
-                        "left": {
-                          "type": "Identifier",
+                        "expression": {
+                          "type": "BinaryExpression",
                           "span": {
                             "start": 1323,
-                            "end": 1326,
-                            "ctxt": 0
-                          },
-                          "value": "key",
-                          "optional": false
-                        },
-                        "right": {
-                          "type": "StringLiteral",
-                          "span": {
-                            "start": 1329,
                             "end": 1331,
                             "ctxt": 0
                           },
-                          "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
+                          "operator": "+",
+                          "left": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 1323,
+                              "end": 1326,
+                              "ctxt": 0
+                            },
+                            "value": "key",
+                            "optional": false
+                          },
+                          "right": {
+                            "type": "StringLiteral",
+                            "span": {
+                              "start": 1329,
+                              "end": 1331,
+                              "ctxt": 0
+                            },
+                            "value": "",
+                            "hasEscape": false,
+                            "kind": {
+                              "type": "normal",
+                              "containsQuote": true
+                            }
                           }
                         }
-                      },
-                      "computed": true
+                      }
                     }
                   }
                 ]

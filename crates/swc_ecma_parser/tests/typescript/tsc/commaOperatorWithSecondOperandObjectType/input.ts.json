@@ -1147,8 +1147,7 @@
                 },
                 "value": "toLowerCase",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -1688,8 +1687,7 @@
                       },
                       "value": "toLowerCase",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [],
                   "typeArguments": null

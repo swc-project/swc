@@ -198,7 +198,7 @@ impl VisitMut for Inlining<'_> {
 
         if self.phase == Phase::Analysis {
             match node.callee {
-                ExprOrSuper::Expr(ref callee) => {
+                Callee::Expr(ref callee) => {
                     self.scope.mark_this_sensitive(&callee);
                 }
 
@@ -477,8 +477,14 @@ impl VisitMut for Inlining<'_> {
 
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
         e.obj.visit_mut_with(self);
-        if e.computed {
-            e.prop.visit_mut_with(self);
+        if let MemberProp::Computed(c) = &mut e.prop {
+            c.visit_mut_with(self);
+        }
+    }
+
+    fn visit_mut_super_prop_expr(&mut self, e: &mut SuperPropExpr) {
+        if let SuperProp::Computed(c) = &mut e.prop {
+            c.visit_mut_with(self);
         }
     }
 
@@ -782,8 +788,14 @@ impl Visit for IdentListVisitor<'_, '_> {
     fn visit_member_expr(&mut self, node: &MemberExpr) {
         node.obj.visit_with(self);
 
-        if node.computed {
-            node.prop.visit_with(self);
+        if let MemberProp::Computed(c) = &node.prop {
+            c.visit_with(self);
+        }
+    }
+
+    fn visit_super_prop_expr(&mut self, node: &SuperPropExpr) {
+        if let SuperProp::Computed(c) = &node.prop {
+            c.visit_with(self);
         }
     }
 }
@@ -803,8 +815,14 @@ impl Visit for WriteVisitor<'_, '_> {
     fn visit_member_expr(&mut self, node: &MemberExpr) {
         node.obj.visit_with(self);
 
-        if node.computed {
-            node.prop.visit_with(self);
+        if let MemberProp::Computed(c) = &node.prop {
+            c.visit_with(self);
+        }
+    }
+
+    fn visit_super_prop_expr(&mut self, node: &SuperPropExpr) {
+        if let SuperProp::Computed(c) = &node.prop {
+            c.visit_with(self);
         }
     }
 }

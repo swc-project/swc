@@ -225,8 +225,7 @@
                                 },
                                 "value": "t",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           }
                         ]
@@ -492,8 +491,7 @@
                           },
                           "value": "spaaace",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   ]

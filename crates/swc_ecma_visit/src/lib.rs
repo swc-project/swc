@@ -624,6 +624,7 @@ define!({
         Bin(BinExpr),
         Assign(AssignExpr),
         Member(MemberExpr),
+        SuperProp(SuperPropExpr),
         Cond(CondExpr),
         Call(CallExpr),
         New(NewExpr),
@@ -703,9 +704,22 @@ define!({
     }
     pub struct MemberExpr {
         pub span: Span,
-        pub obj: ExprOrSuper,
-        pub prop: Box<Expr>,
-        pub computed: bool,
+        pub obj: Box<Expr>,
+        pub prop: MemberProp,
+    }
+    pub enum MemberProp {
+        Ident(Ident),
+        PrivateName(PrivateName),
+        Computed(ComputedPropName),
+    }
+    pub struct SuperPropExpr {
+        pub span: Span,
+        pub obj: Super,
+        pub prop: SuperProp,
+    }
+    pub enum SuperProp {
+        Ident(Ident),
+        Computed(ComputedPropName),
     }
     pub struct CondExpr {
         pub span: Span,
@@ -715,7 +729,7 @@ define!({
     }
     pub struct CallExpr {
         pub span: Span,
-        pub callee: ExprOrSuper,
+        pub callee: Callee,
         pub args: Vec<ExprOrSpread>,
         pub type_args: Option<TsTypeParamInstantiation>,
     }
@@ -744,8 +758,12 @@ define!({
         pub delegate: bool,
     }
     pub struct MetaPropExpr {
-        pub meta: Ident,
-        pub prop: Ident,
+        pub span: Span,
+        pub kind: MetaPropKind,
+    }
+    pub enum MetaPropKind {
+        NewTarget,
+        ImportMeta,
     }
     pub struct AwaitExpr {
         pub span: Span,
@@ -772,11 +790,15 @@ define!({
         pub span: Span,
         pub expr: Box<Expr>,
     }
-    pub enum ExprOrSuper {
+    pub enum Callee {
         Super(Super),
+        Import(Import),
         Expr(Box<Expr>),
     }
     pub struct Super {
+        pub span: Span,
+    }
+    pub struct Import {
         pub span: Span,
     }
     pub struct ExprOrSpread {

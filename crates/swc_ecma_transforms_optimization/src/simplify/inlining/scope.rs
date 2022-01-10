@@ -618,8 +618,7 @@ impl<'a> Scope<'a> {
                 }
             }
             Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(right_expr),
-                ..
+                obj: right_expr, ..
             }) if right_expr.is_ident() => {
                 let ri = right_expr.as_ident().unwrap();
 

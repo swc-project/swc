@@ -122,8 +122,7 @@
                           },
                           "value": "a",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   ]
@@ -245,8 +244,7 @@
                                   },
                                   "value": "g",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "arguments": [],
                               "typeArguments": null
@@ -319,8 +317,7 @@
                           },
                           "value": "a",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   ]
@@ -383,8 +380,7 @@
                           },
                           "value": "b",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   ]
@@ -465,8 +461,7 @@
                             },
                             "value": "b",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "Identifier",
@@ -997,8 +992,7 @@
                             },
                             "value": "x",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "Identifier",
@@ -1051,8 +1045,7 @@
                             },
                             "value": "y",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "Identifier",
@@ -1105,8 +1098,7 @@
                             },
                             "value": "z",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "Identifier",
@@ -1166,8 +1158,7 @@
                                   },
                                   "value": "z",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "right": {
                                 "type": "Identifier",
@@ -1450,8 +1441,7 @@
                             },
                             "value": "x",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "Identifier",
@@ -1504,8 +1494,7 @@
                             },
                             "value": "y",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "Identifier",
@@ -1558,8 +1547,7 @@
                             },
                             "value": "z",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "Identifier",
@@ -1619,8 +1607,7 @@
                                   },
                                   "value": "z",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "right": {
                                 "type": "Identifier",
@@ -1903,8 +1890,7 @@
                             },
                             "value": "x",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "Identifier",
@@ -1957,8 +1943,7 @@
                             },
                             "value": "y",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "Identifier",
@@ -2011,8 +1996,7 @@
                             },
                             "value": "z",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "Identifier",
@@ -2072,8 +2056,7 @@
                                   },
                                   "value": "z",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "right": {
                                 "type": "Identifier",
@@ -2365,8 +2348,7 @@
                             },
                             "value": "x",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "Identifier",
@@ -2419,8 +2401,7 @@
                             },
                             "value": "y",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "Identifier",
@@ -2473,8 +2454,7 @@
                             },
                             "value": "z",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "Identifier",
@@ -2534,8 +2514,7 @@
                                   },
                                   "value": "z",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "right": {
                                 "type": "Identifier",
@@ -2861,8 +2840,7 @@
                               },
                               "value": "x",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "Identifier",
@@ -2915,8 +2893,7 @@
                               },
                               "value": "y",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "Identifier",
@@ -2969,8 +2946,7 @@
                               },
                               "value": "z",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "Identifier",
@@ -3030,8 +3006,7 @@
                                     },
                                     "value": "z",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "right": {
                                   "type": "Identifier",
@@ -3386,8 +3361,7 @@
                               },
                               "value": "x",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "Identifier",
@@ -3440,8 +3414,7 @@
                               },
                               "value": "y",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "Identifier",
@@ -3494,8 +3467,7 @@
                               },
                               "value": "z",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "Identifier",
@@ -3555,8 +3527,7 @@
                                     },
                                     "value": "z",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "right": {
                                   "type": "Identifier",
@@ -4361,8 +4332,7 @@
                                         },
                                         "value": "x",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "right": {
                                       "type": "Identifier",
@@ -4415,8 +4385,7 @@
                                         },
                                         "value": "y",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "right": {
                                       "type": "Identifier",
@@ -5223,8 +5192,7 @@
                                         },
                                         "value": "x",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "right": {
                                       "type": "Identifier",
@@ -5277,8 +5245,7 @@
                                         },
                                         "value": "y",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "right": {
                                       "type": "Identifier",
@@ -6628,8 +6595,7 @@
             },
             "value": "foo",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "BinaryExpression",
@@ -6665,8 +6631,7 @@
               },
               "value": "foo",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "right": {
             "type": "NumericLiteral",
@@ -6824,8 +6789,7 @@
                                 },
                                 "value": "x",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           }
                         ]
@@ -6938,8 +6902,7 @@
                                   },
                                   "value": "x",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "right": {
                                 "type": "Identifier",
@@ -7011,8 +6974,7 @@
             },
             "value": "bar",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "BinaryExpression",
@@ -7048,8 +7010,7 @@
               },
               "value": "bar",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "right": {
             "type": "NumericLiteral",
@@ -7255,8 +7216,7 @@
                                       },
                                       "value": "x",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   }
                                 }
                               ]
@@ -7385,8 +7345,7 @@
                                         },
                                         "value": "x",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "right": {
                                       "type": "Identifier",
@@ -7461,8 +7420,7 @@
             },
             "value": "foo",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "BinaryExpression",
@@ -7498,8 +7456,7 @@
               },
               "value": "foo",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "right": {
             "type": "NumericLiteral",
@@ -7554,8 +7511,7 @@
             },
             "value": "bar",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "BinaryExpression",
@@ -7591,8 +7547,7 @@
               },
               "value": "bar",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "right": {
             "type": "NumericLiteral",
@@ -9181,8 +9136,7 @@
                                       },
                                       "value": "x",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   }
                                 }
                               ]
@@ -9273,8 +9227,7 @@
                                       },
                                       "value": "x",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   }
                                 }
                               ]
@@ -9513,8 +9466,7 @@
           },
           "value": "x",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -9557,8 +9509,7 @@
             },
             "value": "f",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -9615,8 +9566,7 @@
           },
           "value": "test",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -9652,8 +9602,7 @@
           },
           "value": "hello",
           "optional": false
-        },
-        "computed": false
+        }
       }
     }
   ],

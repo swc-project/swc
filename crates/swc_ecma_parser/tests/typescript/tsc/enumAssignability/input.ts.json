@@ -142,8 +142,7 @@
               },
               "value": "A",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -203,8 +202,7 @@
               },
               "value": "B",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }

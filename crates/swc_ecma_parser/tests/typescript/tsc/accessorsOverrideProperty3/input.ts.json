@@ -204,8 +204,7 @@
                       },
                       "value": "_sound",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]
@@ -315,8 +314,7 @@
                         },
                         "value": "_sound",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "Identifier",

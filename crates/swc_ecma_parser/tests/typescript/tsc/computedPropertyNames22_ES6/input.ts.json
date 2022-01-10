@@ -135,8 +135,7 @@
                                     },
                                     "value": "bar",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "arguments": [],
                                 "typeArguments": null

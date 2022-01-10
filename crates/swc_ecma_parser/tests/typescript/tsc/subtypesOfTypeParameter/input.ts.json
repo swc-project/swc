@@ -3820,8 +3820,7 @@
                       },
                       "value": "A",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "alternate": {
                     "type": "Identifier",
@@ -3918,8 +3917,7 @@
                       },
                       "value": "A",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 },
                 "definite": false

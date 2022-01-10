@@ -616,8 +616,7 @@
               },
               "value": "apply",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -788,8 +787,7 @@
               },
               "value": "call",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -849,8 +847,7 @@
               },
               "value": "arguments",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -910,8 +907,7 @@
               },
               "value": "data",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -963,20 +959,27 @@
               "optional": false
             },
             "property": {
-              "type": "StringLiteral",
+              "type": "Computed",
               "span": {
-                "start": 463,
-                "end": 467,
+                "start": 461,
+                "end": 468,
                 "ctxt": 0
               },
-              "value": "hm",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 463,
+                  "end": 467,
+                  "ctxt": 0
+                },
+                "value": "hm",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
               }
-            },
-            "computed": true
+            }
           },
           "definite": false
         }
@@ -1414,8 +1417,7 @@
               },
               "value": "apply",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -1586,8 +1588,7 @@
               },
               "value": "call",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -1647,8 +1648,7 @@
               },
               "value": "arguments",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -1708,8 +1708,7 @@
               },
               "value": "data",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -1761,20 +1760,27 @@
               "optional": false
             },
             "property": {
-              "type": "StringLiteral",
+              "type": "Computed",
               "span": {
-                "start": 772,
-                "end": 776,
+                "start": 770,
+                "end": 777,
                 "ctxt": 0
               },
-              "value": "hm",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 772,
+                  "end": 776,
+                  "ctxt": 0
+                },
+                "value": "hm",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
               }
-            },
-            "computed": true
+            }
           },
           "definite": false
         }

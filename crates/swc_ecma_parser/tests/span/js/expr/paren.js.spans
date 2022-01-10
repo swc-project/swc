@@ -34,7 +34,7 @@ warning: CallExpr
 1 | console.log(((((((a)))))))
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-warning: ExprOrSuper
+warning: Callee
  --> $DIR/tests/span/js/expr/paren.js:1:1
   |
 1 | console.log(((((((a)))))))
@@ -52,12 +52,6 @@ warning: MemberExpr
 1 | console.log(((((((a)))))))
   | ^^^^^^^^^^^
 
-warning: ExprOrSuper
- --> $DIR/tests/span/js/expr/paren.js:1:1
-  |
-1 | console.log(((((((a)))))))
-  | ^^^^^^^
-
 warning: Expr
  --> $DIR/tests/span/js/expr/paren.js:1:1
   |
@@ -69,12 +63,6 @@ warning: Ident
   |
 1 | console.log(((((((a)))))))
   | ^^^^^^^
-
-warning: Expr
- --> $DIR/tests/span/js/expr/paren.js:1:9
-  |
-1 | console.log(((((((a)))))))
-  |         ^^^
 
 warning: Ident
  --> $DIR/tests/span/js/expr/paren.js:1:9

@@ -556,8 +556,7 @@
           },
           "value": "p",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -600,8 +599,7 @@
             },
             "value": "m",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -640,8 +638,7 @@
           },
           "value": "g",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -677,8 +674,7 @@
           },
           "value": "p",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -721,8 +717,7 @@
             },
             "value": "m",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -761,8 +756,7 @@
           },
           "value": "g",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1105,8 +1099,7 @@
           },
           "value": "p",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1149,8 +1142,7 @@
             },
             "value": "m",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -1189,8 +1181,7 @@
           },
           "value": "g",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1226,8 +1217,7 @@
           },
           "value": "p",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1270,8 +1260,7 @@
             },
             "value": "m",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -1310,8 +1299,7 @@
           },
           "value": "g",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1628,8 +1616,7 @@
           },
           "value": "p",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1672,8 +1659,7 @@
             },
             "value": "m",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -1712,8 +1698,7 @@
           },
           "value": "g",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1749,8 +1734,7 @@
           },
           "value": "p",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1793,8 +1777,7 @@
             },
             "value": "m",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -1833,8 +1816,7 @@
           },
           "value": "g",
           "optional": false
-        },
-        "computed": false
+        }
       }
     }
   ],

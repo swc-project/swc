@@ -565,16 +565,23 @@
                               "optional": false
                             },
                             "property": {
-                              "type": "Identifier",
+                              "type": "Computed",
                               "span": {
-                                "start": 291,
-                                "end": 292,
+                                "start": 284,
+                                "end": 293,
                                 "ctxt": 0
                               },
-                              "value": "k",
-                              "optional": false
-                            },
-                            "computed": true
+                              "expression": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 291,
+                                  "end": 292,
+                                  "ctxt": 0
+                                },
+                                "value": "k",
+                                "optional": false
+                              }
+                            }
                           },
                           "right": {
                             "type": "ObjectExpression",
@@ -614,16 +621,23 @@
                                     "optional": false
                                   },
                                   "property": {
-                                    "type": "Identifier",
+                                    "type": "Computed",
                                     "span": {
-                                      "start": 309,
-                                      "end": 310,
+                                      "start": 305,
+                                      "end": 311,
                                       "ctxt": 0
                                     },
-                                    "value": "k",
-                                    "optional": false
-                                  },
-                                  "computed": true
+                                    "expression": {
+                                      "type": "Identifier",
+                                      "span": {
+                                        "start": 309,
+                                        "end": 310,
+                                        "ctxt": 0
+                                      },
+                                      "value": "k",
+                                      "optional": false
+                                    }
+                                  }
                                 }
                               }
                             ]

@@ -73,8 +73,7 @@
             },
             "value": "Inner",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ClassExpression",
@@ -201,8 +200,7 @@
           },
           "value": "i",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -273,8 +271,7 @@
                   },
                   "value": "i",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -285,8 +282,7 @@
                 },
                 "value": "messages",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null

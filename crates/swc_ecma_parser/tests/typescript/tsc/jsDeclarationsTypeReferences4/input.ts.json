@@ -273,8 +273,7 @@
                               },
                               "value": "Something",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "definite": false
                         }

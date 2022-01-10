@@ -328,7 +328,7 @@ impl VisitMut for TreeShaker {
 
         match n {
             Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(callee),
+                callee: Callee::Expr(callee),
                 args,
                 ..
             }) => {

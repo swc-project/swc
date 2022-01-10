@@ -1226,8 +1226,7 @@
                   },
                   "value": "b",
                   "optional": false
-                },
-                "computed": false
+                }
               }
             }
           }
@@ -2021,8 +2020,7 @@
                       },
                       "value": "legs",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 },
                 "right": {
@@ -2244,8 +2242,7 @@
                       },
                       "value": "wings",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               }
@@ -2525,8 +2522,7 @@
                               },
                               "value": "legs",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "NumericLiteral",
@@ -2669,8 +2665,7 @@
                                 },
                                 "value": "legs",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "NumericLiteral",
@@ -2841,8 +2836,7 @@
                                               },
                                               "value": "legs",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           }
                                         ],
                                         "quasis": [
@@ -3002,8 +2996,7 @@
                                       },
                                       "value": "legs",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   }
                                 ],
                                 "quasis": [

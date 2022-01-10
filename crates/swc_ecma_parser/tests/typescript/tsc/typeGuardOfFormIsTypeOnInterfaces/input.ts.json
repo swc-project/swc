@@ -1420,8 +1420,7 @@
               },
               "value": "p1",
               "optional": false
-            },
-            "computed": false
+            }
           }
         }
       }
@@ -1520,8 +1519,7 @@
               },
               "value": "p2",
               "optional": false
-            },
-            "computed": false
+            }
           }
         }
       }
@@ -1620,8 +1618,7 @@
               },
               "value": "p1",
               "optional": false
-            },
-            "computed": false
+            }
           }
         }
       }
@@ -1720,8 +1717,7 @@
               },
               "value": "p3",
               "optional": false
-            },
-            "computed": false
+            }
           }
         }
       }
@@ -1908,8 +1904,7 @@
               },
               "value": "p2",
               "optional": false
-            },
-            "computed": false
+            }
           }
         }
       }
@@ -2008,8 +2003,7 @@
               },
               "value": "p3",
               "optional": false
-            },
-            "computed": false
+            }
           }
         }
       }
@@ -2108,8 +2102,7 @@
               },
               "value": "p1",
               "optional": false
-            },
-            "computed": false
+            }
           }
         }
       }

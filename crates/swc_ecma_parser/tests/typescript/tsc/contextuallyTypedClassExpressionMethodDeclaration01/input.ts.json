@@ -477,8 +477,7 @@
                                 },
                                 "value": "numProp",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "NumericLiteral",
@@ -600,8 +599,7 @@
                                 },
                                 "value": "strProp",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "StringLiteral",
@@ -805,8 +803,7 @@
                                 },
                                 "value": "numProp",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "NumericLiteral",
@@ -923,8 +920,7 @@
                                 },
                                 "value": "strProp",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "StringLiteral",
@@ -1143,8 +1139,7 @@
                                 },
                                 "value": "numProp",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "NumericLiteral",
@@ -1272,8 +1267,7 @@
                                 },
                                 "value": "strProp",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "StringLiteral",

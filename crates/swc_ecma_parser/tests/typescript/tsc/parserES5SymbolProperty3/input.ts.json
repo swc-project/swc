@@ -66,8 +66,7 @@
                 },
                 "value": "unscopables",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "function": {

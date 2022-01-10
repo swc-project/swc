@@ -360,8 +360,7 @@
                 },
                 "value": "foo",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -397,8 +396,7 @@
                 },
                 "value": "bar",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]
@@ -531,8 +529,7 @@
                 },
                 "value": "foo",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -568,8 +565,7 @@
                 },
                 "value": "bar",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]
@@ -1052,8 +1048,7 @@
                   },
                   "value": "foo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "NumericLiteral",
@@ -1107,8 +1102,7 @@
                   },
                   "value": "foo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "StringLiteral",
@@ -1167,8 +1161,7 @@
                   },
                   "value": "bar",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "StringLiteral",
@@ -1324,8 +1317,7 @@
                   },
                   "value": "foo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "StringLiteral",
@@ -1384,8 +1376,7 @@
                   },
                   "value": "foo",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "NumericLiteral",
@@ -1439,8 +1430,7 @@
                   },
                   "value": "bar",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "StringLiteral",
@@ -2155,8 +2145,7 @@
                 },
                 "value": "foo",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -2192,8 +2181,7 @@
                 },
                 "value": "c",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -2229,8 +2217,7 @@
                 },
                 "value": "bar1",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -2266,8 +2253,7 @@
                 },
                 "value": "bar2",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]
@@ -2400,8 +2386,7 @@
                 },
                 "value": "foo",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -2437,8 +2422,7 @@
                 },
                 "value": "bar1",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -2474,8 +2458,7 @@
                 },
                 "value": "bar2",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]
@@ -2796,8 +2779,7 @@
                 },
                 "value": "foo",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -2833,8 +2815,7 @@
                 },
                 "value": "bar",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]
@@ -2967,8 +2948,7 @@
                 },
                 "value": "foo",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -3004,8 +2984,7 @@
                 },
                 "value": "bar",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]
@@ -3559,8 +3538,7 @@
                 },
                 "value": "foo",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -3596,8 +3574,7 @@
                 },
                 "value": "bar1",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -3633,8 +3610,7 @@
                 },
                 "value": "bar2",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]
@@ -3767,8 +3743,7 @@
                 },
                 "value": "foo",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -3804,8 +3779,7 @@
                 },
                 "value": "bar1",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -3841,8 +3815,7 @@
                 },
                 "value": "bar2",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]
@@ -4234,8 +4207,7 @@
                 },
                 "value": "foo",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -4271,8 +4243,7 @@
                 },
                 "value": "bar",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]
@@ -4405,8 +4376,7 @@
                 },
                 "value": "foo",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -4442,8 +4412,7 @@
                 },
                 "value": "bar",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]
@@ -4937,8 +4906,7 @@
                 },
                 "value": "foo1",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -4974,8 +4942,7 @@
                 },
                 "value": "foo2",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]
@@ -5108,8 +5075,7 @@
                 },
                 "value": "foo1",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -5145,8 +5111,7 @@
                 },
                 "value": "foo2",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]
@@ -5548,8 +5513,7 @@
                 },
                 "value": "foo",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -5585,8 +5549,7 @@
                 },
                 "value": "bar",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]
@@ -5719,8 +5682,7 @@
                 },
                 "value": "foo1",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -5756,8 +5718,7 @@
                 },
                 "value": "foo2",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]
@@ -5890,8 +5851,7 @@
                 },
                 "value": "foo1",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -5927,8 +5887,7 @@
                 },
                 "value": "foo2",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]
@@ -6061,8 +6020,7 @@
                 },
                 "value": "foo1",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -6098,8 +6056,7 @@
                 },
                 "value": "foo2",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]

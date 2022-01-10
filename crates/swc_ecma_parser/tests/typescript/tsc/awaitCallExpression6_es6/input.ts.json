@@ -1043,8 +1043,7 @@
                       },
                       "value": "fn",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {

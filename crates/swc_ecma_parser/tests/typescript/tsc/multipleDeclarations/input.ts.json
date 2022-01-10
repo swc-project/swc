@@ -73,8 +73,7 @@
                   },
                   "value": "m",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "NullLiteral",
@@ -141,8 +140,7 @@
               },
               "value": "prototype",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -153,8 +151,7 @@
             },
             "value": "m",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -212,8 +209,7 @@
                       },
                       "value": "nothing",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [],
                   "typeArguments": null
@@ -313,8 +309,7 @@
                       },
                       "value": "m",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "CallExpression",
@@ -354,8 +349,7 @@
                           },
                           "value": "m",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "property": {
                         "type": "Identifier",
@@ -366,8 +360,7 @@
                         },
                         "value": "bind",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [
                       {
@@ -425,8 +418,7 @@
                       },
                       "value": "mistake",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "StringLiteral",
@@ -648,8 +640,7 @@
               },
               "value": "prototype",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -660,8 +651,7 @@
             },
             "value": "mistake",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "BooleanLiteral",
@@ -714,8 +704,7 @@
             },
             "value": "m",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -754,8 +743,7 @@
           },
           "value": "mistake",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -935,8 +923,7 @@
                       },
                       "value": "m",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "CallExpression",
@@ -976,8 +963,7 @@
                           },
                           "value": "m",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "property": {
                         "type": "Identifier",
@@ -988,8 +974,7 @@
                         },
                         "value": "bind",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [
                       {
@@ -1047,8 +1032,7 @@
                       },
                       "value": "mistake",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "StringLiteral",
@@ -1126,8 +1110,7 @@
               },
               "value": "prototype",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -1138,8 +1121,7 @@
             },
             "value": "mistake",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "BooleanLiteral",
@@ -1244,8 +1226,7 @@
             },
             "value": "m",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -1291,8 +1272,7 @@
             },
             "value": "mistake",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null

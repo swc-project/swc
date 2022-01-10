@@ -1759,8 +1759,7 @@
                   },
                   "value": "from",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {
@@ -1936,8 +1935,7 @@
                   },
                   "value": "from",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {

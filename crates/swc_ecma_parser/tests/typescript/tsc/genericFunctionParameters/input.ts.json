@@ -1343,8 +1343,7 @@
                         },
                         "value": "init",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null

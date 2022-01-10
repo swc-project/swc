@@ -131,8 +131,7 @@
             },
             "value": "indexOf",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {

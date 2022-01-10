@@ -14,6 +14,7 @@ diff_enum!(
         Bin,
         Assign,
         Member,
+        SuperProp,
         Cond,
         Call,
         New,
@@ -45,10 +46,13 @@ diff_enum!(
 
 diff_enum!(PropOrSpread, [Prop, Spread]);
 diff_enum!(BlockStmtOrExpr, [BlockStmt, Expr]);
-diff_enum!(ExprOrSuper, [Expr, Super]);
+diff_enum!(SuperProp, [Computed, Ident]);
+diff_enum!(Callee, [Expr, Super, Import]);
 diff_enum!(Lit, [Str, Bool, Null, BigInt, Num, Regex, JSXText]);
 diff_enum!(JSXAttrOrSpread, [JSXAttr, SpreadElement]);
 diff_enum!(Prop, [Shorthand, KeyValue, Assign, Getter, Setter, Method]);
+
+diff_string_enum!(MetaPropKind);
 
 diff_struct!(ThisExpr, [span]);
 diff_struct!(ArrayLit, [span, elems]);
@@ -60,7 +64,9 @@ diff_struct!(Decorator, [span, expr]);
 diff_struct!(UpdateExpr, [span, prefix, op, arg]);
 diff_struct!(BinExpr, [span, op, left, right]);
 diff_struct!(AssignExpr, [span, op, left, right]);
-diff_struct!(MemberExpr, [span, obj, prop, computed]);
+diff_struct!(MemberExpr, [span, obj, prop]);
+diff_struct!(SuperPropExpr, [span, obj, prop]);
+diff_enum!(MemberProp, [Ident, PrivateName, Computed]);
 diff_struct!(CondExpr, [span, test, cons, alt]);
 diff_struct!(CallExpr, [span, callee, args, type_args]);
 diff_struct!(NewExpr, [span, callee, args, type_args]);
@@ -82,7 +88,7 @@ diff_struct!(
 );
 diff_struct!(ClassExpr, [ident, class]);
 diff_struct!(YieldExpr, [span, arg, delegate]);
-diff_struct!(MetaPropExpr, [meta, prop]);
+diff_struct!(MetaPropExpr, [span, kind]);
 diff_struct!(AwaitExpr, [span, arg]);
 diff_struct!(ParenExpr, [span, expr]);
 diff_struct!(JSXMemberExpr, [obj, prop]);
@@ -122,6 +128,7 @@ diff_struct!(PrivateName, [span, id]);
 diff_struct!(OptChainExpr, [span, question_dot_token, expr]);
 diff_struct!(SpreadElement, [dot3_token, expr]);
 diff_struct!(Super, [span]);
+diff_struct!(Import, [span]);
 diff_struct!(Bool, [span, value]);
 diff_struct!(Null, [span]);
 diff_struct!(Number, [span, value]);

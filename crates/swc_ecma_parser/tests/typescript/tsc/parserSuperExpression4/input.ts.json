@@ -75,13 +75,13 @@
                     },
                     "operator": "=",
                     "left": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 38,
                         "end": 47,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 38,
@@ -98,8 +98,7 @@
                         },
                         "value": "foo",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "NumericLiteral",
@@ -248,13 +247,13 @@
                             },
                             "operator": "=",
                             "left": {
-                              "type": "MemberExpression",
+                              "type": "SuperPropExpression",
                               "span": {
                                 "start": 126,
                                 "end": 135,
                                 "ctxt": 0
                               },
-                              "object": {
+                              "obj": {
                                 "type": "Super",
                                 "span": {
                                   "start": 126,
@@ -271,8 +270,7 @@
                                 },
                                 "value": "foo",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "NumericLiteral",

@@ -47,8 +47,7 @@
             },
             "value": "formatters",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -175,8 +174,7 @@
               },
               "value": "formatters",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -187,8 +185,7 @@
             },
             "value": "j",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -370,8 +367,7 @@
               },
               "value": "formatters",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -382,8 +378,7 @@
             },
             "value": "o",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -535,8 +530,7 @@
             },
             "value": "formatters",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "property": {
           "type": "Identifier",
@@ -547,8 +541,7 @@
           },
           "value": "j",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -619,8 +612,7 @@
                   },
                   "value": "formatters",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -631,8 +623,7 @@
                 },
                 "value": "o",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {

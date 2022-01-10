@@ -198,8 +198,7 @@
                                   },
                                   "value": "_trampolineEnabled",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "right": {
                                 "type": "BooleanLiteral",
@@ -267,8 +266,7 @@
                               },
                               "value": "prototype",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "property": {
                             "type": "Identifier",
@@ -279,8 +277,7 @@
                             },
                             "value": "disableTrampolineIfNecessary",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "FunctionExpression",
@@ -394,8 +391,7 @@
                                             },
                                             "value": "_trampolineEnabled",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         },
                                         "right": {
                                           "type": "BooleanLiteral",

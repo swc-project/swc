@@ -68,8 +68,7 @@
                 },
                 "value": "exports",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "right": {
               "type": "ObjectExpression",
@@ -126,8 +125,7 @@
             },
             "value": "Type",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",

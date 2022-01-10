@@ -48,15 +48,10 @@ impl VisitMut for PrivateNameMangler {
     fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
         n.obj.visit_mut_with(self);
 
-        if n.computed {
-            n.prop.visit_mut_with(self);
-        } else {
-            match &*n.prop {
-                Expr::PrivateName(..) => {
-                    n.prop.visit_mut_with(self);
-                }
-                _ => {}
-            }
+        match &mut n.prop {
+            MemberProp::Computed(c) => c.visit_mut_with(self),
+            MemberProp::PrivateName(p) => p.visit_mut_with(self),
+            MemberProp::Ident(_) => (),
         }
     }
 

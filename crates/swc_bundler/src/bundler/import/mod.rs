@@ -224,7 +224,7 @@ where
                 };
 
                 match &mut e.callee {
-                    ExprOrSuper::Expr(callee)
+                    Callee::Expr(callee)
                         if self.bundler.config.require
                             && match &**callee {
                                 Expr::Ident(Ident {
@@ -288,66 +288,63 @@ where
 
     fn analyze_usage(&mut self, e: &mut Expr) {
         match e {
-            Expr::Member(e) => match &e.obj {
-                ExprOrSuper::Super(_) => return,
-                ExprOrSuper::Expr(obj) => match &**obj {
-                    Expr::Ident(obj) => {
-                        if !self.imported_idents.contains_key(&obj.to_id()) {
-                            // If it's not imported, just abort the usage analysis.
-                            return;
-                        }
-
-                        if e.computed {
-                            // If a module is accessed with unknown key, we should import
-                            // everything from it.
-                            self.add_forced_ns_for(obj.to_id());
-                            return;
-                        }
-
-                        // Store usages of obj
-                        let import = self.info.imports.iter().find(|import| {
-                            for s in &import.specifiers {
-                                match s {
-                                    ImportSpecifier::Namespace(n) => {
-                                        return obj.sym == n.local.sym
-                                            && (obj.span.ctxt == self.module_ctxt
-                                                || obj.span.ctxt == n.local.span.ctxt)
-                                    }
-                                    _ => {}
-                                }
-                            }
-
-                            false
-                        });
-                        let import = match import {
-                            Some(v) => v,
-                            None => return,
-                        };
-
-                        let mark = self.ctxt_for(&import.src.value);
-                        let exported_ctxt = match mark {
-                            None => return,
-                            Some(ctxts) => ctxts.1,
-                        };
-                        let prop = match &*e.prop {
-                            Expr::Ident(i) => {
-                                let mut i = i.clone();
-                                i.span = i.span.with_ctxt(exported_ctxt);
-                                i
-                            }
-                            _ => unreachable!(
-                                "Non-computed member expression with property other than ident is \
-                                 invalid"
-                            ),
-                        };
-
-                        self.usages
-                            .entry(obj.to_id())
-                            .or_default()
-                            .push(prop.to_id());
+            Expr::Member(e) => match &*e.obj {
+                Expr::Ident(obj) => {
+                    if !self.imported_idents.contains_key(&obj.to_id()) {
+                        // If it's not imported, just abort the usage analysis.
+                        return;
                     }
-                    _ => {}
-                },
+
+                    if e.prop.is_computed() {
+                        // If a module is accessed with unknown key, we should import
+                        // everything from it.
+                        self.add_forced_ns_for(obj.to_id());
+                        return;
+                    }
+
+                    // Store usages of obj
+                    let import = self.info.imports.iter().find(|import| {
+                        for s in &import.specifiers {
+                            match s {
+                                ImportSpecifier::Namespace(n) => {
+                                    return obj.sym == n.local.sym
+                                        && (obj.span.ctxt == self.module_ctxt
+                                            || obj.span.ctxt == n.local.span.ctxt)
+                                }
+                                _ => {}
+                            }
+                        }
+
+                        false
+                    });
+                    let import = match import {
+                        Some(v) => v,
+                        None => return,
+                    };
+
+                    let mark = self.ctxt_for(&import.src.value);
+                    let exported_ctxt = match mark {
+                        None => return,
+                        Some(ctxts) => ctxts.1,
+                    };
+                    let prop = match &e.prop {
+                        MemberProp::Ident(i) => {
+                            let mut i = i.clone();
+                            i.span = i.span.with_ctxt(exported_ctxt);
+                            i
+                        }
+                        _ => unreachable!(
+                            "Non-computed member expression with property other than ident is \
+                             invalid"
+                        ),
+                    };
+
+                    self.usages
+                        .entry(obj.to_id())
+                        .or_default()
+                        .push(prop.to_id());
+                }
+                _ => {}
             },
             _ => {}
         }
@@ -358,16 +355,11 @@ where
             Expr::Member(e) => e,
             _ => return,
         };
-        if me.computed {
+        if me.prop.is_computed() {
             return;
         }
 
-        let obj = match &me.obj {
-            ExprOrSuper::Super(_) => return,
-            ExprOrSuper::Expr(e) => e,
-        };
-
-        let obj = match &**obj {
+        let obj = match &*me.obj {
             Expr::Ident(obj) => obj,
             _ => return,
         };
@@ -379,8 +371,8 @@ where
             _ => return,
         };
 
-        let mut prop = match &*me.prop {
-            Expr::Ident(v) => v.clone(),
+        let mut prop = match &me.prop {
+            MemberProp::Ident(v) => v.clone(),
             _ => return,
         };
         prop.span.ctxt = self.imported_idents.get(&obj.to_id()).copied().unwrap();
@@ -532,9 +524,20 @@ where
         self.in_obj_of_member = true;
         e.obj.visit_mut_with(self);
 
-        if e.computed {
+        if let MemberProp::Computed(c) = &mut e.prop {
             self.in_obj_of_member = false;
-            e.prop.visit_mut_with(self);
+            c.visit_mut_with(self);
+        }
+
+        self.in_obj_of_member = old;
+    }
+
+    fn visit_mut_super_prop_expr(&mut self, e: &mut SuperPropExpr) {
+        let old = self.in_obj_of_member;
+
+        if let SuperProp::Computed(c) = &mut e.prop {
+            self.in_obj_of_member = false;
+            c.visit_mut_with(self);
         }
 
         self.in_obj_of_member = old;
@@ -582,7 +585,7 @@ where
             Some(init) => match &mut **init {
                 Expr::Call(CallExpr {
                     span,
-                    callee: ExprOrSuper::Expr(ref mut callee),
+                    callee: Callee::Expr(ref mut callee),
                     ref args,
                     ..
                 }) if self.bundler.config.require

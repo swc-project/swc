@@ -725,8 +725,7 @@
               },
               "value": "fn",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -950,8 +949,7 @@
               },
               "value": "fng",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -1011,8 +1009,7 @@
               },
               "value": "fn2",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -1072,8 +1069,7 @@
               },
               "value": "fng2",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }

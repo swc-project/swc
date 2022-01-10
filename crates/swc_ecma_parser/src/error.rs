@@ -40,6 +40,9 @@ pub enum SyntaxError {
 
     InvalidSuperCall,
     InvalidSuper,
+    InvalidSuperPrivateName,
+
+    InvalidImport,
 
     ArrowNotAllowed,
     ExportNotAllowed,
@@ -232,6 +235,7 @@ pub enum SyntaxError {
     TS2703,
     TS4112,
     TSTypeAnnotationAfterAssign,
+    TsNonNullAssertionNotAllowed(JsWord),
 }
 
 impl SyntaxError {
@@ -447,6 +451,10 @@ impl SyntaxError {
             SyntaxError::DeclNotAllowed => "Declaration is now allowed".into(),
             SyntaxError::InvalidSuperCall => "Invalid `super()`".into(),
             SyntaxError::InvalidSuper => "Invalid access to super".into(),
+            SyntaxError::InvalidSuperPrivateName => {
+                "Index super with private name is not allowed".into()
+            }
+            SyntaxError::InvalidImport => "Import is not allowed here".into(),
             SyntaxError::ArrowNotAllowed => "An arrow function is not allowed here".into(),
             SyntaxError::ExportNotAllowed => "`export` is not allowed here".into(),
             SyntaxError::GetterSetterCannotBeReadonly => {
@@ -575,6 +583,11 @@ impl SyntaxError {
             SyntaxError::TSTypeAnnotationAfterAssign => {
                 "Type annotations must come before default assignments".into()
             }
+            SyntaxError::TsNonNullAssertionNotAllowed(word) => format!(
+                "Typescript non-null assertion operator is not allowed with '{}'",
+                word
+            )
+            .into(),
             SyntaxError::SetterParamRequired => "Setter should have exactly one parameter".into(),
         }
     }

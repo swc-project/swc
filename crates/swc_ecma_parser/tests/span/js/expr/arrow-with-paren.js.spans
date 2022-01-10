@@ -34,7 +34,7 @@ warning: CallExpr
 1 | use((a) => a)
   | ^^^^^^^^^^^^^
 
-warning: ExprOrSuper
+warning: Callee
  --> $DIR/tests/span/js/expr/arrow-with-paren.js:1:1
   |
 1 | use((a) => a)

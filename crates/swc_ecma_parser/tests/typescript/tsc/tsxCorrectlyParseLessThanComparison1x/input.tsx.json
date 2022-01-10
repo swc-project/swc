@@ -480,8 +480,7 @@
                             },
                             "value": "props",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "property": {
                           "type": "Identifier",
@@ -492,8 +491,7 @@
                           },
                           "value": "id",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "NumericLiteral",
@@ -661,8 +659,7 @@
             },
             "value": "Component",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "isAbstract": false,
         "typeParams": null,

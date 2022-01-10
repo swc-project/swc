@@ -2527,8 +2527,7 @@
           },
           "value": "kind",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -5339,16 +5338,23 @@
             "optional": false
           },
           "property": {
-            "type": "Identifier",
+            "type": "Computed",
             "span": {
-              "start": 1977,
-              "end": 1978,
+              "start": 1974,
+              "end": 1979,
               "ctxt": 0
             },
-            "value": "k",
-            "optional": false
-          },
-          "computed": true
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 1977,
+                "end": 1978,
+                "ctxt": 0
+              },
+              "value": "k",
+              "optional": false
+            }
+          }
         },
         "right": {
           "type": "TsAsExpression",
@@ -5416,16 +5422,23 @@
             "optional": false
           },
           "property": {
-            "type": "Identifier",
+            "type": "Computed",
             "span": {
-              "start": 2009,
-              "end": 2010,
+              "start": 2006,
+              "end": 2011,
               "ctxt": 0
             },
-            "value": "k",
-            "optional": false
-          },
-          "computed": true
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 2009,
+                "end": 2010,
+                "ctxt": 0
+              },
+              "value": "k",
+              "optional": false
+            }
+          }
         },
         "right": {
           "type": "TsAsExpression",

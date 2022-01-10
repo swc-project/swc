@@ -51,17 +51,14 @@ impl Fold for ReservedWord {
     }
 
     fn fold_member_expr(&mut self, e: MemberExpr) -> MemberExpr {
-        if e.computed {
-            MemberExpr {
-                obj: e.obj.fold_with(self),
-                prop: e.prop.fold_with(self),
-                ..e
-            }
-        } else {
-            MemberExpr {
-                obj: e.obj.fold_with(self),
-                ..e
-            }
+        MemberExpr {
+            obj: e.obj.fold_with(self),
+            prop: if let MemberProp::Computed(c) = e.prop {
+                MemberProp::Computed(c.fold_with(self))
+            } else {
+                e.prop
+            },
+            ..e
         }
     }
 

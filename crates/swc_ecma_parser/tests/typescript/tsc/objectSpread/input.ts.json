@@ -2551,8 +2551,7 @@
             },
             "value": "a",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -3045,8 +3044,7 @@
                       },
                       "value": "header",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 },
                 {
@@ -5265,8 +5263,7 @@
                             },
                             "value": "p",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "NumericLiteral",
@@ -5332,8 +5329,7 @@
             },
             "value": "plus",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null

@@ -1,44 +1,44 @@
 use super::*;
 use crate::hygiene::Config;
 use swc_ecma_parser::Syntax;
-use swc_ecma_visit::{Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::Fold;
 
-struct TsHygiene {
-    top_level_mark: Mark,
-}
+// struct TsHygiene {
+//     top_level_mark: Mark,
+// }
 
-impl VisitMut for TsHygiene {
-    fn visit_mut_ident(&mut self, i: &mut Ident) {
-        if SyntaxContext::empty().apply_mark(self.top_level_mark) == i.span.ctxt {
-            println!("ts_hygiene: {} is top-level", i.sym);
-            return;
-        }
+// impl VisitMut for TsHygiene {
+//     fn visit_mut_ident(&mut self, i: &mut Ident) {
+//         if SyntaxContext::empty().apply_mark(self.top_level_mark) ==
+// i.span.ctxt {             println!("ts_hygiene: {} is top-level", i.sym);
+//             return;
+//         }
 
-        let ctxt = format!("{:?}", i.span.ctxt).replace("#", "");
-        i.sym = format!("{}__{}", i.sym, ctxt).into();
-        i.span = i.span.with_ctxt(SyntaxContext::empty());
-    }
+//         let ctxt = format!("{:?}", i.span.ctxt).replace("#", "");
+//         i.sym = format!("{}__{}", i.sym, ctxt).into();
+//         i.span = i.span.with_ctxt(SyntaxContext::empty());
+//     }
 
-    fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
-        n.obj.visit_mut_with(self);
-        if n.computed {
-            n.prop.visit_mut_with(self);
-        }
-    }
+//     fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
+//         n.obj.visit_mut_with(self);
+//         if n.computed {
+//             n.prop.visit_mut_with(self);
+//         }
+//     }
 
-    fn visit_mut_prop_name(&mut self, n: &mut PropName) {
-        match n {
-            PropName::Computed(n) => {
-                n.visit_mut_with(self);
-            }
-            _ => {}
-        }
-    }
+//     fn visit_mut_prop_name(&mut self, n: &mut PropName) {
+//         match n {
+//             PropName::Computed(n) => {
+//                 n.visit_mut_with(self);
+//             }
+//             _ => {}
+//         }
+//     }
 
-    fn visit_mut_ts_qualified_name(&mut self, q: &mut TsQualifiedName) {
-        q.left.visit_mut_with(self);
-    }
-}
+//     fn visit_mut_ts_qualified_name(&mut self, q: &mut TsQualifiedName) {
+//         q.left.visit_mut_with(self);
+//     }
+// }
 
 fn run_test_with_config<F, V>(
     syntax: Syntax,

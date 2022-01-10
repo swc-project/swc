@@ -83,8 +83,7 @@
                 "value": "bar",
                 "optional": false
               }
-            },
-            "computed": false
+            }
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -226,8 +225,7 @@
                 "value": "bar",
                 "optional": false
               }
-            },
-            "computed": false
+            }
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -297,8 +295,7 @@
                 "value": "foo",
                 "optional": false
               }
-            },
-            "computed": false
+            }
           },
           "typeAnnotation": null,
           "isStatic": false,

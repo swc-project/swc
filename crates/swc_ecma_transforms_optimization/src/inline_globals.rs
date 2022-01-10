@@ -151,40 +151,33 @@ impl VisitMut for InlineGlobals {
                 }
             }
 
-            Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(ref obj),
-                ref prop,
-                computed,
-                ..
-            }) => match &**obj {
+            Expr::Member(MemberExpr { obj, prop, .. }) => match &**obj {
                 Expr::Member(MemberExpr {
-                    obj: ExprOrSuper::Expr(first_obj),
-                    prop: second_obj,
+                    obj: first_obj,
+                    prop:
+                        MemberProp::Ident(Ident {
+                            sym: js_word!("env"),
+                            ..
+                        }),
                     ..
                 }) => match &**first_obj {
                     Expr::Ident(Ident {
                         sym: js_word!("process"),
                         ..
-                    }) => match &**second_obj {
-                        Expr::Ident(Ident {
-                            sym: js_word!("env"),
-                            ..
-                        }) => match &**prop {
-                            Expr::Lit(Lit::Str(Str { value: ref sym, .. })) => {
+                    }) => match prop {
+                        MemberProp::Computed(ComputedPropName { expr: c, .. }) => {
+                            if let Expr::Lit(Lit::Str(Str { value: sym, .. })) = &**c {
                                 if let Some(env) = self.envs.get(sym) {
                                     *expr = env.clone();
-                                    return;
                                 }
                             }
+                        }
 
-                            Expr::Ident(Ident { ref sym, .. }) if !*computed => {
-                                if let Some(env) = self.envs.get(sym) {
-                                    *expr = env.clone();
-                                    return;
-                                }
+                        MemberProp::Ident(Ident { sym, .. }) => {
+                            if let Some(env) = self.envs.get(sym) {
+                                *expr = env.clone();
                             }
-                            _ => {}
-                        },
+                        }
                         _ => {}
                     },
                     _ => {}
@@ -198,8 +191,14 @@ impl VisitMut for InlineGlobals {
     fn visit_mut_member_expr(&mut self, expr: &mut MemberExpr) {
         expr.obj.visit_mut_with(self);
 
-        if expr.computed {
-            expr.prop.visit_mut_with(self);
+        if let MemberProp::Computed(c) = &mut expr.prop {
+            c.visit_mut_with(self);
+        }
+    }
+
+    fn visit_mut_super_prop_expr(&mut self, expr: &mut SuperPropExpr) {
+        if let SuperProp::Computed(c) = &mut expr.prop {
+            c.visit_mut_with(self);
         }
     }
 

@@ -496,8 +496,7 @@
                     },
                     "value": "self",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [],
                 "typeArguments": null
@@ -591,8 +590,7 @@
                             },
                             "value": "me",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "arguments": [],
                         "typeArguments": null
@@ -606,8 +604,7 @@
                         },
                         "value": "self",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -621,8 +618,7 @@
                     },
                     "value": "me",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [],
                 "typeArguments": null
@@ -862,8 +858,7 @@
                     },
                     "value": "self",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [],
                 "typeArguments": null
@@ -957,8 +952,7 @@
                             },
                             "value": "me",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "arguments": [],
                         "typeArguments": null
@@ -972,8 +966,7 @@
                         },
                         "value": "self",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -987,8 +980,7 @@
                     },
                     "value": "me",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [],
                 "typeArguments": null
@@ -1410,8 +1402,7 @@
                           },
                           "value": "extend",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [
                         {
@@ -1461,8 +1452,7 @@
                       },
                       "value": "extend",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {
@@ -1545,8 +1535,7 @@
                 },
                 "value": "id",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -1582,8 +1571,7 @@
                 },
                 "value": "tag",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]

@@ -350,8 +350,7 @@
                                 },
                                 "value": "dontPanic",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "arguments": [],
                             "typeArguments": null
@@ -397,8 +396,7 @@
                                 },
                                 "value": "doPanic",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "arguments": [],
                             "typeArguments": null
@@ -483,8 +481,7 @@
                                 },
                                 "value": "message",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           },
                           {
@@ -520,8 +517,7 @@
                                 },
                                 "value": "massage",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             }
                           }
                         ]
