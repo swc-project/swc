@@ -493,8 +493,6 @@ where
             let mut body = constructor.body.unwrap().stmts;
             // should we insert `var _this`?
 
-            println!("{}", class_name.sym);
-
             let is_always_initialized = is_always_initialized(&body);
 
             // We should handle branching
