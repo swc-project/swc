@@ -5,7 +5,7 @@ use std::{
     process::{Command, Stdio},
 };
 use swc_common::FileName;
-use swc_ecma_ast::{CallExpr, EsVersion, Expr, ExprOrSuper, Lit, MemberExpr, Str};
+use swc_ecma_ast::{CallExpr, EsVersion, Expr, Callee, Lit, MemberExpr, Str};
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
 use swc_ecma_visit::{Visit, VisitWith};
 
@@ -48,9 +48,9 @@ struct TestVisitor {
 
 impl Visit for TestVisitor {
     fn visit_call_expr(&mut self, call: &CallExpr) {
-        if let ExprOrSuper::Expr(expr) = &call.callee {
+        if let Callee::Expr(expr) = &call.callee {
             if let Expr::Member(MemberExpr { obj, .. }) = &**expr {
-                if let ExprOrSuper::Expr(expr) = obj {
+                if let Callee::Expr(expr) = obj {
                     if let Expr::Ident(ident) = &**expr {
                         if ident.sym == *"console" {
                             let args = &*(call.args[0].expr);
