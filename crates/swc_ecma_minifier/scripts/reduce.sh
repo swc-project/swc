@@ -23,7 +23,7 @@ cp $1 "$wd/input.js"
 dir="$(dirname $1)"
 
 # Verify that we can run `creduce`
-$SCRIPT_DIR/_/reduce/compare.sh
+(cd $wd && $SCRIPT_DIR/_/reduce/compare.sh)
 
 (cd $wd && creduce "$SCRIPT_DIR/_/reduce/compare.sh" "$wd/input.js")
 
