@@ -30,7 +30,6 @@ impl VisitMut for ConsoleOutputReplacer {
 // - this is not complete signature, need to take config_json
 // - swc_plugin macro to support ergonomic interfaces
 // - better developer experience: println / dbg!() doesn't emit anything
-// - typed json config instead of str, which requires additional deserialization
 pub fn process(ast_ptr: *mut u8, len: i32) -> (i32, i32) {
     // Read raw serialized bytes from wasm's memory space. Host (SWC) should
     // allocate memory, copy bytes and pass ptr to plugin.
@@ -41,8 +40,8 @@ pub fn process(ast_ptr: *mut u8, len: i32) -> (i32, i32) {
     let serialized_program = SerializedProgram::new(raw_serialized_bytes.to_vec(), len);
 
     // TODO: Returning error pointer instead of unwrap
-    let program: Program = deserialize_from_bytes(&serialized_program)
-        .expect("Should able to deserialize");
+    let program: Program =
+        deserialize_from_bytes(&serialized_program).expect("Should able to deserialize");
 
     // Actual plugin transformation
     let transformed_program = program.fold_with(&mut as_folder(ConsoleOutputReplacer));

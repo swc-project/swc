@@ -28,7 +28,8 @@ pub extern "C" fn __alloc(size: usize) -> *mut u8 {
 #[cfg(target_arch = "wasm32")]
 #[no_mangle]
 #[inline(always)]
-pub extern "C" fn __free(ptr: *mut u8, size: usize) {
+pub extern "C" fn __free(ptr: *mut u8, size: usize) -> i32 {
     let data = unsafe { Vec::from_raw_parts(ptr, size, size) };
     std::mem::drop(data);
+    0
 }

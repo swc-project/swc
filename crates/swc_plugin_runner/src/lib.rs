@@ -109,24 +109,27 @@ fn load_plugin(plugin_path: &Path, cache: &mut Option<PluginCache>) -> Result<In
     };
 }
 
-fn copy_memory_to_instance(
+/// Copy host's serialized bytes into guest (plugin)'s allocated memory.
+/// Once transformation completes, host should free allocated memory.
+fn write_bytes_into_guest(
     instance: &Instance,
+    memory: &Memory,
     program: &SerializedProgram,
 ) -> Result<(i32, u32), Error> {
-    let alloc = instance
+    let alloc_memory_in_guest = instance
         .exports
         .get_native_function::<u32, i32>("__alloc")?;
 
     let serialized = &program.0;
     let serialized_len = serialized.len();
 
-    let alloc_ptr = alloc.call(serialized_len.try_into()?)?;
-    let memory = instance.exports.get_memory("memory")?;
+    let allocated_ptr = alloc_memory_in_guest.call(serialized_len.try_into()?)?;
+
     let view = memory.view::<u8>();
 
     // loop over the Wasm memory view's bytes, assign bytes value of alignedvec from
     // serialized
-    let ptr_start: usize = alloc_ptr.try_into()?;
+    let ptr_start: usize = allocated_ptr.try_into()?;
     for (cell, byte) in view[ptr_start..ptr_start + serialized_len + 1]
         .iter()
         .zip(serialized.iter())
@@ -134,15 +137,45 @@ fn copy_memory_to_instance(
         cell.set(*byte)
     }
 
-    Ok((alloc_ptr, serialized_len.try_into()?))
+    Ok((allocated_ptr, serialized_len.try_into()?))
+}
+
+/// Copy guest's memory into host, construct serialized struct from raw bytes.
+/// Once copy completes, fn frees allocated memory in guest as well.
+fn read_bytes_from_guest(
+    instance: &Instance,
+    memory: &Memory,
+    returned_ptr: i32,
+    len: i32,
+) -> Result<SerializedProgram, Error> {
+    let ptr: WasmPtr<u8, Array> = WasmPtr::new(returned_ptr as _);
+
+    // Deref & read through plugin's wasm memory space via returned ptr
+    let derefed_ptr = ptr
+        .deref(memory, 0, len.try_into()?)
+        .ok_or(anyhow!("Failed to deref raw bytes from plugin's memory"))?;
+
+    let transformed_raw_bytes = derefed_ptr
+        .iter()
+        .enumerate()
+        .take(len.try_into()?)
+        .map(|(_size, cell)| cell.get())
+        .collect::<Vec<u8>>();
+
+    let free_memory_in_guest = instance
+        .exports
+        .get_native_function::<(i32, i32), i32>("__free")?;
+
+    free_memory_in_guest.call(returned_ptr, len)?;
+
+    Ok(SerializedProgram::new(transformed_raw_bytes, len))
 }
 
 // TODO
-// - alloc / free memories
-// - resolve trait bounds compilation errors for swc_plugin::{se,dese}rialize fn
-// - ergonomic wrappers for the transform logics with error handlings
+// - free allocation when error occurs
+// - error propagation from plugin
 pub fn apply_js_plugin(
-    _plugin_name: &str,
+    plugin_name: &str,
     path: &Path,
     cache: &mut Option<PluginCache>,
     _config_json: &str,
@@ -150,35 +183,23 @@ pub fn apply_js_plugin(
 ) -> Result<SerializedProgram, Error> {
     (|| -> Result<_, Error> {
         let instance = load_plugin(path, cache)?;
+        let memory = instance.exports.get_memory("memory")?;
+
+        let (guest_allocated_ptr, len) = write_bytes_into_guest(&instance, memory, &program)?;
 
         let plugin_process_wasm_exported_fn = instance
             .exports
             .get_native_function::<(i32, u32), (i32, i32)>("process")?;
 
-        let (alloc_ptr, len) = copy_memory_to_instance(&instance, &program)?;
-        let (returned_ptr, returned_len) = plugin_process_wasm_exported_fn.call(alloc_ptr, len)?;
+        let (returned_ptr, returned_len) =
+            plugin_process_wasm_exported_fn.call(guest_allocated_ptr, len)?;
 
-        // Reconstruct AlignedVec from ptr returned by plugin
-        let memory = instance.exports.get_memory("memory")?;
-        let ptr: WasmPtr<u8, Array> = WasmPtr::new(returned_ptr as _);
-
-        // Deref & read through plguin's wasm memory space via returned ptr
-        let derefed_ptr = ptr
-            .deref(memory, 0, returned_len.try_into()?)
-            .ok_or(anyhow!("Failed to deref raw bytes from plugin's memory"))?;
-
-        let transformed_raw_bytes = derefed_ptr
-            .iter()
-            .enumerate()
-            .take(returned_len.try_into()?)
-            .map(|(_size, cell)| cell.get())
-            .collect::<Vec<u8>>();
-
-        Ok(SerializedProgram::new(transformed_raw_bytes, returned_len))
+        read_bytes_from_guest(&instance, memory, returned_ptr, returned_len)
     })()
     .with_context(|| {
         format!(
-            "failed to invoke `{}` as js transform plugin",
+            "failed to invoke `{}` as js transform plugin at {}",
+            plugin_name,
             path.display()
         )
     })
