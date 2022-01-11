@@ -98,7 +98,7 @@
                         "property": {
                           "type": "Computed",
                           "span": {
-                            "start": 46,
+                            "start": 55,
                             "end": 58,
                             "ctxt": 0
                           },
@@ -266,7 +266,7 @@
                                     "property": {
                                       "type": "Computed",
                                       "span": {
-                                        "start": 133,
+                                        "start": 142,
                                         "end": 145,
                                         "ctxt": 0
                                       },
@@ -406,7 +406,7 @@
                           "property": {
                             "type": "Computed",
                             "span": {
-                              "start": 204,
+                              "start": 213,
                               "end": 216,
                               "ctxt": 0
                             },
@@ -620,7 +620,7 @@
                           "property": {
                             "type": "Computed",
                             "span": {
-                              "start": 290,
+                              "start": 299,
                               "end": 302,
                               "ctxt": 0
                             },
@@ -727,7 +727,7 @@
                   "property": {
                     "type": "Computed",
                     "span": {
-                      "start": 350,
+                      "start": 359,
                       "end": 362,
                       "ctxt": 0
                     },
@@ -852,7 +852,7 @@
                           "property": {
                             "type": "Computed",
                             "span": {
-                              "start": 419,
+                              "start": 428,
                               "end": 431,
                               "ctxt": 0
                             },

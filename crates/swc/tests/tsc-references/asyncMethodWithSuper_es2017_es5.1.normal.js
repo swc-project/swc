@@ -322,8 +322,8 @@ var B = /*#__PURE__*/ function(A) {
                 }, _super_x3 = function(_args) {
                     // property access (assign)
                     return _set(_getPrototypeOf(B.prototype), "x", _args, _this, true);
-                }, // element access (assign)
-                _super_method3 = function(_args) {
+                }, _super_method3 = function(_args) {
+                    // element access (assign)
                     return _set(_getPrototypeOf(B.prototype), "x", _args, _this, true);
                 }, _super_x4 = function() {
                     return _get(_getPrototypeOf(B.prototype), "x", _this);
