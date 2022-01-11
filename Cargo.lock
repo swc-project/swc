@@ -2609,7 +2609,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.99.0"
+version = "0.99.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2706,7 +2706,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_ast"
-version = "0.41.0"
+version = "0.41.1"
 dependencies = [
  "is-macro",
  "serde",
@@ -2791,7 +2791,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.64.0"
+version = "0.64.1"
 dependencies = [
  "arbitrary",
  "is-macro",
@@ -2914,7 +2914,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.66.0"
+version = "0.66.1"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3059,7 +3059,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.65.0"
+version = "0.65.1"
 dependencies = [
  "ahash",
  "arrayvec 0.7.2",
