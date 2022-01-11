@@ -4,8 +4,8 @@ use std::{
     path::{Path, PathBuf},
     process::{Command, Stdio},
 };
-use swc_common::FileName;
-use swc_ecma_ast::{CallExpr, Callee, EsVersion, Expr, Lit, MemberExpr, Str};
+use swc_common::{plugin::Serialized, FileName};
+use swc_ecma_ast::{CallExpr, Callee, EsVersion, Expr, Lit, MemberExpr, Program, Str};
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
 use swc_ecma_visit::{Visit, VisitWith};
 
@@ -74,6 +74,7 @@ fn internal() -> Result<(), Error> {
             .join("swc_internal_plugin"),
     )?;
 
+    // run single plugin
     testing::run_test(false, |cm, _handler| {
         let fm = cm.new_source_file(FileName::Anon, "console.log(foo)".into());
 
@@ -89,10 +90,14 @@ fn internal() -> Result<(), Error> {
 
         let program = parser.parse_program().unwrap();
 
-        let program =
+        let program = Serialized::serialize(&program).expect("Should serializable");
+
+        let program_bytes =
             swc_plugin_runner::apply_js_plugin("internal-test", &path, &mut None, "{}", program)
                 .expect("Plugin should apply transform");
 
+        let program: Program =
+            Serialized::deserialize(&program_bytes).expect("Should able to deserialize");
         let mut visitor = TestVisitor {
             plugin_transform_found: false,
         };
@@ -103,7 +108,58 @@ fn internal() -> Result<(), Error> {
             .then(|| visitor.plugin_transform_found)
             .ok_or(())
     })
-    .unwrap();
+    .expect("Should able to run single plugin transform");
+
+    // Run multiple plugins.
+    testing::run_test(false, |cm, _handler| {
+        let fm = cm.new_source_file(FileName::Anon, "console.log(foo)".into());
+
+        let lexer = Lexer::new(
+            Syntax::Es(EsConfig {
+                ..Default::default()
+            }),
+            EsVersion::latest(),
+            StringInput::from(&*fm),
+            None,
+        );
+        let mut parser = Parser::new_from(lexer);
+
+        let program = parser.parse_program().unwrap();
+
+        let mut serialized_program = Serialized::serialize(&program).expect("Should serializable");
+
+        serialized_program = swc_plugin_runner::apply_js_plugin(
+            "internal-test",
+            &path,
+            &mut None,
+            "{}",
+            serialized_program,
+        )
+        .expect("Plugin should apply transform");
+
+        // TODO: we'll need to apply 2 different plugins
+        serialized_program = swc_plugin_runner::apply_js_plugin(
+            "internal-test",
+            &path,
+            &mut None,
+            "{}",
+            serialized_program,
+        )
+        .expect("Plugin should apply transform");
+
+        let program: Program =
+            Serialized::deserialize(&serialized_program).expect("Should able to deserialize");
+        let mut visitor = TestVisitor {
+            plugin_transform_found: false,
+        };
+        program.visit_with(&mut visitor);
+
+        visitor
+            .plugin_transform_found
+            .then(|| visitor.plugin_transform_found)
+            .ok_or(())
+    })
+    .expect("Should able to run multiple plugins transform");
 
     Ok(())
 }

@@ -29,6 +29,9 @@
 - **(es/ast)** Update `is-macro` (#3226) ([1edbf1a](https://github.com/swc-project/swc/commit/1edbf1a37a37c5e3a9bf695b4793d0c35c2d6592))
 
 
+- **(es/compat)** Implement object super (#3127) ([b649d23](https://github.com/swc-project/swc/commit/b649d23bac1faf5ae0ba9463ba9069d09055b63c))
+
+
 - **(es/parser)** Accept strings for import/exports (#3190) ([3fb76f6](https://github.com/swc-project/swc/commit/3fb76f64c4e5ee49b0415757b3ead5fc753a93b6))
 
 
