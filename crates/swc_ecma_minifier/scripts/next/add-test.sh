@@ -11,7 +11,7 @@ export NEXT_DEBUG_MINIFY=1
 rm -rf .next
 
 # Install latest canary
-npm i next@canary
+# npm i next@canary
 
 # This is not useful data, as this is a script used only by me (@kdy1)
 npx next telemetry disable
