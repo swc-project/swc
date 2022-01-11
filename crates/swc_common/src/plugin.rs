@@ -30,7 +30,7 @@ impl SerializedProgram {
 /// Serialize given Program into raw bytes, can be copied into plugin's memory
 /// spaces.
 #[cfg(any(feature = "plugin-rt", feature = "plugin-mode"))]
-pub fn serialize_into_bytes<T>(t: &T) -> Result<SerializedProgram, Error>
+pub fn serialize_for_plugin<T>(t: &T) -> Result<SerializedProgram, Error>
 where
     T: rkyv::Serialize<rkyv::ser::serializers::AllocSerializer<512>>,
 {
@@ -49,7 +49,7 @@ where
 
 /// Deserialize given raw bytes into Program.
 #[cfg(any(feature = "plugin-rt", feature = "plugin-mode"))]
-pub fn deserialize_from_bytes<T>(bytes: &SerializedProgram) -> Result<T, Error>
+pub fn deserialize_for_plugin<T>(bytes: &SerializedProgram) -> Result<T, Error>
 where
     T: rkyv::Archive,
     T::Archived: rkyv::Deserialize<T, rkyv::Infallible>,

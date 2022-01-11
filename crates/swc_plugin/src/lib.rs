@@ -1,7 +1,7 @@
 // Reexports
 pub use swc_common::{
     chain,
-    plugin::{deserialize_from_bytes, serialize_into_bytes, SerializedProgram},
+    plugin::{deserialize_for_plugin, serialize_for_plugin, SerializedProgram},
     DUMMY_SP,
 };
 pub mod ast {
