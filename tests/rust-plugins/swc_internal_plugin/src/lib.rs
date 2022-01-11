@@ -1,5 +1,7 @@
-use rkyv::{AlignedVec, Deserialize};
-use swc_plugin::{ast::*, DUMMY_SP};
+use rkyv::AlignedVec;
+use swc_plugin::{
+    ast::*, deserialize_from_bytes, serialize_into_bytes, SerializedProgram, DUMMY_SP,
+};
 
 struct ConsoleOutputReplacer;
 
@@ -40,17 +42,18 @@ pub fn process(ast_ptr: *mut u8, len: u32) -> (i32, i32) {
     let mut serialized_program = AlignedVec::with_capacity(len.try_into().unwrap());
     serialized_program.extend_from_slice(raw_serialized_bytes);
 
-    // TODO: trait bound complaining in deserialize_for_plugin<T>
-    // Actual deserialization
-    let archived = unsafe { rkyv::archived_root::<Program>(&serialized_program[..]) };
-    let program: Program = archived.deserialize(&mut rkyv::Infallible).unwrap();
+    // TODO: Returning error pointer instead of unwrap
+    let program: Program = deserialize_from_bytes(&SerializedProgram(serialized_program))
+        .expect("Should able to deserialize");
 
     // Actual plugin transformation
     let transformed_program = program.fold_with(&mut as_folder(ConsoleOutputReplacer));
 
     // Serialize transformed result, return back to the host.
-    let serialized_result =
-        rkyv::to_bytes::<_, 512>(&transformed_program).expect("Should serializable");
+    let serialized_result = serialize_into_bytes(&transformed_program)
+        .expect("Should serializable")
+        .0;
+
     (
         serialized_result.as_ptr() as _,
         serialized_result.len().try_into().unwrap(),

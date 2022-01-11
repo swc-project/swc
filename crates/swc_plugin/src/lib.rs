@@ -1,5 +1,9 @@
 // Reexports
-pub use swc_common::{chain, DUMMY_SP};
+pub use swc_common::{
+    chain,
+    plugin::{deserialize_from_bytes, serialize_into_bytes, SerializedProgram},
+    DUMMY_SP,
+};
 pub mod ast {
     pub use swc_atoms::*;
     pub use swc_ecma_ast::*;

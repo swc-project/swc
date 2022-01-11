@@ -44,14 +44,16 @@ impl RustPlugins {
     #[cfg(feature = "plugin")]
     fn apply(&mut self, n: Program) -> Result<Program, anyhow::Error> {
         use anyhow::Context;
-        use rkyv::Deserialize;
-        use swc_common::plugin::{serialize_for_plugin, SerializedProgram};
+        use swc_common::plugin::{deserialize_from_bytes, serialize_into_bytes};
 
-        let mut serialized = SerializedProgram(serialize_for_plugin(&n)?);
+        let mut serialized = serialize_into_bytes(&n)?;
 
         // Run plugin transformation against current program.
-        // We do not serialize / deserialize across each plugin execution but
+        // We do not serialize / deserialize between each plugin execution but
         // copies raw transformed bytes directly into plugin's memory space.
+        // Note: This doesn't mean plugin won't perform any se/deserialization: it
+        // still have to construct from raw bytes internally to perform actual
+        // transform.
         if let Some(plugins) = &self.plugins {
             for p in plugins {
                 let config_json = serde_json::to_string(&p.1)
@@ -69,12 +71,9 @@ impl RustPlugins {
             }
         }
 
-        // Plugin transformation is complete, now we do deserialize transformed bytes
+        // Plugin transformation is complete deserialize transformed bytes back
         // into Program
-        let archived = unsafe { rkyv::archived_root::<Program>(&serialized.0[..]) };
-        let transformed_program: Program = archived.deserialize(&mut rkyv::Infallible).unwrap();
-
-        Ok(transformed_program)
+        deserialize_from_bytes(&serialized)
     }
 }
 

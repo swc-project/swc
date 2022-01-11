@@ -15,38 +15,39 @@ use std::any::type_name;
 #[cfg(any(feature = "plugin-mode", feature = "plugin-rt"))]
 pub struct SerializedProgram(pub rkyv::AlignedVec);
 
-/// Serialize ast to pass into plugins. This is being called from host side.
-/// TODO: https://github.com/swc-project/swc/issues/3167
-#[cfg(feature = "plugin-base")]
-pub fn serialize_for_plugin<T>(t: &T) -> Result<rkyv::AlignedVec, Error>
+/// Serialize given Program into raw bytes, can be copied into plugin's memory
+/// spaces.
+#[cfg(any(feature = "plugin-rt", feature = "plugin-mode"))]
+pub fn serialize_into_bytes<T>(t: &T) -> Result<SerializedProgram, Error>
 where
     T: rkyv::Serialize<rkyv::ser::serializers::AllocSerializer<512>>,
 {
-    rkyv::to_bytes::<_, 512>(t).map_err(|err| match err {
-        rkyv::ser::serializers::CompositeSerializerError::SerializerError(e) => e.into(),
-        rkyv::ser::serializers::CompositeSerializerError::ScratchSpaceError(e) => {
-            Error::msg("AllocScratchError")
-        }
-        rkyv::ser::serializers::CompositeSerializerError::SharedError(e) => {
-            Error::msg("SharedSerializeMapError")
-        }
-    })
+    rkyv::to_bytes::<_, 512>(t)
+        .map(|v| SerializedProgram(v))
+        .map_err(|err| match err {
+            rkyv::ser::serializers::CompositeSerializerError::SerializerError(e) => e.into(),
+            rkyv::ser::serializers::CompositeSerializerError::ScratchSpaceError(e) => {
+                Error::msg("AllocScratchError")
+            }
+            rkyv::ser::serializers::CompositeSerializerError::SharedError(e) => {
+                Error::msg("SharedSerializeMapError")
+            }
+        })
 }
 
-/// TODO: https://github.com/swc-project/swc/issues/3167
-#[cfg(feature = "plugin-mode")]
-pub fn deserialize_for_plugin<T>(bytes: &[u8]) -> Result<T, Error>
+/// Deserialize given raw bytes into Program.
+#[cfg(any(feature = "plugin-rt", feature = "plugin-mode"))]
+pub fn deserialize_from_bytes<T>(bytes: &SerializedProgram) -> Result<T, Error>
 where
-    T: rkyv::Archive
-        + rkyv::with::DeserializeWith<<T as rkyv::Archive>::Archived, T, rkyv::Infallible>,
+    T: rkyv::Archive,
+    T::Archived: rkyv::Deserialize<T, rkyv::Infallible>,
 {
     use anyhow::Context;
     use rkyv::Deserialize;
 
-    let archived = unsafe { rkyv::archived_root::<T>(&bytes[..]) };
+    let archived = unsafe { rkyv::archived_root::<T>(&bytes.0[..]) };
 
     archived
         .deserialize(&mut rkyv::Infallible)
-        .map(|r: rkyv::with::With<T, T>| r.into_inner())
         .with_context(|| format!("failed to deserialize `{}`", type_name::<T>()))
 }

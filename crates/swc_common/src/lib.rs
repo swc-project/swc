@@ -62,7 +62,7 @@ pub mod input;
 pub mod iter;
 pub mod macros;
 pub mod pass;
-#[cfg(feature = "plugin-base")]
+#[cfg(any(feature = "plugin-rt", feature = "plugin-mode"))]
 #[cfg_attr(docsrs, doc(cfg(any(feature = "plugin-rt", feature = "plugin-mode"))))]
 pub mod plugin;
 mod pos;
