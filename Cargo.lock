@@ -3424,7 +3424,6 @@ dependencies = [
  "libloading",
  "once_cell",
  "parking_lot",
- "rkyv",
  "serde",
  "serde_json",
  "swc_atoms",

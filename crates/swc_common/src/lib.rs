@@ -63,7 +63,7 @@ pub mod iter;
 pub mod macros;
 pub mod pass;
 #[cfg(feature = "plugin-base")]
-#[cfg_attr(docsrs, doc(cfg(any(feature = "plugin-rt", feature = "plugin-mode"))))]
+#[cfg_attr(docsrs, doc(cfg(feature = "plugin-base")))]
 pub mod plugin;
 mod pos;
 mod rustc_data_structures;
