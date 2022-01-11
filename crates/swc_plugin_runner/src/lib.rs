@@ -113,7 +113,9 @@ fn copy_memory_to_instance(
     instance: &Instance,
     program: &SerializedProgram,
 ) -> Result<(i32, u32), Error> {
-    let alloc = instance.exports.get_native_function::<u32, i32>("alloc")?;
+    let alloc = instance
+        .exports
+        .get_native_function::<u32, i32>("__alloc")?;
 
     let serialized = &program.0;
     let serialized_len = serialized.len();
