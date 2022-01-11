@@ -2123,6 +2123,11 @@ where
             changed: false,
         });
 
+        stmts.visit_mut_with(&mut MultiReplacer {
+            vars: take(&mut self.vars_for_inlining),
+            changed: false,
+        });
+
         stmts.retain(|s| match s {
             ModuleItem::Stmt(Stmt::Empty(..)) => false,
             _ => true,
