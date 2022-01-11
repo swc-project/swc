@@ -178,6 +178,10 @@ where
     /// - `x = 3 & x` => `x &= 3;`
     /// - `x ^= 3` => `x = 3 ^ x`
     pub(super) fn compress_bin_assignment_to_right(&mut self, e: &mut AssignExpr) {
+        if e.op != op!("=") {
+            return;
+        }
+
         // TODO: Handle pure properties.
         let lhs = match &e.left {
             PatOrExpr::Expr(e) => match &**e {
