@@ -77,6 +77,7 @@ fn internal() -> Result<(), Error> {
             .join("swc_internal_plugin"),
     )?;
 
+    // run single plugin
     testing::run_test(false, |cm, _handler| {
         let fm = cm.new_source_file(FileName::Anon, "console.log(foo)".into());
 
@@ -110,7 +111,58 @@ fn internal() -> Result<(), Error> {
             .then(|| visitor.plugin_transform_found)
             .ok_or(())
     })
-    .unwrap();
+    .expect("Should able to run single plugin transform");
+
+    // Run multiple plugins.
+    testing::run_test(false, |cm, _handler| {
+        let fm = cm.new_source_file(FileName::Anon, "console.log(foo)".into());
+
+        let lexer = Lexer::new(
+            Syntax::Es(EsConfig {
+                ..Default::default()
+            }),
+            EsVersion::latest(),
+            StringInput::from(&*fm),
+            None,
+        );
+        let mut parser = Parser::new_from(lexer);
+
+        let program = parser.parse_program().unwrap();
+
+        let mut serialized_program = serialize_into_bytes(&program).expect("Should serializable");
+
+        serialized_program = swc_plugin_runner::apply_js_plugin(
+            "internal-test",
+            &path,
+            &mut None,
+            "{}",
+            serialized_program,
+        )
+        .expect("Plugin should apply transform");
+
+        // TODO: we'll need to apply 2 different plugins
+        serialized_program = swc_plugin_runner::apply_js_plugin(
+            "internal-test",
+            &path,
+            &mut None,
+            "{}",
+            serialized_program,
+        )
+        .expect("Plugin should apply transform");
+
+        let program: Program =
+            deserialize_from_bytes(&serialized_program).expect("Should able to deserialize");
+        let mut visitor = TestVisitor {
+            plugin_transform_found: false,
+        };
+        program.visit_with(&mut visitor);
+
+        visitor
+            .plugin_transform_found
+            .then(|| visitor.plugin_transform_found)
+            .ok_or(())
+    })
+    .expect("Should able to run multiple plugins transform");
 
     Ok(())
 }
