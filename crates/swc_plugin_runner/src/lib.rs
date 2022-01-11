@@ -3,11 +3,10 @@ use std::{
     sync::Arc,
 };
 
-use anyhow::{Context, Error};
+use anyhow::{anyhow, Context, Error};
 use once_cell::sync::Lazy;
 use parking_lot::Mutex;
 use resolve::PluginCache;
-use rkyv::AlignedVec;
 use swc_common::{collections::AHashMap, plugin::SerializedProgram};
 use wasmer::{imports, Array, Instance, Memory, MemoryType, Module, Store, WasmPtr};
 use wasmer_cache::{Cache, Hash};
@@ -133,7 +132,7 @@ fn copy_memory_to_instance(
         cell.set(*byte)
     }
 
-    Ok((alloc_ptr, serialized_len.try_into().unwrap()))
+    Ok((alloc_ptr, serialized_len.try_into()?))
 }
 
 // TODO
@@ -156,29 +155,24 @@ pub fn apply_js_plugin(
 
         let (alloc_ptr, len) = copy_memory_to_instance(&instance, &program)?;
         let (returned_ptr, returned_len) = plugin_process_wasm_exported_fn.call(alloc_ptr, len)?;
-        let returned_len = returned_len.try_into().unwrap();
 
         // Reconstruct AlignedVec from ptr returned by plugin
         let memory = instance.exports.get_memory("memory")?;
         let ptr: WasmPtr<u8, Array> = WasmPtr::new(returned_ptr as _);
 
-        let mut transformed_serialized = AlignedVec::with_capacity(returned_len);
-
         // Deref & read through plguin's wasm memory space via returned ptr
         let derefed_ptr = ptr
-            .deref(memory, 0, returned_len.try_into().unwrap())
-            .unwrap();
+            .deref(memory, 0, returned_len.try_into()?)
+            .ok_or(anyhow!("Failed to deref raw bytes from plugin's memory"))?;
 
         let transformed_raw_bytes = derefed_ptr
             .iter()
             .enumerate()
-            .take(returned_len)
+            .take(returned_len.try_into()?)
             .map(|(_size, cell)| cell.get())
             .collect::<Vec<u8>>();
 
-        transformed_serialized.extend_from_slice(&transformed_raw_bytes);
-
-        Ok(SerializedProgram(transformed_serialized))
+        Ok(SerializedProgram::new(transformed_raw_bytes, returned_len))
     })()
     .with_context(|| {
         format!(

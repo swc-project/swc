@@ -15,6 +15,18 @@ use std::any::type_name;
 #[cfg(any(feature = "plugin-mode", feature = "plugin-rt"))]
 pub struct SerializedProgram(pub rkyv::AlignedVec);
 
+impl SerializedProgram {
+    #[cfg(any(feature = "plugin-mode", feature = "plugin-rt"))]
+    pub fn new(bytes: Vec<u8>, len: i32) -> SerializedProgram {
+        let mut vec = rkyv::AlignedVec::with_capacity(
+            len.try_into()
+                .expect("Cannot determine size of the serialized bytes"),
+        );
+        vec.extend_from_slice(&bytes);
+        SerializedProgram(vec)
+    }
+}
+
 /// Serialize given Program into raw bytes, can be copied into plugin's memory
 /// spaces.
 #[cfg(any(feature = "plugin-rt", feature = "plugin-mode"))]

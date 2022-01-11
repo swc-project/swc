@@ -1,4 +1,3 @@
-use rkyv::AlignedVec;
 use swc_plugin::{
     ast::*, deserialize_from_bytes, serialize_into_bytes, SerializedProgram, DUMMY_SP,
 };
@@ -32,18 +31,17 @@ impl VisitMut for ConsoleOutputReplacer {
 // - swc_plugin macro to support ergonomic interfaces
 // - better developer experience: println / dbg!() doesn't emit anything
 // - typed json config instead of str, which requires additional deserialization
-pub fn process(ast_ptr: *mut u8, len: u32) -> (i32, i32) {
+pub fn process(ast_ptr: *mut u8, len: i32) -> (i32, i32) {
     // Read raw serialized bytes from wasm's memory space. Host (SWC) should
-    // allocated memory, copy bytes and pass ptr to it.
+    // allocate memory, copy bytes and pass ptr to plugin.
     let raw_serialized_bytes =
         unsafe { std::slice::from_raw_parts(ast_ptr, len.try_into().unwrap()) };
 
-    // Reconstruct AlignedVec from raw bytes
-    let mut serialized_program = AlignedVec::with_capacity(len.try_into().unwrap());
-    serialized_program.extend_from_slice(raw_serialized_bytes);
+    // Reconstruct SerializedProgram from raw bytes
+    let serialized_program = SerializedProgram::new(raw_serialized_bytes.to_vec(), len);
 
     // TODO: Returning error pointer instead of unwrap
-    let program: Program = deserialize_from_bytes(&SerializedProgram(serialized_program))
+    let program: Program = deserialize_from_bytes(&serialized_program)
         .expect("Should able to deserialize");
 
     // Actual plugin transformation

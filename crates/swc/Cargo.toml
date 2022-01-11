@@ -80,7 +80,6 @@ swc_node_comments = {version = "0.3.0", path = "../swc_node_comments"}
 swc_plugin_runner = {version = "0.29.0", path = "../swc_plugin_runner", optional = true}
 swc_visit = {version = "0.3.0", path = "../swc_visit"}
 tracing = "0.1.28"
-rkyv = "0.7.29"
 
 [dependencies.napi-derive]
 default-features = false
