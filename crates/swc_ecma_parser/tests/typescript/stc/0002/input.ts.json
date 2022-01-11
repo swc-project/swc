@@ -33,7 +33,7 @@
         "property": {
           "type": "Computed",
           "span": {
-            "start": 0,
+            "start": 4,
             "end": 27,
             "ctxt": 0
           },

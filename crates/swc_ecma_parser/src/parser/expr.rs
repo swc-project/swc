@@ -1127,11 +1127,15 @@ impl<'a, I: Tokens> Parser<I> {
             && eat!(self, '['))
             || eat!(self, '[')
         {
+            let bracket_lo = self.input.prev_span().lo;
             let prop = self.include_in_expr(true).parse_expr()?;
             expect!(self, ']');
             let span = Span::new(obj.span().lo(), self.input.last_pos(), Default::default());
             debug_assert_eq!(obj.span().lo(), span.lo());
-            let prop = ComputedPropName { span, expr: prop };
+            let prop = ComputedPropName {
+                span: Span::new(bracket_lo, self.input.last_pos(), Default::default()),
+                expr: prop,
+            };
 
             return Ok((
                 Box::new(match obj {

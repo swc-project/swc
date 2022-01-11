@@ -204,7 +204,7 @@
               "property": {
                 "type": "Computed",
                 "span": {
-                  "start": 182,
+                  "start": 187,
                   "end": 192,
                   "ctxt": 0
                 },
@@ -328,7 +328,7 @@
                   "property": {
                     "type": "Computed",
                     "span": {
-                      "start": 228,
+                      "start": 233,
                       "end": 238,
                       "ctxt": 0
                     },
@@ -442,7 +442,7 @@
                       "property": {
                         "type": "Computed",
                         "span": {
-                          "start": 292,
+                          "start": 297,
                           "end": 302,
                           "ctxt": 0
                         },
@@ -561,7 +561,7 @@
           "property": {
             "type": "Computed",
             "span": {
-              "start": 354,
+              "start": 359,
               "end": 364,
               "ctxt": 0
             },
@@ -663,7 +663,7 @@
               "property": {
                 "type": "Computed",
                 "span": {
-                  "start": 377,
+                  "start": 382,
                   "end": 387,
                   "ctxt": 0
                 },

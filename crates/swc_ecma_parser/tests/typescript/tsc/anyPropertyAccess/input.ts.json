@@ -163,7 +163,7 @@
             "property": {
               "type": "Computed",
               "span": {
-                "start": 35,
+                "start": 36,
                 "end": 43,
                 "ctxt": 0
               },
@@ -242,7 +242,7 @@
               "property": {
                 "type": "Computed",
                 "span": {
-                  "start": 53,
+                  "start": 54,
                   "end": 60,
                   "ctxt": 0
                 },
@@ -402,7 +402,7 @@
               "property": {
                 "type": "Computed",
                 "span": {
-                  "start": 91,
+                  "start": 92,
                   "end": 95,
                   "ctxt": 0
                 },
@@ -487,7 +487,7 @@
               "property": {
                 "type": "Computed",
                 "span": {
-                  "start": 109,
+                  "start": 110,
                   "end": 115,
                   "ctxt": 0
                 },

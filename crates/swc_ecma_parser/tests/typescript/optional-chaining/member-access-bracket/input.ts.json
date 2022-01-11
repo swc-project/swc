@@ -45,7 +45,7 @@
           "property": {
             "type": "Computed",
             "span": {
-              "start": 0,
+              "start": 5,
               "end": 11,
               "ctxt": 0
             },
@@ -121,7 +121,7 @@
               "property": {
                 "type": "Computed",
                 "span": {
-                  "start": 13,
+                  "start": 18,
                   "end": 24,
                   "ctxt": 0
                 },
@@ -141,7 +141,7 @@
           "property": {
             "type": "Computed",
             "span": {
-              "start": 13,
+              "start": 26,
               "end": 33,
               "ctxt": 0
             },
@@ -198,7 +198,7 @@
           "property": {
             "type": "Computed",
             "span": {
-              "start": 35,
+              "start": 40,
               "end": 46,
               "ctxt": 0
             },
@@ -273,7 +273,7 @@
               "property": {
                 "type": "Computed",
                 "span": {
-                  "start": 48,
+                  "start": 53,
                   "end": 59,
                   "ctxt": 0
                 },
@@ -292,7 +292,7 @@
           "property": {
             "type": "Computed",
             "span": {
-              "start": 48,
+              "start": 61,
               "end": 67,
               "ctxt": 0
             },
@@ -366,7 +366,7 @@
           "property": {
             "type": "Computed",
             "span": {
-              "start": 69,
+              "start": 76,
               "end": 82,
               "ctxt": 0
             },
@@ -441,7 +441,7 @@
           "property": {
             "type": "Computed",
             "span": {
-              "start": 84,
+              "start": 91,
               "end": 97,
               "ctxt": 0
             },

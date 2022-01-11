@@ -156,10 +156,10 @@ warning: Ident
   | ^
 
 warning: ComputedPropName
- --> $DIR/tests/span/js/expr/optional-chaining.js:2:1
+ --> $DIR/tests/span/js/expr/optional-chaining.js:2:4
   |
 2 | A?.['B']?.()
-  | ^^^^^^^^
+  |    ^^^^^
 
 warning: Expr
  --> $DIR/tests/span/js/expr/optional-chaining.js:2:5
