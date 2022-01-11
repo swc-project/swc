@@ -818,8 +818,7 @@
                       },
                       "value": "toString",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {
@@ -4005,8 +4004,7 @@
             },
             "value": "A",
             "optional": false
-          },
-          "computed": false
+          }
         }
       },
       "consequent": {
@@ -4153,8 +4151,7 @@
             },
             "value": "B",
             "optional": false
-          },
-          "computed": false
+          }
         }
       },
       "consequent": {
@@ -4366,8 +4363,7 @@
                     },
                     "value": "A",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "consequent": [
                   {
@@ -4495,8 +4491,7 @@
                     },
                     "value": "B",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "consequent": [
                   {
@@ -4624,8 +4619,7 @@
                     },
                     "value": "C",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "consequent": [
                   {
@@ -4939,8 +4933,7 @@
                     },
                     "value": "A",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "consequent": [
                   {
@@ -5059,8 +5052,7 @@
                     },
                     "value": "B",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "consequent": [
                   {
@@ -5221,8 +5213,7 @@
                     },
                     "value": "C",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "consequent": [
                   {
@@ -8469,8 +8460,7 @@
                   },
                   "value": "A",
                   "optional": false
-                },
-                "computed": false
+                }
               }
             },
             "consequent": {
@@ -8641,8 +8631,7 @@
                       },
                       "value": "A",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 },
                 "right": {
@@ -8689,8 +8678,7 @@
                       },
                       "value": "B",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               },
@@ -8738,8 +8726,7 @@
                     },
                     "value": "A",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               }
             },
@@ -9000,8 +8987,7 @@
                           },
                           "value": "A",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     },
                     "right": {
@@ -9048,8 +9034,7 @@
                           },
                           "value": "B",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   },
@@ -9097,8 +9082,7 @@
                         },
                         "value": "A",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 }

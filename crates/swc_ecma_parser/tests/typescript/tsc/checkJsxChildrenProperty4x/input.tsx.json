@@ -363,8 +363,7 @@
                         },
                         "value": "state",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "consequent": {
                       "type": "CallExpression",
@@ -404,8 +403,7 @@
                             },
                             "value": "props",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "property": {
                           "type": "Identifier",
@@ -416,8 +414,7 @@
                           },
                           "value": "children",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [
                         {
@@ -453,8 +450,7 @@
                                 },
                                 "value": "state",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "property": {
                               "type": "Identifier",
@@ -465,8 +461,7 @@
                               },
                               "value": "result",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         }
                       ],
@@ -523,8 +518,7 @@
           },
           "value": "Component",
           "optional": false
-        },
-        "computed": false
+        }
       },
       "isAbstract": false,
       "typeParams": null,
@@ -745,8 +739,7 @@
                                   },
                                   "value": "NAme",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               }
                             }
                           ],
@@ -992,8 +985,7 @@
                                   },
                                   "value": "Name",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               }
                             }
                           ],
@@ -1129,8 +1121,7 @@
                                   },
                                   "value": "Name",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               }
                             }
                           ],

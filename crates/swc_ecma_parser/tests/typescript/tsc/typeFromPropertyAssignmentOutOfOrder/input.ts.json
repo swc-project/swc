@@ -47,8 +47,7 @@
             },
             "value": "Item",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ClassExpression",
@@ -118,8 +117,7 @@
             },
             "value": "Object",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ClassExpression",
@@ -157,8 +155,7 @@
               },
               "value": "Item",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "isAbstract": false,
           "typeParams": null,
@@ -208,8 +205,7 @@
             },
             "value": "Object",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ClassExpression",
@@ -247,8 +243,7 @@
               },
               "value": "Object",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "isAbstract": false,
           "typeParams": null,

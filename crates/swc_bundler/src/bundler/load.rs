@@ -16,8 +16,8 @@ use rayon::iter::ParallelIterator;
 use swc_atoms::js_word;
 use swc_common::{sync::Lrc, FileName, SourceFile, SyntaxContext};
 use swc_ecma_ast::{
-    CallExpr, Expr, ExprOrSuper, Ident, ImportDecl, ImportSpecifier, MemberExpr, Module,
-    ModuleDecl, ModuleExportName, Str,
+    CallExpr, Callee, Expr, Ident, ImportDecl, ImportSpecifier, MemberExpr, MemberProp, Module,
+    ModuleDecl, ModuleExportName, Str, SuperProp, SuperPropExpr,
 };
 use swc_ecma_transforms_base::resolver::resolver_with_mark;
 use swc_ecma_visit::{
@@ -428,7 +428,7 @@ impl Visit for Es6ModuleDetector {
         e.visit_children_with(self);
 
         match &e.callee {
-            ExprOrSuper::Expr(e) => match &**e {
+            Callee::Expr(e) => match &**e {
                 Expr::Ident(Ident {
                     sym: js_word!("require"),
                     ..
@@ -437,38 +437,37 @@ impl Visit for Es6ModuleDetector {
                 }
                 _ => {}
             },
-            ExprOrSuper::Super(_) => {}
+            Callee::Super(_) | Callee::Import(_) => {}
         }
     }
 
     fn visit_member_expr(&mut self, e: &MemberExpr) {
         e.obj.visit_with(self);
 
-        if e.computed {
-            e.prop.visit_with(self);
+        if let MemberProp::Computed(c) = &e.prop {
+            c.visit_with(self);
         }
 
-        match &e.obj {
-            ExprOrSuper::Expr(e) => {
-                match &**e {
-                    Expr::Ident(i) => {
-                        // TODO: Check syntax context (Check if marker is the global mark)
-                        if i.sym == *"module" {
-                            self.found_other = true;
-                        }
+        match &*e.obj {
+            Expr::Ident(i) => {
+                // TODO: Check syntax context (Check if marker is the global mark)
+                if i.sym == *"module" {
+                    self.found_other = true;
+                }
 
-                        if i.sym == *"exports" {
-                            self.found_other = true;
-                        }
-                    }
-
-                    _ => {}
+                if i.sym == *"exports" {
+                    self.found_other = true;
                 }
             }
+
             _ => {}
         }
+    }
 
-        //
+    fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
+        if let SuperProp::Computed(c) = &e.prop {
+            c.visit_with(self);
+        }
     }
 
     fn visit_module_decl(&mut self, decl: &ModuleDecl) {

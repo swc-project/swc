@@ -90,7 +90,7 @@ impl Fold for Entry {
             match &item {
                 ModuleItem::Stmt(Stmt::Expr(ExprStmt { expr, .. })) => match &**expr {
                     Expr::Call(CallExpr {
-                        callee: ExprOrSuper::Expr(callee),
+                        callee: Callee::Expr(callee),
                         ref args,
                         ..
                     }) => match &**callee {

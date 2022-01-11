@@ -87,8 +87,7 @@
             },
             "value": "log",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {

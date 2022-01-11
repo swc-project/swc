@@ -6,7 +6,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_ecma_ast"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.62.0"
+version = "0.64.1"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -19,7 +19,7 @@ rkyv-impl = ["rkyv", "swc_common/rkyv-impl"]
 
 [dependencies]
 arbitrary = {version = "1", optional = true, features = ["derive"]}
-is-macro = "0.1"
+is-macro = "0.2.0"
 num-bigint = {version = "0.2", features = ["serde"]}
 rkyv = {version = "0.7.28", optional = true}
 serde = {version = "1.0.133", features = ["derive"]}

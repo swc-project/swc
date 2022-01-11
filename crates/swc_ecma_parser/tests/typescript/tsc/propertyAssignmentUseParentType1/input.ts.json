@@ -242,8 +242,7 @@
             },
             "value": "num",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -452,8 +451,7 @@
             },
             "value": "nun",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -569,8 +567,7 @@
             },
             "value": "extra",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",

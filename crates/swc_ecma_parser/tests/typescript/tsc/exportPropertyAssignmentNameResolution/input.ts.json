@@ -54,8 +54,7 @@
               },
               "value": "exports",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -66,8 +65,7 @@
             },
             "value": "D",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ClassExpression",

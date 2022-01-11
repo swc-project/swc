@@ -283,8 +283,7 @@
           },
           "value": "a",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -320,8 +319,7 @@
           },
           "value": "b",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -357,8 +355,7 @@
           },
           "value": "c",
           "optional": false
-        },
-        "computed": false
+        }
       }
     }
   ],

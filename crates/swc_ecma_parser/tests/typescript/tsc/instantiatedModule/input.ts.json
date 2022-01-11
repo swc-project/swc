@@ -409,8 +409,7 @@
               },
               "value": "Point",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -470,8 +469,7 @@
               },
               "value": "Point",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -1196,8 +1194,7 @@
               },
               "value": "Point",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -1257,8 +1254,7 @@
               },
               "value": "Point",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -1364,8 +1360,7 @@
                 },
                 "value": "Origin",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -1639,8 +1634,7 @@
                 },
                 "value": "Point",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -1710,8 +1704,7 @@
                 },
                 "value": "Point",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -2043,8 +2036,7 @@
               },
               "value": "Color",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -2104,8 +2096,7 @@
               },
               "value": "Color",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -2204,8 +2195,7 @@
               },
               "value": "Blue",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -2344,8 +2334,7 @@
                 },
                 "value": "Color",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
               "type": "Identifier",
@@ -2356,8 +2345,7 @@
               },
               "value": "Red",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -2424,8 +2412,7 @@
                 },
                 "value": "Color",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
               "type": "Identifier",
@@ -2436,8 +2423,7 @@
               },
               "value": "Blue",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }

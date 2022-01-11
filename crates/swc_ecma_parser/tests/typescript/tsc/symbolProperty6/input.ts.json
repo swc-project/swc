@@ -66,8 +66,7 @@
                 },
                 "value": "iterator",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "value": {
@@ -130,8 +129,7 @@
                 },
                 "value": "unscopables",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "value": null,
@@ -202,8 +200,7 @@
                 },
                 "value": "toPrimitive",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "function": {
@@ -275,8 +272,7 @@
                 },
                 "value": "toStringTag",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "function": {

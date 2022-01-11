@@ -63,8 +63,7 @@
               },
               "value": "test",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "arguments": [
             {
@@ -95,8 +94,7 @@
                   },
                   "value": "href",
                   "optional": false
-                },
-                "computed": false
+                }
               }
             }
           ],

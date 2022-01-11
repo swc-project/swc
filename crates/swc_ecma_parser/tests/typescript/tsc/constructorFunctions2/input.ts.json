@@ -305,8 +305,7 @@
               },
               "value": "id",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -397,8 +396,7 @@
                         },
                         "value": "id",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "NumericLiteral",
@@ -470,8 +468,7 @@
               },
               "value": "prototype",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -482,8 +479,7 @@
             },
             "value": "m",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -542,8 +538,7 @@
                       },
                       "value": "x",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -650,8 +645,7 @@
           },
           "value": "id",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -687,8 +681,7 @@
           },
           "value": "x",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -758,8 +751,7 @@
                   },
                   "value": "id",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "NumericLiteral",
@@ -820,8 +812,7 @@
             },
             "value": "exports",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",

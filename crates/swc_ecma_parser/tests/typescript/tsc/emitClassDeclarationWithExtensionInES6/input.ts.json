@@ -341,13 +341,13 @@
                       "ctxt": 0
                     },
                     "callee": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 132,
                         "end": 141,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 132,
@@ -364,8 +364,7 @@
                         },
                         "value": "baz",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [
                       {
@@ -553,13 +552,13 @@
                       "ctxt": 0
                     },
                     "callee": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 241,
                         "end": 250,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 241,
@@ -576,8 +575,7 @@
                         },
                         "value": "foo",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -645,13 +643,13 @@
                       "ctxt": 0
                     },
                     "callee": {
-                      "type": "MemberExpression",
+                      "type": "SuperPropExpression",
                       "span": {
                         "start": 281,
                         "end": 290,
                         "ctxt": 0
                       },
-                      "object": {
+                      "obj": {
                         "type": "Super",
                         "span": {
                           "start": 281,
@@ -668,8 +666,7 @@
                         },
                         "value": "baz",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [
                       {

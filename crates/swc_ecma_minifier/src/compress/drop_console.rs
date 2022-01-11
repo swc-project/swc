@@ -35,44 +35,38 @@ impl VisitMut for DropConsole {
             }) => {
                 // Find console.log
                 let callee = match callee {
-                    ExprOrSuper::Expr(callee) => callee,
+                    Callee::Expr(callee) => callee,
                     _ => return,
                 };
 
                 match &**callee {
                     Expr::Member(MemberExpr {
-                        obj: ExprOrSuper::Expr(callee_obj),
-                        prop: callee_prop,
-                        computed: false,
+                        obj: callee_obj,
+                        prop: MemberProp::Ident(_),
                         ..
                     }) => {
                         let mut loop_co = &**callee_obj;
-                        let mut loop_cp = &**callee_prop;
                         loop {
-                            match (loop_co, loop_cp) {
-                                (Expr::Ident(obj), Expr::Ident(_prop)) => {
+                            match loop_co {
+                                Expr::Ident(obj) => {
                                     if obj.sym != *"console" {
                                         return;
                                     }
                                     break;
                                 }
-                                (
-                                    Expr::Member(MemberExpr {
-                                        obj: ExprOrSuper::Expr(loop_co_obj),
-                                        prop: loop_cp_prop,
-                                        computed: false,
-                                        ..
-                                    }),
-                                    Expr::Ident(_prop),
-                                ) => {
+
+                                Expr::Member(MemberExpr {
+                                    obj: loop_co_obj,
+                                    prop: MemberProp::Ident(_),
+                                    ..
+                                }) => {
                                     loop_co = &loop_co_obj;
-                                    loop_cp = &loop_cp_prop;
                                 }
                                 _ => return,
                             }
                         }
 
-                        // Sioplifier will remove side-effect-free items.
+                        // Simplifier will remove side-effect-free items.
                         *n = Expr::Seq(SeqExpr {
                             span: *span,
                             exprs: take(args).into_iter().map(|arg| arg.expr).collect(),

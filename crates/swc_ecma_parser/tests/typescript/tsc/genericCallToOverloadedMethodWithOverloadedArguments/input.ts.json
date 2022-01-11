@@ -567,8 +567,7 @@
                       },
                       "value": "then",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {
@@ -1262,8 +1261,7 @@
                       },
                       "value": "then",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {
@@ -2190,8 +2188,7 @@
                       },
                       "value": "then",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {
@@ -3225,8 +3222,7 @@
                       },
                       "value": "then",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {
@@ -4645,8 +4641,7 @@
                       },
                       "value": "then",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {
@@ -5787,8 +5782,7 @@
                       },
                       "value": "then",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [
                     {

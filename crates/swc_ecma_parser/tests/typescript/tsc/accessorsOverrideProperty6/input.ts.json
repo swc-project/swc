@@ -365,8 +365,7 @@
                       },
                       "value": "_secret",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]
@@ -476,8 +475,7 @@
                         },
                         "value": "_secret",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "Identifier",

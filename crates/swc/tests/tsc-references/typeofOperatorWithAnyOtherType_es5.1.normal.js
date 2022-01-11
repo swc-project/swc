@@ -18,6 +18,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     return Constructor;
 }
 var _typeof = function(obj2) {
+    "@swc/helpers - typeof";
     return obj2 && typeof Symbol !== "undefined" && obj2.constructor === Symbol ? "symbol" : typeof obj2;
 };
 // typeof  operator on any type

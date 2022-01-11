@@ -47,8 +47,7 @@
             },
             "value": "exports",
             "optional": false
-          },
-          "computed": false
+          }
         }
       },
       "consequent": {
@@ -92,8 +91,7 @@
               },
               "value": "exports",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "right": {
             "type": "StringLiteral",

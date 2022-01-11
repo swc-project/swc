@@ -158,6 +158,8 @@ import {
   Param,
   ExprOrSpread,
   TsConstAssertion,
+  Import,
+  SuperPropExpression,
 } from "./types";
 
 export class Visitor {
@@ -1044,6 +1046,8 @@ export class Visitor {
         return this.visitJSXText(n);
       case "MemberExpression":
         return this.visitMemberExpression(n);
+      case "SuperPropExpression":
+        return this.visitSuperPropExpression(n);
       case "MetaProperty":
         return this.visitMetaProperty(n);
       case "NewExpression":
@@ -1306,22 +1310,45 @@ export class Visitor {
   }
 
   visitMetaProperty(n: MetaProperty): Expression {
-    n.meta = this.visitIdentifierReference(n.meta);
-    n.property = this.visitIdentifier(n.property);
     return n;
   }
 
   visitMemberExpression(n: MemberExpression): Expression {
-    n.object = this.visitExpressionOrSuper(n.object);
-    n.property = this.visitExpression(n.property);
-    return n;
+    n.object = this.visitExpression(n.object);
+    switch (n.property.type) {
+      case 'Computed': {
+        n.property = this.visitComputedPropertyKey(n.property);
+        return n;
+      }
+      case 'Identifier': {
+        n.property = this.visitIdentifier(n.property);
+        return n;
+      }
+      case 'PrivateName': {
+        n.property = this.visitPrivateName(n.property);
+        return n;
+      }
+    }
   }
 
-  visitExpressionOrSuper(n: Expression | Super): Expression | Super {
-    if (n.type === "Super") {
+  visitSuperPropExpression(n: SuperPropExpression): Expression {
+    switch (n.property.type) {
+      case 'Computed': {
+        n.property = this.visitComputedPropertyKey(n.property);
+        return n;
+      }
+      case 'Identifier': {
+        n.property = this.visitIdentifier(n.property);
+        return n;
+      }
+    }
+  }
+
+  visitCallee(n: Expression | Super | Import): Expression | Super | Import {
+    if (n.type === "Super" || n.type === "Import") {
       return n;
     }
-    return this.visitExpression(n as Expression);
+    return this.visitExpression(n);
   }
 
   visitJSXText(n: JSXText): JSXText {
@@ -1500,7 +1527,7 @@ export class Visitor {
   }
 
   visitCallExpression(n: CallExpression): Expression {
-    n.callee = this.visitExpressionOrSuper(n.callee);
+    n.callee = this.visitCallee(n.callee);
     n.typeArguments = this.visitTsTypeParameterInstantiation(n.typeArguments);
     if (n.arguments) {
       n.arguments = this.visitArguments(n.arguments);

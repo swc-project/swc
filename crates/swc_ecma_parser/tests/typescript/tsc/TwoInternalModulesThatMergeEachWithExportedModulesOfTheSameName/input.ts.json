@@ -340,8 +340,7 @@
                 },
                 "value": "B",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
               "type": "Identifier",
@@ -352,8 +351,7 @@
               },
               "value": "x",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }

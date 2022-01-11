@@ -29,47 +29,34 @@ impl Fold for MemberExprLit {
     noop_fold_type!();
 
     fn fold_member_expr(&mut self, e: MemberExpr) -> MemberExpr {
-        let mut e = e.fold_children_with(self);
+        let e = e.fold_children_with(self);
 
-        macro_rules! handle {
-            ($sym:expr, $span:expr) => {
-                if $sym.is_reserved()
-                                                    || $sym.is_reserved_in_strict_mode(true)
-                                                    || $sym.is_reserved_in_es3()
-                                                    // it's not bind, so you could use eval
-                                                    || !is_valid_ident(&$sym)
-                {
-                    return MemberExpr {
-                        computed: true,
-                        prop: Box::new(Expr::Lit(Lit::Str(Str {
-                            span: $span,
-                            value: $sym,
+        if let MemberProp::Ident(i) = e.prop {
+            if i.sym.is_reserved() || i.sym.is_reserved_in_strict_mode(true)
+                        || i.sym.is_reserved_in_es3()
+                        // it's not bind, so you could use eval
+                        || !is_valid_ident(&i.sym)
+            {
+                return MemberExpr {
+                    prop: MemberProp::Computed(ComputedPropName {
+                        span: i.span,
+                        expr: Box::new(Expr::Lit(Lit::Str(Str {
+                            span: i.span,
+                            value: i.sym,
                             has_escape: false,
                             kind: StrKind::Normal {
                                 contains_quote: false,
                             },
                         }))),
-                        ..e
-                    };
-                } else {
-                    return MemberExpr {
-                        computed: false,
-                        prop: Box::new(Expr::Ident(swc_ecma_utils::quote_ident!($span, $sym))),
-                        ..e
-                    };
-                }
-            };
-        }
-
-        e.prop = match *e.prop {
-            Expr::Ident(i) => {
-                if e.computed {
-                    Box::new(Expr::Ident(i))
-                } else {
-                    handle!(i.sym, i.span)
-                }
+                    }),
+                    ..e
+                };
+            } else {
+                return MemberExpr {
+                    prop: MemberProp::Ident(swc_ecma_utils::quote_ident!(i.span, i.sym)),
+                    ..e
+                };
             }
-            _ => e.prop,
         };
 
         e

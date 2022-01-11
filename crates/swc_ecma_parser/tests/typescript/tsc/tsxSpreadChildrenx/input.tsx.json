@@ -644,8 +644,7 @@
                             },
                             "value": "key",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "property": {
                           "type": "Identifier",
@@ -656,8 +655,7 @@
                           },
                           "value": "toString",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [],
                       "typeArguments": null
@@ -688,8 +686,7 @@
                         },
                         "value": "todo",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 }
@@ -902,8 +899,7 @@
                         },
                         "value": "map",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [
                       {
@@ -1003,8 +999,7 @@
                                         },
                                         "value": "id",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     }
                                   }
                                 },
@@ -1058,8 +1053,7 @@
                                         },
                                         "value": "todo",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     }
                                   }
                                 }

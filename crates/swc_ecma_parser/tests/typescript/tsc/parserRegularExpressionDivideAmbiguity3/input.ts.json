@@ -62,8 +62,7 @@
               },
               "value": "foo",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "arguments": [],
           "typeArguments": null

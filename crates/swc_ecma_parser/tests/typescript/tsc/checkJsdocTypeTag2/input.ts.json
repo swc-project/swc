@@ -484,8 +484,7 @@
                   },
                   "value": "concat",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {

@@ -8,32 +8,38 @@ then
     exit
 fi
 
-cp $1 input.js
-
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-# Build swc minifier
-export MINIFY=$(cargo profile bin-path --example minifier)
+echo "Reducing $1"
+ls -al $1
 
-echo "Using $MINIFY"
+# Build swc minifier
+export MINIFY=$(cargo profile bin-path --release --example minifier)
+
+wd="$(mktemp -d)"
+echo "Using $MINIFY; dir = $wd"
+
+cp $1 "$wd/input.js"
+dir="$(dirname $1)"
 
 # Verify that we can run `creduce`
 $SCRIPT_DIR/_/reduce/compare.sh
 
-creduce "$SCRIPT_DIR/_/reduce/compare.sh" input.js
+(cd $wd && creduce "$SCRIPT_DIR/_/reduce/compare.sh" "$wd/input.js")
 
-REDUCED_SIZE=$(wc -c <"input.js")
-
+REDUCED_SIZE=$(wc -c <"$wd/input.js")
+hash=$(sha1sum < "$wd/input.js")
+echo "Hash is $hash"
+    
 echo "Reduced size is $REDUCED_SIZE bytes"
 
-if [[ "$1" == *"inputs"* && $REDUCED_SIZE -le 3 ]]; then
+if [[ $REDUCED_SIZE -le 3 ]]; then
     echo "Removing $1"
-    git rm --force $1
-    git commit -m 'Remove useless input'
-
-    find ./inputs -type d -empty -delete
-
+    rm -rf $1
     ./scripts/_/notify.sh "Removed $1"
+    (cd $dir && git commit -m "Remove a file as it didn't break anything" $1)
 else
+    # mkdir -p "$SCRIPT_DIR/../tests/compress/fixture/reduced/$hash"
+    # cp "$wd/input.js" "$SCRIPT_DIR/../tests/compress/fixture/reduced/$hash/input.js"
     ./scripts/_/notify.sh "Found errornous input"
 fi

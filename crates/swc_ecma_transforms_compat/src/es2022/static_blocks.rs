@@ -64,7 +64,7 @@ impl ClassStaticBlock {
             },
             value: Some(Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
-                callee: ExprOrSuper::Expr(Box::new(Expr::Arrow(ArrowExpr {
+                callee: Callee::Expr(Box::new(Expr::Arrow(ArrowExpr {
                     span: DUMMY_SP,
                     params: Vec::new(),
                     is_async: false,

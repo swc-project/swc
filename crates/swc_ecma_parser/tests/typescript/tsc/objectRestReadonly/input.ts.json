@@ -464,8 +464,7 @@
             },
             "value": "baz",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     }

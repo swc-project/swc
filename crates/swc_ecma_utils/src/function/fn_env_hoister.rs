@@ -4,13 +4,13 @@ use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 #[derive(Clone, Default)]
-pub struct WrapperState {
+pub struct FnEnvState {
     this: Option<Ident>,
     args: Option<Ident>,
     new_target: Option<Ident>,
 }
 
-impl WrapperState {
+impl FnEnvState {
     pub fn new(this: Option<Ident>, args: Option<Ident>, new_target: Option<Ident>) -> Self {
         Self {
             this,
@@ -50,8 +50,8 @@ impl WrapperState {
                 span: DUMMY_SP,
                 name: Pat::Ident(id.into()),
                 init: Some(Box::new(Expr::MetaProp(MetaPropExpr {
-                    meta: Ident::new(js_word!("new"), DUMMY_SP),
-                    prop: Ident::new(js_word!("target"), DUMMY_SP),
+                    span: DUMMY_SP,
+                    kind: MetaPropKind::NewTarget,
                 }))),
                 definite: false,
             });
@@ -105,8 +105,8 @@ impl WrapperState {
                 span: DUMMY_SP,
                 name: Pat::Ident(id.into()),
                 init: Some(Box::new(Expr::MetaProp(MetaPropExpr {
-                    meta: Ident::new(js_word!("new"), DUMMY_SP),
-                    prop: Ident::new(js_word!("target"), DUMMY_SP),
+                    span: DUMMY_SP,
+                    kind: MetaPropKind::NewTarget,
                 }))),
                 definite: false,
             });
@@ -128,23 +128,23 @@ impl WrapperState {
     }
 }
 
-impl Take for WrapperState {
+impl Take for FnEnvState {
     fn dummy() -> Self {
         Self::default()
     }
 }
 
-pub struct FunctionWrapper<'a> {
-    state: &'a mut WrapperState,
+pub struct FnEnvHoister<'a> {
+    state: &'a mut FnEnvState,
 }
 
-impl<'a> FunctionWrapper<'a> {
-    pub fn new(state: &'a mut WrapperState) -> Self {
-        FunctionWrapper { state }
+impl<'a> FnEnvHoister<'a> {
+    pub fn new(state: &'a mut FnEnvState) -> Self {
+        FnEnvHoister { state }
     }
 }
 
-impl<'a> VisitMut for FunctionWrapper<'a> {
+impl<'a> VisitMut for FnEnvHoister<'a> {
     noop_visit_mut_type!();
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
@@ -164,16 +164,8 @@ impl<'a> VisitMut for FunctionWrapper<'a> {
                 *e = Expr::Ident(this.clone());
             }
             Expr::MetaProp(MetaPropExpr {
-                meta:
-                    Ident {
-                        sym: js_word!("new"),
-                        ..
-                    },
-                prop:
-                    Ident {
-                        sym: js_word!("target"),
-                        ..
-                    },
+                kind: MetaPropKind::NewTarget,
+                ..
             }) => {
                 let target = self
                     .state
@@ -187,11 +179,18 @@ impl<'a> VisitMut for FunctionWrapper<'a> {
 
     /// Don't recurse into prop of member expression unless computed
     fn visit_mut_member_expr(&mut self, m: &mut MemberExpr) {
-        if m.computed {
-            m.prop.visit_mut_with(self);
+        if let MemberProp::Computed(computed) = &mut m.prop {
+            computed.visit_mut_with(self);
         }
 
         m.obj.visit_mut_with(self);
+    }
+
+    /// Don't recurse into prop of super expression unless computed
+    fn visit_mut_super_prop_expr(&mut self, m: &mut SuperPropExpr) {
+        if let SuperProp::Computed(computed) = &mut m.prop {
+            computed.visit_mut_with(self);
+        }
     }
 
     /// Don't recurse into constructor
@@ -243,7 +242,7 @@ impl<'a> VisitMut for InitThis<'a> {
 
         match expr {
             Expr::Call(CallExpr {
-                callee: ExprOrSuper::Super(Super { span: super_span }),
+                callee: Callee::Super(Super { span: super_span }),
                 span,
                 ..
             }) => {
@@ -254,7 +253,7 @@ impl<'a> VisitMut for InitThis<'a> {
                         exprs: vec![
                             Box::new(Expr::Call(CallExpr {
                                 span: *span,
-                                callee: ExprOrSuper::Super(Super { span: *super_span }),
+                                callee: Callee::Super(Super { span: *super_span }),
                                 args: Vec::new(),
                                 type_args: None,
                             })),

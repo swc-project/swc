@@ -86,8 +86,7 @@
                 },
                 "value": "u",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           {
@@ -129,8 +128,7 @@
                   },
                   "value": "t",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -199,8 +197,7 @@
               },
               "value": "prototype",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -211,8 +208,7 @@
             },
             "value": "add",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -312,8 +308,7 @@
                       },
                       "value": "u",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "BinaryExpression",
@@ -357,8 +352,7 @@
                         },
                         "value": "t",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 }
@@ -414,8 +408,7 @@
                           },
                           "value": "u",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       }
                     }
                   ],
@@ -537,8 +530,7 @@
             },
             "value": "t",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -592,8 +584,7 @@
             },
             "value": "u",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "BooleanLiteral",

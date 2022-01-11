@@ -100,8 +100,7 @@
                         },
                         "value": "foo",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "ArrowFunctionExpression",
@@ -252,8 +251,7 @@
                         },
                         "value": "bar",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "ArrowFunctionExpression",
@@ -320,8 +318,7 @@
                         },
                         "value": "bar",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "ArrowFunctionExpression",
@@ -401,8 +398,7 @@
                         },
                         "value": "bar",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "ArrowFunctionExpression",

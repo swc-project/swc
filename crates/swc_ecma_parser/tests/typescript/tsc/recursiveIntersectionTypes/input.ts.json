@@ -478,8 +478,7 @@
               },
               "value": "name",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -546,8 +545,7 @@
                 },
                 "value": "next",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
               "type": "Identifier",
@@ -558,8 +556,7 @@
               },
               "value": "name",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -633,8 +630,7 @@
                   },
                   "value": "next",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -645,8 +641,7 @@
                 },
                 "value": "next",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
               "type": "Identifier",
@@ -657,8 +652,7 @@
               },
               "value": "name",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -739,8 +733,7 @@
                     },
                     "value": "next",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "property": {
                   "type": "Identifier",
@@ -751,8 +744,7 @@
                   },
                   "value": "next",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "property": {
                 "type": "Identifier",
@@ -763,8 +755,7 @@
                 },
                 "value": "next",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
               "type": "Identifier",
@@ -775,8 +766,7 @@
               },
               "value": "name",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }

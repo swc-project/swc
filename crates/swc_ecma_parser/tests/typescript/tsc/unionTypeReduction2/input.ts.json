@@ -344,8 +344,7 @@
                   },
                   "value": "f",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null
@@ -391,8 +390,7 @@
                   },
                   "value": "f",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {
@@ -808,8 +806,7 @@
                   },
                   "value": "f",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null
@@ -855,8 +852,7 @@
                   },
                   "value": "f",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {
@@ -2842,8 +2838,7 @@
                   },
                   "value": "f",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null
@@ -2889,8 +2884,7 @@
                   },
                   "value": "f",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [
                 {
@@ -3348,8 +3342,7 @@
                       },
                       "value": "something",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "MemberExpression",
@@ -3377,8 +3370,7 @@
                       },
                       "value": "something",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 },
                 "definite": false

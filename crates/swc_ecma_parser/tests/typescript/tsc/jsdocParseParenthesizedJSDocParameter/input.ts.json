@@ -87,8 +87,7 @@
                   },
                   "value": "toString",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "arguments": [],
               "typeArguments": null

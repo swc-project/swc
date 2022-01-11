@@ -95,6 +95,8 @@ where
     }
 
     fn optimize_fn_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        self.drop_unreachable_stmts(stmts);
+
         self.remove_useless_return(stmts);
 
         self.negate_if_terminate(stmts, true, false);
@@ -361,13 +363,34 @@ where
 
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
         e.obj.visit_mut_with(self);
-        if e.computed {
-            e.prop.visit_mut_with(self);
+        if let MemberProp::Computed(c) = &mut e.prop {
+            c.visit_mut_with(self);
+
+            // TODO: unify these two
+            if let Some(ident) = self.optimize_property_of_member_expr(Some(&e.obj), c) {
+                e.prop = MemberProp::Ident(ident);
+                return;
+            };
+
+            if let Some(ident) = self.handle_known_computed_member_expr(c) {
+                e.prop = MemberProp::Ident(ident)
+            };
         }
+    }
 
-        self.optimize_property_of_member_expr(e);
+    fn visit_mut_super_prop_expr(&mut self, e: &mut SuperPropExpr) {
+        if let SuperProp::Computed(c) = &mut e.prop {
+            c.visit_mut_with(self);
 
-        self.handle_known_computed_member_expr(e);
+            if let Some(ident) = self.optimize_property_of_member_expr(None, c) {
+                e.prop = SuperProp::Ident(ident);
+                return;
+            };
+
+            if let Some(ident) = self.handle_known_computed_member_expr(c) {
+                e.prop = SuperProp::Ident(ident)
+            };
+        }
     }
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
@@ -496,6 +519,7 @@ where
             Stmt::Expr(es) => {
                 if es.expr.is_invalid() {
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                    return;
                 }
             }
             _ => {}

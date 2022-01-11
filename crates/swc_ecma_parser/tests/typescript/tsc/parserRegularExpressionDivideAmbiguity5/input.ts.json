@@ -46,8 +46,7 @@
             },
             "value": "rotate",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -116,8 +115,7 @@
                     },
                     "value": "PI",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               },
               "right": {
@@ -185,8 +183,7 @@
                     },
                     "value": "PI",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               },
               "right": {

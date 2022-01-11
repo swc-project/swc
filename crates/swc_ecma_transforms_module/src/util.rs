@@ -512,18 +512,12 @@ impl Scope {
             // See https://github.com/swc-project/swc/issues/1018
             Expr::Call(CallExpr {
                 span,
-                callee: ExprOrSuper::Expr(callee),
+                callee: Callee::Import(_),
                 args,
                 ..
             }) if !folder.config().ignore_dynamic
-                && args.len() == 1
-                && match *callee {
-                    Expr::Ident(Ident {
-                        sym: js_word!("import"),
-                        ..
-                    }) => true,
-                    _ => false,
-                } =>
+                // TODO: import assertion
+                && args.len() == 1 =>
             {
                 folder.make_dynamic_import(span, args)
             }
@@ -534,26 +528,22 @@ impl Scope {
                 args,
                 type_args,
             }) => {
-                let callee = if let ExprOrSuper::Expr(expr) = callee {
+                let callee = if let Callee::Expr(expr) = callee {
                     let callee = if let Expr::Ident(ident) = *expr {
                         match Self::fold_ident(folder, ident) {
                             Ok(mut expr) => {
                                 if let Expr::Member(member) = &mut expr {
-                                    if let ExprOrSuper::Expr(expr) = &mut member.obj {
-                                        if let Expr::Ident(ident) = expr.as_mut() {
-                                            member.obj = ExprOrSuper::Expr(Box::new(Expr::Paren(
-                                                ParenExpr {
-                                                    expr: Box::new(Expr::Seq(SeqExpr {
-                                                        span,
-                                                        exprs: vec![
-                                                            Box::new(0_f64.into()),
-                                                            Box::new(ident.take().into()),
-                                                        ],
-                                                    })),
-                                                    span,
-                                                },
-                                            )))
-                                        }
+                                    if let Expr::Ident(ident) = member.obj.as_mut() {
+                                        member.obj = Box::new(Expr::Paren(ParenExpr {
+                                            expr: Box::new(Expr::Seq(SeqExpr {
+                                                span,
+                                                exprs: vec![
+                                                    Box::new(0_f64.into()),
+                                                    Box::new(ident.take().into()),
+                                                ],
+                                            })),
+                                            span,
+                                        }))
                                     }
                                 };
                                 expr
@@ -563,7 +553,7 @@ impl Scope {
                     } else {
                         *expr.fold_with(folder)
                     };
-                    ExprOrSuper::Expr(Box::new(callee))
+                    Callee::Expr(Box::new(callee))
                 } else {
                     callee.fold_with(folder)
                 };
@@ -575,20 +565,24 @@ impl Scope {
                 })
             }
 
-            Expr::Member(e) => {
-                if e.computed {
-                    Expr::Member(MemberExpr {
-                        obj: e.obj.fold_with(folder),
-                        prop: e.prop.fold_with(folder),
-                        ..e
-                    })
+            Expr::Member(e) => Expr::Member(MemberExpr {
+                obj: e.obj.fold_with(folder),
+                prop: if let MemberProp::Computed(c) = e.prop {
+                    MemberProp::Computed(c.fold_with(folder))
                 } else {
-                    Expr::Member(MemberExpr {
-                        obj: e.obj.fold_with(folder),
-                        ..e
-                    })
-                }
-            }
+                    e.prop
+                },
+                ..e
+            }),
+
+            Expr::SuperProp(e) => Expr::SuperProp(SuperPropExpr {
+                prop: if let SuperProp::Computed(c) = e.prop {
+                    SuperProp::Computed(c.fold_with(folder))
+                } else {
+                    e.prop
+                },
+                ..e
+            }),
 
             Expr::Update(UpdateExpr {
                 span,

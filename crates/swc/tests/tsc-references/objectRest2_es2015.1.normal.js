@@ -57,12 +57,17 @@ function _objectSpread(target) {
 }
 function rootConnection(name) {
     return {
-        resolve: _asyncToGenerator(function*(context, args) {
-            const { objects  } = yield {
-                objects: 12
+        resolve: (function() {
+            var _ref = _asyncToGenerator(function*(context, args) {
+                const { objects  } = yield {
+                    objects: 12
+                };
+                return _objectSpread({}, connectionFromArray(objects, args));
+            });
+            return function(context, args) {
+                return _ref.apply(this, arguments);
             };
-            return _objectSpread({}, connectionFromArray(objects, args));
-        })
+        })()
     };
 }
 rootConnection('test');

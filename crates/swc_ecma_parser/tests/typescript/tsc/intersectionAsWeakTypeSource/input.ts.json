@@ -1252,8 +1252,7 @@
               },
               "value": "first",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }

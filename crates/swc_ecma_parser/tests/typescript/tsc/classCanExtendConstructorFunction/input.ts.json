@@ -94,8 +94,7 @@
                   },
                   "value": "numberOxen",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -157,8 +156,7 @@
             },
             "value": "circle",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -249,8 +247,7 @@
                       },
                       "value": "length",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "alternate": {
                     "type": "NumericLiteral",
@@ -320,8 +317,7 @@
               },
               "value": "prototype",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -332,8 +328,7 @@
             },
             "value": "load",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -430,8 +425,7 @@
               },
               "value": "prototype",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -442,8 +436,7 @@
             },
             "value": "weight",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ArrowFunctionExpression",
@@ -508,8 +501,7 @@
                 },
                 "value": "length",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "alternate": {
               "type": "UnaryExpression",
@@ -585,8 +577,7 @@
               },
               "value": "prototype",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -597,8 +588,7 @@
             },
             "value": "speed",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -657,8 +647,7 @@
                       },
                       "value": "numberOxen",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "CallExpression",
@@ -691,8 +680,7 @@
                         },
                         "value": "weight",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [],
                     "typeArguments": null
@@ -819,8 +807,7 @@
                       },
                       "value": "foonly",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -1031,13 +1018,13 @@
                             "ctxt": 0
                           },
                           "callee": {
-                            "type": "MemberExpression",
+                            "type": "SuperPropExpression",
                             "span": {
                               "start": 1088,
                               "end": 1099,
                               "ctxt": 0
                             },
-                            "object": {
+                            "obj": {
                               "type": "Super",
                               "span": {
                                 "start": 1088,
@@ -1054,8 +1041,7 @@
                               },
                               "value": "speed",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "arguments": [],
                           "typeArguments": null
@@ -1084,13 +1070,13 @@
                               "ctxt": 0
                             },
                             "callee": {
-                              "type": "MemberExpression",
+                              "type": "SuperPropExpression",
                               "span": {
                                 "start": 1132,
                                 "end": 1144,
                                 "ctxt": 0
                               },
-                              "object": {
+                              "obj": {
                                 "type": "Super",
                                 "span": {
                                   "start": 1132,
@@ -1107,8 +1093,7 @@
                                 },
                                 "value": "weight",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "arguments": [],
                             "typeArguments": null
@@ -1260,8 +1245,7 @@
             },
             "value": "numberOxen",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -1289,8 +1273,7 @@
             },
             "value": "foonly",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -1433,8 +1416,7 @@
                   },
                   "value": "numberEaten",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -1819,8 +1801,7 @@
                       },
                       "value": "length",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]
@@ -1951,8 +1932,7 @@
           },
           "value": "drunkOO",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1988,8 +1968,7 @@
           },
           "value": "numberOxen",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -2080,8 +2059,7 @@
                   },
                   "value": "flavour",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -2186,8 +2164,7 @@
                       },
                       "value": "flavour",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]
@@ -2318,8 +2295,7 @@
           },
           "value": "flavour",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -2455,8 +2431,7 @@
             },
             "value": "flavour",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "property": {
           "type": "Identifier",
@@ -2467,8 +2442,7 @@
           },
           "value": "claim",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {

@@ -65,8 +65,7 @@
                 },
                 "value": "b",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "property": {
@@ -78,8 +77,7 @@
             },
             "value": "d",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null

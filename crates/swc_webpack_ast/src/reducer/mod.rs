@@ -91,7 +91,7 @@ impl Visit for Analyzer {
         e.visit_children_with(self);
 
         match &e.callee {
-            ExprOrSuper::Expr(callee) => match &**callee {
+            Callee::Expr(callee) => match &**callee {
                 Expr::Ident(callee) => {
                     if &*callee.sym == "define" {
                         // find `require`
@@ -154,8 +154,14 @@ impl Visit for Analyzer {
     fn visit_member_expr(&mut self, e: &MemberExpr) {
         e.obj.visit_with(self);
 
-        if e.computed {
-            e.prop.visit_with(self);
+        if let MemberProp::Computed(c) = &e.prop {
+            c.visit_with(self);
+        }
+    }
+
+    fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
+        if let SuperProp::Computed(c) = &e.prop {
+            c.visit_with(self);
         }
     }
 
@@ -444,9 +450,8 @@ impl ReduceAst {
                 return;
             }
             Expr::This(..)
-            | Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Super(..),
-                computed: false,
+            | Expr::SuperProp(SuperPropExpr {
+                prop: SuperProp::Ident(_),
                 ..
             })
             | Expr::Yield(YieldExpr { arg: None, .. }) => {
@@ -463,25 +468,27 @@ impl ReduceAst {
                 return;
             }
 
-            Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(obj),
-                prop,
-                computed,
-                ..
-            }) => {
+            Expr::Member(MemberExpr { obj, prop, .. }) => {
                 self.ignore_expr(obj, false);
-                if *computed {
-                    self.ignore_expr(prop, false);
+                if let MemberProp::Computed(c) = prop {
+                    self.ignore_expr(&mut c.expr, false);
                 }
 
-                match (self.can_remove(&obj, false), self.can_remove(&prop, false)) {
+                match (
+                    self.can_remove(&obj, false),
+                    if let MemberProp::Computed(c) = prop {
+                        self.can_remove(&c.expr, false)
+                    } else {
+                        false
+                    },
+                ) {
                     (true, true) => {
                         e.take();
                         return;
                     }
                     (true, false) => {
-                        if *computed {
-                            *e = *prop.take();
+                        if let MemberProp::Computed(c) = prop {
+                            *e = *c.expr.take()
                         } else {
                             e.take();
                             return;
@@ -588,15 +595,12 @@ impl ReduceAst {
             }
 
             Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(callee),
+                callee: Callee::Expr(callee),
                 ..
             })
             | Expr::New(NewExpr { callee, .. }) => self.is_safe_to_flatten_test(&callee),
 
-            Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(obj),
-                ..
-            }) => self.is_safe_to_flatten_test(&obj),
+            Expr::Member(MemberExpr { obj, .. }) => self.is_safe_to_flatten_test(&obj),
 
             _ => true,
         }
@@ -714,7 +718,7 @@ impl VisitMut for ReduceAst {
                 Expr::Lit(..) => {}
 
                 Expr::Call(CallExpr {
-                    callee: ExprOrSuper::Expr(callee),
+                    callee: Callee::Expr(callee),
                     ..
                 }) => {
                     if !callee.is_fn_expr() {
@@ -731,7 +735,7 @@ impl VisitMut for ReduceAst {
         match e {
             Expr::Call(CallExpr {
                 span,
-                callee: ExprOrSuper::Expr(callee),
+                callee: Callee::Expr(callee),
                 args,
                 ..
             })
@@ -829,11 +833,7 @@ impl VisitMut for ReduceAst {
                 return;
             }
 
-            Expr::Member(MemberExpr {
-                obj: ExprOrSuper::Expr(obj),
-                computed: false,
-                ..
-            }) => {
+            Expr::Member(MemberExpr { obj, prop, .. }) if !prop.is_computed() => {
                 if let Some(left) = left_most(&obj) {
                     if self.data.should_preserve(&left) {
                         return;
@@ -1120,7 +1120,7 @@ impl VisitMut for ReduceAst {
 
             Expr::Call(CallExpr {
                 span,
-                callee: ExprOrSuper::Super(..),
+                callee: Callee::Super(..),
                 args,
                 ..
             }) => {
@@ -1372,8 +1372,14 @@ impl VisitMut for ReduceAst {
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
         e.obj.visit_mut_with(self);
 
-        if e.computed {
-            e.prop.visit_mut_with(self);
+        if let MemberProp::Computed(c) = &mut e.prop {
+            c.visit_mut_with(self);
+        }
+    }
+
+    fn visit_mut_super_prop_expr(&mut self, e: &mut SuperPropExpr) {
+        if let SuperProp::Computed(c) = &mut e.prop {
+            c.visit_mut_with(self);
         }
     }
 
@@ -1752,7 +1758,7 @@ impl VisitMut for ReduceAst {
                     // Optimize IIFE
                     Expr::Call(CallExpr {
                         span,
-                        callee: ExprOrSuper::Expr(callee),
+                        callee: Callee::Expr(callee),
                         args,
                         ..
                     }) => match &mut **callee {
@@ -2109,10 +2115,7 @@ impl VisitMut for ReduceAst {
 fn is_related_to_process(right: &Expr) -> bool {
     match right {
         Expr::Ident(i) => &*i.sym == "process",
-        Expr::Member(MemberExpr {
-            obj: ExprOrSuper::Expr(obj),
-            ..
-        }) => is_related_to_process(&obj),
+        Expr::Member(MemberExpr { obj, .. }) => is_related_to_process(&obj),
         _ => false,
     }
 }
@@ -2175,11 +2178,7 @@ fn preserve_prop_name(exprs: &mut Vec<Box<Expr>>, p: PropName) {
 fn left_most(e: &Expr) -> Option<Ident> {
     match e {
         Expr::Ident(i) => Some(i.clone()),
-        Expr::Member(MemberExpr {
-            obj: ExprOrSuper::Expr(obj),
-            computed: false,
-            ..
-        }) => left_most(obj),
+        Expr::Member(MemberExpr { obj, prop, .. }) if !prop.is_computed() => left_most(obj),
 
         _ => None,
     }

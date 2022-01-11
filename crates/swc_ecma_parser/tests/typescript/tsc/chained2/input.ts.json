@@ -442,8 +442,7 @@
             },
             "value": "A",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -489,8 +488,7 @@
             },
             "value": "B",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null

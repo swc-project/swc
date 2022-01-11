@@ -135,8 +135,7 @@
                       },
                       "value": "x",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]
@@ -244,8 +243,7 @@
                       },
                       "value": "x",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 },
                 {
@@ -256,13 +254,13 @@
                     "ctxt": 0
                   },
                   "expression": {
-                    "type": "MemberExpression",
+                    "type": "SuperPropExpression",
                     "span": {
                       "start": 271,
                       "end": 278,
                       "ctxt": 0
                     },
-                    "object": {
+                    "obj": {
                       "type": "Super",
                       "span": {
                         "start": 271,
@@ -279,8 +277,7 @@
                       },
                       "value": "x",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 }
               ]

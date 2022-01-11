@@ -61,16 +61,23 @@
             "optional": false
           },
           "property": {
-            "type": "Identifier",
+            "type": "Computed",
             "span": {
-              "start": 23,
-              "end": 24,
+              "start": 21,
+              "end": 25,
               "ctxt": 0
             },
-            "value": "b",
-            "optional": false
-          },
-          "computed": true
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 23,
+                "end": 24,
+                "ctxt": 0
+              },
+              "value": "b",
+              "optional": false
+            }
+          }
         }
       }
     }

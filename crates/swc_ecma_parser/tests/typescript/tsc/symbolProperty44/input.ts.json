@@ -66,8 +66,7 @@
                 },
                 "value": "hasInstance",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "function": {
@@ -162,8 +161,7 @@
                 },
                 "value": "hasInstance",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "function": {

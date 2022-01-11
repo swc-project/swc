@@ -95,8 +95,7 @@
             },
             "value": "exports",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -224,8 +223,7 @@
               },
               "value": "Thing",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -272,8 +270,7 @@
             },
             "value": "exports",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",

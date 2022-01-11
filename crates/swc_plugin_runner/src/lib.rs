@@ -7,9 +7,10 @@ use anyhow::{Context, Error};
 use once_cell::sync::Lazy;
 use parking_lot::Mutex;
 use resolve::PluginCache;
-use swc_common::collections::AHashMap;
+use rkyv::{AlignedVec, Deserialize};
+use swc_common::{collections::AHashMap, plugin::serialize_for_plugin};
 use swc_ecma_ast::Program;
-use wasmer::{imports, Instance, Module, Store};
+use wasmer::{imports, Array, Instance, Memory, MemoryType, Module, Store, WasmPtr};
 use wasmer_cache::{Cache, Hash};
 
 pub mod resolve;
@@ -36,13 +37,14 @@ fn load_plugin(plugin_path: &Path, cache: &mut Option<PluginCache>) -> Result<In
     // process won't be reflected.
     // 2. If reading binary fails somehow it won't bail out but keep retry.
     let module_bytes_key = plugin_path.to_path_buf();
-    let module_bytes = if let Some(cached_bytes) = BYTE_CACHE.lock().get(&module_bytes_key).cloned()
-    {
+    let cached_bytes = BYTE_CACHE.lock().get(&module_bytes_key).cloned();
+    let module_bytes = if let Some(cached_bytes) = cached_bytes {
         cached_bytes
     } else {
         let fresh_module_bytes = std::fs::read(plugin_path)
             .map(Arc::new)
             .context("Cannot read plugin from specified path")?;
+
         BYTE_CACHE
             .lock()
             .insert(module_bytes_key, fresh_module_bytes.clone());
@@ -96,7 +98,12 @@ fn load_plugin(plugin_path: &Path, cache: &mut Option<PluginCache>) -> Result<In
 
     return match module {
         Ok(module) => {
-            let import_object = imports! {};
+            let memory = Memory::new(&wasmer_store, MemoryType::new(1, None, false))?;
+            let import_object = imports! {
+                "env" => {
+                    "memory" => memory
+                }
+            };
 
             Instance::new(&module, &import_object).context("Failed to create plugin instance")
         }
@@ -104,6 +111,33 @@ fn load_plugin(plugin_path: &Path, cache: &mut Option<PluginCache>) -> Result<In
     };
 }
 
+fn copy_memory_to_instance(instance: &Instance, program: &Program) -> Result<(i32, u32), Error> {
+    let alloc = instance.exports.get_native_function::<u32, i32>("alloc")?;
+
+    let serialized = serialize_for_plugin(program)?;
+    let serialized_len = serialized.len();
+
+    let alloc_ptr = alloc.call(serialized_len.try_into()?)?;
+    let memory = instance.exports.get_memory("memory")?;
+    let view = memory.view::<u8>();
+
+    // loop over the Wasm memory view's bytes, assign bytes value of alignedvec from
+    // serialized
+    let ptr_start: usize = alloc_ptr.try_into()?;
+    for (cell, byte) in view[ptr_start..ptr_start + serialized_len + 1]
+        .iter()
+        .zip(serialized.iter())
+    {
+        cell.set(*byte)
+    }
+
+    Ok((alloc_ptr, serialized_len.try_into().unwrap()))
+}
+
+// TODO
+// - alloc / free memories
+// - resolve trait bounds compilation errors for swc_plugin::{se,dese}rialize fn
+// - ergonomic wrappers for the transform logics with error handlings
 pub fn apply_js_plugin(
     _plugin_name: &str,
     path: &Path,
@@ -112,9 +146,41 @@ pub fn apply_js_plugin(
     program: Program,
 ) -> Result<Program, Error> {
     (|| -> Result<_, Error> {
-        let _instance = load_plugin(path, cache)?;
-        // TODO: actually apply transform from plugin
-        Ok(program)
+        let instance = load_plugin(path, cache)?;
+
+        let plugin_process_wasm_exported_fn = instance
+            .exports
+            .get_native_function::<(i32, u32), (i32, i32)>("process")?;
+
+        let (alloc_ptr, len) = copy_memory_to_instance(&instance, &program)?;
+        let (returned_ptr, returned_len) = plugin_process_wasm_exported_fn.call(alloc_ptr, len)?;
+        let returned_len = returned_len.try_into().unwrap();
+
+        // Reconstruct AlignedVec from ptr returned by plugin
+        let memory = instance.exports.get_memory("memory")?;
+        let ptr: WasmPtr<u8, Array> = WasmPtr::new(returned_ptr as _);
+
+        let mut transformed_serialized = AlignedVec::with_capacity(returned_len);
+
+        // Deref & read through plguin's wasm memory space via returned ptr
+        let derefed_ptr = ptr
+            .deref(memory, 0, returned_len.try_into().unwrap())
+            .unwrap();
+
+        let transformed_raw_bytes = derefed_ptr
+            .iter()
+            .enumerate()
+            .take(returned_len)
+            .map(|(_size, cell)| cell.get())
+            .collect::<Vec<u8>>();
+
+        transformed_serialized.extend_from_slice(&transformed_raw_bytes);
+
+        // Deserialize into Program from reconstructed raw bytes
+        let archived = unsafe { rkyv::archived_root::<Program>(&transformed_serialized[..]) };
+        let transformed_program: Program = archived.deserialize(&mut rkyv::Infallible).unwrap();
+
+        Ok(transformed_program)
     })()
     .with_context(|| {
         format!(

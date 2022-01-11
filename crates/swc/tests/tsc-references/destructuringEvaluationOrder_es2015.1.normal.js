@@ -54,6 +54,7 @@ function _toPropertyKey(arg) {
     return _typeof(key2) === "symbol" ? key2 : String(key2);
 }
 var _typeof = function(obj) {
+    "@swc/helpers - typeof";
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 // @target: es5,es2015

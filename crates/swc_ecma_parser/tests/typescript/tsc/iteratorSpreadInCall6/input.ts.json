@@ -306,8 +306,7 @@
                 },
                 "value": "iterator",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "function": {
@@ -537,8 +536,7 @@
                 },
                 "value": "iterator",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "function": {

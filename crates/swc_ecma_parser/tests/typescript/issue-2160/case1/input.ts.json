@@ -83,8 +83,7 @@
                 },
                 "value": "fill",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -111,8 +110,7 @@
             },
             "value": "map",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {

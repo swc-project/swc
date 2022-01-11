@@ -148,8 +148,7 @@
                         },
                         "value": "_information",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "CallExpression",
@@ -189,8 +188,7 @@
                             },
                             "value": "logger",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "property": {
                           "type": "Identifier",
@@ -201,8 +199,7 @@
                           },
                           "value": "information",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "arguments": [],
                       "typeArguments": null

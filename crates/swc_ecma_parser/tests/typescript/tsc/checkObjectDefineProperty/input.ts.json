@@ -87,8 +87,7 @@
             },
             "value": "defineProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -227,8 +226,7 @@
             },
             "value": "defineProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -345,8 +343,7 @@
             },
             "value": "defineProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -485,8 +482,7 @@
             },
             "value": "defineProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -681,8 +677,7 @@
             },
             "value": "defineProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -823,8 +818,7 @@
             },
             "value": "defineProperty",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -954,8 +948,7 @@
                               },
                               "value": "zip",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "CallExpression",
@@ -1089,8 +1082,7 @@
                 },
                 "value": "name",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         ]
@@ -1196,8 +1188,7 @@
               },
               "value": "zip",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -1257,8 +1248,7 @@
               },
               "value": "houseNumber",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -1705,8 +1695,7 @@
             },
             "value": "exports",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",
@@ -1796,8 +1785,7 @@
           },
           "value": "name",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1833,8 +1821,7 @@
           },
           "value": "middleInit",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1870,8 +1857,7 @@
           },
           "value": "lastName",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1907,8 +1893,7 @@
           },
           "value": "zip",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1944,8 +1929,7 @@
           },
           "value": "houseNumber",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1981,8 +1965,7 @@
           },
           "value": "zipStr",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -2026,8 +2009,7 @@
             },
             "value": "name",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "StringLiteral",
@@ -2086,8 +2068,7 @@
             },
             "value": "zip",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -2141,8 +2122,7 @@
             },
             "value": "zipStr",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "StringLiteral",
@@ -2201,8 +2181,7 @@
             },
             "value": "lastName",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "StringLiteral",
@@ -2261,8 +2240,7 @@
             },
             "value": "houseNumber",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -2316,8 +2294,7 @@
             },
             "value": "zipStr",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -2371,8 +2348,7 @@
             },
             "value": "middleInit",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "StringLiteral",

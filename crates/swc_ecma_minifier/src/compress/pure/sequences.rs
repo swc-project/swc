@@ -1,5 +1,6 @@
 use super::Pure;
 use crate::mode::Mode;
+use swc_atoms::js_word;
 use swc_common::{util::take::Take, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, ExprFactory};
@@ -158,7 +159,7 @@ where
                 (
                     Expr::Assign(a_assign @ AssignExpr { op: op!("="), .. }),
                     Expr::Call(CallExpr {
-                        callee: ExprOrSuper::Expr(b_callee),
+                        callee: Callee::Expr(b_callee),
                         args,
                         ..
                     }),
@@ -171,9 +172,12 @@ where
 
                     match &mut **b_callee {
                         Expr::Member(MemberExpr {
-                            obj: ExprOrSuper::Expr(b_callee_obj),
-                            computed: false,
-                            prop,
+                            obj: b_callee_obj,
+                            prop:
+                                prop @ MemberProp::Ident(Ident {
+                                    sym: js_word!("apply") | js_word!("call"),
+                                    ..
+                                }),
                             ..
                         }) => {
                             //
@@ -181,25 +185,16 @@ where
                                 continue;
                             }
 
-                            match &**prop {
-                                Expr::Ident(Ident { sym, .. }) => match &**sym {
-                                    "apply" | "call" => {}
-                                    _ => continue,
-                                },
-                                _ => {}
-                            }
-
                             let span = a_assign.span.with_ctxt(SyntaxContext::empty());
 
-                            let obj = a.take();
+                            let obj = Box::new(a.take());
 
                             let new = Expr::Call(CallExpr {
                                 span,
                                 callee: MemberExpr {
                                     span: DUMMY_SP,
-                                    obj: obj.as_obj(),
+                                    obj,
                                     prop: prop.take(),
-                                    computed: false,
                                 }
                                 .as_callee(),
                                 args: args.take(),

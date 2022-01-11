@@ -66,8 +66,7 @@
                 },
                 "value": "iterator",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "value": {
@@ -130,8 +129,7 @@
                 },
                 "value": "isConcatSpreadable",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "function": {
@@ -203,8 +201,7 @@
                 },
                 "value": "toPrimitive",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "function": {
@@ -299,8 +296,7 @@
                 },
                 "value": "toPrimitive",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "function": {

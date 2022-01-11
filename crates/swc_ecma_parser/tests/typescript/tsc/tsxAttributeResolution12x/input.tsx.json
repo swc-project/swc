@@ -1601,8 +1601,7 @@
               },
               "value": "Test",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }

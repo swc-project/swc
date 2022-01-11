@@ -552,6 +552,7 @@ impl<'a, I: Tokens> Parser<I> {
                 Expr::Array(..) | Expr::Object(..) => {}
 
                 Expr::Member(..)
+                | Expr::SuperProp(..)
                 | Expr::Call(..)
                 | Expr::New(..)
                 | Expr::Lit(..)
@@ -656,7 +657,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }))
             }
             Expr::Ident(ident) => Ok(ident.into()),
-            Expr::Member(..) => Ok(Pat::Expr(expr)),
+            Expr::Member(..) | Expr::SuperProp(..) => Ok(Pat::Expr(expr)),
             Expr::Array(ArrayLit {
                 elems: mut exprs, ..
             }) => {

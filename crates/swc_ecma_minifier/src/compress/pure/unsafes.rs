@@ -15,8 +15,8 @@ where
         }
 
         match &e.callee {
-            ExprOrSuper::Super(_) => return,
-            ExprOrSuper::Expr(callee) => match &**callee {
+            Callee::Super(_) | Callee::Import(_) => return,
+            Callee::Expr(callee) => match &**callee {
                 Expr::Ident(Ident {
                     sym: js_word!("Symbol"),
                     ..

@@ -498,8 +498,7 @@
                 },
                 "value": "a",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -557,8 +556,7 @@
               },
               "value": "b",
               "optional": false
-            },
-            "computed": false
+            }
           }
         }
       },
@@ -618,8 +616,7 @@
                     },
                     "value": "Test",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "property": {
                   "type": "Identifier",
@@ -630,8 +627,7 @@
                   },
                   "value": "answer",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "CallExpression",
@@ -666,8 +662,7 @@
                     },
                     "value": "c",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [
                   {

@@ -34,9 +34,9 @@
                         s1.startTime || (s1.startTime = t);
                         var i = t - s1.startTime;
                         s1.remaining = s1.duration - i, s1.useEasing ? s1.countDown ? s1.frameVal = s1.startVal - s1.easingFn(i, 0, s1.startVal - s1.endVal, s1.duration) : s1.frameVal = s1.easingFn(i, s1.startVal, s1.endVal - s1.startVal, s1.duration) : s1.countDown ? s1.frameVal = s1.startVal - (s1.startVal - s1.endVal) * (i / s1.duration) : s1.frameVal = s1.startVal + (s1.endVal - s1.startVal) * (i / s1.duration), s1.countDown ? s1.frameVal = s1.frameVal < s1.endVal ? s1.endVal : s1.frameVal : s1.frameVal = s1.frameVal > s1.endVal ? s1.endVal : s1.frameVal, s1.frameVal = Number(s1.frameVal.toFixed(s1.options.decimalPlaces)), s1.printValue(s1.frameVal), i < s1.duration ? s1.rAF = requestAnimationFrame(s1.count) : null !== s1.finalEndVal ? s1.update(s1.finalEndVal) : s1.callback && s1.callback();
-                    }, this.formatNumber = function(t) {
+                    }, this.formatNumber = function(t3) {
                         var i, a, n, e;
-                        i = Math.abs(t).toFixed(s1.options.decimalPlaces);
+                        i = Math.abs(t3).toFixed(s1.options.decimalPlaces);
                         var o = (i += "").split(".");
                         if (a = o[0], n = o.length > 1 ? s1.options.decimal + o[1] : "", s1.options.useGrouping) {
                             e = "";
@@ -47,7 +47,7 @@
                             return s1.options.numerals[+t];
                         }), n = n.replace(/[0-9]/g, function(t) {
                             return s1.options.numerals[+t];
-                        })), (t < 0 ? "-" : "") + s1.options.prefix + a + n + s1.options.suffix;
+                        })), (t3 < 0 ? "-" : "") + s1.options.prefix + a + n + s1.options.suffix;
                     }, this.easeOutExpo = function(t, i, a, s) {
                         return a * (1 - Math.pow(2, -10 * t / s)) * 1024 / 1023 + i;
                     }, this.options = __assign(__assign({}, this.defaults), a1), this.formattingFn = this.options.formattingFn ? this.options.formattingFn : this.formatNumber, this.easingFn = this.options.easingFn ? this.options.easingFn : this.easeOutExpo, this.startVal = this.validateValue(this.options.startVal), this.frameVal = this.startVal, this.endVal = this.validateValue(i1), this.options.decimalPlaces = Math.max(this.options.decimalPlaces), this.resetDuration(), this.options.separator = String(this.options.separator), this.useEasing = this.options.useEasing, "" === this.options.separator && (this.options.useGrouping = !1), this.el = "string" == typeof t2 ? document.getElementById(t2) : t2, this.el ? this.printValue(this.startVal) : this.error = "[CountUp] target is null or undefined";
@@ -291,7 +291,7 @@
                 };
             }
             function _objectSpread(target) {
-                for(var _arguments = arguments, i = 1; i < arguments.length; i++)!function(i) {
+                for(var _arguments = arguments, i2 = 1; i2 < arguments.length; i2++)!function(i) {
                     var source = null != _arguments[i] ? _arguments[i] : {}, ownKeys = Object.keys(source);
                     "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
@@ -304,7 +304,7 @@
                             writable: !0
                         }) : obj[key1] = value;
                     });
-                }(i);
+                }(i2);
                 return target;
             }
             function _objectWithoutPropertiesLoose(source, excluded) {
@@ -634,7 +634,7 @@
             }
             function _objectWithoutProperties(source1, excluded1) {
                 if (null == source1) return {};
-                var key2, i2, target1 = function(source, excluded) {
+                var key2, i3, target1 = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
                     for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
@@ -642,7 +642,7 @@
                 }(source1, excluded1);
                 if (Object.getOwnPropertySymbols) {
                     var sourceSymbolKeys = Object.getOwnPropertySymbols(source1);
-                    for(i2 = 0; i2 < sourceSymbolKeys.length; i2++)key2 = sourceSymbolKeys[i2], excluded1.indexOf(key2) >= 0 || Object.prototype.propertyIsEnumerable.call(source1, key2) && (target1[key2] = source1[key2]);
+                    for(i3 = 0; i3 < sourceSymbolKeys.length; i3++)key2 = sourceSymbolKeys[i3], excluded1.indexOf(key2) >= 0 || Object.prototype.propertyIsEnumerable.call(source1, key2) && (target1[key2] = source1[key2]);
                 }
                 return target1;
             }

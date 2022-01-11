@@ -219,8 +219,7 @@
                   },
                   "value": "title",
                   "optional": false
-                },
-                "computed": false
+                }
               }
             },
             "async": false,

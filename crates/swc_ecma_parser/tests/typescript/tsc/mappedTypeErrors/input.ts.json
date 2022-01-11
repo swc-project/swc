@@ -5668,16 +5668,23 @@
                         "optional": false
                       },
                       "property": {
-                        "type": "Identifier",
+                        "type": "Computed",
                         "span": {
-                          "start": 2389,
-                          "end": 2390,
+                          "start": 2385,
+                          "end": 2391,
                           "ctxt": 0
                         },
-                        "value": "k",
-                        "optional": false
-                      },
-                      "computed": true
+                        "expression": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 2389,
+                            "end": 2390,
+                            "ctxt": 0
+                          },
+                          "value": "k",
+                          "optional": false
+                        }
+                      }
                     },
                     "right": {
                       "type": "MemberExpression",
@@ -5697,16 +5704,23 @@
                         "optional": false
                       },
                       "property": {
-                        "type": "Identifier",
+                        "type": "Computed",
                         "span": {
-                          "start": 2400,
-                          "end": 2401,
+                          "start": 2394,
+                          "end": 2402,
                           "ctxt": 0
                         },
-                        "value": "k",
-                        "optional": false
-                      },
-                      "computed": true
+                        "expression": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 2400,
+                            "end": 2401,
+                            "ctxt": 0
+                          },
+                          "value": "k",
+                          "optional": false
+                        }
+                      }
                     }
                   }
                 }
@@ -6747,20 +6761,26 @@
                                 },
                                 "value": "state",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "property": {
-                              "type": "Identifier",
+                              "type": "Computed",
                               "span": {
-                                "start": 2804,
-                                "end": 2805,
+                                "start": 2793,
+                                "end": 2806,
                                 "ctxt": 0
                               },
-                              "value": "k",
-                              "optional": false
-                            },
-                            "computed": true
+                              "expression": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 2804,
+                                  "end": 2805,
+                                  "ctxt": 0
+                                },
+                                "value": "k",
+                                "optional": false
+                              }
+                            }
                           },
                           "right": {
                             "type": "MemberExpression",
@@ -6780,16 +6800,23 @@
                               "optional": false
                             },
                             "property": {
-                              "type": "Identifier",
+                              "type": "Computed",
                               "span": {
-                                "start": 2815,
-                                "end": 2816,
+                                "start": 2809,
+                                "end": 2817,
                                 "ctxt": 0
                               },
-                              "value": "k",
-                              "optional": false
-                            },
-                            "computed": true
+                              "expression": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 2815,
+                                  "end": 2816,
+                                  "ctxt": 0
+                                },
+                                "value": "k",
+                                "optional": false
+                              }
+                            }
                           }
                         }
                       }
@@ -7022,8 +7049,7 @@
             },
             "value": "setState",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -7132,8 +7158,7 @@
             },
             "value": "setState",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -7220,8 +7245,7 @@
             },
             "value": "setState",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -7304,8 +7328,7 @@
             },
             "value": "setState",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -7364,8 +7387,7 @@
             },
             "value": "setState",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -7425,8 +7447,7 @@
             },
             "value": "setState",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -7509,8 +7530,7 @@
             },
             "value": "setState",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {
@@ -9070,8 +9090,7 @@
                     },
                     "value": "foo",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "definite": false
               }
@@ -9326,8 +9345,7 @@
                     },
                     "value": "foo",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "definite": false
               }

@@ -144,8 +144,7 @@
             },
             "value": "Pos",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -261,8 +260,7 @@
               },
               "value": "Pos",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -273,8 +271,7 @@
             },
             "value": "prototype",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "property": {
           "type": "Identifier",
@@ -285,8 +282,7 @@
           },
           "value": "line",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -350,8 +346,7 @@
                 },
                 "value": "Pos",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {
@@ -423,8 +418,7 @@
           },
           "value": "line",
           "optional": false
-        },
-        "computed": false
+        }
       }
     }
   ],

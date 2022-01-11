@@ -532,8 +532,8 @@
                 this.element.html($(this.defaultHtml).html());
             },
             show: function(theme, msgText, textonly) {
-                var message, loadSettings;
-                this.resetHtml(), "object" === $.type(theme) ? theme = (loadSettings = $.extend({}, this.options, theme)).theme : (loadSettings = this.options, theme = theme || loadSettings.theme), message = msgText || (!1 === loadSettings.text ? "" : loadSettings.text), $html.addClass("ui-loading"), loadSettings.textVisible, this.element.attr("class", loaderClass + " ui-corner-all ui-body-" + theme + " ui-loader-" + (loadSettings.textVisible || msgText || theme.text ? "verbose" : "default") + (loadSettings.textonly || textonly ? " ui-loader-textonly" : "")), loadSettings.html ? this.element.html(loadSettings.html) : this.element.find("h1").text(message), this.element.appendTo($.mobile.pageContainer), this.checkLoaderPosition(), this.window.bind("scroll", $.proxy(this.checkLoaderPosition, this));
+                var textVisible, message, loadSettings;
+                this.resetHtml(), "object" === $.type(theme) ? theme = (loadSettings = $.extend({}, this.options, theme)).theme : (loadSettings = this.options, theme = theme || loadSettings.theme), message = msgText || (!1 === loadSettings.text ? "" : loadSettings.text), $html.addClass("ui-loading"), textVisible = loadSettings.textVisible, this.element.attr("class", loaderClass + " ui-corner-all ui-body-" + theme + " ui-loader-" + (textVisible || msgText || theme.text ? "verbose" : "default") + (loadSettings.textonly || textonly ? " ui-loader-textonly" : "")), loadSettings.html ? this.element.html(loadSettings.html) : this.element.find("h1").text(message), this.element.appendTo($.mobile.pageContainer), this.checkLoaderPosition(), this.window.bind("scroll", $.proxy(this.checkLoaderPosition, this));
             },
             hide: function() {
                 $html.removeClass("ui-loading"), this.options.text && this.element.removeClass("ui-loader-fakefix"), $.mobile.window.unbind("scroll", this.fakeFixLoader), $.mobile.window.unbind("scroll", this.checkLoaderPosition);
@@ -601,7 +601,7 @@
             var v, uc_prop = prop.charAt(0).toUpperCase() + prop.substr(1), props = (prop + " " + vendors.join(uc_prop + " ") + uc_prop).split(" ");
             for(v in props)if (undefined !== fbCSS[props[v]]) return !0;
         }
-        var nokiaLTE7_3, w1, ua, platform, wkmatch, wkversion, ffmatch, ffversion, operammobilematch, omversion, link, fauxBase, base, supports, element, documentElement, getComputedStyle, ua1, fakeBody = $("<body>").prependTo("html"), fbCSS = fakeBody[0].style, vendors = [
+        var nokiaLTE7_3, w1, ua, platform, wkmatch, wkversion, ffmatch, ffversion, operammobilematch, omversion, rebase, fauxBase, base, supports, element, documentElement, getComputedStyle, ua1, fakeBody = $("<body>").prependTo("html"), fbCSS = fakeBody[0].style, vendors = [
             "Webkit",
             "Moz",
             "O"
@@ -632,7 +632,7 @@
             scrollTop: ("pageXOffset" in window1 || "scrollTop" in document1.documentElement || "scrollTop" in fakeBody[0]) && !("palmGetResource" in window1) && !operamini,
             dynamicBaseTag: (fauxBase = location.protocol + "//" + location.host + location.pathname + "ui-dir/", (base = $("head base")).length ? base.attr("href") : base = $("<base>", {
                 href: fauxBase
-            }).appendTo("head"), (link = $("<a href='testurl' />").prependTo(fakeBody))[0].href, base[0].href = location.pathname, 0 === link[0].href.indexOf(fauxBase)),
+            }).appendTo("head"), rebase = $("<a href='testurl' />").prependTo(fakeBody)[0].href, base[0].href = location.pathname, 0 === rebase.indexOf(fauxBase)),
             cssPointerEvents: (element = document1.createElement("x"), documentElement = document1.documentElement, getComputedStyle = window1.getComputedStyle, "pointerEvents" in element.style && (element.style.pointerEvents = "auto", element.style.pointerEvents = "x", documentElement.appendChild(element), supports = getComputedStyle && "auto" === getComputedStyle(element, "").pointerEvents, documentElement.removeChild(element), !!supports)),
             boundingRect: void 0 !== document1.createElement("div").getBoundingClientRect,
             inlineSVG: function() {
@@ -2957,12 +2957,12 @@
                 this._prepareHeightUpdate(this.options.keyupTimeoutBuffer);
             },
             _updateHeight: function() {
-                var paddingTop, paddingBottom, paddingHeight, borderTop, borderBottom, borderHeight, height, scrollTop = this.window.scrollTop();
+                var paddingTop, paddingBottom, paddingHeight, scrollHeight, clientHeight, borderTop, borderBottom, borderHeight, height, scrollTop = this.window.scrollTop();
                 this.keyupTimeout = 0, "onpage" in this.element[0] || this.element.css({
                     height: 0,
                     "min-height": 0,
                     "max-height": 0
-                }), this.element[0].scrollHeight, this.element[0].clientHeight, borderTop = parseFloat(this.element.css("border-top-width")), borderBottom = parseFloat(this.element.css("border-bottom-width")), borderHeight = borderTop + borderBottom, height = this.element[0].scrollHeight + borderHeight + 15, 0 === this.element[0].clientHeight && (paddingTop = parseFloat(this.element.css("padding-top")), paddingBottom = parseFloat(this.element.css("padding-bottom")), paddingHeight = paddingTop + paddingBottom, height += paddingHeight), this.element.css({
+                }), scrollHeight = this.element[0].scrollHeight, clientHeight = this.element[0].clientHeight, borderTop = parseFloat(this.element.css("border-top-width")), borderBottom = parseFloat(this.element.css("border-bottom-width")), borderHeight = borderTop + borderBottom, height = scrollHeight + borderHeight + 15, 0 === clientHeight && (paddingTop = parseFloat(this.element.css("padding-top")), paddingBottom = parseFloat(this.element.css("padding-bottom")), paddingHeight = paddingTop + paddingBottom, height += paddingHeight), this.element.css({
                     height: height,
                     "min-height": "",
                     "max-height": ""

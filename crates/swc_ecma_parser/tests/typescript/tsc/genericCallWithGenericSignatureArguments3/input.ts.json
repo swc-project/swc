@@ -1642,8 +1642,7 @@
                     },
                     "value": "A",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               },
               {
@@ -1710,8 +1709,7 @@
                       },
                       "value": "A",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "async": false,
                   "generator": false,
@@ -1793,8 +1791,7 @@
                       },
                       "value": "A",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "async": false,
                   "generator": false,

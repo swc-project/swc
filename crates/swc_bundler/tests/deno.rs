@@ -1120,12 +1120,11 @@ impl swc_bundler::Hook for Hook {
                 value: Box::new(if module_record.is_entry {
                     Expr::Member(MemberExpr {
                         span,
-                        obj: ExprOrSuper::Expr(Box::new(Expr::MetaProp(MetaPropExpr {
-                            meta: Ident::new(js_word!("import"), span),
-                            prop: Ident::new(js_word!("meta"), span),
-                        }))),
-                        prop: Box::new(Expr::Ident(Ident::new(js_word!("main"), span))),
-                        computed: false,
+                        obj: Box::new(Expr::MetaProp(MetaPropExpr {
+                            span,
+                            kind: MetaPropKind::ImportMeta,
+                        })),
+                        prop: MemberProp::Ident(Ident::new(js_word!("main"), span)),
                     })
                 } else {
                     Expr::Lit(Lit::Bool(Bool { span, value: false }))
@@ -1151,7 +1150,14 @@ impl Visit for ExportCollector {
     fn visit_export_specifier(&mut self, s: &ExportSpecifier) {
         match s {
             ExportSpecifier::Namespace(ns) => {
-                self.exports.insert(ns.name.sym.to_string());
+                match &ns.name {
+                    ModuleExportName::Ident(name) => {
+                        self.exports.insert(name.sym.to_string());
+                    }
+                    ModuleExportName::Str(..) => {
+                        unimplemented!("module string names unimplemented")
+                    }
+                };
             }
             ExportSpecifier::Default(_) => {
                 self.exports.insert("default".into());

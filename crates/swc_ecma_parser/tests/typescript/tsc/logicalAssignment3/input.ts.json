@@ -445,8 +445,7 @@
               },
               "value": "baz",
               "optional": false
-            },
-            "computed": false
+            }
           }
         },
         "right": {
@@ -475,8 +474,7 @@
             },
             "value": "baz",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -528,8 +526,7 @@
               },
               "value": "baz",
               "optional": false
-            },
-            "computed": false
+            }
           }
         },
         "right": {
@@ -558,8 +555,7 @@
             },
             "value": "baz",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     },
@@ -611,8 +607,7 @@
               },
               "value": "baz",
               "optional": false
-            },
-            "computed": false
+            }
           }
         },
         "right": {
@@ -641,8 +636,7 @@
             },
             "value": "baz",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     }

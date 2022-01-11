@@ -23,12 +23,8 @@ pub(super) fn load_json_as_module(fm: &Arc<SourceFile>) -> Result<Module, Error>
             op: op!("="),
             left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
                 span: DUMMY_SP,
-                obj: ExprOrSuper::Expr(Box::new(Expr::Ident(Ident::new(
-                    "module".into(),
-                    DUMMY_SP,
-                )))),
-                prop: Box::new(Expr::Ident(Ident::new("exports".into(), DUMMY_SP))),
-                computed: false,
+                obj: Box::new(Expr::Ident(Ident::new("module".into(), DUMMY_SP))),
+                prop: MemberProp::Ident(Ident::new("exports".into(), DUMMY_SP)),
             }))),
             right: expr,
         })),

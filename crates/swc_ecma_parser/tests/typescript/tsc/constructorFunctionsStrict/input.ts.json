@@ -94,8 +94,7 @@
                   },
                   "value": "x",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -164,8 +163,7 @@
               },
               "value": "prototype",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -176,8 +174,7 @@
             },
             "value": "m",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -236,8 +233,7 @@
                       },
                       "value": "y",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -365,8 +361,7 @@
             },
             "value": "x",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",
@@ -421,8 +416,7 @@
             },
             "value": "y",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",
@@ -629,8 +623,7 @@
                   },
                   "value": "x",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -822,8 +815,7 @@
             },
             "value": "x",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "MemberExpression",
@@ -851,8 +843,7 @@
             },
             "value": "x",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     }

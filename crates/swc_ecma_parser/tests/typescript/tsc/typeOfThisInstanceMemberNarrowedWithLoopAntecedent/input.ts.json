@@ -418,8 +418,7 @@
                         },
                         "value": "state",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "property": {
                       "type": "Identifier",
@@ -430,8 +429,7 @@
                       },
                       "value": "data",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 },
                 {
@@ -480,8 +478,7 @@
                           },
                           "value": "state",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "property": {
                         "type": "Identifier",
@@ -492,8 +489,7 @@
                         },
                         "value": "type",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "StringLiteral",
@@ -593,8 +589,7 @@
                                   },
                                   "value": "state",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "property": {
                                 "type": "Identifier",
@@ -605,8 +600,7 @@
                                 },
                                 "value": "data",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "definite": false
                           }
@@ -859,8 +853,7 @@
                           },
                           "value": "state",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "property": {
                         "type": "Identifier",
@@ -871,8 +864,7 @@
                         },
                         "value": "type",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "StringLiteral",
@@ -935,8 +927,7 @@
                               },
                               "value": "state",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "property": {
                             "type": "Identifier",
@@ -947,8 +938,7 @@
                             },
                             "value": "data",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       }
                     ]
@@ -1042,8 +1032,7 @@
                               },
                               "value": "state",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "property": {
                             "type": "Identifier",
@@ -1054,8 +1043,7 @@
                             },
                             "value": "data",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         }
                       },
                       "definite": false

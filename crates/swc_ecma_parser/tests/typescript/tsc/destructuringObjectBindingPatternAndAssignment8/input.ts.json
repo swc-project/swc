@@ -162,8 +162,7 @@
                       },
                       "value": "a",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 },
                 "value": {
@@ -213,8 +212,7 @@
                       },
                       "value": "b",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 },
                 "value": {
@@ -313,8 +311,7 @@
                                   },
                                   "value": "a",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               }
                             },
                             "value": {
@@ -362,8 +359,7 @@
                                   },
                                   "value": "b",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               }
                             },
                             "value": {
@@ -434,8 +430,7 @@
             },
             "value": "log",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [
           {

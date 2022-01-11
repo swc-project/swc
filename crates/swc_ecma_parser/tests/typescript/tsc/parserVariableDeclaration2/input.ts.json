@@ -197,8 +197,7 @@
                         },
                         "value": "test",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "arguments": [
                       {

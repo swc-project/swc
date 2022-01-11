@@ -120,8 +120,7 @@
             },
             "value": "isServiceProject",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -168,8 +167,7 @@
             },
             "value": "Project",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "FunctionExpression",
@@ -254,8 +252,7 @@
               },
               "value": "Project",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -266,8 +263,7 @@
             },
             "value": "prototype",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",

@@ -1182,8 +1182,7 @@
                     },
                     "value": "substr",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [
                   {
@@ -1780,8 +1779,7 @@
                     },
                     "value": "substr",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [
                   {

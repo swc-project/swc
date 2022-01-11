@@ -66,8 +66,7 @@
                 },
                 "value": "toStringTag",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           },
           "function": {
@@ -306,35 +305,41 @@
                   "optional": false
                 },
                 "property": {
-                  "type": "MemberExpression",
+                  "type": "Computed",
                   "span": {
-                    "start": 138,
-                    "end": 156,
+                    "start": 136,
+                    "end": 157,
                     "ctxt": 0
                   },
-                  "object": {
-                    "type": "Identifier",
+                  "expression": {
+                    "type": "MemberExpression",
                     "span": {
                       "start": 138,
-                      "end": 144,
-                      "ctxt": 0
-                    },
-                    "value": "Symbol",
-                    "optional": false
-                  },
-                  "property": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 145,
                       "end": 156,
                       "ctxt": 0
                     },
-                    "value": "toStringTag",
-                    "optional": false
-                  },
-                  "computed": false
-                },
-                "computed": true
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 138,
+                        "end": 144,
+                        "ctxt": 0
+                      },
+                      "value": "Symbol",
+                      "optional": false
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 145,
+                        "end": 156,
+                        "ctxt": 0
+                      },
+                      "value": "toStringTag",
+                      "optional": false
+                    }
+                  }
+                }
               },
               "arguments": [],
               "typeArguments": null
@@ -348,8 +353,7 @@
               },
               "value": "x",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }

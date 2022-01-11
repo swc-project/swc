@@ -185,7 +185,7 @@ where
         node.visit_mut_children_with(self);
 
         match &node.callee {
-            ExprOrSuper::Expr(e) => {
+            Callee::Expr(e) => {
                 match &**e {
                     Expr::Ident(i) => {
                         // TODO: Check for global mark
@@ -360,12 +360,11 @@ impl VisitMut for DefaultHandler {
                 if i.sym == js_word!("default") {
                     *e = Expr::Member(MemberExpr {
                         span: i.span,
-                        obj: ExprOrSuper::Expr(Box::new(Expr::Ident(Ident::new(
+                        obj: Box::new(Expr::Ident(Ident::new(
                             "module".into(),
                             DUMMY_SP.with_ctxt(self.local_ctxt),
-                        )))),
-                        prop: Box::new(Expr::Ident(quote_ident!("exports"))),
-                        computed: false,
+                        ))),
+                        prop: MemberProp::Ident(quote_ident!("exports")),
                     });
                     return;
                 }
@@ -377,8 +376,14 @@ impl VisitMut for DefaultHandler {
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
         e.obj.visit_mut_with(self);
 
-        if e.computed {
-            e.prop.visit_mut_with(self);
+        if let MemberProp::Computed(c) = &mut e.prop {
+            c.visit_mut_with(self);
+        }
+    }
+
+    fn visit_mut_super_prop_expr(&mut self, e: &mut SuperPropExpr) {
+        if let SuperProp::Computed(c) = &mut e.prop {
+            c.visit_mut_with(self);
         }
     }
 }

@@ -178,8 +178,7 @@
                     },
                     "value": "sp",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "property": {
                   "type": "Identifier",
@@ -190,8 +189,7 @@
                   },
                   "value": "y",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "CallExpression",
@@ -240,8 +238,7 @@
                         },
                         "value": "sp",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "property": {
                       "type": "Identifier",
@@ -252,8 +249,7 @@
                       },
                       "value": "r",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "property": {
                     "type": "Identifier",
@@ -264,8 +260,7 @@
                     },
                     "value": "find",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [
                   {
@@ -340,8 +335,7 @@
                             },
                             "value": "c",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "ParenthesisExpression",
@@ -383,8 +377,7 @@
                                 },
                                 "value": "xp",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "consequent": {
                               "type": "StringLiteral",
@@ -495,8 +488,7 @@
                 },
                 "value": "c",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "body": {
               "type": "BlockStatement",
@@ -547,8 +539,7 @@
                         },
                         "value": "v",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "UnaryExpression",
@@ -611,8 +602,7 @@
                                 },
                                 "value": "t",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "property": {
                               "type": "Identifier",
@@ -623,8 +613,7 @@
                               },
                               "value": "length",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           }
                         }
                       }

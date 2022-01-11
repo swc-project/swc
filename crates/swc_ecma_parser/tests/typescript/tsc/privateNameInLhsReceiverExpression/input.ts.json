@@ -248,147 +248,153 @@
                           "optional": false
                         },
                         "property": {
-                          "type": "MemberExpression",
+                          "type": "Computed",
                           "span": {
-                            "start": 112,
-                            "end": 158,
+                            "start": 108,
+                            "end": 159,
                             "ctxt": 0
                           },
-                          "object": {
-                            "type": "ParenthesisExpression",
+                          "expression": {
+                            "type": "MemberExpression",
                             "span": {
                               "start": 112,
-                              "end": 156,
-                              "ctxt": 0
-                            },
-                            "expression": {
-                              "type": "NewExpression",
-                              "span": {
-                                "start": 113,
-                                "end": 155,
-                                "ctxt": 0
-                              },
-                              "callee": {
-                                "type": "ClassExpression",
-                                "identifier": null,
-                                "span": {
-                                  "start": 117,
-                                  "end": 155,
-                                  "ctxt": 0
-                                },
-                                "decorators": [],
-                                "body": [
-                                  {
-                                    "type": "PrivateProperty",
-                                    "span": {
-                                      "start": 125,
-                                      "end": 132,
-                                      "ctxt": 0
-                                    },
-                                    "key": {
-                                      "type": "PrivateName",
-                                      "span": {
-                                        "start": 125,
-                                        "end": 127,
-                                        "ctxt": 0
-                                      },
-                                      "id": {
-                                        "type": "Identifier",
-                                        "span": {
-                                          "start": 126,
-                                          "end": 127,
-                                          "ctxt": 0
-                                        },
-                                        "value": "x",
-                                        "optional": false
-                                      }
-                                    },
-                                    "value": {
-                                      "type": "NumericLiteral",
-                                      "span": {
-                                        "start": 130,
-                                        "end": 131,
-                                        "ctxt": 0
-                                      },
-                                      "value": 1.0
-                                    },
-                                    "typeAnnotation": null,
-                                    "isStatic": false,
-                                    "decorators": [],
-                                    "computed": false,
-                                    "accessibility": null,
-                                    "isAbstract": false,
-                                    "isOptional": false,
-                                    "isOverride": false,
-                                    "readonly": false,
-                                    "definite": false
-                                  },
-                                  {
-                                    "type": "ClassProperty",
-                                    "span": {
-                                      "start": 133,
-                                      "end": 153,
-                                      "ctxt": 0
-                                    },
-                                    "key": {
-                                      "type": "Identifier",
-                                      "span": {
-                                        "start": 142,
-                                        "end": 143,
-                                        "ctxt": 0
-                                      },
-                                      "value": "s",
-                                      "optional": false
-                                    },
-                                    "value": {
-                                      "type": "StringLiteral",
-                                      "span": {
-                                        "start": 146,
-                                        "end": 152,
-                                        "ctxt": 0
-                                      },
-                                      "value": "prop",
-                                      "hasEscape": false,
-                                      "kind": {
-                                        "type": "normal",
-                                        "containsQuote": true
-                                      }
-                                    },
-                                    "typeAnnotation": null,
-                                    "isStatic": false,
-                                    "decorators": [],
-                                    "accessibility": null,
-                                    "isAbstract": false,
-                                    "isOptional": false,
-                                    "isOverride": false,
-                                    "readonly": true,
-                                    "declare": false,
-                                    "definite": false
-                                  }
-                                ],
-                                "superClass": null,
-                                "isAbstract": false,
-                                "typeParams": null,
-                                "superTypeParams": null,
-                                "implements": []
-                              },
-                              "arguments": null,
-                              "typeArguments": null
-                            }
-                          },
-                          "property": {
-                            "type": "Identifier",
-                            "span": {
-                              "start": 157,
                               "end": 158,
                               "ctxt": 0
                             },
-                            "value": "s",
-                            "optional": false
-                          },
-                          "computed": false
-                        },
-                        "computed": true
+                            "object": {
+                              "type": "ParenthesisExpression",
+                              "span": {
+                                "start": 112,
+                                "end": 156,
+                                "ctxt": 0
+                              },
+                              "expression": {
+                                "type": "NewExpression",
+                                "span": {
+                                  "start": 113,
+                                  "end": 155,
+                                  "ctxt": 0
+                                },
+                                "callee": {
+                                  "type": "ClassExpression",
+                                  "identifier": null,
+                                  "span": {
+                                    "start": 117,
+                                    "end": 155,
+                                    "ctxt": 0
+                                  },
+                                  "decorators": [],
+                                  "body": [
+                                    {
+                                      "type": "PrivateProperty",
+                                      "span": {
+                                        "start": 125,
+                                        "end": 132,
+                                        "ctxt": 0
+                                      },
+                                      "key": {
+                                        "type": "PrivateName",
+                                        "span": {
+                                          "start": 125,
+                                          "end": 127,
+                                          "ctxt": 0
+                                        },
+                                        "id": {
+                                          "type": "Identifier",
+                                          "span": {
+                                            "start": 126,
+                                            "end": 127,
+                                            "ctxt": 0
+                                          },
+                                          "value": "x",
+                                          "optional": false
+                                        }
+                                      },
+                                      "value": {
+                                        "type": "NumericLiteral",
+                                        "span": {
+                                          "start": 130,
+                                          "end": 131,
+                                          "ctxt": 0
+                                        },
+                                        "value": 1.0
+                                      },
+                                      "typeAnnotation": null,
+                                      "isStatic": false,
+                                      "decorators": [],
+                                      "computed": false,
+                                      "accessibility": null,
+                                      "isAbstract": false,
+                                      "isOptional": false,
+                                      "isOverride": false,
+                                      "readonly": false,
+                                      "definite": false
+                                    },
+                                    {
+                                      "type": "ClassProperty",
+                                      "span": {
+                                        "start": 133,
+                                        "end": 153,
+                                        "ctxt": 0
+                                      },
+                                      "key": {
+                                        "type": "Identifier",
+                                        "span": {
+                                          "start": 142,
+                                          "end": 143,
+                                          "ctxt": 0
+                                        },
+                                        "value": "s",
+                                        "optional": false
+                                      },
+                                      "value": {
+                                        "type": "StringLiteral",
+                                        "span": {
+                                          "start": 146,
+                                          "end": 152,
+                                          "ctxt": 0
+                                        },
+                                        "value": "prop",
+                                        "hasEscape": false,
+                                        "kind": {
+                                          "type": "normal",
+                                          "containsQuote": true
+                                        }
+                                      },
+                                      "typeAnnotation": null,
+                                      "isStatic": false,
+                                      "decorators": [],
+                                      "accessibility": null,
+                                      "isAbstract": false,
+                                      "isOptional": false,
+                                      "isOverride": false,
+                                      "readonly": true,
+                                      "declare": false,
+                                      "definite": false
+                                    }
+                                  ],
+                                  "superClass": null,
+                                  "isAbstract": false,
+                                  "typeParams": null,
+                                  "superTypeParams": null,
+                                  "implements": []
+                                },
+                                "arguments": null,
+                                "typeArguments": null
+                              }
+                            },
+                            "property": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 157,
+                                "end": 158,
+                                "ctxt": 0
+                              },
+                              "value": "s",
+                              "optional": false
+                            }
+                          }
+                        }
                       },
                       "property": {
                         "type": "PrivateName",
@@ -407,8 +413,7 @@
                           "value": "y",
                           "optional": false
                         }
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "NumericLiteral",
@@ -461,147 +466,153 @@
                           "optional": false
                         },
                         "property": {
-                          "type": "MemberExpression",
+                          "type": "Computed",
                           "span": {
-                            "start": 180,
-                            "end": 226,
+                            "start": 176,
+                            "end": 227,
                             "ctxt": 0
                           },
-                          "object": {
-                            "type": "ParenthesisExpression",
+                          "expression": {
+                            "type": "MemberExpression",
                             "span": {
                               "start": 180,
-                              "end": 224,
-                              "ctxt": 0
-                            },
-                            "expression": {
-                              "type": "NewExpression",
-                              "span": {
-                                "start": 181,
-                                "end": 223,
-                                "ctxt": 0
-                              },
-                              "callee": {
-                                "type": "ClassExpression",
-                                "identifier": null,
-                                "span": {
-                                  "start": 185,
-                                  "end": 223,
-                                  "ctxt": 0
-                                },
-                                "decorators": [],
-                                "body": [
-                                  {
-                                    "type": "PrivateProperty",
-                                    "span": {
-                                      "start": 193,
-                                      "end": 200,
-                                      "ctxt": 0
-                                    },
-                                    "key": {
-                                      "type": "PrivateName",
-                                      "span": {
-                                        "start": 193,
-                                        "end": 195,
-                                        "ctxt": 0
-                                      },
-                                      "id": {
-                                        "type": "Identifier",
-                                        "span": {
-                                          "start": 194,
-                                          "end": 195,
-                                          "ctxt": 0
-                                        },
-                                        "value": "x",
-                                        "optional": false
-                                      }
-                                    },
-                                    "value": {
-                                      "type": "NumericLiteral",
-                                      "span": {
-                                        "start": 198,
-                                        "end": 199,
-                                        "ctxt": 0
-                                      },
-                                      "value": 1.0
-                                    },
-                                    "typeAnnotation": null,
-                                    "isStatic": false,
-                                    "decorators": [],
-                                    "computed": false,
-                                    "accessibility": null,
-                                    "isAbstract": false,
-                                    "isOptional": false,
-                                    "isOverride": false,
-                                    "readonly": false,
-                                    "definite": false
-                                  },
-                                  {
-                                    "type": "ClassProperty",
-                                    "span": {
-                                      "start": 201,
-                                      "end": 221,
-                                      "ctxt": 0
-                                    },
-                                    "key": {
-                                      "type": "Identifier",
-                                      "span": {
-                                        "start": 210,
-                                        "end": 211,
-                                        "ctxt": 0
-                                      },
-                                      "value": "s",
-                                      "optional": false
-                                    },
-                                    "value": {
-                                      "type": "StringLiteral",
-                                      "span": {
-                                        "start": 214,
-                                        "end": 220,
-                                        "ctxt": 0
-                                      },
-                                      "value": "prop",
-                                      "hasEscape": false,
-                                      "kind": {
-                                        "type": "normal",
-                                        "containsQuote": true
-                                      }
-                                    },
-                                    "typeAnnotation": null,
-                                    "isStatic": false,
-                                    "decorators": [],
-                                    "accessibility": null,
-                                    "isAbstract": false,
-                                    "isOptional": false,
-                                    "isOverride": false,
-                                    "readonly": true,
-                                    "declare": false,
-                                    "definite": false
-                                  }
-                                ],
-                                "superClass": null,
-                                "isAbstract": false,
-                                "typeParams": null,
-                                "superTypeParams": null,
-                                "implements": []
-                              },
-                              "arguments": null,
-                              "typeArguments": null
-                            }
-                          },
-                          "property": {
-                            "type": "Identifier",
-                            "span": {
-                              "start": 225,
                               "end": 226,
                               "ctxt": 0
                             },
-                            "value": "s",
-                            "optional": false
-                          },
-                          "computed": false
-                        },
-                        "computed": true
+                            "object": {
+                              "type": "ParenthesisExpression",
+                              "span": {
+                                "start": 180,
+                                "end": 224,
+                                "ctxt": 0
+                              },
+                              "expression": {
+                                "type": "NewExpression",
+                                "span": {
+                                  "start": 181,
+                                  "end": 223,
+                                  "ctxt": 0
+                                },
+                                "callee": {
+                                  "type": "ClassExpression",
+                                  "identifier": null,
+                                  "span": {
+                                    "start": 185,
+                                    "end": 223,
+                                    "ctxt": 0
+                                  },
+                                  "decorators": [],
+                                  "body": [
+                                    {
+                                      "type": "PrivateProperty",
+                                      "span": {
+                                        "start": 193,
+                                        "end": 200,
+                                        "ctxt": 0
+                                      },
+                                      "key": {
+                                        "type": "PrivateName",
+                                        "span": {
+                                          "start": 193,
+                                          "end": 195,
+                                          "ctxt": 0
+                                        },
+                                        "id": {
+                                          "type": "Identifier",
+                                          "span": {
+                                            "start": 194,
+                                            "end": 195,
+                                            "ctxt": 0
+                                          },
+                                          "value": "x",
+                                          "optional": false
+                                        }
+                                      },
+                                      "value": {
+                                        "type": "NumericLiteral",
+                                        "span": {
+                                          "start": 198,
+                                          "end": 199,
+                                          "ctxt": 0
+                                        },
+                                        "value": 1.0
+                                      },
+                                      "typeAnnotation": null,
+                                      "isStatic": false,
+                                      "decorators": [],
+                                      "computed": false,
+                                      "accessibility": null,
+                                      "isAbstract": false,
+                                      "isOptional": false,
+                                      "isOverride": false,
+                                      "readonly": false,
+                                      "definite": false
+                                    },
+                                    {
+                                      "type": "ClassProperty",
+                                      "span": {
+                                        "start": 201,
+                                        "end": 221,
+                                        "ctxt": 0
+                                      },
+                                      "key": {
+                                        "type": "Identifier",
+                                        "span": {
+                                          "start": 210,
+                                          "end": 211,
+                                          "ctxt": 0
+                                        },
+                                        "value": "s",
+                                        "optional": false
+                                      },
+                                      "value": {
+                                        "type": "StringLiteral",
+                                        "span": {
+                                          "start": 214,
+                                          "end": 220,
+                                          "ctxt": 0
+                                        },
+                                        "value": "prop",
+                                        "hasEscape": false,
+                                        "kind": {
+                                          "type": "normal",
+                                          "containsQuote": true
+                                        }
+                                      },
+                                      "typeAnnotation": null,
+                                      "isStatic": false,
+                                      "decorators": [],
+                                      "accessibility": null,
+                                      "isAbstract": false,
+                                      "isOptional": false,
+                                      "isOverride": false,
+                                      "readonly": true,
+                                      "declare": false,
+                                      "definite": false
+                                    }
+                                  ],
+                                  "superClass": null,
+                                  "isAbstract": false,
+                                  "typeParams": null,
+                                  "superTypeParams": null,
+                                  "implements": []
+                                },
+                                "arguments": null,
+                                "typeArguments": null
+                              }
+                            },
+                            "property": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 225,
+                                "end": 226,
+                                "ctxt": 0
+                              },
+                              "value": "s",
+                              "optional": false
+                            }
+                          }
+                        }
                       },
                       "property": {
                         "type": "PrivateName",
@@ -620,8 +631,7 @@
                           "value": "y",
                           "optional": false
                         }
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "NumericLiteral",

@@ -47,8 +47,7 @@
             },
             "value": "wrapSync",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "AssignmentExpression",
@@ -84,8 +83,7 @@
               },
               "value": "selectSeries",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "right": {
             "type": "AssignmentExpression",
@@ -121,8 +119,7 @@
                 },
                 "value": "selectLimit",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "right": {
               "type": "AssignmentExpression",
@@ -158,8 +155,7 @@
                   },
                   "value": "select",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "AssignmentExpression",
@@ -195,8 +191,7 @@
                     },
                     "value": "foldr",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "right": {
                   "type": "AssignmentExpression",
@@ -232,8 +227,7 @@
                       },
                       "value": "foldl",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "AssignmentExpression",
@@ -269,8 +263,7 @@
                         },
                         "value": "inject",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "AssignmentExpression",
@@ -306,8 +299,7 @@
                           },
                           "value": "forEachOfLimit",
                           "optional": false
-                        },
-                        "computed": false
+                        }
                       },
                       "right": {
                         "type": "AssignmentExpression",
@@ -343,8 +335,7 @@
                             },
                             "value": "forEachOfSeries",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "right": {
                           "type": "AssignmentExpression",
@@ -380,8 +371,7 @@
                               },
                               "value": "forEachOf",
                               "optional": false
-                            },
-                            "computed": false
+                            }
                           },
                           "right": {
                             "type": "AssignmentExpression",
@@ -417,8 +407,7 @@
                                 },
                                 "value": "forEachLimit",
                                 "optional": false
-                              },
-                              "computed": false
+                              }
                             },
                             "right": {
                               "type": "AssignmentExpression",
@@ -454,8 +443,7 @@
                                   },
                                   "value": "forEachSeries",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "right": {
                                 "type": "AssignmentExpression",
@@ -491,8 +479,7 @@
                                     },
                                     "value": "forEach",
                                     "optional": false
-                                  },
-                                  "computed": false
+                                  }
                                 },
                                 "right": {
                                   "type": "AssignmentExpression",
@@ -528,8 +515,7 @@
                                       },
                                       "value": "findSeries",
                                       "optional": false
-                                    },
-                                    "computed": false
+                                    }
                                   },
                                   "right": {
                                     "type": "AssignmentExpression",
@@ -565,8 +551,7 @@
                                         },
                                         "value": "findLimit",
                                         "optional": false
-                                      },
-                                      "computed": false
+                                      }
                                     },
                                     "right": {
                                       "type": "AssignmentExpression",
@@ -602,8 +587,7 @@
                                           },
                                           "value": "find",
                                           "optional": false
-                                        },
-                                        "computed": false
+                                        }
                                       },
                                       "right": {
                                         "type": "AssignmentExpression",
@@ -639,8 +623,7 @@
                                             },
                                             "value": "anySeries",
                                             "optional": false
-                                          },
-                                          "computed": false
+                                          }
                                         },
                                         "right": {
                                           "type": "AssignmentExpression",
@@ -676,8 +659,7 @@
                                               },
                                               "value": "anyLimit",
                                               "optional": false
-                                            },
-                                            "computed": false
+                                            }
                                           },
                                           "right": {
                                             "type": "AssignmentExpression",
@@ -713,8 +695,7 @@
                                                 },
                                                 "value": "any",
                                                 "optional": false
-                                              },
-                                              "computed": false
+                                              }
                                             },
                                             "right": {
                                               "type": "AssignmentExpression",
@@ -750,8 +731,7 @@
                                                   },
                                                   "value": "allSeries",
                                                   "optional": false
-                                                },
-                                                "computed": false
+                                                }
                                               },
                                               "right": {
                                                 "type": "AssignmentExpression",
@@ -787,8 +767,7 @@
                                                     },
                                                     "value": "allLimit",
                                                     "optional": false
-                                                  },
-                                                  "computed": false
+                                                  }
                                                 },
                                                 "right": {
                                                   "type": "AssignmentExpression",
@@ -824,8 +803,7 @@
                                                       },
                                                       "value": "all",
                                                       "optional": false
-                                                    },
-                                                    "computed": false
+                                                    }
                                                   },
                                                   "right": {
                                                     "type": "AssignmentExpression",
@@ -861,8 +839,7 @@
                                                         },
                                                         "value": "whilst",
                                                         "optional": false
-                                                      },
-                                                      "computed": false
+                                                      }
                                                     },
                                                     "right": {
                                                       "type": "AssignmentExpression",
@@ -898,8 +875,7 @@
                                                           },
                                                           "value": "waterfall",
                                                           "optional": false
-                                                        },
-                                                        "computed": false
+                                                        }
                                                       },
                                                       "right": {
                                                         "type": "AssignmentExpression",
@@ -935,8 +911,7 @@
                                                             },
                                                             "value": "until",
                                                             "optional": false
-                                                          },
-                                                          "computed": false
+                                                          }
                                                         },
                                                         "right": {
                                                           "type": "AssignmentExpression",
@@ -972,8 +947,7 @@
                                                               },
                                                               "value": "unmemoize",
                                                               "optional": false
-                                                            },
-                                                            "computed": false
+                                                            }
                                                           },
                                                           "right": {
                                                             "type": "AssignmentExpression",
@@ -1009,8 +983,7 @@
                                                                 },
                                                                 "value": "tryEach",
                                                                 "optional": false
-                                                              },
-                                                              "computed": false
+                                                              }
                                                             },
                                                             "right": {
                                                               "type": "AssignmentExpression",
@@ -1046,8 +1019,7 @@
                                                                   },
                                                                   "value": "transform",
                                                                   "optional": false
-                                                                },
-                                                                "computed": false
+                                                                }
                                                               },
                                                               "right": {
                                                                 "type": "AssignmentExpression",
@@ -1083,8 +1055,7 @@
                                                                     },
                                                                     "value": "timesSeries",
                                                                     "optional": false
-                                                                  },
-                                                                  "computed": false
+                                                                  }
                                                                 },
                                                                 "right": {
                                                                   "type": "AssignmentExpression",
@@ -1120,8 +1091,7 @@
                                                                       },
                                                                       "value": "timesLimit",
                                                                       "optional": false
-                                                                    },
-                                                                    "computed": false
+                                                                    }
                                                                   },
                                                                   "right": {
                                                                     "type": "AssignmentExpression",
@@ -1157,8 +1127,7 @@
                                                                         },
                                                                         "value": "times",
                                                                         "optional": false
-                                                                      },
-                                                                      "computed": false
+                                                                      }
                                                                     },
                                                                     "right": {
                                                                       "type": "AssignmentExpression",
@@ -1194,8 +1163,7 @@
                                                                           },
                                                                           "value": "timeout",
                                                                           "optional": false
-                                                                        },
-                                                                        "computed": false
+                                                                        }
                                                                       },
                                                                       "right": {
                                                                         "type": "AssignmentExpression",
@@ -1231,8 +1199,7 @@
                                                                             },
                                                                             "value": "sortBy",
                                                                             "optional": false
-                                                                          },
-                                                                          "computed": false
+                                                                          }
                                                                         },
                                                                         "right": {
                                                                           "type": "AssignmentExpression",
@@ -1268,8 +1235,7 @@
                                                                               },
                                                                               "value": "someSeries",
                                                                               "optional": false
-                                                                            },
-                                                                            "computed": false
+                                                                            }
                                                                           },
                                                                           "right": {
                                                                             "type": "AssignmentExpression",
@@ -1305,8 +1271,7 @@
                                                                                 },
                                                                                 "value": "someLimit",
                                                                                 "optional": false
-                                                                              },
-                                                                              "computed": false
+                                                                              }
                                                                             },
                                                                             "right": {
                                                                               "type": "AssignmentExpression",
@@ -1342,8 +1307,7 @@
                                                                                   },
                                                                                   "value": "some",
                                                                                   "optional": false
-                                                                                },
-                                                                                "computed": false
+                                                                                }
                                                                               },
                                                                               "right": {
                                                                                 "type": "AssignmentExpression",
@@ -1379,8 +1343,7 @@
                                                                                     },
                                                                                     "value": "setImmediate",
                                                                                     "optional": false
-                                                                                  },
-                                                                                  "computed": false
+                                                                                  }
                                                                                 },
                                                                                 "right": {
                                                                                   "type": "AssignmentExpression",
@@ -1416,8 +1379,7 @@
                                                                                       },
                                                                                       "value": "series",
                                                                                       "optional": false
-                                                                                    },
-                                                                                    "computed": false
+                                                                                    }
                                                                                   },
                                                                                   "right": {
                                                                                     "type": "AssignmentExpression",
@@ -1453,8 +1415,7 @@
                                                                                         },
                                                                                         "value": "seq",
                                                                                         "optional": false
-                                                                                      },
-                                                                                      "computed": false
+                                                                                      }
                                                                                     },
                                                                                     "right": {
                                                                                       "type": "AssignmentExpression",
@@ -1490,8 +1451,7 @@
                                                                                           },
                                                                                           "value": "retryable",
                                                                                           "optional": false
-                                                                                        },
-                                                                                        "computed": false
+                                                                                        }
                                                                                       },
                                                                                       "right": {
                                                                                         "type": "AssignmentExpression",
@@ -1527,8 +1487,7 @@
                                                                                             },
                                                                                             "value": "retry",
                                                                                             "optional": false
-                                                                                          },
-                                                                                          "computed": false
+                                                                                          }
                                                                                         },
                                                                                         "right": {
                                                                                           "type": "AssignmentExpression",
@@ -1564,8 +1523,7 @@
                                                                                               },
                                                                                               "value": "rejectSeries",
                                                                                               "optional": false
-                                                                                            },
-                                                                                            "computed": false
+                                                                                            }
                                                                                           },
                                                                                           "right": {
                                                                                             "type": "AssignmentExpression",
@@ -1601,8 +1559,7 @@
                                                                                                 },
                                                                                                 "value": "rejectLimit",
                                                                                                 "optional": false
-                                                                                              },
-                                                                                              "computed": false
+                                                                                              }
                                                                                             },
                                                                                             "right": {
                                                                                               "type": "AssignmentExpression",
@@ -1638,8 +1595,7 @@
                                                                                                   },
                                                                                                   "value": "reject",
                                                                                                   "optional": false
-                                                                                                },
-                                                                                                "computed": false
+                                                                                                }
                                                                                               },
                                                                                               "right": {
                                                                                                 "type": "AssignmentExpression",
@@ -1675,8 +1631,7 @@
                                                                                                     },
                                                                                                     "value": "reflectAll",
                                                                                                     "optional": false
-                                                                                                  },
-                                                                                                  "computed": false
+                                                                                                  }
                                                                                                 },
                                                                                                 "right": {
                                                                                                   "type": "AssignmentExpression",
@@ -1712,8 +1667,7 @@
                                                                                                       },
                                                                                                       "value": "reflect",
                                                                                                       "optional": false
-                                                                                                    },
-                                                                                                    "computed": false
+                                                                                                    }
                                                                                                   },
                                                                                                   "right": {
                                                                                                     "type": "AssignmentExpression",
@@ -1749,8 +1703,7 @@
                                                                                                         },
                                                                                                         "value": "reduceRight",
                                                                                                         "optional": false
-                                                                                                      },
-                                                                                                      "computed": false
+                                                                                                      }
                                                                                                     },
                                                                                                     "right": {
                                                                                                       "type": "AssignmentExpression",
@@ -1786,8 +1739,7 @@
                                                                                                           },
                                                                                                           "value": "reduce",
                                                                                                           "optional": false
-                                                                                                        },
-                                                                                                        "computed": false
+                                                                                                        }
                                                                                                       },
                                                                                                       "right": {
                                                                                                         "type": "AssignmentExpression",
@@ -1823,8 +1775,7 @@
                                                                                                             },
                                                                                                             "value": "race",
                                                                                                             "optional": false
-                                                                                                          },
-                                                                                                          "computed": false
+                                                                                                          }
                                                                                                         },
                                                                                                         "right": {
                                                                                                           "type": "AssignmentExpression",
@@ -1860,8 +1811,7 @@
                                                                                                               },
                                                                                                               "value": "queue",
                                                                                                               "optional": false
-                                                                                                            },
-                                                                                                            "computed": false
+                                                                                                            }
                                                                                                           },
                                                                                                           "right": {
                                                                                                             "type": "AssignmentExpression",
@@ -1897,8 +1847,7 @@
                                                                                                                 },
                                                                                                                 "value": "priorityQueue",
                                                                                                                 "optional": false
-                                                                                                              },
-                                                                                                              "computed": false
+                                                                                                              }
                                                                                                             },
                                                                                                             "right": {
                                                                                                               "type": "AssignmentExpression",
@@ -1934,8 +1883,7 @@
                                                                                                                   },
                                                                                                                   "value": "parallelLimit",
                                                                                                                   "optional": false
-                                                                                                                },
-                                                                                                                "computed": false
+                                                                                                                }
                                                                                                               },
                                                                                                               "right": {
                                                                                                                 "type": "AssignmentExpression",
@@ -1971,8 +1919,7 @@
                                                                                                                     },
                                                                                                                     "value": "parallel",
                                                                                                                     "optional": false
-                                                                                                                  },
-                                                                                                                  "computed": false
+                                                                                                                  }
                                                                                                                 },
                                                                                                                 "right": {
                                                                                                                   "type": "AssignmentExpression",
@@ -2008,8 +1955,7 @@
                                                                                                                       },
                                                                                                                       "value": "nextTick",
                                                                                                                       "optional": false
-                                                                                                                    },
-                                                                                                                    "computed": false
+                                                                                                                    }
                                                                                                                   },
                                                                                                                   "right": {
                                                                                                                     "type": "AssignmentExpression",
@@ -2045,8 +1991,7 @@
                                                                                                                         },
                                                                                                                         "value": "memoize",
                                                                                                                         "optional": false
-                                                                                                                      },
-                                                                                                                      "computed": false
+                                                                                                                      }
                                                                                                                     },
                                                                                                                     "right": {
                                                                                                                       "type": "AssignmentExpression",
@@ -2082,8 +2027,7 @@
                                                                                                                           },
                                                                                                                           "value": "mapValuesSeries",
                                                                                                                           "optional": false
-                                                                                                                        },
-                                                                                                                        "computed": false
+                                                                                                                        }
                                                                                                                       },
                                                                                                                       "right": {
                                                                                                                         "type": "AssignmentExpression",
@@ -2119,8 +2063,7 @@
                                                                                                                             },
                                                                                                                             "value": "mapValuesLimit",
                                                                                                                             "optional": false
-                                                                                                                          },
-                                                                                                                          "computed": false
+                                                                                                                          }
                                                                                                                         },
                                                                                                                         "right": {
                                                                                                                           "type": "AssignmentExpression",
@@ -2156,8 +2099,7 @@
                                                                                                                               },
                                                                                                                               "value": "mapValues",
                                                                                                                               "optional": false
-                                                                                                                            },
-                                                                                                                            "computed": false
+                                                                                                                            }
                                                                                                                           },
                                                                                                                           "right": {
                                                                                                                             "type": "AssignmentExpression",
@@ -2193,8 +2135,7 @@
                                                                                                                                 },
                                                                                                                                 "value": "mapSeries",
                                                                                                                                 "optional": false
-                                                                                                                              },
-                                                                                                                              "computed": false
+                                                                                                                              }
                                                                                                                             },
                                                                                                                             "right": {
                                                                                                                               "type": "AssignmentExpression",
@@ -2230,8 +2171,7 @@
                                                                                                                                   },
                                                                                                                                   "value": "mapLimit",
                                                                                                                                   "optional": false
-                                                                                                                                },
-                                                                                                                                "computed": false
+                                                                                                                                }
                                                                                                                               },
                                                                                                                               "right": {
                                                                                                                                 "type": "AssignmentExpression",
@@ -2267,8 +2207,7 @@
                                                                                                                                     },
                                                                                                                                     "value": "map",
                                                                                                                                     "optional": false
-                                                                                                                                  },
-                                                                                                                                  "computed": false
+                                                                                                                                  }
                                                                                                                                 },
                                                                                                                                 "right": {
                                                                                                                                   "type": "AssignmentExpression",
@@ -2304,8 +2243,7 @@
                                                                                                                                       },
                                                                                                                                       "value": "log",
                                                                                                                                       "optional": false
-                                                                                                                                    },
-                                                                                                                                    "computed": false
+                                                                                                                                    }
                                                                                                                                   },
                                                                                                                                   "right": {
                                                                                                                                     "type": "AssignmentExpression",
@@ -2341,8 +2279,7 @@
                                                                                                                                         },
                                                                                                                                         "value": "groupBySeries",
                                                                                                                                         "optional": false
-                                                                                                                                      },
-                                                                                                                                      "computed": false
+                                                                                                                                      }
                                                                                                                                     },
                                                                                                                                     "right": {
                                                                                                                                       "type": "AssignmentExpression",
@@ -2378,8 +2315,7 @@
                                                                                                                                           },
                                                                                                                                           "value": "groupByLimit",
                                                                                                                                           "optional": false
-                                                                                                                                        },
-                                                                                                                                        "computed": false
+                                                                                                                                        }
                                                                                                                                       },
                                                                                                                                       "right": {
                                                                                                                                         "type": "AssignmentExpression",
@@ -2415,8 +2351,7 @@
                                                                                                                                             },
                                                                                                                                             "value": "groupBy",
                                                                                                                                             "optional": false
-                                                                                                                                          },
-                                                                                                                                          "computed": false
+                                                                                                                                          }
                                                                                                                                         },
                                                                                                                                         "right": {
                                                                                                                                           "type": "AssignmentExpression",
@@ -2452,8 +2387,7 @@
                                                                                                                                               },
                                                                                                                                               "value": "forever",
                                                                                                                                               "optional": false
-                                                                                                                                            },
-                                                                                                                                            "computed": false
+                                                                                                                                            }
                                                                                                                                           },
                                                                                                                                           "right": {
                                                                                                                                             "type": "AssignmentExpression",
@@ -2489,8 +2423,7 @@
                                                                                                                                                 },
                                                                                                                                                 "value": "filterSeries",
                                                                                                                                                 "optional": false
-                                                                                                                                              },
-                                                                                                                                              "computed": false
+                                                                                                                                              }
                                                                                                                                             },
                                                                                                                                             "right": {
                                                                                                                                               "type": "AssignmentExpression",
@@ -2526,8 +2459,7 @@
                                                                                                                                                   },
                                                                                                                                                   "value": "filterLimit",
                                                                                                                                                   "optional": false
-                                                                                                                                                },
-                                                                                                                                                "computed": false
+                                                                                                                                                }
                                                                                                                                               },
                                                                                                                                               "right": {
                                                                                                                                                 "type": "AssignmentExpression",
@@ -2563,8 +2495,7 @@
                                                                                                                                                     },
                                                                                                                                                     "value": "filter",
                                                                                                                                                     "optional": false
-                                                                                                                                                  },
-                                                                                                                                                  "computed": false
+                                                                                                                                                  }
                                                                                                                                                 },
                                                                                                                                                 "right": {
                                                                                                                                                   "type": "AssignmentExpression",
@@ -2600,8 +2531,7 @@
                                                                                                                                                       },
                                                                                                                                                       "value": "everySeries",
                                                                                                                                                       "optional": false
-                                                                                                                                                    },
-                                                                                                                                                    "computed": false
+                                                                                                                                                    }
                                                                                                                                                   },
                                                                                                                                                   "right": {
                                                                                                                                                     "type": "AssignmentExpression",
@@ -2637,8 +2567,7 @@
                                                                                                                                                         },
                                                                                                                                                         "value": "everyLimit",
                                                                                                                                                         "optional": false
-                                                                                                                                                      },
-                                                                                                                                                      "computed": false
+                                                                                                                                                      }
                                                                                                                                                     },
                                                                                                                                                     "right": {
                                                                                                                                                       "type": "AssignmentExpression",
@@ -2674,8 +2603,7 @@
                                                                                                                                                           },
                                                                                                                                                           "value": "every",
                                                                                                                                                           "optional": false
-                                                                                                                                                        },
-                                                                                                                                                        "computed": false
+                                                                                                                                                        }
                                                                                                                                                       },
                                                                                                                                                       "right": {
                                                                                                                                                         "type": "AssignmentExpression",
@@ -2711,8 +2639,7 @@
                                                                                                                                                             },
                                                                                                                                                             "value": "ensureAsync",
                                                                                                                                                             "optional": false
-                                                                                                                                                          },
-                                                                                                                                                          "computed": false
+                                                                                                                                                          }
                                                                                                                                                         },
                                                                                                                                                         "right": {
                                                                                                                                                           "type": "AssignmentExpression",
@@ -2748,8 +2675,7 @@
                                                                                                                                                               },
                                                                                                                                                               "value": "eachSeries",
                                                                                                                                                               "optional": false
-                                                                                                                                                            },
-                                                                                                                                                            "computed": false
+                                                                                                                                                            }
                                                                                                                                                           },
                                                                                                                                                           "right": {
                                                                                                                                                             "type": "AssignmentExpression",
@@ -2785,8 +2711,7 @@
                                                                                                                                                                 },
                                                                                                                                                                 "value": "eachOfSeries",
                                                                                                                                                                 "optional": false
-                                                                                                                                                              },
-                                                                                                                                                              "computed": false
+                                                                                                                                                              }
                                                                                                                                                             },
                                                                                                                                                             "right": {
                                                                                                                                                               "type": "AssignmentExpression",
@@ -2822,8 +2747,7 @@
                                                                                                                                                                   },
                                                                                                                                                                   "value": "eachOfLimit",
                                                                                                                                                                   "optional": false
-                                                                                                                                                                },
-                                                                                                                                                                "computed": false
+                                                                                                                                                                }
                                                                                                                                                               },
                                                                                                                                                               "right": {
                                                                                                                                                                 "type": "AssignmentExpression",
@@ -2859,8 +2783,7 @@
                                                                                                                                                                     },
                                                                                                                                                                     "value": "eachOf",
                                                                                                                                                                     "optional": false
-                                                                                                                                                                  },
-                                                                                                                                                                  "computed": false
+                                                                                                                                                                  }
                                                                                                                                                                 },
                                                                                                                                                                 "right": {
                                                                                                                                                                   "type": "AssignmentExpression",
@@ -2896,8 +2819,7 @@
                                                                                                                                                                       },
                                                                                                                                                                       "value": "eachLimit",
                                                                                                                                                                       "optional": false
-                                                                                                                                                                    },
-                                                                                                                                                                    "computed": false
+                                                                                                                                                                    }
                                                                                                                                                                   },
                                                                                                                                                                   "right": {
                                                                                                                                                                     "type": "AssignmentExpression",
@@ -2933,8 +2855,7 @@
                                                                                                                                                                         },
                                                                                                                                                                         "value": "each",
                                                                                                                                                                         "optional": false
-                                                                                                                                                                      },
-                                                                                                                                                                      "computed": false
+                                                                                                                                                                      }
                                                                                                                                                                     },
                                                                                                                                                                     "right": {
                                                                                                                                                                       "type": "AssignmentExpression",
@@ -2970,8 +2891,7 @@
                                                                                                                                                                           },
                                                                                                                                                                           "value": "during",
                                                                                                                                                                           "optional": false
-                                                                                                                                                                        },
-                                                                                                                                                                        "computed": false
+                                                                                                                                                                        }
                                                                                                                                                                       },
                                                                                                                                                                       "right": {
                                                                                                                                                                         "type": "AssignmentExpression",
@@ -3007,8 +2927,7 @@
                                                                                                                                                                             },
                                                                                                                                                                             "value": "doWhilst",
                                                                                                                                                                             "optional": false
-                                                                                                                                                                          },
-                                                                                                                                                                          "computed": false
+                                                                                                                                                                          }
                                                                                                                                                                         },
                                                                                                                                                                         "right": {
                                                                                                                                                                           "type": "AssignmentExpression",
@@ -3044,8 +2963,7 @@
                                                                                                                                                                               },
                                                                                                                                                                               "value": "doUntil",
                                                                                                                                                                               "optional": false
-                                                                                                                                                                            },
-                                                                                                                                                                            "computed": false
+                                                                                                                                                                            }
                                                                                                                                                                           },
                                                                                                                                                                           "right": {
                                                                                                                                                                             "type": "AssignmentExpression",
@@ -3081,8 +2999,7 @@
                                                                                                                                                                                 },
                                                                                                                                                                                 "value": "doDuring",
                                                                                                                                                                                 "optional": false
-                                                                                                                                                                              },
-                                                                                                                                                                              "computed": false
+                                                                                                                                                                              }
                                                                                                                                                                             },
                                                                                                                                                                             "right": {
                                                                                                                                                                               "type": "AssignmentExpression",
@@ -3118,8 +3035,7 @@
                                                                                                                                                                                   },
                                                                                                                                                                                   "value": "dir",
                                                                                                                                                                                   "optional": false
-                                                                                                                                                                                },
-                                                                                                                                                                                "computed": false
+                                                                                                                                                                                }
                                                                                                                                                                               },
                                                                                                                                                                               "right": {
                                                                                                                                                                                 "type": "AssignmentExpression",
@@ -3155,8 +3071,7 @@
                                                                                                                                                                                     },
                                                                                                                                                                                     "value": "detectSeries",
                                                                                                                                                                                     "optional": false
-                                                                                                                                                                                  },
-                                                                                                                                                                                  "computed": false
+                                                                                                                                                                                  }
                                                                                                                                                                                 },
                                                                                                                                                                                 "right": {
                                                                                                                                                                                   "type": "AssignmentExpression",
@@ -3192,8 +3107,7 @@
                                                                                                                                                                                       },
                                                                                                                                                                                       "value": "detectLimit",
                                                                                                                                                                                       "optional": false
-                                                                                                                                                                                    },
-                                                                                                                                                                                    "computed": false
+                                                                                                                                                                                    }
                                                                                                                                                                                   },
                                                                                                                                                                                   "right": {
                                                                                                                                                                                     "type": "AssignmentExpression",
@@ -3229,8 +3143,7 @@
                                                                                                                                                                                         },
                                                                                                                                                                                         "value": "detect",
                                                                                                                                                                                         "optional": false
-                                                                                                                                                                                      },
-                                                                                                                                                                                      "computed": false
+                                                                                                                                                                                      }
                                                                                                                                                                                     },
                                                                                                                                                                                     "right": {
                                                                                                                                                                                       "type": "AssignmentExpression",
@@ -3266,8 +3179,7 @@
                                                                                                                                                                                           },
                                                                                                                                                                                           "value": "constant",
                                                                                                                                                                                           "optional": false
-                                                                                                                                                                                        },
-                                                                                                                                                                                        "computed": false
+                                                                                                                                                                                        }
                                                                                                                                                                                       },
                                                                                                                                                                                       "right": {
                                                                                                                                                                                         "type": "AssignmentExpression",
@@ -3303,8 +3215,7 @@
                                                                                                                                                                                             },
                                                                                                                                                                                             "value": "concatSeries",
                                                                                                                                                                                             "optional": false
-                                                                                                                                                                                          },
-                                                                                                                                                                                          "computed": false
+                                                                                                                                                                                          }
                                                                                                                                                                                         },
                                                                                                                                                                                         "right": {
                                                                                                                                                                                           "type": "AssignmentExpression",
@@ -3340,8 +3251,7 @@
                                                                                                                                                                                               },
                                                                                                                                                                                               "value": "concatLimit",
                                                                                                                                                                                               "optional": false
-                                                                                                                                                                                            },
-                                                                                                                                                                                            "computed": false
+                                                                                                                                                                                            }
                                                                                                                                                                                           },
                                                                                                                                                                                           "right": {
                                                                                                                                                                                             "type": "AssignmentExpression",
@@ -3377,8 +3287,7 @@
                                                                                                                                                                                                 },
                                                                                                                                                                                                 "value": "concat",
                                                                                                                                                                                                 "optional": false
-                                                                                                                                                                                              },
-                                                                                                                                                                                              "computed": false
+                                                                                                                                                                                              }
                                                                                                                                                                                             },
                                                                                                                                                                                             "right": {
                                                                                                                                                                                               "type": "AssignmentExpression",
@@ -3414,8 +3323,7 @@
                                                                                                                                                                                                   },
                                                                                                                                                                                                   "value": "compose",
                                                                                                                                                                                                   "optional": false
-                                                                                                                                                                                                },
-                                                                                                                                                                                                "computed": false
+                                                                                                                                                                                                }
                                                                                                                                                                                               },
                                                                                                                                                                                               "right": {
                                                                                                                                                                                                 "type": "AssignmentExpression",
@@ -3451,8 +3359,7 @@
                                                                                                                                                                                                     },
                                                                                                                                                                                                     "value": "cargo",
                                                                                                                                                                                                     "optional": false
-                                                                                                                                                                                                  },
-                                                                                                                                                                                                  "computed": false
+                                                                                                                                                                                                  }
                                                                                                                                                                                                 },
                                                                                                                                                                                                 "right": {
                                                                                                                                                                                                   "type": "AssignmentExpression",
@@ -3488,8 +3395,7 @@
                                                                                                                                                                                                       },
                                                                                                                                                                                                       "value": "autoInject",
                                                                                                                                                                                                       "optional": false
-                                                                                                                                                                                                    },
-                                                                                                                                                                                                    "computed": false
+                                                                                                                                                                                                    }
                                                                                                                                                                                                   },
                                                                                                                                                                                                   "right": {
                                                                                                                                                                                                     "type": "AssignmentExpression",
@@ -3525,8 +3431,7 @@
                                                                                                                                                                                                         },
                                                                                                                                                                                                         "value": "auto",
                                                                                                                                                                                                         "optional": false
-                                                                                                                                                                                                      },
-                                                                                                                                                                                                      "computed": false
+                                                                                                                                                                                                      }
                                                                                                                                                                                                     },
                                                                                                                                                                                                     "right": {
                                                                                                                                                                                                       "type": "AssignmentExpression",
@@ -3562,8 +3467,7 @@
                                                                                                                                                                                                           },
                                                                                                                                                                                                           "value": "asyncify",
                                                                                                                                                                                                           "optional": false
-                                                                                                                                                                                                        },
-                                                                                                                                                                                                        "computed": false
+                                                                                                                                                                                                        }
                                                                                                                                                                                                       },
                                                                                                                                                                                                       "right": {
                                                                                                                                                                                                         "type": "AssignmentExpression",
@@ -3599,8 +3503,7 @@
                                                                                                                                                                                                             },
                                                                                                                                                                                                             "value": "applyEachSeries",
                                                                                                                                                                                                             "optional": false
-                                                                                                                                                                                                          },
-                                                                                                                                                                                                          "computed": false
+                                                                                                                                                                                                          }
                                                                                                                                                                                                         },
                                                                                                                                                                                                         "right": {
                                                                                                                                                                                                           "type": "AssignmentExpression",
@@ -3636,8 +3539,7 @@
                                                                                                                                                                                                               },
                                                                                                                                                                                                               "value": "applyEach",
                                                                                                                                                                                                               "optional": false
-                                                                                                                                                                                                            },
-                                                                                                                                                                                                            "computed": false
+                                                                                                                                                                                                            }
                                                                                                                                                                                                           },
                                                                                                                                                                                                           "right": {
                                                                                                                                                                                                             "type": "AssignmentExpression",
@@ -3673,8 +3575,7 @@
                                                                                                                                                                                                                 },
                                                                                                                                                                                                                 "value": "apply",
                                                                                                                                                                                                                 "optional": false
-                                                                                                                                                                                                              },
-                                                                                                                                                                                                              "computed": false
+                                                                                                                                                                                                              }
                                                                                                                                                                                                             },
                                                                                                                                                                                                             "right": {
                                                                                                                                                                                                               "type": "Identifier",

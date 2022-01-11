@@ -442,8 +442,7 @@
                 },
                 "value": "fn",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -506,8 +505,7 @@
               },
               "value": "x",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -567,8 +565,7 @@
               },
               "value": "foo",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -716,8 +713,7 @@
                 },
                 "value": "fn",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -780,8 +776,7 @@
               },
               "value": "x",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -841,8 +836,7 @@
               },
               "value": "foo",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }

@@ -133,8 +133,7 @@
                             },
                             "value": "map",
                             "optional": false
-                          },
-                          "computed": false
+                          }
                         },
                         "arguments": [
                           {

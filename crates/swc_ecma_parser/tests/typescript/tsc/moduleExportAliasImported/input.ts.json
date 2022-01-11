@@ -47,8 +47,7 @@
             },
             "value": "version",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "NumericLiteral",
@@ -136,8 +135,7 @@
             },
             "value": "exports",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",
@@ -166,14 +164,12 @@
           "ctxt": 0
         },
         "callee": {
-          "type": "Identifier",
+          "type": "Import",
           "span": {
             "start": 208,
             "end": 214,
             "ctxt": 0
-          },
-          "value": "import",
-          "optional": false
+          }
         },
         "arguments": [
           {

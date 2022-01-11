@@ -313,8 +313,7 @@
                     },
                     "value": "bind",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 }
               },
               "arguments": [

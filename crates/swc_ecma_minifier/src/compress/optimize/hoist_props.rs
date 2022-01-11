@@ -182,37 +182,24 @@ where
             Expr::Member(m) => m,
             _ => return,
         };
+        match &*member.obj {
+            Expr::Ident(obj) => {
+                if let Some(value) = self.vars_for_prop_hoisting.remove(&obj.to_id()) {
+                    member.obj = value;
+                    self.changed = true;
+                    tracing::debug!("hoist_props: Inlined a property");
+                    return;
+                }
 
-        match &member.obj {
-            ExprOrSuper::Super(_) => {}
-            ExprOrSuper::Expr(obj) => match &**obj {
-                Expr::Ident(obj) => {
-                    if let Some(value) = self.vars_for_prop_hoisting.remove(&obj.to_id()) {
-                        member.obj = ExprOrSuper::Expr(value);
+                if let MemberProp::Ident(prop) = &member.prop {
+                    if let Some(value) = self.simple_props.get(&(obj.to_id(), prop.sym.clone())) {
+                        tracing::debug!("hoist_props: Inlining `{}.{}`", obj.sym, prop.sym);
                         self.changed = true;
-                        tracing::debug!("hoist_props: Inlined a property");
-                        return;
-                    }
-
-                    if member.computed {
-                        return;
-                    }
-
-                    match &*member.prop {
-                        Expr::Ident(prop) => {
-                            if let Some(value) =
-                                self.simple_props.get(&(obj.to_id(), prop.sym.clone()))
-                            {
-                                tracing::debug!("hoist_props: Inlining `{}.{}`", obj.sym, prop.sym);
-                                self.changed = true;
-                                *e = *value.clone()
-                            }
-                        }
-                        _ => {}
+                        *e = *value.clone()
                     }
                 }
-                _ => {}
-            },
+            }
+            _ => {}
         }
     }
 }

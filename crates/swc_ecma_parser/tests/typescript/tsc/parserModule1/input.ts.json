@@ -472,8 +472,7 @@
                                   },
                                   "value": "Alert",
                                   "optional": false
-                                },
-                                "computed": false
+                                }
                               },
                               "arguments": [
                                 {

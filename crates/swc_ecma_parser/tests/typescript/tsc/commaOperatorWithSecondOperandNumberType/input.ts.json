@@ -1096,8 +1096,7 @@
                 },
                 "value": "trim",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -1617,8 +1616,7 @@
                       },
                       "value": "trim",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "arguments": [],
                   "typeArguments": null

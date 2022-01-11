@@ -82,8 +82,7 @@
                       },
                       "value": "isConcatSpreadable",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 },
                 "typeAnnotation": null,
@@ -160,8 +159,7 @@
                       },
                       "value": "isConcatSpreadable",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   }
                 },
                 "param": {

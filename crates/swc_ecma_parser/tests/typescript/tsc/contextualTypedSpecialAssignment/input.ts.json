@@ -88,8 +88,7 @@
             },
             "value": "x",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -225,8 +224,7 @@
             },
             "value": "x",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -354,8 +352,7 @@
           },
           "value": "x",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -443,8 +440,7 @@
                       },
                       "value": "s",
                       "optional": false
-                    },
-                    "computed": false
+                    }
                   },
                   "right": {
                     "type": "ObjectExpression",
@@ -616,8 +612,7 @@
                         },
                         "value": "s",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     },
                     "right": {
                       "type": "ObjectExpression",
@@ -774,8 +769,7 @@
             },
             "value": "x",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -903,8 +897,7 @@
           },
           "value": "x",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -955,8 +948,7 @@
               },
               "value": "exports",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -967,8 +959,7 @@
             },
             "value": "y",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -1103,8 +1094,7 @@
             },
             "value": "exports",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "property": {
           "type": "Identifier",
@@ -1115,8 +1105,7 @@
           },
           "value": "y",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1167,8 +1156,7 @@
               },
               "value": "prototype",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "property": {
             "type": "Identifier",
@@ -1179,8 +1167,7 @@
             },
             "value": "x",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -1315,8 +1302,7 @@
             },
             "value": "prototype",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "property": {
           "type": "Identifier",
@@ -1327,8 +1313,7 @@
           },
           "value": "x",
           "optional": false
-        },
-        "computed": false
+        }
       }
     },
     {
@@ -1406,8 +1391,7 @@
             },
             "value": "prototype",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -1543,8 +1527,7 @@
             },
             "value": "exports",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",

@@ -690,8 +690,7 @@
                         },
                         "value": "Bar",
                         "optional": false
-                      },
-                      "computed": false
+                      }
                     }
                   }
                 ]

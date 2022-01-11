@@ -47,8 +47,7 @@
             },
             "value": "isConcatSpreadable",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ObjectExpression",
@@ -116,8 +115,7 @@
             },
             "value": "toPrimitive",
             "optional": false
-          },
-          "computed": false
+          }
         }
       }
     }

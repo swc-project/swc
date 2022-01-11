@@ -198,8 +198,7 @@
                 },
                 "value": "toString",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -269,8 +268,7 @@
                 },
                 "value": "hasOwnProperty",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [
               {

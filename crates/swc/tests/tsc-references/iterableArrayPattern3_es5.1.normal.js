@@ -94,6 +94,7 @@ function _slicedToArray(arr, i) {
     return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
 }
 var _typeof = function(obj) {
+    "@swc/helpers - typeof";
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 function _unsupportedIterableToArray(o, minLen) {

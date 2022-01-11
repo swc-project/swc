@@ -306,8 +306,8 @@ where
         }
 
         match &n.callee {
-            ExprOrSuper::Super(_) => {}
-            ExprOrSuper::Expr(callee) => match &**callee {
+            Callee::Super(_) | Callee::Import(_) => {}
+            Callee::Expr(callee) => match &**callee {
                 Expr::Ident(callee) => {
                     self.data
                         .var_or_default(callee.to_id())
@@ -330,7 +330,7 @@ where
         }
 
         match &n.callee {
-            ExprOrSuper::Expr(callee) => match &**callee {
+            Callee::Expr(callee) => match &**callee {
                 Expr::Ident(Ident { sym, .. }) if *sym == *"eval" => {
                     self.scope.mark_eval_called();
                 }
@@ -600,37 +600,42 @@ where
             e.obj.visit_with(&mut *self.with_ctx(ctx));
         }
 
-        if e.computed {
+        if let MemberProp::Computed(c) = &e.prop {
             let ctx = Ctx {
                 is_exact_arg: false,
                 is_exact_reassignment: false,
                 ..self.ctx
             };
-            e.prop.visit_with(&mut *self.with_ctx(ctx));
+            c.visit_with(&mut *self.with_ctx(ctx));
         }
+        match &*e.obj {
+            Expr::Ident(obj) => {
+                let v = self.data.var_or_default(obj.to_id());
+                v.mark_has_property_access();
 
-        match &e.obj {
-            ExprOrSuper::Super(_) => {}
-            ExprOrSuper::Expr(obj) => match &**obj {
-                Expr::Ident(obj) => {
-                    let v = self.data.var_or_default(obj.to_id());
-                    v.mark_has_property_access();
-
-                    if self.ctx.in_assign_lhs {
-                        v.mark_has_property_mutation();
-                    }
-
-                    if !e.computed {
-                        match &*e.prop {
-                            Expr::Ident(prop) => {
-                                v.add_accessed_property(prop.sym.clone());
-                            }
-                            _ => {}
-                        }
-                    }
+                if self.ctx.in_assign_lhs {
+                    v.mark_has_property_mutation();
                 }
-                _ => {}
-            },
+
+                match &e.prop {
+                    MemberProp::Ident(prop) => {
+                        v.add_accessed_property(prop.sym.clone());
+                    }
+                    _ => {}
+                }
+            }
+            _ => {}
+        }
+    }
+
+    fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
+        if let SuperProp::Computed(c) = &e.prop {
+            let ctx = Ctx {
+                is_exact_arg: false,
+                is_exact_reassignment: false,
+                ..self.ctx
+            };
+            c.visit_with(&mut *self.with_ctx(ctx));
         }
     }
 

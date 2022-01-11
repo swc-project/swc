@@ -375,8 +375,7 @@
             },
             "value": "s",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "CallExpression",
@@ -418,8 +417,7 @@
                 },
                 "value": "s",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "property": {
               "type": "Identifier",
@@ -430,8 +428,7 @@
               },
               "value": "toFixed",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "arguments": [],
           "typeArguments": null

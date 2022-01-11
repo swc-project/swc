@@ -3578,8 +3578,7 @@
                     },
                     "value": "toFixed",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [],
                 "typeArguments": null
@@ -3674,8 +3673,7 @@
                     },
                     "value": "substr",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [
                   {
@@ -3776,8 +3774,7 @@
                   },
                   "value": "blah",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "async": false,
               "generator": false,

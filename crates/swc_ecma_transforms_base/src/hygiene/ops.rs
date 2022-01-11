@@ -185,8 +185,15 @@ impl<'a> VisitMut for Operator<'a> {
         expr.span.visit_mut_with(self);
         expr.obj.visit_mut_with(self);
 
-        if expr.computed {
-            expr.prop.visit_mut_with(self)
+        if let MemberProp::Computed(c) = &mut expr.prop {
+            c.visit_mut_with(self)
+        }
+    }
+
+    fn visit_mut_super_prop_expr(&mut self, expr: &mut SuperPropExpr) {
+        expr.span.visit_mut_with(self);
+        if let SuperProp::Computed(c) = &mut expr.prop {
+            c.visit_mut_with(self);
         }
     }
 

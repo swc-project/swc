@@ -829,8 +829,7 @@
               },
               "value": "x",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }
@@ -890,8 +889,7 @@
               },
               "value": "w",
               "optional": false
-            },
-            "computed": false
+            }
           },
           "definite": false
         }

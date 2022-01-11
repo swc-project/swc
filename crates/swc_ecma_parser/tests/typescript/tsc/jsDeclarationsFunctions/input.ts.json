@@ -131,8 +131,7 @@
             },
             "value": "cat",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "StringLiteral",
@@ -233,8 +232,7 @@
             },
             "value": "Cls",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "ClassExpression",
@@ -593,8 +591,7 @@
             },
             "value": "self",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",
@@ -718,8 +715,7 @@
                   },
                   "value": "x",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "CallExpression",
@@ -754,8 +750,7 @@
                     },
                     "value": "y",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [],
                 "typeArguments": null
@@ -912,8 +907,7 @@
                   },
                   "value": "x",
                   "optional": false
-                },
-                "computed": false
+                }
               },
               "right": {
                 "type": "CallExpression",
@@ -948,8 +942,7 @@
                     },
                     "value": "y",
                     "optional": false
-                  },
-                  "computed": false
+                  }
                 },
                 "arguments": [],
                 "typeArguments": null

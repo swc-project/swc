@@ -411,8 +411,7 @@
             },
             "value": "test",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "right": {
           "type": "Identifier",
@@ -466,8 +465,7 @@
             },
             "value": "test",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -521,8 +519,7 @@
             },
             "value": "test",
             "optional": false
-          },
-          "computed": false
+          }
         },
         "arguments": [],
         "typeArguments": null
@@ -575,8 +572,7 @@
               },
               "value": "test",
               "optional": false
-            },
-            "computed": false
+            }
           }
         },
         "arguments": [],
@@ -644,8 +640,7 @@
                   },
                   "value": "test",
                   "optional": false
-                },
-                "computed": false
+                }
               }
             }
           }
@@ -708,8 +703,7 @@
                 },
                 "value": "test",
                 "optional": false
-              },
-              "computed": false
+              }
             }
           }
         },
@@ -764,8 +758,7 @@
               },
               "value": "test",
               "optional": false
-            },
-            "computed": false
+            }
           }
         },
         "arguments": [],

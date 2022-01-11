@@ -215,8 +215,7 @@
                 },
                 "value": "valueOf",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -432,8 +431,7 @@
                 },
                 "value": "valueOf",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -596,8 +594,7 @@
                 },
                 "value": "valueOf",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
@@ -773,8 +770,7 @@
                 },
                 "value": "valueOf",
                 "optional": false
-              },
-              "computed": false
+              }
             },
             "arguments": [],
             "typeArguments": null
