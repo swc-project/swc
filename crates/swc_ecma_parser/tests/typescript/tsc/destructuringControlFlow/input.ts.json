@@ -241,7 +241,7 @@
                         "property": {
                           "type": "Computed",
                           "span": {
-                            "start": 105,
+                            "start": 108,
                             "end": 113,
                             "ctxt": 0
                           },
@@ -513,7 +513,7 @@
                   "property": {
                     "type": "Computed",
                     "span": {
-                      "start": 253,
+                      "start": 256,
                       "end": 259,
                       "ctxt": 0
                     },
@@ -580,7 +580,7 @@
                   "property": {
                     "type": "Computed",
                     "span": {
-                      "start": 292,
+                      "start": 295,
                       "end": 298,
                       "ctxt": 0
                     },
@@ -768,7 +768,7 @@
                 "property": {
                   "type": "Computed",
                   "span": {
-                    "start": 372,
+                    "start": 375,
                     "end": 378,
                     "ctxt": 0
                   },
@@ -803,7 +803,7 @@
                 "property": {
                   "type": "Computed",
                   "span": {
-                    "start": 382,
+                    "start": 385,
                     "end": 388,
                     "ctxt": 0
                   },
@@ -875,7 +875,7 @@
                         "property": {
                           "type": "Computed",
                           "span": {
-                            "start": 409,
+                            "start": 412,
                             "end": 415,
                             "ctxt": 0
                           },
@@ -942,7 +942,7 @@
                         "property": {
                           "type": "Computed",
                           "span": {
-                            "start": 445,
+                            "start": 448,
                             "end": 451,
                             "ctxt": 0
                           },

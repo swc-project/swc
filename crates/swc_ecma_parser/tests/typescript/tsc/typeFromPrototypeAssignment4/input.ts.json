@@ -136,7 +136,7 @@
           "property": {
             "type": "Computed",
             "span": {
-              "start": 169,
+              "start": 178,
               "end": 191,
               "ctxt": 0
             },
@@ -255,7 +255,7 @@
                       "property": {
                         "type": "Computed",
                         "span": {
-                          "start": 293,
+                          "start": 302,
                           "end": 312,
                           "ctxt": 0
                         },
@@ -348,7 +348,7 @@
             "property": {
               "type": "Computed",
               "span": {
-                "start": 322,
+                "start": 331,
                 "end": 344,
                 "ctxt": 0
               },
@@ -371,7 +371,7 @@
           "property": {
             "type": "Computed",
             "span": {
-              "start": 322,
+              "start": 344,
               "end": 354,
               "ctxt": 0
             },
@@ -459,7 +459,7 @@
             "property": {
               "type": "Computed",
               "span": {
-                "start": 372,
+                "start": 381,
                 "end": 394,
                 "ctxt": 0
               },
@@ -482,7 +482,7 @@
           "property": {
             "type": "Computed",
             "span": {
-              "start": 372,
+              "start": 394,
               "end": 403,
               "ctxt": 0
             },
@@ -570,7 +570,7 @@
             "property": {
               "type": "Computed",
               "span": {
-                "start": 421,
+                "start": 430,
                 "end": 443,
                 "ctxt": 0
               },
@@ -593,7 +593,7 @@
           "property": {
             "type": "Computed",
             "span": {
-              "start": 421,
+              "start": 443,
               "end": 462,
               "ctxt": 0
             },
@@ -789,7 +789,7 @@
           "property": {
             "type": "Computed",
             "span": {
-              "start": 525,
+              "start": 529,
               "end": 539,
               "ctxt": 0
             },

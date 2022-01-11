@@ -96,10 +96,10 @@ warning: Ident
   | ^
 
 warning: ComputedPropName
- --> $DIR/tests/span/js/expr/member.js:2:1
+ --> $DIR/tests/span/js/expr/member.js:2:2
   |
 2 | c[d]
-  | ^^^^
+  |  ^^^
 
 warning: Expr
  --> $DIR/tests/span/js/expr/member.js:2:3
