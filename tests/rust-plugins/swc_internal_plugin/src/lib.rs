@@ -1,6 +1,4 @@
-use swc_plugin::{
-    ast::*, deserialize_for_plugin, serialize_for_plugin, SerializedProgram, DUMMY_SP,
-};
+use swc_plugin::{ast::*, Serialized, DUMMY_SP};
 
 struct ConsoleOutputReplacer;
 
@@ -37,19 +35,20 @@ pub fn process(ast_ptr: *mut u8, len: i32) -> (i32, i32) {
         unsafe { std::slice::from_raw_parts(ast_ptr, len.try_into().unwrap()) };
 
     // Reconstruct SerializedProgram from raw bytes
-    let serialized_program = SerializedProgram::new(raw_serialized_bytes.to_vec(), len);
+    let serialized_program = Serialized::new_for_plugin(raw_serialized_bytes, len);
 
     // TODO: Returning error pointer instead of unwrap
     let program: Program =
-        deserialize_for_plugin(&serialized_program).expect("Should able to deserialize");
+        Serialized::deserialize(&serialized_program).expect("Should able to deserialize");
 
     // Actual plugin transformation
     let transformed_program = program.fold_with(&mut as_folder(ConsoleOutputReplacer));
 
     // Serialize transformed result, return back to the host.
-    let serialized_result = serialize_for_plugin(&transformed_program)
-        .expect("Should serializable")
-        .0;
+    let serialized_result =
+        Serialized::serialize(&transformed_program).expect("Should serializable");
+
+    let serialized_result = serialized_result.as_ref();
 
     (
         serialized_result.as_ptr() as _,

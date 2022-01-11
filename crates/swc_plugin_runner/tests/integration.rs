@@ -4,10 +4,7 @@ use std::{
     path::{Path, PathBuf},
     process::{Command, Stdio},
 };
-use swc_common::{
-    plugin::{deserialize_for_plugin, serialize_for_plugin},
-    FileName,
-};
+use swc_common::{plugin::Serialized, FileName};
 use swc_ecma_ast::{CallExpr, Callee, EsVersion, Expr, Lit, MemberExpr, Program, Str};
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
 use swc_ecma_visit::{Visit, VisitWith};
@@ -93,14 +90,14 @@ fn internal() -> Result<(), Error> {
 
         let program = parser.parse_program().unwrap();
 
-        let program = serialize_for_plugin(&program).expect("Should serializable");
+        let program = Serialized::serialize(&program).expect("Should serializable");
 
         let program_bytes =
             swc_plugin_runner::apply_js_plugin("internal-test", &path, &mut None, "{}", program)
                 .expect("Plugin should apply transform");
 
         let program: Program =
-            deserialize_for_plugin(&program_bytes).expect("Should able to deserialize");
+            Serialized::deserialize(&program_bytes).expect("Should able to deserialize");
         let mut visitor = TestVisitor {
             plugin_transform_found: false,
         };
@@ -129,7 +126,7 @@ fn internal() -> Result<(), Error> {
 
         let program = parser.parse_program().unwrap();
 
-        let mut serialized_program = serialize_for_plugin(&program).expect("Should serializable");
+        let mut serialized_program = Serialized::serialize(&program).expect("Should serializable");
 
         serialized_program = swc_plugin_runner::apply_js_plugin(
             "internal-test",
@@ -151,7 +148,7 @@ fn internal() -> Result<(), Error> {
         .expect("Plugin should apply transform");
 
         let program: Program =
-            deserialize_for_plugin(&serialized_program).expect("Should able to deserialize");
+            Serialized::deserialize(&serialized_program).expect("Should able to deserialize");
         let mut visitor = TestVisitor {
             plugin_transform_found: false,
         };

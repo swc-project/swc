@@ -44,9 +44,9 @@ impl RustPlugins {
     #[cfg(feature = "plugin")]
     fn apply(&mut self, n: Program) -> Result<Program, anyhow::Error> {
         use anyhow::Context;
-        use swc_common::plugin::{deserialize_for_plugin, serialize_for_plugin};
+        use swc_common::plugin::Serialized;
 
-        let mut serialized = serialize_for_plugin(&n)?;
+        let mut serialized = Serialized::serialize(&n)?;
 
         // Run plugin transformation against current program.
         // We do not serialize / deserialize between each plugin execution but
@@ -71,9 +71,9 @@ impl RustPlugins {
             }
         }
 
-        // Plugin transformation is complete deserialize transformed bytes back
+        // Plugin transformation is done. Deserialize transformed bytes back
         // into Program
-        deserialize_for_plugin(&serialized)
+        Serialized::deserialize(&serialized)
     }
 }
 

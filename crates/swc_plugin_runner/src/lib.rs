@@ -7,7 +7,7 @@ use anyhow::{anyhow, Context, Error};
 use once_cell::sync::Lazy;
 use parking_lot::Mutex;
 use resolve::PluginCache;
-use swc_common::{collections::AHashMap, plugin::SerializedProgram};
+use swc_common::{collections::AHashMap, plugin::Serialized};
 use wasmer::{imports, Array, Instance, Memory, MemoryType, Module, Store, WasmPtr};
 use wasmer_cache::{Cache, Hash};
 
@@ -114,13 +114,13 @@ fn load_plugin(plugin_path: &Path, cache: &mut Option<PluginCache>) -> Result<In
 fn write_bytes_into_guest(
     instance: &Instance,
     memory: &Memory,
-    program: &SerializedProgram,
+    program: &Serialized,
 ) -> Result<(i32, u32), Error> {
     let alloc_memory_in_guest = instance
         .exports
         .get_native_function::<u32, i32>("__alloc")?;
 
-    let serialized = &program.0;
+    let serialized = program.as_ref();
     let serialized_len = serialized.len();
 
     let allocated_ptr = alloc_memory_in_guest.call(serialized_len.try_into()?)?;
@@ -147,7 +147,7 @@ fn read_bytes_from_guest(
     memory: &Memory,
     returned_ptr: i32,
     len: i32,
-) -> Result<SerializedProgram, Error> {
+) -> Result<Serialized, Error> {
     let ptr: WasmPtr<u8, Array> = WasmPtr::new(returned_ptr as _);
 
     // Deref & read through plugin's wasm memory space via returned ptr
@@ -168,7 +168,7 @@ fn read_bytes_from_guest(
 
     free_memory_in_guest.call(returned_ptr, len)?;
 
-    Ok(SerializedProgram::new(transformed_raw_bytes, len))
+    Ok(Serialized::new_for_plugin(&transformed_raw_bytes[..], len))
 }
 
 // TODO
@@ -179,8 +179,8 @@ pub fn apply_js_plugin(
     path: &Path,
     cache: &mut Option<PluginCache>,
     _config_json: &str,
-    program: SerializedProgram,
-) -> Result<SerializedProgram, Error> {
+    program: Serialized,
+) -> Result<Serialized, Error> {
     (|| -> Result<_, Error> {
         let instance = load_plugin(path, cache)?;
         let memory = instance.exports.get_memory("memory")?;
