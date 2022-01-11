@@ -6,7 +6,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_ecma_transforms_compat"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.65.0"
+version = "0.65.1"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [features]
@@ -20,7 +20,7 @@ concurrent = [
 ahash = "0.7.4"
 arrayvec = "0.7.2"
 indexmap = "1.6.1"
-is-macro = "0.1.8"
+is-macro = "0.2.0"
 num-bigint = "0.2"
 ordered-float = "2.0.1"
 rayon = {version = "1.5.1", optional = true}

@@ -1,4 +1,4 @@
-error: Expected ident
+error: Unexpected token `,`. Expected identifier or string
  --> $DIR/tests/test262-parser/fail/7222f595c694ef81.module.js:1:11
   |
 1 | export {a,,}
