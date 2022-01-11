@@ -1049,9 +1049,9 @@ checksum = "68f2d64f2edebec4ce84ad108148e67e1064789bee435edc5b60ad398714a3a9"
 
 [[package]]
 name = "is-macro"
-version = "0.1.9"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a322dd16d960e322c3d92f541b4c1a4f0a2e81e1fdeee430d8cecc8b72e8015f"
+checksum = "94b2c46692aee0d1b3aad44e781ac0f0e7db42ef27adaa0a877b627040019813"
 dependencies = [
  "Inflector",
  "pmutil",
@@ -2609,7 +2609,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.99.0"
+version = "0.99.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2706,7 +2706,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_ast"
-version = "0.41.0"
+version = "0.41.1"
 dependencies = [
  "is-macro",
  "serde",
@@ -2791,7 +2791,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.64.0"
+version = "0.64.1"
 dependencies = [
  "arbitrary",
  "is-macro",
@@ -2914,7 +2914,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.66.0"
+version = "0.66.1"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -2947,7 +2947,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.86.0"
+version = "0.86.1"
 dependencies = [
  "either",
  "enum_kind",
@@ -3059,7 +3059,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.65.0"
+version = "0.65.1"
 dependencies = [
  "ahash",
  "arrayvec 0.7.2",
@@ -3098,7 +3098,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.71.0"
+version = "0.71.1"
 dependencies = [
  "Inflector",
  "ahash",

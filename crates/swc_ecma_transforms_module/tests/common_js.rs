@@ -2550,6 +2550,146 @@ require("black");
 "#
 );
 
+// lazy_issue_3081_1
+test!(
+    syntax(),
+    |_| tr(Config {
+        lazy: Lazy::Bool(true),
+        ..Default::default()
+    }),
+    lazy_issue_3081_1,
+    r#"
+import { spawn } from "child_process";
+
+function log() { console.log(spawn); }
+
+const other = () => {
+  const nestedClosure = () => { spawn("ls"); };
+}
+"#,
+    r#"
+"use strict";
+function _childProcess() {
+    const data = require("child_process");
+    _childProcess = function() {
+        return data;
+    };
+    return data;
+}
+function log() {
+    console.log(_childProcess().spawn);
+}
+const other = ()=>{
+    const nestedClosure = () => {
+        _childProcess().spawn("ls");
+    }
+}
+"#
+);
+
+// lazy_issue_3081_2
+test!(
+    syntax(),
+    |_| tr(Config {
+        lazy: Lazy::Bool(true),
+        ..Default::default()
+    }),
+    lazy_issue_3081_2,
+    r#"
+import { fn, Klass } from "lib";
+
+function myFn() {
+    fn()
+}
+class MyClass extends Klass {}
+"#,
+    r#"
+"use strict";
+var _lib = require("lib");
+function myFn() {
+    (0, _lib).fn();
+}
+class MyClass extends _lib.Klass {
+}
+"#
+);
+
+// lazy_computed_prop_name
+test!(
+    syntax(),
+    |_| tr(Config {
+        lazy: Lazy::Bool(true),
+        ..Default::default()
+    }),
+    lazy_computed_prop_name,
+    r#"
+import { x } from "libx";
+import { y } from "liby";
+
+class F {
+  get[x]() { }
+  get y() { y() }
+}
+"#,
+    r#"
+"use strict";
+var _libx = require("libx");
+function _liby() {
+    const data = require("liby");
+    _liby = function() {
+        return data;
+    };
+    return data;
+}
+
+class F {
+  get[_libx.x]() { }
+  get y() { _liby().y(); }
+}
+"#
+);
+
+// lazy_not_shadowed_by_labels
+test!(
+    syntax(),
+    |_| tr(Config {
+        lazy: Lazy::Bool(true),
+        ..Default::default()
+    }),
+    lazy_not_shadowed_by_labels,
+    r#"
+import { x } from "lib";
+
+function fn() {
+    x()
+}
+
+x:
+console.log(1);
+
+continue x;
+
+"#,
+    r#"
+"use strict";
+function _lib() {
+    const data = require("lib");
+    _lib = function() {
+        return data;
+    };
+    return data;
+}
+
+function fn() {
+    _lib().x();
+}
+x:
+console.log(1);
+
+continue x;
+"#
+);
+
 // lazy_dep_reexport_namespace
 test!(
     syntax(),

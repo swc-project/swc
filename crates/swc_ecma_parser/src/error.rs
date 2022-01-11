@@ -174,6 +174,9 @@ pub enum SyntaxError {
 
     NumericSeparatorIsAllowedOnlyBetweenTwoDigits,
 
+    ImportBindingIsString(JsWord),
+    ExportBindingIsString,
+
     TS1003,
     TS1005,
     TS1009,
@@ -460,6 +463,17 @@ impl SyntaxError {
             SyntaxError::RestPatInSetter => "Rest pattern is not allowed in setter".into(),
 
             SyntaxError::GeneratorConstructor => "A constructor cannot be generator".into(),
+
+            SyntaxError::ImportBindingIsString(str) => format!(
+                "A string literal cannot be used as an imported binding.\n- Did you mean `import \
+                 {{ \"{}\" as foo }}`?",
+                str
+            )
+            .into(),
+
+            SyntaxError::ExportBindingIsString => {
+                "A string literal cannot be used as an exported binding without `from`.".into()
+            }
 
             SyntaxError::TS1003 => "Expected an identifier".into(),
             SyntaxError::TS1005 => "Expected a semicolon".into(),
