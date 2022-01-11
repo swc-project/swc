@@ -12,11 +12,11 @@ use std::any::type_name;
 /// across plugin's host to guest. Plugin author should not rely on specific
 /// details serialized byte format struct contains: it is strictly
 /// implementation detail which can change anytime.
-#[cfg(any(feature = "plugin-mode", feature = "plugin-rt"))]
+#[cfg(feature = "plugin-base")]
 pub struct SerializedProgram(pub rkyv::AlignedVec);
 
 impl SerializedProgram {
-    #[cfg(any(feature = "plugin-mode", feature = "plugin-rt"))]
+    #[cfg(feature = "plugin-base")]
     pub fn new(bytes: Vec<u8>, len: i32) -> SerializedProgram {
         let mut vec = rkyv::AlignedVec::with_capacity(
             len.try_into()
@@ -29,7 +29,7 @@ impl SerializedProgram {
 
 /// Serialize given Program into raw bytes, can be copied into plugin's memory
 /// spaces.
-#[cfg(any(feature = "plugin-rt", feature = "plugin-mode"))]
+#[cfg(feature = "plugin-base")]
 pub fn serialize_for_plugin<T>(t: &T) -> Result<SerializedProgram, Error>
 where
     T: rkyv::Serialize<rkyv::ser::serializers::AllocSerializer<512>>,
@@ -48,7 +48,7 @@ where
 }
 
 /// Deserialize given raw bytes into Program.
-#[cfg(any(feature = "plugin-rt", feature = "plugin-mode"))]
+#[cfg(feature = "plugin-base")]
 pub fn deserialize_for_plugin<T>(bytes: &SerializedProgram) -> Result<T, Error>
 where
     T: rkyv::Archive,
