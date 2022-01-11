@@ -13,9 +13,9 @@ function foo2(f) {
     f(42);
 }
 function foo3(f) {
-    f &&= function(a) {
+    f && (f = function(a) {
         return a;
-    };
+    });
     f(42);
 }
 function bar1(f) {
@@ -31,8 +31,8 @@ function bar2(f) {
     f(42);
 }
 function bar3(f) {
-    f &&= (f.toString(), function(a) {
+    f && (f = (f.toString(), function(a) {
         return a;
-    });
+    }));
     f(42);
 }
