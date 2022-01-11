@@ -5,6 +5,20 @@
 
 
 
+- **(es/compat)** Transform `&&=` operator (#3225) ([2e5150d](https://github.com/swc-project/swc/commit/2e5150d2b714ba86bd228506eb0f008d9f5859e1))
+
+### Features
+
+
+
+- **(plugin)** Don't serialize/deserialize needlessly (#3227) ([a2f2b5a](https://github.com/swc-project/swc/commit/a2f2b5ac8924ce635fc9547057da287864fe188a))
+
+## [1.2.128] - 2022-01-11
+
+### Bug Fixes
+
+
+
 - **(es/helpers)** Don't transpile `_typeof` helper (#3208) ([54353a6](https://github.com/swc-project/swc/commit/54353a6fb5ab53ed4762161ecdda1a3ec0d77c62))
 
 
