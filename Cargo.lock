@@ -3407,13 +3407,20 @@ dependencies = [
 name = "swc_plugin"
 version = "0.24.0"
 dependencies = [
- "anyhow",
- "serde",
- "serde_json",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_visit",
+ "swc_plugin_macro",
+]
+
+[[package]]
+name = "swc_plugin_macro"
+version = "0.1.0"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
 ]
 
 [[package]]

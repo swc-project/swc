@@ -114,13 +114,13 @@ fn load_plugin(plugin_path: &Path, cache: &mut Option<PluginCache>) -> Result<In
 fn write_bytes_into_guest(
     instance: &Instance,
     memory: &Memory,
-    program: &Serialized,
-) -> Result<(i32, u32), Error> {
+    serialized_bytes: &Serialized,
+) -> Result<(i32, i32), Error> {
     let alloc_memory_in_guest = instance
         .exports
         .get_native_function::<u32, i32>("__alloc")?;
 
-    let serialized = program.as_ref();
+    let serialized = serialized_bytes.as_ref();
     let serialized_len = serialized.len();
 
     let allocated_ptr = alloc_memory_in_guest.call(serialized_len.try_into()?)?;
@@ -178,21 +178,28 @@ pub fn apply_js_plugin(
     plugin_name: &str,
     path: &Path,
     cache: &mut Option<PluginCache>,
-    _config_json: &str,
+    config_json: Serialized,
     program: Serialized,
 ) -> Result<Serialized, Error> {
     (|| -> Result<_, Error> {
         let instance = load_plugin(path, cache)?;
         let memory = instance.exports.get_memory("memory")?;
 
-        let (guest_allocated_ptr, len) = write_bytes_into_guest(&instance, memory, &program)?;
+        let (guest_program_ptr, guest_program_ptr_len) =
+            write_bytes_into_guest(&instance, memory, &program)?;
+        let (config_str_ptr, config_str_ptr_len) =
+            write_bytes_into_guest(&instance, memory, &config_json)?;
 
         let plugin_process_wasm_exported_fn = instance
             .exports
-            .get_native_function::<(i32, u32), (i32, i32)>("process")?;
+            .get_native_function::<(i32, i32, i32, i32), (i32, i32)>("__plugin_process_impl")?;
 
-        let (returned_ptr, returned_len) =
-            plugin_process_wasm_exported_fn.call(guest_allocated_ptr, len)?;
+        let (returned_ptr, returned_len) = plugin_process_wasm_exported_fn.call(
+            guest_program_ptr,
+            guest_program_ptr_len,
+            config_str_ptr,
+            config_str_ptr_len,
+        )?;
 
         read_bytes_from_guest(&instance, memory, returned_ptr, returned_len)
     })()

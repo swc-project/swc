@@ -1,4 +1,4 @@
-use swc_plugin::{ast::*, Serialized, DUMMY_SP};
+use swc_plugin::{ast::*, plugin_module, Serialized, DUMMY_SP};
 
 struct ConsoleOutputReplacer;
 
@@ -23,35 +23,18 @@ impl VisitMut for ConsoleOutputReplacer {
     }
 }
 
-#[no_mangle]
-// TODO:
-// - this is not complete signature, need to take config_json
-// - swc_plugin macro to support ergonomic interfaces
-// - better developer experience: println / dbg!() doesn't emit anything
-pub fn process(ast_ptr: *mut u8, len: i32) -> (i32, i32) {
-    // Read raw serialized bytes from wasm's memory space. Host (SWC) should
-    // allocate memory, copy bytes and pass ptr to plugin.
-    let raw_serialized_bytes =
-        unsafe { std::slice::from_raw_parts(ast_ptr, len.try_into().unwrap()) };
-
-    // Reconstruct SerializedProgram from raw bytes
-    let serialized_program = Serialized::new_for_plugin(raw_serialized_bytes, len);
-
-    // TODO: Returning error pointer instead of unwrap
-    let program: Program =
-        Serialized::deserialize(&serialized_program).expect("Should able to deserialize");
-
-    // Actual plugin transformation
+/// An example plugin function with macro support.
+/// `plugin_module` macro interop pointers into deserialized structs, as well as
+/// returning ptr back to host.
+///
+/// It is possible to opt out from macro by writing transform fn manually via
+/// `__plugin_process_impl(*const u8, i32, *const u8, i32) -> (i32,i32)`
+/// if plugin need to handle low-level ptr directly.
+///
+/// TODO:
+/// - better developer experience: println / dbg!() doesn't emit anything
+#[plugin_module]
+pub fn process(program: Program, _plugin_config: String) -> Result<Program, std::fmt::Error> {
     let transformed_program = program.fold_with(&mut as_folder(ConsoleOutputReplacer));
-
-    // Serialize transformed result, return back to the host.
-    let serialized_result =
-        Serialized::serialize(&transformed_program).expect("Should serializable");
-
-    let serialized_result = serialized_result.as_ref();
-
-    (
-        serialized_result.as_ptr() as _,
-        serialized_result.len().try_into().unwrap(),
-    )
+    Ok(transformed_program)
 }

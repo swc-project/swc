@@ -58,6 +58,7 @@ impl RustPlugins {
             for p in plugins {
                 let config_json = serde_json::to_string(&p.1)
                     .context("failed to serialize plugin config as json")?;
+                let config_json = Serialized::serialize(&config_json)?;
 
                 let path = swc_plugin_runner::resolve::resolve(&p.0)?;
 
@@ -65,7 +66,7 @@ impl RustPlugins {
                     &p.0,
                     &path,
                     &mut self.plugin_cache,
-                    &config_json,
+                    config_json,
                     serialized,
                 )?;
             }
