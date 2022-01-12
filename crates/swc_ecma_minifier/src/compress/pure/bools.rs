@@ -539,7 +539,7 @@ where
         }
 
         if self.can_swap_bin_operands(&left, &right, false) {
-            tracing::debug!("Swapping operands of binary exprssion");
+            tracing::debug!("Swapping operands of binary expession");
             swap(left, right);
             return true;
         }
