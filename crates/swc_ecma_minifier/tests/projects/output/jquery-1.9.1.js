@@ -824,21 +824,24 @@
     jQuery.event = {
         global: {},
         add: function(elem, types, handler, data, selector) {
-            var tmp, events, t, handleObjIn, special, eventHandle, handleObj, handlers, type, namespaces, origType, elemData = jQuery._data(null);
-            if (elemData) for(handler.handler && (handler = (handleObjIn = handler).handler, selector = handleObjIn.selector), handler.guid || (handler.guid = jQuery.guid++), (events = elemData.events) || (events = elemData.events = {}), (eventHandle = elemData.handle) || ((eventHandle = elemData.handle = function(e) {
-                return "function" === core_strundefined || e && jQuery.event.triggered === e.type ? undefined1 : jQuery.event.dispatch.apply(eventHandle.elem, arguments);
-            }).elem = null), t = (types = (types || "").match(core_rnotwhite) || [
-                ""
-            ]).length; t--;)type = origType = (tmp = rtypenamespace.exec(types[t]) || [])[1], namespaces = (tmp[2] || "").split(".").sort(), special = jQuery.event.special[type] || {}, type = (selector ? special.delegateType : special.bindType) || type, special = jQuery.event.special[type] || {}, handleObj = jQuery.extend({
-                type: type,
-                origType: origType,
-                data: data,
-                handler: handler,
-                guid: handler.guid,
-                selector: selector,
-                needsContext: selector && jQuery.expr.match.needsContext.test(selector),
-                namespace: namespaces.join(".")
-            }, handleObjIn), (handlers = events[type]) || ((handlers = events[type] = []).delegateCount = 0, (!special.setup || !1 === special.setup.call(null, data, namespaces, eventHandle)) && (null.addEventListener ? null.addEventListener(type, eventHandle, !1) : null.attachEvent && null.attachEvent("on" + type, eventHandle))), special.add && (special.add.call(null, handleObj), handleObj.handler.guid || (handleObj.handler.guid = handler.guid)), selector ? handlers.splice(handlers.delegateCount++, 0, handleObj) : handlers.push(handleObj), jQuery.event.global[type] = !0;
+            var tmp, events, t, handleObjIn, special, eventHandle, handleObj, handlers, type, namespaces, origType, elemData = jQuery._data(elem);
+            if (elemData) {
+                for(handler.handler && (handler = (handleObjIn = handler).handler, selector = handleObjIn.selector), handler.guid || (handler.guid = jQuery.guid++), (events = elemData.events) || (events = elemData.events = {}), (eventHandle = elemData.handle) || ((eventHandle = elemData.handle = function(e) {
+                    return "function" === core_strundefined || e && jQuery.event.triggered === e.type ? undefined1 : jQuery.event.dispatch.apply(eventHandle.elem, arguments);
+                }).elem = elem), t = (types = (types || "").match(core_rnotwhite) || [
+                    ""
+                ]).length; t--;)type = origType = (tmp = rtypenamespace.exec(types[t]) || [])[1], namespaces = (tmp[2] || "").split(".").sort(), special = jQuery.event.special[type] || {}, type = (selector ? special.delegateType : special.bindType) || type, special = jQuery.event.special[type] || {}, handleObj = jQuery.extend({
+                    type: type,
+                    origType: origType,
+                    data: data,
+                    handler: handler,
+                    guid: handler.guid,
+                    selector: selector,
+                    needsContext: selector && jQuery.expr.match.needsContext.test(selector),
+                    namespace: namespaces.join(".")
+                }, handleObjIn), (handlers = events[type]) || ((handlers = events[type] = []).delegateCount = 0, (!special.setup || !1 === special.setup.call(elem, data, namespaces, eventHandle)) && (elem.addEventListener ? elem.addEventListener(type, eventHandle, !1) : elem.attachEvent && elem.attachEvent("on" + type, eventHandle))), special.add && (special.add.call(elem, handleObj), handleObj.handler.guid || (handleObj.handler.guid = handler.guid)), selector ? handlers.splice(handlers.delegateCount++, 0, handleObj) : handlers.push(handleObj), jQuery.event.global[type] = !0;
+                elem = null;
+            }
         },
         remove: function(elem, types, handler, selector, mappedTypes) {
             var j, handleObj, tmp, origCount, t, events, special, handlers, type, namespaces, origType, elemData = jQuery.hasData(elem) && jQuery._data(elem);
@@ -1140,12 +1143,14 @@
             return fn[expando] = !0, fn;
         }
         function assert(fn) {
-            document.createElement("div");
+            var div = document.createElement("div");
             try {
-                return fn(null);
+                return fn(div);
             } catch (e) {
                 return !1;
-            } finally{}
+            } finally{
+                div = null;
+            }
         }
         function Sizzle(selector, context, results, seed) {
             var match, elem, m, nodeType, i, groups, old, nid, newContext, newSelector;

@@ -4291,18 +4291,20 @@
             } : $assign;
         },
         18255: function(module, __unused_webpack_exports, __webpack_require__) {
-            var activeXDocument, anObject = __webpack_require__(83941), defineProperties = __webpack_require__(68381), enumBugKeys = __webpack_require__(91080), hiddenKeys = __webpack_require__(38276), html = __webpack_require__(40969), documentCreateElement = __webpack_require__(28554), sharedKey = __webpack_require__(16735), PROTOTYPE = "prototype", SCRIPT = "script", IE_PROTO = sharedKey("IE_PROTO"), EmptyConstructor = function() {}, scriptTag = function(content) {
+            var activeXDocument1, anObject = __webpack_require__(83941), defineProperties = __webpack_require__(68381), enumBugKeys = __webpack_require__(91080), hiddenKeys = __webpack_require__(38276), html = __webpack_require__(40969), documentCreateElement = __webpack_require__(28554), sharedKey = __webpack_require__(16735), PROTOTYPE = "prototype", SCRIPT = "script", IE_PROTO = sharedKey("IE_PROTO"), EmptyConstructor = function() {}, scriptTag = function(content) {
                 return "<" + SCRIPT + ">" + content + "</" + SCRIPT + ">";
             }, NullProtoObjectViaActiveX = function(activeXDocument) {
-                return null.write(scriptTag("")), null.close(), null.parentWindow.Object;
+                activeXDocument.write(scriptTag("")), activeXDocument.close();
+                var temp = activeXDocument.parentWindow.Object;
+                return activeXDocument = null, temp;
             }, NullProtoObjectViaIFrame = function() {
                 var iframeDocument, iframe = documentCreateElement("iframe");
                 return iframe.style.display = "none", html.appendChild(iframe), iframe.src = String("java" + SCRIPT + ":"), (iframeDocument = iframe.contentWindow.document).open(), iframeDocument.write(scriptTag("document.F=Object")), iframeDocument.close(), iframeDocument.F;
             }, NullProtoObject = function() {
                 try {
-                    activeXDocument = new ActiveXObject("htmlfile");
+                    activeXDocument1 = new ActiveXObject("htmlfile");
                 } catch (error) {}
-                NullProtoObject = "undefined" != typeof document ? document.domain && activeXDocument ? NullProtoObjectViaActiveX(activeXDocument) : NullProtoObjectViaIFrame() : NullProtoObjectViaActiveX(activeXDocument);
+                NullProtoObject = "undefined" != typeof document ? document.domain && activeXDocument1 ? NullProtoObjectViaActiveX(activeXDocument1) : NullProtoObjectViaIFrame() : NullProtoObjectViaActiveX(activeXDocument1);
                 for(var length = enumBugKeys.length; length--;)delete NullProtoObject[PROTOTYPE][enumBugKeys[length]];
                 return NullProtoObject();
             };
@@ -17257,7 +17259,7 @@
                     P = c;
                 }
             }, exports.unstable_pauseExecution = function() {}, exports.unstable_requestPaint = k, exports.unstable_runWithPriority = function(a, b) {
-                switch(3){
+                switch(a){
                     case 1:
                     case 2:
                     case 3:
@@ -17265,9 +17267,10 @@
                     case 5:
                         break;
                     default:
+                        a = 3;
                 }
                 var c = P;
-                P = 3;
+                P = a;
                 try {
                     return b();
                 } finally{

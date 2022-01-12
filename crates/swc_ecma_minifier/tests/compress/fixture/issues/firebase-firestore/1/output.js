@@ -303,7 +303,7 @@
             }
             class ut {
                 constructor(t, e, n){
-                    void 0 === e ? e = 0 : 0 > t.length && L(), void 0 === n ? n = t.length - 0 : n > t.length - 0 && L(), this.segments = t, this.offset = 0, this.len = n;
+                    void 0 === e ? e = 0 : e > t.length && L(), void 0 === n ? n = t.length - e : n > t.length - e && L(), this.segments = t, this.offset = e, this.len = n;
                 }
                 get length() {
                     return this.len;
