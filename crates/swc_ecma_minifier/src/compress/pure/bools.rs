@@ -294,7 +294,7 @@ where
                             let last = exprs.last_mut().unwrap();
                             self.optimize_expr_in_bool_ctx(last);
                             // Negate last element.
-                            negate(last, false, false);
+                            self.changed |= negate(last, false, false);
                         }
 
                         *n = *e.arg.take();
