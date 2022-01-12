@@ -324,7 +324,7 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
         if cfg!(test) {
             tracing::debug!(
                 "negation cost of `{}` = {}\nin_book_ctx={:?}\nis_ret_val_ignored={:?}",
-                dump(&e.clone().fold_with(&mut as_folder(fixer(None))), false),
+                dump(&e.clone().fold_with(&mut as_folder(fixer(None))), true),
                 cost,
                 in_bool_ctx,
                 is_ret_val_ignored
