@@ -56,6 +56,5 @@
     },
     "module": {
         "type": "es6"
-    },
-    "isModule": true
+    }
 }
