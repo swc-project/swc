@@ -16,14 +16,12 @@ where
     M: Mode,
 {
     pub(super) fn negate_twice(&mut self, e: &mut Expr, is_ret_val_ignored: bool) {
-        self.changed = true;
-        negate(e, false, is_ret_val_ignored);
-        negate(e, false, is_ret_val_ignored);
+        self.changed |= negate(e, false, is_ret_val_ignored);
+        self.changed |= negate(e, false, is_ret_val_ignored);
     }
 
     pub(super) fn negate(&mut self, e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) {
-        self.changed = true;
-        negate(e, in_bool_ctx, is_ret_val_ignored)
+        self.changed |= negate(e, in_bool_ctx, is_ret_val_ignored)
     }
 
     /// `!(a && b)` => `!a || !b`
