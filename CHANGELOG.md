@@ -25,6 +25,9 @@
 
 - **(plugin)** Don't serialize/deserialize needlessly (#3227) ([a2f2b5a](https://github.com/swc-project/swc/commit/a2f2b5ac8924ce635fc9547057da287864fe188a))
 
+
+- **(plugin/macro)** Add safe API for plugins based on a proc-macro (#3240) ([432d5d3](https://github.com/swc-project/swc/commit/432d5d3fb7d870b08f8c16e4147c3f5421693d2b))
+
 ## [1.2.128] - 2022-01-11
 
 ### Bug Fixes
