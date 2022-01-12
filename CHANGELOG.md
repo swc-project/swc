@@ -14,6 +14,9 @@
 - **(es/minifier)** Fix optimization of assignment expressions (#3231) ([12dd0a6](https://github.com/swc-project/swc/commit/12dd0a6c1fb6eeaf603f0f1a6da3a4231c8c47f6))
 
 
+- **(es/minifier)** Fix bugs (#3238) ([74fd353](https://github.com/swc-project/swc/commit/74fd3530535813023b77739dd8f37a682269be67))
+
+
 - **(es/parser)** Fix span of `ComputedPropName` (#3234) ([105cbc2](https://github.com/swc-project/swc/commit/105cbc2017e20a7c6a5d7dfdd7a9a4c396032be9))
 
 ### Features
