@@ -721,7 +721,7 @@
             var type = props.type;
             if (("submit" === type || "reset" === type) && (void 0 === props.value || null === props.value)) return;
             var initialValue = toString(node._wrapperState.initialValue);
-            isHydrating || initialValue !== node.value && (node.value = initialValue), node.defaultValue = initialValue;
+            isHydrating || initialValue === node.value || (node.value = initialValue), node.defaultValue = initialValue;
         }
         var name = node.name;
         "" !== name && (node.name = ""), node.defaultChecked = !node.defaultChecked, node.defaultChecked = !!node._wrapperState.initialChecked, "" !== name && (node.name = name);
