@@ -221,7 +221,7 @@ fn negate_cost_7_1() {
          || ((result1.safari || result1.chrome) && lastChild && 'false' == \
          lastChild.dom.contentEditable && this.addHackNode('IMG'), this.addHackNode('BR'))",
         true,
-        false,
+        true,
         10000,
     );
 }
@@ -234,7 +234,7 @@ fn negate_cost_7_2() {
          || ((result1.safari || result1.chrome) && lastChild && 'false' == \
          lastChild.dom.contentEditable && this.addHackNode('IMG'), this.addHackNode('BR'))",
         true,
-        false,
+        true,
         10000,
     );
 }
