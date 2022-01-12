@@ -126,7 +126,7 @@ where
                 self.changed |= v.changed;
             }
         } else {
-            let results = nodes
+            let changed = nodes
                 .par_iter_mut()
                 .map(|node| {
                     let mut v = Pure {
@@ -144,11 +144,9 @@ where
 
                     v.changed
                 })
-                .collect::<Vec<_>>();
+                .reduce(|| false, |a, b| a || b);
 
-            for res in results {
-                self.changed |= res;
-            }
+            self.changed |= changed;
         }
     }
 }

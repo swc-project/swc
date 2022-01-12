@@ -39,6 +39,7 @@ if [[ $REDUCED_SIZE -le 3 ]]; then
     ./scripts/_/notify.sh "Removed $1"
     (cd $dir && git commit -m "Remove a file as it didn't break anything" $1)
 else
+    cat $wd/input.js
     # mkdir -p "$SCRIPT_DIR/../tests/compress/fixture/reduced/$hash"
     # cp "$wd/input.js" "$SCRIPT_DIR/../tests/compress/fixture/reduced/$hash/input.js"
     ./scripts/_/notify.sh "Found errornous input"

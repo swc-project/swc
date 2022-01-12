@@ -1,7 +1,7 @@
-var obj, key;
-obj = {}, (key = this.bar) in obj ? Object.defineProperty(obj, key, {
-    value: 0,
+var obj, key, value;
+obj = {}, value = 0, (key = this.bar) in obj ? Object.defineProperty(obj, key, {
+    value: value,
     enumerable: !0,
     configurable: !0,
     writable: !0
-}) : obj[key] = 0;
+}) : obj[key] = value;

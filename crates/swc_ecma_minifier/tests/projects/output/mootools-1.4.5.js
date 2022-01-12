@@ -2270,7 +2270,7 @@ Elements.prototype = {
         this.empty().adopt(target.childNodes), supportsHTML5Elements || fragment1.removeChild(wrapper), wrapper = null;
     }));
     var testForm = document.createElement("form");
-    null.innerHTML = "<select><option>s</option></select>", "s" != null.firstChild.value && (Element.Properties.value = {
+    testForm.innerHTML = "<select><option>s</option></select>", "s" != testForm.firstChild.value && (Element.Properties.value = {
         set: function(value) {
             if ("select" != this.get("tag")) return this.setProperty("value", value);
             for(var options = this.getElements("option"), i = 0; i < options.length; i++){
@@ -2298,8 +2298,8 @@ Elements.prototype = {
     });
 })(), (function() {
     var html = document.html, el = document.createElement("div");
-    null.style.color = "red", null.style.color = null;
-    var doesNotRemoveStyles = "red" == null.style.color;
+    el.style.color = "red", el.style.color = null;
+    var doesNotRemoveStyles = "red" == el.style.color;
     el = null, Element.Properties.styles = {
         set: function(styles) {
             this.setStyles(styles);

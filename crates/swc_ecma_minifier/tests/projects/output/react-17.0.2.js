@@ -785,7 +785,7 @@
                     priorityLevel = 3;
             }
             var previousPriorityLevel = currentPriorityLevel;
-            currentPriorityLevel = 3;
+            currentPriorityLevel = priorityLevel;
             try {
                 return eventHandler();
             } finally{
@@ -1099,10 +1099,10 @@
         for(var newElement = cloneElement.apply(this, arguments), i = 2; i < arguments.length; i++)validateChildKeys(arguments[i], newElement.type);
         return validatePropTypes(newElement), newElement;
     }, exports.createContext = function(defaultValue, calculateChangedBits) {
-        void 0 === calculateChangedBits && (calculateChangedBits = null);
+        void 0 === calculateChangedBits ? calculateChangedBits = null : null !== calculateChangedBits && "function" != typeof calculateChangedBits && error1("createContext: Expected the optional second argument to be a function. Instead received: %s", calculateChangedBits);
         var context = {
             $$typeof: REACT_CONTEXT_TYPE,
-            _calculateChangedBits: null,
+            _calculateChangedBits: calculateChangedBits,
             _currentValue: defaultValue,
             _currentValue2: defaultValue,
             _threadCount: 0,

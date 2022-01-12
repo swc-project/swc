@@ -12,25 +12,25 @@ var c = function() {
     a(this, c);
 };
 module.exports = (function() {
-    var d, e, f = function() {
+    var d, e, f, g = function() {
         "use strict";
         var b, d, e;
-        function f() {
-            a(this, f);
+        function g() {
+            a(this, g);
         }
-        return b = f, d = [
+        return b = g, d = [
             {
                 key: "it",
                 value: function() {
-                    this.bb = new f.MyA();
+                    this.bb = new g.MyA();
                 }
             }
-        ], b(b.prototype, d), e && b(b, e), f;
+        ], b(b.prototype, d), e && b(b, e), g;
     }();
-    return d = f, e = c, "MyA" in d ? Object.defineProperty(d, "MyA", {
-        value: e,
+    return d = g, e = "MyA", f = c, e in d ? Object.defineProperty(d, e, {
+        value: f,
         enumerable: !0,
         configurable: !0,
         writable: !0
-    }) : d.MyA = e, f;
+    }) : d[e] = f, g;
 })();

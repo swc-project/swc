@@ -39,7 +39,7 @@ where
                 in_bool_ctx: true,
                 ..self.ctx
             };
-            self.with_ctx(ctx).negate(&mut stmt.test);
+            self.with_ctx(ctx).negate(&mut stmt.test, false);
             swap(alt, &mut *stmt.cons);
             return;
         }
@@ -50,7 +50,7 @@ where
                 tracing::debug!(
                     "if_return: Negating an if statement because the alt is return / continue"
                 );
-                self.negate(&mut stmt.test);
+                self.negate(&mut stmt.test, false);
                 swap(alt, &mut *stmt.cons);
             }
             _ => return,

@@ -5,6 +5,7 @@ dir="${1-"./inputs/"}"
 
 echo "Removing useless files in $dir"
 find $dir -type f \( \
+    -name "*.map" -o \
     -name "*.html" -o \
     -name "*.xml" -o \
     -name "*.aac" -o \

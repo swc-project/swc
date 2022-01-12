@@ -84,7 +84,7 @@ where
                         tracing::debug!("loops: Compressing for-if-break into a for statement");
 
                         // We negate because this `test` is used as a condition for `break`.
-                        self.negate(test, true);
+                        self.negate(test, true, false);
 
                         match s.test.take() {
                             Some(left) => {

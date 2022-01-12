@@ -601,7 +601,7 @@
             var v, uc_prop = prop.charAt(0).toUpperCase() + prop.substr(1), props = (prop + " " + vendors.join(uc_prop + " ") + uc_prop).split(" ");
             for(v in props)if (undefined !== fbCSS[props[v]]) return !0;
         }
-        var nokiaLTE7_3, w1, ua, platform, wkmatch, wkversion, ffmatch, ffversion, operammobilematch, omversion, rebase, fauxBase, base, supports, element, documentElement, getComputedStyle, ua1, fakeBody = $("<body>").prependTo("html"), fbCSS = fakeBody[0].style, vendors = [
+        var nokiaLTE7_3, w1, ua, platform, wkmatch, wkversion, ffmatch, ffversion, operammobilematch, omversion, rebase, fauxBase, base, fauxEle, href, supports, element, documentElement, getComputedStyle, ua1, fakeBody = $("<body>").prependTo("html"), fbCSS = fakeBody[0].style, vendors = [
             "Webkit",
             "Moz",
             "O"
@@ -630,9 +630,9 @@
             boxShadow: !!propExists("boxShadow") && !bb,
             fixedPosition: (w1 = window1, ua = navigator.userAgent, platform = navigator.platform, wkmatch = ua.match(/AppleWebKit\/([0-9]+)/), wkversion = !!wkmatch && wkmatch[1], ffmatch = ua.match(/Fennec\/([0-9]+)/), ffversion = !!ffmatch && ffmatch[1], operammobilematch = ua.match(/Opera Mobi\/([0-9]+)/), omversion = !!operammobilematch && operammobilematch[1], !((platform.indexOf("iPhone") > -1 || platform.indexOf("iPad") > -1 || platform.indexOf("iPod") > -1) && wkversion && wkversion < 534 || w1.operamini && "[object OperaMini]" === ({}).toString.call(w1.operamini) || operammobilematch && omversion < 7458 || ua.indexOf("Android") > -1 && wkversion && wkversion < 533 || ffversion && ffversion < 6 || "palmGetResource" in window1 && wkversion && wkversion < 534 || ua.indexOf("MeeGo") > -1 && ua.indexOf("NokiaBrowser/8.5.0") > -1)),
             scrollTop: ("pageXOffset" in window1 || "scrollTop" in document1.documentElement || "scrollTop" in fakeBody[0]) && !("palmGetResource" in window1) && !operamini,
-            dynamicBaseTag: (fauxBase = location.protocol + "//" + location.host + location.pathname + "ui-dir/", (base = $("head base")).length ? base.attr("href") : base = $("<base>", {
+            dynamicBaseTag: (fauxBase = location.protocol + "//" + location.host + location.pathname + "ui-dir/", fauxEle = null, href = "", (base = $("head base")).length ? href = base.attr("href") : base = fauxEle = $("<base>", {
                 href: fauxBase
-            }).appendTo("head"), rebase = $("<a href='testurl' />").prependTo(fakeBody)[0].href, base[0].href = location.pathname, 0 === rebase.indexOf(fauxBase)),
+            }).appendTo("head"), rebase = $("<a href='testurl' />").prependTo(fakeBody)[0].href, base[0].href = href || location.pathname, fauxEle && fauxEle.remove(), 0 === rebase.indexOf(fauxBase)),
             cssPointerEvents: (element = document1.createElement("x"), documentElement = document1.documentElement, getComputedStyle = window1.getComputedStyle, "pointerEvents" in element.style && (element.style.pointerEvents = "auto", element.style.pointerEvents = "x", documentElement.appendChild(element), supports = getComputedStyle && "auto" === getComputedStyle(element, "").pointerEvents, documentElement.removeChild(element), !!supports)),
             boundingRect: void 0 !== document1.createElement("div").getBoundingClientRect,
             inlineSVG: function() {
@@ -1690,7 +1690,7 @@
         }, $.mobile._registerInternalEvents = function() {
             var getAjaxFormData = function($form, calculateOnly) {
                 var url, formData, vclickedName, method, ret = !0;
-                return !(!$.mobile.ajaxEnabled || $form.is(":jqmData(ajax='false')") || !$form.jqmHijackable().length || $form.attr("target")) && (url = $lastVClicked && $lastVClicked.attr("formaction") || $form.attr("action"), method = ($form.attr("method") || "get").toLowerCase(), url || (url = $.mobile.getClosestBaseUrl($form), "get" === method && (url = $.mobile.path.parseUrl(url).hrefNoSearch), url === $.mobile.path.documentBase.hrefNoHash && (url = documentUrl.hrefNoSearch)), url = $.mobile.path.makeUrlAbsolute(url, $.mobile.getClosestBaseUrl($form)), (!$.mobile.path.isExternal(url) || !!$.mobile.path.isPermittedCrossDomainRequest(documentUrl, url)) && (calculateOnly || (formData = $form.serializeArray(), $lastVClicked && $lastVClicked[0].form === $form[0] && (vclickedName = $lastVClicked.attr("name")) && ($.each(formData, function(key, value) {
+                return !(!$.mobile.ajaxEnabled || $form.is(":jqmData(ajax='false')") || !$form.jqmHijackable().length || $form.attr("target")) && (url = $lastVClicked && $lastVClicked.attr("formaction") || $form.attr("action"), method = ($form.attr("method") || "get").toLowerCase(), url || (url = $.mobile.getClosestBaseUrl($form), "get" === method && (url = $.mobile.path.parseUrl(url).hrefNoSearch), url !== $.mobile.path.documentBase.hrefNoHash || (url = documentUrl.hrefNoSearch)), url = $.mobile.path.makeUrlAbsolute(url, $.mobile.getClosestBaseUrl($form)), (!$.mobile.path.isExternal(url) || !!$.mobile.path.isPermittedCrossDomainRequest(documentUrl, url)) && (calculateOnly || (formData = $form.serializeArray(), $lastVClicked && $lastVClicked[0].form === $form[0] && (vclickedName = $lastVClicked.attr("name")) && ($.each(formData, function(key, value) {
                     if (value.name === vclickedName) return vclickedName = "", !1;
                 }), vclickedName && formData.push({
                     name: vclickedName,
