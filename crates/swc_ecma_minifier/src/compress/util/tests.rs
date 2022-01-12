@@ -217,7 +217,7 @@ fn negate_cost_6_2() {
 fn negate_cost_7_1() {
     assert_negate_cost(
         "
-        !(!lastChild || !(lastChild instanceof TextViewDesc1) || /\n$/.test(lastChild.node.text)) \
+        !(!lastChild || !(lastChild instanceof TextViewDesc1) || /\\n$/.test(lastChild.node.text)) \
          || ((result1.safari || result1.chrome) && lastChild && 'false' == \
          lastChild.dom.contentEditable && this.addHackNode('IMG'), this.addHackNode('BR'))",
         true,
@@ -230,7 +230,7 @@ fn negate_cost_7_1() {
 fn negate_cost_7_2() {
     assert_negate_cost(
         "
-        (!lastChild || !(lastChild instanceof TextViewDesc1) || /\n$/.test(lastChild.node.text)) \
+        (!lastChild || !(lastChild instanceof TextViewDesc1) || /\\n$/.test(lastChild.node.text)) \
          || ((result1.safari || result1.chrome) && lastChild && 'false' == \
          lastChild.dom.contentEditable && this.addHackNode('IMG'), this.addHackNode('BR'))",
         true,
