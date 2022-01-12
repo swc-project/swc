@@ -131,6 +131,7 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) 
 
     if is_ret_val_ignored {
         tracing::debug!("negate: noop because it's ignored");
+        *e = *arg;
     } else {
         tracing::debug!("negate: e => !e");
 
