@@ -16,5 +16,3 @@ parking_lot_core = "=0.8.0"
 [dependencies]
 serde = "1"
 swc_plugin = {path = "../../../crates/swc_plugin"}
-
-[features]

@@ -7,6 +7,8 @@ pub mod ast {
 }
 
 #[cfg(target_arch = "wasm32")]
+pub use swc_plugin_macro::plugin_module;
+#[cfg(target_arch = "wasm32")]
 mod allocation;
 #[cfg(target_arch = "wasm32")]
 pub mod memory {

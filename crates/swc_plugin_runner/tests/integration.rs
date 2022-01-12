@@ -91,9 +91,10 @@ fn internal() -> Result<(), Error> {
         let program = parser.parse_program().unwrap();
 
         let program = Serialized::serialize(&program).expect("Should serializable");
+        let config = Serialized::serialize(&"{}".to_string()).expect("Should serializable");
 
         let program_bytes =
-            swc_plugin_runner::apply_js_plugin("internal-test", &path, &mut None, "{}", program)
+            swc_plugin_runner::apply_js_plugin("internal-test", &path, &mut None, config, program)
                 .expect("Plugin should apply transform");
 
         let program: Program =
@@ -132,7 +133,7 @@ fn internal() -> Result<(), Error> {
             "internal-test",
             &path,
             &mut None,
-            "{}",
+            Serialized::serialize(&"{}".to_string()).expect("Should serializable"),
             serialized_program,
         )
         .expect("Plugin should apply transform");
@@ -142,7 +143,7 @@ fn internal() -> Result<(), Error> {
             "internal-test",
             &path,
             &mut None,
-            "{}",
+            Serialized::serialize(&"{}".to_string()).expect("Should serializable"),
             serialized_program,
         )
         .expect("Plugin should apply transform");
