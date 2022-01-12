@@ -37,6 +37,7 @@ where
                         || !usage.is_fn_local
                         || usage.assign_count != 1
                         || usage.var_kind == Some(VarDeclKind::Const)
+                        || usage.mutated
                     {
                         return;
                     }
