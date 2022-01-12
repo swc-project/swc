@@ -77,8 +77,8 @@ where
         };
 
         self.changed = true;
-        self.with_ctx(ctx).negate(&mut e.left);
-        self.with_ctx(ctx).negate(&mut e.right);
+        self.with_ctx(ctx).negate(&mut e.left, false);
+        self.with_ctx(ctx).negate(&mut e.right, is_ret_val_ignored);
 
         if cfg!(feature = "debug") {
             tracing::debug!("[Change] {} => {}", start, dump(&*e, false));

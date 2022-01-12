@@ -15,15 +15,15 @@ impl<M> Pure<'_, M>
 where
     M: Mode,
 {
-    pub(super) fn negate_twice(&mut self, e: &mut Expr) {
+    pub(super) fn negate_twice(&mut self, e: &mut Expr, is_ret_val_ignored: bool) {
         self.changed = true;
-        negate(e, false);
-        negate(e, false);
+        negate(e, false, is_ret_val_ignored);
+        negate(e, false, is_ret_val_ignored);
     }
 
-    pub(super) fn negate(&mut self, e: &mut Expr, in_bool_ctx: bool) {
+    pub(super) fn negate(&mut self, e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) {
         self.changed = true;
-        negate(e, in_bool_ctx)
+        negate(e, in_bool_ctx, is_ret_val_ignored)
     }
 
     /// `!(a && b)` => `!a || !b`
@@ -53,7 +53,7 @@ where
                     }
                     tracing::debug!("bools: Optimizing `!(a && b)` as `!a || !b`");
                     self.changed = true;
-                    self.negate(arg, false);
+                    self.negate(arg, false, false);
                     *e = *arg.take();
 
                     return;
@@ -76,7 +76,7 @@ where
                             return;
                         }
                         tracing::debug!("bools: Optimizing `!!(a || b)` as `!a && !b`");
-                        self.negate(arg_of_arg, false);
+                        self.negate(arg_of_arg, false, false);
                         *e = *arg.take();
 
                         return;
@@ -296,7 +296,7 @@ where
                             let last = exprs.last_mut().unwrap();
                             self.optimize_expr_in_bool_ctx(last);
                             // Negate last element.
-                            negate(last, false);
+                            negate(last, false, false);
                         }
 
                         *n = *e.arg.take();

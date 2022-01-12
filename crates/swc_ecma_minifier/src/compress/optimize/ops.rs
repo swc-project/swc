@@ -161,14 +161,14 @@ where
     }
 
     /// TODO: Optimize based on the type.
-    pub(super) fn negate_twice(&mut self, e: &mut Expr) {
-        self.negate(e);
-        self.negate(e);
+    pub(super) fn negate_twice(&mut self, e: &mut Expr, is_ret_val_ignored: bool) {
+        self.negate(e, is_ret_val_ignored);
+        self.negate(e, is_ret_val_ignored);
     }
 
-    pub(super) fn negate(&mut self, e: &mut Expr) {
+    pub(super) fn negate(&mut self, e: &mut Expr, is_ret_val_ignored: bool) {
         self.changed = true;
-        negate(e, self.ctx.in_bool_ctx)
+        negate(e, self.ctx.in_bool_ctx, is_ret_val_ignored)
     }
 
     /// This method does
@@ -294,7 +294,7 @@ where
                     self.changed = true;
                     tracing::debug!("Optimizing: e && true => !!e");
 
-                    self.negate_twice(&mut bin.left);
+                    self.negate_twice(&mut bin.left, false);
                     *e = *bin.left.take();
                 } else {
                     self.changed = true;
@@ -314,7 +314,7 @@ where
                     self.changed = true;
                     tracing::debug!("Optimizing: e || false => !!e");
 
-                    self.negate_twice(&mut bin.left);
+                    self.negate_twice(&mut bin.left, false);
                     *e = *bin.left.take();
                 }
             }

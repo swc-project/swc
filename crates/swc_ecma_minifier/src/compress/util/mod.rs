@@ -18,7 +18,7 @@ mod tests;
 /// This method returns `!e` if `!!e` is given as a argument.
 ///
 /// TODO: Handle special cases like !1 or !0
-pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool) {
+pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) {
     let start_str = dump(&*e, false);
 
     match e {
@@ -55,8 +55,8 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool) {
         }) if is_ok_to_negate_rhs(&right) => {
             tracing::debug!("negate: a && b => !a || !b");
 
-            negate(&mut **left, in_bool_ctx);
-            negate(&mut **right, in_bool_ctx);
+            negate(&mut **left, in_bool_ctx, false);
+            negate(&mut **right, in_bool_ctx, is_ret_val_ignored);
             *op = op!("||");
             return;
         }
@@ -69,8 +69,8 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool) {
         }) if is_ok_to_negate_rhs(&right) => {
             tracing::debug!("negate: a || b => !a && !b");
 
-            negate(&mut **left, in_bool_ctx);
-            negate(&mut **right, in_bool_ctx);
+            negate(&mut **left, in_bool_ctx, false);
+            negate(&mut **right, in_bool_ctx, is_ret_val_ignored);
             *op = op!("&&");
             return;
         }
@@ -80,8 +80,8 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool) {
         {
             tracing::debug!("negate: cond");
 
-            negate(&mut **cons, in_bool_ctx);
-            negate(&mut **alt, in_bool_ctx);
+            negate(&mut **cons, in_bool_ctx, false);
+            negate(&mut **alt, in_bool_ctx, is_ret_val_ignored);
             return;
         }
 
@@ -89,7 +89,7 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool) {
             if let Some(last) = exprs.last_mut() {
                 tracing::debug!("negate: seq");
 
-                negate(&mut **last, in_bool_ctx);
+                negate(&mut **last, in_bool_ctx, is_ret_val_ignored);
                 return;
             }
         }
@@ -129,16 +129,20 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool) {
         _ => {}
     }
 
-    tracing::debug!("negate: e => !e");
+    if is_ret_val_ignored {
+        tracing::debug!("negate: noop because it's ignored");
+    } else {
+        tracing::debug!("negate: e => !e");
 
-    *e = Expr::Unary(UnaryExpr {
-        span: DUMMY_SP,
-        op: op!("!"),
-        arg,
-    });
+        *e = Expr::Unary(UnaryExpr {
+            span: DUMMY_SP,
+            op: op!("!"),
+            arg,
+        });
 
-    if cfg!(feature = "debug") {
-        tracing::trace!("[Change] Negated `{}` as `{}`", start_str, dump(&*e, false));
+        if cfg!(feature = "debug") {
+            tracing::trace!("[Change] Negated `{}` as `{}`", start_str, dump(&*e, false));
+        }
     }
 }
 

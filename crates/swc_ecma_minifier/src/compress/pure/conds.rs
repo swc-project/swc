@@ -26,7 +26,7 @@ where
                 tracing::debug!("conditionals: `foo ? true : bar` => `!!foo || bar`");
 
                 // Negate twice to convert `test` to boolean.
-                self.negate_twice(&mut cond.test);
+                self.negate_twice(&mut cond.test, false);
 
                 self.changed = true;
                 *e = Expr::Bin(BinExpr {
@@ -43,7 +43,7 @@ where
                 tracing::debug!("conditionals: `foo ? false : bar` => `!foo && bar`");
 
                 self.changed = true;
-                self.negate(&mut cond.test, false);
+                self.negate(&mut cond.test, false, false);
 
                 *e = Expr::Bin(BinExpr {
                     span: cond.span,
@@ -63,7 +63,7 @@ where
                 self.changed = true;
 
                 // Negate twice to convert `test` to boolean.
-                self.negate_twice(&mut cond.test);
+                self.negate_twice(&mut cond.test, false);
 
                 *e = Expr::Bin(BinExpr {
                     span: cond.span,
@@ -78,7 +78,7 @@ where
                 tracing::debug!("conditionals: `foo ? bar : true` => `!foo || bar");
                 self.changed = true;
 
-                self.negate(&mut cond.test, false);
+                self.negate(&mut cond.test, false, false);
 
                 *e = Expr::Bin(BinExpr {
                     span: cond.span,
@@ -136,7 +136,7 @@ where
         tracing::debug!("conditionals: `a ? foo : bar` => `!a ? bar : foo` (considered cost)");
         let start_str = dump(&*cond, false);
 
-        self.negate(&mut cond.test, true);
+        self.negate(&mut cond.test, true, false);
         swap(&mut cond.cons, &mut cond.alt);
 
         if cfg!(feature = "debug") {

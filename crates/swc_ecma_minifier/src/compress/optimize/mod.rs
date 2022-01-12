@@ -1287,15 +1287,15 @@ where
 
         // `cond ? true : false` => !!cond
         if lb && !rb {
-            self.negate(&mut cond.test);
-            self.negate(&mut cond.test);
+            self.negate(&mut cond.test, false);
+            self.negate(&mut cond.test, false);
             *expr = *cond.test.take();
             return;
         }
 
         // `cond ? false : true` => !cond
         if !lb && rb {
-            self.negate(&mut cond.test);
+            self.negate(&mut cond.test, false);
             *expr = *cond.test.take();
             return;
         }

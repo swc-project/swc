@@ -127,7 +127,7 @@ impl<M> Pure<'_, M> {
             Stmt::If(mut s) => {
                 assert_eq!(s.alt, None);
                 self.changed = true;
-                negate(&mut s.test, false);
+                negate(&mut s.test, false, false);
 
                 s.cons = if cons.len() == 1 && is_fine_for_if_cons(&cons[0]) {
                     Box::new(cons.into_iter().next().unwrap())
