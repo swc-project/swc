@@ -13,12 +13,15 @@ mod tests;
 
 /// Creates `!e` where e is the expression passed as an argument.
 ///
+/// Returns true if this modified ast.
+///
 /// # Note
 ///
 /// This method returns `!e` if `!!e` is given as a argument.
 ///
 /// TODO: Handle special cases like !1 or !0
-pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool) {
+#[must_use]
+pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) -> bool {
     let start_str = dump(&*e, false);
 
     match e {
@@ -44,7 +47,7 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool) {
                 }
             };
             tracing::debug!("negate: binary");
-            return;
+            return true;
         }
 
         Expr::Bin(BinExpr {
@@ -55,10 +58,10 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool) {
         }) if is_ok_to_negate_rhs(&right) => {
             tracing::debug!("negate: a && b => !a || !b");
 
-            negate(&mut **left, in_bool_ctx);
-            negate(&mut **right, in_bool_ctx);
+            let a = negate(&mut **left, in_bool_ctx, false);
+            let b = negate(&mut **right, in_bool_ctx, is_ret_val_ignored);
             *op = op!("||");
-            return;
+            return a || b;
         }
 
         Expr::Bin(BinExpr {
@@ -69,10 +72,10 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool) {
         }) if is_ok_to_negate_rhs(&right) => {
             tracing::debug!("negate: a || b => !a && !b");
 
-            negate(&mut **left, in_bool_ctx);
-            negate(&mut **right, in_bool_ctx);
+            let a = negate(&mut **left, in_bool_ctx, false);
+            let b = negate(&mut **right, in_bool_ctx, is_ret_val_ignored);
             *op = op!("&&");
-            return;
+            return a || b;
         }
 
         Expr::Cond(CondExpr { cons, alt, .. })
@@ -80,17 +83,16 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool) {
         {
             tracing::debug!("negate: cond");
 
-            negate(&mut **cons, in_bool_ctx);
-            negate(&mut **alt, in_bool_ctx);
-            return;
+            let a = negate(&mut **cons, in_bool_ctx, false);
+            let b = negate(&mut **alt, in_bool_ctx, is_ret_val_ignored);
+            return a || b;
         }
 
         Expr::Seq(SeqExpr { exprs, .. }) => {
             if let Some(last) = exprs.last_mut() {
                 tracing::debug!("negate: seq");
 
-                negate(&mut **last, in_bool_ctx);
-                return;
+                return negate(&mut **last, in_bool_ctx, is_ret_val_ignored);
             }
         }
 
@@ -106,7 +108,7 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool) {
             Expr::Unary(UnaryExpr { op: op!("!"), .. }) => {
                 tracing::debug!("negate: !!bool => !bool");
                 *e = *arg.take();
-                return;
+                return true;
             }
             Expr::Bin(BinExpr { op: op!("in"), .. })
             | Expr::Bin(BinExpr {
@@ -115,13 +117,13 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool) {
             }) => {
                 tracing::debug!("negate: !bool => bool");
                 *e = *arg.take();
-                return;
+                return true;
             }
             _ => {
                 if in_bool_ctx {
                     tracing::debug!("negate: !expr => expr (in bool context)");
                     *e = *arg.take();
-                    return;
+                    return true;
                 }
             }
         },
@@ -129,16 +131,25 @@ pub(super) fn negate(e: &mut Expr, in_bool_ctx: bool) {
         _ => {}
     }
 
-    tracing::debug!("negate: e => !e");
+    if is_ret_val_ignored {
+        tracing::debug!("negate: noop because it's ignored");
+        *e = *arg;
 
-    *e = Expr::Unary(UnaryExpr {
-        span: DUMMY_SP,
-        op: op!("!"),
-        arg,
-    });
+        false
+    } else {
+        tracing::debug!("negate: e => !e");
 
-    if cfg!(feature = "debug") {
-        tracing::trace!("[Change] Negated `{}` as `{}`", start_str, dump(&*e, false));
+        *e = Expr::Unary(UnaryExpr {
+            span: DUMMY_SP,
+            op: op!("!"),
+            arg,
+        });
+
+        if cfg!(feature = "debug") {
+            tracing::trace!("[Change] Negated `{}` as `{}`", start_str, dump(&*e, false));
+        }
+
+        true
     }
 }
 
@@ -207,7 +218,9 @@ pub(crate) fn is_ok_to_negate_rhs(rhs: &Expr) -> bool {
 }
 
 /// A negative value means that it's efficient to negate the expression.
+#[cfg_attr(feature = "debug", tracing::instrument(skip(e)))]
 pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) -> Option<isize> {
+    #[cfg_attr(test, tracing::instrument(skip(e)))]
     fn cost(
         e: &Expr,
         in_bool_ctx: bool,
@@ -319,13 +332,12 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
             }
         })();
 
+        // Print more info while testing negate_cost
         if cfg!(test) {
-            tracing::trace!(
-                "negation cost of `{}` = {}\nin_book_ctx={:?}\nis_ret_val_ignored={:?}",
-                dump(&e.clone().fold_with(&mut as_folder(fixer(None))), false),
+            tracing::debug!(
+                "negation cost of `{}` = {}",
+                dump(&e.clone().fold_with(&mut as_folder(fixer(None))), true),
                 cost,
-                in_bool_ctx,
-                is_ret_val_ignored
             );
         }
 

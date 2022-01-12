@@ -1,7 +1,7 @@
-var obj, key, M;
-M || (M = {}), (obj = {}, (key = Symbol.iterator) in obj ? Object.defineProperty(obj, key, {
-    value: 0,
+var obj, key, value, M;
+M || (M = {}), (obj = {}, value = 0, (key = Symbol.iterator) in obj ? Object.defineProperty(obj, key, {
+    value: value,
     enumerable: !0,
     configurable: !0,
     writable: !0
-}) : obj[key] = 0, obj)[(void 0).iterator];
+}) : obj[key] = value, obj)[(void 0).iterator];

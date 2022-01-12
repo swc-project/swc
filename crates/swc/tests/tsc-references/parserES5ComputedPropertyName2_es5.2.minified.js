@@ -1,7 +1,7 @@
-var obj, key;
-obj = {}, (key = e) in obj ? Object.defineProperty(obj, key, {
-    value: 1,
+var obj, key, value;
+obj = {}, value = 1, (key = e) in obj ? Object.defineProperty(obj, key, {
+    value: value,
     enumerable: !0,
     configurable: !0,
     writable: !0
-}) : obj[key] = 1;
+}) : obj[key] = value;

@@ -17,6 +17,7 @@ where
     /// **This negates bool**.
     ///
     /// Returns true if it's negated.
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, expr)))]
     pub(super) fn optimize_bang_within_logical_ops(
         &mut self,
         expr: &mut Expr,
@@ -76,8 +77,8 @@ where
         };
 
         self.changed = true;
-        self.with_ctx(ctx).negate(&mut e.left);
-        self.with_ctx(ctx).negate(&mut e.right);
+        self.with_ctx(ctx).negate(&mut e.left, false);
+        self.with_ctx(ctx).negate(&mut e.right, is_ret_val_ignored);
 
         if cfg!(feature = "debug") {
             tracing::debug!("[Change] {} => {}", start, dump(&*e, false));
