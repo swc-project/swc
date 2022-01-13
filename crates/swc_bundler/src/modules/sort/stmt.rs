@@ -774,9 +774,9 @@ fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
                         //     idx, idx_decl, declarator_index, &id
                         // );
                         if cfg!(debug_assertions) {
-                            let deps: Vec<_> =
-                                graph.neighbors_directed(idx, Dependencies).collect();
-                            assert!(deps.contains(&declarator_index));
+                            assert!(graph
+                                .neighbors_directed(idx, Dependencies)
+                                .any(|x| x == declarator_index));
                         }
                     }
                 }

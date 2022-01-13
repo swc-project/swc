@@ -923,39 +923,33 @@ where
                 match second {
                     // If the second code point is a name-start code point
                     // return true.
-                    Some(c) if is_name_start(c) => return Ok(true),
+                    Some(c) if is_name_start(c) => Ok(true),
                     // or a U+002D HYPHEN-MINUS,
                     // return true.
-                    Some('-') => return Ok(true),
+                    Some('-') => Ok(true),
                     // or the second and third code points are a valid escape
                     // return true.
                     Some(_) => {
                         let third = maybe_third.or_else(|| self.next_next());
 
-                        return self.is_valid_escape(second, third);
+                        self.is_valid_escape(second, third)
                     }
                     // Otherwise, return false.
-                    _ => {
-                        return Ok(false);
-                    }
+                    _ => Ok(false),
                 }
             }
             // name-start code point
             // Return true.
-            Some(c) if is_name_start(c) => {
-                return Ok(true);
-            }
+            Some(c) if is_name_start(c) => Ok(true),
             // U+005C REVERSE SOLIDUS (\)
             // If the first and second code points are a valid escape, return true. Otherwise,
             // return false.
             Some('\\') => {
                 let second = maybe_second.or_else(|| self.next());
 
-                return Ok(self.is_valid_escape(first, second)?);
+                Ok(self.is_valid_escape(first, second)?)
             }
-            _ => {
-                return Ok(false);
-            }
+            _ => Ok(false),
         }
     }
 
