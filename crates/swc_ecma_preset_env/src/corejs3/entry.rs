@@ -75,13 +75,13 @@ impl Entry {
         }
 
         if let Some(features) = ENTRIES.get(src) {
-            self.imports.extend(features.iter().filter_map(|f| {
-                let feature = CORE_JS_COMPAT_DATA.get(&**f);
+            self.imports.extend(features.iter().filter(|f| {
+                let feature = CORE_JS_COMPAT_DATA.get(&***f);
 
                 if !*is_any_target {
                     if let Some(feature) = feature {
                         if !should_enable(*target, *feature, true) {
-                            return None;
+                            return false;
                         }
                     }
                 }
@@ -92,12 +92,12 @@ impl Entry {
                     .iter()
                     .filter(|(version, _features)| *corejs_version < **version)
                 {
-                    if features.contains(&*f) {
-                        return None;
+                    if features.contains(*f) {
+                        return false;
                     }
                 }
 
-                Some(f)
+                true
             }));
 
             true
