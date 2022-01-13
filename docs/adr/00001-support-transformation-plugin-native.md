@@ -57,10 +57,9 @@ This includes babel plugins, to make migration from babel more convenient.
 
 Plugins are written in rust, and built as native libraries for each platforms. SWC pass data to plugin using special form of AST, which has stable memory representation regardless of the version of `rustc`.
 
--   Good, because [argument a]
--   Good, because [argument b]
--   Bad, because [argument c]
--   … <!-- numbers of pros and cons can vary -->
+-   Good, because it's fast, even on the first run.
+-   Bad, because configuring CI for publishing plugins is very hard.
+-   Bad, because `@swc/wasm` has no way to support plugins.
 
 ### [option 3] Wasm plugins based on `wasmtime`
 
@@ -68,6 +67,7 @@ Plugins are written in rust, and built as native libraries for each platforms. S
 
 -   Good, because [argument a]
 -   Good, because [argument b]
+-   Bad, because `@swc/wasm` has no way to support plugins.
 -   Bad, because [argument c]
 -   … <!-- numbers of pros and cons can vary -->
 
@@ -79,6 +79,7 @@ SWC embeds web assembly runtime (https://wasmer.io/), loads plugin built as web 
 
 -   Good, because [argument a]
 -   Good, because [argument b]
+-   Good, because in future `@swc/wasm` can support plugins as `wasmer` officially supports using it within a wasm file.
 -   Bad, because [argument c]
 -   … <!-- numbers of pros and cons can vary -->
 
