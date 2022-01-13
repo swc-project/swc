@@ -22,7 +22,7 @@ use std::{
     ops::Add,
 };
 use swc_atoms::{js_word, JsWord};
-#[deprecated(since = "0.50", note = "Use `swc_common::errors::HANDLER` directly")]
+#[deprecated(since = "0.50.0", note = "Use `swc_common::errors::HANDLER` directly")]
 pub use swc_common::errors::HANDLER;
 use swc_common::{collections::AHashSet, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;

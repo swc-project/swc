@@ -228,10 +228,9 @@ pub fn ast_node(
                 }))
             });
 
-            let ast_node_impl = match args {
-                Some(ref args) => Some(ast_node_macro::expand_struct(args.clone(), input.clone())),
-                None => None,
-            };
+            let ast_node_impl = args
+                .as_ref()
+                .map(|args| ast_node_macro::expand_struct(args.clone(), input.clone()));
 
             let mut quote =
                 item.quote_with(smart_quote!(Vars { input, serde_tag, serde_rename }, {
@@ -273,7 +272,7 @@ fn print_item<T: Into<TokenStream>>(
     let item = Quote::new(def_site::<Span>()).quote_with(smart_quote!(
         Vars {
             item: item.into(),
-            NAME: Ident::new(&const_name, Span::call_site())
+            NAME: Ident::new(const_name, Span::call_site())
         },
         {
             const NAME: () = { item };
