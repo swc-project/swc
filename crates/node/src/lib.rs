@@ -54,6 +54,7 @@ pub struct JsCompiler {
 #[napi]
 impl JsCompiler {
     #[napi(constructor)]
+    #[allow(clippy::new_without_default)]
     pub fn new() -> Self {
         Self {
             _compiler: COMPILER.clone(),
