@@ -55,6 +55,8 @@ This includes babel plugins, to make migration from babel more convenient.
 
 ### [option 2] Plugins based on `abi_stable` and native dynamic libraries
 
+Plugins are written in rust, and built as native libraries for each platforms. SWC pass data to plugin using special form of AST, which has stable memory representation regardless of the version of `rustc`.
+
 [example | description | pointer to more information | …] <!-- optional -->
 
 -   Good, because [argument a]
