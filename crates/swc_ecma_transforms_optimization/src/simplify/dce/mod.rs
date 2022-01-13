@@ -285,7 +285,7 @@ impl VisitMut for TreeShaker {
                     debug!("Dropping an assignment to `{}` because it's not used", id);
 
                     n.left.take();
-                    return;
+                    
                 }
             }
         }
@@ -301,7 +301,7 @@ impl VisitMut for TreeShaker {
                     self.changed = true;
 
                     n.take();
-                    return;
+                    
                 }
             }
             Decl::Class(c) => {
@@ -310,7 +310,7 @@ impl VisitMut for TreeShaker {
                     self.changed = true;
 
                     n.take();
-                    return;
+                    
                 }
             }
             _ => {}
@@ -387,7 +387,7 @@ impl VisitMut for TreeShaker {
                     PatOrExpr::Pat(l) => l.is_invalid(),
                 } {
                     *n = *a.right.take();
-                    return;
+                    
                 }
             }
             _ => {}
@@ -449,7 +449,7 @@ impl VisitMut for TreeShaker {
                     debug!("Dropping an import because it's not used");
                     self.changed = true;
                     *n = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }));
-                    return;
+                    
                 }
             }
             _ => {
@@ -493,21 +493,19 @@ impl VisitMut for TreeShaker {
                     if exprs.is_empty() {
                         *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                         return;
+                    } else if exprs.len() == 1 {
+                        *s = Stmt::Expr(ExprStmt {
+                            span,
+                            expr: exprs.into_iter().next().unwrap(),
+                        });
                     } else {
-                        if exprs.len() == 1 {
-                            *s = Stmt::Expr(ExprStmt {
-                                span,
-                                expr: exprs.into_iter().next().unwrap(),
-                            });
-                        } else {
-                            *s = Stmt::Expr(ExprStmt {
-                                span,
-                                expr: Box::new(Expr::Seq(SeqExpr {
-                                    span: DUMMY_SP,
-                                    exprs,
-                                })),
-                            });
-                        }
+                        *s = Stmt::Expr(ExprStmt {
+                            span,
+                            expr: Box::new(Expr::Seq(SeqExpr {
+                                span: DUMMY_SP,
+                                exprs,
+                            })),
+                        });
                     }
                 }
             }
@@ -543,13 +541,11 @@ impl VisitMut for TreeShaker {
                     }
                 }
 
-                if if_stmt.alt.is_empty() && if_stmt.cons.is_empty() {
-                    if !if_stmt.test.may_have_side_effects() {
-                        debug!("Dropping an if statement");
-                        self.changed = true;
-                        *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                        return;
-                    }
+                if if_stmt.alt.is_empty() && if_stmt.cons.is_empty() && !if_stmt.test.may_have_side_effects() {
+                    debug!("Dropping an if statement");
+                    self.changed = true;
+                    *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                    return;
                 }
             }
             _ => {}
@@ -564,14 +560,14 @@ impl VisitMut for TreeShaker {
                     debug!("Dropping an expression without side effect");
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                     self.changed = true;
-                    return;
+                    
                 }
             }
 
             Stmt::Decl(Decl::Var(v)) => {
                 if v.decls.is_empty() {
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                    return;
+                    
                 }
             }
 

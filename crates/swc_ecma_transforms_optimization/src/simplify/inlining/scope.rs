@@ -127,7 +127,7 @@ impl Inlining<'_> {
 
         let mut alias_of = None;
 
-        let value_idx = match init.as_ref().map(|v| &**v) {
+        let value_idx = match init.as_deref() {
             Some(&Expr::Ident(ref vi)) => {
                 if let Some((value_idx, value_var)) = self.scope.idx_val(&vi.to_id()) {
                     alias_of = Some(value_var.kind);
@@ -141,7 +141,7 @@ impl Inlining<'_> {
 
         let is_inline_prevented = self.scope.should_prevent_inline_because_of_scope(&id)
             || match init {
-                Some(ref e) => self.scope.is_inline_prevented(&e),
+                Some(ref e) => self.scope.is_inline_prevented(e),
                 _ => false,
             };
 
@@ -302,7 +302,7 @@ impl<'a> Scope<'a> {
 
         match self.parent {
             None => (self, true),
-            Some(ref p) => {
+            Some(p) => {
                 let (s, _) = p.scope_for(id);
                 (s, false)
             }

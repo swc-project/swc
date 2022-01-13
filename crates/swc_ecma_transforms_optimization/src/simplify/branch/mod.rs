@@ -90,7 +90,7 @@ impl VisitMut for Remover {
             } =>
             {
                 *e = Expr::Ident(r.take().ident().unwrap());
-                return;
+                
             }
 
             Expr::Assign(AssignExpr {
@@ -104,7 +104,7 @@ impl VisitMut for Remover {
             } =>
             {
                 *e = *right.take();
-                return;
+                
             }
 
             Expr::Assign(AssignExpr {
@@ -118,7 +118,7 @@ impl VisitMut for Remover {
             } =>
             {
                 *e = *right.take();
-                return;
+                
             }
 
             Expr::Cond(cond)
@@ -143,7 +143,7 @@ impl VisitMut for Remover {
                         }) =>
             {
                 *e = *cond.cons.take();
-                return;
+                
             }
 
             _ => {}
@@ -202,7 +202,7 @@ impl VisitMut for Remover {
         p.props.retain(|p| match p {
             ObjectPatProp::KeyValue(KeyValuePatProp { key, value, .. })
                 if match &**value {
-                    Pat::Object(p) => !is_computed(&key) && p.props.is_empty(),
+                    Pat::Object(p) => !is_computed(key) && p.props.is_empty(),
                     _ => false,
                 } =>
             {
@@ -211,7 +211,7 @@ impl VisitMut for Remover {
 
             ObjectPatProp::KeyValue(KeyValuePatProp { key, value, .. })
                 if match &**value {
-                    Pat::Array(p) => !is_computed(&key) && p.elems.is_empty(),
+                    Pat::Array(p) => !is_computed(key) && p.elems.is_empty(),
                     _ => false,
                 } =>
             {
@@ -244,7 +244,7 @@ impl VisitMut for Remover {
                     key: key.take(),
                     value: None,
                 });
-                return;
+                
             }
 
             _ => {}
@@ -267,7 +267,7 @@ impl VisitMut for Remover {
                     } =>
             {
                 *p = *assign.left.take();
-                return;
+                
             }
 
             Pat::Assign(assign)
@@ -277,7 +277,7 @@ impl VisitMut for Remover {
                 } && assign.right.is_number() =>
             {
                 *p = *assign.left.take();
-                return;
+                
             }
 
             _ => {}
@@ -411,12 +411,12 @@ impl VisitMut for Remover {
                         }
                     }
 
-                    return Stmt::If(IfStmt {
+                    Stmt::If(IfStmt {
                         span,
                         test,
                         cons,
                         alt,
-                    });
+                    })
                 }
 
                 Stmt::Decl(Decl::Var(v)) if v.decls.is_empty() => {
@@ -669,7 +669,7 @@ impl VisitMut for Remover {
                             let mut stmts = s.cases.remove(i).cons;
                             let mut cases = s.cases.drain(i..);
 
-                            while let Some(case) = cases.next() {
+                            for case in cases.by_ref() {
                                 let should_stop = has_unconditional_stopper(&case.cons);
                                 stmts.extend(case.cons);
                                 //
@@ -933,7 +933,7 @@ impl VisitMut for Remover {
                             let body = s.body.extract_var_ids_as_var();
                             let body = body.map(Decl::Var).map(Stmt::Decl);
                             let body =
-                                body.unwrap_or_else(|| Stmt::Empty(EmptyStmt { span: s.span }));
+                                body.unwrap_or(Stmt::Empty(EmptyStmt { span: s.span }));
 
                             if purity.is_pure() {
                                 body
@@ -992,10 +992,10 @@ impl VisitMut for Remover {
                         //
                         match &v.name {
                             Pat::Object(o) if o.props.is_empty() => {
-                                return None;
+                                None
                             }
                             Pat::Array(a) if a.elems.is_empty() => {
-                                return None;
+                                None
                             }
 
                             _ => Some(v),
@@ -1039,7 +1039,7 @@ impl VisitMut for Remover {
             }
         }) {
             s.cases.clear();
-            return;
+            
         }
     }
 }
@@ -1118,7 +1118,7 @@ impl Remover {
                         Stmt::Block(BlockStmt {
                             span, mut stmts, ..
                         }) => {
-                            if stmts.len() == 0 {
+                            if stmts.is_empty() {
                                 continue;
                             }
 
@@ -1361,16 +1361,14 @@ fn ignore_result(e: Expr) -> Option<Expr> {
 
             if elems.is_empty() {
                 None
+            } else if has_spread {
+                Some(Expr::Array(ArrayLit { span, elems }))
             } else {
-                if has_spread {
-                    Some(Expr::Array(ArrayLit { span, elems }))
-                } else {
-                    ignore_result(preserve_effects(
-                        span,
-                        *undefined(span),
-                        elems.into_iter().map(|v| v.unwrap().expr),
-                    ))
-                }
+                ignore_result(preserve_effects(
+                    span,
+                    *undefined(span),
+                    elems.into_iter().map(|v| v.unwrap().expr),
+                ))
             }
         }
 
@@ -1531,7 +1529,7 @@ fn ignore_result(e: Expr) -> Option<Expr> {
 /// ```
 fn is_ok_to_inline_block(s: &[Stmt]) -> bool {
     // TODO: This may be inlinable if return / throw / break / continue exists
-    if s.iter().any(|s| is_block_scoped_stuff(s)) {
+    if s.iter().any(is_block_scoped_stuff) {
         return false;
     }
 
@@ -1567,7 +1565,7 @@ fn is_block_scoped_stuff(s: &Stmt) -> bool {
         Stmt::Decl(Decl::Var(VarDecl { kind, .. }))
             if *kind == VarDeclKind::Const || *kind == VarDeclKind::Let =>
         {
-            return true;
+            true
         }
         Stmt::Decl(Decl::Fn(..)) | Stmt::Decl(Decl::Class(..)) => true,
         _ => false,
@@ -1687,7 +1685,7 @@ fn stmt_depth(s: &Stmt) -> u32 {
         Stmt::If(i) => {
             depth += 1;
             if let Some(alt) = &i.alt {
-                depth += std::cmp::max(stmt_depth(&i.cons), stmt_depth(&alt));
+                depth += std::cmp::max(stmt_depth(&i.cons), stmt_depth(alt));
             } else {
                 depth += stmt_depth(&i.cons);
             }
@@ -1700,7 +1698,7 @@ fn stmt_depth(s: &Stmt) -> u32 {
         | Stmt::ForIn(ForInStmt { body, .. })
         | Stmt::ForOf(ForOfStmt { body, .. }) => {
             depth += 1;
-            depth += stmt_depth(&body);
+            depth += stmt_depth(body);
         }
         // All other statements increase the depth by 1
         _ => depth += 1,
