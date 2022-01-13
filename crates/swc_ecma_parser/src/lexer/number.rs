@@ -103,7 +103,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             let dec_val = self.read_int(10, 0, &mut raw)?;
             val = {
                 if let Some(..) = dec_val {
-                    raw_val.push_str(&raw.0.as_ref().unwrap());
+                    raw_val.push_str(raw.0.as_ref().unwrap());
                 }
 
                 raw_val
@@ -419,7 +419,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
         self.emit_strict_mode_error(start, SyntaxError::LegacyOctal);
 
-        return Ok(val);
+        Ok(val)
     }
 }
 
@@ -433,13 +433,13 @@ mod tests {
     where
         F: FnOnce(&mut Lexer<'_, StringInput<'_>>) -> Ret,
     {
-        crate::with_test_sess(s, |_, fm| {
+        crate::with_test_sess(s, |_, input| {
             let mut l = Lexer::new(
                 Syntax::Es(EsConfig {
                     ..Default::default()
                 }),
                 Default::default(),
-                fm.into(),
+                input,
                 None,
             );
             let ret = f(&mut l);

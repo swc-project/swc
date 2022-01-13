@@ -158,7 +158,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             if ch == '\\' {
                 has_escape = true;
                 out.push_str(self.input.slice(chunk_start, cur_pos));
-                out.push_str("\\");
+                out.push('\\');
                 self.bump();
 
                 chunk_start = self.input.cur_pos();
