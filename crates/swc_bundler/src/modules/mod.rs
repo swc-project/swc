@@ -263,7 +263,7 @@ impl Modules {
                 }
                 Some(format!(
                     "{}\n",
-                    cm.lookup_source_file(module_span.lo).name.to_string()
+                    cm.lookup_source_file(module_span.lo).name
                 ))
             })
             .collect::<String>();

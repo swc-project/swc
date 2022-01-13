@@ -184,17 +184,15 @@ fn iter<'a>(
                     .neighbors_directed(idx, Dependencies)
                     .filter(|dep| {
                         let declared_in_same_module = match &current_range {
-                            Some(v) => v.contains(&dep),
+                            Some(v) => v.contains(dep),
                             None => false,
                         };
                         if declared_in_same_module {
                             return false;
                         }
 
-                        if !free.contains(&idx) && graph.has_a_path(*dep, idx) {
-                            if !moves.insert((idx, *dep)) {
-                                return false;
-                            }
+                        if !free.contains(&idx) && graph.has_a_path(*dep, idx) && !moves.insert((idx, *dep)) {
+                            return false;
                         }
 
                         // Exclude emitted items
@@ -215,11 +213,9 @@ fn iter<'a>(
                             || (can_ignore_weak_deps
                                 && graph.edge_weight(idx, dep) == Some(Required::Maybe));
 
-                        if can_ignore_dep {
-                            if graph.has_a_path(dep, idx) {
-                                // Just emit idx.
-                                continue;
-                            }
+                        if can_ignore_dep && graph.has_a_path(dep, idx) {
+                            // Just emit idx.
+                            continue;
                         }
 
                         deps_to_push.push(dep);
@@ -341,11 +337,11 @@ impl FieldInitFinter {
     fn check_lhs_of_assign(&mut self, lhs: &PatOrExpr) {
         match lhs {
             PatOrExpr::Expr(e) => {
-                self.check_lhs_expr_of_assign(&e);
+                self.check_lhs_expr_of_assign(e);
             }
             PatOrExpr::Pat(pat) => match &**pat {
                 Pat::Expr(e) => {
-                    self.check_lhs_expr_of_assign(&e);
+                    self.check_lhs_expr_of_assign(e);
                 }
                 _ => {}
             },
