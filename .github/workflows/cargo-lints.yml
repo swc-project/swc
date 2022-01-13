@@ -30,6 +30,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          components: clippy
+
       - name: Check
         run: |
           cargo clippy --all
