@@ -27,8 +27,7 @@ pub mod resolve;
 /// includes previous incorrect attempt to workaround file read issues.
 /// In actual transform, `plugins` is also being called per each transform.
 fn load_plugin(plugin_path: &Path, cache: &mut Option<PluginCache>) -> Result<Instance, Error> {
-    static BYTE_CACHE: Lazy<Mutex<AHashMap<PathBuf, Arc<Vec<u8>>>>> =
-        Lazy::new(|| Default::default());
+    static BYTE_CACHE: Lazy<Mutex<AHashMap<PathBuf, Arc<Vec<u8>>>>> = Lazy::new(Default::default);
 
     // TODO: This caching streategy does not consider few edge cases.
     // 1. If process is long-running (devServer) binary change in the middle of

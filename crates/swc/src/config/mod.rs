@@ -1237,7 +1237,7 @@ impl GlobalPassOption {
             match &self.envs {
                 GlobalInliningPassEnvs::List(env_list) => {
                     static CACHE: Lazy<DashMap<Vec<String>, ValuesMap, ahash::RandomState>> =
-                        Lazy::new(|| Default::default());
+                        Lazy::new(Default::default());
 
                     let cache_key = env_list.iter().cloned().collect::<Vec<_>>();
                     if let Some(v) = CACHE.get(&cache_key).as_deref().cloned() {
@@ -1259,7 +1259,7 @@ impl GlobalPassOption {
                 GlobalInliningPassEnvs::Map(map) => {
                     static CACHE: Lazy<
                         DashMap<Vec<(JsWord, JsWord)>, ValuesMap, ahash::RandomState>,
-                    > = Lazy::new(|| Default::default());
+                    > = Lazy::new(Default::default);
 
                     let cache_key = self
                         .vars
@@ -1284,7 +1284,7 @@ impl GlobalPassOption {
 
         let global_exprs = {
             static CACHE: Lazy<DashMap<Vec<(JsWord, JsWord)>, GlobalExprMap, ahash::RandomState>> =
-                Lazy::new(|| Default::default());
+                Lazy::new(Default::default);
 
             let cache_key = self
                 .vars
@@ -1315,7 +1315,7 @@ impl GlobalPassOption {
 
         let global_map = {
             static CACHE: Lazy<DashMap<Vec<(JsWord, JsWord)>, ValuesMap, ahash::RandomState>> =
-                Lazy::new(|| Default::default());
+                Lazy::new(Default::default);
 
             let cache_key = self
                 .vars
@@ -1592,7 +1592,7 @@ impl Merge for HiddenTransformConfig {
 
 fn build_resolver(base_url: PathBuf, paths: CompiledPaths) -> SwcImportResolver {
     static CACHE: Lazy<DashMap<(PathBuf, CompiledPaths), SwcImportResolver, ahash::RandomState>> =
-        Lazy::new(|| Default::default());
+        Lazy::new(Default::default);
 
     if let Some(cached) = CACHE.get(&(base_url.clone(), paths.clone())) {
         return (*cached).clone();

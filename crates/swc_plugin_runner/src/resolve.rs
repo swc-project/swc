@@ -195,7 +195,7 @@ fn check_node_modules(base_dir: &Path, name: &str) -> Result<Option<Arc<PathBuf>
     }
 
     static CACHE: Lazy<Mutex<AHashMap<(PathBuf, String), Option<Arc<PathBuf>>>>> =
-        Lazy::new(|| Default::default());
+        Lazy::new(Default::default);
 
     let key = (base_dir.to_path_buf(), name.to_string());
     if let Some(cached) = CACHE.lock().get(&key).cloned() {
