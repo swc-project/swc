@@ -1,4 +1,6 @@
-pub use self::{charset::*, document::*, import::*, keyframe::*, media::*, page::*, support::*};
+pub use self::{
+    charset::*, document::*, import::*, keyframe::*, layer::*, media::*, page::*, support::*,
+};
 use crate::{Block, Ident, SimpleBlock, Str, UrlValue, Value};
 use is_macro::Is;
 use swc_common::{ast_node, Span};
@@ -7,6 +9,7 @@ mod charset;
 mod document;
 mod import;
 mod keyframe;
+mod layer;
 mod media;
 mod page;
 mod support;
@@ -25,6 +28,9 @@ pub enum AtRule {
 
     #[tag("KeyframesRule")]
     Keyframes(KeyframesRule),
+
+    #[tag("LayerRule")]
+    Layer(LayerRule),
 
     #[tag("MediaRule")]
     Media(MediaRule),

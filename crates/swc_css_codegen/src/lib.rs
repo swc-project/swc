@@ -69,6 +69,7 @@ where
             AtRule::Import(n) => emit!(self, n),
             AtRule::FontFace(n) => emit!(self, n),
             AtRule::Keyframes(n) => emit!(self, n),
+            AtRule::Layer(n) => emit!(self, n),
             AtRule::Media(n) => emit!(self, n),
             AtRule::Supports(n) => emit!(self, n),
             AtRule::Page(n) => emit!(self, n),
@@ -157,6 +158,21 @@ where
         punct!(self, "{");
         self.emit_list(&n.blocks, ListFormat::NotDelimited)?;
         punct!(self, "}");
+    }
+
+    fn emit_keyframes_rule(&mut self, n: &KeyframesRule) -> Result {
+        punct!(self, "@");
+        keyword!(self, "layer");
+
+        if n.name.is_some() {
+            emit!(self, n.name);
+        }
+
+        if n.rules.is_some() {
+            punct!(self, "{");
+            self.emit_list(&n.rules, ListFormat::NotDelimited | ListFormat::MultiLine)?;
+            punct!(self, "}");
+        }
     }
 
     #[emitter]

@@ -329,6 +329,10 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(KeyframeBlockRule, visit_keyframe_block_rule);
     mtd!(KeyframeSelector, visit_keyframe_selector);
     mtd!(KeyframesRule, visit_keyframes_rule);
+    mtd!(LayerName, visit_layer_name);
+    mtd!(LayerNameList, visit_layer_name_list);
+    mtd!(LayerPrelude, visit_layer_prelude);
+    mtd!(LayerRule, visit_layer_rule);
     mtd!(MediaQuery, visit_media_query);
     mtd!(MediaRule, visit_media_rule);
     mtd!(NamespaceUri, visit_namespace_uri);

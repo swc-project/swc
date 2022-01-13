@@ -320,6 +320,7 @@ define!({
         Import(ImportRule),
         FontFace(FontFaceRule),
         Keyframes(KeyframesRule),
+        Layer(LayerRule),
         Media(MediaRule),
         Supports(SupportsRule),
         Page(PageRule),
@@ -405,6 +406,27 @@ define!({
     pub enum KeyframeBlockRule {
         Block(Box<Block>),
         AtRule(Box<AtRule>),
+    }
+
+    pub struct LayerName {
+        pub span: Span,
+        pub name: Vec<Ident>,
+    }
+
+    pub struct LayerNameList {
+        pub span: Span,
+        pub name_list: Vec<LayerName>,
+    }
+
+    pub enum LayerPrelude {
+        Name(LayerName),
+        NameList(LayerNameList),
+    }
+
+    pub struct LayerRule {
+        pub span: Span,
+        pub prelude: Option<LayerPrelude>,
+        pub rules: Option<Vec<Rule>>,
     }
 
     pub struct MediaRule {
