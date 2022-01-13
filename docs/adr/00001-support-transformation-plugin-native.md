@@ -46,6 +46,7 @@ This decision is taken because
 
 -   Good, because users can use rich echosystem of babel.
 -   Good, because users are used to javascript.
+-   Bad, because passing data to and from javascript is very costly.
 -   Bad, because js plugins require and block the main javascript thread.
 -   Bad, because the main javascript is singled threaded and be bottleneck.
 -   Bad, because `napi` (renamed to `node-api`) does not provide a way to get the return value of a function called from other thread than js thread. To workaround this, we should implement a complex request-response system based using lots of mutex.
