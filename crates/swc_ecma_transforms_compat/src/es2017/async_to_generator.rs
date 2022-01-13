@@ -157,7 +157,7 @@ impl VisitMut for Actual {
                 span: DUMMY_SP,
                 stmts: hoisted_super
                     .into_iter()
-                    .chain(folder.scope_ident.to_stmt().into_iter())
+                    .chain(folder.scope_ident.to_stmt())
                     .chain(iter::once(Stmt::Return(ReturnStmt {
                         span: DUMMY_SP,
                         arg: Some(Box::new(Expr::Call(CallExpr {
