@@ -335,7 +335,7 @@ define!({
         pub charset: Str,
     }
 
-    pub enum ImportSource {
+    pub enum ImportHref {
         Function(Function),
         Url(UrlValue),
         Str(Str),
@@ -348,7 +348,7 @@ define!({
 
     pub struct ImportRule {
         pub span: Span,
-        pub src: ImportSource,
+        pub href: ImportHref,
         pub layer_name: Option<ImportLayerName>,
         pub media: Option<MediaQuery>,
     }

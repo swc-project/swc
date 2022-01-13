@@ -277,17 +277,18 @@ where
 {
     fn parse(&mut self) -> PResult<ImportRule> {
         let span = self.input.cur_span()?;
-
-        let src = match cur!(self) {
-            Token::Str { .. } => Ok(ImportSource::Str(self.parse()?)),
+        let href = match cur!(self) {
+            Token::Str { .. } => ImportHref::Str(self.parse()?),
             Token::Function { value, .. } if *value.to_ascii_lowercase() == js_word!("url") => {
-                Ok(ImportSource::Function(self.parse()?))
+                ImportHref::Function(self.parse()?)
             }
-            Token::Url { .. } => Ok(ImportSource::Url(self.parse()?)),
-            _ => Err(Error::new(
-                span,
-                ErrorKind::Expected("url('https://example.com') or 'https://example.com'"),
-            )),
+            Token::Url { .. } => ImportHref::Url(self.parse()?),
+            _ => {
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected("url('https://example.com') or 'https://example.com'"),
+                ))
+            }
         };
 
         self.input.skip_ws()?;
@@ -295,18 +296,18 @@ where
         let layer_name = match cur!(self) {
             Token::Ident { value, .. } if *value.to_ascii_lowercase() == *"layer" => {
                 let name = ImportLayerName::Ident(self.parse()?);
-        
+
                 self.input.skip_ws()?;
-        
+
                 Some(name)
             }
             Token::Function { value, .. } if *value.to_ascii_lowercase() == *"layer" => {
                 let name = ImportLayerName::Function(self.parse()?);
-        
+
                 self.input.skip_ws()?;
-        
+
                 Some(name)
-            },
+            }
             _ => None,
         };
 
@@ -320,7 +321,7 @@ where
 
         Ok(ImportRule {
             span: span!(self, span.lo),
-            src: src.unwrap(),
+            href,
             layer_name,
             condition,
         })
